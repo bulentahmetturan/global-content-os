@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Hub — Global Content OS</title>
+<style>
+  :root {
+    --bg: #F4F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #EDF1F4;
+    --sidebar-bg: #0B2233;
+    --sidebar-text: #C9DAE3;
+    --sidebar-text-dim: #7C93A1;
+    --sidebar-active: #14344A;
+    --border: #DCE3E8;
+    --text: #0B2233;
+    --text-dim: #52697A;
+    --text-faint: #8A9BA8;
+    --navy: #0B3654;
+    --blue: #1178BB;
+    --turquoise: #35BCD1;
+    --ok: #1A8754;
+    --ok-bg: #E7F6ED;
+    --hold: #A9720A;
+    --hold-bg: #FFF3DF;
+    --danger: #C4392B;
+    --danger-bg: #FBEAE8;
+    --shadow: 0 1px 2px rgba(11,34,51,.06), 0 4px 14px rgba(11,34,51,.05);
+    --radius: 12px;
+    --sidebar-w: 232px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B1620; --surface: #10202E; --surface-2: #14293A; --sidebar-bg: #060F17;
+      --sidebar-text: #C9DAE3; --sidebar-text-dim: #607585; --sidebar-active: #14293A;
+      --border: #223A4A; --text: #E9F1F5; --text-dim: #9DB4C2; --text-faint: #6C8494;
+      --navy: #35BCD1; --blue: #4FC3E8; --turquoise: #35BCD1; --ok: #4ADE94; --ok-bg: #123424;
+      --hold: #F5C265; --hold-bg: #3A2A0C; --danger: #FF7A6B; --danger-bg: #3A1815;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .app { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 100vh; }
+  .sidebar {
+    background: var(--sidebar-bg); color: var(--sidebar-text);
+    padding: 18px 12px; display: flex; flex-direction: column; gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 0 6px; }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(145deg, var(--blue), var(--turquoise));
+  }
+  .brand h1 { font-size: .95rem; font-weight: 700; margin: 0; color: #fff; letter-spacing: -0.01em; }
+  .brand .subtitle { font-size: .68rem; color: var(--sidebar-text-dim); font-family: 'IBM Plex Mono', monospace; }
+  .nav-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: .64rem; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--sidebar-text-dim); padding: 0 10px; margin-bottom: 2px;
+  }
+  .project-nav { display: flex; flex-direction: column; gap: 2px; }
+  .project-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px;
+    cursor: pointer; font-size: .86rem; font-weight: 600; color: var(--sidebar-text);
+    border: none; background: none; width: 100%; text-align: left;
+  }
+  .project-item:hover { background: rgba(255,255,255,.05); }
+  .project-item.active { background: var(--sidebar-active); color: #fff; }
+  .project-item .p-icon { font-size: 1rem; flex-shrink: 0; }
+  .project-item .p-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .project-item .p-count {
+    font-family: 'IBM Plex Mono', monospace; font-size: .68rem; background: rgba(255,255,255,.12);
+    color: #fff; border-radius: 20px; padding: 1px 7px; min-width: 18px; text-align: center;
+  }
+  .project-item.active .p-count { background: var(--turquoise); color: #06222b; }
+  .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .main { padding: 22px 24px 48px; max-width: 780px; }
+  .main-header { margin-bottom: 16px; }
+  .main-header h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -0.01em; }
+  .main-header .main-sub { font-size: .8rem; color: var(--text-faint); font-family: 'IBM Plex Mono', monospace; }
+  .pillbar { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+  .pill {
+    font: inherit; font-weight: 600; font-size: .82rem; color: var(--text-dim);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .pill.active { background: var(--navy); color: #fff; border-color: transparent; }
+  .pill .p-count {
+    font-family: 'IBM Plex Mono', monospace; font-size: .68rem;
+    background: rgba(0,0,0,.08); border-radius: 20px; padding: 1px 7px;
+  }
+  .pill.active .p-count { background: rgba(255,255,255,.25); }
+  .lane-note {
+    display: flex; gap: 10px; align-items: flex-start; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px;
+    margin-bottom: 18px; font-size: .82rem; color: var(--text-dim); box-shadow: var(--shadow);
+  }
+  .lane-note b { color: var(--text); }
+  .lane-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--turquoise); margin-top: 6px; flex-shrink: 0; }
+  .card-list { display: flex; flex-direction: column; gap: 10px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 14px 16px; transition: opacity .35s ease, transform .35s ease;
+  }
+  .card.leaving { opacity: 0; transform: scale(.97); }
+  .card.in-production { border-left: 3px solid var(--ok); }
+  .card.in-done { border-left: 3px solid var(--turquoise); opacity: .92; }
+  .card.in-trash { border-left: 3px solid var(--danger); opacity: .8; }
+  .card.in-hold { border-left: 3px solid var(--hold); }
+  .card-meta {
+    display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem; color: var(--text-faint); margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .pub-pill { background: var(--surface-2); color: var(--text-dim); border-radius: 20px; padding: 2px 9px; font-weight: 600; }
+  .status-pill { border-radius: 20px; padding: 2px 9px; font-weight: 600; }
+  .status-pill.production { background: var(--ok-bg); color: var(--ok); }
+  .status-pill.done { background: #E6F7FA; color: #0B6B7A; }
+  .status-pill.trash { background: var(--danger-bg); color: var(--danger); }
+  .status-pill.hold { background: var(--hold-bg); color: var(--hold); }
+  .card-title { font-size: .95rem; font-weight: 600; line-height: 1.35; margin: 0 0 3px; }
+  .card-title a { color: var(--text); text-decoration: none; }
+  .card-title a:hover { color: var(--blue); text-decoration: underline; }
+  .original-title { font-size: .72rem; color: var(--text-faint); font-style: italic; margin: 0 0 8px; line-height: 1.4; }
+  .gist {
+    font-size: .87rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px;
+    padding-left: 10px; border-left: 2px solid var(--turquoise);
+  }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: .78rem; font-weight: 600; border-radius: 8px; padding: 7px 12px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-promote { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+  .btn-delete { background: var(--danger-bg); color: var(--danger); border-color: transparent; }
+  .btn-undo { background: var(--surface); color: var(--blue); }
+  .btn-hold { background: var(--hold-bg); color: var(--hold); border-color: transparent; }
+  .btn-sync { background: var(--navy); color: #fff; border-color: transparent; }
+  .empty {
+    text-align: center; color: var(--text-faint); font-size: .85rem; padding: 30px 10px;
+    border: 1px dashed var(--border); border-radius: var(--radius);
+  }
+  .toast {
+    position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom, 0px) + 20px);
+    transform: translateX(-50%) translateY(20px); background: var(--navy); color: #fff;
+    font-size: .82rem; font-weight: 600; padding: 10px 18px; border-radius: 30px;
+    box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease; z-index: 20;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .footnote {
+    margin-top: 26px; font-size: .74rem; color: var(--text-faint); line-height: 1.6;
+    border-top: 1px solid var(--border); padding-top: 14px;
+  }
+  @media (max-width: 720px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { flex-direction: row; align-items: center; overflow-x: auto; padding: 12px; gap: 14px; }
+    .brand .subtitle, .nav-label, .sidebar-footnote { display: none; }
+    .project-nav { flex-direction: row; gap: 6px; }
+    .project-item { white-space: nowrap; }
+    .main { padding: 16px 16px 40px; }
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <h1>GLOBAL HUB</h1>
+        <div class="subtitle">global-content-os</div>
+      </div>
+    </div>
+    <div>
+      <div class="nav-label">Rotalar</div>
+      <nav class="project-nav" id="projectNav"></nav>
+    </div>
+    <div class="sidebar-footnote">Kaynak triyajı · CCOS’a yalnızca approved_brief gider</div>
+  </aside>
+  <main class="main">
+    <div class="main-header">
+      <h2 id="mainTitle"></h2>
+      <div class="main-sub" id="mainSub"></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-sync" id="btnSync" type="button">↻ Kaynakları çek</button>
+    </div>
+    <div class="pillbar" id="pillbar"></div>
+    <div class="lane-note" id="laneNote"></div>
+    <div id="listView">
+      <div class="card-list" id="cardList"></div>
+      <div class="empty" id="emptyState" hidden>Bu kutuda öğe yok.</div>
+    </div>
+    <div class="footnote" id="footnote"></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function () {
+  var ROUTES = [
+    { id: 'kaduse-news', label: 'Kaduse News', icon: '🌐', note: 'Tüm Kaduse News abonelikleri kayıtlı ve aktif. Canlı çekim: WHO JSON; diğerleri WEB_ONLY (fetcher bekliyor).' },
+    { id: 'kaduse-research', label: 'Kaduse Research', icon: '🧪', note: 'Research registry tamamı aktif. Canlı batch: Europe PMC + PubMed.' },
+    { id: 'tip-ogrencileri', label: 'Tıp Öğrencileri Birliği', icon: '🎓', note: 'Tüm tip kaynakları Hub’da aktif; tarama Python radar’da, adaptör ile gelir.' }
+  ];
+  var VIEWS = [
+    { id: 'inbox', label: 'Gelen Kutusu', icon: '📥' },
+    { id: 'hold', label: 'Beklemede', icon: '⏳' },
+    { id: 'production', label: 'Üretime Aktarılanlar', icon: '✅' },
+    { id: 'done', label: 'Üretimi Bitenler', icon: '🏁' },
+    { id: 'trash', label: 'Silinenler', icon: '🗑️' }
+  ];
+
+  var state = {
+    route: localStorage.getItem('gcos-route') || 'kaduse-news',
+    view: localStorage.getItem('gcos-view') || 'inbox',
+    counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
+    items: [],
+    routeCounts: {},
+    routeMeta: {}
+  };
+
+  var projectNavEl = document.getElementById('projectNav');
+  var pillbarEl = document.getElementById('pillbar');
+  var mainTitleEl = document.getElementById('mainTitle');
+  var mainSubEl = document.getElementById('mainSub');
+  var laneNoteEl = document.getElementById('laneNote');
+  var cardListEl = document.getElementById('cardList');
+  var emptyStateEl = document.getElementById('emptyState');
+  var footnoteEl = document.getElementById('footnote');
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /** Calendar-day age vs today (local). "bugün" / "1 gün" / "N gün". Recalculated on every render. */
+  function formatNewsAge(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    var now = new Date();
+    var startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var startNews = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var days = Math.round((startToday - startNews) / 86400000);
+    if (days < 0) days = 0;
+    if (days === 0) return 'bugün';
+    if (days === 1) return '1 gün';
+    return days + ' gün';
+  }
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
+  }
+
+  async function api(path, opts) {
+    var res = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}));
+    var data = await res.json().catch(function () { return {}; });
+    if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+    return data;
+  }
+
+  function cardHtml(it) {
+    var mode = it.triageStatus;
+    var extra = mode === 'production' ? ' in-production'
+      : mode === 'done' ? ' in-done'
+      : mode === 'trash' ? ' in-trash'
+      : mode === 'hold' ? ' in-hold' : '';
+    var statusPill = mode === 'production'
+      ? '<span class="status-pill production">✓ üretimde</span>'
+      : mode === 'done' ? '<span class="status-pill done">🏁 üretim bitti</span>'
+      : mode === 'trash' ? '<span class="status-pill trash">✕ silindi</span>'
+      : mode === 'hold' ? '<span class="status-pill hold">⏳ beklemede</span>' : '';
+    var actions;
+    if (mode === 'inbox') {
+      actions =
+        '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">✓ Üretime Aktar</button>' +
+        '<button class="btn btn-hold" data-action="hold" data-id="' + it.id + '">⏳ Beklet</button>' +
+        '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">✕ Sil</button>';
+    } else if (mode === 'hold') {
+      actions =
+        '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">✓ Üretime Aktar</button>' +
+        '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">✕ Sil</button>';
+    } else if (mode === 'production') {
+      actions =
+        '<button class="btn btn-promote" data-action="complete" data-id="' + it.id + '">✓ Üretim Bitti</button>';
+    } else {
+      actions = '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">↩ Geri Al</button>';
+    }
+    var gist = (it.gists && it.gists[0]) || it.summary || '';
+    var evidence = '';
+    if (it.evidence && (it.evidence.doi || it.evidence.pmid)) {
+      evidence = '<p class="original-title">Kanıt: ' +
+        (it.evidence.doi ? 'DOI ' + escapeHtml(it.evidence.doi) + ' ' : '') +
+        (it.evidence.pmid ? 'PMID ' + escapeHtml(it.evidence.pmid) : '') + '</p>';
+    }
+    var ageLabel = formatNewsAge(it.publishedAt || it.fetchedAt);
+    return (
+      '<div class="card' + extra + '" id="card-' + it.id + '">' +
+        '<div class="card-meta"><span class="pub-pill">' + escapeHtml(it.publisher) + '</span>' +
+        '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' +
+          escapeHtml(ageLabel) + '</span>' + statusPill + '</div>' +
+        '<p class="card-title"><a href="' + escapeHtml(it.canonicalUrl) + '" target="_blank" rel="noopener">' +
+          escapeHtml(it.title) + '</a></p>' +
+        (it.titleOrig && it.titleOrig !== it.title
+          ? '<p class="original-title">Orijinal: ' + escapeHtml(it.titleOrig) + '</p>' : '') +
+        evidence +
+        '<p class="gist">' + escapeHtml(gist) + '</p>' +
+        '<div class="actions">' + actions + '</div>' +
+      '</div>'
+    );
+  }
+
+  function renderChrome() {
+    var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
+    projectNavEl.innerHTML = '';
+    ROUTES.forEach(function (r) {
+      var counts = state.routeCounts[r.id] || { inbox: 0 };
+      var btn = document.createElement('button');
+      btn.className = 'project-item' + (r.id === state.route ? ' active' : '');
+      btn.setAttribute('data-route', r.id);
+      btn.innerHTML = '<span class="p-icon">' + r.icon + '</span><span class="p-label">' +
+        escapeHtml(r.label) + '</span><span class="p-count">' + (counts.inbox || 0) + '</span>';
+      projectNavEl.appendChild(btn);
+    });
+
+    pillbarEl.innerHTML = '';
+    VIEWS.forEach(function (v) {
+      var btn = document.createElement('button');
+      btn.className = 'pill' + (state.view === v.id ? ' active' : '');
+      btn.setAttribute('data-view', v.id);
+      btn.innerHTML = v.icon + ' ' + v.label + ' <span class="p-count">' + (state.counts[v.id] || 0) + '</span>';
+      pillbarEl.appendChild(btn);
+    });
+
+    mainTitleEl.textContent = meta.icon + ' ' + meta.label;
+    var feedN = (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
+    mainSubEl.textContent = state.view + ' · ' + feedN + ' aktif kaynak · D1';
+    laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(meta.note) + '</div>';
+    footnoteEl.innerHTML =
+      'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
+      'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.';
+  }
+
+  function renderList() {
+    cardListEl.innerHTML = state.items.map(cardHtml).join('');
+    emptyStateEl.hidden = state.items.length > 0;
+  }
+
+  async function refreshRouteCounts() {
+    var data = await api('/api/routes');
+    state.routeCounts = {};
+    state.routeMeta = {};
+    (data.routes || []).forEach(function (r) {
+      state.routeCounts[r.id] = r.counts;
+      state.routeMeta[r.id] = r;
+    });
+  }
+
+  async function load() {
+    renderChrome();
+    var data = await api('/api/items?route=' + encodeURIComponent(state.route) + '&status=' + encodeURIComponent(state.view));
+    state.counts = data.counts || state.counts;
+    state.items = data.items || [];
+    await refreshRouteCounts();
+    renderChrome();
+    renderList();
+  }
+
+  async function handleAction(action, id) {
+    var card = document.getElementById('card-' + id);
+    if (card) card.classList.add('leaving');
+    await new Promise(function (r) { setTimeout(r, 180); });
+    var result = await api('/api/triage', {
+      method: 'POST',
+      body: JSON.stringify({ itemId: id, action: action })
+    });
+    var msg =
+      action === 'promote' ? '✓ Üretime aktarıldı — approved_brief üretildi' :
+      action === 'hold' ? '⏳ Beklemede’ye alındı' :
+      action === 'complete' ? '✓ Üretim bitti — Üretimi Bitenler’e taşındı (2 gün sonra kalıcı silinir)' :
+      action === 'delete' ? 'Silindi — 2 gün sonra kalıcı silinir' : 'Gelen Kutusu’na taşındı';
+    if (result.brief) msg += ' (' + result.brief.briefId + ')';
+    showToast(msg);
+    await load();
+  }
+
+  document.addEventListener('click', function (e) {
+    var routeBtn = e.target.closest('[data-route]');
+    if (routeBtn) {
+      state.route = routeBtn.getAttribute('data-route');
+      state.view = 'inbox';
+      localStorage.setItem('gcos-route', state.route);
+      localStorage.setItem('gcos-view', state.view);
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
+    var viewBtn = e.target.closest('[data-view]');
+    if (viewBtn) {
+      state.view = viewBtn.getAttribute('data-view');
+      localStorage.setItem('gcos-view', state.view);
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
+    var actionBtn = e.target.closest('[data-action]');
+    if (actionBtn) {
+      handleAction(actionBtn.getAttribute('data-action'), actionBtn.getAttribute('data-id'))
+        .catch(function (err) { showToast(err.message); });
+      return;
+    }
+  });
+
+  document.getElementById('btnSync').addEventListener('click', function () {
+    showToast('Tüm kaynaklar taranıyor (API + generic)…');
+    Promise.allSettled([
+      api('/api/ingress/news', { method: 'POST' }),
+      api('/api/ingress/research', { method: 'POST' }),
+      api('/api/ingress/generic', { method: 'POST', body: JSON.stringify({ route: state.route, offset: 0, limit: 10 }) })
+    ]).then(function (results) {
+      var ok = results.filter(function (r) { return r.status === 'fulfilled'; }).length;
+      showToast('Senkron batch: ' + ok + '/3 tamam — tam tarama için pnpm activate:all');
+      return load();
+    }).catch(function (err) { showToast(err.message); });
+  });
+
+  load().catch(function (err) {
+    showToast('API hazır değil: ' + err.message);
+    renderChrome();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.1.0",
+  "routes": [
+    {
+      "id": "kaduse-news",
+      "label": "Kaduse News",
+      "channelId": "kaduse-medikal",
+      "icon": "🌐",
+      "policyRef": "multi_channel_design/channels/kaduse-medikal/content/policies/kaduse-news.json",
+      "subscriptionsRef": "multi_channel_design/channels/kaduse-medikal/content/news-sources.json",
+      "feedCount": 59,
+      "note": "All channel subscriptions registered and enabled. Live fetch this slice: WHO JSON API; other targets WEB_ONLY pending dedicated fetchers."
+    },
+    {
+      "id": "kaduse-research",
+      "label": "Kaduse Research",
+      "channelId": "kaduse-medikal",
+      "icon": "🧪",
+      "policyRef": "multi_channel_design/channels/kaduse-medikal/content/policies/research.json",
+      "registryRef": "channel-content-os/mcp-server/src/research/source-registry.ts",
+      "feedCount": 41,
+      "note": "Full research registry registered and enabled. Live batch fetch: Europe PMC + PubMed E-utilities."
+    },
+    {
+      "id": "tip-ogrencileri",
+      "label": "Tıp Öğrencileri Birliği",
+      "channelId": "tip-ogrencileri-platformu",
+      "icon": "🎓",
+      "sourcesOwnedBy": "tip-radar",
+      "officialSourcesRef": "multi_channel_design/channels/tip-ogrencileri-platformu/sources/official_sources.yaml",
+      "feedCount": 729,
+      "note": "All tip official_sources (+ radar adapter) registered. Fetching stays in Python radar; push via adapters/tip-radar."
+    }
+  ]
+}

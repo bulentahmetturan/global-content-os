@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local wrangler (never commit .dev.vars)
+CCOS_HANDOFF_URL=
+CCOS_HANDOFF_TOKEN=
+STATUS_CALLBACK_TOKEN=dev-status-token
+TIP_RADAR_INGEST_TOKEN=dev-tip-ingest-token

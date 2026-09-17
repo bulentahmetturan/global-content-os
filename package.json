@@ -1,0 +1,26 @@
+{
+  "name": "global-content-os",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Global Content OS — source monitoring, Global Hub triage, approved_brief handoff to Channel Content OS",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply global-content-os --local",
+    "db:remote": "wrangler d1 migrations apply global-content-os --remote",
+    "sync:feeds": "node scripts/sync-feeds.mjs",
+    "activate:all": "node scripts/activate-all-sources.mjs",
+    "ensure:flow": "node scripts/ensure-complete-flow.mjs",
+    "ensure:continuity": "node scripts/ensure-complete-continuity.mjs",
+    "close:empty": "node scripts/close-empty-feeds.mjs",
+    "flow:continuous": "node scripts/continuous-flow.mjs",
+    "typecheck": "tsc --noEmit -p apps/worker/tsconfig.json",
+    "ingest:tip": "node adapters/tip-radar/push-to-hub.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250702.1",
+    "typescript": "^5.9.2",
+    "wrangler": "^3.114.0"
+  }
+}
