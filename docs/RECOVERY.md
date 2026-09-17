@@ -13,50 +13,38 @@ npm install
 ## 2. Local Hub
 
 ```bash
-cp .dev.vars.example .dev.vars   # fill tokens only if needed
+cp .dev.vars.example .dev.vars
 npx wrangler d1 migrations apply global-content-os --local
 npx wrangler dev --port 8787
 ```
 
 Open `http://127.0.0.1:8787/`.
 
-Feeds are seeded by migrations (`config` + SQL). Live `source_items` are **not** in git — they rebuild via ingress/cron.
+### Enrichment (free Workers AI)
+
+Pipeline: structured evidence JSON → Turkish `title` + one-sentence `gist`.
+
+```bash
+curl -X POST "http://127.0.0.1:8787/api/enrich?limit=6"
+```
+
+Cron drains `enrichment_status=pending` (~6 cards/minute). Model: `@cf/meta/llama-3.1-8b-instruct`.
 
 ## 3. Cloudflare production
-
-`wrangler.toml` already points at the production D1 id. Deploy:
 
 ```bash
 npx wrangler d1 migrations apply global-content-os --remote
 npx wrangler deploy
 ```
 
-Optional secrets (only when CCOS handoff is real):
-
-```bash
-npx wrangler secret put CCOS_HANDOFF_URL
-npx wrangler secret put CCOS_HANDOFF_TOKEN
-npx wrangler secret put STATUS_CALLBACK_TOKEN
-npx wrangler secret put TIP_RADAR_INGEST_TOKEN
-```
-
 ## 4. Tip radar (sibling repo)
 
-Tip items come from `multi_channel_design` channel pack:
+See `adapters/tip-radar/` and `multi_channel_design` channel pack.
 
-```bash
-cd ../multi_channel_design/channels/tip-ogrencileri-platformu
-python -m radar
-# then push adapter → Hub POST /api/ingress/tip
-```
+## Recovered vs live
 
-See `adapters/tip-radar/` in this repo.
-
-## What is / is not recovered from git
-
-| Recovered | Not in git (rebuilds live) |
-|-----------|----------------------------|
-| Worker + Hub UI | `source_items` rows |
-| D1 schema + migrations | triage decisions / briefs |
-| Feed registry seed | API keys / `.dev.vars` |
-| Contracts, scripts, docs | local `.wrangler/` state |
+| In git | Rebuilds live |
+|--------|----------------|
+| Worker, Hub, migrations, feed seed | `source_items`, triage, briefs |
+| Enrich prompts | AI usage beyond free tier |
+| Contracts / scripts | `.dev.vars` secrets |

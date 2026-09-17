@@ -15,7 +15,7 @@ import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-ra
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
 import { applyTriage, recordProductionStatus, purgeExpiredTrash, type TriageAction } from './triage/actions';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
-import { backfillLocalization } from './localize/backfill';
+import { runEnrichmentBatch } from './localize/enrich';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -212,17 +212,29 @@ export default {
         return json({ ok: true, results });
       }
 
+      if (path === '/api/enrich' && request.method === 'POST') {
+        const routeParam = url.searchParams.get('route');
+        const limit = Number(url.searchParams.get('limit') || '6');
+        const idParam = url.searchParams.get('id');
+        if (routeParam && !isRoute(routeParam)) return json({ error: 'INVALID_ROUTE' }, 400);
+        const result = await runEnrichmentBatch(env, {
+          route: routeParam && isRoute(routeParam) ? routeParam : undefined,
+          limit: Number.isFinite(limit) ? limit : 6,
+          ids: idParam ? [idParam] : undefined,
+        });
+        return json({ ok: true, model: '@cf/meta/llama-3.1-8b-instruct-fp8', ...result });
+      }
+
+      // Legacy alias → new enrich queue
       if (path === '/api/localize' && request.method === 'POST') {
         const routeParam = url.searchParams.get('route');
-        const limit = Number(url.searchParams.get('limit') || '40');
-        const status = url.searchParams.get('status') || 'inbox';
+        const limit = Number(url.searchParams.get('limit') || '6');
         if (routeParam && !isRoute(routeParam)) return json({ error: 'INVALID_ROUTE' }, 400);
-        const result = await backfillLocalization(env, {
+        const result = await runEnrichmentBatch(env, {
           route: routeParam && isRoute(routeParam) ? routeParam : undefined,
-          limit: Number.isFinite(limit) ? limit : 40,
-          status,
+          limit: Number.isFinite(limit) ? limit : 6,
         });
-        return json({ ok: true, ...result });
+        return json({ ok: true, model: '@cf/meta/llama-3.1-8b-instruct-fp8', ...result });
       }
 
       if (path === '/api/localize/apply' && request.method === 'POST') {
@@ -288,6 +300,9 @@ export default {
         if (minute % 30 === 0) {
           await purgeExpiredTrash(env, 2).catch((e) => console.error('purge-trash', e));
         }
+
+        // Free-tier thrifty enrich: small batch every minute
+        await runEnrichmentBatch(env, { limit: 6 }).catch((e) => console.error('enrich', e));
 
         // Always refresh primary machine-readable APIs on the hour / :15 / :30 / :45
         if (minute % 15 === 0) {

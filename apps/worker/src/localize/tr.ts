@@ -26,7 +26,7 @@ export function looksMostlyEnglish(text: string): boolean {
     return false;
   }
   // Require clear English cues — do not treat all Latin text as English
-  return /\b(the|and|for|with|from|this|that|licenses?|licensed|announces?|published|study|patients?|vaccine|device|approval|approved|approves?|authoriz(?:ed|es|es)?|plasma|first(?:-|\s)?ever|workshop|program|therapy|digital|health|freeze[- ]dried|product|united states|u\.s\.|fda|who|nih|ema)\b/i.test(
+  return /\b(the|and|for|with|from|this|that|licenses?|licensed|announces?|published|study|patients?|vaccine|device|approval|approved|approves?|authoriz(?:ed|es)?|plasma|first(?:-|\s)?ever|workshop|program|therapy|digital|health|freeze[- ]dried|product|united states|u\.s\.|fda|who|nih|ema|council|press|release|conclusions?|employment|policy|consumer|affairs|newsroom|prequalifies|strategy|partnership|becomes|appointed)\b/i.test(
     s
   );
 }

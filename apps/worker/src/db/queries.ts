@@ -1,6 +1,9 @@
 export interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
+  AI?: {
+    run(model: string, inputs: Record<string, unknown>): Promise<unknown>;
+  };
   ENVIRONMENT?: string;
   CCOS_HANDOFF_STUB?: string;
   CCOS_HANDOFF_URL?: string;
@@ -68,6 +71,7 @@ export async function upsertSourceItem(
     publisher: string;
     publishedAt?: string | null;
     dedupeKey?: string;
+    enrichmentStatus?: 'pending' | 'done' | 'failed' | 'skipped';
     evidence?: {
       doi?: string | null;
       pmid?: string | null;
@@ -79,6 +83,7 @@ export async function upsertSourceItem(
   }
 ): Promise<{ id: string; created: boolean }> {
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
+  const enrichmentStatus = input.enrichmentStatus ?? 'pending';
   const existing = await db
     .prepare(`SELECT id, triage_status FROM source_items WHERE route = ? AND dedupe_key = ?`)
     .bind(input.route, dedupeKey)
@@ -88,7 +93,8 @@ export async function upsertSourceItem(
     await db
       .prepare(
         `UPDATE source_items SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
-         publisher = ?, published_at = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+         publisher = ?, published_at = ?, enrichment_status = ?,
+         updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
          WHERE id = ?`
       )
       .bind(
@@ -98,6 +104,7 @@ export async function upsertSourceItem(
         JSON.stringify(input.gists ?? [input.summary]),
         input.publisher,
         input.publishedAt ?? null,
+        enrichmentStatus,
         existing.id
       )
       .run();
@@ -112,8 +119,8 @@ export async function upsertSourceItem(
     .prepare(
       `INSERT INTO source_items
        (id, feed_id, route, channel_id, title, title_orig, summary, gists_json,
-        canonical_url, publisher, published_at, triage_status, dedupe_key)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?)`
+        canonical_url, publisher, published_at, triage_status, dedupe_key, enrichment_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?, ?)`
     )
     .bind(
       id,
@@ -127,7 +134,8 @@ export async function upsertSourceItem(
       canonicalizeUrl(input.canonicalUrl),
       input.publisher,
       input.publishedAt ?? null,
-      dedupeKey
+      dedupeKey,
+      enrichmentStatus
     )
     .run();
 

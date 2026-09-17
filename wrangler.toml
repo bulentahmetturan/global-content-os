@@ -23,3 +23,6 @@ crons = ["* * * * *"]
 [vars]
 ENVIRONMENT = "production"
 CCOS_HANDOFF_STUB = "true"
+
+[ai]
+binding = "AI"
