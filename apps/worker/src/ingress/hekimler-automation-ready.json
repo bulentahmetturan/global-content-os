@@ -1,6 +1,6 @@
 {
   "version": "hekimler-continuous-v1",
-  "generated_at": "2026-09-20T17:09:04Z",
+  "generated_at": "2026-09-20T17:25:42Z",
   "channel_id": "hekimler-toplulugu",
   "editorial_brand": "Hekimler Topluluğu",
   "content_family": "hekimler_phase1",
@@ -243,6 +243,15 @@
       "evidence_requirement": "official_primary_url"
     }
   },
+  "python_runner_source_ids": [
+    "abroad_es_mir_fse",
+    "abroad_es_universidades_homologacion",
+    "abroad_ie_medical_council",
+    "abroad_sa_scfhs_watch",
+    "abroad_us_aamc_eras",
+    "tihud_internal_medicine",
+    "tuik_medical_public_health"
+  ],
   "profiles": [
     {
       "source_id": "osym_medical_exams",

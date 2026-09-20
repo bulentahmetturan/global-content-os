@@ -686,6 +686,50 @@ export function continuousEnabled(env: Env): boolean {
   return false;
 }
 
+/**
+ * Execution telemetry posted by the Python runner (heavy sources that do not fit the Worker CPU budget).
+ * Records the real fetch/parse/reject counts so an "empty" source is provable rather than assumed.
+ */
+export async function recordPythonRunTelemetry(env: Env, body: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
+  const sourceId = String(body.sourceId || '');
+  const bundle = readyBundle as unknown as { profiles?: Array<{ source_id: string }>; python_runner_source_ids?: string[] };
+  const known = new Set([...(bundle.profiles || []).map((p) => p.source_id), ...(bundle.python_runner_source_ids || [])]);
+  if (!known.has(sourceId)) return { ok: false, error: 'UNKNOWN_SOURCE' };
+  const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? Math.max(0, Math.trunc(v)) : 0);
+  const ok = body.ok === true;
+  const previous = await loadTelemetry(env, sourceId);
+  const metrics = {
+    executor: 'python_runner',
+    inspected: num(body.inspected),
+    eligible: num(body.eligible),
+    duplicates: num(body.duplicates),
+    rejected_shape: num(body.rejectedShape),
+    rejected_audience: num(body.rejectedAudience),
+    rejected_keyword: num(body.rejectedKeyword),
+    rejected_date: num(body.rejectedDate),
+    newest_record_date: typeof body.newestRecordDate === 'string' ? body.newestRecordDate.slice(0, 10) : null,
+    error: typeof body.error === 'string' ? body.error.slice(0, 160) : null,
+  };
+  const rejected = metrics.rejected_shape + metrics.rejected_audience + metrics.rejected_keyword + metrics.rejected_date;
+  await saveTelemetry(env, {
+    sourceId,
+    activationState: 'AUTOMATION_READY',
+    lastSuccessAt: ok ? new Date().toISOString() : null,
+    lastContentHash: typeof body.contentHash === 'string' ? body.contentHash.slice(0, 80) : null,
+    lastItemTimestamp: metrics.newest_record_date,
+    failureCount: ok ? 0 : (previous.failure_count || 0) + 1,
+    sourceHealth: ok ? 'HEALTHY' : 'DEGRADED',
+    operatorStatus: `python_runner:${String(body.operatorStatus || 'unknown')}`.slice(0, 120),
+    coverageStatus: ok ? (metrics.eligible > 0 ? 'configured' : 'NO_ELIGIBLE_ITEMS') : 'RUN_FAILED',
+    coverageReason: JSON.stringify(metrics),
+    zeroAcceptStreak: metrics.eligible > 0 ? 0 : (previous.zero_accept_streak || 0) + 1,
+    lastAcceptedCount: metrics.eligible,
+    lastDiscardedCount: rejected,
+    lastItemCount: metrics.inspected,
+  });
+  return { ok: true };
+}
+
 /** Fail-closed auth for HTTP ingress. Scheduled path never hits this. */
 export function authorizeHekimlerIngress(env: Env, request: Request): { ok: true } | { ok: false; error: string; status: number } {
   const expected = (env.TIP_RADAR_INGEST_TOKEN || '').trim();

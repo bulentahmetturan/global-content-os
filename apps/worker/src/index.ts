@@ -20,6 +20,7 @@ import {
   assertHekimlerChannelPartition,
   authorizeHekimlerIngress,
   hekimlerReadySourceCount,
+  recordPythonRunTelemetry,
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
 import { runIsolatedScheduledJobs, type ScheduledJobSpec } from './scheduled-jobs';
@@ -254,6 +255,16 @@ export default {
       if (path === '/api/cron/run' && request.method === 'POST') {
         const results = await runAllIngress(env);
         return json({ ok: true, results });
+      }
+
+      if (path === '/api/ingress/hekimler-telemetry' && request.method === 'POST') {
+        const auth = authorizeHekimlerIngress(env, request);
+        if (!auth.ok) {
+          return json({ error: auth.error }, auth.status);
+        }
+        const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+        const res = await recordPythonRunTelemetry(env, body);
+        return json(res.ok ? { ok: true } : { error: res.error }, res.ok ? 200 : 400);
       }
 
       if (path === '/api/ingress/hekimler-continuous' && request.method === 'POST') {
