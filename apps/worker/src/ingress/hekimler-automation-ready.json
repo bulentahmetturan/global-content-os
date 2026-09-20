@@ -1,6 +1,6 @@
 {
   "version": "hekimler-continuous-v1",
-  "generated_at": "2026-09-20T19:44:26Z",
+  "generated_at": "2026-09-20T20:54:24Z",
   "channel_id": "hekimler-toplulugu",
   "editorial_brand": "Hekimler Topluluğu",
   "content_family": "hekimler_phase1",
@@ -204,7 +204,8 @@
       "abroad_au_medical_board",
       "abroad_au_amc",
       "tihud_internal_medicine",
-      "abroad_uk_oriel"
+      "abroad_uk_oriel",
+      "tdb_dental"
     ],
     "rules": [
       "A generic term alone (KPSS, memur, personel alımı, burs, sınav takvimi) never qualifies; it needs a profession/learner term from physician, dental, veterinary or a named medical exam/pathway.",
@@ -266,6 +267,7 @@
     "abroad_it_salute_foreign_qual",
     "abroad_nl_big_register",
     "abroad_sa_scfhs_watch",
+    "abroad_uk_gmc",
     "abroad_uk_oriel",
     "abroad_us_aamc_eras",
     "abroad_us_nrmp",
@@ -283,6 +285,7 @@
     "resmi_gazete_medical_regulation",
     "tahud_family_medicine",
     "tatd_emergency_medicine",
+    "tdb_dental",
     "teged_medical_education",
     "tepdad_medical_accreditation",
     "tihud_internal_medicine",
