@@ -707,7 +707,7 @@ export async function recordPythonRunTelemetry(env: Env, body: Record<string, un
     rejected_audience: num(body.rejectedAudience),
     rejected_keyword: num(body.rejectedKeyword),
     rejected_date: num(body.rejectedDate),
-    newest_record_date: typeof body.newestRecordDate === 'string' ? body.newestRecordDate.slice(0, 10) : null,
+    newest_record_date: typeof body.newestRecordDate === 'string' ? body.newestRecordDate.slice(0, 48) : null,
     error: typeof body.error === 'string' ? body.error.slice(0, 160) : null,
   };
   const rejected = metrics.rejected_shape + metrics.rejected_audience + metrics.rejected_keyword + metrics.rejected_date;
