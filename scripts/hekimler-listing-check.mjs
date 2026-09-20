@@ -8,7 +8,8 @@ import { join } from 'node:path';
 const out = join(tmpdir(), `hekimler-listing-${process.pid}.mjs`);
 await build({ entryPoints: ['apps/worker/src/ingress/hekimler-continuous.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
 const mod = await import(pathToFileURL(out).href);
-const profiles = JSON.parse(readFileSync('apps/worker/src/ingress/hekimler-automation-ready.json', 'utf8')).profiles;
+const profilesPath = process.env.HEKIMLER_PARITY_PROFILES || 'apps/worker/src/ingress/hekimler-automation-ready.json';
+const profiles = JSON.parse(readFileSync(profilesPath, 'utf8')).profiles;
 console.log(JSON.stringify(profiles.map((p) => {
   const listing = mod.resolveListingUrl(p);
   return { source_id: p.source_id, listing, allowed: mod.hostPathAllowed(listing, p) };
