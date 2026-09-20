@@ -885,7 +885,8 @@ export async function runHekimlerContinuousTick(
   const now = new Date();
   // One Worker invocation has a subrequest budget: process the least-recently-run due sources first and cap
   // how many are handled per tick; the rest are deferred to the next tick (never dropped).
-  const MAX_SOURCES_PER_TICK = 5;
+  // Workers Free allows ~10 ms CPU per invocation (live tail: outcome=exceededCpu): one source per tick.
+  const MAX_SOURCES_PER_TICK = 1;
   let processedThisTick = 0;
   const lastRunRows = await env.DB.prepare(`SELECT source_id, last_run_at FROM hekimler_source_telemetry`).all<{
     source_id: string;
@@ -910,6 +911,7 @@ export async function runHekimlerContinuousTick(
     const lockKey = dueBucket(profile, now);
     const locked = await acquireRunLock(env, lockKey, profile.source_id, holder);
     if (!locked) {
+      processedThisTick -= 1; // a locked source must not consume this tick's slot
       skippedLocked += 1;
       results.push({ source_id: profile.source_id, operator_status: 'skipped_locked', lock_key: lockKey });
       continue;
