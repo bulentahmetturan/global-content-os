@@ -358,7 +358,7 @@ export function classifyTitle(
   };
 }
 
-function resolveListingUrl(profile: HekimlerReadyProfile, now = new Date()): string {
+export function resolveListingUrl(profile: HekimlerReadyProfile, now = new Date()): string {
   const surfaces = (profile.fetch_plan?.surfaces || []).filter(
     (s) => (s.health || 'HEALTHY') !== 'MANUAL_REVIEW_REQUIRED' && s.url
   );
@@ -377,7 +377,7 @@ function resolveListingUrl(profile: HekimlerReadyProfile, now = new Date()): str
   return url;
 }
 
-function hostPathAllowed(url: string, profile: HekimlerReadyProfile): boolean {
+export function hostPathAllowed(url: string, profile: HekimlerReadyProfile): boolean {
   try {
     const u = new URL(url);
     const host = (u.hostname || '').toLowerCase();
@@ -883,7 +883,17 @@ export async function runHekimlerContinuousTick(
   }
 
   const now = new Date();
-  for (const profile of profiles) {
+  // One Worker invocation has a subrequest budget: process the least-recently-run due sources first and cap
+  // how many are handled per tick; the rest are deferred to the next tick (never dropped).
+  const MAX_SOURCES_PER_TICK = 5;
+  let processedThisTick = 0;
+  const lastRunRows = await env.DB.prepare(`SELECT source_id, last_run_at FROM hekimler_source_telemetry`).all<{
+    source_id: string;
+    last_run_at: string | null;
+  }>();
+  const lastRun = new Map((lastRunRows.results || []).map((r) => [r.source_id, r.last_run_at || '']));
+  const ordered = [...profiles].sort((a, b) => (lastRun.get(a.source_id) || '').localeCompare(lastRun.get(b.source_id) || ''));
+  for (const profile of ordered) {
     if (opts.sourceId && profile.source_id !== opts.sourceId) continue;
     const telemetry = await loadTelemetry(env, profile.source_id);
     if (!isDue(profile, telemetry.last_success_at, now, Boolean(opts.forceDue))) {
@@ -891,6 +901,11 @@ export async function runHekimlerContinuousTick(
       results.push({ source_id: profile.source_id, operator_status: 'not_due' });
       continue;
     }
+    if (processedThisTick >= MAX_SOURCES_PER_TICK) {
+      results.push({ source_id: profile.source_id, operator_status: 'deferred_to_next_tick' });
+      continue;
+    }
+    processedThisTick += 1;
 
     const lockKey = dueBucket(profile, now);
     const locked = await acquireRunLock(env, lockKey, profile.source_id, holder);
