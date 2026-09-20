@@ -10,6 +10,7 @@ export interface Env {
   CCOS_HANDOFF_TOKEN?: string;
   STATUS_CALLBACK_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
+  HEKIMLER_CONTINUOUS_INGESTION_ENABLED?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
@@ -29,8 +30,14 @@ export interface SourceItemRow {
   published_at: string | null;
   triage_status: TriageStatus;
   archive_kind?: string | null;
+  enrichment_status?: string | null;
   dedupe_key: string;
   fetched_at: string;
+  editorial_brand?: string | null;
+  content_family?: string | null;
+  source_id?: string | null;
+  decision_route?: string | null;
+  intake_meta_json?: string | null;
   doi?: string | null;
   pmid?: string | null;
   pmcid?: string | null;
@@ -72,6 +79,11 @@ export async function upsertSourceItem(
     publishedAt?: string | null;
     dedupeKey?: string;
     enrichmentStatus?: 'pending' | 'done' | 'failed' | 'skipped';
+    editorialBrand?: string | null;
+    contentFamily?: string | null;
+    sourceId?: string | null;
+    decisionRoute?: string | null;
+    intakeMetaJson?: string | null;
     evidence?: {
       doi?: string | null;
       pmid?: string | null;
@@ -94,6 +106,11 @@ export async function upsertSourceItem(
       .prepare(
         `UPDATE source_items SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
          publisher = ?, published_at = ?, enrichment_status = ?,
+         editorial_brand = COALESCE(?, editorial_brand),
+         content_family = COALESCE(?, content_family),
+         source_id = COALESCE(?, source_id),
+         decision_route = COALESCE(?, decision_route),
+         intake_meta_json = COALESCE(?, intake_meta_json),
          updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
          WHERE id = ?`
       )
@@ -105,6 +122,11 @@ export async function upsertSourceItem(
         input.publisher,
         input.publishedAt ?? null,
         enrichmentStatus,
+        input.editorialBrand ?? null,
+        input.contentFamily ?? null,
+        input.sourceId ?? null,
+        input.decisionRoute ?? null,
+        input.intakeMetaJson ?? null,
         existing.id
       )
       .run();
@@ -119,8 +141,9 @@ export async function upsertSourceItem(
     .prepare(
       `INSERT INTO source_items
        (id, feed_id, route, channel_id, title, title_orig, summary, gists_json,
-        canonical_url, publisher, published_at, triage_status, dedupe_key, enrichment_status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?, ?)`
+        canonical_url, publisher, published_at, triage_status, dedupe_key, enrichment_status,
+        editorial_brand, content_family, source_id, decision_route, intake_meta_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       id,
@@ -135,7 +158,12 @@ export async function upsertSourceItem(
       input.publisher,
       input.publishedAt ?? null,
       dedupeKey,
-      enrichmentStatus
+      enrichmentStatus,
+      input.editorialBrand ?? null,
+      input.contentFamily ?? null,
+      input.sourceId ?? null,
+      input.decisionRoute ?? null,
+      input.intakeMetaJson ?? null
     )
     .run();
 
@@ -151,6 +179,11 @@ export async function upsertSourceItem(
   }
 
   return { id, created: true };
+}
+
+/** Hub review filter for Hekimler partition — does not require raw JSON. */
+export function hekimlerReviewWhereClause(): string {
+  return `channel_id = 'hekimler-toplulugu' AND content_family = 'hekimler_phase1'`;
 }
 
 async function upsertEvidence(
@@ -211,13 +244,19 @@ async function upsertEvidence(
 export async function listItems(
   db: D1Database,
   route: RouteId,
-  status: TriageStatus
+  status: TriageStatus,
+  opts: { sinceDays?: number; limit?: number; channelId?: string; excludeChannelId?: string } = {}
 ): Promise<SourceItemRow[]> {
+  // Steady-state Hub: only the recent window — full inbox history is not needed daily.
+  const sinceDays = Math.min(Math.max(opts.sinceDays ?? 14, 1), 365);
+  const limit = Math.min(Math.max(opts.limit ?? 200, 1), 500);
+  const sinceIso = new Date(Date.now() - sinceDays * 86400000).toISOString();
+
   let sql = `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
        FROM source_items i
        LEFT JOIN evidence_cards e ON e.source_item_id = i.id
        WHERE i.route = ?`;
-  const binds: string[] = [route];
+  const binds: (string | number)[] = [route];
 
   if (status === 'done') {
     sql += ` AND i.triage_status = 'trash' AND i.archive_kind = 'done'`;
@@ -228,19 +267,33 @@ export async function listItems(
     binds.push(status);
   }
 
+  sql += ` AND COALESCE(i.fetched_at, i.published_at, i.updated_at) >= ?`;
+  binds.push(sinceIso);
+
+  if (opts.channelId) {
+    // Channel view (e.g. Hekimler): drop non-readable junk such as bare e-mail addresses.
+    sql += ` AND i.channel_id = ? AND i.title NOT LIKE '%@%' AND LENGTH(TRIM(i.title)) >= 12 AND COALESCE(i.decision_route, '') != 'REJECTED_LEGACY'`;
+    binds.push(opts.channelId);
+  } else if (opts.excludeChannelId) {
+    sql += ` AND COALESCE(i.channel_id, '') != ?`;
+    binds.push(opts.excludeChannelId);
+  }
+
+  // Channel views read newest-first; legacy route views keep oldest-first.
+  sql += opts.channelId
+    ? ` ORDER BY COALESCE(i.published_at, i.fetched_at) DESC LIMIT ?`
+    : ` ORDER BY
+    CASE WHEN COALESCE(i.enrichment_status, 'pending') IN ('done', 'skipped') THEN 0 ELSE 1 END,
+    COALESCE(i.fetched_at, i.published_at) ASC
+    LIMIT ?`;
+  binds.push(limit);
+
   const { results } = await db.prepare(sql).bind(...binds).all<SourceItemRow>();
 
-  const rows = (results ?? []).map((row) => ({
+  return (results ?? []).map((row) => ({
     ...row,
     triage_status: effectiveStatus(row),
   }));
-  // Oldest first (calendar), regardless of ISO vs RFC published_at strings.
-  rows.sort((a, b) => {
-    const ta = Date.parse(a.published_at || a.fetched_at) || 0;
-    const tb = Date.parse(b.published_at || b.fetched_at) || 0;
-    return ta - tb;
-  });
-  return rows;
 }
 
 function effectiveStatus(row: SourceItemRow): TriageStatus {
@@ -250,14 +303,18 @@ function effectiveStatus(row: SourceItemRow): TriageStatus {
 
 export async function countByStatus(
   db: D1Database,
-  route: RouteId
+  route: RouteId,
+  channelId?: string
 ): Promise<Record<TriageStatus, number>> {
   const { results } = await db
     .prepare(
       `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
-       FROM source_items WHERE route = ? GROUP BY triage_status, archive_kind`
+       FROM source_items WHERE route = ?${
+         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY'" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
+       }
+       GROUP BY triage_status, archive_kind`
     )
-    .bind(route)
+    .bind(...(channelId ? [route, channelId] : [route]))
     .all<{ status: TriageStatus; archive_kind: string | null; c: number }>();
 
   const out: Record<TriageStatus, number> = {
@@ -291,6 +348,8 @@ export function rowToView(row: SourceItemRow) {
     id: row.id,
     route: row.route,
     channelId: row.channel_id,
+    sourceId: row.source_id ?? null,
+    decisionRoute: row.decision_route ?? null,
     feedId: row.feed_id,
     title: row.title,
     titleOrig: row.title_orig,
@@ -301,6 +360,7 @@ export function rowToView(row: SourceItemRow) {
     publishedAt: row.published_at,
     triageStatus:
       row.triage_status === 'trash' && row.archive_kind === 'done' ? 'done' : row.triage_status,
+    enrichmentStatus: row.enrichment_status ?? null,
     dedupeKey: row.dedupe_key,
     fetchedAt: row.fetched_at,
     evidence:

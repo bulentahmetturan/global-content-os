@@ -23,6 +23,8 @@ crons = ["* * * * *"]
 [vars]
 ENVIRONMENT = "production"
 CCOS_HANDOFF_STUB = "true"
+# Hekimler continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
+HEKIMLER_CONTINUOUS_INGESTION_ENABLED = "true"
 
 [ai]
 binding = "AI"

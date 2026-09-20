@@ -2,16 +2,36 @@ import { upsertSourceItem, dedupeKeyFromUrl, type Env, type RouteId } from '../d
 import { looksMostlyEnglish } from '../localize/tr';
 import { shouldSkipEnrichment } from '../localize/enrich';
 
+function stripHtml(s: string): string {
+  return (s || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function cleanTitle(s: string): string {
+  return stripHtml(s)
+    .replace(/\s+[—\-–]\s+[a-z0-9.-]+\.[a-z]{2,}.*$/i, '')
+    .replace(/^PRESS RELEASE\s+/i, '')
+    .trim();
+}
+
 /**
  * Store raw source fields; queue Workers AI enrichment (structured evidence → TR).
- * Does not call gtx. Preserves prior enriched TR when re-ingesting the same URL.
+ * Preserves prior enriched TR when re-ingesting the same URL.
  */
 export async function upsertLocalizedSourceItem(
   env: Env,
   input: Parameters<typeof upsertSourceItem>[1]
 ): Promise<{ id: string; created: boolean }> {
-  const sourceTitle = (input.titleOrig || input.title || '').trim();
-  const sourceSummary = (input.summary || sourceTitle).trim();
+  const sourceTitle = cleanTitle(input.titleOrig || input.title || '');
+  const sourceSummary = stripHtml(input.summary || sourceTitle).slice(0, 2000);
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
 
   const existing = await env.DB.prepare(
@@ -28,7 +48,6 @@ export async function upsertLocalizedSourceItem(
       enrichment_status: string | null;
     }>();
 
-  // Already enriched Turkish — keep Hub copy; refresh publisher/date only via upsert below
   if (
     existing &&
     (existing.enrichment_status === 'done' || existing.enrichment_status === 'skipped') &&
@@ -56,7 +75,7 @@ export async function upsertLocalizedSourceItem(
     ...input,
     title: sourceTitle,
     titleOrig: skip ? input.titleOrig ?? null : sourceTitle,
-    summary: sourceSummary.slice(0, 2000),
+    summary: sourceSummary,
     gists: [sourceSummary.slice(0, 500)],
     enrichmentStatus: skip ? 'skipped' : 'pending',
   });

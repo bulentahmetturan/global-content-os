@@ -207,6 +207,7 @@
   var ROUTES = [
     { id: 'kaduse-news', label: 'Kaduse News', icon: '🌐', note: 'Tüm Kaduse News abonelikleri kayıtlı ve aktif. Canlı çekim: WHO JSON; diğerleri WEB_ONLY (fetcher bekliyor).' },
     { id: 'kaduse-research', label: 'Kaduse Research', icon: '🧪', note: 'Research registry tamamı aktif. Canlı batch: Europe PMC + PubMed.' },
+    { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Hekimler kaynak akışı: en yeni üstte, son 14 gün. Kartta gerçek kaynak adı ve karar rotası görünür; inceleme amaçlıdır, yayın kapalı.' },
     { id: 'tip-ogrencileri', label: 'Tıp Öğrencileri Birliği', icon: '🎓', note: 'Tüm tip kaynakları Hub’da aktif; tarama Python radar’da, adaptör ile gelir.' }
   ];
   var VIEWS = [
@@ -216,6 +217,35 @@
     { id: 'done', label: 'Üretimi Bitenler', icon: '🏁' },
     { id: 'trash', label: 'Silinenler', icon: '🗑️' }
   ];
+
+  var SOURCE_LABELS = {
+    osym_medical_exams: 'ÖSYM', yok_medical_education: 'YÖK', yokak_medical_accreditation: 'YÖKAK',
+    tuk_specialty_training: 'TUK', resmi_gazete_medical_regulation: 'Resmî Gazete',
+    moh_physician_workforce: 'Sağlık Bakanlığı', hsgm_public_health: 'HSGM', ttb_national: 'TTB',
+    turkmsic_medical_students: 'TurkMSIC', hasuder_public_health: 'HASUDER', trd_radiology: 'TRD',
+    turk_pediatri_kurumu: 'Türk Pediatri Kurumu', pubmed_biomedical_evidence: 'PubMed',
+    abroad_us_nrmp: 'NRMP (ABD)', abroad_us_usmle: 'USMLE (ABD)', abroad_ca_carms: 'CaRMS (Kanada)',
+    abroad_ca_mcc_img_pathways: 'MCC (Kanada)',
+    tkd_cardiology: 'TKD', tahud_family_medicine: 'TAHUD', tatd_emergency_medicine: 'TATD', teged_medical_education: 'TEGED',
+    tepdad_medical_accreditation: 'TEPDAD', ttd_thoracic: 'TTD', tpd_psychiatry: 'TPD', halk_sagligi_yeterlik: 'Halk Sağlığı Yeterlik',
+    osym_dus_dental_exams: 'ÖSYM DUS', osym_ydus_subspecialty_exams: 'ÖSYM YDUS', tvhb_veterinary: 'TVHB',
+    anadolu_ajansi_medical_radar: 'Anadolu Ajansı', abroad_de_anerkennung: 'Anerkennung (Almanya)', abroad_au_amc: 'AMC (Avustralya)',
+    abroad_au_medical_board: 'Medical Board (Avustralya)', abroad_au_ahpra: 'AHPRA (Avustralya)', abroad_nl_big_register: 'BIG (Hollanda)'
+  };
+  var DECISION_LABELS = {
+    OPPORTUNITY: 'Fırsat', PROFESSIONAL_BRIEF: 'Mesleki özet', NEEDS_REVIEW: 'İnceleme gerek',
+    PUBLIC_HEALTH: 'Halk sağlığı', EDUCATION: 'Eğitim'
+  };
+  function sourceLabel(it) {
+    if (!it.sourceId) return it.publisher;
+    return SOURCE_LABELS[it.sourceId] || it.sourceId.replace(/_/g, ' ');
+  }
+  function itemsQuery(route, view, days, limit) {
+    var q = route === 'hekimler'
+      ? 'route=tip-ogrencileri&channel=hekimler-toplulugu'
+      : 'route=' + encodeURIComponent(route);
+    return '/api/items?' + q + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
+  }
 
   var state = {
     route: localStorage.getItem('gcos-route') || 'kaduse-news',
@@ -243,15 +273,36 @@
       .replace(/"/g, '&quot;');
   }
 
+  function stripHtml(s) {
+    var t = String(s == null ? '' : s);
+    t = t.replace(/<[^>]+>/g, ' ');
+    t = t.replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&lt;/gi, '<')
+      .replace(/&gt;/gi, '>').replace(/&quot;/gi, '"').replace(/&#(\d+);/g, function (_, n) {
+        return String.fromCharCode(Number(n));
+      }).replace(/&#x([0-9a-f]+);/gi, function (_, h) {
+        return String.fromCharCode(parseInt(h, 16));
+      });
+    return t.replace(/\s+/g, ' ').trim();
+  }
+
   /** Calendar-day age vs today (local). "bugün" / "1 gün" / "N gün". Recalculated on every render. */
-  function formatNewsAge(iso) {
-    if (!iso) return '';
-    var d = new Date(iso);
-    if (isNaN(d.getTime())) return String(iso);
+  function formatNewsAge(iso, fallbackIso) {
+    var raw = iso || fallbackIso;
+    if (!raw) return '';
+    var d = new Date(raw);
+    if (isNaN(d.getTime())) {
+      if (fallbackIso && fallbackIso !== iso) return formatNewsAge(fallbackIso, null);
+      return '';
+    }
     var now = new Date();
     var startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var startNews = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     var days = Math.round((startToday - startNews) / 86400000);
+    // Absurd / broken source dates (e.g. Google News epoch junk) → fallback or hide
+    if (days > 800 || days < -30) {
+      if (fallbackIso && fallbackIso !== iso) return formatNewsAge(fallbackIso, null);
+      return '';
+    }
     if (days < 0) days = 0;
     if (days === 0) return 'bugün';
     if (days === 1) return '1 gün';
@@ -299,24 +350,36 @@
     } else {
       actions = '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">↩ Geri Al</button>';
     }
-    var gist = (it.gists && it.gists[0]) || it.summary || '';
+    var gist = stripHtml((it.gists && it.gists[0]) || it.summary || '');
+    var title = stripHtml(it.title || '');
+    var titleOrig = stripHtml(it.titleOrig || '');
     var evidence = '';
     if (it.evidence && (it.evidence.doi || it.evidence.pmid)) {
       evidence = '<p class="original-title">Kanıt: ' +
         (it.evidence.doi ? 'DOI ' + escapeHtml(it.evidence.doi) + ' ' : '') +
         (it.evidence.pmid ? 'PMID ' + escapeHtml(it.evidence.pmid) : '') + '</p>';
     }
-    var ageLabel = formatNewsAge(it.publishedAt || it.fetchedAt);
+    var ageLabel = formatNewsAge(it.publishedAt, it.fetchedAt);
+    var enrichNote = '';
+    if (it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed') {
+      enrichNote = '<p class="original-title">Öz hazırlanıyor…</p>';
+    }
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '">' +
-        '<div class="card-meta"><span class="pub-pill">' + escapeHtml(it.publisher) + '</span>' +
-        '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' +
-          escapeHtml(ageLabel) + '</span>' + statusPill + '</div>' +
+        '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+        (it.decisionRoute
+          ? '<span class="pub-pill">' + escapeHtml(DECISION_LABELS[it.decisionRoute] || it.decisionRoute) + '</span>'
+          : '') +
+        (ageLabel
+          ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' +
+            escapeHtml(ageLabel) + '</span>'
+          : '') + statusPill + '</div>' +
         '<p class="card-title"><a href="' + escapeHtml(it.canonicalUrl) + '" target="_blank" rel="noopener">' +
-          escapeHtml(it.title) + '</a></p>' +
-        (it.titleOrig && it.titleOrig !== it.title
-          ? '<p class="original-title">Orijinal: ' + escapeHtml(it.titleOrig) + '</p>' : '') +
+          escapeHtml(title) + '</a></p>' +
+        (titleOrig && titleOrig !== title
+          ? '<p class="original-title">Orijinal: ' + escapeHtml(titleOrig) + '</p>' : '') +
         evidence +
+        enrichNote +
         '<p class="gist">' + escapeHtml(gist) + '</p>' +
         '<div class="actions">' + actions + '</div>' +
       '</div>'
@@ -371,7 +434,9 @@
 
   async function load() {
     renderChrome();
-    var data = await api('/api/items?route=' + encodeURIComponent(state.route) + '&status=' + encodeURIComponent(state.view));
+    var days = state.route === 'tip-ogrencileri' ? 2 : 14;
+    var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
+    var data = await api(itemsQuery(state.route, state.view, days, limit));
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     await refreshRouteCounts();

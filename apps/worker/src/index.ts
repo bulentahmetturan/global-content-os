@@ -16,6 +16,13 @@ import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
 import { applyTriage, recordProductionStatus, purgeExpiredTrash, type TriageAction } from './triage/actions';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
+import {
+  assertHekimlerChannelPartition,
+  authorizeHekimlerIngress,
+  hekimlerReadySourceCount,
+  runHekimlerContinuousTick,
+} from './ingress/hekimler-continuous';
+import { runIsolatedScheduledJobs, type ScheduledJobSpec } from './scheduled-jobs';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -107,18 +114,48 @@ export default {
             enabledFeeds: Number(feedRow?.c ?? 0),
           });
         }
+        routes.push({
+          id: 'hekimler',
+          counts: await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu'),
+          enabledFeeds: hekimlerReadySourceCount(),
+        });
         return json({ routes });
       }
 
       if (path === '/api/items' && request.method === 'GET') {
         const route = url.searchParams.get('route') || '';
         const status = url.searchParams.get('status') || 'inbox';
+        const channel = url.searchParams.get('channel') || '';
+        // Tip Students: day window (default 2). News/research: 14-day working set.
+        const defaultDays = route === 'tip-ogrencileri' ? 2 : 14;
+        const sinceDays = Number(url.searchParams.get('days') || defaultDays);
+        const limit = Number(url.searchParams.get('limit') || (route === 'tip-ogrencileri' ? 100 : 200));
         if (!isRoute(route) || !isStatus(status)) {
           return json({ error: 'INVALID_QUERY' }, 400);
         }
-        const items = (await listItems(env.DB, route, status)).map(rowToView);
-        const counts = await countByStatus(env.DB, route);
-        return json({ route, status, counts, items });
+        const items = (
+          await listItems(env.DB, route, status, {
+            sinceDays,
+            limit,
+            ...(channel === 'hekimler-toplulugu'
+              ? { channelId: channel }
+              : route === 'tip-ogrencileri'
+                ? { excludeChannelId: 'hekimler-toplulugu' }
+                : {}),
+          })
+        ).map(rowToView);
+        const counts = await countByStatus(
+          env.DB,
+          route,
+          channel === 'hekimler-toplulugu' ? channel : undefined
+        );
+        return json({
+          route,
+          status,
+          counts,
+          items,
+          window: { sinceDays, limit },
+        });
       }
 
       if (path === '/api/triage' && request.method === 'POST') {
@@ -186,7 +223,14 @@ export default {
       }
 
       if (path === '/api/ingress/journal-fallback' && request.method === 'POST') {
-        const result = await ingestJournalCrossrefFallbacks(env);
+        const body = (await request.json().catch(() => ({}))) as {
+          offset?: number;
+          limit?: number;
+        };
+        const result = await ingestJournalCrossrefFallbacks(env, {
+          offset: body.offset,
+          limit: body.limit,
+        });
         return json({ ok: true, ...result });
       }
 
@@ -210,6 +254,32 @@ export default {
       if (path === '/api/cron/run' && request.method === 'POST') {
         const results = await runAllIngress(env);
         return json({ ok: true, results });
+      }
+
+      if (path === '/api/ingress/hekimler-continuous' && request.method === 'POST') {
+        const auth = authorizeHekimlerIngress(env, request);
+        if (!auth.ok) {
+          return json({ error: auth.error }, auth.status);
+        }
+        const body = (await request.json().catch(() => ({}))) as {
+          dryRun?: boolean;
+          forceDue?: boolean;
+          sourceId?: string;
+          channelId?: string;
+          editorialBrand?: string;
+          contentFamily?: string;
+        };
+        const partitionErr = assertHekimlerChannelPartition(body);
+        if (partitionErr) {
+          return json({ error: 'PARTITION_REJECTED', reason: partitionErr }, 403);
+        }
+        const result = await runHekimlerContinuousTick(env, {
+          dryRun: body.dryRun === true,
+          forceDue: body.forceDue === true,
+          sourceId: body.sourceId,
+          holder: 'http-backup',
+        });
+        return json({ ok: true, ...result });
       }
 
       if (path === '/api/enrich' && request.method === 'POST') {
@@ -296,40 +366,91 @@ export default {
 
     ctx.waitUntil(
       (async () => {
-        // Purge trash / üretim-bitti items older than 2 days
-        if (minute % 30 === 0) {
-          await purgeExpiredTrash(env, 2).catch((e) => console.error('purge-trash', e));
+        const jobs: ScheduledJobSpec[] = [
+          {
+            id: 'purge-trash',
+            enabled: minute % 30 === 0,
+            run: () => purgeExpiredTrash(env, 2),
+          },
+          {
+            id: 'enrich',
+            run: () => runEnrichmentBatch(env, { limit: 6 }),
+          },
+          {
+            id: 'hekimler-continuous',
+            run: () =>
+              runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
+          },
+          {
+            id: 'who-news',
+            enabled: minute % 15 === 0,
+            run: () => ingestWhoNews(env),
+          },
+          {
+            id: 'europe-pmc',
+            enabled: minute % 15 === 0,
+            run: () => ingestEuropePmc(env),
+          },
+          {
+            id: 'pubmed',
+            enabled: minute % 15 === 0,
+            run: () => ingestPubmed(env),
+          },
+          {
+            id: 'research-apis',
+            enabled: minute % 15 === 0,
+            run: () => ingestResearchApis(env),
+          },
+          {
+            id: 'journal-fallback',
+            enabled: minute % 15 === 0,
+            run: () => {
+              const journalOffset = (Math.floor(dayMinute / 15) * 5) % 25;
+              return ingestJournalCrossrefFallbacks(env, { offset: journalOffset, limit: 5 });
+            },
+          },
+          {
+            id: 'news-generic',
+            run: () =>
+              ingestGenericFeeds(env, {
+                route: 'kaduse-news',
+                offset: 0,
+                limit: 8,
+              }),
+          },
+          {
+            id: 'research-generic',
+            run: () =>
+              ingestGenericFeeds(env, {
+                route: 'kaduse-research',
+                offset: 0,
+                limit: 6,
+              }),
+          },
+        ];
+
+        const report = await runIsolatedScheduledJobs(jobs, {
+          onError: (result) => {
+            console.error(
+              JSON.stringify({
+                event: 'scheduled_job_failed',
+                job_id: result.id,
+                error_name: result.error?.name,
+                error_message: result.error?.message,
+              })
+            );
+          },
+        });
+
+        if (!report.ok) {
+          console.error(
+            JSON.stringify({
+              event: 'scheduled_tick_partial_failure',
+              failed_jobs: report.failures.map((f) => f.id),
+              failure_count: report.failures.length,
+            })
+          );
         }
-
-        // Free-tier thrifty enrich: small batch every minute
-        await runEnrichmentBatch(env, { limit: 6 }).catch((e) => console.error('enrich', e));
-
-        // Always refresh primary machine-readable APIs on the hour / :15 / :30 / :45
-        if (minute % 15 === 0) {
-          await ingestWhoNews(env).catch((e) => console.error('who', e));
-          await ingestEuropePmc(env).catch((e) => console.error('epmc', e));
-          await ingestPubmed(env).catch((e) => console.error('pubmed', e));
-          await ingestResearchApis(env).catch((e) => console.error('research-apis', e));
-        }
-
-        // Stale-first: always take the oldest-fetched window (offset 0).
-        await ingestGenericFeeds(env, {
-          route: 'kaduse-news',
-          offset: 0,
-          limit: 8,
-        }).catch((e) => console.error('news-generic', e));
-
-        await ingestGenericFeeds(env, {
-          route: 'kaduse-research',
-          offset: 0,
-          limit: 6,
-        }).catch((e) => console.error('research-generic', e));
-
-        await ingestGenericFeeds(env, {
-          route: 'tip-ogrencileri',
-          offset: 0,
-          limit: 15,
-        }).catch((e) => console.error('tip-generic', e));
       })()
     );
   },

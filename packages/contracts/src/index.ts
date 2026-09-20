@@ -4,7 +4,10 @@ export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
 
 export type TriageStatus = 'inbox' | 'hold' | 'production' | 'trash';
 
-export type ChannelId = 'kaduse-medikal' | 'tip-ogrencileri-platformu';
+export type ChannelId =
+  | 'kaduse-medikal'
+  | 'tip-ogrencileri-platformu'
+  | 'hekimler-toplulugu';
 
 export interface EvidenceCardSummary {
   doi: string | null;
