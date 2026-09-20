@@ -243,7 +243,12 @@ export async function ingestTipRadarPush(
     const summary = (c.summary || title).trim();
     const publisher =
       c.institution || (hekimler ? HEKIMLER_EDITORIAL_BRAND : 'Tıp Öğrencileri Radar');
-    const publishedAt = c.eventDate || c.deadline || c.discoveredAt || c.fetchedAt || null;
+    // D9: an item whose publication date could not be verified must not get the ingestion time as its publication
+    // time. It stays NEEDS_REVIEW (date_unverified_needs_review) with a null published_at.
+    const dateUnverified = (c.riskFlags || []).includes('date_unverified_needs_review');
+    const publishedAt = dateUnverified
+      ? null
+      : c.eventDate || c.deadline || c.discoveredAt || c.fetchedAt || null;
     const result = await upsertLocalizedSourceItem(env, {
       feedId: resolvedFeedId,
       route: 'tip-ogrencileri',

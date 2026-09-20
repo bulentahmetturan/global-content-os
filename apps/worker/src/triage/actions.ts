@@ -57,6 +57,18 @@ export async function applyTriage(
 
   if (!row) throw new Error('ITEM_NOT_FOUND');
 
+  // D9: items whose publication date is unverified stay in review; they can never be promoted to production.
+  if (action === 'promote') {
+    try {
+      const meta = JSON.parse((row as { intake_meta_json?: string | null }).intake_meta_json || '{}') as { risk_flags?: string[] };
+      if ((meta.risk_flags || []).includes('date_unverified_needs_review')) {
+        throw new Error('DATE_UNVERIFIED_NOT_PROMOTABLE');
+      }
+    } catch (err) {
+      if (err instanceof Error && err.message === 'DATE_UNVERIFIED_NOT_PROMOTABLE') throw err;
+    }
+  }
+
   const fromStatus = row.triage_status;
   const toStatus: TriageStatus = action === 'undo' ? 'inbox' : ACTION_TO_STATUS[action];
   const archiveKind =
