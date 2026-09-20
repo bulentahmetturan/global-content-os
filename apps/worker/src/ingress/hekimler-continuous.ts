@@ -434,7 +434,42 @@ function parseNewsSitemap(body: string): Array<{ title: string; url: string; pub
   return out;
 }
 
+/**
+ * TÜİK home-page bulletin slider (server-rendered): title + reference period + bulletin URL.
+ * The period is the reference period, so the publication date is approximated by the end of the period, capped at today.
+ */
+function parseTuikCarousel(body: string): Array<{ title: string; url: string; published_at?: string }> {
+  const out: Array<{ title: string; url: string; published_at?: string }> = [];
+  const seen = new Set<string>();
+  const clean = (x: string) => decodeHtmlEntities(x.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+  const re = /SliderUrl\('([^']+)'[^>]*>[\s\S]*?hbranabaslik[^>]*>([\s\S]*?)<\/div>[\s\S]*?hbraltbaslik[^>]*>([\s\S]*?)<\/div>/g;
+  const months: Record<string, number> = { ocak: 1, subat: 2, mart: 3, nisan: 4, mayis: 5, haziran: 6, temmuz: 7, agustos: 8, eylul: 9, ekim: 10, kasim: 11, aralik: 12 };
+  const today = Date.now();
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body))) {
+    const url = m[1].trim();
+    if (seen.has(url)) continue;
+    seen.add(url);
+    const title = clean(m[2]);
+    const period = clean(m[3]);
+    if (title.length < 8) continue;
+    const pf = fold(period);
+    let ms: number | null = null;
+    const mm = /(ocak|subat|mart|nisan|mayis|haziran|temmuz|agustos|eylul|ekim|kasim|aralik)\s+(20\d{2})/.exec(pf);
+    const qm = /([1-4])\.?\s*ceyrek\s+(20\d{2})/.exec(pf);
+    const ym = /^\s*(20\d{2})\s*$/.exec(pf);
+    if (mm) ms = Date.UTC(Number(mm[2]), months[mm[1]], 0);
+    else if (qm) ms = Date.UTC(Number(qm[2]), Number(qm[1]) * 3, 0);
+    else if (ym) ms = Date.UTC(Number(ym[1]), 12, 0);
+    if (ms !== null && ms > today) ms = Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate());
+    const full = period ? `${title}, ${period}` : title;
+    out.push(ms !== null ? { title: full, url, published_at: new Date(ms).toISOString().slice(0, 10) } : { title: full, url });
+  }
+  return out;
+}
+
 export function parseHtmlAnchors(body: string, baseUrl: string): Array<{ title: string; url: string; published_at?: string }> {
+  if (body.includes('hbranabaslik') && body.includes('SliderUrl(')) return parseTuikCarousel(body);
   if (/<urlset[\s>]/i.test(body.slice(0, 3000)) && body.slice(0, 6000).includes('<news:news>')) return parseNewsSitemap(body);
   if (/<rss[\s>]|<channel[\s>]/i.test(body.slice(0, 2000))) return parseRssItems(body);
   const items: Array<{ title: string; url: string; published_at?: string }> = [];
