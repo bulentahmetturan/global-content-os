@@ -315,7 +315,7 @@ export function extractPageDate(body: string): number | null {
   return d.length ? d[0] : null;
 }
 
-function itemShapeAllowed(profile: HekimlerReadyProfile, title: string, url: string): boolean {
+export function itemShapeAllowed(profile: HekimlerReadyProfile, title: string, url: string): boolean {
   const urlPats = profile.item_url_patterns || [];
   if (urlPats.length && !urlPats.some((p) => new RegExp(p).test(url || ''))) return false;
   const titlePats = profile.item_title_patterns || [];
