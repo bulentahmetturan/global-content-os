@@ -493,7 +493,9 @@ export function parseHtmlAnchors(body: string, baseUrl: string): Array<{ title: 
       continue;
     }
     const tail = body.slice(re.lastIndex, re.lastIndex + 200).split(/<a[\s>]/i)[0];
-    const adj = extractDates(tail.replace(/<[^>]+>/g, ' '))[0];
+    const tailText = tail.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // Only a short, date-only label counts; a date inside a teaser sentence is usually an event date.
+    const adj = tailText.length <= 30 ? extractDates(tailText)[0] : undefined;
     items.push(adj ? { title, url, published_at: new Date(adj).toISOString().slice(0, 10) } : { title, url });
   }
   // Fihrist table rows

@@ -105,7 +105,7 @@ export async function upsertSourceItem(
     await db
       .prepare(
         `UPDATE source_items SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
-         publisher = ?, published_at = ?, enrichment_status = ?,
+         canonical_url = ?, publisher = ?, published_at = ?, enrichment_status = ?,
          editorial_brand = COALESCE(?, editorial_brand),
          content_family = COALESCE(?, content_family),
          source_id = COALESCE(?, source_id),
@@ -119,6 +119,7 @@ export async function upsertSourceItem(
         input.titleOrig ?? null,
         input.summary,
         JSON.stringify(input.gists ?? [input.summary]),
+        input.canonicalUrl,
         input.publisher,
         input.publishedAt ?? null,
         enrichmentStatus,
