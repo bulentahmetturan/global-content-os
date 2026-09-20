@@ -364,7 +364,12 @@ export default {
       return json({ error: 'NOT_FOUND' }, 404);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      const status = message === 'ITEM_NOT_FOUND' || message === 'BRIEF_NOT_FOUND' ? 404 : 500;
+      const status =
+        message === 'ITEM_NOT_FOUND' || message === 'BRIEF_NOT_FOUND'
+          ? 404
+          : message === 'DATE_UNVERIFIED_NOT_PROMOTABLE'
+            ? 422
+            : 500;
       return json({ error: message }, status);
     }
   },
