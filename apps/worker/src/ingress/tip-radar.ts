@@ -209,7 +209,16 @@ export async function ingestTipRadarPush(
       editorialBrand = HEKIMLER_EDITORIAL_BRAND;
       contentFamily = HEKIMLER_CONTENT_FAMILY;
       decisionRoute = (c.decisionRoute || c.decision || '').trim() || null;
-      dedupeKey = hekimlerDedupeKey(channelId, sourceId!, (c.contentHash || '').trim());
+      // Sources that overlap (e.g. three OSYM exam groups, Australian regulators) share a dedupeGroup, and an item
+      // already stored under the same canonical URL is reused, so path/profile changes never create duplicate rows.
+      const group = ((c as { dedupeGroup?: string | null }).dedupeGroup || '').trim();
+      dedupeKey = hekimlerDedupeKey(channelId, group || sourceId!, (c.contentHash || '').trim());
+      const sameUrl = await env.DB.prepare(
+        `SELECT dedupe_key FROM source_items WHERE route = 'tip-ogrencileri' AND channel_id = ? AND canonical_url = ? LIMIT 1`
+      )
+        .bind(channelId, url)
+        .first<{ dedupe_key: string }>();
+      if (sameUrl?.dedupe_key) dedupeKey = sameUrl.dedupe_key;
       resolvedFeedId = hekimlerFeed!.id;
       intakeMetaJson = JSON.stringify({
         decision: c.decision || null,

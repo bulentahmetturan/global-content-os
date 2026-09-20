@@ -13,7 +13,9 @@ await build({
 });
 const mod = await import(pathToFileURL(out).href);
 const bundle = (await import(pathToFileURL(out).href)).default ?? null;
-const profiles = JSON.parse(readFileSync('apps/worker/src/ingress/hekimler-automation-ready.json', 'utf8')).profiles;
+// Full profile export (all AUTOMATION_READY sources, including python_runner ones) can be supplied by the caller.
+const profilesPath = process.env.HEKIMLER_PARITY_PROFILES || 'apps/worker/src/ingress/hekimler-automation-ready.json';
+const profiles = JSON.parse(readFileSync(profilesPath, 'utf8')).profiles;
 const fixtures = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const results = fixtures.cases.map((c) => {
   const profile = profiles.find((p) => p.source_id === c.source_id);
