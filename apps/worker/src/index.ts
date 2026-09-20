@@ -59,7 +59,7 @@ export default {
 
     try {
       if (path === '/api/health') {
-        return json({ ok: true, service: 'global-content-os', env: env.ENVIRONMENT ?? 'unknown' });
+        return json({ ok: true, service: 'global-content-os', env: env.ENVIRONMENT ?? 'unknown', commit: env.BUILD_COMMIT ?? null });
       }
 
       if (path === '/api/feeds' && request.method === 'GET') {

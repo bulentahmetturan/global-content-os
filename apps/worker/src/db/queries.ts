@@ -1,4 +1,6 @@
 export interface Env {
+  /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
+  BUILD_COMMIT?: string;
   DB: D1Database;
   ASSETS: Fetcher;
   AI?: {
