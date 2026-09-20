@@ -165,6 +165,13 @@
     .project-item { white-space: nowrap; }
     .main { padding: 16px 16px 40px; }
   }
+  .hek-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+  .hek-bar select{padding:6px 8px;border-radius:8px;border:1px solid var(--border,#ccc);background:transparent;color:inherit;max-width:100%}
+  .hek-bar .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .bulk-pick{display:block;font-size:12px;opacity:.75;margin-bottom:4px}
+  .hek-health{margin:0 0 12px;font-size:13px}
+  .hek-health table{border-collapse:collapse;width:100%;margin-top:6px}
+  .hek-health td{padding:3px 8px;border-bottom:1px solid rgba(128,128,128,.25);vertical-align:top}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 </head>
@@ -195,6 +202,7 @@
     <div class="pillbar" id="pillbar"></div>
     <div class="lane-note" id="laneNote"></div>
     <div id="listView">
+      <div id="hekToolbar" hidden></div>
       <div class="card-list" id="cardList"></div>
       <div class="empty" id="emptyState" hidden>Bu kutuda öğe yok.</div>
     </div>
@@ -258,6 +266,9 @@
     view: localStorage.getItem('gcos-view') || 'inbox',
     counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
     items: [],
+    sourceFilter: '',
+    selected: {},
+    hekSources: null,
     routeCounts: {},
     routeMeta: {}
   };
@@ -372,6 +383,8 @@
     }
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '">' +
+        (state.route === 'hekimler' && (mode === 'inbox' || mode === 'hold')
+          ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
         '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
         (it.decisionRoute
           ? '<span class="pub-pill">' + escapeHtml(DECISION_LABELS[it.decisionRoute] || it.decisionRoute) + '</span>'
@@ -416,6 +429,7 @@
 
     mainTitleEl.textContent = meta.icon + ' ' + meta.label;
     var feedN = (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
+    if (state.route === 'hekimler' && state.hekSources) feedN = state.hekSources.length;
     mainSubEl.textContent = state.view + ' · ' + feedN + ' aktif kaynak · D1';
     laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(meta.note) + '</div>';
     footnoteEl.innerHTML =
@@ -423,9 +437,44 @@
       'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.';
   }
 
+  var COVERAGE_TR = {
+    PIPELINE_OK: 'Tam', PIPELINE_OK_EMPTY: 'Çalışıyor, içerik yok', PIPELINE_OK_LIMITED: 'Sınırlı kapsam',
+    PARTIALLY_COVERED: 'Kısmen kapsanıyor', RUNNER_REQUIRED: 'Türkiye runner gerekli',
+    FAILED_INTERNAL: 'Hata', NOT_RUN: 'Çalışmadı'
+  };
+  function visibleItems() {
+    return state.items.filter(function (it) { return !state.sourceFilter || it.sourceId === state.sourceFilter; });
+  }
+  function renderToolbar() {
+    var el = document.getElementById('hekToolbar');
+    if (state.route !== 'hekimler') { el.hidden = true; return; }
+    el.hidden = false;
+    var ids = {};
+    state.items.forEach(function (it) { if (it.sourceId) ids[it.sourceId] = (ids[it.sourceId] || 0) + 1; });
+    var opts = '<option value="">Tüm kaynaklar (' + state.items.length + ')</option>' + Object.keys(ids).sort().map(function (id) {
+      return '<option value="' + escapeHtml(id) + '"' + (state.sourceFilter === id ? ' selected' : '') + '>' +
+        escapeHtml(SOURCE_LABELS[id] || id.replace(/_/g, ' ')) + ' (' + ids[id] + ')</option>';
+    }).join('');
+    var n = Object.keys(state.selected).length;
+    var health = '';
+    if (state.hekSources) {
+      health = '<details class="hek-health"><summary>Kaynak durumu (' + state.hekSources.length + ')</summary><table><tbody>' +
+        state.hekSources.map(function (s) {
+          return '<tr><td>' + escapeHtml(SOURCE_LABELS[s.sourceId] || s.sourceId) + '</td><td>' + escapeHtml(COVERAGE_TR[s.label] || s.label) +
+            '</td><td>' + escapeHtml(s.note || '') + '</td></tr>';
+        }).join('') + '</tbody></table></details>';
+    }
+    el.innerHTML = '<div class="hek-bar"><select id="hekSourceFilter">' + opts + '</select>' +
+      (state.view === 'inbox' || state.view === 'hold'
+        ? '<button class="btn btn-hold" data-bulk="hold"' + (n ? '' : ' disabled') + '>⏳ Seçilenleri beklet (' + n + ')</button>' +
+          '<button class="btn btn-delete" data-bulk="delete"' + (n ? '' : ' disabled') + '>✕ Seçilenleri sil (' + n + ')</button>' : '') +
+      '</div>' + health;
+  }
   function renderList() {
-    cardListEl.innerHTML = state.items.map(cardHtml).join('');
-    emptyStateEl.hidden = state.items.length > 0;
+    var items = visibleItems();
+    cardListEl.innerHTML = items.map(cardHtml).join('');
+    emptyStateEl.hidden = items.length > 0;
+    renderToolbar();
   }
 
   async function refreshRouteCounts() {
@@ -445,6 +494,10 @@
     var data = await api(itemsQuery(state.route, state.view, days, limit));
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
+    state.selected = {};
+    if (state.route === 'hekimler' && !state.hekSources) {
+      try { state.hekSources = (await api('/api/hekimler/sources')).sources || []; } catch (e) { state.hekSources = null; }
+    }
     await refreshRouteCounts();
     renderChrome();
     renderList();
@@ -468,7 +521,25 @@
     await load();
   }
 
+  async function handleBulk(action) {
+    var ids = Object.keys(state.selected);
+    if (!ids.length) return;
+    var ok = 0, failed = [];
+    for (var i = 0; i < ids.length; i++) {
+      try { await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: ids[i], action: action }) }); ok++; }
+      catch (e) { failed.push(ids[i] + ': ' + e.message); }
+    }
+    showToast((action === 'hold' ? 'Beklemeye alındı: ' : 'Silindi: ') + ok + '/' + ids.length + (failed.length ? ' · hata: ' + failed[0] : ''));
+    await load();
+  }
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'hekSourceFilter') { state.sourceFilter = e.target.value; renderList(); return; }
+    var pick = e.target.getAttribute && e.target.getAttribute('data-pick');
+    if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
+  });
   document.addEventListener('click', function (e) {
+    var bulkBtn = e.target.closest('[data-bulk]');
+    if (bulkBtn) { handleBulk(bulkBtn.getAttribute('data-bulk')).catch(function (err) { showToast(err.message); }); return; }
     var routeBtn = e.target.closest('[data-route]');
     if (routeBtn) {
       state.route = routeBtn.getAttribute('data-route');

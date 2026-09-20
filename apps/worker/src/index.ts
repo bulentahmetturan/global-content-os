@@ -23,6 +23,7 @@ import {
   recordPythonRunTelemetry,
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
+import { COVERAGE_OVERRIDES, coverageLabel } from './ingress/hekimler-coverage';
 import { runIsolatedScheduledJobs, type ScheduledJobSpec } from './scheduled-jobs';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
@@ -99,6 +100,22 @@ export default {
            ORDER BY route, id`
         ).all();
         return json({ ok: true, total: results?.length ?? 0, feeds: results ?? [] });
+      }
+
+      if (path === '/api/hekimler/sources' && request.method === 'GET') {
+        const { results } = await env.DB.prepare(
+          `SELECT source_id, last_success_at, source_health, coverage_status, last_item_timestamp,
+                  last_accepted_count, last_discarded_count, last_item_count, failure_count
+           FROM hekimler_source_telemetry ORDER BY source_id`
+        ).all<Record<string, unknown>>();
+        const byId = new Map((results || []).map((r) => [String(r.source_id), r]));
+        const ids = new Set<string>([...byId.keys(), ...Object.keys(COVERAGE_OVERRIDES)]);
+        const sources = [...ids].sort().map((id) => {
+          const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string } | undefined) ?? null;
+          const c = coverageLabel(id, row);
+          return { sourceId: id, ...c, telemetry: row };
+        });
+        return json({ sources });
       }
 
       if (path === '/api/routes' && request.method === 'GET') {
