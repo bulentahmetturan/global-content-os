@@ -1,6 +1,6 @@
 {
   "version": "hekimler-continuous-v1",
-  "generated_at": "2026-09-20T17:25:42Z",
+  "generated_at": "2026-09-20T18:22:04Z",
   "channel_id": "hekimler-toplulugu",
   "editorial_brand": "Hekimler Topluluğu",
   "content_family": "hekimler_phase1",
@@ -108,7 +108,16 @@
         "medical board",
         "specialist pathway",
         "saudi board",
-        "saudi board programs"
+        "saudi board programs",
+        "odontoiatra",
+        "odontoiatri",
+        "medico veterinario",
+        "professioni sanitarie",
+        "riconoscimento dei titoli",
+        "dei medici",
+        "medici chirurghi",
+        "medico chirurgo",
+        "enpam"
       ],
       "dental": [
         "dis hekim",
@@ -194,7 +203,8 @@
       "halk_sagligi_yeterlik",
       "abroad_au_medical_board",
       "abroad_au_amc",
-      "tihud_internal_medicine"
+      "tihud_internal_medicine",
+      "abroad_uk_oriel"
     ],
     "rules": [
       "A generic term alone (KPSS, memur, personel alımı, burs, sınav takvimi) never qualifies; it needs a profession/learner term from physician, dental, veterinary or a named medical exam/pathway.",
@@ -247,7 +257,9 @@
     "abroad_es_mir_fse",
     "abroad_es_universidades_homologacion",
     "abroad_ie_medical_council",
+    "abroad_it_salute_foreign_qual",
     "abroad_sa_scfhs_watch",
+    "abroad_uk_oriel",
     "abroad_us_aamc_eras",
     "tihud_internal_medicine",
     "tuik_medical_public_health"
