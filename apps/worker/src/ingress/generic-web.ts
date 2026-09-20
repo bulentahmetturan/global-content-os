@@ -34,8 +34,15 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
     'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device':
     'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
-  'https://www.edqm.eu/en/news': 'https://www.edqm.eu/en/edqm-newsroom',
-  'https://www.hma.eu/news.html': 'https://www.hma.eu/about-hma/latest-news.html',
+  'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices':
+    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+  'https://www.fda.gov/medical-devices/digital-health-center-excellence':
+    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+  'https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd':
+    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+  'https://www.fda.gov/news-events/fda-newsroom/press-announcements':
+    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+  'https://www.hma.eu/news.html': 'https://www.hma.eu/',
   'https://www.imdrf.org/news': 'https://www.imdrf.org/documents',
   'https://hsgm.saglik.gov.tr/tr/duyurular': 'https://hsgm.saglik.gov.tr/tr',
   'https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html':
@@ -44,16 +51,15 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
     'https://www.hpra.ie/safety-information/safety-notices',
   'https://www.saglik.gov.tr/TR,10169/haberler.html': 'https://www.saglik.gov.tr/',
   'https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101':
-    'https://data.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101',
-  'https://array.aami.org/content/news': 'https://array.aami.org/',
+    'https://www.tuik.gov.tr/',
   'https://www.medica-tradefair.com/en/News/MEDICA_Sphere':
     'https://www.medica-tradefair.com/en/Media_News',
   'https://www.hhs.gov/about/news/index.html': 'https://www.hhs.gov/rss/news.xml',
-  'https://www.mobihealthnews.com': 'https://www.mobihealthnews.com/feed',
+  'https://www.mobihealthnews.com': 'https://feeds.feedburner.com/MobiHealthNews',
+  'https://www.mobihealthnews.com/': 'https://feeds.feedburner.com/MobiHealthNews',
   'https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html':
     'https://www.canada.ca/en/health-canada.atom.xml',
-  'https://www.consilium.europa.eu/en/meetings/epsco/':
-    'https://www.consilium.europa.eu/en/press/press-releases/',
+  'https://www.medtechdive.com': 'https://www.medtechdive.com/feeds/news/',
   'https://www.bmj.com/': 'https://www.bmj.com/rss/recent.xml',
   'https://www.cell.com/cell/home': 'https://www.cell.com/cell/current.rss',
   'https://www.nejm.org/': 'https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss',
@@ -66,7 +72,7 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.medrxiv.org/': 'https://connect.medrxiv.org/relate/feed/medrxiv/new',
   'https://www.eurekalert.org/': 'https://www.eurekalert.org/rss/medicine.xml',
   'https://www.nih.gov/news-events/news-releases':
-    'https://www.nih.gov/news-events/news-releases/rss.xml',
+    'https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NationalInstitutesofHealthNewsReleases',
   'https://ai.nejm.org/': 'https://ai.nejm.org/action/showFeed?type=etoc&feed=rss',
   'https://www.science.org/journal/science':
     'https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science',
@@ -83,12 +89,47 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
     'https://www.cochranelibrary.com/cdsr/browse/articles?format=rss',
   'https://www.consilium.europa.eu/en/meetings/epsco/':
     'https://news.google.com/rss/search?q=site:consilium.europa.eu+(EPSCO+OR+%22Employment,+Social+Policy,+Health%22+OR+%22Working+Party+on+Public+Health%22)&hl=en-US&gl=US&ceid=US:en',
-  'https://www.edqm.eu/en/news': 'https://www.edqm.eu/en/edqm/about/press-releases',
-  'https://www.edqm.eu/en/edqm-newsroom': 'https://www.edqm.eu/en/edqm/about/newsroom',
-  'https://www.mobihealthnews.com': 'https://feeds.feedburner.com/MobiHealthNews',
-  'https://www.mobihealthnews.com/': 'https://feeds.feedburner.com/MobiHealthNews',
-  'https://www.nih.gov/news-events/news-releases':
-    'https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NationalInstitutesofHealthNewsReleases',
+  // Bot-blocked official pages → Google News site RSS (Worker-fetchable, continuous)
+  'https://array.aami.org/content/news':
+    'https://news.google.com/rss/search?q=site:aami.org+OR+site:array.aami.org+(device+OR+standard+OR+HTM)&hl=en-US&gl=US&ceid=US:en',
+  'https://www.edqm.eu/en/news':
+    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+  'https://www.edqm.eu/en/edqm-newsroom':
+    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+  'https://www.edqm.eu/en/edqm/about/newsroom':
+    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+  'https://www.euractiv.com/section/health-consumers/':
+    'https://news.google.com/rss/search?q=site:euractiv.com+(health+OR+healthcare+OR+pharma)&hl=en-US&gl=US&ceid=US:en',
+  'https://www.medicaldevice-network.com':
+    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+  'https://www.medicaldevice-network.com/news/':
+    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+  'https://www.oecd.org/health/':
+    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+  'https://www.oecd.org/en/topics/health.html':
+    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+  'https://www.reuters.com/business/healthcare-pharmaceuticals/':
+    'https://news.google.com/rss/search?q=site:reuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&hl=en-US&gl=US&ceid=US:en',
+  'https://www.tuseb.gov.tr/haberler':
+    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+  'https://www.tuseb.gov.tr/':
+    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+  // Research news / secondary streams
+  'https://medicalxpress.com/': 'https://medicalxpress.com/rss-feed/',
+  'https://www.medicalnewstoday.com/':
+    'https://news.google.com/rss/search?q=site:medicalnewstoday.com&hl=en-US&gl=US&ceid=US:en',
+  'https://www.statnews.com/': 'https://www.statnews.com/feed/',
+  'https://www.nature.com/news':
+    'https://news.google.com/rss/search?q=site:nature.com/news+(medicine+OR+health+OR+device)&hl=en-US&gl=US&ceid=US:en',
+  'https://www.nature.com/nbt/': 'https://www.nature.com/nbt.rss',
+  'https://www.nature.com/ng/': 'https://www.nature.com/ng.rss',
+  'https://www.nature.com/npjdigitalmed/': 'https://www.nature.com/npjdigitalmed.rss',
+  'https://www.nature.com/': 'https://www.nature.com/nature.rss',
+  'https://www.jmir.org/': 'https://www.jmir.org/rss.xml',
+  'https://www.embs.org/jbhi/':
+    'https://news.google.com/rss/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&hl=en-US&gl=US&ceid=US:en',
+  'https://www.embs.org/tbme/':
+    'https://news.google.com/rss/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&hl=en-US&gl=US&ceid=US:en',
 };
 
 function normalizeEndpoint(raw: string): string {
@@ -500,10 +541,7 @@ export async function coverageReport(env: Env): Promise<{
       .first<{ c: number }>();
     const withItems = await env.DB.prepare(
       `SELECT COUNT(*) AS c FROM source_feeds f
-       WHERE f.route = ? AND f.enabled = 1 AND (
-         COALESCE(f.last_ok_items, 0) > 0
-         OR EXISTS (SELECT 1 FROM source_items i WHERE i.feed_id = f.id LIMIT 1)
-       )`
+       WHERE f.route = ? AND f.enabled = 1 AND COALESCE(f.last_ok_items, 0) > 0`
     )
       .bind(route)
       .first<{ c: number }>();
@@ -511,15 +549,17 @@ export async function coverageReport(env: Env): Promise<{
       `SELECT COUNT(*) AS c FROM source_feeds f
        WHERE f.route = ? AND f.enabled = 1
          AND f.last_fetched_at IS NOT NULL
-         AND COALESCE(f.last_ok_items, 0) = 0
-         AND NOT EXISTS (SELECT 1 FROM source_items i WHERE i.feed_id = f.id LIMIT 1)`
+         AND COALESCE(f.last_ok_items, 0) = 0`
     )
       .bind(route)
       .first<{ c: number }>();
+    // Inbox count only for the active window — not lifetime history.
     const inbox = await env.DB.prepare(
-      `SELECT COUNT(*) AS c FROM source_items WHERE route = ? AND triage_status = 'inbox'`
+      `SELECT COUNT(*) AS c FROM source_items
+       WHERE route = ? AND triage_status = 'inbox'
+         AND COALESCE(fetched_at, published_at, updated_at) >= ?`
     )
-      .bind(route)
+      .bind(route, new Date(Date.now() - 14 * 86400000).toISOString())
       .first<{ c: number }>();
     const feedCount = Number(feeds?.c ?? 0);
     const withItemsCount = Number(withItems?.c ?? 0);

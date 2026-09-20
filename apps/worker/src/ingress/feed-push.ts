@@ -1,5 +1,4 @@
-import { type Env, type RouteId } from '../db/queries';
-import { upsertLocalizedSourceItem } from './upsert-localized';
+import { upsertSourceItem, type Env, type RouteId } from '../db/queries';
 
 export interface ExternalFeedItem {
   title: string;
@@ -31,7 +30,7 @@ export async function ingestFeedItems(
     const url = (it.url || '').trim();
     if (!title || !url || !/^https?:/i.test(url)) continue;
     const summary = (it.summary || title).trim().slice(0, 500);
-    const result = await upsertLocalizedSourceItem(env, {
+    const result = await upsertSourceItem(env.DB, {
       feedId: feed.id,
       route: feed.route,
       channelId: feed.channel_id,

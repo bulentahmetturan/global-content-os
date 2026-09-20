@@ -23,12 +23,12 @@ function stripHtml(s: string): string {
 function textFromAi(out: unknown): string {
   if (typeof out === 'string') return out.trim();
   if (!out || typeof out !== 'object') return String(out ?? '');
-  const o = out as AiRunResult & Record<string, unknown>;
+  const o = out as Record<string, unknown>;
   if (typeof o.response === 'string') return o.response.trim();
   if (typeof o.result === 'string') return o.result.trim();
   if (Array.isArray(o.response)) {
     return o.response
-      .map((p) => (typeof p === 'string' ? p : (p as { content?: string })?.content || ''))
+      .map((p: unknown) => (typeof p === 'string' ? p : (p as { content?: string })?.content || ''))
       .join('')
       .trim();
   }
@@ -315,21 +315,18 @@ export async function runEnrichmentBatch(
     }
   } else {
     const binds: (string | number)[] = [];
+    const sinceIso = new Date(Date.now() - 21 * 86400000).toISOString();
     let sql = `SELECT id, route, title, title_orig, summary
              FROM source_items
              WHERE triage_status = 'inbox'
-               AND enrichment_status IN ('pending', 'failed')`;
+               AND enrichment_status IN ('pending', 'failed')
+               AND COALESCE(fetched_at, updated_at) >= ?`;
+    binds.push(sinceIso);
     if (opts.route) {
       sql += ` AND route = ?`;
       binds.push(opts.route);
     }
-    sql += ` ORDER BY CASE
-              WHEN title LIKE '%FDA %' OR title LIKE '%WHO %' OR title LIKE '% the %'
-                OR title LIKE '%Approved%' OR title LIKE '%Licenses%' OR title LIKE '%Study%'
-                OR title LIKE '%Health%' OR title LIKE '%Vaccine%' OR title LIKE '%Device%'
-                OR title LIKE '%Plasma%' OR title LIKE '%Council%' OR title LIKE '%Press%'
-              THEN 0 ELSE 1 END,
-            fetched_at ASC
+    sql += ` ORDER BY fetched_at ASC
             LIMIT ?`;
     binds.push(limit);
 

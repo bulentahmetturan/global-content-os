@@ -1,5 +1,4 @@
-import { type Env } from '../db/queries';
-import { upsertLocalizedSourceItem } from './upsert-localized';
+import { upsertSourceItem, type Env } from '../db/queries';
 
 /**
  * Kaduse Research ingress: PubMed E-utilities batch (not a continuous crawler).
@@ -70,7 +69,7 @@ export async function ingestPubmed(env: Env): Promise<{ created: number; updated
     const canonicalUrl = doi ? `https://doi.org/${doi}` : `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`;
     const publisher = it.fulljournalname || it.source || 'PubMed';
     const summary = `${publisher} — PMID ${pmid}`;
-    const result = await upsertLocalizedSourceItem(env, {
+    const result = await upsertSourceItem(env.DB, {
       feedId: feed.id,
       route: 'kaduse-research',
       channelId: feed.channel_id,

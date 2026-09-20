@@ -6,9 +6,23 @@ import { upsertLocalizedSourceItem } from './upsert-localized';
  */
 export async function ingestResearchApis(env: Env): Promise<Record<string, { created: number; updated: number; total: number }>> {
   const out: Record<string, { created: number; updated: number; total: number }> = {};
-  out.crossref = await ingestCrossref(env);
-  out.openalex = await ingestOpenAlex(env);
-  out.clinicaltrials = await ingestClinicalTrials(env);
+  const run = async (
+    key: string,
+    fn: () => Promise<{ created: number; updated: number; total: number }>
+  ) => {
+    try {
+      out[key] = await fn();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error(`research-api ${key}`, msg);
+      out[key] = { created: 0, updated: 0, total: 0 };
+    }
+  };
+  await run('crossref', () => ingestCrossref(env));
+  await run('openalex', () => ingestOpenAlex(env));
+  await run('clinicaltrials', () => ingestClinicalTrials(env));
+  await run('pmc', () => ingestPmcOa(env));
+  await run('gdelt', () => ingestGdelt(env));
   return out;
 }
 
@@ -166,6 +180,141 @@ async function ingestClinicalTrials(env: Env) {
         finding: null,
         limitation: 'Trial registry record — not equivalent to peer-reviewed publication',
         studyType: 'clinical_trial_registry',
+      },
+    });
+    if (result.created) created += 1;
+    else updated += 1;
+  }
+  await markOk(env, feed.id, created + updated);
+  return { created, updated, total: items.length };
+}
+
+async function ingestPmcOa(env: Env) {
+  const feed = await getFeed(env, 'research-pubmed-central-oa');
+  if (!feed) return { created: 0, updated: 0, total: 0 };
+  const url = new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
+  url.searchParams.set(
+    'query',
+    'SRC:PMC AND (medicine OR device OR auscultation OR "artificial intelligence")'
+  );
+  url.searchParams.set('format', 'json');
+  url.searchParams.set('pageSize', '15');
+  url.searchParams.set('sort', 'DATE_DESC');
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
+  });
+  if (!res.ok) throw new Error(`PMC/EuropePMC failed: ${res.status}`);
+  const body = (await res.json()) as {
+    resultList?: {
+      result?: Array<{
+        title?: string;
+        doi?: string;
+        pmid?: string;
+        pmcid?: string;
+        journalTitle?: string;
+        firstPublicationDate?: string;
+        abstractText?: string;
+      }>;
+    };
+  };
+  const items = body.resultList?.result ?? [];
+  let created = 0;
+  let updated = 0;
+  for (const it of items) {
+    const title = (it.title || '').trim();
+    if (!title) continue;
+    const doi = it.doi || null;
+    const pmcid = it.pmcid || null;
+    const canonicalUrl = doi
+      ? `https://doi.org/${doi}`
+      : pmcid
+        ? `https://www.ncbi.nlm.nih.gov/pmc/articles/${pmcid}/`
+        : it.pmid
+          ? `https://pubmed.ncbi.nlm.nih.gov/${it.pmid}/`
+          : 'https://www.ncbi.nlm.nih.gov/pmc/';
+    const publisher = it.journalTitle || 'PubMed Central';
+    const abstract = (it.abstractText || '').replace(/\s+/g, ' ').trim();
+    const result = await upsertLocalizedSourceItem(env, {
+      feedId: feed.id,
+      route: 'kaduse-research',
+      channelId: feed.channel_id,
+      title,
+      titleOrig: title,
+      summary: abstract.slice(0, 480) || `${publisher} — ${title}`,
+      gists: [abstract.slice(0, 480) || title],
+      canonicalUrl,
+      publisher,
+      publishedAt: it.firstPublicationDate || null,
+      dedupeKey: (doi || pmcid || it.pmid || canonicalUrl).toLowerCase(),
+      evidence: {
+        doi,
+        pmid: it.pmid || null,
+        pmcid,
+        finding: abstract.slice(0, 600) || null,
+        limitation: null,
+        studyType: null,
+      },
+    });
+    if (result.created) created += 1;
+    else updated += 1;
+  }
+  await markOk(env, feed.id, created + updated);
+  return { created, updated, total: items.length };
+}
+
+async function ingestGdelt(env: Env) {
+  const feed = await getFeed(env, 'research-gdelt-doc-api');
+  if (!feed) return { created: 0, updated: 0, total: 0 };
+  const url = new URL('https://api.gdeltproject.org/api/v2/doc/doc');
+  url.searchParams.set(
+    'query',
+    '(medicine OR "medical device" OR auscultation OR stethoscope OR "digital health") sourcelang:english'
+  );
+  url.searchParams.set('mode', 'ArtList');
+  url.searchParams.set('format', 'json');
+  url.searchParams.set('maxrecords', '15');
+  url.searchParams.set('sort', 'DateDesc');
+  const res = await fetch(url.toString(), {
+    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
+  });
+  if (!res.ok) throw new Error(`GDELT failed: ${res.status}`);
+  const body = (await res.json()) as {
+    articles?: Array<{
+      title?: string;
+      url?: string;
+      seendate?: string;
+      domain?: string;
+    }>;
+  };
+  const items = body.articles ?? [];
+  let created = 0;
+  let updated = 0;
+  for (const it of items) {
+    const title = (it.title || '').trim();
+    const canonicalUrl = (it.url || '').trim();
+    if (!title || !canonicalUrl) continue;
+    const publishedAt = it.seendate
+      ? `${it.seendate.slice(0, 4)}-${it.seendate.slice(4, 6)}-${it.seendate.slice(6, 8)}`
+      : null;
+    const result = await upsertLocalizedSourceItem(env, {
+      feedId: feed.id,
+      route: 'kaduse-research',
+      channelId: feed.channel_id,
+      title,
+      titleOrig: title,
+      summary: `GDELT — ${it.domain || 'news'}`,
+      gists: [title],
+      canonicalUrl,
+      publisher: it.domain || 'GDELT',
+      publishedAt,
+      dedupeKey: canonicalUrl.toLowerCase(),
+      evidence: {
+        doi: null,
+        pmid: null,
+        pmcid: null,
+        finding: null,
+        limitation: 'News/media index — not peer-reviewed literature',
+        studyType: null,
       },
     });
     if (result.created) created += 1;

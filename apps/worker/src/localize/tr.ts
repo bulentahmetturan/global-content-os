@@ -10,25 +10,31 @@ export function looksMostlyEnglish(text: string): boolean {
   const s = (text || '').trim();
   if (s.length < 8) return false;
   if (/[ğüşıöçĞÜŞİÖÇ]/.test(s)) return false;
-  // Turkish without diacritics / common TR tokens
+  // Turkish without diacritics (avoid short tokens like "ve"/"ile" — too many EN false skips)
   if (
-    /\b(icin|ile|bir|ve|veya|duyuru|ogrenci|basvuru|sinav|fakulte|duyurusu|aciklandi|yayinlandi|tum|dikkatine|ruhsat|tedavi|kullanilabilir|urun|ilk)\b/i.test(
+    /\b(duyuru|ogrenci|basvuru|sinav|fakulte|duyurusu|aciklandi|yayinlandi|tum|dikkatine|ruhsat|tedavi|kullanilabilir|urun)\b/i.test(
       s
     )
   ) {
     return false;
   }
   if (
-    /\b(için|ile|bir|ve|veya|duyuru|öğrenci|başvuru|sınav|fakülte|duyurusu|açıklandı|yayınlandı|ruhsat|tedavi|kullanılabilir|ürün)\b/i.test(
+    /\b(için|veya|duyuru|öğrenci|başvuru|sınav|fakülte|duyurusu|açıklandı|yayınlandı|ruhsat|tedavi|kullanılabilir|ürün)\b/i.test(
       s
     )
   ) {
     return false;
   }
-  // Require clear English cues — do not treat all Latin text as English
-  return /\b(the|and|for|with|from|this|that|licenses?|licensed|announces?|published|study|patients?|vaccine|device|approval|approved|approves?|authoriz(?:ed|es)?|plasma|first(?:-|\s)?ever|workshop|program|therapy|digital|health|freeze[- ]dried|product|united states|u\.s\.|fda|who|nih|ema|council|press|release|conclusions?|employment|policy|consumer|affairs|newsroom|prequalifies|strategy|partnership|becomes|appointed)\b/i.test(
-    s
-  );
+  if (
+    /\b(the|and|for|with|from|this|that|licenses?|licensed|announces?|published|study|patients?|vaccine|device|approval|approved|approves?|authoriz(?:ed|es)?|plasma|first(?:-|\s)?ever|workshop|program|therapy|digital|health|freeze[- ]dried|product|united states|u\.s\.|fda|who|nih|ema|council|press|release|conclusions?|employment|policy|consumer|affairs|newsroom|prequalifies|strategy|partnership|becomes|appointed|meeting|ministers|informal|healthcare|linkedin)\b/i.test(
+      s
+    )
+  ) {
+    return true;
+  }
+  // Latin multi-word title without Turkish letters → treat as foreign/EN for enrich
+  const words = s.match(/[A-Za-z]{4,}/g) || [];
+  return words.length >= 3;
 }
 
 export async function translateToTr(text: string, opts?: { force?: boolean }): Promise<string> {

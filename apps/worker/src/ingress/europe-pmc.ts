@@ -1,5 +1,4 @@
-import { type Env } from '../db/queries';
-import { upsertLocalizedSourceItem } from './upsert-localized';
+import { upsertSourceItem, type Env } from '../db/queries';
 
 interface EuropePmcResult {
   title?: string;
@@ -83,7 +82,7 @@ export async function ingestEuropePmc(env: Env): Promise<{ created: number; upda
     const publishedAt = it.firstPublicationDate || (it.pubYear ? `${it.pubYear}-01-01` : null);
     const publisher = it.journalTitle || 'Europe PMC';
 
-    const result = await upsertLocalizedSourceItem(env, {
+    const result = await upsertSourceItem(env.DB, {
       feedId: feed.id,
       route: 'kaduse-research',
       channelId: feed.channel_id,

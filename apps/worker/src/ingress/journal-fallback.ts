@@ -19,6 +19,45 @@ const JOURNAL_QUERIES: Array<{ feedId: string; query: string }> = [
     feedId: 'research-cochrane-library',
     query: 'container-title:"Cochrane Database of Systematic Reviews"',
   },
+  { feedId: 'research-cell', query: 'container-title:Cell' },
+  { feedId: 'research-chest-journal', query: 'container-title:CHEST' },
+  {
+    feedId: 'research-european-respiratory-journal',
+    query: 'container-title:"European Respiratory Journal"',
+  },
+  {
+    feedId: 'research-ieee-jbhi',
+    query: 'container-title:"IEEE Journal of Biomedical and Health Informatics"',
+  },
+  {
+    feedId: 'research-ieee-tbme',
+    query: 'container-title:"IEEE Transactions on Biomedical Engineering"',
+  },
+  { feedId: 'research-jama-network', query: 'container-title:JAMA' },
+  {
+    feedId: 'research-jmir',
+    query: 'container-title:"Journal of Medical Internet Research"',
+  },
+  {
+    feedId: 'research-lancet-digital-health',
+    query: 'container-title:"The Lancet Digital Health"',
+  },
+  { feedId: 'research-the-lancet', query: 'container-title:"The Lancet"' },
+  { feedId: 'research-nejm', query: 'container-title:"New England Journal of Medicine"' },
+  { feedId: 'research-nature', query: 'container-title:Nature' },
+  { feedId: 'research-nature-medicine', query: 'container-title:"Nature Medicine"' },
+  { feedId: 'research-nature-biotechnology', query: 'container-title:"Nature Biotechnology"' },
+  { feedId: 'research-nature-genetics', query: 'container-title:"Nature Genetics"' },
+  {
+    feedId: 'research-npj-digital-medicine',
+    query: 'container-title:"npj Digital Medicine"',
+  },
+  { feedId: 'research-science', query: 'container-title:Science' },
+  {
+    feedId: 'research-science-translational-medicine',
+    query: 'container-title:"Science Translational Medicine"',
+  },
+  { feedId: 'research-medrxiv-preprint', query: 'publisher-name:medRxiv' },
 ];
 
 async function mark(env: Env, feedId: string, ok: number, err: string | null) {
@@ -31,13 +70,22 @@ async function mark(env: Env, feedId: string, ok: number, err: string | null) {
     .run();
 }
 
-export async function ingestJournalCrossrefFallbacks(env: Env): Promise<{
+export async function ingestJournalCrossrefFallbacks(
+  env: Env,
+  opts: { offset?: number; limit?: number } = {}
+): Promise<{
   feeds: Record<string, { created: number; updated: number; total: number; error?: string }>;
+  offset: number;
+  limit: number;
+  totalQueries: number;
 }> {
+  const offset = Math.max(0, opts.offset ?? 0);
+  const limit = Math.min(8, Math.max(1, opts.limit ?? 5));
+  const slice = JOURNAL_QUERIES.slice(offset, offset + limit);
   const feeds: Record<string, { created: number; updated: number; total: number; error?: string }> =
     {};
 
-  for (const j of JOURNAL_QUERIES) {
+  for (const j of slice) {
     const feed = await env.DB.prepare(
       `SELECT id, channel_id, label, last_ok_items FROM source_feeds WHERE id = ? AND enabled = 1`
     )
@@ -118,5 +166,5 @@ export async function ingestJournalCrossrefFallbacks(env: Env): Promise<{
       feeds[j.feedId] = { created: 0, updated: 0, total: 0, error: msg };
     }
   }
-  return { feeds };
+  return { feeds, offset, limit, totalQueries: JOURNAL_QUERIES.length };
 }
