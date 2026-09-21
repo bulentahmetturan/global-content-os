@@ -66,6 +66,22 @@ export function dedupeKeyFromUrl(url: string): string {
   return canonicalizeUrl(url).toLowerCase();
 }
 
+/** intake_meta_json embeds a per-run provenance.fetched_at; it must not make an otherwise identical item look changed. */
+function intakeMetaEquivalent(incoming: string | null | undefined, current: string | null | undefined): boolean {
+  if (incoming === undefined || incoming === null) return true;
+  if (incoming === current) return true;
+  try {
+    const strip = (raw: string | null | undefined) => {
+      const o = JSON.parse(raw || 'null') as { provenance?: { fetched_at?: string } } | null;
+      if (o && typeof o === 'object' && o.provenance) delete o.provenance.fetched_at;
+      return JSON.stringify(o);
+    };
+    return strip(incoming) === strip(current);
+  } catch {
+    return false;
+  }
+}
+
 export interface ExistingItemForWrite {
   title: string;
   title_orig: string | null;
@@ -121,7 +137,7 @@ export function planExistingItemWrite(
     coalesced(input.contentFamily, existing.content_family) &&
     coalesced(input.sourceId, existing.source_id) &&
     coalesced(input.decisionRoute, existing.decision_route) &&
-    coalesced(input.intakeMetaJson, existing.intake_meta_json);
+    intakeMetaEquivalent(input.intakeMetaJson, existing.intake_meta_json);
   return metaSame ? 'none' : 'meta';
 }
 

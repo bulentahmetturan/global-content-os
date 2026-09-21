@@ -63,3 +63,16 @@ test('identical evidence: zero writes', async () => {
   await upsertSourceItem(db, { ...input, evidence: { doi: 'd', finding: 'f' } });
   assert.deepEqual(db.writes, []);
 });
+
+test('only provenance.fetched_at differs in intake meta: zero writes', async () => {
+  const meta = (f) => JSON.stringify({ decision: 'NEEDS_REVIEW', provenance: { source_id: 's1', fetched_at: f, content_hash: 'h' } });
+  const db = fakeDb({ ...base, intake_meta_json: meta('2026-09-21T14:47:04Z') });
+  await upsertSourceItem(db, { ...input, intakeMetaJson: meta('2026-09-21T15:59:59Z') });
+  assert.deepEqual(db.writes, []);
+});
+
+test('real intake meta change still writes', async () => {
+  const db = fakeDb({ ...base, intake_meta_json: '{"decision":"NEEDS_REVIEW"}' });
+  await upsertSourceItem(db, { ...input, intakeMetaJson: '{"decision":"DISCARD"}' });
+  assert.equal(db.writes.length, 1);
+});
