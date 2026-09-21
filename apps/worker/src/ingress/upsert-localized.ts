@@ -11,6 +11,8 @@ function stripHtml(s: string): string {
     .replace(/&gt;/gi, '>')
     .replace(/&quot;/gi, '"')
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&apos;/gi, "'")
     .replace(/\s+/g, ' ')
     .trim();
 }
