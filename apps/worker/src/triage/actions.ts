@@ -59,6 +59,10 @@ export async function applyTriage(
 
   // D9: items whose publication date is unverified stay in review; they can never be promoted to production.
   if (action === 'promote') {
+    // Hekimler items without any publication date can never be promoted, even if the risk flag is missing.
+    if (row.channel_id === 'hekimler-toplulugu' && !row.published_at) {
+      throw new Error('DATE_UNVERIFIED_NOT_PROMOTABLE');
+    }
     try {
       const meta = JSON.parse((row as { intake_meta_json?: string | null }).intake_meta_json || '{}') as { risk_flags?: string[] };
       if ((meta.risk_flags || []).includes('date_unverified_needs_review')) {
