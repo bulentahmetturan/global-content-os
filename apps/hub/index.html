@@ -211,6 +211,7 @@
     <div class="toolbar">
       <button class="btn btn-sync" id="btnSync" type="button">↻ Kaynakları çek</button>
     </div>
+    <div class="pillbar" id="kindbar" hidden></div>
     <div class="pillbar" id="pillbar"></div>
     <div class="lane-note" id="laneNote"></div>
     <div id="listView">
@@ -226,8 +227,7 @@
 <script>
 (function () {
   var ROUTES = [
-    { id: 'kaduse-news', label: 'Kaduse News', icon: '🌐', note: 'Tüm Kaduse News abonelikleri kayıtlı ve aktif. Canlı çekim: WHO JSON; diğerleri WEB_ONLY (fetcher bekliyor).' },
-    { id: 'kaduse-research', label: 'Kaduse Research', icon: '🧪', note: 'Research registry tamamı aktif. Canlı batch: Europe PMC + PubMed.' },
+    { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse: haberler ve araştırmalar tek kanalda; üstteki sekmelerle ayrılır. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
     { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Hekimler kaynak akışı: en yeni üstte, son 14 gün. Kartta gerçek kaynak adı ve karar rotası görünür; inceleme amaçlıdır, yayın kapalı.' },
   ];
   var VIEWS = [
@@ -275,12 +275,21 @@
 
   // Deep link: /?route=hekimler&view=inbox overrides the last tab remembered in this browser.
   var qs = new URLSearchParams(location.search);
-  var qsRoute = ROUTES.some(function (r) { return r.id === qs.get('route'); }) ? qs.get('route') : null;
+  function parseRoute(v) {
+    if (v === 'kaduse-news') return { route: 'kaduse', kind: 'news' };
+    if (v === 'kaduse-research') return { route: 'kaduse', kind: 'research' };
+    return ROUTES.some(function (r) { return r.id === v; }) ? { route: v, kind: null } : null;
+  }
+  var qsParsed = parseRoute(qs.get('route'));
+  var qsRoute = qsParsed ? qsParsed.route : null;
   var qsView = ['inbox', 'hold', 'production', 'done', 'trash'].indexOf(qs.get('view')) >= 0 ? qs.get('view') : null;
-  var savedRoute = localStorage.getItem('gcos-route');
-  if (!ROUTES.some(function (r) { return r.id === savedRoute; })) savedRoute = null;
+  var savedParsed = parseRoute(localStorage.getItem('gcos-route'));
+  var savedRoute = savedParsed ? savedParsed.route : null;
+  var savedKind = localStorage.getItem('gcos-kind');
+  if (savedKind !== 'news' && savedKind !== 'research') savedKind = null;
   var state = {
-    route: qsRoute || savedRoute || 'kaduse-news',
+    route: qsRoute || savedRoute || 'kaduse',
+    kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
     view: qsView || (qsRoute ? 'inbox' : localStorage.getItem('gcos-view')) || 'inbox',
     counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
     items: [],
@@ -293,6 +302,8 @@
     routeMeta: {}
   };
 
+  function backendRoute() { return state.route === 'kaduse' ? 'kaduse-' + state.kind : state.route; }
+  function routeInbox(id) { return ((state.routeCounts[id] || {}).inbox) || 0; }
   var projectNavEl = document.getElementById('projectNav');
   var pillbarEl = document.getElementById('pillbar');
   var mainTitleEl = document.getElementById('mainTitle');
@@ -429,7 +440,7 @@
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
     projectNavEl.innerHTML = '';
     ROUTES.forEach(function (r) {
-      var counts = state.routeCounts[r.id] || { inbox: 0 };
+      var counts = r.id === 'kaduse' ? { inbox: routeInbox('kaduse-news') + routeInbox('kaduse-research') } : (state.routeCounts[r.id] || { inbox: 0 });
       var btn = document.createElement('button');
       btn.className = 'project-item' + (r.id === state.route ? ' active' : '');
       btn.setAttribute('data-route', r.id);
@@ -447,8 +458,18 @@
       pillbarEl.appendChild(btn);
     });
 
+    var kindbar = document.getElementById('kindbar');
+    if (state.route === 'kaduse') {
+      kindbar.hidden = false;
+      kindbar.innerHTML = [['news', '📰 Haber'], ['research', '🔬 Araştırma']].map(function (k) {
+        return '<button class="pill' + (state.kind === k[0] ? ' active' : '') + '" data-kind="' + k[0] + '">' + k[1] +
+          ' <span class="p-count">' + routeInbox('kaduse-' + k[0]) + '</span></button>';
+      }).join('');
+    } else { kindbar.hidden = true; kindbar.innerHTML = ''; }
     mainTitleEl.textContent = meta.icon + ' ' + meta.label;
-    var feedN = (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
+    var feedN = state.route === 'kaduse'
+      ? ((state.routeMeta['kaduse-news'] || {}).enabledFeeds || 0) + ((state.routeMeta['kaduse-research'] || {}).enabledFeeds || 0)
+      : (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
     if (state.route === 'hekimler' && state.hekSources) feedN = state.hekSources.length;
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
     mainSubEl.innerHTML = escapeHtml(state.view) + ' · <button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
@@ -463,12 +484,7 @@
 
   // ---- Kaynak paneli: "N aktif kaynak" tıklanınca kaynaklar Haber / Araştırma olarak ikiye ayrılır ----
   var HEK_RESEARCH = { pubmed_biomedical_evidence: 1, tuik_medical_public_health: 1 };
-  function isResearchSource(route, id) {
-    if (route === 'hekimler') return !!HEK_RESEARCH[id];
-    if (/^news-/.test(id)) return false;
-    if (/news|xpress|eurekalert|gdelt|stat-|nih-news|altmetric|crossmark/i.test(id)) return false;
-    return /^research-|pubmed|journal/i.test(id);
-  }
+  function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
   function shortLabel(t) { t = String(t || ''); return t.length > 78 ? t.slice(0, 76) + '…' : t; }
   function sourceRows() {
     var counts = {};
@@ -491,10 +507,10 @@
       (state.feedsByRoute[state.route] || []).forEach(function (f) {
         var bad = !!f.last_error;
         rows.push({
-          id: f.id, name: f.label,
+          id: f.id, name: f.label, route: f.route,
           status: bad ? 'hata: ' + f.last_error : (f.last_fetched_at ? 'çalışıyor' : 'henüz çekilmedi'), bad: bad,
           last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
-          research: isResearchSource(state.route, f.id)
+          research: f.route === 'kaduse-research'
         });
       });
     }
@@ -508,18 +524,23 @@
     if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
     function table(list) {
       return '<div class="src-scroll"><table><tbody>' + list.map(function (r) {
-        return '<tr data-src="' + escapeHtml(r.id) + '"><td>' + escapeHtml(shortLabel(r.name)) + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
+        return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + escapeHtml(shortLabel(r.name)) + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
           escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     var news = rows.filter(function (r) { return !r.research; }), res = rows.filter(function (r) { return r.research; });
     var filt = state.sourceFilter ? '<span class="src-chip" data-src-clear="1">filtre: ' + escapeHtml(state.sourceFilter) + ' ✕</span>' : '';
     el.innerHTML = '<b>' + rows.length + ' kaynak</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
-      '<h3>📰 Haber / duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>') +
-      '<h3>🔬 Araştırma / veri (' + res.length + ')</h3>' + (res.length ? table(res) : '<div>Yok</div>');
+      '<h3>📰 ' + (state.route === 'kaduse' ? 'Haber' : 'Haber / duyuru') + ' (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>') +
+      '<h3>🔬 ' + (state.route === 'kaduse' ? 'Araştırma' : 'Araştırma / veri') + ' (' + res.length + ')</h3>' + (res.length ? table(res) : '<div>Yok</div>');
   }
   async function ensureFeeds() {
     if (state.route === 'hekimler' || state.feedsByRoute[state.route]) return;
+    if (state.route === 'kaduse') {
+      var both = await Promise.all([api('/api/feeds?route=kaduse-news'), api('/api/feeds?route=kaduse-research')]);
+      state.feedsByRoute.kaduse = (both[0].feeds || []).concat(both[1].feeds || []);
+      return;
+    }
     var d = await api('/api/feeds?route=' + encodeURIComponent(state.route));
     state.feedsByRoute[state.route] = d.feeds || [];
   }
@@ -585,7 +606,7 @@
     renderChrome();
     var days = state.route === 'tip-ogrencileri' ? 2 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
-    var data = await api(itemsQuery(state.route, state.view, days, limit));
+    var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     state.selected = {};
@@ -639,8 +660,27 @@
       ensureFeeds().catch(function () {}).then(function () { renderSourcePanel(); });
       return;
     }
+    var kindBtn = e.target.closest('[data-kind]');
+    if (kindBtn) {
+      state.kind = kindBtn.getAttribute('data-kind');
+      state.sourceFilter = '';
+      localStorage.setItem('gcos-kind', state.kind);
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
     var srcRow = e.target.closest('[data-src]');
-    if (srcRow) { state.sourceFilter = srcRow.getAttribute('data-src'); renderList(); renderChrome(); return; }
+    if (srcRow) {
+      var want = srcRow.getAttribute('data-kind-of');
+      var wantKind = want === 'kaduse-research' ? 'research' : want === 'kaduse-news' ? 'news' : null;
+      state.sourceFilter = srcRow.getAttribute('data-src');
+      if (state.route === 'kaduse' && wantKind && wantKind !== state.kind) {
+        state.kind = wantKind;
+        localStorage.setItem('gcos-kind', state.kind);
+        load().catch(function (err) { showToast(err.message); });
+        return;
+      }
+      renderList(); renderChrome(); return;
+    }
     if (e.target.closest('[data-src-clear]')) { state.sourceFilter = ''; renderList(); renderChrome(); return; }
     var bulkBtn = e.target.closest('[data-bulk]');
     if (bulkBtn) { handleBulk(bulkBtn.getAttribute('data-bulk')).catch(function (err) { showToast(err.message); }); return; }
@@ -651,6 +691,7 @@
       state.sourceFilter = '';
       state.showSources = false;
       localStorage.setItem('gcos-route', state.route);
+      localStorage.setItem('gcos-kind', state.kind);
       localStorage.setItem('gcos-view', state.view);
       load().catch(function (err) { showToast(err.message); });
       return;
@@ -672,11 +713,14 @@
 
   document.getElementById('btnSync').addEventListener('click', function () {
     showToast('Kaynaklar taranıyor… (yaklaşık 30-40 sn sürebilir)');
-    Promise.allSettled([
+    var genericRoutes = state.route === 'kaduse' ? ['kaduse-news', 'kaduse-research'] : [state.route];
+    var calls = [
       api('/api/ingress/news', { method: 'POST' }),
-      api('/api/ingress/research', { method: 'POST' }),
-      api('/api/ingress/generic', { method: 'POST', body: JSON.stringify({ route: state.route, offset: 0, limit: 10 }) })
-    ]).then(function (results) {
+      api('/api/ingress/research', { method: 'POST' })
+    ].concat(genericRoutes.map(function (rt) {
+      return api('/api/ingress/generic', { method: 'POST', body: JSON.stringify({ route: rt, offset: 0, limit: 10 }) });
+    }));
+    Promise.allSettled(calls).then(function (results) {
       var ok = results.filter(function (r) { return r.status === 'fulfilled'; }).length;
       var created = 0;
       (function sum(o) {
@@ -684,7 +728,7 @@
         if (typeof o.created === 'number') created += o.created;
         Object.keys(o).forEach(function (k) { if (o[k] && typeof o[k] === 'object') sum(o[k]); });
       })(results.filter(function (r) { return r.status === 'fulfilled'; }).map(function (r) { return r.value; }));
-      showToast('Senkron: ' + ok + '/3 istek tamam · ' + created + ' yeni kayıt (yoksa kaynaklarda yeni içerik yok)');
+      showToast('Senkron: ' + ok + '/' + results.length + ' istek tamam · ' + created + ' yeni kayıt (yoksa kaynaklarda yeni içerik yok)');
       return load();
     }).catch(function (err) { showToast(err.message); });
   });
