@@ -434,7 +434,9 @@
     mainTitleEl.textContent = meta.icon + ' ' + meta.label;
     var feedN = (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
     if (state.route === 'hekimler' && state.hekSources) feedN = state.hekSources.length;
-    mainSubEl.textContent = state.view + ' · ' + feedN + ' aktif kaynak · D1';
+    var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
+    mainSubEl.textContent = state.view + ' · ' + feedN + ' aktif kaynak · D1' +
+      (shownN && totalN > shownN ? ' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor' : '');
     laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(meta.note) + '</div>';
     footnoteEl.innerHTML =
       'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
@@ -575,14 +577,20 @@
   });
 
   document.getElementById('btnSync').addEventListener('click', function () {
-    showToast('Tüm kaynaklar taranıyor (API + generic)…');
+    showToast('Kaynaklar taranıyor… (yaklaşık 30-40 sn sürebilir)');
     Promise.allSettled([
       api('/api/ingress/news', { method: 'POST' }),
       api('/api/ingress/research', { method: 'POST' }),
       api('/api/ingress/generic', { method: 'POST', body: JSON.stringify({ route: state.route, offset: 0, limit: 10 }) })
     ]).then(function (results) {
       var ok = results.filter(function (r) { return r.status === 'fulfilled'; }).length;
-      showToast('Senkron batch: ' + ok + '/3 tamam — tam tarama için pnpm activate:all');
+      var created = 0;
+      (function sum(o) {
+        if (!o || typeof o !== 'object') return;
+        if (typeof o.created === 'number') created += o.created;
+        Object.keys(o).forEach(function (k) { if (o[k] && typeof o[k] === 'object') sum(o[k]); });
+      })(results.filter(function (r) { return r.status === 'fulfilled'; }).map(function (r) { return r.value; }));
+      showToast('Senkron: ' + ok + '/3 istek tamam · ' + created + ' yeni kayıt (yoksa kaynaklarda yeni içerik yok)');
       return load();
     }).catch(function (err) { showToast(err.message); });
   });

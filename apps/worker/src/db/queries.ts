@@ -418,13 +418,8 @@ export async function listItems(
     binds.push(opts.excludeChannelId);
   }
 
-  // Channel views read newest-first; legacy route views keep oldest-first.
-  sql += opts.channelId
-    ? ` ORDER BY COALESCE(i.published_at, i.fetched_at) DESC LIMIT ?`
-    : ` ORDER BY
-    CASE WHEN COALESCE(i.enrichment_status, 'pending') IN ('done', 'skipped') THEN 0 ELSE 1 END,
-    COALESCE(i.fetched_at, i.published_at) ASC
-    LIMIT ?`;
+  // Newest first everywhere: with the 200-item cap, oldest-first hid every newly pulled item.
+  sql += ` ORDER BY COALESCE(i.fetched_at, i.published_at) DESC LIMIT ?`;
   binds.push(limit);
 
   const { results } = await db.prepare(sql).bind(...binds).all<SourceItemRow>();
