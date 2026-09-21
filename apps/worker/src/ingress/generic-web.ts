@@ -1,6 +1,6 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
-import { applyFeedUrlScope } from './feed-scope';
+import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
 
 export interface FeedRow {
   id: string;
@@ -207,7 +207,7 @@ function sameRegistrableDomain(a: string, b: string): boolean {
   return strip(a) === strip(b) || strip(a).endsWith('.' + strip(b)) || strip(b).endsWith('.' + strip(a));
 }
 
-function parseHtmlLinks(html: string, baseUrl: string): ExtractedItem[] {
+function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => boolean): ExtractedItem[] {
   const items: ExtractedItem[] = [];
   const seen = new Set<string>();
   let baseHost = '';
@@ -232,6 +232,7 @@ function parseHtmlLinks(html: string, baseUrl: string): ExtractedItem[] {
       continue;
     const url = absolutize(baseUrl, href);
     if (!url || !/^https?:/i.test(url)) continue;
+    if (keep && !keep(url)) continue;
     try {
       const u = new URL(url);
       if (!sameRegistrableDomain(u.hostname, baseHost)) continue;
@@ -290,7 +291,7 @@ async function fetchText(
   }
 }
 
-export async function extractFromUrl(endpointUrl: string): Promise<{
+export async function extractFromUrl(endpointUrl: string, keep?: (url: string) => boolean): Promise<{
   items: ExtractedItem[];
   pageOk: boolean;
   pageStatus: number;
@@ -335,7 +336,7 @@ export async function extractFromUrl(endpointUrl: string): Promise<{
       const items = parseRssOrAtom(f.text, feedUrl);
       if (items.length) return { items, pageOk: true, pageStatus: page.status };
     }
-    const htmlItems = parseHtmlLinks(page.text, base);
+    const htmlItems = parseHtmlLinks(page.text, base, keep);
     if (htmlItems.length) return { items: htmlItems, pageOk: true, pageStatus: page.status };
 
     // Last resort for JS-heavy / static official pages: monitor the page itself
@@ -474,7 +475,8 @@ export async function ingestGenericFeeds(
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
     try {
-      const extracted = await extractFromUrl(feed.endpoint_url);
+      const scope = feedUrlScope(feed.id);
+      const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
       samples.push({
         feedId: feed.id,
