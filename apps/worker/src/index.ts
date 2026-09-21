@@ -71,7 +71,8 @@ export default {
       if (path === '/api/feeds' && request.method === 'GET') {
         const route = url.searchParams.get('route');
         const enabledOnly = url.searchParams.get('enabled') !== '0';
-        let sql = `SELECT id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled, external_ref
+        let sql = `SELECT id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled, external_ref,
+                          last_fetched_at, last_ok_items, last_error
                    FROM source_feeds`;
         const clauses: string[] = [];
         const binds: string[] = [];

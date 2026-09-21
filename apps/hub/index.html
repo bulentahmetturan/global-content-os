@@ -165,6 +165,18 @@
     .project-item { white-space: nowrap; }
     .main { padding: 16px 16px 40px; }
   }
+  .src-link{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+  .src-link:hover{color:var(--accent,#39b8d4)}
+  #srcPanel{margin:0 0 14px;padding:12px 14px;border:1px solid rgba(128,128,128,.3);border-radius:12px}
+  #srcPanel h3{margin:10px 0 6px;font-size:14px}
+  #srcPanel .src-scroll{max-height:340px;overflow:auto}
+  #srcPanel table{border-collapse:collapse;width:100%;font-size:13px}
+  #srcPanel td{padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top}
+  #srcPanel tr[data-src]{cursor:pointer}
+  #srcPanel tr[data-src]:hover{background:rgba(128,128,128,.12)}
+  #srcPanel .src-n{text-align:right;white-space:nowrap;opacity:.8}
+  #srcPanel .src-bad{color:var(--danger,#e5584b)}
+  #srcPanel .src-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(57,184,212,.18);cursor:pointer}
   .hek-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
   .hek-bar select{padding:6px 8px;border-radius:8px;border:1px solid var(--border,#ccc);background:transparent;color:inherit;max-width:100%}
   .hek-bar .btn[disabled]{opacity:.45;cursor:not-allowed}
@@ -202,6 +214,7 @@
     <div class="pillbar" id="pillbar"></div>
     <div class="lane-note" id="laneNote"></div>
     <div id="listView">
+      <div id="srcPanel" hidden></div>
       <div id="hekToolbar" hidden></div>
       <div class="card-list" id="cardList"></div>
       <div class="empty" id="emptyState">Yükleniyor…</div>
@@ -216,7 +229,6 @@
     { id: 'kaduse-news', label: 'Kaduse News', icon: '🌐', note: 'Tüm Kaduse News abonelikleri kayıtlı ve aktif. Canlı çekim: WHO JSON; diğerleri WEB_ONLY (fetcher bekliyor).' },
     { id: 'kaduse-research', label: 'Kaduse Research', icon: '🧪', note: 'Research registry tamamı aktif. Canlı batch: Europe PMC + PubMed.' },
     { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Hekimler kaynak akışı: en yeni üstte, son 14 gün. Kartta gerçek kaynak adı ve karar rotası görünür; inceleme amaçlıdır, yayın kapalı.' },
-    { id: 'tip-ogrencileri', label: 'Tıp Öğrencileri Birliği', icon: '🎓', note: 'Tüm tip kaynakları Hub’da aktif; tarama Python radar’da, adaptör ile gelir.' }
   ];
   var VIEWS = [
     { id: 'inbox', label: 'Gelen Kutusu', icon: '📥' },
@@ -265,14 +277,18 @@
   var qs = new URLSearchParams(location.search);
   var qsRoute = ROUTES.some(function (r) { return r.id === qs.get('route'); }) ? qs.get('route') : null;
   var qsView = ['inbox', 'hold', 'production', 'done', 'trash'].indexOf(qs.get('view')) >= 0 ? qs.get('view') : null;
+  var savedRoute = localStorage.getItem('gcos-route');
+  if (!ROUTES.some(function (r) { return r.id === savedRoute; })) savedRoute = null;
   var state = {
-    route: qsRoute || localStorage.getItem('gcos-route') || 'kaduse-news',
+    route: qsRoute || savedRoute || 'kaduse-news',
     view: qsView || (qsRoute ? 'inbox' : localStorage.getItem('gcos-view')) || 'inbox',
     counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
     items: [],
     sourceFilter: '',
     selected: {},
     hekSources: null,
+    feedsByRoute: {},
+    showSources: false,
     routeCounts: {},
     routeMeta: {}
   };
@@ -435,12 +451,77 @@
     var feedN = (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
     if (state.route === 'hekimler' && state.hekSources) feedN = state.hekSources.length;
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
-    mainSubEl.textContent = state.view + ' · ' + feedN + ' aktif kaynak · D1' +
-      (shownN && totalN > shownN ? ' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor' : '');
+    mainSubEl.innerHTML = escapeHtml(state.view) + ' · <button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
+      feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button> · D1' +
+      (shownN && totalN > shownN ? escapeHtml(' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor') : '');
     laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(meta.note) + '</div>';
     footnoteEl.innerHTML =
       'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
       'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.';
+  }
+
+
+  // ---- Kaynak paneli: "N aktif kaynak" tıklanınca kaynaklar Haber / Araştırma olarak ikiye ayrılır ----
+  var HEK_RESEARCH = { pubmed_biomedical_evidence: 1, tuik_medical_public_health: 1 };
+  function isResearchSource(route, id) {
+    if (route === 'hekimler') return !!HEK_RESEARCH[id];
+    if (/^news-/.test(id)) return false;
+    if (/news|xpress|eurekalert|gdelt|stat-|nih-news|altmetric|crossmark/i.test(id)) return false;
+    return /^research-|pubmed|journal/i.test(id);
+  }
+  function shortLabel(t) { t = String(t || ''); return t.length > 78 ? t.slice(0, 76) + '…' : t; }
+  function sourceRows() {
+    var counts = {};
+    (state.items || []).forEach(function (it) {
+      var k = it.sourceId || it.feedId;
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    var rows = [];
+    if (state.route === 'hekimler') {
+      (state.hekSources || []).forEach(function (s) {
+        var t = s.telemetry || {};
+        rows.push({
+          id: s.sourceId, name: SOURCE_LABELS[s.sourceId] || s.sourceId.replace(/_/g, ' '),
+          status: COVERAGE_TR[s.label] || s.label, bad: !/^PIPELINE_OK/.test(s.label),
+          last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '', n: counts[s.sourceId] || 0,
+          research: isResearchSource('hekimler', s.sourceId)
+        });
+      });
+    } else {
+      (state.feedsByRoute[state.route] || []).forEach(function (f) {
+        var bad = !!f.last_error;
+        rows.push({
+          id: f.id, name: f.label,
+          status: bad ? 'hata: ' + f.last_error : (f.last_fetched_at ? 'çalışıyor' : 'henüz çekilmedi'), bad: bad,
+          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: counts[f.id] || 0,
+          research: isResearchSource(state.route, f.id)
+        });
+      });
+    }
+    return rows;
+  }
+  function renderSourcePanel() {
+    var el = document.getElementById('srcPanel');
+    if (!state.showSources) { el.hidden = true; return; }
+    el.hidden = false;
+    var rows = sourceRows();
+    if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
+    function table(list) {
+      return '<div class="src-scroll"><table><tbody>' + list.map(function (r) {
+        return '<tr data-src="' + escapeHtml(r.id) + '"><td>' + escapeHtml(shortLabel(r.name)) + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
+          escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
+      }).join('') + '</tbody></table></div>';
+    }
+    var news = rows.filter(function (r) { return !r.research; }), res = rows.filter(function (r) { return r.research; });
+    var filt = state.sourceFilter ? '<span class="src-chip" data-src-clear="1">filtre: ' + escapeHtml(state.sourceFilter) + ' ✕</span>' : '';
+    el.innerHTML = '<b>' + rows.length + ' kaynak</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+      '<h3>📰 Haber / duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>') +
+      '<h3>🔬 Araştırma / veri (' + res.length + ')</h3>' + (res.length ? table(res) : '<div>Yok</div>');
+  }
+  async function ensureFeeds() {
+    if (state.route === 'hekimler' || state.feedsByRoute[state.route]) return;
+    var d = await api('/api/feeds?route=' + encodeURIComponent(state.route));
+    state.feedsByRoute[state.route] = d.feeds || [];
   }
 
   var COVERAGE_TR = {
@@ -449,7 +530,7 @@
     FAILED_INTERNAL: 'Hata', NOT_RUN: 'Çalışmadı'
   };
   function visibleItems() {
-    return state.items.filter(function (it) { return !state.sourceFilter || it.sourceId === state.sourceFilter; });
+    return state.items.filter(function (it) { return !state.sourceFilter || it.sourceId === state.sourceFilter || it.feedId === state.sourceFilter; });
   }
   function renderToolbar() {
     var el = document.getElementById('hekToolbar');
@@ -487,6 +568,7 @@
         : 'Bu kutuda öğe yok.';
     }
     renderToolbar();
+    renderSourcePanel();
   }
 
   async function refreshRouteCounts() {
@@ -507,6 +589,7 @@
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     state.selected = {};
+    if (state.showSources) { try { await ensureFeeds(); } catch (e) { /* panel shows loading */ } }
     if (state.route === 'hekimler' && !state.hekSources) {
       try { state.hekSources = (await api('/api/hekimler/sources')).sources || []; } catch (e) { state.hekSources = null; }
     }
@@ -550,12 +633,23 @@
     if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
   });
   document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-srcpanel]')) {
+      state.showSources = !state.showSources;
+      renderChrome();
+      ensureFeeds().catch(function () {}).then(function () { renderSourcePanel(); });
+      return;
+    }
+    var srcRow = e.target.closest('[data-src]');
+    if (srcRow) { state.sourceFilter = srcRow.getAttribute('data-src'); renderList(); renderChrome(); return; }
+    if (e.target.closest('[data-src-clear]')) { state.sourceFilter = ''; renderList(); renderChrome(); return; }
     var bulkBtn = e.target.closest('[data-bulk]');
     if (bulkBtn) { handleBulk(bulkBtn.getAttribute('data-bulk')).catch(function (err) { showToast(err.message); }); return; }
     var routeBtn = e.target.closest('[data-route]');
     if (routeBtn) {
       state.route = routeBtn.getAttribute('data-route');
       state.view = 'inbox';
+      state.sourceFilter = '';
+      state.showSources = false;
       localStorage.setItem('gcos-route', state.route);
       localStorage.setItem('gcos-view', state.view);
       load().catch(function (err) { showToast(err.message); });
