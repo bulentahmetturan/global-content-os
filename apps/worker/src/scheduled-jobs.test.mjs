@@ -131,3 +131,19 @@ describe('runIsolatedScheduledJobs', () => {
     assert.equal(byId['hekimler-continuous'].message, 'lock_table_missing');
   });
 });
+
+describe('pickScheduledSlot (one job per tick)', async () => {
+  const { pickScheduledSlot } = await import('./scheduled-jobs.ts');
+  it('returns exactly one slot for every minute of the day and covers every job', () => {
+    const seen = new Set();
+    for (let h = 0; h < 24; h++) for (let m = 0; m < 60; m++) seen.add(pickScheduledSlot(h, m));
+    for (const id of [
+      'who-news', 'europe-pmc', 'pubmed', 'research-apis', 'journal-fallback',
+      'purge-trash', 'news-generic', 'research-generic', 'enrich', 'hekimler-continuous',
+    ]) assert.ok(seen.has(id), `slot ${id} never scheduled`);
+  });
+  it('feed polling stays at least 10x per hour for news and research', () => {
+    const count = (id) => Array.from({ length: 60 }, (_, m) => pickScheduledSlot(3, m)).filter((s) => s === id).length;
+    assert.ok(count('news-generic') >= 10 && count('research-generic') >= 10);
+  });
+});

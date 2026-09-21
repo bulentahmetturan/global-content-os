@@ -78,3 +78,36 @@ export async function runIsolatedScheduledJobs(
   const failures = results.filter((r) => r.status === 'rejected');
   return { ok: failures.length === 0, results, failures };
 }
+
+export type ScheduledSlot =
+  | 'who-news'
+  | 'europe-pmc'
+  | 'pubmed'
+  | 'research-apis'
+  | 'journal-fallback'
+  | 'purge-trash'
+  | 'news-generic'
+  | 'research-generic'
+  | 'enrich'
+  | 'hekimler-continuous';
+
+const HOURLY_INGEST: ScheduledSlot[] = ['who-news', 'europe-pmc', 'pubmed', 'research-apis', 'journal-fallback'];
+const MINUTE_ROTATION: ScheduledSlot[] = [
+  'news-generic',
+  'research-generic',
+  'enrich',
+  'news-generic',
+  'research-generic',
+  'hekimler-continuous',
+];
+
+/**
+ * One job per cron tick. Workers Free allows 10 ms CPU per invocation; running every job in parallel each
+ * minute (feed fetch + parse for 14 feeds, enrichment, Hekimler tick) exceeded it on ~90% of ticks, so the
+ * invocation was killed mid-flight. Rotating keeps every job on a schedule while each tick stays small.
+ */
+export function pickScheduledSlot(hour: number, minute: number): ScheduledSlot {
+  if (minute % 15 === 0) return HOURLY_INGEST[(hour * 4 + minute / 15) % HOURLY_INGEST.length];
+  if (minute === 7 || minute === 37) return 'purge-trash';
+  return MINUTE_ROTATION[minute % MINUTE_ROTATION.length];
+}

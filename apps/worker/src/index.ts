@@ -24,7 +24,12 @@ import {
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
 import { COVERAGE_OVERRIDES, coverageLabel } from './ingress/hekimler-coverage';
-import { runIsolatedScheduledJobs, type ScheduledJobSpec } from './scheduled-jobs';
+import {
+  pickScheduledSlot,
+  runIsolatedScheduledJobs,
+  type ScheduledJobSpec,
+  type ScheduledSlot,
+} from './scheduled-jobs';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -403,68 +408,24 @@ export default {
 
     ctx.waitUntil(
       (async () => {
-        const jobs: ScheduledJobSpec[] = [
-          {
-            id: 'purge-trash',
-            enabled: minute % 30 === 0,
-            run: () => purgeExpiredTrash(env, 2),
+        const slot = pickScheduledSlot(hour, minute);
+        const all: Record<ScheduledSlot, () => Promise<unknown>> = {
+          'purge-trash': () => purgeExpiredTrash(env, 2),
+          enrich: () => runEnrichmentBatch(env, { limit: 3 }),
+          'hekimler-continuous': () =>
+            runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
+          'who-news': () => ingestWhoNews(env),
+          'europe-pmc': () => ingestEuropePmc(env),
+          pubmed: () => ingestPubmed(env),
+          'research-apis': () => ingestResearchApis(env),
+          'journal-fallback': () => {
+            const journalOffset = (Math.floor(dayMinute / 15) * 5) % 25;
+            return ingestJournalCrossrefFallbacks(env, { offset: journalOffset, limit: 5 });
           },
-          {
-            id: 'enrich',
-            run: () => runEnrichmentBatch(env, { limit: 6 }),
-          },
-          {
-            id: 'hekimler-continuous',
-            run: () =>
-              runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
-          },
-          {
-            id: 'who-news',
-            enabled: minute % 15 === 0,
-            run: () => ingestWhoNews(env),
-          },
-          {
-            id: 'europe-pmc',
-            enabled: minute % 15 === 0,
-            run: () => ingestEuropePmc(env),
-          },
-          {
-            id: 'pubmed',
-            enabled: minute % 15 === 0,
-            run: () => ingestPubmed(env),
-          },
-          {
-            id: 'research-apis',
-            enabled: minute % 15 === 0,
-            run: () => ingestResearchApis(env),
-          },
-          {
-            id: 'journal-fallback',
-            enabled: minute % 15 === 0,
-            run: () => {
-              const journalOffset = (Math.floor(dayMinute / 15) * 5) % 25;
-              return ingestJournalCrossrefFallbacks(env, { offset: journalOffset, limit: 5 });
-            },
-          },
-          {
-            id: 'news-generic',
-            run: () =>
-              ingestGenericFeeds(env, {
-                route: 'kaduse-news',
-                offset: 0,
-                limit: 8,
-              }),
-          },
-          {
-            id: 'research-generic',
-            run: () =>
-              ingestGenericFeeds(env, {
-                route: 'kaduse-research',
-                offset: 0,
-                limit: 6,
-              }),
-          },
-        ];
+          'news-generic': () => ingestGenericFeeds(env, { route: 'kaduse-news', offset: 0, limit: 1 }),
+          'research-generic': () => ingestGenericFeeds(env, { route: 'kaduse-research', offset: 0, limit: 1 }),
+        };
+        const jobs: ScheduledJobSpec[] = [{ id: slot, run: all[slot] }];
 
         const report = await runIsolatedScheduledJobs(jobs, {
           onError: (result) => {

@@ -288,9 +288,11 @@ export async function ingestTipRadarPush(
            last_ok_items = ?,
            last_error = NULL,
            fetch_attempts = COALESCE(fetch_attempts, 0) + 1
-       WHERE id = ?`
+       WHERE id = ?
+         AND (last_fetched_at IS NULL OR last_fetched_at < strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-6 hours')
+              OR last_error IS NOT NULL OR COALESCE(last_ok_items, -1) != ?)`
     )
-      .bind(count, feedId)
+      .bind(count, feedId, count)
       .run();
   }
 
@@ -301,9 +303,11 @@ export async function ingestTipRadarPush(
            last_ok_items = ?,
            last_error = NULL,
            fetch_attempts = COALESCE(fetch_attempts, 0) + 1
-       WHERE id = 'tip-radar-adapter'`
+       WHERE id = 'tip-radar-adapter'
+         AND (last_fetched_at IS NULL OR last_fetched_at < strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-6 hours')
+              OR last_error IS NOT NULL OR COALESCE(last_ok_items, -1) != ?)`
     )
-      .bind(created + updated)
+      .bind(created + updated, created + updated)
       .run();
   }
 
