@@ -1,6 +1,7 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
+import { decodeEntities, isArticleLink } from './link-quality';
 
 export interface FeedRow {
   id: string;
@@ -169,6 +170,7 @@ function stripTags(s: string): string {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&nbsp;/g, ' ')
+    .replace(/&#x?[0-9a-f]+;|&apos;/gi, decodeEntities)
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -233,6 +235,7 @@ function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => b
     const url = absolutize(baseUrl, href);
     if (!url || !/^https?:/i.test(url)) continue;
     if (keep && !keep(url)) continue;
+    if (!isArticleLink(title, url)) continue;
     try {
       const u = new URL(url);
       if (!sameRegistrableDomain(u.hostname, baseHost)) continue;
