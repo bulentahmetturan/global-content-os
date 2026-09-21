@@ -66,6 +66,65 @@ export function dedupeKeyFromUrl(url: string): string {
   return canonicalizeUrl(url).toLowerCase();
 }
 
+export interface ExistingItemForWrite {
+  title: string;
+  title_orig: string | null;
+  summary: string;
+  gists_json: string;
+  canonical_url: string;
+  publisher: string;
+  published_at: string | null;
+  enrichment_status?: string | null;
+  editorial_brand?: string | null;
+  content_family?: string | null;
+  source_id?: string | null;
+  decision_route?: string | null;
+  intake_meta_json?: string | null;
+}
+
+/**
+ * Decide the minimal write for an already-known item.
+ * 'none' = identical; 'meta' = only provenance/date fields changed (keep title/summary/enrichment);
+ * 'full' = content changed (title/summary), re-enrichment allowed.
+ * An enriched item stores the localized title/summary, so it is compared by its original title only.
+ */
+export function planExistingItemWrite(
+  existing: ExistingItemForWrite,
+  input: {
+    title: string;
+    summary: string;
+    gists?: string[];
+    canonicalUrl: string;
+    publisher: string;
+    publishedAt?: string | null;
+    editorialBrand?: string | null;
+    contentFamily?: string | null;
+    sourceId?: string | null;
+    decisionRoute?: string | null;
+    intakeMetaJson?: string | null;
+  },
+  _enrichmentStatus?: string
+): 'none' | 'meta' | 'full' {
+  const n = (v: string | null | undefined) => (v === undefined ? null : v);
+  const titleSame = input.title === existing.title || input.title === existing.title_orig;
+  const enriched = existing.enrichment_status === 'done';
+  const gists = JSON.stringify(input.gists ?? [input.summary]);
+  const contentSame = titleSame && (enriched || (input.summary === existing.summary && gists === existing.gists_json));
+  if (!contentSame) return 'full';
+  const coalesced = (incoming: string | null | undefined, current: string | null | undefined) =>
+    incoming === undefined || incoming === null ? true : incoming === n(current);
+  const metaSame =
+    (input.canonicalUrl === existing.canonical_url || canonicalizeUrl(input.canonicalUrl) === existing.canonical_url) &&
+    input.publisher === existing.publisher &&
+    n(input.publishedAt) === n(existing.published_at) &&
+    coalesced(input.editorialBrand, existing.editorial_brand) &&
+    coalesced(input.contentFamily, existing.content_family) &&
+    coalesced(input.sourceId, existing.source_id) &&
+    coalesced(input.decisionRoute, existing.decision_route) &&
+    coalesced(input.intakeMetaJson, existing.intake_meta_json);
+  return metaSame ? 'none' : 'meta';
+}
+
 export async function upsertSourceItem(
   db: D1Database,
   input: {
@@ -99,11 +158,48 @@ export async function upsertSourceItem(
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
   const enrichmentStatus = input.enrichmentStatus ?? 'pending';
   const existing = await db
-    .prepare(`SELECT id, triage_status FROM source_items WHERE route = ? AND dedupe_key = ?`)
+    .prepare(
+      `SELECT id, triage_status, title, title_orig, summary, gists_json, canonical_url, publisher, published_at,
+              enrichment_status, editorial_brand, content_family, source_id, decision_route, intake_meta_json
+       FROM source_items WHERE route = ? AND dedupe_key = ?`
+    )
     .bind(input.route, dedupeKey)
-    .first<{ id: string; triage_status: string }>();
+    .first<ExistingItemForWrite & { id: string; triage_status: string }>();
 
   if (existing) {
+    // D1 Free plan bills every index update as a row write: re-polling an unchanged item must not write at all.
+    const plan = planExistingItemWrite(existing, input, enrichmentStatus);
+    if (plan === 'none') {
+      if (input.evidence) await upsertEvidence(db, existing.id, input.evidence);
+      return { id: existing.id, created: false };
+    }
+    if (plan === 'meta') {
+      await db
+        .prepare(
+          `UPDATE source_items SET canonical_url = ?, publisher = ?, published_at = ?,
+           editorial_brand = COALESCE(?, editorial_brand),
+           content_family = COALESCE(?, content_family),
+           source_id = COALESCE(?, source_id),
+           decision_route = COALESCE(?, decision_route),
+           intake_meta_json = COALESCE(?, intake_meta_json),
+           updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+           WHERE id = ?`
+        )
+        .bind(
+          input.canonicalUrl,
+          input.publisher,
+          input.publishedAt ?? null,
+          input.editorialBrand ?? null,
+          input.contentFamily ?? null,
+          input.sourceId ?? null,
+          input.decisionRoute ?? null,
+          input.intakeMetaJson ?? null,
+          existing.id
+        )
+        .run();
+      if (input.evidence) await upsertEvidence(db, existing.id, input.evidence);
+      return { id: existing.id, created: false };
+    }
     await db
       .prepare(
         `UPDATE source_items SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
@@ -202,11 +298,29 @@ async function upsertEvidence(
   }
 ): Promise<void> {
   const existing = await db
-    .prepare(`SELECT id FROM evidence_cards WHERE source_item_id = ?`)
+    .prepare(
+      `SELECT id, doi, pmid, pmcid, finding, limitation, study_type FROM evidence_cards WHERE source_item_id = ?`
+    )
     .bind(sourceItemId)
-    .first<{ id: string }>();
+    .first<{
+      id: string;
+      doi: string | null;
+      pmid: string | null;
+      pmcid: string | null;
+      finding: string | null;
+      limitation: string | null;
+      study_type: string | null;
+    }>();
 
   if (existing) {
+    const same =
+      (evidence.doi ?? null) === existing.doi &&
+      (evidence.pmid ?? null) === existing.pmid &&
+      (evidence.pmcid ?? null) === existing.pmcid &&
+      (evidence.finding ?? null) === existing.finding &&
+      (evidence.limitation ?? null) === existing.limitation &&
+      (evidence.studyType ?? null) === existing.study_type;
+    if (same) return; // identical evidence: no D1 row write
     await db
       .prepare(
         `UPDATE evidence_cards SET doi = ?, pmid = ?, pmcid = ?, finding = ?, limitation = ?, study_type = ?

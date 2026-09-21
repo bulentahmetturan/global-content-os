@@ -381,6 +381,10 @@ export default {
       return json({ error: 'NOT_FOUND' }, 404);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      if (/row write limit|free tier daily/i.test(message)) {
+        // Visible, explicit signal for callers (Python runner turns this into a red workflow + summary banner).
+        return json({ error: 'D1_QUOTA_EXCEEDED: Cloudflare D1 daily write quota exhausted (resets 00:00 UTC)' }, 503);
+      }
       const status =
         message === 'ITEM_NOT_FOUND' || message === 'BRIEF_NOT_FOUND'
           ? 404
