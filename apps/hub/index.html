@@ -493,7 +493,7 @@
         rows.push({
           id: f.id, name: f.label,
           status: bad ? 'hata: ' + f.last_error : (f.last_fetched_at ? 'çalışıyor' : 'henüz çekilmedi'), bad: bad,
-          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: counts[f.id] || 0,
+          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
           research: isResearchSource(state.route, f.id)
         });
       });

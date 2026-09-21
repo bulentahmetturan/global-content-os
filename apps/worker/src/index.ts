@@ -86,6 +86,14 @@ export default {
         let stmt = env.DB.prepare(sql);
         if (binds.length) stmt = stmt.bind(...binds);
         const { results } = await stmt.all();
+        // Real inbox size per feed (one grouped read), so the Hub source panel is not limited to the 200 listed items.
+        const inbox = await env.DB.prepare(
+          `SELECT feed_id, COUNT(*) AS n FROM source_items WHERE triage_status = 'inbox' GROUP BY feed_id`
+        ).all<{ feed_id: string; n: number }>();
+        const inboxByFeed = new Map((inbox.results ?? []).map((r) => [r.feed_id, Number(r.n)]));
+        for (const row of results ?? []) {
+          (row as Record<string, unknown>).inbox_count = inboxByFeed.get((row as { id: string }).id) ?? 0;
+        }
         const byRoute: Record<string, number> = {};
         for (const row of results ?? []) {
           const r = (row as { route: string }).route;
