@@ -73,7 +73,7 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.eurekalert.org/': 'https://www.eurekalert.org/rss/medicine.xml',
   'https://www.nih.gov/news-events/news-releases':
     'https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NationalInstitutesofHealthNewsReleases',
-  'https://ai.nejm.org/': 'https://ai.nejm.org/action/showFeed?type=etoc&feed=rss',
+  'https://ai.nejm.org/': 'https://ai.nejm.org/action/showFeed?jc=ai&type=etoc&feed=rss',
   'https://www.science.org/journal/science':
     'https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science',
   'https://www.science.org/journal/stm':
@@ -431,7 +431,7 @@ async function upsertExtracted(
 
 export async function ingestGenericFeeds(
   env: Env,
-  opts: { route: RouteId; offset?: number; limit?: number; onlyEmpty?: boolean }
+  opts: { route: RouteId; offset?: number; limit?: number; onlyEmpty?: boolean; feedIds?: string[] }
 ): Promise<{
   scanned: number;
   created: number;
@@ -448,6 +448,8 @@ export async function ingestGenericFeeds(
   if (opts.onlyEmpty) {
     sql += ` AND (last_fetched_at IS NULL OR last_ok_items = 0)`;
   }
+  const feedIds = (opts.feedIds ?? []).slice(0, 5);
+  if (feedIds.length) sql += ` AND id IN (${feedIds.map(() => '?').join(',')})`;
   if (opts.route === 'kaduse-news') {
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
   }
@@ -459,7 +461,7 @@ export async function ingestGenericFeeds(
   }
   sql += ` ORDER BY COALESCE(last_fetched_at, '1970-01-01') ASC, id LIMIT ? OFFSET ?`;
 
-  const { results } = await env.DB.prepare(sql).bind(opts.route, limit, offset).all<FeedRow>();
+  const { results } = await env.DB.prepare(sql).bind(opts.route, ...feedIds, limit, offset).all<FeedRow>();
   const feeds = results ?? [];
 
   let created = 0;

@@ -204,7 +204,7 @@
     <div id="listView">
       <div id="hekToolbar" hidden></div>
       <div class="card-list" id="cardList"></div>
-      <div class="empty" id="emptyState" hidden>Bu kutuda öğe yok.</div>
+      <div class="empty" id="emptyState">Yükleniyor…</div>
     </div>
     <div class="footnote" id="footnote"></div>
   </main>
@@ -261,9 +261,13 @@
     return '/api/items?' + q + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
   }
 
+  // Deep link: /?route=hekimler&view=inbox overrides the last tab remembered in this browser.
+  var qs = new URLSearchParams(location.search);
+  var qsRoute = ROUTES.some(function (r) { return r.id === qs.get('route'); }) ? qs.get('route') : null;
+  var qsView = ['inbox', 'hold', 'production', 'done', 'trash'].indexOf(qs.get('view')) >= 0 ? qs.get('view') : null;
   var state = {
-    route: localStorage.getItem('gcos-route') || 'kaduse-news',
-    view: localStorage.getItem('gcos-view') || 'inbox',
+    route: qsRoute || localStorage.getItem('gcos-route') || 'kaduse-news',
+    view: qsView || (qsRoute ? 'inbox' : localStorage.getItem('gcos-view')) || 'inbox',
     counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
     items: [],
     sourceFilter: '',
@@ -474,6 +478,12 @@
     var items = visibleItems();
     cardListEl.innerHTML = items.map(cardHtml).join('');
     emptyStateEl.hidden = items.length > 0;
+    if (!items.length) {
+      var inboxN = (state.counts && state.counts.inbox) || 0;
+      emptyStateEl.innerHTML = state.view !== 'inbox' && inboxN
+        ? 'Bu kutuda öğe yok. <a href="#" data-view="inbox">Gelen Kutusu’nda ' + inboxN + ' öğe var →</a>'
+        : 'Bu kutuda öğe yok.';
+    }
     renderToolbar();
   }
 

@@ -449,7 +449,7 @@ export async function countByStatus(
     .prepare(
       `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
        FROM source_items WHERE route = ?${
-         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY'" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
+         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
        }
        GROUP BY triage_status, archive_kind`
     )

@@ -209,6 +209,7 @@ export default {
           offset?: number;
           limit?: number;
           onlyEmpty?: boolean;
+          feedIds?: string[];
         };
         const route = (body.route || url.searchParams.get('route') || '') as string;
         if (!isRoute(route)) return json({ error: 'INVALID_ROUTE' }, 400);
@@ -216,6 +217,7 @@ export default {
           route,
           offset: Number(body.offset ?? url.searchParams.get('offset') ?? 0),
           limit: Number(body.limit ?? url.searchParams.get('limit') ?? 10),
+          feedIds: Array.isArray(body.feedIds) ? body.feedIds.map(String) : undefined,
           onlyEmpty:
             body.onlyEmpty === true ||
             url.searchParams.get('onlyEmpty') === '1',
