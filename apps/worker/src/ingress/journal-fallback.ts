@@ -1,5 +1,6 @@
 import { type Env } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { containerMatches, expectedContainer, isFutureDate, isPlaceholderTitle } from './research-quality';
 
 /**
  * Continuous research fallback: when journal HTML/RSS is bot-blocked,
@@ -127,13 +128,15 @@ export async function ingestJournalCrossrefFallbacks(
       for (const it of items) {
         const title = (it.title?.[0] || '').trim();
         const doi = it.DOI;
-        if (!title || !doi) continue;
+        if (!title || !doi || isPlaceholderTitle(title)) continue;
+        if (!containerMatches(expectedContainer(j.query), it['container-title'])) continue;
         const publisher = it['container-title']?.[0] || feed.label;
         const abstract = (it.abstract || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
         const parts = it.published?.['date-parts']?.[0];
         const publishedAt = parts
           ? `${parts[0]}-${String(parts[1] || 1).padStart(2, '0')}-${String(parts[2] || 1).padStart(2, '0')}`
           : null;
+        if (isFutureDate(publishedAt)) continue;
         const result = await upsertLocalizedSourceItem(env, {
           feedId: feed.id,
           route: 'kaduse-research',
