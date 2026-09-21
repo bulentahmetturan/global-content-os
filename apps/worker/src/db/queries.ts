@@ -66,14 +66,20 @@ export function dedupeKeyFromUrl(url: string): string {
   return canonicalizeUrl(url).toLowerCase();
 }
 
-/** intake_meta_json embeds a per-run provenance.fetched_at; it must not make an otherwise identical item look changed. */
+/** intake_meta_json embeds per-run timestamps (fetched_at, created_at, provenance.fetched_at); it must not make an otherwise identical item look changed. */
 function intakeMetaEquivalent(incoming: string | null | undefined, current: string | null | undefined): boolean {
   if (incoming === undefined || incoming === null) return true;
   if (incoming === current) return true;
   try {
     const strip = (raw: string | null | undefined) => {
-      const o = JSON.parse(raw || 'null') as { provenance?: { fetched_at?: string } } | null;
-      if (o && typeof o === 'object' && o.provenance) delete o.provenance.fetched_at;
+      const o = JSON.parse(raw || 'null') as
+        | { fetched_at?: string; created_at?: string; provenance?: { fetched_at?: string } }
+        | null;
+      if (o && typeof o === 'object') {
+        delete o.fetched_at;
+        delete o.created_at;
+        if (o.provenance && typeof o.provenance === 'object') delete o.provenance.fetched_at;
+      }
       return JSON.stringify(o);
     };
     return strip(incoming) === strip(current);

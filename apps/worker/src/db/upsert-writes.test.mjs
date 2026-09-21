@@ -76,3 +76,10 @@ test('real intake meta change still writes', async () => {
   await upsertSourceItem(db, { ...input, intakeMetaJson: '{"decision":"DISCARD"}' });
   assert.equal(db.writes.length, 1);
 });
+
+test('top-level fetched_at/created_at differences are volatile too', async () => {
+  const meta = (f) => JSON.stringify({ decision: 'NEEDS_REVIEW', fetched_at: f, created_at: f, provenance: { fetched_at: f, content_hash: 'h' } });
+  const db = fakeDb({ ...base, intake_meta_json: meta('2026-09-21T14:47:04Z') });
+  await upsertSourceItem(db, { ...input, intakeMetaJson: meta('2026-09-21T16:00:00Z') });
+  assert.deepEqual(db.writes, []);
+});
