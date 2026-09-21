@@ -1,3 +1,4 @@
+import { ingestGate } from '../ingress/ingest-gate';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
   BUILD_COMMIT?: string;
@@ -176,7 +177,7 @@ export async function upsertSourceItem(
       studyType?: string | null;
     } | null;
   }
-): Promise<{ id: string; created: boolean }> {
+): Promise<{ id: string; created: boolean; rejected?: string }> {
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
   const enrichmentStatus = input.enrichmentStatus ?? 'pending';
   const existing = await db
@@ -255,6 +256,25 @@ export async function upsertSourceItem(
       await upsertEvidence(db, existing.id, input.evidence);
     }
     return { id: existing.id, created: false };
+  }
+
+  // Central admission gate (new rows only; existing rows are never mutated by it): see ingress/ingest-gate.ts.
+  const gate = ingestGate({
+    route: input.route,
+    feedId: input.feedId,
+    title: input.title,
+    titleOrig: input.titleOrig,
+    summary: input.summary,
+    publishedAt: input.publishedAt,
+  });
+  if (!gate.ok) return { id: '', created: false, rejected: gate.reason };
+  input.publishedAt = gate.publishedAt;
+  if (input.route === 'kaduse-news') {
+    const dupTitle = await db
+      .prepare(`SELECT id FROM source_items WHERE route = ? AND lower(title) = lower(?) AND triage_status != 'trash' LIMIT 1`)
+      .bind(input.route, input.title)
+      .first();
+    if (dupTitle) return { id: '', created: false, rejected: 'duplicate_title' };
   }
 
   const id = newId('item');
