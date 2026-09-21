@@ -1109,7 +1109,7 @@ export async function runHekimlerContinuousTick(
         }
         const bf = classifyBackfill(profile, item.title, item.published_at);
         const contentHash = await sha256Hex(`${profile.source_id}\n${item.url}\n${item.title}`);
-        // D9 date policy: listing date -> detail-page date -> UNDATED (NEEDS_REVIEW, never auto-published)
+        // D9 date policy: listing date -> detail-page date -> otherwise discarded (undated is not news)
         const dateExempt = method === 'eutilities_api';
         let dv = dateVerdict(profile.source_id, { publishedAt: item.published_at, title: item.title, url: item.url }, now);
         if (dv.verdict === 'UNDATED' && !dateExempt && detailBudget > 0) {
@@ -1142,13 +1142,14 @@ export async function runHekimlerContinuousTick(
             }
           }
         }
-        if (dv.verdict === 'STALE' && !dateExempt) {
+        // Freshness policy (2026-09-21): a date that cannot be established is not news; discard, never show as fresh.
+        if ((dv.verdict === 'STALE' || dv.verdict === 'UNDATED') && !dateExempt) {
           discardedHere += 1;
           discarded += 1;
           continue;
         }
         if (dv.date !== null && !item.published_at) item.published_at = new Date(dv.date).toISOString().slice(0, 10);
-        const dateUnverified = dv.verdict === 'UNDATED' && !dateExempt;
+        const dateUnverified = false;
         if (dryRun) {
           accepted += 1;
           lastItem = now.toISOString();
