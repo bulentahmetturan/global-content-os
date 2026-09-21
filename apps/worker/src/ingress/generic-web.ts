@@ -27,6 +27,7 @@ export interface ExtractedItem {
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 const FETCH_MS = 12_000;
+const ERROR_BACKOFF_HOURS = 12;
 
 /** Known endpoint corrections (dead paths → live listing/RSS). */
 const ENDPOINT_OVERRIDES: Record<string, string> = {
@@ -455,6 +456,13 @@ export async function ingestGenericFeeds(
   }
   const feedIds = (opts.feedIds ?? []).slice(0, 5);
   if (feedIds.length) sql += ` AND id IN (${feedIds.map(() => '?').join(',')})`;
+  // Back off feeds that failed recently (403/404/503 ...): retry them every ERROR_BACKOFF_HOURS, not every rotation.
+  // An explicit feedIds rerun bypasses the backoff.
+  const backoffBinds: string[] = [];
+  if (!feedIds.length) {
+    sql += ` AND (last_error IS NULL OR last_fetched_at IS NULL OR last_fetched_at < ?)`;
+    backoffBinds.push(new Date(Date.now() - ERROR_BACKOFF_HOURS * 3_600_000).toISOString());
+  }
   if (opts.route === 'kaduse-news') {
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
   }
@@ -466,7 +474,7 @@ export async function ingestGenericFeeds(
   }
   sql += ` ORDER BY COALESCE(last_fetched_at, '1970-01-01') ASC, id LIMIT ? OFFSET ?`;
 
-  const { results } = await env.DB.prepare(sql).bind(opts.route, ...feedIds, limit, offset).all<FeedRow>();
+  const { results } = await env.DB.prepare(sql).bind(opts.route, ...feedIds, ...backoffBinds, limit, offset).all<FeedRow>();
   const feeds = results ?? [];
 
   let created = 0;
