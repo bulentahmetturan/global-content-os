@@ -1,5 +1,6 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { applyFeedUrlScope } from './feed-scope';
 
 export interface FeedRow {
   id: string;
@@ -474,6 +475,7 @@ export async function ingestGenericFeeds(
     if (!feed.endpoint_url) continue;
     try {
       const extracted = await extractFromUrl(feed.endpoint_url);
+      extracted.items = applyFeedUrlScope(feed.id, extracted.items);
       samples.push({
         feedId: feed.id,
         items: extracted.items.length,
