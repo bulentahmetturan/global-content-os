@@ -360,16 +360,17 @@ export async function runEnrichmentBatch(
 
 /**
  * Mark new/updated English items pending without wiping prior TR enrichments.
- * Also runs enrichment for already-Turkish items when the summary carries real content beyond
- * the bare title (e.g. a fetched detail-page excerpt) -- otherwise a Turkish-native source with a
- * genuine lead paragraph would be skipped just because it needs no translation, leaving the gist
- * as a plain title-echo (a real Kaduse/Hekimler quality gap, 2026-09-23) instead of the actual
- * evidence-derived judgment sentence the rest of this pipeline produces for every other route.
+ *
+ * 2026-09-23: tried extending this to also run LLM enrichment for already-Turkish items with a
+ * real excerpt (so Hekimler announcements would get a genuine gistTr instead of a title-echo).
+ * Reverted after a live test: the free-tier model (Llama 3.1 8B) hallucinated on Turkish medical
+ * terminology -- "Erişkin İnfluenza" (adult influenza) came back as "erik hastalığı" ("plum
+ * disease"), a fabricated claim with zero basis in the source text. That is exactly what
+ * AGENTS.md's hard rule forbids ("Never invent factual claims"), so LLM paraphrasing stays OFF
+ * for Turkish-native content regardless of how much real excerpt is available. If a Turkish item
+ * needs a real (non-title-echo) summary, the fix is upstream -- fetch and show the real excerpt
+ * verbatim, never run it through this model.
  */
 export function shouldSkipEnrichment(title: string, summary: string): boolean {
-  const alreadyTurkish = !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
-  if (!alreadyTurkish) return false;
-  const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-  const hasExtraContent = normalize(summary || '') !== normalize(title || '') && (summary || '').trim().length > (title || '').trim().length + 20;
-  return !hasExtraContent;
+  return !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
 }
