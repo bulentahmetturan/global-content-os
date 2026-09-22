@@ -136,8 +136,8 @@ async function renderHubTr(
 SADECE geçerli JSON döndür: {"titleTr":"...","gistTr":"..."}.
 Kurallar:
 - titleTr: orijinal başlığın doğal Türkçe çevirisi.
-- gistTr: kanıttan çıkan EN GÜÇLÜ sonucu anlatan TEK kısa Türkçe cümle (max ~120 karakter).
-- Örnek: "DSÖ, geleneksel tıp için daha fazla araştırma istiyor."
+- gistTr: SADECE bu ORIGINAL_TITLE ve EVIDENCE_JSON'daki bilgiden üretilen, bu habere özgü, EN GÜÇLÜ sonucu anlatan TEK kısa Türkçe cümle (max ~120 karakter). Format: "<özne>, <bu habere özel somut eylem/sonuç>."
+- Başka bir habere ait olabilecek genel/belirsiz bir cümle yazma; ORIGINAL_TITLE'da geçmeyen bir konu veya kurumdan (ör. DSÖ, geleneksel tıp) bahsetme, o habere ait değilse.
 - İki alan da MUTLAKA Türkçe. İngilizce yasak. Uydurma yasak.`;
 
   const user = `ROUTE: ${route}
