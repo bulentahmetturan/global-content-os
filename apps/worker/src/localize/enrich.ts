@@ -147,8 +147,7 @@ function significantWords(s: string): Set<string> {
  * certainly this failure mode, not a real paraphrase -- reject it rather than publish a
  * fabricated claim (AGENTS.md hard rule: never invent factual claims).
  */
-function isOnTopic(candidate: string, titleOrig: string, evidence: Record<string, string>): boolean {
-  const source = [titleOrig, ...Object.values(evidence)].join(' ');
+function isOnTopic(candidate: string, source: string): boolean {
   const sourceWords = significantWords(source);
   if (sourceWords.size === 0) return true; // nothing to compare against — don't block
   const candidateWords = significantWords(candidate);
@@ -187,15 +186,21 @@ JSON:`;
     typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
       ? parsed.gistTr.trim()
       : '';
-  if (gistTr && !isOnTopic(gistTr, titleOrig, evidence)) {
-    gistTr = ''; // discard: shares no real content with the source, almost certainly fabricated
+  const evidenceSource = [titleOrig, ...Object.values(evidence)].join(' ');
+  if (gistTr && !isOnTopic(gistTr, evidenceSource)) {
+    gistTr = ''; // discard: shares no real content with title+evidence, almost certainly fabricated
   }
 
   // If model ignored Turkish, force-translate (still free Workers AI).
   titleTr = await toTurkish(env, titleTr);
   if (!gistTr) {
+    // Evidence itself came from the same model (step A) and can be hallucinated too (observed
+    // live: evidence.actor = "DSÖ" on an Africa CDC item that never mentions WHO) -- each bit is
+    // only trusted here if it's independently grounded in titleOrig, never in the other evidence
+    // fields. titleOrig is the one thing that's never model output, so it's always the final
+    // fallback.
     const bits = [evidence.actor, evidence.action, evidence.whatsNew, evidence.finding, evidence.outcome]
-      .filter(Boolean)
+      .filter((b) => b && isOnTopic(b, titleOrig))
       .join(' — ');
     gistTr = bits || titleOrig;
   }
