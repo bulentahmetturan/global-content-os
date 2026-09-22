@@ -93,8 +93,9 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.consilium.europa.eu/en/meetings/epsco/':
     'https://news.google.com/rss/search?q=site:consilium.europa.eu+(EPSCO+OR+%22Employment,+Social+Policy,+Health%22+OR+%22Working+Party+on+Public+Health%22)&hl=en-US&gl=US&ceid=US:en',
   // Bot-blocked official pages → Google News site RSS (Worker-fetchable, continuous)
+  // AAMI: news.google.com consistently returns 503 to this Worker's egress IPs (2026-09-22) — Bing News RSS instead.
   'https://array.aami.org/content/news':
-    'https://news.google.com/rss/search?q=site:aami.org+OR+site:array.aami.org+(device+OR+standard+OR+HTM)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aaami.org+OR+site%3Aarray.aami.org&format=rss',
   'https://www.edqm.eu/en/news':
     'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
   'https://www.edqm.eu/en/edqm-newsroom':
