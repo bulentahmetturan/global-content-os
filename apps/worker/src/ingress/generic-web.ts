@@ -81,7 +81,8 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://jamanetwork.com/journals/jama': 'https://jamanetwork.com/rss/site_3/67.xml',
   'https://jamanetwork.com/': 'https://jamanetwork.com/rss/site_3/67.xml',
   'https://www.medrxiv.org/': 'https://connect.medrxiv.org/relate/feed/medrxiv/new',
-  'https://www.eurekalert.org/': 'https://www.eurekalert.org/rss/medicine.xml',
+  // eurekalert.org's own rss/*.xml paths are all dead (404, verified 2026-09-22) — Bing News fallback.
+  'https://www.eurekalert.org/': 'https://www.bing.com/news/search?q=site%3Aeurekalert.org&format=rss',
   'https://www.nih.gov/news-events/news-releases':
     'https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NationalInstitutesofHealthNewsReleases',
   'https://ai.nejm.org/': 'https://ai.nejm.org/action/showFeed?jc=ai&type=etoc&feed=rss',

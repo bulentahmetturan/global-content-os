@@ -54,7 +54,13 @@ const JOURNAL_QUERIES: Array<{ feedId: string; query: string; issn?: string }> =
     query: 'container-title:"IEEE Transactions on Biomedical Engineering"',
     issn: '1558-2531',
   },
-  { feedId: 'research-jama-network', query: 'container-title:JAMA', issn: '1538-3598' },
+  {
+    feedId: 'research-jama-network',
+    // Crossref's registered container-title for this ISSN is the long form, not bare "JAMA" —
+    // containerMatches() needs the exact string or every item gets filtered out (crossref_empty).
+    query: 'container-title:"JAMA: The Journal of the American Medical Association"',
+    issn: '1538-3598',
+  },
   {
     feedId: 'research-jmir',
     query: 'container-title:"Journal of Medical Internet Research"',
