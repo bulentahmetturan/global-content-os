@@ -178,7 +178,7 @@
   #srcPanel .src-bad{color:var(--danger,#e5584b)}
   #srcPanel .src-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(57,184,212,.18);cursor:pointer}
   #srcPanel .src-name{font-weight:600}
-  #srcPanel .src-why{margin-top:2px;font-size:11.5px;font-weight:400;color:var(--text-dim,#52697A);white-space:normal}
+  #srcPanel .src-why{font-weight:400;color:var(--text-dim,#52697A)}
   .hek-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
   .hek-bar select{padding:6px 8px;border-radius:8px;border:1px solid var(--border,#ccc);background:transparent;color:inherit;max-width:100%}
   .hek-bar .btn[disabled]{opacity:.45;cursor:not-allowed}
@@ -632,8 +632,8 @@
     function table(list) {
       return '<div class="src-scroll"><table><tbody>' + list.map(function (r) {
         var why = sourceWhy(r.id);
-        var nameCell = '<div class="src-name">' + escapeHtml(shortLabel(r.name)) + '</div>' +
-          (why ? '<div class="src-why">' + escapeHtml(why) + '</div>' : '');
+        var nameCell = '<span class="src-name">' + escapeHtml(shortLabel(r.name)) + '</span>' +
+          (why ? ' <span class="src-why">: ' + escapeHtml(why) + '</span>' : '');
         return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
           escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
       }).join('') + '</tbody></table></div>';
