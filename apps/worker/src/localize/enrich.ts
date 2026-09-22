@@ -126,6 +126,38 @@ async function toTurkish(env: Env, text: string): Promise<string> {
   return line || raw;
 }
 
+function significantWords(s: string): Set<string> {
+  return new Set(
+    (s || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9ığüşöç\s]/gi, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 4)
+  );
+}
+
+/**
+ * Anti-hallucination guard (2026-09-23 incident): the free-tier model sometimes produces a
+ * fluent, well-formed Turkish sentence about an entirely different, unrelated topic (observed
+ * repeatedly: a WHO/traditional-medicine sentence on items about Africa CDC, drug trials, etc. --
+ * not copied from any prompt text, the model appears to default to it when the real evidence is
+ * thin). A sentence sharing ZERO significant words with the actual title/evidence is almost
+ * certainly this failure mode, not a real paraphrase -- reject it rather than publish a
+ * fabricated claim (AGENTS.md hard rule: never invent factual claims).
+ */
+function isOnTopic(candidate: string, titleOrig: string, evidence: Record<string, string>): boolean {
+  const source = [titleOrig, ...Object.values(evidence)].join(' ');
+  const sourceWords = significantWords(source);
+  if (sourceWords.size === 0) return true; // nothing to compare against — don't block
+  const candidateWords = significantWords(candidate);
+  for (const w of candidateWords) {
+    if (sourceWords.has(w)) return true;
+  }
+  return false;
+}
+
 async function renderHubTr(
   env: Env,
   route: RouteId,
@@ -155,6 +187,9 @@ JSON:`;
     typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
       ? parsed.gistTr.trim()
       : '';
+  if (gistTr && !isOnTopic(gistTr, titleOrig, evidence)) {
+    gistTr = ''; // discard: shares no real content with the source, almost certainly fabricated
+  }
 
   // If model ignored Turkish, force-translate (still free Workers AI).
   titleTr = await toTurkish(env, titleTr);
