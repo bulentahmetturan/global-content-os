@@ -177,6 +177,8 @@
   #srcPanel .src-n{text-align:right;white-space:nowrap;opacity:.8}
   #srcPanel .src-bad{color:var(--danger,#e5584b)}
   #srcPanel .src-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(57,184,212,.18);cursor:pointer}
+  #srcPanel .src-name{font-weight:600}
+  #srcPanel .src-why{margin-top:2px;font-size:11.5px;font-weight:400;color:var(--text-dim,#52697A);white-space:normal}
   .hek-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
   .hek-bar select{padding:6px 8px;border-radius:8px;border:1px solid var(--border,#ccc);background:transparent;color:inherit;max-width:100%}
   .hek-bar .btn[disabled]{opacity:.45;cursor:not-allowed}
@@ -258,6 +260,111 @@
     tdb_dental: 'TDB', tihud_internal_medicine: 'TİHUD', tuik_medical_public_health: 'TÜİK',
     'klimık_infectious_diseases': 'Klimik'
   };
+  var SOURCE_WHY = {
+    "news-who-newsroom-whole": "Dünya Sağlık Örgütü'nün resmi sözcüsü olduğu için — küresel sağlık gündemi buradan başlar",
+    "news-fda-press-scoped": "dünyanın en büyük tıbbi cihaz/ilaç pazarının resmi onay ve güvenlik duyuruları için",
+    "news-fda-cdrh-digital-health": "dijital sağlık teknolojilerindeki FDA yaklaşımını erken yakalamak için",
+    "news-fda-cdrh-ai-ml-device": "Kaduse'nin çekirdek konusu olan AI-destekli cihazların ABD'deki onay/regülasyon gelişmeleri için",
+    "news-fda-cdrh-samd": "yazılım-tabanlı tıbbi cihaz (SaMD) kategorisi doğrudan Kaduse'nin ilgi alanı olduğu için",
+    "news-fda-cdrh-device-safety": "cihaz güvenliği ve geri çağırmalar hasta güvenliği açısından kritik olduğu için",
+    "news-ema-news-whole": "Avrupa'daki ilaç/cihaz düzenleyici otoritesinin resmi haberleri için",
+    "news-ec-medical-devices-target": "AB'nin tıbbi cihaz sektör politikasını doğrudan kaynağından izlemek için",
+    "news-saglik-bakanligi-whole": "Türkiye'nin resmi sağlık otoritesi olduğu için — yerli gündem burada başlar",
+    "news-titck-tibbi-cihaz-duyurulari": "Türkiye'deki cihaz onay/güvenlik kararlarının resmi kaynağı olduğu için",
+    "news-titck-general-regulatory": "ilaç güvenliği ve ulusal mevzuat değişikliklerini kaçırmamak için",
+    "news-ecdc-news-whole": "Avrupa'daki bulaşıcı hastalık ve salgın verisinin resmi kaynağı olduğu için",
+    "news-medtech-europe-news-whole": "Avrupa medtech sanayisinin ortak sesini duymak için",
+    "news-medtech-dive-news-whole": "medtech'in Avrupa/küresel ticari haberlerini yakalamak için",
+    "news-reuters-healthcare-scoped": "hızlı, güvenilir ve geniş kapsamlı genel sağlık/medtech haberciliği için",
+    "news-resmi-gazete-health-scoped": "Türkiye'de sağlıkla ilgili mevzuatın hukuken bağlayıcı, resmi yayın organı olduğu için",
+    "news-observatory-news-whole": "sağlık sistemleri politikasında akademik/analitik derinlik sağladığı için",
+    "news-hma-news-whole": "Avrupa ilaç ajansları arasındaki koordinasyon kararlarını görmek için",
+    "news-edqm-news-whole": "ilaç kalite standartlarındaki değişiklikleri takip etmek için",
+    "news-ec-hta-htacg-target": "AB'de sağlık teknolojisi değerlendirme (HTA) kararlarının artık burada koordine edildiği için (EUnetHTA'nın yerini aldı)",
+    "news-oecd-health-scoped": "sağlık sistemleri karşılaştırmalı verisi ve politika analizleri için",
+    "news-un-news-health-scoped": "BM'nin sağlık gündemini (küresel politika düzeyinde) izlemek için",
+    "news-aa-saglik-scoped": "Türkiye'deki sağlık haberlerinin resmi ajans diliyle, hızlı aktarımı için",
+    "news-ec-dg-sante-health-scoped": "AB sağlık/gıda güvenliği genel müdürlüğünün sağlıkla ilgili kararlarını kaçırmamak için",
+    "news-hhs-press-scoped": "ABD sağlık bakanlığının AI-sağlık ve büyük düzenleme kararlarını kaçırmamak için",
+    "news-africa-cdc-news-whole": "gelişmekte olan sağlık pazarlarında salgın/halk sağlığı gelişmelerini kaçırmamak için",
+    "news-ec-mdcg-target": "AB'nin tıbbi cihaz rehber dokümanlarının doğrudan kaynağı olduğu için",
+    "news-raps-regulatory-focus-scoped": "düzenleyici işler profesyonellerinin takip ettiği, cihaz/AI regülasyonu konusunda derinlemesine haber verdiği için",
+    "news-swissmedic-news-scoped": "İsviçre'nin cihaz güvenlik/geri çağırma kararlarını izlemek için",
+    "news-tuyze-saglikta-yapay-zeka": "Türkiye'nin kendi sağlık-AI enstitüsünün (TÜYZE) çalışmalarını izlemek için",
+    "news-tuseb-health-tech-innovation": "Türkiye'deki sağlık inovasyonu/translasyonel araştırma gündemini yakalamak için",
+    "news-bfarm-news-scoped": "Almanya'nın (DiGA dahil) dijital sağlık ve cihaz düzenlemelerini izlemek için",
+    "news-imdrf-news-whole": "dünya çapındaki tıbbi cihaz düzenleyicilerinin ortak kararlarını takip etmek için — tek ülkeyle sınırlı değil",
+    "news-ansm-news-scoped": "Fransa'nın cihaz güvenlik uyarılarını izlemek için",
+    "news-hpw-news-whole": "bağımsız, sektör-dışı bakış açısıyla küresel sağlık politikası haberciliği için",
+    "news-sgk-health-scoped": "cihaz/ilaç geri ödemesi ve SUT değişiklikleri doğrudan ticari/klinik kararları etkilediği için",
+    "news-eur-lex-mdr-ivdr-health-query": "AB'nin bağlayıcı mevzuatını (MDR/IVDR/AI Act) resmi kaynağından doğrulamak için",
+    "news-hpra-news-scoped": "İrlanda'nın cihaz güvenlik bildirimlerini/geri çağırmalarını izlemek için",
+    "news-euractiv-health-scoped": "AB politika gündemini gazetecilik diliyle, sektör dışı bir gözle takip etmek için",
+    "news-ep-sant-scoped": "Avrupa Parlamentosu'nun halk sağlığı yasama kararlarını izlemek için",
+    "news-team-nb-news-whole": "onaylanmış kuruluşların (notified bodies) uygulamalarını, yani MDR/IVDR'nin sahada nasıl işlediğini görmek için",
+    "news-council-eu-epsco-health-scoped": "AB Konseyi düzeyinde alınan sağlık kararlarını yakalamak için",
+    "news-hsgm-news-scoped": "Türkiye'deki bulaşıcı hastalık/aşı/saha sağlığı operasyonel gelişmelerini izlemek için",
+    "news-ec-hera-scoped": "sağlık acil durumlarına hazırlık ve kritik tıbbi ürün tedarikini takip etmek için",
+    "news-tuik-saglik-sosyal-koruma": "Türkiye'nin resmi sağlık istatistiklerini veri kaynağı olarak kullanmak için",
+    "news-healthai-news-whole": "sağlıkta yapay zekânın sorumlu kullanımı konusunda küresel otorite olduğu için",
+    "news-nhs-aidrs-news-scoped": "İngiltere'de sağlıkta AI'nin nasıl düzenlendiğine dair ortak (MHRA/HRA/NICE/CQC) resmi rehberlik için",
+    "news-jtc21-ai-health-gated": "AI standardizasyonunun sağlık/medtech'e değen kısmını kaçırmamak için (genel endüstriyel AI standartları hariç)",
+    "news-pmda-news-scoped": "Japonya'nın (özellikle SaMD ve AI-cihaz) onay süreçlerini izlemek için",
+    "news-hsa-medical-devices-scoped": "Singapur'un tıbbi cihaz/dijital sağlık düzenlemelerini izlemek için",
+    "news-fierce-medtech-scoped": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-medica-sphere-medtech-scoped": "Almanya'daki en büyük medikal fuarın medtech&cihaz haber akışını yakalamak için",
+    "news-health-canada-devices-scoped": "Kanada'nın ML-destekli cihaz düzenlemelerini izlemek için",
+    "news-nice-healthtech-scoped": "İngiltere'nin cihaz/tanı/AI teknolojisi değerlendirme kararlarını izlemek için",
+    "news-advamed-digital-health-scoped": "sanayinin kendi bakış açısını da görmek için (ama dernek açıklaması resmi gerçek sayılmıyor)",
+    "news-massdevice-news-whole": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-medical-device-network-news-whole": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-aami-news-scoped": "cihaz standartları, güvenlik mühendisliği ve AI-cihaz standartlarındaki gelişmeleri takip etmek için — Kaduse'nin teknik güvenilirlik anlatısını besliyor",
+    "news-mobihealthnews-ai-device-scoped": "AI/ML sağlık, giyilebilir cihaz ve dijital terapötik gibi Kaduse'nin tam hedef kitlesindeki konuları yakalamak için",
+    "research-pubmed-eutilities": "biyomedikal literatürün en geniş ve birincil tarama indeksi olduğu için",
+    "research-europe-pmc-rest": "PubMed'i tamamlayan, açık erişim tam metne doğrudan bağlantı sağladığı için",
+    "research-crossref-rest-api": "yayının kimliğini/bibliyografik doğruluğunu teyit etmek için (kanıt değil, kimlik doğrulama)",
+    "research-crossmark": "bir makalenin sonradan düzeltilip düzeltilmediğini/geri çekilip çekilmediğini kontrol etmek için",
+    "research-crossref-retraction-watch-data": "geri çekilen makalelerin yayına asla girmemesini garanti altına almak için — sert kural",
+    "research-pubmed-central-oa": "açık lisanslı tam metinlere doğrudan erişim için",
+    "research-cochrane-library": "en yüksek kanıt düzeyindeki sistematik derlemelere erişmek için",
+    "research-clinicaltrials-gov-api-v2": "bir çalışmanın kayıtlı klinik deneyle tutarlılığını doğrulamak için (bağlam/zenginleştirme amaçlı)",
+    "research-jama-network": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-nejm": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-the-lancet": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-lancet-digital-health": "dijital sağlık araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-bmj": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-nature-medicine": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-npj-digital-medicine": "dijital sağlık/AI araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-circulation-aha": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-jaha": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-jacc": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-european-heart-journal": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-chest-journal": "solunum hastalıkları alanındaki güncel kanıtı yakalamak için",
+    "research-european-respiratory-journal": "solunum hastalıkları alanındaki güncel kanıtı yakalamak için",
+    "research-ieee-jbhi": "biyomedikal mühendislik ve sağlık bilişimindeki teknik/AI araştırmaları için",
+    "research-ieee-tbme": "biyomedikal mühendislik ve sağlık bilişimindeki teknik/AI araştırmaları için",
+    "research-jmir": "dijital sağlık ve internet-tabanlı sağlık araştırmalarına özel olduğu için",
+    "research-medrxiv-preprint": "erken bulguları görmek için — ama asla \"hakem değerlendirmeli\" sayılmaz, sadece keşif amaçlı",
+    "research-science-translational-medicine": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-cell": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nature-biotechnology": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nejm-ai": "sağlıkta yapay zekâ araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-nature-genetics": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nature": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-science": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-stat-news": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-eurekalert": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-medical-xpress": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-medical-news-today": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-nature-news": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-nih-news-releases": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-openalex-api": "bir makalenin atıf sayısı/alan-bazlı etkisini ölçmek için",
+    "research-gdelt-doc-api": "bir çalışmanın küresel haberlerde ne kadar yankı bulduğunu görmek için",
+    "research-altmetric-api": "sosyal medya/haber dikkatini ölçmek için (opsiyonel — eksikliği asla makaleyi dışlamaz)",
+    "who-newsroom": "Dünya Sağlık Örgütü'nün resmi sözcüsü olduğu için — küresel sağlık gündemi buradan başlar",
+    "europe-pmc-batch": "PubMed'i tamamlayan, açık erişim tam metne doğrudan bağlantı sağladığı için"
+  };
+  function sourceWhy(id) { return SOURCE_WHY[id] || ''; }
   var DECISION_LABELS = {
     OPPORTUNITY: 'Fırsat', PROFESSIONAL_BRIEF: 'Mesleki özet', NEEDS_REVIEW: 'İnceleme gerek',
     PUBLIC_HEALTH: 'Halk sağlığı', EDUCATION: 'Eğitim'
@@ -524,7 +631,10 @@
     if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
     function table(list) {
       return '<div class="src-scroll"><table><tbody>' + list.map(function (r) {
-        return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + escapeHtml(shortLabel(r.name)) + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
+        var why = sourceWhy(r.id);
+        var nameCell = '<div class="src-name">' + escapeHtml(shortLabel(r.name)) + '</div>' +
+          (why ? '<div class="src-why">' + escapeHtml(why) + '</div>' : '');
+        return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
           escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
