@@ -594,6 +594,15 @@
   var HEK_RESEARCH = { pubmed_biomedical_evidence: 1, tuik_medical_public_health: 1 };
   function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
   function shortLabel(t) { t = String(t || ''); return t.length > 78 ? t.slice(0, 76) + '…' : t; }
+  function baseSourceName(t) {
+    t = String(t || '');
+    var i = t.indexOf(' -- ');
+    if (i === -1) i = t.indexOf(' — ');
+    if (i !== -1) t = t.slice(0, i);
+    i = t.indexOf(' (normal stream)');
+    if (i !== -1) t = t.slice(0, i);
+    return t.trim();
+  }
   function sourceRows() {
     var counts = {};
     (state.items || []).forEach(function (it) {
@@ -633,7 +642,7 @@
     function table(list) {
       return '<div class="src-scroll"><table><tbody>' + list.map(function (r, i) {
         var why = sourceWhy(r.id);
-        var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(shortLabel(r.name)) + '</span>' +
+        var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(baseSourceName(r.name)) + '</span>' +
           (why ? ' <span class="src-why">: ' + escapeHtml(why) + '</span>' : '');
         return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
           escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
