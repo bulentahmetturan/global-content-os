@@ -33,35 +33,43 @@ const ERROR_BACKOFF_HOURS = 12;
 const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.titck.gov.tr/duyurular': 'https://www.titck.gov.tr/duyuru',
   'https://www.titck.gov.tr/duyurular?catID=93': 'https://www.titck.gov.tr/duyuru',
+  // FDA official pages/RSS 404 to this Worker's egress IPs (2026-09-22, confirmed live;
+  // the same rss.xml URL returns 200 to a normal browser/curl) — Bing News site query instead.
   'https://www.fda.gov/medical-devices/safety-communications':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+recall+OR+safety)&format=rss',
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+AI+OR+software)&format=rss',
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+AI+OR+software)&format=rss',
   'https://www.fda.gov/medical-devices/digital-health-center-excellence':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(digital+health+OR+device)&format=rss',
   'https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(digital+health+OR+device+OR+software)&format=rss',
   'https://www.fda.gov/news-events/fda-newsroom/press-announcements':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+approval+OR+recall)&format=rss',
   'https://www.hma.eu/news.html': 'https://www.hma.eu/',
-  'https://www.imdrf.org/news': 'https://www.imdrf.org/documents',
-  'https://hsgm.saglik.gov.tr/tr/duyurular': 'https://hsgm.saglik.gov.tr/tr',
+  'https://www.imdrf.org/news':
+    'https://www.bing.com/news/search?q=site%3Aimdrf.org&format=rss',
+  'https://hsgm.saglik.gov.tr/tr/duyurular':
+    'https://www.bing.com/news/search?q=site%3Ahsgm.saglik.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html':
-    'https://www.pmda.go.jp/english/',
+    'https://www.bing.com/news/search?q=site%3Apmda.go.jp&format=rss',
   'https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices':
     'https://www.hpra.ie/safety-information/safety-notices',
-  'https://www.saglik.gov.tr/TR,10169/haberler.html': 'https://www.saglik.gov.tr/',
+  'https://www.saglik.gov.tr/TR,10169/haberler.html':
+    'https://www.bing.com/news/search?q=site%3Asaglik.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101':
     'https://www.tuik.gov.tr/',
   'https://www.medica-tradefair.com/en/News/MEDICA_Sphere':
     'https://www.medica-tradefair.com/en/Media_News',
-  'https://www.hhs.gov/about/news/index.html': 'https://www.hhs.gov/rss/news.xml',
+  // HHS official RSS also 403s to this Worker (2026-09-22) — Bing News fallback.
+  'https://www.hhs.gov/about/news/index.html':
+    'https://www.bing.com/news/search?q=site%3Ahhs.gov+(health+OR+AI+OR+technology)&format=rss',
   'https://www.mobihealthnews.com': 'https://feeds.feedburner.com/MobiHealthNews',
   'https://www.mobihealthnews.com/': 'https://feeds.feedburner.com/MobiHealthNews',
+  // Health Canada atom feed returns http_520 to this Worker (2026-09-22) — Bing News fallback.
   'https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html':
-    'https://www.canada.ca/en/health-canada.atom.xml',
+    'https://www.bing.com/news/search?q=site%3Acanada.ca+(%22medical+device%22+OR+%22Health+Canada%22)&format=rss',
   'https://www.medtechdive.com': 'https://www.medtechdive.com/feeds/news/',
   'https://www.bmj.com/': 'https://www.bmj.com/rss/recent.xml',
   'https://www.cell.com/cell/home': 'https://www.cell.com/cell/current.rss',
@@ -90,50 +98,52 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://erj.ersjournals.com/': 'https://erj.ersjournals.com/rss/current.xml',
   'https://www.cochranelibrary.com/':
     'https://www.cochranelibrary.com/cdsr/browse/articles?format=rss',
+  // news.google.com/rss/search consistently returns http_503 to this Worker's egress
+  // IPs (confirmed live 2026-09-22, every feed routed through it) — Bing News RSS instead.
   'https://www.consilium.europa.eu/en/meetings/epsco/':
-    'https://news.google.com/rss/search?q=site:consilium.europa.eu+(EPSCO+OR+%22Employment,+Social+Policy,+Health%22+OR+%22Working+Party+on+Public+Health%22)&hl=en-US&gl=US&ceid=US:en',
-  // Bot-blocked official pages → Google News site RSS (Worker-fetchable, continuous)
-  // AAMI: news.google.com consistently returns 503 to this Worker's egress IPs (2026-09-22) — Bing News RSS instead.
+    'https://www.bing.com/news/search?q=site%3Aconsilium.europa.eu+(EPSCO+OR+%22Employment%2C+Social+Policy%2C+Health%22)&format=rss',
   'https://array.aami.org/content/news':
     'https://www.bing.com/news/search?q=site%3Aaami.org+OR+site%3Aarray.aami.org&format=rss',
   'https://www.edqm.eu/en/news':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.edqm.eu/en/edqm-newsroom':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.edqm.eu/en/edqm/about/newsroom':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.euractiv.com/section/health-consumers/':
-    'https://news.google.com/rss/search?q=site:euractiv.com+(health+OR+healthcare+OR+pharma)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aeuractiv.com+(health+OR+healthcare+OR+pharma)&format=rss',
   'https://www.medicaldevice-network.com':
-    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicaldevice-network.com&format=rss',
   'https://www.medicaldevice-network.com/news/':
-    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicaldevice-network.com&format=rss',
   'https://www.oecd.org/health/':
-    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aoecd.org+health&format=rss',
   'https://www.oecd.org/en/topics/health.html':
-    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aoecd.org+health&format=rss',
   'https://www.reuters.com/business/healthcare-pharmaceuticals/':
-    'https://news.google.com/rss/search?q=site:reuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Areuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&format=rss',
   'https://www.tuseb.gov.tr/haberler':
-    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.tuseb.gov.tr/':
-    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
+  'https://www.tuseb.gov.tr/tuyze':
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
   // Research news / secondary streams
   'https://medicalxpress.com/': 'https://medicalxpress.com/rss-feed/',
   'https://www.medicalnewstoday.com/':
-    'https://news.google.com/rss/search?q=site:medicalnewstoday.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicalnewstoday.com&format=rss',
   'https://www.statnews.com/': 'https://www.statnews.com/feed/',
   'https://www.nature.com/news':
-    'https://news.google.com/rss/search?q=site:nature.com/news+(medicine+OR+health+OR+device)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Anature.com%2Fnews+(medicine+OR+health+OR+device)&format=rss',
   'https://www.nature.com/nbt/': 'https://www.nature.com/nbt.rss',
   'https://www.nature.com/ng/': 'https://www.nature.com/ng.rss',
   'https://www.nature.com/npjdigitalmed/': 'https://www.nature.com/npjdigitalmed.rss',
   'https://www.nature.com/': 'https://www.nature.com/nature.rss',
   'https://www.jmir.org/': 'https://www.jmir.org/rss.xml',
   'https://www.embs.org/jbhi/':
-    'https://news.google.com/rss/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&format=rss',
   'https://www.embs.org/tbme/':
-    'https://news.google.com/rss/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&format=rss',
 };
 
 function normalizeEndpoint(raw: string): string {

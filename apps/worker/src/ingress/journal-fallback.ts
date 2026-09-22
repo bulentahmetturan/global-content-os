@@ -4,59 +4,91 @@ import { containerMatches, expectedContainer, isFutureDate, isPlaceholderTitle }
 
 /**
  * Continuous research fallback: when journal HTML/RSS is bot-blocked,
- * pull recent works from Crossref by container-title (real bibliographic records).
+ * pull recent works from Crossref. Filtered by ISSN (`filter=issn:X`) where
+ * known -- Crossref's free-text `query`/`query.container-title` params are
+ * fuzzy full-text search, not an exact-journal filter, and were silently
+ * returning zero (or wrong-journal) matches for several titles (2026-09-22
+ * incident: Science, Nature Genetics, Science Translational Medicine, npj
+ * Digital Medicine all showed crossref_empty; JACC/Cell/CHEST/The Lancet's
+ * `query`-based lookups happened to work by coincidence but were fragile).
+ * `issn` here is each journal's Crossref-registered ISSN -- verified live
+ * against api.crossref.org/works?filter=issn:X this batch; for a few
+ * publishers (JACC, Cell, CHEST, The Lancet) only the PRINT ISSN is indexed
+ * by Crossref's issn filter, not the online one, so print is used there.
+ * `query` stays only as the expectedContainer() source for containerMatches().
  */
-const JOURNAL_QUERIES: Array<{ feedId: string; query: string }> = [
-  { feedId: 'research-bmj', query: 'container-title:BMJ' },
-  { feedId: 'research-circulation-aha', query: 'container-title:Circulation' },
-  { feedId: 'research-jaha', query: 'container-title:"Journal of the American Heart Association"' },
-  { feedId: 'research-jacc', query: 'container-title:JACC' },
+const JOURNAL_QUERIES: Array<{ feedId: string; query: string; issn?: string }> = [
+  { feedId: 'research-bmj', query: 'container-title:BMJ', issn: '1756-1833' },
+  { feedId: 'research-circulation-aha', query: 'container-title:Circulation', issn: '1524-4539' },
+  {
+    feedId: 'research-jaha',
+    query: 'container-title:"Journal of the American Heart Association"',
+    issn: '2047-9980',
+  },
+  { feedId: 'research-jacc', query: 'container-title:JACC', issn: '0735-1097' },
   {
     feedId: 'research-european-heart-journal',
     query: 'container-title:"European Heart Journal"',
+    issn: '1522-9645',
   },
-  { feedId: 'research-nejm-ai', query: 'container-title:"NEJM AI"' },
+  { feedId: 'research-nejm-ai', query: 'container-title:"NEJM AI"', issn: '2836-9386' },
   {
     feedId: 'research-cochrane-library',
     query: 'container-title:"Cochrane Database of Systematic Reviews"',
+    issn: '1469-493X',
   },
-  { feedId: 'research-cell', query: 'container-title:Cell' },
-  { feedId: 'research-chest-journal', query: 'container-title:CHEST' },
+  { feedId: 'research-cell', query: 'container-title:Cell', issn: '0092-8674' },
+  { feedId: 'research-chest-journal', query: 'container-title:CHEST', issn: '0012-3692' },
   {
     feedId: 'research-european-respiratory-journal',
     query: 'container-title:"European Respiratory Journal"',
+    issn: '1399-3003',
   },
   {
     feedId: 'research-ieee-jbhi',
     query: 'container-title:"IEEE Journal of Biomedical and Health Informatics"',
+    issn: '2168-2208',
   },
   {
     feedId: 'research-ieee-tbme',
     query: 'container-title:"IEEE Transactions on Biomedical Engineering"',
+    issn: '1558-2531',
   },
-  { feedId: 'research-jama-network', query: 'container-title:JAMA' },
+  { feedId: 'research-jama-network', query: 'container-title:JAMA', issn: '1538-3598' },
   {
     feedId: 'research-jmir',
     query: 'container-title:"Journal of Medical Internet Research"',
+    issn: '1438-8871',
   },
   {
     feedId: 'research-lancet-digital-health',
     query: 'container-title:"The Lancet Digital Health"',
+    issn: '2589-7500',
   },
-  { feedId: 'research-the-lancet', query: 'container-title:"The Lancet"' },
-  { feedId: 'research-nejm', query: 'container-title:"New England Journal of Medicine"' },
-  { feedId: 'research-nature', query: 'container-title:Nature' },
-  { feedId: 'research-nature-medicine', query: 'container-title:"Nature Medicine"' },
-  { feedId: 'research-nature-biotechnology', query: 'container-title:"Nature Biotechnology"' },
-  { feedId: 'research-nature-genetics', query: 'container-title:"Nature Genetics"' },
+  { feedId: 'research-the-lancet', query: 'container-title:"The Lancet"', issn: '0140-6736' },
+  {
+    feedId: 'research-nejm',
+    query: 'container-title:"New England Journal of Medicine"',
+    issn: '1533-4406',
+  },
+  { feedId: 'research-nature', query: 'container-title:Nature', issn: '1476-4687' },
+  { feedId: 'research-nature-medicine', query: 'container-title:"Nature Medicine"', issn: '1546-170X' },
+  {
+    feedId: 'research-nature-biotechnology',
+    query: 'container-title:"Nature Biotechnology"',
+    issn: '1546-1696',
+  },
+  { feedId: 'research-nature-genetics', query: 'container-title:"Nature Genetics"', issn: '1546-1718' },
   {
     feedId: 'research-npj-digital-medicine',
     query: 'container-title:"npj Digital Medicine"',
+    issn: '2398-6352',
   },
-  { feedId: 'research-science', query: 'container-title:Science' },
+  { feedId: 'research-science', query: 'container-title:Science', issn: '1095-9203' },
   {
     feedId: 'research-science-translational-medicine',
     query: 'container-title:"Science Translational Medicine"',
+    issn: '1946-6242',
   },
   { feedId: 'research-medrxiv-preprint', query: 'publisher-name:medRxiv' },
 ];
@@ -96,7 +128,11 @@ export async function ingestJournalCrossrefFallbacks(
     // Always refresh continuously; Crossref is the durable path for blocked journals.
     try {
       const url = new URL('https://api.crossref.org/works');
-      url.searchParams.set('query', j.query);
+      if (j.issn) {
+        url.searchParams.set('filter', `issn:${j.issn}`);
+      } else {
+        url.searchParams.set('query', j.query);
+      }
       url.searchParams.set('rows', '12');
       url.searchParams.set('sort', 'published');
       url.searchParams.set('order', 'desc');
