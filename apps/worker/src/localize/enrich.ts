@@ -187,17 +187,15 @@ export async function enrichOneItem(
   const sourceTitle = (row.title_orig || row.title || '').trim();
   const sourceSummary = stripHtml(row.summary || sourceTitle);
 
-  // Already Turkish → skip LLM (free-tier thrift)
+  // Already Turkish AND no real content beyond the title → skip LLM (free-tier thrift). A Turkish
+  // item WITH a genuine summary/excerpt (e.g. a fetched detail-page lead paragraph) still needs the
+  // evidence-extraction + gistTr treatment -- shouldSkipEnrichment() carries that exception.
   // Force-enrich clear EN regulatory/news cues even if detector is unsure.
   const forceEn =
     /\b(WHO|FDA|NIH|EMA|U\.S\.|United States|approved|licensed|prequalif|Council|Press Release)\b/i.test(
       sourceTitle
     );
-  if (
-    !forceEn &&
-    !looksMostlyEnglish(sourceTitle) &&
-    !looksMostlyEnglish(sourceSummary.slice(0, 160))
-  ) {
+  if (!forceEn && shouldSkipEnrichment(sourceTitle, sourceSummary)) {
     await env.DB.prepare(
       `UPDATE source_items
        SET enrichment_status = 'skipped',
@@ -360,7 +358,18 @@ export async function runEnrichmentBatch(
   return { scanned: results?.length ?? 0, done, failed, skipped };
 }
 
-/** Mark new/updated English items pending without wiping prior TR enrichments. */
+/**
+ * Mark new/updated English items pending without wiping prior TR enrichments.
+ * Also runs enrichment for already-Turkish items when the summary carries real content beyond
+ * the bare title (e.g. a fetched detail-page excerpt) -- otherwise a Turkish-native source with a
+ * genuine lead paragraph would be skipped just because it needs no translation, leaving the gist
+ * as a plain title-echo (a real Kaduse/Hekimler quality gap, 2026-09-23) instead of the actual
+ * evidence-derived judgment sentence the rest of this pipeline produces for every other route.
+ */
 export function shouldSkipEnrichment(title: string, summary: string): boolean {
-  return !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
+  const alreadyTurkish = !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
+  if (!alreadyTurkish) return false;
+  const normalize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const hasExtraContent = normalize(summary || '') !== normalize(title || '') && (summary || '').trim().length > (title || '').trim().length + 20;
+  return !hasExtraContent;
 }
