@@ -774,6 +774,8 @@
     if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
   });
   document.addEventListener('click', function (e) {
+    var sel = window.getSelection();
+    if (sel && String(sel).length > 0 && e.target.closest('#srcPanel')) { return; }
     if (e.target.closest('[data-srcpanel]')) {
       state.showSources = !state.showSources;
       renderChrome();
