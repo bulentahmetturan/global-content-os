@@ -13,7 +13,7 @@ import { ingestResearchApis } from './ingress/research-apis';
 import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
-import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, type TriageAction } from './triage/actions';
+import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, pruneLowYieldSources, type TriageAction } from './triage/actions';
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
@@ -398,6 +398,11 @@ export default {
         return json({ ok: true, ...result });
       }
 
+      if (path === '/api/source-health/low-yield' && request.method === 'POST') {
+        const result = await pruneLowYieldSources(env);
+        return json({ ok: true, ...result });
+      }
+
       if (env.ASSETS) {
         return env.ASSETS.fetch(request);
       }
@@ -435,7 +440,11 @@ export default {
             // gate's freshness window after already being admitted (S16) needs the same sweep;
             // adding a separate ScheduledSlot would break the one-job-per-tick CPU budget (S10).
             const expired = await expireStaleInboxItems(env, 'kaduse-news', NEWS_MAX_AGE_DAYS);
-            return { ...purge, staleInboxExpired: expired.expired };
+            const lowYield = await pruneLowYieldSources(env);
+            if (lowYield.flagged.length) {
+              console.log(JSON.stringify({ event: 'low_yield_source_flagged', sources: lowYield.flagged }));
+            }
+            return { ...purge, staleInboxExpired: expired.expired, lowYieldDisabled: lowYield.disabled, lowYieldFlagged: lowYield.flagged };
           },
           enrich: () => runEnrichmentBatch(env, { limit: 3 }),
           'hekimler-continuous': () =>

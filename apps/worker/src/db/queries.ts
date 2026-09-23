@@ -67,6 +67,26 @@ export function dedupeKeyFromUrl(url: string): string {
   return canonicalizeUrl(url).toLowerCase();
 }
 
+/** 64-bit (16 hex char) key for decided_links -- fixed-size so the ledger stays small as it grows
+ * without bound, instead of storing full URL text per row. */
+export async function urlLedgerKey(url: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(dedupeKeyFromUrl(url)));
+  return [...new Uint8Array(digest)].slice(0, 8).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** True if this URL already reached a final triage decision (promote/complete/delete) before --
+ * including ones since hard-purged from source_items/trash. See migrations/0014_decided_links.sql. */
+export async function isPreviouslyDecided(db: D1Database, url: string): Promise<boolean> {
+  const key = await urlLedgerKey(url);
+  const row = await db.prepare(`SELECT 1 FROM decided_links WHERE url_key = ?`).bind(key).first();
+  return row != null;
+}
+
+export async function recordDecidedLink(db: D1Database, url: string): Promise<void> {
+  const key = await urlLedgerKey(url);
+  await db.prepare(`INSERT OR IGNORE INTO decided_links (url_key) VALUES (?)`).bind(key).run();
+}
+
 /** intake_meta_json embeds per-run timestamps (fetched_at, created_at, provenance.fetched_at); it must not make an otherwise identical item look changed. */
 function intakeMetaEquivalent(incoming: string | null | undefined, current: string | null | undefined): boolean {
   if (incoming === undefined || incoming === null) return true;
@@ -256,6 +276,15 @@ export async function upsertSourceItem(
       await upsertEvidence(db, existing.id, input.evidence);
     }
     return { id: existing.id, created: false };
+  }
+
+  // A "most read / trending" scrape re-lists the same popular article for days or weeks; once a
+  // link has been decided (promoted, completed, or deleted) it must never come back for review
+  // again, even after its source_items row is long gone from the (hard-purged) trash.
+  if (input.route === 'kaduse-news' || input.route === 'kaduse-research') {
+    if (await isPreviouslyDecided(db, input.canonicalUrl)) {
+      return { id: '', created: false, rejected: 'previously_decided' };
+    }
   }
 
   // Central admission gate (new rows only; existing rows are never mutated by it): see ingress/ingest-gate.ts.

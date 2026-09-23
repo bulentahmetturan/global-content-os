@@ -1,5 +1,6 @@
 import {
   newId,
+  recordDecidedLink,
   rowToView,
   type Env,
   type RouteId,
@@ -106,6 +107,15 @@ export async function applyTriage(
       actor
     )
     .run();
+
+  // Final decision (not hold/undo, which are reversible/pending states): remember the link
+  // permanently so a "most read / trending" re-scrape never brings it back for review again.
+  if (
+    (action === 'promote' || action === 'complete' || action === 'delete') &&
+    (row.route === 'kaduse-news' || row.route === 'kaduse-research')
+  ) {
+    await recordDecidedLink(env.DB, row.canonical_url);
+  }
 
   const updated = {
     ...row,
@@ -337,4 +347,73 @@ export async function expireStaleInboxItems(
   }
 
   return { expired: ids.length, ids };
+}
+
+/** Policy start: only decisions made from this point on count toward the threshold below --
+ * older editorial history (pre-dating this rule) is intentionally not scanned retroactively. */
+export const LOW_YIELD_POLICY_SINCE = '2026-09-24T00:00:00.000Z';
+const LOW_YIELD_MIN_DECIDED = 100;
+const LOW_YIELD_REJECT_RATE = 0.99;
+
+export interface LowYieldResult {
+  key: string; // feed_id (Kaduse) or source_id (Hekimler)
+  route: RouteId;
+  total: number;
+  deleted: number;
+  rejectRate: number;
+}
+
+/**
+ * A source that gets manually deleted almost every time it produces something is not worth
+ * fetching. Once a feed/source has at least LOW_YIELD_MIN_DECIDED final decisions (promote/
+ * complete/delete, counted only since LOW_YIELD_POLICY_SINCE -- not retroactive) and
+ * LOW_YIELD_REJECT_RATE of them were deletions, it's disabled.
+ * Kaduse feeds are DB-driven (source_feeds.enabled) so this can flip the switch itself.
+ * Hekimler python_runner sources live in a git-tracked registry + deployed readyBundle -- a
+ * scheduled Worker job can't safely edit and redeploy that, so those are only reported back for
+ * an operator/agent to act on (see disabled=false entries in the result).
+ */
+export async function pruneLowYieldSources(
+  env: Env,
+  sinceIso: string = LOW_YIELD_POLICY_SINCE
+): Promise<{ disabled: LowYieldResult[]; flagged: LowYieldResult[] }> {
+  const { results } = await env.DB.prepare(
+    `SELECT i.route AS route,
+            CASE WHEN i.route = 'tip-ogrencileri' THEN i.source_id ELSE i.feed_id END AS key,
+            COUNT(*) AS total,
+            SUM(CASE WHEN d.action = 'delete' THEN 1 ELSE 0 END) AS deleted
+     FROM editorial_decisions d
+     JOIN source_items i ON i.id = d.source_item_id
+     WHERE d.action IN ('promote', 'complete', 'delete') AND d.decided_at >= ?
+     GROUP BY i.route, key
+     HAVING total >= ?`
+  )
+    .bind(sinceIso, LOW_YIELD_MIN_DECIDED)
+    .all<{ route: RouteId; key: string | null; total: number; deleted: number }>();
+
+  const disabled: LowYieldResult[] = [];
+  const flagged: LowYieldResult[] = [];
+
+  for (const row of results ?? []) {
+    if (!row.key) continue;
+    const rejectRate = row.deleted / row.total;
+    if (rejectRate < LOW_YIELD_REJECT_RATE) continue;
+    const entry: LowYieldResult = { key: row.key, route: row.route, total: row.total, deleted: row.deleted, rejectRate };
+
+    if (row.route === 'tip-ogrencileri') {
+      flagged.push(entry);
+      continue;
+    }
+    const update = await env.DB.prepare(
+      `UPDATE source_feeds SET enabled = 0 WHERE id = ? AND enabled = 1`
+    )
+      .bind(row.key)
+      .run();
+    if ((update.meta?.changes ?? 0) > 0) {
+      disabled.push(entry);
+    }
+    // changes === 0 means already disabled (or no matching source_feeds row) -- nothing to do.
+  }
+
+  return { disabled, flagged };
 }
