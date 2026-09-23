@@ -4,6 +4,10 @@
  */
 const FEED_URL_SCOPES: Record<string, RegExp> = {
   'news-aa-saglik-scoped': /^https?:\/\/(www\.)?aa\.com\.tr\/tr\/saglik\/[^?#]+/i,
+  // /blog listing's HTML includes the site's full nav/footer (Case studies, Glossary, Terms,
+  // etc.) alongside the real posts -- confirmed live 2026-09-23. Only /blog/<slug>/ entries are
+  // actual articles.
+  'news-nhs-aidrs-news-scoped': /^https?:\/\/(www\.)?digitalregulations\.innovation\.nhs\.uk\/blog\/[^/?#]+\/?$/i,
 };
 
 export function feedUrlScope(feedId: string): RegExp | null {
