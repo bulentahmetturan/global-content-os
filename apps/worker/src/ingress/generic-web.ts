@@ -489,6 +489,12 @@ export async function ingestGenericFeeds(
   if (!feedIds.length) {
     sql += ` AND (last_error IS NULL OR last_fetched_at IS NULL OR last_fetched_at < ?)`;
     backoffBinds.push(new Date(Date.now() - ERROR_BACKOFF_HOURS * 3_600_000).toISOString());
+    // Respect each feed's own poll_minutes (2026-09-23: was stored but never enforced -- every
+    // feed rotated at the same cadence regardless of how rarely it actually produces new
+    // content, wasting D1 read/write quota on monthly-cadence sources polled hourly). A healthy
+    // feed is skipped until its own interval has elapsed; error-backoff above still applies
+    // independently for failing ones.
+    sql += ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
   }
   if (opts.route === 'kaduse-news') {
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
