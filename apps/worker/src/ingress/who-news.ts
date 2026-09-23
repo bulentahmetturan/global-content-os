@@ -14,15 +14,24 @@ interface WhoNewsItem {
  * Kaduse News ingress: WHO Newsroom public JSON API.
  * Marks only freshly fetched items into source_items with dedupe on URL.
  */
-export async function ingestWhoNews(env: Env): Promise<{ created: number; updated: number; total: number }> {
-  const feed = await env.DB.prepare(`SELECT * FROM source_feeds WHERE id IN ('who-newsroom', 'news-who-newsroom-whole') AND enabled = 1 LIMIT 1`).first<{
+export async function ingestWhoNews(
+  env: Env,
+  opts?: { force?: boolean }
+): Promise<{ created: number; updated: number; total: number }> {
+  const due = opts?.force
+    ? ''
+    : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
+  const feed = await env.DB.prepare(
+    `SELECT * FROM source_feeds WHERE id IN ('who-newsroom', 'news-who-newsroom-whole') AND enabled = 1${due} LIMIT 1`
+  ).first<{
     id: string;
     endpoint_url: string;
     rules_json: string | null;
     channel_id: string;
   }>();
   if (!feed?.endpoint_url) {
-    throw new Error('WHO news feed missing or disabled');
+    if (opts?.force) throw new Error('WHO news feed missing or disabled');
+    return { created: 0, updated: 0, total: 0 };
   }
 
   let limit = 20;

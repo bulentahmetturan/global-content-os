@@ -111,7 +111,7 @@ async function mark(env: Env, feedId: string, ok: number, err: string | null) {
 
 export async function ingestJournalCrossrefFallbacks(
   env: Env,
-  opts: { offset?: number; limit?: number } = {}
+  opts: { offset?: number; limit?: number; force?: boolean } = {}
 ): Promise<{
   feeds: Record<string, { created: number; updated: number; total: number; error?: string }>;
   offset: number;
@@ -125,13 +125,16 @@ export async function ingestJournalCrossrefFallbacks(
     {};
 
   for (const j of slice) {
+    const due = opts.force
+      ? ''
+      : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 1440) || ' minutes') <= datetime('now'))`;
     const feed = await env.DB.prepare(
-      `SELECT id, channel_id, label, last_ok_items FROM source_feeds WHERE id = ? AND enabled = 1`
+      `SELECT id, channel_id, label, last_ok_items FROM source_feeds WHERE id = ? AND enabled = 1${due}`
     )
       .bind(j.feedId)
       .first<{ id: string; channel_id: string; label: string; last_ok_items: number }>();
     if (!feed) continue;
-    // Always refresh continuously; Crossref is the durable path for blocked journals.
+    // Crossref is the durable path for blocked journals. Skip until poll_minutes has elapsed.
     try {
       const url = new URL('https://api.crossref.org/works');
       if (j.issn) {

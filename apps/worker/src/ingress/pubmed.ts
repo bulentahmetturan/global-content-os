@@ -3,9 +3,15 @@ import { upsertSourceItem, type Env } from '../db/queries';
 /**
  * Kaduse Research ingress: PubMed E-utilities batch (not a continuous crawler).
  */
-export async function ingestPubmed(env: Env): Promise<{ created: number; updated: number; total: number }> {
+export async function ingestPubmed(
+  env: Env,
+  opts?: { force?: boolean }
+): Promise<{ created: number; updated: number; total: number }> {
+  const due = opts?.force
+    ? ''
+    : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
   const feed = await env.DB.prepare(
-    `SELECT * FROM source_feeds WHERE id = 'research-pubmed-eutilities' AND enabled = 1`
+    `SELECT * FROM source_feeds WHERE id = 'research-pubmed-eutilities' AND enabled = 1${due}`
   ).first<{
     id: string;
     endpoint_url: string;
@@ -13,7 +19,8 @@ export async function ingestPubmed(env: Env): Promise<{ created: number; updated
     channel_id: string;
   }>();
   if (!feed) {
-    throw new Error('research-pubmed-eutilities feed missing or disabled');
+    if (opts?.force) throw new Error('research-pubmed-eutilities feed missing or disabled');
+    return { created: 0, updated: 0, total: 0 };
   }
 
   let term = '(auscultation OR stethoscope OR ("artificial intelligence" AND medicine))';
