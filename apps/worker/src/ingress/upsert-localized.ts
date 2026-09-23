@@ -1,9 +1,10 @@
 import { upsertSourceItem, dedupeKeyFromUrl, type Env, type RouteId } from '../db/queries';
 import { looksMostlyEnglish } from '../localize/tr';
 import { shouldSkipEnrichment } from '../localize/enrich';
+import { repairMojibake } from './text-repair';
 
 function stripHtml(s: string): string {
-  return (s || '')
+  return repairMojibake(s || '')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/gi, ' ')
     .replace(/&amp;/gi, '&')

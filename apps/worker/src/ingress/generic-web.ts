@@ -1,6 +1,7 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
+import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { decodeEntities, isArticleLink } from './link-quality';
 
 export interface FeedRow {
@@ -457,7 +458,7 @@ export async function ingestGenericFeeds(
   empty: number;
   errors: number;
   nextOffset: number | null;
-  samples: Array<{ feedId: string; items: number; error?: string }>;
+  samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }>;
 }> {
   const offset = opts.offset ?? 0;
   const limit = Math.min(opts.limit ?? 8, 20);
@@ -493,7 +494,7 @@ export async function ingestGenericFeeds(
   let updated = 0;
   let empty = 0;
   let errors = 0;
-  const samples: Array<{ feedId: string; items: number; error?: string }> = [];
+  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }> = [];
 
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
@@ -501,10 +502,15 @@ export async function ingestGenericFeeds(
       const scope = feedUrlScope(feed.id);
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
+      const offTopicCount = extracted.items.length;
+      if ((feed.route === 'kaduse-news' || feed.route === 'kaduse-research') && !isTopicGateExempt(feed.id)) {
+        extracted.items = extracted.items.filter((it) => isHealthRelevant(it.title, it.summary));
+      }
       samples.push({
         feedId: feed.id,
         items: extracted.items.length,
         error: extracted.error,
+        offTopicDropped: offTopicCount - extracted.items.length || undefined,
       });
       if (!extracted.items.length) {
         empty += 1;
