@@ -119,15 +119,17 @@ export default {
       if (path === '/api/hekimler/sources' && request.method === 'GET') {
         const { results } = await env.DB.prepare(
           `SELECT source_id, last_success_at, source_health, coverage_status, last_item_timestamp,
-                  last_accepted_count, last_discarded_count, last_item_count, failure_count
+                  last_accepted_count, last_discarded_count, last_item_count, failure_count, poll_minutes,
+                  zero_accept_streak
            FROM hekimler_source_telemetry ORDER BY source_id`
         ).all<Record<string, unknown>>();
         const byId = new Map((results || []).map((r) => [String(r.source_id), r]));
         const ids = new Set<string>([...byId.keys(), ...Object.keys(COVERAGE_OVERRIDES)]);
         const sources = [...ids].sort().map((id) => {
-          const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string } | undefined) ?? null;
+          const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string; poll_minutes?: number } | undefined) ?? null;
           const c = coverageLabel(id, row);
-          return { sourceId: id, ...c, telemetry: row };
+          const pollMinutes = Number(row?.poll_minutes) || 43200;
+          return { sourceId: id, ...c, pollMinutes, telemetry: row };
         });
         return json({ sources });
       }
@@ -201,14 +203,14 @@ export default {
       }
 
       if (path === '/api/ingress/news' && request.method === 'POST') {
-        const result = await ingestWhoNews(env);
+        const result = await ingestWhoNews(env, { force: true });
         return json({ ok: true, feed: 'who-newsroom', ...result });
       }
 
       if (path === '/api/ingress/research' && request.method === 'POST') {
-        const europePmc = await ingestEuropePmc(env);
-        const pubmed = await ingestPubmed(env);
-        const apis = await ingestResearchApis(env);
+        const europePmc = await ingestEuropePmc(env, { force: true });
+        const pubmed = await ingestPubmed(env, { force: true });
+        const apis = await ingestResearchApis(env, { force: true });
         return json({ ok: true, europePmc, pubmed, apis });
       }
 
@@ -466,10 +468,10 @@ export default {
 };
 
 async function runAllIngress(env: Env) {
-  const news = await ingestWhoNews(env);
-  const europePmc = await ingestEuropePmc(env);
-  const pubmed = await ingestPubmed(env);
-  const apis = await ingestResearchApis(env);
+  const news = await ingestWhoNews(env, { force: true });
+  const europePmc = await ingestEuropePmc(env, { force: true });
+  const pubmed = await ingestPubmed(env, { force: true });
+  const apis = await ingestResearchApis(env, { force: true });
   return {
     news,
     europePmc,

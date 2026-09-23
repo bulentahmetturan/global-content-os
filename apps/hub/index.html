@@ -171,7 +171,8 @@
   #srcPanel h3{margin:10px 0 6px;font-size:14px}
   #srcPanel .src-scroll{max-height:340px;overflow:auto}
   #srcPanel table{border-collapse:collapse;width:100%;font-size:13px}
-  #srcPanel td{padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top}
+  #srcPanel th,#srcPanel td{padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top}
+  #srcPanel th{font-size:11px;font-weight:600;text-align:left;opacity:.7;position:sticky;top:0;background:var(--surface,#fff)}
   #srcPanel tr[data-src]{cursor:pointer}
   #srcPanel tr[data-src]:hover{background:rgba(128,128,128,.12)}
   #srcPanel .src-n{text-align:right;white-space:nowrap;opacity:.8}
@@ -603,6 +604,27 @@
     if (i !== -1) t = t.slice(0, i);
     return t.trim();
   }
+  function cadenceLabel(mins) {
+    var n = Number(mins) || 43200;
+    if (n <= 90) return 'saatlik';
+    if (n <= 1500) return 'günlük';
+    if (n <= 11000) return 'haftalık';
+    return 'aylık';
+  }
+  function lastWithCadence(r) {
+    return (r.last || '—') + ' (' + cadenceLabel(r.pollMinutes) + ')';
+  }
+  function nextFetchLabel(r) {
+    var mins = Number(r.pollMinutes) || 43200;
+    if (!r.last) return 'şimdi (henüz çekilmedi)';
+    var last = new Date(r.last + 'T00:00:00Z');
+    if (isNaN(last.getTime())) return '—';
+    var next = new Date(last.getTime() + mins * 60000);
+    var now = new Date();
+    var due = next.getTime() <= now.getTime();
+    var label = next.toISOString().slice(0, 10);
+    return due ? label + ' (gecikti)' : label;
+  }
   function sourceRows() {
     var counts = {};
     (state.items || []).forEach(function (it) {
@@ -616,7 +638,8 @@
         rows.push({
           id: s.sourceId, name: SOURCE_LABELS[s.sourceId] || s.sourceId.replace(/_/g, ' '),
           status: COVERAGE_TR[s.label] || s.label, bad: !/^PIPELINE_OK/.test(s.label),
-          last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '', n: counts[s.sourceId] || 0,
+          last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '',
+          pollMinutes: s.pollMinutes, n: counts[s.sourceId] || 0,
           research: isResearchSource('hekimler', s.sourceId)
         });
       });
@@ -626,7 +649,8 @@
         rows.push({
           id: f.id, name: f.label, route: f.route,
           status: bad ? 'hata: ' + f.last_error : (f.last_fetched_at ? 'çalışıyor' : 'henüz çekilmedi'), bad: bad,
-          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
+          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '',
+          pollMinutes: f.poll_minutes, n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
           research: f.route === 'kaduse-research'
         });
       });
@@ -640,12 +664,12 @@
     var rows = sourceRows();
     if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
     function table(list) {
-      return '<div class="src-scroll"><table><tbody>' + list.map(function (r, i) {
+      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th></tr></thead><tbody>' + list.map(function (r, i) {
         var why = sourceWhy(r.id);
         var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(baseSourceName(r.name)) + '</span>' +
           (why ? ' <span class="src-why">: ' + escapeHtml(why) + '</span>' : '');
         return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
-          escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
+          escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     var news = rows.filter(function (r) { return !r.research; }), res = rows.filter(function (r) { return r.research; });
