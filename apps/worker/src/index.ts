@@ -13,7 +13,8 @@ import { ingestResearchApis } from './ingress/research-apis';
 import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
-import { applyTriage, recordProductionStatus, purgeExpiredTrash, type TriageAction } from './triage/actions';
+import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, type TriageAction } from './triage/actions';
+import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
 import {
@@ -392,6 +393,11 @@ export default {
         return json({ ok: true, ...result });
       }
 
+      if (path === '/api/expire/stale-inbox' && request.method === 'POST') {
+        const result = await expireStaleInboxItems(env, 'kaduse-news', NEWS_MAX_AGE_DAYS);
+        return json({ ok: true, ...result });
+      }
+
       if (env.ASSETS) {
         return env.ASSETS.fetch(request);
       }
@@ -423,7 +429,14 @@ export default {
       (async () => {
         const slot = pickScheduledSlot(hour, minute);
         const all: Record<ScheduledSlot, () => Promise<unknown>> = {
-          'purge-trash': () => purgeExpiredTrash(env, 2),
+          'purge-trash': async () => {
+            const purge = await purgeExpiredTrash(env, 2);
+            // Same tick, same "housekeeping" job -- an inbox item that ages past the ingest
+            // gate's freshness window after already being admitted (S16) needs the same sweep;
+            // adding a separate ScheduledSlot would break the one-job-per-tick CPU budget (S10).
+            const expired = await expireStaleInboxItems(env, 'kaduse-news', NEWS_MAX_AGE_DAYS);
+            return { ...purge, staleInboxExpired: expired.expired };
+          },
           enrich: () => runEnrichmentBatch(env, { limit: 3 }),
           'hekimler-continuous': () =>
             runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),

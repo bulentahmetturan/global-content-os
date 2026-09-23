@@ -6,6 +6,7 @@ import {
   type SourceItemRow,
   type TriageStatus,
 } from '../db/queries';
+import { normalizeDate } from '../ingress/ingest-gate';
 
 export type TriageAction = 'promote' | 'hold' | 'delete' | 'undo' | 'complete';
 
@@ -280,4 +281,60 @@ export async function purgeExpiredTrash(
   }
 
   return { deleted: ids.length };
+}
+
+/**
+ * Move un-triaged inbox items whose published_at has aged past `maxAgeDays` to 'hold' (never
+ * 'trash' -- trash gets hard-deleted by purgeExpiredTrash within days, and this needs to stay
+ * reversible/auditable). The ingest gate (ingress/ingest-gate.ts, NEWS_MAX_AGE_DAYS) only checks
+ * freshness at fetch time; an item that was fresh when ingested but then sits un-reviewed in
+ * inbox for a while ages past the same threshold with no code re-checking it (S16, 2026-09-23:
+ * 9 kaduse-news items ingested 2026-09-17..21 were still sitting in inbox, now >10 days old).
+ * 'hold' keeps them visible/reversible in the Hub ("Beklemede" tab, undo action) instead of
+ * silently vanishing or being hard-deleted.
+ */
+export async function expireStaleInboxItems(
+  env: Env,
+  route: RouteId,
+  maxAgeDays: number,
+  limit = 500
+): Promise<{ expired: number; ids: string[] }> {
+  // published_at is a free-text string (ISO for items ingested after the 2026-09-22 ingest-gate
+  // rollout, but older rows can still carry raw RFC822 -- "Fri, 11 Sep 2026 ..."), so filtering
+  // must happen after normalizeDate(), not as a SQL string comparison (which would silently
+  // mis-order the two formats).
+  const { results } = await env.DB.prepare(
+    `SELECT id, published_at FROM source_items
+     WHERE route = ? AND triage_status = 'inbox' AND published_at IS NOT NULL
+     LIMIT ?`
+  )
+    .bind(route, limit)
+    .all<{ id: string; published_at: string }>();
+
+  const today = new Date().toISOString().slice(0, 10);
+  const ids = (results ?? [])
+    .filter((r) => {
+      const date = normalizeDate(r.published_at);
+      if (!date) return false;
+      const ageDays = (Date.parse(today) - Date.parse(date)) / 86_400_000;
+      return ageDays > maxAgeDays;
+    })
+    .map((r) => r.id);
+  if (!ids.length) return { expired: 0, ids: [] };
+
+  for (const id of ids) {
+    await env.DB.prepare(
+      `UPDATE source_items SET triage_status = 'hold', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?`
+    )
+      .bind(id)
+      .run();
+    await env.DB.prepare(
+      `INSERT INTO editorial_decisions (id, source_item_id, action, from_status, to_status, actor)
+       VALUES (?, ?, 'hold', 'inbox', 'hold', 'system:stale-expiry')`
+    )
+      .bind(newId('dec'), id)
+      .run();
+  }
+
+  return { expired: ids.length, ids };
 }
