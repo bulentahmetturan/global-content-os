@@ -81,6 +81,15 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html':
     'https://www.bing.com/news/search?q=site%3Acanada.ca+(%22medical+device%22+OR+%22Health+Canada%22)&format=rss',
   'https://www.medtechdive.com': 'https://www.medtechdive.com/feeds/news/',
+  // The guidance-programme page's HTML is category/policy links (About us, Get involved,
+  // newsletters, licence terms), no real dated article entries -- Bing News fallback (2026-09-23).
+  'https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-medical-technologies-guidance':
+    'https://www.bing.com/news/search?q=site%3Anice.org.uk+(medical+device+OR+digital+health+OR+diagnostic+OR+AI)&format=rss',
+  // news.html's HTML is nav/category links (Medical devices, Human medicines, Latest News,
+  // e-Government portal, etc.), no real article entries -- Swissmedic's own official RSS instead
+  // (confirmed live 2026-09-23, real dated safety communications/recalls).
+  'https://www.swissmedic.ch/swissmedic/en/home/news.html':
+    'https://fetchrss.com/feed/X-CSwP0MWGVCaG_Z2JbPgiti.rss',
   'https://www.bmj.com/': 'https://www.bmj.com/rss/recent.xml',
   'https://www.cell.com/cell/home': 'https://www.cell.com/cell/current.rss',
   'https://www.nejm.org/': 'https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss',
