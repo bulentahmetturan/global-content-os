@@ -38,6 +38,11 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   // the same rss.xml URL returns 200 to a normal browser/curl) — Bing News site query instead.
   'https://www.fda.gov/medical-devices/safety-communications':
     'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+recall+OR+safety)&format=rss',
+  // 2026-09-23: consolidated 4 separate FDA feeds (device-safety, digital-health, samd,
+  // press-announcements) into this one -- all 4 Bing-News queries kept converging on the exact
+  // same 1 FDA press release each poll (created:0 every time, only ever "updating" the one row
+  // another feed already owned), so they were pure registry duplication, not real distinct
+  // coverage. The other 3 feed ids are now disabled; this query covers all 4 original angles.
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device':
     'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+AI+OR+software)&format=rss',
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices':
@@ -47,7 +52,7 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd':
     'https://www.bing.com/news/search?q=site%3Afda.gov+(digital+health+OR+device+OR+software)&format=rss',
   'https://www.fda.gov/news-events/fda-newsroom/press-announcements':
-    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+approval+OR+recall)&format=rss',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+approval+OR+recall+OR+%22digital+health%22+OR+SaMD+OR+software+OR+safety)&format=rss',
   'https://www.hma.eu/news.html': 'https://www.hma.eu/',
   'https://www.imdrf.org/news':
     'https://www.bing.com/news/search?q=site%3Aimdrf.org&format=rss',
@@ -66,6 +71,10 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   // HHS official RSS also 403s to this Worker (2026-09-22) — Bing News fallback.
   'https://www.hhs.gov/about/news/index.html':
     'https://www.bing.com/news/search?q=site%3Ahhs.gov+(health+OR+AI+OR+technology)&format=rss',
+  // Homepage has almost no real article links (mostly nav/hero copy) -- the actual dated blog
+  // posts live at /blog, confirmed live 2026-09-23 (11 real posts, real <a href="/blog/..."> links
+  // in server-rendered HTML, no JS execution needed).
+  'https://www.digitalregulations.innovation.nhs.uk': 'https://digitalregulations.innovation.nhs.uk/blog',
   'https://www.mobihealthnews.com': 'https://feeds.feedburner.com/MobiHealthNews',
   'https://www.mobihealthnews.com/': 'https://feeds.feedburner.com/MobiHealthNews',
   // Health Canada atom feed returns http_520 to this Worker (2026-09-22) — Bing News fallback.
