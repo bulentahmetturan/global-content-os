@@ -2,7 +2,7 @@ import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
-import { decodeEntities, isArticleLink } from './link-quality';
+import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
 
 export interface FeedRow {
   id: string;
@@ -516,6 +516,7 @@ export async function ingestGenericFeeds(
       const scope = feedUrlScope(feed.id);
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
+      extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
       const offTopicCount = extracted.items.length;
       if ((feed.route === 'kaduse-news' || feed.route === 'kaduse-research') && !isTopicGateExempt(feed.id)) {
         extracted.items = extracted.items.filter((it) => isHealthRelevant(it.title, it.summary));
