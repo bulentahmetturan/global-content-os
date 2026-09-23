@@ -8,7 +8,7 @@ import {
 } from './db/queries';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
-import { ingestPubmed } from './ingress/pubmed';
+import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
 import { ingestResearchApis } from './ingress/research-apis';
 import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
@@ -210,7 +210,7 @@ export default {
 
       if (path === '/api/ingress/research' && request.method === 'POST') {
         const europePmc = await ingestEuropePmc(env, { force: true });
-        const pubmed = await ingestPubmed(env, { force: true });
+        const pubmed = await ingestPubmedAll(env, { force: true });
         const apis = await ingestResearchApis(env, { force: true });
         return json({ ok: true, europePmc, pubmed, apis });
       }
@@ -451,7 +451,7 @@ export default {
             runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
           'who-news': () => ingestWhoNews(env),
           'europe-pmc': () => ingestEuropePmc(env),
-          pubmed: () => ingestPubmed(env),
+          pubmed: () => ingestPubmedAll(env),
           'research-apis': () => ingestResearchApis(env),
           'journal-fallback': () => {
             const journalOffset = (Math.floor(dayMinute / 15) * 5) % 25;
@@ -492,7 +492,7 @@ export default {
 async function runAllIngress(env: Env) {
   const news = await ingestWhoNews(env, { force: true });
   const europePmc = await ingestEuropePmc(env, { force: true });
-  const pubmed = await ingestPubmed(env, { force: true });
+  const pubmed = await ingestPubmedAll(env, { force: true });
   const apis = await ingestResearchApis(env, { force: true });
   return {
     news,
