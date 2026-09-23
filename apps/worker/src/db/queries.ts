@@ -55,7 +55,22 @@ export function newId(prefix: string): string {
 
 export function canonicalizeUrl(url: string): string {
   try {
-    const u = new URL(url);
+    let u = new URL(url);
+    // Bing News RSS (used by most kaduse-news/research feeds since S29) wraps every article in a
+    // click-tracking redirect with a random `tid` per fetch: apiclick.aspx?...&tid=<random>&
+    // url=<real target>&... . Using the wrapper verbatim as the dedupe key means the same article
+    // looks "new" on every single poll (2026-09-24 incident: one Medical News Today story ingested
+    // 14+ times in a day, one per hourly fetch). Unwrap to the real target before canonicalizing.
+    if (/(^|\.)bing\.com$/i.test(u.hostname) && u.pathname === '/news/apiclick.aspx') {
+      const real = u.searchParams.get('url');
+      if (real) {
+        try {
+          u = new URL(real);
+        } catch {
+          // malformed target -- fall back to the wrapper rather than throw
+        }
+      }
+    }
     u.hash = '';
     return u.toString();
   } catch {
