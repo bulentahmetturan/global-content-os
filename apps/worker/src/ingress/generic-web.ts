@@ -3,6 +3,7 @@ import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
+import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 
 export interface FeedRow {
   id: string;
@@ -291,6 +292,135 @@ function discoverFeedUrls(html: string, baseUrl: string): string[] {
   return out;
 }
 
+/** Legitimate discovery via a site's own published sitemap.xml/sitemap-news.xml — same category
+ * of file as robots.txt: sites publish these specifically to be crawled. Not a bypass. */
+// Matches the news ingest-gate's own NEWS_MAX_AGE_DAYS: no point title-fetching a sitemap entry
+// that would be rejected by the gate as stale anyway (see ingest-gate.ts).
+const SITEMAP_RECENT_DAYS = NEWS_MAX_AGE_DAYS;
+const SITEMAP_MAX_TITLE_FETCHES = 5;
+
+function isSitemapIndex(xml: string): boolean {
+  return /<sitemapindex[\s>]/i.test(xml.slice(0, 2000));
+}
+
+function extractSitemapIndexLocs(xml: string, baseUrl: string): string[] {
+  const out: string[] = [];
+  const blocks = xml.match(/<sitemap[\s>][\s\S]*?<\/sitemap>/gi) || [];
+  for (const block of blocks) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const abs = loc && absolutize(baseUrl, loc);
+    if (abs) out.push(abs);
+  }
+  return out;
+}
+
+/** Pick the sub-sitemap most likely to hold actual articles/posts (vs. static "page"/"category" trees). */
+function pickContentSitemapLoc(locs: string[]): string | null {
+  const priority = ['post', 'news', 'article', 'content'];
+  for (const p of priority) {
+    const hit = locs.find((l) => l.toLowerCase().includes(p));
+    if (hit) return hit;
+  }
+  return locs[0] || null;
+}
+
+function isNewsSitemap(xml: string): boolean {
+  return /xmlns:news=/i.test(xml.slice(0, 1000)) || /<news:title>/i.test(xml);
+}
+
+/** Google-News-format sitemap: each <url> carries <news:title>/<news:publication_date> inline —
+ * structurally almost identical to RSS, so this is one shared parser for any source using this format
+ * (e.g. Medical News Today), not a per-source one-off. */
+export function parseNewsSitemap(xml: string, baseUrl: string): ExtractedItem[] {
+  const items: ExtractedItem[] = [];
+  const blocks = xml.match(/<url[\s>][\s\S]*?<\/url>/gi) || [];
+  for (const block of blocks.slice(0, 40)) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const title = stripTags((block.match(/<news:title[^>]*>([\s\S]*?)<\/news:title>/i) || [])[1] || '');
+    const publishedAt =
+      stripTags((block.match(/<news:publication_date[^>]*>([\s\S]*?)<\/news:publication_date>/i) || [])[1] || '') ||
+      null;
+    if (!loc || !title) continue;
+    const url = absolutize(baseUrl, loc);
+    if (!url) continue;
+    items.push({ title, url, summary: title, publishedAt });
+  }
+  return items;
+}
+
+/** Plain sitemap (URL + lastmod only, no title/date fields) — return entries with a lastmod inside
+ * the recent window, newest first, capped so a per-URL title fetch stays small enough per tick. */
+function parseRecentPlainSitemapLocs(
+  xml: string,
+  baseUrl: string,
+  maxAgeDays: number = SITEMAP_RECENT_DAYS
+): Array<{ url: string; lastmod: string }> {
+  const out: Array<{ url: string; lastmod: string }> = [];
+  const blocks = xml.match(/<url[\s>][\s\S]*?<\/url>/gi) || [];
+  const cutoff = Date.now() - maxAgeDays * 86_400_000;
+  for (const block of blocks) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const lastmod = stripTags((block.match(/<lastmod[^>]*>([\s\S]*?)<\/lastmod>/i) || [])[1] || '');
+    if (!loc || !lastmod) continue;
+    const t = Date.parse(lastmod);
+    if (Number.isNaN(t) || t < cutoff || t > Date.now() + 86_400_000) continue;
+    const url = absolutize(baseUrl, loc);
+    if (!url) continue;
+    // Skip the homepage/section-root itself (e.g. a nav sitemap listing "/" with a fresh lastmod) —
+    // it is not an article and would otherwise surface as a junk "SafeMedication"-style item.
+    try {
+      const path = new URL(url).pathname;
+      if (path === '/' || path.length < 2) continue;
+    } catch {
+      continue;
+    }
+    out.push({ url, lastmod });
+  }
+  out.sort((a, b) => Date.parse(b.lastmod) - Date.parse(a.lastmod));
+  return out;
+}
+
+async function fetchArticleTitle(url: string): Promise<string | null> {
+  const { ok, text } = await fetchText(url);
+  if (!ok || !text) return null;
+  const og = (text.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i) ||
+    text.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i) ||
+    [])[1];
+  const raw = og || (text.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '';
+  const title = stripTags(raw);
+  return title.length >= 8 ? title : null;
+}
+
+/** Resolve a plain sitemap (with per-URL title fetch) or a Google-News-format sitemap into
+ * ExtractedItem[]; follows one level of <sitemapindex> to the most content-like sub-sitemap. */
+async function extractFromSitemap(
+  xml: string,
+  sitemapUrl: string
+): Promise<ExtractedItem[]> {
+  let body = xml;
+  let baseUrl = sitemapUrl;
+  if (isSitemapIndex(body)) {
+    const locs = extractSitemapIndexLocs(body, baseUrl);
+    const pick = pickContentSitemapLoc(locs);
+    if (!pick) return [];
+    const sub = await fetchText(pick);
+    if (!sub.ok || !sub.text) return [];
+    body = sub.text;
+    baseUrl = pick;
+  }
+  if (!/<urlset[\s>]/i.test(body.slice(0, 2000))) return [];
+  if (isNewsSitemap(body)) return parseNewsSitemap(body, baseUrl);
+
+  const recent = parseRecentPlainSitemapLocs(body, baseUrl).slice(0, SITEMAP_MAX_TITLE_FETCHES);
+  const items: ExtractedItem[] = [];
+  for (const entry of recent) {
+    const title = await fetchArticleTitle(entry.url);
+    if (!title) continue;
+    items.push({ title, url: entry.url, summary: title, publishedAt: entry.lastmod });
+  }
+  return items;
+}
+
 async function fetchText(
   url: string
 ): Promise<{ ok: boolean; status: number; text: string; contentType: string; error?: string }> {
@@ -356,6 +486,11 @@ export async function extractFromUrl(endpointUrl: string, keep?: (url: string) =
     if (looksXml) {
       const items = parseRssOrAtom(text, url);
       if (items.length) return { items, pageOk: true, pageStatus: status };
+      const looksSitemap = /<urlset[\s>]|<sitemapindex[\s>]/i.test(text.slice(0, 2000));
+      if (looksSitemap) {
+        const sitemapItems = await extractFromSitemap(text, url);
+        if (sitemapItems.length) return { items: sitemapItems, pageOk: true, pageStatus: status };
+      }
     }
   }
 
