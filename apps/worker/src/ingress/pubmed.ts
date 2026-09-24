@@ -15,6 +15,7 @@ export const PUBMED_JOURNAL_FEED_IDS = [
   'research-pubmed-curr-dev-nutrition',
   'research-pubmed-nutrition-journal',
   'research-pubmed-jand', // Journal of the Academy of Nutrition and Dietetics (added 2026-09-24 batch3 review)
+  'research-pubmed-japha', // Journal of the American Pharmacists Association (added 2026-09-24, second discovery pass)
 ] as const;
 
 /** Runs every feed in PUBMED_JOURNAL_FEED_IDS, isolated per feed (one failing journal never blocks
