@@ -328,6 +328,26 @@ const CONGRESS_TERMS = [
   'registration fee', 'sponsorship', 'sponsor', 'exhibition', 'fuar stand', 'kongre program',
 ];
 
+// Mirror of radar/hekimler_registry.py's ABROAD_LOCAL_NOISE_EXCLUDE_KEYWORDS -- keep both lists in
+// sync by hand (there's no shared source of truth between the Python and Worker engines; the
+// test_hekimler_worker_parity.py suite is what catches drift).
+const ABROAD_LOCAL_NOISE_EXCLUDE_KEYWORDS = [
+  'penalis', 'penalt', 'fined', 'fine of', 'convicted', 'conviction', 'guilty', 'offence', 'offense',
+  'misconduct', 'impersonat', 'false claim', 'falsely calling', 'calling himself', 'calling herself',
+  'unregistered', 'unlicensed', 'unqualified', 'newsletter', 'bulletin', 'digest', 'illuminator',
+];
+
+// Mirror of radar/hekimler_registry.py's ABROAD_OPPORTUNITY_SIGNAL_KEYWORDS.
+const ABROAD_OPPORTUNITY_SIGNAL_KEYWORDS = [
+  'scholarship', 'burs', 'fellowship', 'grant', 'free ', 'ücretsiz', 'ucretsiz', 'no cost', 'webinar',
+  'register', 'registration is open', 'registration opens', 'now open', 'now available', 'opens on',
+  'opening of applications', 'application', 'apply now', 'apply for', 'apply by', 'deadline',
+  'scheduling is now open', 'now accepting', 'more accessible', 'affordable', 'discount',
+  'reduced fee', 'reduced cost', 'borsa di studio', 'borse di studio', 'candidatura', 'iscrizione',
+  'iscriviti', 'scadenza', 'beca', 'solicitud', 'inscripción', 'inscripcion', 'inscribirse', 'plazo',
+  'convocatoria', 'stipendium', 'bewerbung', 'anmeldung', 'frist', 'beurs', 'aanvraag', 'inschrijving',
+];
+
 export function classifyTitle(
   profile: HekimlerReadyProfile,
   title: string,
@@ -338,13 +358,21 @@ export function classifyTitle(
   if (!profile.allow_congress && CONGRESS_TERMS.some((t) => keywordHit(blob, t))) {
     return { decision: 'DISCARD', route: 'DISCARD', reason: 'congress_content_excluded', evidence: 'insufficient' };
   }
-  const ex = (profile.exclude_keywords || []).filter((k) => keywordHit(blob, k));
+  const isAbroad = (profile.source_id || '').startsWith('abroad_');
+  const exPool = isAbroad ? [...(profile.exclude_keywords || []), ...ABROAD_LOCAL_NOISE_EXCLUDE_KEYWORDS] : profile.exclude_keywords || [];
+  const ex = exPool.filter((k) => keywordHit(blob, k));
   if (ex.length) {
     return { decision: 'DISCARD', route: 'DISCARD', reason: `exclude:${ex[0]}`, evidence: 'insufficient' };
   }
   const inc = (profile.include_keywords || []).filter((k) => keywordHit(blob, k));
   if (!inc.length) {
     return { decision: 'DISCARD', route: 'DISCARD', reason: 'no include_keyword hit', evidence: 'insufficient' };
+  }
+  // Mirror of hekimler_registry.classify_item's abroad opportunity-signal gate (2026-09-24): a
+  // regulatory/administrative update about how that country's own system runs itself is not
+  // itself something a Turkish applicant can act on, even when it's well-written and significant.
+  if (isAbroad && !ABROAD_OPPORTUNITY_SIGNAL_KEYWORDS.some((k) => keywordHit(blob, k))) {
+    return { decision: 'DISCARD', route: 'DISCARD', reason: 'no_concrete_opportunity_signal', evidence: 'insufficient' };
   }
   const scope = audienceGate(profile.source_id, blob);
   if (scope === 'out') {
