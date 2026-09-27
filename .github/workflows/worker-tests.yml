@@ -1,0 +1,41 @@
+name: Worker tests
+
+# Production-readiness audit (2026-09-27) finding: there was no CI workflow
+# at all for apps/worker -- typecheck, the *.test.mjs suite, and the Bible
+# v4 / S57 / S63 invariants in scripts/production-check.mjs only ever ran
+# locally, never gated a push or PR. This closes that gap. python3 with
+# pytest is required for production-check.mjs's own pytest step (see
+# adapters/hekimler-radar/requirements-test.txt, installed here too so the
+# same command behaves identically to a local run).
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "apps/worker/**"
+      - "migrations/**"
+      - "scripts/production-check.mjs"
+      - "package.json"
+      - ".github/workflows/worker-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  production-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: adapters/hekimler-radar/requirements-test.txt
+      - run: python -m pip install --disable-pip-version-check -r adapters/hekimler-radar/requirements-test.txt
+      - name: production:check (typecheck + worker tests + pytest + Bible/S57/S63 invariants)
+        run: npm run production:check

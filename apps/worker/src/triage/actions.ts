@@ -8,8 +8,15 @@ import {
   type TriageStatus,
 } from '../db/queries';
 import { normalizeDate } from '../ingress/ingest-gate';
+import { isReasonCode, type ReasonCode } from './feedback';
 
 export type TriageAction = 'promote' | 'hold' | 'delete' | 'undo' | 'complete';
+
+/** Required when action === 'delete' (S63 feedback loop, mandatory reject-reason capture). */
+export interface RejectFeedback {
+  reasonCode: ReasonCode;
+  reasonNote?: string | null;
+}
 
 const ACTION_TO_STATUS: Record<Exclude<TriageAction, 'undo'>, TriageStatus> = {
   promote: 'production',
@@ -46,8 +53,9 @@ export async function applyTriage(
   env: Env,
   itemId: string,
   action: TriageAction,
-  actor = 'hub-user'
-): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload }> {
+  actor = 'hub-user',
+  feedback?: RejectFeedback
+): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload; feedbackId?: string }> {
   const row = await env.DB.prepare(
     `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
      FROM source_items i
@@ -58,6 +66,15 @@ export async function applyTriage(
     .first<SourceItemRow>();
 
   if (!row) throw new Error('ITEM_NOT_FOUND');
+
+  // S63: every reject (action === 'delete') must carry a valid reason code.
+  // No reason code, no rejection -- fail closed rather than silently
+  // rejecting without a feedback trail (Bible v4 / task 7-8).
+  if (action === 'delete') {
+    if (!feedback || !isReasonCode(feedback.reasonCode)) {
+      throw new Error('REJECT_REASON_CODE_REQUIRED');
+    }
+  }
 
   // D9: items whose publication date is unverified stay in review; they can never be promoted to production.
   if (action === 'promote') {
@@ -84,29 +101,53 @@ export async function applyTriage(
         ? 'deleted'
         : null; // promote / hold / undo clear archive kind
 
-  await env.DB.prepare(
+  const updateStmt = env.DB.prepare(
     `UPDATE source_items
      SET triage_status = ?,
          archive_kind = ?,
          updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
      WHERE id = ?`
-  )
-    .bind(toStatus, archiveKind, itemId)
-    .run();
+  ).bind(toStatus, archiveKind, itemId);
 
-  await env.DB.prepare(
+  const decisionStmt = env.DB.prepare(
     `INSERT INTO editorial_decisions (id, source_item_id, action, from_status, to_status, actor)
      VALUES (?, ?, ?, ?, ?, ?)`
-  )
-    .bind(
-      newId('dec'),
+  ).bind(
+    newId('dec'),
+    itemId,
+    action,
+    fromStatus,
+    action === 'complete' ? 'done' : toStatus,
+    actor
+  );
+
+  // S63: reject (action === 'delete') must atomically produce exactly one
+  // review_feedback row -- item.status=rejected and the feedback write
+  // succeed or fail together (D1 batch() runs as a single transaction), so
+  // there is never a rejected item with no feedback trail (task 8, no
+  // split-brain).
+  let feedbackId: string | undefined;
+  if (action === 'delete') {
+    feedbackId = newId('fb');
+    const feedbackStmt = env.DB.prepare(
+      `INSERT INTO review_feedback
+       (id, item_id, feed_id, source_id, route, channel_id, decision, reason_code, reason_note, reviewer)
+       VALUES (?, ?, ?, ?, ?, ?, 'rejected', ?, ?, ?)`
+    ).bind(
+      feedbackId,
       itemId,
-      action,
-      fromStatus,
-      action === 'complete' ? 'done' : toStatus,
+      row.feed_id ?? null,
+      row.source_id ?? null,
+      row.route,
+      row.channel_id ?? null,
+      (feedback as RejectFeedback).reasonCode,
+      (feedback as RejectFeedback).reasonNote ?? null,
       actor
-    )
-    .run();
+    );
+    await env.DB.batch([updateStmt, decisionStmt, feedbackStmt]);
+  } else {
+    await env.DB.batch([updateStmt, decisionStmt]);
+  }
 
   // Final decision (not hold/undo, which are reversible/pending states): remember the link
   // permanently so a "most read / trending" re-scrape never brings it back for review again.
@@ -125,7 +166,7 @@ export async function applyTriage(
   const view = rowToView(updated);
 
   if (action !== 'promote') {
-    return { item: view };
+    return { item: view, feedbackId };
   }
 
   const brief = await createAndHandoffBrief(env, updated, actor);

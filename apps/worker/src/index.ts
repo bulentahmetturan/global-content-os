@@ -14,6 +14,14 @@ import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
 import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, pruneLowYieldSources, type TriageAction } from './triage/actions';
+import {
+  REASON_CODES,
+  isReasonCode,
+  getItemFeedback,
+  summarizeFeedback,
+  type ReasonCode,
+  type FeedbackGroupBy,
+} from './triage/feedback';
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
@@ -24,13 +32,18 @@ import {
   recordPythonRunTelemetry,
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
-import { COVERAGE_OVERRIDES, coverageLabel } from './ingress/hekimler-coverage';
+import { COVERAGE_OVERRIDES, coverageLabel, HEKIMLER_BURS_SOURCE_IDS, HEKIMLER_EGITIM_SOURCE_IDS, HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/hekimler-coverage';
 import {
   pickScheduledSlot,
   runIsolatedScheduledJobs,
   type ScheduledJobSpec,
   type ScheduledSlot,
 } from './scheduled-jobs';
+import {
+  biblePublicMeta,
+  listSourcePassFail,
+  revalidateUnhealthySources,
+} from './ingress/source-pass-fail';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -125,7 +138,10 @@ export default {
            FROM hekimler_source_telemetry ORDER BY source_id`
         ).all<Record<string, unknown>>();
         const byId = new Map((results || []).map((r) => [String(r.source_id), r]));
-        const ids = new Set<string>([...byId.keys(), ...Object.keys(COVERAGE_OVERRIDES)]);
+        const retired = new Set<string>(HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS);
+        const ids = new Set<string>(
+          [...byId.keys(), ...Object.keys(COVERAGE_OVERRIDES)].filter((id) => !retired.has(id)),
+        );
         const sources = [...ids].sort().map((id) => {
           const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string; poll_minutes?: number } | undefined) ?? null;
           const c = coverageLabel(id, row);
@@ -149,24 +165,45 @@ export default {
             enabledFeeds: Number(feedRow?.c ?? 0),
           });
         }
+        const hekimlerDuyuru = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'duyuru');
+        const hekimlerBurs = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'burs');
+        const hekimlerEgitim = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'egitim');
         routes.push({
           id: 'hekimler',
-          counts: await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu'),
+          counts: hekimlerDuyuru,
           enabledFeeds: hekimlerReadySourceCount(),
         });
-        return json({ routes });
+        routes.push({ id: 'hekimler-duyuru', counts: hekimlerDuyuru, enabledFeeds: hekimlerReadySourceCount() });
+        routes.push({ id: 'hekimler-burs', counts: hekimlerBurs, enabledFeeds: HEKIMLER_BURS_SOURCE_IDS.length });
+        routes.push({ id: 'hekimler-egitim', counts: hekimlerEgitim, enabledFeeds: HEKIMLER_EGITIM_SOURCE_IDS.length });
+        return json({ routes, bibleVersion: env.BIBLE_VERSION || '4.0' });
+      }
+
+      if (path === '/api/bible' && request.method === 'GET') {
+        return json(biblePublicMeta(env));
+      }
+
+      if (path === '/api/source-pass-fail' && request.method === 'GET') {
+        const limit = Number(url.searchParams.get('limit') || 40);
+        const decisions = await listSourcePassFail(env, limit);
+        return json({ ok: true, ...biblePublicMeta(env), decisions });
       }
 
       if (path === '/api/items' && request.method === 'GET') {
         const route = url.searchParams.get('route') || '';
         const status = url.searchParams.get('status') || 'inbox';
         const channel = url.searchParams.get('channel') || '';
+        let family = url.searchParams.get('family') || '';
+        if (channel === 'hekimler-toplulugu' && !family) family = 'duyuru';
         // Tip Students: day window (default 2). News/research: 14-day working set.
         const defaultDays = route === 'tip-ogrencileri' ? 2 : 14;
         const sinceDays = Number(url.searchParams.get('days') || defaultDays);
         const limit = Number(url.searchParams.get('limit') || (route === 'tip-ogrencileri' ? 100 : 200));
         if (!isRoute(route) || !isStatus(status)) {
           return json({ error: 'INVALID_QUERY' }, 400);
+        }
+        if (family && family !== 'burs' && family !== 'duyuru' && family !== 'egitim') {
+          return json({ error: 'INVALID_FAMILY' }, 400);
         }
         const items = (
           await listItems(env.DB, route, status, {
@@ -177,12 +214,14 @@ export default {
               : route === 'tip-ogrencileri'
                 ? { excludeChannelId: 'hekimler-toplulugu' }
                 : {}),
+            ...(family ? { family } : {}),
           })
         ).map(rowToView);
         const counts = await countByStatus(
           env.DB,
           route,
-          channel === 'hekimler-toplulugu' ? channel : undefined
+          channel === 'hekimler-toplulugu' ? channel : undefined,
+          family || undefined
         );
         return json({
           route,
@@ -194,13 +233,65 @@ export default {
       }
 
       if (path === '/api/triage' && request.method === 'POST') {
-        const body = (await request.json()) as { itemId?: string; action?: string };
+        const body = (await request.json()) as {
+          itemId?: string;
+          action?: string;
+          reasonCode?: string;
+          reasonNote?: string;
+        };
         const action = body.action as TriageAction;
         if (!body.itemId || !['promote', 'hold', 'delete', 'undo', 'complete'].includes(action)) {
           return json({ error: 'INVALID_BODY' }, 400);
         }
-        const result = await applyTriage(env, body.itemId, action);
-        return json({ ok: true, ...result });
+        // S63: reject (action === 'delete') requires a valid, closed-enum
+        // reason code -- fail closed with a clear error rather than
+        // silently rejecting without a feedback trail.
+        if (action === 'delete') {
+          if (!body.reasonCode || !isReasonCode(body.reasonCode)) {
+            return json(
+              { error: 'REJECT_REASON_CODE_REQUIRED', validReasonCodes: REASON_CODES },
+              400
+            );
+          }
+        }
+        try {
+          const result = await applyTriage(
+            env,
+            body.itemId,
+            action,
+            'hub-user',
+            action === 'delete'
+              ? { reasonCode: body.reasonCode as ReasonCode, reasonNote: body.reasonNote ?? null }
+              : undefined
+          );
+          return json({ ok: true, ...result });
+        } catch (err) {
+          if (err instanceof Error && err.message === 'REJECT_REASON_CODE_REQUIRED') {
+            return json({ error: 'REJECT_REASON_CODE_REQUIRED', validReasonCodes: REASON_CODES }, 400);
+          }
+          throw err;
+        }
+      }
+
+      // S63 feedback loop: history for one item ("discoverable later", task 9).
+      if (path === '/api/feedback' && request.method === 'GET') {
+        const itemId = url.searchParams.get('itemId') || '';
+        if (!itemId) return json({ error: 'INVALID_QUERY', detail: 'itemId required' }, 400);
+        const feedback = await getItemFeedback(env.DB, itemId);
+        return json({ ok: true, itemId, feedback });
+      }
+
+      // S63 feedback loop: deterministic pre-aggregated summary (task 11/43/46) --
+      // never raw rows for an LLM, just small counted groups.
+      if (path === '/api/feedback/summary' && request.method === 'GET') {
+        const groupByParam = url.searchParams.get('groupBy') || 'source_id';
+        const validGroupBy: FeedbackGroupBy[] = ['source_id', 'feed_id', 'route', 'reason_code'];
+        if (!validGroupBy.includes(groupByParam as FeedbackGroupBy)) {
+          return json({ error: 'INVALID_QUERY', validGroupBy }, 400);
+        }
+        const limit = Math.min(Number(url.searchParams.get('limit') || 50), 200);
+        const summary = await summarizeFeedback(env.DB, groupByParam as FeedbackGroupBy, limit);
+        return json({ ok: true, groupBy: groupByParam, summary });
       }
 
       if (path === '/api/ingress/news' && request.method === 'POST') {
@@ -444,7 +535,14 @@ export default {
             if (lowYield.flagged.length) {
               console.log(JSON.stringify({ event: 'low_yield_source_flagged', sources: lowYield.flagged }));
             }
-            return { ...purge, staleInboxExpired: expired.expired, lowYieldDisabled: lowYield.disabled, lowYieldFlagged: lowYield.flagged };
+            const spf = await revalidateUnhealthySources(env);
+            return {
+              ...purge,
+              staleInboxExpired: expired.expired,
+              lowYieldDisabled: lowYield.disabled,
+              lowYieldFlagged: lowYield.flagged,
+              sourcePassFailRevalidated: spf.recorded,
+            };
           },
           enrich: () => runEnrichmentBatch(env, { limit: 3 }),
           'hekimler-continuous': () =>

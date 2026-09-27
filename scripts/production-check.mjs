@@ -171,6 +171,11 @@ try {
 
 // 7. Migration file numbering sanity (no gaps/dupes) ---------------------
 section('D1 migration numbering');
+// 0008 is a documented, intentionally-unused/reserved gap (SORUN-TESPIT-LISTESI.md
+// S61) -- D1 applies migrations by filename order, not a contiguous integer
+// requirement, and per the production spec's own instruction: do NOT renumber
+// to fill it. Any OTHER gap is still a genuine anomaly worth a WARN.
+const KNOWN_RESERVED_GAPS = ['7 -> 9'];
 try {
   const files = readdirSync(rel('migrations')).filter((f) => /^\d{4}_/.test(f));
   const nums = files.map((f) => Number(f.slice(0, 4))).sort((a, b) => a - b);
@@ -179,14 +184,42 @@ try {
   for (let i = 1; i < nums.length; i++) {
     if (nums[i] !== nums[i - 1] + 1) gaps.push(`${nums[i - 1]} -> ${nums[i]}`);
   }
-  if (dupes.length === 0 && gaps.length === 0) {
-    pass(`${files.length} migrations, sequential, no gaps/dupes`);
-  } else {
-    if (dupes.length) fail('duplicate migration numbers', dupes.join(', '));
-    if (gaps.length) warn('migration numbering gap(s)', gaps.join(', '));
+  const unknownGaps = gaps.filter((g) => !KNOWN_RESERVED_GAPS.includes(g));
+  if (dupes.length) fail('duplicate migration numbers', dupes.join(', '));
+  if (unknownGaps.length) warn('unrecognized migration numbering gap(s)', unknownGaps.join(', '));
+  if (!dupes.length && !unknownGaps.length) {
+    pass(
+      `${files.length} migrations, sequential (0008 intentionally reserved/unused, documented in S61)`
+    );
   }
 } catch (e) {
   fail('migration numbering check failed', e.message);
+}
+
+// 8. Feedback loop (S63): schema + atomic reject invariant ----------------
+section('Feedback loop (S63): schema + atomic reject invariant');
+try {
+  const migration = readFileSync(rel('migrations/0023_review_feedback.sql'), 'utf8');
+  if (/CREATE TABLE IF NOT EXISTS review_feedback/i.test(migration)) {
+    pass('review_feedback migration present (0023)');
+  } else {
+    fail('migrations/0023_review_feedback.sql does not define review_feedback');
+  }
+  for (const col of ['item_id', 'source_id', 'route', 'reason_code', 'created_at']) {
+    if (!new RegExp(col, 'i').test(migration)) fail(`review_feedback missing expected column: ${col}`);
+  }
+} catch (e) {
+  fail('review_feedback migration missing or unreadable', e.message);
+}
+try {
+  const actions = readFileSync(rel('apps/worker/src/triage/actions.ts'), 'utf8');
+  const usesBatchForDelete = /env\.DB\.batch\(\[updateStmt, decisionStmt, feedbackStmt\]\)/.test(actions);
+  if (usesBatchForDelete) pass('reject writes status+decision+feedback via one atomic DB.batch() call');
+  else fail('reject no longer appears to write status/decision/feedback atomically -- check actions.ts');
+  if (/REJECT_REASON_CODE_REQUIRED/.test(actions)) pass('reject without a valid reason code is rejected before any write');
+  else fail('reject-reason-required guard not found in actions.ts');
+} catch (e) {
+  fail('feedback atomicity check failed', e.message);
 }
 
 // ------------------------------------------------------------------------
