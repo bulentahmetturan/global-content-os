@@ -1,1 +1,4 @@
 pyyaml==6.0.3
+requests==2.34.2
+beautifulsoup4==4.15.0
+pypdf==6.13.2
