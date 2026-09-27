@@ -1,0 +1,80 @@
+{
+  "hacettepe": {
+    "url": "https://topluluklar.hacettepe.edu.tr/",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "hacettepe.edu.tr",
+      "keyframes",
+      "kulturhacettepe",
+      "media"
+    ],
+    "html_len": 105915
+  },
+  "gazi": {
+    "url": "https://topluluklar.gazi.edu.tr/",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "gaziunitopluluklar"
+    ],
+    "html_len": 89259
+  },
+  "deu": {
+    "url": "https://ogrencitopluluklari.deu.edu.tr/",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "media"
+    ],
+    "html_len": 43680
+  },
+  "ankara": {
+    "url": "https://sks.ankara.edu.tr/topluluklar/",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "ankara.edu.tr",
+      "ankarauniversitesi_sks",
+      "media"
+    ],
+    "html_len": 159959
+  },
+  "ksbu": {
+    "url": "https://ksbu.edu.tr/defaultx",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "5.0.2",
+      "ksbu.kurumsal",
+      "ksbu_kurumsal"
+    ],
+    "html_len": 228915
+  },
+  "ege": {
+    "url": "https://sksdb.ege.edu.tr/a-685455/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "400",
+      "egesksdb",
+      "mail.ege.edu.tr",
+      "media",
+      "universiteege"
+    ],
+    "html_len": 51133
+  },
+  "ytu": {
+    "url": "https://www.yildiz.edu.tr/",
+    "n": 0,
+    "clubs": [],
+    "igs_on_page": [
+      "11",
+      "media",
+      "see",
+      "yildizedu",
+      "yildizedu1911"
+    ],
+    "html_len": 131549
+  }
+}

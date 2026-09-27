@@ -1,0 +1,1104 @@
+{
+  "unis_in_pack": 84,
+  "tob_on_turkmsic": 105,
+  "matched": 76,
+  "unmatched_unis": [
+    "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+    "Alanya Alaaddin Keykubat Üniversitesi",
+    "Karabük Üniversitesi",
+    "Kastamonu Üniversitesi",
+    "Kırşehir Ahi Evran Üniversitesi",
+    "Siirt Üniversitesi",
+    "TOBB Ekonomi ve Teknoloji Üniversitesi",
+    "Yalova Üniversitesi"
+  ],
+  "orphan_tob_count": 40,
+  "matches": [
+    {
+      "institution": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Acıbadem Tıp Öğrencileri Birliği",
+        "slug": "acibadem",
+        "href": "https://turkmsic.org/index.php/kullanici/acibadem",
+        "base": "Acıbadem"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "tip_sources": 1,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Akdeniz Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Akdeniz Tıp Öğrencileri Birliği",
+        "slug": "akdeniz",
+        "href": "https://turkmsic.org/index.php/kullanici/akdeniz",
+        "base": "Akdeniz"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Aksaray Üniversitesi",
+      "tip_sources": 5,
+      "tob": {
+        "name": "Aksaray Tıp Öğrencileri Birliği",
+        "slug": "aksaray",
+        "href": "https://turkmsic.org/index.php/kullanici/aksaray",
+        "base": "Aksaray"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Alanya Alaaddin Keykubat Üniversitesi",
+      "tip_sources": 3,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Altınbaş Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Altınbaş Tıp Öğrencileri Birliği",
+        "slug": "altinbas",
+        "href": "https://turkmsic.org/index.php/kullanici/altinbas",
+        "base": "Altınbaş"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Amasya Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Amasya Tıp Öğrencileri Birliği",
+        "slug": "amasya",
+        "href": "https://turkmsic.org/index.php/kullanici/amasya",
+        "base": "Amasya"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Ankara Yıldırım Beyazıt Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Ankara Tıp Öğrencileri Birliği",
+        "slug": "ankara",
+        "href": "https://turkmsic.org/index.php/kullanici/ankara",
+        "base": "Ankara"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Ankara Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Ankara Tıp Öğrencileri Birliği",
+        "slug": "ankara",
+        "href": "https://turkmsic.org/index.php/kullanici/ankara",
+        "base": "Ankara"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Atatürk Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Atatürk Tıp Öğrencileri Birliği",
+        "slug": null,
+        "href": "https://turkmsic.org/index.php/user/166",
+        "base": "Atatürk"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Atılım Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Atılım Tıp Öğrencileri Birliği",
+        "slug": "atilim",
+        "href": "https://turkmsic.org/index.php/kullanici/atilim",
+        "base": "Atılım"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Aydın Adnan Menderes Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Aydın Adnan Menderes Tıp Öğrencileri Birliği",
+        "slug": "aydinadnanmenderes",
+        "href": "https://turkmsic.org/index.php/kullanici/aydinadnanmenderes",
+        "base": "Aydın Adnan Menderes"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Balıkesir Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Balıkesir Tıp Öğrencileri Birliği",
+        "slug": "balikesir",
+        "href": "https://turkmsic.org/index.php/kullanici/balikesir",
+        "base": "Balıkesir"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Bandırma Onyedi Eylül Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Bandırma Onyedi Eylül Tıp Öğrencileri Birliği",
+        "slug": "bandirmaonyedieylul",
+        "href": "https://turkmsic.org/index.php/kullanici/bandirmaonyedieylul",
+        "base": "Bandırma Onyedi Eylül"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Beykent Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Beykent Tıp Öğrencileri Birliği",
+        "slug": "beykent",
+        "href": "https://turkmsic.org/index.php/kullanici/beykent",
+        "base": "Beykent"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Biruni Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Biruni Tıp Öğrencileri Birliği",
+        "slug": "biruni",
+        "href": "https://turkmsic.org/index.php/kullanici/biruni",
+        "base": "Biruni"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Bolu Abant İzzet Baysal Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+        "slug": "abant",
+        "href": "https://turkmsic.org/index.php/kullanici/abant",
+        "base": "Abant İzzet Baysal"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Bursa Uludağ Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Bursa Uludağ Tıp Öğrencileri Birliği",
+        "slug": "bursauludag",
+        "href": "https://turkmsic.org/index.php/kullanici/bursauludag",
+        "base": "Bursa Uludağ"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Dicle Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Dicle Tıp Öğrencileri Birliği",
+        "slug": "dicle",
+        "href": "https://turkmsic.org/index.php/kullanici/dicle",
+        "base": "Dicle"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Dokuz Eylül Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Dokuz Eylül Tıp Öğrencileri Birliği",
+        "slug": "dokuzeylul",
+        "href": "https://turkmsic.org/index.php/kullanici/dokuzeylul",
+        "base": "Dokuz Eylül"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Ege Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Ege Tıp Öğrencileri Birliği",
+        "slug": "ege",
+        "href": "https://turkmsic.org/index.php/kullanici/ege",
+        "base": "Ege"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Erzincan Binali Yıldırım Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Erzincan Binali Yıldırım Tıp Öğrencileri Birliği",
+        "slug": "erzincanbinaliyildirim",
+        "href": "https://turkmsic.org/index.php/kullanici/erzincanbinaliyildirim",
+        "base": "Erzincan Binali Yıldırım"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Eskişehir Osmangazi Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "slug": "gazi",
+        "href": "https://turkmsic.org/index.php/kullanici/gazi",
+        "base": "Gazi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Fırat Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Fırat Tıp Öğrencileri Birliği",
+        "slug": "firat",
+        "href": "https://turkmsic.org/index.php/kullanici/firat",
+        "base": "Fırat"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Gazi Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "slug": "gazi",
+        "href": "https://turkmsic.org/index.php/kullanici/gazi",
+        "base": "Gazi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "slug": "gazi",
+        "href": "https://turkmsic.org/index.php/kullanici/gazi",
+        "base": "Gazi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Gaziantep Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "slug": "gazi",
+        "href": "https://turkmsic.org/index.php/kullanici/gazi",
+        "base": "Gazi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Giresun Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Giresun Tıp Öğrencileri Birliği",
+        "slug": "giresun",
+        "href": "https://turkmsic.org/index.php/kullanici/giresun",
+        "base": "Giresun"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Hacettepe Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Hacettepe Tıp Öğrencileri Birliği",
+        "slug": "hacettepe",
+        "href": "https://turkmsic.org/index.php/kullanici/hacettepe",
+        "base": "Hacettepe"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Haliç Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Haliç Tıp Öğrencileri Birliği",
+        "slug": "halic",
+        "href": "https://turkmsic.org/index.php/kullanici/halic",
+        "base": "Haliç"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Harran Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Harran Tıp Öğrencileri Birliği",
+        "slug": "harran",
+        "href": "https://turkmsic.org/index.php/kullanici/harran",
+        "base": "Harran"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Hitit Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Hitit Tıp Öğrencileri Birliği",
+        "slug": "hitit",
+        "href": "https://turkmsic.org/index.php/kullanici/hitit",
+        "base": "Hitit"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İnönü Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İnönü Tıp Öğrencileri Birliği",
+        "slug": "inonu",
+        "href": "https://turkmsic.org/index.php/kullanici/inonu",
+        "base": "İnönü"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Atlas Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Atlas Tıp Öğrencileri Birliği",
+        "slug": "atlas",
+        "href": "https://turkmsic.org/index.php/kullanici/atlas",
+        "base": "Atlas"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Medeniyet Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Medipol Üniversitesi",
+      "tip_sources": 5,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Okan Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Sağlık ve Teknoloji Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Yeni Yüzyıl Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "slug": "istanbul",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+        "base": "İstanbul"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstanbul Üniversitesi-Cerrahpaşa",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Cerrahpaşa Tıp Öğrencileri Birliği",
+        "slug": "cerrahpasa",
+        "href": "https://turkmsic.org/index.php/kullanici/cerrahpasa",
+        "base": "Cerrahpaşa"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İstinye Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "İstinye Tıp Öğrencileri Birliği",
+        "slug": "istinye",
+        "href": "https://turkmsic.org/index.php/kullanici/istinye",
+        "base": "İstinye"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İzmir Bakırçay Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Bakırçay Tıp Öğrencileri Birliği",
+        "slug": "bakircay",
+        "href": "https://turkmsic.org/index.php/kullanici/bakircay",
+        "base": "Bakırçay"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İzmir Demokrasi Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İzmir Demokrasi Tıp Öğrencileri Birliği",
+        "slug": "izmirdemokrasi",
+        "href": "https://turkmsic.org/index.php/kullanici/izmirdemokrasi",
+        "base": "İzmir Demokrasi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İzmir Ekonomi Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İzmir Ekonomi Tıp Öğrencileri Birliği",
+        "slug": "izmirekonomi",
+        "href": "https://turkmsic.org/index.php/kullanici/izmirekonomi",
+        "base": "İzmir Ekonomi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İzmir Kâtip Çelebi Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İzmir Katip Çelebi Tıp Öğrencileri Birliği",
+        "slug": "izmirkatipcelebi",
+        "href": "https://turkmsic.org/index.php/kullanici/izmirkatipcelebi",
+        "base": "İzmir Katip Çelebi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "İzmir Tınaztepe Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İzmir Tınaztepe Tıp Öğrencileri Birliği",
+        "slug": "izmirtinaztepe",
+        "href": "https://turkmsic.org/index.php/kullanici/izmirtinaztepe",
+        "base": "İzmir Tınaztepe"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kafkas Üniversitesi",
+      "tip_sources": 5,
+      "tob": {
+        "name": "Kafkas Tıp Öğrencileri Birliği",
+        "slug": "kafkas",
+        "href": "https://turkmsic.org/index.php/kullanici/kafkas",
+        "base": "Kafkas"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kahramanmaraş Sütçü İmam Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği",
+        "slug": "kahramanmarassutcuimam",
+        "href": "https://turkmsic.org/index.php/kullanici/kahramanmarassutcuimam",
+        "base": "Kahramanmaraş Sütçü İmam"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Karabük Üniversitesi",
+      "tip_sources": 4,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Karadeniz Teknik Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Karadeniz Tıp Öğrencileri Birliği",
+        "slug": "karadeniz",
+        "href": "https://turkmsic.org/index.php/kullanici/karadeniz",
+        "base": "Karadeniz"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Karamanoğlu Mehmetbey Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Karaman Tıp Öğrencileri Birliği",
+        "slug": "karaman",
+        "href": "https://turkmsic.org/index.php/kullanici/karaman",
+        "base": "Karaman"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kastamonu Üniversitesi",
+      "tip_sources": 2,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Koç Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+        "slug": "kocuniversitesi",
+        "href": "https://turkmsic.org/index.php/kullanici/kocuniversitesi",
+        "base": "Koç Üniversitesi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kütahya Sağlık Bilimleri Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Kütahya SBÜ Tıp Öğrencileri Birliği",
+        "slug": "kutahyasbu",
+        "href": "https://turkmsic.org/index.php/kullanici/kutahyasbu",
+        "base": "Kütahya SBÜ"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kırklareli Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Arel Tıp Öğrencileri Birliği",
+        "slug": "arel",
+        "href": "https://turkmsic.org/index.php/kullanici/arel",
+        "base": "Arel"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Kırşehir Ahi Evran Üniversitesi",
+      "tip_sources": 1,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Malatya Turgut Özal Üniversitesi",
+      "tip_sources": 5,
+      "tob": {
+        "name": "Malatya Turgut Özal Tıp Öğrencileri Birliği",
+        "slug": "malatyaturgutozal",
+        "href": "https://turkmsic.org/index.php/kullanici/malatyaturgutozal",
+        "base": "Malatya Turgut Özal"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Maltepe Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Maltepe Tıp Öğrencileri Birliği",
+        "slug": "maltepe",
+        "href": "https://turkmsic.org/index.php/kullanici/maltepe",
+        "base": "Maltepe"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Manisa Celal Bayar Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Celal Bayar Tıp Öğrencileri Birliği",
+        "slug": "celalbayar",
+        "href": "https://turkmsic.org/index.php/kullanici/celalbayar",
+        "base": "Celal Bayar"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Mardin Artuklu Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Mardin Artuklu Tıp Öğrencileri Birliği",
+        "slug": "mardinartuklu",
+        "href": "https://turkmsic.org/index.php/kullanici/mardinartuklu",
+        "base": "Mardin Artuklu"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Marmara Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Marmara Tıp Öğrencileri Birliği",
+        "slug": "marmara",
+        "href": "https://turkmsic.org/index.php/kullanici/marmara",
+        "base": "Marmara"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Muğla Sıtkı Koçman Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+        "slug": "kocuniversitesi",
+        "href": "https://turkmsic.org/index.php/kullanici/kocuniversitesi",
+        "base": "Koç Üniversitesi"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Niğde Ömer Halisdemir Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Niğde Ömer Halisdemir Tıp Öğrencileri Birliği",
+        "slug": "nigdeomerhalisdemir",
+        "href": "https://turkmsic.org/index.php/kullanici/nigdeomerhalisdemir",
+        "base": "Niğde Ömer Halisdemir"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Nişantaşı Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "İstanbul Nişantaşı Tıp Öğrencileri Birliği",
+        "slug": "istanbulnisantasi",
+        "href": "https://turkmsic.org/index.php/kullanici/istanbulnisantasi",
+        "base": "İstanbul Nişantaşı"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Ondokuz Mayıs Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Ondokuz Mayıs Tıp Öğrencileri Birliği",
+        "slug": "ondokuzmayis",
+        "href": "https://turkmsic.org/index.php/kullanici/ondokuzmayis",
+        "base": "Ondokuz Mayıs"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Pamukkale Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Pamukkale Tıp Öğrencileri Birliği",
+        "slug": "pamukkale",
+        "href": "https://turkmsic.org/index.php/kullanici/pamukkale",
+        "base": "Pamukkale"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Sakarya Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Sakarya Tıp Öğrencileri Birliği",
+        "slug": "sakarya",
+        "href": "https://turkmsic.org/index.php/kullanici/sakarya",
+        "base": "Sakarya"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Sanko Üniversitesi",
+      "tip_sources": 4,
+      "tob": {
+        "name": "Sanko Tıp Öğrencileri Birliği",
+        "slug": "sanko",
+        "href": "https://turkmsic.org/index.php/kullanici/sanko",
+        "base": "Sanko"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Sağlık Bilimleri Üniversitesi",
+      "tip_sources": 7,
+      "tob": {
+        "name": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+        "slug": "abant",
+        "href": "https://turkmsic.org/index.php/kullanici/abant",
+        "base": "Abant İzzet Baysal"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Siirt Üniversitesi",
+      "tip_sources": 3,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Sivas Cumhuriyet Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Cumhuriyet Tıp Öğrencileri Birliği",
+        "slug": "cumhuriyet",
+        "href": "https://turkmsic.org/index.php/kullanici/cumhuriyet",
+        "base": "Cumhuriyet"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Süleyman Demirel Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Süleyman Demirel Tıp Öğrencileri Birliği",
+        "slug": "suleymandemirel",
+        "href": "https://turkmsic.org/index.php/kullanici/suleymandemirel",
+        "base": "Süleyman Demirel"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Tekirdağ Namık Kemal Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Namık Kemal Tıp Öğrencileri Birliği",
+        "slug": "namikkemal",
+        "href": "https://turkmsic.org/index.php/kullanici/namikkemal",
+        "base": "Namık Kemal"
+      },
+      "matched": true
+    },
+    {
+      "institution": "TOBB Ekonomi ve Teknoloji Üniversitesi",
+      "tip_sources": 2,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Trakya Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Trakya Tıp Öğrencileri Birliği",
+        "slug": "trakya",
+        "href": "https://turkmsic.org/index.php/kullanici/trakya",
+        "base": "Trakya"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Van Yüzüncü Yıl Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Van Yüzüncü Yıl Tıp Öğrencileri Birliği",
+        "slug": "vanyuzuncuyil",
+        "href": "https://turkmsic.org/index.php/kullanici/vanyuzuncuyil",
+        "base": "Van Yüzüncü Yıl"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Yalova Üniversitesi",
+      "tip_sources": 2,
+      "tob": null,
+      "matched": false
+    },
+    {
+      "institution": "Yeditepe Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Yeditepe Tıp Öğrencileri Birliği",
+        "slug": "yeditepe",
+        "href": "https://turkmsic.org/index.php/kullanici/yeditepe",
+        "base": "Yeditepe"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Yozgat Bozok Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Bozok Tıp Öğrencileri Birliği",
+        "slug": "bozok",
+        "href": "https://turkmsic.org/index.php/kullanici/bozok",
+        "base": "Bozok"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Zonguldak Bülent Ecevit Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Bülent Ecevit Tıp Öğrencileri Birliği",
+        "slug": "bulentecevit",
+        "href": "https://turkmsic.org/index.php/kullanici/bulentecevit",
+        "base": "Bülent Ecevit"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Çanakkale Onsekiz Mart Üniversitesi",
+      "tip_sources": 2,
+      "tob": {
+        "name": "Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği",
+        "slug": "canakkaleonsekizmart",
+        "href": "https://turkmsic.org/index.php/kullanici/canakkaleonsekizmart",
+        "base": "Çanakkale Onsekiz Mart"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Çukurova Üniversitesi",
+      "tip_sources": 1,
+      "tob": {
+        "name": "Çukurova Tıp Öğrencileri Birliği",
+        "slug": "cukurova",
+        "href": "https://turkmsic.org/index.php/kullanici/cukurova",
+        "base": "Çukurova"
+      },
+      "matched": true
+    },
+    {
+      "institution": "Üsküdar Üniversitesi",
+      "tip_sources": 3,
+      "tob": {
+        "name": "Üsküdar Tıp Öğrencileri Birliği",
+        "slug": "uskudar",
+        "href": "https://turkmsic.org/index.php/kullanici/uskudar",
+        "base": "Üsküdar"
+      },
+      "matched": true
+    }
+  ],
+  "orphan_tobs": [
+    {
+      "name": "Adıyaman Tıp Öğrencileri Birliği",
+      "slug": "adiyaman",
+      "href": "https://turkmsic.org/index.php/kullanici/adiyaman"
+    },
+    {
+      "name": "Afyon SBÜ Tıp Öğrencileri Birliği",
+      "slug": "afyonsbu",
+      "href": "https://turkmsic.org/index.php/kullanici/afyonsbu"
+    },
+    {
+      "name": "Ankara Medipol Tıp Öğrencileri Birliği",
+      "slug": "ankaramedipol",
+      "href": "https://turkmsic.org/index.php/kullanici/ankaramedipol"
+    },
+    {
+      "name": "Ankara Yıldırım Beyazıt Tıp Öğrencileri Birliği",
+      "slug": "ankarayildirimbeyazit",
+      "href": "https://turkmsic.org/index.php/kullanici/ankarayildirimbeyazit"
+    },
+    {
+      "name": "Bahçeşehir Tıp Öğrencileri Birliği",
+      "slug": "bahcesehir",
+      "href": "https://turkmsic.org/index.php/kullanici/bahcesehir"
+    },
+    {
+      "name": "Başkent Tıp Öğrencileri Birliği",
+      "slug": "baskent",
+      "href": "https://turkmsic.org/index.php/kullanici/baskent"
+    },
+    {
+      "name": "Bezmiâlem Tıp Öğrencileri Birliği",
+      "slug": "bezmialem",
+      "href": "https://turkmsic.org/index.php/kullanici/bezmialem"
+    },
+    {
+      "name": "Bilecik Şeyh Edebali Tıp Öğrencileri Birliği",
+      "slug": "bilecikseyhedebali",
+      "href": "https://turkmsic.org/index.php/kullanici/bilecikseyhedebali"
+    },
+    {
+      "name": "Demiroğlu Bilim Tıp Öğrencileri Birliği",
+      "slug": null,
+      "href": "https://turkmsic.org/index.php/user/184"
+    },
+    {
+      "name": "Düzce Tıp Öğrencileri Birliği",
+      "slug": "duzce",
+      "href": "https://turkmsic.org/index.php/kullanici/duzce"
+    },
+    {
+      "name": "Erciyes Tıp Öğrencileri Birliği",
+      "slug": "erciyes",
+      "href": "https://turkmsic.org/index.php/kullanici/erciyes"
+    },
+    {
+      "name": "Gaziantep Tıp Öğrencileri Birliği",
+      "slug": "gaziantep",
+      "href": "https://turkmsic.org/index.php/kullanici/gaziantep"
+    },
+    {
+      "name": "Gaziantep İslam Bilim ve Teknoloji Tıp Öğrencileri Birliği",
+      "slug": "gaziantepislambilimveteknoloji",
+      "href": "https://turkmsic.org/index.php/kullanici/gaziantepislambilimveteknoloji"
+    },
+    {
+      "name": "Gaziosmanpaşa Tıp Öğrencileri Birliği",
+      "slug": "gaziosmanpasa",
+      "href": "https://turkmsic.org/index.php/kullanici/gaziosmanpasa"
+    },
+    {
+      "name": "İstanbul Aydın Tıp Öğrencileri Birliği",
+      "slug": "istanbulaydin",
+      "href": "https://turkmsic.org/index.php/kullanici/istanbulaydin"
+    },
+    {
+      "name": "İstanbul Medeniyet Tıp Öğrencileri Birliği",
+      "slug": "istanbulmedeniyet",
+      "href": "https://turkmsic.org/index.php/kullanici/istanbulmedeniyet"
+    },
+    {
+      "name": "İSTÜN Tıp Öğrencileri Birliği",
+      "slug": "istun",
+      "href": "https://turkmsic.org/index.php/kullanici/istun"
+    },
+    {
+      "name": "Karatay Tıp Öğrencileri Birliği",
+      "slug": "karatay",
+      "href": "https://turkmsic.org/index.php/kullanici/karatay"
+    },
+    {
+      "name": "Kırıkkale Tıp Öğrencileri Birliği",
+      "slug": "kirikkale",
+      "href": "https://turkmsic.org/index.php/kullanici/kirikkale"
+    },
+    {
+      "name": "Kırklareli Tıp Öğrencileri Birliği",
+      "slug": "kirklareli",
+      "href": "https://turkmsic.org/index.php/kullanici/kirklareli"
+    },
+    {
+      "name": "Kocaeli Tıp Öğrencileri Birliği",
+      "slug": "kocaeli",
+      "href": "https://turkmsic.org/index.php/kullanici/kocaeli"
+    },
+    {
+      "name": "Lokman Hekim Tıp Öğrencileri Birliği",
+      "slug": "lokmanhekim",
+      "href": "https://turkmsic.org/index.php/kullanici/lokmanhekim"
+    },
+    {
+      "name": "Medipol Tıp Öğrencileri Birliği",
+      "slug": "medipol",
+      "href": "https://turkmsic.org/index.php/kullanici/medipol"
+    },
+    {
+      "name": "Meram Tıp Öğrencileri Birliği",
+      "slug": "meram",
+      "href": "https://turkmsic.org/index.php/kullanici/meram"
+    },
+    {
+      "name": "Mersin Tıp Öğrencileri Birliği",
+      "slug": "mersin",
+      "href": "https://turkmsic.org/index.php/kullanici/mersin"
+    },
+    {
+      "name": "Muğla Tıp Öğrencileri Birliği",
+      "slug": "mugla",
+      "href": "https://turkmsic.org/index.php/kullanici/mugla"
+    },
+    {
+      "name": "Hatay Mustafa Kemal Tıp Öğrencileri Birliği",
+      "slug": "mustafakemal",
+      "href": "https://turkmsic.org/index.php/kullanici/mustafakemal"
+    },
+    {
+      "name": "Okan Tıp Öğrencileri Birliği",
+      "slug": "okan",
+      "href": "https://turkmsic.org/index.php/kullanici/okan"
+    },
+    {
+      "name": "Ordu Tıp Öğrencileri Birliği",
+      "slug": "ordu",
+      "href": "https://turkmsic.org/index.php/kullanici/ordu"
+    },
+    {
+      "name": "Osmangazi Tıp Öğrencileri Birliği",
+      "slug": "osmangazi",
+      "href": "https://turkmsic.org/index.php/kullanici/osmangazi"
+    },
+    {
+      "name": "Rize RTE Tıp Öğrencileri Birliği",
+      "slug": "rizerte",
+      "href": "https://turkmsic.org/index.php/kullanici/rizerte"
+    },
+    {
+      "name": "Samsun Tıp Öğrencileri Birliği",
+      "slug": "samsun",
+      "href": "https://turkmsic.org/index.php/kullanici/samsun"
+    },
+    {
+      "name": "SBÜ Gülhane Tıp Öğrencileri Birliği",
+      "slug": "sbugulhane",
+      "href": "https://turkmsic.org/index.php/kullanici/sbugulhane"
+    },
+    {
+      "name": "SBÜ Hamidiye Tıp Öğrencileri Birliği",
+      "slug": "sbuhamidiye",
+      "href": "https://turkmsic.org/index.php/kullanici/sbuhamidiye"
+    },
+    {
+      "name": "SBÜ Uluslararası Tıp Öğrencileri Birliği",
+      "slug": "sbuuluslararasi",
+      "href": "https://turkmsic.org/index.php/kullanici/sbuuluslararasi"
+    },
+    {
+      "name": "Selçuk Tıp Öğrencileri Birliği",
+      "slug": "selcuk",
+      "href": "https://turkmsic.org/index.php/kullanici/selcuk"
+    },
+    {
+      "name": "TOBB ETÜ Tıp Öğrencileri Birliği",
+      "slug": "tobbetu",
+      "href": "https://turkmsic.org/index.php/kullanici/tobbetu"
+    },
+    {
+      "name": "Ufuk Tıp Öğrencileri Birliği",
+      "slug": "ufuk",
+      "href": "https://turkmsic.org/index.php/kullanici/ufuk"
+    },
+    {
+      "name": "Uşak Tıp Öğrencileri Birliği",
+      "slug": "usak",
+      "href": "https://turkmsic.org/index.php/kullanici/usak"
+    },
+    {
+      "name": "Yüksek İhtisas Tıp Öğrencileri Birliği",
+      "slug": "yuksekihtisas",
+      "href": "https://turkmsic.org/index.php/kullanici/yuksekihtisas"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "date": "2026-09-18",
+  "method": "selective_probe",
+  "sample": {
+    "sks_homes": ["hacettepe", "ankara", "deu", "ege"],
+    "club_dirs": ["hacettepe", "ankara", "deu", "biruni"],
+    "club_pages": ["HÜTBAT portal", "hutbat.org", "TurkMSIC", "Trakya TOB", "ACUTBAT"],
+    "instagram_handles_checked": [
+      "turkmsic",
+      "hutbat_official",
+      "trakyatob",
+      "ivsaankara",
+      "ivsakonya",
+      "istanbulivsa",
+      "hacettepesksdb",
+      "deu.sks",
+      "ankarauniversitesi_sks",
+      "ege.tob",
+      "acutbat",
+      "antbat",
+      "hutbat"
+    ],
+    "instagram_note": "Public HTML scrape returns login wall (no post dates). Activity inferred from org websites linking those handles + dated web events."
+  },
+  "findings": {
+    "sks_homes": {
+      "active": true,
+      "tip_relevant": "low",
+      "crowded": true,
+      "evidence": [
+        "Hacettepe/Ankara/DEÜ/Ege all show 2026 campus announcements",
+        "Dominant topics: yurt, burs, yemek, ring servis, SKS admin",
+        "Tip-adjacent hits are rare and usually campus services (e.g. Stajyer Öğrenci = part-time/stajyer iş ilanı), not tip club academic events"
+      ],
+      "verdict": "DO_NOT_USE_AS_PRIMARY_SOURCE"
+    },
+    "club_directories": {
+      "types": [
+        {
+          "example": "Ankara sks.ankara.edu.tr/topluluklar",
+          "type": "static_roster",
+          "active_feed": false,
+          "value": "discovery only — lists ANTBAT, IVSA Ankara, WAVMA by name"
+        },
+        {
+          "example": "Hacettepe topluluklar.hacettepe.edu.tr",
+          "type": "live_portal",
+          "active_feed": true,
+          "value": "per-club pages with dated 2026 events (HÜTBAT has multiple Mar–May 2026 tip events)"
+        },
+        {
+          "example": "DEÜ ogrencitopluluklari.deu.edu.tr",
+          "type": "script_heavy_uncertain",
+          "active_feed": "unclear_from_html",
+          "value": "do not trust as feed until verified; likely SPA"
+        },
+        {
+          "example": "ACUTBAT Acıbadem marketing page",
+          "type": "static_brochure",
+          "active_feed": false,
+          "value": "about page; IG points to university corporate"
+        }
+      ],
+      "verdict": "USE_ONLY_LIVE_CLUB_PORTALS_OR_OWN_SITES_NOT_ROSTER_PAGES"
+    },
+    "instagram": {
+      "confirmed_handles": [
+        {
+          "handle": "@turkmsic",
+          "role": "national tip",
+          "evidence": "linked from turkmsic.org; org site has Sept 2026 open applications"
+        },
+        {
+          "handle": "@hutbat_official",
+          "role": "research tip club",
+          "evidence": "linked from hutbat.org; Hacettepe portal shows 2026 dated events"
+        },
+        {
+          "handle": "@trakyatob",
+          "role": "local TOB",
+          "evidence": "linked from turkmsic.trakya.edu.tr (2026 page)"
+        },
+        {
+          "handle": "@ivsaankara",
+          "role": "vet chapter",
+          "evidence": "listed as homepage for IVSA Ankara; roster on Ankara SKS"
+        },
+        {
+          "handle": "@ivsakonya",
+          "role": "vet chapter",
+          "evidence": "chapter homepage pattern"
+        },
+        {
+          "handle": "@istanbulivsa",
+          "role": "vet chapter",
+          "evidence": "chapter homepage pattern"
+        }
+      ],
+      "reject_or_demote": [
+        "@hacettepesksdb / @deu.sks / @ankarauniversitesi_sks — SKS campus life",
+        "@acibademuniversitesi on ACUTBAT page — uni corporate",
+        "@hutbat / @acutbat / @antbat exact handles — not confirmed (use @hutbat_official)"
+      ],
+      "verdict": "PRIMARY_FOR_SOCIAL_LAYER_AFTER_HANDLE_CURATION; NEEDS_SOCIAL_ADAPTER"
+    }
+  },
+  "source_decision": {
+    "take": [
+      {
+        "id": "turkmsic_web",
+        "priority": 1,
+        "why": "National tip student feed; live applications/events 2026"
+      },
+      {
+        "id": "turkmsic_ig",
+        "priority": 1,
+        "why": "Official national IG; social mirror of same org"
+      },
+      {
+        "id": "local_tob_web_when_own_cms",
+        "priority": 2,
+        "why": "e.g. Trakya TOB — own site + @trakyatob; scale via turkmsic.org/yerel-birliklerimiz"
+      },
+      {
+        "id": "star_bat_live_portals",
+        "priority": 2,
+        "why": "HÜTBAT on Hacettepe topluluklar portal + hutbat.org — dated tip academic events"
+      },
+      {
+        "id": "ivsa_chapter_ig",
+        "priority": 2,
+        "why": "Vet student primary surface; faculty pages sparse"
+      }
+    ],
+    "skip": [
+      {
+        "id": "*_sks_homepage",
+        "why": "Active but campus-crowded; tip signal near zero"
+      },
+      {
+        "id": "sks_instagram",
+        "why": "Campus life, not tip/vet clubs"
+      },
+      {
+        "id": "static_club_rosters",
+        "why": "Name list only (Ankara pattern) — discovery hop, not a feed"
+      },
+      {
+        "id": "uni_brochure_club_pages",
+        "why": "ACUTBAT-style about pages without dated feed"
+      }
+    ],
+    "discovery_only": [
+      "SKS → öğrenci toplulukları directory URL",
+      "Ankara-style roster tables (filter *BAT / IVSA / Tıp)"
+    ]
+  },
+  "generalization": [
+    "If page is SKS home → skip as content source",
+    "If page is club roster without dated events → discovery only",
+    "If page has dated tip/vet events in last 12 months → take as source",
+    "If club has own domain (hutbat.org, turkmsic.*, tob site) → prefer over SKS",
+    "Instagram: only curated club/TOB/IVSA handles; never SKS/uni corporate",
+    "Scale tip via TurkMSIC yerel list; scale vet via IVSA chapters; scale research via *BAT portal pages"
+  ]
+}

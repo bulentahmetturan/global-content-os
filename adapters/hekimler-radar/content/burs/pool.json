@@ -1,0 +1,2243 @@
+{
+  "schemaVersion": "1.0.0",
+  "lane": "burs",
+  "editorialBrand": "Hekimler Topluluğu",
+  "updatedAt": "2026-09-24",
+  "note": "Central burs pool. source_registry mirrors burs_* profiles; burs_ilanlari holds concrete open calls when verified.",
+  "source_registry": [
+    {
+      "source_id": "burs_tr_fulbright",
+      "kaynak_adi": "Türkiye Fulbright Eğitim Komisyonu",
+      "url": "https://fulbright.org.tr",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; ABD YL/doktora; klinik tıp hariç, halk sağlığı/klinik olmayan tıp alt dalları uygun",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "biyomedikal_bilimler",
+        "klinik_arastirma"
+      ],
+      "cografya": "Kuzey Amerika",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.25,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Klinik MD/staj/asistanlık yok. Humphrey ayrı kaynak.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_tr_humphrey",
+      "kaynak_adi": "Hubert H. Humphrey Programı (Fulbright TR)",
+      "url": "https://fulbright.org.tr/burs/10/Hubert-H.-Humphrey-Program%C4%B1",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; kariyer ortası; halk sağlığı politikası",
+      "hedef_seviye": [
+        "yuksek_lisans"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "saglik_yonetimi"
+      ],
+      "cografya": "Kuzey Amerika",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Tıp öğrencisi bursu değil; hekim/halk sağlığı yöneticisi.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_tr_meb_ylsy",
+      "kaynak_adi": "MEB YLSY",
+      "url": "https://yyegm.meb.gov.tr",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; yurt dışı YL/doktora; sağlık kontenjanı yıla göre; mecburi hizmet",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "tip",
+        "halk_sagligi",
+        "saglik_bilimleri"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yalnız sağlık/tıp kontenjanı açıldığında Hekimler ilanı. Klinik MD değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_tr_tubitak_2214",
+      "kaynak_adi": "TÜBİTAK 2214-A Yurt Dışı Doktora Sırası Araştırma",
+      "url": "https://tubitak.gov.tr/tr/burslar",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR; yurt dışı doktora araştırma; tıp/biyomedikal uygun",
+      "hedef_seviye": [
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biyomedikal_bilimler",
+        "molekuler_tip",
+        "klinik_arastirma"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Alan genel; tıp/sağlık başvurusu kabul. Klinik eğitim değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_tr_tubitak_2219",
+      "kaynak_adi": "TÜBİTAK 2219 Yurt Dışı Doktora Sonrası Araştırma",
+      "url": "https://tubitak.gov.tr/tr/burslar",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR; postdoc araştırma; tıp/biyomedikal uygun",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biyomedikal_bilimler",
+        "molekuler_tip",
+        "klinik_arastirma"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Postdoc. Klinik MD bursu değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_us_aauw_international",
+      "kaynak_adi": "AAUW International Fellowships",
+      "url": "https://www.aauw.org/resources/programs/fellowships-grants/aauw-international-fellowships/",
+      "kaynak_turu": "Vakif",
+      "kapsam": "Kadın, ABD vatandaşı değil; STEM YL/doktora (halk sağlığı/biyomedikal STEM track)",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "biyomedikal_bilimler"
+      ],
+      "cografya": "Kuzey Amerika",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 8,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.35,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yalnız kadın. Klinik MD otomatik kapsanmaz; STEM sağlık track.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_de_daad",
+      "kaynak_adi": "DAAD Scholarships",
+      "url": "https://www.daad.de/en/studying-in-germany/scholarships/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Almanya lisansüstü; tıp/halk sağlığı programları uygun olabilir",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "tip",
+        "biyomedikal_bilimler"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en",
+        "de"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Veritabanı tarama; her ilan tıbbi alan + TR uygunluk kontrolü ister.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_uk_chevening",
+      "kaynak_adi": "Chevening Scholarships",
+      "url": "https://www.chevening.org/scholarships/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "UK YL; TR vatandaşı uygun; halk sağlığı/sağlık politikası",
+      "hedef_seviye": [
+        "yuksek_lisans"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "saglik_yonetimi"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Klinik tıp lisansı değil; 1 yıllık UK master.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eu_erasmus_mundus",
+      "kaynak_adi": "Erasmus Mundus Joint Masters",
+      "url": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en",
+      "kaynak_turu": "Uluslararası",
+      "kapsam": "AB ortak master; sağlık/kamu sağlığı katalog programları",
+      "hedef_seviye": [
+        "yuksek_lisans"
+      ],
+      "tibbi_alan": [
+        "halk_sagligi",
+        "saglik_bilimleri"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 8,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yalnız sağlık/tıp katalog programları. Aggregator değil, resmi katalog.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_jp_mext",
+      "kaynak_adi": "Japonya Hükûmeti (MEXT) Bursu",
+      "url": "https://www.tr.emb-japan.go.jp/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; Japonya lisans/araştırma; tıp, diş, veteriner, eczacılık lisans alanları uygun",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "tip",
+        "dis_hekimligi",
+        "veteriner_hekimligi",
+        "eczacilik"
+      ],
+      "cografya": "Asya",
+      "dil": [
+        "tr",
+        "en",
+        "ja"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.25,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Duyuru: Japonya Büyükelçiliği TR + YÖK. Üniversite tanıtım sayfası değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_uicc_technical",
+      "kaynak_adi": "UICC Technical Fellowships",
+      "url": "https://www.uicc.org/what-we-do/capacity-building/fellowships/technical-fellowships",
+      "kaynak_turu": "Uluslararası kuruluş",
+      "kapsam": "Kanser profesyonelleri; 5 yıl deneyim; tıp/PhD öğrencisi değil",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "cancer_biology",
+        "public_health",
+        "medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Öğrenci değil; MD/hemşire/halk sağlığı. 2026 çağrısı kapandı; izle.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esot_grants",
+      "kaynak_adi": "ESOT Grants Programme",
+      "url": "https://esot.org/grants-programme-2027/",
+      "kaynak_turu": "Meslek örgütü",
+      "kapsam": "Transplantasyon; ESOT üyeliği; TR Southern Europe",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ESOT ToR: Turkey Southern Europe. Üyelik şart.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_iadr_awards",
+      "kaynak_adi": "IADR Awards & Fellowships",
+      "url": "https://www.iadr.org/awards",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Diş/oral araştırma; lisans–postdoc",
+      "hedef_seviye": [
+        "lisans",
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "dentistry",
+        "biomedical_sciences"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "IADR ödül portföyü; Centennial Travel Award UMIC + 2025 Ankara Medipol kazananı. Üyelik 2 yıl.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eadv_scholarships",
+      "kaynak_adi": "EADV Scholarships & Grants",
+      "url": "https://eadv.org/congress/scholarships/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Dermatoloji asistan/uzman/PhD",
+      "hedef_seviye": [
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "HCP Scholarship worldwide. Çağrı bazında üyelik kontrol.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_isn_fellowships",
+      "kaynak_adi": "ISN Fellowships & Grants",
+      "url": "https://www.theisn.org/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Klinik nefroloji eğitimi; ISN üyesi UMIC",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ISN üyeliği + UMIC. Genel son tarih izlenmeli.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_fip_foundation",
+      "kaynak_adi": "FIP Foundation Grants & Scholarships",
+      "url": "https://www.fipfoundation.org/",
+      "kaynak_turu": "Vakıf / meslek örgütü",
+      "kapsam": "Eczacı/farmasötik bilimci; UMIC erken kariyer",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "pharmacy",
+        "pharmacology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Türkiye UMIC. Çağrı dönemsel.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esc_grants",
+      "kaynak_adi": "ESC Grants & Fellowships",
+      "url": "https://www.escardio.org/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Kardiyoloji araştırma/klinik/hemşirelik grantleri",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "nursing",
+        "medical_imaging"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Alt birim (EACVI/EHRA/HFA) çağrıları ayrı. Üyelik sık.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esmo_fellowships",
+      "kaynak_adi": "ESMO Fellowships",
+      "url": "https://www.esmo.org/career-development/oncology-fellowships/fellowship-offers",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Translasyonel/klinik onkoloji eğitimi",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "cancer_biology",
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Çağrı bazında üyelik. TR onkologlar programda yer almış.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_ean_fellowships",
+      "kaynak_adi": "EAN Fellowships & Funding",
+      "url": "https://www.ean.org/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Nöroloji Student Teaser / Clinical / Research",
+      "hedef_seviye": [
+        "lisans",
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "neuroscience",
+        "medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Üyelik çağrıya göre değişir.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esso_grants",
+      "kaynak_adi": "ESSO Educational Grants",
+      "url": "https://www.essoweb.org/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Cerrahi onkoloji eğitim ziyareti; üyelik",
+      "hedef_seviye": [
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "cancer_biology"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Tam cerrahi eğitim + ESSO üyeliği. 2026 son tarih 31 Ekim (tablo).",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_escmid_grants",
+      "kaynak_adi": "ESCMID Grants & Awards",
+      "url": "https://www.escmid.org/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Klinik mikrobiyoloji/enfeksiyon; grant + yaz okulu",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu",
+        "yaz_okulu"
+      ],
+      "tibbi_alan": [
+        "microbiology",
+        "medicine",
+        "pharmacy"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Üyelik/kariyer aşaması çağrıya göre.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eau_eusp",
+      "kaynak_adi": "EAU / EUSP Scholarships",
+      "url": "https://uroweb.org/education/scholarships",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Üroloji short visit / 1-year / academic visit",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Üroloji asistan/uzman/araştırmacı/hemşire. Üyelik sık.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_ers_fellowships",
+      "kaynak_adi": "ERS Fellowships & Grants",
+      "url": "https://www.ersnet.org/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Göğüs hastalıkları postdoc/klinik eğitim",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "public_health"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Turkish Thoracic Society ERS ağında.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eacts_fontan",
+      "kaynak_adi": "EACTS / Francis Fontan Fund",
+      "url": "https://www.eacts.org/",
+      "kaynak_turu": "Avrupa meslek örgütü / vakıf",
+      "kapsam": "Kardiyotorasik cerrahi + hemşirelik fellowship",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "nursing"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "EACTS üyeliği çoğu çağrıda.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_era_fellowships",
+      "kaynak_adi": "ERA Fellowships & Funding",
+      "url": "https://www.era-online.org/research-education/fellowships-funding/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Nefroloji kısa/uzun klinik ve araştırma",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa / Akdeniz",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Program revizyonda; 2027 ana çağrı bekleniyor.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_asco_conquer",
+      "kaynak_adi": "Conquer Cancer / ASCO Foundation",
+      "url": "https://www.conquer.org/cancer-research/grants-awards",
+      "kaynak_turu": "Vakıf / meslek örgütü",
+      "kapsam": "Erken kariyer onkolog LMIC/UMIC; IDEA + diğer grantler",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "cancer_biology",
+        "medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "IDEA: TR listede. Diğer grantler HIC eğitim kısıtı taşıyabilir.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_wsava_day",
+      "kaynak_adi": "WSAVA Michael J. Day Scholarship",
+      "url": "https://wsava.org/resources/michael-j-day-scholarship/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Veteriner lisans araştırma bursu",
+      "hedef_seviye": [
+        "lisans",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "veterinary",
+        "immunology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Dünya veteriner öğrencisi araştırma bursu; TSAVA WSAVA üyesi. Host/vize şartı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_ectrims",
+      "kaynak_adi": "ECTRIMS Fellowships",
+      "url": "https://ectrims.eu/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "MS araştırma/klinik eğitim",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "neuroscience",
+        "medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Vatandaşlık/kurum şartı fellowship bazında.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_ueg",
+      "kaynak_adi": "UEG Opportunities",
+      "url": "https://ueg.eu/p/137",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Gastroenteroloji research + visiting fellowship",
+      "hedef_seviye": [
+        "arastirma_bursu",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Program bazında ülke/üyelik.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esor",
+      "kaynak_adi": "ESOR Training & Exchange Programmes",
+      "url": "https://www.esor.org/training-exchange-programmes/",
+      "kaynak_turu": "Avrupa eğitim kurumu",
+      "kapsam": "Radyoloji fellowship + visiting medical student",
+      "hedef_seviye": [
+        "lisans",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medical_imaging",
+        "medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ESR üyeliği/ülke koşulu program bazında.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_efsd_easd",
+      "kaynak_adi": "EFSD / EASD Funding Opportunities",
+      "url": "https://www.europeandiabetesfoundation.org/programmes/current-funding-opportunities/",
+      "kaynak_turu": "Vakıf / meslek örgütü",
+      "kapsam": "Diyabet temel/klinik araştırma ve seyahat",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Albert Renold Travel Fellowship vb. kurum/coğrafya ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eha_grants",
+      "kaynak_adi": "EHA Research Grants",
+      "url": "https://ehaweb.org/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Hematoloji research/innovation/mobility",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "molecular_medicine"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Eligibility her grant tipinde ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_ibro",
+      "kaynak_adi": "IBRO Grants & Training",
+      "url": "https://ibro.org/",
+      "kaynak_turu": "Uluslararası araştırma örgütü",
+      "kapsam": "Nörobilim school/training/travel",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "postdoc",
+        "yaz_okulu",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "neuroscience",
+        "physiology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "IBRO bölgesi çağrı bazında.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_fens",
+      "kaynak_adi": "FENS Grants & Stipends",
+      "url": "https://www.fens.org/careers/grants-and-stipends",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Nörobilim travel/higher-education stipend",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "postdoc",
+        "yaz_okulu",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "neuroscience"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Ülke/üyelik programa göre.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eular",
+      "kaynak_adi": "EULAR Bursaries & Grants",
+      "url": "https://www.eular.org/",
+      "kaynak_turu": "Avrupa meslek örgütü",
+      "kapsam": "Romatoloji kurs/eğitim ziyareti/travel",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "immunology"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Çağrı bazında üyelik/coğrafya.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_iarc_who",
+      "kaynak_adi": "IARC / WHO Research Training Fellowships",
+      "url": "https://training.iarc.who.int/iarc-postdoctoral-fellowships/",
+      "kaynak_turu": "WHO araştırma enstitüsü",
+      "kapsam": "Lyon postdoc; LMIC uyruk; epidemiyoloji/kanser biyolojisi",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "cancer_biology",
+        "public_health",
+        "genetics",
+        "biostatistics"
+      ],
+      "cografya": "Global / LMIC",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "UMIC uyruk uygun. Çağrı iki yılda bir; 2025 kapandı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_sigma_nursing",
+      "kaynak_adi": "Sigma Nursing Research & Project Grants",
+      "url": "https://www.sigmanursing.org/",
+      "kaynak_turu": "Uluslararası meslek örgütü",
+      "kapsam": "Hemşirelik araştırma/proje grant",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "nursing",
+        "health_sciences"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Sigma üyeliği veya konu/ülke sınırı sık.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_uk_wellcome",
+      "kaynak_adi": "Wellcome Early-Career Awards",
+      "url": "https://wellcome.org/research-funding/schemes/wellcome-early-career-awards",
+      "kaynak_turu": "Vakıf",
+      "kapsam": "Erken kariyer sağlık araştırması; host ülke kuralı",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biomedical_sciences",
+        "clinical_research",
+        "public_health"
+      ],
+      "cografya": "Global / uygun host",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "29 Eki 2026 sonrası TR host kapanır; UK veya Afrika/Güney-Güneydoğu Asya LMIC host.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_tr_kyk",
+      "kaynak_adi": "KYK Burs / Öğrenim Kredisi (GSB)",
+      "url": "https://kygm.gsb.gov.tr/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Yurt içi lisans/YL/doktora; tıp dahil örgün öğrenci",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "dentistry",
+        "pharmacy",
+        "nursing",
+        "veterinary",
+        "health_sciences"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Duyuru GSB; başvuru e-Devlet. Tıp-özel değil, bütün örgün öğrenciler.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_tr_tev",
+      "kaynak_adi": "Türk Eğitim Vakfı (TEV) Bursları",
+      "url": "https://tev.org.tr/burs/tr/45/Basvuru-Sureci-ve-Adimlar",
+      "kaynak_turu": "Vakıf",
+      "kapsam": "Yurt içi üniversite/YL/doktora + uzman hekim yurt dışı tıp araştırma",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "health_sciences"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yurt içi burs çoğunlukla devlet üniversitesi. Birman: uzman hekim, öğrenci değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_tr_tubitak_2209",
+      "kaynak_adi": "TÜBİTAK 2209-A Üniversite Öğrencileri Araştırma Projesi",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/destek-programlari/2209-universite-ogrencileri-arastirma-projeleri-destekleme-programi",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Ön lisans/lisans araştırma projesi; tıp dahil",
+      "hedef_seviye": [
+        "lisans",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "dentistry",
+        "pharmacy",
+        "nursing",
+        "veterinary",
+        "biomedical_sciences"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yaşam bursu değil; proje gideri. Tıp öğrencisi başvurabilir.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_tr_tubitak_2210",
+      "kaynak_adi": "TÜBİTAK 2210 Yurt İçi Yüksek Lisans Bursu",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisansustu/egitim-burs-programlari/2210-yurt-ici-yuksek-lisans-burs-programlari",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Yurt içi YL eğitim bursu; sağlık bilimleri YL",
+      "hedef_seviye": [
+        "yuksek_lisans"
+      ],
+      "tibbi_alan": [
+        "health_sciences",
+        "biomedical_sciences",
+        "public_health",
+        "pharmacy",
+        "nursing"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Tıp lisans öğrencisi değil; YL kaydı gerekir.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_tr_tubitak_2211",
+      "kaynak_adi": "TÜBİTAK 2211 Yurt İçi Doktora Bursu",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisansustu/egitim-burs-programlari/2211-yurt-ici-doktora-burs-programlari",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Yurt içi doktora eğitim bursu",
+      "hedef_seviye": [
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "health_sciences",
+        "biomedical_sciences",
+        "public_health",
+        "medicine"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Doktora kaydı gerekir; tıp lisansı tek başına yetmez.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_hu_stipendium",
+      "kaynak_adi": "Stipendium Hungaricum (MEB)",
+      "url": "https://stipendiumhungaricum.hu/country/turkiye/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; Macaristan tıp/sağlık one-tier + YL/doktora",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "dentistry",
+        "pharmacy",
+        "veterinary",
+        "health_sciences"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Tıp kontenjanı rekabetli; 1. tercih tıp olmalı. MEB sözlü sınavı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_tr_jean_monnet",
+      "kaynak_adi": "Jean Monnet Burs Programı",
+      "url": "https://jeanmonnet.org.tr/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "AB üye ülkelerinde YL; son sınıf/lisansüstü; AB müktesebatı (sağlık koruma başlığı)",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "public_health",
+        "health_management",
+        "pharmacy"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "tr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Klinik tıp eğitimi değil; AB sağlık/gıda/veteriner müktesebatı. Lisans son sınıf açık.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_fr_eiffel",
+      "kaynak_adi": "France Excellence Eiffel (Campus France)",
+      "url": "https://www.campusfrance.org/en/france-excellence-eiffel-scholarship-program",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Fransa YL/doktora; biyoloji ve sağlık",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "biomedical_sciences",
+        "public_health",
+        "health_sciences"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Doğrudan başvuru yok; Fransız kurum aday gösterir. Klinik MD lisans değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_kr_gks",
+      "kaynak_adi": "Global Korea Scholarship (NIIED)",
+      "url": "https://www.studyinkorea.go.kr/in/plan/scholarship.do",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Kore lisans+dil yılı; TR kontenjan; tıp her üniversitede yok",
+      "hedef_seviye": [
+        "lisans",
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "health_sciences",
+        "biomedical_sciences",
+        "nursing"
+      ],
+      "cografya": "Asya",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Lisans tıp üniversite bilgi dosyasında yoksa sağlık bilimleri/nursing izle. Kontenjan küçük.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_ch_swiss_excellence",
+      "kaynak_adi": "Swiss Government Excellence Scholarships",
+      "url": "https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships",
+      "kaynak_turu": "Resmi",
+      "kapsam": "TR vatandaşı; İsviçre araştırma/doktora; lisans/master ders bursu yok",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biomedical_sciences",
+        "medicine",
+        "public_health"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.2,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Lisans tıp öğrencisi değil; master sonrası araştırmacı/doktora.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_us_cri",
+      "kaynak_adi": "CRI Immuno-Informatics Postdoctoral Fellowship",
+      "url": "https://www.cancerresearch.org/immuno-informatics-postdoctoral-fellowship",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Kanser immünolojisi/veri bilimi postdoc; uyruk serbest; kâr amacı gütmeyen host",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "cancer_biology",
+        "immunology",
+        "biomedical_sciences"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.85,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "3 yıl stipend. Deadline 1 Mar / 1 Sep.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_us_fraxa",
+      "kaynak_adi": "FRAXA Research Foundation Fellowships",
+      "url": "https://www.fraxa.org/fragile-x-research/grant-application/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Fragile X fellowship; dünya genelinde üniversite/hastane/kâr amacı gütmeyen lab",
+      "hedef_seviye": [
+        "postdoc",
+        "doktora",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "genetics",
+        "neuroscience",
+        "molecular_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 9.6,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Fellowship 1 Şub; klinik araştırma grantleri rolling.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esicm_grants",
+      "kaynak_adi": "ESICM Research Grants",
+      "url": "https://www.esicm.org/research/awards/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Yoğun bakım araştırma grant; üyelik; 40 yaş altı veya ilk 5 yıl fakülte",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa/Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 9.15,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "2026 çağrısı kapandı; üyelik şart.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_espen_fellowships",
+      "kaynak_adi": "ESPEN Research Fellowships",
+      "url": "https://www.espen.org/research-fellowships",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Klinik beslenme araştırma fellowship; başvuran+danışman ESPEN üyesi",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "nutrition_dietetics",
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa/Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 9.15,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "2026 son başvuru 31 Mart. Üyelik şart.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_febs_fellowships",
+      "kaynak_adi": "FEBS Short-Term Fellowships",
+      "url": "https://www.febs.org/funding/fellowships/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "FEBS ülkesi laboratuvar hareketliliği; TBD/TBS üyeliği; TR FEBS ülkesi",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biochemistry",
+        "molecular_medicine",
+        "biomedical_sciences"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "PROBio-Afrika/LATAM ve Ukrayna hatları TR kapsamı dışı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_embo",
+      "kaynak_adi": "EMBO Fellowships & Grants",
+      "url": "https://www.embo.org/funding/fellowships-grants-and-career-support/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "EMBC üyesi TR; postdoc hareketliliği, scientific exchange, TR Installation Grant",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biomedical_sciences",
+        "molecular_medicine",
+        "genetics"
+      ],
+      "cografya": "Avrupa/Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.9,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Postdoc uluslararası hareketlilik ister. Installation Grant TR listesinde.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_uk_mrc",
+      "kaynak_adi": "MRC Fellowships (UKRI)",
+      "url": "https://www.ukri.org/apply-for-funding/our-fellowship-opportunities/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "UK host; uyruk serbest; clinician scientist / career development / CRTF",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research",
+        "biomedical_sciences"
+      ],
+      "cografya": "Birleşik Krallık",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.8,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "UK host + GMC/HCPC planı. NERC/EPSRC çıkarma.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_iti_scholarships",
+      "kaynak_adi": "ITI Scholarship Program",
+      "url": "https://www.iti.org/education/scholarship-program/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "1 yıllık implant diş hekimliği bursu; ITI üyelik; DDS/BDS + lisansüstü deneyim",
+      "hedef_seviye": [
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "dentistry"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.75,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Lisans öğrencisi değil. Host ülkede klinik ruhsat riski.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_esaic_grants",
+      "kaynak_adi": "ESAIC Research Grants",
+      "url": "https://esaic.org/research/grants/esaic-grants/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Anestezi/YB araştırma grant; TR ESAIC Council ülkesi; TARD ulusal dernek",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "clinical_research"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.65,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "2027 çağrısı açık. Üyelik + ESAIC ülkesi host.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_us_morris",
+      "kaynak_adi": "Morris Animal Foundation Grants & Veterinary Student Scholar",
+      "url": "https://www.morrisanimalfoundation.org/veterinary-student-scholar-program",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Akredite veteriner programı öğrencisi (AVMA şart değil); TR vet okulu öğrenci-kapsamında",
+      "hedef_seviye": [
+        "lisans",
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "veterinary"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.55,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "VSS kurum nominasyonu; yalnız in-scope veteriner öğrencisi. Fellowship Training ayrı hat.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "hedef_kitle": "ogrenci"
+    },
+    {
+      "source_id": "burs_us_pva",
+      "kaynak_adi": "PVA Research Foundation Fellowships",
+      "url": "https://pva.org/research-resources/research-foundation/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "SCI/D postdoc fellowship; host ABD/Kanada; uyruk şartı yok",
+      "hedef_seviye": [
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "neuroscience",
+        "clinical_research",
+        "medicine"
+      ],
+      "cografya": "Kuzey Amerika",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kismi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.55,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Host ABD/Kanada zorunlu. Sonraki döngü Nisan 2027.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_iubmb",
+      "kaynak_adi": "IUBMB Wood-Whelan Research Fellowships",
+      "url": "https://iubmb.org/activities/fellowship-programs/iubmb-wood-whelan-research-fellowships/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "1-4 ay biyokimya lab hareketliliği; TBD IUBMB üyesi 1977",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc",
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "biochemistry",
+        "molecular_medicine",
+        "biomedical_sciences"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 9,
+      "guncellik": 9,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.15,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "15 Mar / 15 Eyl. Erken kariyer.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_eso_doctors",
+      "kaynak_adi": "ESO Doctors Fellowship Programme",
+      "url": "https://www.eso.net/education-and-training/clinical-training-centres-fellowship-programme/doctors-fellowship-programme/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "3-6 ay klinisyen onkoloji fellowship; uzmanlığını son 5 yılda bitiren; TR adaylar 2026 listesinde",
+      "hedef_seviye": [
+        "arastirma_bursu"
+      ],
+      "tibbi_alan": [
+        "medicine",
+        "cancer_biology"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 9,
+      "guncellik": 9,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.15,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Aylık 2500 EUR. Bazı hostlar observership kaydı; 2-3 haftalık staj değil. Sonraki çağrı Haz 2027.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_fip_ecpg",
+      "kaynak_adi": "FIP ECPG Grants & Scholarships",
+      "url": "https://www.fip.org/grants-and-scholarships-for-ecpg-members",
+      "kaynak_turu": "Resmi",
+      "kapsam": "ECPG kongre/liderlik/HAMIS; UMIC TR kapsar, üyelik/erken kariyer şartı. Foundation burs_fip_foundation ayrı.",
+      "hedef_seviye": [
+        "lisans",
+        "erken_kariyer"
+      ],
+      "tibbi_alan": [
+        "pharmacy"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ECPG kongre/liderlik/HAMIS; UMIC TR kapsar, üyelik/erken kariyer şartı. Foundation burs_fip_foundation ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_icm_congress",
+      "kaynak_adi": "ICM Congress Bursary",
+      "url": "https://internationalmidwives.org/apply-for-a-bursary-to-attend-the-icm-triennial-congress-in-2026/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Ebelik kongre bursu mekanizması; ICM üye dernek + gelir grubu. 2026 kapalı, gelecek tur kontrol.",
+      "hedef_seviye": [
+        "ebelik"
+      ],
+      "tibbi_alan": [
+        "midwifery"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Ebelik kongre bursu mekanizması; ICM üye dernek + gelir grubu. 2026 kapalı, gelecek tur kontrol.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_isa_wca_travel",
+      "kaynak_adi": "ISA / WCA Award & Travel Grant",
+      "url": "https://wca2026seoul.com/?action=SiteComp&module=Html&sSubNo=12",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Odyoloji seyahat hibesi; TR dışlaması yok. ISA ana site doğrulanamadı — yayın öncesi manuel kontrol.",
+      "hedef_seviye": [
+        "ogrenci",
+        "erken_kariyer"
+      ],
+      "tibbi_alan": [
+        "audiology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Odyoloji seyahat hibesi; TR dışlaması yok. ISA ana site doğrulanamadı — yayın öncesi manuel kontrol.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "burs_imperial_gozukara",
+      "kaynak_adi": "Imperial Gözükara Medical Undergraduate Research Awards",
+      "url": "https://www.imperial.ac.uk/medicine/study/undergraduate/scholarships-and-awards/",
+      "kaynak_turu": "Resmi",
+      "kapsam": "Imperial + Gözükara Vakfı; 8 hafta araştırma placement + £3000. 1 visiting TR kontenjanı yalnızca listedeki tıp fakülteleri. 2026 başvuru 27 Şub kapandı. Vize. Imperial MBBS ödülleri TR kitlesi değil.",
+      "hedef_seviye": [
+        "tip_ogrencisi"
+      ],
+      "tibbi_alan": [
+        "clinical_research",
+        "biomedical"
+      ],
+      "cografya": "UK / Türkiye",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Yillik",
+      "takip_yontemi": "web sayfası",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 5,
+      "toplam_puan": 7.95,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Imperial + Gözükara Vakfı; 8 hafta araştırma placement + £3000. 1 visiting TR kontenjanı yalnızca listedeki tıp fakülteleri. 2026 başvuru 27 Şub kapandı. Vize. Imperial MBBS ödülleri TR kitlesi değil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    }
+  ],
+  "burs_ilanlari": []
+}

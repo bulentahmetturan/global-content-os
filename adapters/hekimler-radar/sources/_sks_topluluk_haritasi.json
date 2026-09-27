@@ -1,0 +1,104 @@
+{
+  "method": "selective",
+  "date": "2026-09-18",
+  "scope": "3 club directories + TurkMSIC local list + known national IG — not full SKS crawl",
+  "layers": [
+    {
+      "id": "L1_ulusal_tip",
+      "name": "TurkMSIC ulusal",
+      "role": "primary tip student network",
+      "web": "https://www.turkmsic.org/",
+      "instagram": "https://www.instagram.com/turkmsic/",
+      "scale_via": "https://turkmsic.org/yerel-birliklerimiz (~100 yerel TOB)",
+      "keep_as_source": true
+    },
+    {
+      "id": "L2_yerel_tob",
+      "name": "Yerel TOB (örnek: Ankara, Hacettepe, DEÜ, Trakya)",
+      "role": "per-faculty TurkMSIC chapter",
+      "web_pattern": "turkmsic.org/index.php/kullanici/<slug> or <uni>.turkmsic / turkmsic.<uni>",
+      "instagram": "TOB page / bio — not SKS footer",
+      "keep_as_source": true
+    },
+    {
+      "id": "L3_bat",
+      "name": "*BAT bilimsel araştırma toplulukları",
+      "role": "research-oriented tip clubs",
+      "examples": [
+        {
+          "name": "ANTBAT (Ankara)",
+          "found_in": "https://sks.ankara.edu.tr/topluluklar/",
+          "label": "Tıp Fakültesi Bilimsel Araştırma Öğrenci Topluluğu (ANTBAT)"
+        },
+        {
+          "name": "HÜTBAT (Hacettepe)",
+          "web": "https://topluluklar.hacettepe.edu.tr/topluluklar/tip-fakultesi-bilimsel-arastirma-toplulugu"
+        },
+        {
+          "name": "ACUTBAT (Acıbadem)",
+          "web": "https://www.acibadem.edu.tr/ogrenci/acuda-yasam/tip-fakultesi-bilimsel-arastirma-toplulugu-acutbat"
+        }
+      ],
+      "keep_as_source": true
+    },
+    {
+      "id": "L4_ulusal_vet",
+      "name": "IVSA Türkiye + chapter’lar",
+      "role": "primary vet student network",
+      "examples": [
+        {
+          "name": "IVSA Ankara",
+          "found_in": "https://sks.ankara.edu.tr/topluluklar/",
+          "instagram": "https://www.instagram.com/ivsaankara/"
+        },
+        {
+          "name": "IVSA Konya",
+          "instagram": "https://www.instagram.com/ivsakonya/"
+        },
+        {
+          "name": "IVSA İstanbul",
+          "instagram": "https://www.instagram.com/istanbulivsa/"
+        }
+      ],
+      "keep_as_source": true
+    },
+    {
+      "id": "L5_sks",
+      "name": "SKS anasayfa / SKS Instagram",
+      "role": "campus life admin — not tip/vet club feed",
+      "examples_ig": [
+        "@hacettepesksdb",
+        "@deu.sks",
+        "@ankarauniversitesi_sks"
+      ],
+      "keep_as_source": false,
+      "note": "Useful only as pointer to club directory URL"
+    }
+  ],
+  "selective_probe": {
+    "ankara_topluluklar": {
+      "url": "https://sks.ankara.edu.tr/topluluklar/",
+      "tip_vet_named_clubs": [
+        "Ankara Tıp Oyuncuları Topluluğu (ATO)",
+        "Tıp Fakültesi Bilimsel Araştırma Öğrenci Topluluğu (ANTBAT)",
+        "Tıp Fakültesi Sinema Öğrenci Topluluğu (KİNETİP)",
+        "Tıp Fakültesi Tarih Öğrenci Topluluğu",
+        "Uluslararası Veteriner Öğrenci Topluluğu (IVSA Ankara)",
+        "Dünya Akuatik Veteriner Hekimler Birliği Öğrenci Topluluğu (WAVMA)"
+      ]
+    },
+    "turkmsic_yerel": {
+      "url": "https://turkmsic.org/yerel-birliklerimiz",
+      "instagram_on_page": ["turkmsic"],
+      "note": "Full local TOB roster — scale list here, do not scrape all SKS"
+    }
+  },
+  "generalization_rules": [
+    "Do not ingest *_sks homepage as a tip/vet news source",
+    "Tip scale path: TurkMSIC national → yerel-birliklerimiz roster → per-TOB IG/web",
+    "Research tip clubs: filter club directories for *BAT / Bilimsel Araştırma",
+    "Vet scale path: IVSA Turkey chapters (Ankara/Konya/İstanbul pattern), not SKS",
+    "Instagram: club/TOB/IVSA handle only; ignore uni corporate and SKS handles for tip content",
+    "SKS club-directory URL can be a discovery hop, then promote matching clubs to own sources"
+  ]
+}

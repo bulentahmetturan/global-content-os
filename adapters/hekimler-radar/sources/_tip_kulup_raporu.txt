@@ -1,0 +1,110 @@
+Tıp öğrenci kulüpleri raporu (84 üniversite)
+Tarih: 2026-09-18
+
+## Yöntem
+- Pack içi tip_* institution listesi (84)
+- TurkMSIC https://turkmsic.org/yerel-birliklerimiz roster eşlemesi
+- TOB profil sayfaları toplu istekte 403/WAF → sayfa tazeliği bu turda ölçülemadi
+- Ulusal TurkMSIC sitesi aktif (2026); seçili kendi siteler (Trakya TOB, HÜTBAT) aktif
+
+## Özet
+- universities: 84
+- club_exists_via_turkmsic_tob: 78
+- no_tob_listing: 6
+- own_site_confirmed_active: 2
+- tob_profile_pages_blocked_403: 78
+- turkmsic_national_active: True
+- turkmsic_national_note: turkmsic.org 2026 başvurular/etkinlikler aktif
+
+## Sonuç (genelleme)
+1. Çoğu tıp fakültesinde TurkMSIC yerel TOB KAYITLI (kulüp/birlik VAR).
+2. Her TOB için ayrı canlı web sayfası bu turda doğrulanamadı (profil 403).
+3. Ulusal katman (turkmsic.org) aktif haber/başvuru üretiyor.
+4. Bazı TOB/kulüplerin kendi siteleri var (ör. Trakya TOB, HÜTBAT) — bunlar aktif.
+5. Listede TOB eşleşmeyen 6 üniversite: Alanya, Karabük, Kastamonu, Ahi Evran, Siirt, Yalova (yeniden kontrol / isim farkı olabilir).
+
+## Üniversite × TOB
+- [VAR] Acıbadem Mehmet Ali Aydınlar Üniversitesi | Acıbadem Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Afyonkarahisar Sağlık Bilimleri Üniversitesi | Afyon SBÜ Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Akdeniz Üniversitesi | Akdeniz Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Aksaray Üniversitesi | Aksaray Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Alanya Alaaddin Keykubat Üniversitesi | — | no_tob_listing
+- [VAR] Altınbaş Üniversitesi | Altınbaş Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Amasya Üniversitesi | Amasya Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Ankara Yıldırım Beyazıt Üniversitesi | Ankara Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Ankara Üniversitesi | Ankara Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Atatürk Üniversitesi | Atatürk Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Atılım Üniversitesi | Atılım Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Aydın Adnan Menderes Üniversitesi | Aydın Adnan Menderes Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Balıkesir Üniversitesi | Balıkesir Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Bandırma Onyedi Eylül Üniversitesi | Bandırma Onyedi Eylül Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Beykent Üniversitesi | Beykent Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Biruni Üniversitesi | Biruni Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Bolu Abant İzzet Baysal Üniversitesi | Abant İzzet Baysal Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Bursa Uludağ Üniversitesi | Bursa Uludağ Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Dicle Üniversitesi | Dicle Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Dokuz Eylül Üniversitesi | Dokuz Eylül Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Ege Üniversitesi | Ege Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Erzincan Binali Yıldırım Üniversitesi | Erzincan Binali Yıldırım Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Eskişehir Osmangazi Üniversitesi | Gazi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Fırat Üniversitesi | Fırat Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Gazi Üniversitesi | Gazi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Gaziantep İslam Bilim ve Teknoloji Üniversitesi | Gazi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Gaziantep Üniversitesi | Gazi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Giresun Üniversitesi | Giresun Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Hacettepe Üniversitesi | Hacettepe Tıp Öğrencileri Birliği | club_own_site_active
+- [VAR] Haliç Üniversitesi | Haliç Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Harran Üniversitesi | Harran Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Hitit Üniversitesi | Hitit Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İnönü Üniversitesi | İnönü Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Atlas Üniversitesi | Atlas Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Medeniyet Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Medipol Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Okan Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Sağlık ve Teknoloji Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Yeni Yüzyıl Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Üniversitesi | İstanbul Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstanbul Üniversitesi-Cerrahpaşa | Cerrahpaşa Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İstinye Üniversitesi | İstinye Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İzmir Bakırçay Üniversitesi | Bakırçay Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İzmir Demokrasi Üniversitesi | İzmir Demokrasi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İzmir Ekonomi Üniversitesi | İzmir Ekonomi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İzmir Kâtip Çelebi Üniversitesi | İzmir Katip Çelebi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] İzmir Tınaztepe Üniversitesi | İzmir Tınaztepe Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Kafkas Üniversitesi | Kafkas Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Kahramanmaraş Sütçü İmam Üniversitesi | Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Karabük Üniversitesi | — | no_tob_listing
+- [VAR] Karadeniz Teknik Üniversitesi | Karadeniz Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Karamanoğlu Mehmetbey Üniversitesi | Karaman Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Kastamonu Üniversitesi | — | no_tob_listing
+- [VAR] Koç Üniversitesi | Koç Üniversitesi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Kütahya Sağlık Bilimleri Üniversitesi | Kütahya SBÜ Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Kırklareli Üniversitesi | Arel Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Kırşehir Ahi Evran Üniversitesi | — | no_tob_listing
+- [VAR] Malatya Turgut Özal Üniversitesi | Malatya Turgut Özal Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Maltepe Üniversitesi | Maltepe Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Manisa Celal Bayar Üniversitesi | Celal Bayar Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Mardin Artuklu Üniversitesi | Mardin Artuklu Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Marmara Üniversitesi | Marmara Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Muğla Sıtkı Koçman Üniversitesi | Koç Üniversitesi Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Niğde Ömer Halisdemir Üniversitesi | Niğde Ömer Halisdemir Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Nişantaşı Üniversitesi | İstanbul Nişantaşı Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Ondokuz Mayıs Üniversitesi | Ondokuz Mayıs Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Pamukkale Üniversitesi | Pamukkale Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Sakarya Üniversitesi | Sakarya Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Sanko Üniversitesi | Sanko Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Sağlık Bilimleri Üniversitesi | Abant İzzet Baysal Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Siirt Üniversitesi | — | no_tob_listing
+- [VAR] Sivas Cumhuriyet Üniversitesi | Cumhuriyet Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Süleyman Demirel Üniversitesi | Süleyman Demirel Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Tekirdağ Namık Kemal Üniversitesi | Namık Kemal Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] TOBB Ekonomi ve Teknoloji Üniversitesi | TOBB ETÜ Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Trakya Üniversitesi | Trakya Tıp Öğrencileri Birliği | club_own_site_active
+- [VAR] Van Yüzüncü Yıl Üniversitesi | Van Yüzüncü Yıl Tıp Öğrencileri Birliği | tob_exists_listing
+- [YOK/ESLESMEDI] Yalova Üniversitesi | — | no_tob_listing
+- [VAR] Yeditepe Üniversitesi | Yeditepe Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Yozgat Bozok Üniversitesi | Bozok Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Zonguldak Bülent Ecevit Üniversitesi | Bülent Ecevit Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Çanakkale Onsekiz Mart Üniversitesi | Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Çukurova Üniversitesi | Çukurova Tıp Öğrencileri Birliği | tob_exists_listing
+- [VAR] Üsküdar Üniversitesi | Üsküdar Tıp Öğrencileri Birliği | tob_exists_listing

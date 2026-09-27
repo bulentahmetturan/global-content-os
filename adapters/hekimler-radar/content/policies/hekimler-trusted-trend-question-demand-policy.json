@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "policyId": "hekimler-trusted-trend-question-demand-v1",
+  "status": "configured_not_wired",
+  "pipeline_wiring_enabled": false,
+  "fetch_enabled": false,
+  "auto_publish": false,
+  "purpose": "Separate Trusted Trend Candidates (evidence-backed) from Question Demand Signals (audience-question detection only). No social or consumer-media claim may become content without an independent official, scientific or primary source.",
+  "trusted_trend_radar": {
+    "description": "Only pre-approved official, scientific, professional and high-quality editorial sources may create a Trend Candidate.",
+    "may_create_trend_candidate": [
+      "OFFICIAL_PRIMARY",
+      "PROFESSIONAL_BODY",
+      "PROFESSIONAL_GUIDANCE",
+      "PRIMARY_SCIENTIFIC",
+      "EVIDENCE_INDEX",
+      "HIGH_QUALITY_EDITORIAL_PREAPPROVED"
+    ],
+    "never_create_trend_candidate_alone": [
+      "social_post",
+      "google_trends",
+      "reddit",
+      "forum_discussion",
+      "comment",
+      "consumer_health_article",
+      "turkish_search_trend",
+      "dm",
+      "QUESTION_DEMAND_SIGNAL"
+    ],
+    "official_social_rule": "Official social accounts may point to a topic, but the corresponding official website, original study, guideline or regulator notice remains required as primary_url.",
+    "required_for_trend_candidate": [
+      "trusted_source_class",
+      "primary_url",
+      "topic_normalization",
+      "audience_relevance",
+      "why_it_matters_to_medical_audience"
+    ],
+    "allowed_routes": [
+      "TREND_CANDIDATE",
+      "NEEDS_REVIEW",
+      "DISCARD"
+    ],
+    "publication_eligible_default": false
+  },
+  "question_demand_radar": {
+    "description": "Reddit, forums, Turkish search trends, social comments, DMs and popular health media may be used only as Question Demand Signals.",
+    "answers_only": "What are medical students or professionals repeatedly asking about?",
+    "never_proves": [
+      "claim_is_true",
+      "claim_is_important",
+      "claim_is_widespread",
+      "claim_is_medically_correct"
+    ],
+    "allowed_signal_classes": [
+      "reddit",
+      "forum",
+      "turkish_search_trend",
+      "social_comment",
+      "dm_aggregate",
+      "popular_health_media",
+      "consumer_health_article"
+    ],
+    "output_route": "QUESTION_BRIEF",
+    "forbidden_outputs_from_signal_alone": [
+      "TREND_CANDIDATE",
+      "FEED",
+      "VERIFIED_ANSWER_CARD",
+      "EVIDENCE_BRIEF",
+      "EVIDENCE_FILE"
+    ]
+  },
+  "question_to_evidence_file_rule": {
+    "steps": [
+      "Normalize the question.",
+      "Identify the target audience.",
+      "Check whether reliable primary, guideline or scientific evidence exists.",
+      "Create an Evidence File only if the answer can be supported.",
+      "If evidence is weak, conflicting or unavailable, state that clearly or discard. Never fill the gap with social-media claims."
+    ],
+    "required_evidence_file_fields": [
+      "normalized_question",
+      "why_the_question_matters",
+      "audience_segments",
+      "demand_signal_urls",
+      "primary_urls",
+      "evidence_type",
+      "publication_status",
+      "practical_answer",
+      "limitations",
+      "uncertainty_level",
+      "risk_flags",
+      "last_verified_at"
+    ]
+  },
+  "output_levels": {
+    "VERIFIED_ANSWER_CARD": "Simple official, time-sensitive or procedural answer.",
+    "EVIDENCE_BRIEF": "Recurring question with a concise, source-backed explanation.",
+    "EVIDENCE_FILE": "Complex clinical, scientific, public-health, education or career question requiring structured evidence, limitations and practical implications.",
+    "QUESTION_BRIEF": "Normalized demand question awaiting or lacking primary evidence — not publishable content."
+  },
+  "hard_rules": [
+    "No question, trend or audience demand signal may become content without an independent scientific, official or primary source.",
+    "AI may normalize questions, classify demand and summarize verified evidence.",
+    "AI must never infer an answer from demand signals or invent missing evidence.",
+    "No auto-publish.",
+    "No generic-web-search fallback as evidence."
+  ],
+  "related_policies": [
+    "hekimler-source-policy-map.json#trend-radar",
+    "hekimler-research-medical-ai-policy.json",
+    "source-registry-phase1.json",
+    "source-registry-v1.1.json"
+  ]
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+<url><loc>https://example.org/tr/saglik/tus-sonuclari/4062001</loc><news:news><news:publication><news:name>X</news:name></news:publication><news:publication_date>2026-09-17T10:00:00+03:00</news:publication_date><news:title>TUS sonuçları açıklandı</news:title></news:news></url>
+<url><loc>https://example.org/tr/spor/mac/4062002</loc><news:news><news:publication_date>2026-09-18T11:00:00+03:00</news:publication_date><news:title>Maç sonucu belli oldu</news:title></news:news></url>
+</urlset>

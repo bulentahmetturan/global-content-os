@@ -1,0 +1,112 @@
+[
+  {
+    "handle": "turkmsic",
+    "url": "https://www.instagram.com/turkmsic/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/turkmsic/",
+    "bytes": 633940,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "ivsaankara",
+    "url": "https://www.instagram.com/ivsaankara/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/ivsaankara/",
+    "bytes": 633949,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "ivsakonya",
+    "url": "https://www.instagram.com/ivsakonya/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/ivsakonya/",
+    "bytes": 633949,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "istanbulivsa",
+    "url": "https://www.instagram.com/istanbulivsa/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/istanbulivsa/",
+    "bytes": 633950,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "hacettepesksdb",
+    "url": "https://www.instagram.com/hacettepesksdb/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/hacettepesksdb/",
+    "bytes": 633957,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "deu.sks",
+    "url": "https://www.instagram.com/deu.sks/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/deu.sks/",
+    "bytes": 633939,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "ankarauniversitesi_sks",
+    "url": "https://www.instagram.com/ankarauniversitesi_sks/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/ankarauniversitesi_sks/",
+    "bytes": 633984,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "ege.tob",
+    "url": "https://www.instagram.com/ege.tob/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/ege.tob/",
+    "bytes": 633944,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "hutbat",
+    "url": "https://www.instagram.com/hutbat/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/hutbat/",
+    "bytes": 633969,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "acutbat",
+    "url": "https://www.instagram.com/acutbat/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/acutbat/",
+    "bytes": 633944,
+    "login_wall": true,
+    "exists": true
+  },
+  {
+    "handle": "antbat",
+    "url": "https://www.instagram.com/antbat/",
+    "ok": true,
+    "status": 200,
+    "final": "https://www.instagram.com/antbat/",
+    "bytes": 633949,
+    "login_wall": true,
+    "exists": true
+  }
+]

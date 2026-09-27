@@ -1,0 +1,787 @@
+verified: 75
+missing:
+- acibadem
+- afsu
+- agri
+- altinbas
+- amasya
+- ankara_medipol
+- aydin
+- bau
+- bezmialem
+- cerrahpasa
+- demiroglu
+- duzce
+- erbakan
+- erdogan
+- gop
+- ikc
+- inonu
+- istanbul_tip
+- istinye
+- kafkas
+- karatay
+- kku
+- koc
+- kocaeli
+- mersin
+- mku
+- odu
+- pau
+- selcuk
+- trakya
+- ufuk
+- usak
+- yuksekihtisas
+- yyu
+sources:
+- id: tip_adiyaman_duyuru
+  name: Adıyaman Üniversitesi Tıp Fakültesi duyuruları
+  institution: Adıyaman Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://adiyaman.edu.tr
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_adu_duyuru
+  name: Aydın Adnan Menderes Üniversitesi Tıp Fakültesi duyuruları
+  institution: Aydın Adnan Menderes Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://fakulte.adu.edu.tr/med/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ahievran_duyuru
+  name: Kırşehir Ahi Evran Üniversitesi Tıp Fakültesi duyuruları
+  institution: Kırşehir Ahi Evran Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ahievran.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_akdeniz_duyuru
+  name: Akdeniz Üniversitesi Tıp Fakültesi duyuruları
+  institution: Akdeniz Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.akdeniz.edu.tr/tr
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_aksaray_duyuru
+  name: Aksaray Üniversitesi Tıp Fakültesi duyuruları
+  institution: Aksaray Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.aksaray.edu.tr/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_alanya_duyuru
+  name: Alanya Alaaddin Keykubat Üniversitesi Tıp Fakültesi duyuruları
+  institution: Alanya Alaaddin Keykubat Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.alanya.edu.tr/duyuru/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ankara_duyuru
+  name: Ankara Üniversitesi Tıp Fakültesi duyuruları
+  institution: Ankara Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.medicine.ankara.edu.tr/duyurular/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_arel_duyuru
+  name: İstanbul Arel Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Arel Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://arel.edu.tr/tip-fakultesi-beyaz-onluk-giyme-toreni/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_artuklu_duyuru
+  name: Mardin Artuklu Üniversitesi Tıp Fakültesi duyuruları
+  institution: Mardin Artuklu Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.artuklu.edu.tr/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_atauni_duyuru
+  name: Atatürk Üniversitesi Tıp Fakültesi duyuruları
+  institution: Atatürk Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://atauni.edu.tr/tip-fakultesi/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_atilim_duyuru
+  name: Atılım Üniversitesi Tıp Fakültesi duyuruları
+  institution: Atılım Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.atilim.edu.tr/tr/tip/announcement/list
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_atlas_duyuru
+  name: İstanbul Atlas Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Atlas Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_aybu_duyuru
+  name: Ankara Yıldırım Beyazıt Üniversitesi Tıp Fakültesi duyuruları
+  institution: Ankara Yıldırım Beyazıt Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.aybu.edu.tr/tip
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_bakircay_duyuru
+  name: İzmir Bakırçay Üniversitesi Tıp Fakültesi duyuruları
+  institution: İzmir Bakırçay Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.bakircay.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_balikesir_duyuru
+  name: Balıkesir Üniversitesi Tıp Fakültesi duyuruları
+  institution: Balıkesir Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.balikesir.edu.tr/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_bandirma_duyuru
+  name: Bandırma Onyedi Eylül Üniversitesi Tıp Fakültesi duyuruları
+  institution: Bandırma Onyedi Eylül Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_baskent_duyuru
+  name: Başkent Üniversitesi Tıp Fakültesi duyuruları
+  institution: Başkent Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.baskent.edu.tr/tr/akademik/fakulteler/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_beun_duyuru
+  name: Zonguldak Bülent Ecevit Üniversitesi Tıp Fakültesi duyuruları
+  institution: Zonguldak Bülent Ecevit Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_beykent_duyuru
+  name: Beykent Üniversitesi Tıp Fakültesi duyuruları
+  institution: Beykent Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.beykent.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_biruni_duyuru
+  name: Biruni Üniversitesi Tıp Fakültesi duyuruları
+  institution: Biruni Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.biruni.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_bozok_duyuru
+  name: Yozgat Bozok Üniversitesi Tıp Fakültesi duyuruları
+  institution: Yozgat Bozok Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.bozok.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_comu_duyuru
+  name: Çanakkale Onsekiz Mart Üniversitesi Tıp Fakültesi duyuruları
+  institution: Çanakkale Onsekiz Mart Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.comu.edu.tr/arsiv/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_cu_duyuru
+  name: Çukurova Üniversitesi Tıp Fakültesi duyuruları
+  institution: Çukurova Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.cu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_cumhuriyet_duyuru
+  name: Sivas Cumhuriyet Üniversitesi Tıp Fakültesi duyuruları
+  institution: Sivas Cumhuriyet Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.cumhuriyet.edu.tr/duyuru
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_deu_duyuru
+  name: Dokuz Eylül Üniversitesi Tıp Fakültesi duyuruları
+  institution: Dokuz Eylül Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.deu.edu.tr/tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_dicle_duyuru
+  name: Dicle Üniversitesi Tıp Fakültesi duyuruları
+  institution: Dicle Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.dicle.edu.tr/tr/birimler/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ege_duyuru
+  name: Ege Üniversitesi Tıp Fakültesi duyuruları
+  institution: Ege Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://med.ege.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_erciyes_duyuru
+  name: Erciyes Üniversitesi Tıp Fakültesi duyuruları
+  institution: Erciyes Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_erzincan_duyuru
+  name: Erzincan Binali Yıldırım Üniversitesi Tıp Fakültesi duyuruları
+  institution: Erzincan Binali Yıldırım Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ebyu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_etu_duyuru
+  name: TOBB Ekonomi ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları
+  institution: TOBB Ekonomi ve Teknoloji Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://etu.edu.tr/tr/akademik/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_firat_duyuru
+  name: Fırat Üniversitesi Tıp Fakültesi duyuruları
+  institution: Fırat Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.firat.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_gantep_duyuru
+  name: Gaziantep Üniversitesi Tıp Fakültesi duyuruları
+  institution: Gaziantep Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.gantep.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_gazi_duyuru
+  name: Gazi Üniversitesi Tıp Fakültesi duyuruları
+  institution: Gazi Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://med.gazi.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_gibtu_duyuru
+  name: Gaziantep İslam Bilim ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları
+  institution: Gaziantep İslam Bilim ve Teknoloji Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.gibtu.edu.tr/Birim.aspx?id=20
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_giresun_duyuru
+  name: Giresun Üniversitesi Tıp Fakültesi duyuruları
+  institution: Giresun Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.giresun.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_hacettepe_duyuru
+  name: Hacettepe Üniversitesi Tıp Fakültesi duyuruları
+  institution: Hacettepe Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.hacettepe.edu.tr/tr/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_halic_duyuru
+  name: Haliç Üniversitesi Tıp Fakültesi duyuruları
+  institution: Haliç Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_harran_duyuru
+  name: Harran Üniversitesi Tıp Fakültesi duyuruları
+  institution: Harran Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_hitit_duyuru
+  name: Hitit Üniversitesi Tıp Fakültesi duyuruları
+  institution: Hitit Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.hitit.edu.tr/tr
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ibu_duyuru
+  name: Bolu Abant İzzet Baysal Üniversitesi Tıp Fakültesi duyuruları
+  institution: Bolu Abant İzzet Baysal Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ibu.edu.tr/tr/news
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_idu_duyuru
+  name: İzmir Demokrasi Üniversitesi Tıp Fakültesi duyuruları
+  institution: İzmir Demokrasi Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.idu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ieu_duyuru
+  name: İzmir Ekonomi Üniversitesi Tıp Fakültesi duyuruları
+  institution: İzmir Ekonomi Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ieu.edu.tr/tr/announcements/type/all
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_istun_duyuru
+  name: İstanbul Sağlık ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Sağlık ve Teknoloji Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.istun.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_karabuk_duyuru
+  name: Karabük Üniversitesi Tıp Fakültesi duyuruları
+  institution: Karabük Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.karabuk.edu.tr/index.aspx
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_kastamonu_duyuru
+  name: Kastamonu Üniversitesi Tıp Fakültesi duyuruları
+  institution: Kastamonu Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.kastamonu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_klu_duyuru
+  name: Kırklareli Üniversitesi Tıp Fakültesi duyuruları
+  institution: Kırklareli Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.klu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_kmu_duyuru
+  name: Karamanoğlu Mehmetbey Üniversitesi Tıp Fakültesi duyuruları
+  institution: Karamanoğlu Mehmetbey Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.kmu.edu.tr/tip
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ksbu_duyuru
+  name: Kütahya Sağlık Bilimleri Üniversitesi Tıp Fakültesi duyuruları
+  institution: Kütahya Sağlık Bilimleri Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ksbu.edu.tr/defaultx
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ksu_duyuru
+  name: Kahramanmaraş Sütçü İmam Üniversitesi Tıp Fakültesi duyuruları
+  institution: Kahramanmaraş Sütçü İmam Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tipfakultesi.ksu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ktu_duyuru
+  name: Karadeniz Teknik Üniversitesi Tıp Fakültesi duyuruları
+  institution: Karadeniz Teknik Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://med.ktu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_lokmanhekim_duyuru
+  name: Lokman Hekim Üniversitesi Tıp Fakültesi duyuruları
+  institution: Lokman Hekim Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.lokmanhekim.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_maltepe_duyuru
+  name: Maltepe Üniversitesi Tıp Fakültesi duyuruları
+  institution: Maltepe Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.maltepe.edu.tr/tip
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_marmara_duyuru
+  name: Marmara Üniversitesi Tıp Fakültesi duyuruları
+  institution: Marmara Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.marmara.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_mcbu_duyuru
+  name: Manisa Celal Bayar Üniversitesi Tıp Fakültesi duyuruları
+  institution: Manisa Celal Bayar Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: http://tip.mcbu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_medeniyet_duyuru
+  name: İstanbul Medeniyet Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Medeniyet Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.medeniyet.edu.tr/tr
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_medipol_duyuru
+  name: İstanbul Medipol Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Medipol Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_mu_duyuru
+  name: Muğla Sıtkı Koçman Üniversitesi Tıp Fakültesi duyuruları
+  institution: Muğla Sıtkı Koçman Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.mu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_nisantasi_duyuru
+  name: Nişantaşı Üniversitesi Tıp Fakültesi duyuruları
+  institution: Nişantaşı Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.nisantasi.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_nku_duyuru
+  name: Tekirdağ Namık Kemal Üniversitesi Tıp Fakültesi duyuruları
+  institution: Tekirdağ Namık Kemal Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.nku.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ogu_duyuru
+  name: Eskişehir Osmangazi Üniversitesi Tıp Fakültesi duyuruları
+  institution: Eskişehir Osmangazi Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.ogu.edu.tr/Duyuru/Index
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ohu_duyuru
+  name: Niğde Ömer Halisdemir Üniversitesi Tıp Fakültesi duyuruları
+  institution: Niğde Ömer Halisdemir Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.ohu.edu.tr/tipfakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_okan_duyuru
+  name: İstanbul Okan Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Okan Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.okan.edu.tr/tip/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_omu_duyuru
+  name: Ondokuz Mayıs Üniversitesi Tıp Fakültesi duyuruları
+  institution: Ondokuz Mayıs Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.omu.edu.tr/tr
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_ozal_duyuru
+  name: Malatya Turgut Özal Üniversitesi Tıp Fakültesi duyuruları
+  institution: Malatya Turgut Özal Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tipfakultesi.ozal.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_sakarya_duyuru
+  name: Sakarya Üniversitesi Tıp Fakültesi duyuruları
+  institution: Sakarya Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.sakarya.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_sanko_duyuru
+  name: Sanko Üniversitesi Tıp Fakültesi duyuruları
+  institution: Sanko Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_sbu_duyuru
+  name: Sağlık Bilimleri Üniversitesi Tıp Fakültesi duyuruları
+  institution: Sağlık Bilimleri Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.sbu.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_sdu_duyuru
+  name: Süleyman Demirel Üniversitesi Tıp Fakültesi duyuruları
+  institution: Süleyman Demirel Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.sdu.edu.tr/tr/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_siirt_duyuru
+  name: Siirt Üniversitesi Tıp Fakültesi duyuruları
+  institution: Siirt Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.siirt.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_tinaztepe_duyuru
+  name: İzmir Tınaztepe Üniversitesi Tıp Fakültesi duyuruları
+  institution: İzmir Tınaztepe Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.tinaztepe.edu.tr/akademik/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_uludag_duyuru
+  name: Bursa Uludağ Üniversitesi Tıp Fakültesi duyuruları
+  institution: Bursa Uludağ Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.uludag.edu.tr/tip/duyuru
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_uskudar_duyuru
+  name: Üsküdar Üniversitesi Tıp Fakültesi duyuruları
+  institution: Üsküdar Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://uskudar.edu.tr/tip-fakultesi/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_yalova_duyuru
+  name: Yalova Üniversitesi Tıp Fakültesi duyuruları
+  institution: Yalova Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://tip.yalova.edu.tr/
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_yeditepe_duyuru
+  name: Yeditepe Üniversitesi Tıp Fakültesi duyuruları
+  institution: Yeditepe Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://med.yeditepe.edu.tr/tr/duyurular
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440
+- id: tip_yeniyuzyil_duyuru
+  name: İstanbul Yeni Yüzyıl Üniversitesi Tıp Fakültesi duyuruları
+  institution: İstanbul Yeni Yüzyıl Üniversitesi
+  faculty: Tıp Fakültesi
+  category: faculty_announcement
+  url: https://www.yeniyuzyil.edu.tr/akademik/fakulteler/tip-fakultesi
+  source_type: html
+  official: true
+  enabled: true
+  check_every_minutes: 1440

@@ -1,0 +1,747 @@
+{
+  "star": [
+    {
+      "inst": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+      "**": {
+        "handle": "acibademmsa",
+        "club": "ACUMSA",
+        "tier": "yuksek",
+        "note": "acibadem.edu.tr",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+      "**": {
+        "handle": "acutbat",
+        "club": "ACUTBAT",
+        "tier": "yuksek",
+        "note": "atıf",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "**": {
+        "handle": "afyonsbutob",
+        "club": "Afyon SBÜ TÖB",
+        "tier": "yuksek",
+        "note": "tiptercihim + IG atıf",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Aksaray Üniversitesi",
+      "**": {
+        "handle": "aksaraytob",
+        "club": "Aksaray TÖB",
+        "tier": "yuksek",
+        "note": "fakülte sayfası: tip.aksaray.edu.tr",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Aksaray Üniversitesi",
+      "**": {
+        "handle": "asubat",
+        "club": "ASÜBAT",
+        "tier": "yuksek",
+        "note": "fakülte sayfası",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Aksaray Üniversitesi",
+      "**": {
+        "handle": "aksaraysinirbilim",
+        "club": "Aksaray Sinirbilim",
+        "tier": "yuksek",
+        "note": "fakülte sayfası",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Altınbaş Üniversitesi",
+      "**": {
+        "handle": "altinbastob",
+        "club": "Altınbaş TÖB",
+        "tier": "yuksek",
+        "note": "LinkedIn",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Ankara Üniversitesi",
+      "**": {
+        "handle": "antbatofficial",
+        "club": "ANTBAT",
+        "tier": "yuksek",
+        "note": "atıf",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Ankara Üniversitesi",
+      "**": {
+        "handle": "ivsaankara",
+        "club": "IVSA Ankara",
+        "tier": "yuksek",
+        "note": "LinkedIn",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Ege Üniversitesi",
+      "**": {
+        "handle": "ege.tob",
+        "club": "Ege TÖB",
+        "tier": "yuksek",
+        "note": "önceki teyit",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "**": {
+        "handle": "gaziantepbat",
+        "club": "GAUN BAT",
+        "tier": "yuksek",
+        "note": "tip.gantep.edu.tr",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "**": {
+        "handle": "gaunkok",
+        "club": "Kök Hücre",
+        "tier": "yuksek",
+        "note": "fakülte",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "**": {
+        "handle": "gaunonot",
+        "club": "Organ Nakli",
+        "tier": "yuksek",
+        "note": "fakülte",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "**": {
+        "handle": "gazianteptibbiyeliler",
+        "club": "Tıbbiyeliler",
+        "tier": "yuksek",
+        "note": "fakülte",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "**": {
+        "handle": "gaunbirgenclik",
+        "club": "Bir Gençlik",
+        "tier": "yuksek",
+        "note": "fakülte",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Hacettepe Üniversitesi",
+      "**": {
+        "handle": "hutbat_official",
+        "club": "HÜTBAT",
+        "tier": "yuksek",
+        "note": "hutbat.org",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "İstanbul Üniversitesi-Cerrahpaşa",
+      "**": {
+        "handle": "istanbulivsa",
+        "club": "IVSA İstanbul",
+        "tier": "yuksek",
+        "note": "LinkedIn",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Karadeniz Teknik Üniversitesi",
+      "**": {
+        "handle": "karadeniztob",
+        "club": "Karadeniz TÖB",
+        "tier": "yuksek",
+        "note": "kamuya açık IG atıf",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Sivas Cumhuriyet Üniversitesi",
+      "**": {
+        "handle": "cumunivkurumsal",
+        "club": "Cumhuriyet Tıp Öğrencileri Birliği",
+        "tier": "yuksek",
+        "note": "faculty_page",
+        "source": "scan"
+      }
+    },
+    {
+      "inst": "TOBB Ekonomi ve Teknoloji Üniversitesi",
+      "**": {
+        "handle": "tobbetum",
+        "club": "TOBB ETÜ Tıp Öğrencileri Birliği",
+        "tier": "yuksek",
+        "note": "faculty_page",
+        "source": "scan"
+      }
+    },
+    {
+      "inst": "Trakya Üniversitesi",
+      "**": {
+        "handle": "trakyatob",
+        "club": "Trakya TÖB",
+        "tier": "yuksek",
+        "note": "kendi site",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Yeditepe Üniversitesi",
+      "**": {
+        "handle": "yutbat",
+        "club": "YÜTBAT",
+        "tier": "yuksek",
+        "note": "med.yeditepe.edu.tr",
+        "source": "cite"
+      }
+    }
+  ],
+  "mid": [
+    {
+      "inst": "Akdeniz Üniversitesi",
+      "e": {
+        "handle": "akdeniztob",
+        "club": "Akdeniz TÖB",
+        "tier": "orta",
+        "note": "çoklu web atıf — elle teyit",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Bursa Uludağ Üniversitesi",
+      "e": {
+        "handle": "bursauludagtob",
+        "club": "Bursa Uludağ TÖB",
+        "tier": "orta",
+        "note": "Telegram/adı eşleşiyor — IG ayrı teyit",
+        "source": "cite"
+      }
+    },
+    {
+      "inst": "Gaziantep Üniversitesi",
+      "e": {
+        "handle": "leyladansonra",
+        "club": "Leyladan Sonra",
+        "tier": "orta",
+        "note": "fakülte # — teyit",
+        "source": "cite"
+      }
+    }
+  ],
+  "weak_unis": [
+    {
+      "inst": "Amasya Üniversitesi",
+      "cands": [
+        "amasyatob",
+        "amasya.tob",
+        "amasyabat"
+      ]
+    },
+    {
+      "inst": "Ankara Yıldırım Beyazıt Üniversitesi",
+      "cands": [
+        "ankaratob",
+        "ankara.tob",
+        "ankarabat"
+      ]
+    },
+    {
+      "inst": "Atılım Üniversitesi",
+      "cands": [
+        "atilimtob",
+        "atilim.tob",
+        "atilimbat"
+      ]
+    },
+    {
+      "inst": "Aydın Adnan Menderes Üniversitesi",
+      "cands": [
+        "aydinadnanmenderestob",
+        "aydinadnanmenderes.tob",
+        "aydinadnanmenderesbat"
+      ]
+    },
+    {
+      "inst": "Balıkesir Üniversitesi",
+      "cands": [
+        "balikesirtob",
+        "balikesir.tob",
+        "balikesirbat"
+      ]
+    },
+    {
+      "inst": "Bandırma Onyedi Eylül Üniversitesi",
+      "cands": [
+        "bandirmaonyedieylultob",
+        "bandirmaonyedieylul.tob",
+        "bandirmaonyedieylulbat"
+      ]
+    },
+    {
+      "inst": "Beykent Üniversitesi",
+      "cands": [
+        "beykenttob",
+        "beykent.tob",
+        "beykentbat"
+      ]
+    },
+    {
+      "inst": "Biruni Üniversitesi",
+      "cands": [
+        "birunitob",
+        "biruni.tob",
+        "birunibat"
+      ]
+    },
+    {
+      "inst": "Bolu Abant İzzet Baysal Üniversitesi",
+      "cands": [
+        "abanttob",
+        "abant.tob",
+        "abantbat"
+      ]
+    },
+    {
+      "inst": "Dicle Üniversitesi",
+      "cands": [
+        "dicletob",
+        "dicle.tob",
+        "diclebat"
+      ]
+    },
+    {
+      "inst": "Dokuz Eylül Üniversitesi",
+      "cands": [
+        "dokuzeylultob",
+        "dokuzeylul.tob",
+        "dokuzeylulbat"
+      ]
+    },
+    {
+      "inst": "Erzincan Binali Yıldırım Üniversitesi",
+      "cands": [
+        "erzincanbinaliyildirimtob",
+        "erzincanbinaliyildirim.tob",
+        "erzincanbinaliyildirimbat"
+      ]
+    },
+    {
+      "inst": "Eskişehir Osmangazi Üniversitesi",
+      "cands": [
+        "gazitob",
+        "gazi.tob",
+        "gazibat"
+      ]
+    },
+    {
+      "inst": "Fırat Üniversitesi",
+      "cands": [
+        "firattob",
+        "firat.tob",
+        "firatbat"
+      ]
+    },
+    {
+      "inst": "Gazi Üniversitesi",
+      "cands": [
+        "gazitob",
+        "gazi.tob",
+        "gazibat"
+      ]
+    },
+    {
+      "inst": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi",
+      "cands": [
+        "gazitob",
+        "gazi.tob",
+        "gazibat"
+      ]
+    },
+    {
+      "inst": "Giresun Üniversitesi",
+      "cands": [
+        "giresuntob",
+        "giresun.tob",
+        "giresunbat"
+      ]
+    },
+    {
+      "inst": "Haliç Üniversitesi",
+      "cands": [
+        "halictob",
+        "halic.tob",
+        "halicbat"
+      ]
+    },
+    {
+      "inst": "Harran Üniversitesi",
+      "cands": [
+        "harrantob",
+        "harran.tob",
+        "harranbat"
+      ]
+    },
+    {
+      "inst": "Hitit Üniversitesi",
+      "cands": [
+        "hitittob",
+        "hitit.tob",
+        "hititbat"
+      ]
+    },
+    {
+      "inst": "İnönü Üniversitesi",
+      "cands": [
+        "inonutob",
+        "inonu.tob",
+        "inonubat"
+      ]
+    },
+    {
+      "inst": "İstanbul Atlas Üniversitesi",
+      "cands": [
+        "atlastob",
+        "atlas.tob",
+        "atlasbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Medeniyet Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Medipol Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Okan Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Sağlık ve Teknoloji Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Yeni Yüzyıl Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstanbul Üniversitesi",
+      "cands": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbulbat"
+      ]
+    },
+    {
+      "inst": "İstinye Üniversitesi",
+      "cands": [
+        "istinyetob",
+        "istinye.tob",
+        "istinyebat"
+      ]
+    },
+    {
+      "inst": "İzmir Bakırçay Üniversitesi",
+      "cands": [
+        "bakircaytob",
+        "bakircay.tob",
+        "bakircaybat"
+      ]
+    },
+    {
+      "inst": "İzmir Demokrasi Üniversitesi",
+      "cands": [
+        "izmirdemokrasitob",
+        "izmirdemokrasi.tob",
+        "izmirdemokrasibat"
+      ]
+    },
+    {
+      "inst": "İzmir Ekonomi Üniversitesi",
+      "cands": [
+        "izmirekonomitob",
+        "izmirekonomi.tob",
+        "izmirekonomibat"
+      ]
+    },
+    {
+      "inst": "İzmir Kâtip Çelebi Üniversitesi",
+      "cands": [
+        "izmirkatipcelebitob",
+        "izmirkatipcelebi.tob",
+        "izmirkatipcelebibat"
+      ]
+    },
+    {
+      "inst": "İzmir Tınaztepe Üniversitesi",
+      "cands": [
+        "izmirtinaztepetob",
+        "izmirtinaztepe.tob",
+        "izmirtinaztepebat"
+      ]
+    },
+    {
+      "inst": "Kafkas Üniversitesi",
+      "cands": [
+        "kafkastob",
+        "kafkas.tob",
+        "kafkasbat"
+      ]
+    },
+    {
+      "inst": "Kahramanmaraş Sütçü İmam Üniversitesi",
+      "cands": [
+        "kahramanmarassutcuimamtob",
+        "kahramanmarassutcuimam.tob",
+        "kahramanmarassutcuimambat"
+      ]
+    },
+    {
+      "inst": "Karamanoğlu Mehmetbey Üniversitesi",
+      "cands": [
+        "karamantob",
+        "karaman.tob",
+        "karamanbat"
+      ]
+    },
+    {
+      "inst": "Koç Üniversitesi",
+      "cands": [
+        "kocuniversitesitob",
+        "kocuniversitesi.tob",
+        "kocuniversitesibat"
+      ]
+    },
+    {
+      "inst": "Kütahya Sağlık Bilimleri Üniversitesi",
+      "cands": [
+        "kutahyasbutob",
+        "kutahyasbu.tob",
+        "kutahyasbubat"
+      ]
+    },
+    {
+      "inst": "Kırklareli Üniversitesi",
+      "cands": [
+        "areltob",
+        "arel.tob",
+        "arelbat"
+      ]
+    },
+    {
+      "inst": "Malatya Turgut Özal Üniversitesi",
+      "cands": [
+        "malatyaturgutozaltob",
+        "malatyaturgutozal.tob",
+        "malatyaturgutozalbat"
+      ]
+    },
+    {
+      "inst": "Maltepe Üniversitesi",
+      "cands": [
+        "maltepetob",
+        "maltepe.tob",
+        "maltepebat"
+      ]
+    },
+    {
+      "inst": "Manisa Celal Bayar Üniversitesi",
+      "cands": [
+        "celalbayartob",
+        "celalbayar.tob",
+        "celalbayarbat"
+      ]
+    },
+    {
+      "inst": "Mardin Artuklu Üniversitesi",
+      "cands": [
+        "mardinartuklutob",
+        "mardinartuklu.tob",
+        "mardinartuklubat"
+      ]
+    },
+    {
+      "inst": "Marmara Üniversitesi",
+      "cands": [
+        "marmaratob",
+        "marmara.tob",
+        "marmarabat"
+      ]
+    },
+    {
+      "inst": "Muğla Sıtkı Koçman Üniversitesi",
+      "cands": [
+        "kocuniversitesitob",
+        "kocuniversitesi.tob",
+        "kocuniversitesibat"
+      ]
+    },
+    {
+      "inst": "Niğde Ömer Halisdemir Üniversitesi",
+      "cands": [
+        "nigdeomerhalisdemirtob",
+        "nigdeomerhalisdemir.tob",
+        "nigdeomerhalisdemirbat"
+      ]
+    },
+    {
+      "inst": "Nişantaşı Üniversitesi",
+      "cands": [
+        "istanbulnisantasitob",
+        "istanbulnisantasi.tob",
+        "istanbulnisantasibat"
+      ]
+    },
+    {
+      "inst": "Ondokuz Mayıs Üniversitesi",
+      "cands": [
+        "ondokuzmayistob",
+        "ondokuzmayis.tob",
+        "ondokuzmayisbat"
+      ]
+    },
+    {
+      "inst": "Pamukkale Üniversitesi",
+      "cands": [
+        "pamukkaletob",
+        "pamukkale.tob",
+        "pamukkalebat"
+      ]
+    },
+    {
+      "inst": "Sakarya Üniversitesi",
+      "cands": [
+        "sakaryatob",
+        "sakarya.tob",
+        "sakaryabat"
+      ]
+    },
+    {
+      "inst": "Sanko Üniversitesi",
+      "cands": [
+        "sankotob",
+        "sanko.tob",
+        "sankobat"
+      ]
+    },
+    {
+      "inst": "Sağlık Bilimleri Üniversitesi",
+      "cands": [
+        "abanttob",
+        "abant.tob",
+        "abantbat"
+      ]
+    },
+    {
+      "inst": "Süleyman Demirel Üniversitesi",
+      "cands": [
+        "suleymandemireltob",
+        "suleymandemirel.tob",
+        "suleymandemirelbat"
+      ]
+    },
+    {
+      "inst": "Tekirdağ Namık Kemal Üniversitesi",
+      "cands": [
+        "namikkemaltob",
+        "namikkemal.tob",
+        "namikkemalbat"
+      ]
+    },
+    {
+      "inst": "Van Yüzüncü Yıl Üniversitesi",
+      "cands": [
+        "vanyuzuncuyiltob",
+        "vanyuzuncuyil.tob",
+        "vanyuzuncuyilbat"
+      ]
+    },
+    {
+      "inst": "Yozgat Bozok Üniversitesi",
+      "cands": [
+        "bozoktob",
+        "bozok.tob",
+        "bozokbat"
+      ]
+    },
+    {
+      "inst": "Zonguldak Bülent Ecevit Üniversitesi",
+      "cands": [
+        "bulentecevittob",
+        "bulentecevit.tob",
+        "bulentecevitbat"
+      ]
+    },
+    {
+      "inst": "Çanakkale Onsekiz Mart Üniversitesi",
+      "cands": [
+        "canakkaleonsekizmarttob",
+        "canakkaleonsekizmart.tob",
+        "canakkaleonsekizmartbat"
+      ]
+    },
+    {
+      "inst": "Çukurova Üniversitesi",
+      "cands": [
+        "cukurovatob",
+        "cukurova.tob",
+        "cukurovabat"
+      ]
+    },
+    {
+      "inst": "Üsküdar Üniversitesi",
+      "cands": [
+        "uskudartob",
+        "uskudar.tob",
+        "uskudarbat"
+      ]
+    }
+  ],
+  "empty": 7
+}

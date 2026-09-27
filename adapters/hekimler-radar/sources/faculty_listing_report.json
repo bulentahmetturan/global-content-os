@@ -1,0 +1,997 @@
+[
+  {
+    "id": "acibadem",
+    "chosen": null,
+    "last": "https://tip.acibadem.edu.tr/"
+  },
+  {
+    "id": "adiyaman",
+    "chosen": {
+      "url": "https://tip.adiyaman.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://adiyaman.edu.tr",
+      "title": "ADIYAMAN ÜNİVERSİTESİ | ADYÜ",
+      "text_len": 9329
+    }
+  },
+  {
+    "id": "adu",
+    "chosen": {
+      "url": "https://fakulte.adu.edu.tr/med/",
+      "ok": true,
+      "status": 200,
+      "final": "https://fakulte.adu.edu.tr/med/",
+      "title": "Tıp Fakültesi - Aydın Adnan Menderes Üniversitesi",
+      "text_len": 2065
+    }
+  },
+  {
+    "id": "afsu",
+    "chosen": null,
+    "last": "https://www.afsu.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "agri",
+    "chosen": null,
+    "last": "https://www.agri.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "ahievran",
+    "chosen": {
+      "url": "https://tip.ahievran.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ahievran.edu.tr/",
+      "title": "Anasayfa - Tıp Fakültesi",
+      "text_len": 8785
+    }
+  },
+  {
+    "id": "akdeniz",
+    "chosen": {
+      "url": "https://tip.akdeniz.edu.tr/tr",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.akdeniz.edu.tr/tr",
+      "title": "Tıp Fakültesi-Ana Sayfa",
+      "text_len": 9267
+    }
+  },
+  {
+    "id": "aksaray",
+    "chosen": {
+      "url": "https://tip.aksaray.edu.tr/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.aksaray.edu.tr/duyurular",
+      "title": "Tıp Fakültesi",
+      "text_len": 5097
+    }
+  },
+  {
+    "id": "alanya",
+    "chosen": {
+      "url": "https://tip.alanya.edu.tr/duyuru/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.alanya.edu.tr/duyuru/",
+      "title": "ALKÜ | Tıp Fakültesi",
+      "text_len": 6621
+    }
+  },
+  {
+    "id": "altinbas",
+    "chosen": null,
+    "last": "https://tip.altinbas.edu.tr/"
+  },
+  {
+    "id": "amasya",
+    "chosen": null,
+    "last": "https://tip.amasya.edu.tr/"
+  },
+  {
+    "id": "ankara",
+    "chosen": {
+      "url": "https://www.medicine.ankara.edu.tr/duyurular/",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.medicine.ankara.edu.tr/duyurular/",
+      "title": "Duyurular – Ankara Üniversitesi Tıp Fakültesi",
+      "text_len": 5585
+    }
+  },
+  {
+    "id": "ankara_medipol",
+    "chosen": null,
+    "last": "https://tip.ankaramedipol.edu.tr/"
+  },
+  {
+    "id": "arel",
+    "chosen": {
+      "url": "https://www.arel.edu.tr/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://arel.edu.tr/tip-fakultesi-beyaz-onluk-giyme-toreni/",
+      "title": "Tıp Fakültesi Beyaz Önlük Giyme Töreni - İstanbul Arel Üniversitesi",
+      "text_len": 6073
+    }
+  },
+  {
+    "id": "artuklu",
+    "chosen": {
+      "url": "https://www.artuklu.edu.tr/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.artuklu.edu.tr/tip-fakultesi",
+      "title": "T.C. MARDİN ARTUKLU ÜNİVERSİTESİ - TIP FAKÜLTESİ",
+      "text_len": 4569
+    }
+  },
+  {
+    "id": "atauni",
+    "chosen": {
+      "url": "https://atauni.edu.tr/tip-fakultesi/",
+      "ok": true,
+      "status": 200,
+      "final": "https://atauni.edu.tr/tip-fakultesi/",
+      "title": "Tıp Fakültesi",
+      "text_len": 9942
+    }
+  },
+  {
+    "id": "atilim",
+    "chosen": {
+      "url": "https://www.atilim.edu.tr/tr/tip/announcement/list",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.atilim.edu.tr/tr/tip/announcement/list",
+      "title": "Atılım Üniversitesi - Tıp Fakültesi - Tıp Fakültesi - Duyurular",
+      "text_len": 13903
+    }
+  },
+  {
+    "id": "atlas",
+    "chosen": {
+      "url": "https://www.atlas.edu.tr/akademik/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce",
+      "title": "Tıp Fakültesi (Türkçe/İngilizce) - Atlas Üniversitesi",
+      "text_len": 6148
+    }
+  },
+  {
+    "id": "aybu",
+    "chosen": {
+      "url": "https://www.aybu.edu.tr/tip",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.aybu.edu.tr/tip",
+      "title": "Ankara Yıldırım Beyazıt Üniversitesi Tıp Fakültesi",
+      "text_len": 4968
+    }
+  },
+  {
+    "id": "aydin",
+    "chosen": null,
+    "last": "https://tip.aydin.edu.tr/"
+  },
+  {
+    "id": "bakircay",
+    "chosen": {
+      "url": "https://tip.bakircay.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.bakircay.edu.tr/",
+      "title": "Bakırçay Üniversitesi",
+      "text_len": 5451
+    }
+  },
+  {
+    "id": "balikesir",
+    "chosen": {
+      "url": "https://tip.balikesir.edu.tr/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.balikesir.edu.tr/duyurular",
+      "title": "Duyurular | TIP FAKÜLTESİ | Balıkesir Üniversitesi",
+      "text_len": 3129
+    }
+  },
+  {
+    "id": "bandirma",
+    "chosen": {
+      "url": "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+      "title": "BANDIRMA ONYEDİ EYLÜL ÜNİVERSİTESİ - Tıp Fakültesi Liste",
+      "text_len": 7590
+    }
+  },
+  {
+    "id": "baskent",
+    "chosen": {
+      "url": "https://www.baskent.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.baskent.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+      "title": "Başkent Üniversitesi -",
+      "text_len": 4066
+    }
+  },
+  {
+    "id": "bau",
+    "chosen": null,
+    "last": "https://tip.bau.edu.tr/"
+  },
+  {
+    "id": "beun",
+    "chosen": {
+      "url": "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+      "title": "Etkinlikler ve Duyurular -  Tıp Fakültesi",
+      "text_len": 19097
+    }
+  },
+  {
+    "id": "beykent",
+    "chosen": {
+      "url": "https://tip.beykent.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.beykent.edu.tr/",
+      "title": "Anasayfa | Tıp Fakültesi",
+      "text_len": 4061
+    }
+  },
+  {
+    "id": "bezmialem",
+    "chosen": null,
+    "last": "https://www.bezmialem.edu.tr/tr/akademik/tip-fakultesi"
+  },
+  {
+    "id": "biruni",
+    "chosen": {
+      "url": "https://tip.biruni.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.biruni.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 6878
+    }
+  },
+  {
+    "id": "bozok",
+    "chosen": {
+      "url": "https://tip.bozok.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.bozok.edu.tr/",
+      "title": "YOZGAT BOZOK ÜNİVERSİTESİ TIP FAKÜLTESİ",
+      "text_len": 12454
+    }
+  },
+  {
+    "id": "cerrahpasa",
+    "chosen": null,
+    "last": "https://cerrahpasa.iuc.edu.tr/"
+  },
+  {
+    "id": "comu",
+    "chosen": {
+      "url": "https://tip.comu.edu.tr/arsiv/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.comu.edu.tr/arsiv/duyurular",
+      "title": "ÇOMÜ -  Tıp Fakültesi",
+      "text_len": 4935
+    }
+  },
+  {
+    "id": "cu",
+    "chosen": {
+      "url": "https://tip.cu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.cu.edu.tr/",
+      "title": "TIP FAKÜLTESİ",
+      "text_len": 3365
+    }
+  },
+  {
+    "id": "cumhuriyet",
+    "chosen": {
+      "url": "https://tip.cumhuriyet.edu.tr/duyuru",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.cumhuriyet.edu.tr/duyuru",
+      "title": "Tıp Fakültesi",
+      "text_len": 2400
+    }
+  },
+  {
+    "id": "demiroglu",
+    "chosen": null,
+    "last": "https://tip.demiroglu.edu.tr/"
+  },
+  {
+    "id": "deu",
+    "chosen": {
+      "url": "https://tip.deu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.deu.edu.tr/tr/",
+      "title": "Tıp Fakültesi | Resmi Internet Sitesi",
+      "text_len": 11567
+    }
+  },
+  {
+    "id": "dicle",
+    "chosen": {
+      "url": "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi",
+      "title": ".:: Dicle Üniversitesi ::.",
+      "text_len": 10052
+    }
+  },
+  {
+    "id": "duzce",
+    "chosen": null,
+    "last": "https://www.duzce.edu.tr/tip"
+  },
+  {
+    "id": "ege",
+    "chosen": {
+      "url": "https://med.ege.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://med.ege.edu.tr/",
+      "title": "Ege Üniversitesi Tıp Fakültesi",
+      "text_len": 6129
+    }
+  },
+  {
+    "id": "erbakan",
+    "chosen": null,
+    "last": "https://tip.erbakan.edu.tr/"
+  },
+  {
+    "id": "erciyes",
+    "chosen": {
+      "url": "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular",
+      "title": "Erciyes Üniversitesi Tıp Fakültesi - Duyurular",
+      "text_len": 5254
+    }
+  },
+  {
+    "id": "erdogan",
+    "chosen": null,
+    "last": "https://www.erdogan.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "erzincan",
+    "chosen": {
+      "url": "https://tip.ebyu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ebyu.edu.tr/",
+      "title": "Tıp Fakültesi – Anadoluda Bir Dünya Üniversitesi",
+      "text_len": 5016
+    }
+  },
+  {
+    "id": "etu",
+    "chosen": {
+      "url": "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+      "title": "Akademik - Fakülte ve Enstitüler - TOBB ETÜ",
+      "text_len": 1864
+    }
+  },
+  {
+    "id": "firat",
+    "chosen": {
+      "url": "https://tip.firat.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.firat.edu.tr/",
+      "title": "Ana Sayfa | Fırat Üniversitesi",
+      "text_len": 16221
+    }
+  },
+  {
+    "id": "gantep",
+    "chosen": {
+      "url": "https://tip.gantep.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.gantep.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 5288
+    }
+  },
+  {
+    "id": "gazi",
+    "chosen": {
+      "url": "https://med.gazi.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://med.gazi.edu.tr/",
+      "title": "Tıp Fakültesi | Gazi Üniversitesi | Gazili Olmak Ayrıcalıktır",
+      "text_len": 5109
+    }
+  },
+  {
+    "id": "gibtu",
+    "chosen": {
+      "url": "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+      "title": "GİBTÜ - Tıp Fakültesi",
+      "text_len": 5566
+    }
+  },
+  {
+    "id": "giresun",
+    "chosen": {
+      "url": "https://tip.giresun.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.giresun.edu.tr/",
+      "title": "Anasayfa |",
+      "text_len": 14547
+    }
+  },
+  {
+    "id": "gop",
+    "chosen": null,
+    "last": "https://www.gop.edu.tr/tip"
+  },
+  {
+    "id": "hacettepe",
+    "chosen": {
+      "url": "https://tip.hacettepe.edu.tr/tr/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.hacettepe.edu.tr/tr/duyurular",
+      "title": "Hacettepe Üniversitesi",
+      "text_len": 3571
+    }
+  },
+  {
+    "id": "halic",
+    "chosen": {
+      "url": "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+      "title": "Tüm Duyurular | Haliç Üniversitesi",
+      "text_len": 13886
+    }
+  },
+  {
+    "id": "harran",
+    "chosen": {
+      "url": "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "title": "Tıp Fakültesi",
+      "text_len": 3279
+    }
+  },
+  {
+    "id": "hitit",
+    "chosen": {
+      "url": "https://tip.hitit.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.hitit.edu.tr/tr",
+      "title": "T.C. Hitit Üniversitesi Tıp Fakültesi",
+      "text_len": 8891
+    }
+  },
+  {
+    "id": "ibu",
+    "chosen": {
+      "url": "https://tip.ibu.edu.tr/tr/news",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ibu.edu.tr/tr/news",
+      "title": "Tüm Duyurular | TIP FAKÜLTESİ",
+      "text_len": 13203
+    }
+  },
+  {
+    "id": "idu",
+    "chosen": {
+      "url": "https://tip.idu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.idu.edu.tr/",
+      "title": "İzmir Demokrasi Üniversitesi",
+      "text_len": 464
+    }
+  },
+  {
+    "id": "ieu",
+    "chosen": {
+      "url": "https://tip.ieu.edu.tr/tr/announcements/type/all",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ieu.edu.tr/tr/announcements/type/all",
+      "title": "Duyurular - TÄ±p | Ä°zmir Ekonomi Ãniversitesi",
+      "text_len": 10440
+    }
+  },
+  {
+    "id": "ikc",
+    "chosen": null,
+    "last": "https://www.ikc.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "inonu",
+    "chosen": null,
+    "last": "https://www.inonu.edu.tr/tip"
+  },
+  {
+    "id": "istanbul_tip",
+    "chosen": null,
+    "last": "https://istanbultip.istanbul.edu.tr/"
+  },
+  {
+    "id": "istinye",
+    "chosen": null,
+    "last": "https://tip.istinye.edu.tr/"
+  },
+  {
+    "id": "istun",
+    "chosen": {
+      "url": "https://tip.istun.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.istun.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 5139
+    }
+  },
+  {
+    "id": "kafkas",
+    "chosen": null,
+    "last": "https://www.kafkas.edu.tr/tip"
+  },
+  {
+    "id": "karabuk",
+    "chosen": {
+      "url": "https://tip.karabuk.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.karabuk.edu.tr/index.aspx",
+      "title": "TIP FAKÜLTESİ",
+      "text_len": 4232
+    }
+  },
+  {
+    "id": "karatay",
+    "chosen": null,
+    "last": "https://tip.karatay.edu.tr/"
+  },
+  {
+    "id": "kastamonu",
+    "chosen": {
+      "url": "https://tip.kastamonu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.kastamonu.edu.tr/",
+      "title": "Kastamonu Üniversitesi Tıp Fakültesi",
+      "text_len": 4718
+    }
+  },
+  {
+    "id": "kku",
+    "chosen": null,
+    "last": "https://www.kku.edu.tr/tip"
+  },
+  {
+    "id": "klu",
+    "chosen": {
+      "url": "https://tip.klu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.klu.edu.tr/",
+      "title": "KLU - Tıp Fakültesi",
+      "text_len": 8351
+    }
+  },
+  {
+    "id": "kmu",
+    "chosen": {
+      "url": "https://www.kmu.edu.tr/tip",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.kmu.edu.tr/tip",
+      "title": "Tıp Fakültesi - Ana Sayfa - Tıp Fakültesi",
+      "text_len": 4377
+    }
+  },
+  {
+    "id": "koc",
+    "chosen": null,
+    "last": "https://medicine.ku.edu.tr/"
+  },
+  {
+    "id": "kocaeli",
+    "chosen": null,
+    "last": "http://tip.kocaeli.edu.tr/"
+  },
+  {
+    "id": "ksbu",
+    "chosen": {
+      "url": "https://tip.ksbu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ksbu.edu.tr/defaultx",
+      "title": "Tıp Fakültesi",
+      "text_len": 24896
+    }
+  },
+  {
+    "id": "ksu",
+    "chosen": {
+      "url": "https://tipfakultesi.ksu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tipfakultesi.ksu.edu.tr/",
+      "title": "KSÜ - Tıp Fakültesi",
+      "text_len": 5095
+    }
+  },
+  {
+    "id": "ktu",
+    "chosen": {
+      "url": "https://med.ktu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://med.ktu.edu.tr/",
+      "title": "Apache2 Debian Default Page: It works",
+      "text_len": 3298
+    }
+  },
+  {
+    "id": "lokmanhekim",
+    "chosen": {
+      "url": "https://www.lokmanhekim.edu.tr/akademik/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.lokmanhekim.edu.tr/",
+      "title": "Ana Sayfa - Lokman Hekim Üniversitesi",
+      "text_len": 5809
+    }
+  },
+  {
+    "id": "maltepe",
+    "chosen": {
+      "url": "https://www.maltepe.edu.tr/tip",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.maltepe.edu.tr/tip",
+      "title": "Maltepe Üniversitesi | Ana Sayfa",
+      "text_len": 11379
+    }
+  },
+  {
+    "id": "marmara",
+    "chosen": {
+      "url": "https://tip.marmara.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.marmara.edu.tr/",
+      "title": "Tıp Fakültesi - Marmara Üniversitesi",
+      "text_len": 3749
+    }
+  },
+  {
+    "id": "mcbu",
+    "chosen": {
+      "url": "http://tip.mcbu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "http://tip.mcbu.edu.tr/",
+      "title": "Anasayfa",
+      "text_len": 81228
+    }
+  },
+  {
+    "id": "medeniyet",
+    "chosen": {
+      "url": "https://tip.medeniyet.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.medeniyet.edu.tr/tr",
+      "title": "Ana Sayfa",
+      "text_len": 12815
+    }
+  },
+  {
+    "id": "medipol",
+    "chosen": {
+      "url": "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "title": "Tıp Fakültesi | Medipol Üniversitesi",
+      "text_len": 11785
+    }
+  },
+  {
+    "id": "mersin",
+    "chosen": null,
+    "last": "https://tip.mersin.edu.tr/"
+  },
+  {
+    "id": "mku",
+    "chosen": null,
+    "last": "https://www.mku.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "mu",
+    "chosen": {
+      "url": "https://tip.mu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.mu.edu.tr/",
+      "title": "Tıp Fakültesi - Muğla Sıtkı Koçman Üniversitesi",
+      "text_len": 10647
+    }
+  },
+  {
+    "id": "nisantasi",
+    "chosen": {
+      "url": "https://tip.nisantasi.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.nisantasi.edu.tr/",
+      "title": "İstanbul Nişantaşı Üniversitesi - Tıp Fakültesi",
+      "text_len": 6520
+    }
+  },
+  {
+    "id": "nku",
+    "chosen": {
+      "url": "https://tip.nku.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.nku.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 3902
+    }
+  },
+  {
+    "id": "odu",
+    "chosen": null,
+    "last": "https://www.odu.edu.tr/tip"
+  },
+  {
+    "id": "ogu",
+    "chosen": {
+      "url": "https://tip.ogu.edu.tr/Duyuru/Index",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.ogu.edu.tr/Duyuru/Index",
+      "title": "Tüm Duyurular - ESKİŞEHİR OSMANGAZİ ÜNİVERSİTESİ TIP FAKÜLTESİ | Eskişehir Osmangazi Üniversitesi",
+      "text_len": 2133
+    }
+  },
+  {
+    "id": "ohu",
+    "chosen": {
+      "url": "https://www.ohu.edu.tr/tipfakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.ohu.edu.tr/tipfakultesi",
+      "title": "Niğde Ömer Halisdemir Üniversitesi  Tıp Fakültesi",
+      "text_len": 8152
+    }
+  },
+  {
+    "id": "okan",
+    "chosen": {
+      "url": "https://www.okan.edu.tr/tip/",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.okan.edu.tr/tip/",
+      "title": "Anasayfa - Tıp Fakültesi -  İstanbul Okan Üniversitesi",
+      "text_len": 21650
+    }
+  },
+  {
+    "id": "omu",
+    "chosen": {
+      "url": "https://tip.omu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.omu.edu.tr/tr",
+      "title": "Tıp Fakültesi",
+      "text_len": 5127
+    }
+  },
+  {
+    "id": "ozal",
+    "chosen": {
+      "url": "https://tipfakultesi.ozal.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tipfakultesi.ozal.edu.tr/",
+      "title": "Ana Sayfa | Malatya Turgut Özal Üniversitesi",
+      "text_len": 9239
+    }
+  },
+  {
+    "id": "pau",
+    "chosen": null,
+    "last": "https://www.pau.edu.tr/tip/tr"
+  },
+  {
+    "id": "sakarya",
+    "chosen": {
+      "url": "https://tip.sakarya.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.sakarya.edu.tr/",
+      "title": "Sakarya Üniversitesi | Tıp Fakültesi",
+      "text_len": 19952
+    }
+  },
+  {
+    "id": "sanko",
+    "chosen": {
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+      "title": "Duyurular - Sanko Üniversitesi | Sanko Üniversitesi",
+      "text_len": 4133
+    }
+  },
+  {
+    "id": "sbu",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487
+    }
+  },
+  {
+    "id": "sdu",
+    "chosen": {
+      "url": "https://tip.sdu.edu.tr/tr/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.sdu.edu.tr/tr/duyurular",
+      "title": "Duyuru Arşivi - Tıp Fakültesi Dekanlığı - Süleyman Demirel Üniversitesi",
+      "text_len": 24505
+    }
+  },
+  {
+    "id": "selcuk",
+    "chosen": null,
+    "last": "https://www.selcuk.edu.tr/Birim/tip_fakultesi"
+  },
+  {
+    "id": "siirt",
+    "chosen": {
+      "url": "https://tip.siirt.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.siirt.edu.tr/",
+      "title": "Tıp Fakültesi  | Siirt Üniversitesi",
+      "text_len": 3191
+    }
+  },
+  {
+    "id": "tinaztepe",
+    "chosen": {
+      "url": "https://www.tinaztepe.edu.tr/akademik/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.tinaztepe.edu.tr/akademik/tip-fakultesi",
+      "title": "İzmir Tınaztepe Üniversitesi - İZTÜ - Tıp Fakültesi",
+      "text_len": 4157
+    }
+  },
+  {
+    "id": "trakya",
+    "chosen": null,
+    "last": "https://www.trakya.edu.tr/tip"
+  },
+  {
+    "id": "ufuk",
+    "chosen": null,
+    "last": "https://tip.ufuk.edu.tr/"
+  },
+  {
+    "id": "uludag",
+    "chosen": {
+      "url": "https://www.uludag.edu.tr/tip/duyuru",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.uludag.edu.tr/tip/duyuru",
+      "title": "Duyuru | TIP FAKÜLTESİ | Bursa Uludağ Üniversitesi",
+      "text_len": 2560
+    }
+  },
+  {
+    "id": "usak",
+    "chosen": null,
+    "last": "https://www.usak.edu.tr/tip-fakultesi"
+  },
+  {
+    "id": "uskudar",
+    "chosen": {
+      "url": "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+      "title": "Tıp Fakültesi Duyurular | Üsküdar Üniversitesi",
+      "text_len": 3336
+    }
+  },
+  {
+    "id": "yalova",
+    "chosen": {
+      "url": "https://tip.yalova.edu.tr/",
+      "ok": true,
+      "status": 200,
+      "final": "https://tip.yalova.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 4903
+    }
+  },
+  {
+    "id": "yeditepe",
+    "chosen": {
+      "url": "https://med.yeditepe.edu.tr/tr/duyurular",
+      "ok": true,
+      "status": 200,
+      "final": "https://med.yeditepe.edu.tr/tr/duyurular",
+      "title": "Duyurular | Yeditepe Üniversitesi Tıp Fakültesi",
+      "text_len": 6131
+    }
+  },
+  {
+    "id": "yeniyuzyil",
+    "chosen": {
+      "url": "https://www.yeniyuzyil.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "ok": true,
+      "status": 200,
+      "final": "https://www.yeniyuzyil.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "title": "Sayfa Bulunamadı - T.C. İstanbul Yeni Yüzyıl Üniversitesi",
+      "text_len": 4293
+    }
+  },
+  {
+    "id": "yuksekihtisas",
+    "chosen": null,
+    "last": "https://tip.yuksekihtisas.edu.tr/"
+  },
+  {
+    "id": "yyu",
+    "chosen": null,
+    "last": "https://www.yyu.edu.tr/Birimler/tip-fakultesi"
+  }
+]

@@ -1,0 +1,527 @@
+[
+  {
+    "name": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/abant",
+    "slug": "abant"
+  },
+  {
+    "name": "Acıbadem Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/acibadem",
+    "slug": "acibadem"
+  },
+  {
+    "name": "Adıyaman Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/adiyaman",
+    "slug": "adiyaman"
+  },
+  {
+    "name": "Afyon SBÜ Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/afyonsbu",
+    "slug": "afyonsbu"
+  },
+  {
+    "name": "Akdeniz Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/akdeniz",
+    "slug": "akdeniz"
+  },
+  {
+    "name": "Aksaray Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/aksaray",
+    "slug": "aksaray"
+  },
+  {
+    "name": "Karaman Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/karaman",
+    "slug": "karaman"
+  },
+  {
+    "name": "Altınbaş Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/altinbas",
+    "slug": "altinbas"
+  },
+  {
+    "name": "Amasya Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/amasya",
+    "slug": "amasya"
+  },
+  {
+    "name": "Ankara Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ankara",
+    "slug": "ankara"
+  },
+  {
+    "name": "Ankara Medipol Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ankaramedipol",
+    "slug": "ankaramedipol"
+  },
+  {
+    "name": "Ankara Yıldırım Beyazıt Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ankarayildirimbeyazit",
+    "slug": "ankarayildirimbeyazit"
+  },
+  {
+    "name": "Arel Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/arel",
+    "slug": "arel"
+  },
+  {
+    "name": "Atatürk Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/user/166",
+    "slug": null
+  },
+  {
+    "name": "Atılım Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/atilim",
+    "slug": "atilim"
+  },
+  {
+    "name": "Atlas Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/atlas",
+    "slug": "atlas"
+  },
+  {
+    "name": "Aydın Adnan Menderes Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/aydinadnanmenderes",
+    "slug": "aydinadnanmenderes"
+  },
+  {
+    "name": "Bahçeşehir Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bahcesehir",
+    "slug": "bahcesehir"
+  },
+  {
+    "name": "Bakırçay Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bakircay",
+    "slug": "bakircay"
+  },
+  {
+    "name": "Balıkesir Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/balikesir",
+    "slug": "balikesir"
+  },
+  {
+    "name": "Bandırma Onyedi Eylül Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bandirmaonyedieylul",
+    "slug": "bandirmaonyedieylul"
+  },
+  {
+    "name": "Başkent Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/baskent",
+    "slug": "baskent"
+  },
+  {
+    "name": "Beykent Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/beykent",
+    "slug": "beykent"
+  },
+  {
+    "name": "Bezmiâlem Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bezmialem",
+    "slug": "bezmialem"
+  },
+  {
+    "name": "Bilecik Şeyh Edebali Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bilecikseyhedebali",
+    "slug": "bilecikseyhedebali"
+  },
+  {
+    "name": "Biruni Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/biruni",
+    "slug": "biruni"
+  },
+  {
+    "name": "Bozok Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bozok",
+    "slug": "bozok"
+  },
+  {
+    "name": "Bülent Ecevit Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bulentecevit",
+    "slug": "bulentecevit"
+  },
+  {
+    "name": "Bursa Uludağ Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/bursauludag",
+    "slug": "bursauludag"
+  },
+  {
+    "name": "Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/canakkaleonsekizmart",
+    "slug": "canakkaleonsekizmart"
+  },
+  {
+    "name": "Celal Bayar Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/celalbayar",
+    "slug": "celalbayar"
+  },
+  {
+    "name": "Cerrahpaşa Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/cerrahpasa",
+    "slug": "cerrahpasa"
+  },
+  {
+    "name": "Çukurova Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/cukurova",
+    "slug": "cukurova"
+  },
+  {
+    "name": "Cumhuriyet Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/cumhuriyet",
+    "slug": "cumhuriyet"
+  },
+  {
+    "name": "Demiroğlu Bilim Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/user/184",
+    "slug": null
+  },
+  {
+    "name": "Dicle Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/dicle",
+    "slug": "dicle"
+  },
+  {
+    "name": "Dokuz Eylül Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/dokuzeylul",
+    "slug": "dokuzeylul"
+  },
+  {
+    "name": "Düzce Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/duzce",
+    "slug": "duzce"
+  },
+  {
+    "name": "Ege Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ege",
+    "slug": "ege"
+  },
+  {
+    "name": "Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kahramanmarassutcuimam",
+    "slug": "kahramanmarassutcuimam"
+  },
+  {
+    "name": "Erciyes Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/erciyes",
+    "slug": "erciyes"
+  },
+  {
+    "name": "Erzincan Binali Yıldırım Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/erzincanbinaliyildirim",
+    "slug": "erzincanbinaliyildirim"
+  },
+  {
+    "name": "Fırat Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/firat",
+    "slug": "firat"
+  },
+  {
+    "name": "Gazi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/gazi",
+    "slug": "gazi"
+  },
+  {
+    "name": "Gaziantep Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/gaziantep",
+    "slug": "gaziantep"
+  },
+  {
+    "name": "Gaziantep İslam Bilim ve Teknoloji Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/gaziantepislambilimveteknoloji",
+    "slug": "gaziantepislambilimveteknoloji"
+  },
+  {
+    "name": "Gaziosmanpaşa Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/gaziosmanpasa",
+    "slug": "gaziosmanpasa"
+  },
+  {
+    "name": "Giresun Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/giresun",
+    "slug": "giresun"
+  },
+  {
+    "name": "Hacettepe Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/hacettepe",
+    "slug": "hacettepe"
+  },
+  {
+    "name": "Haliç Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/halic",
+    "slug": "halic"
+  },
+  {
+    "name": "Harran Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/harran",
+    "slug": "harran"
+  },
+  {
+    "name": "Hitit Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/hitit",
+    "slug": "hitit"
+  },
+  {
+    "name": "İnönü Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/inonu",
+    "slug": "inonu"
+  },
+  {
+    "name": "İstanbul Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istanbul",
+    "slug": "istanbul"
+  },
+  {
+    "name": "İstanbul Aydın Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istanbulaydin",
+    "slug": "istanbulaydin"
+  },
+  {
+    "name": "İstanbul Medeniyet Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istanbulmedeniyet",
+    "slug": "istanbulmedeniyet"
+  },
+  {
+    "name": "İstanbul Nişantaşı Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istanbulnisantasi",
+    "slug": "istanbulnisantasi"
+  },
+  {
+    "name": "İstinye Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istinye",
+    "slug": "istinye"
+  },
+  {
+    "name": "İSTÜN Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/istun",
+    "slug": "istun"
+  },
+  {
+    "name": "İzmir Demokrasi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/izmirdemokrasi",
+    "slug": "izmirdemokrasi"
+  },
+  {
+    "name": "İzmir Ekonomi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/izmirekonomi",
+    "slug": "izmirekonomi"
+  },
+  {
+    "name": "İzmir Katip Çelebi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/izmirkatipcelebi",
+    "slug": "izmirkatipcelebi"
+  },
+  {
+    "name": "İzmir Tınaztepe Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/izmirtinaztepe",
+    "slug": "izmirtinaztepe"
+  },
+  {
+    "name": "Kafkas Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kafkas",
+    "slug": "kafkas"
+  },
+  {
+    "name": "Karadeniz Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/karadeniz",
+    "slug": "karadeniz"
+  },
+  {
+    "name": "Karatay Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/karatay",
+    "slug": "karatay"
+  },
+  {
+    "name": "Kırıkkale Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kirikkale",
+    "slug": "kirikkale"
+  },
+  {
+    "name": "Kırklareli Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kirklareli",
+    "slug": "kirklareli"
+  },
+  {
+    "name": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kocuniversitesi",
+    "slug": "kocuniversitesi"
+  },
+  {
+    "name": "Kocaeli Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kocaeli",
+    "slug": "kocaeli"
+  },
+  {
+    "name": "Kütahya SBÜ Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/kutahyasbu",
+    "slug": "kutahyasbu"
+  },
+  {
+    "name": "Lokman Hekim Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/lokmanhekim",
+    "slug": "lokmanhekim"
+  },
+  {
+    "name": "Malatya Turgut Özal Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/malatyaturgutozal",
+    "slug": "malatyaturgutozal"
+  },
+  {
+    "name": "Maltepe Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/maltepe",
+    "slug": "maltepe"
+  },
+  {
+    "name": "Mardin Artuklu Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/mardinartuklu",
+    "slug": "mardinartuklu"
+  },
+  {
+    "name": "Marmara Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/marmara",
+    "slug": "marmara"
+  },
+  {
+    "name": "Medipol Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/medipol",
+    "slug": "medipol"
+  },
+  {
+    "name": "Meram Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/meram",
+    "slug": "meram"
+  },
+  {
+    "name": "Mersin Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/mersin",
+    "slug": "mersin"
+  },
+  {
+    "name": "Muğla Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/mugla",
+    "slug": "mugla"
+  },
+  {
+    "name": "Hatay Mustafa Kemal Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/mustafakemal",
+    "slug": "mustafakemal"
+  },
+  {
+    "name": "Namık Kemal Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/namikkemal",
+    "slug": "namikkemal"
+  },
+  {
+    "name": "Niğde Ömer Halisdemir Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/nigdeomerhalisdemir",
+    "slug": "nigdeomerhalisdemir"
+  },
+  {
+    "name": "Okan Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/okan",
+    "slug": "okan"
+  },
+  {
+    "name": "Ondokuz Mayıs Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ondokuzmayis",
+    "slug": "ondokuzmayis"
+  },
+  {
+    "name": "Ordu Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ordu",
+    "slug": "ordu"
+  },
+  {
+    "name": "Osmangazi Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/osmangazi",
+    "slug": "osmangazi"
+  },
+  {
+    "name": "Pamukkale Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/pamukkale",
+    "slug": "pamukkale"
+  },
+  {
+    "name": "Rize RTE Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/rizerte",
+    "slug": "rizerte"
+  },
+  {
+    "name": "Sakarya Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/sakarya",
+    "slug": "sakarya"
+  },
+  {
+    "name": "Samsun Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/samsun",
+    "slug": "samsun"
+  },
+  {
+    "name": "Sanko Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/sanko",
+    "slug": "sanko"
+  },
+  {
+    "name": "SBÜ Gülhane Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/sbugulhane",
+    "slug": "sbugulhane"
+  },
+  {
+    "name": "SBÜ Hamidiye Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/sbuhamidiye",
+    "slug": "sbuhamidiye"
+  },
+  {
+    "name": "SBÜ Uluslararası Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/sbuuluslararasi",
+    "slug": "sbuuluslararasi"
+  },
+  {
+    "name": "Selçuk Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/selcuk",
+    "slug": "selcuk"
+  },
+  {
+    "name": "Süleyman Demirel Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/suleymandemirel",
+    "slug": "suleymandemirel"
+  },
+  {
+    "name": "TOBB ETÜ Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/tobbetu",
+    "slug": "tobbetu"
+  },
+  {
+    "name": "Trakya Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/trakya",
+    "slug": "trakya"
+  },
+  {
+    "name": "Ufuk Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/ufuk",
+    "slug": "ufuk"
+  },
+  {
+    "name": "Uşak Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/usak",
+    "slug": "usak"
+  },
+  {
+    "name": "Üsküdar Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/uskudar",
+    "slug": "uskudar"
+  },
+  {
+    "name": "Van Yüzüncü Yıl Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/vanyuzuncuyil",
+    "slug": "vanyuzuncuyil"
+  },
+  {
+    "name": "Yeditepe Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/yeditepe",
+    "slug": "yeditepe"
+  },
+  {
+    "name": "Yüksek İhtisas Tıp Öğrencileri Birliği",
+    "href": "https://turkmsic.org/index.php/kullanici/yuksekihtisas",
+    "slug": "yuksekihtisas"
+  }
+]

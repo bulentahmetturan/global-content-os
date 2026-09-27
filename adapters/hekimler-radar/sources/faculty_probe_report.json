@@ -1,0 +1,3601 @@
+[
+  {
+    "id": "acibadem",
+    "institution": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "acibadem.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "adiyaman",
+    "institution": "Adıyaman Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "adiyaman.edu.tr",
+    "chosen": {
+      "url": "https://adiyaman.edu.tr/tr/duyurular/2025/02/09/yemekhane-ve-kampus-ici-hizmetler-icin-alternatif-odeme-yontemleri-hizmetinize-sunulmustur",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://adiyaman.edu.tr/tr/duyurular/2025/02/09/yemekhane-ve-kampus-ici-hizmetler-icin-alternatif-odeme-yontemleri-hizmetinize-sunulmustur",
+      "title": "Yemekhane ve Kampüs İçi Hizmetler İçin Alternatif  Ödeme Yöntemleri Hizmetinize Sunulmuştur - Duyurular | ADYÜ",
+      "text_len": 6928,
+      "duyuru_links": [
+        "https://adiyaman.edu.tr/tr/duyurular",
+        "https://adiyaman.edu.tr/tr/duyurular/2025",
+        "https://adiyaman.edu.tr/tr/duyurular/2025/02",
+        "https://adiyaman.edu.tr/tr/duyurular/2025/02/09",
+        "https://adiyaman.edu.tr/tr/duyurular/2025/02/09/yemekhane-ve-kampus-ici-hizmetler-icin-alternatif-odeme-yontemleri-hizmetinize-sunulmustur"
+      ],
+      "calendar_links": [
+        "https://adiyaman.edu.tr/tr/egitim/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://adiyaman.edu.tr/tr/egitim/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://adiyaman.edu.tr/tr/egitim/akademik-takvim",
+      "title": "Akademik Takvim | ADYÜ",
+      "text_len": 6755,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://adiyaman.edu.tr/tr/egitim/akademik-takvim",
+        "https://static.adiyaman.edu.tr/files/1/tr/sayfalar/egitim/akademik-takvim/2026_2027_adyu_akademik_takvimi_lisans_onlisans.pdf",
+        "https://static.adiyaman.edu.tr/files/1/tr/sayfalar/egitim/akademik-takvim/2026_2027_adyu_akademik_takvimi_dishekimligi.pdf",
+        "https://static.adiyaman.edu.tr/files/1/tr/sayfalar/egitim/akademik-takvim/2026_2027_adyu_akademik_takvimi_tip.pdf",
+        "https://static.adiyaman.edu.tr/files/1/tr/sayfalar/egitim/akademik-takvim/2026_2027_adyu_akademik_takvimi_lisansutu.pdf",
+        "https://static.adiyaman.edu.tr/files/1/tr/sayfalar/egitim/akademik-takvim/2025_2026_adyu_akademik_takvimi_lisans_onlisans_v1.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 7
+  },
+  {
+    "id": "adu",
+    "institution": "Aydın Adnan Menderes Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "adu.edu.tr",
+    "chosen": {
+      "url": "https://fakulte.adu.edu.tr/med/tr/duyurular/yatay-gecis-ek-madde-1-e-gore-geri-donen-ogrenciler-15151",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://fakulte.adu.edu.tr/med/tr/duyurular/yatay-gecis-ek-madde-1-e-gore-geri-donen-ogrenciler-15151",
+      "title": "Tıp Fakültesi - Aydın Adnan Menderes Üniversitesi",
+      "text_len": 1470,
+      "duyuru_links": [
+        "https://fakulte.adu.edu.tr/med/tr/duyurular",
+        "https://fakulte.adu.edu.tr/med/tr/duyuru-arsiv"
+      ],
+      "calendar_links": []
+    },
+    "calendar": {
+      "url": "https://idari.adu.edu.tr/db/ogrenciisleri/default.asp?idx=383130",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://idari.adu.edu.tr/db/ogrenciisleri/tr/page-810",
+      "title": "ÃÄrenci Ä°Åleri Daire BaÅkanlÄ±ÄÄ± - AydÄ±n Adnan Menderes Ãniversitesi",
+      "text_len": 3213,
+      "duyuru_links": [
+        "https://idari.adu.edu.tr/db/ogrenciisleri/tr/af-kanunu-duyurusu-13658"
+      ],
+      "calendar_links": [
+        "https://idari.adu.edu.tr/db/ogrenciisleri/tr/akademik-takvim-810"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "afsu",
+    "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "afsu.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "agri",
+    "institution": "Ağrı İbrahim Çeçen Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "agri.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "ahievran",
+    "institution": "Kırşehir Ahi Evran Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ahievran.edu.tr",
+    "chosen": {
+      "url": "https://www.ahievran.edu.tr/arsiv-genel-duyurular/3579-davulagil-sosyal-tesisleri-hakkinda",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ahievran.edu.tr/arsiv-genel-duyurular/3579-davulagil-sosyal-tesisleri-hakkinda",
+      "title": "Davulağıl Sosyal Tesisleri Hakkında - Kırşehir Ahi Evran Üniversitesi",
+      "text_len": 7832,
+      "duyuru_links": [
+        "https://www.ahievran.edu.tr/arsiv-genel-duyurular"
+      ],
+      "calendar_links": [
+        "https://www.ahievran.edu.tr/ogrenci/genel/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.ahievran.edu.tr/ogrenci/genel/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ahievran.edu.tr/ogrenci/genel/akademik-takvim",
+      "title": "Akademik Takvim - Kırşehir Ahi Evran Üniversitesi",
+      "text_len": 7977,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.ahievran.edu.tr/en/ogrenci/genel/akademik-takvim",
+        "https://www.ahievran.edu.tr/ogrenci/genel/akademik-takvim",
+        "https://www.ahievran.edu.tr/uploads/5104/oidb_amt9w9ff.pdf",
+        "https://idari.ahievran.edu.tr/upload/dosya/oidb/oidb_7umjnfj7.pdf",
+        "https://idari.ahievran.edu.tr/upload/dosya/oidb/oidb_4v2pnrkw.pdf",
+        "https://idari.ahievran.edu.tr/upload/dosya/oidb/oidb_5whqudps.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "akdeniz",
+    "institution": "Akdeniz Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "akdeniz.edu.tr",
+    "chosen": {
+      "url": "https://tip.akdeniz.edu.tr/tr",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.akdeniz.edu.tr/tr",
+      "title": "Tıp Fakültesi-Ana Sayfa",
+      "text_len": 9267,
+      "duyuru_links": [
+        "https://tip.akdeniz.edu.tr/tr",
+        "https://tip.akdeniz.edu.tr/tr",
+        "https://tip.akdeniz.edu.tr/tr/duyuru/saglik_bilimleri_alaninda_arastirma_projesi_hazirlama_ve_yonetme_egitimi-16097",
+        "https://tip.akdeniz.edu.tr/tr/duyuru/saglik_bilimleri_alaninda_arastirma_projesi_hazirlama_ve_yonetme_egitimi-16097",
+        "https://tip.akdeniz.edu.tr/tr/duyuru/tusydus_arastirma_gorevlisi_atamalarinda_istenilen_evraklar-17329",
+        "https://tip.akdeniz.edu.tr/tr/duyurular"
+      ],
+      "calendar_links": []
+    },
+    "calendar": {
+      "url": "https://oidb.akdeniz.edu.tr/tr/akademik_takvimlerimiz-2168",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://oidb.akdeniz.edu.tr/tr/akademik_takvimlerimiz-2168",
+      "title": "Akademik Takvimlerimiz - Öğrenci İşleri Daire Başkanlığı",
+      "text_len": 3212,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://oidb.akdeniz.edu.tr/tr/akademik_takvimlerimiz-2168",
+        "https://oidb.akdeniz.edu.tr/tr/akademik_takvimlerimiz-2168",
+        "https://oidb.akdeniz.edu.tr/tr/20262027_akademik_takvim-19085"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "aksaray",
+    "institution": "Aksaray Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "aksaray.edu.tr",
+    "chosen": {
+      "url": "https://tip.aksaray.edu.tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.aksaray.edu.tr/duyurular",
+      "title": "Tıp Fakültesi",
+      "text_len": 5097,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.aksaray.edu.tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.aksaray.edu.tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.aksaray.edu.tr/akademik-takvim",
+      "title": "Tıp Fakültesi",
+      "text_len": 2059,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.aksaray.edu.tr/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 8
+  },
+  {
+    "id": "alanya",
+    "institution": "Alanya Alaaddin Keykubat Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "alanya.edu.tr",
+    "chosen": {
+      "url": "https://tip.alanya.edu.tr/duyuru/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.alanya.edu.tr/duyuru/",
+      "title": "ALKÜ | Tıp Fakültesi",
+      "text_len": 6621,
+      "duyuru_links": [
+        "https://tip.alanya.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-yatay-gecis-sonuclari/",
+        "https://tip.alanya.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-yatay-gecis-sonuclari/",
+        "https://tip.alanya.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-guz-yariyili-yatay-gecis-duyurusu/",
+        "https://tip.alanya.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-guz-yariyili-yatay-gecis-duyurusu/",
+        "https://tip.alanya.edu.tr/duyuru/2025-2026-egitim-ogretim-yili-mezuniyet-toreni/",
+        "https://tip.alanya.edu.tr/duyuru/2025-2026-egitim-ogretim-yili-mezuniyet-toreni/",
+        "https://tip.alanya.edu.tr/duyuru/2026-tus-1-donem-ile-yerlesen-adaylar-icin-duyuru/",
+        "https://tip.alanya.edu.tr/duyuru/2026-tus-1-donem-ile-yerlesen-adaylar-icin-duyuru/"
+      ],
+      "calendar_links": [
+        "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+      "title": "ALKÜ | Tıp Fakültesi",
+      "text_len": 4822,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+        "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+        "https://tip.alanya.edu.tr/media/mohmkyhr/3749510-akademik-takvim.pdf",
+        "https://tip.alanya.edu.tr/media/rjcdncsi/3121379-senato-karari-akademik-takvim-_1.pdf",
+        "https://tip.alanya.edu.tr/media/lbabix0c/2024-2025-tip-fakultesi-akademik-takvimi-17-07-2024-ek-guncelleme-2.pdf",
+        "https://tip.alanya.edu.tr/media/2v1lr1j1/revize-2023-24-akademik-takvim-1.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "altinbas",
+    "institution": "Altınbaş Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "altinbas.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "amasya",
+    "institution": "Amasya Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "amasya.edu.tr",
+    "chosen": {
+      "url": "https://tip.amasya.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.amasya.edu.tr/",
+      "title": "A.Ü. Tıp Fakültesi",
+      "text_len": 5695,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx",
+        "https://tip.amasya.edu.tr/2025-2026-tip-fakultesi-akademik-takvimi.aspx"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.amasya.edu.tr/ogrenci/akademik-takvim",
+      "title": "A.Ü. Tıp Fakültesi",
+      "text_len": 2052,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx",
+        "https://tip.amasya.edu.tr/media/17546/2025-2026-akademik-takvim.pdf",
+        "https://tip.amasya.edu.tr/media/15883/2024-2025-tip-fakultesi-akademik-takvimi.pdf",
+        "https://oidb.amasya.edu.tr/akademik-takvim",
+        "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "ankara",
+    "institution": "Ankara Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ankara.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 11,
+    "ok_hits": 0
+  },
+  {
+    "id": "ankara_medipol",
+    "institution": "Ankara Medipol Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ankaramedipol.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "arel",
+    "institution": "İstanbul Arel Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "arel.edu.tr",
+    "chosen": {
+      "url": "https://arel.edu.tr/tepekent-yerleskesi-ogrenci-isleri-ve-mali-isler-hizmetleri-hakkinda-onemli-duyuru/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://arel.edu.tr/tepekent-yerleskesi-ogrenci-isleri-ve-mali-isler-hizmetleri-hakkinda-onemli-duyuru/",
+      "title": "Tepekent Yerleşkesi Öğrenci İşleri ve Mali İşler Hizmetleri Hakkında Önemli Duyuru - İstanbul Arel Üniversitesi",
+      "text_len": 6537,
+      "duyuru_links": [
+        "https://arel.edu.tr/tepekent-yerleskesi-ogrenci-isleri-ve-mali-isler-hizmetleri-hakkinda-onemli-duyuru/",
+        "https://arel.edu.tr/tepekent-yerleskesi-ogrenci-isleri-ve-mali-isler-hizmetleri-hakkinda-onemli-duyuru/",
+        "https://arel.edu.tr/tepekent-yerleskesi-ogrenci-isleri-ve-mali-isler-hizmetleri-hakkinda-onemli-duyuru/",
+        "https://arel.edu.tr/2026-2027-akademik-yili-kayit-duyurusu/",
+        "https://arel.edu.tr/yeni-kayit-ogrencileri-icin-ingilizce-hazirlik-seviye-belirleme-ve-muafiyet-sinavi-duyurusu/",
+        "https://www.arel.edu.tr/duyurular/"
+      ],
+      "calendar_links": [
+        "https://arel.edu.tr/akademik-takvim/",
+        "https://www.arel.edu.tr/akademik-takvim/"
+      ]
+    },
+    "calendar": {
+      "url": "https://arel.edu.tr/akademik-takvim/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://arel.edu.tr/akademik-takvim/",
+      "title": "Akademik Takvim - İstanbul Arel Üniversitesi",
+      "text_len": 7426,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://arel.edu.tr/akademik-takvim/",
+        "https://arel.edu.tr/akademik-takvim/",
+        "https://arel.edu.tr/akademik-takvim/",
+        "https://arel.edu.tr/2026-2027-akademik-takvim-lisansustu-egitim-enstitusu/",
+        "https://arel.edu.tr/2025-2026-akademik-takvim-lisans-onlisans/",
+        "https://arel.edu.tr/2025-2026-akademik-takvim-lisansustu-egitim-enstitusu/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "artuklu",
+    "institution": "Mardin Artuklu Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "artuklu.edu.tr",
+    "chosen": {
+      "url": "https://www.artuklu.edu.tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.artuklu.edu.tr/duyurular",
+      "title": "T.C. MARDİN ARTUKLU ÜNİVERSİTESİ - TÜM HABERLER",
+      "text_len": 7419,
+      "duyuru_links": [
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-guz-donemi-merkezi-puanlaek-madde-1-yatay-gecis-sonuclari",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-guz-donemi-merkezi-puanlaek-madde-1-yatay-gecis-sonuclari",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yks-ile-universitemize-yeni-yerlesen-ogrencilerin-dikkatine",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yks-ile-universitemize-yeni-yerlesen-ogrencilerin-dikkatine",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yili-stratejik-plan-izleme-raporu-yayimlanmistir",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yili-stratejik-plan-izleme-raporu-yayimlanmistir",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-uluslararasi-ogrenci-tercih-basvuru-duyurususuriye-filistin-misir-yemen-libya-uygur-turkleri-vb-uyruklu-ogrenciler-icin",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-uluslararasi-ogrenci-tercih-basvuru-duyurususuriye-filistin-misir-yemen-libya-uygur-turkleri-vb-uyruklu-ogrenciler-icin"
+      ],
+      "calendar_links": [
+        "https://www.artuklu.edu.tr/2026-2027-egitim-ogretim-yili-akademik-takvimi",
+        "https://www.artuklu.edu.tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.artuklu.edu.tr/2026-2027-egitim-ogretim-yili-akademik-takvimi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.artuklu.edu.tr/2026-2027-egitim-ogretim-yili-akademik-takvimi",
+      "title": "T.C. MARDİN ARTUKLU ÜNİVERSİTESİ  - 2026-2027  Eğitim Öğretim Yılı  Akademik Takvimi",
+      "text_len": 13392,
+      "duyuru_links": [
+        "https://www.artuklu.edu.tr/duyurular",
+        "https://www.artuklu.edu.tr/2026-2027-egitim-ogretim-yili-akademik-takvimi#blog_popular_posts",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-guz-donemi-merkezi-puanlaek-madde-1-yatay-gecis-sonuclari",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yks-ile-universitemize-yeni-yerlesen-ogrencilerin-dikkatine",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-yili-stratejik-plan-izleme-raporu-yayimlanmistir",
+        "https://www.artuklu.edu.tr/tr/duyurular/2026-2027-uluslararasi-ogrenci-tercih-basvuru-duyurususuriye-filistin-misir-yemen-libya-uygur-turkleri-vb-uyruklu-ogrenciler-icin",
+        "https://www.artuklu.edu.tr/tr/duyurular/7592-sayili-af-kanunu-ile-ilgili-basvuru"
+      ],
+      "calendar_links": [
+        "https://www.artuklu.edu.tr/2026-2027-egitim-ogretim-yili-akademik-takvimi",
+        "https://www.artuklu.edu.tr/akademik-takvim",
+        "https://www.artuklu.edu.tr/upload/akademiktakvim/2026_2027_akademik_takvim.pdf",
+        "https://www.artuklu.edu.tr/upload/akademiktakvim/2025_2026_akademik_takvim.pdf",
+        "https://www.artuklu.edu.tr/upload/akademiktakvim/2024_2025_Akademik_Takvimi.pdf",
+        "https://www.artuklu.edu.tr/upload/akademiktakvim/2023_2024_Akademik_Takvimi.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "atauni",
+    "institution": "Atatürk Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "atauni.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "atilim",
+    "institution": "Atılım Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "atilim.edu.tr",
+    "chosen": {
+      "url": "https://www.atilim.edu.tr/tr/tip/announcement/list",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.atilim.edu.tr/tr/tip/announcement/list",
+      "title": "Atılım Üniversitesi - Tıp Fakültesi - Tıp Fakültesi - Duyurular",
+      "text_len": 13903,
+      "duyuru_links": [
+        "https://www.atilim.edu.tr/tr/tip/announcement/list"
+      ],
+      "calendar_links": [
+        "https://www.atilim.edu.tr/akademik-takvim",
+        "https://www.atilim.edu.tr/akademik-takvim",
+        "https://www.atilim.edu.tr/tr/oim/page/6369/akademik-takvim-2025-2026",
+        "https://www.atilim.edu.tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.atilim.edu.tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.atilim.edu.tr/tr/oim/page/6369/akademik-takvim-2025-2026",
+      "title": "Atılım Üniversitesi - Öğrenci İşleri Direktörlüğü - Akademik Takvim 2025-2026",
+      "text_len": 12996,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.atilim.edu.tr/akademik-takvim",
+        "https://www.atilim.edu.tr/tr/oim/page/3645/akademik-takvim",
+        "https://www.atilim.edu.tr/tr/oim/page/6369/akademik-takvim-2025-2026",
+        "https://www.atilim.edu.tr/tr/oim/page/6946/akademik-takvim-2026-2027",
+        "https://www.atilim.edu.tr/tr/oim/page/6369/akademik-takvim-2025-2026",
+        "https://www.atilim.edu.tr/tr/oim/page/5977/akademik-takvim-2024-2025"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "atlas",
+    "institution": "İstanbul Atlas Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "atlas.edu.tr",
+    "chosen": {
+      "url": "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular",
+      "title": "Duyurular Archives - Atlas Üniversitesi",
+      "text_len": 8009,
+      "duyuru_links": [
+        "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular",
+        "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular",
+        "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular",
+        "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular",
+        "https://www.atlas.edu.tr/icerik-turu-kategorisi/duyurular"
+      ],
+      "calendar_links": [
+        "https://www.atlas.edu.tr/akademik-takvim",
+        "https://www.atlas.edu.tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.atlas.edu.tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.atlas.edu.tr/akademik-takvim",
+      "title": "Akademik Takvim - Atlas Üniversitesi",
+      "text_len": 4733,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.atlas.edu.tr/akademik-takvim",
+        "https://www.atlas.edu.tr/akademik-takvim",
+        "https://www.atlas.edu.tr/uploads/akademiktakvim/20262027/onlisans-lisans-akademik-takvimi.pdf",
+        "https://www.atlas.edu.tr/uploads/akademiktakvim/20262027/onlisans-lisans-akademik-takvimi.pdf",
+        "https://www.atlas.edu.tr/uploads/akademiktakvim/20262027/onlisans-lisans-akademik-takvimi-en.pdf",
+        "https://www.atlas.edu.tr/uploads/akademiktakvim/20262027/onlisans-lisans-akademik-takvimi-en.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "aybu",
+    "institution": "Ankara Yıldırım Beyazıt Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "aybu.edu.tr",
+    "chosen": {
+      "url": "https://www.aybu.edu.tr/tip",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.aybu.edu.tr/tip",
+      "title": "Ankara Yıldırım Beyazıt Üniversitesi Tıp Fakültesi",
+      "text_len": 4968,
+      "duyuru_links": [
+        "https://aybu.edu.tr/oidb/tr/duyuru/28373/YKS-2026-ile-%C3%9Cniversitemize-Yerle%C5%9Fen-%C3%96%C4%9Frenciler-i%C3%A7in-2026-2027-Akademik-Y%C4%B1l%C4%B1-Kay%C4%B1t-Duyurusu",
+        "https://www.aybu.edu.tr/tip/tr/duyurular",
+        "https://www.aybu.edu.tr/tip/tr/duyuru/28375/Yabancı-Dil-Muafiyet-Sınavı",
+        "https://www.aybu.edu.tr/tip/tr/duyuru/28234/Dönem-2-Öğrencilerinin-Dikkatine",
+        "https://www.aybu.edu.tr/tip/tr/duyuru/28233/MEZUNİYETE-ÜÇ-DERS-SINAVI-(DERS-ADI-TARİHİ-SAATİ-YERİ).",
+        "https://www.aybu.edu.tr/tip/tr/duyuru/28193/Dönem-6-(İntörn-Doktor)-Oryantasyon--Programı-Akışı"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "aydin",
+    "institution": "İstanbul Aydın Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "aydin.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "bakircay",
+    "institution": "İzmir Bakırçay Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "bakircay.edu.tr",
+    "chosen": {
+      "url": "https://tip.bakircay.edu.tr/Duyurular/5943/2026---2027-egitim-ogretim-yili-guz-yariyili-kurumlar-arasina-agno-gore-yatay-gecis-basvuru-sonuclari-aciklandi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.bakircay.edu.tr/Duyurular/5943/2026---2027-egitim-ogretim-yili-guz-yariyili-kurumlar-arasina-agno-gore-yatay-gecis-basvuru-sonuclari-aciklandi",
+      "title": "Bakırçay Üniversitesi - 2026 - 2027 Eğitim-Öğretim Yılı Güz Yarıyılı Kurumlar Arasına (AGNO) Göre Yatay Geçiş Başvuru Sonuçları Açıklandı",
+      "text_len": 6042,
+      "duyuru_links": [
+        "https://tip.bakircay.edu.tr/Duyurular/5943/Duyurular"
+      ],
+      "calendar_links": [
+        "https://tip.bakircay.edu.tr/Duyurular/5943/Sayfalar/1977/akademik-takvim",
+        "https://tip.bakircay.edu.tr/Duyurular/5943/Sayfalar/504/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim",
+      "title": "Bakırçay Üniversitesi - Akademik Takvim",
+      "text_len": 4936,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.bakircay.edu.tr/Sayfalar/1977/Sayfalar/1977/akademik-takvim",
+        "https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim",
+        "https://tip.bakircay.edu.tr/Sayfalar/Yuklenenler/TIP FAKÜLTESİ/TIP_FAK_2026_2027_AKADEMİK_TAKV.pdf",
+        "https://tip.bakircay.edu.tr/Sayfalar/Yuklenenler/TIP FAKÜLTESİ/Tıp_Fakültesi_2025_2026_EÖY_Akad.pdf",
+        "https://tip.bakircay.edu.tr/Sayfalar/Yuklenenler/TIP FAKÜLTESİ/İZBÜ_2024_25_AKADEMİK_TAKVİM.pdf",
+        "https://tip.bakircay.edu.tr/Sayfalar/Yuklenenler/TIP FAKÜLTESİ/Tıp_Fakültesi_2023_2024_AKADEMİK.2023 gÜncel.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "balikesir",
+    "institution": "Balıkesir Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "balikesir.edu.tr",
+    "chosen": {
+      "url": "https://tip.balikesir.edu.tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.balikesir.edu.tr/duyurular",
+      "title": "Duyurular | TIP FAKÜLTESİ | Balıkesir Üniversitesi",
+      "text_len": 3129,
+      "duyuru_links": [
+        "https://tip.balikesir.edu.tr/duyurular/2026-2027-egitim-ogretim-yili-ek-madde-1-ile-yatay-gecis-basvuru-sonuclari-202608211446",
+        "https://oidb.balikesir.edu.tr/duyurular/2026-2027-egitim-ogretim-yili-guz-yariyili-yatay-gecis-takvimi-202608030836",
+        "https://tip.balikesir.edu.tr/duyurular/keyps-uzerinden-ucep-eslestirme-videolu-anlatim-202606291324",
+        "https://tip.balikesir.edu.tr/duyurular/fakultemizin-2025-2026-egitim-ogretim-yili-mezuniyet-toreni-202606191251",
+        "https://tip.balikesir.edu.tr/duyurular/2026-2027-akademik-yili-uluslararasi-ogrenci-basvurulari-202606100935",
+        "https://tip.balikesir.edu.tr/duyurular/fakultemiz-ogrencisi-berat-can-demir-icin-dekanimizin-taziye-mesaji-202604130944",
+        "https://tip.balikesir.edu.tr/duyurular/fakultemiz-ogretim-uyeleri-doc-dr-durgul-acanin-annesi-ve-prof-dr-ahmet-emrah-acanin-kayinvalidesi-sirin-turuthan-vefat-etmistir-202603120847",
+        "https://tip.balikesir.edu.tr/duyurular/fakultemiz-radyoloji-anabilim-dali-ogretim-uyesi-dr-ogr-uyesi-mehmet-alperen-tezcanin-annesi-vefat-etmistir-202602251050"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "bandirma",
+    "institution": "Bandırma Onyedi Eylül Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "bandirma.edu.tr",
+    "chosen": {
+      "url": "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+      "title": "BANDIRMA ONYEDİ EYLÜL ÜNİVERSİTESİ - Tıp Fakültesi Liste",
+      "text_len": 7590,
+      "duyuru_links": [
+        "https://tip.bandirma.edu.tr/tr/tip/Theme?theme=Views_New&returnUrl=%2Ftr%2Ftip%2FDuyuru%2FListe%3Fk%3D-1",
+        "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+        "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=215",
+        "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=216",
+        "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=217",
+        "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=218",
+        "https://tip.bandirma.edu.tr/tr/tip/d/2026---2027-Egitim---Ogretim-Yili-Guz-Donemi-Yatay-Gecis-Duyurusu-82193",
+        "https://tip.bandirma.edu.tr/tr/tip/d/2026---2027-Egitim---Ogretim-Yili-Guz-Donemi-Yatay-Gecis-Duyurusu-82193"
+      ],
+      "calendar_links": [
+        "https://oidb.bandirma.edu.tr/tr/oidb/Sayfa/Goster/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083",
+        "https://tip.bandirma.edu.tr/tr/tip/d/2026-2027-Akademik-Takvimi-Yayinlamistir-81898",
+        "https://tip.bandirma.edu.tr/tr/tip/d/2026-2027-Akademik-Takvimi-Yayinlamistir-81898",
+        "https://tip.bandirma.edu.tr/tr/tip/d/2026-2027-Akademik-Takvimi-Yayinlamistir-81898",
+        "http://tip.bandirma.edu.tr/tr/tip/s/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-2",
+        "https://oidb.bandirma.edu.tr/tr/oidb/Sayfa/Goster/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083"
+      ]
+    },
+    "calendar": {
+      "url": "https://oidb.bandirma.edu.tr/tr/oidb/Sayfa/Goster/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://oidb.bandirma.edu.tr/tr/oidb/Sayfa/Goster/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083",
+      "title": "BANDIRMA ONYEDİ EYLÜL ÜNİVERSİTESİ - Öğrenci İşleri Daire Başkanlığı Goster",
+      "text_len": 7782,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://oidb.bandirma.edu.tr/tr/oidb/Theme?theme=Views_New&returnUrl=%2Ftr%2Foidb%2FSayfa%2FGoster%2FONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083",
+        "https://oidb.bandirma.edu.tr/tr/oidb/Sayfa/Goster/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-17083",
+        "https://oidb.bandirma.edu.tr/Content/Web/Yuklemeler/DosyaYoneticisi/412/files/Lisans-Onlisans-Akademik%20Takvim%202026-2027.pdf",
+        "https://oidb.bandirma.edu.tr/Content/Web/Yuklemeler/DosyaYoneticisi/412/files/Lisans%C3%BCst%C3%BC%20Akademik%20Takvim%202026-2027.pdf",
+        "https://oidb.bandirma.edu.tr/Content/Web/Yuklemeler/DosyaYoneticisi/412/files/TIP%20Fak%C3%BCltesi%20Akademik%20Takvim%202026-2027.pdf",
+        "https://oidb.bandirma.edu.tr/Content/Web/Yuklemeler/DosyaYoneticisi/412/files/Zorunlu%20Yabanc%C4%B1%20Dil%20Haz%C4%B1rl%C4%B1k%20E%C4%9Fitimi%20Akademik%20Takvim%202026-2027.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 5
+  },
+  {
+    "id": "baskent",
+    "institution": "Başkent Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "baskent.edu.tr",
+    "chosen": {
+      "url": "https://www.baskent.edu.tr/tr/tip-fakultesi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.baskent.edu.tr/tr/404",
+      "title": "Başkent Üniversitesi",
+      "text_len": 3838,
+      "duyuru_links": [
+        "http://ogm.baskent.edu.tr/kw/menu_icerik.php?birim=9993&menu_id=16"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "bau",
+    "institution": "Bahçeşehir Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "bau.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "beun",
+    "institution": "Zonguldak Bülent Ecevit Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "beun.edu.tr",
+    "chosen": {
+      "url": "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+      "title": "Etkinlikler ve Duyurular -  Tıp Fakültesi",
+      "text_len": 19097,
+      "duyuru_links": [
+        "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+        "https://tip.beun.edu.tr/klinik-arastirmalar-etik-kurulu/duyuru.html",
+        "https://tip.beun.edu.tr/girisimsel-olmayan-klinik-arastirmalar-etik-kurulu/covid-19-hastaligi-ve-pandemisi.html",
+        "https://tip.beun.edu.tr/etkinlikler-ve-duyurular/etkinlikler-ve-duyurular.html",
+        "https://tip.beun.edu.tr/duyurular/2022tubateknofestdoktorabilimodulleri.html",
+        "https://tip.beun.edu.tr/duyurular/2022tubateknofestdoktorabilimodulleri.html",
+        "https://tip.beun.edu.tr/duyurular/farabiviii.argeveinovasyonprojepazari.html",
+        "https://tip.beun.edu.tr/duyurular/tubagebip-ve-tesep-odulleri-icin-2022-yili-basvurulari-basladi.html"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "beykent",
+    "institution": "Beykent Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "beykent.edu.tr",
+    "chosen": {
+      "url": "https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu",
+      "title": "Tıp Fakültesi 'KEYPS'  Uzaktan Öğrenme Platformu",
+      "text_len": 3672,
+      "duyuru_links": [
+        "https://tip.beykent.edu.tr/duyurular",
+        "https://tip.beykent.edu.tr/duyurular",
+        "https://www.beykent.edu.tr/duyurular/detay/yuz-yuze-online-egitim-hakkinda-senato-karari",
+        "https://www.facebook.com/sharer.php?u=https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu",
+        "https://www.twitter.com/intent/tweet?url=https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu&text=Tıp Fakültesi 'KEYPS'  Uzaktan Öğrenme Platformu&via=beykentunv",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu&title=Tıp Fakültesi 'KEYPS'  Uzaktan Öğrenme Platformu",
+        "https://api.whatsapp.com/send?phone=&text=https://tip.beykent.edu.tr/duyurular/detay/tip-fakultesi-keyps-uzaktan-ogrenme-platformu&source=&data=",
+        "https://tip.beykent.edu.tr/duyurular/-in-category/categories/haberler/akademik"
+      ],
+      "calendar_links": [
+        "https://tip.beykent.edu.tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.beykent.edu.tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.beykent.edu.tr/akademik-takvim",
+      "title": "Tıp Fakültesi",
+      "text_len": 69431,
+      "duyuru_links": [
+        "https://tip.beykent.edu.tr/duyurular",
+        "https://tip.beykent.edu.tr/duyurular"
+      ],
+      "calendar_links": [
+        "https://tip.beykent.edu.tr/akademik-takvim",
+        "https://tip.beykent.edu.tr/docs/librariesprovider12/default-document-library/2024-2025-tip-fakultesi-akademik-takvim.pdf?sfvrsn=d9f35d0_4",
+        "https://tip.beykent.edu.tr/docs/default-source/akademik-takvim/2020-2021/2020-2021-egitim-ogretim-yili-tip-fakultesi-akademik-takvimi-19092020.pdf?sfvrsn=1b4a832_14",
+        "https://www.facebook.com/sharer.php?u=https://tip.beykent.edu.tr/akademik-takvim",
+        "https://www.twitter.com/intent/tweet?url=https://tip.beykent.edu.tr/akademik-takvim&text=Tıp Fakültesi&via=beykentunv",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://tip.beykent.edu.tr/akademik-takvim&title=Tıp Fakültesi"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "bezmialem",
+    "institution": "Bezmialem Vakıf Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "bezmialem.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "biruni",
+    "institution": "Biruni Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "biruni.edu.tr",
+    "chosen": {
+      "url": "https://tip.biruni.edu.tr/index.php/duyuru/2025-2026-egitim-ogretim-yili-ders-programi/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.biruni.edu.tr/index.php/duyuru/2025-2026-egitim-ogretim-yili-ders-programi/",
+      "title": "Tıp Fakültesi » 2025 – 2026 Eğitim Öğretim Yılı Ders Programı",
+      "text_len": 5467,
+      "duyuru_links": [
+        "https://tip.biruni.edu.tr/index.php/duyuru/2025-2026-egitim-ogretim-yili-ders-programi/",
+        "https://www.biruni.edu.tr/haberler/duyurular"
+      ],
+      "calendar_links": [
+        "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+        "https://www.biruni.edu.tr/ogrenci/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+      "title": "Tıp Fakültesi » Akademik Takvim",
+      "text_len": 6204,
+      "duyuru_links": [
+        "https://tip.biruni.edu.tr/index.php/duyuru/2025-2026-egitim-ogretim-yili-ders-programi/",
+        "https://tip.biruni.edu.tr/index.php/duyuru/2025-2026-egitim-ogretim-yili-ders-programi/",
+        "https://www.biruni.edu.tr/haberler/duyurular"
+      ],
+      "calendar_links": [
+        "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+        "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+        "https://tip.biruni.edu.tr/wp-content/uploads/2026/08/2026-2027-Akademik-Takvim-Tip-Fakultesi.pdf",
+        "https://tip.biruni.edu.tr/wp-content/uploads/2026/07/Akademik-Takvim-25-26-TR.pdf",
+        "https://tip.biruni.edu.tr/wp-content/uploads/2026/07/Akademik-Takvim-2024-25-TR.pdf",
+        "https://tip.biruni.edu.tr/wp-content/uploads/2026/07/Akademik-Takvim-23-24-TR-1.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "bozok",
+    "institution": "Yozgat Bozok Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "bozok.edu.tr",
+    "chosen": {
+      "url": "https://tip.bozok.edu.tr/duyuru/fakultemizde-gorevde-yukselme,tr-10728.aspx",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.bozok.edu.tr/duyuru/fakultemizde-gorevde-yukselme,tr-10728.aspx",
+      "title": "TIP FAKÜLTESİ | FAKÜLTEMİZDE GÖREVDE YÜKSELME",
+      "text_len": 10914,
+      "duyuru_links": [
+        "https://tip.bozok.edu.tr/duyuru/2026-yili-merkezi-puanla-yatay-gecis-ek-madde-1-kapsaminda-yapilan-basvurularin-degerlendirme-sonuclari,tr-10729.aspx",
+        "https://tip.bozok.edu.tr/duyuru/fakultemizde-gorevde-yukselme,tr-10728.aspx",
+        "https://tip.bozok.edu.tr/duyuru/2026-yili-tip-fakultesi-kurumlararasi-ortalama-ile-yatay-gecis-sonuclari,tr-10727.aspx",
+        "https://tip.bozok.edu.tr/duyuru/2026-ogrenci-affi-basvuru-duyurusu,tr-10725.aspx",
+        "https://tip.bozok.edu.tr/duyuru/fakultemizden-uluslararasi-literature-degerli-katki,tr-10724.aspx",
+        "https://tip.bozok.edu.tr/duyuru/fakultemizde-unvan-degisikligi,tr-10723.aspx",
+        "https://tip.bozok.edu.tr/duyuru/ukrayna-yatay-gecis-basvuru-listesi,tr-10370.aspx",
+        "https://tip.bozok.edu.tr/duyuru/ukrayna-yatay-gecis-genel-degerlendirme-sinav-sonuclari,tr-10373.aspx"
+      ],
+      "calendar_links": [
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2879.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2879.aspx"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+      "title": "YOZGAT BOZOK ÜNİVERSİTESİ TIP FAKÜLTESİ | akademik takvim",
+      "text_len": 10832,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2879.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2879.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2879.aspx"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "cerrahpasa",
+    "institution": "İstanbul Üniversitesi-Cerrahpaşa",
+    "faculty": "Cerrahpaşa Tıp Fakültesi",
+    "host": "iuc.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 12,
+    "ok_hits": 0
+  },
+  {
+    "id": "comu",
+    "institution": "Çanakkale Onsekiz Mart Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "comu.edu.tr",
+    "chosen": {
+      "url": "https://tip.comu.edu.tr/arsiv/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.comu.edu.tr/arsiv/duyurular",
+      "title": "ÇOMÜ -  Tıp Fakültesi",
+      "text_len": 4935,
+      "duyuru_links": [
+        "https://tip.comu.edu.tr/arsiv/arsiv/duyurular",
+        "https://tip.comu.edu.tr/arsiv/arsiv/duyurular",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-2027-merkezi-yatay-gecis-basvuru-sonuclari-r1589.html",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-yks-ile-yerlesen-ogrencilerin-kayit-islemleri-r1588.html",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-2027-egitim-ogretim-yili-guz-yariyili-yatay-g-r1587.html",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-2027-egitim-ogretim-yili-guz-yariyili-yatay-g-r1584.html",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-2027-egitim-ogretim-yili-guz-yariyili-kurumla-r1571.html",
+        "https://tip.comu.edu.tr/arsiv/duyurular/2026-2027-egitim-ogretim-yili-guz-yariyili-tip-fak-r1572.html"
+      ],
+      "calendar_links": [
+        "https://tip.comu.edu.tr/arsiv/ogrenci/akademik-takvim-r19.html",
+        "https://tip.comu.edu.tr/arsiv/ogrenci/akademik-takvim-r19.html",
+        "http://ogrenciisleri.comu.edu.tr/akademik-takvim-r10.html"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.comu.edu.tr/ogrenci/akademik-takvim-r19.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.comu.edu.tr/ogrenci/akademik-takvim-r19.html",
+      "title": "ÇOMÜ -  Tıp Fakültesi",
+      "text_len": 5349,
+      "duyuru_links": [
+        "https://tip.comu.edu.tr/ogrenci/arsiv/duyurular"
+      ],
+      "calendar_links": [
+        "https://tip.comu.edu.tr/ogrenci/ogrenci/akademik-takvim-r19.html",
+        "https://tip.comu.edu.tr/ogrenci/ogrenci/akademik-takvim-r19.html",
+        "https://tip.comu.edu.tr/ogrenci/ogrenci/akademik-takvim-r19.html",
+        "http://ogrenciisleri.comu.edu.tr/akademik-takvim-r10.html"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 2
+  },
+  {
+    "id": "cu",
+    "institution": "Çukurova Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "cu.edu.tr",
+    "chosen": {
+      "url": "https://tip.cu.edu.tr/#duyurular-slider-duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.cu.edu.tr/#duyurular-slider-duyurular",
+      "title": "TIP FAKÜLTESİ",
+      "text_len": 3365,
+      "duyuru_links": [
+        "https://tip.cu.edu.tr/#duyurular-slider-duyurular",
+        "https://tip.cu.edu.tr/#duyurular-slider-duyurular",
+        "https://tip.cu.edu.tr/posts/duyurular/2026",
+        "https://tip.cu.edu.tr/#duyurular-slider-etkinlikler",
+        "https://tip.cu.edu.tr/#duyurular-slider-etkinlikler"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "cumhuriyet",
+    "institution": "Sivas Cumhuriyet Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "cumhuriyet.edu.tr",
+    "chosen": {
+      "url": "https://tip.cumhuriyet.edu.tr/duyuru",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.cumhuriyet.edu.tr/duyuru",
+      "title": "Tıp Fakültesi",
+      "text_len": 2400,
+      "duyuru_links": [
+        "https://tip.cumhuriyet.edu.tr/duyuru/37032-2026-2027-egitim-ogretim-yili-akademik-takvim",
+        "https://tip.cumhuriyet.edu.tr/duyuru/35062-sivas-cumhuriyet-universitesi-tip-fakultesi-akreditasyon-belgesi"
+      ],
+      "calendar_links": [
+        "https://tip.cumhuriyet.edu.tr/duyuru/37032-2026-2027-egitim-ogretim-yili-akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.cumhuriyet.edu.tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://www.cumhuriyet.edu.tr/akademik-takvim",
+      "title": "Sivas Cumhuriyet Üniversitesi",
+      "text_len": 94668,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.cumhuriyet.edu.tr/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "demiroglu",
+    "institution": "Demiroğlu Bilim Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "demiroglu.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "deu",
+    "institution": "Dokuz Eylül Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "deu.edu.tr",
+    "chosen": {
+      "url": "https://tip.deu.edu.tr/duyurular/yatay-gecis-yapmaya-hak-kazanan-yedek-adaylar-2026-2027/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.deu.edu.tr/duyurular/yatay-gecis-yapmaya-hak-kazanan-yedek-adaylar-2026-2027/",
+      "title": "Yatay Geçiş Yapmaya Hak Kazanan Yedek Adaylar (2026-2027) | Tıp Fakültesi",
+      "text_len": 8511,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+      "title": "Akademik Takvim | Tıp Fakültesi",
+      "text_len": 8278,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+        "https://tip.deu.edu.tr/wp-content/uploads/2026/07/2026-2027-AKADEMIK-TAKVIM.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "dicle",
+    "institution": "Dicle Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "dicle.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "duzce",
+    "institution": "Düzce Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "duzce.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "ege",
+    "institution": "Ege Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ege.edu.tr",
+    "chosen": {
+      "url": "https://med.ege.edu.tr/tr-24353/tip-butunlesik_doktora_programi_duyuru.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.ege.edu.tr/tr-24353/tip-butunlesik_doktora_programi_duyuru.html",
+      "title": "Ege Üniversitesi Tıp Fakültesi",
+      "text_len": 5873,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+        "https://med.ege.edu.tr/tr-24101/akademik_takvim.html"
+      ]
+    },
+    "calendar": {
+      "url": "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+      "title": "Ege Üniversitesi Tıp Fakültesi",
+      "text_len": 4811,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+        "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+        "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+        "https://med.ege.edu.tr/files/med/icerik/2026-2027-akademik_takvim-280726.pdf",
+        "https://med.ege.edu.tr/files/med/icerik/2025-2026-akademik_takvim.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "erbakan",
+    "institution": "Necmettin Erbakan Üniversitesi",
+    "faculty": "Meram Tıp Fakültesi",
+    "host": "erbakan.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 13,
+    "ok_hits": 0
+  },
+  {
+    "id": "erciyes",
+    "institution": "Erciyes Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "erciyes.edu.tr",
+    "chosen": {
+      "url": "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular",
+      "title": "Erciyes Üniversitesi Tıp Fakültesi - Duyurular",
+      "text_len": 5254,
+      "duyuru_links": [
+        "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular",
+        "https://tip.erciyes.edu.tr/tr/duyuru/tum-duyurular"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "erdogan",
+    "institution": "Recep Tayyip Erdoğan Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "erdogan.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "erzincan",
+    "institution": "Erzincan Binali Yıldırım Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "erzincan.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "etu",
+    "institution": "TOBB Ekonomi ve Teknoloji Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "etu.edu.tr",
+    "chosen": {
+      "url": "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+      "title": "Akademik - Fakülte ve Enstitüler - TOBB ETÜ",
+      "text_len": 1864,
+      "duyuru_links": [
+        "https://etu.edu.tr/tr/akademik-duyurular",
+        "https://etu.edu.tr/tr/haberler"
+      ],
+      "calendar_links": [
+        "https://etu.edu.tr/tr/akademik-takvim",
+        "https://etu.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://etu.edu.tr/tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://etu.edu.tr/tr/akademik-takvim",
+      "title": "TOBB ETÜ",
+      "text_len": 44146,
+      "duyuru_links": [
+        "https://etu.edu.tr/tr/akademik-duyurular",
+        "https://etu.edu.tr/tr/haberler"
+      ],
+      "calendar_links": [
+        "https://www.etu.edu.tr/en/akademik-takvim",
+        "https://etu.edu.tr/tr/akademik-takvim",
+        "https://www.facebook.com/sharer/sharer.php?u=https://www.etu.edu.tr/tr/akademik-takvim&t=Akademik Takvim",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://www.etu.edu.tr/tr/akademik-takvim&title=Akademik Takvim&summary=Akademik Takvim&source=https://www.etu.edu.tr",
+        "https://twitter.com/intent/tweet?source=https://www.etu.edu.tr/tr/akademik-takvim&text=Akademik Takvim&via=tobbetum",
+        "https://etu.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "firat",
+    "institution": "Fırat Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "firat.edu.tr",
+    "chosen": {
+      "url": "https://tip.firat.edu.tr/announcements-detail/51669",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.firat.edu.tr/announcements-detail/51669",
+      "title": "Duyuru!\n | Fırat Üniversitesi",
+      "text_len": 15896,
+      "duyuru_links": [
+        "https://tip.firat.edu.tr/announcements-detail/51073",
+        "https://tip.firat.edu.tr/announcements-detail/51034"
+      ],
+      "calendar_links": [
+        "https://tip.firat.edu.tr/page/2329",
+        "https://tip.firat.edu.tr/page/2329"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.firat.edu.tr/page/2329",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.firat.edu.tr/page/2329",
+      "title": "Akademik Takvim\n | Fırat Üniversitesi",
+      "text_len": 17863,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.firat.edu.tr/page/2329",
+        "https://tip.firat.edu.tr/page/2329",
+        "https://tip.firat.edu.tr/page/2329"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 1
+  },
+  {
+    "id": "gantep",
+    "institution": "Gaziantep Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "gantep.edu.tr",
+    "chosen": {
+      "url": "https://tip.gantep.edu.tr/duyuru.php?id=623",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.gantep.edu.tr/duyuru.php?id=623",
+      "title": "Tıp Fakültesi",
+      "text_len": 4838,
+      "duyuru_links": [
+        "https://tip.gantep.edu.tr/duyuru.php?id=623&dil=en",
+        "https://tip.gantep.edu.tr/duyuru.php?id=623#duyurular",
+        "https://tip.gantep.edu.tr/duyuru.php?id=662",
+        "https://tip.gantep.edu.tr/duyuru.php?id=661",
+        "https://tip.gantep.edu.tr/duyuru.php?id=659",
+        "https://tip.gantep.edu.tr/duyuru.php?id=658",
+        "https://tip.gantep.edu.tr/duyuru.php?id=651",
+        "https://tip.gantep.edu.tr/duyuru.php?id=650"
+      ],
+      "calendar_links": [
+        "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+        "https://oidb.gaziantep.edu.tr/page.php?url=akademik-takvim-4"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+      "title": "Tıp Fakültesi",
+      "text_len": 4525,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168&dil=en",
+        "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+        "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+        "https://oidb.gaziantep.edu.tr/page.php?url=akademik-takvim-4"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "gazi",
+    "institution": "Gazi Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "gazi.edu.tr",
+    "chosen": {
+      "url": "https://med.gazi.edu.tr/view/announcement/298615?type=1&item=ders-degerlendirme-anketi-ogrenciler-icin-onemli-duyuru",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.gazi.edu.tr/view/announcement/298615?type=1&item=ders-degerlendirme-anketi-ogrenciler-icin-onemli-duyuru",
+      "title": "Ders Değerlendirme Anketi (Öğrenciler İçin Önemli Duyuru) | Tıp Fakültesi | Gazi Üniversitesi",
+      "text_len": 3914,
+      "duyuru_links": [
+        "https://med.gazi.edu.tr/view/announcement-list",
+        "https://www.facebook.com/sharer/sharer.php?u=http://med.gazi.edu.tr/view/announcement/298615&text=Ders Değerlendirme Anketi (Öğrenciler için Önemli Duyuru)",
+        "https://twitter.com/intent/tweet?url=http://med.gazi.edu.tr/view/announcement/298615&text=Ders Değerlendirme Anketi (Öğrenciler için Önemli Duyuru)&via=Gazi_Universite",
+        "https://www.linkedin.com/shareArticle?url=http://med.gazi.edu.tr/view/announcement/298615&title=Ders Değerlendirme Anketi (Öğrenciler için Önemli Duyuru)"
+      ],
+      "calendar_links": [
+        "http://med.gazi.edu.tr/view/page/189939"
+      ]
+    },
+    "calendar": {
+      "url": "http://med.gazi.edu.tr/view/page/189939",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.gazi.edu.tr/view/page/189939",
+      "title": "Akademik Takvimler | Tıp Fakültesi | Gazi Üniversitesi",
+      "text_len": 7456,
+      "duyuru_links": [],
+      "calendar_links": [
+        "http://med.gazi.edu.tr/view/page/189939",
+        "https://webupload.gazi.edu.tr/upload/46/2026/8/14/446b5028-0dce-46c0-b580-10423c270f0d-26-27-akademik-takvim.pdf",
+        "https://webupload.gazi.edu.tr/upload/46/2026/8/14/3c0f0930-991d-41e1-b898-9bcdc97715ef-tip-fakultesi-akademik-takvim-26-27-tu-rkjc-e-tip.pdf",
+        "https://webupload.gazi.edu.tr/upload/46/2026/8/14/50cef0ba-aa51-4cb6-a50d-ec8db867ca99-tip-fakultesi-akademik-takvim-26-27-i-ngilizce-tip.pdf",
+        "https://webupload.gazi.edu.tr/upload/46/2026/8/17/f74b01dc-2e80-4979-91f9-8886cea2e4b1-26-27-donem-1-akademik-takvim-turkce.pdf",
+        "https://webupload.gazi.edu.tr/upload/46/2026/8/17/cdcf778c-98aa-47cb-9b29-7e7fe4d90394-26-27-donem-1-akademik-takvim-Ingilizce.pdf"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 4
+  },
+  {
+    "id": "gibtu",
+    "institution": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "gibtu.edu.tr",
+    "chosen": {
+      "url": "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=haber",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=haber",
+      "title": "GİBTÜ - Tıp Fakültesi",
+      "text_len": 4043,
+      "duyuru_links": [
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=duyuru",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=haber",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=kampus_ozel_yasam",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=kutlama_mesaji",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=makale",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=sempozyum",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=soylesi",
+        "https://www.gibtu.edu.tr/BirimDuyuruArsivi.aspx?id=20&k=tanitim"
+      ],
+      "calendar_links": [
+        "https://www.gibtu.edu.tr/Medya/Birim/Dosya/20260803185144_affc9dbe.pdf",
+        "https://www.gibtu.edu.tr/Medya/Birim/Dosya/20260803185144_affc9dbe.pdf"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "giresun",
+    "institution": "Giresun Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "giresun.edu.tr",
+    "chosen": {
+      "url": "https://tip.giresun.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.giresun.edu.tr/",
+      "title": "Anasayfa |",
+      "text_len": 14547,
+      "duyuru_links": [
+        "https://tip.giresun.edu.tr/",
+        "https://tip.giresun.edu.tr/",
+        "https://tip.giresun.edu.tr/tr/news",
+        "https://tip.giresun.edu.tr/tr/news-detail/2026-2027-guz-donemi-yatay-gecis-duyurulari/21799",
+        "https://tip.giresun.edu.tr/tr/news-detail/2026-2027-guz-donemi-yatay-gecis-duyurulari/21799"
+      ],
+      "calendar_links": [
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+      "title": "Akademik Takvim |",
+      "text_len": 12886,
+      "duyuru_links": [
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151"
+      ],
+      "calendar_links": [
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+        "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+        "https://tip.giresun.edu.tr/Files/ckFiles/tip-giresun-edu-tr/2026-2027 akademik takvimlşer/2026-2027 dönem 1 akadeik takvim.docx",
+        "https://tip.giresun.edu.tr/Files/ckFiles/tip-giresun-edu-tr/2026-2027 akademik takvimlşer/2026- 2027 dönem 2 akademik takvim.docx",
+        "https://tip.giresun.edu.tr/Files/ckFiles/tip-giresun-edu-tr/2026-2027 akademik takvimlşer/2026-2027 dönem 3 akademik takvim.docx"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "gop",
+    "institution": "Tokat Gaziosmanpaşa Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "gop.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "hacettepe",
+    "institution": "Hacettepe Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "hacettepe.edu.tr",
+    "chosen": {
+      "url": "https://tip.hacettepe.edu.tr/tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.hacettepe.edu.tr/tr/duyurular",
+      "title": "Hacettepe Üniversitesi",
+      "text_len": 3571,
+      "duyuru_links": [
+        "https://tip.hacettepe.edu.tr/tr/duyurular/mezuniyet_oncesi_egitim_duyuru-1",
+        "https://tip.hacettepe.edu.tr/tr/duyurular/mezuniyet_sonrasi_egitim_duyur-4",
+        "https://tip.hacettepe.edu.tr/tr/duyurular/etkinlik-27",
+        "https://tip.hacettepe.edu.tr/tr/duyurular/genel_duyuru-5"
+      ],
+      "calendar_links": [
+        "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31",
+        "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31",
+      "title": "Hacettepe Üniversitesi",
+      "text_len": 3752,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31",
+        "https://tip.hacettepe.edu.tr/tr/akademik_takvim-31",
+        "https://fs.hacettepe.edu.tr/tip/ekler/pdf/takvim20262027.pdf",
+        "https://fs.hacettepe.edu.tr/tip/ekler/pdf/2025-2026Akademikkurul.pdf",
+        "https://fs.hacettepe.edu.tr/tip/ekler/pdf/20242025AkademikTakvim.pdf",
+        "https://fs.hacettepe.edu.tr/tip/ekler/pdf/2023_2024_akademiktakvim.pdf"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 2
+  },
+  {
+    "id": "halic",
+    "institution": "Haliç Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "halic.edu.tr",
+    "chosen": {
+      "url": "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+      "title": "Tüm Duyurular | Haliç Üniversitesi",
+      "text_len": 13886,
+      "duyuru_links": [
+        "https://halic.edu.tr/tr/kurum-disi-duyurular/astrotip-kongresi",
+        "https://halic.edu.tr/tr/kurum-disi-duyurular/istanbul-okan-universitesi-temel-bilimler-arastirma-kursu",
+        "https://halic.edu.tr/tr/kurum-disi-duyurular/i-uluslararasi-saglik-ve-tip-bilimleri-kongresi-ustbk26",
+        "https://halic.edu.tr/tr/duyurular/canan-bayraktar-sagligin-gelecegi-burs-programi-hk",
+        "https://halic.edu.tr/tr/duyurular/2024-2025-guz-donemi-final-sinav-programi",
+        "https://halic.edu.tr/tr/duyurular/2023-2024-egitim-ogretim-yili-yaz-okulu-final-sinav-programi",
+        "https://halic.edu.tr/tr/duyurular/2023-2024-bahar-donemi-final-sinav-programi",
+        "https://halic.edu.tr/tr/duyurular/2023-2024-guz-donemi-butunleme-sinav-programi"
+      ],
+      "calendar_links": [
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim/2026-2027-akademik-takvim",
+      "title": "2026-2027 Akademik Takvim | Haliç Üniversitesi",
+      "text_len": 20677,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+        "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim/2026-2027-akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "harran",
+    "institution": "Harran Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "harran.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "hitit",
+    "institution": "Hitit Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "hitit.edu.tr",
+    "chosen": {
+      "url": "https://tip.hitit.edu.tr/tr/detay/is-sagligi-ve-guvenligi-duyurulari",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.hitit.edu.tr/tr/detay/is-sagligi-ve-guvenligi-duyurulari",
+      "title": "T.C. Hitit Üniversitesi Tıp Fakültesi",
+      "text_len": 7371,
+      "duyuru_links": [
+        "https://tip.hitit.edu.tr/tr/detay/is-sagligi-ve-guvenligi-duyurulari",
+        "https://tip.hitit.edu.tr/tr/detay/is-sagligi-ve-guvenligi-duyurulari"
+      ],
+      "calendar_links": [
+        "javascript:;",
+        "https://tip.hitit.edu.tr/tr/detay/2022-2023-akademik-takvim",
+        "https://tip.hitit.edu.tr/tr/detay/2021-2022-akademik-takvim",
+        "https://tip.hitit.edu.tr/tr/detay/2020-2021-akademik-takvim",
+        "https://tip.hitit.edu.tr/tr/detay/2019-2020-akademik-takvim",
+        "https://tip.hitit.edu.tr/tr/detay/2018-2019-akademik-takvim"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "ibu",
+    "institution": "Bolu Abant İzzet Baysal Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ibu.edu.tr",
+    "chosen": {
+      "url": "https://tip.ibu.edu.tr/tr/news",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ibu.edu.tr/tr/news",
+      "title": "Tüm Duyurular | TIP FAKÜLTESİ",
+      "text_len": 13203,
+      "duyuru_links": [
+        "https://tip.ibu.edu.tr/tr/news-detail/duyuru-masum-gibi-gorunen-tehlike-banka-hesabi-kiralama-konusunda-onemli-uyari/19843",
+        "https://tip.ibu.edu.tr/tr/news-detail/2025-2026-ogretim-yili-tev-universite-egitim-burs-basvuru-duyurusu/18866",
+        "https://tip.ibu.edu.tr/tr/news-detail/2024-2025-egitim-ogretim-yili-mezuniyet-toreni-duyurusu/17246",
+        "https://tip.ibu.edu.tr/tr/news-detail/ogrenci-temsilci-secimi-hakkinda-duyuru/15274",
+        "https://tip.ibu.edu.tr/tr/news-detail/2-sinif-tibbi-ingilizce-dersi-final-sinavi-duyurusu/13561"
+      ],
+      "calendar_links": [
+        "https://tip.ibu.edu.tr/Files/ckFiles/tip-ibu-edu-tr/ogrenci/ders/2026-2027/2026-2027_Tip_Fakultesi_Akademik_Takvim.pdf",
+        "https://tip.ibu.edu.tr/tr/page/akademik-takvim-ve-ders-programlari/22612",
+        "https://tip.ibu.edu.tr/tr/page/akademik-takvim-ve-ders-programlari/22612",
+        "https://tip.ibu.edu.tr/Files/ckFiles/tip-ibu-edu-tr/ogrenci/ders/2026-2027/2026-2027_Tip_Fakultesi_Akademik_Takvim.pdf",
+        "https://tip.ibu.edu.tr/tr/page/akademik-takvim-ve-ders-programlari/22612",
+        "https://tip.ibu.edu.tr/tr/page/akademik-takvim-ve-ders-programlari/22612"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "idu",
+    "institution": "İzmir Demokrasi Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "idu.edu.tr",
+    "chosen": {
+      "url": "https://tip.idu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.idu.edu.tr/",
+      "title": "İzmir Demokrasi Üniversitesi",
+      "text_len": 464,
+      "duyuru_links": [],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "ieu",
+    "institution": "İzmir Ekonomi Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ieu.edu.tr",
+    "chosen": {
+      "url": "https://tip.ieu.edu.tr/tr/announcements/type/all",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ieu.edu.tr/tr/announcements/type/all",
+      "title": "Duyurular - TÄ±p | Ä°zmir Ekonomi Ãniversitesi",
+      "text_len": 10440,
+      "duyuru_links": [
+        "https://tip.ieu.edu.tr/tr/announcements/type/all"
+      ],
+      "calendar_links": [
+        "https://www.ieu.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.ieu.edu.tr/tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ieu.edu.tr/tr/akademik-takvim",
+      "title": "Akademik Takvim - Ana Sayfa | İzmir Ekonomi Üniversitesi",
+      "text_len": 31691,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.ieu.edu.tr/tr/2026-2027-akademik-takvimi"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "ikc",
+    "institution": "İzmir Kâtip Çelebi Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ikc.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "inonu",
+    "institution": "İnönü Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "inonu.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "istanbul_tip",
+    "institution": "İstanbul Üniversitesi",
+    "faculty": "İstanbul Tıp Fakültesi",
+    "host": "istanbul.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 12,
+    "ok_hits": 0
+  },
+  {
+    "id": "istinye",
+    "institution": "İstinye Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "istinye.edu.tr",
+    "chosen": {
+      "url": "https://www.istinye.edu.tr/tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.istinye.edu.tr/tr/duyurular",
+      "title": "Duyurular | İstinye Üniversitesi",
+      "text_len": 6734,
+      "duyuru_links": [
+        "https://www.istinye.edu.tr/tr/duyurular",
+        "https://www.istinye.edu.tr/tr/duyurular/akademik-kadro-duzeltme-ilani-19082026",
+        "https://www.istinye.edu.tr/tr/duyurular/tekstil-ve-moda-tasarimi-bolumu-2026-ozel-yetenek-sinavi-sonuclari-aciklandi",
+        "https://www.istinye.edu.tr/tr/duyurular/akademik-kadro-ilanlari-14082026",
+        "https://www.istinye.edu.tr/tr/duyurular/7592-sayili-kanun-ile-ogrenci-affi-duzenlemesi-duyurusu",
+        "https://www.istinye.edu.tr/tr/duyurular/cop31-akademik-katki-ve-proje-onerileri-cagrisi",
+        "https://www.istinye.edu.tr/tr/duyurular/tekstil-ve-moda-tasarimi-ozel-yetenek-sinavi-basvuru-suresi-uzatildi",
+        "https://www.istinye.edu.tr/tr/duyurular/yaz-okulu-final-sinav-programi-0"
+      ],
+      "calendar_links": [
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/yeni-ogrenci-kaydi/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+      "title": "Akademik Takvim | İstinye Üniversitesi",
+      "text_len": 4553,
+      "duyuru_links": [
+        "https://www.istinye.edu.tr/tr/duyurular",
+        "https://www.istinye.edu.tr/tr/duyurular"
+      ],
+      "calendar_links": [
+        "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/yeni-ogrenci-kaydi/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/ogrenci-isleri/akademik-takvim",
+        "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+        "https://www.istinye.edu.tr/sites/default/files/docs/2026-08/tip-fakultesi-akademik-takvim-26-27_0.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "istun",
+    "institution": "İstanbul Sağlık ve Teknoloji Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "istun.edu.tr",
+    "chosen": {
+      "url": "https://tip.istun.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.istun.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 5139,
+      "duyuru_links": [
+        "https://tip.istun.edu.tr/tr/haberler-duyurular-946",
+        "https://tip.istun.edu.tr/tr/duyurular-1103",
+        "https://tip.istun.edu.tr/tr/duyurular-1103"
+      ],
+      "calendar_links": [
+        "https://www.istun.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.istun.edu.tr/tr/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.istun.edu.tr/tr/akademik-takvim",
+      "title": "Akademik Takvim",
+      "text_len": 6338,
+      "duyuru_links": [
+        "https://www.istun.edu.tr/tr/haberler-duyurular",
+        "https://www.istun.edu.tr/tr/duyurular",
+        "https://www.istun.edu.tr/tr/duyurular"
+      ],
+      "calendar_links": [
+        "https://www.istun.edu.tr/tr/akademik-takvim",
+        "https://www.istun.edu.tr/tr/akademik-takvim",
+        "https://www.istun.edu.tr/tr/akademik-takvim",
+        "https://www.istun.edu.tr/uploads/data/2026-08-13/2026-2027%20E%C4%9Fitim-%C3%96%C4%9Fretim%20Y%C4%B1l%C4%B1%20Akademik%20Takvimi.pdf",
+        "https://www.istun.edu.tr/uploads/data/2026-08-18/2026-2027%20T%C4%B1p%20Fak%C3%BCltesi%20Akademik%20Takvimi.pdf",
+        "https://www.istun.edu.tr/uploads/data/2026-08-14/2026-2027%20D%C4%B0%C5%9E%20HEK%C4%B0ML%C4%B0%C4%9E%C4%B0%20FAK%C3%9CLTES%C4%B0%20AKADEM%C4%B0K%20TAKV%C4%B0MI.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "kafkas",
+    "institution": "Kafkas Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "kafkas.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "karabuk",
+    "institution": "Karabük Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "karabuk.edu.tr",
+    "chosen": {
+      "url": "https://tip.karabuk.edu.tr/index.aspx",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.karabuk.edu.tr/index.aspx",
+      "title": "TIP FAKÜLTESİ",
+      "text_len": 4232,
+      "duyuru_links": [
+        "https://tip.karabuk.edu.tr/index.aspx",
+        "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=D&id=7593&BA=index.aspx",
+        "https://tip.karabuk.edu.tr/Duyuru_tum.aspx?BA=index.aspx"
+      ],
+      "calendar_links": [
+        "https://tip.karabuk.edu.tr/yuklenen/dosyalar/12629052025153611.pdf",
+        "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1129&BA=index.aspx"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "karatay",
+    "institution": "KTO Karatay Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "karatay.edu.tr",
+    "chosen": {
+      "url": "https://www.karatay.edu.tr/tr/duyuru/2026/08/21/2026-ogrenci-affi",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.karatay.edu.tr/tr/duyuru/2026/08/21/2026-ogrenci-affi",
+      "title": "2026 Öğrenci Affı - KTO Karatay Üniversitesi",
+      "text_len": 8124,
+      "duyuru_links": [
+        "https://www.karatay.edu.tr/tr/duyurular",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/21/2026-ogrenci-affi",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/17/2026-2027-akademik-yili-guz-donemi-erasmus-ingilizce-sinav-basvurulari",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/11/2026-2027-akademik-yili-tip-fakultesi-yatay-gecis-sonuclari",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/01/universite-ogrencilerine-dabis-bilgilendirmesi",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/07/28/2026-2027-akademik-yili-devam-eden-ogrenciler-icin-ogrenim-ucreti-odeme-bilgilendirmesi",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/21/2026-ogrenci-affi",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/17/2026-2027-akademik-yili-guz-donemi-erasmus-ingilizce-sinav-basvurulari"
+      ],
+      "calendar_links": [
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+      "title": "Öğrenci İşleri Direktörlüğü 2026-2027 Akademik Takvim - KTO Karatay Üniversitesi",
+      "text_len": 16314,
+      "duyuru_links": [
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/duyurular",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/21/2026-ogrenci-affi",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/17/2026-2027-akademik-yili-guz-donemi-erasmus-ingilizce-sinav-basvurulari",
+        "https://www.karatay.edu.tr/tr/duyuru/2026/08/11/2026-2027-akademik-yili-tip-fakultesi-yatay-gecis-sonuclari"
+      ],
+      "calendar_links": [
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+        "javascript:;",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2026-2027-akademik-takvim",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2025-2026-akademik-takvim",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-isleri-direktorlugu/akademik-takvim/2024-2025-akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 4
+  },
+  {
+    "id": "kastamonu",
+    "institution": "Kastamonu Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "kastamonu.edu.tr",
+    "chosen": {
+      "url": "https://tip.kastamonu.edu.tr/index.php?option=com_sppagebuilder&view=page&id=60",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.kastamonu.edu.tr/index.php?option=com_sppagebuilder&view=page&id=60",
+      "title": "Kastamonu Üniversitesi Tıp Fakültesi",
+      "text_len": 2968,
+      "duyuru_links": [
+        "https://tip.kastamonu.edu.tr/index.php/2026-yks-kesin-kay-t-duyurusu",
+        "https://tip.kastamonu.edu.tr/index.php/2026-yks-kesin-kay-t-duyurusu"
+      ],
+      "calendar_links": [
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+      "title": "2025-2026 Eğitim-Öğretim Yılı Akademik Takvimi",
+      "text_len": 1864,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://www.facebook.com/sharer.php?u=https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+        "https://twitter.com/share?url=https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim&text=2025-2026%20Eğitim-Öğretim%20Yılı%20Akademik%20Takvimi",
+        "https://tip.kastamonu.edu.tr/images/belgeler/akademik-takvim-2025-2026.pdf",
+        "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "kku",
+    "institution": "Kırıkkale Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "kku.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "klu",
+    "institution": "Kırklareli Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "klu.edu.tr",
+    "chosen": {
+      "url": "https://tip.klu.edu.tr/Sayfa_Gruplari/399-duyurular.klu/detay/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.klu.edu.tr/Sayfa_Gruplari/399-duyurular.klu/detay/",
+      "title": "Duyurular - KLU - Tıp Fakültesi",
+      "text_len": 18242,
+      "duyuru_links": [
+        "https://tip.klu.edu.tr/Sayfalar/45871-yabanci-dil-ingilizce-dersi-muafiyet-ve-yeterlik-sinavi-duyurusu.klu",
+        "https://tip.klu.edu.tr/Sayfalar/45787-ayagina-saglik-toplantisinin-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/45529-2026-kurumsal-egitici-egitimi-ihtiyac-analizi-anketi-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/44802-2025-2026-tuda-anketi-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/44639-2025-2026-kurumsal-ogrenci-memnuniyet-anketi-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/41936-kapsayici-ve-surdurulebilir-nitelikli-egitimi-kurumsallastirma-calistayi-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/41876---kurumsal-egitici-egitimi-programi-duyurusu.klu",
+        "https://eogk.klu.edu.tr/Sayfalar/41752-2025-2026-guz-donemi-ogrencilerin-ders-degerlendirme-anketi-duyurusu.klu"
+      ],
+      "calendar_links": [
+        "https://oidb.klu.edu.tr/Yardimci_Sayfalar/1877-akademik-takvim.klu"
+      ]
+    },
+    "calendar": {
+      "url": "https://oidb.klu.edu.tr/Yardimci_Sayfalar/1877-akademik-takvim.klu",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://oidb.klu.edu.tr/Yardimci_Sayfalar/1877-akademik-takvim.klu",
+      "title": "Akademik Takvim - KLU - Öğrenci İşleri Daire Başkanlığı",
+      "text_len": 5645,
+      "duyuru_links": [
+        "http://oidb.klu.edu.tr/dosyalar/birimler/oidb/dosyalar/dosya_ve_belgeler/oid.kl.002_duyurular_menusu_kilavuzu.pdf"
+      ],
+      "calendar_links": [
+        "https://oidb.klu.edu.tr/Yardimci_Sayfalar/1877-akademik-takvim.klu",
+        "https://oidb.klu.edu.tr/dosyalar/birimler/oidb/dosyalar/dosya_ve_belgeler/oid.ia.002-akademik_takvim_hazirlanmasi.pdf",
+        "https://oidb.klu.edu.tr/Yardimci_Sayfalar/1877-akademik-takvim.klu",
+        "https://oidb.klu.edu.tr/dosyalar/birimler/oidb/dosyalar/dosya_ve_belgeler/klu_2026-2027_on_lisans_ve_lisans_akademik_takvimi.pdf",
+        "https://oidb.klu.edu.tr/dosyalar/birimler/oidb/dosyalar/dosya_ve_belgeler/klu_2026-2027_lisansustu_akademik_takvimi.pdf",
+        "https://oidb.klu.edu.tr/dosyalar/birimler/oidb/dosyalar/dosya_ve_belgeler/klu_2026-2027_tip_fakultesi_akademik_takvimi.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "kmu",
+    "institution": "Karamanoğlu Mehmetbey Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "kmu.edu.tr",
+    "chosen": {
+      "url": "https://www.kmu.edu.tr/tip/duyuru/48819/fakultemiz-dekani-prof-dr-pembe-olyulu-nun-yeni-kayit-hakki-kazanan-ogrencilerimize-mesaji/tr",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.kmu.edu.tr/tip/duyuru/48819/fakultemiz-dekani-prof-dr-pembe-olyulu-nun-yeni-kayit-hakki-kazanan-ogrencilerimize-mesaji/tr",
+      "title": "Fakültemiz Dekanı Prof. Dr. Pembe OLTULU' nun yeni kayıt hakkı kazanan öğrencilerimize mesajı - Tıp Fakültesi",
+      "text_len": 4393,
+      "duyuru_links": [
+        "https://www.kmu.edu.tr/tip/tumduyurular/tr"
+      ],
+      "calendar_links": [
+        "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr",
+        "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr",
+      "title": "AKADEMİK TAKVİM - Tıp Fakültesi",
+      "text_len": 2894,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr",
+        "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "koc",
+    "institution": "Koç Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ku.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "kocaeli",
+    "institution": "Kocaeli Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "kocaeli.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "ksbu",
+    "institution": "Kütahya Sağlık Bilimleri Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ksbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.ksbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ksbu.edu.tr/defaultx",
+      "title": "Tıp Fakültesi",
+      "text_len": 24896,
+      "duyuru_links": [
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/files/NOT_DOeNUeSUeM_TABLOSU.pdf",
+        "https://medya.ksbu.edu.tr/duyuru_medya/uploads/12/12671d0a201d2fa_y%C3%B6k-u%C3%A7ep2020-mezuniyet-oncesi-tip-egitimi-cekirdek-egitimi-programi.pdf",
+        "https://tip.ksbu.edu.tr/defaultx/duyurular/",
+        "https://tip.ksbu.edu.tr/defaultx/duyuru/10501/2026-2027-egitim-ogretim-yili-guz-yariyili-merkezi-yerlestirme-puaniyla-ek-madde-1-yatay-gecis-sonuclari",
+        "https://tip.ksbu.edu.tr/defaultx/duyuru/10497/7592-sayili-kanun-kapsaminda-ogrenci-affi-basvuru-duyurusu",
+        "https://tip.ksbu.edu.tr/defaultx/duyuru/10484/2026-yks-sonuclarina-gore-universitemize-yerlesen-ogrenciler-icin-kayit-duyurusu",
+        "https://tip.ksbu.edu.tr/defaultx/duyuru/10437/yatay-gecis-basvurulari-icin-belge-talebinde-bulunacak-universitemiz-ogrencilerinin-dikkatine",
+        "https://tip.ksbu.edu.tr/defaultx/duyuru/10405/2026-2027-egitim-ogretim-yili-guz-yariyili-merkezi-yerlestirme-puaniyla-ek-madde-1-yatay-gecis-duyurusu"
+      ],
+      "calendar_links": [
+        "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim",
+      "title": "Tıp Fakültesi",
+      "text_len": 2835,
+      "duyuru_links": [
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/files/NOT_DOeNUeSUeM_TABLOSU.pdf",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/document/doc_6a7ed7751330e.pdf",
+        "https://medya.ksbu.edu.tr/duyuru_medya/uploads/12/1268ad64e8ae865_KSB%C3%9C%20TIP%20FAK%C3%9CLTES%C4%B0%20AKADEM%C4%B0K%20TAKV%C4%B0M%20%202025-2026_26.08.2025.pdf",
+        "https://medya.ksbu.edu.tr/duyuru_medya/uploads/12/12683ebb8f62302_126683faf802df4_2024-2025%20t%C4%B1p%20akademik%20takvim.pdf",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/files/Akademik_Takvim_-_2023-2024.pdf",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/images/2022-2023_akademik_takvim.png",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/images/ders_program_.jpg",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/files/T_p_Fakueltesi_2020-2021_Akademik.docx"
+      ],
+      "calendar_links": [
+        "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/document/doc_6a7ed7751330e.pdf",
+        "https://medya.ksbu.edu.tr/duyuru_medya/uploads/12/1268ad64e8ae865_KSB%C3%9C%20TIP%20FAK%C3%9CLTES%C4%B0%20AKADEM%C4%B0K%20TAKV%C4%B0M%20%202025-2026_26.08.2025.pdf",
+        "https://medya.ksbu.edu.tr/duyuru_medya/uploads/12/12683ebb8f62302_126683faf802df4_2024-2025%20t%C4%B1p%20akademik%20takvim.pdf",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/files/Akademik_Takvim_-_2023-2024.pdf",
+        "https://tip.ksbu.edu.tr/duyuru_medya/uploads/12/images/2022-2023_akademik_takvim.png"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 5
+  },
+  {
+    "id": "ksu",
+    "institution": "Kahramanmaraş Sütçü İmam Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ksu.edu.tr",
+    "chosen": {
+      "url": "https://tipfakultesi.ksu.edu.tr/default.aspx?DId=103704",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tipfakultesi.ksu.edu.tr/default?DId=103704",
+      "title": "KSÜ - Pamukkale Üni. - ASTROTIP Kongresi Duyurusu",
+      "text_len": 3876,
+      "duyuru_links": [
+        "https://tipfakultesi.ksu.edu.tr/default?DId=KSU&MI=21841",
+        "https://kvkk.ksu.edu.tr/depo/duyuru_belge/Ayd%C4%B1nlatma%20Metni%20KVKK_2103120352102113.pdf"
+      ],
+      "calendar_links": [
+        "https://drive.google.com/file/d/1RxyjHDds_Gj4S51VeONycAdH74yvEvQr/view?usp=sharing"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "ktu",
+    "institution": "Karadeniz Teknik Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ktu.edu.tr",
+    "chosen": {
+      "url": "https://med.ktu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.ktu.edu.tr/",
+      "title": "Apache2 Debian Default Page: It works",
+      "text_len": 3298,
+      "duyuru_links": [],
+      "calendar_links": []
+    },
+    "calendar": {
+      "url": "https://www.ktu.edu.tr/oidb/akademiktakvim",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://www.ktu.edu.tr/oidb/akademiktakvim",
+      "title": "akademik takvim | Öğrenci İşleri Daire Başkanlığı",
+      "text_len": 9216,
+      "duyuru_links": [
+        "https://www.ktu.edu.tr/oidb/diger-universite-ve-kurumlarin-duyurulari"
+      ],
+      "calendar_links": [
+        "https://www.ktu.edu.tr/oidb/akademiktakvim",
+        "https://www.ktu.edu.tr/dosyalar/oidb_CiXIf.pdf",
+        "https://www.ktu.edu.tr/dosyalar/oidb_aoDJr.pdf",
+        "https://www.ktu.edu.tr/dosyalar/oidb_1vjdI.pdf",
+        "https://www.ktu.edu.tr/dosyalar/oidb_ANAEb.pdf",
+        "https://www.ktu.edu.tr/dosyalar/oidb_yfJmE.pdf"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 3
+  },
+  {
+    "id": "lokmanhekim",
+    "institution": "Lokman Hekim Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "lokmanhekim.edu.tr",
+    "chosen": {
+      "url": "https://www.lokmanhekim.edu.tr/tum-duyurular/754",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.lokmanhekim.edu.tr/tum-duyurular/754",
+      "title": "Tüm Duyurular - Lokman Hekim Üniversitesi",
+      "text_len": 5095,
+      "duyuru_links": [
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/akademik-ilan-on-degerlendirme-sonuclari",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/ogrencilerimiz-icin-yurt-imkanlari",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/2026-yks-ogrenci-odeme-bilgileri",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/2026-yks-sonuclarina-gore-kayit-rehberi",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/ingilizce-hazirlik-seviye-tespit-sinavi-ve-yeterlik-sinavi-2",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/mevcut-ogrenciler-icin-01-04-eylul-2026-gecikmeli-odeme-tarihleri",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/kismi-zamanli-ogrenci-ilani",
+        "https://www.lokmanhekim.edu.tr/tum-duyurular/754/2026-2027-yili-guz-yan-dal-basvuru-duyurusu"
+      ],
+      "calendar_links": []
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 4
+  },
+  {
+    "id": "maltepe",
+    "institution": "Maltepe Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "maltepe.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "marmara",
+    "institution": "Marmara Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "marmara.edu.tr",
+    "chosen": {
+      "url": "https://tip.marmara.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.marmara.edu.tr/",
+      "title": "Tıp Fakültesi - Marmara Üniversitesi",
+      "text_len": 3749,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim",
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.marmara.edu.tr/egitim/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.marmara.edu.tr/egitim/akademik-takvim",
+      "title": "Akademik Takvim | Tıp Fakültesi | Marmara Üniversitesi",
+      "text_len": 2638,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim",
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim",
+        "https://tip.marmara.edu.tr/bolumler/akademik-takvim/2013-2014-akademik-takvim/",
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim/2014-2015-akademik-takvim",
+        "https://tip.marmara.edu.tr/egitim/akademik-takvim/2015-2016-akademik-takvim",
+        "http://tip.marmara.edu.tr/egitim/akademik-takvim/2016-2017-akademik-takvim/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "mcbu",
+    "institution": "Manisa Celal Bayar Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "mcbu.edu.tr",
+    "chosen": {
+      "url": "http://tip.mcbu.edu.tr/mentor-basvuru-2026-duyuru.70077.tr.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "http://tip.mcbu.edu.tr/mentor-basvuru-2026-duyuru.70077.tr.html",
+      "title": "Mentor Basvuru-2026-Duyuru",
+      "text_len": 6889,
+      "duyuru_links": [],
+      "calendar_links": [
+        "http://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html",
+        "https://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html",
+      "title": "2023-24 Akademik Takvim",
+      "text_len": 2679,
+      "duyuru_links": [],
+      "calendar_links": [
+        "http://tip.mcbu.edu.tr/db_images/web/2025-2026 akademik takvim____2025-2026.JPG",
+        "https://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "medeniyet",
+    "institution": "İstanbul Medeniyet Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "medeniyet.edu.tr",
+    "chosen": {
+      "url": "https://engelsiz.medeniyet.edu.tr/tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://engelsiz.medeniyet.edu.tr/tr/duyurular",
+      "title": "Duyurular",
+      "text_len": 5093,
+      "duyuru_links": [
+        "https://engelsiz.medeniyet.edu.tr/tr/duyurular",
+        "https://engelsiz.medeniyet.edu.tr/tr/duyurular"
+      ],
+      "calendar_links": [
+        "https://www.medeniyet.edu.tr/tr/ogrenci/genel/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.medeniyet.edu.tr/tr/ogrenci/genel/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.medeniyet.edu.tr/tr/ogrenci/genel/akademik-takvim",
+      "title": "Akademik Takvim",
+      "text_len": 6175,
+      "duyuru_links": [
+        "https://engelsiz.medeniyet.edu.tr/tr/duyurular",
+        "https://www.medeniyet.edu.tr/documents/ogrenciisleri/667_duyuru/2022-2023-akademik-takvim-revize.pdf",
+        "https://www.medeniyet.edu.tr/documents/ogrenciisleri/667_duyuru/20222023akademiktakvim01.pdf",
+        "https://ogrenciisleri.medeniyet.edu.tr/tr/duyurular/imu-2021-2022-egitim-ogretim-yili-guz-ve-bahar-yariyili-akademik-takvimi",
+        "https://ogrenciisleri.medeniyet.edu.tr/tr/duyurular/imu-2020-2021-egitim-ogretim-yili-guz-yariyili-akademik-takvimi",
+        "https://ogrenciisleri.medeniyet.edu.tr/tr/duyurular/istanbul-medeniyet-universitesi-2019-2020-bahar-yariyili-revize-2-akademik-takvimi",
+        "https://www.medeniyet.edu.tr/tr/duyurular"
+      ],
+      "calendar_links": [
+        "https://www.medeniyet.edu.tr/tr/ogrenci/genel/akademik-takvim",
+        "https://www.medeniyet.edu.tr/documents/basinyayin/doc/2026-2027-egitim-ogretim-yili-akademik-takvimi.pdf",
+        "https://www.medeniyet.edu.tr/documents/file/dosya/2025/06/2025-2026-egitim-ogretim-yili-akademik-takvimi.pdf",
+        "https://www.medeniyet.edu.tr/documents/file/dosya/2024/06/2024-2025-akademik-takvim.pdf",
+        "https://www.medeniyet.edu.tr/documents/file/dosya/2023-2024-akademik-takvim_29_08_2023-guncel-hali-18_09_2023.pdf",
+        "https://www.medeniyet.edu.tr/documents/ogrenciisleri/667_duyuru/2022-2023-akademik-takvim-revize.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 5
+  },
+  {
+    "id": "medipol",
+    "institution": "İstanbul Medipol Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "medipol.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "mersin",
+    "institution": "Mersin Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "mersin.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "mku",
+    "institution": "Hatay Mustafa Kemal Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "mku.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "mu",
+    "institution": "Muğla Sıtkı Koçman Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "mu.edu.tr",
+    "chosen": {
+      "url": "https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-merkezi-yerlestirme-puanina-gore-ek-madde1-yatay-gecis-gecici-sonuc-listesi-76918",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-merkezi-yerlestirme-puanina-gore-ek-madde1-yatay-gecis-gecici-sonuc-listesi-76918",
+      "title": "Tıp Fakültesi - Muğla Sıtkı Koçman Üniversitesi-2026-2027 Eğitim-Öğretim Yılı Merkezi Yerleştirme Puanına Göre (Ek Madde-1) Yatay Geçiş Geçici Sonuç Listesi",
+      "text_len": 2893,
+      "duyuru_links": [
+        "http://www.facebook.com/sharer/sharer.php?u=https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-merkezi-yerlestirme-puanina-gore-ek-madde1-yatay-gecis-gecici-sonuc-listesi-76918&t=2026-2027 Eğitim-Öğretim Yılı Merkezi Yerleştirme Puanına Göre (Ek Madde-1) Yatay Geçiş Geçici Sonuç Listesi",
+        "http://twitter.com/share?text=2026-2027 Eğitim-Öğretim Yılı Merkezi Yerleştirme Puanına Göre (Ek Madde-1) Yatay Geçiş Geçici Sonuç Listesi&url=https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-merkezi-yerlestirme-puanina-gore-ek-madde1-yatay-gecis-gecici-sonuc-listesi-76918&hashtags=msku",
+        "https://muweb.mu.edu.tr/Newfiles/31/31/Web Duyurusu Birleştirilmiş.pdf",
+        "https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-merkezi-yerlestirme-puanina-gore-ek-madde1-yatay-gecis-gecici-sonuc-listesi-76918",
+        "https://tip.mu.edu.tr/tr/duyuru/fakultemize-hosgeldiniz-76902",
+        "https://tip.mu.edu.tr/tr/duyuru/osmosis-tip-egitim-platformu-76870",
+        "https://tip.mu.edu.tr/tr/duyuru/20262027-egitimogretim-yili-tip-fakultesi-ogrenci-temsilcileri-secim-takvimi-76835",
+        "https://tip.mu.edu.tr/tr/duyuru/-tip-fakultesi-20262027-egitimogretim-yili-kurumici-ve-kurumlararasi-yatay-gecis-kesin-sonuclari-76807"
+      ],
+      "calendar_links": []
+    },
+    "calendar": {
+      "url": "https://tip.mu.edu.tr/tr/akademik-takvim-6442",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.mu.edu.tr/tr/akademik-takvim-6442",
+      "title": "Akademik Takvim-Tıp Fakültesi - Muğla Sıtkı Koçman Üniversitesi",
+      "text_len": 2563,
+      "duyuru_links": [],
+      "calendar_links": [
+        "http://www.facebook.com/sharer/sharer.php?u=https://tip.mu.edu.tr/tr/akademik-takvim-6442&t=Akademik Takvim",
+        "http://twitter.com/share?text=Akademik Takvim&url=https://tip.mu.edu.tr/tr/akademik-takvim-6442&hashtags=msku",
+        "https://tip.mu.edu.tr/Newfiles/31/Content/25-26%20AKADEMI%CC%87K%20TAKVI%CC%87M%20(30-07-2025).pdf",
+        "https://tip.mu.edu.tr/Newfiles/31/Content/akademik takvim 29-04-2024( 23_08_2024).pdf",
+        "https://tip.mu.edu.tr/tr/akademik-takvim-6442"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 5
+  },
+  {
+    "id": "nisantasi",
+    "institution": "Nişantaşı Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "nisantasi.edu.tr",
+    "chosen": {
+      "url": "https://tip.nisantasi.edu.tr/duyuru/20262027-egitim-ogretim-yili-intorn-programi-168571",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.nisantasi.edu.tr/duyuru/20262027-egitim-ogretim-yili-intorn-programi-168571",
+      "title": "İstanbul Nişantaşı Üniversitesi - Tıp Fakültesi",
+      "text_len": 4632,
+      "duyuru_links": [
+        "http://twitter.com/intent/tweet?url=https://www.tip.nisantasi.edu.tr/duyuru/20262027-egitim-ogretim-yili-intorn-programi-168571",
+        "https://www.facebook.com/sharer/sharer.php?u=https://www.tip.nisantasi.edu.tr/duyuru/20262027-egitim-ogretim-yili-intorn-programi-168571",
+        "https://www.pinterest.com/pin/create/button/?url=https://www.tip.nisantasi.edu.tr/duyuru/20262027-egitim-ogretim-yili-intorn-programi-168571",
+        "https://tip.nisantasi.edu.tr/duyuru/duyuru/3-donem-butunleme-sinavi-800932",
+        "https://tip.nisantasi.edu.tr/duyuru/duyuru/tip-fakultesi-donem-2-butunleme-sinav-listesi-657577",
+        "https://tip.nisantasi.edu.tr/duyuru/duyuru/donem-iv-klinik-stajlari-butunleme-sinavlarina-girecek-ogrenci-listeleri-869729",
+        "https://tip.nisantasi.edu.tr/duyuru/duyuru/donem1-butunleme-sinavina-girebilecek-ogrenciler-listesi-481209",
+        "https://tip.nisantasi.edu.tr/duyuru/duyuru/tip-fakultesi-donem2-finale-girebilecek-ogrenci-listesi-190311"
+      ],
+      "calendar_links": [
+        "https://www.nisantasi.edu.tr/Uploads/TIP_FAKÜLTESİ_AKADEMİK_TAKVİM.pdf",
+        "https://www.nisantasi.edu.tr/Uploads/TIP_FAKÜLTESİ_AKADEMİK_TAKVİM.pdf"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 5
+  },
+  {
+    "id": "nku",
+    "institution": "Tekirdağ Namık Kemal Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "nku.edu.tr",
+    "chosen": {
+      "url": "https://tip.nku.edu.tr:443/0/duyuruarsiv/m/0/0/43",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.nku.edu.tr:443/0/duyuruarsiv/m/0/0/43",
+      "title": "Tıp Fakültesi",
+      "text_len": 29367,
+      "duyuru_links": [
+        "https://tip.nku.edu.tr:443/2026-2027AkademikYılıGüzYarıyılıEkMadde1MerkeziYerleştimePuanıileYatayGeçişSonuçları/duyuruayrinti/m/0/69601/43",
+        "https://tip.nku.edu.tr:443/7592SayılıKanunİle2547SayılıKanunaEklenenGeçici85.MaddeKapsamındaÜniversitemizUygulamaSüreçVeİlkeleri/duyuruayrinti/m/0/69602/43",
+        "https://tip.nku.edu.tr:443/2026-2027AkademikYılıGüzYarıyılıTıpFakültesiKurumlarArası2.ve3.SınıfYatayGeçişSonuçları/duyuruayrinti/m/0/69544/43",
+        "https://tip.nku.edu.tr:443/2026-2027AkademikYılıGüzYarıyılıTıpFakültesiKurumlarArası4.ve5.SınıfYatayGeçişSonuçları/duyuruayrinti/m/0/69300/43",
+        "https://tip.nku.edu.tr:443/Taziye/duyuruayrinti/m/0/69181/43",
+        "https://tip.nku.edu.tr:443/Taziye/duyuruayrinti/m/0/69185/43",
+        "https://tip.nku.edu.tr:443/2026-2027AkademikYılıGüzYarıyılıYatayGeçişİlanı/duyuruayrinti/m/0/69079/43",
+        "https://tip.nku.edu.tr:443/KEGDerslerindenYeterlikAlamayanÖğrencilerinTelafiSınavTarihleri/duyuruayrinti/m/0/68645/43"
+      ],
+      "calendar_links": [
+        "https://tip.nku.edu.tr:443/AkademikTakvim/0/s/11124/19040#icerik",
+        "https://tip.nku.edu.tr:443/2021-2022EğitimÖğretimYılıAkademikTakvimiYayınlanmıştır./duyuruayrinti/m/0/34926/43",
+        "https://tip.nku.edu.tr:443/TıpFakültesi2019-2020YazDönemiAkademikTakvimi/duyuruayrinti/m/0/30478/43"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.nku.edu.tr:443/AkademikTakvim/0/s/11124/19040#icerik",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.nku.edu.tr:443/AkademikTakvim/0/s/11124/19040#icerik",
+      "title": "Tıp Fakültesi",
+      "text_len": 3274,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.nku.edu.tr:443/AkademikTakvim/0/s/11124/19040#icerik"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "odu",
+    "institution": "Ordu Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "odu.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "ogu",
+    "institution": "Eskişehir Osmangazi Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ogu.edu.tr",
+    "chosen": {
+      "url": "https://tip.ogu.edu.tr/Duyuru/Index",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ogu.edu.tr/Duyuru/Index",
+      "title": "Tüm Duyurular - ESKİŞEHİR OSMANGAZİ ÜNİVERSİTESİ TIP FAKÜLTESİ | Eskişehir Osmangazi Üniversitesi",
+      "text_len": 2133,
+      "duyuru_links": [
+        "https://tip.ogu.edu.tr/Duyuru/Detay/194/olcme-ve-degerlendirme-calistay-programi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/192/istanbul-seririyati-1919-1952-tanitim-toplantisi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/191/konferans-girisimsel-olmayan-klinik-arastirmalar-etik-kurul-basvuru-ve-degerlendirme-surecleri",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/189/uzmanlik-ogrencileri-kurum-uyum-egitimi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/187/probleme-dayali-ogrenim-egitim-yonlendiricisi-egitimi-kurs-programi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/188/egitim-becerileri-kurs-programi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/186/probleme-dayali-ogrenim-egitim-yonlendiricisi-egitimi-kurs-programi",
+        "https://tip.ogu.edu.tr/Duyuru/Detay/185/egitim-becerileri-kurs-programi"
+      ],
+      "calendar_links": [
+        "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim",
+      "title": "Akademik Takvim - ESKİŞEHİR OSMANGAZİ ÜNİVERSİTESİ TIP FAKÜLTESİ | Eskişehir Osmangazi Üniversitesi",
+      "text_len": 1828,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim",
+        "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "ohu",
+    "institution": "Niğde Ömer Halisdemir Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ohu.edu.tr",
+    "chosen": {
+      "url": "https://www.ohu.edu.tr/duyuru/universitemizde-spor-aktiviteleri-devam-ediyor/34602",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ohu.edu.tr/duyuru/universitemizde-spor-aktiviteleri-devam-ediyor/34602",
+      "title": "Niğde Ömer Halisdemir Üniversitesi duyuru Üniversitemizde Spor Aktiviteleri Devam Ediyor",
+      "text_len": 9443,
+      "duyuru_links": [
+        "https://www.ohu.edu.tr/duyuru/universitemizde-spor-aktiviteleri-devam-ediyor/34602",
+        "https://www.ohu.edu.tr/guzelsanatlarfakultesi/duyuru/96773",
+        "https://www.ohu.edu.tr/egitimfakultesi/duyuru/96772",
+        "https://www.ohu.edu.tr/konservatuvar/duyuru/96771",
+        "https://ohu.edu.tr/oidb/duyuru/96770",
+        "https://ohu.edu.tr/oidb/duyuru/96751",
+        "https://www.ohu.edu.tr/fenbilimlerienstitusu/duyuru/96749",
+        "https://www.ohu.edu.tr/fenbilimlerienstitusu/duyuru/86742"
+      ],
+      "calendar_links": [
+        "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+        "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+      "title": "Niğde Ömer Halisdemir Üniversitesi  Öğrenci İşleri Daire Başkanlığı  akademik-takvim",
+      "text_len": 7130,
+      "duyuru_links": [
+        "https://static.ohu.edu.tr/uniweb/media/portallar/oidb//duyurular/947/btf1h5t0.pdf",
+        "https://static.ohu.edu.tr/uniweb/media/portallar/oidb//duyurular/947/btf1h5t0.pdf"
+      ],
+      "calendar_links": [
+        "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+        "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+        "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+        "https://static.ohu.edu.tr/uniweb/media/portallar/oidb//sayfalar/2974/3lto31gb.pdf",
+        "https://static.ohu.edu.tr/uniweb/media/portallar/oidb//sayfalar/2974/luw0sxgg.pdf",
+        "https://static.ohu.edu.tr/uniweb/media/portallar/oidb//sayfalar/2974/lwhtrhx0.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 4
+  },
+  {
+    "id": "okan",
+    "institution": "İstanbul Okan Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "okan.edu.tr",
+    "chosen": {
+      "url": "https://tip.okan.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.okan.edu.tr/tip/",
+      "title": "Anasayfa - Tıp Fakültesi -  İstanbul Okan Üniversitesi",
+      "text_len": 21650,
+      "duyuru_links": [
+        "https://www.okan.edu.tr/sayfa/9038/yabanci-diller-koordinatorlugu-duyurulari/",
+        "https://www.okan.edu.tr/duyuru/13353/yaz-okulu-kayitlari-26-haziran-2025-tarihine-kadar-devam-edecektir/",
+        "https://www.okan.edu.tr/duyuru/13866/ogrenim-affi-duyurusu/",
+        "https://www.okan.edu.tr/duyuru/13866/ogrenim-affi-duyurusu/",
+        "https://www.okan.edu.tr/sayfa/8670/duyurular/",
+        "https://www.okan.edu.tr/tip/duyuru/",
+        "https://www.okan.edu.tr/tip/duyuru/13823/mezuniyet-torenimize-katilacak-ogrencilerin-dikkatine/",
+        "https://www.okan.edu.tr/tip/duyuru/13823/mezuniyet-torenimize-katilacak-ogrencilerin-dikkatine/"
+      ],
+      "calendar_links": [
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "https://www.okan.edu.tr/sayfa/7848/pace-programi-akademik-takvimi/",
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "javascript:;",
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "https://www.okan.edu.tr/sayfa/8917/2025-2026-akademik-takvim/"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+      "title": "2026 - 2027 Akademik Takvim -  İstanbul Okan Üniversitesi",
+      "text_len": 47346,
+      "duyuru_links": [
+        "https://www.okan.edu.tr/sayfa/9038/yabanci-diller-koordinatorlugu-duyurulari/",
+        "https://www.okan.edu.tr/duyuru/13353/yaz-okulu-kayitlari-26-haziran-2025-tarihine-kadar-devam-edecektir/",
+        "https://www.okan.edu.tr/duyuru/13866/ogrenim-affi-duyurusu/",
+        "https://www.okan.edu.tr/duyuru/13866/ogrenim-affi-duyurusu/",
+        "https://www.okan.edu.tr/sayfa/8670/duyurular/",
+        "https://www.okan.edu.tr/sayfa/9038/yabanci-diller-koordinatorlugu-duyurulari/",
+        "https://www.okan.edu.tr/duyuru/13353/yaz-okulu-kayitlari-26-haziran-2025-tarihine-kadar-devam-edecektir/",
+        "https://www.okan.edu.tr/duyuru/13866/ogrenim-affi-duyurusu/"
+      ],
+      "calendar_links": [
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "https://www.okan.edu.tr/sayfa/7848/pace-programi-akademik-takvimi/",
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+        "javascript:;",
+        "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 3
+  },
+  {
+    "id": "omu",
+    "institution": "Ondokuz Mayıs Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "omu.edu.tr",
+    "chosen": {
+      "url": "https://tip.omu.edu.tr/tr/haberler",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.omu.edu.tr/tr/haberler",
+      "title": "Tıp Fakültesi",
+      "text_len": 5168,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://oidb.omu.edu.tr/akademik-takvimler/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+      "title": "Tıp Fakültesi",
+      "text_len": 3458,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.omu.edu.tr/en/ogrenci/akademik-takvim",
+        "https://tip.omu.edu.tr/ar/ogrenci/akademik-takvim",
+        "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim/2025-2026__Akademik_Takvimi (3).pdf",
+        "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim/2025-2026_Akademik_Takvim_Tip_Ingilizce.pdf"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 2
+  },
+  {
+    "id": "ozal",
+    "institution": "Malatya Turgut Özal Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ozal.edu.tr",
+    "chosen": {
+      "url": "https://tipfakultesi.ozal.edu.tr/announcements-detail/5282",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tipfakultesi.ozal.edu.tr/announcements-detail/5282",
+      "title": "Uluslararası Araştırma Programları (AKAP, DOSAP, GEP) 2026 Yılı 2. Dönem Başvuru Duyurusu\n | Malatya Turgut Özal Üniversitesi",
+      "text_len": 8876,
+      "duyuru_links": [
+        "https://www.yok.gov.tr/tr/announcements/uluslararasi-arastirma-programlari-akap-dosap-gep-2026-yili-2-donem-basvuru-duyurusu-QTuAT?s=08",
+        "https://tipfakultesi.ozal.edu.tr/announcements-detail/5129"
+      ],
+      "calendar_links": [
+        "https://tipfakultesi.ozal.edu.tr/page/4055",
+        "https://tipfakultesi.ozal.edu.tr/page/4055"
+      ]
+    },
+    "calendar": {
+      "url": "https://tipfakultesi.ozal.edu.tr/page/4055",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tipfakultesi.ozal.edu.tr/page/4055",
+      "title": "Akademik Takvim\n | Malatya Turgut Özal Üniversitesi",
+      "text_len": 8596,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tipfakultesi.ozal.edu.tr/page/4055",
+        "https://tipfakultesi.ozal.edu.tr/page/4055",
+        "https://tipfakultesi.ozal.edu.tr/subdomain_files/tipfakultesi.ozal.edu.tr/files/121/2026-2027 akademik takvim son 11.08.2026.pdf",
+        "https://tipfakultesi.ozal.edu.tr/subdomain_files/tipfakultesi.ozal.edu.tr/files/121/2025-2026 akademik takvim.pdf",
+        "https://tipfakultesi.ozal.edu.tr/subdomain_files/tipfakultesi.ozal.edu.tr/files/121/2024-2025 Akademik Takvim.pdf",
+        "https://tipfakultesi.ozal.edu.tr/subdomain_files/tipfakultesi.ozal.edu.tr/files/121/2023-2024.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "pau",
+    "institution": "Pamukkale Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "pau.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 11,
+    "ok_hits": 0
+  },
+  {
+    "id": "sakarya",
+    "institution": "Sakarya Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "sakarya.edu.tr",
+    "chosen": {
+      "url": "https://tip.sakarya.edu.tr/tr/duyuru/goster/156958/engelsiz-tip-fakultesi-ozel-gereksinimli-ogrenciler-icin-destekler",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sakarya.edu.tr/tr/duyuru/goster/156958/engelsiz-tip-fakultesi-ozel-gereksinimli-ogrenciler-icin-destekler",
+      "title": "Sakarya Üniversitesi | Tıp Fakültesi | Duyuru | ENGELSİZ TIP FAKÜLTESİ - ÖZEL GEREKSİNİMLİ ÖĞRENCİLER İÇİN DESTEKLER",
+      "text_len": 19906,
+      "duyuru_links": [
+        "https://tip.sakarya.edu.tr/tr/duyuru/goster/156958/engelsiz-tip-fakultesi-ozel-gereksinimli-ogrenciler-icin-destekler",
+        "http://tip.sakarya.edu.tr/en/duyuru/goster/156958/engelsiz-tip-fakultesi-ozel-gereksinimli-ogrenciler-icin-destekler",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goster/156958/engelsiz-tip-fakultesi-ozel-gereksinimli-ogrenciler-icin-destekler",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goruntule/liste",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goruntule",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goruntule/liste/6981/",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goruntule/liste/12249/",
+        "https://tip.sakarya.edu.tr/tr/duyuru/goruntule/liste/130178/"
+      ],
+      "calendar_links": [
+        "https://drive.google.com/file/d/1T0y6XuyNpflkRSzAFQthnEoj9Vt5nCT0/view?usp=sharing",
+        "https://drive.google.com/file/d/1G0sPxGa1dCiB6W3gF5ENyhksrAEgZjt1/view?usp=sharing",
+        "https://drive.google.com/file/d/1T0y6XuyNpflkRSzAFQthnEoj9Vt5nCT0/view?usp=sharing",
+        "https://drive.google.com/file/d/1G0sPxGa1dCiB6W3gF5ENyhksrAEgZjt1/view?usp=sharing"
+      ]
+    },
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sanko",
+    "institution": "Sanko Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "sanko.edu.tr",
+    "chosen": {
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+      "title": "Duyurular - Sanko Üniversitesi | Sanko Üniversitesi",
+      "text_len": 4133,
+      "duyuru_links": [
+        "https://www.sanko.edu.tr/en/fakulteler/tip-fakultesi/duyurular/",
+        "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+        "https://www.sanko.edu.tr/duyuru/tip-fakultesi-2-ve-3-sinif-ogrencilerinin-dikkatine-2/",
+        "https://www.sanko.edu.tr/duyuru/tip-fakultesi-2-ve-3-sinif-ogrencilerinin-dikkatine-2/",
+        "https://www.sanko.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-tip-fakultesi-5-sinif-oryantasyon-egitimi-programi/",
+        "https://www.sanko.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-tip-fakultesi-5-sinif-oryantasyon-egitimi-programi/",
+        "https://www.sanko.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-tip-fakultesi-4-sinif-oryantasyon-egitimi-programi/",
+        "https://www.sanko.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-tip-fakultesi-4-sinif-oryantasyon-egitimi-programi/"
+      ],
+      "calendar_links": [
+        "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/",
+      "title": "Akademik Takvim - Sanko Üniversitesi | Sanko Üniversitesi",
+      "text_len": 2640,
+      "duyuru_links": [
+        "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/"
+      ],
+      "calendar_links": [
+        "https://www.sanko.edu.tr/en/fakulteler/tip-fakultesi/akademik-takvim/",
+        "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "sbu_adana",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Adana Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_bursa",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Bursa Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_erzurum",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Erzurum Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_gulhane",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Gülhane Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 13,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_hamidiye",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Hamidiye Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 12,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_hamidiye_int",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Hamidiye Uluslararası Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_izmir",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "İzmir Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sbu_trabzon",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Trabzon Tıp Fakültesi",
+    "host": "sbu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sbu.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/",
+      "title": "Hamidiye Tıp Fakültesi",
+      "text_len": 4487,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "title": "Akademik Takvim - Hamidiye Tıp Fakültesi",
+      "text_len": 4888,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+        "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "sdu",
+    "institution": "Süleyman Demirel Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "sdu.edu.tr",
+    "chosen": {
+      "url": "https://tip.sdu.edu.tr/tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.sdu.edu.tr/tr/duyurular",
+      "title": "Duyuru Arşivi - Tıp Fakültesi Dekanlığı - Süleyman Demirel Üniversitesi",
+      "text_len": 24505,
+      "duyuru_links": [
+        "https://tip.sdu.edu.tr/tr/haber/2026-2027-merkezi-yerlestirme-puani-ile-ek-madde-1-yatay-gecis-duyurusu-60277h.html",
+        "https://tip.sdu.edu.tr/tr/haber/2026-2027-egitim-ogretim-yili-donem-6-ders-kayit-duyurusu-59795h.html",
+        "https://tip.sdu.edu.tr/tr/haber/kongre-basvuru-duyurusu-59125h.html",
+        "https://tip.sdu.edu.tr/tr/haber/turkiye-saha-epidemiyolojisi-sertifikali-egitim-programi-2026-donemi-duyurusu-58976h.html",
+        "https://tip.sdu.edu.tr/tr/haber/fakultemiz-etkinlik-duyuru-talep-formu-guncellenmistir-45094h.html",
+        "https://tip.sdu.edu.tr/tr/haber/2025-2026-bahar-yariyili-ders-kaydi-ve-harc-odeme-islemleri-duyurusu-57180h.html",
+        "https://w3.sdu.edu.tr/m/DuyuruHaber.aspx?dhid=13457",
+        "https://tip.sdu.edu.tr/tr/haber/onemli-duyuru-53785h.html"
+      ],
+      "calendar_links": [
+        "https://tip.sdu.edu.tr/tr/haber/fakultemiz-2025-2026-akademik-takvim-taslagi-53091h.html"
+      ]
+    },
+    "calendar": {
+      "url": "https://oidb.sdu.edu.tr/tr/hizli-erisim/akademik-takvim-15449s.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://oidb.sdu.edu.tr/tr/hizli-erisim/akademik-takvim-15449s.html",
+      "title": "AKADEMİK TAKVİM - Öğrenci İşleri Daire Başkanlığı - Süleyman Demirel Üniversitesi",
+      "text_len": 2833,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/2026-2027-egitim-ogretim-yili-akademik-takvim.pdf",
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/tip-akademik-takvim-2026-2027.pdf",
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/dis-fakultesi-akademik-takvim.pdf",
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/yabanci-diller-yuksekokulu-2026-2027.pdf",
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/hukuk-akademik-takvim2026-2027.pdf",
+        "https://oidb.sdu.edu.tr/assets/uploads/sites/73/files/2025-2026-akademik-takvim.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "selcuk",
+    "institution": "Selçuk Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "selcuk.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "siirt",
+    "institution": "Siirt Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "siirt.edu.tr",
+    "chosen": {
+      "url": "https://tip.siirt.edu.tr/duyuru/tumu/233517.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.siirt.edu.tr/duyuru/tumu/233517.html",
+      "title": "Siirt Üniversitesi",
+      "text_len": 2532,
+      "duyuru_links": [
+        "https://tip.siirt.edu.tr/duyuru/tumu/233517.html",
+        "https://tip.siirt.edu.tr/duyuru/siirt-universitesi-tip-fakultesinde-ileri-duzey-koroner-girisimlerde-yeni-bir-basari/63257721.html",
+        "https://tip.siirt.edu.tr/duyuru/tusa-girecek-ogrencilerimize-basarilar-diliyoruz/591951520.html",
+        "https://tip.siirt.edu.tr/duyuru/morfoloji-laboratuvarlarinin-teknik-ve-islevsel-planlamasinda-son-asamaya-gelindi/179579523.html",
+        "https://tip.siirt.edu.tr/duyuru/tip-fakultesinde-cerrahi-egitim-ve-klinik-uygulamalarda-yeni-donem-degerlendirildi/489978796.html"
+      ],
+      "calendar_links": [
+        "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html",
+      "title": "Akademik Takvim",
+      "text_len": 2074,
+      "duyuru_links": [
+        "https://tip.siirt.edu.tr/duyuru/tumu/233517.html"
+      ],
+      "calendar_links": [
+        "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 6
+  },
+  {
+    "id": "tinaztepe",
+    "institution": "İzmir Tınaztepe Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "tinaztepe.edu.tr",
+    "chosen": {
+      "url": "https://www.tinaztepe.edu.tr/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.tinaztepe.edu.tr/duyurular",
+      "title": "İzmir Tınaztepe Üniversitesi - İZTÜ - Duyurular",
+      "text_len": 41160,
+      "duyuru_links": [
+        "https://www.tinaztepe.edu.tr/duyurular",
+        "https://tinaztepe.edu.tr/tr/duyurular",
+        "https://tinaztepe.edu.tr/tr/ogrenci/ogrenci-duyurular",
+        "https://tinaztepe.edu.tr/tr/duyuru/2026-yks-kayit-islemleri-duyurusu-2026-08-18",
+        "https://tinaztepe.edu.tr/tr/duyuru/yeni-ogrenci-icin-ogrenim-ucretleri-2026-07-21",
+        "https://tinaztepe.edu.tr/tr/duyuru/merkezi-yerlestirme-puani-ek-madde-1-ile-yatay-gecis-kayit-duyurusu-2026-08-21",
+        "https://tinaztepe.edu.tr/tr/duyuru/2026-2027-guz-donemi-iztu-lee-yuksek-lisans-giris-sinav-sonuclari-2026-08-18",
+        "https://tinaztepe.edu.tr/tr/duyuru/ogretim-elemanlari-nihai-degerlendirme-sonucu-shmyo-dpt-2026-08-17"
+      ],
+      "calendar_links": [
+        "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tinaztepe.edu.tr/tr/duyuru/2025-2026-akademik-takvim-guncellendi-2025-06-10",
+        "https://tinaztepe.edu.tr/tr/duyuru/2024-2025-akademik-takvim-guncellendi-2024-09-09",
+        "https://tinaztepe.edu.tr/tr/duyuru/2023-2024-egitim-ogretim-yili-akademik-takvimi-guncellendi",
+        "https://tinaztepe.edu.tr/tr/duyuru/saglik-bilimleri-fakultesi-ve-saglik-hizmetleri-meslek-yuksekokulu-akademik-takvimi"
+      ]
+    },
+    "calendar": {
+      "url": "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+      "title": "İzmir Tınaztepe Üniversitesi - İZTÜ - Akademik Takvim",
+      "text_len": 6088,
+      "duyuru_links": [
+        "https://tinaztepe.edu.tr/tr/ogrenci/duyurular",
+        "https://tinaztepe.edu.tr/tr/duyurular",
+        "https://tinaztepe.edu.tr/tr/ogrenci/ogrenci-duyurular",
+        "https://tinaztepe.edu.tr/tr/ogrenci/ogrenci-duyurular",
+        "https://tinaztepe.edu.tr/tr/ogrenci/ogrenci-duyurular"
+      ],
+      "calendar_links": [
+        "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tinaztepe.edu.tr/tr/ogrenci/akademik-takvim",
+        "https://tinaztepe.edu.tr/uploads/akademik_takvim/tip-fakultesi-donem-1-2025-2026-akademik-takvim-05-09-2025.pdf?v=1787531431",
+        "https://tinaztepe.edu.tr/uploads/akademik_takvim/tip-fakultesi-donem-2-2025-2026-akademik-takvim.pdf?v=1787531431",
+        "https://tinaztepe.edu.tr/uploads/akademik_takvim/tip-fakultesi-donem-3-2025-2026-akademik-takvim.pdf?v=1787531431"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 4
+  },
+  {
+    "id": "trakya",
+    "institution": "Trakya Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "trakya.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "ufuk",
+    "institution": "Ufuk Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "ufuk.edu.tr",
+    "chosen": {
+      "url": "https://www.ufuk.edu.tr/home/universite-genel-duyurular/ogrenim-ucreti-odemeleri-hakkinda-bilgilendirme-2",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.ufuk.edu.tr/home/universite-genel-duyurular/ogrenim-ucreti-odemeleri-hakkinda-bilgilendirme-2",
+      "title": "ÖĞRENİM ÜCRETİ ÖDEMELERİ HAKKINDA BİLGİLENDİRME | Ufuk Üniversitesi",
+      "text_len": 7326,
+      "duyuru_links": [
+        "https://www.ufuk.edu.tr/home/duyurular",
+        "https://www.ufuk.edu.tr/home/duyurular/universite-genel-duyurular"
+      ],
+      "calendar_links": []
+    },
+    "calendar": {
+      "url": "https://www.ufuk.edu.tr/ogrenci-isleri/akademik-takvimler",
+      "ok": true,
+      "faculty_like": false,
+      "status": 200,
+      "final": "https://www.ufuk.edu.tr/ogrenci-isleri/akademik-takvimler",
+      "title": "Akademik Takvimler | Ufuk Üniversitesi",
+      "text_len": 2393,
+      "duyuru_links": [],
+      "calendar_links": [
+        "https://www.ufuk.edu.tr/ogrenci-isleri/akademik-takvimler",
+        "https://www.ufuk.edu.tr/ogrenci-isleri/akademik-takvimler/2026-2027-akademik-takvimler",
+        "https://www.ufuk.edu.tr/ogrenci-isleri/2026-2027-akademik-takvimler/2026-2027-egitim-ogretim-yili-akademik-takvimi-tip-ve-hukuk-fakultesi-haric-31072026",
+        "https://www.ufuk.edu.tr/ogrenci-isleri/2026-2027-akademik-takvimler/2026-2027-egitim-ogretim-yili-tip-fakultesi-akademik-takvimi-31072026",
+        "https://www.ufuk.edu.tr/ogrenci-isleri/2026-2027-akademik-takvimler/2026-2027-egitim-ogretim-yili-hukuk-fakultesi-akademik-takvimi-31072026",
+        "https://www.ufuk.edu.tr/ogrenci-isleri/2026-2027-akademik-takvimler/2026-2027-egitim-ogretim-yili-cift-ana-dal-yan-dal-programlari-akademik-takvimi-31072026"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "uludag",
+    "institution": "Bursa Uludağ Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "uludag.edu.tr",
+    "chosen": {
+      "url": "https://www.uludag.edu.tr/tip/duyuru",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.uludag.edu.tr/tip/duyuru",
+      "title": "Duyuru | TIP FAKÜLTESİ | Bursa Uludağ Üniversitesi",
+      "text_len": 2560,
+      "duyuru_links": [
+        "https://uludag.edu.tr/ailehekimligi/duyuru/view?id=38483&title=mezuniyet-sonrasi-tipta-uzmanlik-egitimi-oz-degerlendirme-raporu",
+        "https://www.uludag.edu.tr/dosyalar/tip/dosyalar/duyuru_arsiv/duyurular_arsiv.html"
+      ],
+      "calendar_links": [
+        "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+        "https://www.uludag.edu.tr/tip/akademik-takvim-86919"
+      ]
+    },
+    "calendar": {
+      "url": "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+      "title": "Akademik Takvim | TIP FAKÜLTESİ | Bursa Uludağ Üniversitesi",
+      "text_len": 3265,
+      "duyuru_links": [
+        "https://uludag.edu.tr/ailehekimligi/duyuru/view?id=38483&title=mezuniyet-sonrasi-tipta-uzmanlik-egitimi-oz-degerlendirme-raporu",
+        "https://www.uludag.edu.tr/dosyalar/tip/dosyalar/duyuru_arsiv/duyurular_arsiv.html"
+      ],
+      "calendar_links": [
+        "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+        "http://www.uludag.edu.tr/dosyalar/tip/dosyalar/akademik-takvim/26-27/2026-2027_AKADEMIK_TAKVIM%20(ASAMA_3-DONEM_6).pdf",
+        "http://www.uludag.edu.tr/dosyalar/tip/dosyalar/akademik-takvim/26-27/2026-2027_AKADEMIK_TAKVIM(ASAMA-2-DONEM_5).pdf",
+        "http://www.uludag.edu.tr/dosyalar/tip/dosyalar/akademik-takvim/26-27/26-27-4-asama2-donem-4-staj.pdf",
+        "http://www.uludag.edu.tr/dosyalar/tip/dosyalar/akademik-takvim/26-27/2026-2027_akademik_takvim_290626.pdf",
+        "https://www.uludag.edu.tr/dosyalar/tip/dosyalar/akademik-takvim/25-26asama3-donem6.pdf"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "usak",
+    "institution": "Uşak Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "usak.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "uskudar",
+    "institution": "Üsküdar Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "uskudar.edu.tr",
+    "chosen": {
+      "url": "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+      "title": "Tıp Fakültesi Duyurular | Üsküdar Üniversitesi",
+      "text_len": 3336,
+      "duyuru_links": [
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular"
+      ],
+      "calendar_links": [
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/duyuru/2026-2027-egitim-ogretim-yili-tip-fakultesi-akademik-takvimi/8643"
+      ]
+    },
+    "calendar": {
+      "url": "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+      "title": "Tıp Fakültesi Akademik Takvim | Üsküdar Üniversitesi",
+      "text_len": 2786,
+      "duyuru_links": [
+        "https://uskudar.edu.tr/tip-fakultesi/duyurular"
+      ],
+      "calendar_links": [
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+        "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim"
+      ]
+    },
+    "tried": 11,
+    "ok_hits": 2
+  },
+  {
+    "id": "yalova",
+    "institution": "Yalova Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "yalova.edu.tr",
+    "chosen": {
+      "url": "https://tip.yalova.edu.tr/",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.yalova.edu.tr/",
+      "title": "Tıp Fakültesi",
+      "text_len": 4903,
+      "duyuru_links": [
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260105_051130158_akademik-tesvik-kmsyn.pdf&dosyaAd=Akademik%20Te%C5%9Fvik%20Kmsyn.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260515_024245342_kurul.pdf&dosyaAd=Kurul.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260326_102233715_bidr.pdf&dosyaAd=B%C4%B0DR.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115859001_akran-raporu.pdf&dosyaAd=Akran%20Raporu.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115310459_oz-degerlendirme.pdf&dosyaAd=%C3%96z%20De%C4%9Ferlendirme.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115310459_oz-degerlendirme.pdf&dosyaAd=%C3%96z%20De%C4%9Ferlendirme.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260105_051130158_akademik-tesvik-kmsyn.pdf&dosyaAd=Akademik%20Te%C5%9Fvik%20Kmsyn.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260515_024245342_kurul.pdf&dosyaAd=Kurul.pdf&isPreview=True"
+      ],
+      "calendar_links": [
+        "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+        "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+        "https://tip.yalova.edu.tr/Icerik/Detay/2026-2027-egitim-ogretim-yili-akademik-takvimi",
+        "https://tip.yalova.edu.tr/Icerik/Detay/2026-2027-egitim-ogretim-yili-akademik-takvimi"
+      ]
+    },
+    "calendar": {
+      "url": "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+      "title": "Yalova Üniversitesi",
+      "text_len": 4159,
+      "duyuru_links": [
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260105_051130158_akademik-tesvik-kmsyn.pdf&dosyaAd=Akademik%20Te%C5%9Fvik%20Kmsyn.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260515_024245342_kurul.pdf&dosyaAd=Kurul.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260326_102233715_bidr.pdf&dosyaAd=B%C4%B0DR.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115859001_akran-raporu.pdf&dosyaAd=Akran%20Raporu.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115310459_oz-degerlendirme.pdf&dosyaAd=%C3%96z%20De%C4%9Ferlendirme.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20251231_115310459_oz-degerlendirme.pdf&dosyaAd=%C3%96z%20De%C4%9Ferlendirme.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260105_051130158_akademik-tesvik-kmsyn.pdf&dosyaAd=Akademik%20Te%C5%9Fvik%20Kmsyn.pdf&isPreview=True",
+        "https://tip.yalova.edu.tr/tr/Duyuru/DosyaIndir?dosyaUrl=%2FUploads%2FT%C4%B1p%20Fak%C3%BCltesi%2FFILE_20260515_024245342_kurul.pdf&dosyaAd=Kurul.pdf&isPreview=True"
+      ],
+      "calendar_links": [
+        "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+        "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+        "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 1
+  },
+  {
+    "id": "yeditepe",
+    "institution": "Yeditepe Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "yeditepe.edu.tr",
+    "chosen": {
+      "url": "https://med.yeditepe.edu.tr/tr/duyurular/yks-2026-icin-tercih-yapacak-ogrencilerin-dikkatine",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://med.yeditepe.edu.tr/tr/duyurular/yks-2026-icin-tercih-yapacak-ogrencilerin-dikkatine",
+      "title": "YKS 2026 İÇİN TERCİH YAPACAK ÖĞRENCİLERİN DİKKATİNE!!! | Yeditepe Üniversitesi Tıp Fakültesi",
+      "text_len": 1442,
+      "duyuru_links": [
+        "https://med.yeditepe.edu.tr/tr/duyurular",
+        "https://twitter.com/intent/tweet?url=https://www.yeditepe.edu.tr/tr/duyurular/yks-2026-icin-tercih-yapacak-ogrencilerin-dikkatine",
+        "https://www.facebook.com/sharer/sharer.php?u=https://www.yeditepe.edu.tr/tr/duyurular/yks-2026-icin-tercih-yapacak-ogrencilerin-dikkatine",
+        "https://www.linkedin.com/shareArticle?url=https://www.yeditepe.edu.tr/tr/duyurular/yks-2026-icin-tercih-yapacak-ogrencilerin-dikkatine"
+      ],
+      "calendar_links": [
+        "https://yeditepe.edu.tr/tr/akademik/akademik-takvim",
+        "https://yeditepe.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    "calendar": {
+      "url": "https://yeditepe.edu.tr/tr/akademik/akademik-takvim",
+      "ok": true,
+      "faculty_like": true,
+      "status": 200,
+      "final": "https://yeditepe.edu.tr/tr/akademik/akademik-takvim",
+      "title": "Akademik Takvim | Yeditepe Üniversitesi",
+      "text_len": 86898,
+      "duyuru_links": [
+        "https://yeditepe.edu.tr/tr/ihale-duyurulari"
+      ],
+      "calendar_links": [
+        "https://yeditepe.edu.tr/tr/akademik/akademik-takvim",
+        "https://yeditepe.edu.tr/tr/akademik/akademik-takvim"
+      ]
+    },
+    "tried": 10,
+    "ok_hits": 2
+  },
+  {
+    "id": "yeniyuzyil",
+    "institution": "İstanbul Yeni Yüzyıl Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "yeniyuzyil.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "yuksekihtisas",
+    "institution": "Yüksek İhtisas Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "yuksekihtisas.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  },
+  {
+    "id": "yyu",
+    "institution": "Van Yüzüncü Yıl Üniversitesi",
+    "faculty": "Tıp Fakültesi",
+    "host": "yyu.edu.tr",
+    "chosen": null,
+    "calendar": null,
+    "tried": 10,
+    "ok_hits": 0
+  }
+]

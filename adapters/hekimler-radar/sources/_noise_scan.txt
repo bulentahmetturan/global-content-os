@@ -1,0 +1,73 @@
+GÜRÜLTÜ TARAMASI — kalan kaynaklar
+Toplam: 345
+
+=== NET GÜRÜLTÜ (kaldırılabilir) ===
+
+## uni_burs_ofisi (7) — SKS/kariyer gibi — kampüs burs ofisi, tıp-özel değil
+  - aksaray_burs_ofisi | Aksaray Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - balikesir_burs_ofisi | Balıkesir Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - cumhuriyet_burs_ofisi | Sivas Cumhuriyet Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - ksbu_burs_ofisi | Kütahya Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - maltepe_burs_ofisi | Maltepe Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - sbu_gulhane_burs_ofisi | Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi
+  - siirt_burs_ofisi | Siirt Üniversitesi Burs ve Öğrenci Destek Ofisi
+
+## belediye_burs (6) — genel öğrenci yardımı, tıp-özel değil
+  - belediye_burs_ankara | Ankara Büyükşehir Belediyesi Sosyal Hizmetler (Burs)
+  - belediye_burs_bursa | Bursa Büyükşehir Belediyesi Öğrenci Bursu
+  - belediye_burs_hatay | Hatay Büyükşehir Belediyesi Sosyal Hizmetler
+  - belediye_burs_kocaeli | Kocaeli Büyükşehir Belediyesi Öğrenci Bursu
+  - belediye_burs_manisa | Manisa Büyükşehir Belediyesi Eğitim Desteği (Senin İçin)
+  - belediye_burs_ordu | Ordu Büyükşehir Belediyesi Duyuruları (Sosyal Yardım)
+
+## postdoc_phd_only (6) — doktora sonrası — lisans tıp öğrencisi değil
+  - jsps_japonya | JSPS — Japonya'da Araştırma İçin Doktora Sonrası Burslar
+  - humboldt_almanya | Humboldt Araştırma Bursu (Almanya, doktora sonrası)
+  - embo_fellowships | EMBO — Doktora Sonrası Burslar (Yaşam Bilimleri)
+  - msca_postdoc | Marie Skłodowska-Curie Actions — Doktora Sonrası Burslar (AB)
+  - hfsp_fellowships | HFSP — Doktora Sonrası Burslar (Yaşam Bilimleri, tüm uyruklar)
+  - embl_postdoc | EMBL — Doktora Sonrası Burs Programları (Moleküler Biyoloji)
+
+## young_doctor_specialty (9) — asistan/genç hekim dernekleri — öğrenci değil
+  - eusem_young_em | EUSEM Young Emergency Medicine Doctors Section
+  - eyfdm_wonca | EYFDM — European Young Family Doctors Movement (WONCA Europe)
+  - uems_training_requirements | UEMS — European Training Requirements
+  - eanm_yim | EANM Young Investigators Meeting
+  - spr_awards | Society for Pediatric Research — Awards & Funding
+  - sir_in_training | SIR — Interventional Radiology In-Training Opportunities
+  - apa_pass | APA — Psychiatry Ambassadors and Student Scholarships (PASS)
+  - wonca_donald_li_scholarship | WONCA — Donald Li Young Doctor Global Scholarship
+  - vallhebron_visiting | Vall d'Hebron (Barselona) — Specialist Training Placements (Foreign Hospitals)
+
+## educator_org (1) — tıp eğitimcileri (AMEE) — öğrenci feed değil
+  - amee | AMEE — Association for Medical Education in Europe
+
+## generic_student_aid (1) — IBB vb. genel öğrenci — opsiyonel zayıf
+  - ibb_genc_universiteli | İBB Genç Üniversiteli Eğitim Desteği
+
+=== TUTULMALI ÇEKİRDEK ===
+  - tip_faculty_duyuru: çekirdek — fakülte duyuruları
+  - exams_intl: ÖSYM/TUS/USMLE/PLAB — tut
+  - turkmsic_emsa_ttb_tok: öğrenci örgütleri — tut
+  - national_burs: TÜBİTAK/TEV/VGM/Fulbright/Chevening/DAAD/MEXT — ulusal-program, tut (seçici)
+  - intl_visiting_clinical: tıp klinik elective — tut (yurt dışı staj)
+
+=== ÇOKLU TIP KAYNAĞI (gürültü değil, sadeleştirme adayı) ===
+  - Sağlık Bilimleri Üniversitesi: 7 -> tip_sbu_duyuru, tip_sbu_gulhane_duyuru, tip_sbu_duyuru_akademik_takvim, tip_sbu_duyuru_sinav_takvimi, tip_sbu_gulhane_duyuru_akademik_takvim, tip_sbu_gulhane_duyuru_sinav_takvimi, tip_sbu_gulhane_duyuru_staj_intornluk
+  - Aksaray Üniversitesi: 5 -> tip_aksaray_duyuru, tip_aksaray_duyuru_akademik_takvim, tip_aksaray_duyuru_ogrenci_konseyi, tip_aksaray_duyuru_koordinatorluk, tip_aksaray_duyuru_sinav_takvimi
+  - Malatya Turgut Özal Üniversitesi: 5 -> tip_ozal_duyuru, tip_ozal_duyuru_akademik_takvim, tip_ozal_duyuru_koordinatorluk, tip_ozal_duyuru_sinav_takvimi, tip_ozal_duyuru_staj_intornluk
+  - İstanbul Medipol Üniversitesi: 5 -> tip_medipol_duyuru, tip_medipol_duyuru_akademik_takvim, tip_medipol_duyuru_koordinatorluk, tip_medipol_duyuru_sinav_takvimi, tip_medipol_duyuru_staj_intornluk
+  - Kafkas Üniversitesi: 5 -> tip_kafkas_duyuru, tip_kafkas_duyuru_akademik_takvim, tip_kafkas_duyuru_koordinatorluk, tip_kafkas_duyuru_sinav_takvimi, tip_kafkas_duyuru_staj_intornluk
+  - Bandırma Onyedi Eylül Üniversitesi: 4 -> tip_bandirma_duyuru, tip_bandirma_duyuru_akademik_takvim, tip_bandirma_duyuru_sinav_takvimi, tip_bandirma_duyuru_staj_intornluk
+  - Bolu Abant İzzet Baysal Üniversitesi: 4 -> tip_ibu_duyuru, tip_ibu_duyuru_akademik_takvim, tip_ibu_duyuru_sinav_takvimi, tip_ibu_duyuru_staj_intornluk
+  - Gazi Üniversitesi: 4 -> tip_gazi_duyuru, tip_gazi_duyuru_akademik_takvim, tip_gazi_duyuru_koordinatorluk, tip_gazi_duyuru_staj_intornluk
+  - Hacettepe Üniversitesi: 4 -> tip_hacettepe_duyuru, tip_hacettepe_duyuru_akademik_takvim, tip_hacettepe_duyuru_ogrenci_konseyi, tip_hacettepe_duyuru_staj_intornluk
+  - Haliç Üniversitesi: 4 -> tip_halic_duyuru, tip_halic_duyuru_akademik_takvim, tip_halic_duyuru_koordinatorluk, tip_halic_duyuru_staj_intornluk
+  - Karabük Üniversitesi: 4 -> tip_karabuk_duyuru, tip_karabuk_duyuru_akademik_takvim, tip_karabuk_duyuru_koordinatorluk, tip_karabuk_duyuru_staj_intornluk
+  - Kırklareli Üniversitesi: 4 -> tip_klu_duyuru, tip_klu_duyuru_akademik_takvim, tip_klu_duyuru_sinav_takvimi, tip_klu_duyuru_staj_intornluk
+  - Manisa Celal Bayar Üniversitesi: 4 -> tip_mcbu_duyuru, tip_mcbu_duyuru_akademik_takvim, tip_mcbu_duyuru_sinav_takvimi, tip_mcbu_duyuru_staj_intornluk
+  - Sanko Üniversitesi: 4 -> tip_sanko_duyuru, tip_sanko_duyuru_akademik_takvim, tip_sanko_duyuru_sinav_takvimi, tip_sanko_duyuru_staj_intornluk
+  - İstanbul Atlas Üniversitesi: 4 -> tip_atlas_duyuru, tip_atlas_duyuru_akademik_takvim, tip_atlas_duyuru_sinav_takvimi, tip_atlas_duyuru_staj_intornluk
+
+Tahmini gürültü adedi: 30
+Temizlik sonrası kabaca: 315

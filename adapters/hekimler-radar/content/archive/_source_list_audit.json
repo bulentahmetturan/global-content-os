@@ -1,0 +1,2706 @@
+{
+  "audited_at": "2026-09-24T21:00:00Z",
+  "bible_version": "3.0",
+  "rubric": "derived_from_bible_7_1_7_4_8_2_19_24_34",
+  "bible_has_binary_source_list_pass_fail": false,
+  "summary": {
+    "haber": {
+      "n": 62,
+      "PASS": 60,
+      "FAIL": 1,
+      "HUMAN_REQUIRED": 1,
+      "UNKNOWN": 0
+    },
+    "research": {
+      "n": 46,
+      "PASS": 43,
+      "FAIL": 1,
+      "HUMAN_REQUIRED": 2,
+      "UNKNOWN": 0
+    },
+    "duyuru": {
+      "n": 80,
+      "PASS": 72,
+      "FAIL": 4,
+      "HUMAN_REQUIRED": 4,
+      "UNKNOWN": 0
+    },
+    "burs": {
+      "n": 65,
+      "PASS": 55,
+      "FAIL": 2,
+      "HUMAN_REQUIRED": 8,
+      "UNKNOWN": 0
+    },
+    "egitim": {
+      "n": 42,
+      "PASS": 24,
+      "FAIL": 5,
+      "HUMAN_REQUIRED": 13,
+      "UNKNOWN": 0
+    }
+  },
+  "hub_display_bugs": [
+    "Haber açıkken Eğitim katalog paneli (hekLane sızıntısı)",
+    "Research rozeti/inbox Haber sayısı kaçırıyor olabilir (aynı sızıntı)",
+    "Eğitim açıkken Burs katalog paneli",
+    "Burs 'Kaynak durumu (81)' Duyuru telemetrisi"
+  ],
+  "rows": [
+    {
+      "category": "haber",
+      "id": "news-aami-news-scoped",
+      "name": "AAMI News -- device standards/safety engineering/AI-device standards/lifecycle/HTM",
+      "url": "https://array.aami.org/content/news",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-nhs-aidrs-news-scoped",
+      "name": "AI and Digital Regulations Service -- Latest News / relevant Blog & regulatory updates",
+      "url": "https://www.digitalregulations.innovation.nhs.uk",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ansm-news-scoped",
+      "name": "ANSM -- Dispositifs médicaux/alertes/sécurité/surveillance/réglementation",
+      "url": "https://ansm.sante.fr/actualites",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ashp-safemedication-sitemap",
+      "name": "ASHP -- SafeMedication.com (sitemap)",
+      "url": "https://www.safemedication.com/sitemap.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-advamed-digital-health-scoped",
+      "name": "AdvaMed -- Digital Health Tech / AI in Medtech / Device Policy",
+      "url": "https://www.advamed.org/industry-topics/digital-health/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-africa-cdc-news-whole",
+      "name": "Africa CDC News (normal stream)",
+      "url": "https://africacdc.org/news-item/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-aa-saglik-scoped",
+      "name": "Anadolu Ajansı -- Sağlık only",
+      "url": "https://www.aa.com.tr/tr/saglik",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-bfarm-news-scoped",
+      "name": "BfArM -- Devices/DiGA/digital health/software/AI scope",
+      "url": "https://www.bfarm.de/EN/News/_node.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-jtc21-ai-health-gated",
+      "name": "CEN-CENELEC JTC 21 -- AI activity, health/medtech-gated",
+      "url": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-cleveland-clinic-health-essentials-sitemap",
+      "name": "Cleveland Clinic Health Essentials (sitemap)",
+      "url": "https://health.clevelandclinic.org/sitemap.xml",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-cleveland-clinic-newsroom-sitemap",
+      "name": "Cleveland Clinic Newsroom (sitemap)",
+      "url": "https://newsroom.clevelandclinic.org/sitemap.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-council-eu-epsco-health-scoped",
+      "name": "Council of the EU -- EPSCO/Health only",
+      "url": "https://www.consilium.europa.eu/en/meetings/epsco/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ec-dg-sante-health-scoped",
+      "name": "DG SANTE -- Health-related updates only",
+      "url": "https://health.ec.europa.eu",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ec-medical-devices-target",
+      "name": "EC Medical Devices sector -- latest updates",
+      "url": "https://health.ec.europa.eu/medical-devices-sector_en",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ecdc-news-whole",
+      "name": "ECDC News (normal stream)",
+      "url": "https://www.ecdc.europa.eu/en/news-events",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-edqm-news-whole",
+      "name": "EDQM News (normal stream)",
+      "url": "https://www.edqm.eu/en/news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ema-news-whole",
+      "name": "EMA News (normal stream)",
+      "url": "https://www.ema.europa.eu/en/news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-eur-lex-mdr-ivdr-health-query",
+      "name": "EUR-Lex -- MDR/IVDR/Health/AI-Act-x-Health Saved-Search Query",
+      "url": "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=medical+device+OR+MDR+OR+IVDR&type=quick&lang=en",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "erişim/challenge: http_202",
+      "mode": "PENDING_MANUAL"
+    },
+    {
+      "category": "haber",
+      "id": "news-euractiv-health-scoped",
+      "name": "Euractiv -- Health/Healthcare only",
+      "url": "https://www.euractiv.com/section/health-consumers/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-observatory-news-whole",
+      "name": "European Observatory on Health Systems and Policies (normal stream)",
+      "url": "https://eurohealthobservatory.who.int/news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ep-sant-scoped",
+      "name": "European Parliament -- SANT press releases / public-health highlights / legislative health decisions",
+      "url": "https://www.europarl.europa.eu/committees/en/sant/home/highlights",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-fda-press-scoped",
+      "name": "FDA -- Press Announcements/Device Safety/Digital Health/SaMD (consolidated)",
+      "url": "https://www.fda.gov/news-events/fda-newsroom/press-announcements",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-fda-cdrh-ai-ml-device",
+      "name": "FDA CDRH -- AI/ML-Enabled Medical Devices",
+      "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-fierce-medtech-scoped",
+      "name": "Fierce Medtech -- medtech/device content only",
+      "url": "https://www.fiercebiotech.com/medtech",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ec-hera-scoped",
+      "name": "HERA -- Preparedness/Countermeasures/Procurement/Shortages/Health-Emergency Tech",
+      "url": "https://health.ec.europa.eu/health-emergency-preparedness-and-response-hera_en",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hhs-press-scoped",
+      "name": "HHS Press Office -- AI-health/medtech/public-health/major regulation scope",
+      "url": "https://www.hhs.gov/about/news/index.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hma-news-whole",
+      "name": "HMA News (normal stream)",
+      "url": "https://www.hma.eu/news.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hpra-news-scoped",
+      "name": "HPRA -- Field Safety Notices / Recalls / Device Safety",
+      "url": "https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hsa-medical-devices-scoped",
+      "name": "HSA -- Medical Devices / Digital Health / Benefit-Risk / Safety-Regulatory Updates",
+      "url": "https://www.hsa.gov.sg/medical-devices",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hsgm-news-scoped",
+      "name": "HSGM -- Infectious Disease/Outbreaks/Vaccination/Public Health Operations",
+      "url": "https://hsgm.saglik.gov.tr/tr/duyurular",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ec-hta-htacg-target",
+      "name": "HTACG -- Member State Coordination Group on HTA",
+      "url": "https://health.ec.europa.eu/health-technology-assessment/implementation-regulation-health-technology-assessment/member-state-coordination-group-hta-htacg_en",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-health-canada-devices-scoped",
+      "name": "Health Canada -- Medical Devices / What's New / ML-enabled devices",
+      "url": "https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-hpw-news-whole",
+      "name": "Health Policy Watch (normal stream)",
+      "url": "https://healthpolicy-watch.news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-healthai-news-whole",
+      "name": "HealthAI News (normal stream)",
+      "url": "https://healthai.agency/news/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-imdrf-news-whole",
+      "name": "IMDRF News (normal stream)",
+      "url": "https://www.imdrf.org/news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-ec-mdcg-target",
+      "name": "MDCG -- Endorsed guidance / position documents / implementation guidance",
+      "url": "https://health.ec.europa.eu/medical-devices-sector/new-regulations/guidance-mdcg-endorsed-documents-and-other-guidance_en",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-medica-sphere-medtech-scoped",
+      "name": "MEDICA Sphere -- MedTech & Devices only",
+      "url": "https://www.medica-tradefair.com/en/News/MEDICA_Sphere",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-massdevice-news-whole",
+      "name": "MassDevice (normal stream)",
+      "url": "https://www.massdevice.com",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-medpagetoday-sitemap",
+      "name": "MedPage Today (news sitemap)",
+      "url": "https://www.medpagetoday.com/news-sitemap.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "NEWS_SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-medtech-dive-news-whole",
+      "name": "MedTech Dive (normal stream)",
+      "url": "https://www.medtechdive.com",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-medtech-europe-news-whole",
+      "name": "MedTech Europe News (normal stream)",
+      "url": "https://www.medtecheurope.org/news-and-events/news/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-medical-device-network-news-whole",
+      "name": "Medical Device Network (normal stream)",
+      "url": "https://www.medicaldevice-network.com",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-medical-news-today-sitemap",
+      "name": "Medical News Today (news sitemap)",
+      "url": "https://www.medicalnewstoday.com/news.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "NEWS_SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-mobihealthnews-ai-device-scoped",
+      "name": "MobiHealthNews -- AI/ML healthcare, diagnostics, regulated digital health, devices, wearables, digital therapeutics, imaging",
+      "url": "https://www.mobihealthnews.com",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-nice-healthtech-scoped",
+      "name": "NICE HealthTech -- devices/diagnostics/digital/AI technology evaluations",
+      "url": "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-medical-technologies-guidance",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-newswise-sitemap",
+      "name": "Newswise -- research/medical press releases (news sitemap)",
+      "url": "https://www.newswise.com/news-sitemap.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "NEWS_SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-oecd-health-scoped",
+      "name": "OECD -- Health only",
+      "url": "https://www.oecd.org/health/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-pmda-news-scoped",
+      "name": "PMDA -- Devices/SaMD/Review Reports/Safety/AI-Device Developments",
+      "url": "https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-raps-regulatory-focus-scoped",
+      "name": "RAPS Regulatory Focus -- device/digital-health/AI/major pharma-regulation scope",
+      "url": "https://www.raps.org/news-and-articles/news-articles",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-reuters-healthcare-scoped",
+      "name": "Reuters -- Healthcare/Pharma/Medtech/Diagnostics/Digital Health/AI-in-Health",
+      "url": "https://www.reuters.com/business/healthcare-pharmaceuticals/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-sgk-health-scoped",
+      "name": "SGK -- GSS/SUT/Reimbursement/MEDULA Health Scope",
+      "url": "https://www.sgk.gov.tr/Duyuru",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PENDING_MANUAL"
+    },
+    {
+      "category": "haber",
+      "id": "news-swissmedic-news-scoped",
+      "name": "Swissmedic -- Devices/safety/recalls/regulation/digital-AI-health scope",
+      "url": "https://www.swissmedic.ch/swissmedic/en/home/news.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-resmi-gazete-health-scoped",
+      "name": "T.C. Resmî Gazete -- Health-Only Scope",
+      "url": "https://www.resmigazete.gov.tr/fihrist",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "PENDING_MANUAL"
+    },
+    {
+      "category": "haber",
+      "id": "news-saglik-bakanligi-whole",
+      "name": "T.C. Sağlık Bakanlığı Haberler (normal stream)",
+      "url": "https://www.saglik.gov.tr/TR,10169/haberler.html",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-team-nb-news-whole",
+      "name": "Team-NB News (normal stream)",
+      "url": "https://www.team-nb.org/news/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-todays-dietitian-sitemap",
+      "name": "Today's Dietitian (sitemap)",
+      "url": "https://www.todaysdietitian.com/post-sitemap3.xml",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "SITEMAP"
+    },
+    {
+      "category": "haber",
+      "id": "news-tuseb-health-tech-innovation",
+      "name": "TÜSEB -- Health Technology / Innovation / Translational Health",
+      "url": "https://www.tuseb.gov.tr/haberler",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-tuyze-saglikta-yapay-zeka",
+      "name": "TÜYZE -- Sağlıkta Yapay Zekâ",
+      "url": "https://www.tuseb.gov.tr/tuyze",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-tuik-saglik-sosyal-koruma",
+      "name": "TÜİK -- Sağlık ve Sosyal Koruma only",
+      "url": "https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101",
+      "verdict": "FAIL",
+      "why": "fetch hata: The operation was aborted",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-titck-general-regulatory",
+      "name": "TİTCK -- Drug Safety / Medical-Device Regulation / National Regulatory Changes",
+      "url": "https://www.titck.gov.tr/duyurular",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-un-news-health-scoped",
+      "name": "UN News -- Health only",
+      "url": "https://news.un.org/en/tags/health",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "WEB_ONLY"
+    },
+    {
+      "category": "haber",
+      "id": "news-who-newsroom-whole",
+      "name": "WHO Newsroom (normal stream)",
+      "url": "https://www.who.int/api/news/newsitems",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "JSON_API"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-advances-nutrition",
+      "name": "Advances in Nutrition (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-ajcn",
+      "name": "American Journal of Clinical Nutrition (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-chest-journal",
+      "name": "CHEST",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-cell",
+      "name": "Cell (Cell Press)",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-circulation-aha",
+      "name": "Circulation (AHA)",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-cochrane-library",
+      "name": "Cochrane",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-crossref-rest-api",
+      "name": "Crossref",
+      "url": "https://api.crossref.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-crossref-retraction-watch-data",
+      "name": "Crossref (Retraction Watch Database)",
+      "url": "https://www.crossref.org/documentation/retrieve-metadata/retraction-watch/",
+      "verdict": "PASS",
+      "why": "kaynak çalışıyor; bu tick boş extract (Bible 8.3 izole)",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-curr-dev-nutrition",
+      "name": "Current Developments in Nutrition (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-eurekalert",
+      "name": "EurekAlert! (AAAS)",
+      "url": "https://www.eurekalert.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-europe-pmc-rest",
+      "name": "Europe PMC (EMBL-EBI)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "REST_BATCH"
+    },
+    {
+      "category": "research",
+      "id": "research-european-heart-journal",
+      "name": "European Heart Journal",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-european-respiratory-journal",
+      "name": "European Respiratory Journal",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-ieee-jbhi",
+      "name": "IEEE Journal of Biomedical and Health Informatics",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-ieee-tbme",
+      "name": "IEEE Transactions on Biomedical Engineering",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-jacc",
+      "name": "JACC (Journal of the American College of Cardiology)",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-jama-network",
+      "name": "JAMA Network",
+      "url": "https://jamanetwork.com/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-jmir",
+      "name": "JMIR (Journal of Medical Internet Research)",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-jand",
+      "name": "Journal of the Academy of Nutrition and Dietetics (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-jaha",
+      "name": "Journal of the American Heart Association",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-japha",
+      "name": "Journal of the American Pharmacists Association (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-medical-news-today",
+      "name": "Medical News Today",
+      "url": "https://www.medicalnewstoday.com/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-medical-xpress",
+      "name": "Medical Xpress",
+      "url": "https://medicalxpress.com/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nejm-ai",
+      "name": "NEJM AI",
+      "url": "https://ai.nejm.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nih-news-releases",
+      "name": "NIH News Releases",
+      "url": "https://www.nih.gov/news-events/news-releases",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-clinicaltrials-gov-api-v2",
+      "name": "NLM (ClinicalTrials.gov)",
+      "url": "https://clinicaltrials.gov/data-api/api",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-central-oa",
+      "name": "NLM / NCBI (PubMed Central)",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/tools/ftp/",
+      "verdict": "FAIL",
+      "why": "extract boş ve last_ok_items=0",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nature",
+      "name": "Nature",
+      "url": "https://www.nature.com/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nature-biotechnology",
+      "name": "Nature Biotechnology",
+      "url": "https://www.nature.com/nbt/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nature-genetics",
+      "name": "Nature Genetics",
+      "url": "https://www.nature.com/ng/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nature-medicine",
+      "name": "Nature Medicine",
+      "url": "https://www.nature.com/nm/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nature-news",
+      "name": "Nature News",
+      "url": "https://www.nature.com/news",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-nejm",
+      "name": "New England Journal of Medicine",
+      "url": "https://www.nejm.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-nutrition-journal",
+      "name": "Nutrition Journal (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-nutrition-reviews",
+      "name": "Nutrition Reviews (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-openalex-api",
+      "name": "OpenAlex (OurResearch)",
+      "url": "https://api.openalex.org/works",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-stat-news",
+      "name": "STAT News",
+      "url": "https://www.statnews.com/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-science",
+      "name": "Science (AAAS)",
+      "url": "https://www.science.org/journal/science",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "erişim/challenge: http_403",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-science-translational-medicine",
+      "name": "Science Translational Medicine (AAAS)",
+      "url": "https://www.science.org/journal/stm",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "erişim/challenge: http_403",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-bmj",
+      "name": "The BMJ",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-gdelt-doc-api",
+      "name": "The GDELT Project",
+      "url": "https://www.gdeltproject.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-pubmed-journal-of-nutrition",
+      "name": "The Journal of Nutrition (via PubMed)",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "PUBMED_EUTILS"
+    },
+    {
+      "category": "research",
+      "id": "research-the-lancet",
+      "name": "The Lancet",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-lancet-digital-health",
+      "name": "The Lancet Digital Health",
+      "url": "",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-medrxiv-preprint",
+      "name": "medRxiv",
+      "url": "https://www.medrxiv.org/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "research",
+      "id": "research-npj-digital-medicine",
+      "name": "npj Digital Medicine",
+      "url": "https://www.nature.com/npjdigitalmed/",
+      "verdict": "PASS",
+      "why": "son çekim hatasız",
+      "mode": "RESEARCH_REGISTRY"
+    },
+    {
+      "category": "duyuru",
+      "id": "osym_medical_exams",
+      "name": "ÖSYM — Medicine-scoped examinations",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/6",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "yok_medical_education",
+      "name": "YÖK — Medical education",
+      "url": "https://www.yok.gov.tr/tr/announcements",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "yokak_medical_accreditation",
+      "name": "YÖKAK — Medical faculty quality/accreditation",
+      "url": "https://www.yokak.gov.tr/category/haber/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tuk_specialty_training",
+      "name": "Tıpta Uzmanlık Kurulu",
+      "url": "https://tuk.saglik.gov.tr/TR-30142/duyurular.html",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "resmi_gazete_medical_regulation",
+      "name": "Resmî Gazete — Medical regulation only",
+      "url": "https://www.resmigazete.gov.tr/fihrist?tarih={today}",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tuik_medical_public_health",
+      "name": "TÜİK — Health and public-health data only",
+      "url": "https://www.tuik.gov.tr/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "moh_physician_workforce",
+      "name": "Sağlık Bakanlığı YHGM — Physician workforce / DHY / atama kuraları",
+      "url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "hsgm_public_health",
+      "name": "Halk Sağlığı Genel Müdürlüğü",
+      "url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "geo/runner — Bible 7.4 reddetmez",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "ttb_national",
+      "name": "Türk Tabipleri Birliği",
+      "url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "turkmsic_medical_students",
+      "name": "Türk Tıp Öğrencileri Birliği",
+      "url": "https://turkmsic.org/haberler",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tepdad_medical_accreditation",
+      "name": "TEPDAD",
+      "url": "https://tepdad.org.tr/feed",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "teged_medical_education",
+      "name": "Tıp Eğitimini Geliştirme Derneği",
+      "url": "https://teged.com.tr/feed",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "hasuder_public_health",
+      "name": "Halk Sağlığı Uzmanları Derneği",
+      "url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "halk_sagligi_yeterlik",
+      "name": "Halk Sağlığı Yeterlik Kurulu",
+      "url": "https://www.halksagligiyeterlik.org.tr/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tkd_cardiology",
+      "name": "Türk Kardiyoloji Derneği",
+      "url": "https://www.tkd.org.tr/duyurular",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "ttd_thoracic",
+      "name": "Türk Toraks Derneği",
+      "url": "https://toraks.org.tr/haberler",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "klimık_infectious_diseases",
+      "name": "KLİMİK",
+      "url": "https://www.klimik.org.tr/category/duyurular/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tpd_psychiatry",
+      "name": "Türkiye Psikiyatri Derneği",
+      "url": "https://psikiyatri.org.tr/haber-duyuru",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "trd_radiology",
+      "name": "Türk Radyoloji Derneği",
+      "url": "https://www.turkrad.org.tr/dernekten-haberler/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tahud_family_medicine",
+      "name": "Türkiye Aile Hekimleri Uzmanlık Derneği",
+      "url": "https://tahud.org.tr/haberler",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tihud_internal_medicine",
+      "name": "Türk İç Hastalıkları Uzmanlık Derneği",
+      "url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+      "verdict": "FAIL",
+      "why": "FAILED_INTERNAL",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "turk_pediatri_kurumu",
+      "name": "Türk Pediatri Kurumu",
+      "url": "https://turkpediatri.org.tr/haberler",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tatd_emergency_medicine",
+      "name": "Türkiye Acil Tıp Derneği",
+      "url": "https://tatd.org.tr/feed",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_us_ecfmg_intealth",
+      "name": "ECFMG / Intealth — IMG certification",
+      "url": "https://www.ecfmg.org/news/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "kısmi kapsam — listede kalır, tam çekim değil",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_us_usmle",
+      "name": "USMLE — United States Medical Licensing Examination",
+      "url": "https://www.usmle.org/announcements",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_us_aamc_eras",
+      "name": "AAMC ERAS — residency application",
+      "url": "https://www.aamc.org/news",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_us_nrmp",
+      "name": "NRMP — Main Residency Match",
+      "url": "https://www.nrmp.org/about/news/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_uk_gmc",
+      "name": "GMC — registration and licensing",
+      "url": "https://www.gov.uk/government/organisations/uk-visas-and-immigration.atom",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "kısmi kapsam — listede kalır, tam çekim değil",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_uk_oriel",
+      "name": "Oriel — NHS specialty training applications",
+      "url": "https://medical.hee.nhs.uk/medical-training-recruitment/news",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_de_anerkennung",
+      "name": "Anerkennung in Deutschland — medical recognition",
+      "url": "https://www.anerkennung-in-deutschland.de/html/en/news.php",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_de_make_it_in_germany",
+      "name": "Make it in Germany — doctors (regulated profession)",
+      "url": "https://www.make-it-in-germany.com/en/working-in-germany/types-of-employment/regulated-professions/medical-doctors",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "kısmi kapsam — listede kalır, tam çekim değil",
+      "mode": null
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_ca_mcc_img_pathways",
+      "name": "Medical Council of Canada — IMG pathways",
+      "url": "https://mcc.ca/news/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_ca_carms",
+      "name": "CaRMS — Canadian residency matching",
+      "url": "https://www.carms.ca/news/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_au_amc",
+      "name": "Australian Medical Council — IMG",
+      "url": "https://www.amc.org.au/feed/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_au_medical_board",
+      "name": "Medical Board of Australia",
+      "url": "https://www.medicalboard.gov.au/News",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_au_ahpra",
+      "name": "AHPRA — health practitioner registration",
+      "url": "https://www.ahpra.gov.au/News",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_ie_medical_council",
+      "name": "Irish Medical Council",
+      "url": "https://www.medicalcouncil.ie/news-and-publications/press-releases/press-release/press-releases.html",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_nl_big_register",
+      "name": "BIG Register — foreign diploma recognition",
+      "url": "https://english.bigregister.nl/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_es_universidades_homologacion",
+      "name": "Spain — degree recognition portal (universidades.sede.gob.es)",
+      "url": "https://www.universidades.gob.es/Noticias.html",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_LIMITED",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_es_mir_fse",
+      "name": "Spain — FSE/MIR (Ministry of Health)",
+      "url": "https://www.sanidad.gob.es/gabinete/notasPrensa.do",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_it_salute_foreign_qual",
+      "name": "Italy — Ministry of Health foreign health qualifications",
+      "url": "https://www.trovanorme.salute.gov.it/norme/archivioNewsletter",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "abroad_sa_scfhs_watch",
+      "name": "SCFHS — Saudi Commission for Health Specialties (watch-only)",
+      "url": "https://scfhs.org.sa/en/news",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "pubmed_biomedical_evidence",
+      "name": "pubmed_biomedical_evidence",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_LIMITED",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "osym_dus_dental_exams",
+      "name": "ÖSYM – DUS diş hekimliği uzmanlık sınavı",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "osym_ydus_subspecialty_exams",
+      "name": "ÖSYM – YDUS tıpta yan dal uzmanlık sınavı",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tvhb_veterinary",
+      "name": "Türk Veteriner Hekimleri Birliği",
+      "url": "https://www.tvhb.org.tr/feed",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "tdb_dental",
+      "name": "Türk Dişhekimleri Birliği",
+      "url": "https://api.tdb.org.tr/news?pageSize=50",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "titck_announcements_general",
+      "name": "TİTCK -- Duyurular",
+      "url": "https://www.titck.gov.tr/duyuru",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "medimagazin_general",
+      "name": "Medimagazin",
+      "url": "https://www.medimagazin.com.tr/",
+      "verdict": "FAIL",
+      "why": "FAILED_INTERNAL",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "trthaber_saglik",
+      "name": "TRT Haber -- Sağlık",
+      "url": "https://www.trthaber.com/saglik_articles.rss",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "cnnturk_saglik",
+      "name": "CNN Türk -- Sağlık",
+      "url": "https://www.cnnturk.com/saglik/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "sabah_saglik",
+      "name": "Sabah -- Sağlık",
+      "url": "https://www.sabah.com.tr/rss/saglik.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "euronews_tr_saglik",
+      "name": "Euronews Türkçe -- Sağlık",
+      "url": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "saglik_bakanligi_genel",
+      "name": "T.C. Sağlık Bakanlığı -- Genel Haberler/Ziyaretler/Basın Duyuruları",
+      "url": "https://www.saglik.gov.tr/TR-3197/basin-duyurulari.html",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "sondakika_saglik",
+      "name": "Son Dakika -- Sağlık",
+      "url": "https://www.sondakika.com/saglik/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "ntv_saglik",
+      "name": "NTV -- Sağlık",
+      "url": "https://www.ntv.com.tr/saglik.rss",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "bbc_turkce_saglik",
+      "name": "BBC Türkçe -- Sağlık",
+      "url": "https://www.bbc.com/turkce/topics/cnq68n6wgzdt",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "t24_saglik",
+      "name": "T24 -- Sağlık",
+      "url": "https://t24.com.tr/saglik",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "saglikhaberi_net",
+      "name": "Sağlık Haberi (saglikhaberi.net)",
+      "url": "https://saglikhaberi.net/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "saglikpersonelihaberi_net",
+      "name": "Sağlık Personeli Haber",
+      "url": "https://www.saglikpersonelihaber.net/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "doktorclub",
+      "name": "Doktorclub",
+      "url": "https://doktorclub.com/",
+      "verdict": "FAIL",
+      "why": "FAILED_INTERNAL",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "ahaber_saglik",
+      "name": "Ahaber -- Sağlık",
+      "url": "https://www.ahaber.com.tr/rss/saglik.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "iha_saglik",
+      "name": "İHA -- Sağlık",
+      "url": "https://www.iha.com.tr/saglik",
+      "verdict": "FAIL",
+      "why": "FAILED_INTERNAL",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "dha_saglik_yasam",
+      "name": "DHA -- Sağlık-Yaşam",
+      "url": "https://www.dha.com.tr/saglik-yasam/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "gazeteoksijen_saglik",
+      "name": "Gazete Oksijen -- Sağlık",
+      "url": "https://gazeteoksijen.com/saglik",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "stat_news",
+      "name": "STAT News",
+      "url": "https://www.statnews.com/feed/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "healthline_news",
+      "name": "Healthline -- Health News",
+      "url": "https://www.healthline.com/rss/health-news",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "medical_xpress",
+      "name": "Medical Xpress",
+      "url": "https://medicalxpress.com/rss-feed/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "medicalresearch_com",
+      "name": "MedicalResearch.com",
+      "url": "https://medicalresearch.com/feed/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "fierce_biotech",
+      "name": "Fierce Biotech",
+      "url": "https://www.fiercebiotech.com/rss/xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "biopharma_dive",
+      "name": "BioPharma Dive",
+      "url": "https://www.biopharmadive.com/feeds/news/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "medpage_today",
+      "name": "MedPage Today",
+      "url": "https://www.medpagetoday.com/rss/headlines.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "medical_economics",
+      "name": "Medical Economics",
+      "url": "https://www.medicaleconomics.com/rss.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "yale_medicine_news",
+      "name": "Yale Medicine News",
+      "url": "https://www.yalemedicine.org/rss/news.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "drug_topics",
+      "name": "Drug Topics",
+      "url": "https://www.drugtopics.com/rss.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "ema_news",
+      "name": "European Medicines Agency -- News",
+      "url": "https://www.ema.europa.eu/en/news.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "harvard_nutrition_source",
+      "name": "Harvard T.H. Chan -- The Nutrition Source",
+      "url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "foodnavigator",
+      "name": "FoodNavigator",
+      "url": "https://www.foodnavigator.com/Info/FoodNavigator-RSS",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "sciencedaily_nutrition",
+      "name": "ScienceDaily -- Nutrition Research News",
+      "url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "duyuru",
+      "id": "healthday",
+      "name": "HealthDay",
+      "url": "https://consumer.healthday.com/feed",
+      "verdict": "PASS",
+      "why": "PIPELINE_OK_EMPTY",
+      "mode": "AUTOMATION_READY"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_fulbright",
+      "name": "Türkiye Fulbright Eğitim Komisyonu",
+      "url": "https://fulbright.org.tr/burs/3/Yuksek-Lisans-Bursu",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_humphrey",
+      "name": "Hubert H. Humphrey Programı",
+      "url": "https://fulbright.org.tr/burs/10/Hubert-H.-Humphrey-Program%C4%B1",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_meb_ylsy",
+      "name": "MEB YLSY",
+      "url": "https://yyegm.meb.gov.tr",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tubitak_2214",
+      "name": "TÜBİTAK 2214-A Yurt Dışı Doktora Sırası Araştırma",
+      "url": "https://tubitak.gov.tr/tr/burslar",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tubitak_2219",
+      "name": "TÜBİTAK 2219 Yurt Dışı Doktora Sonrası Araştırma",
+      "url": "https://tubitak.gov.tr/tr/burslar",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_us_aauw_international",
+      "name": "AAUW International Fellowships",
+      "url": "https://www.aauw.org/resources/programs/fellowships-grants/aauw-international-fellowships/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_de_daad",
+      "name": "DAAD Scholarships",
+      "url": "https://www.daad.de/en/studying-in-germany/scholarships/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_uk_chevening",
+      "name": "Chevening Scholarships",
+      "url": "https://www.chevening.org/scholarships/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "timeout",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eu_erasmus_mundus",
+      "name": "Erasmus Mundus Joint Masters",
+      "url": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_jp_mext",
+      "name": "Japonya Hükûmeti (MEXT) Bursu — Türkiye Büyükelçiliği",
+      "url": "https://www.tr.emb-japan.go.jp/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_uicc_technical",
+      "name": "UICC Technical Fellowships",
+      "url": "https://www.uicc.org/what-we-do/capacity-building/fellowships/technical-fellowships",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esot_grants",
+      "name": "ESOT Grants Programme",
+      "url": "https://esot.org/grants-programme-2027/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_iadr_awards",
+      "name": "IADR Awards & Fellowships",
+      "url": "https://www.iadr.org/awards",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eadv_scholarships",
+      "name": "EADV Scholarships & Grants",
+      "url": "https://eadv.org/congress/scholarships/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_isn_fellowships",
+      "name": "ISN Fellowships & Grants",
+      "url": "https://www.theisn.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_fip_foundation",
+      "name": "FIP Foundation Grants & Scholarships",
+      "url": "https://www.fipfoundation.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esc_grants",
+      "name": "ESC Grants & Fellowships",
+      "url": "https://www.escardio.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esmo_fellowships",
+      "name": "ESMO Fellowships",
+      "url": "https://www.esmo.org/career-development/oncology-fellowships/fellowship-offers",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ean_fellowships",
+      "name": "EAN Fellowships & Funding",
+      "url": "https://www.ean.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esso_grants",
+      "name": "ESSO Educational Grants",
+      "url": "https://www.essoweb.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_escmid_grants",
+      "name": "ESCMID Grants & Awards",
+      "url": "https://www.escmid.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eau_eusp",
+      "name": "EAU / EUSP Scholarships",
+      "url": "https://uroweb.org/education/scholarships",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ers_fellowships",
+      "name": "ERS Fellowships & Grants",
+      "url": "https://www.ersnet.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eacts_fontan",
+      "name": "EACTS / Francis Fontan Fund",
+      "url": "https://www.eacts.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_era_fellowships",
+      "name": "ERA Fellowships & Funding",
+      "url": "https://www.era-online.org/research-education/fellowships-funding/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_asco_conquer",
+      "name": "Conquer Cancer / ASCO Foundation",
+      "url": "https://www.conquer.org/cancer-research/grants-awards",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_wsava_day",
+      "name": "WSAVA Michael J. Day Scholarship",
+      "url": "https://wsava.org/resources/michael-j-day-scholarship/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ectrims",
+      "name": "ECTRIMS Fellowships",
+      "url": "https://ectrims.eu/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ueg",
+      "name": "UEG Opportunities",
+      "url": "https://ueg.eu/p/137",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esor",
+      "name": "ESOR Training & Exchange Programmes",
+      "url": "https://www.esor.org/training-exchange-programmes/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_efsd_easd",
+      "name": "EFSD / EASD Funding Opportunities",
+      "url": "https://www.europeandiabetesfoundation.org/programmes/current-funding-opportunities/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eha_grants",
+      "name": "EHA Research Grants",
+      "url": "https://ehaweb.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ibro",
+      "name": "IBRO Grants & Training",
+      "url": "https://ibro.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_fens",
+      "name": "FENS Grants & Stipends",
+      "url": "https://www.fens.org/careers/grants-and-stipends",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eular",
+      "name": "EULAR Bursaries & Grants",
+      "url": "https://www.eular.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_iarc_who",
+      "name": "IARC / WHO Research Training Fellowships",
+      "url": "https://training.iarc.who.int/iarc-postdoctoral-fellowships/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_sigma_nursing",
+      "name": "Sigma Nursing Research & Project Grants",
+      "url": "https://www.sigmanursing.org/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_uk_wellcome",
+      "name": "Wellcome Early-Career Awards",
+      "url": "https://wellcome.org/research-funding/schemes/wellcome-early-career-awards",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_kyk",
+      "name": "KYK Burs / Öğrenim Kredisi (GSB)",
+      "url": "https://kygm.gsb.gov.tr/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "timeout",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tev",
+      "name": "Türk Eğitim Vakfı (TEV) Bursları",
+      "url": "https://tev.org.tr/burs/tr/45/Basvuru-Sureci-ve-Adimlar",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tubitak_2209",
+      "name": "TÜBİTAK 2209-A Üniversite Öğrencileri Araştırma Projesi",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/destek-programlari/2209-universite-ogrencileri-arastirma-projeleri-destekleme-programi",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tubitak_2210",
+      "name": "TÜBİTAK 2210 Yurt İçi Yüksek Lisans Bursu",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisansustu/egitim-burs-programlari/2210-yurt-ici-yuksek-lisans-burs-programlari",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_tubitak_2211",
+      "name": "TÜBİTAK 2211 Yurt İçi Doktora Bursu",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisansustu/egitim-burs-programlari/2211-yurt-ici-doktora-burs-programlari",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_hu_stipendium",
+      "name": "Stipendium Hungaricum (MEB)",
+      "url": "https://stipendiumhungaricum.hu/country/turkiye/",
+      "verdict": "FAIL",
+      "why": "URLError",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_tr_jean_monnet",
+      "name": "Jean Monnet Burs Programı",
+      "url": "https://jeanmonnet.org.tr/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_fr_eiffel",
+      "name": "France Excellence Eiffel (Campus France)",
+      "url": "https://www.campusfrance.org/en/france-excellence-eiffel-scholarship-program",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_kr_gks",
+      "name": "Global Korea Scholarship (NIIED)",
+      "url": "https://www.studyinkorea.go.kr/in/plan/scholarship.do",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_ch_swiss_excellence",
+      "name": "Swiss Government Excellence Scholarships",
+      "url": "https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships",
+      "verdict": "FAIL",
+      "why": "URLError",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_us_cri",
+      "name": "CRI Immuno-Informatics Postdoctoral Fellowship",
+      "url": "https://www.cancerresearch.org/immuno-informatics-postdoctoral-fellowship",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_us_fraxa",
+      "name": "FRAXA Research Foundation Fellowships",
+      "url": "https://www.fraxa.org/fragile-x-research/grant-application/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esicm_grants",
+      "name": "ESICM Research Grants",
+      "url": "https://www.esicm.org/research/awards/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_espen_fellowships",
+      "name": "ESPEN Research Fellowships",
+      "url": "https://www.espen.org/component/content/article/450-espen-research-fellowships-for-2026?Itemid=1834&catid=30",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_febs_fellowships",
+      "name": "FEBS Short-Term Fellowships",
+      "url": "https://www.febs.org/funding/fellowships/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_embo",
+      "name": "EMBO Fellowships & Grants",
+      "url": "https://www.embo.org/funding/fellowships-grants-and-career-support/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_uk_mrc",
+      "name": "MRC Fellowships (UKRI)",
+      "url": "https://www.ukri.org/opportunity/clinician-scientist-fellowship/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_iti_scholarships",
+      "name": "ITI Scholarship Program",
+      "url": "https://www.iti.org/education/scholarship-program/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_esaic_grants",
+      "name": "ESAIC Research Grants",
+      "url": "https://esaic.org/research/grants/esaic-grants/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_us_morris",
+      "name": "Morris Animal Foundation Grants & Veterinary Student Scholar",
+      "url": "https://www.morrisanimalfoundation.org/veterinary-student-scholar-program",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_us_pva",
+      "name": "PVA Research Foundation Fellowships",
+      "url": "https://pva.org/research-resources/research-foundation/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_iubmb",
+      "name": "IUBMB Wood-Whelan Research Fellowships",
+      "url": "https://iubmb.org/activities/fellowship-programs/iubmb-wood-whelan-research-fellowships/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_eso_doctors",
+      "name": "ESO Doctors Fellowship Programme",
+      "url": "https://www.eso.net/education-and-training/clinical-training-centres-fellowship-programme/doctors-fellowship-programme/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_fip_ecpg",
+      "name": "FIP ECPG Grants & Scholarships",
+      "url": "https://www.fip.org/grants-and-scholarships-for-ecpg-members",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_icm_congress",
+      "name": "ICM Congress Bursary",
+      "url": "https://internationalmidwives.org/apply-for-a-bursary-to-attend-the-icm-triennial-congress-in-2026/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_isa_wca_travel",
+      "name": "ISA / WCA Award & Travel Grant",
+      "url": "https://wca2026seoul.com/?action=SiteComp&module=Html&sSubNo=12",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "burs",
+      "id": "burs_imperial_gozukara",
+      "name": "Imperial Gözükara Medical Undergraduate Research Awards",
+      "url": "https://www.imperial.ac.uk/medicine/study/undergraduate/scholarships-and-awards/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ifm",
+      "name": "Institute for Functional Medicine",
+      "url": "https://www.ifm.org/education",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_acam_chelation",
+      "name": "ACAM Chelation Training",
+      "url": "https://www.acam.org/mpage/ChelationHome",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_cleveland_cfm",
+      "name": "Cleveland Clinic Center for Functional Medicine",
+      "url": "https://my.clevelandclinic.org/departments/functional-medicine/medical-professionals/international-preceptorship",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_stanford_integrative",
+      "name": "Stanford Medicine Integrative Medicine Education",
+      "url": "https://med.stanford.edu/peds-integrative.html",
+      "verdict": "FAIL",
+      "why": "HTTP 404",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_charite_im_summer",
+      "name": "Charité Berlin Summer School Integrative Medizin",
+      "url": "https://ccctim.charite.de/en/berlin_summerschool_integrative_medizin/",
+      "verdict": "FAIL",
+      "why": "URLError",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_who_academy",
+      "name": "WHO Academy",
+      "url": "https://whoacademy.org/courses",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_hms_ce",
+      "name": "Harvard Medical School Continuing Education",
+      "url": "https://cmecatalog.hms.harvard.edu/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_mayo_scpd",
+      "name": "Mayo Clinic School of Continuous Professional Development",
+      "url": "https://ce.mayo.edu/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_lshtm_short",
+      "name": "LSHTM Short Courses",
+      "url": "https://www.lshtm.ac.uk/study/courses/short-courses",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_pasteur",
+      "name": "Institut Pasteur Education & Training",
+      "url": "https://www.pasteur.fr/en/education",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eso",
+      "name": "European School of Oncology",
+      "url": "https://www.eso.net/education-and-training/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eau",
+      "name": "European Association of Urology Education & Events",
+      "url": "https://uroweb.org/education",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ean_learn",
+      "name": "European Academy of Neurology Learn",
+      "url": "https://www.ean.org/learn",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_esaic_academy",
+      "name": "ESAIC Academy",
+      "url": "https://esaic.org/academy/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ers",
+      "name": "European Respiratory Society Education",
+      "url": "https://www.ersnet.org/education-and-professional-development/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eular",
+      "name": "EULAR Education",
+      "url": "https://www.eular.org/education",
+      "verdict": "FAIL",
+      "why": "HTTP 404",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eha",
+      "name": "European Hematology Association Education",
+      "url": "https://ehaweb.org/education",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_fens",
+      "name": "FENS Training",
+      "url": "https://www.fens.org/training",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_febs_courses",
+      "name": "FEBS Advanced Courses",
+      "url": "https://www.febs.org/our-activities/advanced-courses/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_bif_travel",
+      "name": "Boehringer Ingelheim Fonds Travel Grants",
+      "url": "https://www.bifonds.de/fellowships-grants/travel-grants.html",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eons_eso_nurses",
+      "name": "EONS–ESO Cancer Nurses Fellowship",
+      "url": "https://cancernurse.eu/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_esso",
+      "name": "European Society of Surgical Oncology Education",
+      "url": "https://www.essoweb.org/courses/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_isglobal",
+      "name": "ISGlobal Training & Education",
+      "url": "https://www.isglobal.org/en/training",
+      "verdict": "FAIL",
+      "why": "HTTP 404",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_wcmq_cpd",
+      "name": "Weill Cornell Medicine–Qatar CPD",
+      "url": "https://qatar-weill.cornell.edu/continuing-professional-development",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_monash_pd",
+      "name": "Monash Medicine Nursing & Health Sciences Professional Development",
+      "url": "https://www.monash.edu/medicine/professional-development",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_wfot",
+      "name": "WFOT — World Federation of Occupational Therapists",
+      "url": "https://wfot.org/",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_world_physio",
+      "name": "World Physiotherapy Congress & Education",
+      "url": "https://world.physio/congress",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_espen_training",
+      "name": "ESPEN Clinical Nutrition Training",
+      "url": "https://www.espen.org/education/training/information-on-training",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ifm_fmcp",
+      "name": "IFM FMCP / FMCP-M Certification",
+      "url": "https://www.ifm.org/certification",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ifm_afmcp",
+      "name": "IFM AFMCP",
+      "url": "https://www.ifm.org/afmcp",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_cleveland_observership",
+      "name": "Cleveland Clinic Functional Medicine Observership",
+      "url": "https://my.clevelandclinic.org/departments/international-medical-education/international-programs/physician-observer",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_uws_cnfm",
+      "name": "UWS Clinical Nutrition and Functional Medicine Graduate Certificate",
+      "url": "https://www.uws.edu/academics/programs/clinical-nutrition-functional-medicine/graduate-certificate/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_kresser_adapt",
+      "name": "Kresser Institute ADAPT Practitioner Training",
+      "url": "https://kresserinstitute.com/adapt-practitioner-training-program/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_fmca",
+      "name": "FMCA Functional Medicine Health Coach Certification",
+      "url": "https://functionalmedicinecoaching.org/program/health-coach-certification/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_egfm",
+      "name": "EGFM Therapeut/Coach fuer Funktionelle Medizin",
+      "url": "https://egfm.eu/online-lernen/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_nih_ippcr",
+      "name": "NIH IPPCR",
+      "url": "https://ocreco.od.nih.gov/courses/ippcr.html",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_hms_hmx",
+      "name": "Harvard Medical School HMX Fundamentals",
+      "url": "https://learn.hms.harvard.edu/about/program-categories/hmx-online-learning",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_eso_medstudents",
+      "name": "ESO–ESSO–ESTRO–ESP Oncology Course for Medical Students",
+      "url": "https://www.essoweb.org/courses-and-webinars/eso-esso-estro-esp-multidisciplinary-course-on-oncology-for-medical-students/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_esmo_students",
+      "name": "ESMO Course in Medical Oncology for Medical Students",
+      "url": "https://www.esmo.org/meeting-calendar/esmo-course-in-medical-oncology-for-medical-students-2026",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_ucl_moorfields_oss",
+      "name": "UCL Institute of Ophthalmology + Moorfields Summer School",
+      "url": "https://www.ucl.ac.uk/brain-sciences/ioo/study/summer-school",
+      "verdict": "HUMAN_REQUIRED",
+      "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_erasmus_summer",
+      "name": "Erasmus MC Erasmus Summer Programme",
+      "url": "https://www.erasmussummerprogramme.nl/",
+      "verdict": "PASS",
+      "why": "kayıtlı + URL açık + MANUAL_INTAKE (Bible 7.4 fetch yok = FAIL değil)",
+      "mode": "MANUAL_INTAKE"
+    },
+    {
+      "category": "egitim",
+      "id": "egitim_openwho",
+      "name": "OpenWHO Health Emergencies Training",
+      "url": "https://openwho.org/courses",
+      "verdict": "FAIL",
+      "why": "HTTP 404",
+      "mode": "MANUAL_INTAKE"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0.0",
+  "bibleVersion": "4.0",
+  "note": "Variable operational values (Bible §3.6 / §33 / SPF-17 / SPF-22 / SPF-28). Weights, bands, and intervals live here, not in the Bible.",
+  "auto_publish": false,
+  "fail_closed": true,
+  "unknown_beats_guess": true,
+  "evaluation_tracks": {
+    "haber": "ENGAGEMENT",
+    "research": "ENGAGEMENT",
+    "duyuru": "PRAGMATIC_UTILITY",
+    "burs": "PRAGMATIC_UTILITY",
+    "egitim": "PRAGMATIC_UTILITY"
+  },
+  "ranking_weights": {
+    "source_authority": 0.18,
+    "verification_quality": 0.16,
+    "freshness": 0.14,
+    "turkey_relevance": 0.18,
+    "career_clinical_value": 0.12,
+    "application_urgency": 0.10,
+    "novelty": 0.06,
+    "engagement_potential": 0.04,
+    "format_fit": 0.02
+  },
+  "score_a_haber_research": {
+    "purpose": "ENGAGEMENT + editorial value. Turkey eligibility is N/A.",
+    "weights": {
+      "authority": 20,
+      "topic_audience_relevance": 20,
+      "technical_health": 15,
+      "freshness_cadence": 10,
+      "engagement_potential": 25,
+      "data_quality_provenance": 10
+    }
+  },
+  "score_b_pragmatic_utility": {
+    "purpose": "Duyuru / burs / egitim user utility. Engagement does not dominate PASS.",
+    "weights": {
+      "authority_official": 20,
+      "turkey_audience_fit": 25,
+      "actionability": 20,
+      "freshness_deadline": 15,
+      "technical_health": 10,
+      "data_quality_verifiability": 10
+    }
+  },
+  "source_pass_fail": {
+    "ruleset_version": "source-pass-fail-v1",
+    "schema_version": "spf-1.0.0",
+    "soft_score_can_fail": false,
+    "editorial_bands": [
+      { "min": 85, "max": 100, "decision": "PASS", "priority": "HIGH_PRIORITY" },
+      { "min": 70, "max": 84, "decision": "PASS" },
+      { "min": 55, "max": 69, "decision": "CONDITIONAL" },
+      { "min": 0, "max": 54, "decision": "WATCH" }
+    ],
+    "technical_not_hard_fail": [
+      "403",
+      "429",
+      "timeout",
+      "5xx",
+      "captcha",
+      "no_rss",
+      "no_api",
+      "javascript_required",
+      "high_latency",
+      "parse_error",
+      "cadence_drop",
+      "html_scrape_failed"
+    ]
+  },
+  "revalidation": {
+    "scheduled_days": 30,
+    "event_triggers": [
+      "domain_change",
+      "publisher_change",
+      "ownership_change",
+      "rss_api_loss",
+      "robots_change",
+      "tos_change",
+      "parser_break",
+      "health_drop",
+      "redirect_change",
+      "canonical_change",
+      "cadence_change",
+      "retraction_correction",
+      "security_issue"
+    ]
+  },
+  "research_discovery_weights": {
+    "note": "Trend/citation may inform ranking after hard gates. Engagement cannot inflate claim strength."
+  },
+  "eligibility_research_score": {
+    "application_eligibility": 0.35,
+    "freshness": 0.25,
+    "reliability": 0.25,
+    "accessibility": 0.15
+  },
+  "turkey_umic": true,
+  "news_max_age_days": 10,
+  "semantic_duplicate_threshold": 0.92,
+  "low_yield_min_decisions": 100,
+  "low_yield_delete_ratio": 0.99,
+  "error_backoff_hours": 12,
+  "fetch_retry": {
+    "max_attempts": 3,
+    "backoff_seconds": [2, 8, 20]
+  },
+  "cadence_defaults_minutes": {
+    "realtime": 15,
+    "high": 1440,
+    "medium": 10080,
+    "low": 43200,
+    "event_based": 1440,
+    "annual": 43200,
+    "irregular": 10080
+  },
+  "publication_gate": {
+    "source_verified": true,
+    "schema_valid": true,
+    "duplicate": false,
+    "hard_gates": "pass",
+    "human_approved": true,
+    "publication_copy_valid": true
+  }
+}

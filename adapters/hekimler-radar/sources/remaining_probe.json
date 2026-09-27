@@ -1,0 +1,539 @@
+[
+  {
+    "ok": true,
+    "url": "https://www.istinye.edu.tr/tr/tip",
+    "final": "https://www.istinye.edu.tr/tr/tip",
+    "title": "Tıp Fakültesi | İstinye Üniversitesi",
+    "text_len": 6636,
+    "id": "istinye",
+    "institution": "İstinye Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.amasya.edu.tr/",
+    "final": "https://tip.amasya.edu.tr/",
+    "title": "A.Ü. Tıp Fakültesi",
+    "text_len": 5695,
+    "id": "amasya",
+    "institution": "Amasya Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.yyu.edu.tr/Birimler/14",
+    "error": "SSLError",
+    "detail": "HTTPSConnectionPool(host='www.yyu.edu.tr', port=443): Max retries exceeded with url: /Birimler/14 (Caused by SSLError(SSLError(1, '[SSL: DH_KEY_TOO_SMALL] dh ke",
+    "id": "yyu",
+    "institution": "Van Yüzüncü Yıl Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://altinbas.edu.tr/akademik/fakulteler/tip/",
+    "final": "https://altinbas.edu.tr/akademik/fakulteler/tip/",
+    "title": "Altınbaş Üniversitesi | Tıp Fakültesi | Tıp Fakültesi Anasayfa",
+    "text_len": 4854,
+    "id": "altinbas",
+    "institution": "Altınbaş Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://gulhanetip.sbu.edu.tr/",
+    "final": "https://gulhanetip.sbu.edu.tr/",
+    "title": "Gülhane Tıp Fakültesi",
+    "text_len": 6490,
+    "id": "sbu_gulhane",
+    "institution": "Sağlık Bilimleri Üniversitesi",
+    "faculty": "Gülhane Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.agri.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.agri.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='tip.agri.edu.tr', ",
+    "id": "agri2",
+    "institution": "Ağrı İbrahim Çeçen Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://www.acibadem.edu.tr/tip-fakultesi",
+    "final": "https://www.acibadem.edu.tr/tip-fakultesi",
+    "title": "Tıp Fakültesi | Acıbadem Üniversitesi",
+    "text_len": 5554,
+    "id": "acibadem",
+    "institution": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.agri.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.agri.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "id": "agri",
+    "institution": "Ağrı İbrahim Çeçen Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.afsu.edu.tr/",
+    "final": "https://tip.afsu.edu.tr/",
+    "title": "Tıp Fakültesi - Sağlığın ÜniversitesiTıp Fakültesi | Sağlığın Üniversitesi",
+    "text_len": 14471,
+    "id": "afsu2",
+    "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://medicine.bau.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='medicine.bau.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='medicine.bau.e",
+    "id": "bau2",
+    "institution": "Bahçeşehir Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.erbakan.edu.tr/meramtip",
+    "status": 404,
+    "final": "https://erbakan.edu.tr/meramtip",
+    "id": "erbakan",
+    "institution": "Necmettin Erbakan Üniversitesi",
+    "faculty": "Meram Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.bezmialem.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.bezmialem.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='tip.bezmialem",
+    "id": "bezmialem",
+    "institution": "Bezmialem Vakıf Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.ankaramedipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.ankaramedipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "id": "ankara_medipol",
+    "institution": "Ankara Medipol Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.demiroglu.edu.tr/akademik/tip-fakultesi",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='www.demiroglu.edu.tr', port=443): Max retries exceeded with url: /akademik/tip-fakultesi (Caused by NameResolutionError(\"HTTPSConnecti",
+    "id": "demiroglu",
+    "institution": "Demiroğlu Bilim Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://www.afsu.edu.tr/tip-fakultesi",
+    "final": "https://afsu.edu.tr/tip-fakultesi-akademisyenlerimiz-temel-biyoistatistik-egitimi-aldi/",
+    "title": "Tıp Fakültesi Akademisyenlerimiz Temel Biyoistatistik Eğitimi Aldı - AFSÜAFSÜ",
+    "text_len": 10126,
+    "id": "afsu",
+    "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://www.kafkas.edu.tr/Tipfak",
+    "final": "https://www.kafkas.edu.tr/Tipfak",
+    "title": "Tıp Fakültesi",
+    "text_len": 12049,
+    "id": "kafkas",
+    "institution": "Kafkas Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://ankaramedipol.edu.tr/tip-fakultesi",
+    "status": 404,
+    "final": "https://ankaramedipol.edu.tr/tip-fakultesi",
+    "id": "ankara_medipol2",
+    "institution": "Ankara Medipol Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.bau.edu.tr/akademik-birimler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.bau.edu.tr/akademik-birimler/tip-fakultesi",
+    "id": "bau",
+    "institution": "Bahçeşehir Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.gop.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.gop.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='tip.gop.edu.tr', po",
+    "id": "gop2",
+    "institution": "Tokat Gaziosmanpaşa Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.bezmialem.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.bezmialem.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "id": "bezmialem2",
+    "institution": "Bezmialem Vakıf Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://bau.edu.tr/content/tip-fakultesi",
+    "status": 404,
+    "final": "https://bau.edu.tr/content/tip-fakultesi",
+    "id": "bau3",
+    "institution": "Bahçeşehir Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.istanbulbilim.edu.tr/tip-fakultesi",
+    "status": 503,
+    "final": "https://www.istanbulbilim.edu.tr/tip-fakultesi",
+    "id": "demiroglu2",
+    "institution": "Demiroğlu Bilim Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.gop.edu.tr/BirimDetay.aspx?BirimID=14",
+    "error": "not_faculty",
+    "final": "https://www.gop.edu.tr/hata.html?aspxerrorpath=/BirimDetay.aspx",
+    "title": "TOGÃ Hata SayfasÄ±",
+    "id": "gop",
+    "institution": "Tokat Gaziosmanpaşa Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.mku.edu.tr/",
+    "error": "too_short",
+    "final": "https://tip.mku.edu.tr/",
+    "title": "Hatay Mustafa Kemal Ãniversitesi",
+    "n": 33,
+    "id": "mku2",
+    "institution": "Hatay Mustafa Kemal Üniversitesi",
+    "faculty": "Tayfur Ata Sökmen Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.duzce.edu.tr/",
+    "final": "https://tip.duzce.edu.tr/",
+    "title": "Düzce Üniversitesi | Tıp Fakültesi | Ana Sayfa",
+    "text_len": 3395,
+    "id": "duzce",
+    "institution": "Düzce Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.inonu.edu.tr/tip",
+    "error": "too_short",
+    "final": "https://www.inonu.edu.tr/tip",
+    "title": "İNÖNÜ ÜNİVERSİTESİ",
+    "n": 18,
+    "id": "inonu",
+    "institution": "İnönü Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.duzce.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://w3.api.duzce.edu.tr:443/akademik/fakulteler/tip-fakultesi",
+    "id": "duzce2",
+    "institution": "Düzce Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.inonu.edu.tr/",
+    "final": "https://tip.inonu.edu.tr/tr",
+    "title": "Edu",
+    "text_len": 1177,
+    "id": "inonu2",
+    "institution": "İnönü Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "http://tip.kocaeli.edu.tr/",
+    "error": "too_short",
+    "final": "http://tip.kocaeli.edu.tr/",
+    "title": "",
+    "n": 0,
+    "id": "kocaeli",
+    "institution": "Kocaeli Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.aydin.edu.tr/tr-tr/akademik/fakulteler/tip/Pages/index.aspx",
+    "status": 403,
+    "final": "https://www.aydin.edu.tr/tr-tr/akademik/fakulteler/tip/Pages/index.aspx",
+    "id": "aydin",
+    "institution": "İstanbul Aydın Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.mku.edu.tr/dekanlik.aspx?dekanlikNo=21",
+    "error": "too_short",
+    "final": "https://mku.edu.tr/dekanlik.aspx?dekanlikNo=21",
+    "title": "Hatay Mustafa Kemal Ãniversitesi",
+    "n": 33,
+    "id": "mku",
+    "institution": "Hatay Mustafa Kemal Üniversitesi",
+    "faculty": "Tayfur Ata Sökmen Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.aydin.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "status": 403,
+    "final": "https://www.aydin.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "id": "aydin2",
+    "institution": "İstanbul Aydın Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.ikcu.edu.tr/",
+    "final": "https://tip.ikcu.edu.tr/",
+    "title": "Tip Fakültesi",
+    "text_len": 35089,
+    "id": "ikc",
+    "institution": "İzmir Kâtip Çelebi Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.mersin.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.mersin.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='tip.mersin.edu.t",
+    "id": "mersin3",
+    "institution": "Mersin Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.odu.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.odu.edu.tr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='tip.odu.edu.tr', po",
+    "id": "odu",
+    "institution": "Ordu Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.kocaeli.edu.tr/",
+    "error": "SSLError",
+    "detail": "HTTPSConnectionPool(host='tip.kocaeli.edu.tr', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DI",
+    "id": "kocaeli2",
+    "institution": "Kocaeli Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.mersin.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.mersin.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "id": "mersin2",
+    "institution": "Mersin Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.karatay.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "error": "not_faculty",
+    "final": "https://www.karatay.edu.tr/tr/error/404",
+    "title": "KTO Karatay Üniversitesi",
+    "id": "karatay",
+    "institution": "KTO Karatay Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.kku.edu.tr/tip",
+    "status": 403,
+    "final": "https://kku.edu.tr/tip",
+    "id": "kku2",
+    "institution": "Kırıkkale Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://www.lokmanhekim.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "final": "https://www.lokmanhekim.edu.tr/",
+    "title": "Ana Sayfa - Lokman Hekim Üniversitesi",
+    "text_len": 5809,
+    "id": "lokmanhekim",
+    "institution": "Lokman Hekim Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.mersin.edu.tr/idari/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.mersin.edu.tr/idari/akademik/fakulteler/tip-fakultesi",
+    "id": "mersin",
+    "institution": "Mersin Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.erdogan.edu.tr/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.erdogan.edu.tr/tip-fakultesi",
+    "id": "erdogan",
+    "institution": "Recep Tayyip Erdoğan Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.erdogan.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.erdogan.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "id": "erdogan3",
+    "institution": "Recep Tayyip Erdoğan Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.selcuk.edu.tr/tip_fakultesi",
+    "status": 404,
+    "final": "https://selcuk.edu.tr/tip_fakultesi",
+    "id": "selcuk",
+    "institution": "Selçuk Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.selcuk.edu.tr/Birim/tip-fakultesi",
+    "status": 404,
+    "final": "https://selcuk.edu.tr/Birim/tip-fakultesi",
+    "id": "selcuk2",
+    "institution": "Selçuk Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.trakya.edu.tr/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.trakya.edu.tr/tip-fakultesi",
+    "id": "trakya2",
+    "institution": "Trakya Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.ufuk.edu.tr/akademik/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.ufuk.edu.tr/akademik/tip-fakultesi",
+    "id": "ufuk",
+    "institution": "Ufuk Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.ufuk.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.ufuk.edu.tr/tr/akademik/fakulteler/tip-fakultesi",
+    "id": "ufuk2",
+    "institution": "Ufuk Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.selcuk.edu.tr/",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='tip.selcuk.edu.tr', port=443): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPSConnection(host='tip.selcuk.edu.tr",
+    "id": "selcuk3",
+    "institution": "Selçuk Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.trakya.edu.tr/",
+    "final": "https://tip.trakya.edu.tr/",
+    "title": "Tıp Fakültesi | T.C. Trakya Üniversitesi",
+    "text_len": 8024,
+    "id": "trakya",
+    "institution": "Trakya Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.usak.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 404,
+    "final": "https://www.usak.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "id": "usak2",
+    "institution": "Uşak Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": true,
+    "url": "https://tip.usak.edu.tr/",
+    "final": "https://tip.usak.edu.tr/",
+    "title": "Tıp Fakültesi",
+    "text_len": 8716,
+    "id": "usak",
+    "institution": "Uşak Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.kku.edu.tr/",
+    "error": "ConnectTimeout",
+    "detail": "HTTPSConnectionPool(host='tip.kku.edu.tr', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='tip.kku.edu.tr', po",
+    "id": "kku",
+    "institution": "Kırıkkale Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.odu.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "error": "ConnectionError",
+    "detail": "HTTPSConnectionPool(host='www.odu.edu.tr', port=443): Read timed out.",
+    "id": "odu2",
+    "institution": "Ordu Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.yuksekihtisas.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "status": 522,
+    "final": "https://www.yuksekihtisas.edu.tr/akademik/fakulteler/tip-fakultesi",
+    "id": "yuksekihtisas",
+    "institution": "Yüksek İhtisas Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://tip.erdogan.edu.tr/",
+    "error": "ReadTimeout",
+    "detail": "HTTPSConnectionPool(host='tip.erdogan.edu.tr', port=443): Read timed out. (read timeout=22)",
+    "id": "erdogan2",
+    "institution": "Recep Tayyip Erdoğan Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  },
+  {
+    "ok": false,
+    "url": "https://www.yuksekihtisas.edu.tr/tip-fakultesi",
+    "status": 522,
+    "final": "https://www.yuksekihtisas.edu.tr/tip-fakultesi",
+    "id": "yuksekihtisas2",
+    "institution": "Yüksek İhtisas Üniversitesi",
+    "faculty": "Tıp Fakültesi"
+  }
+]

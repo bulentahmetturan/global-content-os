@@ -1,0 +1,492 @@
+[
+  {
+    "id": "item_46595e5ca8ba432f",
+    "source_id": "osym_medical_exams",
+    "title": "TÜS Akademik Yeterlilik Giriş Sınavı",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_e404b32ba2d7489e",
+    "source_id": "osym_medical_exams",
+    "title": "17 Eylül 2026 2026-TUS 2. Dönem Sınavı ile 2026-STS Tip Doktorluğu 2. Dönem Sınavı: Cevap ",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_e441360973304ff1",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 2. Dönem ve 2026-STS Tıp Doktorluğu 2. Dönem: Sınav Sonuçları Açıklanacak",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_47daad6c35ad474b",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Uzmanlık Dalı Yerleştirme Sonuçları Açıklaması",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_9b0d25a270ce49ac",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçları",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_08108666d4c042b3",
+    "source_id": "osym_medical_exams",
+    "title": "2026 TUS 2. Dönem Sınavı ile 2026-STS Tıp Doktorluğu 2. Dönem Sınavı",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_429d9481ac554279",
+    "source_id": "osym_medical_exams",
+    "title": "2026 TUS ve 2026 STS Tıp Doktorluğu 2. Dönem Temel Soru Kitapçıklarının Yayınlaması",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_9c4a08d5fcc3491a",
+    "source_id": "osym_medical_exams",
+    "title": "20 Ağustos 2026 2026-TUS 1. Dönem Uzmanlık Dalı Değişikliği Tercih Kılavuzu",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_33a5faeb901a4b8a",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Uzmanlık Dalı Seçimi",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_7fcc07f74ef74282",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS ile 2026-STS Tıp Doktorluğu 2. Dönem Sınavı",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_92ff5c1636224274",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 2. Dönem: Kılavuz ve Başvuru Bilgileri",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_f1f5151e8d594867",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS ve 2026-STS Tıp Doktorluğu 2. Dönem Başvurularının Alınması",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_b8bba32babea4668",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Ek Yerleştirme Sonuçları",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_2111ae0e5e8646c0",
+    "source_id": "osym_medical_exams",
+    "title": "2 Temmuz 2026 2026-TUS 1. Dönem Yerleşim Sonucu Açıklaması",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_e5dbde844fb84b06",
+    "source_id": "osym_medical_exams",
+    "title": "23 Haziran 2026 2026-TUS 1. Dönem Ek Tercih İşlemleri: Tercih Kılavuzu ve Tablolar",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_5521188003f84be3",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem ek yerleştirme tercihinin alınması",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_af64c2be59d6467f",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Yerleştirme Sonucuna İlişkin Sağlık Bilgileri",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_d65119fa5a624e79",
+    "source_id": "osym_medical_exams",
+    "title": "15 Mayıs 2026 2026-TUS 1. Dönem Yerleştirme Sonuçları Açıklaması",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_fdb92740955f4fdc",
+    "source_id": "osym_medical_exams",
+    "title": "2026-TUS 1. Dönem Tercih İşlemleri",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_f082a0d5f41d47fb",
+    "source_id": "osym_medical_exams",
+    "title": "7 May&#x131;s 2026 2026-TUS 1. D&#xF6;nem: Tercihlerin Al&#x131;nmas&#x131;",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_ff7d598735ba40f6",
+    "source_id": "osym_medical_exams",
+    "title": "2025-TUS 2. Dönem Uzmanlık Dalı Dışı Seçiliği Yerleştirme Sonuçları",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_6512cad9f1e84c2d",
+    "source_id": "tuk_specialty_training",
+    "title": "Diş Hekimliğinde Uzmanlık ve Doktora Eğitimi Hakkında (Karar No: 2826)",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_632fbfabb1754ae4",
+    "source_id": "tuk_specialty_training",
+    "title": "Tıpta Uzmanlık Kurulu tarafından kabul edilmiş Uzmanlık Eğitimi Programları listesi güncel",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_e54c4db623b74bd5",
+    "source_id": "pubmed_biomedical_evidence",
+    "title": "Structural gender inequities in dental specialty training in Türkiye: evidence from a nati",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_f9c485b6a277461b",
+    "source_id": "ttb_national",
+    "title": "İşyeri Hekimliği Ücret Tarifeleri",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_09f175d6243743c5",
+    "source_id": "ttb_national",
+    "title": "Hekimlik Uygulamaları Veritabanı",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_e7e4f8aac7d3492a",
+    "source_id": "ttb_national",
+    "title": "TTB, Bireysel Hedef Katsayısının İptali İstemiyle Dava Açtı: Kamu Sağlığını Tehdit Etmekte",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_92f0867fc0934269",
+    "source_id": "turkmsic_medical_students",
+    "title": "Araştırma Değişimi Çalışma Kolu",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_dfe48b8c24174771",
+    "source_id": "turkmsic_medical_students",
+    "title": "Staj Değişimi Çalışma Kolu",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_3124aff638964e32",
+    "source_id": "trd_radiology",
+    "title": "Yapay Zeka Uygulamaları Rehber…",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_10f41e963ea94b9b",
+    "source_id": "hasuder_public_health",
+    "title": "Halk Sağlığı Yeterlik Kurulu",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_32a533b78c0b44eb",
+    "source_id": "hasuder_public_health",
+    "title": "Halk Sağlığı Araştırma ve Uygulamaları Dergisi (HASAUD)",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_bb0b1368ef004c5a",
+    "source_id": "hasuder_public_health",
+    "title": "Halk Sağlığında Gündem (Eski Sayılar - Arşiv)",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_8be60913192e44fc",
+    "source_id": "hasuder_public_health",
+    "title": "HALK SAĞLIĞI YETERLİK SINAVI DUYURUSU 2026",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_b9d6e35171e944ab",
+    "source_id": "abroad_us_usmle",
+    "title": "ABD Tıp Uzmanlık Mülakat ve Lisans Sınavı (USMLE) Belirli Test Tarihleri Bilgi Merkezi",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_f455e9f429724540",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE Hakkında",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_4ee3979019d54413",
+    "source_id": "abroad_us_usmle",
+    "title": "Announcements",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_ff92ca99f7224b62",
+    "source_id": "abroad_us_usmle",
+    "title": "Bulletin of Information",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_25b8ef9728254e63",
+    "source_id": "abroad_us_usmle",
+    "title": "Reschedule an Exam",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_d2e2d38723554e20",
+    "source_id": "abroad_us_usmle",
+    "title": "Score Rechecks",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_7e7e26bf169647f1",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE Step 3 Geçiş Standartının Planlı İncelemesi",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_bc5bba255ad141ff",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE'nin belirlenmiş sınav tarihleri için güncellenmiş zaman çizelgesi",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_86f28c904fdc4350",
+    "source_id": "abroad_us_usmle",
+    "title": "Tıbbi Eğitim Toplumu İle Bir Mektup: USMLE'nin Belirlenen Test Tarihlerine Geçişine İlişki",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_e99c3c8db62d4324",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE 2028'den itibaren her yıl sınırlı tarihlerde geçiş yapacak.",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_720abdebda354f1f",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE Programı Uygulama Analizi Yapan Çalışma Yürütüyor",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_4e71623839204e97",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE Uygulama Talebi İşlemi Artık Faal",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_0cbbae3d3fd849d1",
+    "source_id": "abroad_us_usmle",
+    "title": "FSMB, 4 Haziran 2026 tarihinden itibaren ERAS hizmetinde USMLE transkriptlerini işleyecek",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_cb48eb0d1c0442aa",
+    "source_id": "abroad_us_usmle",
+    "title": "USMLE Uyarlamalar Talebi Yöntemi Yayımlanacak",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_f960089ba5fc40f9",
+    "source_id": "abroad_us_usmle",
+    "title": "Exam Day Overview",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_c1d05cd818d64301",
+    "source_id": "abroad_us_usmle",
+    "title": "Exam Resources",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_6e70fa671ce04384",
+    "source_id": "abroad_us_usmle",
+    "title": "Step 1 Sınav İçeriği",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_3b3747783d254902",
+    "source_id": "abroad_us_nrmp",
+    "title": "Match Calendars",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_e28770e8fa4c4425",
+    "source_id": "abroad_us_nrmp",
+    "title": "Residency Applicants",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_5c9fcea21ac64e58",
+    "source_id": "abroad_us_nrmp",
+    "title": "Fellowship Applicants",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_6ac0ee1aedd74eef",
+    "source_id": "abroad_us_nrmp",
+    "title": "Rank Applicants",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_400d57a6061648f5",
+    "source_id": "abroad_us_nrmp",
+    "title": "Match Results",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_b7e41196d8fa45b5",
+    "source_id": "abroad_us_nrmp",
+    "title": "Match Participants",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_4ed3770d08f446f8",
+    "source_id": "abroad_us_nrmp",
+    "title": "Ulusal Residansal Eşleştirme Programı Program İfade Sinyallemesi Hakkında İlk Defa Rapor Y",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_60072a3a3a1e4054",
+    "source_id": "abroad_us_nrmp",
+    "title": "Eylül 2026 Işıltı Haber Bülteni",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_ed63b0ecc6ac4c03",
+    "source_id": "abroad_ca_mcc_img_pathways",
+    "title": "TDM Examination",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_dc79f54119834ff4",
+    "source_id": "abroad_ca_mcc_img_pathways",
+    "title": "Temel TDM İnceleme Konuları",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_43fe451dcd5f442c",
+    "source_id": "abroad_ca_mcc_img_pathways",
+    "title": "MCC webinars",
+    "verdict": "REJECT",
+    "why": "item_url_shape"
+  },
+  {
+    "id": "item_47f8cf7f26e448b6",
+    "source_id": "abroad_ca_carms",
+    "title": "2027 Yılı R-1 Eşleştirme Konusunda Ontario Yabancı Doktor Adayları için Uygunluk Politikas",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_2a502fed6fc64389",
+    "source_id": "abroad_ca_carms",
+    "title": "Simon Fraser Üniversitesi 2027 CaRMS R‑1 Ana Uzmanlık Mağduriyeti Katılımını İyileştirecek",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_d5ac23ca0c6c467a",
+    "source_id": "abroad_ca_carms",
+    "title": "CaRMS Forum verileri burada!",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_e27f98cfbf6a4f44",
+    "source_id": "abroad_ca_carms",
+    "title": "2026 CaRMS Forum Kaydı",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_d84efcc4f69a4f05",
+    "source_id": "abroad_ca_carms",
+    "title": "2026 R-1 Maçı Hakkında Daha Derin Bir Bakış",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_f00f2e3168f34fc3",
+    "source_id": "abroad_ca_carms",
+    "title": "R-1 sonrası işlemler şimdi açık",
+    "verdict": "KEEP",
+    "why": "UNDATED"
+  },
+  {
+    "id": "item_effcaa1cf0e34779",
+    "source_id": "abroad_ca_carms",
+    "title": "2026 R-1 Ana Eğitim Yerleşim Yarışması sonuçları açıklandı",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  },
+  {
+    "id": "item_067337835b1444dc",
+    "source_id": "abroad_ca_carms",
+    "title": "2026 R-1 ikinci turu sonrası boş pozisyonlar",
+    "verdict": "KEEP",
+    "why": "FRESH"
+  }
+]

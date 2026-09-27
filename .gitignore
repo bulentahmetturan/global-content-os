@@ -13,3 +13,6 @@ dist/
 .idea/
 coverage/
 *.log
+__pycache__/
+*.pyc
+.pytest_cache/

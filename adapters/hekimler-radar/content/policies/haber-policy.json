@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "bibleVersion": "4.0",
+  "policyId": "haber-v1",
+  "primary_category": "haber",
+  "editorialBrand": "Kaduse Haber",
+  "hubLane": "haber",
+  "route": "kaduse-news",
+  "auto_publish": false,
+  "publication_eligible": false,
+  "purpose": "Dated medical/health news for Turkish clinicians and students. Not burs, egitim, duyuru, or research.",
+  "hard_rules": [
+    "No auto-publish.",
+    "Fail-closed on undated news except documented official list exceptions.",
+    "Claim strength cannot exceed evidence (Bible §13.2).",
+    "Discovery aggregators are not canonical verification sources (Bible §6.2 / §24).",
+    "Engagement cannot justify clickbait or overclaim (Bible §14.3).",
+    "critical_relevance items are not auto-dropped for low engagement (Bible §23.3)."
+  ],
+  "evaluation_track": "ENGAGEMENT"
+}

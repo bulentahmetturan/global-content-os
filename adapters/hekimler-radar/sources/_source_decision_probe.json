@@ -1,0 +1,345 @@
+[
+  {
+    "kind": "sks",
+    "uni": "hacettepe",
+    "url": "https://sksdb.hacettepe.edu.tr/bidbnew/index.php",
+    "ok": true,
+    "bytes": 29544,
+    "dates": [],
+    "tip_hits": [
+      {
+        "text": "Stajyer Öğrenci",
+        "href": "https://sksdb.hacettepe.edu.tr/bidbnew/post.php?id=7&title=stajyer-ogrenci"
+      },
+      {
+        "text": "",
+        "href": "https://sksdb.hacettepe.edu.tr/bidbnew/category.php?id=1017&title=kismi-zamanli-calisma-&-stajyer-ogrenci"
+      }
+    ],
+    "vet_hits": [],
+    "noise_hits": 2,
+    "announcementish": 6,
+    "error": null,
+    "final_url": "https://sksdb.hacettepe.edu.tr/bidbnew/index.php",
+    "years_seen": [
+      2025,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "sks",
+    "uni": "ankara",
+    "url": "https://sks.ankara.edu.tr/",
+    "ok": true,
+    "bytes": 159395,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 3,
+    "announcementish": 10,
+    "error": null,
+    "final_url": "https://sks.ankara.edu.tr/",
+    "years_seen": [
+      2016,
+      2022,
+      2024,
+      2025,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "sks",
+    "uni": "deu",
+    "url": "https://sks.deu.edu.tr/",
+    "ok": true,
+    "bytes": 98057,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 7,
+    "announcementish": 5,
+    "error": null,
+    "final_url": "https://sks.deu.edu.tr/",
+    "years_seen": [
+      2017,
+      2024,
+      2025,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "sks",
+    "uni": "ege",
+    "url": "https://sksdb.ege.edu.tr/",
+    "ok": true,
+    "bytes": 86391,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 8,
+    "announcementish": 6,
+    "error": null,
+    "final_url": "https://sksdb.ege.edu.tr/",
+    "years_seen": [
+      2021,
+      2024,
+      2025,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_dir",
+    "uni": "hacettepe",
+    "url": "https://topluluklar.hacettepe.edu.tr/",
+    "ok": true,
+    "bytes": 106548,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 0,
+    "announcementish": 66,
+    "error": null,
+    "final_url": "https://topluluklar.hacettepe.edu.tr/",
+    "years_seen": [
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_dir",
+    "uni": "ankara",
+    "url": "https://sks.ankara.edu.tr/topluluklar/",
+    "ok": true,
+    "bytes": 162146,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 2,
+    "announcementish": 5,
+    "error": null,
+    "final_url": "https://sks.ankara.edu.tr/topluluklar/",
+    "years_seen": [
+      2016,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_dir",
+    "uni": "deu",
+    "url": "https://ogrencitopluluklari.deu.edu.tr/",
+    "ok": true,
+    "bytes": 43734,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 0,
+    "announcementish": 5,
+    "error": null,
+    "final_url": "https://ogrencitopluluklari.deu.edu.tr/",
+    "years_seen": [
+      2017,
+      2020,
+      2021
+    ],
+    "max_year": 2021,
+    "freshness": "stale",
+    "looks_static": false
+  },
+  {
+    "kind": "club_dir",
+    "uni": "biruni",
+    "url": "https://topluluklar.biruni.edu.tr/",
+    "ok": true,
+    "bytes": 195631,
+    "dates": [],
+    "tip_hits": [
+      {
+        "text": "Tıp Fakültesi Hastanesi",
+        "href": "https://www.birunihastanesi.com.tr/"
+      }
+    ],
+    "vet_hits": [],
+    "noise_hits": 2,
+    "announcementish": 25,
+    "error": null,
+    "final_url": "https://topluluklar.biruni.edu.tr/",
+    "years_seen": [
+      2024,
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_page",
+    "uni": "hacettepe",
+    "name": "HÜTBAT",
+    "url": "https://topluluklar.hacettepe.edu.tr/topluluklar/tip-fakultesi-bilimsel-arastirma-toplulugu",
+    "ok": true,
+    "bytes": 59901,
+    "dates": [],
+    "tip_hits": [
+      {
+        "text": "14.05.2026 Nöroşirürji Acilleri İle İlgili Akran Eğitimi Hacettepe Üniversitesi Tıp Fakültesi Bitti",
+        "href": "https://topluluklar.hacettepe.edu.tr/etkinlik/tip-fakultesi-bilimsel-arastirma-toplulugu/norosirurji-acilleri-ile-ilgili-akran-egitimi-17777"
+      },
+      {
+        "text": "15.04.2026 HÜTBAT Kadın Doğum Asistalks Hacettepe Üniversitesi Tıp Fakültesi Bitti",
+        "href": "https://topluluklar.hacettepe.edu.tr/etkinlik/tip-fakultesi-bilimsel-arastirma-toplulugu/hutbat-kadin-dogum-asistalks-1775158030"
+      },
+      {
+        "text": "15.04.2026 HIMEC Yurtdışında Uzmanlık: Norveç Hacettepe Üniversitesi Tıp Fakültesi Bitti",
+        "href": "https://topluluklar.hacettepe.edu.tr/etkinlik/tip-fakultesi-bilimsel-arastirma-toplulugu/himec-yurtdisinda-uzmanlik-norvec-1775158436"
+      },
+      {
+        "text": "16.03.2026 HÜTBAT Tıp Bayramı Şenlikleri Stant Açma Etkinliği Tıp Fakültesi, Dilektepe Sokak, Hamamö",
+        "href": "https://topluluklar.hacettepe.edu.tr/etkinlik/tip-fakultesi-bilimsel-arastirma-toplulugu/hutbat-tip-bayrami-senlikleri-stant-acma-etkinligi-"
+      }
+    ],
+    "vet_hits": [],
+    "noise_hits": 2,
+    "announcementish": 23,
+    "error": null,
+    "final_url": "https://topluluklar.hacettepe.edu.tr/topluluklar/tip-fakultesi-bilimsel-arastirma-toplulugu",
+    "years_seen": [
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_page",
+    "uni": "trakya",
+    "name": "Trakya TurkMSIC",
+    "url": "https://turkmsic.trakya.edu.tr/",
+    "ok": false,
+    "bytes": 0,
+    "dates": [],
+    "tip_hits": [],
+    "vet_hits": [],
+    "noise_hits": 0,
+    "announcementish": 0,
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>"
+  },
+  {
+    "kind": "club_page",
+    "uni": "national",
+    "name": "TurkMSIC",
+    "url": "https://www.turkmsic.org/",
+    "ok": true,
+    "bytes": 53668,
+    "dates": [],
+    "tip_hits": [
+      {
+        "text": "TurkMSIC Dergi",
+        "href": "https://turkmsic.org/icerik/turkmsic-dergi"
+      },
+      {
+        "text": "Araştırma Değişimi Çalışma Kolu",
+        "href": "http://degisim.turkmsic.org"
+      },
+      {
+        "text": "Cinsel Sağlık ve Üreme Sağlığı Çalışma Kolu",
+        "href": "https://scora.turkmsic.org"
+      },
+      {
+        "text": "Halk Sağlığı Çalışma Kolu",
+        "href": "http://scoph.turkmsic.org"
+      },
+      {
+        "text": "İnsan Hakları ve Barış Çalışma Kolu",
+        "href": "https://scorp.turkmsic.org"
+      },
+      {
+        "text": "Tıp Eğitimi Çalışma Kolu",
+        "href": "http://scome.turkmsic.org"
+      },
+      {
+        "text": "Kapasite Gelişimi Destek Birimi",
+        "href": "https://cbsd.turkmsic.org/"
+      },
+      {
+        "text": "Proje ve Girişimler Destek Birimi",
+        "href": "https://psd.turkmsic.org/"
+      },
+      {
+        "text": "Tıpta Kariyer Günleri",
+        "href": "https://kariyer.turkmsic.org/"
+      },
+      {
+        "text": "iletisim@turkmsic.org",
+        "href": "mailto:iletisim@turkmsic.org"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/turkmsic"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/turkmsic"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/turkmsic"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/turkmsic"
+      }
+    ],
+    "vet_hits": [],
+    "noise_hits": 0,
+    "announcementish": 15,
+    "error": null,
+    "final_url": "https://www.turkmsic.org/",
+    "years_seen": [
+      2026
+    ],
+    "max_year": 2026,
+    "freshness": "active_2026",
+    "looks_static": false
+  },
+  {
+    "kind": "club_page",
+    "uni": "acibadem",
+    "name": "ACUTBAT",
+    "url": "https://www.acibadem.edu.tr/ogrenci/acuda-yasam/tip-fakultesi-bilimsel-arastirma-toplulugu-acutbat",
+    "ok": true,
+    "bytes": 697585,
+    "dates": [],
+    "tip_hits": [
+      {
+        "text": "Tıp Fakültesi",
+        "href": "https://www.acibadem.edu.tr/akademik/lisans/tip-fakultesi"
+      }
+    ],
+    "vet_hits": [],
+    "noise_hits": 0,
+    "announcementish": 8,
+    "error": null,
+    "final_url": "https://www.acibadem.edu.tr/ogrenci/acuda-yasam/tip-fakultesi-bilimsel-arastirma-toplulugu-acutbat",
+    "years_seen": [],
+    "max_year": null,
+    "freshness": "unknown",
+    "looks_static": false
+  }
+]

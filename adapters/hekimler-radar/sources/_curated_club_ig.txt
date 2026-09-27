@@ -1,0 +1,33 @@
+Küratör tıp-öğrenci kulüp Instagram kısa listesi (sisteme dahil)
+Tarih: 2026-09-18
+Kapsam: TOB / *BAT / IVSA / TurkMSIC (+ sayfada IG’si yazılmış tip branş kulüpleri)
+Hariç: dans/foto/tiyatro vb.; dekanlık IG; slug tahmini; Leyladan Sonra / Bir Gençlik
+
+id | handle | üni
+---|---|---
+ig_turkmsic | @turkmsic | TurkMSIC (ulusal)
+ig_ivsaturkey | @ivsaturkey | IVSA Turkey
+ig_acibademmsa | @acibademmsa | Acıbadem
+ig_acutbat | @acutbat | Acıbadem
+ig_afyonsbutob | @afyonsbutob | Afyon SBÜ
+ig_aksaraytob | @aksaraytob | Aksaray
+ig_asubat | @asubat | Aksaray
+ig_aksaraysinirbilim | @aksaraysinirbilim | Aksaray
+ig_altinbastob | @altinbastob | Altınbaş
+antbat_ankara | @antbatofficial | Ankara (retarget)
+ivsa_ankara | @ivsaankara | Ankara (önceden vardı)
+ig_ege_tob | @ege.tob | Ege
+ig_gaziantepbat | @gaziantepbat | Gaziantep
+ig_gaunkok | @gaunkok | Gaziantep
+ig_gaunonot | @gaunonot | Gaziantep
+ig_gazianteptibbiyeliler | @gazianteptibbiyeliler | Gaziantep
+ig_hutbat_official | @hutbat_official | Hacettepe
+ig_istanbulivsa | @istanbulivsa | İÜ-Cerrahpaşa
+ig_ivsakonya | @ivsakonya | Selçuk
+ig_karadeniztob | @karadeniztob | KTÜ
+ig_trakyatob | @trakyatob | Trakya
+ig_yutbat | @yutbat | Yeditepe
+ig_akdeniztob | @akdeniztob | Akdeniz (orta güven)
+ig_bursauludagtob | @bursauludagtob | Bursa Uludağ (orta güven)
+
+Not: Kaynak kaydı var; post çekimi için Instagram Graph / social adapter gerekli.

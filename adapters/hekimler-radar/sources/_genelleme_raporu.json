@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-18",
+  "title": "SKS / kulüp / IG genelleme raporu",
+  "answers": {
+    "1_sks_takip": {
+      "answer": "Hayır — birincil kaynak olarak takip etme",
+      "nuance": "Keşif hop: öğrenci toplulukları dizin URL’si için kullanılabilir",
+      "why": "2026'da aktif ama kampüs operasyonu (yurt/burs/yemek/servis); tıp kulübü akademik sinyali ≈0"
+    },
+    "2_kulup_web_aktif": {
+      "answer": "Karışık — tıp için seçici evet",
+      "types": {
+        "live_portal_or_own_cms": "Evet — kaynak (HÜTBAT, TurkMSIC, Trakya TOB)",
+        "static_roster": "Hayır feed — keşif (Ankara tipi)",
+        "uni_brochure": "Hayır — alma (ACUTBAT tipi)"
+      }
+    },
+    "3_kulup_instagram": {
+      "answer": "Evet — küratör TOB/*BAT/IVSA handle’lar",
+      "do_not_follow": ["SKS IG", "üniversite kurumsal IG"],
+      "why": "SKS taraması IG’lerin çoğunu SKS/uni olarak çıkardı; kulüp sinyali ayrı handle’larda"
+    }
+  },
+  "one_liner": "Tıp/vet öğrenci içeriği SKS’te değil; ulusal öğrenci ağları + kendi etkinlik üreten kulüp yüzeylerinde (web veya IG) yaşıyor.",
+  "other_generalizations": [
+    "SKS ≠ kulüp feed",
+    "Roster dizin ≠ aktif sayfa",
+    "Kendi domain (turkmsic/hutbat/tob) > SKS alt sayfa",
+    "Tip ölçek omurgası = TurkMSIC yerel listesi",
+    "Vet ölçek omurgası = IVSA chapter (çoğu zaman IG-first)",
+    "Araştırma tip = *BAT canlı portal filtresi",
+    "IG için social adapter şart; HTML scrape güvenilmez"
+  ],
+  "policy": {
+    "take": ["turkmsic_web", "turkmsic_ig", "local_tob_own_cms", "star_bat_live", "ivsa_chapter_ig"],
+    "discover_only": ["sks_to_club_directory_url", "roster_tables"],
+    "skip": ["*_sks_homepage", "sks_instagram", "uni_corporate_ig", "brochure_club_pages"]
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "policyId": "hekimler-research-medical-ai-consumer-media",
+  "status": "configured_not_wired",
+  "purpose": "Medicine-focused evidence layer for clinical research, medical AI, public-health research and high-interest research trends. Registry/policy only — no fetchers, schedules, queue wiring or publishing.",
+  "audience": [
+    "medical_student",
+    "intern",
+    "resident",
+    "physician",
+    "academic_physician"
+  ],
+  "source_roles": [
+    "PRIMARY_SCIENTIFIC",
+    "EVIDENCE_INDEX",
+    "DISCOVERY_ONLY"
+  ],
+  "allowed_routes": [
+    "RESEARCH_REVIEW",
+    "AI_REVIEW",
+    "RESEARCH_WATCH",
+    "TREND_INBOX",
+    "NEEDS_REVIEW",
+    "DISCARD"
+  ],
+  "pipeline_wiring_enabled": false,
+  "fetch_enabled": false,
+  "auto_publish": false,
+  "kaduse_research_evidence_bundle": {
+    "source_id": "kaduse_research_evidence_bundle",
+    "name": "Kaduse Research Evidence Bundle",
+    "source_role": "PRIMARY_SCIENTIFIC",
+    "status": "reference_only",
+    "fetch_mode": "inherited_from_kaduse",
+    "dependency": {
+      "kind": "sibling_repo_read_only",
+      "repo": "channel-content-os",
+      "path": "mcp-server/src/research/source-registry.ts",
+      "resolvedRelativeFromThisRepo": "../../channel-content-os/mcp-server/src/research/source-registry.ts"
+    },
+    "reuse_rule": "Reference existing Kaduse/channel-content-os research source IDs only. Do not copy rows. Do not create a second fetch. Do not modify Kaduse policies.",
+    "include_kaduse_roles": [
+      "RESEARCH_INDEX",
+      "BIBLIOGRAPHIC_METADATA",
+      "PUBLICATION_INTEGRITY",
+      "OPEN_FULL_TEXT",
+      "SYSTEMATIC_EVIDENCE",
+      "TRIAL_REGISTRY",
+      "PRIMARY_RESEARCH_PUBLISHER"
+    ],
+    "exclude_kaduse_roles": [
+      "ACCESSIBLE_SCIENCE_MEDIA",
+      "ATTENTION_METRIC"
+    ],
+    "exclude_source_ids": [
+      "medrxiv-preprint",
+      "stat-news",
+      "eurekalert",
+      "medical-xpress",
+      "medical-news-today",
+      "nature-news",
+      "nih-news-releases",
+      "openalex-api",
+      "gdelt-doc-api",
+      "altmetric-api"
+    ],
+    "referenced_source_ids": [
+      "pubmed-eutilities",
+      "europe-pmc-rest",
+      "crossref-rest-api",
+      "crossmark",
+      "crossref-retraction-watch-data",
+      "pubmed-central-oa",
+      "cochrane-library",
+      "clinicaltrials-gov-api-v2",
+      "jama-network",
+      "nejm",
+      "the-lancet",
+      "lancet-digital-health",
+      "bmj",
+      "nature-medicine",
+      "npj-digital-medicine",
+      "circulation-aha",
+      "jaha",
+      "jacc",
+      "european-heart-journal",
+      "chest-journal",
+      "european-respiratory-journal",
+      "ieee-jbhi",
+      "ieee-tbme",
+      "jmir",
+      "science-translational-medicine",
+      "cell",
+      "nature-biotechnology",
+      "nejm-ai",
+      "nature-genetics",
+      "nature",
+      "science"
+    ],
+    "notes": "IDs verified against sibling channel-content-os research source-registry.ts. Consumer/science-media and attention metrics excluded from this PRIMARY_SCIENTIFIC bundle."
+  },
+  "sources": [
+    {
+      "source_id": "pubmed_biomedical_evidence",
+      "name": "PubMed / NCBI Biomedical Literature",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/",
+      "source_role": "EVIDENCE_INDEX",
+      "allowed_hostnames": [
+        "pubmed.ncbi.nlm.nih.gov",
+        "eutils.ncbi.nlm.nih.gov",
+        "www.ncbi.nlm.nih.gov"
+      ],
+      "fetch_mode": "eutilities_api",
+      "status": "configured_not_wired",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "allowed_routes": [
+        "RESEARCH_REVIEW",
+        "AI_REVIEW",
+        "RESEARCH_WATCH",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "required_fields": [
+        "PMID",
+        "title",
+        "journal",
+        "publication_date",
+        "publication_type",
+        "DOI",
+        "publisher_or_original_article_url",
+        "abstract_availability",
+        "study_design",
+        "publication_status",
+        "evidence_limitations",
+        "practical_significance"
+      ],
+      "url_rule": "If publisher DOI/original article exists use as primary_url and retain PubMed as index_url; else preserve PMID/PubMed URL and route NEEDS_REVIEW when details unreliable."
+    },
+    {
+      "source_id": "healthline_discovery",
+      "name": "Healthline",
+      "canonical_url": "https://www.healthline.com/",
+      "source_role": "DISCOVERY_ONLY",
+      "fetch_mode": "discovery_only",
+      "status": "configured_not_wired",
+      "fetch_enabled": false,
+      "allowed_routes": ["TREND_INBOX", "DISCARD"],
+      "publication_eligible": false,
+      "evidence_status": "needs_primary_check"
+    },
+    {
+      "source_id": "webmd_discovery",
+      "name": "WebMD",
+      "canonical_url": "https://www.webmd.com/",
+      "source_role": "DISCOVERY_ONLY",
+      "fetch_mode": "discovery_only",
+      "status": "configured_not_wired",
+      "fetch_enabled": false,
+      "allowed_routes": ["TREND_INBOX", "DISCARD"],
+      "publication_eligible": false,
+      "evidence_status": "needs_primary_check"
+    },
+    {
+      "source_id": "medical_news_today_discovery",
+      "name": "Medical News Today",
+      "canonical_url": "https://www.medicalnewstoday.com/",
+      "source_role": "DISCOVERY_ONLY",
+      "fetch_mode": "discovery_only",
+      "status": "configured_not_wired",
+      "fetch_enabled": false,
+      "allowed_routes": ["TREND_INBOX", "DISCARD"],
+      "publication_eligible": false,
+      "evidence_status": "needs_primary_check"
+    }
+  ],
+  "study_design_values": [
+    "systematic_review",
+    "meta_analysis",
+    "randomized_controlled_trial",
+    "non_randomized_trial",
+    "prospective_cohort",
+    "retrospective_cohort",
+    "case_control",
+    "cross_sectional",
+    "diagnostic_accuracy",
+    "qualitative_study",
+    "mixed_methods",
+    "implementation_study",
+    "registry_study",
+    "case_series",
+    "case_report",
+    "in_vitro",
+    "animal_study",
+    "modeling_study",
+    "narrative_review",
+    "guideline_or_consensus",
+    "protocol",
+    "unknown"
+  ],
+  "publication_status_values": [
+    "peer_reviewed_published",
+    "ahead_of_print",
+    "preprint",
+    "conference_abstract",
+    "protocol",
+    "corrected",
+    "retracted",
+    "withdrawn",
+    "unknown"
+  ],
+  "required_research_fields": [
+    "research_type",
+    "study_design",
+    "publication_status",
+    "population",
+    "setting",
+    "sample_size",
+    "intervention_or_exposure",
+    "comparator",
+    "primary_outcome",
+    "key_result",
+    "limitations",
+    "funding_or_conflict_note_when_available",
+    "practical_significance",
+    "clinical_translation_status",
+    "primary_url",
+    "index_url",
+    "PMID",
+    "DOI",
+    "retraction_or_correction_status"
+  ],
+  "required_medical_ai_fields": [
+    "ai_task",
+    "clinical_use_case",
+    "data_source",
+    "dataset_size",
+    "validation_type",
+    "external_validation_present",
+    "prospective_validation_present",
+    "comparator",
+    "performance_metrics",
+    "real_world_patient_outcome",
+    "regulatory_status",
+    "deployment_status",
+    "bias_or_generalizability_limitations"
+  ],
+  "validation_type_values": [
+    "internal_only",
+    "temporal_validation",
+    "external_validation",
+    "prospective_validation",
+    "randomized_clinical_evaluation",
+    "unknown"
+  ],
+  "watch_only_study_designs": [
+    "case_series",
+    "case_report",
+    "in_vitro",
+    "animal_study",
+    "modeling_study"
+  ],
+  "language_guardrails": {
+    "must_answer": [
+      "What was studied?",
+      "In whom or in what setting?",
+      "What was found?",
+      "What does this not prove?",
+      "Does this change clinical practice now?",
+      "Why should a medical student or physician care?"
+    ],
+    "banned_hype_unless_editorial_justified": [
+      "breakthrough",
+      "cure",
+      "revolutionary"
+    ]
+  }
+}
