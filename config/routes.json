@@ -27,9 +27,9 @@
       "channelId": "tip-ogrencileri-platformu",
       "icon": "🎓",
       "sourcesOwnedBy": "tip-radar",
-      "officialSourcesRef": "multi_channel_design/channels/tip-ogrencileri-platformu/sources/official_sources.yaml",
+      "officialSourcesRef": "adapters/hekimler-radar/sources/official_sources.yaml",
       "feedCount": 729,
-      "note": "All tip official_sources (+ radar adapter) registered. Fetching stays in Python radar; push via adapters/tip-radar."
+      "note": "Hekimler Topluluğu + tip sources. Python radar lives in adapters/hekimler-radar; brand/logos stay in multi_channel_design/channels/tip-ogrencileri-platformu/brand."
     }
   ]
 }

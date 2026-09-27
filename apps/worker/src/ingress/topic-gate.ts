@@ -35,7 +35,9 @@ const HEALTH_DOMAIN_KEYWORDS_ASCII: RegExp = new RegExp(
     'cdc\\b', 'nice\\b', 'mdr\\b', 'ivdr\\b', 'samd\\b', 'obesity', 'obamacare', 'medicare',
     'medicaid', 'health insurance', 'measles', 'outbreak', 'immuniz', 'antibiotic', 'antimicrob',
     'wellness', 'mental health', 'radiolog', 'imaging', 'diagnostic', 'biopharma', 'gene therapy',
-    'telemedicine', 'reimbursement', 'nutrition',
+    'telemedicine', 'reimbursement', 'nutrition', 'aging', 'ageing', 'longevity', 'senescence',
+    'geroscience', 'supplement', 'vitamin', 'nutraceutical', 'integrative', 'complementary',
+    'dietetic', 'gerontol', 'frailty', 'efsa', 'tainted',
     // Turkish, ASCII-folded (ğ→g, ş→s, ı/İ→i, ç→c, ö→o, ü→u)
     'saglik', 'hasta', 'tibb', 'tip\\b', 'ilac', 'cihaz', 'hekim', 'doktor', 'hemsire', 'asi\\b',
     'tedavi', 'hastane', 'klinik', 'cerrah', 'kanser', 'diyabet', 'salgin', 'bulasici', 'enfeksiyon',

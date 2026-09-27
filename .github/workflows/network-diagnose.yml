@@ -1,0 +1,28 @@
+name: Network diagnose (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      host:
+        description: "Host to diagnose"
+        required: true
+        default: "hsgm.saglik.gov.tr"
+      url:
+        description: "URL to fetch"
+        required: true
+        default: "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Diagnose
+        env:
+          DIAG_HOST: ${{ github.event.inputs.host }}
+          DIAG_URL: ${{ github.event.inputs.url }}
+        run: bash adapters/hekimler-radar/scripts/network_diagnose.sh "$DIAG_HOST" "$DIAG_URL"

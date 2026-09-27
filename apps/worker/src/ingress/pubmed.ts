@@ -16,6 +16,29 @@ export const PUBMED_JOURNAL_FEED_IDS = [
   'research-pubmed-nutrition-journal',
   'research-pubmed-jand', // Journal of the Academy of Nutrition and Dietetics (added 2026-09-24 batch3 review)
   'research-pubmed-japha', // Journal of the American Pharmacists Association (added 2026-09-24, second discovery pass)
+  'research-pubmed-nat-aging',
+  'research-pubmed-front-aging',
+  'research-pubmed-jicm',
+  'research-pubmed-bmc-cmt',
+  'research-pubmed-nutrients',
+  'research-pubmed-bmj-nph',
+  'research-pubmed-j-diet-suppl',
+  'research-pubmed-front-nutr',
+  'research-pubmed-aging-longevity',
+  'research-pubmed-integrative',
+  'research-pubmed-supplements',
+  'research-pubmed-nat-metab',
+  'research-pubmed-jgosa',
+  'research-pubmed-age-ageing',
+  'research-pubmed-gerontologist',
+  'research-pubmed-exp-gerontol',
+  'research-pubmed-mech-ageing',
+  'research-pubmed-ctm',
+  'research-pubmed-imr',
+  'research-pubmed-explore',
+  'research-pubmed-br-j-nutr',
+  'research-pubmed-ph-nutr',
+  'research-pubmed-clin-nutr',
 ] as const;
 
 /** Runs every feed in PUBMED_JOURNAL_FEED_IDS, isolated per feed (one failing journal never blocks

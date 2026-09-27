@@ -12,6 +12,7 @@ import {
   hekimlerDedupeKey,
 } from './tip-radar';
 import { type Env } from '../db/queries';
+import { recordHealthRevalidation } from './source-pass-fail';
 
 /** Number of AUTOMATION_READY Hekimler sources bundled into this Worker (shown in the Hub). */
 export function hekimlerReadySourceCount(): number {
@@ -1303,6 +1304,11 @@ export async function runHekimlerContinuousTick(
         operatorStatus: `${tls ? 'blocked_by_tls' : 'degraded'}: ${msg}`.slice(0, 200),
         coverageStatus: telemetry.coverage_status || 'configured',
         zeroAcceptStreak: telemetry.zero_accept_streak || 0,
+      });
+      await recordHealthRevalidation(env, {
+        sourceId: profile.source_id,
+        healthStatus: 'DEGRADED',
+        error: msg,
       });
       results.push({
         source_id: profile.source_id,

@@ -161,6 +161,11 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
     'https://www.bing.com/news/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&format=rss',
   'https://www.embs.org/tbme/':
     'https://www.bing.com/news/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&format=rss',
+  // FDA MedWatch official RSS 404s from Worker egress (same class as other fda.gov rss.xml).
+  'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml':
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(MedWatch+OR+supplement+OR+vitamin+OR+%22dietary+supplement%22+OR+recall)&format=rss',
+  'https://www.fda.gov/AboutFDA/ContactFDA/StayInformed/RSSFeeds/TDS/rss.xml':
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(tainted+AND+(supplement+OR+vitamin))&format=rss',
 };
 
 function normalizeEndpoint(raw: string): string {
@@ -597,6 +602,22 @@ async function upsertExtracted(
   return { created, updated };
 }
 
+function applyIncludeKeywords(feed: FeedRow, items: ExtractedItem[]): ExtractedItem[] {
+  let keys: string[] = [];
+  try {
+    const rules = feed.rules_json ? JSON.parse(feed.rules_json) : {};
+    const raw = rules.includeKeywords;
+    if (Array.isArray(raw)) keys = raw.map((k: unknown) => String(k).toLowerCase()).filter(Boolean);
+  } catch {
+    return items;
+  }
+  if (!keys.length) return items;
+  return items.filter((it) => {
+    const text = `${it.title || ''} ${it.summary || ''}`.toLowerCase();
+    return keys.some((k) => text.includes(k));
+  });
+}
+
 export async function ingestGenericFeeds(
   env: Env,
   opts: { route: RouteId; offset?: number; limit?: number; onlyEmpty?: boolean; feedIds?: string[] }
@@ -636,6 +657,7 @@ export async function ingestGenericFeeds(
   }
   if (opts.route === 'kaduse-research') {
     sql += ` AND id NOT IN ('europe-pmc-batch', 'research-europe-pmc-rest', 'research-pubmed-eutilities', 'research-crossref-rest-api', 'research-openalex-api', 'research-clinicaltrials-gov-api-v2')`;
+    sql += ` AND COALESCE(transport, '') NOT IN ('PUBMED_EUTILS', 'REST_BATCH')`;
   }
   if (opts.route === 'tip-ogrencileri') {
     sql += ` AND id != 'tip-radar-adapter'`;
@@ -658,6 +680,7 @@ export async function ingestGenericFeeds(
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
       extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
+      extracted.items = applyIncludeKeywords(feed, extracted.items);
       const offTopicCount = extracted.items.length;
       if ((feed.route === 'kaduse-news' || feed.route === 'kaduse-research') && !isTopicGateExempt(feed.id)) {
         extracted.items = extracted.items.filter((it) => isHealthRelevant(it.title, it.summary));

@@ -1,4 +1,6 @@
 import { ingestGate } from '../ingress/ingest-gate';
+import { familyClause } from './family-clause';
+export { familyClause } from './family-clause';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
   BUILD_COMMIT?: string;
@@ -14,6 +16,7 @@ export interface Env {
   STATUS_CALLBACK_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
   HEKIMLER_CONTINUOUS_INGESTION_ENABLED?: string;
+  BIBLE_VERSION?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
@@ -448,7 +451,13 @@ export async function listItems(
   db: D1Database,
   route: RouteId,
   status: TriageStatus,
-  opts: { sinceDays?: number; limit?: number; channelId?: string; excludeChannelId?: string } = {}
+  opts: {
+    sinceDays?: number;
+    limit?: number;
+    channelId?: string;
+    excludeChannelId?: string;
+    family?: string;
+  } = {}
 ): Promise<SourceItemRow[]> {
   // Steady-state Hub: only the recent window — full inbox history is not needed daily.
   const sinceDays = Math.min(Math.max(opts.sinceDays ?? 14, 1), 365);
@@ -482,6 +491,9 @@ export async function listItems(
     binds.push(opts.excludeChannelId);
   }
 
+  const fam = familyClause(opts.family, 'i.');
+  sql += fam.sql;
+
   // Newest first everywhere: with the 200-item cap, oldest-first hid every newly pulled item.
   sql += ` ORDER BY COALESCE(i.fetched_at, i.published_at) DESC LIMIT ?`;
   binds.push(limit);
@@ -502,14 +514,16 @@ function effectiveStatus(row: SourceItemRow): TriageStatus {
 export async function countByStatus(
   db: D1Database,
   route: RouteId,
-  channelId?: string
+  channelId?: string,
+  family?: string
 ): Promise<Record<TriageStatus, number>> {
+  const fam = familyClause(family);
   const { results } = await db
     .prepare(
       `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
        FROM source_items WHERE route = ?${
          channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
-       }
+       }${fam.sql}
        GROUP BY triage_status, archive_kind`
     )
     .bind(...(channelId ? [route, channelId] : [route]))
