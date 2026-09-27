@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 import unittest
 from unittest.mock import patch
 
@@ -73,6 +74,12 @@ class SchemaTests(unittest.TestCase):
     def test_not_a_dict(self):
         self.assertEqual(validate_claude_output(["a", "b"]), ["Kök öğe JSON nesnesi değil"])
 
+    @unittest.skipUnless(
+        shutil.which("claude"),
+        "requires the `claude` CLI on PATH (radar.analyzer.claude_candidate checks "
+        "shutil.which('claude') before the mocked subprocess.run is ever reached); "
+        "not installed on CI runners as of 2026-09-27 (production-readiness audit).",
+    )
     def test_claude_candidate_raises_on_invalid_schema(self):
         source = Source(
             id="test", name="Test", institution="Üniversite", category="calendar",
