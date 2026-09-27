@@ -77,7 +77,12 @@ for (const f of testFiles) {
     if (nFail && nFail > 0) fail(f.replace(root, '.'), `${nFail} failing`);
     else pass(`${f.replace(root, '.')} (${nPass ?? '?'} tests)`);
   } catch (e) {
-    fail(f.replace(root, '.'), 'process exited non-zero');
+    const detail = (e.stderr?.toString() || e.stdout?.toString() || e.message || '')
+      .split('\n')
+      .filter(Boolean)
+      .slice(0, 6)
+      .join(' | ');
+    fail(f.replace(root, '.'), `process exited non-zero -- ${detail}`);
   }
 }
 

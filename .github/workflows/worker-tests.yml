@@ -28,7 +28,12 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Several *.test.mjs files do `await import('./foo.ts')` directly,
+          # relying on Node's native TypeScript type-stripping (stable by
+          # default since Node 23.6/24, not present in Node 20) -- this must
+          # match whatever Node version development/production-check.mjs is
+          # actually verified against locally.
+          node-version: "24"
           cache: npm
       - run: npm ci
       - uses: actions/setup-python@v7
