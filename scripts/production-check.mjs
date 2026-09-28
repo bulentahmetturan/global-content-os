@@ -66,7 +66,7 @@ function findTestFiles(dir) {
   }
   return out;
 }
-const testFiles = findTestFiles(rel('apps/worker/src'));
+const testFiles = [...findTestFiles(rel('apps/worker/src')), ...findTestFiles(rel('apps/hub'))];
 for (const f of testFiles) {
   try {
     const out = execFileSync('node', [f], { cwd: root, stdio: 'pipe' }).toString();

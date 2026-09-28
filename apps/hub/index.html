@@ -977,16 +977,7 @@
       footnoteEl.innerHTML = 'Anayasa v4. Haber/Research = ENGAGEMENT. Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY. Soft skor FAIL üretmez. Beş kategori işletim MD’si henüz yazılmadı.';
       return;
     }
-    var feedN = state.route === 'kaduse'
-      ? ((state.routeMeta['kaduse-news'] || {}).enabledFeeds || 0) + ((state.routeMeta['kaduse-research'] || {}).enabledFeeds || 0)
-      : (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
-    if (state.route === 'hekimler' && state.hekSources) {
-      feedN = state.hekLane === 'burs'
-        ? (bursCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('burs_') === 0; }).length)
-          : state.hekLane === 'egitim'
-          ? (egitimCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('egitim_') === 0; }).length)
-          : state.hekSources.filter(function (s) { return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId); }).length;
-    }
+    var feedN = computeActiveSourceCount(state, bursCatalog, egitimCatalog);
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
     mainSubEl.innerHTML = escapeHtml(state.view) + ' · <button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
       feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button> · D1' +
@@ -1003,6 +994,33 @@
   function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
   function isBursSource(id) { return String(id || '').indexOf('burs_') === 0; }
   function isEgitimSource(id) { return String(id || '').indexOf('egitim_') === 0; }
+
+  /**
+   * "N aktif kaynak" header count -- MUST be lane-scoped, never a cross-lane
+   * sum. Haber and Research share the coarse state.route === 'kaduse' (the
+   * real lane selector is state.kind), and Burs/Eğitim/Duyuru share
+   * state.route === 'hekimler' (real lane selector state.hekLane). A prior
+   * bug summed kaduse-news + kaduse-research's enabledFeeds regardless of
+   * which tab was open, so Haber and Research showed the identical combined
+   * number (e.g. both showed "137 aktif kaynak"). See
+   * apps/hub/route-counts.test.mjs for the regression test.
+   */
+  function computeActiveSourceCount(state, bursCatalog, egitimCatalog) {
+    if (state.route === 'hekimler' && state.hekSources) {
+      if (state.hekLane === 'burs') {
+        return bursCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('burs_') === 0; }).length;
+      }
+      if (state.hekLane === 'egitim') {
+        return egitimCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('egitim_') === 0; }).length;
+      }
+      return state.hekSources.filter(function (s) { return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId); }).length;
+    }
+    if (state.route === 'kaduse') {
+      var kaduseRouteId = state.kind === 'research' ? 'kaduse-research' : 'kaduse-news';
+      return (state.routeMeta[kaduseRouteId] || {}).enabledFeeds || 0;
+    }
+    return (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
+  }
   var RETIRED_DUPLICATE_SOURCE_IDS = {
     ema_news: 1, fierce_biotech: 1, medpage_today: 1,
     medical_xpress: 1, stat_news: 1, saglik_bakanligi_genel: 1
