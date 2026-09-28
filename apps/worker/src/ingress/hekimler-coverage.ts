@@ -8,6 +8,7 @@ export type CoverageLabel =
   | 'PIPELINE_OK_LIMITED'
   | 'PARTIALLY_COVERED'
   | 'RUNNER_REQUIRED'
+  | 'CONFIGURED_NOT_WIRED'
   | 'FAILED_INTERNAL'
   | 'NOT_RUN';
 
@@ -143,8 +144,8 @@ export const HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS = [
 /** Material, documented limitations (snapshot: adapters/hekimler-radar/content/archive/HEKIMLER-COVERAGE-MATRIX.md). */
 export const COVERAGE_OVERRIDES: Record<string, { label: CoverageLabel; note: string }> = {
   abroad_uk_gmc: { label: 'PARTIALLY_COVERED', note: 'Yalnız gov.uk UKVI/DHSC beslemeleri; GMC kayıt/PLAB/haber kapsam dışı (bot engeli).' },
-  abroad_us_ecfmg_intealth: { label: 'PARTIALLY_COVERED', note: 'ECFMG/Intealth erişilemez; yalnız USMLE/NRMP/AAMC komşu kapsam.' },
-  abroad_de_make_it_in_germany: { label: 'PARTIALLY_COVERED', note: 'Yalnız tanınma (Anerkennung); vize/taşınma kapsam dışı.' },
+  abroad_us_ecfmg_intealth: { label: 'CONFIGURED_NOT_WIRED', note: 'Cloudflare/Radware bot koruması nedeniyle otomatik çekim bağlanmadı (configured_not_wired); yalnız USMLE/NRMP/AAMC komşu kapsam.' },
+  abroad_de_make_it_in_germany: { label: 'CONFIGURED_NOT_WIRED', note: 'Kayıtlı ancak otomatik çekim bağlanmadı (configured_not_wired); yalnız tanınma (Anerkennung), vize/taşınma kapsam dışı.' },
   hsgm_public_health: { label: 'RUNNER_REQUIRED', note: 'GitHub çıkışından erişilemez; Türkiye çıkışlı runner gerekir.' },
   abroad_es_universidades_homologacion: { label: 'PIPELINE_OK_LIMITED', note: 'Tarih yalnız ay hassasiyetinde.' },
   pubmed_biomedical_evidence: { label: 'PIPELINE_OK_LIMITED', note: '90 gün, sınırlı yüksek değerli sorgular.' },
