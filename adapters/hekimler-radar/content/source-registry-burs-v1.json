@@ -342,7 +342,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Database of many programmes; emit only medical-field + Turkish-eligible calls.",
+      "manual_intake_reason": "S66 Phase A re-investigation (2026-09-28): confirmed via WebFetch + a live radar.fetchers.fetch() canary against the actual scholarship-database URL (www2.daad.de/.../21148-scholarship-database/) -- the static HTML response (HTTP 200, 2050 chars) is only the search FORM/filters page (\"Refine your selection\", country/subject dropdowns); the '151 Scholarship options' result listing itself is loaded dynamically (JS/AJAX), not present in the fetched HTML. A list-page fetcher here would perpetually see only the unchanging form page and never the real results -- worse than not automating, since it would report HEALTHY while producing zero real signal. Stays MANUAL_INTAKE; a real fix would require finding DAAD's underlying search/results API (not discoverable via a plain page fetch) or accepting a headless-browser fetch (adds real operational cost/risk, not done in this pass).",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
