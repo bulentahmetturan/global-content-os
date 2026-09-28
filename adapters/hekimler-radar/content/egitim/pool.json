@@ -1,0 +1,1453 @@
+{
+  "schemaVersion": "1.0.0",
+  "lane": "egitim",
+  "editorialBrand": "Hekimler Topluluğu",
+  "updatedAt": "2026-09-24",
+  "note": "Central eğitim pool. source_registry mirrors egitim_* profiles; egitim_ilanlari holds concrete open course calls when verified.",
+  "source_registry": [
+    {
+      "source_id": "egitim_ifm",
+      "kaynak_adi": "Institute for Functional Medicine",
+      "url": "https://www.ifm.org/education",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "çekirdek müfredat, ileri modül, CME, sertifika",
+      "hedef_seviye": [
+        "klinisyen",
+        "cpd",
+        "ogrenci"
+      ],
+      "tibbi_alan": [
+        "functional_medicine",
+        "lifestyle_medicine"
+      ],
+      "cografya": "Global / ABD",
+      "dil": [
+        "en",
+        "es"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "IFM egitim hub; FMCP/AFMCP ayri. TR practitioner kaniti var. TUK uzmanligi degil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 1
+    },
+    {
+      "source_id": "egitim_acam_chelation",
+      "kaynak_adi": "ACAM Chelation Training",
+      "url": "https://www.acam.org/mpage/ChelationHome",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "ileri kelasyon ve integratif klinik eğitim",
+      "hedef_seviye": [
+        "lisansli_klinisyen",
+        "cpd"
+      ],
+      "tibbi_alan": [
+        "integrative_medicine",
+        "chelation"
+      ],
+      "cografya": "Global / ABD",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ileri kelasyon eğitimi; Türkiye yasağı yok, tanınmış klinik yetki gerekebilir",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 2
+    },
+    {
+      "source_id": "egitim_cleveland_cfm",
+      "kaynak_adi": "Cleveland Clinic Center for Functional Medicine",
+      "url": "https://my.clevelandclinic.org/departments/functional-medicine/medical-professionals/international-preceptorship",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "CME, tıp fakültesi/asistan elektifi, preceptorship",
+      "hedef_seviye": [
+        "tip_ogrencisi",
+        "asistan",
+        "hekim"
+      ],
+      "tibbi_alan": [
+        "functional_medicine",
+        "chronic_disease"
+      ],
+      "cografya": "ABD / uluslararası",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.35,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Named International Preceptorship; TR excluded-country listesinde yok. Vize/CIME. Hasta bakimi veya uzmanlik denkligi degil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 3
+    },
+    {
+      "source_id": "egitim_stanford_integrative",
+      "kaynak_adi": "Stanford Medicine Integrative Medicine Education",
+      "url": "https://med.stanford.edu/peds-integrative.html",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "integratif tıp fellowship/eğitim",
+      "hedef_seviye": [
+        "uzmanlik_sonrasi",
+        "fellow"
+      ],
+      "tibbi_alan": [
+        "integrative_medicine",
+        "pediatrics"
+      ],
+      "cografya": "ABD",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "pediatrik integratif tıp eğitimi; program bazlı klinik uygunluk",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 4
+    },
+    {
+      "source_id": "egitim_charite_im_summer",
+      "kaynak_adi": "Charité Berlin Summer School Integrative Medizin",
+      "url": "https://ccctim.charite.de/en/berlin_summerschool_integrative_medizin/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kanıt-kritik integratif tıp yaz okulu",
+      "hedef_seviye": [
+        "hekim",
+        "hemsire",
+        "ogrenci"
+      ],
+      "tibbi_alan": [
+        "integrative_medicine",
+        "nutrition",
+        "phytotherapy"
+      ],
+      "cografya": "Almanya / Avrupa",
+      "dil": [
+        "de"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "yaz okulu; Türkiye dışlaması yok, Almanca/etkinlik koşulları var",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 5
+    },
+    {
+      "source_id": "egitim_who_academy",
+      "kaynak_adi": "WHO Academy",
+      "url": "https://whoacademy.org/courses",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "doğrulanmış sağlık e-öğrenme ve işgücü gelişimi",
+      "hedef_seviye": [
+        "ogrenci",
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health",
+        "primary_care",
+        "health_systems"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "multi"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "WHO Academy; OpenWHO ayrı. OpenWHO 2025 sonrası sertifika vermiyor.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 6
+    },
+    {
+      "source_id": "egitim_hms_ce",
+      "kaynak_adi": "Harvard Medical School Continuing Education",
+      "url": "https://cmecatalog.hms.harvard.edu/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "100+ akredite etkinlik, canlı ve çevrimiçi",
+      "hedef_seviye": [
+        "klinisyen",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "clinical_medicine",
+        "research",
+        "personalised_medicine"
+      ],
+      "cografya": "Global / ABD",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "HMS CME; HMX Fundamentals ayrı kaynak.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 7
+    },
+    {
+      "source_id": "egitim_mayo_scpd",
+      "kaynak_adi": "Mayo Clinic School of Continuous Professional Development",
+      "url": "https://ce.mayo.edu/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "konferans, çevrimiçi CME, podcast, dergi CME",
+      "hedef_seviye": [
+        "hekim",
+        "hemsire",
+        "ileri_uygulama"
+      ],
+      "tibbi_alan": [
+        "clinical_medicine"
+      ],
+      "cografya": "Global / ABD",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "açık CME kataloğu; etkinlik kuralları kurs bazlı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 8
+    },
+    {
+      "source_id": "egitim_lshtm_short",
+      "kaynak_adi": "LSHTM Short Courses",
+      "url": "https://www.lshtm.ac.uk/study/courses/short-courses",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "yüz yüze, hibrit ve çevrimiçi uzmanlık kursları",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "hekim",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "public_health",
+        "epidemiology",
+        "biostatistics",
+        "infectious_disease"
+      ],
+      "cografya": "Global / BK",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "uluslararası kısa kurs; önkoşullar kursa göre değişir",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 9
+    },
+    {
+      "source_id": "egitim_pasteur",
+      "kaynak_adi": "Institut Pasteur Education & Training",
+      "url": "https://www.pasteur.fr/en/education",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "40+ kurs, MOOC, doktora, araştırma immersiyonu",
+      "hedef_seviye": [
+        "ogrenci",
+        "doktora",
+        "hekim",
+        "bilim_insani"
+      ],
+      "tibbi_alan": [
+        "infection",
+        "immunology",
+        "epidemiology",
+        "one_health"
+      ],
+      "cografya": "Fransa / Global",
+      "dil": [
+        "fr",
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "MOOC dünya çapında açık; yüz yüze kabul program bazlı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 10
+    },
+    {
+      "source_id": "egitim_eso",
+      "kaynak_adi": "European School of Oncology",
+      "url": "https://www.eso.net/education-and-training/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "öğrenci kursları, masterclass, lisansüstü programlar",
+      "hedef_seviye": [
+        "tip_ogrencisi",
+        "hekim",
+        "hemsire",
+        "onkoloji_asistan"
+      ],
+      "tibbi_alan": [
+        "oncology",
+        "cancer_nursing"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ESO eğitim hub; öğrenci onkoloji kursu egitim_eso_medstudents. Fellowship burs şeridinde.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 11
+    },
+    {
+      "source_id": "egitim_eau",
+      "kaynak_adi": "European Association of Urology Education & Events",
+      "url": "https://uroweb.org/education",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "etkinlik, eğitim, cerrahi eğitim, mentorluk",
+      "hedef_seviye": [
+        "asistan",
+        "urolojist"
+      ],
+      "tibbi_alan": [
+        "urology",
+        "surgical_subspecialties"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "eğitim/etkinlik kataloğu; burs/exchange üyelik şartlı ve burs şeridinde",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 12
+    },
+    {
+      "source_id": "egitim_ean_learn",
+      "kaynak_adi": "European Academy of Neurology Learn",
+      "url": "https://www.ean.org/learn",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "öğrenci/klinik eğitim ve öğrenme kaynakları",
+      "hedef_seviye": [
+        "ogrenci",
+        "asistan",
+        "erken_kariyer"
+      ],
+      "tibbi_alan": [
+        "neurology",
+        "neuroscience"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "öğrenme portalı; fellowship hattı burs şeridinde ayrı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 13
+    },
+    {
+      "source_id": "egitim_esaic_academy",
+      "kaynak_adi": "ESAIC Academy",
+      "url": "https://esaic.org/academy/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kurs, masterclass, sertifika, sınav, mesleki gelişim",
+      "hedef_seviye": [
+        "asistan",
+        "uzman"
+      ],
+      "tibbi_alan": [
+        "anaesthesia",
+        "icu",
+        "perioperative",
+        "pain",
+        "patient_safety"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "akademi kurs/masterclass; araştırma grant'ları burs şeridinde ayrı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 14
+    },
+    {
+      "source_id": "egitim_ers",
+      "kaynak_adi": "European Respiratory Society Education",
+      "url": "https://www.ersnet.org/education-and-professional-development/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "eğitim, klinik gelişim, kurs ve bursiyer programları",
+      "hedef_seviye": [
+        "asistan",
+        "klinisyen",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "respiratory"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "eğitim/bursiyer kayıtlı TR alıcı belgelenmiş; fellowship burs şeridinde",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 15
+    },
+    {
+      "source_id": "egitim_eular",
+      "kaynak_adi": "EULAR Education",
+      "url": "https://www.eular.org/education",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kurs, CME, kongre eğitimi",
+      "hedef_seviye": [
+        "hekim",
+        "arastirmaci",
+        "saglik_profesyoneli"
+      ],
+      "tibbi_alan": [
+        "rheumatology",
+        "musculoskeletal"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Türk sağlık örgütü EULAR ağında; kurs/CME eğitim şeridi",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 16
+    },
+    {
+      "source_id": "egitim_eha",
+      "kaynak_adi": "European Hematology Association Education",
+      "url": "https://ehaweb.org/education",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "müfredat, tutorial, mentorluk, kongre eğitimi",
+      "hedef_seviye": [
+        "asistan",
+        "uzman",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "haematology",
+        "haemato_oncology"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Türk Hematoloji Derneği bağlantısı; grant hattı burs şeridinde",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 17
+    },
+    {
+      "source_id": "egitim_fens",
+      "kaynak_adi": "FENS Training",
+      "url": "https://www.fens.org/training",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "nörobilim eğitim ve kurs desteği",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "postdoc",
+        "erken_kariyer"
+      ],
+      "tibbi_alan": [
+        "neuroscience"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "eğitim/kurs; exchange fellowship burs şeridinde ayrı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 18
+    },
+    {
+      "source_id": "egitim_febs_courses",
+      "kaynak_adi": "FEBS Advanced Courses",
+      "url": "https://www.febs.org/our-activities/advanced-courses/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "ileri biyokimya/moleküler tıp kursları",
+      "hedef_seviye": [
+        "doktora",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "biochemistry",
+        "molecular_medicine"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "ileri kurslar; short-term fellowship burs şeridinde ayrı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 19
+    },
+    {
+      "source_id": "egitim_bif_travel",
+      "kaynak_adi": "Boehringer Ingelheim Fonds Travel Grants",
+      "url": "https://www.bifonds.de/fellowships-grants/travel-grants.html",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "araştırma ziyareti ve pratik kurs seyahat hibesi",
+      "hedef_seviye": [
+        "md_phd",
+        "doktora",
+        "postdoc"
+      ],
+      "tibbi_alan": [
+        "biomedical_sciences",
+        "molecular_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "pratik kurs ve araştırma ziyareti seyahat hibesi; dünya çapında MD/PhD",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 20
+    },
+    {
+      "source_id": "egitim_eons_eso_nurses",
+      "kaynak_adi": "EONS–ESO Cancer Nurses Fellowship",
+      "url": "https://cancernurse.eu/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kanser merkezlerinde yapılandırılmış klinik yerleştirme",
+      "hedef_seviye": [
+        "kanser_hemsiresi"
+      ],
+      "tibbi_alan": [
+        "oncology_nursing"
+      ],
+      "cografya": "Avrupa",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "yapılandırılmış kanser hemşireliği klinik yerleştirmesi; Türkiye yasağı yok",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 21
+    },
+    {
+      "source_id": "egitim_esso",
+      "kaynak_adi": "European Society of Surgical Oncology Education",
+      "url": "https://www.essoweb.org/courses/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kurs, küresel eğitim, webinar",
+      "hedef_seviye": [
+        "cerrah",
+        "onkoloji_asistan"
+      ],
+      "tibbi_alan": [
+        "surgical_oncology"
+      ],
+      "cografya": "Avrupa / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "kurs/webinar eğitim şeridi; educational grant burs şeridinde ayrı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 22
+    },
+    {
+      "source_id": "egitim_isglobal",
+      "kaynak_adi": "ISGlobal Training & Education",
+      "url": "https://www.isglobal.org/en/training",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "doktora, yüksek lisans/diploma, kısa kurs, atölye",
+      "hedef_seviye": [
+        "mezun",
+        "arastirmaci",
+        "saglik_profesyoneli"
+      ],
+      "tibbi_alan": [
+        "global_health",
+        "infectious_disease",
+        "maternal_child",
+        "environmental_health"
+      ],
+      "cografya": "İspanya / Global",
+      "dil": [
+        "en",
+        "es",
+        "ca"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "uluslararası eğitim portföyü; kabul program bazlı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 23
+    },
+    {
+      "source_id": "egitim_wcmq_cpd",
+      "kaynak_adi": "Weill Cornell Medicine–Qatar CPD",
+      "url": "https://qatar-weill.cornell.edu/continuing-professional-development",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "grand round, CPD, araştırma yöntemleri",
+      "hedef_seviye": [
+        "hekim",
+        "profesyonel",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "clinical_medicine",
+        "clinical_research",
+        "biostatistics"
+      ],
+      "cografya": "Katar / Orta Doğu",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "grand round ve araştırma yöntemleri CPD; bazı etkinlik Katar odaklı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 24
+    },
+    {
+      "source_id": "egitim_monash_pd",
+      "kaynak_adi": "Monash Medicine Nursing & Health Sciences Professional Development",
+      "url": "https://www.monash.edu/medicine/professional-development",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "kısa kurs, mikro-kredi, GCP/araştırma eğitimi",
+      "hedef_seviye": [
+        "klinisyen",
+        "arastirmaci",
+        "allied_health"
+      ],
+      "tibbi_alan": [
+        "clinical_research",
+        "public_health",
+        "nursing",
+        "allied_health"
+      ],
+      "cografya": "Avustralya / Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 9,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "uluslararası kısa kurs/mikro-kredi; tanıma program bazlı",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24",
+      "audit_no": 25
+    },
+    {
+      "source_id": "egitim_wfot",
+      "kaynak_adi": "WFOT — World Federation of Occupational Therapists",
+      "url": "https://wfot.org/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Türk Ergoterapi Derneği tam üye; onaylı eğitim programları ve çevrimiçi öğrenme.",
+      "hedef_seviye": [
+        "ogrenci",
+        "klinisyen"
+      ],
+      "tibbi_alan": [
+        "occupational_therapy"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Türk Ergoterapi Derneği tam üye; onaylı eğitim programları ve çevrimiçi öğrenme.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_world_physio",
+      "kaynak_adi": "World Physiotherapy Congress & Education",
+      "url": "https://world.physio/congress",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Uluslararası fizyoterapi kongre/eğitim izleme. 2027 konuşmacı bursu LMIC-only — o çağrı alınmadı.",
+      "hedef_seviye": [
+        "ogrenci",
+        "klinisyen"
+      ],
+      "tibbi_alan": [
+        "physiotherapy"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Uluslararası fizyoterapi kongre/eğitim izleme. 2027 konuşmacı bursu LMIC-only — o çağrı alınmadı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_espen_training",
+      "kaynak_adi": "ESPEN Clinical Nutrition Training",
+      "url": "https://www.espen.org/education/training/information-on-training",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "KEPAN + TR eğitim merkezleri; Educational Grant diyetisyen/hemşire kazananları. Fellowship burs şeridinde ayrı.",
+      "hedef_seviye": [
+        "klinisyen",
+        "cpd"
+      ],
+      "tibbi_alan": [
+        "nutrition_dietetics",
+        "nursing",
+        "pharmacy"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Surekli/donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.7,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "KEPAN + TR eğitim merkezleri; Educational Grant diyetisyen/hemşire kazananları. Fellowship burs şeridinde ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_ifm_fmcp",
+      "kaynak_adi": "IFM FMCP / FMCP-M Certification",
+      "url": "https://www.ifm.org/certification",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Uluslararasi esdeger lisans yolu; TR practitioner kaniti. Mevcut meslek lisansi/TUK uzmanligi degil.",
+      "hedef_seviye": [
+        "lisansli_klinisyen"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.85,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "2026 FMCP/FMCP-M; eski IFMCP emekli. ACCME egitim; NCCA henuz granted degil. Scope genisletmez.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_ifm_afmcp",
+      "kaynak_adi": "IFM AFMCP",
+      "url": "https://www.ifm.org/afmcp",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "ACCME 11 hafta online temel egitim; TR AFMCP kaydi var. FMCP otomatik verilmez. Klinik ruhsat degil.",
+      "hedef_seviye": [
+        "klinisyen",
+        "cpd"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 10,
+      "toplam_puan": 10.0,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "2026 sonbahar cohort 5 Ekim-17 Aralik; kayit 12 Ekim 2026. Core curriculum parcasi.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_cleveland_observership",
+      "kaynak_adi": "Cleveland Clinic Functional Medicine Observership",
+      "url": "https://my.clevelandclinic.org/departments/international-medical-education/international-programs/physician-observer",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Named 1 ay CIME observership; Functional Medicine listede; TR excluded-country degil. Vize/CIME. Hasta bakimi/denklik degil.",
+      "hedef_seviye": [
+        "hekim",
+        "asistan"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "1 ay CIME observership; Functional Medicine listede. Sonraki pencere 1 Ara 2026-31 Oca 2027. Hasta bakimi yok.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_uws_cnfm",
+      "kaynak_adi": "UWS Clinical Nutrition and Functional Medicine Graduate Certificate",
+      "url": "https://www.uws.edu/academics/programs/clinical-nutrition-functional-medicine/graduate-certificate/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "NWCCU akredite universite, %100 online. Graduate degree sarti. Tek basina licensure/TR denklik degil.",
+      "hedef_seviye": [
+        "yuksek_lisans",
+        "doktora"
+      ],
+      "tibbi_alan": [
+        "functional_medicine",
+        "nutrition_dietetics"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 8,
+      "toplam_puan": 8.65,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "NWCCU akredite; %100 online. Graduate degree + Ingilizce/mulakat. Tek basina licensure veya TR denklik degil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_kresser_adapt",
+      "kaynak_adi": "Kresser Institute ADAPT Practitioner Training",
+      "url": "https://kresserinstitute.com/adapt-practitioner-training-program/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "12 ay sanal; international practitioners. Bagimsiz board/NCCA dogrulanmadi. TR resmi tanima yok. Izlenmeli.",
+      "hedef_seviye": [
+        "lisansli_klinisyen"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 7,
+      "guncellik": 9,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 7.8,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "International practitioners acik. Bagimsiz board/NCCA dogrulanmadi. TR resmi tanima yok. Tier C / izlenmeli.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_fmca",
+      "kaynak_adi": "FMCA Functional Medicine Health Coach Certification",
+      "url": "https://functionalmedicinecoaching.org/program/health-coach-certification/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "NBHWC/UKIHCA + TR mezun kaniti. Health-coach credential; hekimlik/klinik yetki degil.",
+      "hedef_seviye": [
+        "coach",
+        "klinisyen"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 8,
+      "guncellik": 10,
+      "erisim_kolayligi": 10,
+      "toplam_puan": 9.5,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "NBHWC/UKIHCA + TR mezun kaniti. Health-coach credential; hekimlik veya klinik yetki degil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_egfm",
+      "kaynak_adi": "EGFM Therapeut/Coach fuer Funktionelle Medizin",
+      "url": "https://egfm.eu/online-lernen/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Berlin Tabip Odasi CME; Almanca. TR meslek belgesi otomatik kabul degil. TTB tanimasi degil.",
+      "hedef_seviye": [
+        "hekim",
+        "heilpraktiker"
+      ],
+      "tibbi_alan": [
+        "functional_medicine"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "de"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 8,
+      "guncellik": 10,
+      "erisim_kolayligi": 7,
+      "toplam_puan": 8.0,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Berlin Tabip Odasi CME; Almanca. TR meslek belgesi otomatik kabul degil. TTB tanimasi degil.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_nih_ippcr",
+      "kaynak_adi": "NIH IPPCR",
+      "url": "https://ocreco.od.nih.gov/courses/ippcr.html",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Ücretsiz online klinik araştırma kursu; tıp ve diş öğrencileri hedef grupta. 150+ ülke. 2026–27 kayıt açık; sınav ≥80 Certificate of Completion. CME/akademik kredi yok.",
+      "hedef_seviye": [
+        "tip_ogrencisi",
+        "dis_ogrencisi",
+        "klinisyen",
+        "arastirmaci"
+      ],
+      "tibbi_alan": [
+        "clinical_research",
+        "epidemiology",
+        "biostatistics",
+        "research_ethics"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 10,
+      "toplam_puan": 10.0,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Ücretsiz online klinik araştırma kursu; tıp ve diş öğrencileri hedef grupta. 150+ ülke. 2026–27 kayıt açık; sınav ≥80 Certificate of Completion. CME/akademik kredi yok.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_hms_hmx",
+      "kaynak_adi": "Harvard Medical School HMX Fundamentals",
+      "url": "https://learn.hms.harvard.edu/about/program-categories/hmx-online-learning",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Online temel tıp bilimleri (genetik, immünoloji, farmakoloji, fizyoloji, biyokimya). Tıp ve diğer sağlık öğrencileri açık. Certificate of Completion. HMS CME kataloğundan ayrı. Ücretli.",
+      "hedef_seviye": [
+        "tip_ogrencisi",
+        "saglik_ogrencisi",
+        "klinisyen"
+      ],
+      "tibbi_alan": [
+        "medical_education",
+        "genetics",
+        "immunology",
+        "pharmacology",
+        "physiology",
+        "biochemistry"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 9,
+      "toplam_puan": 9.85,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Online temel tıp bilimleri (genetik, immünoloji, farmakoloji, fizyoloji, biyokimya). Tıp ve diğer sağlık öğrencileri açık. Certificate of Completion. HMS CME kataloğundan ayrı. Ücretli.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_eso_medstudents",
+      "kaynak_adi": "ESO–ESSO–ESTRO–ESP Oncology Course for Medical Students",
+      "url": "https://www.essoweb.org/courses-and-webinars/eso-esso-estro-esp-multidisciplinary-course-on-oncology-for-medical-students/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "1 hafta yüz yüze; 4. sınıfını tamamlamış tıp öğrencileri. 40 kişilik rekabetçi seçim. 2026 Linz kapalı (30 Nis). Vize/ücret. TR dışlanmıyor. ESO hub ayrı.",
+      "hedef_seviye": [
+        "tip_ogrencisi"
+      ],
+      "tibbi_alan": [
+        "oncology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.35,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "1 hafta yüz yüze; 4. sınıfını tamamlamış tıp öğrencileri. 40 kişilik rekabetçi seçim. 2026 Linz kapalı (30 Nis). Vize/ücret. TR dışlanmıyor. ESO hub ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_esmo_students",
+      "kaynak_adi": "ESMO Course in Medical Oncology for Medical Students",
+      "url": "https://www.esmo.org/meeting-calendar/esmo-course-in-medical-oncology-for-medical-students-2026",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "Yüz yüze yoğun öğrenci kursu; ESMO eğitim portföyünde ayrı kategori. Geçmiş kriter: 4.–5. sınıf, İngilizce, CV, motivasyon, referans. Vize. Fellowship burs şeridinde ayrı.",
+      "hedef_seviye": [
+        "tip_ogrencisi"
+      ],
+      "tibbi_alan": [
+        "medical_oncology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 9,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.1,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "Yüz yüze yoğun öğrenci kursu; ESMO eğitim portföyünde ayrı kategori. Geçmiş kriter: 4.–5. sınıf, İngilizce, CV, motivasyon, referans. Vize. Fellowship burs şeridinde ayrı.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_ucl_moorfields_oss",
+      "kaynak_adi": "UCL Institute of Ophthalmology + Moorfields Summer School",
+      "url": "https://www.ucl.ac.uk/brain-sciences/ioo/study/summer-school",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "5 gün yüz yüze Londra; late-stage tıp öğrencileri ve trainee doctors. UCL uluslararası kitleyi açıkça belirtiyor. 2026: 29 Tem–4 Ağu. Vize/ücret.",
+      "hedef_seviye": [
+        "tip_ogrencisi",
+        "asistan"
+      ],
+      "tibbi_alan": [
+        "ophthalmology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.35,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "5 gün yüz yüze Londra; late-stage tıp öğrencileri ve trainee doctors. UCL uluslararası kitleyi açıkça belirtiyor. 2026: 29 Tem–4 Ağu. Vize/ücret.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_erasmus_summer",
+      "kaynak_adi": "Erasmus MC Erasmus Summer Programme",
+      "url": "https://www.erasmussummerprogramme.nl/",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "3 hafta Rotterdam; epidemiyoloji/klinik araştırma/biyoistatistik. Master/PhD düzeyinde à la carte. Her tıp öğrencisi otomatik uygun değil. Uluslararası, vize.",
+      "hedef_seviye": [
+        "ileri_ogrenci",
+        "doktora",
+        "arastirmaci",
+        "klinisyen"
+      ],
+      "tibbi_alan": [
+        "epidemiology",
+        "clinical_research",
+        "biostatistics",
+        "genetic_epidemiology"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Kısmi",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 6,
+      "toplam_puan": 8.35,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "3 hafta Rotterdam; epidemiyoloji/klinik araştırma/biyoistatistik. Master/PhD düzeyinde à la carte. Her tıp öğrencisi otomatik uygun değil. Uluslararası, vize.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_openwho",
+      "kaynak_adi": "OpenWHO Health Emergencies Training",
+      "url": "https://openwho.org/courses",
+      "kaynak_turu": "Prestij eğitim",
+      "kapsam": "WHO resmi acil sağlık öğrenme hub. Her yerden ücretsiz, kayıt yok. 2025 yeniden tasarım sonrası sertifika verilmiyor. WHO Academy ayrı kaynak.",
+      "hedef_seviye": [
+        "ogrenci",
+        "klinisyen",
+        "halk_sagligi"
+      ],
+      "tibbi_alan": [
+        "health_emergencies",
+        "infectious_disease",
+        "disaster"
+      ],
+      "cografya": "Global",
+      "dil": [
+        "en"
+      ],
+      "guncelleme_sikligi": "Donemsel",
+      "takip_yontemi": "web katalog",
+      "turk_uygunluk": "Evet",
+      "guvenilirlik": 10,
+      "guncellik": 10,
+      "erisim_kolayligi": 10,
+      "toplam_puan": 10.0,
+      "son_kontrol_tarihi": "2026-09-24",
+      "son_basarili_kontrol": "2026-09-24",
+      "basarisiz_kontrol_sayisi": 0,
+      "durum": "aktif",
+      "notlar": "WHO resmi acil sağlık öğrenme hub. Her yerden ücretsiz, kayıt yok. 2025 yeniden tasarım sonrası sertifika verilmiyor. WHO Academy ayrı kaynak.",
+      "eklenme_tarihi": "2026-09-24",
+      "guncellenme_tarihi": "2026-09-24"
+    }
+  ],
+  "egitim_ilanlari": []
+}

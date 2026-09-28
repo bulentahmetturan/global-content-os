@@ -1,7 +1,9 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
-import { decodeEntities, isArticleLink } from './link-quality';
+import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
+import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
+import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 
 export interface FeedRow {
   id: string;
@@ -33,36 +35,58 @@ const ERROR_BACKOFF_HOURS = 12;
 const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.titck.gov.tr/duyurular': 'https://www.titck.gov.tr/duyuru',
   'https://www.titck.gov.tr/duyurular?catID=93': 'https://www.titck.gov.tr/duyuru',
+  // FDA official pages/RSS 404 to this Worker's egress IPs (2026-09-22, confirmed live;
+  // the same rss.xml URL returns 200 to a normal browser/curl) — Bing News site query instead.
   'https://www.fda.gov/medical-devices/safety-communications':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+recall+OR+safety)&format=rss',
+  // 2026-09-23: consolidated 4 separate FDA feeds (device-safety, digital-health, samd,
+  // press-announcements) into this one -- all 4 Bing-News queries kept converging on the exact
+  // same 1 FDA press release each poll (created:0 every time, only ever "updating" the one row
+  // another feed already owned), so they were pure registry duplication, not real distinct
+  // coverage. The other 3 feed ids are now disabled; this query covers all 4 original angles.
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+AI+OR+software)&format=rss',
   'https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+AI+OR+software)&format=rss',
   'https://www.fda.gov/medical-devices/digital-health-center-excellence':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(digital+health+OR+device)&format=rss',
   'https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(digital+health+OR+device+OR+software)&format=rss',
   'https://www.fda.gov/news-events/fda-newsroom/press-announcements':
-    'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml',
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+approval+OR+recall+OR+%22digital+health%22+OR+SaMD+OR+software+OR+safety)&format=rss',
   'https://www.hma.eu/news.html': 'https://www.hma.eu/',
-  'https://www.imdrf.org/news': 'https://www.imdrf.org/documents',
-  'https://hsgm.saglik.gov.tr/tr/duyurular': 'https://hsgm.saglik.gov.tr/tr',
+  'https://www.imdrf.org/news':
+    'https://www.bing.com/news/search?q=site%3Aimdrf.org&format=rss',
+  'https://hsgm.saglik.gov.tr/tr/duyurular':
+    'https://www.bing.com/news/search?q=site%3Ahsgm.saglik.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html':
-    'https://www.pmda.go.jp/english/',
+    'https://www.bing.com/news/search?q=site%3Apmda.go.jp&format=rss',
   'https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices':
     'https://www.hpra.ie/safety-information/safety-notices',
-  'https://www.saglik.gov.tr/TR,10169/haberler.html': 'https://www.saglik.gov.tr/',
+  'https://www.saglik.gov.tr/TR,10169/haberler.html':
+    'https://www.bing.com/news/search?q=site%3Asaglik.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101':
     'https://www.tuik.gov.tr/',
   'https://www.medica-tradefair.com/en/News/MEDICA_Sphere':
     'https://www.medica-tradefair.com/en/Media_News',
-  'https://www.hhs.gov/about/news/index.html': 'https://www.hhs.gov/rss/news.xml',
+  // HHS official RSS also 403s to this Worker (2026-09-22) — Bing News fallback.
+  'https://www.hhs.gov/about/news/index.html':
+    'https://www.bing.com/news/search?q=site%3Ahhs.gov+(health+OR+AI+OR+technology)&format=rss',
+  // Homepage has almost no real article links (mostly nav/hero copy) -- the actual dated blog
+  // posts live at /blog, confirmed live 2026-09-23 (11 real posts, real <a href="/blog/..."> links
+  // in server-rendered HTML, no JS execution needed).
+  'https://www.digitalregulations.innovation.nhs.uk': 'https://digitalregulations.innovation.nhs.uk/blog',
   'https://www.mobihealthnews.com': 'https://feeds.feedburner.com/MobiHealthNews',
   'https://www.mobihealthnews.com/': 'https://feeds.feedburner.com/MobiHealthNews',
+  // Health Canada atom feed returns http_520 to this Worker (2026-09-22) — Bing News fallback.
   'https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html':
-    'https://www.canada.ca/en/health-canada.atom.xml',
+    'https://www.bing.com/news/search?q=site%3Acanada.ca+(%22medical+device%22+OR+%22Health+Canada%22)&format=rss',
   'https://www.medtechdive.com': 'https://www.medtechdive.com/feeds/news/',
+  // news.html's HTML is nav/category links (Medical devices, Human medicines, Latest News,
+  // e-Government portal, etc.), no real article entries -- Swissmedic's own official RSS instead
+  // (confirmed live 2026-09-23, real dated safety communications/recalls).
+  'https://www.swissmedic.ch/swissmedic/en/home/news.html':
+    'https://fetchrss.com/feed/X-CSwP0MWGVCaG_Z2JbPgiti.rss',
   'https://www.bmj.com/': 'https://www.bmj.com/rss/recent.xml',
   'https://www.cell.com/cell/home': 'https://www.cell.com/cell/current.rss',
   'https://www.nejm.org/': 'https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss',
@@ -73,7 +97,8 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://jamanetwork.com/journals/jama': 'https://jamanetwork.com/rss/site_3/67.xml',
   'https://jamanetwork.com/': 'https://jamanetwork.com/rss/site_3/67.xml',
   'https://www.medrxiv.org/': 'https://connect.medrxiv.org/relate/feed/medrxiv/new',
-  'https://www.eurekalert.org/': 'https://www.eurekalert.org/rss/medicine.xml',
+  // eurekalert.org's own rss/*.xml paths are all dead (404, verified 2026-09-22) — Bing News fallback.
+  'https://www.eurekalert.org/': 'https://www.bing.com/news/search?q=site%3Aeurekalert.org&format=rss',
   'https://www.nih.gov/news-events/news-releases':
     'https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NationalInstitutesofHealthNewsReleases',
   'https://ai.nejm.org/': 'https://ai.nejm.org/action/showFeed?jc=ai&type=etoc&feed=rss',
@@ -90,49 +115,57 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://erj.ersjournals.com/': 'https://erj.ersjournals.com/rss/current.xml',
   'https://www.cochranelibrary.com/':
     'https://www.cochranelibrary.com/cdsr/browse/articles?format=rss',
+  // news.google.com/rss/search consistently returns http_503 to this Worker's egress
+  // IPs (confirmed live 2026-09-22, every feed routed through it) — Bing News RSS instead.
   'https://www.consilium.europa.eu/en/meetings/epsco/':
-    'https://news.google.com/rss/search?q=site:consilium.europa.eu+(EPSCO+OR+%22Employment,+Social+Policy,+Health%22+OR+%22Working+Party+on+Public+Health%22)&hl=en-US&gl=US&ceid=US:en',
-  // Bot-blocked official pages → Google News site RSS (Worker-fetchable, continuous)
+    'https://www.bing.com/news/search?q=site%3Aconsilium.europa.eu+(EPSCO+OR+%22Employment%2C+Social+Policy%2C+Health%22)&format=rss',
   'https://array.aami.org/content/news':
-    'https://news.google.com/rss/search?q=site:aami.org+OR+site:array.aami.org+(device+OR+standard+OR+HTM)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aaami.org+OR+site%3Aarray.aami.org&format=rss',
   'https://www.edqm.eu/en/news':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.edqm.eu/en/edqm-newsroom':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.edqm.eu/en/edqm/about/newsroom':
-    'https://news.google.com/rss/search?q=site:edqm.eu&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aedqm.eu&format=rss',
   'https://www.euractiv.com/section/health-consumers/':
-    'https://news.google.com/rss/search?q=site:euractiv.com+(health+OR+healthcare+OR+pharma)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aeuractiv.com+(health+OR+healthcare+OR+pharma)&format=rss',
   'https://www.medicaldevice-network.com':
-    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicaldevice-network.com&format=rss',
   'https://www.medicaldevice-network.com/news/':
-    'https://news.google.com/rss/search?q=site:medicaldevice-network.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicaldevice-network.com&format=rss',
   'https://www.oecd.org/health/':
-    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aoecd.org+health&format=rss',
   'https://www.oecd.org/en/topics/health.html':
-    'https://news.google.com/rss/search?q=site:oecd.org+health&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Aoecd.org+health&format=rss',
   'https://www.reuters.com/business/healthcare-pharmaceuticals/':
-    'https://news.google.com/rss/search?q=site:reuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Areuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&format=rss',
   'https://www.tuseb.gov.tr/haberler':
-    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.tuseb.gov.tr/':
-    'https://news.google.com/rss/search?q=site:tuseb.gov.tr&hl=tr&gl=TR&ceid=TR:tr',
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
+  'https://www.tuseb.gov.tr/tuyze':
+    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
   // Research news / secondary streams
   'https://medicalxpress.com/': 'https://medicalxpress.com/rss-feed/',
   'https://www.medicalnewstoday.com/':
-    'https://news.google.com/rss/search?q=site:medicalnewstoday.com&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Amedicalnewstoday.com&format=rss',
   'https://www.statnews.com/': 'https://www.statnews.com/feed/',
   'https://www.nature.com/news':
-    'https://news.google.com/rss/search?q=site:nature.com/news+(medicine+OR+health+OR+device)&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=site%3Anature.com%2Fnews+(medicine+OR+health+OR+device)&format=rss',
   'https://www.nature.com/nbt/': 'https://www.nature.com/nbt.rss',
   'https://www.nature.com/ng/': 'https://www.nature.com/ng.rss',
   'https://www.nature.com/npjdigitalmed/': 'https://www.nature.com/npjdigitalmed.rss',
   'https://www.nature.com/': 'https://www.nature.com/nature.rss',
   'https://www.jmir.org/': 'https://www.jmir.org/rss.xml',
   'https://www.embs.org/jbhi/':
-    'https://news.google.com/rss/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=%22IEEE+Journal+of+Biomedical+and+Health+Informatics%22&format=rss',
   'https://www.embs.org/tbme/':
-    'https://news.google.com/rss/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&hl=en-US&gl=US&ceid=US:en',
+    'https://www.bing.com/news/search?q=%22IEEE+Transactions+on+Biomedical+Engineering%22&format=rss',
+  // FDA MedWatch official RSS 404s from Worker egress (same class as other fda.gov rss.xml).
+  'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml':
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(MedWatch+OR+supplement+OR+vitamin+OR+%22dietary+supplement%22+OR+recall)&format=rss',
+  'https://www.fda.gov/AboutFDA/ContactFDA/StayInformed/RSSFeeds/TDS/rss.xml':
+    'https://www.bing.com/news/search?q=site%3Afda.gov+(tainted+AND+(supplement+OR+vitamin))&format=rss',
 };
 
 function normalizeEndpoint(raw: string): string {
@@ -264,6 +297,135 @@ function discoverFeedUrls(html: string, baseUrl: string): string[] {
   return out;
 }
 
+/** Legitimate discovery via a site's own published sitemap.xml/sitemap-news.xml — same category
+ * of file as robots.txt: sites publish these specifically to be crawled. Not a bypass. */
+// Matches the news ingest-gate's own NEWS_MAX_AGE_DAYS: no point title-fetching a sitemap entry
+// that would be rejected by the gate as stale anyway (see ingest-gate.ts).
+const SITEMAP_RECENT_DAYS = NEWS_MAX_AGE_DAYS;
+const SITEMAP_MAX_TITLE_FETCHES = 5;
+
+function isSitemapIndex(xml: string): boolean {
+  return /<sitemapindex[\s>]/i.test(xml.slice(0, 2000));
+}
+
+function extractSitemapIndexLocs(xml: string, baseUrl: string): string[] {
+  const out: string[] = [];
+  const blocks = xml.match(/<sitemap[\s>][\s\S]*?<\/sitemap>/gi) || [];
+  for (const block of blocks) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const abs = loc && absolutize(baseUrl, loc);
+    if (abs) out.push(abs);
+  }
+  return out;
+}
+
+/** Pick the sub-sitemap most likely to hold actual articles/posts (vs. static "page"/"category" trees). */
+function pickContentSitemapLoc(locs: string[]): string | null {
+  const priority = ['post', 'news', 'article', 'content'];
+  for (const p of priority) {
+    const hit = locs.find((l) => l.toLowerCase().includes(p));
+    if (hit) return hit;
+  }
+  return locs[0] || null;
+}
+
+function isNewsSitemap(xml: string): boolean {
+  return /xmlns:news=/i.test(xml.slice(0, 1000)) || /<news:title>/i.test(xml);
+}
+
+/** Google-News-format sitemap: each <url> carries <news:title>/<news:publication_date> inline —
+ * structurally almost identical to RSS, so this is one shared parser for any source using this format
+ * (e.g. Medical News Today), not a per-source one-off. */
+export function parseNewsSitemap(xml: string, baseUrl: string): ExtractedItem[] {
+  const items: ExtractedItem[] = [];
+  const blocks = xml.match(/<url[\s>][\s\S]*?<\/url>/gi) || [];
+  for (const block of blocks.slice(0, 40)) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const title = stripTags((block.match(/<news:title[^>]*>([\s\S]*?)<\/news:title>/i) || [])[1] || '');
+    const publishedAt =
+      stripTags((block.match(/<news:publication_date[^>]*>([\s\S]*?)<\/news:publication_date>/i) || [])[1] || '') ||
+      null;
+    if (!loc || !title) continue;
+    const url = absolutize(baseUrl, loc);
+    if (!url) continue;
+    items.push({ title, url, summary: title, publishedAt });
+  }
+  return items;
+}
+
+/** Plain sitemap (URL + lastmod only, no title/date fields) — return entries with a lastmod inside
+ * the recent window, newest first, capped so a per-URL title fetch stays small enough per tick. */
+function parseRecentPlainSitemapLocs(
+  xml: string,
+  baseUrl: string,
+  maxAgeDays: number = SITEMAP_RECENT_DAYS
+): Array<{ url: string; lastmod: string }> {
+  const out: Array<{ url: string; lastmod: string }> = [];
+  const blocks = xml.match(/<url[\s>][\s\S]*?<\/url>/gi) || [];
+  const cutoff = Date.now() - maxAgeDays * 86_400_000;
+  for (const block of blocks) {
+    const loc = stripTags((block.match(/<loc[^>]*>([\s\S]*?)<\/loc>/i) || [])[1] || '');
+    const lastmod = stripTags((block.match(/<lastmod[^>]*>([\s\S]*?)<\/lastmod>/i) || [])[1] || '');
+    if (!loc || !lastmod) continue;
+    const t = Date.parse(lastmod);
+    if (Number.isNaN(t) || t < cutoff || t > Date.now() + 86_400_000) continue;
+    const url = absolutize(baseUrl, loc);
+    if (!url) continue;
+    // Skip the homepage/section-root itself (e.g. a nav sitemap listing "/" with a fresh lastmod) —
+    // it is not an article and would otherwise surface as a junk "SafeMedication"-style item.
+    try {
+      const path = new URL(url).pathname;
+      if (path === '/' || path.length < 2) continue;
+    } catch {
+      continue;
+    }
+    out.push({ url, lastmod });
+  }
+  out.sort((a, b) => Date.parse(b.lastmod) - Date.parse(a.lastmod));
+  return out;
+}
+
+async function fetchArticleTitle(url: string): Promise<string | null> {
+  const { ok, text } = await fetchText(url);
+  if (!ok || !text) return null;
+  const og = (text.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i) ||
+    text.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i) ||
+    [])[1];
+  const raw = og || (text.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '';
+  const title = stripTags(raw);
+  return title.length >= 8 ? title : null;
+}
+
+/** Resolve a plain sitemap (with per-URL title fetch) or a Google-News-format sitemap into
+ * ExtractedItem[]; follows one level of <sitemapindex> to the most content-like sub-sitemap. */
+async function extractFromSitemap(
+  xml: string,
+  sitemapUrl: string
+): Promise<ExtractedItem[]> {
+  let body = xml;
+  let baseUrl = sitemapUrl;
+  if (isSitemapIndex(body)) {
+    const locs = extractSitemapIndexLocs(body, baseUrl);
+    const pick = pickContentSitemapLoc(locs);
+    if (!pick) return [];
+    const sub = await fetchText(pick);
+    if (!sub.ok || !sub.text) return [];
+    body = sub.text;
+    baseUrl = pick;
+  }
+  if (!/<urlset[\s>]/i.test(body.slice(0, 2000))) return [];
+  if (isNewsSitemap(body)) return parseNewsSitemap(body, baseUrl);
+
+  const recent = parseRecentPlainSitemapLocs(body, baseUrl).slice(0, SITEMAP_MAX_TITLE_FETCHES);
+  const items: ExtractedItem[] = [];
+  for (const entry of recent) {
+    const title = await fetchArticleTitle(entry.url);
+    if (!title) continue;
+    items.push({ title, url: entry.url, summary: title, publishedAt: entry.lastmod });
+  }
+  return items;
+}
+
 async function fetchText(
   url: string
 ): Promise<{ ok: boolean; status: number; text: string; contentType: string; error?: string }> {
@@ -329,6 +491,11 @@ export async function extractFromUrl(endpointUrl: string, keep?: (url: string) =
     if (looksXml) {
       const items = parseRssOrAtom(text, url);
       if (items.length) return { items, pageOk: true, pageStatus: status };
+      const looksSitemap = /<urlset[\s>]|<sitemapindex[\s>]/i.test(text.slice(0, 2000));
+      if (looksSitemap) {
+        const sitemapItems = await extractFromSitemap(text, url);
+        if (sitemapItems.length) return { items: sitemapItems, pageOk: true, pageStatus: status };
+      }
     }
   }
 
@@ -435,6 +602,22 @@ async function upsertExtracted(
   return { created, updated };
 }
 
+function applyIncludeKeywords(feed: FeedRow, items: ExtractedItem[]): ExtractedItem[] {
+  let keys: string[] = [];
+  try {
+    const rules = feed.rules_json ? JSON.parse(feed.rules_json) : {};
+    const raw = rules.includeKeywords;
+    if (Array.isArray(raw)) keys = raw.map((k: unknown) => String(k).toLowerCase()).filter(Boolean);
+  } catch {
+    return items;
+  }
+  if (!keys.length) return items;
+  return items.filter((it) => {
+    const text = `${it.title || ''} ${it.summary || ''}`.toLowerCase();
+    return keys.some((k) => text.includes(k));
+  });
+}
+
 export async function ingestGenericFeeds(
   env: Env,
   opts: { route: RouteId; offset?: number; limit?: number; onlyEmpty?: boolean; feedIds?: string[] }
@@ -445,7 +628,7 @@ export async function ingestGenericFeeds(
   empty: number;
   errors: number;
   nextOffset: number | null;
-  samples: Array<{ feedId: string; items: number; error?: string }>;
+  samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }>;
 }> {
   const offset = opts.offset ?? 0;
   const limit = Math.min(opts.limit ?? 8, 20);
@@ -462,12 +645,19 @@ export async function ingestGenericFeeds(
   if (!feedIds.length) {
     sql += ` AND (last_error IS NULL OR last_fetched_at IS NULL OR last_fetched_at < ?)`;
     backoffBinds.push(new Date(Date.now() - ERROR_BACKOFF_HOURS * 3_600_000).toISOString());
+    // Respect each feed's own poll_minutes (2026-09-23: was stored but never enforced -- every
+    // feed rotated at the same cadence regardless of how rarely it actually produces new
+    // content, wasting D1 read/write quota on monthly-cadence sources polled hourly). A healthy
+    // feed is skipped until its own interval has elapsed; error-backoff above still applies
+    // independently for failing ones.
+    sql += ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
   }
   if (opts.route === 'kaduse-news') {
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
   }
   if (opts.route === 'kaduse-research') {
     sql += ` AND id NOT IN ('europe-pmc-batch', 'research-europe-pmc-rest', 'research-pubmed-eutilities', 'research-crossref-rest-api', 'research-openalex-api', 'research-clinicaltrials-gov-api-v2')`;
+    sql += ` AND COALESCE(transport, '') NOT IN ('PUBMED_EUTILS', 'REST_BATCH')`;
   }
   if (opts.route === 'tip-ogrencileri') {
     sql += ` AND id != 'tip-radar-adapter'`;
@@ -481,7 +671,7 @@ export async function ingestGenericFeeds(
   let updated = 0;
   let empty = 0;
   let errors = 0;
-  const samples: Array<{ feedId: string; items: number; error?: string }> = [];
+  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }> = [];
 
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
@@ -489,10 +679,17 @@ export async function ingestGenericFeeds(
       const scope = feedUrlScope(feed.id);
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
+      extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
+      extracted.items = applyIncludeKeywords(feed, extracted.items);
+      const offTopicCount = extracted.items.length;
+      if ((feed.route === 'kaduse-news' || feed.route === 'kaduse-research') && !isTopicGateExempt(feed.id)) {
+        extracted.items = extracted.items.filter((it) => isHealthRelevant(it.title, it.summary));
+      }
       samples.push({
         feedId: feed.id,
         items: extracted.items.length,
         error: extracted.error,
+        offTopicDropped: offTopicCount - extracted.items.length || undefined,
       });
       if (!extracted.items.length) {
         empty += 1;

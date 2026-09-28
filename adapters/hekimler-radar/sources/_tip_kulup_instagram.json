@@ -1,0 +1,1017 @@
+{
+  "date": "2026-09-18",
+  "scope": "all tip-related clubs not only MSIC/TOB",
+  "summary": {
+    "universities": 84,
+    "unis_with_clubs": 78,
+    "club_rows": 139,
+    "unis_with_ig": 9,
+    "verified_handles": 18
+  },
+  "by_institution": {
+    "Acıbadem Mehmet Ali Aydınlar Üniversitesi": [
+      {
+        "name": "Acıbadem Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": "acibademmsa",
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "ACUTBAT",
+        "type": "BAT",
+        "ig": "acutbat",
+        "source": "directory/faculty"
+      }
+    ],
+    "Afyonkarahisar Sağlık Bilimleri Üniversitesi": [
+      {
+        "name": "Afyon SBÜ Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Akdeniz Üniversitesi": [
+      {
+        "name": "Akdeniz Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Aksaray Üniversitesi": [
+      {
+        "name": "Aksaray Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Altınbaş Üniversitesi": [
+      {
+        "name": "Altınbaş Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": "altinbastob",
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Amasya Üniversitesi": [
+      {
+        "name": "Amasya Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Ankara Yıldırım Beyazıt Üniversitesi": [
+      {
+        "name": "Ankara Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Ankara Üniversitesi": [
+      {
+        "name": "Tıp Öğrencileri Birliği Öğrenci Topluluğu (Ankara TÖB)",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Ankara Tıp Oyuncuları Topluluğu (ATO)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Avrupa Tıp Öğrencileri Birliği Öğrenci Topluluğu (EMSA)",
+        "type": "EMSA",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Diş Hekimliği Fakültesi Tiyatro Topluluğu (DİFTİT)",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Dünya Akuatik Veteriner Hekimler Birliği Öğrenci Topluluğu (WAVMA)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Bilimsel Araştırma Öğrenci Topluluğu (ANTBAT)",
+        "type": "BAT",
+        "ig": "antbatofficial",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Eşli Danslar Öğrenci Topluluğu (ANTEDANS)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Fotoğrafçılık Öğrenci Topluluğu (AÜTFFOTO)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Halk Oyunları Öğrenci Topluluğu (AÜTF.HOT)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Hayvanseverler Öğrenci Topluluğu (ANTHAS)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Kariyer Planlama Öğrenci Topluluğu (AÜTF KAP)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Kök Hücre Öğrenci Topluluğu (ANTKÖK)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Müzik Öğrenci Topluluğu (AÜTF MT)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Resim Heykel ve Grafik Tasarım Öğrenci Topluluğu (ATREG)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Sağlık ve Spor Öğrenci Topluluğu (ANTSAS)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Sinema Öğrenci Topluluğu (KİNETİP)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Sinirbilim Öğrenci Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Tarih Öğrenci Topluluğu (Ankara Tıp Tarih)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıp Fakültesi Umut Çocukta Öğrenci Topluluğu (AÜTF UÇ)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Tıpta Yapay Zekâ Öğrenci Topluluğu (MIND)",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Uluslararası Diş Hekimliği Öğrenci Topluluğu (DENTSİC)",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Uluslararası Veteriner Öğrenci Topluluğu (IVSA Ankara)",
+        "type": "IVSA",
+        "ig": "ivsaankara",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Bilimleri Araştırma ve Proje Geliştirme Öğrenci Topluluğu (VARBİ)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Atatürkçü Düşünce Öğrenci Topluluğu (ADT)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Atlı Spor Öğrenci Topluluğu (AVAST)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Mesleki Gelişim Öğrenci Topluluğu (VETANKA)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Spor Öğrenci Topluluğu (AÜVFST)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Tarih ve Kültür Öğrenci Topluluğu (A.Ü.V.F.T.K.T.)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Fakültesi Tiyatro Öğrenci Topluluğu (VEFTİT)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Klinik Beceri Topluluğu (AKBET)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Müzecilik Eğitim Öğrenci Topluluğu (AVMET)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Müzik Öğrenci Topluluğu (VETMÜT)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Radyoloji Öğrenci Topluluğu (VETRAD)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Ruminant Öğrenci Topluluğu (VETRUM)",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      }
+    ],
+    "Atatürk Üniversitesi": [
+      {
+        "name": "Atatürk Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Atılım Üniversitesi": [
+      {
+        "name": "Atılım Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Aydın Adnan Menderes Üniversitesi": [
+      {
+        "name": "Aydın Adnan Menderes Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Balıkesir Üniversitesi": [
+      {
+        "name": "Balıkesir Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Bandırma Onyedi Eylül Üniversitesi": [
+      {
+        "name": "Bandırma Onyedi Eylül Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Beykent Üniversitesi": [
+      {
+        "name": "Beykent Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Biruni Üniversitesi": [
+      {
+        "name": "Biruni Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Bolu Abant İzzet Baysal Üniversitesi": [
+      {
+        "name": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Bursa Uludağ Üniversitesi": [
+      {
+        "name": "Bursa Uludağ Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Dicle Üniversitesi": [
+      {
+        "name": "Dicle Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Dokuz Eylül Üniversitesi": [
+      {
+        "name": "Dokuz Eylül Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Ege Üniversitesi": [
+      {
+        "name": "Ege Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": "ege.tob",
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Erzincan Binali Yıldırım Üniversitesi": [
+      {
+        "name": "Erzincan Binali Yıldırım Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Eskişehir Osmangazi Üniversitesi": [
+      {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Fırat Üniversitesi": [
+      {
+        "name": "Fırat Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Gazi Üniversitesi": [
+      {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Gaziantep İslam Bilim ve Teknoloji Üniversitesi": [
+      {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Gaziantep Üniversitesi": [
+      {
+        "name": "Gazi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Yenilikçi Hekimler Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Kök Hücre Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": "gaunkok",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Bilimsel Araştırmalar Topluluğu (GAUN BAT)",
+        "type": "BAT",
+        "ig": "gaziantepbat",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Genç Yeryüzü Hekimleri",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Organ Nakli Öğrenci Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": "gaunonot",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Leyladan Sonra",
+        "type": "TIP_FAKULTE",
+        "ig": "leyladansonra",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Bir Gençlik Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": "gaunbirgenclik",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Gaziantep Tıbbiyeliler Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": "gazianteptibbiyeliler",
+        "source": "directory/faculty"
+      }
+    ],
+    "Giresun Üniversitesi": [
+      {
+        "name": "Giresun Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Hacettepe Üniversitesi": [
+      {
+        "name": "Hacettepe Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Hacettepe Üniversitesi Tıp Fakültesi Bilimsel Araştırmalar Topluluğu (HÜTBAT)",
+        "type": "BAT",
+        "ig": "hutbat_official",
+        "source": "directory/faculty"
+      }
+    ],
+    "Haliç Üniversitesi": [
+      {
+        "name": "Haliç Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Harran Üniversitesi": [
+      {
+        "name": "Harran Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Hitit Üniversitesi": [
+      {
+        "name": "Hitit Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İnönü Üniversitesi": [
+      {
+        "name": "İnönü Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Biyomedikal Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      }
+    ],
+    "İstanbul Atlas Üniversitesi": [
+      {
+        "name": "Atlas Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Medeniyet Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Medipol Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Okan Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Sağlık ve Teknoloji Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Yeni Yüzyıl Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Üniversitesi": [
+      {
+        "name": "İstanbul Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İstanbul Üniversitesi-Cerrahpaşa": [
+      {
+        "name": "Cerrahpaşa Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "IVSA İstanbul",
+        "type": "IVSA",
+        "ig": "istanbulivsa",
+        "source": "directory/faculty"
+      }
+    ],
+    "İstinye Üniversitesi": [
+      {
+        "name": "İstinye Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İzmir Bakırçay Üniversitesi": [
+      {
+        "name": "Bakırçay Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İzmir Demokrasi Üniversitesi": [
+      {
+        "name": "İzmir Demokrasi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İzmir Ekonomi Üniversitesi": [
+      {
+        "name": "İzmir Ekonomi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İzmir Kâtip Çelebi Üniversitesi": [
+      {
+        "name": "İzmir Katip Çelebi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "İzmir Tınaztepe Üniversitesi": [
+      {
+        "name": "İzmir Tınaztepe Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Kafkas Üniversitesi": [
+      {
+        "name": "Kafkas Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Kahramanmaraş Sütçü İmam Üniversitesi": [
+      {
+        "name": "Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Karadeniz Teknik Üniversitesi": [
+      {
+        "name": "Karadeniz Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Karamanoğlu Mehmetbey Üniversitesi": [
+      {
+        "name": "Karaman Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Koç Üniversitesi": [
+      {
+        "name": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Kütahya Sağlık Bilimleri Üniversitesi": [
+      {
+        "name": "Kütahya SBÜ Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Bilimsel Araştırma Topluluğu / KSBÜBAT",
+        "type": "BAT",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Geleceğin Diş Hekimleri Topluluğu",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Medikal Kurtarma Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Medikal İngilizce Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Cansağlığı Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Diş Hekimler Öğrenci Birliği Topluluğu",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      }
+    ],
+    "Kırklareli Üniversitesi": [
+      {
+        "name": "Arel Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Malatya Turgut Özal Üniversitesi": [
+      {
+        "name": "Malatya Turgut Özal Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Maltepe Üniversitesi": [
+      {
+        "name": "Maltepe Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Manisa Celal Bayar Üniversitesi": [
+      {
+        "name": "Celal Bayar Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Mardin Artuklu Üniversitesi": [
+      {
+        "name": "Mardin Artuklu Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Marmara Üniversitesi": [
+      {
+        "name": "Marmara Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Muğla Sıtkı Koçman Üniversitesi": [
+      {
+        "name": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Niğde Ömer Halisdemir Üniversitesi": [
+      {
+        "name": "Niğde Ömer Halisdemir Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Nişantaşı Üniversitesi": [
+      {
+        "name": "İstanbul Nişantaşı Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Ondokuz Mayıs Üniversitesi": [
+      {
+        "name": "Ondokuz Mayıs Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Pamukkale Üniversitesi": [
+      {
+        "name": "Pamukkale Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Sakarya Üniversitesi": [
+      {
+        "name": "Sakarya Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Sanko Üniversitesi": [
+      {
+        "name": "Sanko Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Sağlık Bilimleri Üniversitesi": [
+      {
+        "name": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Bilimsel Araştırma Topluluğu",
+        "type": "BAT",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Diş Hekimliği Topluluğu",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Medikal İngilizce Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Medikal Kurtarma Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Geleceğin Diş Hekimleri Topluluğu",
+        "type": "DIS",
+        "ig": null,
+        "source": "directory/faculty"
+      }
+    ],
+    "Sivas Cumhuriyet Üniversitesi": [
+      {
+        "name": "Cumhuriyet Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Süleyman Demirel Üniversitesi": [
+      {
+        "name": "Süleyman Demirel Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Tekirdağ Namık Kemal Üniversitesi": [
+      {
+        "name": "Namık Kemal Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "TOBB Ekonomi ve Teknoloji Üniversitesi": [
+      {
+        "name": "TOBB ETÜ Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Trakya Üniversitesi": [
+      {
+        "name": "Trakya Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": "trakyatob",
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Van Yüzüncü Yıl Üniversitesi": [
+      {
+        "name": "Van Yüzüncü Yıl Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Yeditepe Üniversitesi": [
+      {
+        "name": "Yeditepe Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Yeditepe Üniversitesi Tıp Fakültesi Bilimsel Araştırmalar Topluluğu (YÜTBAT)",
+        "type": "BAT",
+        "ig": "yutbat",
+        "source": "directory/faculty"
+      }
+    ],
+    "Yozgat Bozok Üniversitesi": [
+      {
+        "name": "Bozok Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      },
+      {
+        "name": "Sosyal Tıp Topluluğu",
+        "type": "TIP_FAKULTE",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "FİZYOBAT Topluluğu",
+        "type": "BAT",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "EMSA Bozok",
+        "type": "EMSA",
+        "ig": null,
+        "source": "directory/faculty"
+      },
+      {
+        "name": "Veteriner Sağlık ve Sosyal Etkileşim Topluluğu",
+        "type": "VET",
+        "ig": null,
+        "source": "directory/faculty"
+      }
+    ],
+    "Zonguldak Bülent Ecevit Üniversitesi": [
+      {
+        "name": "Bülent Ecevit Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Çanakkale Onsekiz Mart Üniversitesi": [
+      {
+        "name": "Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Çukurova Üniversitesi": [
+      {
+        "name": "Çukurova Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "Üsküdar Üniversitesi": [
+      {
+        "name": "Üsküdar Tıp Öğrencileri Birliği",
+        "type": "TOB",
+        "ig": null,
+        "source": "turkmsic_roster"
+      }
+    ],
+    "— ULUSAL —": [
+      {
+        "name": "TurkMSIC",
+        "type": "ULUSAL",
+        "ig": "turkmsic",
+        "source": "directory/faculty"
+      },
+      {
+        "name": "IVSA Turkey",
+        "type": "ULUSAL",
+        "ig": "ivsaturkey",
+        "source": "directory/faculty"
+      }
+    ]
+  }
+}

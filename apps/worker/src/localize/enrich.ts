@@ -126,6 +126,37 @@ async function toTurkish(env: Env, text: string): Promise<string> {
   return line || raw;
 }
 
+function significantWords(s: string): Set<string> {
+  return new Set(
+    (s || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9ığüşöç\s]/gi, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length >= 4)
+  );
+}
+
+/**
+ * Anti-hallucination guard (2026-09-23 incident): the free-tier model sometimes produces a
+ * fluent, well-formed Turkish sentence about an entirely different, unrelated topic (observed
+ * repeatedly: a WHO/traditional-medicine sentence on items about Africa CDC, drug trials, etc. --
+ * not copied from any prompt text, the model appears to default to it when the real evidence is
+ * thin). A sentence sharing ZERO significant words with the actual title/evidence is almost
+ * certainly this failure mode, not a real paraphrase -- reject it rather than publish a
+ * fabricated claim (AGENTS.md hard rule: never invent factual claims).
+ */
+function isOnTopic(candidate: string, source: string): boolean {
+  const sourceWords = significantWords(source);
+  if (sourceWords.size === 0) return true; // nothing to compare against — don't block
+  const candidateWords = significantWords(candidate);
+  for (const w of candidateWords) {
+    if (sourceWords.has(w)) return true;
+  }
+  return false;
+}
+
 async function renderHubTr(
   env: Env,
   route: RouteId,
@@ -136,8 +167,8 @@ async function renderHubTr(
 SADECE geçerli JSON döndür: {"titleTr":"...","gistTr":"..."}.
 Kurallar:
 - titleTr: orijinal başlığın doğal Türkçe çevirisi.
-- gistTr: kanıttan çıkan EN GÜÇLÜ sonucu anlatan TEK kısa Türkçe cümle (max ~120 karakter).
-- Örnek: "DSÖ, geleneksel tıp için daha fazla araştırma istiyor."
+- gistTr: SADECE bu ORIGINAL_TITLE ve EVIDENCE_JSON'daki bilgiden üretilen, bu habere özgü, EN GÜÇLÜ sonucu anlatan TEK kısa Türkçe cümle (max ~120 karakter). Format: "<özne>, <bu habere özel somut eylem/sonuç>."
+- gistTr içinde SADECE ORIGINAL_TITLE'da veya EVIDENCE_JSON'da geçen özneler/kurumlar/konular yer alsın; oralarda adı geçmeyen hiçbir özne, kurum veya konudan bahsetme.
 - İki alan da MUTLAKA Türkçe. İngilizce yasak. Uydurma yasak.`;
 
   const user = `ROUTE: ${route}
@@ -155,12 +186,21 @@ JSON:`;
     typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
       ? parsed.gistTr.trim()
       : '';
+  const evidenceSource = [titleOrig, ...Object.values(evidence)].join(' ');
+  if (gistTr && !isOnTopic(gistTr, evidenceSource)) {
+    gistTr = ''; // discard: shares no real content with title+evidence, almost certainly fabricated
+  }
 
   // If model ignored Turkish, force-translate (still free Workers AI).
   titleTr = await toTurkish(env, titleTr);
   if (!gistTr) {
+    // Evidence itself came from the same model (step A) and can be hallucinated too (observed
+    // live: evidence.actor = "DSÖ" on an Africa CDC item that never mentions WHO) -- each bit is
+    // only trusted here if it's independently grounded in titleOrig, never in the other evidence
+    // fields. titleOrig is the one thing that's never model output, so it's always the final
+    // fallback.
     const bits = [evidence.actor, evidence.action, evidence.whatsNew, evidence.finding, evidence.outcome]
-      .filter(Boolean)
+      .filter((b) => b && isOnTopic(b, titleOrig))
       .join(' — ');
     gistTr = bits || titleOrig;
   }
@@ -187,17 +227,15 @@ export async function enrichOneItem(
   const sourceTitle = (row.title_orig || row.title || '').trim();
   const sourceSummary = stripHtml(row.summary || sourceTitle);
 
-  // Already Turkish → skip LLM (free-tier thrift)
+  // Already Turkish AND no real content beyond the title → skip LLM (free-tier thrift). A Turkish
+  // item WITH a genuine summary/excerpt (e.g. a fetched detail-page lead paragraph) still needs the
+  // evidence-extraction + gistTr treatment -- shouldSkipEnrichment() carries that exception.
   // Force-enrich clear EN regulatory/news cues even if detector is unsure.
   const forceEn =
     /\b(WHO|FDA|NIH|EMA|U\.S\.|United States|approved|licensed|prequalif|Council|Press Release)\b/i.test(
       sourceTitle
     );
-  if (
-    !forceEn &&
-    !looksMostlyEnglish(sourceTitle) &&
-    !looksMostlyEnglish(sourceSummary.slice(0, 160))
-  ) {
+  if (!forceEn && shouldSkipEnrichment(sourceTitle, sourceSummary)) {
     await env.DB.prepare(
       `UPDATE source_items
        SET enrichment_status = 'skipped',
@@ -360,7 +398,19 @@ export async function runEnrichmentBatch(
   return { scanned: results?.length ?? 0, done, failed, skipped };
 }
 
-/** Mark new/updated English items pending without wiping prior TR enrichments. */
+/**
+ * Mark new/updated English items pending without wiping prior TR enrichments.
+ *
+ * 2026-09-23: tried extending this to also run LLM enrichment for already-Turkish items with a
+ * real excerpt (so Hekimler announcements would get a genuine gistTr instead of a title-echo).
+ * Reverted after a live test: the free-tier model (Llama 3.1 8B) hallucinated on Turkish medical
+ * terminology -- "Erişkin İnfluenza" (adult influenza) came back as "erik hastalığı" ("plum
+ * disease"), a fabricated claim with zero basis in the source text. That is exactly what
+ * AGENTS.md's hard rule forbids ("Never invent factual claims"), so LLM paraphrasing stays OFF
+ * for Turkish-native content regardless of how much real excerpt is available. If a Turkish item
+ * needs a real (non-title-echo) summary, the fix is upstream -- fetch and show the real excerpt
+ * verbatim, never run it through this model.
+ */
 export function shouldSkipEnrichment(title: string, summary: string): boolean {
   return !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
 }

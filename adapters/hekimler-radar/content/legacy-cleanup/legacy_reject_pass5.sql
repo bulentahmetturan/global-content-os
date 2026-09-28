@@ -1,0 +1,1 @@
+UPDATE source_items SET decision_route='REJECTED_LEGACY' WHERE id IN ('item_7bf98629ff9949f8','item_914898a5af8f4952','item_df905df37f674e1e','item_434543ca84934537','item_7180eb61badd4620','item_99a9263d94fa4320');

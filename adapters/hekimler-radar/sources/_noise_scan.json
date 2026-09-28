@@ -1,0 +1,896 @@
+{
+  "total": 345,
+  "noise_counts": {
+    "uni_burs_ofisi": 7,
+    "belediye_burs": 6,
+    "postdoc_phd_only": 6,
+    "young_doctor_specialty": 9,
+    "educator_org": 1,
+    "generic_student_aid": 1,
+    "static_or_weak": 0,
+    "keep_strong": 0
+  },
+  "noise": {
+    "uni_burs_ofisi": [
+      "aksaray_burs_ofisi",
+      "balikesir_burs_ofisi",
+      "cumhuriyet_burs_ofisi",
+      "ksbu_burs_ofisi",
+      "maltepe_burs_ofisi",
+      "sbu_gulhane_burs_ofisi",
+      "siirt_burs_ofisi"
+    ],
+    "belediye_burs": [
+      "belediye_burs_ankara",
+      "belediye_burs_bursa",
+      "belediye_burs_hatay",
+      "belediye_burs_kocaeli",
+      "belediye_burs_manisa",
+      "belediye_burs_ordu"
+    ],
+    "postdoc_phd_only": [
+      "jsps_japonya",
+      "humboldt_almanya",
+      "embo_fellowships",
+      "msca_postdoc",
+      "hfsp_fellowships",
+      "embl_postdoc"
+    ],
+    "young_doctor_specialty": [
+      "eusem_young_em",
+      "eyfdm_wonca",
+      "uems_training_requirements",
+      "eanm_yim",
+      "spr_awards",
+      "sir_in_training",
+      "apa_pass",
+      "wonca_donald_li_scholarship",
+      "vallhebron_visiting"
+    ],
+    "educator_org": [
+      "amee"
+    ],
+    "generic_student_aid": [
+      "ibb_genc_universiteli"
+    ],
+    "static_or_weak": [],
+    "keep_strong": []
+  },
+  "tip_multi_gt2": {
+    "Sağlık Bilimleri Üniversitesi": [
+      "tip_sbu_duyuru",
+      "tip_sbu_gulhane_duyuru",
+      "tip_sbu_duyuru_akademik_takvim",
+      "tip_sbu_duyuru_sinav_takvimi",
+      "tip_sbu_gulhane_duyuru_akademik_takvim",
+      "tip_sbu_gulhane_duyuru_sinav_takvimi",
+      "tip_sbu_gulhane_duyuru_staj_intornluk"
+    ],
+    "Aksaray Üniversitesi": [
+      "tip_aksaray_duyuru",
+      "tip_aksaray_duyuru_akademik_takvim",
+      "tip_aksaray_duyuru_ogrenci_konseyi",
+      "tip_aksaray_duyuru_koordinatorluk",
+      "tip_aksaray_duyuru_sinav_takvimi"
+    ],
+    "Malatya Turgut Özal Üniversitesi": [
+      "tip_ozal_duyuru",
+      "tip_ozal_duyuru_akademik_takvim",
+      "tip_ozal_duyuru_koordinatorluk",
+      "tip_ozal_duyuru_sinav_takvimi",
+      "tip_ozal_duyuru_staj_intornluk"
+    ],
+    "İstanbul Medipol Üniversitesi": [
+      "tip_medipol_duyuru",
+      "tip_medipol_duyuru_akademik_takvim",
+      "tip_medipol_duyuru_koordinatorluk",
+      "tip_medipol_duyuru_sinav_takvimi",
+      "tip_medipol_duyuru_staj_intornluk"
+    ],
+    "Kafkas Üniversitesi": [
+      "tip_kafkas_duyuru",
+      "tip_kafkas_duyuru_akademik_takvim",
+      "tip_kafkas_duyuru_koordinatorluk",
+      "tip_kafkas_duyuru_sinav_takvimi",
+      "tip_kafkas_duyuru_staj_intornluk"
+    ],
+    "Bandırma Onyedi Eylül Üniversitesi": [
+      "tip_bandirma_duyuru",
+      "tip_bandirma_duyuru_akademik_takvim",
+      "tip_bandirma_duyuru_sinav_takvimi",
+      "tip_bandirma_duyuru_staj_intornluk"
+    ],
+    "Bolu Abant İzzet Baysal Üniversitesi": [
+      "tip_ibu_duyuru",
+      "tip_ibu_duyuru_akademik_takvim",
+      "tip_ibu_duyuru_sinav_takvimi",
+      "tip_ibu_duyuru_staj_intornluk"
+    ],
+    "Gazi Üniversitesi": [
+      "tip_gazi_duyuru",
+      "tip_gazi_duyuru_akademik_takvim",
+      "tip_gazi_duyuru_koordinatorluk",
+      "tip_gazi_duyuru_staj_intornluk"
+    ],
+    "Hacettepe Üniversitesi": [
+      "tip_hacettepe_duyuru",
+      "tip_hacettepe_duyuru_akademik_takvim",
+      "tip_hacettepe_duyuru_ogrenci_konseyi",
+      "tip_hacettepe_duyuru_staj_intornluk"
+    ],
+    "Haliç Üniversitesi": [
+      "tip_halic_duyuru",
+      "tip_halic_duyuru_akademik_takvim",
+      "tip_halic_duyuru_koordinatorluk",
+      "tip_halic_duyuru_staj_intornluk"
+    ],
+    "Karabük Üniversitesi": [
+      "tip_karabuk_duyuru",
+      "tip_karabuk_duyuru_akademik_takvim",
+      "tip_karabuk_duyuru_koordinatorluk",
+      "tip_karabuk_duyuru_staj_intornluk"
+    ],
+    "Kırklareli Üniversitesi": [
+      "tip_klu_duyuru",
+      "tip_klu_duyuru_akademik_takvim",
+      "tip_klu_duyuru_sinav_takvimi",
+      "tip_klu_duyuru_staj_intornluk"
+    ],
+    "Manisa Celal Bayar Üniversitesi": [
+      "tip_mcbu_duyuru",
+      "tip_mcbu_duyuru_akademik_takvim",
+      "tip_mcbu_duyuru_sinav_takvimi",
+      "tip_mcbu_duyuru_staj_intornluk"
+    ],
+    "Sanko Üniversitesi": [
+      "tip_sanko_duyuru",
+      "tip_sanko_duyuru_akademik_takvim",
+      "tip_sanko_duyuru_sinav_takvimi",
+      "tip_sanko_duyuru_staj_intornluk"
+    ],
+    "İstanbul Atlas Üniversitesi": [
+      "tip_atlas_duyuru",
+      "tip_atlas_duyuru_akademik_takvim",
+      "tip_atlas_duyuru_sinav_takvimi",
+      "tip_atlas_duyuru_staj_intornluk"
+    ],
+    "İstanbul Okan Üniversitesi": [
+      "tip_okan_duyuru",
+      "tip_okan_duyuru_akademik_takvim",
+      "tip_okan_duyuru_koordinatorluk",
+      "tip_okan_duyuru_sinav_takvimi"
+    ],
+    "İstanbul Yeni Yüzyıl Üniversitesi": [
+      "tip_yeniyuzyil_duyuru",
+      "tip_yeniyuzyil_duyuru_akademik_takvim",
+      "tip_yeniyuzyil_duyuru_sinav_takvimi",
+      "tip_yeniyuzyil_duyuru_staj_intornluk"
+    ],
+    "Alanya Alaaddin Keykubat Üniversitesi": [
+      "tip_alanya_duyuru",
+      "tip_alanya_duyuru_akademik_takvim",
+      "tip_alanya_duyuru_sinav_takvimi"
+    ],
+    "Dicle Üniversitesi": [
+      "tip_dicle_duyuru",
+      "tip_dicle_duyuru_akademik_takvim",
+      "tip_dicle_duyuru_sinav_takvimi"
+    ],
+    "Dokuz Eylül Üniversitesi": [
+      "tip_deu_duyuru",
+      "tip_deu_duyuru_akademik_takvim",
+      "tip_deu_duyuru_staj_intornluk"
+    ],
+    "Ege Üniversitesi": [
+      "tip_ege_duyuru",
+      "tip_ege_duyuru_akademik_takvim",
+      "tip_ege_duyuru_staj_intornluk"
+    ],
+    "Erzincan Binali Yıldırım Üniversitesi": [
+      "tip_erzincan_duyuru",
+      "tip_erzincan_duyuru_akademik_takvim",
+      "tip_erzincan_duyuru_staj_intornluk"
+    ],
+    "Fırat Üniversitesi": [
+      "tip_firat_duyuru",
+      "tip_firat_duyuru_akademik_takvim",
+      "tip_firat_duyuru_koordinatorluk"
+    ],
+    "Gaziantep İslam Bilim ve Teknoloji Üniversitesi": [
+      "tip_gibtu_duyuru",
+      "tip_gibtu_duyuru_akademik_takvim",
+      "tip_gibtu_duyuru_staj_intornluk"
+    ],
+    "Giresun Üniversitesi": [
+      "tip_giresun_duyuru",
+      "tip_giresun_duyuru_akademik_takvim",
+      "tip_giresun_duyuru_staj_intornluk"
+    ],
+    "Niğde Ömer Halisdemir Üniversitesi": [
+      "tip_ohu_duyuru",
+      "tip_ohu_duyuru_akademik_takvim",
+      "tip_ohu_duyuru_sinav_takvimi"
+    ],
+    "Ondokuz Mayıs Üniversitesi": [
+      "tip_omu_duyuru",
+      "tip_omu_duyuru_akademik_takvim",
+      "tip_omu_duyuru_koordinatorluk"
+    ],
+    "Üsküdar Üniversitesi": [
+      "tip_uskudar_duyuru",
+      "tip_uskudar_duyuru_akademik_takvim",
+      "tip_uskudar_duyuru_staj_intornluk"
+    ],
+    "İzmir Bakırçay Üniversitesi": [
+      "tip_bakircay_duyuru",
+      "tip_bakircay_duyuru_akademik_takvim",
+      "tip_bakircay_duyuru_sinav_takvimi"
+    ],
+    "Tekirdağ Namık Kemal Üniversitesi": [
+      "tip_nku_duyuru_akademik_takvim",
+      "tip_nku_duyuru_koordinatorluk",
+      "tip_nku_duyuru_sinav_takvimi"
+    ],
+    "Altınbaş Üniversitesi": [
+      "tip_altinbas_duyuru_akademik_takvim",
+      "tip_altinbas_duyuru_sinav_takvimi",
+      "tip_altinbas_duyuru_staj_intornluk"
+    ],
+    "Atılım Üniversitesi": [
+      "tip_atilim_duyuru_akademik_takvim",
+      "tip_atilim_duyuru_koordinatorluk",
+      "tip_atilim_duyuru_sinav_takvimi"
+    ],
+    "Biruni Üniversitesi": [
+      "tip_biruni_duyuru_akademik_takvim",
+      "tip_biruni_duyuru_sinav_takvimi",
+      "tip_biruni_duyuru_staj_intornluk"
+    ],
+    "Yozgat Bozok Üniversitesi": [
+      "tip_bozok_duyuru_akademik_takvim",
+      "tip_bozok_duyuru_koordinatorluk",
+      "tip_bozok_duyuru_staj_intornluk"
+    ],
+    "Kütahya Sağlık Bilimleri Üniversitesi": [
+      "tip_ksbu_duyuru_akademik_takvim",
+      "tip_ksbu_duyuru_koordinatorluk",
+      "tip_ksbu_duyuru_staj_intornluk"
+    ],
+    "Siirt Üniversitesi": [
+      "tip_siirt_duyuru_akademik_takvim",
+      "tip_siirt_duyuru_koordinatorluk",
+      "tip_siirt_duyuru_sinav_takvimi"
+    ]
+  },
+  "scholarship_research_all": [
+    {
+      "id": "tubitak_duyurular",
+      "name": "TÜBİTAK Duyuruları"
+    },
+    {
+      "id": "tubitak_2205",
+      "name": "TÜBİTAK 2205 Lisans Burs Programı"
+    },
+    {
+      "id": "tubitak_2247c",
+      "name": "TÜBİTAK 2247-C STAR Stajyer Araştırmacı Burs Programı"
+    },
+    {
+      "id": "tuseb_haberler",
+      "name": "TÜSEB Haberler (proje çağrıları)"
+    },
+    {
+      "id": "vgm_duyurular",
+      "name": "Vakıflar Genel Müdürlüğü Burs Duyuruları"
+    },
+    {
+      "id": "tev_burslar",
+      "name": "Türk Eğitim Vakfı Burs Duyuruları"
+    },
+    {
+      "id": "teknofest_saglik_yz",
+      "name": "TEKNOFEST Sağlıkta Yapay Zeka Yarışması"
+    },
+    {
+      "id": "ua_erasmus_sonuclar",
+      "name": "Ulusal Ajans — Erasmus+ Öğrenim Hareketliliği Başvuru Sonuçları"
+    },
+    {
+      "id": "ibb_genc_universiteli",
+      "name": "İBB Genç Üniversiteli Eğitim Desteği"
+    },
+    {
+      "id": "aksaray_burs_ofisi",
+      "name": "Aksaray Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "balikesir_burs_ofisi",
+      "name": "Balıkesir Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "cumhuriyet_burs_ofisi",
+      "name": "Sivas Cumhuriyet Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "ksbu_burs_ofisi",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "maltepe_burs_ofisi",
+      "name": "Maltepe Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "sbu_gulhane_burs_ofisi",
+      "name": "Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "siirt_burs_ofisi",
+      "name": "Siirt Üniversitesi Burs ve Öğrenci Destek Ofisi"
+    },
+    {
+      "id": "belediye_burs_ankara",
+      "name": "Ankara Büyükşehir Belediyesi Sosyal Hizmetler (Burs)"
+    },
+    {
+      "id": "belediye_burs_bursa",
+      "name": "Bursa Büyükşehir Belediyesi Öğrenci Bursu"
+    },
+    {
+      "id": "belediye_burs_hatay",
+      "name": "Hatay Büyükşehir Belediyesi Sosyal Hizmetler"
+    },
+    {
+      "id": "belediye_burs_kocaeli",
+      "name": "Kocaeli Büyükşehir Belediyesi Öğrenci Bursu"
+    },
+    {
+      "id": "belediye_burs_manisa",
+      "name": "Manisa Büyükşehir Belediyesi Eğitim Desteği (Senin İçin)"
+    },
+    {
+      "id": "belediye_burs_ordu",
+      "name": "Ordu Büyükşehir Belediyesi Duyuruları (Sosyal Yardım)"
+    },
+    {
+      "id": "tubitak_2242",
+      "name": "TÜBİTAK 2242 Üniversite Öğrencileri Araştırma Proje Yarışması"
+    },
+    {
+      "id": "kizilay_burslari",
+      "name": "Türk Kızılay Burs Yönetim Sistemi"
+    },
+    {
+      "id": "fulbright_turkiye",
+      "name": "Türkiye Fulbright Eğitim Komisyonu — T.C. Vatandaşlarına Verilen Burslar"
+    },
+    {
+      "id": "jean_monnet_burs",
+      "name": "Jean Monnet Burs Programı (AB Başkanlığı)"
+    },
+    {
+      "id": "daad_turkiye",
+      "name": "DAAD Türkiye — Türkiye'ye Yönelik Burs Programları"
+    },
+    {
+      "id": "japonya_mext_turkiye",
+      "name": "Japonya Büyükelçiliği Türkiye — Eğitim / Burs (MEXT Monbukagakusho)"
+    },
+    {
+      "id": "chevening_turkiye",
+      "name": "Chevening Türkiye Bursu (Birleşik Krallık)"
+    },
+    {
+      "id": "meb_yyegm_ylsy",
+      "name": "MEB Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü (YLSY)"
+    },
+    {
+      "id": "eskas_isvicre",
+      "name": "İsviçre Hükümeti Mükemmeliyet Bursları (ESKAS)"
+    },
+    {
+      "id": "jsps_japonya",
+      "name": "JSPS — Japonya'da Araştırma İçin Doktora Sonrası Burslar"
+    },
+    {
+      "id": "humboldt_almanya",
+      "name": "Humboldt Araştırma Bursu (Almanya, doktora sonrası)"
+    },
+    {
+      "id": "gks_kore",
+      "name": "Global Korea Scholarship (GKS) — Güney Kore"
+    },
+    {
+      "id": "embo_fellowships",
+      "name": "EMBO — Doktora Sonrası Burslar (Yaşam Bilimleri)"
+    },
+    {
+      "id": "msca_postdoc",
+      "name": "Marie Skłodowska-Curie Actions — Doktora Sonrası Burslar (AB)"
+    },
+    {
+      "id": "campus_france_eiffel",
+      "name": "France Excellence Eiffel Bursu (Fransa)"
+    },
+    {
+      "id": "meb_abdigm",
+      "name": "MEB Avrupa Birliği ve Dış İlişkiler Genel Müdürlüğü (Yabancı Hükümet Bursları)"
+    },
+    {
+      "id": "cin_baskonsoloslugu_istanbul",
+      "name": "Çin İstanbul Başkonsolosluğu — Haberler ve Burs Duyuruları (Türkçe)"
+    },
+    {
+      "id": "educanada_burslar",
+      "name": "EduCanada — Uluslararası Öğrenci Bursları (Kanada)"
+    },
+    {
+      "id": "study_in_italy_maeci",
+      "name": "Study in Italy — MAECI Hükümet Bursları (İtalya)"
+    },
+    {
+      "id": "oead_avusturya",
+      "name": "OeAD — Avusturya Burs ve Araştırma Destekleri"
+    },
+    {
+      "id": "grants_at_avusturya",
+      "name": "grants.at — Avusturya Burs ve Araştırma Fonu Veritabanı"
+    },
+    {
+      "id": "nawa_polonya",
+      "name": "NAWA — Polonya Uluslararası Öğrenci Bursları"
+    },
+    {
+      "id": "goi_ies_irlanda",
+      "name": "Government of Ireland International Education Scholarships (İrlanda)"
+    },
+    {
+      "id": "study_in_nl_burslar",
+      "name": "Study in NL — Hollanda Burs Fırsatları (Orange Tulip dahil)"
+    },
+    {
+      "id": "master_mind_belcika",
+      "name": "Master Mind Bursu — Flanders (Belçika)"
+    },
+    {
+      "id": "nsp_slovakya",
+      "name": "Slovakya Ulusal Burs Programı (NSP) — Uluslararası Başvuru"
+    },
+    {
+      "id": "astar_singapur",
+      "name": "A*STAR Bursları (SINGA dahil) — Singapur"
+    },
+    {
+      "id": "kaust_suudi",
+      "name": "KAUST — Lisansüstü Burslar (Suudi Arabistan)"
+    },
+    {
+      "id": "hbku_katar",
+      "name": "Hamad Bin Khalifa Üniversitesi — Başvuru ve Burslar (Katar)"
+    },
+    {
+      "id": "erasmus_mundus_joint_masters",
+      "name": "Erasmus Mundus Ortak Yüksek Lisans Programları (AB)"
+    },
+    {
+      "id": "hfsp_fellowships",
+      "name": "HFSP — Doktora Sonrası Burslar (Yaşam Bilimleri, tüm uyruklar)"
+    },
+    {
+      "id": "embl_postdoc",
+      "name": "EMBL — Doktora Sonrası Burs Programları (Moleküler Biyoloji)"
+    },
+    {
+      "id": "gates_cambridge",
+      "name": "Gates Cambridge Bursu (İngiltere dışı tüm uyruklar)"
+    },
+    {
+      "id": "cgrs_d_kanada",
+      "name": "Canada Graduate Research Scholarship — Doctoral (Vanier'in halefi)"
+    },
+    {
+      "id": "pasteur_stajlar",
+      "name": "Institut Pasteur — Staj ve Doktora Öncesi Programlar"
+    },
+    {
+      "id": "daad_burs_veritabani",
+      "name": "DAAD Burs Veritabanı (KAS, Böll, FES dahil tüm Alman bursları)"
+    },
+    {
+      "id": "boell_burslari",
+      "name": "Heinrich Böll Vakfı Bursları (tüm uyruklar ve disiplinler)"
+    },
+    {
+      "id": "fes_burslari",
+      "name": "Friedrich Ebert Vakfı Bursları (uluslararası öğrenciler)"
+    }
+  ],
+  "trainee_all": [
+    {
+      "id": "eusem_young_em",
+      "name": "EUSEM Young Emergency Medicine Doctors Section"
+    },
+    {
+      "id": "eyfdm_wonca",
+      "name": "EYFDM — European Young Family Doctors Movement (WONCA Europe)"
+    },
+    {
+      "id": "emsa_europe",
+      "name": "EMSA — European Medical Students' Association"
+    },
+    {
+      "id": "amee",
+      "name": "AMEE — Association for Medical Education in Europe"
+    },
+    {
+      "id": "uems_training_requirements",
+      "name": "UEMS — European Training Requirements"
+    },
+    {
+      "id": "esp_ecp_bursaries",
+      "name": "European Society of Pathology — Congress Bursaries"
+    },
+    {
+      "id": "eanm_yim",
+      "name": "EANM Young Investigators Meeting"
+    },
+    {
+      "id": "spr_awards",
+      "name": "Society for Pediatric Research — Awards & Funding"
+    },
+    {
+      "id": "sir_in_training",
+      "name": "SIR — Interventional Radiology In-Training Opportunities"
+    },
+    {
+      "id": "apa_pass",
+      "name": "APA — Psychiatry Ambassadors and Student Scholarships (PASS)"
+    },
+    {
+      "id": "eans_courses",
+      "name": "EANS — Nöroşirürji Eğitim Kursları"
+    },
+    {
+      "id": "eaes_fellowship",
+      "name": "EAES — Fellowship Programme (Minimal İnvaziv Cerrahi)"
+    },
+    {
+      "id": "ehs_travel_grant",
+      "name": "European Hernia Society — Travel Grant"
+    },
+    {
+      "id": "efort_fellowships",
+      "name": "EFORT — Fellowship Programmes"
+    },
+    {
+      "id": "forte_ortho",
+      "name": "FORTE — Federation of Orthopaedic and Trauma Trainees in Europe"
+    },
+    {
+      "id": "eshre_research_funding",
+      "name": "ESHRE — Research and Funding"
+    },
+    {
+      "id": "wonca_donald_li_scholarship",
+      "name": "WONCA — Donald Li Young Doctor Global Scholarship"
+    },
+    {
+      "id": "institut_curie_traineeship",
+      "name": "Institut Curie — Medical Student / Physician Traineeship"
+    },
+    {
+      "id": "bsh_students",
+      "name": "British Society for Haematology — Students"
+    },
+    {
+      "id": "ime_conference_grants",
+      "name": "Institute of Medical Ethics — Conference Grants"
+    },
+    {
+      "id": "uems_eaccme",
+      "name": "UEMS EACCME — Akredite CME/CPD Etkinlikleri"
+    },
+    {
+      "id": "ebeem_exam",
+      "name": "EBEEM — European Board Examination in Emergency Medicine"
+    },
+    {
+      "id": "edaic_exam",
+      "name": "EDAIC — European Diploma in Anaesthesiology and Intensive Care"
+    },
+    {
+      "id": "febu_exam",
+      "name": "FEBU — Fellow of the European Board of Urology"
+    },
+    {
+      "id": "feborl_hns_exam",
+      "name": "FEBORL-HNS — European Board Exam in ORL-HNS"
+    },
+    {
+      "id": "ebir_exam",
+      "name": "EBIR — European Board of Interventional Radiology"
+    },
+    {
+      "id": "ebod_exam",
+      "name": "EBOD — European Board of Ophthalmology Diploma"
+    },
+    {
+      "id": "edir_exam",
+      "name": "EDiR — European Diploma in Radiology"
+    },
+    {
+      "id": "tatd_acil_tip",
+      "name": "Türkiye Acil Tıp Derneği"
+    },
+    {
+      "id": "tahud_aile_hekimligi",
+      "name": "Türkiye Aile Hekimleri Uzmanlık Derneği (TAHUD)"
+    },
+    {
+      "id": "tpd_psikiyatri",
+      "name": "Türkiye Psikiyatri Derneği — Haber ve Duyurular"
+    },
+    {
+      "id": "tpd_patoloji",
+      "name": "Türk Patoloji Derneği"
+    },
+    {
+      "id": "tard_anestezi",
+      "name": "Türk Anesteziyoloji ve Reanimasyon Derneği (TARD)"
+    },
+    {
+      "id": "tod_oftalmoloji",
+      "name": "Türk Oftalmoloji Derneği (TOD)"
+    },
+    {
+      "id": "kbb_dernek",
+      "name": "Türk Kulak Burun Boğaz ve Baş Boyun Cerrahisi Derneği"
+    },
+    {
+      "id": "turkcer_cerrahi",
+      "name": "Türk Cerrahi Derneği"
+    },
+    {
+      "id": "turknorosirurji",
+      "name": "Türk Nöroşirürji Derneği"
+    },
+    {
+      "id": "tjod_jinekoloji",
+      "name": "TJOD — Türk Jinekoloji ve Obstetrik Derneği"
+    },
+    {
+      "id": "jed_jinekolojik_endoskopi",
+      "name": "Jinekolojik Endoskopi Derneği (JED)"
+    },
+    {
+      "id": "charite_visiting",
+      "name": "Charité Berlin — Visiting/Exchange Medical Students"
+    },
+    {
+      "id": "heidelberg_visiting",
+      "name": "Heidelberg Üniversitesi Tıp Fakültesi — Uluslararası Öğrenci Klinik Stajı (Praktikum)"
+    },
+    {
+      "id": "lmu_visiting",
+      "name": "LMU Munich — Visiting Student Elective Program (Short-Term Clinical Rotations)"
+    },
+    {
+      "id": "karolinska_visiting",
+      "name": "Karolinska Enstitüsü — Incoming Student Exchange (Medicine)"
+    },
+    {
+      "id": "erasmusmc_visiting",
+      "name": "Erasmus MC Rotterdam — Exchange (Clinical/Research Internship, Observership)"
+    },
+    {
+      "id": "amsterdamumc_visiting",
+      "name": "Amsterdam UMC / UvA — Medical Sciences and Dentistry Exchange"
+    },
+    {
+      "id": "ucl_visiting",
+      "name": "UCL Medical School — Visiting Student Electives"
+    },
+    {
+      "id": "kcl_visiting",
+      "name": "King's College London GKT — Elective Placement in Clinical Medicine"
+    },
+    {
+      "id": "imperial_visiting",
+      "name": "Imperial College Healthcare NHS Trust — Clinical Electives"
+    },
+    {
+      "id": "oxford_visiting",
+      "name": "Oxford Üniversitesi Tıp Fakültesi — Elective Programme"
+    },
+    {
+      "id": "cambridge_visiting",
+      "name": "Cambridge Klinik Okulu — Elective Placements"
+    },
+    {
+      "id": "gustaveroussy_visiting",
+      "name": "Gustave Roussy (Paris) — Stage des Externes"
+    },
+    {
+      "id": "humanitas_visiting",
+      "name": "Humanitas Üniversitesi (Milano) — International Mobility (Medicine)"
+    },
+    {
+      "id": "vallhebron_visiting",
+      "name": "Vall d'Hebron (Barselona) — Specialist Training Placements (Foreign Hospitals)"
+    },
+    {
+      "id": "clinicbarcelona_visiting",
+      "name": "Hospital Clínic Barcelona — Training Stays"
+    },
+    {
+      "id": "amp_trainee_travel_award",
+      "name": "AMP — International Trainee Travel Award (Moleküler Patoloji)"
+    },
+    {
+      "id": "study_in_europe_scholarships",
+      "name": "Study in Europe — Scholarships and Funding (Avrupa Komisyonu)"
+    },
+    {
+      "id": "escmid_uems_id_exam",
+      "name": "ESCMID/UEMS — Enfeksiyon Hastalıkları Uzmanlık Sertifikası Sınavı"
+    },
+    {
+      "id": "mrcp_uk_exam",
+      "name": "MRCP(UK) — Membership of the Royal Colleges of Physicians"
+    },
+    {
+      "id": "mrcs_uk_exam",
+      "name": "MRCS — Intercollegiate Membership of the Royal Colleges of Surgeons"
+    },
+    {
+      "id": "totek_ortopedi_egitim",
+      "name": "TOTEK — Türk Ortopedi ve Travmatoloji Eğitim Konseyi"
+    },
+    {
+      "id": "esc_grants_fellowships",
+      "name": "ESC — Kardiyoloji Burs ve Eğitim Hibeleri (tüm uyruklar)"
+    }
+  ],
+  "probes": [
+    {
+      "bucket": "uni_burs_ofisi",
+      "id": "aksaray_burs_ofisi",
+      "url": "https://ogrencidestek.aksaray.edu.tr/",
+      "ok": true,
+      "years": [
+        "2026"
+      ],
+      "tip_mentions": 1,
+      "bytes": 127871
+    },
+    {
+      "bucket": "uni_burs_ofisi",
+      "id": "balikesir_burs_ofisi",
+      "url": "https://burs.balikesir.edu.tr/",
+      "ok": true,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 5522
+    },
+    {
+      "bucket": "belediye_burs",
+      "id": "belediye_burs_ankara",
+      "url": "https://sosyalhizmetler.ankara.bel.tr/",
+      "ok": true,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 259777
+    },
+    {
+      "bucket": "belediye_burs",
+      "id": "belediye_burs_bursa",
+      "url": "https://www.bursa.bel.tr/burs",
+      "ok": true,
+      "years": [
+        "2024"
+      ],
+      "tip_mentions": 0,
+      "bytes": 45148
+    },
+    {
+      "bucket": "postdoc_phd_only",
+      "id": "jsps_japonya",
+      "url": "https://www.jsps.go.jp/english/e-fellow/application.html",
+      "ok": true,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 55186
+    },
+    {
+      "bucket": "postdoc_phd_only",
+      "id": "humboldt_almanya",
+      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship",
+      "ok": true,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 219528
+    },
+    {
+      "bucket": "young_doctor_specialty",
+      "id": "eusem_young_em",
+      "url": "https://eusem.org/sections-and-committees/sections/young-em-doctors-section",
+      "ok": true,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 41745
+    },
+    {
+      "bucket": "young_doctor_specialty",
+      "id": "eyfdm_wonca",
+      "url": "https://eyfdm.eu/",
+      "ok": true,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 140459
+    },
+    {
+      "bucket": "educator_org",
+      "id": "amee",
+      "url": "https://amee.org/",
+      "ok": true,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "tip_mentions": 0,
+      "bytes": 387500
+    },
+    {
+      "bucket": "generic_student_aid",
+      "id": "ibb_genc_universiteli",
+      "url": "https://gencuniversiteli.ibb.istanbul/",
+      "ok": true,
+      "years": [
+        "2025"
+      ],
+      "tip_mentions": 0,
+      "bytes": 33190
+    }
+  ],
+  "verdict": {
+    "clear_noise_remove": {
+      "uni_burs_ofisi": "SKS/kariyer gibi — kampüs burs ofisi, tıp-özel değil",
+      "belediye_burs": "genel öğrenci yardımı, tıp-özel değil",
+      "postdoc_phd_only": "doktora sonrası — lisans tıp öğrencisi değil",
+      "young_doctor_specialty": "asistan/genç hekim dernekleri — öğrenci değil",
+      "educator_org": "tıp eğitimcileri (AMEE) — öğrenci feed değil",
+      "generic_student_aid": "IBB vb. genel öğrenci — opsiyonel zayıf"
+    },
+    "keep": {
+      "tip_faculty_duyuru": "çekirdek — fakülte duyuruları",
+      "exams_intl": "ÖSYM/TUS/USMLE/PLAB — tut",
+      "turkmsic_emsa_ttb_tok": "öğrenci örgütleri — tut",
+      "national_burs": "TÜBİTAK/TEV/VGM/Fulbright/Chevening/DAAD/MEXT — ulusal-program, tut (seçici)",
+      "intl_visiting_clinical": "tıp klinik elective — tut (yurt dışı staj)"
+    },
+    "review": {
+      "tip_multi_per_uni": "aynı fakültede birden fazla duyuru/takvim — birleştirilebilir ama gürültü değil",
+      "osym_ales": "tüm lisansüstü — tıp için zayıf ama TUS yan yolu"
+    }
+  }
+}

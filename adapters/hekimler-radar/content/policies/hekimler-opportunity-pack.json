@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "bundle_id": "hekimler_opportunity_pack",
+  "source_id": "hekimler_opportunity_pack",
+  "name": "Hekimler Opportunity Pack",
+  "source_type": "inherited_bundle",
+  "origin_channel": "tip-ogrencileri-platformu",
+  "status": "configured_not_wired",
+  "fetch_enabled": false,
+  "scheduled_fetch_enabled": false,
+  "candidate_emission_enabled": false,
+  "publication_eligible": false,
+  "pipeline_wiring_enabled": false,
+  "purpose": "Student retention; career and educational opportunities; research, scholarship, exchange and elective discovery. Not a general news, virality, or congress engine.",
+  "dependency": {
+    "kind": "channel_yaml_inventory",
+    "path": "sources/official_sources.yaml",
+    "selection": "category == faculty_announcement",
+    "do_not_recreate_faculty_list": true
+  },
+  "source_classes": {
+    "OFFICIAL_MEDICAL_FACULTY": {
+      "description": "Official medical-faculty announcement, medical education, research or student-affairs pages",
+      "match": {
+        "category": "faculty_announcement",
+        "id_prefix": "tip_",
+        "exclude_instagram": true
+      }
+    },
+    "OFFICIAL_UNIVERSITY_MEDICAL_UNIT": {
+      "description": "Official university research/ethics/exchange/scholarship pages explicitly relevant to medical audiences",
+      "match": {
+        "category": "faculty_announcement",
+        "exclude_instagram": true,
+        "exclude_id_prefix": "tip_",
+        "exclude_ig_ids": true
+      }
+    },
+    "CURATOR_DISCOVERY": {
+      "description": "Trusted student communities / medical education curator accounts — never final factual opportunity sources",
+      "match": {
+        "category": "faculty_announcement",
+        "instagram_or_ig_id": true
+      }
+    }
+  },
+  "eligible_opportunity_types": [
+    "scholarship",
+    "research_call",
+    "student_research_project",
+    "elective",
+    "exchange",
+    "observership",
+    "clinical_education_programme",
+    "medical_summer_school",
+    "non_congress_course_or_certificate",
+    "student_resident_grant",
+    "academic_competition",
+    "medical_volunteering_or_leadership",
+    "career_development_opportunity"
+  ],
+  "reject_types": [
+    "generic_university_news",
+    "rectorate_visits",
+    "ceremonies",
+    "commercial_course_advertising",
+    "product_promotion",
+    "generic_campus_events",
+    "unverified_social_posts",
+    "expired_calls",
+    "congress",
+    "symposium",
+    "abstract_call",
+    "congress_registration"
+  ],
+  "congress_handoff": {
+    "handoff_target": "CONGRESS_REGISTRY",
+    "publication_eligible": false,
+    "note": "Congress Registry not implemented yet; mark and do not publish here."
+  },
+  "required_opportunity_fields": [
+    "opportunity_type",
+    "official_source_url",
+    "organiser",
+    "eligible_audience",
+    "eligibility_requirements",
+    "application_url",
+    "deadline",
+    "location_or_online_status",
+    "fee_or_cost_when_available",
+    "verification_status"
+  ],
+  "verification_states": [
+    "OFFICIAL_VERIFIED",
+    "CURATOR_SIGNAL_PENDING_VERIFICATION",
+    "EXPIRED",
+    "INSUFFICIENT_INFORMATION",
+    "REJECTED"
+  ],
+  "ranking": {
+    "order": [
+      "eligibility_fit",
+      "deadline_urgency",
+      "medical_academic_relevance",
+      "official_verification",
+      "nationwide_or_geographic_relevance",
+      "career_research_education_value",
+      "cost_transparency_accessibility"
+    ],
+    "forbidden_signals": [
+      "viral_potential",
+      "likes",
+      "follower_count",
+      "social_engagement",
+      "influencer_status"
+    ],
+    "viral_signal": "ignored_for_opportunity_ranking"
+  },
+  "editorial_transform": [
+    "What is the opportunity?",
+    "Who can apply?",
+    "What is the deadline?",
+    "What is required?",
+    "What does it offer a medical student or physician?",
+    "Where is the official application link?"
+  ],
+  "inventory_snapshot": {
+    "capturedAt": "2026-09-19",
+    "faculty_announcement_total": 242,
+    "official_web_approx": 218,
+    "curator_instagram": 24,
+    "note": "Counts from official_sources.yaml at capture time; bundle references IDs, does not duplicate rows."
+  }
+}

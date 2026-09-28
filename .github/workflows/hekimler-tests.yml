@@ -1,0 +1,40 @@
+name: Hekimler tests
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "adapters/hekimler-radar/**"
+      - ".github/workflows/hekimler-*.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: adapters/hekimler-radar
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: adapters/hekimler-radar/requirements-test.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements-test.txt
+      - name: Full test suite (incl. S57/S63 regression tests)
+        # Previously only discovered test_hekimler_*.py -- silently excluded
+        # test_source_single_channel_ownership.py, test_lifecycle_eligibility_
+        # contract.py, and everything else not matching that prefix from CI
+        # entirely (production-readiness audit, 2026-09-27). Widened to the
+        # full suite via pytest (requirements-test.txt, test-only dependency
+        # -- the production ingestion workflows keep using the lighter
+        # requirements-runner.txt). test_phase1_ingestion_canary.py is
+        # excluded explicitly and by name (not silently): it carries 7
+        # pre-existing failures tracked since S07/S49-S51 as a documented,
+        # out-of-scope baseline, not something this workflow should block
+        # merges on until a dedicated fix lands for that file specifically.
+        run: python -m pytest tests -q --ignore=tests/test_phase1_ingestion_canary.py

@@ -1,0 +1,384 @@
+Özet: ★ yüksek 22 | ● orta 3 | · yalnızca slug tahmini olan üni ~61 | sinyal yok 7
+Fakülte dekan/kurumsal IG (@…tipfakultesi vb.) listeden çıkarıldı — öğrenci kulübü değil.
+
+## ÖNCELİK — birlikte onaylayalım (★ / ●)
+  ★ Acıbadem Mehmet Ali Aydınlar Üniversitesi: @acibademmsa — ACUMSA (acibadem.edu.tr)
+  ★ Acıbadem Mehmet Ali Aydınlar Üniversitesi: @acutbat — ACUTBAT (atıf)
+  ★ Afyonkarahisar Sağlık Bilimleri Üniversitesi: @afyonsbutob — Afyon SBÜ TÖB (tiptercihim + IG atıf)
+  ★ Aksaray Üniversitesi: @aksaraytob — Aksaray TÖB (fakülte sayfası: tip.aksaray.edu.tr)
+  ★ Aksaray Üniversitesi: @asubat — ASÜBAT (fakülte sayfası)
+  ★ Aksaray Üniversitesi: @aksaraysinirbilim — Aksaray Sinirbilim (fakülte sayfası)
+  ★ Altınbaş Üniversitesi: @altinbastob — Altınbaş TÖB (LinkedIn)
+  ★ Ankara Üniversitesi: @antbatofficial — ANTBAT (atıf)
+  ★ Ankara Üniversitesi: @ivsaankara — IVSA Ankara (LinkedIn)
+  ★ Ege Üniversitesi: @ege.tob — Ege TÖB (önceki teyit)
+  ★ Gaziantep Üniversitesi: @gaziantepbat — GAUN BAT (tip.gantep.edu.tr)
+  ★ Gaziantep Üniversitesi: @gaunkok — Kök Hücre (fakülte)
+  ★ Gaziantep Üniversitesi: @gaunonot — Organ Nakli (fakülte)
+  ★ Gaziantep Üniversitesi: @gazianteptibbiyeliler — Tıbbiyeliler (fakülte)
+  ★ Gaziantep Üniversitesi: @gaunbirgenclik — Bir Gençlik (fakülte)
+  ★ Hacettepe Üniversitesi: @hutbat_official — HÜTBAT (hutbat.org)
+  ★ İstanbul Üniversitesi-Cerrahpaşa: @istanbulivsa — IVSA İstanbul (LinkedIn)
+  ★ Karadeniz Teknik Üniversitesi: @karadeniztob — Karadeniz TÖB (kamuya açık IG atıf)
+  ★ Trakya Üniversitesi: @trakyatob — Trakya TÖB (kendi site)
+  ★ Yeditepe Üniversitesi: @yutbat — YÜTBAT (med.yeditepe.edu.tr)
+  ● Akdeniz Üniversitesi: @akdeniztob — Akdeniz TÖB (çoklu web atıf — elle teyit)
+  ● Bursa Uludağ Üniversitesi: @bursauludagtob — Bursa Uludağ TÖB (Telegram/adı eşleşiyor — IG ayrı teyit)
+  ● Gaziantep Üniversitesi: @leyladansonra — Leyladan Sonra (fakülte # — teyit)
+
+## SLUG TAHMİNİ (zayıf — toplu onaylama)
+Çoğu üni için kalıp: @{slug}tob / @{slug}.tob / @{slug}bat — Instagram’da var olabilir ama bu tarama kanıtlamadı.
+Örnek zayıf adaylı üni sayısı: 61
+
+Tıp kulüp Instagram — 84 üni ADAY değerlendirmesi (birlikte bakılacak)
+Amaç: yok demek değil; ihtimali olanları sınıflandır.
+
+Tier:
+  ★ yüksek = fakülte/site/LinkedIn atıfı
+  ● orta   = güçlü web atıfı, elle teyit önerilir
+  · düşük  = slug tahmini (örn. {slug}tob) — doğrulanmadı
+  — yok    = bu turda kulüp IG sinyali çıkmadı (fakülte dekan IG sayılmaz)
+
+## Acıbadem Mehmet Ali Aydınlar Üniversitesi
+  - TOB: Acıbadem Tıp Öğrencileri Birliği (slug: acibadem)
+  - ★ @acibademmsa — ACUMSA [yuksek] acibadem.edu.tr
+  - ★ @acutbat — ACUTBAT [yuksek] atıf
+
+## Afyonkarahisar Sağlık Bilimleri Üniversitesi
+  - TOB: Afyon SBÜ Tıp Öğrencileri Birliği (slug: afyonsbu)
+  - ★ @afyonsbutob — Afyon SBÜ TÖB [yuksek] tiptercihim + IG atıf
+
+## Akdeniz Üniversitesi
+  - TOB: Akdeniz Tıp Öğrencileri Birliği (slug: akdeniz)
+  - ● @akdeniztob — Akdeniz TÖB [orta] çoklu web atıf — elle teyit
+
+## Aksaray Üniversitesi
+  - TOB: Aksaray Tıp Öğrencileri Birliği (slug: aksaray)
+  - ★ @aksaraytob — Aksaray TÖB [yuksek] fakülte sayfası: tip.aksaray.edu.tr
+  - ★ @asubat — ASÜBAT [yuksek] fakülte sayfası
+  - ★ @aksaraysinirbilim — Aksaray Sinirbilim [yuksek] fakülte sayfası
+
+## Alanya Alaaddin Keykubat Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Altınbaş Üniversitesi
+  - TOB: Altınbaş Tıp Öğrencileri Birliği (slug: altinbas)
+  - ★ @altinbastob — Altınbaş TÖB [yuksek] LinkedIn
+
+## Amasya Üniversitesi
+  - TOB: Amasya Tıp Öğrencileri Birliği (slug: amasya)
+  - · aday (doğrulanmadı): @amasyatob, @amasya.tob, @amasyabat
+
+## Ankara Yıldırım Beyazıt Üniversitesi
+  - TOB: Ankara Tıp Öğrencileri Birliği (slug: ankara)
+  - · aday (doğrulanmadı): @ankaratob, @ankara.tob, @ankarabat
+
+## Ankara Üniversitesi
+  - TOB: Ankara Tıp Öğrencileri Birliği (slug: ankara)
+  - ★ @antbatofficial — ANTBAT [yuksek] atıf
+  - ★ @ivsaankara — IVSA Ankara [yuksek] LinkedIn
+
+## Atatürk Üniversitesi
+  - TOB: Atatürk Tıp Öğrencileri Birliği (slug: None)
+  - — bu turda kulüp IG adayı yok
+
+## Atılım Üniversitesi
+  - TOB: Atılım Tıp Öğrencileri Birliği (slug: atilim)
+  - · aday (doğrulanmadı): @atilimtob, @atilim.tob, @atilimbat
+
+## Aydın Adnan Menderes Üniversitesi
+  - TOB: Aydın Adnan Menderes Tıp Öğrencileri Birliği (slug: aydinadnanmenderes)
+  - · aday (doğrulanmadı): @aydinadnanmenderestob, @aydinadnanmenderes.tob, @aydinadnanmenderesbat
+
+## Balıkesir Üniversitesi
+  - TOB: Balıkesir Tıp Öğrencileri Birliği (slug: balikesir)
+  - · aday (doğrulanmadı): @balikesirtob, @balikesir.tob, @balikesirbat
+
+## Bandırma Onyedi Eylül Üniversitesi
+  - TOB: Bandırma Onyedi Eylül Tıp Öğrencileri Birliği (slug: bandirmaonyedieylul)
+  - · aday (doğrulanmadı): @bandirmaonyedieylultob, @bandirmaonyedieylul.tob, @bandirmaonyedieylulbat
+
+## Beykent Üniversitesi
+  - TOB: Beykent Tıp Öğrencileri Birliği (slug: beykent)
+  - · aday (doğrulanmadı): @beykenttob, @beykent.tob, @beykentbat
+
+## Biruni Üniversitesi
+  - TOB: Biruni Tıp Öğrencileri Birliği (slug: biruni)
+  - · aday (doğrulanmadı): @birunitob, @biruni.tob, @birunibat
+
+## Bolu Abant İzzet Baysal Üniversitesi
+  - TOB: Abant İzzet Baysal Tıp Öğrencileri Birliği (slug: abant)
+  - · aday (doğrulanmadı): @abanttob, @abant.tob, @abantbat
+
+## Bursa Uludağ Üniversitesi
+  - TOB: Bursa Uludağ Tıp Öğrencileri Birliği (slug: bursauludag)
+  - ● @bursauludagtob — Bursa Uludağ TÖB [orta] Telegram/adı eşleşiyor — IG ayrı teyit
+
+## Dicle Üniversitesi
+  - TOB: Dicle Tıp Öğrencileri Birliği (slug: dicle)
+  - · aday (doğrulanmadı): @dicletob, @dicle.tob, @diclebat
+
+## Dokuz Eylül Üniversitesi
+  - TOB: Dokuz Eylül Tıp Öğrencileri Birliği (slug: dokuzeylul)
+  - · aday (doğrulanmadı): @dokuzeylultob, @dokuzeylul.tob, @dokuzeylulbat
+
+## Ege Üniversitesi
+  - TOB: Ege Tıp Öğrencileri Birliği (slug: ege)
+  - ★ @ege.tob — Ege TÖB [yuksek] önceki teyit
+
+## Erzincan Binali Yıldırım Üniversitesi
+  - TOB: Erzincan Binali Yıldırım Tıp Öğrencileri Birliği (slug: erzincanbinaliyildirim)
+  - · aday (doğrulanmadı): @erzincanbinaliyildirimtob, @erzincanbinaliyildirim.tob, @erzincanbinaliyildirimbat
+
+## Eskişehir Osmangazi Üniversitesi
+  - TOB: Gazi Tıp Öğrencileri Birliği (slug: gazi)
+  - · aday (doğrulanmadı): @gazitob, @gazi.tob, @gazibat
+
+## Fırat Üniversitesi
+  - TOB: Fırat Tıp Öğrencileri Birliği (slug: firat)
+  - · aday (doğrulanmadı): @firattob, @firat.tob, @firatbat
+
+## Gazi Üniversitesi
+  - TOB: Gazi Tıp Öğrencileri Birliği (slug: gazi)
+  - · aday (doğrulanmadı): @gazitob, @gazi.tob, @gazibat
+
+## Gaziantep İslam Bilim ve Teknoloji Üniversitesi
+  - TOB: Gazi Tıp Öğrencileri Birliği (slug: gazi)
+  - · aday (doğrulanmadı): @gazitob, @gazi.tob, @gazibat
+
+## Gaziantep Üniversitesi
+  - TOB: Gazi Tıp Öğrencileri Birliği (slug: gazi)
+  - ★ @gaziantepbat — GAUN BAT [yuksek] tip.gantep.edu.tr
+  - ★ @gaunkok — Kök Hücre [yuksek] fakülte
+  - ★ @gaunonot — Organ Nakli [yuksek] fakülte
+  - ★ @gazianteptibbiyeliler — Tıbbiyeliler [yuksek] fakülte
+  - ★ @gaunbirgenclik — Bir Gençlik [yuksek] fakülte
+  - ● @leyladansonra — Leyladan Sonra [orta] fakülte # — teyit
+
+## Giresun Üniversitesi
+  - TOB: Giresun Tıp Öğrencileri Birliği (slug: giresun)
+  - · aday (doğrulanmadı): @giresuntob, @giresun.tob, @giresunbat
+
+## Hacettepe Üniversitesi
+  - TOB: Hacettepe Tıp Öğrencileri Birliği (slug: hacettepe)
+  - ★ @hutbat_official — HÜTBAT [yuksek] hutbat.org
+
+## Haliç Üniversitesi
+  - TOB: Haliç Tıp Öğrencileri Birliği (slug: halic)
+  - · aday (doğrulanmadı): @halictob, @halic.tob, @halicbat
+
+## Harran Üniversitesi
+  - TOB: Harran Tıp Öğrencileri Birliği (slug: harran)
+  - · aday (doğrulanmadı): @harrantob, @harran.tob, @harranbat
+
+## Hitit Üniversitesi
+  - TOB: Hitit Tıp Öğrencileri Birliği (slug: hitit)
+  - · aday (doğrulanmadı): @hitittob, @hitit.tob, @hititbat
+
+## İnönü Üniversitesi
+  - TOB: İnönü Tıp Öğrencileri Birliği (slug: inonu)
+  - · aday (doğrulanmadı): @inonutob, @inonu.tob, @inonubat
+
+## İstanbul Atlas Üniversitesi
+  - TOB: Atlas Tıp Öğrencileri Birliği (slug: atlas)
+  - · aday (doğrulanmadı): @atlastob, @atlas.tob, @atlasbat
+
+## İstanbul Medeniyet Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Medipol Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Okan Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Sağlık ve Teknoloji Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Yeni Yüzyıl Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Üniversitesi
+  - TOB: İstanbul Tıp Öğrencileri Birliği (slug: istanbul)
+  - · aday (doğrulanmadı): @istanbultob, @istanbul.tob, @istanbulbat
+
+## İstanbul Üniversitesi-Cerrahpaşa
+  - TOB: Cerrahpaşa Tıp Öğrencileri Birliği (slug: cerrahpasa)
+  - ★ @istanbulivsa — IVSA İstanbul [yuksek] LinkedIn
+
+## İstinye Üniversitesi
+  - TOB: İstinye Tıp Öğrencileri Birliği (slug: istinye)
+  - · aday (doğrulanmadı): @istinyetob, @istinye.tob, @istinyebat
+
+## İzmir Bakırçay Üniversitesi
+  - TOB: Bakırçay Tıp Öğrencileri Birliği (slug: bakircay)
+  - · aday (doğrulanmadı): @bakircaytob, @bakircay.tob, @bakircaybat
+
+## İzmir Demokrasi Üniversitesi
+  - TOB: İzmir Demokrasi Tıp Öğrencileri Birliği (slug: izmirdemokrasi)
+  - · aday (doğrulanmadı): @izmirdemokrasitob, @izmirdemokrasi.tob, @izmirdemokrasibat
+
+## İzmir Ekonomi Üniversitesi
+  - TOB: İzmir Ekonomi Tıp Öğrencileri Birliği (slug: izmirekonomi)
+  - · aday (doğrulanmadı): @izmirekonomitob, @izmirekonomi.tob, @izmirekonomibat
+
+## İzmir Kâtip Çelebi Üniversitesi
+  - TOB: İzmir Katip Çelebi Tıp Öğrencileri Birliği (slug: izmirkatipcelebi)
+  - · aday (doğrulanmadı): @izmirkatipcelebitob, @izmirkatipcelebi.tob, @izmirkatipcelebibat
+
+## İzmir Tınaztepe Üniversitesi
+  - TOB: İzmir Tınaztepe Tıp Öğrencileri Birliği (slug: izmirtinaztepe)
+  - · aday (doğrulanmadı): @izmirtinaztepetob, @izmirtinaztepe.tob, @izmirtinaztepebat
+
+## Kafkas Üniversitesi
+  - TOB: Kafkas Tıp Öğrencileri Birliği (slug: kafkas)
+  - · aday (doğrulanmadı): @kafkastob, @kafkas.tob, @kafkasbat
+
+## Kahramanmaraş Sütçü İmam Üniversitesi
+  - TOB: Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği (slug: kahramanmarassutcuimam)
+  - · aday (doğrulanmadı): @kahramanmarassutcuimamtob, @kahramanmarassutcuimam.tob, @kahramanmarassutcuimambat
+
+## Karabük Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Karadeniz Teknik Üniversitesi
+  - TOB: Karadeniz Tıp Öğrencileri Birliği (slug: karadeniz)
+  - ★ @karadeniztob — Karadeniz TÖB [yuksek] kamuya açık IG atıf
+
+## Karamanoğlu Mehmetbey Üniversitesi
+  - TOB: Karaman Tıp Öğrencileri Birliği (slug: karaman)
+  - · aday (doğrulanmadı): @karamantob, @karaman.tob, @karamanbat
+
+## Kastamonu Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Koç Üniversitesi
+  - TOB: Koç Üniversitesi Tıp Öğrencileri Birliği (slug: kocuniversitesi)
+  - · aday (doğrulanmadı): @kocuniversitesitob, @kocuniversitesi.tob, @kocuniversitesibat
+
+## Kütahya Sağlık Bilimleri Üniversitesi
+  - TOB: Kütahya SBÜ Tıp Öğrencileri Birliği (slug: kutahyasbu)
+  - · aday (doğrulanmadı): @kutahyasbutob, @kutahyasbu.tob, @kutahyasbubat
+
+## Kırklareli Üniversitesi
+  - TOB: Arel Tıp Öğrencileri Birliği (slug: arel)
+  - · aday (doğrulanmadı): @areltob, @arel.tob, @arelbat
+
+## Kırşehir Ahi Evran Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Malatya Turgut Özal Üniversitesi
+  - TOB: Malatya Turgut Özal Tıp Öğrencileri Birliği (slug: malatyaturgutozal)
+  - · aday (doğrulanmadı): @malatyaturgutozaltob, @malatyaturgutozal.tob, @malatyaturgutozalbat
+
+## Maltepe Üniversitesi
+  - TOB: Maltepe Tıp Öğrencileri Birliği (slug: maltepe)
+  - · aday (doğrulanmadı): @maltepetob, @maltepe.tob, @maltepebat
+
+## Manisa Celal Bayar Üniversitesi
+  - TOB: Celal Bayar Tıp Öğrencileri Birliği (slug: celalbayar)
+  - · aday (doğrulanmadı): @celalbayartob, @celalbayar.tob, @celalbayarbat
+
+## Mardin Artuklu Üniversitesi
+  - TOB: Mardin Artuklu Tıp Öğrencileri Birliği (slug: mardinartuklu)
+  - · aday (doğrulanmadı): @mardinartuklutob, @mardinartuklu.tob, @mardinartuklubat
+
+## Marmara Üniversitesi
+  - TOB: Marmara Tıp Öğrencileri Birliği (slug: marmara)
+  - · aday (doğrulanmadı): @marmaratob, @marmara.tob, @marmarabat
+
+## Muğla Sıtkı Koçman Üniversitesi
+  - TOB: Koç Üniversitesi Tıp Öğrencileri Birliği (slug: kocuniversitesi)
+  - · aday (doğrulanmadı): @kocuniversitesitob, @kocuniversitesi.tob, @kocuniversitesibat
+
+## Niğde Ömer Halisdemir Üniversitesi
+  - TOB: Niğde Ömer Halisdemir Tıp Öğrencileri Birliği (slug: nigdeomerhalisdemir)
+  - · aday (doğrulanmadı): @nigdeomerhalisdemirtob, @nigdeomerhalisdemir.tob, @nigdeomerhalisdemirbat
+
+## Nişantaşı Üniversitesi
+  - TOB: İstanbul Nişantaşı Tıp Öğrencileri Birliği (slug: istanbulnisantasi)
+  - · aday (doğrulanmadı): @istanbulnisantasitob, @istanbulnisantasi.tob, @istanbulnisantasibat
+
+## Ondokuz Mayıs Üniversitesi
+  - TOB: Ondokuz Mayıs Tıp Öğrencileri Birliği (slug: ondokuzmayis)
+  - · aday (doğrulanmadı): @ondokuzmayistob, @ondokuzmayis.tob, @ondokuzmayisbat
+
+## Pamukkale Üniversitesi
+  - TOB: Pamukkale Tıp Öğrencileri Birliği (slug: pamukkale)
+  - · aday (doğrulanmadı): @pamukkaletob, @pamukkale.tob, @pamukkalebat
+
+## Sakarya Üniversitesi
+  - TOB: Sakarya Tıp Öğrencileri Birliği (slug: sakarya)
+  - · aday (doğrulanmadı): @sakaryatob, @sakarya.tob, @sakaryabat
+
+## Sanko Üniversitesi
+  - TOB: Sanko Tıp Öğrencileri Birliği (slug: sanko)
+  - · aday (doğrulanmadı): @sankotob, @sanko.tob, @sankobat
+
+## Sağlık Bilimleri Üniversitesi
+  - TOB: Abant İzzet Baysal Tıp Öğrencileri Birliği (slug: abant)
+  - · aday (doğrulanmadı): @abanttob, @abant.tob, @abantbat
+
+## Siirt Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Sivas Cumhuriyet Üniversitesi
+  - TOB: Cumhuriyet Tıp Öğrencileri Birliği (slug: cumhuriyet)
+
+## Süleyman Demirel Üniversitesi
+  - TOB: Süleyman Demirel Tıp Öğrencileri Birliği (slug: suleymandemirel)
+  - · aday (doğrulanmadı): @suleymandemireltob, @suleymandemirel.tob, @suleymandemirelbat
+
+## Tekirdağ Namık Kemal Üniversitesi
+  - TOB: Namık Kemal Tıp Öğrencileri Birliği (slug: namikkemal)
+  - · aday (doğrulanmadı): @namikkemaltob, @namikkemal.tob, @namikkemalbat
+
+## TOBB Ekonomi ve Teknoloji Üniversitesi
+  - TOB: TOBB ETÜ Tıp Öğrencileri Birliği (slug: tobbetu)
+
+## Trakya Üniversitesi
+  - TOB: Trakya Tıp Öğrencileri Birliği (slug: trakya)
+  - ★ @trakyatob — Trakya TÖB [yuksek] kendi site
+
+## Van Yüzüncü Yıl Üniversitesi
+  - TOB: Van Yüzüncü Yıl Tıp Öğrencileri Birliği (slug: vanyuzuncuyil)
+  - · aday (doğrulanmadı): @vanyuzuncuyiltob, @vanyuzuncuyil.tob, @vanyuzuncuyilbat
+
+## Yalova Üniversitesi
+  - TOB: eşleşmedi
+  - — bu turda kulüp IG adayı yok
+
+## Yeditepe Üniversitesi
+  - TOB: Yeditepe Tıp Öğrencileri Birliği (slug: yeditepe)
+  - ★ @yutbat — YÜTBAT [yuksek] med.yeditepe.edu.tr
+
+## Yozgat Bozok Üniversitesi
+  - TOB: Bozok Tıp Öğrencileri Birliği (slug: bozok)
+  - · aday (doğrulanmadı): @bozoktob, @bozok.tob, @bozokbat
+
+## Zonguldak Bülent Ecevit Üniversitesi
+  - TOB: Bülent Ecevit Tıp Öğrencileri Birliği (slug: bulentecevit)
+  - · aday (doğrulanmadı): @bulentecevittob, @bulentecevit.tob, @bulentecevitbat
+
+## Çanakkale Onsekiz Mart Üniversitesi
+  - TOB: Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği (slug: canakkaleonsekizmart)
+  - · aday (doğrulanmadı): @canakkaleonsekizmarttob, @canakkaleonsekizmart.tob, @canakkaleonsekizmartbat
+
+## Çukurova Üniversitesi
+  - TOB: Çukurova Tıp Öğrencileri Birliği (slug: cukurova)
+  - · aday (doğrulanmadı): @cukurovatob, @cukurova.tob, @cukurovabat
+
+## Üsküdar Üniversitesi
+  - TOB: Üsküdar Tıp Öğrencileri Birliği (slug: uskudar)
+  - · aday (doğrulanmadı): @uskudartob, @uskudar.tob, @uskudarbat
+

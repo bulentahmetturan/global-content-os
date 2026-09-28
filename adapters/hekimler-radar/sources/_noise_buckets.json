@@ -1,0 +1,2086 @@
+{
+  "exams_national_central": [
+    {
+      "id": "osym_duyurular",
+      "name": "ÖSYM Duyuruları",
+      "url": "https://www.osym.gov.tr/Duyurular/Index",
+      "category": "central_announcement"
+    },
+    {
+      "id": "yok_duyurular",
+      "name": "YÖK Duyuruları",
+      "url": "https://www.yok.gov.tr/tr/announcements",
+      "category": "central_announcement"
+    },
+    {
+      "id": "tubitak_duyurular",
+      "name": "TÜBİTAK Duyuruları",
+      "url": "https://www.tubitak.gov.tr/tr/duyuru",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "osym_tus",
+      "name": "ÖSYM TUS (Tıpta Uzmanlık Eğitimi Giriş Sınavı)",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/6",
+      "category": "central_announcement"
+    },
+    {
+      "id": "osym_yokdil",
+      "name": "ÖSYM YÖKDİL / e-YÖKDİL",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/12",
+      "category": "central_announcement"
+    },
+    {
+      "id": "osym_yds",
+      "name": "ÖSYM YDS / e-YDS",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/7",
+      "category": "central_announcement"
+    },
+    {
+      "id": "osym_ales",
+      "name": "ÖSYM ALES",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/5",
+      "category": "central_announcement"
+    },
+    {
+      "id": "tubitak_2205",
+      "name": "TÜBİTAK 2205 Lisans Burs Programı",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2205-lisans-burs-programi",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "tubitak_2247c",
+      "name": "TÜBİTAK 2247-C STAR Stajyer Araştırmacı Burs Programı",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2247-c-stajyer-arastirmaci-burs-programi-star",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "tuseb_haberler",
+      "name": "TÜSEB Haberler (proje çağrıları)",
+      "url": "https://www.tuseb.gov.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "ua_erasmus_sonuclar",
+      "name": "Ulusal Ajans — Erasmus+ Öğrenim Hareketliliği Başvuru Sonuçları",
+      "url": "https://www.ua.gov.tr/anasayfa/icerikler/basvuru-sonuclari/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "ecfmg_announcements",
+      "name": "ECFMG Duyuruları (USMLE / sertifikasyon)",
+      "url": "https://www.ecfmg.org/news/",
+      "category": "central_announcement"
+    },
+    {
+      "id": "gmc_plab",
+      "name": "GMC — PLAB Sınavı",
+      "url": "https://www.gmc-uk.org/registration-and-licensing/join-the-register/plab",
+      "category": "central_announcement"
+    },
+    {
+      "id": "mcc_mccqe",
+      "name": "Medical Council of Canada — MCCQE",
+      "url": "https://mcc.ca/examinations-assessments/",
+      "category": "central_announcement"
+    },
+    {
+      "id": "germany_approbation",
+      "name": "Almanya — Recognition in Germany (Approbation)",
+      "url": "https://www.anerkennung-in-deutschland.de/html/en/2688.php",
+      "category": "central_announcement"
+    },
+    {
+      "id": "osym_sts_tip",
+      "name": "ÖSYM STS Tıp Doktorluğu (Yurt Dışı Diploma Denkliği)",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/45",
+      "category": "central_announcement"
+    },
+    {
+      "id": "osym_kpss",
+      "name": "ÖSYM KPSS",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/3",
+      "category": "central_announcement"
+    },
+    {
+      "id": "ecfmg_sponsor_notes_policy",
+      "name": "ECFMG — Sponsor Notes Politikası",
+      "url": "https://www.ecfmg.org/resources/sponsor-notes.html",
+      "category": "central_announcement"
+    },
+    {
+      "id": "tubitak_2242",
+      "name": "TÜBİTAK 2242 Üniversite Öğrencileri Araştırma Proje Yarışması",
+      "url": "https://tubitak.gov.tr/tr/yarismalar/oncelikli-alanlarda-universite-ogrencileri-proje-yarismasi",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "erasmus_mundus_joint_masters",
+      "name": "Erasmus Mundus Ortak Yüksek Lisans Programları (AB)",
+      "url": "https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters",
+      "category": "scholarship_research"
+    }
+  ],
+  "tip_faculty_duyuru": [
+    {
+      "id": "tip_akdeniz_duyuru",
+      "name": "Akdeniz Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.akdeniz.edu.tr/tr",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aksaray_duyuru",
+      "name": "Aksaray Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.aksaray.edu.tr/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_alanya_duyuru",
+      "name": "Alanya Alaaddin Keykubat Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.alanya.edu.tr/duyuru/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aybu_duyuru",
+      "name": "Ankara Yıldırım Beyazıt Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.aybu.edu.tr/tip",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ankara_duyuru",
+      "name": "Ankara Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.medicine.ankara.edu.tr/duyurular/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atauni_duyuru",
+      "name": "Atatürk Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://atauni.edu.tr/tip-fakultesi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_adu_duyuru",
+      "name": "Aydın Adnan Menderes Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://fakulte.adu.edu.tr/med/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bandirma_duyuru",
+      "name": "Bandırma Onyedi Eylül Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_beykent_duyuru",
+      "name": "Beykent Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.beykent.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ibu_duyuru",
+      "name": "Bolu Abant İzzet Baysal Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.ibu.edu.tr/tr/news",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_uludag_duyuru",
+      "name": "Bursa Uludağ Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.uludag.edu.tr/tip/duyuru",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_dicle_duyuru",
+      "name": "Dicle Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_deu_duyuru",
+      "name": "Dokuz Eylül Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.deu.edu.tr/tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ege_duyuru",
+      "name": "Ege Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://med.ege.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_erzincan_duyuru",
+      "name": "Erzincan Binali Yıldırım Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.ebyu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_firat_duyuru",
+      "name": "Fırat Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.firat.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gazi_duyuru",
+      "name": "Gazi Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://med.gazi.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gibtu_duyuru",
+      "name": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_giresun_duyuru",
+      "name": "Giresun Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.giresun.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hacettepe_duyuru",
+      "name": "Hacettepe Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.hacettepe.edu.tr/tr/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_halic_duyuru",
+      "name": "Haliç Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_harran_duyuru",
+      "name": "Harran Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_karabuk_duyuru",
+      "name": "Karabük Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.karabuk.edu.tr/index.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ktu_duyuru",
+      "name": "Karadeniz Teknik Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://med.ktu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kmu_duyuru",
+      "name": "Karamanoğlu Mehmetbey Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.kmu.edu.tr/tip",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kastamonu_duyuru",
+      "name": "Kastamonu Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.kastamonu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_koc_duyuru",
+      "name": "Koç Üniversitesi Tıp Fakültesi",
+      "url": "https://medicine.ku.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_klu_duyuru",
+      "name": "Kırklareli Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.klu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ahievran_duyuru",
+      "name": "Kırşehir Ahi Evran Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.ahievran.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ozal_duyuru",
+      "name": "Malatya Turgut Özal Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tipfakultesi.ozal.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_maltepe_duyuru",
+      "name": "Maltepe Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.maltepe.edu.tr/tip",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mcbu_duyuru",
+      "name": "Manisa Celal Bayar Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "http://tip.mcbu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_artuklu_duyuru",
+      "name": "Mardin Artuklu Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.artuklu.edu.tr/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_marmara_duyuru",
+      "name": "Marmara Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.marmara.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mu_duyuru",
+      "name": "Muğla Sıtkı Koçman Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.mu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ohu_duyuru",
+      "name": "Niğde Ömer Halisdemir Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.ohu.edu.tr/tipfakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_nisantasi_duyuru",
+      "name": "Nişantaşı Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.nisantasi.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_omu_duyuru",
+      "name": "Ondokuz Mayıs Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.omu.edu.tr/tr",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_pau_duyuru",
+      "name": "Pamukkale Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.pau.edu.tr/tip",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sakarya_duyuru",
+      "name": "Sakarya Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.sakarya.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sanko_duyuru",
+      "name": "Sanko Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_duyuru",
+      "name": "Sağlık Bilimleri Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.sbu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_cumhuriyet_duyuru",
+      "name": "Sivas Cumhuriyet Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.cumhuriyet.edu.tr/duyuru",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sdu_duyuru",
+      "name": "Süleyman Demirel Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.sdu.edu.tr/tr/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_etu_duyuru",
+      "name": "TOBB Ekonomi ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yalova_duyuru",
+      "name": "Yalova Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.yalova.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeditepe_duyuru",
+      "name": "Yeditepe Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://med.yeditepe.edu.tr/tr/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_comu_duyuru",
+      "name": "Çanakkale Onsekiz Mart Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.comu.edu.tr/arsiv/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_cu_duyuru",
+      "name": "Çukurova Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.cu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_uskudar_duyuru",
+      "name": "Üsküdar Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atlas_duyuru",
+      "name": "İstanbul Atlas Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medipol_duyuru",
+      "name": "İstanbul Medipol Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_okan_duyuru",
+      "name": "İstanbul Okan Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.okan.edu.tr/tip/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_istun_duyuru",
+      "name": "İstanbul Sağlık ve Teknoloji Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.istun.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeniyuzyil_duyuru",
+      "name": "İstanbul Yeni Yüzyıl Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.yeniyuzyil.edu.tr/fakulteler/tip-fakultesi/duyurular",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_cerrahpasa_ogrenci_duyuru",
+      "name": "İstanbul Üniversitesi-Cerrahpaşa Cerrahpaşa Tıp Fakültesi öğrenci duyuruları",
+      "url": "https://cerrahpasa.iuc.edu.tr/tr/duyurular/3/1",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_istanbul_ogrenci_duyuru",
+      "name": "İstanbul Üniversitesi İstanbul Tıp Fakültesi öğrenci duyuruları",
+      "url": "https://ogrenci-istanbultip.istanbul.edu.tr/tr/duyurular/1/3",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bakircay_duyuru",
+      "name": "İzmir Bakırçay Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.bakircay.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_idu_duyuru",
+      "name": "İzmir Demokrasi Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.idu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_tinaztepe_duyuru",
+      "name": "İzmir Tınaztepe Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.tinaztepe.edu.tr/akademik/tip-fakultesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_afsu_duyuru",
+      "name": "Afyonkarahisar Sağlık Bilimleri Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.afsu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_istinye_duyuru",
+      "name": "İstinye Üniversitesi Tıp Fakültesi",
+      "url": "https://www.istinye.edu.tr/tr/tip",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_gulhane_duyuru",
+      "name": "Sağlık Bilimleri Üniversitesi Gülhane Tıp Fakültesi",
+      "url": "https://gulhanetip.sbu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ikcu_duyuru",
+      "name": "İzmir Kâtip Çelebi Üniversitesi Tıp Fakültesi",
+      "url": "https://tip.ikcu.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kafkas_duyuru",
+      "name": "Kafkas Üniversitesi Tıp Fakültesi",
+      "url": "https://www.kafkas.edu.tr/Tipfak",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_inonu_duyuru",
+      "name": "İnönü Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.inonu.edu.tr/tr",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_trakya_duyuru",
+      "name": "Trakya Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://tip.trakya.edu.tr/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yyu_duyuru",
+      "name": "Van Yüzüncü Yıl Üniversitesi Tıp Fakültesi duyuruları",
+      "url": "https://www.yyu.edu.tr/Birimler/14",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aksaray_duyuru_akademik_takvim",
+      "name": "Aksaray Üniversitesi Akademik Takvim",
+      "url": "https://tip.aksaray.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aksaray_duyuru_ogrenci_konseyi",
+      "name": "Aksaray Üniversitesi Öğrenci Konseyi / Temsilciliği",
+      "url": "https://tip.aksaray.edu.tr/ogrenci-temsilciligi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ankara_duyuru_akademik_takvim",
+      "name": "Ankara Üniversitesi Akademik Takvim",
+      "url": "https://www.medicine.ankara.edu.tr/akademik-takvim-ingilizce-program/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_balikesir_duyuru_akademik_takvim",
+      "name": "Balıkesir Üniversitesi Akademik Takvim",
+      "url": "https://tip.balikesir.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_beykent_duyuru_akademik_takvim",
+      "name": "Beykent Üniversitesi Akademik Takvim",
+      "url": "https://tip.beykent.edu.tr/tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_deu_duyuru_akademik_takvim",
+      "name": "Dokuz Eylül Üniversitesi Akademik Takvim",
+      "url": "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_deu_duyuru_staj_intornluk",
+      "name": "Dokuz Eylül Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.deu.edu.tr/tr/donem-6/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_erzincan_duyuru_akademik_takvim",
+      "name": "Erzincan Binali Yıldırım Üniversitesi Akademik Takvim",
+      "url": "https://tip.ebyu.edu.tr/akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hacettepe_duyuru_akademik_takvim",
+      "name": "Hacettepe Üniversitesi Akademik Takvim",
+      "url": "https://tip.hacettepe.edu.tr/tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hacettepe_duyuru_ogrenci_konseyi",
+      "name": "Hacettepe Üniversitesi Öğrenci Konseyi / Temsilciliği",
+      "url": "https://tip.hacettepe.edu.tr/tr/ogrenci-konseyi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hacettepe_duyuru_staj_intornluk",
+      "name": "Hacettepe Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.hacettepe.edu.tr/tr/staj",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_marmara_duyuru_akademik_takvim",
+      "name": "Marmara Üniversitesi Akademik Takvim",
+      "url": "https://tip.marmara.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_nku_duyuru_akademik_takvim",
+      "name": "Tekirdağ Namık Kemal Üniversitesi Akademik Takvim",
+      "url": "https://tip.nku.edu.tr/tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_nku_duyuru_koordinatorluk",
+      "name": "Tekirdağ Namık Kemal Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.nku.edu.tr/tr/koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sanko_duyuru_akademik_takvim",
+      "name": "Sanko Üniversitesi Akademik Takvim",
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_acibadem_duyuru_akademik_takvim",
+      "name": "Acıbadem Mehmet Ali Aydınlar Üniversitesi Akademik Takvim",
+      "url": "https://www.acibadem.edu.tr/ogrenci/ogrenci-isleri/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_akdeniz_duyuru_sinav_takvimi",
+      "name": "Akdeniz Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.akdeniz.edu.tr/tr/20262027_ders_programi-19233",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aksaray_duyuru_koordinatorluk",
+      "name": "Aksaray Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.aksaray.edu.tr/kurullar--komisyonlar-ve-koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_aksaray_duyuru_sinav_takvimi",
+      "name": "Aksaray Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.aksaray.edu.tr/ders-programi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_alanya_duyuru_akademik_takvim",
+      "name": "Alanya Alaaddin Keykubat Üniversitesi Akademik Takvim",
+      "url": "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_alanya_duyuru_sinav_takvimi",
+      "name": "Alanya Alaaddin Keykubat Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.alanya.edu.tr/ogrenci/ders-programi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_altinbas_duyuru_akademik_takvim",
+      "name": "Altınbaş Üniversitesi Akademik Takvim",
+      "url": "https://altinbas.edu.tr/ogrenci/akademik-takvim.web",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_altinbas_duyuru_sinav_takvimi",
+      "name": "Altınbaş Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://altinbas.edu.tr/akademik/fakulteler/tip/ders-programi.web",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_altinbas_duyuru_staj_intornluk",
+      "name": "Altınbaş Üniversitesi Staj / İntörnlük",
+      "url": "https://altinbas.edu.tr/ogrenci/staj-ve-coop/main.web",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_amasya_duyuru_akademik_takvim",
+      "name": "Amasya Üniversitesi Akademik Takvim",
+      "url": "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_amasya_duyuru_sinav_takvimi",
+      "name": "Amasya Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.amasya.edu.tr/ogrenci/ders-programi.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_artuklu_duyuru_akademik_takvim",
+      "name": "Mardin Artuklu Üniversitesi Akademik Takvim",
+      "url": "https://www.artuklu.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atauni_duyuru_sinav_takvimi",
+      "name": "Atatürk Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://atauni.edu.tr/tip-fakultesi/ders-programi-arsivi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atilim_duyuru_akademik_takvim",
+      "name": "Atılım Üniversitesi Akademik Takvim",
+      "url": "https://www.atilim.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atilim_duyuru_koordinatorluk",
+      "name": "Atılım Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://www.atilim.edu.tr/tr/koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atilim_duyuru_sinav_takvimi",
+      "name": "Atılım Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.atilim.edu.tr/tr/dersprogrami",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atlas_duyuru_akademik_takvim",
+      "name": "İstanbul Atlas Üniversitesi Akademik Takvim",
+      "url": "https://www.atlas.edu.tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atlas_duyuru_sinav_takvimi",
+      "name": "İstanbul Atlas Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/ders-programi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_atlas_duyuru_staj_intornluk",
+      "name": "İstanbul Atlas Üniversitesi Staj / İntörnlük",
+      "url": "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/intornluk",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bakircay_duyuru_akademik_takvim",
+      "name": "İzmir Bakırçay Üniversitesi Akademik Takvim",
+      "url": "https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bakircay_duyuru_sinav_takvimi",
+      "name": "İzmir Bakırçay Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.bakircay.edu.tr/Sayfalar/4839/ders-programlari",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bandirma_duyuru_akademik_takvim",
+      "name": "Bandırma Onyedi Eylül Üniversitesi Akademik Takvim",
+      "url": "http://tip.bandirma.edu.tr/tr/tip/s/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-2",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bandirma_duyuru_sinav_takvimi",
+      "name": "Bandırma Onyedi Eylül Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.bandirma.edu.tr/tr/tip/s/Sinav-Programi-19698",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bandirma_duyuru_staj_intornluk",
+      "name": "Bandırma Onyedi Eylül Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.bandirma.edu.tr/tr/tip/s/Intorn-Karneleri-37811",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_beun_duyuru_staj_intornluk",
+      "name": "Zonguldak Bülent Ecevit Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.beun.edu.tr/ogrenciler-icin-kurallar/intornluk-ogrencilerinin-egitim-ve-ogretimi-yonergesi.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_biruni_duyuru_akademik_takvim",
+      "name": "Biruni Üniversitesi Akademik Takvim",
+      "url": "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_biruni_duyuru_sinav_takvimi",
+      "name": "Biruni Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.biruni.edu.tr/index.php/395408-2/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_biruni_duyuru_staj_intornluk",
+      "name": "Biruni Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.biruni.edu.tr/index.php/staj-karneleri/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bozok_duyuru_akademik_takvim",
+      "name": "Yozgat Bozok Üniversitesi Akademik Takvim",
+      "url": "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bozok_duyuru_koordinatorluk",
+      "name": "Yozgat Bozok Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.bozok.edu.tr/sayfa/koordinatorluk,tr-760.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_bozok_duyuru_staj_intornluk",
+      "name": "Yozgat Bozok Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.bozok.edu.tr/sayfa/donem-vi,tr-775.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_comu_duyuru_akademik_takvim",
+      "name": "Çanakkale Onsekiz Mart Üniversitesi Akademik Takvim",
+      "url": "https://tip.comu.edu.tr/arsiv/ogrenci/akademik-takvim-r19.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_dicle_duyuru_akademik_takvim",
+      "name": "Dicle Üniversitesi Akademik Takvim",
+      "url": "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-akademik-takvim-1520",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_dicle_duyuru_sinav_takvimi",
+      "name": "Dicle Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-sinav-takvimi-2164",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ege_duyuru_akademik_takvim",
+      "name": "Ege Üniversitesi Akademik Takvim",
+      "url": "https://med.ege.edu.tr/tr-24101/akademik_takvim.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ege_duyuru_staj_intornluk",
+      "name": "Ege Üniversitesi Staj / İntörnlük",
+      "url": "https://med.ege.edu.tr/tr-2254/kilavuzlar.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_erzincan_duyuru_staj_intornluk",
+      "name": "Erzincan Binali Yıldırım Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.ebyu.edu.tr/donem-vi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_etu_duyuru_akademik_takvim",
+      "name": "TOBB Ekonomi ve Teknoloji Üniversitesi Akademik Takvim",
+      "url": "https://etu.edu.tr/tr/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_firat_duyuru_akademik_takvim",
+      "name": "Fırat Üniversitesi Akademik Takvim",
+      "url": "https://tip.firat.edu.tr/page/2329",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_firat_duyuru_koordinatorluk",
+      "name": "Fırat Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.firat.edu.tr/page/7195",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gantep_duyuru_akademik_takvim",
+      "name": "Gaziantep Üniversitesi Akademik Takvim",
+      "url": "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gantep_duyuru_staj_intornluk",
+      "name": "Gaziantep Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.gantep.edu.tr/pages.php?url=staj-programlari-162",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gazi_duyuru_akademik_takvim",
+      "name": "Gazi Üniversitesi Akademik Takvim",
+      "url": "http://med.gazi.edu.tr/view/page/189939",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gazi_duyuru_koordinatorluk",
+      "name": "Gazi Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://med.gazi.edu.tr/view/page/187795/egitim-kurul-ve-koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gazi_duyuru_staj_intornluk",
+      "name": "Gazi Üniversitesi Staj / İntörnlük",
+      "url": "http://med.gazi.edu.tr/view/page/136628",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gibtu_duyuru_akademik_takvim",
+      "name": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi Akademik Takvim",
+      "url": "https://www.gibtu.edu.tr/Medya/Birim/Dosya/20260826095457_9100fd60.pdf",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_gibtu_duyuru_staj_intornluk",
+      "name": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi Staj / İntörnlük",
+      "url": "https://www.gibtu.edu.tr/tip/Icerik/34012/klinik-stajlar-degerlendirme-toplantisi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_giresun_duyuru_akademik_takvim",
+      "name": "Giresun Üniversitesi Akademik Takvim",
+      "url": "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_giresun_duyuru_staj_intornluk",
+      "name": "Giresun Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.giresun.edu.tr/tr/page/staj/17215",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_halic_duyuru_akademik_takvim",
+      "name": "Haliç Üniversitesi Akademik Takvim",
+      "url": "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_halic_duyuru_koordinatorluk",
+      "name": "Haliç Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://halic.edu.tr/tr/universitemiz/rektorluk-ofisi/koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_halic_duyuru_staj_intornluk",
+      "name": "Haliç Üniversitesi Staj / İntörnlük",
+      "url": "https://halic.edu.tr/tr/ogrencimiz/uygulamali-egitimler-ve-staj-koordinatorlugu",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_harran_duyuru_koordinatorluk",
+      "name": "Harran Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi/bolumler/koordinatorlukler ",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hitit_duyuru_sinav_takvimi",
+      "name": "Hitit Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.hitit.edu.tr/tr/detay/donem-i-ders-programi-yeni",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_hitit_duyuru_staj_intornluk",
+      "name": "Hitit Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.hitit.edu.tr/tr/detay/staj",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ibu_duyuru_akademik_takvim",
+      "name": "Bolu Abant İzzet Baysal Üniversitesi Akademik Takvim",
+      "url": "https://tip.ibu.edu.tr/Files/ckFiles/tip-ibu-edu-tr/ogrenci/ders/2026-2027/2026-2027_Tip_Fakultesi_Akademik_Takvim.pdf",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ibu_duyuru_sinav_takvimi",
+      "name": "Bolu Abant İzzet Baysal Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.ibu.edu.tr/tr/page/ders-programi-arsivi/16969",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ibu_duyuru_staj_intornluk",
+      "name": "Bolu Abant İzzet Baysal Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.ibu.edu.tr/tr/page/staj-karneleri/16858",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ieu_duyuru_staj_intornluk",
+      "name": "İzmir Ekonomi Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.ieu.edu.tr/tr/tip-fakulesi-intorn-egitim-ve-calisma-usul-ve-esas",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_istinye_duyuru_akademik_takvim",
+      "name": "İstinye Üniversitesi Akademik Takvim",
+      "url": "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kafkas_duyuru_akademik_takvim",
+      "name": "Kafkas Üniversitesi Akademik Takvim",
+      "url": "https://www.kafkas.edu.tr/oidb/tr/sayfaYeni6016",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kafkas_duyuru_koordinatorluk",
+      "name": "Kafkas Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni5071",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kafkas_duyuru_sinav_takvimi",
+      "name": "Kafkas Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni19294",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kafkas_duyuru_staj_intornluk",
+      "name": "Kafkas Üniversitesi Staj / İntörnlük",
+      "url": "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni10123",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_karabuk_duyuru_akademik_takvim",
+      "name": "Karabük Üniversitesi Akademik Takvim",
+      "url": "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1129&BA=index.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_karabuk_duyuru_koordinatorluk",
+      "name": "Karabük Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1224&BA=index.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_karabuk_duyuru_staj_intornluk",
+      "name": "Karabük Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1228&BA=index.aspx",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kastamonu_duyuru_akademik_takvim",
+      "name": "Kastamonu Üniversitesi Akademik Takvim",
+      "url": "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_klu_duyuru_akademik_takvim",
+      "name": "Kırklareli Üniversitesi Akademik Takvim",
+      "url": "https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/akademik_takvimler/2026-2027_tip_fakultesi_akademik_takvim.pdf",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_klu_duyuru_sinav_takvimi",
+      "name": "Kırklareli Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/ders_programi_egitim_planlari/2026-2027_egitim__plan_ve_ders_programi/2026-2027_do%CC%88nem_1_07_08_2026.pdf",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_klu_duyuru_staj_intornluk",
+      "name": "Kırklareli Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.klu.edu.tr/Sayfalar/46031-fakultemizde-bir-ilk-klinik-stajlar-basladi.klu",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_kmu_duyuru_akademik_takvim",
+      "name": "Karamanoğlu Mehmetbey Üniversitesi Akademik Takvim",
+      "url": "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_koc_duyuru_staj_intornluk",
+      "name": "Koç Üniversitesi Staj / İntörnlük",
+      "url": "https://medicine.ku.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/secmeli-stajlar/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ksbu_duyuru_akademik_takvim",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Akademik Takvim",
+      "url": "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ksbu_duyuru_koordinatorluk",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.ksbu.edu.tr/defaultx/sayfa/8892/mezuniyet-oncesi-tip-egitimi-koordinasyon-kurulu-koordinatorler-kurulu",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ksbu_duyuru_staj_intornluk",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.ksbu.edu.tr/defaultx/sayfa/3388/donem-6",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ksu_duyuru_koordinatorluk",
+      "name": "Kahramanmaraş Sütçü İmam Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tipfakultesi.ksu.edu.tr/depo/belgeler/DönemKoordinatörleri_2608251608095711.pdf",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ksu_duyuru_staj_intornluk",
+      "name": "Kahramanmaraş Sütçü İmam Üniversitesi Staj / İntörnlük",
+      "url": "https://tipfakultesi.ksu.edu.tr/Default.aspx?SId=23834",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_maltepe_duyuru_akademik_takvim",
+      "name": "Maltepe Üniversitesi Akademik Takvim",
+      "url": "https://www.maltepe.edu.tr/tr/akademik-takvimler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mcbu_duyuru_akademik_takvim",
+      "name": "Manisa Celal Bayar Üniversitesi Akademik Takvim",
+      "url": "http://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mcbu_duyuru_sinav_takvimi",
+      "name": "Manisa Celal Bayar Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "http://tip.mcbu.edu.tr/2026-2027-ders-programi.70205.tr.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mcbu_duyuru_staj_intornluk",
+      "name": "Manisa Celal Bayar Üniversitesi Staj / İntörnlük",
+      "url": "http://tip.mcbu.edu.tr/intorn-semineri.8757.tr.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medeniyet_duyuru_akademik_takvim",
+      "name": "İstanbul Medeniyet Üniversitesi Akademik Takvim",
+      "url": "https://tip.medeniyet.edu.tr/tr/ogrenciler/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medeniyet_duyuru_sinav_takvimi",
+      "name": "İstanbul Medeniyet Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.medeniyet.edu.tr/tr/egitim/ders-programi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medipol_duyuru_akademik_takvim",
+      "name": "İstanbul Medipol Üniversitesi Akademik Takvim",
+      "url": "https://www.medipol.edu.tr/ogrenci/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medipol_duyuru_koordinatorluk",
+      "name": "İstanbul Medipol Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://www.medipol.edu.tr/akademik#link-37746",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medipol_duyuru_sinav_takvimi",
+      "name": "İstanbul Medipol Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ders-programi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_medipol_duyuru_staj_intornluk",
+      "name": "İstanbul Medipol Üniversitesi Staj / İntörnlük",
+      "url": "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ogrenci/intorn-karnesi",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_mu_duyuru_akademik_takvim",
+      "name": "Muğla Sıtkı Koçman Üniversitesi Akademik Takvim",
+      "url": "https://tip.mu.edu.tr/tr/akademik-takvim-6442",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_nku_duyuru_sinav_takvimi",
+      "name": "Tekirdağ Namık Kemal Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.nku.edu.tr:443/DersProgramı/0/s/457/759#icerik",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ogu_duyuru_akademik_takvim",
+      "name": "Eskişehir Osmangazi Üniversitesi Akademik Takvim",
+      "url": "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ohu_duyuru_akademik_takvim",
+      "name": "Niğde Ömer Halisdemir Üniversitesi Akademik Takvim",
+      "url": "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ohu_duyuru_sinav_takvimi",
+      "name": "Niğde Ömer Halisdemir Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.ohu.edu.tr/tipfakultesi/dersprogrami",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_okan_duyuru_akademik_takvim",
+      "name": "İstanbul Okan Üniversitesi Akademik Takvim",
+      "url": "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_okan_duyuru_koordinatorluk",
+      "name": "İstanbul Okan Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://www.okan.edu.tr/tip/sayfa/7827/koordinatorlukler/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_okan_duyuru_sinav_takvimi",
+      "name": "İstanbul Okan Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.okan.edu.tr/sayfa/1306/sinav-takvimi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_omu_duyuru_akademik_takvim",
+      "name": "Ondokuz Mayıs Üniversitesi Akademik Takvim",
+      "url": "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_omu_duyuru_koordinatorluk",
+      "name": "Ondokuz Mayıs Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.omu.edu.tr/tr/fakultemiz/komisyon-ve-koordinatorlukler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ozal_duyuru_akademik_takvim",
+      "name": "Malatya Turgut Özal Üniversitesi Akademik Takvim",
+      "url": "https://tipfakultesi.ozal.edu.tr/page/4055",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ozal_duyuru_koordinatorluk",
+      "name": "Malatya Turgut Özal Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tipfakultesi.ozal.edu.tr/page/9847",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ozal_duyuru_sinav_takvimi",
+      "name": "Malatya Turgut Özal Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tipfakultesi.ozal.edu.tr/page/9325",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_ozal_duyuru_staj_intornluk",
+      "name": "Malatya Turgut Özal Üniversitesi Staj / İntörnlük",
+      "url": "https://tipfakultesi.ozal.edu.tr/page/12361",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_pau_duyuru_akademik_takvim",
+      "name": "Pamukkale Üniversitesi Akademik Takvim",
+      "url": "https://www.pau.edu.tr/oidb/tr/sayfa/akademik-takvim-3",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sakarya_duyuru_staj_intornluk",
+      "name": "Sakarya Üniversitesi Staj / İntörnlük",
+      "url": "https://tip.sakarya.edu.tr/tr/personel-liste/28559/156640/faz-iii-staj-sorumlulari",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sanko_duyuru_sinav_takvimi",
+      "name": "Sanko Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/sinav-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sanko_duyuru_staj_intornluk",
+      "name": "Sanko Üniversitesi Staj / İntörnlük",
+      "url": "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/kurul-staj-degerlendirme-takvimi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_duyuru_akademik_takvim",
+      "name": "Sağlık Bilimleri Üniversitesi Akademik Takvim",
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_duyuru_sinav_takvimi",
+      "name": "Sağlık Bilimleri Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/guncel-ders-programi/1-sinif-ders-programi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_gulhane_duyuru_akademik_takvim",
+      "name": "Sağlık Bilimleri Üniversitesi Akademik Takvim",
+      "url": "https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_gulhane_duyuru_sinav_takvimi",
+      "name": "Sağlık Bilimleri Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/2025-2026-egitim-ogretim-yili-ders-programi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sbu_gulhane_duyuru_staj_intornluk",
+      "name": "Sağlık Bilimleri Üniversitesi Staj / İntörnlük",
+      "url": "https://gulhanetip.sbu.edu.tr/mevzuat-ve-formlar/yonergeler/intorn-doktor-yonergesi/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_sdu_duyuru_koordinatorluk",
+      "name": "Süleyman Demirel Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.sdu.edu.tr/tr/tip-egitimi-koordinatorlukleri.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_siirt_duyuru_akademik_takvim",
+      "name": "Siirt Üniversitesi Akademik Takvim",
+      "url": "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_siirt_duyuru_koordinatorluk",
+      "name": "Siirt Üniversitesi Dönem Koordinatörlükleri / Başkoordinatörlük",
+      "url": "https://tip.siirt.edu.tr/detay/koordinatorlukler/509953682.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_siirt_duyuru_sinav_takvimi",
+      "name": "Siirt Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://tip.siirt.edu.tr/detay/ders-programi/479809538.html",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_uludag_duyuru_akademik_takvim",
+      "name": "Bursa Uludağ Üniversitesi Akademik Takvim",
+      "url": "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_uskudar_duyuru_akademik_takvim",
+      "name": "Üsküdar Üniversitesi Akademik Takvim",
+      "url": "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_uskudar_duyuru_staj_intornluk",
+      "name": "Üsküdar Üniversitesi Staj / İntörnlük",
+      "url": "https://uskudar.edu.tr/tip-fakultesi/staj-karneleri",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yalova_duyuru_akademik_takvim",
+      "name": "Yalova Üniversitesi Akademik Takvim",
+      "url": "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeditepe_duyuru_sinav_takvimi",
+      "name": "Yeditepe Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://med.yeditepe.edu.tr/tr/dersler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeniyuzyil_duyuru_akademik_takvim",
+      "name": "İstanbul Yeni Yüzyıl Üniversitesi Akademik Takvim",
+      "url": "https://www.yeniyuzyil.edu.tr/akademik-takvim/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeniyuzyil_duyuru_sinav_takvimi",
+      "name": "İstanbul Yeni Yüzyıl Üniversitesi Sınav Takvimi / Ders Kurulu Programı",
+      "url": "https://www.yeniyuzyil.edu.tr/haber-detay/akademik-yili-guz-donemi-ders-programlari-2/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "tip_yeniyuzyil_duyuru_staj_intornluk",
+      "name": "İstanbul Yeni Yüzyıl Üniversitesi Staj / İntörnlük",
+      "url": "https://www.yeniyuzyil.edu.tr/ogrenci-2/staj-evraklari/",
+      "category": "faculty_announcement"
+    }
+  ],
+  "student_orgs": [
+    {
+      "id": "turkmsic_haberler",
+      "name": "TurkMSIC (Türk Tıp Öğrencileri Birliği) Haberleri",
+      "url": "https://turkmsic.org/haberler",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "ttb_tok",
+      "name": "TTB Tıp Öğrencileri Kolu",
+      "url": "https://www.ttb.org.tr/kollar/tok/",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "emsa_europe",
+      "name": "EMSA — European Medical Students' Association",
+      "url": "https://emsa-europe.eu/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "turkmsic_sempozyum",
+      "name": "TurkMSIC — Tıp Öğrencileri Sempozyumu",
+      "url": "https://www.turkmsic.org/sempozyum",
+      "category": "faculty_announcement"
+    },
+    {
+      "id": "turkmsic_scome_yerellerde",
+      "name": "TurkMSIC SCOME — Yerellerde SCOME (Yerel Komite Etkinlik Haberleri)",
+      "url": "https://scome.turkmsic.org/index.php/yerellerdescome",
+      "category": "faculty_announcement"
+    }
+  ],
+  "scholarships": [
+    {
+      "id": "vgm_duyurular",
+      "name": "Vakıflar Genel Müdürlüğü Burs Duyuruları",
+      "url": "https://www.vgm.gov.tr/duyurular",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "tev_burslar",
+      "name": "Türk Eğitim Vakfı Burs Duyuruları",
+      "url": "https://www.tev.org.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "teknofest_saglik_yz",
+      "name": "TEKNOFEST Sağlıkta Yapay Zeka Yarışması",
+      "url": "https://teknofest.org/tr/yarismalar/saglikta-yapay-zeka-yarismasi/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "esp_ecp_bursaries",
+      "name": "European Society of Pathology — Congress Bursaries",
+      "url": "https://www.espcongress.org/bursaries/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "wonca_donald_li_scholarship",
+      "name": "WONCA — Donald Li Young Doctor Global Scholarship",
+      "url": "https://www.globalfamilydoctor.com/member/awards/DonaldLiYDMGlobalScholarship.aspx",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "study_in_europe_scholarships",
+      "name": "Study in Europe — Scholarships and Funding (Avrupa Komisyonu)",
+      "url": "https://education.ec.europa.eu/study-in-europe/planning-your-studies/scholarships-and-funding",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ibb_genc_universiteli",
+      "name": "İBB Genç Üniversiteli Eğitim Desteği",
+      "url": "https://gencuniversiteli.ibb.istanbul/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "aksaray_burs_ofisi",
+      "name": "Aksaray Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://ogrencidestek.aksaray.edu.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "balikesir_burs_ofisi",
+      "name": "Balıkesir Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://burs.balikesir.edu.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "cumhuriyet_burs_ofisi",
+      "name": "Sivas Cumhuriyet Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://www.cumhuriyet.edu.tr/burs",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "ksbu_burs_ofisi",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://burs.ksbu.edu.tr/defaultx",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "maltepe_burs_ofisi",
+      "name": "Maltepe Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://www.maltepe.edu.tr/burs",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "sbu_gulhane_burs_ofisi",
+      "name": "Sağlık Bilimleri Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://burs.sbu.edu.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "siirt_burs_ofisi",
+      "name": "Siirt Üniversitesi Burs ve Öğrenci Destek Ofisi",
+      "url": "https://ogrencidestek.siirt.edu.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_ankara",
+      "name": "Ankara Büyükşehir Belediyesi Sosyal Hizmetler (Burs)",
+      "url": "https://sosyalhizmetler.ankara.bel.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_bursa",
+      "name": "Bursa Büyükşehir Belediyesi Öğrenci Bursu",
+      "url": "https://www.bursa.bel.tr/burs",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_hatay",
+      "name": "Hatay Büyükşehir Belediyesi Sosyal Hizmetler",
+      "url": "https://www.hatay.bel.tr/sosyal-hizmetler",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_kocaeli",
+      "name": "Kocaeli Büyükşehir Belediyesi Öğrenci Bursu",
+      "url": "https://burs.kocaeli.bel.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_manisa",
+      "name": "Manisa Büyükşehir Belediyesi Eğitim Desteği (Senin İçin)",
+      "url": "https://seninicin.manisa.bel.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "belediye_burs_ordu",
+      "name": "Ordu Büyükşehir Belediyesi Duyuruları (Sosyal Yardım)",
+      "url": "https://www.ordu.bel.tr/duyurular",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "kizilay_burslari",
+      "name": "Türk Kızılay Burs Yönetim Sistemi",
+      "url": "https://kizilayburslari.kizilay.org.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "fulbright_turkiye",
+      "name": "Türkiye Fulbright Eğitim Komisyonu — T.C. Vatandaşlarına Verilen Burslar",
+      "url": "https://fulbright.org.tr/turk-vatandaslarina-verilen-burslar",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "jean_monnet_burs",
+      "name": "Jean Monnet Burs Programı (AB Başkanlığı)",
+      "url": "https://jeanmonnet.org.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "daad_turkiye",
+      "name": "DAAD Türkiye — Türkiye'ye Yönelik Burs Programları",
+      "url": "https://www.daad-turkiye.org/tr/destek-bul/daad-tuerkiye-burs-programlari/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "japonya_mext_turkiye",
+      "name": "Japonya Büyükelçiliği Türkiye — Eğitim / Burs (MEXT Monbukagakusho)",
+      "url": "https://www.tr.emb-japan.go.jp/itpr_tr/00_000075.html",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "chevening_turkiye",
+      "name": "Chevening Türkiye Bursu (Birleşik Krallık)",
+      "url": "https://www.chevening.org/scholarship/turkey/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "meb_yyegm_ylsy",
+      "name": "MEB Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü (YLSY)",
+      "url": "https://yyegm.meb.gov.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "eskas_isvicre",
+      "name": "İsviçre Hükümeti Mükemmeliyet Bursları (ESKAS)",
+      "url": "https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "jsps_japonya",
+      "name": "JSPS — Japonya'da Araştırma İçin Doktora Sonrası Burslar",
+      "url": "https://www.jsps.go.jp/english/e-fellow/application.html",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "humboldt_almanya",
+      "name": "Humboldt Araştırma Bursu (Almanya, doktora sonrası)",
+      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "gks_kore",
+      "name": "Global Korea Scholarship (GKS) — Güney Kore",
+      "url": "https://www.studyinkorea.go.kr/en/plan/scholarship.do",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "embo_fellowships",
+      "name": "EMBO — Doktora Sonrası Burslar (Yaşam Bilimleri)",
+      "url": "https://www.embo.org/funding/fellowships-grants-and-career-support/postdoctoral-fellowships/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "msca_postdoc",
+      "name": "Marie Skłodowska-Curie Actions — Doktora Sonrası Burslar (AB)",
+      "url": "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "campus_france_eiffel",
+      "name": "France Excellence Eiffel Bursu (Fransa)",
+      "url": "https://www.campusfrance.org/en/france-excellence-eiffel-scholarship-program",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "meb_abdigm",
+      "name": "MEB Avrupa Birliği ve Dış İlişkiler Genel Müdürlüğü (Yabancı Hükümet Bursları)",
+      "url": "https://abdigm.meb.gov.tr/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "cin_baskonsoloslugu_istanbul",
+      "name": "Çin İstanbul Başkonsolosluğu — Haberler ve Burs Duyuruları (Türkçe)",
+      "url": "https://istanbul.china-consulate.gov.cn/tur/xwdt/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "educanada_burslar",
+      "name": "EduCanada — Uluslararası Öğrenci Bursları (Kanada)",
+      "url": "https://www.educanada.ca/scholarships-bourses/index.aspx?lang=eng",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "study_in_italy_maeci",
+      "name": "Study in Italy — MAECI Hükümet Bursları (İtalya)",
+      "url": "https://studyinitaly.esteri.it/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "oead_avusturya",
+      "name": "OeAD — Avusturya Burs ve Araştırma Destekleri",
+      "url": "https://oead.at/en/study-research-teaching/overview-grants-and-scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "grants_at_avusturya",
+      "name": "grants.at — Avusturya Burs ve Araştırma Fonu Veritabanı",
+      "url": "https://grants.at/en/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "nawa_polonya",
+      "name": "NAWA — Polonya Uluslararası Öğrenci Bursları",
+      "url": "https://nawa.gov.pl/en/students/foreign-students",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "goi_ies_irlanda",
+      "name": "Government of Ireland International Education Scholarships (İrlanda)",
+      "url": "https://hea.ie/policy/internationalisation/goi-ies/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "study_in_nl_burslar",
+      "name": "Study in NL — Hollanda Burs Fırsatları (Orange Tulip dahil)",
+      "url": "https://www.studyinnl.org/finances/scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "master_mind_belcika",
+      "name": "Master Mind Bursu — Flanders (Belçika)",
+      "url": "https://www.studyinflanders.be/scholarships/master-mind-scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "nsp_slovakya",
+      "name": "Slovakya Ulusal Burs Programı (NSP) — Uluslararası Başvuru",
+      "url": "https://www.scholarships.sk/en/main/programme-terms-and-conditions/foreign-applicants",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "astar_singapur",
+      "name": "A*STAR Bursları (SINGA dahil) — Singapur",
+      "url": "https://www.a-star.edu.sg/scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "kaust_suudi",
+      "name": "KAUST — Lisansüstü Burslar (Suudi Arabistan)",
+      "url": "https://www.kaust.edu.sa/en/study",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "hbku_katar",
+      "name": "Hamad Bin Khalifa Üniversitesi — Başvuru ve Burslar (Katar)",
+      "url": "https://www.hbku.edu.qa/en/admissions",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "hfsp_fellowships",
+      "name": "HFSP — Doktora Sonrası Burslar (Yaşam Bilimleri, tüm uyruklar)",
+      "url": "https://www.hfsp.org/funding/hfsp-funding/postdoctoral-fellowships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "embl_postdoc",
+      "name": "EMBL — Doktora Sonrası Burs Programları (Moleküler Biyoloji)",
+      "url": "https://www.embl.org/about/info/postdoctoral-programme/fellowship-programmes/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "gates_cambridge",
+      "name": "Gates Cambridge Bursu (İngiltere dışı tüm uyruklar)",
+      "url": "https://www.gatescambridge.org/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "cgrs_d_kanada",
+      "name": "Canada Graduate Research Scholarship — Doctoral (Vanier'in halefi)",
+      "url": "https://nserc-crsng.canada.ca/en/funding-opportunity/canada-graduate-research-scholarship-doctoral-program",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "pasteur_stajlar",
+      "name": "Institut Pasteur — Staj ve Doktora Öncesi Programlar",
+      "url": "https://www.pasteur.fr/en/education/programs-and-courses/internships-and-pre-doctoral-programs",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "daad_burs_veritabani",
+      "name": "DAAD Burs Veritabanı (KAS, Böll, FES dahil tüm Alman bursları)",
+      "url": "https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "boell_burslari",
+      "name": "Heinrich Böll Vakfı Bursları (tüm uyruklar ve disiplinler)",
+      "url": "https://www.boell.de/en/scholarships",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "fes_burslari",
+      "name": "Friedrich Ebert Vakfı Bursları (uluslararası öğrenciler)",
+      "url": "https://www.fes.de/studienfoerderung",
+      "category": "scholarship_research"
+    },
+    {
+      "id": "esc_grants_fellowships",
+      "name": "ESC — Kardiyoloji Burs ve Eğitim Hibeleri (tüm uyruklar)",
+      "url": "https://www.escardio.org/education/career-development/grants/esc-grants-and-fellowships/",
+      "category": "trainee_opportunity"
+    }
+  ],
+  "trainee_other": [
+    {
+      "id": "eusem_young_em",
+      "name": "EUSEM Young Emergency Medicine Doctors Section",
+      "url": "https://eusem.org/sections-and-committees/sections/young-em-doctors-section",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "eyfdm_wonca",
+      "name": "EYFDM — European Young Family Doctors Movement (WONCA Europe)",
+      "url": "https://eyfdm.eu/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "amee",
+      "name": "AMEE — Association for Medical Education in Europe",
+      "url": "https://amee.org/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "uems_training_requirements",
+      "name": "UEMS — European Training Requirements",
+      "url": "https://www.uems.eu/european-training-requirements",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "eanm_yim",
+      "name": "EANM Young Investigators Meeting",
+      "url": "https://eanm.org/congress-scientific-events/young-investigators-meeting/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "spr_awards",
+      "name": "Society for Pediatric Research — Awards & Funding",
+      "url": "https://www.societyforpediatricresearch.org/awards-funding/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "sir_in_training",
+      "name": "SIR — Interventional Radiology In-Training Opportunities",
+      "url": "https://www.sirweb.org/in-training/opportunities/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "apa_pass",
+      "name": "APA — Psychiatry Ambassadors and Student Scholarships (PASS)",
+      "url": "https://www.psychiatry.org/psychiatrists/meetings/annual-meeting/psychiatry-ambassadors-and-student-scholarships",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "eans_courses",
+      "name": "EANS — Nöroşirürji Eğitim Kursları",
+      "url": "https://www.eans.org/page/EANS-courses",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "eaes_fellowship",
+      "name": "EAES — Fellowship Programme (Minimal İnvaziv Cerrahi)",
+      "url": "https://eaes.eu/fellowship/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ehs_travel_grant",
+      "name": "European Hernia Society — Travel Grant",
+      "url": "https://europeanherniasociety.eu/travel-grant/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "efort_fellowships",
+      "name": "EFORT — Fellowship Programmes",
+      "url": "https://www.efort.org/fellowships/introduction/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "forte_ortho",
+      "name": "FORTE — Federation of Orthopaedic and Trauma Trainees in Europe",
+      "url": "https://www.forteortho.org/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "eshre_research_funding",
+      "name": "ESHRE — Research and Funding",
+      "url": "https://www.eshre.eu/Research-and-funding",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "institut_curie_traineeship",
+      "name": "Institut Curie — Medical Student / Physician Traineeship",
+      "url": "https://training.institut-curie.org/article/traineeship-for-medical-students-physicians-from-european-union-and-outside-european-union",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "bsh_students",
+      "name": "British Society for Haematology — Students",
+      "url": "https://b-s-h.org.uk/education/students",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ime_conference_grants",
+      "name": "Institute of Medical Ethics — Conference Grants",
+      "url": "https://ime-uk.org/grants-and-competitions/conference-grants/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "uems_eaccme",
+      "name": "UEMS EACCME — Akredite CME/CPD Etkinlikleri",
+      "url": "https://eaccme.uems.eu/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ebeem_exam",
+      "name": "EBEEM — European Board Examination in Emergency Medicine",
+      "url": "https://eusem.org/ebeem",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "edaic_exam",
+      "name": "EDAIC — European Diploma in Anaesthesiology and Intensive Care",
+      "url": "https://esaic.org/professional-growth/edaic/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "febu_exam",
+      "name": "FEBU — Fellow of the European Board of Urology",
+      "url": "https://www.ebu.com/examination/febu/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "feborl_hns_exam",
+      "name": "FEBORL-HNS — European Board Exam in ORL-HNS",
+      "url": "https://www.ebeorl-hns.org/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ebir_exam",
+      "name": "EBIR — European Board of Interventional Radiology",
+      "url": "https://www.cirse.org/certification/ebir/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ebod_exam",
+      "name": "EBOD — European Board of Ophthalmology Diploma",
+      "url": "https://www.ebo-online.org/ebo-exam/exam-information/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "edir_exam",
+      "name": "EDiR — European Diploma in Radiology",
+      "url": "https://www.myebr.org/edir",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tatd_acil_tip",
+      "name": "Türkiye Acil Tıp Derneği",
+      "url": "https://tatd.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tahud_aile_hekimligi",
+      "name": "Türkiye Aile Hekimleri Uzmanlık Derneği (TAHUD)",
+      "url": "https://www.tahud.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tpd_psikiyatri",
+      "name": "Türkiye Psikiyatri Derneği — Haber ve Duyurular",
+      "url": "https://psikiyatri.org.tr/haber-duyuru",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tpd_patoloji",
+      "name": "Türk Patoloji Derneği",
+      "url": "https://www.tpd.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tard_anestezi",
+      "name": "Türk Anesteziyoloji ve Reanimasyon Derneği (TARD)",
+      "url": "https://www.tard.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tod_oftalmoloji",
+      "name": "Türk Oftalmoloji Derneği (TOD)",
+      "url": "https://www.todnet.org/home/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "kbb_dernek",
+      "name": "Türk Kulak Burun Boğaz ve Baş Boyun Cerrahisi Derneği",
+      "url": "https://kbb.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "turkcer_cerrahi",
+      "name": "Türk Cerrahi Derneği",
+      "url": "https://www.turkcer.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "turknorosirurji",
+      "name": "Türk Nöroşirürji Derneği",
+      "url": "https://www.turknorosirurji.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "tjod_jinekoloji",
+      "name": "TJOD — Türk Jinekoloji ve Obstetrik Derneği",
+      "url": "https://www.tjod.org/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "jed_jinekolojik_endoskopi",
+      "name": "Jinekolojik Endoskopi Derneği (JED)",
+      "url": "https://www.jed.org.tr/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "amp_trainee_travel_award",
+      "name": "AMP — International Trainee Travel Award (Moleküler Patoloji)",
+      "url": "https://www.amp.org/membership/awards-grants-honors/amp-international-trainee-travel-award/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "escmid_uems_id_exam",
+      "name": "ESCMID/UEMS — Enfeksiyon Hastalıkları Uzmanlık Sertifikası Sınavı",
+      "url": "https://www.escmid.org/education/specialty-training-uems/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "mrcp_uk_exam",
+      "name": "MRCP(UK) — Membership of the Royal Colleges of Physicians",
+      "url": "https://www.rcp.ac.uk/mrcpuk-examination",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "mrcs_uk_exam",
+      "name": "MRCS — Intercollegiate Membership of the Royal Colleges of Surgeons",
+      "url": "https://www.rcseng.ac.uk/education-and-exams/exams/search/intercollegiate-mrcs/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "totek_ortopedi_egitim",
+      "name": "TOTEK — Türk Ortopedi ve Travmatoloji Eğitim Konseyi",
+      "url": "https://totek.totbid.org.tr/tr/uzmanlik-egitimi",
+      "category": "trainee_opportunity"
+    }
+  ],
+  "intl_visiting_clinical": [
+    {
+      "id": "charite_visiting",
+      "name": "Charité Berlin — Visiting/Exchange Medical Students",
+      "url": "https://www.charite.de/en/international/for_students",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "heidelberg_visiting",
+      "name": "Heidelberg Üniversitesi Tıp Fakültesi — Uluslararası Öğrenci Klinik Stajı (Praktikum)",
+      "url": "https://www.medizinische-fakultaet-hd.uni-heidelberg.de/en/studium-lehre/studium/medizin/international/incoming-students/praktikum",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "lmu_visiting",
+      "name": "LMU Munich — Visiting Student Elective Program (Short-Term Clinical Rotations)",
+      "url": "https://www.med.lmu.de/en/study/international-exchange/short-term-clinical-rotations/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "karolinska_visiting",
+      "name": "Karolinska Enstitüsü — Incoming Student Exchange (Medicine)",
+      "url": "https://education.ki.se/apply-for-student-exchange-at-karolinska-institutet",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "erasmusmc_visiting",
+      "name": "Erasmus MC Rotterdam — Exchange (Clinical/Research Internship, Observership)",
+      "url": "https://www.eur.nl/en/erasmusmc/exchange",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "amsterdamumc_visiting",
+      "name": "Amsterdam UMC / UvA — Medical Sciences and Dentistry Exchange",
+      "url": "https://www.uva.nl/en/programmes/exchange/medical-science-and-dentistry/medical-sciences-and-dentistry-exchange.html",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "ucl_visiting",
+      "name": "UCL Medical School — Visiting Student Electives",
+      "url": "https://www.ucl.ac.uk/medical-sciences/divisions/medical-school/study/undergraduate/visiting-student-electives",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "kcl_visiting",
+      "name": "King's College London GKT — Elective Placement in Clinical Medicine",
+      "url": "https://www.kcl.ac.uk/elective-placement-in-clinical-medicine-course",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "imperial_visiting",
+      "name": "Imperial College Healthcare NHS Trust — Clinical Electives",
+      "url": "https://www.imperial.nhs.uk/education/medicine/clinical-electives",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "oxford_visiting",
+      "name": "Oxford Üniversitesi Tıp Fakültesi — Elective Programme",
+      "url": "https://www.medsci.ox.ac.uk/study/medicine/electives",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "cambridge_visiting",
+      "name": "Cambridge Klinik Okulu — Elective Placements",
+      "url": "https://www.medschl.cam.ac.uk/elective-placements",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "gustaveroussy_visiting",
+      "name": "Gustave Roussy (Paris) — Stage des Externes",
+      "url": "https://gustaveroussy.my.site.com/formation/s/stagedesexternes",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "humanitas_visiting",
+      "name": "Humanitas Üniversitesi (Milano) — International Mobility (Medicine)",
+      "url": "https://www.hunimed.eu/course/international-mobility-2/",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "vallhebron_visiting",
+      "name": "Vall d'Hebron (Barselona) — Specialist Training Placements (Foreign Hospitals)",
+      "url": "https://www.vallhebron.com/en/teaching/training-stays/specialist-training-placements-foreign-hospitals",
+      "category": "trainee_opportunity"
+    },
+    {
+      "id": "clinicbarcelona_visiting",
+      "name": "Hospital Clínic Barcelona — Training Stays",
+      "url": "https://www.clinicbarcelona.org/en/teaching/training-stays",
+      "category": "trainee_opportunity"
+    }
+  ],
+  "faculty_other": [
+    {
+      "id": "yokak_ogrenci_katilimi",
+      "name": "YÖKAK — Öğrenci Katılımı (Kalite Elçisi, Öğrenci Komisyonu)",
+      "url": "https://www.yokak.gov.tr/ogrenci-katilimi/",
+      "category": "faculty_announcement"
+    }
+  ]
+}

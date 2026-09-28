@@ -1,0 +1,1069 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "policyId": "hekimler-source-policy-map",
+  "approvalStatus": "USER_APPROVED",
+  "approvedAt": "2026-09-19",
+  "purpose": "Declarative Source Policy Map that routes every source item for Turkish medical students, interns, residents, physicians, and early-career medical professionals. Not a generic healthcare-news crawler. Authority or viral potential alone never decides publication.",
+  "notInScope": [
+    "Generic consumer-health lifestyle crawler",
+    "Raw legal dumps without impact transform",
+    "Faculty/curator Instagram as growth engine",
+    "Life/nöbet culture column as a required early-phase pool",
+    "Invented evidence or AI-as-source",
+    "Copying wording/visuals/claims from trend reference accounts",
+    "Drug/supplement/treatment-promise advertising as primary revenue content"
+  ],
+  "audience": {
+    "segments": [
+      {
+        "id": "medical_student",
+        "label": "Turkish medical students"
+      },
+      {
+        "id": "intern",
+        "label": "Interns (intörn)"
+      },
+      {
+        "id": "resident",
+        "label": "Residents (asistan)"
+      },
+      {
+        "id": "early_career_physician",
+        "label": "Early-career physicians / young specialists"
+      },
+      {
+        "id": "physician",
+        "label": "Physicians in clinical practice"
+      },
+      {
+        "id": "academic_physician",
+        "label": "Academic physicians (guest/prestige/source; not primary algorithmic target)",
+        "notes": "Include only when directly relevant to training, specialty education, or research opportunity."
+      },
+      {
+        "id": "dental_student",
+        "label": "Dental students (diş hekimliği öğrencileri)"
+      },
+      {
+        "id": "veterinary_student",
+        "label": "Veterinary students"
+      },
+      {
+        "id": "international_student_in_turkey",
+        "label": "International medical/dental/veterinary students in Turkey"
+      },
+      {
+        "id": "tus_candidate",
+        "label": "TUS candidates"
+      },
+      {
+        "id": "dus_candidate",
+        "label": "DUS candidates"
+      },
+      {
+        "id": "general_practitioner",
+        "label": "General practitioners (pratisyen)"
+      },
+      {
+        "id": "family_physician",
+        "label": "Family physicians"
+      },
+      {
+        "id": "specialist",
+        "label": "Specialists and subspecialists"
+      },
+      {
+        "id": "dentist",
+        "label": "Dentists and specialist dentists/academics"
+      },
+      {
+        "id": "veterinarian",
+        "label": "Veterinarians and specialist veterinarians/academics"
+      },
+      {
+        "id": "compulsory_service_physician",
+        "label": "Physicians in compulsory service"
+      },
+      {
+        "id": "private_practice_physician",
+        "label": "Clinic/practice owners and private-sector physicians"
+      },
+      {
+        "id": "physician_researcher",
+        "label": "Physician researchers"
+      },
+      {
+        "id": "abroad_aspirant",
+        "label": "Aspirants for study/residency/postgraduate/work abroad, equivalence and licensing seekers, language-exam candidates"
+      },
+      {
+        "id": "turkish_professional_abroad",
+        "label": "Turkish physicians abroad and those considering return"
+      }
+    ],
+    "primary": [
+      "abroad_aspirant",
+      "compulsory_service_physician",
+      "dental_student",
+      "dentist",
+      "dus_candidate",
+      "early_career_physician",
+      "family_physician",
+      "general_practitioner",
+      "intern",
+      "international_student_in_turkey",
+      "medical_student",
+      "physician",
+      "physician_researcher",
+      "private_practice_physician",
+      "resident",
+      "specialist",
+      "turkish_professional_abroad",
+      "tus_candidate",
+      "veterinarian",
+      "veterinary_student"
+    ],
+    "nonPrimary": [
+      "academic_physician"
+    ],
+    "scopeGateRef": "content/policies/hekimler-audience-scope.json"
+  },
+  "routes": [
+    {
+      "id": "FEED",
+      "purpose": "Public Instagram/community posts that are both medically relevant and shareable after required transform.",
+      "viralityMayReducePriority": false
+    },
+    {
+      "id": "PROFESSIONAL_BRIEF",
+      "purpose": "Trusted professional/policy briefings; may stay off-feed or become impact cards only after transform.",
+      "viralityMayReducePriority": false
+    },
+    {
+      "id": "OPPORTUNITY",
+      "purpose": "Exams, scholarships, exchange, faculty/club opportunities. Rank by eligibility, deadline, medical relevance, official verification — not virality.",
+      "viralityMayReducePriority": false
+    },
+    {
+      "id": "CONGRESS_CALENDAR",
+      "purpose": "Verified congress/scientific meeting opportunities with deadlines and eligibility.",
+      "viralityMayReducePriority": false
+    },
+    {
+      "id": "ABROAD_CAREER",
+      "purpose": "Official pathways for Turkish medical graduates abroad (core: US/UK/DE).",
+      "viralityMayReducePriority": false
+    },
+    {
+      "id": "TREND_INBOX",
+      "purpose": "Discovery/trend signals awaiting primary corroboration. Never publish from signal alone.",
+      "viralityMayReducePriority": true
+    },
+    {
+      "id": "DISCARD",
+      "purpose": "Out of audience, PR-only, generic exam noise, unverifiable claims, or policy exclusions.",
+      "viralityMayReducePriority": true
+    }
+  ],
+  "globalRules": {
+    "audienceOnlyGate": "HARD RULE (user, 2026-09-20): the pipeline exists only for physicians, residents, interns and medical students. An item enters review only if it concretely affects that audience (exams, training/specialty, workforce/appointment, regulation, clinical guidance, career/abroad pathways, student opportunities). Anything else is DISCARD before it reaches the Hub. A keyword hit alone is not enough; institutional authority is not enough; a source being sparse is acceptable, a crowded queue is not. When in doubt, discard.",
+    "neverAuthorityAlone": "A source must never be judged only by its institutional authority.",
+    "neverViralityAlone": "A source must never be judged only by viral potential.",
+    "noInventedEvidence": "Every candidate stores decision, source policy applied, evidence status, audience segments, route reason, risk flags, and primary URL when required. Missing evidence → needs-check, discovery-only, or DISCARD — never invent.",
+    "aiRole": "AI may classify and summarize under these controls. AI must never invent evidence or replace a source.",
+    "lifeCultureColumn": "Life/nöbet/faculty-culture is not a required early-phase content column. Allow only published surveys/reports, verifiable training changes, explicit Q&A community posts, or invited first-person pieces when available.",
+    "facultyAndCuratorRole": "Faculty announcements and curated club Instagram retain students (OPPORTUNITY). They are not the account growth engine."
+  },
+  "sourcePolicies": [
+    {
+      "id": "osym",
+      "label": "ÖSYM — medical exams only",
+      "matchesSourceIds": [
+        "osym_duyurular",
+        "osym_tus",
+        "osym_sts_tip",
+        "osym_yds",
+        "osym_yokdil"
+      ],
+      "source_tier": "primary",
+      "source_role": "primary_official",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "physician"
+      ],
+      "include_keywords": [
+        "TUS",
+        "STS",
+        "tıp",
+        "tip",
+        "tıpta uzmanlık",
+        "uzmanlık",
+        "intörn",
+        "intern",
+        "YDS",
+        "YÖKDİL",
+        "dil",
+        "sınav tarihi",
+        "başvuru",
+        "tercih"
+      ],
+      "exclude_keywords": [
+        "KPSS",
+        "ALES genel",
+        "MSÜ",
+        "YKS",
+        "LGS",
+        "DGS",
+        "e-KPSS",
+        "polis",
+        "askerî öğrenci"
+      ],
+      "allowed_routes": [
+        "OPPORTUNITY",
+        "PROFESSIONAL_BRIEF",
+        "DISCARD"
+      ],
+      "default_route": "OPPORTUNITY",
+      "required_evidence": [
+        "official_osym_url",
+        "exam_or_process_name",
+        "who_is_affected",
+        "what_changed_or_deadline"
+      ],
+      "required_transform": [
+        "impact_card",
+        "opportunity_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "direct medical-specialty or medical-school exam relevance",
+          "effect": "boost OPPORTUNITY medical_relevance"
+        },
+        {
+          "when": "clear deadline within actionable window",
+          "effect": "boost OPPORTUNITY urgency"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "generic national exam with no medical pathway link",
+          "effect": "force DISCARD"
+        }
+      ],
+      "commercial_sensitivity": "none",
+      "primary_url_required": true,
+      "viralityMustNotReduceOpportunity": true,
+      "rules": [
+        "Include only medical-school, medical-specialty, and directly relevant exam items.",
+        "Discard generic exam noise.",
+        "Convert valid items into what-changed / who-is-affected / deadline / action cards.",
+        "Low virality must not reduce OPPORTUNITY priority."
+      ]
+    },
+    {
+      "id": "yok-yokak",
+      "label": "YÖK / YÖKAK — medical education only",
+      "matchesSourceIds": [
+        "yok_duyurular",
+        "yokak_ogrenci_katilimi"
+      ],
+      "source_tier": "primary",
+      "source_role": "primary_official",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "academic_physician",
+        "early_career_physician"
+      ],
+      "include_keywords": [
+        "tıp fakülte",
+        "tıp eğitimi",
+        "akreditasyon",
+        "kontenjan",
+        "uzmanlık eğitimi",
+        "tıpta uzmanlık",
+        "asistan",
+        "akademik tıp",
+        "öğretim üyesi tıp",
+        "YÖKAK",
+        "program yeterlilik"
+      ],
+      "exclude_keywords": [
+        "spor",
+        "güzel sanatlar",
+        "ilahi yat",
+        "genel üniversite tanıtım",
+        "yurt ücreti genel",
+        "kredi yurtlar genel"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "OPPORTUNITY",
+        "FEED",
+        "DISCARD"
+      ],
+      "default_route": "PROFESSIONAL_BRIEF",
+      "required_evidence": [
+        "official_yok_or_yokak_url",
+        "medical_education_or_specialty_link",
+        "affected_audience"
+      ],
+      "required_transform": [
+        "impact_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "quota, accreditation, or specialty-training change",
+          "effect": "boost medical_relevance; allow FEED only after impact transform"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "non-medical higher-education item",
+          "effect": "force DISCARD"
+        }
+      ],
+      "commercial_sensitivity": "none",
+      "primary_url_required": true,
+      "rules": [
+        "Include only medical education, medical faculty, accreditation, quota, specialty-training, and academic medicine items.",
+        "Never publish raw decree text without impact explanation for medical audiences."
+      ]
+    },
+    {
+      "id": "tuk-official-gazette",
+      "label": "TUK and Official Gazette — primary legal/training change",
+      "matchesSourceIds": [],
+      "source_tier": "primary",
+      "source_role": "primary_official",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "TUK",
+        "Tıpta Uzmanlık Kurulu",
+        "uzmanlık eğitimi",
+        "müfredat",
+        "rotasyon",
+        "asistan",
+        "hekim",
+        "tıp",
+        "sağlık personeli",
+        "uzmanlık yönetmeliği"
+      ],
+      "exclude_keywords": [
+        "tarım",
+        "enerji",
+        "vergi genel",
+        "belediye",
+        "imarı"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "FEED",
+        "DISCARD"
+      ],
+      "default_route": "PROFESSIONAL_BRIEF",
+      "required_evidence": [
+        "primary_legal_or_tuk_url",
+        "change_summary",
+        "effective_date_if_stated",
+        "affected_medical_audience",
+        "required_action_or_watchpoint"
+      ],
+      "required_transform": [
+        "legal_impact_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "specialty training, rotation, or curriculum change",
+          "effect": "boost PROFESSIONAL_BRIEF and allow FEED after legal_impact_card"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "raw legal text without impact fields",
+          "effect": "block FEED until transform complete"
+        }
+      ],
+      "commercial_sensitivity": "none",
+      "primary_url_required": true,
+      "rules": [
+        "Treat as primary sources.",
+        "Extract the legal or training change, effective date, affected medical audience, and required action.",
+        "Never publish raw legal text without an impact explanation."
+      ]
+    },
+    {
+      "id": "moh-public-health",
+      "label": "Ministry of Health and public-health practice",
+      "matchesSourceIds": [],
+      "source_tier": "primary",
+      "source_role": "primary_official",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "early_career_physician"
+      ],
+      "include_keywords": [
+        "epidem",
+        "salgın",
+        "aşı",
+        "vaccin",
+        "tarama",
+        "screening",
+        "hasta güvenliği",
+        "patient safety",
+        "antimikrobiyal",
+        "AMR",
+        "çevre sağlığı",
+        "dijital sağlık",
+        "e-Nabız klinik",
+        "hekim istihdam",
+        "asistan",
+        "uzmanlık",
+        "klinik uygulama",
+        "bildirim zorunluluğu"
+      ],
+      "exclude_keywords": [
+        "sağlıklı yaşam kampanyası",
+        "PR",
+        "tanıtım filmi",
+        "genel vatandaş diyeti",
+        "sporcu beslenmesi",
+        "güzellik",
+        "wellness"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "FEED",
+        "OPPORTUNITY",
+        "DISCARD"
+      ],
+      "default_route": "PROFESSIONAL_BRIEF",
+      "required_evidence": [
+        "official_moh_or_public_health_url",
+        "practice_or_training_or_workforce_link"
+      ],
+      "required_transform": [
+        "impact_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "epidemic, vaccination schedule, AMR, patient safety, or workforce rule",
+          "effect": "boost medical_relevance"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "PR-only or generic consumer-health campaign",
+          "effect": "force DISCARD"
+        }
+      ],
+      "commercial_sensitivity": "low",
+      "primary_url_required": true,
+      "rules": [
+        "Include only items affecting medical training, clinical practice, physician workforce, public-health practice, epidemics, vaccination, screening, patient safety, antimicrobial resistance, environmental health, or digital health.",
+        "Exclude PR-only and generic consumer-health campaigns."
+      ]
+    },
+    {
+      "id": "ttb-chambers-societies",
+      "label": "TTB, medical chambers, specialty societies",
+      "matchesSourceIds": [
+        "ttb_tok",
+        "turkmsic_haberler",
+        "turkmsic_sempozyum"
+      ],
+      "source_tier": "professional",
+      "source_role": "professional_org",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "asistan",
+        "öğrenci",
+        "kılavuz",
+        "rehber",
+        "guideline",
+        "iş gücü",
+        "çalışma koşulu",
+        "eğitim",
+        "fırsat",
+        "burs",
+        "anket"
+      ],
+      "exclude_keywords": [
+        "parti propagandası",
+        "doğrulanmamış hastane suçlaması",
+        "tek DM iddia"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "OPPORTUNITY",
+        "CONGRESS_CALENDAR",
+        "FEED",
+        "DISCARD"
+      ],
+      "default_route": "PROFESSIONAL_BRIEF",
+      "required_evidence": [
+        "organisation_url",
+        "advocacy_vs_fact_classification",
+        "primary_or_independent_source_for_factual_claims"
+      ],
+      "required_transform": [
+        "organisation_position_label",
+        "impact_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "congress, student/resident opportunity, guideline update, professional education, national workforce issue",
+          "effect": "boost relevant route priority"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "factual claim without primary/independent corroboration",
+          "effect": "downgrade to needs-check or DISCARD for FEED"
+        },
+        {
+          "when": "local chamber PR with no national medical relevance",
+          "effect": "prefer DISCARD or low PROFESSIONAL_BRIEF"
+        }
+      ],
+      "commercial_sensitivity": "medium",
+      "primary_url_required": true,
+      "rules": [
+        "Classify advocacy statements as organisation position, not neutral fact.",
+        "Require a primary or independent source for factual claims.",
+        "Prioritise congresses, student/resident opportunities, guideline updates, professional education, and nationally relevant workforce issues.",
+        "Do not mass-ingest every local medical chamber feed in v1."
+      ]
+    },
+    {
+      "id": "research-ai",
+      "label": "Research and AI — Kaduse research sources + PubMed",
+      "matchesSourceIds": [],
+      "source_tier": "scientific",
+      "source_role": "scientific_evidence",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "randomized",
+        "RCT",
+        "cohort",
+        "meta-analysis",
+        "guideline-changing",
+        "AI",
+        "machine learning",
+        "diagnostic",
+        "clinical trial",
+        "PubMed",
+        "peer-reviewed"
+      ],
+      "exclude_keywords": [
+        "miracle cure",
+        "detox",
+        "supplement miracle",
+        "clickbait heal"
+      ],
+      "allowed_routes": [
+        "FEED",
+        "PROFESSIONAL_BRIEF",
+        "TREND_INBOX",
+        "DISCARD"
+      ],
+      "default_route": "PROFESSIONAL_BRIEF",
+      "required_evidence": [
+        "primary_paper_or_registry_url",
+        "study_design",
+        "publication_status",
+        "limitations",
+        "practical_significance_for_medical_audience"
+      ],
+      "required_transform": [
+        "study_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "peer-reviewed high-impact finding with clear practical significance",
+          "effect": "allow FEED after study_card"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "preprint or consumer-media summary without corroborating primary evidence",
+          "effect": "block FEED; TREND_INBOX or DISCARD only"
+        }
+      ],
+      "commercial_sensitivity": "medium",
+      "primary_url_required": true,
+      "rules": [
+        "Use Kaduse research sources and PubMed as evidence sources.",
+        "Require study design, publication status, limitations, and practical significance.",
+        "Preprints or consumer-media summaries cannot become FEED content without corroborating primary evidence."
+      ]
+    },
+    {
+      "id": "consumer-health-media",
+      "label": "Healthline, WebMD, Medical News Today and similar",
+      "matchesSourceIds": [],
+      "source_tier": "discovery",
+      "source_role": "discovery_media",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician"
+      ],
+      "include_keywords": [
+        "study says",
+        "researchers found",
+        "FDA",
+        "WHO",
+        "outbreak",
+        "vaccine",
+        "AI diagnosis"
+      ],
+      "exclude_keywords": [
+        "weight loss detox",
+        "celebrity diet",
+        "skincare hack"
+      ],
+      "allowed_routes": [
+        "TREND_INBOX",
+        "DISCARD"
+      ],
+      "default_route": "TREND_INBOX",
+      "required_evidence": [
+        "signal_url",
+        "must_not_publish_without_primary"
+      ],
+      "required_transform": [
+        "trend_triple_url"
+      ],
+      "score_boosts": [
+        {
+          "when": "high conversation potential AND linkable primary paper/regulator exists",
+          "effect": "keep in TREND_INBOX for editorial chase"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "used as sole justification for publication",
+          "effect": "force DISCARD of FEED path"
+        }
+      ],
+      "commercial_sensitivity": "high",
+      "primary_url_required": true,
+      "discovery_only": true,
+      "rules": [
+        "discovery_only.",
+        "They can create a trend candidate but never independently justify publication."
+      ]
+    },
+    {
+      "id": "faculty-and-curator",
+      "label": "Faculty announcements and curated tip-club Instagram",
+      "matchesSourceIds": [],
+      "source_tier": "opportunity",
+      "source_role": "faculty_opportunity",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident"
+      ],
+      "include_keywords": [
+        "duyuru",
+        "staj",
+        "intörn",
+        "burs",
+        "değişim",
+        "kongre",
+        "sempozyum",
+        "araştırma",
+        "başvuru",
+        "son tarih",
+        "TOB",
+        "BAT"
+      ],
+      "exclude_keywords": [
+        "yemekhane menü",
+        "servis saati",
+        "mezuniyet balosu reklam",
+        "spor turnuvası genel"
+      ],
+      "allowed_routes": [
+        "OPPORTUNITY",
+        "DISCARD"
+      ],
+      "default_route": "OPPORTUNITY",
+      "required_evidence": [
+        "faculty_or_club_url",
+        "eligibility_if_stated",
+        "deadline_if_stated",
+        "official_verification_level"
+      ],
+      "required_transform": [
+        "opportunity_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "eligibility + deadline + medical relevance + official page",
+          "effect": "rank OPPORTUNITY higher"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "high viral_signal but weak eligibility/deadline/verification",
+          "effect": "do not promote above verified opportunities"
+        }
+      ],
+      "commercial_sensitivity": "low",
+      "primary_url_required": true,
+      "viralityMustNotReduceOpportunity": true,
+      "rules": [
+        "Route to OPPORTUNITY.",
+        "Rank by eligibility, deadline, medical relevance and official verification, not viral potential.",
+        "Faculty and curator IG retain students; they are not the growth engine."
+      ]
+    },
+    {
+      "id": "congresses",
+      "label": "National and international medical congresses",
+      "matchesSourceIds": [],
+      "source_tier": "opportunity",
+      "source_role": "congress_organizer",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "kongre",
+        "congress",
+        "abstract",
+        "bildiri",
+        "travel grant",
+        "burs",
+        "erken kayıt",
+        "öğrenci kayıt",
+        "asistan",
+        "bilimsel program"
+      ],
+      "exclude_keywords": [
+        "sponsor booth only",
+        "satış fuarı",
+        "unverified aggregator list"
+      ],
+      "allowed_routes": [
+        "CONGRESS_CALENDAR",
+        "OPPORTUNITY",
+        "DISCARD"
+      ],
+      "default_route": "CONGRESS_CALENDAR",
+      "required_evidence": [
+        "official_organizer_url",
+        "verified_programme_or_scientific_committee",
+        "student_or_resident_eligibility_if_claimed",
+        "deadlines_if_stated"
+      ],
+      "required_transform": [
+        "congress_card"
+      ],
+      "score_boosts": [
+        {
+          "when": "student/resident eligibility + abstract/travel-grant deadlines",
+          "effect": "boost CONGRESS_CALENDAR / OPPORTUNITY"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "sponsored placement",
+          "effect": "keep commercial_sensitivity separate from editorial ranking"
+        },
+        {
+          "when": "no official organizer page or programme/committee",
+          "effect": "DISCARD"
+        }
+      ],
+      "commercial_sensitivity": "high",
+      "primary_url_required": true,
+      "rules": [
+        "Accept only official organizer pages with a verified programme or scientific committee.",
+        "Capture student/resident eligibility, abstract calls, travel grants and deadlines.",
+        "Keep sponsored placement separate from editorial ranking."
+      ]
+    },
+    {
+      "id": "abroad-career-core",
+      "label": "Abroad career — US, UK, Germany official pathways",
+      "matchesSourceIds": [
+        "ecfmg_announcements",
+        "ecfmg_sponsor_notes_policy",
+        "gmc_plab"
+      ],
+      "source_tier": "abroad",
+      "source_role": "abroad_regulator",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "early_career_physician",
+        "physician"
+      ],
+      "include_keywords": [
+        "USMLE",
+        "ECFMG",
+        "PLAB",
+        "GMC",
+        "Approbation",
+        "Facharzt",
+        "MLA",
+        "residency match",
+        "licence",
+        "registration"
+      ],
+      "exclude_keywords": [
+        "consultancy package",
+        "garanti kabul",
+        "influencer rehber",
+        "blog tavsiye"
+      ],
+      "allowed_routes": [
+        "ABROAD_CAREER",
+        "OPPORTUNITY",
+        "PROFESSIONAL_BRIEF",
+        "DISCARD"
+      ],
+      "default_route": "ABROAD_CAREER",
+      "required_evidence": [
+        "official_regulator_exam_university_or_government_url",
+        "country_pathway",
+        "what_changed_or_requirement"
+      ],
+      "required_transform": [
+        "abroad_checklist"
+      ],
+      "score_boosts": [
+        {
+          "when": "official requirement/date change for US/UK/DE pathways",
+          "effect": "boost ABROAD_CAREER"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "blog, influencer, or consultancy as claimed primary",
+          "effect": "force DISCARD as primary; at most TREND_INBOX signal"
+        }
+      ],
+      "commercial_sensitivity": "high",
+      "primary_url_required": true,
+      "rules": [
+        "Core countries: United States, United Kingdom, Germany.",
+        "Use official regulators, exam bodies, universities and government sources only.",
+        "No blog, influencer, or consultancy may serve as the primary source."
+      ]
+    },
+    {
+      "id": "abroad-gulf-watch",
+      "label": "Gulf/Saudi abroad pathways — watch-only v1",
+      "matchesSourceIds": [],
+      "source_tier": "abroad",
+      "source_role": "abroad_regulator",
+      "audience_segments": [
+        "resident",
+        "early_career_physician",
+        "physician"
+      ],
+      "include_keywords": [
+        "Saudi",
+        "SCFHS",
+        "DataFlow",
+        "Prometric",
+        "Qatar",
+        "UAE",
+        "HAAD",
+        "DHA",
+        "MOHAP"
+      ],
+      "exclude_keywords": [
+        "consultancy guarantee",
+        "visa agent promo"
+      ],
+      "allowed_routes": [
+        "TREND_INBOX",
+        "ABROAD_CAREER",
+        "DISCARD"
+      ],
+      "default_route": "TREND_INBOX",
+      "required_evidence": [
+        "official_government_or_regulator_url_only",
+        "watch_only_flag"
+      ],
+      "required_transform": [
+        "abroad_checklist"
+      ],
+      "score_boosts": [],
+      "score_penalties": [
+        {
+          "when": "any non-official primary",
+          "effect": "DISCARD"
+        }
+      ],
+      "commercial_sensitivity": "high",
+      "primary_url_required": true,
+      "watch_only_v1": true,
+      "rules": [
+        "Gulf/Saudi: watch-only in v1.",
+        "Official regulators only; do not promote as core pathway until policy review."
+      ]
+    },
+    {
+      "id": "trend-radar",
+      "label": "Trusted Trend Radar + Question Demand Radar",
+      "matchesSourceIds": [],
+      "source_tier": "discovery",
+      "source_role": "trend_signal",
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician"
+      ],
+      "include_keywords": [
+        "trend",
+        "viral",
+        "tartışma",
+        "hekim",
+        "asistan",
+        "TUS",
+        "nöbet tartışması"
+      ],
+      "exclude_keywords": [
+        "hasta görüntüsü",
+        "ayırt edilebilir vaka",
+        "doktor şikayet linç"
+      ],
+      "allowed_routes": [
+        "TREND_INBOX",
+        "DISCARD"
+      ],
+      "default_route": "TREND_INBOX",
+      "required_evidence": [
+        "signal_url",
+        "reference_url",
+        "primary_url_before_publish"
+      ],
+      "required_transform": [
+        "trend_triple_url"
+      ],
+      "score_boosts": [
+        {
+          "when": "trusted official/scientific/professional source AND independent primary_url",
+          "effect": "eligible for TREND_CANDIDATE under hekimler-trusted-trend-question-demand-v1"
+        }
+      ],
+      "score_penalties": [
+        {
+          "when": "social, Google Trends, Reddit, forum, consumer health or search trend alone",
+          "effect": "QUESTION_BRIEF / Question Demand Signal only — never TREND_CANDIDATE"
+        },
+        {
+          "when": "missing primary_url for publish attempt",
+          "effect": "block all publish routes"
+        },
+        {
+          "when": "copying wording, visuals, claims, or videos from reference accounts",
+          "effect": "force DISCARD + copyright_reference_account risk"
+        }
+      ],
+      "commercial_sensitivity": "medium",
+      "primary_url_required": true,
+      "discovery_only": true,
+      "rules": [
+        "Canonical detail: content/policies/hekimler-trusted-trend-question-demand-policy.json",
+        "Only pre-approved official, scientific, professional or high-quality editorial sources may create a Trend Candidate.",
+        "Social posts, Google Trends, Reddit, forums, comments, consumer health articles and Turkish search trends never create a Trend Candidate by themselves — Question Demand Signals / QUESTION_BRIEF only.",
+        "Official social may point to a topic; official website, study, guideline or regulator notice remains required as primary_url.",
+        "No question or demand signal becomes content without independent scientific, official or primary evidence.",
+        "Never copy wording, visuals, claims, or videos from reference accounts."
+      ]
+    }
+  ],
+  "candidateDecisionContract": {
+    "requiredFields": [
+      "route",
+      "sourcePolicyId",
+      "sourcePolicyApplied",
+      "evidenceStatus",
+      "audienceSegments",
+      "routeReason",
+      "riskFlags",
+      "primaryUrlRequired",
+      "primaryUrl"
+    ],
+    "evidenceStatuses": [
+      "verified",
+      "needs-check",
+      "discovery-only",
+      "insufficient"
+    ],
+    "riskFlags": [
+      "patient_privacy",
+      "named_institution_allegation",
+      "medical_claim",
+      "advertising_sensitivity",
+      "organisation_advocacy",
+      "preprint",
+      "consumer_media",
+      "copyright_reference_account",
+      "gulf_watch_only"
+    ]
+  },
+  "aiBounds": {
+    "may": [
+      "Classify item against include/exclude keywords and source policy id",
+      "Propose a route among allowed_routes",
+      "Summarize what-changed / who-is-affected for transform cards",
+      "Flag missing required_evidence fields"
+    ],
+    "mustNot": [
+      "Invent citations, dates, deadlines, eligibility, statistics, or quotes",
+      "Treat discovery_only media as primary evidence",
+      "Publish or recommend FEED without required_transform completion",
+      "Override allowed_routes or primary_url_required",
+      "Replace a source URL with model memory"
+    ]
+  },
+  "designIndependence": "This file encodes source routing and evidence policy only. It does not encode layout, typography, art direction, or composition.",
+  "$comment": "Channel pack owner: multi_channel_design / tip-ogrencileri-platformu. Runtime ingestion remains Global News Hub (channel-content-os). Faculty opportunity pack stays large; this map decides route/priority, not whether faculty scanning exists."
+}

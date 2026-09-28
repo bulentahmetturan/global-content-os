@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "bibleVersion": "4.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "policyId": "hekimler-duyuru-v1",
+  "hubLane": "duyuru",
+  "primary_category": "duyuru",
+  "contentFamily": "hekimler_phase1",
+  "sourceIdPrefix": null,
+  "defaultRouteOnAccept": "PROFESSIONAL_BRIEF",
+  "auto_publish": false,
+  "publication_eligible": false,
+  "purpose": "Official notices: exams, regulation, quotas, congress calls, institutional announcements for the Turkish medical audience. Not burs, not egitim, not kaduse news/research.",
+  "turkey_axis": "turkey_relevance",
+  "hard_rules": [
+    "No auto-publish. Hub review only.",
+    "Fail-closed: unknown date/deadline is not presented as open.",
+    "Aggregator and consultancy pages are kapsam_disi.",
+    "Do not mix burs_* or egitim_* items into this lane.",
+    "Administrative foreign-board noise without a Turkish actionable opportunity is DISCARD."
+  ],
+  "evaluation_track": "PRAGMATIC_UTILITY"
+}

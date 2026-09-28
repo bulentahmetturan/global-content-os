@@ -1,0 +1,1464 @@
+{
+  "date": "2026-09-18",
+  "scope": "All tip-related student clubs (not only TOB), via university club directories",
+  "summary": {
+    "universities": 84,
+    "with_club_directory": 52,
+    "without_directory": 32,
+    "with_at_least_one_tip_club_on_dir": 27,
+    "total_tip_related_club_rows": 167
+  },
+  "rows": [
+    {
+      "institution": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "directory_url": "https://afsu.edu.tr/ogrenci-topluluklarimizin-yerel-ve-ulusal-8-projesi-genclik-ve-spor-bakanligi-unides-destegi-kazandi/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://dhf.afsu.edu.tr"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tip.afsu.edu.tr"
+        },
+        {
+          "name": "Klinik Araştırmalar Etik Kurulu",
+          "href": "https://tip.afsu.edu.tr/klinik-arastirmalar-etik-kurulu/"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Komisyonu",
+          "href": "https://ebap.afsu.edu.tr/index.php?act=guest&act2=sayfa&id=53"
+        },
+        {
+          "name": "Klinik Araştırmalar Birimi",
+          "href": "https://klinikarastirma.afsu.edu.tr/"
+        },
+        {
+          "name": "Kocatepe Tıp Dergisi",
+          "href": "https://dergipark.org.tr/kocatepetip"
+        },
+        {
+          "name": "AFSÜ Bilim Kafe Etkinliğinde Gazze’deki Tıp Eğitimi Konuşuldu: Kuşatma Altındaki Tıp Öğrencilerine AFSÜ’den Destek",
+          "href": "https://afsu.edu.tr/afsu-bilim-kafe-etkinliginde-gazzedeki-tip-egitimi-konusuldu-kusatma-altindaki-tip-ogrencilerine-afsuden-destek/"
+        }
+      ],
+      "club_count": 7,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Akdeniz Üniversitesi",
+      "directory_url": "https://sks.akdeniz.edu.tr/tr/kultur_hizmetleri_ogrenci_topluluklari-7276",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Aksaray Üniversitesi",
+      "directory_url": "https://topluluklar.aksaray.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Alanya Alaaddin Keykubat Üniversitesi",
+      "directory_url": "https://kulupler.alanya.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Kestel Mahallesi Üniversite Caddesi No:80 PK:07425 Alanya / ANTALYA",
+          "href": "https://www.google.com/maps/place/Alanya+Alaaddin+Keykubat+%C3%9Cniversitesi+Kestel+Yerle%C5%9Fkesi/36.5262728,32.0834031,15z/data=!4m5!3m4!1s0x0:0x80fc0c743ce0dd8e!8m2!3d36.5262728!4d32.0834031"
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Altınbaş Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "institution": "Amasya Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": "'ascii' codec can't encode character '\\xfc' in position 5: ordinal not in range(128)"
+    },
+    {
+      "institution": "Ankara Yıldırım Beyazıt Üniversitesi",
+      "directory_url": "https://www.aybu.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Ankara Üniversitesi",
+      "directory_url": "https://sks.ankara.edu.tr/topluluklar/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Dünya Akuatik Veteriner Hekimler Birliği Öğrenci Topluluğu (WAVMA)",
+          "href": null
+        },
+        {
+          "name": "Tıp Fakültesi Bilimsel Araştırma Öğrenci Topluluğu (ANTBAT)",
+          "href": null
+        },
+        {
+          "name": "Tıp Fakültesi Sinema Öğrenci Topluluğu (KİNETİP)&nbsp;",
+          "href": null
+        },
+        {
+          "name": "Tıp Fakültesi Tarih Öğrenci Topluluğu (Ankara Tıp Tarih)",
+          "href": null
+        },
+        {
+          "name": "Uluslararası Diş Hekimliği Öğrenci Topluluğu(DENTSİC)",
+          "href": null
+        },
+        {
+          "name": "Uluslararası Veteriner Öğrenci Topluluğu (IVSA Ankara)",
+          "href": null
+        },
+        {
+          "name": "Veteriner Klinik Beceri Topluluğu (AKBET)",
+          "href": null
+        }
+      ],
+      "club_count": 7,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Atatürk Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Atılım Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Aydın Adnan Menderes Üniversitesi",
+      "directory_url": "https://www.adu.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "20 HAZ TÖREN ADÜ Tıp Fakültesi 23. Dönem Mezuniyet Töreni Atatürk Kongre Merkezi",
+          "href": "https://haber.adu.edu.tr/etkinlik-adu-tip-fakultesi-23-donem-mezuniyet-toreni-coskuyla-gerceklesti-100020314516882062887902"
+        },
+        {
+          "name": "Akademik Tıp Fakültesinden Uluslararası Düzeyde Bilimsel Yayın Başarısı",
+          "href": "https://haber.adu.edu.tr/haber/tip-fakultesinden-uluslararasi-duzeyde-bilimsel-yayin-basarisi-1000180411/"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi Öğrencilerine Orman Yangınlarıyla Mücadele Eğitimi Verildi",
+          "href": "https://haber.adu.edu.tr/haber/dis-hekimligi-fakultesi-ogrencilerine-orman-yanginlariyla-mucadele-egitimi-verildi-1000180271/"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri",
+          "href": "http://idari.adu.edu.tr/bap/"
+        }
+      ],
+      "club_count": 4,
+      "tried_n": 6,
+      "last_error": null
+    },
+    {
+      "institution": "Balıkesir Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Bandırma Onyedi Eylül Üniversitesi",
+      "directory_url": "https://sksdb.bandirma.edu.tr/tr/sksdb/s/Ogrenci-Topluluklarimiz-105",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "BİLİMSEL ARAŞTIRMA PROJELERİ",
+          "href": "https://bap.bandirma.edu.tr"
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Beykent Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Biruni Üniversitesi",
+      "directory_url": "https://topluluklar.biruni.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Detaylar",
+          "href": "https://topluluklar.biruni.edu.tr/index.php/etkinlikler/13-tip-ogrencileri-sempozyumu-gerceklestirildi/"
+        },
+        {
+          "name": "Tıp Fakültesi Hastanesi",
+          "href": "https://www.birunihastanesi.com.tr/"
+        },
+        {
+          "name": "Diş Hekimliği Hastanesi",
+          "href": "https://www.birunidis.com/"
+        }
+      ],
+      "club_count": 3,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Bolu Abant İzzet Baysal Üniversitesi",
+      "directory_url": "https://sksdb.ibu.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 4,
+      "last_error": null
+    },
+    {
+      "institution": "Bursa Uludağ Üniversitesi",
+      "directory_url": "https://www.uludag.edu.tr/NotFound",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel araştırma Projeleri Komisyonu",
+          "href": "https://www.uludag.edu.tr/komisyon/bilimsel-arastirma-komisyonu"
+        },
+        {
+          "name": "DİŞ HEKİMLİĞİ FAKÜLTESİ",
+          "href": "https://www.uludag.edu.tr/dis"
+        },
+        {
+          "name": "TIP FAKÜLTESİ",
+          "href": "https://uludag.edu.tr/tip"
+        },
+        {
+          "name": "VETERİNER FAKÜLTESİ",
+          "href": "https://www.uludag.edu.tr/veteriner"
+        },
+        {
+          "name": "Veteriner Fakültesi Hayvan Hastanesi",
+          "href": "https://www.uludag.edu.tr/hayvanhastanesi"
+        }
+      ],
+      "club_count": 5,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Dicle Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:100"
+    },
+    {
+      "institution": "Dokuz Eylül Üniversitesi",
+      "directory_url": "https://ogrencitopluluklari.deu.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Ege Üniversitesi",
+      "directory_url": "https://sksdb.ege.edu.tr/a-685455/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Erzincan Binali Yıldırım Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Eskişehir Osmangazi Üniversitesi",
+      "directory_url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3171/endustri-muhendisligi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Fırat Üniversitesi",
+      "directory_url": "https://ogrencitopluluklari.firat.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 2,
+      "last_error": null
+    },
+    {
+      "institution": "Gazi Üniversitesi",
+      "directory_url": "https://topluluklar.gazi.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi",
+      "directory_url": "https://www.gibtu.edu.tr/Default.aspx",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Di� Hekimli�i Fak�ltesi",
+          "href": "https://www.gibtu.edu.tr/Birim.aspx?id=25"
+        },
+        {
+          "name": "T�p Fak�ltesi",
+          "href": "https://www.gibtu.edu.tr/tip"
+        },
+        {
+          "name": "Anatomi Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/BirimIcerik.aspx?id=20&icid=25048"
+        },
+        {
+          "name": "Fizyoloji Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/BirimIcerik.aspx?id=20&icid=25014"
+        },
+        {
+          "name": "Enfeksiyon Hastal�klar� ve Klinik Mikrobiyoloji Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/BirimIcerik.aspx?id=20&icid=25017"
+        },
+        {
+          "name": "Kardiyoloji Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/BirimIcerik.aspx?id=20&icid=25015"
+        },
+        {
+          "name": "Psikiyatri Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/Birim.aspx?Id=20"
+        },
+        {
+          "name": "Cerrahi T�p Bilimleri",
+          "href": "https://www.gibtu.edu.tr/Birim.aspx?Id=20"
+        },
+        {
+          "name": "Beyin ve Sinir Cerrahisi",
+          "href": "https://www.gibtu.edu.tr/Birim.aspx?Id=20"
+        },
+        {
+          "name": "Genel Cerrahi Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/BirimIcerik.aspx?id=20&icid=25018"
+        },
+        {
+          "name": "Kalp ve Damar Cerrahisi Anabilim Dal�",
+          "href": "https://www.gibtu.edu.tr/Birim.aspx?Id=20"
+        }
+      ],
+      "club_count": 11,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Gaziantep Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Giresun Üniversitesi",
+      "directory_url": "https://sksdb.giresun.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 4,
+      "last_error": null
+    },
+    {
+      "institution": "Hacettepe Üniversitesi",
+      "directory_url": "https://topluluklar.hacettepe.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "document.querySelectorAll('[data-bs-toggle=\"tooltip\"]').forEach(function(el) { new bootstrap.Tooltip(el); });",
+          "href": null
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Haliç Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Harran Üniversitesi",
+      "directory_url": "https://www.harran.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "/Etkinlikler/meetcon-tip-4-uluslararasi-tip-ve-saglik-bilimleri-kongresi",
+          "href": "https://www.harran.edu.tr/Etkinlikler/meetcon-tip-4-uluslararasi-tip-ve-saglik-bilimleri-kongresi"
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Hitit Üniversitesi",
+      "directory_url": "https://sks.hitit.edu.tr/topluluklar/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "İnönü Üniversitesi",
+      "directory_url": "https://ogrencitopluluklari.inonu.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Çocuk Tiyatrosunu Hekimhan'da sergileme",
+          "href": "https://ogrencitopluluklari.inonu.edu.tr/Event/Detail/f0983058-accf-446c-a086-f6da5374c12c"
+        },
+        {
+          "name": "Biyomedikal Topluluğu",
+          "href": "https://ogrencitopluluklari.inonu.edu.tr/Community/Detail/add2af21-7ab1-4830-a3b6-c6ed7c0039c9"
+        }
+      ],
+      "club_count": 2,
+      "tried_n": 2,
+      "last_error": null
+    },
+    {
+      "institution": "İstanbul Atlas Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İstanbul Medeniyet Üniversitesi",
+      "directory_url": "https://sks.medeniyet.edu.tr/tr",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Projeleri (BAP) Komisyonu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/bilimsel-arastirma-projeleri-bap-komisyonu"
+        },
+        {
+          "name": "Fen ve Mühendislik Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/fen-ve-muhendislik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sağlık Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/saglik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sosyal ve Beşeri Bilimler Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/sosyal-ve-beseri-bilimler-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinasyon Birimi",
+          "href": "https://bap.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://dishekimligi.medeniyet.edu.tr"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tip.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Uygulama ve Araştırma Merkezi",
+          "href": "https://dis.medeniyet.edu.tr"
+        },
+        {
+          "name": "SAL 24 Şubat",
+          "href": "https://sks.medeniyet.edu.tr/tr/duyurular/istanbul-medeniyet-universitesi-kuzey-yerleskesi-yeni-yemekhane-binasi-kafe-alani-kiralama-ihalesi"
+        },
+        {
+          "name": "CUM 13 Şubat",
+          "href": "https://sks.medeniyet.edu.tr/tr/duyurular/2025-2026-egitim-ogretim-yili-yemek-ucretlerinin-guncellenmesi-hakkinda_1"
+        },
+        {
+          "name": "CMT 13 Şubat",
+          "href": "https://sks.medeniyet.edu.tr/tr/etkinlikler/online-konser-etkinligi"
+        }
+      ],
+      "club_count": 11,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "İstanbul Medipol Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İstanbul Okan Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "The read operation timed out"
+    },
+    {
+      "institution": "İstanbul Sağlık ve Teknoloji Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İstanbul Yeni Yüzyıl Üniversitesi",
+      "directory_url": "https://www.yeniyuzyil.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "DİŞ HEKİMLİĞİ FAKÜLTESİ",
+          "href": "https://www.yeniyuzyil.edu.tr/fakulteler/dis-hekimligi-fakultesi-1/"
+        },
+        {
+          "name": "TIP FAKÜLTESİ",
+          "href": "https://www.yeniyuzyil.edu.tr/fakulteler/tip-fakultesi/"
+        },
+        {
+          "name": "BAP Birimi (Bilimsel Araştırma Projeler Birimi)",
+          "href": "https://bap.yeniyuzyil.edu.tr/"
+        },
+        {
+          "name": "Adli Tıp Laboratuvarı",
+          "href": "https://www.yeniyuzyil.edu.tr/arastirma-laboratuvarlari/adli-tip-laboratuvari/"
+        }
+      ],
+      "club_count": 4,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "İstanbul Üniversitesi",
+      "directory_url": "https://www.istanbul.edu.tr/tr",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "İstanbul Üniversitesi-Cerrahpaşa",
+      "directory_url": "https://sks.iuc.edu.tr/topluluklar/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "İstinye Üniversitesi",
+      "directory_url": "https://www.istinye.edu.tr/tr/sks/kulupler/duyurular/ieee-kulubu-embcon26",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://www.istinye.edu.tr/tr/dhf"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://www.istinye.edu.tr/tr/tip"
+        }
+      ],
+      "club_count": 2,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "İzmir Bakırçay Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İzmir Demokrasi Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İzmir Ekonomi Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "institution": "İzmir Kâtip Çelebi Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "İzmir Tınaztepe Üniversitesi",
+      "directory_url": "https://www.tinaztepe.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Akademik Kadro",
+          "href": "https://tinaztepe.edu.tr/tr/universite/akademik-kadro/tip-fakultesi"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tinaztepe.edu.tr/tr/akademik/tip-fakultesi"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://tinaztepe.edu.tr/tr/akademik/dis-hekimligi-fakultesi"
+        },
+        {
+          "name": "DEVAMI",
+          "href": "https://tinaztepe.edu.tr/tr/duyuru/dis-hekimligi-fakultesi-2025-2026-akademik-yili-bahar-donemi-tek-ders-sinav-duyurusu-2026-09-17"
+        },
+        {
+          "name": "Tınaztepe Sağlık Grubu'nun 4 hastanesi ve Üniversitemiz Diş Hekimliği Fakültesi Diş Hastanesi ile klinik uygulamalarda kolay ulaşılabilirlik.",
+          "href": null
+        },
+        {
+          "name": "Üniversitemiz akademik kadro bilgilerine https://tinaztepe.edu.tr/tr/universite/akademik-kadro/tip-fakultesi adresi üzerinden ulaşabilirsiniz.",
+          "href": null
+        },
+        {
+          "name": "\"Ön lisans programlarında öğrenim süresi 2 yıldır. Lisans programlarında öğrenim süresi 4 yıldır. (Diş Hekimliği Fakültesi ile 5 yıl, Tıp Fakültesi 6 yıl) \"",
+          "href": null
+        }
+      ],
+      "club_count": 7,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Kafkas Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "institution": "Kahramanmaraş Sütçü İmam Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Karabük Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 500: Internal Server Error"
+    },
+    {
+      "institution": "Karadeniz Teknik Üniversitesi",
+      "directory_url": "https://sks.medeniyet.edu.tr/tr/haberler/universitemizin-bilisim-ve-bilgi-topluluklarinin-ankara-gezisi",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Projeleri (BAP) Komisyonu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/bilimsel-arastirma-projeleri-bap-komisyonu"
+        },
+        {
+          "name": "Fen ve Mühendislik Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/fen-ve-muhendislik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sağlık Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/saglik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sosyal ve Beşeri Bilimler Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/sosyal-ve-beseri-bilimler-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinasyon Birimi",
+          "href": "https://bap.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://dishekimligi.medeniyet.edu.tr"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tip.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Uygulama ve Araştırma Merkezi",
+          "href": "https://dis.medeniyet.edu.tr"
+        }
+      ],
+      "club_count": 8,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Karamanoğlu Mehmetbey Üniversitesi",
+      "directory_url": "https://www.kmu.edu.tr/sks/sayfa/1776/ogrenci-topluluk-bilgileri/tr",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Kastamonu Üniversitesi",
+      "directory_url": "https://kastamonu.edu.tr/tr",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "17Eyl2026“Kastamonu Üniversitesi Geleceğiyle Buluşuyor” Programında Araştırma Görevlileriyle Bir Araya GelindiEğitimde Mükemmeliyet Koordinatörlüğü tarafından 1",
+          "href": "https://kastamonu.edu.tr/tr/haberler/kastamonu-universitesi-gelecegiyle-bulusuyor-programinda-arastirma-gorevlileriyle-bir-araya-gelindi-1621"
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Koç Üniversitesi",
+      "directory_url": "https://www.ku.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://medicine.ku.edu.tr/"
+        },
+        {
+          "name": "/news/?detail=true&id=88c38e3e-2c01-4e46-92e6-f4d348071d27&page_title=beyin-cerrahisi-icin-yerli-elektrot-teknolojisi-projesine-tuseb-destegi",
+          "href": "https://www.ku.edu.tr/news/?detail=true&id=88c38e3e-2c01-4e46-92e6-f4d348071d27&page_title=beyin-cerrahisi-icin-yerli-elektrot-teknolojisi-projesine-tuseb-destegi"
+        },
+        {
+          "name": "Beyin Cerrahisi İçin Yerli Elektrot Teknolojisi Projesi’ne TÜSEB Desteği",
+          "href": "https://www.ku.edu.tr/news/?detail=true&id=88c38e3e-2c01-4e46-92e6-f4d348071d27&page_title=beyin-cerrahisi-icin-yerli-elektrot-teknolojisi-projesine-tuseb-destegi"
+        },
+        {
+          "name": "Detay",
+          "href": "https://www.ku.edu.tr/news/?detail=true&id=88c38e3e-2c01-4e46-92e6-f4d348071d27&page_title=beyin-cerrahisi-icin-yerli-elektrot-teknolojisi-projesine-tuseb-destegi"
+        }
+      ],
+      "club_count": 4,
+      "tried_n": 6,
+      "last_error": null
+    },
+    {
+      "institution": "Kütahya Sağlık Bilimleri Üniversitesi",
+      "directory_url": "https://topluluklar.ksbu.edu.tr/defaultx",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Topluluğundan “Suçlu Psikolojisi” Webinarı",
+          "href": "https://etkinlik.ksbu.edu.tr/news/bilimsel_arastirma_toplulugundan_suclu_psikolojisi_webinari-95c0"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği’nden Eğlenceli Karaoke Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_nden_eglenceli_karaoke_etkinligi-6bc2"
+        },
+        {
+          "name": "Geleceğin Diş Hekimleri Topluluğundan Ankara Kültür Gezisi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/gelecegin_dis_hekimleri_toplulugundan_ankara_kultur_gezisi-cc37"
+        },
+        {
+          "name": "KSBÜ Tıp Öğrencileri Birliğinden Meme Kanseri Farkındalık Etkinligi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/ksbu_tip_ogrencileri_birliginden_meme_kanseri_farkindalik_etkinligi-6701"
+        },
+        {
+          "name": "Geleceğin Diş Hekimleri Sanatla Buluştu",
+          "href": "https://etkinlik.ksbu.edu.tr/news/gelecegin_dis_hekimleri_sanatla_bulustu-c8fe"
+        },
+        {
+          "name": "Geleceğin Diş Hekimleri Topluluğu Minsafest’te Halkı Bilgilendirdi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/gelecegin_dis_hekimleri_toplulugu_minsafest_te_halki_bilgilendirdi-55e5"
+        },
+        {
+          "name": "Bilimsel Araştırma Topluluğu 2. Geleneksel Tanışma Yemeğinde Buluştu",
+          "href": "https://etkinlik.ksbu.edu.tr/news/bilimsel_arastirma_toplulugu_2_geleneksel_tanisma_yemeginde_bulustu-a2ae"
+        },
+        {
+          "name": "Üniversitemiz Tıp Öğrencileri Birliği’nden Açık Hava Sinema Keyfi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/universitemiz_tip_ogrencileri_birligi_nden_acik_hava_sinema_keyfi-7982"
+        },
+        {
+          "name": "Medikal Kurtarma Topluluk Öğrencilerinden Aizanoi Antik Kentine Gezi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/medikal_kurtarma_topluluk_ogrencilerinden_aizanoi_antik_kentine_gezi-cc55"
+        },
+        {
+          "name": "Medikal Kurtarma Topluluk Öğrencileri, UMKE ve AFAD Ekipleri Eğitim Kampında Buluştu",
+          "href": "https://etkinlik.ksbu.edu.tr/news/medikal_kurtarma_topluluk_ogrencileri_umke_ve_afad_ekipleri_egitim_kampinda_bulustu-ff06"
+        },
+        {
+          "name": "Bilimsel Araştırma Topluluğu’ndan 2. Travmaya Multidisipliner Yaklaşım Sempozyumu Gerçekleştirildi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/bilimsel_arastirma_toplulugu_ndan_2_travmaya_multidisipliner_yaklasim_sempozyumu_gerceklestirildi-ae7f"
+        },
+        {
+          "name": "Bilimsel Araştırma Topluluğundan Aizanoi Antik Kentine Gezi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/bilimsel_arastirma_toplulugundan_aizanoi_antik_kentine_gezi-268c"
+        },
+        {
+          "name": "Üniversitemiz Geleceğin Diş Hekimleri Öğrenci Topluluğundan Doğamızı Koruma Etkinliği: Fidan Dikimi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/universitemiz_gelecegin_dis_hekimleri_ogrenci_toplulugundan_dogamizi_koruma_etkinligi_fidan_dikimi-bf5e"
+        },
+        {
+          "name": "Genç Yeşilay Topluluğu’ndan 14 Mart Tıp Bayramı Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/genc_yesilay_toplulugu_ndan_14_mart_tip_bayrami_etkinligi-f2a4"
+        },
+        {
+          "name": "Müzik Topluluğu Öğrencilerinden Tıp Fakültesine \"Akustik Perşembe\" Dinleti",
+          "href": "https://etkinlik.ksbu.edu.tr/news/muzik_toplulugu_ogrencilerinden_tip_fakultesine_akustik_persembe_dinleti-c9c7"
+        },
+        {
+          "name": "Üniversitemiz Bilimsel Araştırma Topluluğundan Akademik Talk Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/universitemiz_bilimsel_arastirma_toplulugundan_akademik_talk_etkinligi-11da"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesinde Akustik Perşembe Dinleti Etkinliği Gerçekleşti",
+          "href": "https://etkinlik.ksbu.edu.tr/news/dis_hekimligi_fakultesinde_akustik_persembe_dinleti_etkinligi_gerceklesti-80e1"
+        },
+        {
+          "name": "ÜNİDES Projesi Desteklenmeye Hak Kazanan Medikal Kurtarma Topluluk Başkanı Emir Can GÜL 2.Dönem Öğrenci Topluluk Temsilcileri Buluşmasına katılım sağladı.",
+          "href": "https://etkinlik.ksbu.edu.tr/news/unides_projesi_desteklenmeye_hak_kazanan_medikal_kurtarma_topluluk_baskani_emir_can_gul_2_donem_ogrenci_topluluk_temsilcileri_bulusmasina_katilim_sagladi-f74f"
+        },
+        {
+          "name": "Bilimsel Araştırma Topluluk Öğrencilerinden Eskişehir Uçucu Sağlığı Araştırma ve Eğitim Merkezine Teknik Gezi Düzenlendi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/bilimsel_arastirma_topluluk_ogrencilerinden_eskisehir_ucucu_sagligi_arastirma_ve_egitim_merkezine_teknik_gezi_duzenlendi-9a81"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Tarafından İki Elin Sesi adlı Eğitim Gerçekleştirildi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_tarafindan_iki_elin_sesi_adli_egitim_gerceklestirildi-29cc"
+        },
+        {
+          "name": "Cansağlığı Topluluk Öğrencileri Yaratıcı Drama Etkinliği: Hekim Hasta İletişimi programında bir araya geldi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/cansagligi_topluluk_ogrencileri_yaratici_drama_etkinligi_hekim_hasta_iletisimi_programinda_bir_araya_geldi-0697"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Topluluğundan Karaoke Gecesi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_toplulugundan_karaoke_gecesi-3518"
+        },
+        {
+          "name": "Medikal İngilizce Topluluk Öğrencilerinden Speaking Club Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/medikal_ingilizce_topluluk_ogrencilerinden_speaking_club_etkinligi-2320"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Topluluğundan Sera AVM de Meme Kanseri Farkındalık Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_toplulugundan_sera_avm_de_meme_kanseri_farkindalik_etkinligi-5261"
+        },
+        {
+          "name": "Medikal Kurtarma Topluluk Öğrencilerine UMKE den Temel Eğitim",
+          "href": "https://etkinlik.ksbu.edu.tr/news/medikal_kurtarma_topluluk_ogrencilerine_umke_den_temel_egitim-4675"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Topluluğundan Açık Hava Sinema Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_toplulugundan_acik_hava_sinema_etkinligi-c1e0"
+        },
+        {
+          "name": "Diş Hekimler Öğrenci Birliği Topluluğundan Miniklere Hijyen Eğitimi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/dis_hekimler_ogrenci_birligi_toplulugundan_miniklere_hijyen_egitimi-d50a"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Topluluğundan Kadın Hekim Olmak adlı söyleşi",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_toplulugundan_kadin_hekim_olmak_adli_soylesi-b613"
+        },
+        {
+          "name": "MEKUT dan Güneşin Doğmadığı Gün: 6 Şubat 2023 konulu Anma Konferansı",
+          "href": "https://etkinlik.ksbu.edu.tr/news/mekut_dan_gunesin_dogmadigi_gun_6_subat_2023_konulu_anma_konferansi-e11b"
+        },
+        {
+          "name": "Diş Hekimler Öğrenci Birliği Topluluğundan DÖYAT Eskişehir 2024 Çalıştay ına katılım gerçekleşti.",
+          "href": "https://etkinlik.ksbu.edu.tr/news/dis_hekimler_ogrenci_birligi_toplulugundan_doyat_eskisehir_2024_calistay_ina_katilim_gerceklesti-be62"
+        },
+        {
+          "name": "KSÜBAT dan ESOGÜ Tıbbi Farmakoloji Atölye Gezisi Etkinliği",
+          "href": "https://etkinlik.ksbu.edu.tr/news/ksubat_dan_esogu_tibbi_farmakoloji_atolye_gezisi_etkinligi-5a45"
+        },
+        {
+          "name": "Medikal Kurtarma Topluluğundan Emet İkitaş Kanyon unda Doğa Yürüyüşü",
+          "href": "https://etkinlik.ksbu.edu.tr/news/medikal_kurtarma_toplulugundan_emet_ikitas_kanyon_unda_doga_yuruyusu-65d2"
+        },
+        {
+          "name": "TurkMSIC 6. Bölge Toplantısı Kocaeli Tıp Öğrencileri Birliği ev sahipliğinde Kocaeli nde gerçekleşti.",
+          "href": "https://etkinlik.ksbu.edu.tr/news/turkmsic_6_bolge_toplantisi_kocaeli_tip_ogrencileri_birligi_ev_sahipliginde_kocaeli_nde_gerceklesti-5ac9"
+        },
+        {
+          "name": "Tıp Öğrencileri Birliği Topluluğu Tarafından Açık Hava Sinema Etkinliği Gerçekleştirildi.",
+          "href": "https://etkinlik.ksbu.edu.tr/news/tip_ogrencileri_birligi_toplulugu_tarafindan_acik_hava_sinema_etkinligi_gerceklestirildi-4cd0"
+        }
+      ],
+      "club_count": 34,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Kırklareli Üniversitesi",
+      "directory_url": "https://sks.klu.edu.tr/topluluklar/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "Kırşehir Ahi Evran Üniversitesi",
+      "directory_url": "https://hata.ahievran.edu.tr/404.html",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 4,
+      "last_error": null
+    },
+    {
+      "institution": "Malatya Turgut Özal Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Maltepe Üniversitesi",
+      "directory_url": "https://www.maltepe.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "https://www.maltepe.edu.tr/tip-fakultesi/tr/dunya-alzheimer-gunu-sempozyumu",
+          "href": "https://www.maltepe.edu.tr/tip-fakultesi/tr/dunya-alzheimer-gunu-sempozyumu"
+        },
+        {
+          "name": "Devamı",
+          "href": "https://www.maltepe.edu.tr/tip-fakultesi/tr/dunya-alzheimer-gunu-sempozyumu"
+        },
+        {
+          "name": "Maltepe Üniversitesi Tıp Fakültesi Eğitim ve Araştırma Hastanesi",
+          "href": "https://maltepehastanesi.com.tr/"
+        },
+        {
+          "name": "24 Şubat 2026",
+          "href": null
+        }
+      ],
+      "club_count": 4,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Manisa Celal Bayar Üniversitesi",
+      "directory_url": "http://sks.mcbu.edu.tr/Sayfa/ToplulukveKuluplerEtkinlikDilekceleri#baslangic",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Mardin Artuklu Üniversitesi",
+      "directory_url": "https://www.artuklu.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://www.artuklu.edu.tr/tip-fakultesi"
+        },
+        {
+          "name": "Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.artuklu.edu.tr/etik-kurulu"
+        },
+        {
+          "name": "Girişimsel Olmayan Klinik Araştırmaları Etik Kurulu",
+          "href": "https://www.artuklu.edu.tr/gokaetikkurulu"
+        },
+        {
+          "name": "/tr/haberler/mau-tip-ogrencisi-nursena-akburak-munih-lmudaki-klinik-gozlem-programini-basariyla-bitirdi",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-ogrencisi-nursena-akburak-munih-lmudaki-klinik-gozlem-programini-basariyla-bitirdi"
+        },
+        {
+          "name": "MAÜ Tıp Öğrencisi Nursena Akburak, Münih L...",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-ogrencisi-nursena-akburak-munih-lmudaki-klinik-gozlem-programini-basariyla-bitirdi"
+        },
+        {
+          "name": "7.9.2026 DEVAMINI OKU",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-ogrencisi-nursena-akburak-munih-lmudaki-klinik-gozlem-programini-basariyla-bitirdi"
+        },
+        {
+          "name": "/tr/haberler/mau-tip-fakulteside-uzmanlik-egitimini-tamamlayan-ilk-hekim-goreve-basladi",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-fakulteside-uzmanlik-egitimini-tamamlayan-ilk-hekim-goreve-basladi"
+        },
+        {
+          "name": "MAÜ Tıp Fakültesi’de Uzmanlık Eğitimini Ta...",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-fakulteside-uzmanlik-egitimini-tamamlayan-ilk-hekim-goreve-basladi"
+        },
+        {
+          "name": "25.8.2026 DEVAMINI OKU",
+          "href": "https://www.artuklu.edu.tr/tr/haberler/mau-tip-fakulteside-uzmanlik-egitimini-tamamlayan-ilk-hekim-goreve-basladi"
+        },
+        {
+          "name": "&nbsp; Tıp Fak&#252;ltesi",
+          "href": null
+        },
+        {
+          "name": "&nbsp; Girişimsel Olmayan Klinik Araştırmaları Etik Kurulu",
+          "href": null
+        },
+        {
+          "name": "Uluslararası Artuklu Tıp, Hemşirelik ,Ebelik ve Sağlık Bilimleri Kongresi",
+          "href": null
+        }
+      ],
+      "club_count": 12,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Marmara Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Muğla Sıtkı Koçman Üniversitesi",
+      "directory_url": "https://www.mu.edu.tr/404",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Projeleri",
+          "href": "https://bap.mu.edu.tr/tr/dokuman"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://dhf.mu.edu.tr"
+        },
+        {
+          "name": "Milas Veteriner Fakültesi",
+          "href": "https://veteriner.mu.edu.tr"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tip.mu.edu.tr"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinatörlüğü",
+          "href": "https://bap.mu.edu.tr"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinasyon Birimi Koordinatörlüğü",
+          "href": "https://bap.mu.edu.tr"
+        }
+      ],
+      "club_count": 6,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Niğde Ömer Halisdemir Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 302: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe l"
+    },
+    {
+      "institution": "Nişantaşı Üniversitesi",
+      "directory_url": "https://sks.nisantasi.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "Ondokuz Mayıs Üniversitesi",
+      "directory_url": "https://sks.omu.edu.tr/kurumsal/birimler/kultur-ve-spor-birimi/topluluklara-tahsis-edilen-odalar/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "Pamukkale Üniversitesi",
+      "directory_url": "https://www.pau.edu.tr/sks/tr/sayfa/ogrenci-topluluklari-afis-standardi",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma ve Yayın Etik Kurulu",
+          "href": "https://www.pau.edu.tr/bayek"
+        },
+        {
+          "name": "Klinik Araştırmalar Etik Kurulu",
+          "href": "https://www.pau.edu.tr/karek"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinatörlüğü",
+          "href": "https://www.pau.edu.tr/bap"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://www.pau.edu.tr/dis"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://www.pau.edu.tr/tip"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi Hastanesi",
+          "href": "https://www.pau.edu.tr/dis"
+        },
+        {
+          "name": "Deneysel Cerrahi Uygulama ve Araştırma Merkezi",
+          "href": "https://www.pau.edu.tr/dcuam"
+        },
+        {
+          "name": "Klinik Uygulama ve Araştırma Merkezi",
+          "href": "https://www.pau.edu.tr/pukam"
+        }
+      ],
+      "club_count": 8,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Sakarya Üniversitesi",
+      "directory_url": "https://sakarya.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Sanko Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Sağlık Bilimleri Üniversitesi",
+      "directory_url": "https://sks.ksbu.edu.tr/defaultx/sayfa/7730/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Hekim Sinan Konferans Salonu",
+          "href": "https://sks.ksbu.edu.tr/defaultx/sayfa/11902/hekim-sinan-konferans-salonu"
+        },
+        {
+          "name": "Tıp Fakültesi Fuaye Sergi Alanı",
+          "href": "https://sks.ksbu.edu.tr/defaultx/sayfa/12023/tip-fakultesi-fuaye-sergi-alani"
+        },
+        {
+          "name": "Tıp Fakültesi Bilardo ve Tenis Masaları",
+          "href": "https://sks.ksbu.edu.tr/defaultx/sayfa/12547/tip-fakultesi-bilardo-ve-tenis-masalari"
+        },
+        {
+          "name": "BİLİMSEL ARAŞTIRMA TOPLULUĞU",
+          "href": "https://www.instagram.com/ksbu.bat?igsh=MTQ2NXRtcWxtdjQ2bA=="
+        },
+        {
+          "name": "DİŞ HEKİMLİĞİ TOPLULUĞU",
+          "href": "https://www.instagram.com/ksbu.dishekimligi?igsh=MTNtdmYxamhzaW5zag=="
+        },
+        {
+          "name": "MEDİKAL İNGİLİZCE TOPLULUĞU",
+          "href": "https://www.instagram.com/ksbu.english/"
+        },
+        {
+          "name": "MEDİKAL KURTARMA TOPLULUĞU",
+          "href": "https://www.instagram.com/ksbu.mekut?igsh=MXJ1dnk2YWhlM2xlZg=="
+        },
+        {
+          "name": "TIP ÖĞRENCİLERİ BİRLİĞİ TOPLULUĞU",
+          "href": "https://www.instagram.com/kutahyasbutob?igsh=MTFoM3g0cXQ5azR0eQ=="
+        },
+        {
+          "name": "GELECEĞİN DİŞ HEKİMLERİ TOPLULUĞU",
+          "href": null
+        }
+      ],
+      "club_count": 9,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Siirt Üniversitesi",
+      "directory_url": "https://ogrencitopluluklari.siirt.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Sivas Cumhuriyet Üniversitesi",
+      "directory_url": "https://www.cumhuriyet.edu.tr/ogrenci-topluluklari",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Proje Bşk.",
+          "href": "http://bapihale.cumhuriyet.edu.tr"
+        }
+      ],
+      "club_count": 1,
+      "tried_n": 5,
+      "last_error": null
+    },
+    {
+      "institution": "Süleyman Demirel Üniversitesi",
+      "directory_url": "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu.html",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Tekirdağ Namık Kemal Üniversitesi",
+      "directory_url": "http://topluluklar.nku.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "TOBB Ekonomi ve Teknoloji Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Trakya Üniversitesi",
+      "directory_url": "https://ogrencitopluluklari.trakya.edu.tr/yonetim/giris.php",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 2,
+      "last_error": null
+    },
+    {
+      "institution": "Van Yüzüncü Yıl Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "<urlopen error [SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:1006)>"
+    },
+    {
+      "institution": "Yalova Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Yeditepe Üniversitesi",
+      "directory_url": "https://sks.medeniyet.edu.tr/tr/haberler/universitemizin-bilisim-ve-bilgi-topluluklarinin-ankara-gezisi",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Bilimsel Araştırma Projeleri (BAP) Komisyonu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/bilimsel-arastirma-projeleri-bap-komisyonu"
+        },
+        {
+          "name": "Fen ve Mühendislik Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/fen-ve-muhendislik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sağlık Bilimleri Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/saglik-bilimleri-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Sosyal ve Beşeri Bilimler Bilimsel Araştırma ve Yayın Etiği Kurulu",
+          "href": "https://www.medeniyet.edu.tr/tr/universitemiz/kurullarimiz-komisyonlarimiz/sosyal-ve-beseri-bilimler-bilimsel-arastirma-ve-yayin-etigi-kurulu"
+        },
+        {
+          "name": "Bilimsel Araştırma Projeleri Koordinasyon Birimi",
+          "href": "https://bap.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Fakültesi",
+          "href": "https://dishekimligi.medeniyet.edu.tr"
+        },
+        {
+          "name": "Tıp Fakültesi",
+          "href": "https://tip.medeniyet.edu.tr"
+        },
+        {
+          "name": "Diş Hekimliği Uygulama ve Araştırma Merkezi",
+          "href": "https://dis.medeniyet.edu.tr"
+        }
+      ],
+      "club_count": 8,
+      "tried_n": 7,
+      "last_error": null
+    },
+    {
+      "institution": "Yozgat Bozok Üniversitesi",
+      "directory_url": "https://topluluklar.bozok.edu.tr/",
+      "directory_found": true,
+      "tip_related_clubs": [
+        {
+          "name": "Sosyal Tıp Topluluğu",
+          "href": "https://topluluklar.bozok.edu.tr/Home/Topluluk?GUID=BC78E5C9-C705-4B23-AF51-7EF03844E95E"
+        },
+        {
+          "name": "FİZYOBAT Topluluğu",
+          "href": "https://topluluklar.bozok.edu.tr/Home/Topluluk?GUID=24D5C201-D1A6-4797-B5AA-51EED8076C66"
+        },
+        {
+          "name": "EMSA Bozok (Avrupa Tıp Öğrencileri Birliği)",
+          "href": "https://topluluklar.bozok.edu.tr/Home/Topluluk?GUID=369F58A9-77CE-46C6-822C-812C188623B8"
+        },
+        {
+          "name": "Veteriner Sağlık ve Sosyal Etkileşim Topluluğu",
+          "href": "https://topluluklar.bozok.edu.tr/Home/Topluluk?GUID=05E2210C-9856-4858-B264-B3817D997DDD"
+        },
+        {
+          "name": "EMSA Bozok (Avrupa Tıp &#214;ğrencileri Birliği)",
+          "href": null
+        }
+      ],
+      "club_count": 5,
+      "tried_n": 1,
+      "last_error": null
+    },
+    {
+      "institution": "Zonguldak Bülent Ecevit Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Çanakkale Onsekiz Mart Üniversitesi",
+      "directory_url": "https://sks.comu.edu.tr/topluluklar/",
+      "directory_found": true,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 3,
+      "last_error": null
+    },
+    {
+      "institution": "Çukurova Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    {
+      "institution": "Üsküdar Üniversitesi",
+      "directory_url": null,
+      "directory_found": false,
+      "tip_related_clubs": [],
+      "club_count": 0,
+      "tried_n": 6,
+      "last_error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

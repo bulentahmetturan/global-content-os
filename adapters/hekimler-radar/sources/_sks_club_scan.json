@@ -1,0 +1,907 @@
+{
+  "sks": [
+    {
+      "id": "adu_sks",
+      "name": "Aydın Adnan Menderes Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.adu.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.adu.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "http://www.site.adu.edu.tr/ogrencitopluluklari/",
+        "https://haber.adu.edu.tr/etkinlik-adu-tip-fakultesi-23-donem-mezuniyet-toreni-coskuyla-gerceklesti-100020314516882062887902",
+        "https://haber.adu.edu.tr/haber/tip-fakultesinden-uluslararasi-duzeyde-bilimsel-yayin-basarisi-1000180411/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/menderesedutr/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "akdeniz_sks",
+      "name": "Akdeniz Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.akdeniz.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.akdeniz.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.akdeniz.edu.tr/tr/kultur_hizmetleri_ogrenci_topluluklari-7276",
+        "https://sks.akdeniz.edu.tr/tr/ogrenci_topluluklari_etkinlik_on_talep_formu-10739",
+        "https://sks.akdeniz.edu.tr/tr/duyuru/ogrenci_topluluklari_etkinlikleri-15494",
+        "https://www.akdeniz.edu.tr/tr/haber/hemsirelik_fakultesi&#x2019;nde_birinci_sinif_ogrencilerine_yonelik_uyum_programi_duzenlendi-4442"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/akdenizsks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "aksaray_sks",
+      "name": "Aksaray Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.aksaray.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.aksaray.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.aksaray.edu.tr/ogrenci-topluluklari",
+        "https://topluluklar.aksaray.edu.tr/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/aksaray__university/",
+        "https://www.instagram.com/aksarayedutr/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "alanya_sks",
+      "name": "Alanya Alaaddin Keykubat Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.alanya.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.alanya.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.alanya.edu.tr/ogrenci/ogrenci-topluluklari/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/alkusks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "amasya_sks",
+      "name": "Amasya Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.amasya.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.amasya.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.amasya.edu.tr/kalite/ic-kontrol/birim-ic-kontrol-temsilcileri.aspx",
+        "https://sksdb.amasya.edu.tr/kalite/ic-kontrol/kalite-yonetim-ve-akreditasyon-temsilcileri.aspx",
+        "https://sksdb.amasya.edu.tr/tiyatro-kulubu-ogrencilerinin-gosterisi-begeniyle-izlendi.aspx",
+        "https://sksdb.amasya.edu.tr/veteriner-hekimlik-ve-toplum-sagligi-konulu-soyleyisi-yapildi.aspx",
+        "https://sksdb.amasya.edu.tr/üniversite-ogrenci-topluluklari-is-birligi-ve-destek-programi-ünides-hakkinda-bilgilendirme-toplantisi-yapildi.aspx",
+        "https://sksdb.amasya.edu.tr/fotografcilik-kulubu-uygulamali-fotografcilik-egitimi-gezisi-duzenledi.aspx",
+        "https://sksdb.amasya.edu.tr/genc-kizilay-kulubu-ogrencilerinden-huzurevine-ziyaret.aspx",
+        "https://sksdb.amasya.edu.tr/fotografcilik-kulubu-egitimleri-basariyla-tamamladi.aspx",
+        "https://sksdb.amasya.edu.tr/tabiati-fenle-cozumleyenler-kulubu-malzeme-tanitim-gezisi.aspx",
+        "https://sksdb.amasya.edu.tr/yarinin-ebeleri-kulubu-tanisma-etkinligi-duzenledi.aspx",
+        "https://sksdb.amasya.edu.tr/ingilizce-ogretmenligi-kulubu-etkinlikleri-devam-ediyor.aspx",
+        "https://sksdb.amasya.edu.tr/saglik-gonulluleri-kulubu-nden-tip-fakultesi-ogrencileri-ile-tanisma-etkinligi.aspx",
+        "https://sksdb.amasya.edu.tr/saglik-gonulluleri-kulubu-nden-cocuk-evlerinde-el-temizligi-ve-hijyen-egitimi.aspx"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "ankara_sks",
+      "name": "Ankara Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.ankara.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.ankara.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.ankara.edu.tr/topluluklar/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/ankarauniversitesi_sks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "artuklu_sks",
+      "name": "Mardin Artuklu Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.artuklu.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.artuklu.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.artuklu.edu.tr/tip-fakultesi",
+        "https://www.artuklu.edu.tr/tr/haberler/mau-tip-ogrencisi-nursena-akburak-munih-lmudaki-klinik-gozlem-programini-basariyla-bitirdi",
+        "https://www.artuklu.edu.tr/tr/haberler/mau-tip-fakulteside-uzmanlik-egitimini-tamamlayan-ilk-hekim-goreve-basladi"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/artuklu.universitesi/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "aybu_sks",
+      "name": "Ankara Yıldırım Beyazıt Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://aybu.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://aybu.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://aybu.edu.tr/assets/css/vendor/tipped.min.css"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "bakircay_sks",
+      "name": "İzmir Bakırçay Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.bakircay.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.bakircay.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/bakircayedu/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "bandirma_sks",
+      "name": "Bandırma Onyedi Eylül Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.bandirma.edu.tr/tr/sks/Hata/IndexWeb",
+      "ok": true,
+      "final_url": "https://www.bandirma.edu.tr/tr/sks/Hata/IndexWeb",
+      "error": null,
+      "clubish_links": [
+        "https://tip.bandirma.edu.tr/",
+        "https://sksdb.bandirma.edu.tr/tr/sksdb/s/Ogrenci-Topluluklarimiz-105"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/bandirmauni/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "bezmialem_sks",
+      "name": "Bezmialem Vakıf Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://bezmialem.edu.tr/sks/tr/Sayfalar/anasayfa.aspx",
+      "ok": true,
+      "final_url": "https://bezmialem.edu.tr/sks/tr/Sayfalar/anasayfa.aspx",
+      "error": null,
+      "clubish_links": [
+        "http://tip.bezmialem.edu.tr/",
+        "https://bezmialem.edu.tr/sks/tr/Sayfalar/HaberDetay.aspx?newsId=5620&newsdetail=ogrenci-kulubumuzden-buyuk-basari",
+        "https://bezmialem.edu.tr/sks/tr/Sayfalar/HaberDetay.aspx?newsId=4557&newsdetail=deprem-bolgelerini-yeniden-yesertecegiz-projesi-temsili-fidan-dikimi"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/bezmialemvakifuniv/",
+        "https://www.instagram.com/bezmialemvakifuni/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "biruni_sks",
+      "name": "Biruni Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.biruni.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.biruni.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://topluluklar.biruni.edu.tr/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "deu_sks",
+      "name": "Dokuz Eylül Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.deu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.deu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.deu.edu.tr/ogrenci/kultur-sanat-spor-hizmetlerimiz/ogrenci-topluluklari/",
+        "https://ogrencitopluluklari.deu.edu.tr/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/deu.sks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ege_sks",
+      "name": "Ege Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.ege.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.ege.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.ege.edu.tr/a-685455/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+        "https://sksdb.ege.edu.tr/a-685454/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+        "https://sksdb.ege.edu.tr/a-685453/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+        "https://sksdb.ege.edu.tr/a-685452/ogrenci_topluluklari_ogrenci_senato_uyeleri.html",
+        "https://sksdb.ege.edu.tr/a-685451/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/egesksdb/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "gazi_sks",
+      "name": "Gazi Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://gazi.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://gazi.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://topluluklar.gazi.edu.tr/",
+        "http://topluluklar.gazi.edu.tr/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/gazi_universitesi/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "giresun_sks",
+      "name": "Giresun Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.giresun.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.giresun.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "http://tip.giresun.edu.tr/",
+        "https://tip.giresun.edu.tr/",
+        "https://www.giresun.edu.tr/tr/activity-detail/sempozyum-karadenizde-futuvvet-ve-ahilik-sempozyumu-surasi-ii-seyh-idris/4161"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/giresununv/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "hacettepe_sks",
+      "name": "Hacettepe Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.hacettepe.edu.tr/bidbnew/index.php",
+      "ok": true,
+      "final_url": "https://sksdb.hacettepe.edu.tr/bidbnew/index.php",
+      "error": null,
+      "clubish_links": [
+        "https://topluluklar.hacettepe.edu.tr/"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/hacettepesksdb/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "hitit_sks",
+      "name": "Hitit Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.hitit.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.hitit.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.hitit.edu.tr/sat&#x131;nalmavetahakkuk",
+        "https://sks.hitit.edu.tr/ogrenci-kulubu-formlar"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ibu_sks",
+      "name": "Bolu Abant İzzet Baysal Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.ibu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.ibu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.ibu.edu.tr/Files/ckFiles/sksdb-ibu-edu-tr/Yönetmelik-Yönergeler/Öğrenci Toplulukları Kuruluş Ve İşleyiş Yönergesi.pdf",
+        "https://sksdb.ibu.edu.tr/tr/page/universitemizde-faaliyet-gosteren-ogrenci-topluluklari/9496",
+        "https://sksdb.ibu.edu.tr/tr/page/topluluklar-icin-gerekli-formlar/9734",
+        "https://sksdb.ibu.edu.tr/tr/page/ogrenci-topluluklari/9743",
+        "https://sksdb.ibu.edu.tr/tr/news-detail/ogrenci-topluluklarimizin-dikkatine/13050"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "idu_sks",
+      "name": "İzmir Demokrasi Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.idu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.idu.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/izmirdemokrasi/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ieu_sks",
+      "name": "İzmir Ekonomi Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.ieu.edu.tr/tr",
+      "ok": true,
+      "final_url": "https://sks.ieu.edu.tr/tr",
+      "error": null,
+      "clubish_links": [
+        "https://tip.ieu.edu.tr/tr",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://sks.ieu.edu.tr/tr/news/type/read/id/9819&title=3. Spor Ödülleri Galası, İEÜ’lü Sporcuları Bir Araya Getirdi&summary=&Uuml;niversitemizi, yıl boyu farklı branşlarda temsil eden sporcu &ouml;ğrencilerimizin başarıları, İzmir Ekonomi &Uuml;niversitesi 2025 Spor &Ouml;d&uuml;lleri Gala&rsquo;sında ta&ccedil;landı.&source=https://sks.ieu.edu.tr/tr/news/type/read/id/9819",
+        "https://www.linkedin.com/shareArticle?mini=true&url=https://sks.ieu.edu.tr/tr/news/type/read/id/9816&title=Dansın Birleştirici Gücü İzmir Ekonomi’de Bir Araya Geldi!&summary=Bu yıl ilk kez, t&uuml;m dans topluluklarımızın bir araya gelerek ortak d&uuml;zenlediği İzmir Ekonomi &Uuml;niversitesi Dans Festivali, sahneden izleyicilere yayılan&source=https://sks.ieu.edu.tr/tr/news/type/read/id/9816"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/izmirekonomiuni/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "istanbul_tip_sks",
+      "name": "İstanbul Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.istanbul.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.istanbul.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/iusksdb/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "istinye_sks",
+      "name": "İstinye Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.istinye.edu.tr/tr/sks",
+      "ok": true,
+      "final_url": "https://www.istinye.edu.tr/tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.istinye.edu.tr/tr/tip",
+        "https://www.istinye.edu.tr/tr/sks/duyurular/istinye-fest26ya-davetlisiniz",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/duyurular/ieee-kulubu-embcon26",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/t-era-dijital-donusum-ve-surdurulebilirlik-kulubu-ile-toplumsal-fayda-icin",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/istinye-genc-tema-kulubu-tur-say-etkinligi",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/psikoloji-kulubu-bagimlilik-semineri",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/su-alti-sporlari-kulubu-marmaris-dalis-etkinligi-26",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/ieee-kulubu-pestalk-enerji-ve-muhendislik",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/kizilay-kulubu-engelliler-haftasi-farkindalik-calismasi",
+        "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/siber-guvenlik-kulubu-isuctf26"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/istinyeunivedu/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "karatay_sks",
+      "name": "KTO Karatay Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.karatay.edu.tr/tr/error/404",
+      "ok": true,
+      "final_url": "https://www.karatay.edu.tr/tr/error/404",
+      "error": null,
+      "clubish_links": [
+        "https://www.karatay.edu.tr/tr/fakulte/tip-fakultesi",
+        "https://www.karatay.edu.tr/tr/birim/ogrenci-topluluklari"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/ktokaratayuniversitesi/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "kastamonu_sks",
+      "name": "Kastamonu Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.kastamonu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.kastamonu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://topluluklar.kastamonu.edu.tr/index.php?option=com_sppagebuilder&view=page&id=286",
+        "https://sks.kastamonu.edu.tr/index.php/component/content/article/oryantasyon-programinda-topluluk-tanitimi?catid=2&Itemid=101",
+        "https://kastamonu.edu.tr/index.php/tr/bilgi/universite-haberleri/5052-kastamonu-universitesi-nde-ogrenci-topluluklari-tanitim-gunleri-basladi",
+        "https://topluluklar.kastamonu.edu.tr/index.php/component/content/article/uenides-3-doenem-basvurulari-bilgilendirme-toplantisi-2?catid=2&Itemid=101",
+        "https://topluluklar.kastamonu.edu.tr/",
+        "https://topluluklar.kastamonu.edu.tr/index.php?option=com_sppagebuilder&amp;view=page&amp;id=286"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/kastamonu.unv/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "klu_sks",
+      "name": "Kırklareli Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.klu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.klu.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/klu.sks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "kmu_sks",
+      "name": "Karamanoğlu Mehmetbey Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.kmu.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.kmu.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.kmu.edu.tr/sks/sayfa/1776/ogrenci-topluluk-bilgileri/tr",
+        "https://www.kmu.edu.tr/sks/sayfa/3011/ogrenci-topluluk-formlari/tr",
+        "https://www.kmu.edu.tr/sks/sayfa/3291/ogrenci-topluluklari-tasnifi/tr",
+        "https://kmu.edu.tr/sks/bilgi/1513/20182019-egitim-ogretim-yili-topluluk-faaliyetleri",
+        "https://www.kmu.edu.tr/sks/sayfa/1772/ogrenci-topluluklariyla-yapilan-toplantilar/tr",
+        "https://www.kmu.edu.tr/sks/duyuru/49247/ogrenci-topluluklari-&quot;donem-basi-yonetim-kurullarini-olusturarak&quot;-21102026-carsamba-gunu-mesai-bitimine-kadar-teslim-edilmesi-hakkinda-duyurusu/tr",
+        "https://www.kmu.edu.tr/sks/duyuru/48677/10072026-tarih-ve-06-sayili-ogrenci-topluluklari-degerlendirme-kurulu-kararlari/tr"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/universitekmu/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ksbu_sks",
+      "name": "Kütahya Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.ksbu.edu.tr/defaultx",
+      "ok": true,
+      "final_url": "https://sks.ksbu.edu.tr/defaultx",
+      "error": null,
+      "clubish_links": [
+        "https://sks.ksbu.edu.tr/defaultx/sayfa/7730/ogrenci-topluluklari",
+        "https://sks.ksbu.edu.tr/defaultx/sayfa/8276/ogrenci-topluluklari-videolari",
+        "https://sks.ksbu.edu.tr/defaultx/sayfa/12023/tip-fakultesi-fuaye-sergi-alani",
+        "https://sks.ksbu.edu.tr/defaultx/sayfa/12547/tip-fakultesi-bilardo-ve-tenis-masalari",
+        "https://sks.ksbu.edu.tr/defaultx/sayfa/11227/ogrenci-topluluklari-ile-ilgili-formlar",
+        "https://topluluklar.ksbu.edu.tr/defaultx",
+        "https://sks.ksbu.edu.tr/defaultx/slide/11120/ogrenci-temsilcileri-ve-topluluk-baskanlariyla-istisare-toplantisi",
+        "https://sks.ksbu.edu.tr/defaultx/slide/11086/medyada-kadin-temsili-konusuldu",
+        "https://topluluklar.ksbu.edu.tr"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "ktu_sks",
+      "name": "Karadeniz Teknik Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.ktu.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.ktu.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.ktu.edu.tr/sks/duyuru/tip-fakultesi-yemekhanesi-yemek-hizmeti-hakkinda",
+        "https://www.ktu.edu.tr/sks/duyuru/tip-fakultesi-yemekhanesi-hizmete-acildi",
+        "https://www.ktu.edu.tr/sks/duyuru/tip-fakultesi-yemekhane-degisikligi"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "maltepe_sks",
+      "name": "Maltepe Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.maltepe.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.maltepe.edu.tr/sks",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "marmara_sks",
+      "name": "Marmara Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.marmara.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.marmara.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/musksdb/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "mcbu_sks",
+      "name": "Manisa Celal Bayar Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "http://sks.mcbu.edu.tr/",
+      "ok": true,
+      "final_url": "http://sks.mcbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "http://sks.mcbu.edu.tr/Sayfa/ToplulukveKuluplerEtkinlikDilekceleri#baslangic"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/mcbu1992/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "medeniyet_sks",
+      "name": "İstanbul Medeniyet Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.medeniyet.edu.tr/tr",
+      "ok": true,
+      "final_url": "https://sks.medeniyet.edu.tr/tr",
+      "error": null,
+      "clubish_links": [
+        "https://tip.medeniyet.edu.tr",
+        "https://sks.medeniyet.edu.tr/tr/haberler/universitemizin-bilisim-ve-bilgi-topluluklarinin-ankara-gezisi",
+        "https://sks.medeniyet.edu.tr/tr/kultur-ve-sosyal-hizmetleri-birimi/ogrenci-kulubu-nasil-kurabilirim"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "mersin_sks",
+      "name": "Mersin Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.mersin.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.mersin.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/meukurumsal/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "nisantasi_sks",
+      "name": "Nişantaşı Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.nisantasi.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.nisantasi.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "nku_sks",
+      "name": "Tekirdağ Namık Kemal Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.nku.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.nku.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "http://topluluklar.nku.edu.tr/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ogu_sks",
+      "name": "Eskişehir Osmangazi Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.ogu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.ogu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3171/endustri-muhendisligi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3172/insaat-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/2821/kimya-muhendisligi-ogrenci-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3174/maden-muhendisligi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3173/genclik-atolyesi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3167/konusma-kulubunun-erasmus-deneyimleri-etkinligi",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3168/milli-genclik-kulubunun-istanbulun-fethi-ve-genclik-bulusmasi-programi-etkinligi",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3162/sanat-ve-tasarim-kulubunun-oyun-karakteri-tasarimi-etkinligi",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3033/milli-genclik-kulubunun-senaryo-ve-yazarlik-ritim-hitabet-egitimi-etkinligi",
+        "https://sks.ogu.edu.tr/Etkinlik/Detay/3169/avrupa-tip-ogrencileri-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-standi"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/esogusks/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "ohu_sks",
+      "name": "Niğde Ömer Halisdemir Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.ohu.edu.tr",
+      "ok": true,
+      "final_url": "https://www.ohu.edu.tr",
+      "error": null,
+      "clubish_links": [
+        "https://www.ohu.edu.tr/insanvetoplumbilimlerifakultesi",
+        "https://www.ohu.edu.tr/tipfakultesi",
+        "https://ohu.edu.tr/yesilkampus/sayfa/rusvet-ve-yolsuzlukla-mucadele-politikasi",
+        "https://www.ohu.edu.tr/haber/nohu-tip-106-devlet-universitesi-tip-fakultesi-arasinda-9uncu-sirada/32395"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/nohuniversitesi/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "omu_sks",
+      "name": "Ondokuz Mayıs Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.omu.edu.tr/",
+      "ok": false,
+      "final_url": null,
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1006)>",
+      "clubish_links": [],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ozal_sks",
+      "name": "Malatya Turgut Özal Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.ozal.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.ozal.edu.tr/",
+      "error": null,
+      "clubish_links": [],
+      "instagrams": [
+        "https://www.instagram.com/mtu_saglikkulturvespor/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "pau_sks",
+      "name": "Pamukkale Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.pau.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.pau.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.pau.edu.tr/tip",
+        "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-kurmak-icin-gerekli-formlar",
+        "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-yonetim-kurulu-ve-genel-kuruluna-iliskin-formlar",
+        "https://www.pau.edu.tr/sks/tr/sayfa/ogrenci-topluluklari-afis-standardi",
+        "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-uye-kayit-liste-formu",
+        "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-kurmak-icin-gerekli-formalar",
+        "https://www.pau.edu.tr/sks/tr/sayfa/ogrenci-topluluklari-3",
+        "http://www.pau.edu.tr/sks/tr/sayfa/baskanligimiza-bagli-ogrenci-topluluklari"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "sakarya_sks",
+      "name": "Sakarya Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.sakarya.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.sakarya.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://malihiz.sakarya.edu.tr/sites/malihiz.sakarya.edu.tr/file/Arac_Talep_ve_Tahsis_Kriterleri__Ogrenci_Topluluklari__26-27.pdf"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/sakaryauni/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_adana_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_bursa_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_erzurum_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_gulhane_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_hamidiye_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_hamidiye_int_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_izmir_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sbu_trabzon_sks",
+      "name": "Sağlık Bilimleri Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sbu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sbu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sksdb.sbu.edu.tr/duyuru/duyuru/2026-2027-egitim-ogretim-yili-spor-kulubu-yonetim-secimi/",
+        "https://sksdb.sbu.edu.tr/haber/universitemizden-7-kulubumuz-hibe-destegi-almaya-hak-kazanmistir/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "sdu_sks",
+      "name": "Süleyman Demirel Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sksdb.sdu.edu.tr/",
+      "ok": true,
+      "final_url": "https://sksdb.sdu.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://twitter.com/sdutopluluklar",
+        "https://www.instagram.com/sdutopluluklari/",
+        "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu.html",
+        "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu/birim-gorev-tanimi-3230s.html",
+        "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu/birim-personel-listesi-6279s.html",
+        "https://sksdb.sdu.edu.tr/tr/haber/sdu-rock-toplulugu-ogrenci-topluluklari-tanitim-ve-oryantasyon-gunleri-60273h.html",
+        "https://sksdb.sdu.edu.tr/tr/kolay-ulasim-linkleri/ogrenci-topluluklari-14625s.html",
+        "https://sksdb.sdu.edu.tr/tr/haber/topluluk-akademik-danismanlari-ve-topluluk-baskanlariyla-yeni-donem-degerlendirme-toplantisi-gerceklestirildi-61895h.html"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/sdutopluluklari/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "siirt_sks",
+      "name": "Siirt Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.siirt.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.siirt.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "http://tip.siirt.edu.tr/",
+        "http://veteriner.siirt.edu.tr/",
+        "http://ogrencitopluluklari.siirt.edu.tr/"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "tinaztepe_sks",
+      "name": "İzmir Tınaztepe Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.tinaztepe.edu.tr/sks/",
+      "ok": true,
+      "final_url": "https://www.tinaztepe.edu.tr/sks/",
+      "error": null,
+      "clubish_links": [
+        "https://tinaztepe.edu.tr/sks/tr/ogrenci-topluluklari/ogrenci-topluluklari",
+        "https://tinaztepe.edu.tr/sks/tr/ogrenci-topluluklari-uyelik-formu",
+        "https://tinaztepe.edu.tr/sks/tr/ogrenci-topluluklari/yonergeler",
+        "https://tinaztepe.edu.tr/sks/tr/ogrenci-topluluklari/formlar"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/iztusks/"
+      ],
+      "mentions_tip_vet": false
+    },
+    {
+      "id": "ufuk_sks",
+      "name": "Ufuk Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://www.ufuk.edu.tr/sks",
+      "ok": true,
+      "final_url": "https://www.ufuk.edu.tr/sks",
+      "error": null,
+      "clubish_links": [
+        "https://www.ufuk.edu.tr/tip-fakultesi",
+        "https://www.ufuk.edu.tr/home/haberler/ulkemizde-ilk-gesea-egitim-programi-uygulamasi-universitemiz-tip-fakultesi-isbirligi-ile-gerceklestirildi-18022026",
+        "https://www.ufuk.edu.tr/home/etkinlikler/tip-fakultesi-oryantasyon-programi-3"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/ufukuniresmi/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "uskudar_sks",
+      "name": "Üsküdar Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.uskudar.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.uskudar.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.uskudar.edu.tr/adim-adim-ogrenci-kulubu-kurma-rehberi",
+        "https://sks.uskudar.edu.tr/ogrenci-kulubu-kurma-sureci"
+      ],
+      "instagrams": [
+        "https://www.instagram.com/uskudarsks/"
+      ],
+      "mentions_tip_vet": true
+    },
+    {
+      "id": "yalova_sks",
+      "name": "Yalova Üniversitesi Sağlık Kültür ve Spor Daire Başkanlığı",
+      "url": "https://sks.yalova.edu.tr/",
+      "ok": true,
+      "final_url": "https://sks.yalova.edu.tr/",
+      "error": null,
+      "clubish_links": [
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/turk-dunyasi-kultur-toplulugu-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/uluslararasi-iliskiler-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/uluslararasi-ogrenciler-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/uzay-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/universiteli-aktif-genclik-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/universiteli-galatasaraylilar-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/unitimsah-yalova-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/vizyoner-makinacilar-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/yapay-zeka-toplulugu-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/yapi-kulubu-2",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/yeniler-kulubu-3",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/sosyal-destek-kulubu-2",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/spor-organizasyonlari-kulubu",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/su-sporlari-kulubu-3",
+        "https://sks.yalova.edu.tr/tr/Icerik/Detay/tasarim-yolculari-kulubu"
+      ],
+      "instagrams": [],
+      "mentions_tip_vet": false
+    }
+  ]
+}

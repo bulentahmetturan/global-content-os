@@ -1,0 +1,264 @@
+{
+  "today": "2026-09-20",
+  "cases": [
+    {
+      "id": "osym_kpss",
+      "source_id": "osym_medical_exams",
+      "title": "KPSS Lisans Sınavı Başvuru Kılavuzu",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "osym_tus_fresh",
+      "source_id": "osym_medical_exams",
+      "title": "17 Eylül 2026 2026-TUS 2. Dönem Sınav Sonuçları Açıklandı",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "osym_tus_stale",
+      "source_id": "osym_medical_exams",
+      "title": "15 Mart 2026 2026-TUS 1. Dönem Sınav Sonuçları",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "osym_dus_dental",
+      "source_id": "osym_dus_dental_exams",
+      "title": "10 Eylül 2026 2026-DUS 2. Dönem Yerleştirme Sonuçları Açıklandı",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "osym_ales",
+      "source_id": "osym_medical_exams",
+      "title": "ALES Sınav Sonuçları Açıklandı",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "moh_nurse",
+      "source_id": "moh_physician_workforce",
+      "title": "Ebe Hemşire Atama Daire Başkanlığı",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "moh_dhy_undated",
+      "source_id": "moh_physician_workforce",
+      "title": "129.Dönem Devlet Hizmeti Yükümlülüğü Kurası",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "rg_health_system",
+      "source_id": "resmi_gazete_medical_regulation",
+      "title": "Sağlık Hizmetleri ile İlgili Düzenleme",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "rg_unrelated",
+      "source_id": "resmi_gazete_medical_regulation",
+      "title": "Kamu Personeli Sınav Yönetmeliği Değişikliği",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "ttb_future_deadline",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru 01.01.2026 son başvuru 30.10.2026",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "ttb_old",
+      "source_id": "ttb_national",
+      "title": "Hekim ücretleri hakkında açıklama 01.02.2026",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsgm_generic_pr",
+      "source_id": "hsgm_public_health",
+      "title": "Hastane açılış basın açıklaması genel",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "tvhb_congress_allowed",
+      "source_id": "tvhb_veterinary",
+      "title": "33. Dünya Buiatri Kongresi'ne katıldık",
+      "published_at": "2026-09-10",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "tatd_congress_excluded",
+      "source_id": "tatd_emergency_medicine",
+      "title": "Acil Tıp Kongresi erken kayıt başladı",
+      "published_at": "2026-09-10",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsyk_urlstamp_fresh",
+      "source_id": "halk_sagligi_yeterlik",
+      "title": "Halk Sağlığı Yeterlik Sınavı Duyurusu 2026",
+      "url": "https://www.halksagligiyeterlik.org.tr/detail/halk-sagligi-yeterlik-sinavi-duyurusu-2026-202609041409",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "hsyk_urlstamp_stale",
+      "source_id": "halk_sagligi_yeterlik",
+      "title": "Halk Sağlığı Yeterlik Sınavı 2022 Duyurusu",
+      "url": "https://www.halksagligiyeterlik.org.tr/detail/halk-sagligi-yeterlik-sinavi-2022-202507031254",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "entity_encoded_date",
+      "source_id": "osym_medical_exams",
+      "title": "17 Eyl&#xFC;l 2026 2026-TUS 2. D&#xF6;nem S&#x131;nav Sonu&#xE7;lar&#x131;",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "ttb_uppercase_turkish_i",
+      "source_id": "ttb_national",
+      "title": "HEKİM GEÇİCİ GÖREVLENDİRMELERİ",
+      "published_at": "2026-09-10",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "b90_in",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru: nöbet ücretleri hakkında açıklama",
+      "expect": "ACCEPT",
+      "published_at": "2026-06-22"
+    },
+    {
+      "id": "b91_out",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru: nöbet ücretleri hakkında açıklama",
+      "expect": "DISCARD",
+      "published_at": "2026-06-21"
+    },
+    {
+      "id": "b_future",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru: nöbet ücretleri hakkında açıklama",
+      "expect": "ACCEPT",
+      "published_at": "2026-10-15"
+    },
+    {
+      "id": "b_missing",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru: nöbet ücretleri hakkında açıklama",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "b_invalid",
+      "source_id": "ttb_national",
+      "title": "Hekimlere Duyuru: nöbet ücretleri hakkında açıklama",
+      "expect": "ACCEPT",
+      "published_at": "2026-13-45"
+    },
+    {
+      "id": "b180_in",
+      "source_id": "osym_medical_exams",
+      "title": "2026-TUS Sınav Sonuçları Açıklandı",
+      "expect": "ACCEPT",
+      "published_at": "2026-03-24"
+    },
+    {
+      "id": "b181_out",
+      "source_id": "osym_medical_exams",
+      "title": "2026-TUS Sınav Sonuçları Açıklandı",
+      "expect": "DISCARD",
+      "published_at": "2026-03-23"
+    },
+    {
+      "id": "i_dotted_upper",
+      "source_id": "ttb_national",
+      "title": "HEKİM NÖBET ÜCRETLERİ DUYURUSU",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "i_ascii_upper",
+      "source_id": "ttb_national",
+      "title": "HEKIM NOBET UCRETLERI DUYURUSU",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "i_lower",
+      "source_id": "ttb_national",
+      "title": "hekim nöbet ücretleri duyurusu",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "entity_title",
+      "source_id": "ttb_national",
+      "title": "Hekimler &amp; Diş Hekimleri İçin Duyuru",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "multiline_title",
+      "source_id": "ttb_national",
+      "title": "Hekimlere\n  Yönelik\n  Duyuru",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "short_11",
+      "source_id": "ttb_national",
+      "title": "Hekim duyur",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "short_12",
+      "source_id": "ttb_national",
+      "title": "Hekim duyuru",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "dental_audience",
+      "source_id": "tdb_dental",
+      "title": "2026 DİŞHEKİMLİĞİ FAKÜLTESİ KONTENJANLARI BELLİ OLDU!",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "dental_celebration",
+      "source_id": "tdb_dental",
+      "title": "ZAFER BAYRAMI KUTLU OLSUN",
+      "expect": "DISCARD",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "vet_audience",
+      "source_id": "tvhb_veterinary",
+      "title": "Veteriner hekimlere yönelik yönetmelik değişikliği",
+      "expect": "ACCEPT",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "it_medici",
+      "source_id": "abroad_it_salute_foreign_qual",
+      "title": "Nuove norme per i medici stranieri e riconoscimento qualifica",
+      "expect": "DISCARD",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "it_medicinali",
+      "source_id": "abroad_it_salute_foreign_qual",
+      "title": "Nuove norme sui medicinali veterinari e farmaci",
+      "expect": "DISCARD",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "substring_ales",
+      "source_id": "osym_medical_exams",
+      "title": "Sınav Takvimi: Kales köy hizmetleri",
+      "expect": "DISCARD",
+      "published_at": "2026-09-10"
+    },
+    {
+      "id": "contact_title",
+      "source_id": "ttb_national",
+      "title": "İletişim bilgilerimiz ve iletişim formu",
+      "expect": "DISCARD",
+      "published_at": "2026-09-10"
+    }
+  ]
+}

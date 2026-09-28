@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "policyId": "hekimler-abroad-career-v1",
+  "registryRef": "source-registry-abroad-career-v1.json",
+  "status": "configured_not_wired",
+  "pipeline_wiring_enabled": false,
+  "fetch_enabled": false,
+  "auto_publish": false,
+  "purpose": "Editorial policy for Turkish medical graduates navigating official physician pathways abroad.",
+  "audience": [
+    "medical_student",
+    "intern",
+    "graduate",
+    "resident",
+    "specialist",
+    "academic_physician"
+  ],
+  "editorial_objects": [
+    "OFFICIAL_PATHWAY_DOSSIER",
+    "OFFICIAL_CHANGE",
+    "OFFICIAL_OPPORTUNITY"
+  ],
+  "pathway_stages": [
+    "degree_recognition",
+    "credential_verification",
+    "language_requirement",
+    "exam_or_assessment",
+    "residency_or_match",
+    "registration_or_licensure",
+    "specialty_recognition",
+    "official_research_or_clinical_training"
+  ],
+  "required_item_fields": [
+    "country",
+    "target_audience",
+    "pathway_stage",
+    "official_source_url",
+    "primary_url",
+    "last_verified_at",
+    "what_changed_or_what_to_do",
+    "who_is_affected",
+    "required_action",
+    "country_or_region_specificity",
+    "limitations_or_uncertainty"
+  ],
+  "routes": {
+    "ABROAD_CAREER": "Valid official pathway dossier or official change",
+    "ABROAD_OPPORTUNITY_WATCH": "Named official postgraduate medical opportunity with eligibility and deadline",
+    "ABROAD_WATCH_ONLY": "Saudi/Gulf official high-impact notice",
+    "NEEDS_REVIEW": "Missing jurisdiction, unclear physician relevance, or missing official URL",
+    "DISCARD": "Admissions, rankings, lifestyle, immigration fluff, recruiter/consultancy/influencer claims"
+  },
+  "discard_signals": [
+    "medical school admission",
+    "undergraduate admission",
+    "university ranking",
+    "tuition",
+    "lifestyle",
+    "work visa agent",
+    "immigration package",
+    "recruiter",
+    "job agency",
+    "consultancy",
+    "influencer",
+    "blog advice",
+    "garanti kabul",
+    "easy pathway",
+    "best country",
+    "turkish diploma is accepted",
+    "diploma automatically recognised",
+    "otomatik tanınma"
+  ],
+  "hard_rules": [
+    "Never state or imply every Turkish medical diploma is automatically accepted.",
+    "No auto-publish.",
+    "No generic-web-search fallback.",
+    "No personalised career recommendations.",
+    "Do not compare countries as easy, best or guaranteed.",
+    "Do not turn regulator general information into an individual eligibility decision.",
+    "Preserve provenance and effective date.",
+    "Canada, Germany, Spain and Italy require jurisdiction/authority context when rules vary."
+  ],
+  "country_coverage": {
+    "CORE_PATHWAY_DOSSIER": ["United States", "United Kingdom", "Germany", "Canada", "Australia"],
+    "OFFICIAL_PATHWAY_DOSSIER": ["Ireland", "Netherlands", "Spain", "Italy"],
+    "WATCH_ONLY": ["Saudi Arabia", "Gulf countries"]
+  },
+  "dossier_review_cadence": "quarterly_and_on_official_rule_change"
+}

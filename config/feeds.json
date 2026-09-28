@@ -256,7 +256,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.titck.gov.tr/duyurular",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "titck-general-regulatory",
       "registrySourceId": "titck-announcements",
       "inclusionPolicy": [
@@ -390,7 +390,7 @@
       "transport": "PENDING_MANUAL",
       "endpointUrl": "https://www.resmigazete.gov.tr/fihrist",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "resmi-gazete-health-scoped",
       "registrySourceId": "resmi-gazete-source",
       "inclusionPolicy": [
@@ -1132,7 +1132,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://hsgm.saglik.gov.tr/tr/duyurular",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hsgm-news-scoped",
       "registrySourceId": "hsgm-news",
       "inclusionPolicy": [
@@ -1210,7 +1210,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "tuik-saglik-sosyal-koruma",
       "registrySourceId": "tuik-saglik-source",
       "inclusionPolicy": [
@@ -2163,7 +2163,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.medicalnewstoday.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "medical-news-today",
       "rules": {
         "mode": "registered"

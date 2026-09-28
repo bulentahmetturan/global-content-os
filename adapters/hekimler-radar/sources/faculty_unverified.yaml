@@ -1,0 +1,27 @@
+unverified_or_blocked:
+- Ağrı İbrahim Çeçen Üniversitesi Tıp Fakültesi
+- Ankara Medipol Üniversitesi Tıp Fakültesi
+- Bahçeşehir Üniversitesi Tıp Fakültesi
+- Bezmialem Vakıf Üniversitesi Tıp Fakültesi
+- Demiroğlu Bilim Üniversitesi Tıp Fakültesi
+- Tokat Gaziosmanpaşa Üniversitesi Tıp Fakültesi
+- Hatay Mustafa Kemal Üniversitesi Tayfur Ata Sökmen Tıp Fakültesi
+- İstanbul Aydın Üniversitesi Tıp Fakültesi
+- Kırıkkale Üniversitesi Tıp Fakültesi
+- Kocaeli Üniversitesi Tıp Fakültesi (SSL)
+- KTO Karatay Üniversitesi Tıp Fakültesi
+- Lokman Hekim Üniversitesi Tıp Fakültesi (yalnızca üniversite ana sayfası görüldü)
+- Mersin Üniversitesi Tıp Fakültesi
+- Necmettin Erbakan Üniversitesi Meram Tıp Fakültesi
+- Ordu Üniversitesi Tıp Fakültesi
+- Recep Tayyip Erdoğan Üniversitesi Tıp Fakültesi
+- Selçuk Üniversitesi Tıp Fakültesi
+- Ufuk Üniversitesi Tıp Fakültesi
+- Yüksek İhtisas Üniversitesi Tıp Fakültesi
+- SBU Adana / Bursa / Erzurum / Hamidiye Uluslararası / İzmir / Trabzon kampüs
+  sayfaları (Hamidiye: tip.sbu.edu.tr; Gülhane: gulhanetip.sbu.edu.tr eklendi)
+fetcher_limitations:
+- İstanbul Tıp ve Cerrahpaşa öğrenci duyuru sayfaları JS ağırlıklı.
+- Koç medicine.ku.edu.tr tarayıcıda doğrulandı, radar UA 403.
+- PAÜ WAF 503 döndü.
+- YYÜ Birimler/14 tarayıcıda doğrulandı; yerel SSL el sıkışması başarısız olabilir.

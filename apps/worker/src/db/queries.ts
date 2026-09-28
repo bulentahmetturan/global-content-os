@@ -1,4 +1,6 @@
 import { ingestGate } from '../ingress/ingest-gate';
+import { familyClause } from './family-clause';
+export { familyClause } from './family-clause';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
   BUILD_COMMIT?: string;
@@ -14,6 +16,7 @@ export interface Env {
   STATUS_CALLBACK_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
   HEKIMLER_CONTINUOUS_INGESTION_ENABLED?: string;
+  BIBLE_VERSION?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
@@ -55,7 +58,22 @@ export function newId(prefix: string): string {
 
 export function canonicalizeUrl(url: string): string {
   try {
-    const u = new URL(url);
+    let u = new URL(url);
+    // Bing News RSS (used by most kaduse-news/research feeds since S29) wraps every article in a
+    // click-tracking redirect with a random `tid` per fetch: apiclick.aspx?...&tid=<random>&
+    // url=<real target>&... . Using the wrapper verbatim as the dedupe key means the same article
+    // looks "new" on every single poll (2026-09-24 incident: one Medical News Today story ingested
+    // 14+ times in a day, one per hourly fetch). Unwrap to the real target before canonicalizing.
+    if (/(^|\.)bing\.com$/i.test(u.hostname) && u.pathname === '/news/apiclick.aspx') {
+      const real = u.searchParams.get('url');
+      if (real) {
+        try {
+          u = new URL(real);
+        } catch {
+          // malformed target -- fall back to the wrapper rather than throw
+        }
+      }
+    }
     u.hash = '';
     return u.toString();
   } catch {
@@ -65,6 +83,26 @@ export function canonicalizeUrl(url: string): string {
 
 export function dedupeKeyFromUrl(url: string): string {
   return canonicalizeUrl(url).toLowerCase();
+}
+
+/** 64-bit (16 hex char) key for decided_links -- fixed-size so the ledger stays small as it grows
+ * without bound, instead of storing full URL text per row. */
+export async function urlLedgerKey(url: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(dedupeKeyFromUrl(url)));
+  return [...new Uint8Array(digest)].slice(0, 8).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** True if this URL already reached a final triage decision (promote/complete/delete) before --
+ * including ones since hard-purged from source_items/trash. See migrations/0014_decided_links.sql. */
+export async function isPreviouslyDecided(db: D1Database, url: string): Promise<boolean> {
+  const key = await urlLedgerKey(url);
+  const row = await db.prepare(`SELECT 1 FROM decided_links WHERE url_key = ?`).bind(key).first();
+  return row != null;
+}
+
+export async function recordDecidedLink(db: D1Database, url: string): Promise<void> {
+  const key = await urlLedgerKey(url);
+  await db.prepare(`INSERT OR IGNORE INTO decided_links (url_key) VALUES (?)`).bind(key).run();
 }
 
 /** intake_meta_json embeds per-run timestamps (fetched_at, created_at, provenance.fetched_at); it must not make an otherwise identical item look changed. */
@@ -258,6 +296,15 @@ export async function upsertSourceItem(
     return { id: existing.id, created: false };
   }
 
+  // A "most read / trending" scrape re-lists the same popular article for days or weeks; once a
+  // link has been decided (promoted, completed, or deleted) it must never come back for review
+  // again, even after its source_items row is long gone from the (hard-purged) trash.
+  if (input.route === 'kaduse-news' || input.route === 'kaduse-research') {
+    if (await isPreviouslyDecided(db, input.canonicalUrl)) {
+      return { id: '', created: false, rejected: 'previously_decided' };
+    }
+  }
+
   // Central admission gate (new rows only; existing rows are never mutated by it): see ingress/ingest-gate.ts.
   const gate = ingestGate({
     route: input.route,
@@ -404,7 +451,13 @@ export async function listItems(
   db: D1Database,
   route: RouteId,
   status: TriageStatus,
-  opts: { sinceDays?: number; limit?: number; channelId?: string; excludeChannelId?: string } = {}
+  opts: {
+    sinceDays?: number;
+    limit?: number;
+    channelId?: string;
+    excludeChannelId?: string;
+    family?: string;
+  } = {}
 ): Promise<SourceItemRow[]> {
   // Steady-state Hub: only the recent window — full inbox history is not needed daily.
   const sinceDays = Math.min(Math.max(opts.sinceDays ?? 14, 1), 365);
@@ -438,6 +491,9 @@ export async function listItems(
     binds.push(opts.excludeChannelId);
   }
 
+  const fam = familyClause(opts.family, 'i.');
+  sql += fam.sql;
+
   // Newest first everywhere: with the 200-item cap, oldest-first hid every newly pulled item.
   sql += ` ORDER BY COALESCE(i.fetched_at, i.published_at) DESC LIMIT ?`;
   binds.push(limit);
@@ -458,14 +514,16 @@ function effectiveStatus(row: SourceItemRow): TriageStatus {
 export async function countByStatus(
   db: D1Database,
   route: RouteId,
-  channelId?: string
+  channelId?: string,
+  family?: string
 ): Promise<Record<TriageStatus, number>> {
+  const fam = familyClause(family);
   const { results } = await db
     .prepare(
       `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
        FROM source_items WHERE route = ?${
          channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
-       }
+       }${fam.sql}
        GROUP BY triage_status, archive_kind`
     )
     .bind(...(channelId ? [route, channelId] : [route]))

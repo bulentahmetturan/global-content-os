@@ -1,13 +1,22 @@
 import {
   newId,
+  recordDecidedLink,
   rowToView,
   type Env,
   type RouteId,
   type SourceItemRow,
   type TriageStatus,
 } from '../db/queries';
+import { normalizeDate } from '../ingress/ingest-gate';
+import { isReasonCode, type ReasonCode } from './feedback';
 
 export type TriageAction = 'promote' | 'hold' | 'delete' | 'undo' | 'complete';
+
+/** Required when action === 'delete' (S63 feedback loop, mandatory reject-reason capture). */
+export interface RejectFeedback {
+  reasonCode: ReasonCode;
+  reasonNote?: string | null;
+}
 
 const ACTION_TO_STATUS: Record<Exclude<TriageAction, 'undo'>, TriageStatus> = {
   promote: 'production',
@@ -44,8 +53,9 @@ export async function applyTriage(
   env: Env,
   itemId: string,
   action: TriageAction,
-  actor = 'hub-user'
-): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload }> {
+  actor = 'hub-user',
+  feedback?: RejectFeedback
+): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload; feedbackId?: string }> {
   const row = await env.DB.prepare(
     `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
      FROM source_items i
@@ -56,6 +66,15 @@ export async function applyTriage(
     .first<SourceItemRow>();
 
   if (!row) throw new Error('ITEM_NOT_FOUND');
+
+  // S63: every reject (action === 'delete') must carry a valid reason code.
+  // No reason code, no rejection -- fail closed rather than silently
+  // rejecting without a feedback trail (Bible v4 / task 7-8).
+  if (action === 'delete') {
+    if (!feedback || !isReasonCode(feedback.reasonCode)) {
+      throw new Error('REJECT_REASON_CODE_REQUIRED');
+    }
+  }
 
   // D9: items whose publication date is unverified stay in review; they can never be promoted to production.
   if (action === 'promote') {
@@ -82,29 +101,62 @@ export async function applyTriage(
         ? 'deleted'
         : null; // promote / hold / undo clear archive kind
 
-  await env.DB.prepare(
+  const updateStmt = env.DB.prepare(
     `UPDATE source_items
      SET triage_status = ?,
          archive_kind = ?,
          updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
      WHERE id = ?`
-  )
-    .bind(toStatus, archiveKind, itemId)
-    .run();
+  ).bind(toStatus, archiveKind, itemId);
 
-  await env.DB.prepare(
+  const decisionStmt = env.DB.prepare(
     `INSERT INTO editorial_decisions (id, source_item_id, action, from_status, to_status, actor)
      VALUES (?, ?, ?, ?, ?, ?)`
-  )
-    .bind(
-      newId('dec'),
+  ).bind(
+    newId('dec'),
+    itemId,
+    action,
+    fromStatus,
+    action === 'complete' ? 'done' : toStatus,
+    actor
+  );
+
+  // S63: reject (action === 'delete') must atomically produce exactly one
+  // review_feedback row -- item.status=rejected and the feedback write
+  // succeed or fail together (D1 batch() runs as a single transaction), so
+  // there is never a rejected item with no feedback trail (task 8, no
+  // split-brain).
+  let feedbackId: string | undefined;
+  if (action === 'delete') {
+    feedbackId = newId('fb');
+    const feedbackStmt = env.DB.prepare(
+      `INSERT INTO review_feedback
+       (id, item_id, feed_id, source_id, route, channel_id, decision, reason_code, reason_note, reviewer)
+       VALUES (?, ?, ?, ?, ?, ?, 'rejected', ?, ?, ?)`
+    ).bind(
+      feedbackId,
       itemId,
-      action,
-      fromStatus,
-      action === 'complete' ? 'done' : toStatus,
+      row.feed_id ?? null,
+      row.source_id ?? null,
+      row.route,
+      row.channel_id ?? null,
+      (feedback as RejectFeedback).reasonCode,
+      (feedback as RejectFeedback).reasonNote ?? null,
       actor
-    )
-    .run();
+    );
+    await env.DB.batch([updateStmt, decisionStmt, feedbackStmt]);
+  } else {
+    await env.DB.batch([updateStmt, decisionStmt]);
+  }
+
+  // Final decision (not hold/undo, which are reversible/pending states): remember the link
+  // permanently so a "most read / trending" re-scrape never brings it back for review again.
+  if (
+    (action === 'promote' || action === 'complete' || action === 'delete') &&
+    (row.route === 'kaduse-news' || row.route === 'kaduse-research')
+  ) {
+    await recordDecidedLink(env.DB, row.canonical_url);
+  }
 
   const updated = {
     ...row,
@@ -114,7 +166,7 @@ export async function applyTriage(
   const view = rowToView(updated);
 
   if (action !== 'promote') {
-    return { item: view };
+    return { item: view, feedbackId };
   }
 
   const brief = await createAndHandoffBrief(env, updated, actor);
@@ -280,4 +332,129 @@ export async function purgeExpiredTrash(
   }
 
   return { deleted: ids.length };
+}
+
+/**
+ * Move un-triaged inbox items whose published_at has aged past `maxAgeDays` to 'hold' (never
+ * 'trash' -- trash gets hard-deleted by purgeExpiredTrash within days, and this needs to stay
+ * reversible/auditable). The ingest gate (ingress/ingest-gate.ts, NEWS_MAX_AGE_DAYS) only checks
+ * freshness at fetch time; an item that was fresh when ingested but then sits un-reviewed in
+ * inbox for a while ages past the same threshold with no code re-checking it (S16, 2026-09-23:
+ * 9 kaduse-news items ingested 2026-09-17..21 were still sitting in inbox, now >10 days old).
+ * 'hold' keeps them visible/reversible in the Hub ("Beklemede" tab, undo action) instead of
+ * silently vanishing or being hard-deleted.
+ */
+export async function expireStaleInboxItems(
+  env: Env,
+  route: RouteId,
+  maxAgeDays: number,
+  limit = 500
+): Promise<{ expired: number; ids: string[] }> {
+  // published_at is a free-text string (ISO for items ingested after the 2026-09-22 ingest-gate
+  // rollout, but older rows can still carry raw RFC822 -- "Fri, 11 Sep 2026 ..."), so filtering
+  // must happen after normalizeDate(), not as a SQL string comparison (which would silently
+  // mis-order the two formats).
+  const { results } = await env.DB.prepare(
+    `SELECT id, published_at FROM source_items
+     WHERE route = ? AND triage_status = 'inbox' AND published_at IS NOT NULL
+     LIMIT ?`
+  )
+    .bind(route, limit)
+    .all<{ id: string; published_at: string }>();
+
+  const today = new Date().toISOString().slice(0, 10);
+  const ids = (results ?? [])
+    .filter((r) => {
+      const date = normalizeDate(r.published_at);
+      if (!date) return false;
+      const ageDays = (Date.parse(today) - Date.parse(date)) / 86_400_000;
+      return ageDays > maxAgeDays;
+    })
+    .map((r) => r.id);
+  if (!ids.length) return { expired: 0, ids: [] };
+
+  for (const id of ids) {
+    await env.DB.prepare(
+      `UPDATE source_items SET triage_status = 'hold', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?`
+    )
+      .bind(id)
+      .run();
+    await env.DB.prepare(
+      `INSERT INTO editorial_decisions (id, source_item_id, action, from_status, to_status, actor)
+       VALUES (?, ?, 'hold', 'inbox', 'hold', 'system:stale-expiry')`
+    )
+      .bind(newId('dec'), id)
+      .run();
+  }
+
+  return { expired: ids.length, ids };
+}
+
+/** Policy start: only decisions made from this point on count toward the threshold below --
+ * older editorial history (pre-dating this rule) is intentionally not scanned retroactively. */
+export const LOW_YIELD_POLICY_SINCE = '2026-09-24T00:00:00.000Z';
+const LOW_YIELD_MIN_DECIDED = 100;
+const LOW_YIELD_REJECT_RATE = 0.99;
+
+export interface LowYieldResult {
+  key: string; // feed_id (Kaduse) or source_id (Hekimler)
+  route: RouteId;
+  total: number;
+  deleted: number;
+  rejectRate: number;
+}
+
+/**
+ * A source that gets manually deleted almost every time it produces something is not worth
+ * fetching. Once a feed/source has at least LOW_YIELD_MIN_DECIDED final decisions (promote/
+ * complete/delete, counted only since LOW_YIELD_POLICY_SINCE -- not retroactive) and
+ * LOW_YIELD_REJECT_RATE of them were deletions, it's disabled.
+ * Kaduse feeds are DB-driven (source_feeds.enabled) so this can flip the switch itself.
+ * Hekimler python_runner sources live in a git-tracked registry + deployed readyBundle -- a
+ * scheduled Worker job can't safely edit and redeploy that, so those are only reported back for
+ * an operator/agent to act on (see disabled=false entries in the result).
+ */
+export async function pruneLowYieldSources(
+  env: Env,
+  sinceIso: string = LOW_YIELD_POLICY_SINCE
+): Promise<{ disabled: LowYieldResult[]; flagged: LowYieldResult[] }> {
+  const { results } = await env.DB.prepare(
+    `SELECT i.route AS route,
+            CASE WHEN i.route = 'tip-ogrencileri' THEN i.source_id ELSE i.feed_id END AS key,
+            COUNT(*) AS total,
+            SUM(CASE WHEN d.action = 'delete' THEN 1 ELSE 0 END) AS deleted
+     FROM editorial_decisions d
+     JOIN source_items i ON i.id = d.source_item_id
+     WHERE d.action IN ('promote', 'complete', 'delete') AND d.decided_at >= ?
+     GROUP BY i.route, key
+     HAVING total >= ?`
+  )
+    .bind(sinceIso, LOW_YIELD_MIN_DECIDED)
+    .all<{ route: RouteId; key: string | null; total: number; deleted: number }>();
+
+  const disabled: LowYieldResult[] = [];
+  const flagged: LowYieldResult[] = [];
+
+  for (const row of results ?? []) {
+    if (!row.key) continue;
+    const rejectRate = row.deleted / row.total;
+    if (rejectRate < LOW_YIELD_REJECT_RATE) continue;
+    const entry: LowYieldResult = { key: row.key, route: row.route, total: row.total, deleted: row.deleted, rejectRate };
+
+    if (row.route === 'tip-ogrencileri') {
+      flagged.push(entry);
+      continue;
+    }
+    const update = await env.DB.prepare(
+      `UPDATE source_feeds SET enabled = 0 WHERE id = ? AND enabled = 1`
+    )
+      .bind(row.key)
+      .run();
+    if ((update.meta?.changes ?? 0) > 0) {
+      disabled.push(entry);
+    }
+    // changes === 0 means already disabled (or no matching source_feeds row) -- nothing to do.
+  }
+
+  return { disabled, flagged };
 }

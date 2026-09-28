@@ -28,7 +28,7 @@
     --danger-bg: #FBEAE8;
     --shadow: 0 1px 2px rgba(11,34,51,.06), 0 4px 14px rgba(11,34,51,.05);
     --radius: 12px;
-    --sidebar-w: 232px;
+    --sidebar-w: 248px;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -77,9 +77,15 @@
     color: #fff; border-radius: 20px; padding: 1px 7px; min-width: 18px; text-align: center;
   }
   .project-item.active .p-count { background: var(--turquoise); color: #06222b; }
+  .project-item.nav-child {
+    padding-left: 36px; font-weight: 600; font-size: .84rem;
+    color: #fff;
+  }
+  .project-item.nav-child .p-icon { font-size: 1.05rem; }
   .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
   .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .main { padding: 22px 24px 48px; max-width: 780px; }
+  .main.bible-mode { max-width: 920px; }
   .main-header { margin-bottom: 16px; }
   .main-header h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -0.01em; }
   .main-header .main-sub { font-size: .8rem; color: var(--text-faint); font-family: 'IBM Plex Mono', monospace; }
@@ -171,12 +177,16 @@
   #srcPanel h3{margin:10px 0 6px;font-size:14px}
   #srcPanel .src-scroll{max-height:340px;overflow:auto}
   #srcPanel table{border-collapse:collapse;width:100%;font-size:13px}
-  #srcPanel td{padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top}
+  #srcPanel th,#srcPanel td{padding:4px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top}
+  #srcPanel th{font-size:11px;font-weight:600;text-align:left;opacity:.7;position:sticky;top:0;background:var(--surface,#fff)}
   #srcPanel tr[data-src]{cursor:pointer}
   #srcPanel tr[data-src]:hover{background:rgba(128,128,128,.12)}
   #srcPanel .src-n{text-align:right;white-space:nowrap;opacity:.8}
   #srcPanel .src-bad{color:var(--danger,#e5584b)}
   #srcPanel .src-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(57,184,212,.18);cursor:pointer}
+  #srcPanel .src-n2{color:var(--text-faint,#8A9BA8);font-weight:600}
+  #srcPanel .src-name{font-weight:600}
+  #srcPanel .src-why{font-weight:400;color:var(--text-dim,#52697A)}
   .hek-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
   .hek-bar select{padding:6px 8px;border-radius:8px;border:1px solid var(--border,#ccc);background:transparent;color:inherit;max-width:100%}
   .hek-bar .btn[disabled]{opacity:.45;cursor:not-allowed}
@@ -184,6 +194,52 @@
   .hek-health{margin:0 0 12px;font-size:13px}
   .hek-health table{border-collapse:collapse;width:100%;margin-top:6px}
   .hek-health td{padding:3px 8px;border-bottom:1px solid rgba(128,128,128,.25);vertical-align:top}
+  .project-item.nav-doc .p-count { display: none; }
+  .bible-doc { font-size: .92rem; line-height: 1.65; color: var(--text); }
+  .bible-doc h1 { font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .bible-doc h2 { font-size: 1.12rem; margin: 1.7em 0 .5em; padding-bottom: .35em; border-bottom: 1px solid var(--border); }
+  .bible-doc h3 { font-size: 1rem; margin: 1.3em 0 .4em; }
+  .bible-doc h4 { font-size: .92rem; margin: 1.1em 0 .3em; }
+  .bible-doc p, .bible-doc li { color: var(--text-dim); }
+  .bible-doc strong { color: var(--text); }
+  .bible-doc a { color: var(--blue); }
+  .bible-doc hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  .bible-doc blockquote {
+    margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--turquoise);
+    background: var(--surface); color: var(--text-dim);
+  }
+  .bible-doc pre, .bible-doc code { font-family: 'IBM Plex Mono', monospace; }
+  .bible-doc pre {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; overflow: auto; font-size: .76rem; line-height: 1.5;
+  }
+  .bible-doc :not(pre) > code {
+    background: var(--surface-2); border-radius: 4px; padding: 1px 5px; font-size: .8em;
+  }
+  .bible-doc table { width: 100%; border-collapse: collapse; font-size: .82rem; margin: 12px 0 18px; }
+  .bible-doc th, .bible-doc td { border: 1px solid var(--border); padding: 7px 9px; vertical-align: top; }
+  .bible-doc th { background: var(--surface-2); text-align: left; color: var(--text); }
+  .bible-raw { font-size: .78rem; margin-top: 18px; }
+  .bible-meta {
+    margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 10px; background: var(--surface); font-size: .8rem; color: var(--text-dim);
+  }
+  .bible-meta b { color: var(--text); }
+  .bible-meta .spf-tracks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .bible-meta .spf-chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: .68rem;
+    background: var(--surface-2); border-radius: 999px; padding: 3px 8px;
+  }
+  .bible-meta table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: .74rem; }
+  .bible-meta td, .bible-meta th { border-bottom: 1px solid var(--border); padding: 4px 6px; text-align: left; vertical-align: top; }
+
+  #rejectDialog { border: 1px solid var(--border); border-radius: 12px; padding: 0; width: min(420px, 92vw); }
+  #rejectDialog::backdrop { background: rgba(0,0,0,.45); }
+  #rejectDialog form { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+  #rejectDialog h3 { margin: 0 0 4px; font-size: .95rem; }
+  #rejectDialog label { font-size: .78rem; color: var(--text-dim); }
+  #rejectDialog select, #rejectDialog input { width: 100%; padding: 7px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: .82rem; }
+  #rejectDialog .row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 </head>
@@ -208,7 +264,7 @@
       <h2 id="mainTitle"></h2>
       <div class="main-sub" id="mainSub"></div>
     </div>
-    <div class="toolbar">
+    <div class="toolbar" id="toolbar">
       <button class="btn btn-sync" id="btnSync" type="button">↻ Kaynakları çek</button>
     </div>
     <div class="pillbar" id="kindbar" hidden></div>
@@ -220,16 +276,74 @@
       <div class="card-list" id="cardList"></div>
       <div class="empty" id="emptyState">Yükleniyor…</div>
     </div>
+    <div id="bibleView" hidden>
+      <div class="bible-meta" id="bibleMeta">Bible v4 yükleniyor…</div>
+      <article class="bible-doc" id="bibleDoc">Yükleniyor…</article>
+      <p class="bible-raw"><a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham Markdown indir</a></p>
+    </div>
     <div class="footnote" id="footnote"></div>
   </main>
 </div>
 <div class="toast" id="toast"></div>
+<dialog id="rejectDialog">
+  <form method="dialog">
+    <h3>Neden reddediliyor?</h3>
+    <label for="rejectReasonCode">Sebep (zorunlu)</label>
+    <select id="rejectReasonCode" required>
+      <option value="off_topic">Konu dışı</option>
+      <option value="duplicate">Yinelenen (dedup kaçırmış olabilir)</option>
+      <option value="low_quality">Düşük kalite</option>
+      <option value="promotional">Tanıtım/reklam amaçlı</option>
+      <option value="not_relevant_for_channel">Bu kanal için ilgisiz</option>
+      <option value="bad_title_or_summary">Başlık/özet hatalı</option>
+      <option value="wrong_category">Yanlış kategori</option>
+      <option value="misleading_or_untrusted">Yanıltıcı/güvenilmez kaynak</option>
+      <option value="stale">Bayat/güncelliğini yitirmiş</option>
+      <option value="expired_opportunity">Süresi geçmiş fırsat</option>
+      <option value="other">Diğer</option>
+    </select>
+    <label for="rejectReasonNote">Not (opsiyonel)</label>
+    <input id="rejectReasonNote" type="text" maxlength="280" placeholder="Kısa not (opsiyonel)">
+    <div class="row">
+      <button type="button" class="btn" id="rejectCancelBtn">Vazgeç</button>
+      <button type="submit" class="btn btn-delete" id="rejectConfirmBtn">✕ Reddet</button>
+    </div>
+  </form>
+</dialog>
 <script>
 (function () {
   var ROUTES = [
-    { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse: haberler ve araştırmalar tek kanalda; üstteki sekmelerle ayrılır. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
-    { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Hekimler kaynak akışı: en yeni üstte, son 14 gün. Kartta gerçek kaynak adı ve karar rotası görünür; inceleme amaçlıdır, yayın kapalı.' },
+    { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse Haber ve Research ayrı primary category. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
+    { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
+    { id: 'bible', label: 'Türk Tıp Bible v4', icon: '📜', note: 'Normatif anayasa v4. Kitap I hard gate + Kitap II Source Pass/Fail. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
+  var NAV = [
+    { navId: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
+    { navId: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: '🔬' },
+    { navId: 'duyuru', route: 'hekimler', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
+    { navId: 'burs', route: 'hekimler', lane: 'burs', label: 'Burs', icon: '🎓' },
+    { navId: 'egitim', route: 'hekimler', lane: 'egitim', label: 'Eğitim', icon: '📚' },
+    { navId: 'bible', route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
+  ];
+  function routeNote() {
+    if (state.route === 'kaduse' && state.kind === 'news') {
+      return 'Kaduse Haber. En fazla 10 gün, tarihli. Otomatik yayın yok.';
+    }
+    if (state.route === 'kaduse' && state.kind === 'research') {
+      return 'Kaduse Research. İddia kanıtı aşamaz; preprint etiketlenir. Otomatik yayın yok.';
+    }
+    if (state.route === 'hekimler' && state.hekLane === 'burs') {
+      return 'Gelen Kutusu, burs kaynaklarından çekilen ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; çağrı henüz otomatik çekilmiyor.';
+    }
+    if (state.route === 'hekimler' && state.hekLane === 'egitim') {
+      return 'Gelen Kutusu, eğitim kaynaklarından çekilen kurs/ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; kurs henüz otomatik çekilmiyor.';
+    }
+    if (state.route === 'hekimler') {
+      return 'Hekimler Duyuru. Burs ve Eğitim bu kutuya karışmaz. Otomatik yayın yok.';
+    }
+    var r = ROUTES.find(function (x) { return x.id === state.route; });
+    return r ? r.note : '';
+  }
   var VIEWS = [
     { id: 'inbox', label: 'Gelen Kutusu', icon: '📥' },
     { id: 'hold', label: 'Beklemede', icon: '⏳' },
@@ -256,8 +370,350 @@
     abroad_es_mir_fse: 'MIR (İspanya)', abroad_es_universidades_homologacion: 'Homologación (İspanya)',
     abroad_it_salute_foreign_qual: 'Salute (İtalya)', abroad_sa_scfhs_watch: 'SCFHS (S. Arabistan)',
     tdb_dental: 'TDB', tihud_internal_medicine: 'TİHUD', tuik_medical_public_health: 'TÜİK',
-    'klimık_infectious_diseases': 'Klimik'
+    'klimık_infectious_diseases': 'Klimik',
+    burs_tr_fulbright: 'Fulbright Türkiye', burs_tr_humphrey: 'Humphrey', burs_tr_meb_ylsy: 'MEB YLSY',
+    burs_tr_tubitak_2214: 'TÜBİTAK 2214-A', burs_tr_tubitak_2219: 'TÜBİTAK 2219',
+    burs_us_aauw_international: 'AAUW International', burs_de_daad: 'DAAD',
+    burs_uk_chevening: 'Chevening', burs_eu_erasmus_mundus: 'Erasmus Mundus',
+    burs_jp_mext: 'MEXT (Japonya)',
+    burs_uicc_technical: "UICC",
+    burs_esot_grants: "ESOT",
+    burs_iadr_awards: "IADR",
+    burs_eadv_scholarships: "EADV",
+    burs_isn_fellowships: "ISN",
+    burs_fip_foundation: "FIP Foundation",
+    burs_esc_grants: "ESC",
+    burs_esmo_fellowships: "ESMO",
+    burs_ean_fellowships: "EAN",
+    burs_esso_grants: "ESSO",
+    burs_escmid_grants: "ESCMID",
+    burs_eau_eusp: "EAU/EUSP",
+    burs_ers_fellowships: "ERS",
+    burs_eacts_fontan: "EACTS Fontan",
+    burs_era_fellowships: "ERA",
+    burs_asco_conquer: "Conquer Cancer",
+    burs_wsava_day: "WSAVA Day",
+    burs_ectrims: "ECTRIMS",
+    burs_ueg: "UEG",
+    burs_esor: "ESOR",
+    burs_efsd_easd: "EFSD/EASD",
+    burs_eha_grants: "EHA",
+    burs_ibro: "IBRO",
+    burs_fens: "FENS",
+    burs_eular: "EULAR",
+    burs_iarc_who: "IARC/WHO",
+    burs_sigma_nursing: "Sigma Nursing",
+    burs_uk_wellcome: "Wellcome",
+    burs_tr_kyk: "KYK",
+    burs_tr_tev: "TEV",
+    burs_tr_tubitak_2209: "TÜBİTAK 2209-A",
+    burs_tr_tubitak_2210: "TÜBİTAK 2210",
+    burs_tr_tubitak_2211: "TÜBİTAK 2211",
+    burs_hu_stipendium: "Stipendium Hungaricum",
+    burs_tr_jean_monnet: "Jean Monnet",
+    burs_fr_eiffel: "Eiffel",
+    burs_kr_gks: "GKS Kore",
+    burs_ch_swiss_excellence: "Swiss Excellence",
+    burs_us_cri: "CRI",
+    burs_us_fraxa: "FRAXA",
+    burs_esicm_grants: "ESICM",
+    burs_espen_fellowships: "ESPEN",
+    burs_febs_fellowships: "FEBS",
+    burs_embo: "EMBO",
+    burs_uk_mrc: "MRC",
+    burs_iti_scholarships: "ITI",
+    burs_esaic_grants: "ESAIC",
+    burs_us_morris: "Morris Animal",
+    burs_us_pva: "PVA",
+    burs_iubmb: "IUBMB",
+    burs_eso_doctors: "ESO Doctors",
+    egitim_ifm: "IFM",
+    egitim_acam_chelation: "ACAM",
+    egitim_cleveland_cfm: "Cleveland CFM",
+    egitim_stanford_integrative: "Stanford IM",
+    egitim_charite_im_summer: "Charité IM",
+    egitim_who_academy: "WHO Academy",
+    egitim_hms_ce: "HMS CE",
+    egitim_mayo_scpd: "Mayo CPD",
+    egitim_lshtm_short: "LSHTM",
+    egitim_pasteur: "Pasteur",
+    egitim_eso: "ESO",
+    egitim_eau: "EAU Education",
+    egitim_ean_learn: "EAN Learn",
+    egitim_esaic_academy: "ESAIC Academy",
+    egitim_ers: "ERS Education",
+    egitim_eular: "EULAR",
+    egitim_eha: "EHA Education",
+    egitim_fens: "FENS",
+    egitim_febs_courses: "FEBS Courses",
+    egitim_bif_travel: "BIF Travel",
+    egitim_eons_eso_nurses: "EONS–ESO",
+    egitim_esso: "ESSO Education",
+    egitim_isglobal: "ISGlobal",
+    egitim_wcmq_cpd: "WCM-Q CPD",
+    egitim_monash_pd: "Monash PD",
+    egitim_wfot: "WFOT",
+    egitim_world_physio: "World Physio",
+    egitim_espen_training: "ESPEN Training",
+    egitim_ifm_fmcp: "IFM FMCP",
+    egitim_ifm_afmcp: "IFM AFMCP",
+    egitim_cleveland_observership: "Cleveland Observer",
+    egitim_uws_cnfm: "UWS CNFM",
+    egitim_kresser_adapt: "Kresser ADAPT",
+    egitim_fmca: "FMCA Coach",
+    egitim_egfm: "EGFM",
+    burs_fip_ecpg: "FIP ECPG",
+    burs_icm_congress: "ICM",
+    burs_isa_wca_travel: "ISA/WCA",
+    burs_imperial_gozukara: "Imperial Gözükara",
+    egitim_nih_ippcr: "NIH IPPCR",
+    egitim_hms_hmx: "HMS HMX",
+    egitim_eso_medstudents: "ESO Students",
+    egitim_esmo_students: "ESMO Students",
+    egitim_ucl_moorfields_oss: "UCL/Moorfields",
+    egitim_erasmus_summer: "Erasmus Summer",
+    egitim_openwho: "OpenWHO"
   };
+  var SOURCE_WHY = {
+    "news-who-newsroom-whole": "Dünya Sağlık Örgütü'nün resmi sözcüsü olduğu için — küresel sağlık gündemi buradan başlar",
+    "news-fda-press-scoped": "dünyanın en büyük tıbbi cihaz/ilaç pazarının resmi onay ve güvenlik duyuruları için",
+    "news-fda-cdrh-digital-health": "dijital sağlık teknolojilerindeki FDA yaklaşımını erken yakalamak için",
+    "news-fda-cdrh-ai-ml-device": "Kaduse'nin çekirdek konusu olan AI-destekli cihazların ABD'deki onay/regülasyon gelişmeleri için",
+    "news-fda-cdrh-samd": "yazılım-tabanlı tıbbi cihaz (SaMD) kategorisi doğrudan Kaduse'nin ilgi alanı olduğu için",
+    "news-fda-cdrh-device-safety": "cihaz güvenliği ve geri çağırmalar hasta güvenliği açısından kritik olduğu için",
+    "news-ema-news-whole": "Avrupa'daki ilaç/cihaz düzenleyici otoritesinin resmi haberleri için",
+    "news-ec-medical-devices-target": "AB'nin tıbbi cihaz sektör politikasını doğrudan kaynağından izlemek için",
+    "news-saglik-bakanligi-whole": "Türkiye'nin resmi sağlık otoritesi olduğu için — yerli gündem burada başlar",
+    "news-titck-tibbi-cihaz-duyurulari": "Türkiye'deki cihaz onay/güvenlik kararlarının resmi kaynağı olduğu için",
+    "news-titck-general-regulatory": "ilaç güvenliği ve ulusal mevzuat değişikliklerini kaçırmamak için",
+    "news-ecdc-news-whole": "Avrupa'daki bulaşıcı hastalık ve salgın verisinin resmi kaynağı olduğu için",
+    "news-medtech-europe-news-whole": "Avrupa medtech sanayisinin ortak sesini duymak için",
+    "news-medtech-dive-news-whole": "medtech'in Avrupa/küresel ticari haberlerini yakalamak için",
+    "news-reuters-healthcare-scoped": "hızlı, güvenilir ve geniş kapsamlı genel sağlık/medtech haberciliği için",
+    "news-resmi-gazete-health-scoped": "Türkiye'de sağlıkla ilgili mevzuatın hukuken bağlayıcı, resmi yayın organı olduğu için",
+    "news-observatory-news-whole": "sağlık sistemleri politikasında akademik/analitik derinlik sağladığı için",
+    "news-hma-news-whole": "Avrupa ilaç ajansları arasındaki koordinasyon kararlarını görmek için",
+    "news-edqm-news-whole": "ilaç kalite standartlarındaki değişiklikleri takip etmek için",
+    "news-ec-hta-htacg-target": "AB'de sağlık teknolojisi değerlendirme (HTA) kararlarının artık burada koordine edildiği için (EUnetHTA'nın yerini aldı)",
+    "news-oecd-health-scoped": "sağlık sistemleri karşılaştırmalı verisi ve politika analizleri için",
+    "news-un-news-health-scoped": "BM'nin sağlık gündemini (küresel politika düzeyinde) izlemek için",
+    "news-aa-saglik-scoped": "Türkiye'deki sağlık haberlerinin resmi ajans diliyle, hızlı aktarımı için",
+    "news-ec-dg-sante-health-scoped": "AB sağlık/gıda güvenliği genel müdürlüğünün sağlıkla ilgili kararlarını kaçırmamak için",
+    "news-hhs-press-scoped": "ABD sağlık bakanlığının AI-sağlık ve büyük düzenleme kararlarını kaçırmamak için",
+    "news-africa-cdc-news-whole": "gelişmekte olan sağlık pazarlarında salgın/halk sağlığı gelişmelerini kaçırmamak için",
+    "news-ec-mdcg-target": "AB'nin tıbbi cihaz rehber dokümanlarının doğrudan kaynağı olduğu için",
+    "news-raps-regulatory-focus-scoped": "düzenleyici işler profesyonellerinin takip ettiği, cihaz/AI regülasyonu konusunda derinlemesine haber verdiği için",
+    "news-swissmedic-news-scoped": "İsviçre'nin cihaz güvenlik/geri çağırma kararlarını izlemek için",
+    "news-tuyze-saglikta-yapay-zeka": "Türkiye'nin kendi sağlık-AI enstitüsünün (TÜYZE) çalışmalarını izlemek için",
+    "news-tuseb-health-tech-innovation": "Türkiye'deki sağlık inovasyonu/translasyonel araştırma gündemini yakalamak için",
+    "news-bfarm-news-scoped": "Almanya'nın (DiGA dahil) dijital sağlık ve cihaz düzenlemelerini izlemek için",
+    "news-imdrf-news-whole": "dünya çapındaki tıbbi cihaz düzenleyicilerinin ortak kararlarını takip etmek için — tek ülkeyle sınırlı değil",
+    "news-ansm-news-scoped": "Fransa'nın cihaz güvenlik uyarılarını izlemek için",
+    "news-hpw-news-whole": "bağımsız, sektör-dışı bakış açısıyla küresel sağlık politikası haberciliği için",
+    "news-sgk-health-scoped": "cihaz/ilaç geri ödemesi ve SUT değişiklikleri doğrudan ticari/klinik kararları etkilediği için",
+    "news-eur-lex-mdr-ivdr-health-query": "AB'nin bağlayıcı mevzuatını (MDR/IVDR/AI Act) resmi kaynağından doğrulamak için",
+    "news-hpra-news-scoped": "İrlanda'nın cihaz güvenlik bildirimlerini/geri çağırmalarını izlemek için",
+    "news-euractiv-health-scoped": "AB politika gündemini gazetecilik diliyle, sektör dışı bir gözle takip etmek için",
+    "news-ep-sant-scoped": "Avrupa Parlamentosu'nun halk sağlığı yasama kararlarını izlemek için",
+    "news-team-nb-news-whole": "onaylanmış kuruluşların (notified bodies) uygulamalarını, yani MDR/IVDR'nin sahada nasıl işlediğini görmek için",
+    "news-council-eu-epsco-health-scoped": "AB Konseyi düzeyinde alınan sağlık kararlarını yakalamak için",
+    "news-hsgm-news-scoped": "Türkiye'deki bulaşıcı hastalık/aşı/saha sağlığı operasyonel gelişmelerini izlemek için",
+    "news-ec-hera-scoped": "sağlık acil durumlarına hazırlık ve kritik tıbbi ürün tedarikini takip etmek için",
+    "news-tuik-saglik-sosyal-koruma": "Türkiye'nin resmi sağlık istatistiklerini veri kaynağı olarak kullanmak için",
+    "news-healthai-news-whole": "sağlıkta yapay zekânın sorumlu kullanımı konusunda küresel otorite olduğu için",
+    "news-nhs-aidrs-news-scoped": "İngiltere'de sağlıkta AI'nin nasıl düzenlendiğine dair ortak (MHRA/HRA/NICE/CQC) resmi rehberlik için",
+    "news-jtc21-ai-health-gated": "AI standardizasyonunun sağlık/medtech'e değen kısmını kaçırmamak için (genel endüstriyel AI standartları hariç)",
+    "news-pmda-news-scoped": "Japonya'nın (özellikle SaMD ve AI-cihaz) onay süreçlerini izlemek için",
+    "news-hsa-medical-devices-scoped": "Singapur'un tıbbi cihaz/dijital sağlık düzenlemelerini izlemek için",
+    "news-fierce-medtech-scoped": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-medica-sphere-medtech-scoped": "Almanya'daki en büyük medikal fuarın medtech&cihaz haber akışını yakalamak için",
+    "news-health-canada-devices-scoped": "Kanada'nın ML-destekli cihaz düzenlemelerini izlemek için",
+    "news-nice-healthtech-scoped": "İngiltere'nin cihaz/tanı/AI teknolojisi değerlendirme kararlarını izlemek için",
+    "news-advamed-digital-health-scoped": "sanayinin kendi bakış açısını da görmek için (ama dernek açıklaması resmi gerçek sayılmıyor)",
+    "news-massdevice-news-whole": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-medical-device-network-news-whole": "medtech sektörünün gündelik ticari/teknolojik haber akışını yakalamak için",
+    "news-aami-news-scoped": "cihaz standartları, güvenlik mühendisliği ve AI-cihaz standartlarındaki gelişmeleri takip etmek için — Kaduse'nin teknik güvenilirlik anlatısını besliyor",
+    "news-mobihealthnews-ai-device-scoped": "AI/ML sağlık, giyilebilir cihaz ve dijital terapötik gibi Kaduse'nin tam hedef kitlesindeki konuları yakalamak için",
+    "research-pubmed-eutilities": "biyomedikal literatürün en geniş ve birincil tarama indeksi olduğu için",
+    "research-europe-pmc-rest": "PubMed'i tamamlayan, açık erişim tam metne doğrudan bağlantı sağladığı için",
+    "research-crossref-rest-api": "yayının kimliğini/bibliyografik doğruluğunu teyit etmek için (kanıt değil, kimlik doğrulama)",
+    "research-crossmark": "bir makalenin sonradan düzeltilip düzeltilmediğini/geri çekilip çekilmediğini kontrol etmek için",
+    "research-crossref-retraction-watch-data": "geri çekilen makalelerin yayına asla girmemesini garanti altına almak için — sert kural",
+    "research-pubmed-central-oa": "açık lisanslı tam metinlere doğrudan erişim için",
+    "research-cochrane-library": "en yüksek kanıt düzeyindeki sistematik derlemelere erişmek için",
+    "research-clinicaltrials-gov-api-v2": "bir çalışmanın kayıtlı klinik deneyle tutarlılığını doğrulamak için (bağlam/zenginleştirme amaçlı)",
+    "research-jama-network": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-nejm": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-the-lancet": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-lancet-digital-health": "dijital sağlık araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-bmj": "tıbbın en itibarlı, hakem değerlendirmeli genel dergilerinden biri olduğu için",
+    "research-nature-medicine": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-npj-digital-medicine": "dijital sağlık/AI araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-circulation-aha": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-jaha": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-jacc": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-european-heart-journal": "kardiyoloji Kaduse'nin ürün/klinik alanlarından biri olduğu için",
+    "research-chest-journal": "solunum hastalıkları alanındaki güncel kanıtı yakalamak için",
+    "research-european-respiratory-journal": "solunum hastalıkları alanındaki güncel kanıtı yakalamak için",
+    "research-ieee-jbhi": "biyomedikal mühendislik ve sağlık bilişimindeki teknik/AI araştırmaları için",
+    "research-ieee-tbme": "biyomedikal mühendislik ve sağlık bilişimindeki teknik/AI araştırmaları için",
+    "research-jmir": "dijital sağlık ve internet-tabanlı sağlık araştırmalarına özel olduğu için",
+    "research-medrxiv-preprint": "erken bulguları görmek için — ama asla \"hakem değerlendirmeli\" sayılmaz, sadece keşif amaçlı",
+    "research-science-translational-medicine": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-cell": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nature-biotechnology": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nejm-ai": "sağlıkta yapay zekâ araştırmalarına özel, Kaduse'nin tam odağına denk düştüğü için",
+    "research-nature-genetics": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-nature": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-science": "temel bilim ile klinik uygulama arasındaki en yüksek etkili araştırmaları yakalamak için",
+    "research-stat-news": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-eurekalert": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-medical-xpress": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-medical-news-today": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-nature-news": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-nih-news-releases": "bir çalışmanın halihazırda anlaşılır, ilgi çekici bir açıyla haber olduğunu gösterdiği için — genel okuyucuya uygunluğun soft sinyali",
+    "research-openalex-api": "bir makalenin atıf sayısı/alan-bazlı etkisini ölçmek için",
+    "research-gdelt-doc-api": "bir çalışmanın küresel haberlerde ne kadar yankı bulduğunu görmek için",
+    "research-altmetric-api": "sosyal medya/haber dikkatini ölçmek için (opsiyonel — eksikliği asla makaleyi dışlamaz)",
+    "who-newsroom": "Dünya Sağlık Örgütü'nün resmi sözcüsü olduğu için — küresel sağlık gündemi buradan başlar",
+    "europe-pmc-batch": "PubMed'i tamamlayan, açık erişim tam metne doğrudan bağlantı sağladığı için",
+    "burs_tr_fulbright": "Türk vatandaşının ABD lisansüstü bursunun resmi komisyonu — klinik tıp hariç halk sağlığı/araştırma",
+    "burs_tr_humphrey": "kariyer ortası halk sağlığı politikası bursunun resmi TR kapısı",
+    "burs_tr_meb_ylsy": "devletin yurt dışı lisansüstü bursu; sağlık kontenjanı açıldığında somut başvuru",
+    "burs_tr_tubitak_2214": "doktora sırasında yurt dışı araştırma bursunun resmi TÜBİTAK programı",
+    "burs_tr_tubitak_2219": "doktora sonrası yurt dışı araştırma bursunun resmi TÜBİTAK programı",
+    "burs_us_aauw_international": "kadınlara ABD STEM lisansüstü fellowship; halk sağlığı/biyomedikal track",
+    "burs_de_daad": "Almanya resmi lisansüstü burs kataloğu; tıp/halk sağlığı ilanları",
+    "burs_uk_chevening": "Birleşik Krallık resmi yüksek lisans bursu; TR vatandaşı başvurabilir",
+    "burs_eu_erasmus_mundus": "AB resmi ortak master kataloğu; sağlık programları",
+    "burs_jp_mext": "Japonya hükümet bursu; TR Büyükelçiliği duyurur; tıp/diş/veteriner/eczacılık lisans alanı açık",
+    "burs_uicc_technical": "kanser profesyonellerine kısa teknik ziyaret; uyruk serbest, tıp öğrencisi değil",
+    "burs_esot_grants": "Avrupa organ nakli bursu; Türkiye Southern Europe listesinde",
+    "burs_iadr_awards": "diş/oral araştırma ödül ve fellowship; Centennial Travel UMIC + 2025 Ankara Medipol kazananı",
+    "burs_eadv_scholarships": "dermatoloji kongre/eğitim bursu; worldwide HCP",
+    "burs_isn_fellowships": "nefroloji fellowship; LIC/LMIC/UMIC — Türkiye UMIC",
+    "burs_fip_foundation": "eczacılık erken kariyer bursu; UMIC ülkeler",
+    "burs_esc_grants": "Avrupa Kardiyoloji Derneği resmi grant/fellowship merkezi",
+    "burs_esmo_fellowships": "tıbbi onkoloji fellowship; üyelik/deneyim çağrıya göre",
+    "burs_ean_fellowships": "Avrupa Nöroloji Akademisi öğrenci/klinik/araştırma fellowship",
+    "burs_esso_grants": "cerrahi onkoloji eğitim ziyareti; ESSO üyesi",
+    "burs_escmid_grants": "enfeksiyon/mikrobiyoloji araştırma ve yaz okulu destekleri",
+    "burs_eau_eusp": "üroloji short visit ve 1 yıllık burs; yılda 3 dönem",
+    "burs_ers_fellowships": "solunum araştırması RESPIRE ve eğitim; TTS ağda",
+    "burs_eacts_fontan": "kardiyotorasik cerrahi fellowship ve allied-health",
+    "burs_era_fellowships": "Avrupa/Akdeniz nefroloji klinik ve araştırma fellowship",
+    "burs_asco_conquer": "IDEA 2027 RFA'da Turkey UMIC listesinde; 2026'da TR kazananlar var",
+    "burs_wsava_day": "dünya veteriner öğrencisi araştırma bursu; TSAVA WSAVA üyesi, host/vize şartı",
+    "burs_ectrims": "MS araştırma ve klinik eğitim fellowship; uyruk çağrıya göre",
+    "burs_ueg": "gastroenteroloji research/clinical visiting fellowship ve travel grant",
+    "burs_esor": "radyoloji scholar/fellowship ve tıp öğrencisi visiting programme",
+    "burs_efsd_easd": "diyabet araştırma grant ve travel fellowship; coğrafya program bazında",
+    "burs_eha_grants": "hematoloji research/mobility grant menüsü",
+    "burs_ibro": "nörobilim okulu, training grant ve açık çağrı takvimi",
+    "burs_fens": "Avrupa nörobilim toplantı/eğitim stipend",
+    "burs_eular": "romatoloji kurs, eğitim ziyareti ve scientific training bursu",
+    "burs_iarc_who": "WHO kanser araştırma postdoc; LMIC uyruk — Türkiye UMIC",
+    "burs_sigma_nursing": "küresel hemşirelik araştırma grantleri; çoğu Sigma üyeliği ister",
+    "burs_uk_wellcome": "sağlık araştırması kariyer fonu; TR host 29 Eki 2026'ya kadar LMIC listesinde, sonra UK host",
+    "burs_tr_kyk": "Türkiye’deki tıp/diş/eczacılık/hemşirelik öğrencisinin resmi devlet burs-kredi kapısı",
+    "burs_tr_tev": "devlet üniversitesi öğrencisine yurt içi burs; ayrıca Dr. Orhan Birman tıp araştırma bursu",
+    "burs_tr_tubitak_2209": "lisans tıp/sağlık öğrencisinin resmi proje desteği; bölüm sınırı yok",
+    "burs_tr_tubitak_2210": "Türkiye’de YL (sağlık bilimleri dahil) resmi eğitim bursu",
+    "burs_tr_tubitak_2211": "Türkiye’de doktora (sağlık/biyomedikal) resmi eğitim bursu",
+    "burs_hu_stipendium": "Macaristan hükümet bursu; TR gönderen ülke; one-tier tıp/diş/eczacılık/veteriner açık",
+    "burs_tr_jean_monnet": "AB Başkanlığı resmi YL bursu; lisans son sınıf ve lisansüstü öğrenci başvurur; sağlık müktesebatı başlığı var",
+    "burs_fr_eiffel": "Fransa resmi YL/doktora; Biology and Health alanı; öğrenci doğrudan değil, Fransız üniversitesi aday gösterir",
+    "burs_kr_gks": "Kore hükümet lisans/lisansüstü bursu; Türkiye kontenjanı var; tıp bölümü üniversite listesine bağlı",
+    "burs_ch_swiss_excellence": "İsviçre hükümet lisansüstü araştırma/doktora bursu; TR Büyükelçilik Ankara; lisans yok",
+    "burs_us_cri": "kanser immünolojisi/veri bilimi postdoc; uyruk serbest, kâr amacı gütmeyen host",
+    "burs_us_fraxa": "Fragile X araştırma fellowship; dünya genelinde üniversite/hastane/lab",
+    "burs_esicm_grants": "yoğun bakım araştırma grant; üyelik; TR vatandaşlık yasağı yok",
+    "burs_espen_fellowships": "klinik beslenme araştırma fellowship; ESPEN üyelik",
+    "burs_febs_fellowships": "biyokimya kısa lab hareketliliği; Türk Biyokimya Derneği FEBS üyesi",
+    "burs_embo": "yaşam bilimleri postdoc/exchange; Türkiye EMBC üyesi, Installation Grant listesinde",
+    "burs_uk_mrc": "UK tıp araştırma fellowship; uyruk serbest, uygun UK host şart",
+    "burs_iti_scholarships": "1 yıllık implant diş hekimliği bursu; üyelik + DDS/BDS; uyruk yasağı yok",
+    "burs_esaic_grants": "anestezi/yoğun bakım araştırma grant; Türkiye ESAIC Council ülkesi",
+    "burs_us_morris": "veteriner öğrenci araştırma bursu; AVMA şart değil, TR vet okulu öğrenci kapsamında",
+    "burs_us_pva": "omurilik yaralanması postdoc fellowship; host ABD/Kanada, uyruk şartı yok",
+    "burs_iubmb": "biyokimya 1-4 ay lab fellowship; TBD IUBMB üyesi",
+    "burs_eso_doctors": "3-6 ay klinisyen onkoloji fellowship; 2026 kazananlarda TR aday var",
+    "egitim_ifm": "IFM eğitim hub; FMCP/AFMCP ayrı. TR practitioner kanıtı. TUK uzmanlığı değil",
+    "egitim_acam_chelation": "ileri kelasyon eğitimi; Türkiye yasağı yok, tanınmış klinik yetki gerekebilir",
+    "egitim_cleveland_cfm": "named Functional Medicine preceptorship; TR excluded-country değil. Vize/CIME. Denklik değil",
+    "egitim_stanford_integrative": "pediatrik integratif tıp eğitimi; program bazlı klinik uygunluk",
+    "egitim_charite_im_summer": "yaz okulu; Türkiye dışlaması yok, Almanca/etkinlik koşulları var",
+    "egitim_who_academy": "WHO Academy e-öğrenme; OpenWHO acil sağlık ayrı kaynak",
+    "egitim_hms_ce": "HMS CME; HMX Fundamentals öğrenci kursları ayrı. Türkiye dışlaması yok",
+    "egitim_mayo_scpd": "açık CME kataloğu; etkinlik kuralları kurs bazlı",
+    "egitim_lshtm_short": "uluslararası kısa kurs; önkoşullar kursa göre değişir",
+    "egitim_pasteur": "MOOC dünya çapında açık; yüz yüze kabul program bazlı",
+    "egitim_eso": "ESO eğitim kataloğu; tıp öğrencisi onkoloji kursu ayrı kaynak. Fellowship burs şeridinde",
+    "egitim_eau": "eğitim/etkinlik kataloğu; burs/exchange üyelik şartlı ve burs şeridinde",
+    "egitim_ean_learn": "öğrenme portalı; fellowship hattı burs şeridinde ayrı",
+    "egitim_esaic_academy": "akademi kurs/masterclass; araştırma grant'ları burs şeridinde ayrı",
+    "egitim_ers": "eğitim/bursiyer kayıtlı TR alıcı belgelenmiş; fellowship burs şeridinde",
+    "egitim_eular": "Türk sağlık örgütü EULAR ağında; kurs/CME eğitim şeridi",
+    "egitim_eha": "Türk Hematoloji Derneği bağlantısı; grant hattı burs şeridinde",
+    "egitim_fens": "eğitim/kurs; exchange fellowship burs şeridinde ayrı",
+    "egitim_febs_courses": "ileri kurslar; short-term fellowship burs şeridinde ayrı",
+    "egitim_bif_travel": "pratik kurs ve araştırma ziyareti seyahat hibesi; dünya çapında MD/PhD",
+    "egitim_eons_eso_nurses": "yapılandırılmış kanser hemşireliği klinik yerleştirmesi; Türkiye yasağı yok",
+    "egitim_esso": "kurs/webinar eğitim şeridi; educational grant burs şeridinde ayrı",
+    "egitim_isglobal": "uluslararası eğitim portföyü; kabul program bazlı",
+    "egitim_wcmq_cpd": "grand round ve araştırma yöntemleri CPD; bazı etkinlik Katar odaklı",
+    "egitim_monash_pd": "uluslararası kısa kurs/mikro-kredi; tanıma program bazlı",
+    "egitim_wfot": "Türk Ergoterapi Derneği tam üye; onaylı eğitim ve çevrimiçi öğrenme",
+    "egitim_world_physio": "uluslararası fizyoterapi kongre/eğitim izleme; 2027 konuşmacı bursu LMIC-only alınmadı",
+    "egitim_espen_training": "KEPAN + TR eğitim merkezleri; Educational Grant TR kazananları. Fellowship burs şeridinde",
+    "egitim_ifm_fmcp": "FMCP/FMCP-M uluslararası eşdeğer lisans; TR practitioner kanıtı. Mevcut lisans/TUK uzmanlığı değil",
+    "egitim_ifm_afmcp": "ACCME 11 hafta online; TR AFMCP kaydı var. FMCP otomatik değil. Klinik ruhsat değil",
+    "egitim_cleveland_observership": "named 1 ay CIME observership; Functional Medicine listede. Vize/CIME. Hasta bakımı yok",
+    "egitim_uws_cnfm": "NWCCU üniversite graduate certificate, %100 online. Tek başına licensure veya TR denklik değil",
+    "egitim_kresser_adapt": "12 ay sanal; international açık. Bağımsız board/NCCA yok. TR resmi tanıma doğrulanmadı",
+    "egitim_fmca": "NBHWC/UKIHCA health-coach; TR mezun kanıtı. Hekimlik veya klinik yetki değil",
+    "egitim_egfm": "Berlin Tabip Odası CME; Almanca. TR meslek belgesi otomatik kabul değil",
+    "burs_fip_ecpg": "ECPG kongre/liderlik/HAMIS; UMIC TR kapsar, üyelik/erken kariyer şartı",
+    "burs_icm_congress": "ebelik kongre bursu; ICM üye dernek + gelir grubu; 2026 kapalı",
+    "burs_isa_wca_travel": "odyoloji seyahat hibesi; TR dışlaması yok, ISA sayfası manuel doğrulama",
+    "burs_imperial_gozukara": "Imperial+Gözükara 8 hafta araştırma + £3000; 1 visiting TR kontenjanı listedeki fakülteler. 2026 kapandı",
+    "egitim_nih_ippcr": "NIH ücretsiz online klinik araştırma; tıp/diş öğrencileri hedefte. 2026–27 açık. CME yok",
+    "egitim_hms_hmx": "HMX Fundamentals; tıp ve sağlık öğrencileri. Certificate of Completion. CME kataloğundan ayrı",
+    "egitim_eso_medstudents": "1 hafta yüz yüze öğrenci onkoloji; 40 kişilik seçim. 2026 kapalı. Vize",
+    "egitim_esmo_students": "ESMO tıp öğrencisi medikal onkoloji kursu; 4.–5. sınıf. Vize. Fellowship burs şeridinde ayrı",
+    "egitim_ucl_moorfields_oss": "UCL/Moorfields 5 gün oftalmoloji yaz okulu; uluslararası late-stage. Vize",
+    "egitim_erasmus_summer": "Erasmus MC 3 hafta Rotterdam; Master/PhD düzey. Her tıp öğrencisi otomatik uygun değil",
+    "egitim_openwho": "OpenWHO acil sağlık; ücretsiz global. 2025 sonrası sertifika yok. WHO Academy ayrı"
+  };
+  function sourceWhy(id) { return SOURCE_WHY[id] || ''; }
+  var bursCatalog = [];
+  var egitimCatalog = [];
+  async function loadJsonCatalog(path, fallbackIds) {
+    try {
+      var r = await fetch(path);
+      var data = await r.json();
+      if (Array.isArray(data) && data.length) return data;
+    } catch (e) { /* fallback */ }
+    return fallbackIds.map(function (id) {
+      return { id: id, name: SOURCE_LABELS[id], url: '', mode: 'MANUAL_INTAKE' };
+    });
+  }
+  async function loadLaneCatalogs() {
+    if (state.hekLane === 'burs' && !bursCatalog.length) {
+      bursCatalog = await loadJsonCatalog('/burs-sources.json', Object.keys(SOURCE_LABELS).filter(isBursSource));
+    }
+    if (state.hekLane === 'egitim' && !egitimCatalog.length) {
+      egitimCatalog = await loadJsonCatalog('/egitim-sources.json', Object.keys(SOURCE_LABELS).filter(isEgitimSource));
+    }
+  }
+  function catalogById() {
+    var map = {};
+    bursCatalog.concat(egitimCatalog).forEach(function (s) { if (s && s.id) map[s.id] = s; });
+    return map;
+  }
+  function viewPillCount(id) {
+    return state.counts[id] || 0;
+  }
   var DECISION_LABELS = {
     OPPORTUNITY: 'Fırsat', PROFESSIONAL_BRIEF: 'Mesleki özet', NEEDS_REVIEW: 'İnceleme gerek',
     PUBLIC_HEALTH: 'Halk sağlığı', EDUCATION: 'Eğitim'
@@ -270,12 +726,16 @@
     var q = route === 'hekimler'
       ? 'route=tip-ogrencileri&channel=hekimler-toplulugu'
       : 'route=' + encodeURIComponent(route);
+    if (route === 'hekimler' && state.hekLane === 'burs') q += '&family=burs';
+    else if (route === 'hekimler' && state.hekLane === 'egitim') q += '&family=egitim';
+    else if (route === 'hekimler') q += '&family=duyuru';
     return '/api/items?' + q + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
   }
 
   // Deep link: /?route=hekimler&view=inbox overrides the last tab remembered in this browser.
   var qs = new URLSearchParams(location.search);
   function parseRoute(v) {
+    if (v === 'bible') return { route: 'bible', kind: null };
     if (v === 'kaduse-news') return { route: 'kaduse', kind: 'news' };
     if (v === 'kaduse-research') return { route: 'kaduse', kind: 'research' };
     return ROUTES.some(function (r) { return r.id === v; }) ? { route: v, kind: null } : null;
@@ -287,9 +747,17 @@
   var savedRoute = savedParsed ? savedParsed.route : null;
   var savedKind = localStorage.getItem('gcos-kind');
   if (savedKind !== 'news' && savedKind !== 'research') savedKind = null;
+  var savedHekLane = localStorage.getItem('gcos-hek-lane');
+  if (savedHekLane === 'all') savedHekLane = 'duyuru';
+  if (savedHekLane !== 'duyuru' && savedHekLane !== 'burs' && savedHekLane !== 'egitim') savedHekLane = null;
+  var qsLane = qs.get('lane');
+  if (qsLane === 'all') qsLane = 'duyuru';
+  if (qsLane !== 'burs' && qsLane !== 'egitim' && qsLane !== 'duyuru') qsLane = null;
+  if (qs.get('route') === 'hekimler' && qs.get('lane') == null) qsLane = 'duyuru';
   var state = {
     route: qsRoute || savedRoute || 'kaduse',
     kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
+    hekLane: qsLane || savedHekLane || 'duyuru',
     view: qsView || (qsRoute ? 'inbox' : localStorage.getItem('gcos-view')) || 'inbox',
     counts: { inbox: 0, hold: 0, production: 0, done: 0, trash: 0 },
     items: [],
@@ -301,6 +769,9 @@
     routeCounts: {},
     routeMeta: {}
   };
+  if (state.route === 'hekimler' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
+    state.showSources = true;
+  }
 
   function backendRoute() { return state.route === 'kaduse' ? 'kaduse-' + state.kind : state.route; }
   function routeInbox(id) { return ((state.routeCounts[id] || {}).inbox) || 0; }
@@ -438,44 +909,89 @@
 
   function renderChrome() {
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
+    function navActive(n) {
+      if (n.route === 'bible') return state.route === 'bible';
+      if (n.route === 'kaduse') return state.route === 'kaduse' && n.kind === state.kind;
+      if (n.route === 'hekimler') return state.route === 'hekimler' && n.lane === state.hekLane;
+      return n.route === state.route;
+    }
     projectNavEl.innerHTML = '';
-    ROUTES.forEach(function (r) {
-      var counts = r.id === 'kaduse' ? { inbox: routeInbox('kaduse-news') + routeInbox('kaduse-research') } : (state.routeCounts[r.id] || { inbox: 0 });
+    NAV.forEach(function (n) {
+      var shown = 0;
+      if (n.route === 'kaduse' && n.kind === 'news') shown = routeInbox('kaduse-news');
+      else if (n.route === 'kaduse' && n.kind === 'research') shown = routeInbox('kaduse-research');
+      else if (n.lane === 'burs') shown = ((state.routeCounts['hekimler-burs'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'burs' ? (state.counts.inbox || 0) : 0);
+      else if (n.lane === 'egitim') shown = ((state.routeCounts['hekimler-egitim'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'egitim' ? (state.counts.inbox || 0) : 0);
+      else if (n.lane === 'duyuru') shown = ((state.routeCounts['hekimler-duyuru'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'duyuru' ? (state.counts.inbox || 0) : 0);
       var btn = document.createElement('button');
-      btn.className = 'project-item' + (r.id === state.route ? ' active' : '');
-      btn.setAttribute('data-route', r.id);
-      btn.innerHTML = '<span class="p-icon">' + r.icon + '</span><span class="p-label">' +
-        escapeHtml(r.label) + '</span><span class="p-count">' + (counts.inbox || 0) + '</span>';
+      btn.className = 'project-item' + (n.child ? ' nav-child' : '') + (n.doc ? ' nav-doc' : '') + (navActive(n) ? ' active' : '');
+      btn.setAttribute('data-nav', n.navId);
+      btn.innerHTML = '<span class="p-icon">' + n.icon + '</span><span class="p-label">' +
+        escapeHtml(n.label) + '</span>' + (n.doc ? '' : '<span class="p-count">' + shown + '</span>');
       projectNavEl.appendChild(btn);
     });
 
     pillbarEl.innerHTML = '';
-    VIEWS.forEach(function (v) {
-      var btn = document.createElement('button');
-      btn.className = 'pill' + (state.view === v.id ? ' active' : '');
-      btn.setAttribute('data-view', v.id);
-      btn.innerHTML = v.icon + ' ' + v.label + ' <span class="p-count">' + (state.counts[v.id] || 0) + '</span>';
-      pillbarEl.appendChild(btn);
-    });
+    if (state.route !== 'bible') {
+      VIEWS.forEach(function (v) {
+        var btn = document.createElement('button');
+        btn.className = 'pill' + (state.view === v.id ? ' active' : '');
+        btn.setAttribute('data-view', v.id);
+        btn.innerHTML = v.icon + ' ' + v.label + ' <span class="p-count">' + viewPillCount(v.id) + '</span>';
+        pillbarEl.appendChild(btn);
+      });
+    }
 
     var kindbar = document.getElementById('kindbar');
-    if (state.route === 'kaduse') {
-      kindbar.hidden = false;
-      kindbar.innerHTML = [['news', '📰 Haber'], ['research', '🔬 Araştırma']].map(function (k) {
-        return '<button class="pill' + (state.kind === k[0] ? ' active' : '') + '" data-kind="' + k[0] + '">' + k[1] +
-          ' <span class="p-count">' + routeInbox('kaduse-' + k[0]) + '</span></button>';
-      }).join('');
-    } else { kindbar.hidden = true; kindbar.innerHTML = ''; }
-    mainTitleEl.textContent = meta.icon + ' ' + meta.label;
+    var toolbarEl = document.getElementById('toolbar');
+    var listViewEl = document.getElementById('listView');
+    var bibleViewEl = document.getElementById('bibleView');
+    var isBible = state.route === 'bible';
+    document.querySelector('.main').classList.toggle('bible-mode', isBible);
+    if (toolbarEl) toolbarEl.hidden = isBible;
+    if (listViewEl) listViewEl.hidden = isBible;
+    if (bibleViewEl) bibleViewEl.hidden = !isBible;
+    if (isBible) {
+      kindbar.hidden = true;
+      kindbar.innerHTML = '';
+      pillbarEl.hidden = true;
+    } else if (state.route === 'kaduse' || state.route === 'hekimler') {
+      pillbarEl.hidden = false;
+      kindbar.hidden = true;
+      kindbar.innerHTML = '';
+    } else {
+      pillbarEl.hidden = false;
+      kindbar.hidden = true;
+      kindbar.innerHTML = '';
+    }
+    var title = meta.icon + ' ' + meta.label;
+    if (state.route === 'kaduse' && state.kind === 'news') title = '📰 Haber';
+    if (state.route === 'kaduse' && state.kind === 'research') title = '🔬 Research';
+    if (state.route === 'hekimler' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
+    if (state.route === 'hekimler' && state.hekLane === 'burs') title = '🎓 Burs';
+    if (state.route === 'hekimler' && state.hekLane === 'egitim') title = '📚 Eğitim';
+    mainTitleEl.textContent = title;
+    if (isBible) {
+      mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
+      laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Türk Tıp İçerik OS.</b> ' + escapeHtml(routeNote()) + '</div>';
+      footnoteEl.innerHTML = 'Anayasa v4. Haber/Research = ENGAGEMENT. Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY. Soft skor FAIL üretmez. Beş kategori işletim MD’si henüz yazılmadı.';
+      return;
+    }
     var feedN = state.route === 'kaduse'
       ? ((state.routeMeta['kaduse-news'] || {}).enabledFeeds || 0) + ((state.routeMeta['kaduse-research'] || {}).enabledFeeds || 0)
       : (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
-    if (state.route === 'hekimler' && state.hekSources) feedN = state.hekSources.length;
+    if (state.route === 'hekimler' && state.hekSources) {
+      feedN = state.hekLane === 'burs'
+        ? (bursCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('burs_') === 0; }).length)
+          : state.hekLane === 'egitim'
+          ? (egitimCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('egitim_') === 0; }).length)
+          : state.hekSources.filter(function (s) { return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId); }).length;
+    }
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
     mainSubEl.innerHTML = escapeHtml(state.view) + ' · <button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
       feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button> · D1' +
       (shownN && totalN > shownN ? escapeHtml(' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor') : '');
-    laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(meta.note) + '</div>';
+    laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(routeNote()) + '</div>';
     footnoteEl.innerHTML =
       'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
       'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.';
@@ -485,7 +1001,61 @@
   // ---- Kaynak paneli: "N aktif kaynak" tıklanınca kaynaklar Haber / Araştırma olarak ikiye ayrılır ----
   var HEK_RESEARCH = { pubmed_biomedical_evidence: 1, tuik_medical_public_health: 1 };
   function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
+  function isBursSource(id) { return String(id || '').indexOf('burs_') === 0; }
+  function isEgitimSource(id) { return String(id || '').indexOf('egitim_') === 0; }
+  var RETIRED_DUPLICATE_SOURCE_IDS = {
+    ema_news: 1, fierce_biotech: 1, medpage_today: 1,
+    medical_xpress: 1, stat_news: 1, saglik_bakanligi_genel: 1
+  };
+  function isRetiredDuplicate(id) { return !!RETIRED_DUPLICATE_SOURCE_IDS[id]; }
+  function mergeHekSources(apiSources) {
+    var byId = {};
+    (apiSources || []).forEach(function (s) {
+      if (s && s.sourceId && !isRetiredDuplicate(s.sourceId)) byId[s.sourceId] = s;
+    });
+    Object.keys(SOURCE_LABELS).forEach(function (id) {
+      if ((!isBursSource(id) && !isEgitimSource(id)) || byId[id]) return;
+      byId[id] = {
+        sourceId: id,
+        label: 'RUNNER_REQUIRED',
+        note: isEgitimSource(id) ? 'Eğitim şeridi: MANUAL_INTAKE; otomatik çekim kapalı.' : 'Burs şeridi: MANUAL_INTAKE; otomatik çekim kapalı.',
+        pollMinutes: 10080,
+        telemetry: null
+      };
+    });
+    return Object.keys(byId).sort().map(function (k) { return byId[k]; });
+  }
   function shortLabel(t) { t = String(t || ''); return t.length > 78 ? t.slice(0, 76) + '…' : t; }
+  function baseSourceName(t) {
+    t = String(t || '');
+    var i = t.indexOf(' -- ');
+    if (i === -1) i = t.indexOf(' — ');
+    if (i !== -1) t = t.slice(0, i);
+    i = t.indexOf(' (normal stream)');
+    if (i !== -1) t = t.slice(0, i);
+    return t.trim();
+  }
+  function cadenceLabel(mins) {
+    var n = Number(mins) || 43200;
+    if (n <= 90) return 'saatlik';
+    if (n <= 1500) return 'günlük';
+    if (n <= 11000) return 'haftalık';
+    return 'aylık';
+  }
+  function lastWithCadence(r) {
+    return (r.last || '—') + ' (' + cadenceLabel(r.pollMinutes) + ')';
+  }
+  function nextFetchLabel(r) {
+    var mins = Number(r.pollMinutes) || 43200;
+    if (!r.last) return 'şimdi (henüz çekilmedi)';
+    var last = new Date(r.last + 'T00:00:00Z');
+    if (isNaN(last.getTime())) return '—';
+    var next = new Date(last.getTime() + mins * 60000);
+    var now = new Date();
+    var due = next.getTime() <= now.getTime();
+    var label = next.toISOString().slice(0, 10);
+    return due ? label + ' (gecikti)' : label;
+  }
   function sourceRows() {
     var counts = {};
     (state.items || []).forEach(function (it) {
@@ -495,12 +1065,24 @@
     var rows = [];
     if (state.route === 'hekimler') {
       (state.hekSources || []).forEach(function (s) {
+        var burs = isBursSource(s.sourceId);
+        var egitim = isEgitimSource(s.sourceId);
+        if (state.hekLane === 'burs' && !burs) return;
+        if (state.hekLane === 'egitim' && !egitim) return;
+        if (state.hekLane === 'duyuru' && (burs || egitim)) return;
         var t = s.telemetry || {};
         rows.push({
           id: s.sourceId, name: SOURCE_LABELS[s.sourceId] || s.sourceId.replace(/_/g, ' '),
-          status: COVERAGE_TR[s.label] || s.label, bad: !/^PIPELINE_OK/.test(s.label),
-          last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '', n: counts[s.sourceId] || 0,
-          research: isResearchSource('hekimler', s.sourceId)
+          status: (burs || egitim)
+            ? 'kayıtlı · MANUAL_INTAKE (otomatik çekim kapalı, doğrulama bekliyor)'
+            : (COVERAGE_TR[s.label] || s.label),
+          bad: (burs || egitim) ? false : !/^PIPELINE_OK/.test(s.label),
+          last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '',
+          pollMinutes: s.pollMinutes, n: counts[s.sourceId] || 0,
+          research: isResearchSource('hekimler', s.sourceId),
+          burs: burs,
+          egitim: egitim,
+          url: (catalogById()[s.sourceId] || {}).url || ''
         });
       });
     } else {
@@ -509,7 +1091,8 @@
         rows.push({
           id: f.id, name: f.label, route: f.route,
           status: bad ? 'hata: ' + f.last_error : (f.last_fetched_at ? 'çalışıyor' : 'henüz çekilmedi'), bad: bad,
-          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '', n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
+          last: f.last_fetched_at ? String(f.last_fetched_at).slice(0, 10) : '',
+          pollMinutes: f.poll_minutes, n: (typeof f.inbox_count === 'number' ? f.inbox_count : counts[f.id]) || 0,
           research: f.route === 'kaduse-research'
         });
       });
@@ -523,16 +1106,46 @@
     var rows = sourceRows();
     if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
     function table(list) {
-      return '<div class="src-scroll"><table><tbody>' + list.map(function (r) {
-        return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + escapeHtml(shortLabel(r.name)) + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
-          escapeHtml(shortLabel(r.status)) + '</td><td>' + escapeHtml(r.last) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
+      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th></tr></thead><tbody>' + list.map(function (r, i) {
+        var why = sourceWhy(r.id);
+        var href = r.url ? '<a class="src-link" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener">resmi sayfa</a>' : '';
+        var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(baseSourceName(r.name)) + '</span>' +
+          (why ? ' <span class="src-why">: ' + escapeHtml(why) + '</span>' : '') +
+          (href ? ' · ' + href : '');
+        var st = shortLabel(r.status);
+        return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
+          escapeHtml(st) + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
-    var news = rows.filter(function (r) { return !r.research; }), res = rows.filter(function (r) { return r.research; });
+    var news = rows.filter(function (r) { return !r.research && !r.burs && !r.egitim; });
+    var burs = rows.filter(function (r) { return r.burs; });
+    var res = rows.filter(function (r) { return r.research; });
+    var egitim = rows.filter(function (r) { return r.egitim; });
     var filt = state.sourceFilter ? '<span class="src-chip" data-src-clear="1">filtre: ' + escapeHtml(state.sourceFilter) + ' ✕</span>' : '';
-    el.innerHTML = '<b>' + rows.length + ' kaynak</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
-      '<h3>📰 ' + (state.route === 'kaduse' ? 'Haber' : 'Haber / duyuru') + ' (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>') +
-      '<h3>🔬 ' + (state.route === 'kaduse' ? 'Araştırma' : 'Araştırma / veri') + ' (' + res.length + ')</h3>' + (res.length ? table(res) : '<div>Yok</div>');
+    var bursBlock = '<h3>🎓 Burs (' + burs.length + ')</h3>' + (burs.length ? table(burs) : '<div>Kayıtlı burs kaynağı yok.</div>');
+    var egitimBlock = '<h3>📚 Eğitim (' + egitim.length + ')</h3>' + (egitim.length ? table(egitim) : '<div>Prestij eğitim kaynakları henüz eklenmedi.</div>');
+    if (state.route === 'hekimler' && state.hekLane === 'burs') {
+      el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + bursBlock;
+      return;
+    }
+    if (state.route === 'hekimler' && state.hekLane === 'egitim') {
+      el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + egitimBlock;
+      return;
+    }
+    if (state.route === 'kaduse') {
+      var kaduseNews = rows.filter(function (r) { return !r.research; });
+      var kaduseRes = rows.filter(function (r) { return r.research; });
+      if (state.kind === 'research') {
+        el.innerHTML = '<b>' + kaduseRes.length + ' araştırma kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+          '<h3>🔬 Research (' + kaduseRes.length + ')</h3>' + (kaduseRes.length ? table(kaduseRes) : '<div>Yok</div>');
+      } else {
+        el.innerHTML = '<b>' + kaduseNews.length + ' haber kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+          '<h3>📰 Haber (' + kaduseNews.length + ')</h3>' + (kaduseNews.length ? table(kaduseNews) : '<div>Yok</div>');
+      }
+      return;
+    }
+    el.innerHTML = '<b>' + news.length + ' duyuru kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+      '<h3>🩺 Duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>');
   }
   async function ensureFeeds() {
     if (state.route === 'hekimler' || state.feedsByRoute[state.route]) return;
@@ -546,8 +1159,9 @@
   }
 
   var COVERAGE_TR = {
-    PIPELINE_OK: 'Tam', PIPELINE_OK_EMPTY: 'Çalışıyor, içerik yok', PIPELINE_OK_LIMITED: 'Sınırlı kapsam',
+    PIPELINE_OK: 'Active · Çekim açık', PIPELINE_OK_EMPTY: 'Çalışıyor, içerik yok', PIPELINE_OK_LIMITED: 'Sınırlı kapsam',
     PARTIALLY_COVERED: 'Kısmen kapsanıyor', RUNNER_REQUIRED: 'Türkiye runner gerekli',
+    CONFIGURED_NOT_WIRED: 'Configured · Bağlantı kurulmamış (bot koruması)',
     FAILED_INTERNAL: 'Hata', NOT_RUN: 'Çalışmadı'
   };
   function visibleItems() {
@@ -556,6 +1170,7 @@
   function renderToolbar() {
     var el = document.getElementById('hekToolbar');
     if (state.route !== 'hekimler') { el.hidden = true; return; }
+    if ((state.hekLane === 'burs' || state.hekLane === 'egitim') && !state.items.length) { el.hidden = true; return; }
     el.hidden = false;
     var ids = {};
     state.items.forEach(function (it) { if (it.sourceId) ids[it.sourceId] = (ids[it.sourceId] || 0) + 1; });
@@ -566,9 +1181,15 @@
     var n = Object.keys(state.selected).length;
     var health = '';
     if (state.hekSources) {
-      health = '<details class="hek-health"><summary>Kaynak durumu (' + state.hekSources.length + ')</summary><table><tbody>' +
-        state.hekSources.map(function (s) {
-          return '<tr><td>' + escapeHtml(SOURCE_LABELS[s.sourceId] || s.sourceId) + '</td><td>' + escapeHtml(COVERAGE_TR[s.label] || s.label) +
+      var healthSources = state.hekSources.filter(function (s) {
+        if (state.hekLane === 'burs') return isBursSource(s.sourceId);
+        if (state.hekLane === 'egitim') return isEgitimSource(s.sourceId);
+        return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId);
+      });
+      health = '<details class="hek-health"><summary>Kaynak durumu (' + healthSources.length + ')</summary><table><tbody>' +
+        healthSources.map(function (s) {
+          return '<tr><td>' + escapeHtml(SOURCE_LABELS[s.sourceId] || s.sourceId) + '</td><td>' +
+            escapeHtml((isBursSource(s.sourceId) || isEgitimSource(s.sourceId)) ? 'kayıtlı · MANUAL_INTAKE (otomatik çekim kapalı, doğrulama bekliyor)' : (COVERAGE_TR[s.label] || s.label)) +
             '</td><td>' + escapeHtml(s.note || '') + '</td></tr>';
         }).join('') + '</tbody></table></details>';
     }
@@ -584,9 +1205,15 @@
     emptyStateEl.hidden = items.length > 0;
     if (!items.length) {
       var inboxN = (state.counts && state.counts.inbox) || 0;
-      emptyStateEl.innerHTML = state.view !== 'inbox' && inboxN
-        ? 'Bu kutuda öğe yok. <a href="#" data-view="inbox">Gelen Kutusu’nda ' + inboxN + ' öğe var →</a>'
-        : 'Bu kutuda öğe yok.';
+      if (state.hekLane === 'burs') {
+        emptyStateEl.innerHTML = 'Gelen kutusunda henüz burs ilanı yok. İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen çağrılar düşer.';
+      } else if (state.hekLane === 'egitim') {
+        emptyStateEl.innerHTML = 'Gelen kutusunda henüz eğitim ilanı yok. İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen kurs/ilanlar düşer.';
+      } else {
+        emptyStateEl.innerHTML = state.view !== 'inbox' && inboxN
+          ? 'Bu kutuda öğe yok. <a href="#" data-view="inbox">Gelen Kutusu’nda ' + inboxN + ' öğe var →</a>'
+          : 'Bu kutuda öğe yok.';
+      }
     }
     renderToolbar();
     renderSourcePanel();
@@ -602,8 +1229,68 @@
     });
   }
 
+  function loadMarked() {
+    return new Promise(function (resolve, reject) {
+      if (window.marked) return resolve();
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/marked@13.0.3/marked.min.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+  async function renderBible() {
+    var el = document.getElementById('bibleDoc');
+    var metaEl = document.getElementById('bibleMeta');
+    try {
+      await loadMarked();
+      if (!state.bibleMd) {
+        var r = await fetch('/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md');
+        if (!r.ok) throw new Error('Bible dosyası yüklenemedi (' + r.status + ')');
+        state.bibleMd = await r.text();
+      }
+      if (window.marked && marked.setOptions) marked.setOptions({ gfm: true, breaks: false });
+      el.innerHTML = window.marked.parse(state.bibleMd);
+      try {
+        var meta = await api('/api/bible');
+        var spf = await api('/api/source-pass-fail?limit=8');
+        var tracks = meta.evaluationTracks || {};
+        var chips = Object.keys(tracks).map(function (k) {
+          return '<span class="spf-chip">' + escapeHtml(k) + ' → ' + escapeHtml(tracks[k]) + '</span>';
+        }).join('');
+        var rows = (spf.decisions || []).slice(0, 8).map(function (d) {
+          return '<tr><td>' + escapeHtml(d.source_id) + '</td><td>' + escapeHtml(d.editorial_decision) + '</td><td>' +
+            escapeHtml(d.lifecycle_status || '') + '</td><td>' + escapeHtml((d.review_trigger || '').toString().slice(0, 80)) + '</td></tr>';
+        }).join('');
+        var table = rows
+          ? '<table><thead><tr><th>Kaynak</th><th>Editorial</th><th>Lifecycle</th><th>Trigger</th></tr></thead><tbody>' + rows + '</tbody></table>'
+          : '<p style="margin:8px 0 0">Henüz SPF geri besleme kaydı yok. Fetch sağlığı düşünce CONDITIONAL + degraded yazılır; FAIL değildir.</p>';
+        if (metaEl) {
+          metaEl.innerHTML = '<b>Bible v' + escapeHtml(meta.bibleVersion || '4.0') + '</b> · ' +
+            escapeHtml(meta.rulesetVersion || 'source-pass-fail-v1') +
+            ' · eşikler Config’te · FAIL yalnız hard FAIL' +
+            '<div class="spf-tracks">' + chips + '</div>' + table;
+        }
+      } catch (metaErr) {
+        if (metaEl) {
+          metaEl.innerHTML = '<b>Bible v4.0</b> · Haber/Research = ENGAGEMENT · Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY';
+        }
+      }
+    } catch (err) {
+      if (state.bibleMd) {
+        el.innerHTML = '<pre>' + escapeHtml(state.bibleMd) + '</pre>';
+      } else {
+        el.innerHTML = '<p>Bible yüklenemedi. <a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham dosyayı aç</a>.</p><p>' + escapeHtml(err.message || err) + '</p>';
+      }
+    }
+  }
+
   async function load() {
     renderChrome();
+    if (state.route === 'bible') {
+      await renderBible();
+      return;
+    }
     var days = state.route === 'tip-ogrencileri' ? 2 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
@@ -611,27 +1298,61 @@
     state.items = data.items || [];
     state.selected = {};
     if (state.showSources) { try { await ensureFeeds(); } catch (e) { /* panel shows loading */ } }
-    if (state.route === 'hekimler' && !state.hekSources) {
-      try { state.hekSources = (await api('/api/hekimler/sources')).sources || []; } catch (e) { state.hekSources = null; }
+    if (state.route === 'hekimler') {
+      try { state.hekSources = mergeHekSources((await api('/api/hekimler/sources')).sources || []); } catch (e) { state.hekSources = mergeHekSources([]); }
+      if (state.hekLane === 'burs' || state.hekLane === 'egitim') { await loadLaneCatalogs(); }
     }
     await refreshRouteCounts();
     renderChrome();
     renderList();
   }
 
+  /** Resolves {reasonCode, reasonNote} or null if the operator cancels. Every
+   * reject (action === 'delete') requires a reason -- S63 feedback loop. */
+  function promptRejectReason() {
+    return new Promise(function (resolve) {
+      var dlg = document.getElementById('rejectDialog');
+      var select = document.getElementById('rejectReasonCode');
+      var note = document.getElementById('rejectReasonNote');
+      select.value = 'off_topic';
+      note.value = '';
+      function onCancel() { cleanup(); resolve(null); }
+      function onSubmit(e) {
+        e.preventDefault();
+        var reasonCode = select.value;
+        var reasonNote = note.value.trim();
+        cleanup();
+        dlg.close();
+        resolve({ reasonCode: reasonCode, reasonNote: reasonNote || null });
+      }
+      function cleanup() {
+        document.getElementById('rejectCancelBtn').removeEventListener('click', onCancel);
+        dlg.querySelector('form').removeEventListener('submit', onSubmit);
+      }
+      document.getElementById('rejectCancelBtn').addEventListener('click', onCancel);
+      dlg.querySelector('form').addEventListener('submit', onSubmit);
+      dlg.showModal();
+    });
+  }
+
   async function handleAction(action, id) {
+    var feedback = null;
+    if (action === 'delete') {
+      feedback = await promptRejectReason();
+      if (!feedback) return; // operator cancelled -- no state change, no partial reject
+    }
     var card = document.getElementById('card-' + id);
     if (card) card.classList.add('leaving');
     await new Promise(function (r) { setTimeout(r, 180); });
-    var result = await api('/api/triage', {
-      method: 'POST',
-      body: JSON.stringify({ itemId: id, action: action })
-    });
+    var body = { itemId: id, action: action };
+    if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
+    var result = await api('/api/triage', { method: 'POST', body: JSON.stringify(body) });
     var msg =
       action === 'promote' ? '✓ Üretime aktarıldı — approved_brief üretildi' :
       action === 'hold' ? '⏳ Beklemede’ye alındı' :
       action === 'complete' ? '✓ Üretim bitti — Üretimi Bitenler’e taşındı (2 gün sonra kalıcı silinir)' :
-      action === 'delete' ? 'Silindi — 2 gün sonra kalıcı silinir' : 'Gelen Kutusu’na taşındı';
+      action === 'delete' ? 'Reddedildi — bu red kararı geri besleme olarak kaydedildi (2 gün sonra kalıcı silinir)' :
+      'Gelen Kutusu’na taşındı';
     if (result.brief) msg += ' (' + result.brief.briefId + ')';
     showToast(msg);
     await load();
@@ -640,12 +1361,19 @@
   async function handleBulk(action) {
     var ids = Object.keys(state.selected);
     if (!ids.length) return;
+    var feedback = null;
+    if (action === 'delete') {
+      feedback = await promptRejectReason();
+      if (!feedback) return; // operator cancelled -- no items touched
+    }
     var ok = 0, failed = [];
     for (var i = 0; i < ids.length; i++) {
-      try { await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: ids[i], action: action }) }); ok++; }
+      var body = { itemId: ids[i], action: action };
+      if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
+      try { await api('/api/triage', { method: 'POST', body: JSON.stringify(body) }); ok++; }
       catch (e) { failed.push(ids[i] + ': ' + e.message); }
     }
-    showToast((action === 'hold' ? 'Beklemeye alındı: ' : 'Silindi: ') + ok + '/' + ids.length + (failed.length ? ' · hata: ' + failed[0] : ''));
+    showToast((action === 'hold' ? 'Beklemeye alındı: ' : 'Reddedildi (geri besleme kaydedildi): ') + ok + '/' + ids.length + (failed.length ? ' · hata: ' + failed[0] : ''));
     await load();
   }
   document.addEventListener('change', function (e) {
@@ -654,6 +1382,8 @@
     if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
   });
   document.addEventListener('click', function (e) {
+    var sel = window.getSelection();
+    if (sel && String(sel).length > 0 && e.target.closest('#srcPanel')) { return; }
     if (e.target.closest('[data-srcpanel]')) {
       state.showSources = !state.showSources;
       renderChrome();
@@ -668,8 +1398,19 @@
       load().catch(function (err) { showToast(err.message); });
       return;
     }
+    var hekLaneBtn = e.target.closest('[data-hek-lane]');
+    if (hekLaneBtn) {
+      state.hekLane = hekLaneBtn.getAttribute('data-hek-lane');
+      if (state.hekLane === 'all') state.hekLane = 'duyuru';
+      state.sourceFilter = '';
+      state.showSources = state.hekLane === 'burs' || state.hekLane === 'egitim';
+      localStorage.setItem('gcos-hek-lane', state.hekLane);
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
     var srcRow = e.target.closest('[data-src]');
     if (srcRow) {
+      if (e.target.closest('a')) return;
       var want = srcRow.getAttribute('data-kind-of');
       var wantKind = want === 'kaduse-research' ? 'research' : want === 'kaduse-news' ? 'news' : null;
       state.sourceFilter = srcRow.getAttribute('data-src');
@@ -684,6 +1425,30 @@
     if (e.target.closest('[data-src-clear]')) { state.sourceFilter = ''; renderList(); renderChrome(); return; }
     var bulkBtn = e.target.closest('[data-bulk]');
     if (bulkBtn) { handleBulk(bulkBtn.getAttribute('data-bulk')).catch(function (err) { showToast(err.message); }); return; }
+    var navBtn = e.target.closest('[data-nav]');
+    if (navBtn) {
+      var navId = navBtn.getAttribute('data-nav');
+      var n = NAV.filter(function (x) { return x.navId === navId; })[0];
+      if (!n) return;
+      state.route = n.route;
+      if (n.kind) state.kind = n.kind;
+      state.hekLane = n.lane || (n.route === 'hekimler' ? 'duyuru' : state.hekLane);
+      state.view = 'inbox';
+      state.sourceFilter = '';
+      state.showSources = n.lane === 'burs' || n.lane === 'egitim';
+      localStorage.setItem('gcos-route', state.route);
+      localStorage.setItem('gcos-hek-lane', state.hekLane);
+      localStorage.setItem('gcos-kind', state.kind);
+      localStorage.setItem('gcos-view', state.view);
+      var url = '/?route=' + encodeURIComponent(n.route);
+      if (n.route === 'bible') url = '/?route=bible';
+      else if (n.route === 'kaduse' && n.kind === 'news') url = '/?route=kaduse-news';
+      else if (n.route === 'kaduse' && n.kind === 'research') url = '/?route=kaduse-research';
+      else if (n.route === 'hekimler') url = '/?route=hekimler&lane=' + encodeURIComponent(n.lane || 'duyuru');
+      history.replaceState(null, '', url);
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
     var routeBtn = e.target.closest('[data-route]');
     if (routeBtn) {
       state.route = routeBtn.getAttribute('data-route');

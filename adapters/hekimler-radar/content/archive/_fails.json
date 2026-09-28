@@ -1,0 +1,371 @@
+[
+  {
+    "category": "haber",
+    "id": "news-eur-lex-mdr-ivdr-health-query",
+    "name": "EUR-Lex -- MDR/IVDR/Health/AI-Act-x-Health Saved-Search Query",
+    "url": "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=medical+device+OR+MDR+OR+IVDR&type=quick&lang=en",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "erişim/challenge: http_202",
+    "mode": "PENDING_MANUAL"
+  },
+  {
+    "category": "haber",
+    "id": "news-tuik-saglik-sosyal-koruma",
+    "name": "TÜİK -- Sağlık ve Sosyal Koruma only",
+    "url": "https://www.tuik.gov.tr/Kategori/GetKategori?p=Saglik-ve-Sosyal-Koruma-101",
+    "verdict": "FAIL",
+    "why": "fetch hata: The operation was aborted",
+    "mode": "WEB_ONLY"
+  },
+  {
+    "category": "research",
+    "id": "research-pubmed-central-oa",
+    "name": "NLM / NCBI (PubMed Central)",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/tools/ftp/",
+    "verdict": "FAIL",
+    "why": "extract boş ve last_ok_items=0",
+    "mode": "RESEARCH_REGISTRY"
+  },
+  {
+    "category": "research",
+    "id": "research-science",
+    "name": "Science (AAAS)",
+    "url": "https://www.science.org/journal/science",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "erişim/challenge: http_403",
+    "mode": "RESEARCH_REGISTRY"
+  },
+  {
+    "category": "research",
+    "id": "research-science-translational-medicine",
+    "name": "Science Translational Medicine (AAAS)",
+    "url": "https://www.science.org/journal/stm",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "erişim/challenge: http_403",
+    "mode": "RESEARCH_REGISTRY"
+  },
+  {
+    "category": "duyuru",
+    "id": "hsgm_public_health",
+    "name": "Halk Sağlığı Genel Müdürlüğü",
+    "url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "geo/runner — Bible 7.4 reddetmez",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "category": "duyuru",
+    "id": "tihud_internal_medicine",
+    "name": "Türk İç Hastalıkları Uzmanlık Derneği",
+    "url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+    "verdict": "FAIL",
+    "why": "FAILED_INTERNAL",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "category": "duyuru",
+    "id": "abroad_us_ecfmg_intealth",
+    "name": "ECFMG / Intealth — IMG certification",
+    "url": "https://www.ecfmg.org/news/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "kısmi kapsam — listede kalır, tam çekim değil",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "duyuru",
+    "id": "abroad_uk_gmc",
+    "name": "GMC — registration and licensing",
+    "url": "https://www.gov.uk/government/organisations/uk-visas-and-immigration.atom",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "kısmi kapsam — listede kalır, tam çekim değil",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "duyuru",
+    "id": "abroad_de_make_it_in_germany",
+    "name": "Make it in Germany — doctors (regulated profession)",
+    "url": "https://www.make-it-in-germany.com/en/working-in-germany/types-of-employment/regulated-professions/medical-doctors",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "kısmi kapsam — listede kalır, tam çekim değil",
+    "mode": null
+  },
+  {
+    "category": "duyuru",
+    "id": "medimagazin_general",
+    "name": "Medimagazin",
+    "url": "https://www.medimagazin.com.tr/",
+    "verdict": "FAIL",
+    "why": "FAILED_INTERNAL",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "category": "duyuru",
+    "id": "doktorclub",
+    "name": "Doktorclub",
+    "url": "https://doktorclub.com/",
+    "verdict": "FAIL",
+    "why": "FAILED_INTERNAL",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "category": "duyuru",
+    "id": "iha_saglik",
+    "name": "İHA -- Sağlık",
+    "url": "https://www.iha.com.tr/saglik",
+    "verdict": "FAIL",
+    "why": "FAILED_INTERNAL",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "category": "burs",
+    "id": "burs_us_aauw_international",
+    "name": "AAUW International Fellowships",
+    "url": "https://www.aauw.org/resources/programs/fellowships-grants/aauw-international-fellowships/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_uk_chevening",
+    "name": "Chevening Scholarships",
+    "url": "https://www.chevening.org/scholarships/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "timeout",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_jp_mext",
+    "name": "Japonya Hükûmeti (MEXT) Bursu — Türkiye Büyükelçiliği",
+    "url": "https://www.tr.emb-japan.go.jp/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_tr_kyk",
+    "name": "KYK Burs / Öğrenim Kredisi (GSB)",
+    "url": "https://kygm.gsb.gov.tr/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "timeout",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_hu_stipendium",
+    "name": "Stipendium Hungaricum (MEB)",
+    "url": "https://stipendiumhungaricum.hu/country/turkiye/",
+    "verdict": "FAIL",
+    "why": "URLError",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_tr_jean_monnet",
+    "name": "Jean Monnet Burs Programı",
+    "url": "https://jeanmonnet.org.tr/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_ch_swiss_excellence",
+    "name": "Swiss Government Excellence Scholarships",
+    "url": "https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships",
+    "verdict": "FAIL",
+    "why": "URLError",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_espen_fellowships",
+    "name": "ESPEN Research Fellowships",
+    "url": "https://www.espen.org/component/content/article/450-espen-research-fellowships-for-2026?Itemid=1834&catid=30",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_us_morris",
+    "name": "Morris Animal Foundation Grants & Veterinary Student Scholar",
+    "url": "https://www.morrisanimalfoundation.org/veterinary-student-scholar-program",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "burs",
+    "id": "burs_iubmb",
+    "name": "IUBMB Wood-Whelan Research Fellowships",
+    "url": "https://iubmb.org/activities/fellowship-programs/iubmb-wood-whelan-research-fellowships/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_ifm",
+    "name": "Institute for Functional Medicine",
+    "url": "https://www.ifm.org/education",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_acam_chelation",
+    "name": "ACAM Chelation Training",
+    "url": "https://www.acam.org/mpage/ChelationHome",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_stanford_integrative",
+    "name": "Stanford Medicine Integrative Medicine Education",
+    "url": "https://med.stanford.edu/peds-integrative.html",
+    "verdict": "FAIL",
+    "why": "HTTP 404",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_charite_im_summer",
+    "name": "Charité Berlin Summer School Integrative Medizin",
+    "url": "https://ccctim.charite.de/en/berlin_summerschool_integrative_medizin/",
+    "verdict": "FAIL",
+    "why": "URLError",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_hms_ce",
+    "name": "Harvard Medical School Continuing Education",
+    "url": "https://cmecatalog.hms.harvard.edu/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_mayo_scpd",
+    "name": "Mayo Clinic School of Continuous Professional Development",
+    "url": "https://ce.mayo.edu/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_lshtm_short",
+    "name": "LSHTM Short Courses",
+    "url": "https://www.lshtm.ac.uk/study/courses/short-courses",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_eular",
+    "name": "EULAR Education",
+    "url": "https://www.eular.org/education",
+    "verdict": "FAIL",
+    "why": "HTTP 404",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_isglobal",
+    "name": "ISGlobal Training & Education",
+    "url": "https://www.isglobal.org/en/training",
+    "verdict": "FAIL",
+    "why": "HTTP 404",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_monash_pd",
+    "name": "Monash Medicine Nursing & Health Sciences Professional Development",
+    "url": "https://www.monash.edu/medicine/professional-development",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_wfot",
+    "name": "WFOT — World Federation of Occupational Therapists",
+    "url": "https://wfot.org/",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_espen_training",
+    "name": "ESPEN Clinical Nutrition Training",
+    "url": "https://www.espen.org/education/training/information-on-training",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_ifm_fmcp",
+    "name": "IFM FMCP / FMCP-M Certification",
+    "url": "https://www.ifm.org/certification",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_ifm_afmcp",
+    "name": "IFM AFMCP",
+    "url": "https://www.ifm.org/afmcp",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_nih_ippcr",
+    "name": "NIH IPPCR",
+    "url": "https://ocreco.od.nih.gov/courses/ippcr.html",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_hms_hmx",
+    "name": "Harvard Medical School HMX Fundamentals",
+    "url": "https://learn.hms.harvard.edu/about/program-categories/hmx-online-learning",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_ucl_moorfields_oss",
+    "name": "UCL Institute of Ophthalmology + Moorfields Summer School",
+    "url": "https://www.ucl.ac.uk/brain-sciences/ioo/study/summer-school",
+    "verdict": "HUMAN_REQUIRED",
+    "why": "anti-bot/HTTP 403 — bypass yok (Bible 8.2)",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "category": "egitim",
+    "id": "egitim_openwho",
+    "name": "OpenWHO Health Emergencies Training",
+    "url": "https://openwho.org/courses",
+    "verdict": "FAIL",
+    "why": "HTTP 404",
+    "mode": "MANUAL_INTAKE"
+  }
+]

@@ -1,0 +1,1552 @@
+{
+  "static": [
+    "charite_visiting",
+    "heidelberg_visiting",
+    "lmu_visiting",
+    "karolinska_visiting",
+    "amsterdamumc_visiting",
+    "kcl_visiting",
+    "imperial_visiting",
+    "oxford_visiting",
+    "cambridge_visiting",
+    "gustaveroussy_visiting",
+    "humanitas_visiting",
+    "clinicbarcelona_visiting",
+    "totek_ortopedi_egitim",
+    "study_in_italy_maeci"
+  ],
+  "results": [
+    {
+      "id": "tubitak_duyurular",
+      "cat": "scholarship_research",
+      "url": "https://www.tubitak.gov.tr/tr/duyuru",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 68,
+      "bytes": 95918,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tubitak_2205",
+      "cat": "scholarship_research",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2205-lisans-burs-programi",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 11,
+      "bytes": 105387,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tubitak_2247c",
+      "cat": "scholarship_research",
+      "url": "https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2247-c-stajyer-arastirmaci-burs-programi-star",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 47,
+      "bytes": 97765,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tuseb_haberler",
+      "cat": "scholarship_research",
+      "url": "https://www.tuseb.gov.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 39,
+      "bytes": 154245,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "vgm_duyurular",
+      "cat": "scholarship_research",
+      "url": "https://www.vgm.gov.tr/duyurular",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 21,
+      "bytes": 100621,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tev_burslar",
+      "cat": "scholarship_research",
+      "url": "https://www.tev.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 36,
+      "bytes": 130289,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "teknofest_saglik_yz",
+      "cat": "scholarship_research",
+      "url": "https://teknofest.org/tr/yarismalar/saglikta-yapay-zeka-yarismasi/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 7,
+      "bytes": 311827,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ua_erasmus_sonuclar",
+      "cat": "scholarship_research",
+      "url": "https://www.ua.gov.tr/anasayfa/icerikler/basvuru-sonuclari/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 58771,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eusem_young_em",
+      "cat": "trainee_opportunity",
+      "url": "https://eusem.org/sections-and-committees/sections/young-em-doctors-section",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 7,
+      "bytes": 41745,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eyfdm_wonca",
+      "cat": "trainee_opportunity",
+      "url": "https://eyfdm.eu/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 13,
+      "bytes": 140459,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "emsa_europe",
+      "cat": "trainee_opportunity",
+      "url": "https://emsa-europe.eu/",
+      "ok": false,
+      "error": "HTTP Error 406: Not Acceptable",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "uems_training_requirements",
+      "cat": "trainee_opportunity",
+      "url": "https://www.uems.eu/european-training-requirements",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 71448,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "esp_ecp_bursaries",
+      "cat": "trainee_opportunity",
+      "url": "https://www.espcongress.org/bursaries/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 14,
+      "bytes": 331771,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eanm_yim",
+      "cat": "trainee_opportunity",
+      "url": "https://eanm.org/congress-scientific-events/young-investigators-meeting/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 26,
+      "bytes": 449997,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "spr_awards",
+      "cat": "trainee_opportunity",
+      "url": "https://www.societyforpediatricresearch.org/awards-funding/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 4,
+      "bytes": 453451,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "sir_in_training",
+      "cat": "trainee_opportunity",
+      "url": "https://www.sirweb.org/in-training/opportunities/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 16,
+      "bytes": 171080,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "apa_pass",
+      "cat": "trainee_opportunity",
+      "url": "https://www.psychiatry.org/psychiatrists/meetings/annual-meeting/psychiatry-ambassadors-and-student-scholarships",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 35,
+      "bytes": 217212,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eans_courses",
+      "cat": "trainee_opportunity",
+      "url": "https://www.eans.org/page/EANS-courses",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eaes_fellowship",
+      "cat": "trainee_opportunity",
+      "url": "https://eaes.eu/fellowship/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 17,
+      "bytes": 155235,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ehs_travel_grant",
+      "cat": "trainee_opportunity",
+      "url": "https://europeanherniasociety.eu/travel-grant/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 24,
+      "bytes": 300985,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "efort_fellowships",
+      "cat": "trainee_opportunity",
+      "url": "https://www.efort.org/fellowships/introduction/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 10,
+      "bytes": 58131,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "forte_ortho",
+      "cat": "trainee_opportunity",
+      "url": "https://www.forteortho.org/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 4,
+      "bytes": 179088,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eshre_research_funding",
+      "cat": "trainee_opportunity",
+      "url": "https://www.eshre.eu/Research-and-funding",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 7,
+      "bytes": 61861,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "wonca_donald_li_scholarship",
+      "cat": "trainee_opportunity",
+      "url": "https://www.globalfamilydoctor.com/member/awards/DonaldLiYDMGlobalScholarship.aspx",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "institut_curie_traineeship",
+      "cat": "trainee_opportunity",
+      "url": "https://training.institut-curie.org/article/traineeship-for-medical-students-physicians-from-european-union-and-outside-european-union",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 11,
+      "bytes": 57127,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "bsh_students",
+      "cat": "trainee_opportunity",
+      "url": "https://b-s-h.org.uk/education/students",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "ann": 10,
+      "bytes": 467182,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ime_conference_grants",
+      "cat": "trainee_opportunity",
+      "url": "https://ime-uk.org/grants-and-competitions/conference-grants/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 4,
+      "bytes": 94890,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "uems_eaccme",
+      "cat": "trainee_opportunity",
+      "url": "https://eaccme.uems.eu/",
+      "ok": true,
+      "years": [],
+      "ann": 5,
+      "bytes": 46464,
+      "verdict": "ok"
+    },
+    {
+      "id": "ebeem_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://eusem.org/ebeem",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 7,
+      "bytes": 43452,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "edaic_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://esaic.org/professional-growth/edaic/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 19,
+      "bytes": 383254,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "febu_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.ebu.com/examination/febu/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 1,
+      "bytes": 25672,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "feborl_hns_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.ebeorl-hns.org/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 114792,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ebir_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.cirse.org/certification/ebir/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 19,
+      "bytes": 392492,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ebod_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.ebo-online.org/ebo-exam/exam-information/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 5,
+      "bytes": 76359,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "edir_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.myebr.org/edir",
+      "ok": false,
+      "error": "HTTP Error 466: ",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tatd_acil_tip",
+      "cat": "trainee_opportunity",
+      "url": "https://tatd.org.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 108,
+      "bytes": 338666,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tahud_aile_hekimligi",
+      "cat": "trainee_opportunity",
+      "url": "https://www.tahud.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 19,
+      "bytes": 222039,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tpd_psikiyatri",
+      "cat": "trainee_opportunity",
+      "url": "https://psikiyatri.org.tr/haber-duyuru",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 383,
+      "bytes": 926949,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tpd_patoloji",
+      "cat": "trainee_opportunity",
+      "url": "https://www.tpd.org.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 24,
+      "bytes": 42086,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tard_anestezi",
+      "cat": "trainee_opportunity",
+      "url": "https://www.tard.org.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 106,
+      "bytes": 88107,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tod_oftalmoloji",
+      "cat": "trainee_opportunity",
+      "url": "https://www.todnet.org/home/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 1,
+      "bytes": 72023,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "kbb_dernek",
+      "cat": "trainee_opportunity",
+      "url": "https://kbb.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 27,
+      "bytes": 53441,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "turkcer_cerrahi",
+      "cat": "trainee_opportunity",
+      "url": "https://www.turkcer.org.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 25,
+      "bytes": 57124,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "turknorosirurji",
+      "cat": "trainee_opportunity",
+      "url": "https://www.turknorosirurji.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 11,
+      "bytes": 39770,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tjod_jinekoloji",
+      "cat": "trainee_opportunity",
+      "url": "https://www.tjod.org/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 67,
+      "bytes": 165913,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "jed_jinekolojik_endoskopi",
+      "cat": "trainee_opportunity",
+      "url": "https://www.jed.org.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 4,
+      "bytes": 35160,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "charite_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.charite.de/en/international/for_students",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 31517,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "heidelberg_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.medizinische-fakultaet-hd.uni-heidelberg.de/en/studium-lehre/studium/medizin/international/incoming-students/praktikum",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 12,
+      "bytes": 478141,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "lmu_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.med.lmu.de/en/study/international-exchange/short-term-clinical-rotations/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 2,
+      "bytes": 36475,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "karolinska_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://education.ki.se/apply-for-student-exchange-at-karolinska-institutet",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 5,
+      "bytes": 69435,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "erasmusmc_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.eur.nl/en/erasmusmc/exchange",
+      "ok": true,
+      "years": [],
+      "ann": 6,
+      "bytes": 131882,
+      "verdict": "ok"
+    },
+    {
+      "id": "amsterdamumc_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.uva.nl/en/programmes/exchange/medical-science-and-dentistry/medical-sciences-and-dentistry-exchange.html",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 5,
+      "bytes": 130150,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "kcl_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.kcl.ac.uk/elective-placement-in-clinical-medicine-course",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 13,
+      "bytes": 98501,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "imperial_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.imperial.nhs.uk/education/medicine/clinical-electives",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "static"
+    },
+    {
+      "id": "oxford_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.medsci.ox.ac.uk/study/medicine/electives",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "static"
+    },
+    {
+      "id": "cambridge_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.medschl.cam.ac.uk/elective-placements",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 174671,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "gustaveroussy_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://gustaveroussy.my.site.com/formation/s/stagedesexternes",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 74490,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "humanitas_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.hunimed.eu/course/international-mobility-2/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "ann": 6,
+      "bytes": 291360,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "vallhebron_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.vallhebron.com/en/teaching/training-stays/specialist-training-placements-foreign-hospitals",
+      "ok": true,
+      "years": [],
+      "ann": 9,
+      "bytes": 95945,
+      "verdict": "ok"
+    },
+    {
+      "id": "clinicbarcelona_visiting",
+      "cat": "trainee_opportunity",
+      "url": "https://www.clinicbarcelona.org/en/teaching/training-stays",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 192479,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "static"
+    },
+    {
+      "id": "osym_sts_tip",
+      "cat": "central_announcement",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/45",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 6,
+      "bytes": 142808,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "amp_trainee_travel_award",
+      "cat": "trainee_opportunity",
+      "url": "https://www.amp.org/membership/awards-grants-honors/amp-international-trainee-travel-award/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 10,
+      "bytes": 50388,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "study_in_europe_scholarships",
+      "cat": "trainee_opportunity",
+      "url": "https://education.ec.europa.eu/study-in-europe/planning-your-studies/scholarships-and-funding",
+      "ok": false,
+      "years": [
+        "2025"
+      ],
+      "ann": 1,
+      "bytes": 116607,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "escmid_uems_id_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.escmid.org/education/specialty-training-uems/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 26,
+      "bytes": 128049,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "mrcp_uk_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.rcp.ac.uk/mrcpuk-examination",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 37,
+      "bytes": 136429,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "mrcs_uk_exam",
+      "cat": "trainee_opportunity",
+      "url": "https://www.rcseng.ac.uk/education-and-exams/exams/search/intercollegiate-mrcs/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 13,
+      "bytes": 62898,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "totek_ortopedi_egitim",
+      "cat": "trainee_opportunity",
+      "url": "https://totek.totbid.org.tr/tr/uzmanlik-egitimi",
+      "ok": true,
+      "years": [],
+      "ann": 1,
+      "bytes": 18767,
+      "verdict": "static"
+    },
+    {
+      "id": "osym_kpss",
+      "cat": "central_announcement",
+      "url": "https://www.osym.gov.tr/SinavGrubu/Index/3",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 8,
+      "bytes": 156595,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "ecfmg_sponsor_notes_policy",
+      "cat": "central_announcement",
+      "url": "https://www.ecfmg.org/resources/sponsor-notes.html",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_ankara",
+      "cat": "scholarship_research",
+      "url": "https://sosyalhizmetler.ankara.bel.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 20,
+      "bytes": 259777,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_bursa",
+      "cat": "scholarship_research",
+      "url": "https://www.bursa.bel.tr/burs",
+      "ok": false,
+      "years": [
+        "2024"
+      ],
+      "ann": 5,
+      "bytes": 45148,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_hatay",
+      "cat": "scholarship_research",
+      "url": "https://www.hatay.bel.tr/sosyal-hizmetler",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 8,
+      "bytes": 50592,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_kocaeli",
+      "cat": "scholarship_research",
+      "url": "https://burs.kocaeli.bel.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025"
+      ],
+      "ann": 0,
+      "bytes": 65734,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_manisa",
+      "cat": "scholarship_research",
+      "url": "https://seninicin.manisa.bel.tr/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 18,
+      "bytes": 438557,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "belediye_burs_ordu",
+      "cat": "scholarship_research",
+      "url": "https://www.ordu.bel.tr/duyurular",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 305,
+      "bytes": 404722,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "tubitak_2242",
+      "cat": "scholarship_research",
+      "url": "https://tubitak.gov.tr/tr/yarismalar/oncelikli-alanlarda-universite-ogrencileri-proje-yarismasi",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 8,
+      "bytes": 68547,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "kizilay_burslari",
+      "cat": "scholarship_research",
+      "url": "https://kizilayburslari.kizilay.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 22,
+      "bytes": 41541,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "fulbright_turkiye",
+      "cat": "scholarship_research",
+      "url": "https://fulbright.org.tr/turk-vatandaslarina-verilen-burslar",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 11,
+      "bytes": 52766,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "jean_monnet_burs",
+      "cat": "scholarship_research",
+      "url": "https://jeanmonnet.org.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 9,
+      "bytes": 161533,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "daad_turkiye",
+      "cat": "scholarship_research",
+      "url": "https://www.daad-turkiye.org/tr/destek-bul/daad-tuerkiye-burs-programlari/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 2,
+      "bytes": 120032,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "japonya_mext_turkiye",
+      "cat": "scholarship_research",
+      "url": "https://www.tr.emb-japan.go.jp/itpr_tr/00_000075.html",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "chevening_turkiye",
+      "cat": "scholarship_research",
+      "url": "https://www.chevening.org/scholarship/turkey/",
+      "ok": false,
+      "error": "The read operation timed out",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "meb_yyegm_ylsy",
+      "cat": "scholarship_research",
+      "url": "https://yyegm.meb.gov.tr/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 18,
+      "bytes": 44799,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "eskas_isvicre",
+      "cat": "scholarship_research",
+      "url": "https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 198891,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "jsps_japonya",
+      "cat": "scholarship_research",
+      "url": "https://www.jsps.go.jp/english/e-fellow/application.html",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 19,
+      "bytes": 55186,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "humboldt_almanya",
+      "cat": "scholarship_research",
+      "url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 9,
+      "bytes": 219528,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "gks_kore",
+      "cat": "scholarship_research",
+      "url": "https://www.studyinkorea.go.kr/en/plan/scholarship.do",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 132766,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "embo_fellowships",
+      "cat": "scholarship_research",
+      "url": "https://www.embo.org/funding/fellowships-grants-and-career-support/postdoctoral-fellowships/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 10,
+      "bytes": 210723,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "msca_postdoc",
+      "cat": "scholarship_research",
+      "url": "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 3,
+      "bytes": 132643,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "campus_france_eiffel",
+      "cat": "scholarship_research",
+      "url": "https://www.campusfrance.org/en/france-excellence-eiffel-scholarship-program",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 6,
+      "bytes": 145798,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "meb_abdigm",
+      "cat": "scholarship_research",
+      "url": "https://abdigm.meb.gov.tr/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 9,
+      "bytes": 56237,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "cin_baskonsoloslugu_istanbul",
+      "cat": "scholarship_research",
+      "url": "https://istanbul.china-consulate.gov.cn/tur/xwdt/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 25,
+      "bytes": 235922,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "educanada_burslar",
+      "cat": "scholarship_research",
+      "url": "https://www.educanada.ca/scholarships-bourses/index.aspx?lang=eng",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 5,
+      "bytes": 24083,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "study_in_italy_maeci",
+      "cat": "scholarship_research",
+      "url": "https://studyinitaly.esteri.it/",
+      "ok": true,
+      "years": [],
+      "ann": 1,
+      "bytes": 20790,
+      "verdict": "static"
+    },
+    {
+      "id": "oead_avusturya",
+      "cat": "scholarship_research",
+      "url": "https://oead.at/en/study-research-teaching/overview-grants-and-scholarships",
+      "ok": false,
+      "error": "<urlopen error [Errno 11001] getaddrinfo failed>",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "grants_at_avusturya",
+      "cat": "scholarship_research",
+      "url": "https://grants.at/en/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 1,
+      "bytes": 119486,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "nawa_polonya",
+      "cat": "scholarship_research",
+      "url": "https://nawa.gov.pl/en/students/foreign-students",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 154,
+      "bytes": 290648,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "goi_ies_irlanda",
+      "cat": "scholarship_research",
+      "url": "https://hea.ie/policy/internationalisation/goi-ies/",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 6,
+      "bytes": 156970,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "study_in_nl_burslar",
+      "cat": "scholarship_research",
+      "url": "https://www.studyinnl.org/finances/scholarships",
+      "ok": false,
+      "years": [
+        "2024"
+      ],
+      "ann": 4,
+      "bytes": 34823,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "master_mind_belcika",
+      "cat": "scholarship_research",
+      "url": "https://www.studyinflanders.be/scholarships/master-mind-scholarships",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 35121,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "nsp_slovakya",
+      "cat": "scholarship_research",
+      "url": "https://www.scholarships.sk/en/main/programme-terms-and-conditions/foreign-applicants",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "astar_singapur",
+      "cat": "scholarship_research",
+      "url": "https://www.a-star.edu.sg/scholarships",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 1,
+      "bytes": 189969,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "kaust_suudi",
+      "cat": "scholarship_research",
+      "url": "https://www.kaust.edu.sa/en/study",
+      "ok": false,
+      "years": [
+        "2025"
+      ],
+      "ann": 9,
+      "bytes": 108176,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "hbku_katar",
+      "cat": "scholarship_research",
+      "url": "https://www.hbku.edu.qa/en/admissions",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 8,
+      "bytes": 103204,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "erasmus_mundus_joint_masters",
+      "cat": "scholarship_research",
+      "url": "https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 1,
+      "bytes": 195707,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "hfsp_fellowships",
+      "cat": "scholarship_research",
+      "url": "https://www.hfsp.org/funding/hfsp-funding/postdoctoral-fellowships",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 14,
+      "bytes": 116460,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "embl_postdoc",
+      "cat": "scholarship_research",
+      "url": "https://www.embl.org/about/info/postdoctoral-programme/fellowship-programmes/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 2,
+      "bytes": 49819,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "gates_cambridge",
+      "cat": "scholarship_research",
+      "url": "https://www.gatescambridge.org/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 13,
+      "bytes": 59322,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "cgrs_d_kanada",
+      "cat": "scholarship_research",
+      "url": "https://nserc-crsng.canada.ca/en/funding-opportunity/canada-graduate-research-scholarship-doctoral-program",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 54741,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "pasteur_stajlar",
+      "cat": "scholarship_research",
+      "url": "https://www.pasteur.fr/en/education/programs-and-courses/internships-and-pre-doctoral-programs",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 6,
+      "bytes": 96197,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "daad_burs_veritabani",
+      "cat": "scholarship_research",
+      "url": "https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/",
+      "ok": false,
+      "years": [
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 22979,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "boell_burslari",
+      "cat": "scholarship_research",
+      "url": "https://www.boell.de/en/scholarships",
+      "ok": false,
+      "years": [
+        "2024",
+        "2025",
+        "2026"
+      ],
+      "ann": 8,
+      "bytes": 62954,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "fes_burslari",
+      "cat": "scholarship_research",
+      "url": "https://www.fes.de/studienfoerderung",
+      "ok": false,
+      "years": [
+        "2024",
+        "2026"
+      ],
+      "ann": 0,
+      "bytes": 259272,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    },
+    {
+      "id": "esc_grants_fellowships",
+      "cat": "trainee_opportunity",
+      "url": "https://www.escardio.org/education/career-development/grants/esc-grants-and-fellowships/",
+      "ok": false,
+      "years": [
+        "2025",
+        "2026"
+      ],
+      "ann": 63,
+      "bytes": 311124,
+      "error": "'<' not supported between instances of 'str' and 'int'",
+      "verdict": "error_keep"
+    }
+  ]
+}

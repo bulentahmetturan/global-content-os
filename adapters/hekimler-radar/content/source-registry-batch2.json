@@ -1,0 +1,3303 @@
+{
+  "registry_id": "hekimler-batch2-candidates-v1",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "notes": "Batch 2+ domestic pass: activate verified list surfaces only. TurkMSIC/TTB/HSGM-basin/TPD/Klimik/TRD AUTOMATION_READY when dry-run HEALTHY.",
+  "batch2_review": {
+    "moh_physician_workforce": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified YHGM kura/atama list indexes (not www.saglik.gov.tr homepage).",
+      "surfaces": [
+        "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+        "https://yhgm.saglik.gov.tr/TR,11621/ilk-defa-ve-yeniden-atama-kuralari.html",
+        "https://yhgm.saglik.gov.tr/TR,11623/yer-degistirme-suretiyle-atanma-kuralari.html",
+        "https://yhgm.saglik.gov.tr/TR,11624/unvan-degisikligi-kuralari.html"
+      ]
+    },
+    "hsgm_public_health": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified /tr/basin-odasi/basin-odasi-haberler.html (legacy /tr/duyurular|/tr/haberler still 404).",
+      "surfaces": [
+        "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html"
+      ]
+    },
+    "pubmed_biomedical_evidence": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Finite approved_query_pack + hardened eutilities (tool/email, timeout, retry); PMID required."
+    },
+    "turkmsic_medical_students": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://turkmsic.org/haberler list index.",
+      "surfaces": [
+        "https://turkmsic.org/haberler"
+      ]
+    },
+    "ttb_national": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified arsiv_duyuru.php + arsiv_haber.php.",
+      "surfaces": [
+        "https://www.ttb.org.tr/arsiv_duyuru.php",
+        "https://www.ttb.org.tr/arsiv_haber.php"
+      ]
+    },
+    "tpd_psychiatry": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "haber-duyuru verified but 3000+ anchors; item-path allowlist required."
+    },
+    "klimık_infectious_diseases": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified WP category duyurular/haberler indexes."
+    },
+    "trd_radiology": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified dernekten-haberler + duyurular indexes."
+    },
+    "tuik_medical_public_health": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "TÜİK health category is SPA (veriportali shell); no verified structured API for automation."
+    },
+    "hasuder_public_health": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified /listele/duyurular-hasuder-cat (legacy duyurular 500).",
+      "surfaces": [
+        "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat"
+      ]
+    },
+    "teged_medical_education": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "No announcement list; only static genel-kurul page."
+    },
+    "tepdad_medical_accreditation": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "No /duyuru|/haber index (404); accreditation PDF inventory only."
+    },
+    "tahud_family_medicine": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "/haberler and /guncel return empty self-href pages; not a usable HTML list."
+    },
+    "tihud_internal_medicine": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "/HaberlerveDuyurular 500; alternate query has nav tabs only, no item list."
+    },
+    "tkd_cardiology": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "Duyurular list is toplantı/okul series; mismatches guideline intent and kongre excludes."
+    },
+    "ttd_thoracic": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "Haberler mostly webinar/kongre endorse; not guideline announcement index."
+    },
+    "halk_sagligi_yeterlik": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "/list/haber-postasi-hsyk-cat is static kurumsal pages, not a news feed."
+    },
+    "anadolu_ajansi_medical_radar": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "S57 (2026-09-26): aa.com.tr /tr/saglik already lives on Haber (Kaduse's news-aa-saglik-scoped); retiring the Hekimler-side secondary registration per single-channel-per-source decision.",
+      "canonical_hub_category": "haber"
+    },
+    "turk_pediatri_kurumu": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://turkpediatri.org.tr/haberler"
+    },
+    "abroad_us_usmle": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified news/announcements list https://www.usmle.org/announcements",
+      "surfaces": [
+        "https://www.usmle.org/announcements"
+      ]
+    },
+    "abroad_us_nrmp": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified news/announcements list https://www.nrmp.org/about/news/",
+      "surfaces": [
+        "https://www.nrmp.org/about/news/"
+      ]
+    },
+    "abroad_ca_carms": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified news/announcements list https://www.carms.ca/news/",
+      "surfaces": [
+        "https://www.carms.ca/news/"
+      ]
+    },
+    "abroad_ca_mcc_img_pathways": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified news/announcements list https://mcc.ca/news/",
+      "surfaces": [
+        "https://mcc.ca/news/"
+      ]
+    },
+    "tatd_emergency_medicine": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "WP category is JS-rendered (no post hrefs in HTML); RSS/JSON not in VERIFIED_FETCH_METHODS."
+    },
+    "abroad_us_ecfmg_intealth": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "ecfmg.org/news Cloudflare 403 from automation egress."
+    },
+    "abroad_uk_gmc": {
+      "decision": "MANUAL_INTAKE",
+      "reason": "gmc-uk.org/news Cloudflare 403; PLAB page is pathway dossier not list index."
+    }
+  },
+  "sources": [
+    {
+      "source_id": "pubmed_biomedical_evidence",
+      "label": "PubMed biomedical evidence (approved query pack only)",
+      "source_tier": "EVIDENCE_INDEX",
+      "role": "EVIDENCE_INDEX",
+      "fetch_mode": "eutilities_api",
+      "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "primary_url": "https://pubmed.ncbi.nlm.nih.gov/",
+      "include_keywords": [
+        "residency",
+        "specialty training",
+        "postgraduate medical",
+        "practice guideline",
+        "clinical guideline",
+        "physician workforce",
+        "medical student"
+      ],
+      "exclude_keywords": [
+        "veterinary only",
+        "plant science only",
+        "preprint only"
+      ],
+      "audience_segments": [
+        "physician",
+        "resident",
+        "academic_physician",
+        "medical_student"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "allowed_routes": [
+        "RESEARCH_REVIEW",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "approved_query_pack": [
+        {
+          "id": "residency_specialty_training_tr",
+          "term": "(residency[Title] OR \"specialty training\"[Title] OR \"postgraduate medical education\"[Title]) AND (Turkey[Affiliation] OR Türkiye[Affiliation])",
+          "retmax": 5
+        },
+        {
+          "id": "practice_guideline_tr",
+          "term": "\"practice guideline\"[Publication Type] AND (Turkey[Affiliation] OR Türkiye[Affiliation])",
+          "retmax": 5
+        }
+      ],
+      "reject_unrestricted_search": true,
+      "require_pmid": true,
+      "reject_preprint_only": true,
+      "fetch_plan": {
+        "primary_method": "eutilities_api",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "eutils.ncbi.nlm.nih.gov",
+          "pubmed.ncbi.nlm.nih.gov",
+          "www.ncbi.nlm.nih.gov"
+        ],
+        "allowed_path_patterns": [
+          "/entrez/eutils/"
+        ],
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 3,
+          "require_in_scope_for_low_coverage": true
+        },
+        "eutilities": {
+          "tool": "hekimler_toplulugu",
+          "email": "hekimler-radar@local.invalid",
+          "timeout_ms": 12000,
+          "retry_max": 2,
+          "inter_query_delay_ms": 400,
+          "reldate_days": 90,
+          "max_total": 8
+        },
+        "initial_backfill": {
+          "lookback_days": 30,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": false
+        },
+        "surfaces": [
+          {
+            "id": "esearch",
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "status": "active",
+      "statement_treatment": "scientific_index",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "osym_dus_dental_exams",
+      "label": "ÖSYM – DUS diş hekimliği uzmanlık sınavı",
+      "source_tier": "OFFICIAL_PRIMARY",
+      "role": "medical exam and deadline authority",
+      "fetch_mode": "dedicated_exam_listing",
+      "source_url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+      "primary_url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+      "related_list_urls": [],
+      "maps_official_source_ids": [
+        "osym_dus_dental_exams"
+      ],
+      "allowed_topics": [
+        "DUS"
+      ],
+      "include_keywords": [
+        "DUS",
+        "diş hekimliği",
+        "dis hekimligi",
+        "uzmanlık eğitimi giriş",
+        "diş hekimi",
+        "tercih",
+        "yerleştirme"
+      ],
+      "exclude_keywords": [
+        "KPSS",
+        "DGS",
+        "ALES",
+        "YKS",
+        "LGS",
+        "MSÜ",
+        "e-KPSS",
+        "polis",
+        "jandarma",
+        "öğretmenlik",
+        "hukuk fakültesi",
+        "mühendislik"
+      ],
+      "audience_segments": [
+        "dental_student",
+        "dentist",
+        "dus_candidate"
+      ],
+      "allowed_routes": [
+        "OPPORTUNITY",
+        "CAREER",
+        "PROFESSIONAL_BRIEF",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "OPPORTUNITY",
+      "required_fields": [
+        "exam_name",
+        "action_type",
+        "affected_audience",
+        "application_date",
+        "exam_date",
+        "result_or_preference_date"
+      ],
+      "evidence_status": "verified_when_official_url_present",
+      "transform_rule": "Never surface raw OSYM announcement titles. Generate only: what changed / who is affected / deadline / required action. Low viral potential must never lower OPPORTUNITY priority.",
+      "virality_must_not_lower_opportunity": true,
+      "policy_notes": "Scope is this exam group only. Generic national exams are DISCARD even if posted on OSYM.",
+      "fetch_notes": "Dedicated exam-group listing.",
+      "fetch_plan": {
+        "primary_method": "dedicated_exam_listing",
+        "fallback_methods": [
+          "gated_announcement_index"
+        ],
+        "allowed_hostnames": [
+          "www.osym.gov.tr",
+          "osym.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/SinavGrubu/",
+          "/Duyurular/"
+        ],
+        "expected_check_interval_minutes": 1440,
+        "last_success_at": null,
+        "last_content_hash": null,
+        "last_item_timestamp": null,
+        "failure_count": 0,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "per_run",
+          "coverage_watch_window": 3,
+          "require_in_scope_for_low_coverage": true
+        },
+        "manual_review_reason": null,
+        "tls_verification_required": true,
+        "surfaces": [
+          {
+            "id": "group",
+            "url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        }
+      },
+      "status": "active",
+      "canonical_url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+      "statement_treatment": "official_decision",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "name": "ÖSYM – DUS diş hekimliği uzmanlık sınavı",
+      "source_health": "HEALTHY",
+      "item_url_patterns": [
+        "osym\\.gov\\.tr/[a-z0-9-]{20,}$"
+      ],
+      "dedupe_group": "osym_exam_announcements",
+      "dedupe_by": "url",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "osym_ydus_subspecialty_exams",
+      "label": "ÖSYM – YDUS tıpta yan dal uzmanlık sınavı",
+      "source_tier": "OFFICIAL_PRIMARY",
+      "role": "medical exam and deadline authority",
+      "fetch_mode": "dedicated_exam_listing",
+      "source_url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+      "primary_url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+      "related_list_urls": [],
+      "maps_official_source_ids": [
+        "osym_ydus_subspecialty_exams"
+      ],
+      "allowed_topics": [
+        "YDUS"
+      ],
+      "include_keywords": [
+        "YDUS",
+        "yan dal",
+        "yandal",
+        "tıpta yan dal",
+        "uzmanlık eğitimi giriş",
+        "tercih",
+        "yerleştirme"
+      ],
+      "exclude_keywords": [
+        "KPSS",
+        "DGS",
+        "ALES",
+        "YKS",
+        "LGS",
+        "MSÜ",
+        "e-KPSS",
+        "polis",
+        "jandarma",
+        "öğretmenlik",
+        "hukuk fakültesi",
+        "mühendislik"
+      ],
+      "audience_segments": [
+        "resident",
+        "specialist",
+        "physician"
+      ],
+      "allowed_routes": [
+        "OPPORTUNITY",
+        "CAREER",
+        "PROFESSIONAL_BRIEF",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "OPPORTUNITY",
+      "required_fields": [
+        "exam_name",
+        "action_type",
+        "affected_audience",
+        "application_date",
+        "exam_date",
+        "result_or_preference_date"
+      ],
+      "evidence_status": "verified_when_official_url_present",
+      "transform_rule": "Never surface raw OSYM announcement titles. Generate only: what changed / who is affected / deadline / required action. Low viral potential must never lower OPPORTUNITY priority.",
+      "virality_must_not_lower_opportunity": true,
+      "policy_notes": "Scope is this exam group only. Generic national exams are DISCARD even if posted on OSYM.",
+      "fetch_notes": "Dedicated exam-group listing.",
+      "fetch_plan": {
+        "primary_method": "dedicated_exam_listing",
+        "fallback_methods": [
+          "gated_announcement_index"
+        ],
+        "allowed_hostnames": [
+          "www.osym.gov.tr",
+          "osym.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/SinavGrubu/",
+          "/Duyurular/"
+        ],
+        "expected_check_interval_minutes": 1440,
+        "last_success_at": null,
+        "last_content_hash": null,
+        "last_item_timestamp": null,
+        "failure_count": 0,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "per_run",
+          "coverage_watch_window": 3,
+          "require_in_scope_for_low_coverage": true
+        },
+        "manual_review_reason": null,
+        "tls_verification_required": true,
+        "surfaces": [
+          {
+            "id": "group",
+            "url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        }
+      },
+      "status": "active",
+      "canonical_url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+      "statement_treatment": "official_decision",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "name": "ÖSYM – YDUS tıpta yan dal uzmanlık sınavı",
+      "source_health": "HEALTHY",
+      "item_url_patterns": [
+        "osym\\.gov\\.tr/[a-z0-9-]{20,}$"
+      ],
+      "dedupe_group": "osym_exam_announcements",
+      "dedupe_by": "url",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tvhb_veterinary",
+      "name": "Türk Veteriner Hekimleri Birliği",
+      "label": "TVHB – Türk Veteriner Hekimleri Birliği",
+      "country": "Türkiye",
+      "canonical_url": "https://www.tvhb.org.tr/feed",
+      "source_url": "https://www.tvhb.org.tr/feed",
+      "primary_url": "https://www.tvhb.org.tr/feed",
+      "allowed_hostnames": [
+        "www.tvhb.org.tr",
+        "tvhb.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "medical_scope": "veterinary_profession_regulation_education_scientific_meetings",
+      "audience_scope": [
+        "veterinary_student",
+        "veterinarian",
+        "specialist_veterinarian"
+      ],
+      "audience_segments": [
+        "veterinary_student",
+        "veterinarian",
+        "specialist_veterinarian"
+      ],
+      "include_keywords": [
+        "veteriner hekim",
+        "mevzuat",
+        "yönetmelik",
+        "uzmanlık",
+        "sınav",
+        "meslek",
+        "kongre",
+        "bilimsel toplantı",
+        "hayvan sağlığı",
+        "kurs",
+        "sertifika",
+        "buiatri",
+        "muayenehane",
+        "poliklinik",
+        "hastane"
+      ],
+      "exclude_keywords": [
+        "aidat",
+        "başsağlığı",
+        "vefat",
+        "taziye",
+        "genel kurul",
+        "oda seçim",
+        "iftar",
+        "kutlama",
+        "yarışma",
+        "merkez konseyi toplant",
+        "yedimevsim",
+        "haysiyet divan",
+        "indirimli",
+        "ziyaret"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "PROFESSIONAL_BRIEF",
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tvhb.org.tr",
+          "tvhb.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/feed"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Official RSS feed only.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "feed",
+            "url": "https://www.tvhb.org.tr/feed",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tdb_dental",
+      "name": "Türk Dişhekimleri Birliği",
+      "label": "TDB — Türk Dişhekimleri Birliği",
+      "country": "Türkiye",
+      "canonical_url": "https://tdb.org.tr/basin-odasi/haber-arsivi",
+      "source_url": "https://api.tdb.org.tr/news?pageSize=50",
+      "primary_url": "https://tdb.org.tr/basin-odasi/haber-arsivi",
+      "allowed_hostnames": [
+        "api.tdb.org.tr",
+        "tdb.org.tr",
+        "www.tdb.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "medical_scope": "dentistry_profession_regulation_education_scientific_meetings",
+      "audience_scope": [
+        "dental_student",
+        "dentist",
+        "specialist_dentist"
+      ],
+      "audience_segments": [
+        "dental_student",
+        "dentist",
+        "specialist_dentist"
+      ],
+      "include_keywords": [
+        "dişhekim",
+        "diş hekim",
+        "dishekim",
+        "ağız ve diş",
+        "diş hekimliği",
+        "dişhekimliği",
+        "mevzuat",
+        "yönetmelik",
+        "uzmanlık",
+        "kontenjan",
+        "burs",
+        "kongre",
+        "bilimsel etkinlik",
+        "akademi",
+        "fdi",
+        "sertifika",
+        "kurs",
+        "muvazaa",
+        "danıştay",
+        "daire başkanlığı",
+        "tanıtım rehberi",
+        "tdbd"
+      ],
+      "exclude_keywords": [
+        "kutlu olsun",
+        "kutlarız",
+        "taziye",
+        "başımız sağ",
+        "başı sağ",
+        "vefat",
+        "anma",
+        "unutmadık",
+        "1919",
+        "faiz",
+        "kredi",
+        "sigorta",
+        "aidat",
+        "fotoğraf yarışması",
+        "ziyaret",
+        "seçim",
+        "iftar",
+        "bayram",
+        "içimiz yanıyor",
+        "gemi kazası",
+        "barış günü",
+        "demokrasi ve milli birlik",
+        "web sitemiz",
+        "basın açıklamasına bekliyoruz",
+        "başkanlar konseyi",
+        "gerçekleştirildi",
+        "yapıldı"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "PROFESSIONAL_BRIEF",
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "api.tdb.org.tr",
+          "tdb.org.tr",
+          "www.tdb.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/news",
+          "/basin-odasi/haber-arsivi/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Official TDB public JSON API used by tdb.org.tr itself (publishedAt = real publication date; sitemap lastmod unreliable, SPA has no server-rendered list). No auth, no bypass.",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "moderate",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "news_api",
+            "url": "https://api.tdb.org.tr/news?pageSize=50",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "composite": "tdb_news_api",
+        "api_url": "https://api.tdb.org.tr/news?pageSize=50",
+        "web_base": "https://tdb.org.tr"
+      },
+      "execution": "python_runner",
+      "item_url_patterns": [
+        "^https://tdb\\.org\\.tr/basin-odasi/haber-arsivi/[^/]+/detay$"
+      ]
+    },
+    {
+      "source_id": "titck_announcements_general",
+      "name": "TİTCK -- Duyurular",
+      "label": "TİTCK -- Duyurular",
+      "canonical_url": "https://www.titck.gov.tr/duyuru",
+      "source_url": "https://www.titck.gov.tr/duyuru",
+      "primary_url": "https://www.titck.gov.tr/duyuru",
+      "allowed_hostnames": [
+        "www.titck.gov.tr",
+        "titck.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/duyuru"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.titck.gov.tr",
+          "titck.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyuru"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.titck.gov.tr/duyuru",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "medimagazin_general",
+      "name": "Medimagazin",
+      "label": "Medimagazin",
+      "canonical_url": "https://www.medimagazin.com.tr/",
+      "source_url": "https://www.medimagazin.com.tr/",
+      "primary_url": "https://www.medimagazin.com.tr/",
+      "allowed_hostnames": [
+        "www.medimagazin.com.tr",
+        "medimagazin.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.medimagazin.com.tr",
+          "medimagazin.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.medimagazin.com.tr/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "trthaber_saglik",
+      "name": "TRT Haber -- Sağlık",
+      "label": "TRT Haber -- Sağlık",
+      "canonical_url": "https://www.trthaber.com/saglik_articles.rss",
+      "source_url": "https://www.trthaber.com/saglik_articles.rss",
+      "primary_url": "https://www.trthaber.com/saglik_articles.rss",
+      "allowed_hostnames": [
+        "www.trthaber.com",
+        "trthaber.com"
+      ],
+      "allowed_path_patterns": [
+        "/saglik_articles.rss"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.trthaber.com",
+          "trthaber.com"
+        ],
+        "allowed_path_patterns": [
+          "/saglik_articles.rss"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.trthaber.com/saglik_articles.rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "cnnturk_saglik",
+      "name": "CNN Türk -- Sağlık",
+      "label": "CNN Türk -- Sağlık",
+      "canonical_url": "https://www.cnnturk.com/saglik/",
+      "source_url": "https://www.cnnturk.com/saglik/",
+      "primary_url": "https://www.cnnturk.com/saglik/",
+      "allowed_hostnames": [
+        "www.cnnturk.com",
+        "cnnturk.com"
+      ],
+      "allowed_path_patterns": [
+        "/saglik/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.cnnturk.com",
+          "cnnturk.com"
+        ],
+        "allowed_path_patterns": [
+          "/saglik/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.cnnturk.com/saglik/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "sabah_saglik",
+      "name": "Sabah -- Sağlık",
+      "label": "Sabah -- Sağlık",
+      "canonical_url": "https://www.sabah.com.tr/rss/saglik.xml",
+      "source_url": "https://www.sabah.com.tr/rss/saglik.xml",
+      "primary_url": "https://www.sabah.com.tr/rss/saglik.xml",
+      "allowed_hostnames": [
+        "www.sabah.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.sabah.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.sabah.com.tr/rss/saglik.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "euronews_tr_saglik",
+      "name": "Euronews Türkçe -- Sağlık",
+      "label": "Euronews Türkçe -- Sağlık",
+      "canonical_url": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "source_url": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "primary_url": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "allowed_hostnames": [
+        "tr.euronews.com"
+      ],
+      "allowed_path_patterns": [
+        "/saglik/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "tr.euronews.com"
+        ],
+        "allowed_path_patterns": [
+          "/saglik/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://tr.euronews.com/saglik/saglik-haberleri",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "saglik_bakanligi_genel",
+      "name": "T.C. Sağlık Bakanlığı -- Genel Haberler/Ziyaretler/Basın Duyuruları",
+      "label": "T.C. Sağlık Bakanlığı -- Genel Haberler/Ziyaretler/Basın Duyuruları",
+      "canonical_url": "https://www.saglik.gov.tr/TR-3197/basin-duyurulari.html",
+      "source_url": "https://www.saglik.gov.tr/TR-3197/basin-duyurulari.html",
+      "primary_url": "https://www.saglik.gov.tr/TR-3197/basin-duyurulari.html",
+      "allowed_hostnames": [
+        "www.saglik.gov.tr",
+        "saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/TR-84146/haberler.html",
+        "/TR-105314/ziyaretler.html",
+        "/TR-3197/basin-duyurulari.html"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.saglik.gov.tr",
+          "saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/TR-84146/haberler.html",
+          "/TR-105314/ziyaretler.html",
+          "/TR-3197/basin-duyurulari.html"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "basin-duyurulari",
+            "url": "https://www.saglik.gov.tr/TR-3197/basin-duyurulari.html",
+            "role": "primary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "haberler",
+            "url": "https://www.saglik.gov.tr/TR-84146/haberler.html",
+            "role": "secondary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "ziyaretler",
+            "url": "https://www.saglik.gov.tr/TR-105314/ziyaretler.html",
+            "role": "secondary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "haber",
+      "retired_reason": "Sağlık Bakanlığı genel haber already lives on Haber (news-saglik-bakanligi-whole). Keep moh_physician_workforce (YHGM atama) on Duyuru."
+    },
+    {
+      "source_id": "sondakika_saglik",
+      "name": "Son Dakika -- Sağlık",
+      "label": "Son Dakika -- Sağlık",
+      "canonical_url": "https://www.sondakika.com/saglik/",
+      "source_url": "https://www.sondakika.com/saglik/",
+      "primary_url": "https://www.sondakika.com/saglik/",
+      "allowed_hostnames": [
+        "www.sondakika.com"
+      ],
+      "allowed_path_patterns": [
+        "/saglik/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.sondakika.com"
+        ],
+        "allowed_path_patterns": [
+          "/saglik/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.sondakika.com/saglik/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "ntv_saglik",
+      "name": "NTV -- Sağlık",
+      "label": "NTV -- Sağlık",
+      "canonical_url": "https://www.ntv.com.tr/saglik.rss",
+      "source_url": "https://www.ntv.com.tr/saglik.rss",
+      "primary_url": "https://www.ntv.com.tr/saglik.rss",
+      "allowed_hostnames": [
+        "www.ntv.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ntv.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.ntv.com.tr/saglik.rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "bbc_turkce_saglik",
+      "name": "BBC Türkçe -- Sağlık",
+      "label": "BBC Türkçe -- Sağlık",
+      "canonical_url": "https://www.bbc.com/turkce/topics/cnq68n6wgzdt",
+      "source_url": "https://www.bbc.com/turkce/topics/cnq68n6wgzdt",
+      "primary_url": "https://www.bbc.com/turkce/topics/cnq68n6wgzdt",
+      "allowed_hostnames": [
+        "www.bbc.com"
+      ],
+      "allowed_path_patterns": [
+        "/turkce/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.bbc.com"
+        ],
+        "allowed_path_patterns": [
+          "/turkce/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.bbc.com/turkce/topics/cnq68n6wgzdt",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "t24_saglik",
+      "name": "T24 -- Sağlık",
+      "label": "T24 -- Sağlık",
+      "canonical_url": "https://t24.com.tr/saglik",
+      "source_url": "https://t24.com.tr/saglik",
+      "primary_url": "https://t24.com.tr/saglik",
+      "allowed_hostnames": [
+        "t24.com.tr",
+        "www.t24.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "t24.com.tr",
+          "www.t24.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://t24.com.tr/saglik",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "saglikhaberi_net",
+      "name": "Sağlık Haberi (saglikhaberi.net)",
+      "label": "Sağlık Haberi (saglikhaberi.net)",
+      "canonical_url": "https://saglikhaberi.net/",
+      "source_url": "https://saglikhaberi.net/",
+      "primary_url": "https://saglikhaberi.net/",
+      "allowed_hostnames": [
+        "saglikhaberi.net",
+        "www.saglikhaberi.net"
+      ],
+      "allowed_path_patterns": [
+        "/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "saglikhaberi.net",
+          "www.saglikhaberi.net"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://saglikhaberi.net/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "saglikpersonelihaberi_net",
+      "name": "Sağlık Personeli Haber",
+      "label": "Sağlık Personeli Haber",
+      "canonical_url": "https://www.saglikpersonelihaber.net/",
+      "source_url": "https://www.saglikpersonelihaber.net/",
+      "primary_url": "https://www.saglikpersonelihaber.net/",
+      "allowed_hostnames": [
+        "www.saglikpersonelihaber.net",
+        "saglikpersonelihaber.net"
+      ],
+      "allowed_path_patterns": [
+        "/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.saglikpersonelihaber.net",
+          "saglikpersonelihaber.net"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.saglikpersonelihaber.net/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "doktorclub",
+      "name": "Doktorclub",
+      "label": "Doktorclub",
+      "canonical_url": "https://doktorclub.com/",
+      "source_url": "https://doktorclub.com/",
+      "primary_url": "https://doktorclub.com/",
+      "allowed_hostnames": [
+        "doktorclub.com",
+        "www.doktorclub.com"
+      ],
+      "allowed_path_patterns": [
+        "/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "doktorclub.com",
+          "www.doktorclub.com"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://doktorclub.com/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "ahaber_saglik",
+      "name": "Ahaber -- Sağlık",
+      "label": "Ahaber -- Sağlık",
+      "canonical_url": "https://www.ahaber.com.tr/rss/saglik.xml",
+      "source_url": "https://www.ahaber.com.tr/rss/saglik.xml",
+      "primary_url": "https://www.ahaber.com.tr/rss/saglik.xml",
+      "allowed_hostnames": [
+        "www.ahaber.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ahaber.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.ahaber.com.tr/rss/saglik.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "iha_saglik",
+      "name": "İHA -- Sağlık",
+      "label": "İHA -- Sağlık",
+      "canonical_url": "https://www.iha.com.tr/saglik",
+      "source_url": "https://www.iha.com.tr/saglik",
+      "primary_url": "https://www.iha.com.tr/saglik",
+      "allowed_hostnames": [
+        "www.iha.com.tr",
+        "iha.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.iha.com.tr",
+          "iha.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.iha.com.tr/saglik",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "dha_saglik_yasam",
+      "name": "DHA -- Sağlık-Yaşam",
+      "label": "DHA -- Sağlık-Yaşam",
+      "canonical_url": "https://www.dha.com.tr/saglik-yasam/",
+      "source_url": "https://www.dha.com.tr/saglik-yasam/",
+      "primary_url": "https://www.dha.com.tr/saglik-yasam/",
+      "allowed_hostnames": [
+        "www.dha.com.tr",
+        "dha.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/saglik-yasam/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.dha.com.tr",
+          "dha.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/saglik-yasam/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.dha.com.tr/saglik-yasam/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "gazeteoksijen_saglik",
+      "name": "Gazete Oksijen -- Sağlık",
+      "label": "Gazete Oksijen -- Sağlık",
+      "canonical_url": "https://gazeteoksijen.com/saglik",
+      "source_url": "https://gazeteoksijen.com/saglik",
+      "primary_url": "https://gazeteoksijen.com/saglik",
+      "allowed_hostnames": [
+        "gazeteoksijen.com",
+        "www.gazeteoksijen.com"
+      ],
+      "allowed_path_patterns": [
+        "/saglik"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "general_turkish_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "doktor",
+        "hasta",
+        "hastane",
+        "sağlık bakanlığı",
+        "aşı",
+        "salgın",
+        "tarama",
+        "TUS",
+        "YDUS",
+        "tıp fakültesi",
+        "asistan",
+        "uzmanlık",
+        "halk sağlığı",
+        "klinik",
+        "tedavi",
+        "ilaç",
+        "ameliyat",
+        "teşhis",
+        "kanser",
+        "diyabet",
+        "YÖK",
+        "TUK",
+        "SGK",
+        "TİTCK"
+      ],
+      "exclude_keywords": [
+        "mucize",
+        "şifa",
+        "medikal turizm",
+        "hastane açılışı",
+        "ücretli klinik",
+        "ünlü",
+        "diyet mucize",
+        "burç",
+        "astroloji",
+        "fal",
+        "yıldız falı",
+        "reklam"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (Sağlık Bakanlığı/TİTCK/HSGM/YÖK/TUK/SGK/paper) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "general_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. May raise timeliness/mass-appeal signals only -- never evidence strength or publication eligibility.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "gazeteoksijen.com",
+          "www.gazeteoksijen.com"
+        ],
+        "allowed_path_patterns": [
+          "/saglik"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://gazeteoksijen.com/saglik",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    }
+  ]
+}

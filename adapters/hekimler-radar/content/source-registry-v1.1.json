@@ -1,0 +1,2424 @@
+{
+  "schemaVersion": "1.1.0",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Hekimler Topluluğu",
+  "registryId": "hekimler-source-registry-v1.1",
+  "phase": "1.1",
+  "approvalStatus": "USER_APPROVED_SCOPE",
+  "approvedAt": "2026-09-19",
+  "purpose": "Approved medicine-scoped source registry v1.1. Phase 1 six primaries remain the only hardened fetch targets. Additional official/professional/specialty profiles are registered as manual_review — no queue wiring, no congress package, no tabip odaları, no ATUDER, no TTB-UDEK crawler.",
+  "audience": [
+    "medical_student",
+    "intern",
+    "resident",
+    "physician",
+    "academic_physician"
+  ],
+  "global_rules": {
+    "preserve_provenance": true,
+    "auto_publish": false,
+    "editorial_review_mandatory": true,
+    "never_disable_tls": true,
+    "tls_verification_required": true,
+    "no_generic_web_search": true,
+    "no_congress_sources": true,
+    "no_social_as_evidence": true,
+    "organisation_position_sources": [
+      "ttb_national",
+      "hasuder_public_health"
+    ],
+    "low_viral_signal_must_not_penalize": [
+      "OPPORTUNITY",
+      "CAREER",
+      "EDUCATION",
+      "PROFESSIONAL_BRIEF",
+      "PUBLIC_HEALTH",
+      "DATA_INSIGHT"
+    ],
+    "allowed_tiers": [
+      "OFFICIAL_PRIMARY",
+      "PROFESSIONAL_BODY",
+      "PROFESSIONAL_GUIDANCE",
+      "SECONDARY_NEWSWIRE"
+    ],
+    "allowed_routes": [
+      "EDUCATION",
+      "CAREER",
+      "OPPORTUNITY",
+      "PROFESSIONAL_BRIEF",
+      "CLINICAL_UPDATE",
+      "PUBLIC_HEALTH",
+      "DATA_INSIGHT",
+      "NEEDS_REVIEW",
+      "DISCARD"
+    ],
+    "queue_wiring": "disabled_until_fetch_fixtures_pass",
+    "explicitly_excluded": [
+      "congress_websites",
+      "congress_calendars",
+      "CONGRESS_CALENDAR_route",
+      "faculty_student_club_opportunity_packs",
+      "Healthline",
+      "WebMD",
+      "Instagram",
+      "X",
+      "Reddit",
+      "foreign_physician_pathways",
+      "general_news_media",
+      "provincial_medical_chambers",
+      "unions_other_than_TTB",
+      "ATUDER",
+      "TTB_UDEK_crawler"
+    ],
+    "pipeline_wiring_enabled": false,
+    "congress_features_active": false,
+    "fetch_to_queue_enabled": false
+  },
+  "sources": [
+    {
+      "source_id": "osym_medical_exams",
+      "name": "ÖSYM — Medicine-scoped examinations",
+      "canonical_url": "https://www.osym.gov.tr/",
+      "allowed_hostnames": [
+        "www.osym.gov.tr",
+        "osym.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "dedicated_exam_listing",
+      "status": "active_phase1",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "TUS YDUS STS Tip YOKDIL-Saglik medicine-YKS",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "TUS",
+        "YDUS",
+        "STS Tıp",
+        "YÖKDİL Sağlık",
+        "tıp fakültesi kontenjan"
+      ],
+      "exclude_keywords": [
+        "KPSS",
+        "DGS",
+        "ALES"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "CAREER",
+        "OPPORTUNITY"
+      ],
+      "statement_treatment": "official_decision",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "impact_card: what_changed who_affected deadline required_action",
+      "source_url": "https://www.osym.gov.tr/SinavGrubu/Index/6",
+      "primary_url": "https://www.osym.gov.tr/SinavGrubu/Index/6",
+      "content_angle": "exam_deadline",
+      "medical_relevance": "high",
+      "actionability": "high",
+      "opportunity_value": "high",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "item_url_patterns": [
+        "osym\\.gov\\.tr/[a-z0-9-]{20,}$"
+      ],
+      "dedupe_group": "osym_exam_announcements",
+      "dedupe_by": "url",
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 1440
+      }
+    },
+    {
+      "source_id": "yok_medical_education",
+      "name": "YÖK — Medical education",
+      "canonical_url": "https://www.yok.gov.tr/",
+      "allowed_hostnames": [
+        "www.yok.gov.tr",
+        "yok.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active_phase1",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "medical_faculty undergraduate internship specialty-training relevance",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "tıp fakültesi",
+        "tıp eğitimi",
+        "kontenjan",
+        "intörn"
+      ],
+      "exclude_keywords": [
+        "hukuk fakültesi",
+        "rektörlük açılış",
+        "kampüs"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "CAREER",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "official_decision",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "impact_card_no_raw_institutional_text",
+      "source_url": "https://www.yok.gov.tr/",
+      "primary_url": "https://www.yok.gov.tr/",
+      "content_angle": "medical_education_policy",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 43200
+      }
+    },
+    {
+      "source_id": "yokak_medical_accreditation",
+      "name": "YÖKAK — Medical faculty quality/accreditation",
+      "canonical_url": "https://www.yokak.gov.tr/",
+      "allowed_hostnames": [
+        "www.yokak.gov.tr",
+        "yokak.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active_phase1",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "medical_programme_accreditation_quality",
+      "audience_scope": [
+        "medical_student",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "tıp",
+        "akreditasyon",
+        "program"
+      ],
+      "exclude_keywords": [
+        "genel üniversite",
+        "kampüs"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "official_guidance",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "impact_card_accreditation_change",
+      "source_url": "https://www.yokak.gov.tr/",
+      "primary_url": "https://www.yokak.gov.tr/",
+      "content_angle": "accreditation",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 43200
+      }
+    },
+    {
+      "source_id": "tuk_specialty_training",
+      "name": "Tıpta Uzmanlık Kurulu",
+      "canonical_url": "https://tuk.saglik.gov.tr/",
+      "allowed_hostnames": [
+        "tuk.saglik.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active_phase1",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "specialty_training_rotation_residency",
+      "audience_scope": [
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "uzmanlık",
+        "rotasyon",
+        "müfredat",
+        "TUK"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "CAREER",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "official_decision",
+      "evidence_rule": "impact_explanation_required",
+      "transform_rule": "never_raw_regulation; impact_card_required",
+      "source_url": "https://tuk.saglik.gov.tr/",
+      "primary_url": "https://tuk.saglik.gov.tr/",
+      "content_angle": "specialty_training",
+      "medical_relevance": "high",
+      "actionability": "high",
+      "opportunity_value": "high",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_impact_explanation": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 10080
+      }
+    },
+    {
+      "source_id": "resmi_gazete_medical_regulation",
+      "name": "Resmî Gazete — Medical regulation only",
+      "canonical_url": "https://www.resmigazete.gov.tr/",
+      "allowed_hostnames": [
+        "www.resmigazete.gov.tr",
+        "resmigazete.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "daily_toc",
+      "status": "active_phase1",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "medical_specialty_training_workforce_regulation",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "hekim",
+        "tabip",
+        "tıp fakültesi",
+        "uzmanlık",
+        "sağlık hizmetleri"
+      ],
+      "exclude_keywords": [
+        "karayolu",
+        "gümrük",
+        "tarım"
+      ],
+      "allowed_routes": [
+        "CAREER",
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW"
+      ],
+      "statement_treatment": "official_decision",
+      "evidence_rule": "impact_explanation_required",
+      "transform_rule": "never_raw_legal_text; impact_card_or_NEEDS_REVIEW",
+      "source_url": "https://www.resmigazete.gov.tr/",
+      "primary_url": "https://www.resmigazete.gov.tr/",
+      "content_angle": "regulation_impact",
+      "medical_relevance": "high",
+      "actionability": "high",
+      "opportunity_value": "medium",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_impact_explanation": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": false,
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 43200
+      }
+    },
+    {
+      "source_id": "tuik_medical_public_health",
+      "name": "TÜİK — Health and public-health data only",
+      "canonical_url": "https://www.tuik.gov.tr/",
+      "allowed_hostnames": [
+        "www.tuik.gov.tr",
+        "tuik.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "phase1_ref": "source-registry-phase1.json",
+      "medical_scope": "health_expenditure mortality obesity tobacco healthcare_use",
+      "audience_scope": [
+        "physician",
+        "academic_physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "sağlık",
+        "hekim",
+        "hastane",
+        "ölüm",
+        "doğum",
+        "yaşam",
+        "engelli",
+        "sağlık harcama",
+        "sağlık personeli",
+        "obezite",
+        "tütün"
+      ],
+      "exclude_keywords": [
+        "enflasyon",
+        "turizm",
+        "tarım",
+        "fiyat endeksi",
+        "motorlu",
+        "konut"
+      ],
+      "allowed_routes": [
+        "DATA_INSIGHT",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "official_data",
+      "evidence_rule": "retain_denominator_time_period_geography",
+      "transform_rule": "never_infer_causality; preserve numerator denominator population geography time_period",
+      "source_url": "https://www.tuik.gov.tr/",
+      "primary_url": "https://data.tuik.gov.tr/",
+      "content_angle": "public_health_data",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "primary_data",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "required_data_fields": [
+        "numerator",
+        "denominator",
+        "population",
+        "geography",
+        "time_period",
+        "comparison_period",
+        "source_table_or_report_url"
+      ],
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "item_url_patterns": [
+        "veriportali\\.tuik\\.gov\\.tr/tr/press/\\d+"
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tuik.gov.tr",
+          "tuik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Official server-rendered home page bulletin slider (latest bulletins: title, period, veriportali press URL). veriportali/data.tuik.gov.tr are JS-only shells; press API not reachable without the portal proxy.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "home_slider",
+            "url": "https://www.tuik.gov.tr/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "moh_physician_workforce",
+      "name": "Sağlık Bakanlığı YHGM — Physician workforce / DHY / atama kuraları",
+      "canonical_url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+      "allowed_hostnames": [
+        "yhgm.saglik.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "DHY physician_appointment kura staffing residency_placement unvan_degisikligi",
+      "audience_scope": [
+        "intern",
+        "resident",
+        "physician"
+      ],
+      "include_keywords": [
+        "DHY",
+        "Devlet Hizmeti Yükümlülüğü",
+        "devlet hizmeti yükümlülüğü",
+        "hekim atama",
+        "tabip",
+        "uzman tabip",
+        "pratisyen",
+        "kura",
+        "unvan değişikliği",
+        "ilk defa ve yeniden atama",
+        "yer değiştirme suretiyle"
+      ],
+      "exclude_keywords": [
+        "hastane açılış",
+        "basın açıklaması genel",
+        "hemşire atama",
+        "ebe hemşire",
+        "işçi atama",
+        "diğer sağlık personeli",
+        "sözleşmeli yönetici"
+      ],
+      "allowed_routes": [
+        "CAREER",
+        "PROFESSIONAL_BRIEF",
+        "OPPORTUNITY",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "official_decision",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "impact_card_workforce",
+      "source_url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+      "primary_url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+      "content_angle": "physician_workforce",
+      "medical_relevance": "high",
+      "actionability": "high",
+      "opportunity_value": "high",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "scope_url_in_gate": true,
+      "scope_url_keywords": [
+        "devlet-hizmeti",
+        "dhy",
+        "tabip",
+        "hekim",
+        "kura",
+        "atama",
+        "unvan"
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "yhgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/TR,11622/",
+          "/TR,11621/",
+          "/TR,11623/",
+          "/TR,11624/",
+          "/TR-12070/",
+          "/TR-12130/",
+          "/TR-12064/",
+          "/TR-"
+        ],
+        "forbidden_hosts": [
+          "www.saglik.gov.tr",
+          "saglik.gov.tr"
+        ],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Never scan www.saglik.gov.tr homepage. Only YHGM physician kura/atama list indexes.",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 45,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "dhy_kura_archive",
+            "url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+            "role": "primary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "ilk_defa_yeniden_atama",
+            "url": "https://yhgm.saglik.gov.tr/TR,11621/ilk-defa-ve-yeniden-atama-kuralari.html",
+            "role": "announcements",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "yer_degistirme_kura",
+            "url": "https://yhgm.saglik.gov.tr/TR,11623/yer-degistirme-suretiyle-atanma-kuralari.html",
+            "role": "announcements",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "unvan_degisikligi_kura",
+            "url": "https://yhgm.saglik.gov.tr/TR,11624/unvan-degisikligi-kuralari.html",
+            "role": "announcements",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "hsgm_public_health",
+      "name": "Halk Sağlığı Genel Müdürlüğü",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "surveillance vaccination screening communicable chronic tobacco MCH environmental",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "aşı",
+        "sürveyans",
+        "tarama",
+        "bulaşıcı",
+        "halk sağlığı",
+        "aşılama",
+        "salgın",
+        "bildirim"
+      ],
+      "exclude_keywords": [
+        "farkındalık günü",
+        "kongre"
+      ],
+      "allowed_routes": [
+        "PUBLIC_HEALTH",
+        "PROFESSIONAL_BRIEF",
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "statement_treatment": "official_guidance",
+      "evidence_rule": "official_url_required",
+      "transform_rule": "public_health_impact_card",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+      "content_angle": "public_health",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "official",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/basin-odasi/",
+          "/tr/gm-haberler/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/",
+          "/tr/mevzuat"
+        ],
+        "notes": "Use basin-odasi haber list only. /tr/duyurular and /tr/haberler are 404. Homepage /tr/ forbidden. mevzuat.html is not the announcement index.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "basin_odasi_haberler",
+            "url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner",
+      "http_timeout_seconds": 90,
+      "runner_region": "TR",
+      "runner_region_reason": "hsgm.saglik.gov.tr does not accept TCP connections from GitHub/Cloudflare datacenter egress (diagnosis run 35532846118); reachable from Turkish networks."
+    },
+    {
+      "source_id": "ttb_national",
+      "name": "Türk Tabipleri Birliği",
+      "canonical_url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+      "allowed_hostnames": [
+        "www.ttb.org.tr",
+        "ttb.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "resident_workforce_safety_education_health_policy",
+      "audience_scope": [
+        "resident",
+        "physician",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "asistan",
+        "hekim",
+        "iş yükü",
+        "güvenlik",
+        "tıp eğitimi"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "tabip odası yerel"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "CAREER",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "organisation_position",
+      "evidence_rule": "corroborate_factual_claims_beyond_position",
+      "transform_rule": "label_as_TTB_aciklamasi; not_neutral_fact",
+      "source_url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+      "primary_url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+      "content_angle": "professional_body_position",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "organisation_position",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ttb.org.tr",
+          "ttb.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/arsiv_duyuru.php",
+          "/arsiv_haber.php",
+          "/kollar/tok/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/"
+        ],
+        "notes": "National duyuru/haber archives only; no tabip odası crawl; homepage forbidden.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "arsiv_duyuru",
+            "url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+            "role": "primary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "arsiv_haber",
+            "url": "https://www.ttb.org.tr/arsiv_haber.php",
+            "role": "announcements",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "ttb\\.org\\.tr/(haber|duyuru)_goster\\.php"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "turkmsic_medical_students",
+      "name": "Türk Tıp Öğrencileri Birliği",
+      "canonical_url": "https://turkmsic.org/haberler",
+      "allowed_hostnames": [
+        "www.turkmsic.org",
+        "turkmsic.org"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "exchange scholarship research student_representation medical_education",
+      "audience_scope": [
+        "medical_student"
+      ],
+      "include_keywords": [
+        "exchange",
+        "burs",
+        "araştırma",
+        "staj",
+        "fırsat"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "ekip içi",
+        "geçmiş etkinlik"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "CAREER",
+        "OPPORTUNITY"
+      ],
+      "statement_treatment": "organisation_statement",
+      "evidence_rule": "eligibility_deadline_application_link_for_OPPORTUNITY",
+      "transform_rule": "opportunity_card_with_deadline",
+      "source_url": "https://turkmsic.org/haberler",
+      "primary_url": "https://turkmsic.org/haberler",
+      "content_angle": "student_opportunity",
+      "medical_relevance": "high",
+      "actionability": "high",
+      "opportunity_value": "high",
+      "evidence_strength": "organisation",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "turkmsic.org",
+          "www.turkmsic.org"
+        ],
+        "allowed_path_patterns": [
+          "/haberler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Exact Haberler index only; never homepage.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "haberler",
+            "url": "https://turkmsic.org/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "turkmsic\\.org/(index\\.php/haberler/)?[a-z0-9-]{25,}/?$"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tepdad_medical_accreditation",
+      "name": "TEPDAD",
+      "canonical_url": "https://tepdad.org.tr/feed",
+      "allowed_hostnames": [
+        "tepdad.org.tr",
+        "www.tepdad.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "medical_education_accreditation_standards",
+      "audience_scope": [
+        "medical_student",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "akreditasyon",
+        "standart",
+        "değerlendirme",
+        "başvuru",
+        "program",
+        "tıp eğitimi"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "sponsor"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "document_url_required",
+      "transform_rule": "education_standards_brief",
+      "source_url": "https://tepdad.org.tr/feed",
+      "primary_url": "https://tepdad.org.tr/feed",
+      "content_angle": "accreditation_guidance",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "tepdad.org.tr",
+          "www.tepdad.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/feed"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Official RSS feed only.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "feed",
+            "url": "https://tepdad.org.tr/feed",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "teged_medical_education",
+      "name": "Tıp Eğitimini Geliştirme Derneği",
+      "canonical_url": "https://teged.com.tr/feed",
+      "allowed_hostnames": [
+        "teged.com.tr",
+        "www.teged.com.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "medical_education_practice_curriculum_assessment",
+      "audience_scope": [
+        "medical_student",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "tıp eğitimi",
+        "akreditasyon",
+        "eğitim",
+        "asistan",
+        "öğrenci",
+        "yeterlik",
+        "sınav",
+        "ödül",
+        "burs"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "genel kurul",
+        "üyelik",
+        "sponsor"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "document_url_required",
+      "transform_rule": "education_practice_brief",
+      "source_url": "https://teged.com.tr/feed",
+      "primary_url": "https://teged.com.tr/feed",
+      "content_angle": "medical_education",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "teged.com.tr",
+          "www.teged.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/feed"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Official RSS feed only.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "feed",
+            "url": "https://teged.com.tr/feed",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "hasuder_public_health",
+      "name": "Halk Sağlığı Uzmanları Derneği",
+      "canonical_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "allowed_hostnames": [
+        "www.hasuder.org.tr",
+        "hasuder.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "epidemiology prevention vaccination screening climate occupational inequalities migration MCH",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "halk sağlığı",
+        "epidemiyoloji",
+        "aşı",
+        "eşitsizlik",
+        "göç sağlığı",
+        "duyuru",
+        "bildirge",
+        "yeterlik"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "sponsor"
+      ],
+      "allowed_routes": [
+        "PUBLIC_HEALTH",
+        "EDUCATION",
+        "PROFESSIONAL_BRIEF",
+        "OPPORTUNITY"
+      ],
+      "statement_treatment": "organisation_position",
+      "evidence_rule": "corroborate_factual_claims_beyond_position",
+      "transform_rule": "label_as_HASUDER_aciklamasi; PUBLIC_HEALTH_first_class",
+      "source_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "primary_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "content_angle": "public_health_position",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "organisation_position",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.hasuder.org.tr",
+          "hasuder.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/listele/duyurular-hasuder-cat",
+          "/duyurular-hasuder-cat/detay/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/"
+        ],
+        "notes": "Use /listele/duyurular-hasuder-cat only. Legacy /listele/duyurular returns 500.",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "duyurular_hasuder_cat",
+            "url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "hasuder\\.org\\.tr/[a-z0-9-]+/detay/[a-z0-9-]+"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "halk_sagligi_yeterlik",
+      "name": "Halk Sağlığı Yeterlik Kurulu",
+      "canonical_url": "https://www.halksagligiyeterlik.org.tr/",
+      "allowed_hostnames": [
+        "www.halksagligiyeterlik.org.tr",
+        "halksagligiyeterlik.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "public_health_competency_accreditation_training",
+      "audience_scope": [
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "yeterlik",
+        "sınav",
+        "duyuru",
+        "uzmanlık",
+        "başvuru",
+        "halk sağlığı",
+        "kurul"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "kutlama"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "CAREER",
+        "PROFESSIONAL_BRIEF"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "document_url_required",
+      "transform_rule": "competency_training_brief",
+      "source_url": "https://www.halksagligiyeterlik.org.tr/",
+      "primary_url": "https://www.halksagligiyeterlik.org.tr/",
+      "content_angle": "public_health_training",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "item_url_patterns": [
+        "halksagligiyeterlik\\.org\\.tr/detail/.+-20\\d{10}$"
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.halksagligiyeterlik.org.tr",
+          "halksagligiyeterlik.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Homepage announcements only; posts pinned by item_url_patterns (timestamped /detail/ slugs).",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "home",
+            "url": "https://www.halksagligiyeterlik.org.tr/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tkd_cardiology",
+      "name": "Türk Kardiyoloji Derneği",
+      "canonical_url": "https://www.tkd.org.tr/duyurular",
+      "allowed_hostnames": [
+        "www.tkd.org.tr",
+        "tkd.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "cardiology_guidelines_consensus_education",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "rehber",
+        "uzmanlık eğitimi",
+        "asistan",
+        "sınav",
+        "yeterlik"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "üyelik",
+        "sponsor",
+        "genel kurul",
+        "spor",
+        "turnuva"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://www.tkd.org.tr/duyurular",
+      "primary_url": "https://www.tkd.org.tr/duyurular",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tkd.org.tr",
+          "tkd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyurular",
+          "/duyuru/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Exact list index only; never homepage.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "duyurular",
+            "url": "https://www.tkd.org.tr/duyurular",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "/duyuru/\\d+/"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "ttd_thoracic",
+      "name": "Türk Toraks Derneği",
+      "canonical_url": "https://toraks.org.tr/haberler",
+      "allowed_hostnames": [
+        "toraks.org.tr",
+        "www.toraks.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "thoracic_guidelines_public_health",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "rehber",
+        "uzmanlık",
+        "asistan",
+        "sınav",
+        "eğitim",
+        "yeterlik",
+        "hekim",
+        "çalışma grubu",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "farkındalık",
+        "kutlu olsun",
+        "anma",
+        "vefat",
+        "başsağlığı",
+        "bayram",
+        "sponsor",
+        "basın bildirisi",
+        "farkındalık günü",
+        "dünya ",
+        "günü"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://toraks.org.tr/haberler",
+      "primary_url": "https://toraks.org.tr/haberler",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "item_url_patterns": [
+        "toraks\\.org\\.tr/haberler/[a-z0-9-]{10,}"
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "toraks.org.tr",
+          "www.toraks.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haberler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Exact list index only; posts pinned by item_url_patterns.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://toraks.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "klimık_infectious_diseases",
+      "name": "KLİMİK",
+      "canonical_url": "https://www.klimik.org.tr/category/duyurular/",
+      "allowed_hostnames": [
+        "www.klimik.org.tr",
+        "klimik.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "infectious_disease_guidelines",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "enfeksiyon",
+        "duyuru",
+        "rehber",
+        "antibiyotik"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "sponsor"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://www.klimik.org.tr/category/duyurular/",
+      "primary_url": "https://www.klimik.org.tr/category/duyurular/",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": false,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.klimik.org.tr",
+          "klimik.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/category/duyurular/",
+          "/category/haberler/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "WP category indexes only; homepage forbidden.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "duyurular",
+            "url": "https://www.klimik.org.tr/category/duyurular/",
+            "role": "primary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "haberler",
+            "url": "https://www.klimik.org.tr/category/haberler/",
+            "role": "announcements",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tpd_psychiatry",
+      "name": "Türkiye Psikiyatri Derneği",
+      "canonical_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "allowed_hostnames": [
+        "psikiyatri.org.tr",
+        "www.psikiyatri.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "psychiatry_guidelines",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "rehber",
+        "uzmanlık",
+        "asistan",
+        "sınav",
+        "yeterlik",
+        "eğitim programı",
+        "hekim"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "genel kurul",
+        "kaybettik",
+        "taziye",
+        "şubesi",
+        "sponsor",
+        "üyelik"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "primary_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": false,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "psikiyatri.org.tr",
+          "www.psikiyatri.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber-duyuru",
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "haber-duyuru index; posts pinned by item_url_patterns.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "haber_duyuru",
+            "url": "https://psikiyatri.org.tr/haber-duyuru",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "psikiyatri\\.org\\.tr/\\d{3,5}/[a-z0-9-]{8,}"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "trd_radiology",
+      "name": "Türk Radyoloji Derneği",
+      "canonical_url": "https://www.turkrad.org.tr/dernekten-haberler/",
+      "allowed_hostnames": [
+        "www.turkrad.org.tr",
+        "turkrad.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "radiology_guidelines",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "rehber",
+        "protokol",
+        "standart"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "sponsor",
+        "üyelik",
+        "kurs kaydı"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://www.turkrad.org.tr/dernekten-haberler/",
+      "primary_url": "https://www.turkrad.org.tr/dernekten-haberler/",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": false,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.turkrad.org.tr",
+          "turkrad.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/dernekten-haberler/",
+          "/duyurular/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Dernek haber/duyuru indexes; homepage forbidden.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "dernekten_haberler",
+            "url": "https://www.turkrad.org.tr/dernekten-haberler/",
+            "role": "primary",
+            "health": "HEALTHY"
+          },
+          {
+            "id": "duyurular",
+            "url": "https://www.turkrad.org.tr/duyurular/",
+            "role": "announcements",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tahud_family_medicine",
+      "name": "Türkiye Aile Hekimleri Uzmanlık Derneği",
+      "canonical_url": "https://tahud.org.tr/haberler",
+      "allowed_hostnames": [
+        "tahud.org.tr",
+        "www.tahud.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "family_medicine_guidelines_career_public_health",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "rehber",
+        "uzlaşı",
+        "konsensus",
+        "algoritma",
+        "asistan",
+        "uzmanlık",
+        "aile hekimliği",
+        "sınav",
+        "yeterlik"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "üyelik",
+        "sponsor",
+        "genel kurul",
+        "turnuva"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "CAREER",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://tahud.org.tr/haberler",
+      "primary_url": "https://tahud.org.tr/haberler",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "medium",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "tahud.org.tr",
+          "www.tahud.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haberler",
+          "/haber/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Exact list index only; never homepage.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "haberler",
+            "url": "https://tahud.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "item_url_patterns": [
+        "/haber/[a-z0-9-]{10,}"
+      ],
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tihud_internal_medicine",
+      "name": "Türk İç Hastalıkları Uzmanlık Derneği",
+      "canonical_url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+      "allowed_hostnames": [
+        "www.tihud.org.tr",
+        "tihud.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "internal_medicine_guidelines",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "rehber",
+        "uzmanlık",
+        "asistan",
+        "eğitim",
+        "kongre",
+        "yeterlik",
+        "sınav",
+        "desteği",
+        "okulu",
+        "webinar",
+        "başvuru",
+        "akademi"
+      ],
+      "exclude_keywords": [
+        "aidat",
+        "başsağlığı",
+        "vefat",
+        "kampanya"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+      "primary_url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "allow_congress": true,
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tihud.org.tr",
+          "tihud.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/HaberlerveDuyurular"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Server-rendered dated rows (title + dd/mm/yyyy). 3.6 MB page: Python runner only (Workers Free CPU limit).",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "haber_duyuru",
+            "url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      }
+    },
+    {
+      "source_id": "turk_pediatri_kurumu",
+      "name": "Türk Pediatri Kurumu",
+      "canonical_url": "https://turkpediatri.org.tr/haberler",
+      "allowed_hostnames": [
+        "turkpediatri.org.tr",
+        "www.turkpediatri.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "pediatrics_guidelines_public_health",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "çocuk sağlığı",
+        "rehber",
+        "duyuru",
+        "yeterlilik",
+        "açıklama"
+      ],
+      "exclude_keywords": [
+        "kongre",
+        "sempozyum",
+        "sponsor"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://turkpediatri.org.tr/haberler",
+      "primary_url": "https://turkpediatri.org.tr/haberler",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": false,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "turkpediatri.org.tr",
+          "www.turkpediatri.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haberler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/"
+        ],
+        "notes": "Exact /haberler index; homepage forbidden.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "haberler",
+            "url": "https://turkpediatri.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "tatd_emergency_medicine",
+      "name": "Türkiye Acil Tıp Derneği",
+      "canonical_url": "https://tatd.org.tr/feed",
+      "allowed_hostnames": [
+        "tatd.org.tr",
+        "www.tatd.org.tr"
+      ],
+      "source_tier": "PROFESSIONAL_GUIDANCE",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "emergency_medicine_guidelines",
+      "audience_scope": [
+        "physician",
+        "resident",
+        "medical_student"
+      ],
+      "include_keywords": [
+        "kılavuz",
+        "konsensus",
+        "rehber",
+        "acil tıp",
+        "uzmanlık",
+        "asistan",
+        "eğitim",
+        "sınav",
+        "yeterlik",
+        "hekim",
+        "klinik politika"
+      ],
+      "exclude_keywords": [
+        "sponsor",
+        "lig",
+        "yarışma",
+        "kutlama",
+        "vefat",
+        "başsağlığı",
+        "basketbol",
+        "resim"
+      ],
+      "allowed_routes": [
+        "CLINICAL_UPDATE",
+        "EDUCATION",
+        "PUBLIC_HEALTH"
+      ],
+      "statement_treatment": "professional_guidance",
+      "evidence_rule": "direct_guideline_document_url_required",
+      "transform_rule": "attribute_society_document_date_audience",
+      "source_url": "https://tatd.org.tr/feed",
+      "primary_url": "https://tatd.org.tr/feed",
+      "content_angle": "clinical_update",
+      "medical_relevance": "high",
+      "actionability": "medium",
+      "opportunity_value": "low",
+      "evidence_strength": "guidance",
+      "viral_signal": "ignored_for_priority",
+      "review_status": "mandatory",
+      "requires_direct_document_url": true,
+      "source_health": "HEALTHY",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "publication_eligible": false,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "tatd.org.tr",
+          "www.tatd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/feed"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [
+          "/",
+          "/tr/",
+          "/TR/"
+        ],
+        "notes": "Official RSS feed only.",
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "feed",
+            "url": "https://tatd.org.tr/feed",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "execution": "python_runner"
+    }
+  ],
+  "secondary_sources": [
+    {
+      "source_id": "anadolu_ajansi_medical_radar",
+      "name": "Anadolu Ajansı — Medical News Radar",
+      "canonical_url": "https://www.aa.com.tr/tr/SiteMap/News",
+      "allowed_hostnames": [
+        "www.aa.com.tr",
+        "aa.com.tr"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "retired_reason": "S57 (2026-09-26): single-channel-per-source resolution -- aa.com.tr is Kaduse's exclusive Haber source (news-aa-saglik-scoped); see source-registry-phase1.json#secondary_sources for full reasoning.",
+      "phase1_ref": "source-registry-phase1.json#secondary_sources",
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_url": "https://www.aa.com.tr/tr/SiteMap/News",
+      "primary_url": "https://www.aa.com.tr/tr/SiteMap/News",
+      "source_health": "HEALTHY",
+      "item_url_patterns": [
+        "aa\\.com\\.tr/tr/(saglik|gundem|bilim-teknoloji)/.+/\\d+$"
+      ],
+      "execution": "python_runner",
+      "fetch_plan": {
+        "expected_check_interval_minutes": 1440
+      }
+    }
+  ],
+  "approved_source_ids": [
+    "osym_medical_exams",
+    "yok_medical_education",
+    "yokak_medical_accreditation",
+    "tuk_specialty_training",
+    "resmi_gazete_medical_regulation",
+    "tuik_medical_public_health",
+    "moh_physician_workforce",
+    "hsgm_public_health",
+    "ttb_national",
+    "turkmsic_medical_students",
+    "tepdad_medical_accreditation",
+    "teged_medical_education",
+    "hasuder_public_health",
+    "halk_sagligi_yeterlik",
+    "tkd_cardiology",
+    "ttd_thoracic",
+    "klimık_infectious_diseases",
+    "tpd_psychiatry",
+    "trd_radiology",
+    "tahud_family_medicine",
+    "tihud_internal_medicine",
+    "turk_pediatri_kurumu",
+    "tatd_emergency_medicine"
+  ],
+  "secondary_source_count": 1,
+  "fetch_hardened_count": 6,
+  "notes": "Do not call all 23 approved sources primaries. Only 8 are OFFICIAL_PRIMARY. No fetch-to-queue until hardened.",
+  "registryLayer": "overlay",
+  "registryVersion": "1.1.1",
+  "baseRegistry": "source-registry-phase1.json",
+  "baseRegistryRef": "source-registry-phase1.json",
+  "loadPrecedence": "1) load phase1 base (6 hardened profiles + AA secondary). 2) apply v1.1 overlay for additive sources and authoritative source_tier/statement_treatment. 3) for shared source_ids, merge: phase1 fetch_plan + observability win; v1.1 tier/statement/routes win. 4) one effective profile per source_id.",
+  "approved_scoped_source_count": 23,
+  "official_primary_count": 8,
+  "professional_body_count": 3,
+  "professional_guidance_count": 12,
+  "secondary_newswire_count": 1
+}

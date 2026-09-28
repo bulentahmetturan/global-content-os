@@ -1,0 +1,1048 @@
+[
+  {
+    "source_id": "osym_medical_exams",
+    "url": "https://www.osym.gov.tr/SinavGrubu/Index/6",
+    "http": 200,
+    "failure": null,
+    "parsed": 89,
+    "accepted_pre_date": 26,
+    "fresh": 21,
+    "active": 0,
+    "undated": 0,
+    "stale": 5,
+    "accepted": 21,
+    "sample": [
+      {
+        "title": "17 Eylül 2026 2026-TUS 2. Dönem Sınavı ile 2026-STS Tıp Doktorluğu 2. Dönem Sınavı: Cevap Kâğıtları ve Aday Ce",
+        "url": "https://www.osym.gov.tr/2026-tus-2-donem-sinavi-ile-2026-sts-tip-doktorlugu-2-donem-sinavi-cevap-kgitlari-ve-aday-cevaplari-erisime-acildi",
+        "date": "2026-09-17"
+      },
+      {
+        "title": "17 Eylül 2026 2026-TUS 2. Dönem ve 2026-STS Tıp Doktorluğu 2. Dönem: Sınav Sonuçları Açıklandı",
+        "url": "https://www.osym.gov.tr/2026-tus-2-donem-ve-2026-sts-tip-doktorlugu-2-donem-sinav-sonuclari-aciklandi",
+        "date": "2026-09-17"
+      },
+      {
+        "title": "14 Eylül 2026 2026-TUS 1. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçları Açıklandı",
+        "url": "https://www.osym.gov.tr/2026-tus-1-donem-uzmanlik-dali-degisikligi-yerlestirme-sonuclari-aciklandi",
+        "date": "2026-09-14"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "yok_medical_education",
+    "url": "https://www.yok.gov.tr/tr/announcements",
+    "http": 200,
+    "failure": null,
+    "parsed": 177,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "yokak_medical_accreditation",
+    "url": "https://www.yokak.gov.tr/ogrenci-katilimi/",
+    "http": 200,
+    "failure": null,
+    "parsed": 165,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "tuk_specialty_training",
+    "url": "https://tuk.saglik.gov.tr/TR-30142/duyurular.html",
+    "http": 200,
+    "failure": null,
+    "parsed": 34,
+    "accepted_pre_date": 2,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "Tıpta Uzmanlık Kurulu tarafından kabul edilmiş Uzmanlık Eğitimi Programları listesi güncellenmiştir.",
+        "url": "https://tuk.saglik.gov.tr/TR-31565/tipta-uzmanlik-kurulu-tarafindan-kabul-edilmis-uzmanlik-egitimi-programlari-listesi-guncellenmistir.html",
+        "date": "2026-08-20"
+      },
+      {
+        "title": "Diş Hekimliğinde Uzmanlık ve Doktora Eğitimi Hakkında (Karar No: 2826)",
+        "url": "https://tuk.saglik.gov.tr/TR-118168/dis-hekimliginde-uzmanlik-ve-doktora-egitimi-hakkinda-karar-no-2826.html",
+        "date": "2026-06-18"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "resmi_gazete_medical_regulation",
+    "url": "https://www.resmigazete.gov.tr/fihrist?tarih=2026-09-20",
+    "http": 200,
+    "failure": null,
+    "parsed": 21,
+    "accepted_pre_date": 1,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "moh_physician_workforce",
+    "url": "https://yhgm.saglik.gov.tr/TR,11622/devlet-hizmeti-yukumlulugu-kuralari.html",
+    "http": 200,
+    "failure": null,
+    "parsed": 187,
+    "accepted_pre_date": 28,
+    "fresh": 1,
+    "active": 0,
+    "undated": 2,
+    "stale": 25,
+    "accepted": 3,
+    "sample": [
+      {
+        "title": "129.Dönem Devlet Hizmeti Yükümlülüğü Kurası",
+        "url": "https://yhgm.saglik.gov.tr/TR-118031/129donem-devlet-hizmeti-yukumlulugu-kurasi.html",
+        "date": "2026-07-02"
+      }
+    ],
+    "undated_sample": [
+      "129.Dönem Devlet Hizmeti Yükümlülüğü Mazeret (Eş ve Sağlık) Kurası",
+      "119.Dönem Devlet Hizmeti Yükümlülüğü Kurası"
+    ],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "hsgm_public_health",
+    "url": "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
+    "http": 200,
+    "failure": null,
+    "parsed": 79,
+    "accepted_pre_date": 5,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 3,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "Genel Müdürümüz Doç. Dr. Erdoğan Öz Başkanlığında Halk Sağlığı Hizmetleri Değerlendirme Toplantısı Gerçekleşti",
+        "url": "https://hsgm.saglik.gov.tr/tr/gm-haberler/genel-mudurumuz-doc-dr-erdogan-oz-baskanliginda-halk-sagligi-hizmetleri-degerlendirme-toplantisi-gerceklestirildi.html",
+        "date": "2026-07-25"
+      },
+      {
+        "title": "Halk Sağlığı Genel Müdürlüğü “Sağlıklı Hayat Saatleri”nde Beyin Sağlığı Ele Alındı",
+        "url": "https://hsgm.saglik.gov.tr/tr/gm-haberler/halk-sagligi-genel-mudurlugu-saglikli-hayat-saatleri-nde-beyin-sagligi-ele-alindi.html",
+        "date": "2026-06-24"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "ttb_national",
+    "url": "https://www.ttb.org.tr/arsiv_duyuru.php",
+    "http": 200,
+    "failure": null,
+    "parsed": 72,
+    "accepted_pre_date": 2,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "TTB, Bireysel Hedef Katsayısının İptali İstemiyle Dava Açtı: Kamu Sağlığını Tehdit Etmekte, Hekimlik Meslek On",
+        "url": "https://www.ttb.org.tr/haber_goster.php?Guid=0c012f1c-b377-11f1-969b-42010a9c0017",
+        "date": "2026-09-18"
+      },
+      {
+        "title": "TTB’nin Açtığı Davada, Ayakta Teşhis ve Tedavi Yapılan Özel Sağlık Kuruluşları Hakkında Yönetmeliğin Hekimleri",
+        "url": "https://www.ttb.org.tr/haber_goster.php?Guid=f12f08a3-8a58-11f1-856f-42010a9c0017",
+        "date": "2026-07-28"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "turkmsic_medical_students",
+    "url": "https://turkmsic.org/haberler",
+    "http": 200,
+    "failure": null,
+    "parsed": 61,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "tepdad_medical_accreditation",
+    "url": "https://tepdad.org.tr/feed",
+    "http": 200,
+    "failure": null,
+    "parsed": 9,
+    "accepted_pre_date": 7,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 7,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "teged_medical_education",
+    "url": "https://teged.com.tr/feed",
+    "http": 200,
+    "failure": null,
+    "parsed": 8,
+    "accepted_pre_date": 1,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "hasuder_public_health",
+    "url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+    "http": 200,
+    "failure": null,
+    "parsed": 106,
+    "accepted_pre_date": 1,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "HALK SAĞLIĞI YETERLİK SINAVI DUYURUSU 2026",
+        "url": "https://www.hasuder.org.tr/duyurular-hasuder-cat/detay/halk-sagligi-yeterlik-sinavi-duyurusu-2026-202609041226",
+        "date": "2026-09-04"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "halk_sagligi_yeterlik",
+    "url": "https://www.halksagligiyeterlik.org.tr/",
+    "http": 200,
+    "failure": null,
+    "parsed": 95,
+    "accepted_pre_date": 7,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 6,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "HALK SAĞLIĞI YETERLİK SINAVI DUYURUSU 2026",
+        "url": "https://www.halksagligiyeterlik.org.tr/detail/halk-sagligi-yeterlik-sinavi-duyurusu-2026-202609041409",
+        "date": "2026-09-04"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tkd_cardiology",
+    "url": "https://www.tkd.org.tr/duyurular",
+    "http": 200,
+    "failure": null,
+    "parsed": 188,
+    "accepted_pre_date": 1,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "TKD Asistan Okulu 2026",
+        "url": "https://www.tkd.org.tr/duyuru/5445/tkd-asistan-okulu-2026",
+        "date": "2026-09-15"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "ttd_thoracic",
+    "url": "https://toraks.org.tr/haberler",
+    "http": 200,
+    "failure": null,
+    "parsed": 67,
+    "accepted_pre_date": 1,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "Türk Toraks Derneği Çocuk Göğüs Hastalıkları Çalışma Grubu Eylül Ayı Webinarı \"Kistik Fibroziste Yeni Ufuklar\"",
+        "url": "https://toraks.org.tr/haberler/turk-toraks-dernegi-cocuk-gogus-hastaliklari-calisma-grubu-eylul-ayi-webinari-kistik-fibroziste-yeni-ufuklar-basligi-le-gerceklestirildi",
+        "date": "2026-09-17"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "klimık_infectious_diseases",
+    "url": "https://www.klimik.org.tr/category/duyurular/",
+    "http": 200,
+    "failure": null,
+    "parsed": 82,
+    "accepted_pre_date": 2,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "Duyurular",
+        "url": "https://www.klimik.org.tr/category/duyurular/",
+        "date": "2026-09-16"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tpd_psychiatry",
+    "url": "https://psikiyatri.org.tr/haber-duyuru",
+    "http": 200,
+    "failure": null,
+    "parsed": 3087,
+    "accepted_pre_date": 218,
+    "fresh": 1,
+    "active": 0,
+    "undated": 2,
+    "stale": 215,
+    "accepted": 3,
+    "sample": [
+      {
+        "title": "20. Psikiyatri Yeterlik Sınavı Başvuruları Başladı!",
+        "url": "https://psikiyatri.org.tr/4132/20-psikiyatri-yeterlik-sinavi-basvurulari-basladi",
+        "date": "2026-07-15"
+      }
+    ],
+    "undated_sample": [
+      "Hekim olmadığı halde hasta tedavi etmek suçuna ceza...",
+      "Hekim olmadığı halde hasta tedavi etmek suçuna ceza..."
+    ],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "trd_radiology",
+    "url": "https://www.turkrad.org.tr/dernekten-haberler/",
+    "http": 200,
+    "failure": null,
+    "parsed": 71,
+    "accepted_pre_date": 5,
+    "fresh": 0,
+    "active": 0,
+    "undated": 1,
+    "stale": 4,
+    "accepted": 1,
+    "sample": [],
+    "undated_sample": [
+      "Yapay Zeka Uygulamaları Rehber…"
+    ],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tahud_family_medicine",
+    "url": "https://tahud.org.tr/haberler",
+    "http": 200,
+    "failure": null,
+    "parsed": 62,
+    "accepted_pre_date": 3,
+    "fresh": 3,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 3,
+    "sample": [
+      {
+        "title": "29 Ekim Asistan ve Uzman Buluşması’nın Bilimsel Programı Yayınlandı",
+        "url": "https://tahud.org.tr/haber/29-ekim-asistan-ve-uzman-bulusmasinin-bilimsel-programi-yayinlandi",
+        "date": "2026-09-18"
+      },
+      {
+        "title": "29 Ekim Asistan ve Uzman Buluşması",
+        "url": "https://tahud.org.tr/haber/29-ekim-asistan-ve-uzman-bulusmasi",
+        "date": "2026-09-07"
+      },
+      {
+        "title": "Sağlık Bakanlığı Geriatri Klinik Rehberleri Üyelerimizin Bilgisine Sunulmuştur",
+        "url": "https://tahud.org.tr/haber/saglik-bakanligi-geriatri-klinik-rehberleri-uyelerimizin-bilgisine-sunulmustur",
+        "date": "2026-08-04"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "turk_pediatri_kurumu",
+    "url": "https://turkpediatri.org.tr/haberler",
+    "http": 200,
+    "failure": null,
+    "parsed": 308,
+    "accepted_pre_date": 13,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 11,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "Kritik Doğuştan Kalp Hastalıkları Tarama Programı Rehberi Yayımlandı",
+        "url": "https://turkpediatri.org.tr/haberler/kritik-dogustan-kalp-hastaliklari-tarama-programi-rehberi-yayimlandi-9",
+        "date": "2026-08-29"
+      },
+      {
+        "title": "TPK Basın Açıklaması Temmuz 2026",
+        "url": "https://turkpediatri.org.tr/haberler/tpk-basin-aciklamasi-temmuz-2027-24",
+        "date": "2026-07-22"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tatd_emergency_medicine",
+    "url": "https://tatd.org.tr/feed",
+    "http": 200,
+    "failure": null,
+    "parsed": 10,
+    "accepted_pre_date": 1,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "TATD Afet Okulu 2026-2027 Eğitimleri",
+        "url": "https://tatd.org.tr/genel/tatd-afet-okulu-2026-2027-egitimleri-basliyor/",
+        "date": "2026-09-17"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_us_usmle",
+    "url": "https://www.usmle.org/announcements",
+    "http": 200,
+    "failure": null,
+    "parsed": 152,
+    "accepted_pre_date": 9,
+    "fresh": 9,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 9,
+    "sample": [
+      {
+        "title": "Scheduled Review of USMLE Step 3 Passing Standard",
+        "url": "https://www.usmle.org/scheduled-review-usmle-step-3-passing-standard-0",
+        "date": "2026-09-02"
+      },
+      {
+        "title": "Updated Timeline for USMLE’s Designated Testing Dates: Transition Will Take Place in January 2029",
+        "url": "https://www.usmle.org/updated-timeline-usmles-designated-testing-dates-transition-will-take-place-january-2029",
+        "date": "2026-08-06"
+      },
+      {
+        "title": "A Letter to the Medical Education Community: Addressing the USMLE’s Transition to Designated Testing Dates",
+        "url": "https://www.usmle.org/letter-medical-education-community-addressing-usmles-transition-designated-testing-dates",
+        "date": "2026-07-13"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_us_nrmp",
+    "url": "https://www.nrmp.org/about/news/",
+    "http": 200,
+    "failure": null,
+    "parsed": 109,
+    "accepted_pre_date": 12,
+    "fresh": 12,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 12,
+    "sample": [
+      {
+        "title": "New Webinar: 2027 Match Overview for Medical Schools Chief of Match Operations Jeanette Calli and Director of ",
+        "url": "https://www.nrmp.org/about/news/2026/09/new-webinar-2027-main-residency-match-overview-for-medical-schools/",
+        "date": "2026-09-10"
+      },
+      {
+        "title": "September 10, 2026 New Webinar: 2027 Match Overview for Medical Schools",
+        "url": "https://www.nrmp.org/about/news/2026/09/new-webinar-2027-main-residency-match-overview-for-medical-schools/",
+        "date": "2026-09-10"
+      },
+      {
+        "title": "2027 Main Residency Match Welcome Newsletters Applicant and medical school registration for the 2027 Main Resi",
+        "url": "https://www.nrmp.org/about/news/2026/09/residency-newsletters/",
+        "date": "2026-09-08"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_de_anerkennung",
+    "url": "https://www.anerkennung-in-deutschland.de/html/en/news.php",
+    "http": 200,
+    "failure": null,
+    "parsed": 104,
+    "accepted_pre_date": 1,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_ca_mcc_img_pathways",
+    "url": "https://mcc.ca/news/",
+    "http": 200,
+    "failure": null,
+    "parsed": 100,
+    "accepted_pre_date": 5,
+    "fresh": 5,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 5,
+    "sample": [
+      {
+        "title": "MCCQE scheduling is now open for the January 2027 session",
+        "url": "https://mcc.ca/news/mccqe-scheduling-is-now-open-for-the-january-2027-session/",
+        "date": "2026-08-26"
+      },
+      {
+        "title": "Available to watch: the MCC’s webinar MCC assessments and readiness for practice",
+        "url": "https://mcc.ca/news/available-to-watch-the-mccs-webinar-mcc-assessments-and-readiness-for-practice/",
+        "date": "2026-08-24"
+      },
+      {
+        "title": "Now available: Free TDM Examination preparation resources",
+        "url": "https://mcc.ca/news/now-available-free-tdm-examination-preparation-resources/",
+        "date": "2026-07-24"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_ca_carms",
+    "url": "https://www.carms.ca/news/",
+    "http": 200,
+    "failure": null,
+    "parsed": 60,
+    "accepted_pre_date": 10,
+    "fresh": 9,
+    "active": 0,
+    "undated": 1,
+    "stale": 0,
+    "accepted": 10,
+    "sample": [
+      {
+        "title": "Update on Ontario IMG eligibility policy for 2027 R-1 Match",
+        "url": "https://www.carms.ca/news/update-on-ontario-img-eligibility-policy-for-2027-r-1-match/",
+        "date": "2026-07-27"
+      },
+      {
+        "title": "Simon Fraser University to join the 2027 CaRMS R‑1 Main Residency Match",
+        "url": "https://www.carms.ca/news/simon-fraser-university-to-join-the-2027-carms-r-1-main-residency-match/",
+        "date": "2026-06-22"
+      },
+      {
+        "title": "The CaRMS Forum data is here!",
+        "url": "https://www.carms.ca/news/the-carms-forum-data-is-here/",
+        "date": "2026-05-28"
+      }
+    ],
+    "undated_sample": [
+      "R-1 post-match process now open"
+    ],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_au_amc",
+    "url": "https://www.amc.org.au/feed/",
+    "http": 200,
+    "failure": null,
+    "parsed": 10,
+    "accepted_pre_date": 2,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "MCQ candidates who are residents of Iran",
+        "url": "https://www.amc.org.au/news-and-updates/important-notice-for-candidates-who-are-residents-of-iran/",
+        "date": "2026-09-13"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_au_medical_board",
+    "url": "https://www.medicalboard.gov.au/News",
+    "http": 200,
+    "failure": null,
+    "parsed": 1175,
+    "accepted_pre_date": 189,
+    "fresh": 5,
+    "active": 0,
+    "undated": 0,
+    "stale": 184,
+    "accepted": 5,
+    "sample": [
+      {
+        "title": "Flexible registration payments on the way as Ahpra launches fee deferral trial",
+        "url": "https://www.medicalboard.gov.au/News/2026-09-09-Fee-deferral-pilot",
+        "date": "2026-09-09"
+      },
+      {
+        "title": "Revised Supervised practice framework supports modern, flexible supervision",
+        "url": "https://www.medicalboard.gov.au/News/2026-08-28-Revised-Supervised-practice-framework-supports-modern-flexible-supervision",
+        "date": "2026-08-28"
+      },
+      {
+        "title": "Unregistered doctor penalised for calling himself a medical practitioner",
+        "url": "https://www.medicalboard.gov.au/News/2026-08-19-Unregistered-doctor-penalised",
+        "date": "2026-08-19"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_au_ahpra",
+    "url": "https://www.ahpra.gov.au/News",
+    "http": 200,
+    "failure": null,
+    "parsed": 1683,
+    "accepted_pre_date": 33,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 31,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "Unregistered doctor penalised for calling himself a medical practitioner",
+        "url": "https://www.ahpra.gov.au/News/2026-08-19-Unregistered-doctor-penalised",
+        "date": "2026-08-19"
+      },
+      {
+        "title": "Doctors’ voices matter - 2026 Medical Training Survey now open",
+        "url": "https://www.ahpra.gov.au/News/2026-08-03-2026-Medical-Training-Survey",
+        "date": "2026-08-03"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_nl_big_register",
+    "url": "https://english.bigregister.nl/",
+    "http": 200,
+    "failure": null,
+    "parsed": 22,
+    "accepted_pre_date": 1,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 1,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "pubmed_biomedical_evidence",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+    "http": 200,
+    "failure": null,
+    "parsed": 0,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "osym_dus_dental_exams",
+    "url": "https://www.osym.gov.tr/SinavGrubu/Index/9",
+    "http": 200,
+    "failure": null,
+    "parsed": 86,
+    "accepted_pre_date": 19,
+    "fresh": 15,
+    "active": 0,
+    "undated": 0,
+    "stale": 4,
+    "accepted": 15,
+    "sample": [
+      {
+        "title": "16 Eylül 2026 2026-DUS 2. Dönem Sınavı ile 2026-STS Diş Hekimliği 2. Dönem Sınavı: Başvuruların Alınması",
+        "url": "https://www.osym.gov.tr/2026-dus-2-donem-sinavi-ile-2026-sts-dis-hekimligi-2-donem-sinavi-basvurularin-alinmasi",
+        "date": "2026-09-16"
+      },
+      {
+        "title": "16 Eylül 2026 2026-DUS 2. Dönem: Kılavuz ve Başvuru Bilgileri",
+        "url": "https://www.osym.gov.tr/2026-dus-2-donem-kilavuz-ve-basvuru-bilgileri",
+        "date": "2026-09-16"
+      },
+      {
+        "title": "5 Ağustos 2026 2026-DUS 1. Dönem Ek Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+        "url": "https://www.osym.gov.tr/2026-dus-1donem-ek-yerlestirme-sonuclarina-iliskin-sayisal-bilgiler",
+        "date": "2026-08-05"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "osym_ydus_subspecialty_exams",
+    "url": "https://www.osym.gov.tr/SinavGrubu/Index/10",
+    "http": 200,
+    "failure": null,
+    "parsed": 99,
+    "accepted_pre_date": 32,
+    "fresh": 22,
+    "active": 0,
+    "undated": 0,
+    "stale": 10,
+    "accepted": 22,
+    "sample": [
+      {
+        "title": "5 Ağustos 2026 2026-YDUS: Ek Yerleştirme Sonuçları Açıklandı",
+        "url": "https://www.osym.gov.tr/2026-ydus-ek-yerlestirme-sonuclari-aciklandi",
+        "date": "2026-08-05"
+      },
+      {
+        "title": "5 Ağustos 2026 2026-YDUS Ek Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+        "url": "https://www.osym.gov.tr/2026-ydus-1-donem-ek-yerlestirme-sonuclarina-iliskin-sayisal-bilgiler",
+        "date": "2026-08-05"
+      },
+      {
+        "title": "24 Temmuz 2026 2026-YDUS Ek Tercih İşlemleri: Tercih Kılavuzu ve Kontenjanlar Tablosu",
+        "url": "https://www.osym.gov.tr/2026-ydus-ek-tercih-islemleri-tercih-kilavuzu-ve-kontenjanlar-tablosu",
+        "date": "2026-07-24"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tvhb_veterinary",
+    "url": "https://www.tvhb.org.tr/feed",
+    "http": 200,
+    "failure": null,
+    "parsed": 10,
+    "accepted_pre_date": 6,
+    "fresh": 6,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 6,
+    "sample": [
+      {
+        "title": "33. DÜNYA BUİATRİ KONGRESİ’NE KATILDIK",
+        "url": "https://tvhb.org.tr/2026/09/10/33-dunya-buiatri-kongresine-katildik-2/",
+        "date": "2026-09-10"
+      },
+      {
+        "title": "Tarım ve Orman Bakanlığı Hayvancılık Genel Müdürlüğü ile Türk Veteriner Hekimleri Birliği, Hayvancılık Genel M",
+        "url": "https://tvhb.org.tr/2026/09/04/tarim-ve-orman-bakanligi-hayvancilik-genel-mudurlugu-ile-turk-veteriner-hekimleri-birligi-hayvancilik-genel-mudurlugunun-ev-sahipliginde-muayenehane-poliklinik-ve-hastane-yonetmeliginin-gorusuldugu/",
+        "date": "2026-09-04"
+      },
+      {
+        "title": "Türk Veteriner Hekimleri Birliği Muayenehane, Poliklinik ve Hastane Yönetmeliği Çalışma Grubu TVHB’de Toplandı",
+        "url": "https://tvhb.org.tr/2026/09/04/turk-veteriner-hekimleri-birligi-muayenehane-poliklinik-ve-hastane-yonetmeligi-calisma-grubu-tvhbde-toplandi/",
+        "date": "2026-09-04"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "anadolu_ajansi_medical_radar",
+    "url": "https://www.aa.com.tr/tr/SiteMap/News",
+    "http": 200,
+    "failure": null,
+    "parsed": 1000,
+    "accepted_pre_date": 2,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "TUS ve STS Tıp Doktorluğu 2. Dönem sınav sonuçları açıklandı",
+        "url": "https://www.aa.com.tr/tr/gundem/tus-ve-sts-tip-doktorlugu-2-donem-sinav-sonuclari-aciklandi/4059903",
+        "date": "2026-09-17"
+      },
+      {
+        "title": "DUS ve STS Diş Hekimliği başvuruları başladı",
+        "url": "https://www.aa.com.tr/tr/gundem/dus-ve-sts-dis-hekimligi-basvurulari-basladi/4059211",
+        "date": "2026-09-16"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "tuik_medical_public_health",
+    "url": "https://www.tuik.gov.tr/",
+    "http": 200,
+    "failure": null,
+    "parsed": 5,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "tihud_internal_medicine",
+    "url": "https://www.tihud.org.tr/HaberlerveDuyurular?sayfa=1&menu=1",
+    "http": 200,
+    "failure": null,
+    "parsed": 762,
+    "accepted_pre_date": 146,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 146,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_ie_medical_council",
+    "url": "https://www.medicalcouncil.ie/news-and-publications/press-releases/press-release/press-releases.html",
+    "http": 200,
+    "failure": null,
+    "parsed": 181,
+    "accepted_pre_date": 26,
+    "fresh": 4,
+    "active": 0,
+    "undated": 2,
+    "stale": 20,
+    "accepted": 6,
+    "sample": [
+      {
+        "title": "World Patient Safety Day: Medical Council highlights importance of patients and doctors working in partnership",
+        "url": "https://www.medicalcouncil.ie/news-and-publications/press-releases/press-release/items/world-patient-safety-day-medical-council-highlights-importance-of-patients-and-doctors-working-in-partnership.html",
+        "date": "2026-09-17"
+      },
+      {
+        "title": "Record number of doctors now working in Ireland, new Medical Council workforce report finds",
+        "url": "https://www.medicalcouncil.ie/news-and-publications/press-releases/press-release/items/record-number-of-doctors-now-working-in-ireland.html",
+        "date": "2026-08-31"
+      },
+      {
+        "title": "Doctors invited to renew their registration with the Medical Council",
+        "url": "https://www.medicalcouncil.ie/news-and-publications/press-releases/press-release/items/doctors-invited-to-renew-their-registration-with-the-medical-council.html",
+        "date": "2026-06-30"
+      }
+    ],
+    "undated_sample": [
+      "Medical Workforce Intelligence Report 2023 spotlights reliance on international doctors an",
+      "New edition of Guide to Professional Conduct and Ethics for Registered Medical Practitione"
+    ],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_es_mir_fse",
+    "url": "https://www.sanidad.gob.es/gabinete/notasPrensa.do",
+    "http": 200,
+    "failure": null,
+    "parsed": 4548,
+    "accepted_pre_date": 7,
+    "fresh": 1,
+    "active": 0,
+    "undated": 0,
+    "stale": 6,
+    "accepted": 1,
+    "sample": [
+      {
+        "title": "Sanidad abre a audiencia pública la reforma que limita las guardias, mejora los descansos y actualiza las retr",
+        "url": "https://www.sanidad.gob.es/gabinete/notasPrensa.do?id=6952",
+        "date": "2026-07-01"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_es_universidades_homologacion",
+    "url": "https://www.universidades.gob.es/Noticias.html",
+    "http": 200,
+    "failure": null,
+    "parsed": 108,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_us_aamc_eras",
+    "url": "https://www.aamc.org/news",
+    "http": 200,
+    "failure": null,
+    "parsed": 132,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_sa_scfhs_watch",
+    "url": "https://scfhs.org.sa/en/news",
+    "http": 200,
+    "failure": null,
+    "parsed": 54,
+    "accepted_pre_date": 2,
+    "fresh": 2,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 2,
+    "sample": [
+      {
+        "title": "SCFHS Announces Admission Results for the 2026 Saudi Board Programs",
+        "url": "https://scfhs.org.sa/en/news/scfhs-announces-admission-results-2026-saudi-board-programs",
+        "date": "2026-08-23"
+      },
+      {
+        "title": "SCFHS Announces the Opening of Applications for the 2027 Saudi Board Programs in Medical and Surgical Subspeci",
+        "url": "https://scfhs.org.sa/en/news/scfhs-announces-opening-applications-2027-saudi-board-programs-medical-and-surgical",
+        "date": "2026-07-06"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_uk_oriel",
+    "url": "https://medical.hee.nhs.uk/medical-training-recruitment/news",
+    "http": 200,
+    "failure": null,
+    "parsed": 26,
+    "accepted_pre_date": 9,
+    "fresh": 4,
+    "active": 0,
+    "undated": 0,
+    "stale": 5,
+    "accepted": 4,
+    "sample": [
+      {
+        "title": "National Webinar on careers in Medical Oncology",
+        "url": "https://medical.hee.nhs.uk/medical-training-recruitment/news/careers-in-medical-oncology",
+        "date": "2026-09-07"
+      },
+      {
+        "title": "Important Update for Applicants Interested in 2027 Medical Specialty Recruitment",
+        "url": "https://medical.hee.nhs.uk/medical-training-recruitment/news/important-update-for-applicants-interested-in-2027-medical-specialty-recruitment",
+        "date": "2026-08-24"
+      },
+      {
+        "title": "Expansion of Medical Specialty Training Posts from February 2027",
+        "url": "https://medical.hee.nhs.uk/medical-training-recruitment/news/expansion-of-medical-specialty-training-posts-from-february-2027",
+        "date": "2026-08-10"
+      }
+    ],
+    "undated_sample": [],
+    "result": "HAS_CANDIDATES"
+  },
+  {
+    "source_id": "abroad_it_salute_foreign_qual",
+    "url": "https://www.trovanorme.salute.gov.it/norme/archivioNewsletter",
+    "http": 200,
+    "failure": null,
+    "parsed": 881,
+    "accepted_pre_date": 0,
+    "fresh": 0,
+    "active": 0,
+    "undated": 0,
+    "stale": 0,
+    "accepted": 0,
+    "sample": [],
+    "undated_sample": [],
+    "result": "NO_CANDIDATES"
+  }
+]

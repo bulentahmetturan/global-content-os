@@ -1,0 +1,7822 @@
+{
+  "results": [
+    {
+      "institution": "Acıbadem Mehmet Ali Aydınlar Üniversitesi",
+      "tob": "Acıbadem Tıp Öğrencileri Birliği",
+      "slug": "acibadem",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "acibademtob",
+        "acibadem.tob",
+        "acibadem_tob",
+        "tobacibadem",
+        "acibadembat",
+        "acibademmsa",
+        "acibademtip",
+        "acibadem"
+      ],
+      "ranked": [
+        {
+          "handle": "acibademtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibadem.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibadem_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobacibadem",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibadembat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibademmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibademtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "acibadem",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "tob": "Afyon SBÜ Tıp Öğrencileri Birliği",
+      "slug": "afyonsbu",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "afyonsbutob",
+        "afyonsbu.tob",
+        "afyonsbu_tob",
+        "tobafyonsbu",
+        "afyonsbubat",
+        "afyonsbumsa",
+        "afyonsbutip",
+        "afyonsbu",
+        "afyonsbutipogrencileribirligi"
+      ],
+      "ranked": [
+        {
+          "handle": "afyonsbutob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbu.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbu_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobafyonsbu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbubat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbumsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbutip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "afyonsbutipogrencileribirligi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Akdeniz Üniversitesi",
+      "tob": "Akdeniz Tıp Öğrencileri Birliği",
+      "slug": "akdeniz",
+      "page_igs": [
+        "tipakdeniz"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "akdeniztob",
+        "akdeniz.tob",
+        "akdeniz_tob",
+        "tobakdeniz",
+        "akdenizbat",
+        "akdenizmsa",
+        "akdeniztip",
+        "akdeniz"
+      ],
+      "ranked": [
+        {
+          "handle": "tipakdeniz",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.akdeniz.edu.tr/tr",
+            "https://tip.akdeniz.edu.tr/tr/notfound"
+          ]
+        },
+        {
+          "handle": "akdeniztob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdeniz.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdeniz_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobakdeniz",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdenizbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdenizmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdeniztip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "akdeniz",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.akdeniz.edu.tr/tr",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/ogrenci/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/notfound",
+        "https://tip.akdeniz.edu.tr/tr/20262027_ders_programi-19233"
+      ]
+    },
+    {
+      "institution": "Aksaray Üniversitesi",
+      "tob": "Aksaray Tıp Öğrencileri Birliği",
+      "slug": "aksaray",
+      "page_igs": [
+        "asutipfakultesi",
+        "aksaraytob",
+        "aksaraysinirbilim",
+        "asubat"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "aksaraytob",
+        "aksaray.tob",
+        "aksaray_tob",
+        "tobaksaray",
+        "aksaraybat",
+        "aksaraymsa",
+        "aksaraytip",
+        "aksaray"
+      ],
+      "ranked": [
+        {
+          "handle": "asutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.aksaray.edu.tr/duyurular",
+            "https://tip.aksaray.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "aksaraytob",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.aksaray.edu.tr/duyurular",
+            "https://tip.aksaray.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "aksaraysinirbilim",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.aksaray.edu.tr/duyurular",
+            "https://tip.aksaray.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "asubat",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.aksaray.edu.tr/duyurular",
+            "https://tip.aksaray.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "aksaray.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aksaray_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobaksaray",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aksaraybat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aksaraymsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aksaraytip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aksaray",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.aksaray.edu.tr/duyurular",
+        "https://tip.aksaray.edu.tr/ogrenci-topluluklari",
+        "https://tip.aksaray.edu.tr/ogrenci-topluluklar",
+        "https://tip.aksaray.edu.tr/topluluklar",
+        "https://tip.aksaray.edu.tr/",
+        "https://tip.aksaray.edu.tr/ogrenci-kulupleri",
+        "https://tip.aksaray.edu.tr/kulupler",
+        "https://tip.aksaray.edu.tr/sosyal-medya",
+        "https://tip.aksaray.edu.tr/iletisim",
+        "https://tip.aksaray.edu.tr/ogrenci-topluluklarimizin-etkinlikleri",
+        "https://tip.aksaray.edu.tr/ogrenci-topluluklarimizin-etkinlikleri-2",
+        "https://tip.aksaray.edu.tr/akademik-takvim",
+        "https://tip.aksaray.edu.tr/ogrenci-temsilciligi"
+      ]
+    },
+    {
+      "institution": "Alanya Alaaddin Keykubat Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Altınbaş Üniversitesi",
+      "tob": "Altınbaş Tıp Öğrencileri Birliği",
+      "slug": "altinbas",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "altinbastob",
+        "altinbas.tob",
+        "altinbas_tob",
+        "tobaltinbas",
+        "altinbasbat",
+        "altinbasmsa",
+        "altinbastip",
+        "altinbas"
+      ],
+      "ranked": [
+        {
+          "handle": "altinbastob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbas.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbas_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobaltinbas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbasbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbasmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbastip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "altinbas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Amasya Üniversitesi",
+      "tob": "Amasya Tıp Öğrencileri Birliği",
+      "slug": "amasya",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "amasyatob",
+        "amasya.tob",
+        "amasya_tob",
+        "tobamasya",
+        "amasyabat",
+        "amasyamsa",
+        "amasyatip",
+        "amasya"
+      ],
+      "ranked": [
+        {
+          "handle": "amasyatob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasya.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasya_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobamasya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasyabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasyamsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasyatip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "amasya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Ankara Yıldırım Beyazıt Üniversitesi",
+      "tob": "Ankara Tıp Öğrencileri Birliği",
+      "slug": "ankara",
+      "page_igs": [
+        "aybutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "ankaratob",
+        "ankara.tob",
+        "ankara_tob",
+        "tobankara",
+        "ankarabat",
+        "ankaramsa",
+        "ankaratip",
+        "ankara"
+      ],
+      "ranked": [
+        {
+          "handle": "aybutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://www.aybu.edu.tr/tip"
+          ]
+        },
+        {
+          "handle": "ankaratob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobankara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankarabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankaramsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankaratip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://www.aybu.edu.tr/tip"
+      ]
+    },
+    {
+      "institution": "Ankara Üniversitesi",
+      "tob": "Ankara Tıp Öğrencileri Birliği",
+      "slug": "ankara",
+      "page_igs": [
+        "ankaratipdekanlik"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "ankaratob",
+        "ankara.tob",
+        "ankara_tob",
+        "tobankara",
+        "ankarabat",
+        "ankaramsa",
+        "ankaratip",
+        "ankara"
+      ],
+      "ranked": [
+        {
+          "handle": "ankaratipdekanlik",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://www.medicine.ankara.edu.tr/duyurular/",
+            "https://www.medicine.ankara.edu.tr/ogrenci-topluluklari/"
+          ]
+        },
+        {
+          "handle": "ankaratob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobankara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankarabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankaramsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankaratip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ankara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://www.medicine.ankara.edu.tr/duyurular/",
+        "https://www.medicine.ankara.edu.tr/ogrenci-topluluklari/",
+        "https://www.medicine.ankara.edu.tr/ogrenci-topluluklari/",
+        "https://www.medicine.ankara.edu.tr/iletisim-becerileri-grubu-kurul-uyeleri/",
+        "https://www.medicine.ankara.edu.tr/akademik-takvim-ingilizce-program/"
+      ]
+    },
+    {
+      "institution": "Atatürk Üniversitesi",
+      "tob": "Atatürk Tıp Öğrencileri Birliği",
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "ataturktob",
+        "ataturk.tob",
+        "ataturk_tob",
+        "tobataturk",
+        "ataturkbat",
+        "ataturkmsa",
+        "ataturktip",
+        "ataturk"
+      ],
+      "ranked": [
+        {
+          "handle": "ataturktob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturk.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturk_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobataturk",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturkbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturkmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturktip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ataturk",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Atılım Üniversitesi",
+      "tob": "Atılım Tıp Öğrencileri Birliği",
+      "slug": "atilim",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "atilimtob",
+        "atilim.tob",
+        "atilim_tob",
+        "tobatilim",
+        "atilimbat",
+        "atilimmsa",
+        "atilimtip",
+        "atilim"
+      ],
+      "ranked": [
+        {
+          "handle": "atilimtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilim.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilim_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobatilim",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilimbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilimmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilimtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atilim",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Aydın Adnan Menderes Üniversitesi",
+      "tob": "Aydın Adnan Menderes Tıp Öğrencileri Birliği",
+      "slug": "aydinadnanmenderes",
+      "page_igs": [
+        "adutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "aydinadnanmenderestob",
+        "aydinadnanmenderes.tob",
+        "aydinadnanmenderes_tob",
+        "tobaydinadnanmenderes",
+        "aydinadnanmenderesbat",
+        "aydinadnanmenderesmsa",
+        "aydinadnanmenderestip",
+        "aydinadnanmenderes"
+      ],
+      "ranked": [
+        {
+          "handle": "adutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://fakulte.adu.edu.tr/med/"
+          ]
+        },
+        {
+          "handle": "aydinadnanmenderestob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderes.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderes_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobaydinadnanmenderes",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderesbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderesmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderestip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "aydinadnanmenderes",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://fakulte.adu.edu.tr/med/"
+      ]
+    },
+    {
+      "institution": "Balıkesir Üniversitesi",
+      "tob": "Balıkesir Tıp Öğrencileri Birliği",
+      "slug": "balikesir",
+      "page_igs": [
+        "bauntipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "balikesirtob",
+        "balikesir.tob",
+        "balikesir_tob",
+        "tobbalikesir",
+        "balikesirbat",
+        "balikesirmsa",
+        "balikesirtip",
+        "balikesir"
+      ],
+      "ranked": [
+        {
+          "handle": "bauntipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.balikesir.edu.tr/akademik-takvim",
+            "https://tip.balikesir.edu.tr/iletisim"
+          ]
+        },
+        {
+          "handle": "balikesirtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesir.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesir_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbalikesir",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesirbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesirmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesirtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "balikesir",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.balikesir.edu.tr/akademik-takvim",
+        "https://tip.balikesir.edu.tr/iletisim"
+      ]
+    },
+    {
+      "institution": "Bandırma Onyedi Eylül Üniversitesi",
+      "tob": "Bandırma Onyedi Eylül Tıp Öğrencileri Birliği",
+      "slug": "bandirmaonyedieylul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "bandirmaonyedieylultob",
+        "bandirmaonyedieylul.tob",
+        "bandirmaonyedieylul_tob",
+        "tobbandirmaonyedieylul",
+        "bandirmaonyedieylulbat",
+        "bandirmaonyedieylulmsa",
+        "bandirmaonyedieylultip",
+        "bandirmaonyedieylul"
+      ],
+      "ranked": [
+        {
+          "handle": "bandirmaonyedieylultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbandirmaonyedieylul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bandirmaonyedieylul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Beykent Üniversitesi",
+      "tob": "Beykent Tıp Öğrencileri Birliği",
+      "slug": "beykent",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "beykenttob",
+        "beykent.tob",
+        "beykent_tob",
+        "tobbeykent",
+        "beykentbat",
+        "beykentmsa",
+        "beykenttip",
+        "beykent"
+      ],
+      "ranked": [
+        {
+          "handle": "beykenttob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykent.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykent_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbeykent",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykentbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykentmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykenttip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "beykent",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Biruni Üniversitesi",
+      "tob": "Biruni Tıp Öğrencileri Birliği",
+      "slug": "biruni",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "birunitob",
+        "biruni.tob",
+        "biruni_tob",
+        "tobbiruni",
+        "birunibat",
+        "birunimsa",
+        "birunitip",
+        "biruni"
+      ],
+      "ranked": [
+        {
+          "handle": "birunitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "biruni.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "biruni_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbiruni",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "birunibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "birunimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "birunitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "biruni",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Bolu Abant İzzet Baysal Üniversitesi",
+      "tob": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+      "slug": "abant",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "abanttob",
+        "abant.tob",
+        "abant_tob",
+        "tobabant",
+        "abantbat",
+        "abantmsa",
+        "abanttip",
+        "abant",
+        "abantizzetbaysaltob",
+        "abantizzetbaysal.tob",
+        "abantizzetbaysal_tob",
+        "tobabantizzetbaysal"
+      ],
+      "ranked": [
+        {
+          "handle": "abanttob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobabant",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abanttip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysaltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysal.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysal_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobabantizzetbaysal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Bursa Uludağ Üniversitesi",
+      "tob": "Bursa Uludağ Tıp Öğrencileri Birliği",
+      "slug": "bursauludag",
+      "page_igs": [
+        "buutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "bursauludagtob",
+        "bursauludag.tob",
+        "bursauludag_tob",
+        "tobbursauludag",
+        "bursauludagbat",
+        "bursauludagmsa",
+        "bursauludagtip",
+        "bursauludag"
+      ],
+      "ranked": [
+        {
+          "handle": "buutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://www.uludag.edu.tr/tip/duyuru",
+            "https://www.uludag.edu.tr/tip/akademik-takvim-86919"
+          ]
+        },
+        {
+          "handle": "bursauludagtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludag.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludag_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbursauludag",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludagbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludagmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludagtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bursauludag",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://www.uludag.edu.tr/tip/duyuru",
+        "https://www.uludag.edu.tr/tip/akademik-takvim-86919"
+      ]
+    },
+    {
+      "institution": "Dicle Üniversitesi",
+      "tob": "Dicle Tıp Öğrencileri Birliği",
+      "slug": "dicle",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "dicletob",
+        "dicle.tob",
+        "dicle_tob",
+        "tobdicle",
+        "diclebat",
+        "diclemsa",
+        "dicletip",
+        "dicle"
+      ],
+      "ranked": [
+        {
+          "handle": "dicletob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dicle.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dicle_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobdicle",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "diclebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "diclemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dicletip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dicle",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Dokuz Eylül Üniversitesi",
+      "tob": "Dokuz Eylül Tıp Öğrencileri Birliği",
+      "slug": "dokuzeylul",
+      "page_igs": [
+        "deutipfak"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "dokuzeylultob",
+        "dokuzeylul.tob",
+        "dokuzeylul_tob",
+        "tobdokuzeylul",
+        "dokuzeylulbat",
+        "dokuzeylulmsa",
+        "dokuzeylultip",
+        "dokuzeylul"
+      ],
+      "ranked": [
+        {
+          "handle": "deutipfak",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.deu.edu.tr/tr/",
+            "https://tip.deu.edu.tr/tr/ogrenci-topluluklari/"
+          ]
+        },
+        {
+          "handle": "dokuzeylultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobdokuzeylul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "dokuzeylul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.deu.edu.tr/tr/",
+        "https://tip.deu.edu.tr/tr/ogrenci-topluluklari/",
+        "https://tip.deu.edu.tr/tr/ogrenci-topluluklari/",
+        "https://tip.deu.edu.tr/kulupler/",
+        "https://tip.deu.edu.tr/sosyal-medya/",
+        "https://tip.deu.edu.tr/tr/iletisim/",
+        "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+        "https://tip.deu.edu.tr/tr/donem-6/"
+      ]
+    },
+    {
+      "institution": "Ege Üniversitesi",
+      "tob": "Ege Tıp Öğrencileri Birliği",
+      "slug": "ege",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "egetob",
+        "ege.tob",
+        "ege_tob",
+        "tobege",
+        "egebat",
+        "egemsa",
+        "egetip"
+      ],
+      "ranked": [
+        {
+          "handle": "egetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ege.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ege_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobege",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "egebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "egemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "egetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Erzincan Binali Yıldırım Üniversitesi",
+      "tob": "Erzincan Binali Yıldırım Tıp Öğrencileri Birliği",
+      "slug": "erzincanbinaliyildirim",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "erzincanbinaliyildirimtob",
+        "erzincanbinaliyildirim.tob",
+        "erzincanbinaliyildirim_tob",
+        "toberzincanbinaliyildirim",
+        "erzincanbinaliyildirimbat",
+        "erzincanbinaliyildirimmsa",
+        "erzincanbinaliyildirimtip",
+        "erzincanbinaliyildirim"
+      ],
+      "ranked": [
+        {
+          "handle": "erzincanbinaliyildirimtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirim.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirim_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "toberzincanbinaliyildirim",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirimbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirimmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirimtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "erzincanbinaliyildirim",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Eskişehir Osmangazi Üniversitesi",
+      "tob": "Gazi Tıp Öğrencileri Birliği",
+      "slug": "gazi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "gazitob",
+        "gazi.tob",
+        "gazi_tob",
+        "tobgazi",
+        "gazibat",
+        "gazimsa",
+        "gazitip"
+      ],
+      "ranked": [
+        {
+          "handle": "gazitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobgazi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Fırat Üniversitesi",
+      "tob": "Fırat Tıp Öğrencileri Birliği",
+      "slug": "firat",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "firattob",
+        "firat.tob",
+        "firat_tob",
+        "tobfirat",
+        "firatbat",
+        "firatmsa",
+        "firattip",
+        "firat"
+      ],
+      "ranked": [
+        {
+          "handle": "firattob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firat.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firat_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobfirat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firatbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firatmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firattip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "firat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Gazi Üniversitesi",
+      "tob": "Gazi Tıp Öğrencileri Birliği",
+      "slug": "gazi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "gazitob",
+        "gazi.tob",
+        "gazi_tob",
+        "tobgazi",
+        "gazibat",
+        "gazimsa",
+        "gazitip"
+      ],
+      "ranked": [
+        {
+          "handle": "gazitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobgazi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi",
+      "tob": "Gazi Tıp Öğrencileri Birliği",
+      "slug": "gazi",
+      "page_igs": [
+        "gibtu.tip"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "gazitob",
+        "gazi.tob",
+        "gazi_tob",
+        "tobgazi",
+        "gazibat",
+        "gazimsa",
+        "gazitip"
+      ],
+      "ranked": [
+        {
+          "handle": "gibtu.tip",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+            "https://www.gibtu.edu.tr/tip/Icerik/34012/klinik-stajlar-degerlendirme-toplantisi"
+          ]
+        },
+        {
+          "handle": "gazitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobgazi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+        "https://www.gibtu.edu.tr/tip/Icerik/34012/klinik-stajlar-degerlendirme-toplantisi"
+      ]
+    },
+    {
+      "institution": "Gaziantep Üniversitesi",
+      "tob": "Gazi Tıp Öğrencileri Birliği",
+      "slug": "gazi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "gazitob",
+        "gazi.tob",
+        "gazi_tob",
+        "tobgazi",
+        "gazibat",
+        "gazimsa",
+        "gazitip"
+      ],
+      "ranked": [
+        {
+          "handle": "gazitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobgazi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "gazitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Giresun Üniversitesi",
+      "tob": "Giresun Tıp Öğrencileri Birliği",
+      "slug": "giresun",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "giresuntob",
+        "giresun.tob",
+        "giresun_tob",
+        "tobgiresun",
+        "giresunbat",
+        "giresunmsa",
+        "giresuntip",
+        "giresun"
+      ],
+      "ranked": [
+        {
+          "handle": "giresuntob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresun.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresun_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobgiresun",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresunbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresunmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresuntip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "giresun",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Hacettepe Üniversitesi",
+      "tob": "Hacettepe Tıp Öğrencileri Birliği",
+      "slug": "hacettepe",
+      "page_igs": [
+        "hacettepetip_resmi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "hacettepetob",
+        "hacettepe.tob",
+        "hacettepe_tob",
+        "tobhacettepe",
+        "hacettepebat",
+        "hacettepemsa",
+        "hacettepetip",
+        "hacettepe"
+      ],
+      "ranked": [
+        {
+          "handle": "hacettepetip_resmi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.hacettepe.edu.tr/tr/duyurular",
+            "https://tip.hacettepe.edu.tr/tr/akademik-takvim"
+          ]
+        },
+        {
+          "handle": "hacettepetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepe.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepe_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobhacettepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hacettepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.hacettepe.edu.tr/tr/duyurular",
+        "https://tip.hacettepe.edu.tr/tr/akademik-takvim",
+        "https://tip.hacettepe.edu.tr/tr/ogrenci-konseyi"
+      ]
+    },
+    {
+      "institution": "Haliç Üniversitesi",
+      "tob": "Haliç Tıp Öğrencileri Birliği",
+      "slug": "halic",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "halictob",
+        "halic.tob",
+        "halic_tob",
+        "tobhalic",
+        "halicbat",
+        "halicmsa",
+        "halictip",
+        "halic"
+      ],
+      "ranked": [
+        {
+          "handle": "halictob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halic.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halic_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobhalic",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halicbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halicmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halictip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "halic",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Harran Üniversitesi",
+      "tob": "Harran Tıp Öğrencileri Birliği",
+      "slug": "harran",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "harrantob",
+        "harran.tob",
+        "harran_tob",
+        "tobharran",
+        "harranbat",
+        "harranmsa",
+        "harrantip",
+        "harran"
+      ],
+      "ranked": [
+        {
+          "handle": "harrantob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harran.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harran_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobharran",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harranbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harranmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harrantip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "harran",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Hitit Üniversitesi",
+      "tob": "Hitit Tıp Öğrencileri Birliği",
+      "slug": "hitit",
+      "page_igs": [
+        "hitutip"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "hitittob",
+        "hitit.tob",
+        "hitit_tob",
+        "tobhitit",
+        "hititbat",
+        "hititmsa",
+        "hitittip",
+        "hitit"
+      ],
+      "ranked": [
+        {
+          "handle": "hitutip",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.hitit.edu.tr/tr/detay/donem-i-ders-programi-yeni",
+            "https://tip.hitit.edu.tr/tr/detay/staj"
+          ]
+        },
+        {
+          "handle": "hitittob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hitit.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hitit_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobhitit",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hititbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hititmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hitittip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "hitit",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.hitit.edu.tr/tr/detay/donem-i-ders-programi-yeni",
+        "https://tip.hitit.edu.tr/tr/detay/staj"
+      ]
+    },
+    {
+      "institution": "İnönü Üniversitesi",
+      "tob": "İnönü Tıp Öğrencileri Birliği",
+      "slug": "inonu",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "inonutob",
+        "inonu.tob",
+        "inonu_tob",
+        "tobinonu",
+        "inonubat",
+        "inonumsa",
+        "inonutip",
+        "inonu"
+      ],
+      "ranked": [
+        {
+          "handle": "inonutob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonu.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonu_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobinonu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonubat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonumsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonutip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "inonu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Atlas Üniversitesi",
+      "tob": "Atlas Tıp Öğrencileri Birliği",
+      "slug": "atlas",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "atlastob",
+        "atlas.tob",
+        "atlas_tob",
+        "tobatlas",
+        "atlasbat",
+        "atlasmsa",
+        "atlastip",
+        "atlas"
+      ],
+      "ranked": [
+        {
+          "handle": "atlastob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlas.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlas_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobatlas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlasbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlasmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlastip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "atlas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Medeniyet Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [
+        "medeniyettipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "medeniyettipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.medeniyet.edu.tr/tr/ogrenciler/akademik-takvim",
+            "https://tip.medeniyet.edu.tr/tr"
+          ]
+        },
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.medeniyet.edu.tr/tr/ogrenciler/akademik-takvim",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr",
+        "https://tip.medeniyet.edu.tr/tr/ders-programi/egitim-ve-ogretim-yili-ders-programi"
+      ]
+    },
+    {
+      "institution": "İstanbul Medipol Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Okan Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Sağlık ve Teknoloji Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Yeni Yüzyıl Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Üniversitesi",
+      "tob": "İstanbul Tıp Öğrencileri Birliği",
+      "slug": "istanbul",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbultob",
+        "istanbul.tob",
+        "istanbul_tob",
+        "tobistanbul",
+        "istanbulbat",
+        "istanbulmsa",
+        "istanbultip",
+        "istanbul"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbultob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbultip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbul",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstanbul Üniversitesi-Cerrahpaşa",
+      "tob": "Cerrahpaşa Tıp Öğrencileri Birliği",
+      "slug": "cerrahpasa",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "cerrahpasatob",
+        "cerrahpasa.tob",
+        "cerrahpasa_tob",
+        "tobcerrahpasa",
+        "cerrahpasabat",
+        "cerrahpasamsa",
+        "cerrahpasatip",
+        "cerrahpasa"
+      ],
+      "ranked": [
+        {
+          "handle": "cerrahpasatob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasa.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasa_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobcerrahpasa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasamsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasatip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cerrahpasa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İstinye Üniversitesi",
+      "tob": "İstinye Tıp Öğrencileri Birliği",
+      "slug": "istinye",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istinyetob",
+        "istinye.tob",
+        "istinye_tob",
+        "tobistinye",
+        "istinyebat",
+        "istinyemsa",
+        "istinyetip",
+        "istinye"
+      ],
+      "ranked": [
+        {
+          "handle": "istinyetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinye.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinye_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistinye",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinyebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinyemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinyetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istinye",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İzmir Bakırçay Üniversitesi",
+      "tob": "Bakırçay Tıp Öğrencileri Birliği",
+      "slug": "bakircay",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "bakircaytob",
+        "bakircay.tob",
+        "bakircay_tob",
+        "tobbakircay",
+        "bakircaybat",
+        "bakircaymsa",
+        "bakircaytip",
+        "bakircay"
+      ],
+      "ranked": [
+        {
+          "handle": "bakircaytob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircay.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircay_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbakircay",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircaybat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircaymsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircaytip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bakircay",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İzmir Demokrasi Üniversitesi",
+      "tob": "İzmir Demokrasi Tıp Öğrencileri Birliği",
+      "slug": "izmirdemokrasi",
+      "page_igs": [
+        "izmirdemokrasi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "izmirdemokrasitob",
+        "izmirdemokrasi.tob",
+        "izmirdemokrasi_tob",
+        "tobizmirdemokrasi",
+        "izmirdemokrasibat",
+        "izmirdemokrasimsa",
+        "izmirdemokrasitip",
+        "izmirdemokrasi"
+      ],
+      "ranked": [
+        {
+          "handle": "izmirdemokrasi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.idu.edu.tr/"
+          ]
+        },
+        {
+          "handle": "izmirdemokrasitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirdemokrasi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirdemokrasi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobizmirdemokrasi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirdemokrasibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirdemokrasimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirdemokrasitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.idu.edu.tr/"
+      ]
+    },
+    {
+      "institution": "İzmir Ekonomi Üniversitesi",
+      "tob": "İzmir Ekonomi Tıp Öğrencileri Birliği",
+      "slug": "izmirekonomi",
+      "page_igs": [
+        "ieu_tipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "izmirekonomitob",
+        "izmirekonomi.tob",
+        "izmirekonomi_tob",
+        "tobizmirekonomi",
+        "izmirekonomibat",
+        "izmirekonomimsa",
+        "izmirekonomitip",
+        "izmirekonomi"
+      ],
+      "ranked": [
+        {
+          "handle": "ieu_tipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.ieu.edu.tr/tr/tip-fakulesi-intorn-egitim-ve-calisma-usul-ve-esas"
+          ]
+        },
+        {
+          "handle": "izmirekonomitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobizmirekonomi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirekonomi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.ieu.edu.tr/tr/tip-fakulesi-intorn-egitim-ve-calisma-usul-ve-esas"
+      ]
+    },
+    {
+      "institution": "İzmir Kâtip Çelebi Üniversitesi",
+      "tob": "İzmir Katip Çelebi Tıp Öğrencileri Birliği",
+      "slug": "izmirkatipcelebi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "izmirkatipcelebitob",
+        "izmirkatipcelebi.tob",
+        "izmirkatipcelebi_tob",
+        "tobizmirkatipcelebi",
+        "izmirkatipcelebibat",
+        "izmirkatipcelebimsa",
+        "izmirkatipcelebitip",
+        "izmirkatipcelebi"
+      ],
+      "ranked": [
+        {
+          "handle": "izmirkatipcelebitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobizmirkatipcelebi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirkatipcelebi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "İzmir Tınaztepe Üniversitesi",
+      "tob": "İzmir Tınaztepe Tıp Öğrencileri Birliği",
+      "slug": "izmirtinaztepe",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "izmirtinaztepetob",
+        "izmirtinaztepe.tob",
+        "izmirtinaztepe_tob",
+        "tobizmirtinaztepe",
+        "izmirtinaztepebat",
+        "izmirtinaztepemsa",
+        "izmirtinaztepetip",
+        "izmirtinaztepe"
+      ],
+      "ranked": [
+        {
+          "handle": "izmirtinaztepetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepe.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepe_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobizmirtinaztepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "izmirtinaztepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Kafkas Üniversitesi",
+      "tob": "Kafkas Tıp Öğrencileri Birliği",
+      "slug": "kafkas",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "kafkastob",
+        "kafkas.tob",
+        "kafkas_tob",
+        "tobkafkas",
+        "kafkasbat",
+        "kafkasmsa",
+        "kafkastip",
+        "kafkas"
+      ],
+      "ranked": [
+        {
+          "handle": "kafkastob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkas.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkas_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkafkas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkasbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkasmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkastip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kafkas",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Kahramanmaraş Sütçü İmam Üniversitesi",
+      "tob": "Kahramanmaraş Sütçü İmam Tıp Öğrencileri Birliği",
+      "slug": "kahramanmarassutcuimam",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "kahramanmarassutcuimamtob",
+        "kahramanmarassutcuimam.tob",
+        "kahramanmarassutcuimam_tob",
+        "tobkahramanmarassutcuimam",
+        "kahramanmarassutcuimambat",
+        "kahramanmarassutcuimammsa",
+        "kahramanmarassutcuimamtip",
+        "kahramanmarassutcuimam"
+      ],
+      "ranked": [
+        {
+          "handle": "kahramanmarassutcuimamtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimam.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimam_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkahramanmarassutcuimam",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimambat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimammsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimamtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kahramanmarassutcuimam",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Karabük Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Karadeniz Teknik Üniversitesi",
+      "tob": "Karadeniz Tıp Öğrencileri Birliği",
+      "slug": "karadeniz",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "karadeniztob",
+        "karadeniz.tob",
+        "karadeniz_tob",
+        "tobkaradeniz",
+        "karadenizbat",
+        "karadenizmsa",
+        "karadeniztip",
+        "karadeniz"
+      ],
+      "ranked": [
+        {
+          "handle": "karadeniztob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadeniz.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadeniz_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkaradeniz",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadenizbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadenizmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadeniztip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karadeniz",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Karamanoğlu Mehmetbey Üniversitesi",
+      "tob": "Karaman Tıp Öğrencileri Birliği",
+      "slug": "karaman",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "karamantob",
+        "karaman.tob",
+        "karaman_tob",
+        "tobkaraman",
+        "karamanbat",
+        "karamanmsa",
+        "karamantip",
+        "karaman"
+      ],
+      "ranked": [
+        {
+          "handle": "karamantob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karaman.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karaman_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkaraman",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karamanbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karamanmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karamantip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "karaman",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Kastamonu Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Koç Üniversitesi",
+      "tob": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+      "slug": "kocuniversitesi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "kocuniversitesitob",
+        "kocuniversitesi.tob",
+        "kocuniversitesi_tob",
+        "tobkocuniversitesi",
+        "kocuniversitesibat",
+        "kocuniversitesimsa",
+        "kocuniversitesitip",
+        "kocuniversitesi"
+      ],
+      "ranked": [
+        {
+          "handle": "kocuniversitesitob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi.tob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi_tob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkocuniversitesi",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesibat",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesimsa",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesitip",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Kütahya Sağlık Bilimleri Üniversitesi",
+      "tob": "Kütahya SBÜ Tıp Öğrencileri Birliği",
+      "slug": "kutahyasbu",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "kutahyasbutob",
+        "kutahyasbu.tob",
+        "kutahyasbu_tob",
+        "tobkutahyasbu",
+        "kutahyasbubat",
+        "kutahyasbumsa",
+        "kutahyasbutip",
+        "kutahyasbu"
+      ],
+      "ranked": [
+        {
+          "handle": "kutahyasbutob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbu.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbu_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkutahyasbu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbubat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbumsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbutip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kutahyasbu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Kırklareli Üniversitesi",
+      "tob": "Arel Tıp Öğrencileri Birliği",
+      "slug": "arel",
+      "page_igs": [
+        "klu.tipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "areltob",
+        "arel.tob",
+        "arel_tob",
+        "tobarel",
+        "arelbat",
+        "arelmsa",
+        "areltip"
+      ],
+      "ranked": [
+        {
+          "handle": "klu.tipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.klu.edu.tr/",
+            "https://tip.klu.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "areltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "arel.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "arel_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobarel",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "arelbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "arelmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "areltip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.klu.edu.tr/",
+        "https://tip.klu.edu.tr/ogrenci-topluluklari",
+        "https://tip.klu.edu.tr/ogrenci-topluluklar",
+        "https://tip.klu.edu.tr/topluluklar",
+        "https://tip.klu.edu.tr/ogrenci/topluluklar",
+        "https://tip.klu.edu.tr/ogrenci-kulupleri",
+        "https://tip.klu.edu.tr/kulupler",
+        "https://tip.klu.edu.tr/sosyal-medya",
+        "https://tip.klu.edu.tr/iletisim",
+        "https://tip.klu.edu.tr/ogrenci-topluluklarimizin-etkinlikleri",
+        "https://tip.klu.edu.tr/ogrenci-topluluklarimizin-etkinlikleri-2"
+      ]
+    },
+    {
+      "institution": "Kırşehir Ahi Evran Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Malatya Turgut Özal Üniversitesi",
+      "tob": "Malatya Turgut Özal Tıp Öğrencileri Birliği",
+      "slug": "malatyaturgutozal",
+      "page_igs": [
+        "mtutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "malatyaturgutozaltob",
+        "malatyaturgutozal.tob",
+        "malatyaturgutozal_tob",
+        "tobmalatyaturgutozal",
+        "malatyaturgutozalbat",
+        "malatyaturgutozalmsa",
+        "malatyaturgutozaltip",
+        "malatyaturgutozal"
+      ],
+      "ranked": [
+        {
+          "handle": "mtutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tipfakultesi.ozal.edu.tr/",
+            "https://tipfakultesi.ozal.edu.tr/page/4055"
+          ]
+        },
+        {
+          "handle": "malatyaturgutozaltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozal.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozal_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobmalatyaturgutozal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozalbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozalmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozaltip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "malatyaturgutozal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tipfakultesi.ozal.edu.tr/",
+        "https://tipfakultesi.ozal.edu.tr/page/4055",
+        "https://tipfakultesi.ozal.edu.tr/page/9847"
+      ]
+    },
+    {
+      "institution": "Maltepe Üniversitesi",
+      "tob": "Maltepe Tıp Öğrencileri Birliği",
+      "slug": "maltepe",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "maltepetob",
+        "maltepe.tob",
+        "maltepe_tob",
+        "tobmaltepe",
+        "maltepebat",
+        "maltepemsa",
+        "maltepetip",
+        "maltepe"
+      ],
+      "ranked": [
+        {
+          "handle": "maltepetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepe.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepe_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobmaltepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "maltepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Manisa Celal Bayar Üniversitesi",
+      "tob": "Celal Bayar Tıp Öğrencileri Birliği",
+      "slug": "celalbayar",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "celalbayartob",
+        "celalbayar.tob",
+        "celalbayar_tob",
+        "tobcelalbayar",
+        "celalbayarbat",
+        "celalbayarmsa",
+        "celalbayartip",
+        "celalbayar"
+      ],
+      "ranked": [
+        {
+          "handle": "celalbayartob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayar.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayar_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobcelalbayar",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayarbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayarmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayartip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "celalbayar",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Mardin Artuklu Üniversitesi",
+      "tob": "Mardin Artuklu Tıp Öğrencileri Birliği",
+      "slug": "mardinartuklu",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "mardinartuklutob",
+        "mardinartuklu.tob",
+        "mardinartuklu_tob",
+        "tobmardinartuklu",
+        "mardinartuklubat",
+        "mardinartuklumsa",
+        "mardinartuklutip",
+        "mardinartuklu"
+      ],
+      "ranked": [
+        {
+          "handle": "mardinartuklutob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklu.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklu_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobmardinartuklu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklubat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklumsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklutip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "mardinartuklu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Marmara Üniversitesi",
+      "tob": "Marmara Tıp Öğrencileri Birliği",
+      "slug": "marmara",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "marmaratob",
+        "marmara.tob",
+        "marmara_tob",
+        "tobmarmara",
+        "marmarabat",
+        "marmaramsa",
+        "marmaratip",
+        "marmara"
+      ],
+      "ranked": [
+        {
+          "handle": "marmaratob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmara.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmara_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobmarmara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmarabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmaramsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmaratip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "marmara",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Muğla Sıtkı Koçman Üniversitesi",
+      "tob": "Koç Üniversitesi Tıp Öğrencileri Birliği",
+      "slug": "kocuniversitesi",
+      "page_igs": [
+        "tipmuedutr"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "kocuniversitesitob",
+        "kocuniversitesi.tob",
+        "kocuniversitesi_tob",
+        "tobkocuniversitesi",
+        "kocuniversitesibat",
+        "kocuniversitesimsa",
+        "kocuniversitesitip",
+        "kocuniversitesi"
+      ],
+      "ranked": [
+        {
+          "handle": "tipmuedutr",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.mu.edu.tr/",
+            "https://tip.mu.edu.tr/tr/akademik-takvim-6442"
+          ]
+        },
+        {
+          "handle": "kocuniversitesitob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi.tob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi_tob",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobkocuniversitesi",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesibat",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesimsa",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesitip",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "kocuniversitesi",
+          "score": 0,
+          "tier": "zayif",
+          "evidence": [
+            "corporate",
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.mu.edu.tr/",
+        "https://tip.mu.edu.tr/tr/akademik-takvim-6442"
+      ]
+    },
+    {
+      "institution": "Niğde Ömer Halisdemir Üniversitesi",
+      "tob": "Niğde Ömer Halisdemir Tıp Öğrencileri Birliği",
+      "slug": "nigdeomerhalisdemir",
+      "page_igs": [
+        "nohutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "nigdeomerhalisdemirtob",
+        "nigdeomerhalisdemir.tob",
+        "nigdeomerhalisdemir_tob",
+        "tobnigdeomerhalisdemir",
+        "nigdeomerhalisdemirbat",
+        "nigdeomerhalisdemirmsa",
+        "nigdeomerhalisdemirtip",
+        "nigdeomerhalisdemir"
+      ],
+      "ranked": [
+        {
+          "handle": "nohutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://www.ohu.edu.tr/tipfakultesi",
+            "https://www.ohu.edu.tr/tipfakultesi/dersprogrami"
+          ]
+        },
+        {
+          "handle": "nigdeomerhalisdemirtob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemir.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemir_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobnigdeomerhalisdemir",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemirbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemirmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemirtip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "nigdeomerhalisdemir",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://www.ohu.edu.tr/tipfakultesi",
+        "https://www.ohu.edu.tr/tipfakultesi/dersprogrami"
+      ]
+    },
+    {
+      "institution": "Nişantaşı Üniversitesi",
+      "tob": "İstanbul Nişantaşı Tıp Öğrencileri Birliği",
+      "slug": "istanbulnisantasi",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "istanbulnisantasitob",
+        "istanbulnisantasi.tob",
+        "istanbulnisantasi_tob",
+        "tobistanbulnisantasi",
+        "istanbulnisantasibat",
+        "istanbulnisantasimsa",
+        "istanbulnisantasitip",
+        "istanbulnisantasi"
+      ],
+      "ranked": [
+        {
+          "handle": "istanbulnisantasitob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasi.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasi_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobistanbulnisantasi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasibat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasimsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasitip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "istanbulnisantasi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Ondokuz Mayıs Üniversitesi",
+      "tob": "Ondokuz Mayıs Tıp Öğrencileri Birliği",
+      "slug": "ondokuzmayis",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "ondokuzmayistob",
+        "ondokuzmayis.tob",
+        "ondokuzmayis_tob",
+        "tobondokuzmayis",
+        "ondokuzmayisbat",
+        "ondokuzmayismsa",
+        "ondokuzmayistip",
+        "ondokuzmayis"
+      ],
+      "ranked": [
+        {
+          "handle": "ondokuzmayistob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayis.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayis_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobondokuzmayis",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayisbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayismsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayistip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "ondokuzmayis",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Pamukkale Üniversitesi",
+      "tob": "Pamukkale Tıp Öğrencileri Birliği",
+      "slug": "pamukkale",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "pamukkaletob",
+        "pamukkale.tob",
+        "pamukkale_tob",
+        "tobpamukkale",
+        "pamukkalebat",
+        "pamukkalemsa",
+        "pamukkaletip",
+        "pamukkale"
+      ],
+      "ranked": [
+        {
+          "handle": "pamukkaletob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkale.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkale_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobpamukkale",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkalebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkalemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkaletip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "pamukkale",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Sakarya Üniversitesi",
+      "tob": "Sakarya Tıp Öğrencileri Birliği",
+      "slug": "sakarya",
+      "page_igs": [
+        "sautipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "sakaryatob",
+        "sakarya.tob",
+        "sakarya_tob",
+        "tobsakarya",
+        "sakaryabat",
+        "sakaryamsa",
+        "sakaryatip",
+        "sakarya"
+      ],
+      "ranked": [
+        {
+          "handle": "sautipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.sakarya.edu.tr/",
+            "https://tip.sakarya.edu.tr/tr/personel-liste/28559/156640/faz-iii-staj-sorumlulari"
+          ]
+        },
+        {
+          "handle": "sakaryatob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakarya.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakarya_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobsakarya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakaryabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakaryamsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakaryatip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sakarya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.sakarya.edu.tr/",
+        "https://tip.sakarya.edu.tr/tr/personel-liste/28559/156640/faz-iii-staj-sorumlulari"
+      ]
+    },
+    {
+      "institution": "Sanko Üniversitesi",
+      "tob": "Sanko Tıp Öğrencileri Birliği",
+      "slug": "sanko",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "sankotob",
+        "sanko.tob",
+        "sanko_tob",
+        "tobsanko",
+        "sankobat",
+        "sankomsa",
+        "sankotip",
+        "sanko"
+      ],
+      "ranked": [
+        {
+          "handle": "sankotob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sanko.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sanko_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobsanko",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sankobat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sankomsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sankotip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "sanko",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Sağlık Bilimleri Üniversitesi",
+      "tob": "Abant İzzet Baysal Tıp Öğrencileri Birliği",
+      "slug": "abant",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "abanttob",
+        "abant.tob",
+        "abant_tob",
+        "tobabant",
+        "abantbat",
+        "abantmsa",
+        "abanttip",
+        "abant",
+        "abantizzetbaysaltob",
+        "abantizzetbaysal.tob",
+        "abantizzetbaysal_tob",
+        "tobabantizzetbaysal"
+      ],
+      "ranked": [
+        {
+          "handle": "abanttob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobabant",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abanttip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abant",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysaltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysal.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "abantizzetbaysal_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobabantizzetbaysal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Siirt Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Sivas Cumhuriyet Üniversitesi",
+      "tob": "Cumhuriyet Tıp Öğrencileri Birliği",
+      "slug": "cumhuriyet",
+      "page_igs": [
+        "cumunivkurumsal"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "cumhuriyettob",
+        "cumhuriyet.tob",
+        "cumhuriyet_tob",
+        "tobcumhuriyet",
+        "cumhuriyetbat",
+        "cumhuriyetmsa",
+        "cumhuriyettip",
+        "cumhuriyet"
+      ],
+      "ranked": [
+        {
+          "handle": "cumunivkurumsal",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.cumhuriyet.edu.tr/duyuru",
+            "https://tip.cumhuriyet.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "cumhuriyettob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyet.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyet_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobcumhuriyet",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyetbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyetmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyettip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cumhuriyet",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.cumhuriyet.edu.tr/duyuru",
+        "https://tip.cumhuriyet.edu.tr/ogrenci-topluluklari",
+        "https://tip.cumhuriyet.edu.tr/ogrenci-topluluklar",
+        "https://tip.cumhuriyet.edu.tr/topluluklar",
+        "https://tip.cumhuriyet.edu.tr/ogrenci/topluluklar",
+        "https://tip.cumhuriyet.edu.tr/ogrenci-kulupleri",
+        "https://tip.cumhuriyet.edu.tr/kulupler",
+        "https://tip.cumhuriyet.edu.tr/sosyal-medya",
+        "https://tip.cumhuriyet.edu.tr/iletisim",
+        "https://tip.cumhuriyet.edu.tr/ogrenci-topluluklarimizin-etkinlikleri",
+        "https://tip.cumhuriyet.edu.tr/ogrenci-topluluklarimizin-etkinlikleri-2"
+      ]
+    },
+    {
+      "institution": "Süleyman Demirel Üniversitesi",
+      "tob": "Süleyman Demirel Tıp Öğrencileri Birliği",
+      "slug": "suleymandemirel",
+      "page_igs": [
+        "sdutipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "suleymandemireltob",
+        "suleymandemirel.tob",
+        "suleymandemirel_tob",
+        "tobsuleymandemirel",
+        "suleymandemirelbat",
+        "suleymandemirelmsa",
+        "suleymandemireltip",
+        "suleymandemirel"
+      ],
+      "ranked": [
+        {
+          "handle": "sdutipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.sdu.edu.tr/tr/duyurular",
+            "https://tip.sdu.edu.tr/tr/tip-egitimi-koordinatorlukleri.html"
+          ]
+        },
+        {
+          "handle": "suleymandemireltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemirel.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemirel_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobsuleymandemirel",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemirelbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemirelmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemireltip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "suleymandemirel",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.sdu.edu.tr/tr/duyurular",
+        "https://tip.sdu.edu.tr/tr/tip-egitimi-koordinatorlukleri.html"
+      ]
+    },
+    {
+      "institution": "Tekirdağ Namık Kemal Üniversitesi",
+      "tob": "Namık Kemal Tıp Öğrencileri Birliği",
+      "slug": "namikkemal",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "namikkemaltob",
+        "namikkemal.tob",
+        "namikkemal_tob",
+        "tobnamikkemal",
+        "namikkemalbat",
+        "namikkemalmsa",
+        "namikkemaltip",
+        "namikkemal"
+      ],
+      "ranked": [
+        {
+          "handle": "namikkemaltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemal.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemal_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobnamikkemal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemalbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemalmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemaltip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "namikkemal",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "TOBB Ekonomi ve Teknoloji Üniversitesi",
+      "tob": "TOBB ETÜ Tıp Öğrencileri Birliği",
+      "slug": "tobbetu",
+      "page_igs": [
+        "tobbetum"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "tobbetutob",
+        "tobbetu.tob",
+        "tobbetu_tob",
+        "tobtobbetu",
+        "tobbetubat",
+        "tobbetumsa",
+        "tobbetutip",
+        "tobbetu",
+        "tobbetutipogrencileribirligi"
+      ],
+      "ranked": [
+        {
+          "handle": "tobbetum",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+            "https://www.etu.edu.tr/tr/iletisim"
+          ]
+        },
+        {
+          "handle": "tobbetutob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetu.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetu_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobtobbetu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetubat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetumsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetutip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetu",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbetutipogrencileribirligi",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://etu.edu.tr/tr/akademik/tip-fakultesi",
+        "https://www.etu.edu.tr/tr/iletisim",
+        "https://etu.edu.tr/tr/akademik-takvim"
+      ]
+    },
+    {
+      "institution": "Trakya Üniversitesi",
+      "tob": "Trakya Tıp Öğrencileri Birliği",
+      "slug": "trakya",
+      "page_igs": [
+        "trakyatipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "trakyatob",
+        "trakya.tob",
+        "trakya_tob",
+        "tobtrakya",
+        "trakyabat",
+        "trakyamsa",
+        "trakyatip",
+        "trakya"
+      ],
+      "ranked": [
+        {
+          "handle": "trakyatipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.trakya.edu.tr/",
+            "https://tip.trakya.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "trakyatob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakya.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakya_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobtrakya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakyabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakyamsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakyatip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "trakya",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.trakya.edu.tr/",
+        "https://tip.trakya.edu.tr/ogrenci-topluluklari",
+        "https://tip.trakya.edu.tr/ogrenci-topluluklar",
+        "https://tip.trakya.edu.tr/topluluklar",
+        "https://tip.trakya.edu.tr/ogrenci/topluluklar",
+        "https://tip.trakya.edu.tr/ogrenci-kulupleri",
+        "https://tip.trakya.edu.tr/kulupler",
+        "https://tip.trakya.edu.tr/sosyal-medya",
+        "https://tip.trakya.edu.tr/iletisim",
+        "https://tip.trakya.edu.tr/ogrenci-topluluklarimizin-etkinlikleri",
+        "https://tip.trakya.edu.tr/ogrenci-topluluklarimizin-etkinlikleri-2"
+      ]
+    },
+    {
+      "institution": "Van Yüzüncü Yıl Üniversitesi",
+      "tob": "Van Yüzüncü Yıl Tıp Öğrencileri Birliği",
+      "slug": "vanyuzuncuyil",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "vanyuzuncuyiltob",
+        "vanyuzuncuyil.tob",
+        "vanyuzuncuyil_tob",
+        "tobvanyuzuncuyil",
+        "vanyuzuncuyilbat",
+        "vanyuzuncuyilmsa",
+        "vanyuzuncuyiltip",
+        "vanyuzuncuyil"
+      ],
+      "ranked": [
+        {
+          "handle": "vanyuzuncuyiltob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyil.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyil_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobvanyuzuncuyil",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyilbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyilmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyiltip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "vanyuzuncuyil",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Yalova Üniversitesi",
+      "tob": null,
+      "slug": null,
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [],
+      "ranked": [],
+      "sources": [],
+      "note": "no_tob"
+    },
+    {
+      "institution": "Yeditepe Üniversitesi",
+      "tob": "Yeditepe Tıp Öğrencileri Birliği",
+      "slug": "yeditepe",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "yeditepetob",
+        "yeditepe.tob",
+        "yeditepe_tob",
+        "tobyeditepe",
+        "yeditepebat",
+        "yeditepemsa",
+        "yeditepetip",
+        "yeditepe"
+      ],
+      "ranked": [
+        {
+          "handle": "yeditepetob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepe.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepe_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobyeditepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepebat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepemsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepetip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "yeditepe",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Yozgat Bozok Üniversitesi",
+      "tob": "Bozok Tıp Öğrencileri Birliği",
+      "slug": "bozok",
+      "page_igs": [
+        "yozgatbozoktipfakultesi"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "bozoktob",
+        "bozok.tob",
+        "bozok_tob",
+        "tobbozok",
+        "bozokbat",
+        "bozokmsa",
+        "bozoktip",
+        "bozok"
+      ],
+      "ranked": [
+        {
+          "handle": "yozgatbozoktipfakultesi",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+            "https://tip.bozok.edu.tr/sayfa/koordinatorluk,tr-760.aspx"
+          ]
+        },
+        {
+          "handle": "bozoktob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozok.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozok_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbozok",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozokbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozokmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozoktip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bozok",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+        "https://tip.bozok.edu.tr/sayfa/koordinatorluk,tr-760.aspx",
+        "https://tip.bozok.edu.tr/sayfa/donem-vi,tr-775.aspx"
+      ]
+    },
+    {
+      "institution": "Zonguldak Bülent Ecevit Üniversitesi",
+      "tob": "Bülent Ecevit Tıp Öğrencileri Birliği",
+      "slug": "bulentecevit",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "bulentecevittob",
+        "bulentecevit.tob",
+        "bulentecevit_tob",
+        "tobbulentecevit",
+        "bulentecevitbat",
+        "bulentecevitmsa",
+        "bulentecevittip",
+        "bulentecevit"
+      ],
+      "ranked": [
+        {
+          "handle": "bulentecevittob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevit.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevit_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobbulentecevit",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevitbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevitmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevittip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "bulentecevit",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Çanakkale Onsekiz Mart Üniversitesi",
+      "tob": "Çanakkale Onsekiz Mart Tıp Öğrencileri Birliği",
+      "slug": "canakkaleonsekizmart",
+      "page_igs": [
+        "comutip17"
+      ],
+      "bing_igs": [],
+      "candidates": [
+        "canakkaleonsekizmarttob",
+        "canakkaleonsekizmart.tob",
+        "canakkaleonsekizmart_tob",
+        "tobcanakkaleonsekizmart",
+        "canakkaleonsekizmartbat",
+        "canakkaleonsekizmartmsa",
+        "canakkaleonsekizmarttip",
+        "canakkaleonsekizmart"
+      ],
+      "ranked": [
+        {
+          "handle": "comutip17",
+          "score": 80,
+          "tier": "yuksek",
+          "evidence": [
+            "faculty_page"
+          ],
+          "urls": [
+            "https://tip.comu.edu.tr/arsiv/duyurular",
+            "https://tip.comu.edu.tr/ogrenci-topluluklari"
+          ]
+        },
+        {
+          "handle": "canakkaleonsekizmarttob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmart.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmart_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobcanakkaleonsekizmart",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmartbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmartmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmarttip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "canakkaleonsekizmart",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": [
+        "https://tip.comu.edu.tr/arsiv/duyurular",
+        "https://tip.comu.edu.tr/ogrenci-topluluklari",
+        "https://tip.comu.edu.tr/ogrenci-topluluklar",
+        "https://tip.comu.edu.tr/topluluklar",
+        "https://tip.comu.edu.tr/ogrenci/topluluklar",
+        "https://tip.comu.edu.tr/ogrenci-kulupleri",
+        "https://tip.comu.edu.tr/kulupler",
+        "https://tip.comu.edu.tr/sosyal-medya",
+        "https://tip.comu.edu.tr/iletisim",
+        "https://tip.comu.edu.tr/ogrenci-topluluklarimizin-etkinlikleri",
+        "https://tip.comu.edu.tr/ogrenci-topluluklarimizin-etkinlikleri-2",
+        "https://tip.comu.edu.tr/notfound"
+      ]
+    },
+    {
+      "institution": "Çukurova Üniversitesi",
+      "tob": "Çukurova Tıp Öğrencileri Birliği",
+      "slug": "cukurova",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "cukurovatob",
+        "cukurova.tob",
+        "cukurova_tob",
+        "tobcukurova",
+        "cukurovabat",
+        "cukurovamsa",
+        "cukurovatip",
+        "cukurova"
+      ],
+      "ranked": [
+        {
+          "handle": "cukurovatob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurova.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurova_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobcukurova",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurovabat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurovamsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurovatip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "cukurova",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    },
+    {
+      "institution": "Üsküdar Üniversitesi",
+      "tob": "Üsküdar Tıp Öğrencileri Birliği",
+      "slug": "uskudar",
+      "page_igs": [],
+      "bing_igs": [],
+      "candidates": [
+        "uskudartob",
+        "uskudar.tob",
+        "uskudar_tob",
+        "tobuskudar",
+        "uskudarbat",
+        "uskudarmsa",
+        "uskudartip",
+        "uskudar"
+      ],
+      "ranked": [
+        {
+          "handle": "uskudartob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudar.tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudar_tob",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "tobuskudar",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudarbat",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudarmsa",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudartip",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        },
+        {
+          "handle": "uskudar",
+          "score": 5,
+          "tier": "zayif",
+          "evidence": [
+            "slug_guess_only"
+          ],
+          "urls": []
+        }
+      ],
+      "sources": []
+    }
+  ],
+  "summary": {
+    "yuksek": 28,
+    "orta": 0,
+    "dusuk": 0
+  }
+}

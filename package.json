@@ -16,7 +16,8 @@
     "close:empty": "node scripts/close-empty-feeds.mjs",
     "flow:continuous": "node scripts/continuous-flow.mjs",
     "typecheck": "tsc --noEmit -p apps/worker/tsconfig.json",
-    "ingest:tip": "node adapters/tip-radar/push-to-hub.mjs"
+    "ingest:tip": "node adapters/tip-radar/push-to-hub.mjs",
+    "production:check": "node scripts/production-check.mjs"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250702.1",

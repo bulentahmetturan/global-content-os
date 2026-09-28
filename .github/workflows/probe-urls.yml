@@ -1,0 +1,31 @@
+name: Probe URLs (manual)
+
+# Read-only reachability probe from the GitHub-hosted network: plain GET with the runner's normal User-Agent,
+# TLS verification ON, no bypass. Prints status, size, content-type and page title only.
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "One URL per line"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe
+        env:
+          URLS: ${{ github.event.inputs.urls }}
+        run: |
+          while IFS= read -r u; do
+            [ -z "$u" ] && continue
+            out=$(mktemp)
+            meta=$(curl -sS -L -m 25 -o "$out" -w "%{http_code} %{size_download} %{content_type}" -A "HekimlerContinuousWorker/1.0 (+review-only)" "$u" 2>&1 | tail -1)
+            title=$(grep -o -i "<title>[^<]*" "$out" | head -1 | cut -c1-80)
+            echo "PROBE $meta | $u | $title"
+          done <<< "$URLS"

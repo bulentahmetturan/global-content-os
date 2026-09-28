@@ -5,8 +5,12 @@ import { upsertLocalizedSourceItem } from './upsert-localized';
 /**
  * Extra research API batches beyond Europe PMC / PubMed.
  */
-export async function ingestResearchApis(env: Env): Promise<Record<string, { created: number; updated: number; total: number }>> {
+export async function ingestResearchApis(
+  env: Env,
+  opts?: { force?: boolean }
+): Promise<Record<string, { created: number; updated: number; total: number }>> {
   const out: Record<string, { created: number; updated: number; total: number }> = {};
+  const force = !!opts?.force;
   const run = async (
     key: string,
     fn: () => Promise<{ created: number; updated: number; total: number }>
@@ -19,16 +23,19 @@ export async function ingestResearchApis(env: Env): Promise<Record<string, { cre
       out[key] = { created: 0, updated: 0, total: 0 };
     }
   };
-  await run('crossref', () => ingestCrossref(env));
-  await run('openalex', () => ingestOpenAlex(env));
-  await run('clinicaltrials', () => ingestClinicalTrials(env));
-  await run('pmc', () => ingestPmcOa(env));
-  await run('gdelt', () => ingestGdelt(env));
+  await run('crossref', () => ingestCrossref(env, force));
+  await run('openalex', () => ingestOpenAlex(env, force));
+  await run('clinicaltrials', () => ingestClinicalTrials(env, force));
+  await run('pmc', () => ingestPmcOa(env, force));
+  await run('gdelt', () => ingestGdelt(env, force));
   return out;
 }
 
-async function getFeed(env: Env, id: string) {
-  return env.DB.prepare(`SELECT * FROM source_feeds WHERE id = ? AND enabled = 1`)
+async function getFeed(env: Env, id: string, force = false) {
+  const due = force
+    ? ''
+    : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
+  return env.DB.prepare(`SELECT * FROM source_feeds WHERE id = ? AND enabled = 1${due}`)
     .bind(id)
     .first<{ id: string; channel_id: string; label: string; endpoint_url: string | null }>();
 }
@@ -41,8 +48,8 @@ async function markOk(env: Env, feedId: string, okItems: number) {
     .run();
 }
 
-async function ingestCrossref(env: Env) {
-  const feed = await getFeed(env, 'research-crossref-rest-api');
+async function ingestCrossref(env: Env, force = false) {
+  const feed = await getFeed(env, 'research-crossref-rest-api', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://api.crossref.org/works');
   url.searchParams.set('query', 'auscultation OR stethoscope OR "artificial intelligence" medicine');
@@ -89,8 +96,8 @@ async function ingestCrossref(env: Env) {
   return { created, updated, total: items.length };
 }
 
-async function ingestOpenAlex(env: Env) {
-  const feed = await getFeed(env, 'research-openalex-api');
+async function ingestOpenAlex(env: Env, force = false) {
+  const feed = await getFeed(env, 'research-openalex-api', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://api.openalex.org/works');
   url.searchParams.set('search', 'auscultation OR stethoscope OR "artificial intelligence" medicine');
@@ -133,8 +140,8 @@ async function ingestOpenAlex(env: Env) {
   return { created, updated, total: items.length };
 }
 
-async function ingestClinicalTrials(env: Env) {
-  const feed = await getFeed(env, 'research-clinicaltrials-gov-api-v2');
+async function ingestClinicalTrials(env: Env, force = false) {
+  const feed = await getFeed(env, 'research-clinicaltrials-gov-api-v2', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://clinicaltrials.gov/api/v2/studies');
   url.searchParams.set('query.term', 'stethoscope OR auscultation OR "artificial intelligence" medicine');
@@ -191,8 +198,8 @@ async function ingestClinicalTrials(env: Env) {
   return { created, updated, total: items.length };
 }
 
-async function ingestPmcOa(env: Env) {
-  const feed = await getFeed(env, 'research-pubmed-central-oa');
+async function ingestPmcOa(env: Env, force = false) {
+  const feed = await getFeed(env, 'research-pubmed-central-oa', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
   url.searchParams.set(
@@ -264,8 +271,8 @@ async function ingestPmcOa(env: Env) {
   return { created, updated, total: items.length };
 }
 
-async function ingestGdelt(env: Env) {
-  const feed = await getFeed(env, 'research-gdelt-doc-api');
+async function ingestGdelt(env: Env, force = false) {
+  const feed = await getFeed(env, 'research-gdelt-doc-api', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://api.gdeltproject.org/api/v2/doc/doc');
   url.searchParams.set(

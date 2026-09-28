@@ -1,0 +1,902 @@
+{
+  "unis": [
+    {
+      "Akdeniz Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.akdeniz.edu.tr/tr",
+          "https://tip.akdeniz.edu.tr/tr/20262027_ders_programi-19233"
+        ]
+      },
+      "Aksaray Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.aksaray.edu.tr/akademik-takvim",
+          "https://tip.aksaray.edu.tr/ders-programi",
+          "https://tip.aksaray.edu.tr/duyurular",
+          "https://tip.aksaray.edu.tr/kurullar--komisyonlar-ve-koordinatorlukler",
+          "https://tip.aksaray.edu.tr/ogrenci-temsilciligi"
+        ]
+      },
+      "Alanya Alaaddin Keykubat Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.alanya.edu.tr/duyuru/",
+          "https://tip.alanya.edu.tr/ogrenci/akademik-takvim/",
+          "https://tip.alanya.edu.tr/ogrenci/ders-programi/"
+        ]
+      },
+      "Ankara Yıldırım Beyazıt Üniversitesi": {
+        "faculty_urls": [
+          "https://www.aybu.edu.tr/tip"
+        ]
+      },
+      "Ankara Üniversitesi": {
+        "faculty_urls": [
+          "https://www.medicine.ankara.edu.tr/akademik-takvim-ingilizce-program/",
+          "https://www.medicine.ankara.edu.tr/duyurular/"
+        ]
+      },
+      "Atatürk Üniversitesi": {
+        "faculty_urls": [
+          "https://atauni.edu.tr/tip-fakultesi/",
+          "https://atauni.edu.tr/tip-fakultesi/ders-programi-arsivi/"
+        ]
+      },
+      "Aydın Adnan Menderes Üniversitesi": {
+        "faculty_urls": [
+          "https://fakulte.adu.edu.tr/med/"
+        ]
+      },
+      "Bandırma Onyedi Eylül Üniversitesi": {
+        "faculty_urls": [
+          "http://tip.bandirma.edu.tr/tr/tip/s/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-2",
+          "https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1",
+          "https://tip.bandirma.edu.tr/tr/tip/s/Intorn-Karneleri-37811",
+          "https://tip.bandirma.edu.tr/tr/tip/s/Sinav-Programi-19698"
+        ]
+      },
+      "Beykent Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.beykent.edu.tr/",
+          "https://tip.beykent.edu.tr/tr/akademik-takvim"
+        ]
+      },
+      "Bolu Abant İzzet Baysal Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ibu.edu.tr/Files/ckFiles/tip-ibu-edu-tr/ogrenci/ders/2026-2027/2026-2027_Tip_Fakultesi_Akademik_Takvim.pdf",
+          "https://tip.ibu.edu.tr/tr/news",
+          "https://tip.ibu.edu.tr/tr/page/ders-programi-arsivi/16969",
+          "https://tip.ibu.edu.tr/tr/page/staj-karneleri/16858"
+        ]
+      },
+      "Bursa Uludağ Üniversitesi": {
+        "faculty_urls": [
+          "https://www.uludag.edu.tr/tip/akademik-takvim-86919",
+          "https://www.uludag.edu.tr/tip/duyuru"
+        ]
+      },
+      "Dicle Üniversitesi": {
+        "faculty_urls": [
+          "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi",
+          "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-akademik-takvim-1520",
+          "https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-sinav-takvimi-2164"
+        ]
+      },
+      "Dokuz Eylül Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.deu.edu.tr/tr/",
+          "https://tip.deu.edu.tr/tr/akademik-takvim-2/",
+          "https://tip.deu.edu.tr/tr/donem-6/"
+        ]
+      },
+      "Ege Üniversitesi": {
+        "faculty_urls": [
+          "https://med.ege.edu.tr/",
+          "https://med.ege.edu.tr/tr-2254/kilavuzlar.html",
+          "https://med.ege.edu.tr/tr-24101/akademik_takvim.html"
+        ]
+      },
+      "Erzincan Binali Yıldırım Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ebyu.edu.tr/",
+          "https://tip.ebyu.edu.tr/akademik-takvim/",
+          "https://tip.ebyu.edu.tr/donem-vi/"
+        ]
+      },
+      "Fırat Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.firat.edu.tr/",
+          "https://tip.firat.edu.tr/page/2329",
+          "https://tip.firat.edu.tr/page/7195"
+        ]
+      },
+      "Gazi Üniversitesi": {
+        "faculty_urls": [
+          "http://med.gazi.edu.tr/view/page/136628",
+          "http://med.gazi.edu.tr/view/page/189939",
+          "https://med.gazi.edu.tr/",
+          "https://med.gazi.edu.tr/view/page/187795/egitim-kurul-ve-koordinatorlukler"
+        ]
+      },
+      "Gaziantep İslam Bilim ve Teknoloji Üniversitesi": {
+        "faculty_urls": [
+          "https://www.gibtu.edu.tr/Birim.aspx?id=20",
+          "https://www.gibtu.edu.tr/Medya/Birim/Dosya/20260826095457_9100fd60.pdf",
+          "https://www.gibtu.edu.tr/tip/Icerik/34012/klinik-stajlar-degerlendirme-toplantisi"
+        ]
+      },
+      "Giresun Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.giresun.edu.tr/",
+          "https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151",
+          "https://tip.giresun.edu.tr/tr/page/staj/17215"
+        ]
+      },
+      "Hacettepe Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.hacettepe.edu.tr/tr/akademik-takvim",
+          "https://tip.hacettepe.edu.tr/tr/duyurular",
+          "https://tip.hacettepe.edu.tr/tr/ogrenci-konseyi",
+          "https://tip.hacettepe.edu.tr/tr/staj"
+        ]
+      },
+      "Haliç Üniversitesi": {
+        "faculty_urls": [
+          "https://halic.edu.tr/tr/ogrencimiz/akademik-takvim",
+          "https://halic.edu.tr/tr/ogrencimiz/uygulamali-egitimler-ve-staj-koordinatorlugu",
+          "https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi",
+          "https://halic.edu.tr/tr/universitemiz/rektorluk-ofisi/koordinatorlukler"
+        ]
+      },
+      "Harran Üniversitesi": {
+        "faculty_urls": [
+          "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi",
+          "https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi/bolumler/koordinatorlukler "
+        ]
+      },
+      "Karabük Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1129&BA=index.aspx",
+          "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1224&BA=index.aspx",
+          "https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1228&BA=index.aspx",
+          "https://tip.karabuk.edu.tr/index.aspx"
+        ]
+      },
+      "Karadeniz Teknik Üniversitesi": {
+        "faculty_urls": [
+          "https://med.ktu.edu.tr/"
+        ]
+      },
+      "Karamanoğlu Mehmetbey Üniversitesi": {
+        "faculty_urls": [
+          "https://www.kmu.edu.tr/tip",
+          "https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr"
+        ]
+      },
+      "Kastamonu Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.kastamonu.edu.tr/",
+          "https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim"
+        ]
+      },
+      "Koç Üniversitesi": {
+        "faculty_urls": [
+          "https://medicine.ku.edu.tr/",
+          "https://medicine.ku.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/secmeli-stajlar/"
+        ]
+      },
+      "Kırklareli Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.klu.edu.tr/",
+          "https://tip.klu.edu.tr/Sayfalar/46031-fakultemizde-bir-ilk-klinik-stajlar-basladi.klu",
+          "https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/akademik_takvimler/2026-2027_tip_fakultesi_akademik_takvim.pdf",
+          "https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/ders_programi_egitim_planlari/2026-2027_egitim__plan_ve_ders_programi/2026-2027_do%CC%88nem_1_07_08_2026.pdf"
+        ]
+      },
+      "Kırşehir Ahi Evran Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ahievran.edu.tr/"
+        ]
+      },
+      "Malatya Turgut Özal Üniversitesi": {
+        "faculty_urls": [
+          "https://tipfakultesi.ozal.edu.tr/",
+          "https://tipfakultesi.ozal.edu.tr/page/12361",
+          "https://tipfakultesi.ozal.edu.tr/page/4055",
+          "https://tipfakultesi.ozal.edu.tr/page/9325",
+          "https://tipfakultesi.ozal.edu.tr/page/9847"
+        ]
+      },
+      "Maltepe Üniversitesi": {
+        "faculty_urls": [
+          "https://www.maltepe.edu.tr/tip",
+          "https://www.maltepe.edu.tr/tr/akademik-takvimler"
+        ]
+      },
+      "Manisa Celal Bayar Üniversitesi": {
+        "faculty_urls": [
+          "http://tip.mcbu.edu.tr/",
+          "http://tip.mcbu.edu.tr/2026-2027-ders-programi.70205.tr.html",
+          "http://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html",
+          "http://tip.mcbu.edu.tr/intorn-semineri.8757.tr.html"
+        ]
+      },
+      "Mardin Artuklu Üniversitesi": {
+        "faculty_urls": [
+          "https://www.artuklu.edu.tr/akademik-takvim",
+          "https://www.artuklu.edu.tr/tip-fakultesi"
+        ]
+      },
+      "Marmara Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.marmara.edu.tr/",
+          "https://tip.marmara.edu.tr/akademik-takvim"
+        ]
+      },
+      "Muğla Sıtkı Koçman Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.mu.edu.tr/",
+          "https://tip.mu.edu.tr/tr/akademik-takvim-6442"
+        ]
+      },
+      "Niğde Ömer Halisdemir Üniversitesi": {
+        "faculty_urls": [
+          "https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim",
+          "https://www.ohu.edu.tr/tipfakultesi",
+          "https://www.ohu.edu.tr/tipfakultesi/dersprogrami"
+        ]
+      },
+      "Nişantaşı Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.nisantasi.edu.tr/"
+        ]
+      },
+      "Ondokuz Mayıs Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.omu.edu.tr/tr",
+          "https://tip.omu.edu.tr/tr/fakultemiz/komisyon-ve-koordinatorlukler",
+          "https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim"
+        ]
+      },
+      "Pamukkale Üniversitesi": {
+        "faculty_urls": [
+          "https://www.pau.edu.tr/oidb/tr/sayfa/akademik-takvim-3",
+          "https://www.pau.edu.tr/tip"
+        ]
+      },
+      "Sakarya Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.sakarya.edu.tr/",
+          "https://tip.sakarya.edu.tr/tr/personel-liste/28559/156640/faz-iii-staj-sorumlulari"
+        ]
+      },
+      "Sanko Üniversitesi": {
+        "faculty_urls": [
+          "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/",
+          "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/",
+          "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/kurul-staj-degerlendirme-takvimi/",
+          "https://www.sanko.edu.tr/fakulteler/tip-fakultesi/sinav-takvim/"
+        ]
+      },
+      "Sağlık Bilimleri Üniversitesi": {
+        "faculty_urls": [
+          "https://gulhanetip.sbu.edu.tr/",
+          "https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/2025-2026-egitim-ogretim-yili-ders-programi/",
+          "https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim/",
+          "https://gulhanetip.sbu.edu.tr/mevzuat-ve-formlar/yonergeler/intorn-doktor-yonergesi/",
+          "https://tip.sbu.edu.tr/",
+          "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/",
+          "https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/guncel-ders-programi/1-sinif-ders-programi/"
+        ]
+      },
+      "Sivas Cumhuriyet Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.cumhuriyet.edu.tr/duyuru"
+        ]
+      },
+      "Süleyman Demirel Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.sdu.edu.tr/tr/duyurular",
+          "https://tip.sdu.edu.tr/tr/tip-egitimi-koordinatorlukleri.html"
+        ]
+      },
+      "TOBB Ekonomi ve Teknoloji Üniversitesi": {
+        "faculty_urls": [
+          "https://etu.edu.tr/tr/akademik-takvim",
+          "https://etu.edu.tr/tr/akademik/tip-fakultesi"
+        ]
+      },
+      "Yalova Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.yalova.edu.tr/",
+          "https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2"
+        ]
+      },
+      "Yeditepe Üniversitesi": {
+        "faculty_urls": [
+          "https://med.yeditepe.edu.tr/tr/dersler",
+          "https://med.yeditepe.edu.tr/tr/duyurular"
+        ]
+      },
+      "Çanakkale Onsekiz Mart Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.comu.edu.tr/arsiv/duyurular",
+          "https://tip.comu.edu.tr/arsiv/ogrenci/akademik-takvim-r19.html"
+        ]
+      },
+      "Çukurova Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.cu.edu.tr/"
+        ]
+      },
+      "Üsküdar Üniversitesi": {
+        "faculty_urls": [
+          "https://uskudar.edu.tr/tip-fakultesi/akademik-takvim",
+          "https://uskudar.edu.tr/tip-fakultesi/duyurular",
+          "https://uskudar.edu.tr/tip-fakultesi/staj-karneleri"
+        ]
+      },
+      "İstanbul Atlas Üniversitesi": {
+        "faculty_urls": [
+          "https://www.atlas.edu.tr/akademik-takvim",
+          "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce",
+          "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/ders-programi",
+          "https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/intornluk"
+        ]
+      },
+      "İstanbul Medipol Üniversitesi": {
+        "faculty_urls": [
+          "https://www.medipol.edu.tr/akademik#link-37746",
+          "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi",
+          "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ders-programi",
+          "https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ogrenci/intorn-karnesi",
+          "https://www.medipol.edu.tr/ogrenci/akademik-takvim"
+        ]
+      },
+      "İstanbul Okan Üniversitesi": {
+        "faculty_urls": [
+          "https://www.okan.edu.tr/sayfa/1306/sinav-takvimi/",
+          "https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/",
+          "https://www.okan.edu.tr/tip/",
+          "https://www.okan.edu.tr/tip/sayfa/7827/koordinatorlukler/"
+        ]
+      },
+      "İstanbul Sağlık ve Teknoloji Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.istun.edu.tr/"
+        ]
+      },
+      "İstanbul Yeni Yüzyıl Üniversitesi": {
+        "faculty_urls": [
+          "https://www.yeniyuzyil.edu.tr/akademik-takvim/",
+          "https://www.yeniyuzyil.edu.tr/fakulteler/tip-fakultesi/duyurular",
+          "https://www.yeniyuzyil.edu.tr/haber-detay/akademik-yili-guz-donemi-ders-programlari-2/",
+          "https://www.yeniyuzyil.edu.tr/ogrenci-2/staj-evraklari/"
+        ]
+      },
+      "İstanbul Üniversitesi-Cerrahpaşa": {
+        "faculty_urls": [
+          "https://cerrahpasa.iuc.edu.tr/tr/duyurular/3/1"
+        ]
+      },
+      "İstanbul Üniversitesi": {
+        "faculty_urls": [
+          "https://ogrenci-istanbultip.istanbul.edu.tr/tr/duyurular/1/3"
+        ]
+      },
+      "İzmir Bakırçay Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.bakircay.edu.tr/",
+          "https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim",
+          "https://tip.bakircay.edu.tr/Sayfalar/4839/ders-programlari"
+        ]
+      },
+      "İzmir Demokrasi Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.idu.edu.tr/"
+        ]
+      },
+      "İzmir Tınaztepe Üniversitesi": {
+        "faculty_urls": [
+          "https://www.tinaztepe.edu.tr/akademik/tip-fakultesi"
+        ]
+      },
+      "Afyonkarahisar Sağlık Bilimleri Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.afsu.edu.tr/"
+        ]
+      },
+      "İstinye Üniversitesi": {
+        "faculty_urls": [
+          "https://www.istinye.edu.tr/tr/tip",
+          "https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim"
+        ]
+      },
+      "İzmir Kâtip Çelebi Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ikcu.edu.tr/"
+        ]
+      },
+      "Kafkas Üniversitesi": {
+        "faculty_urls": [
+          "https://www.kafkas.edu.tr/Tipfak",
+          "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni10123",
+          "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni19294",
+          "https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni5071",
+          "https://www.kafkas.edu.tr/oidb/tr/sayfaYeni6016"
+        ]
+      },
+      "İnönü Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.inonu.edu.tr/tr"
+        ]
+      },
+      "Trakya Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.trakya.edu.tr/"
+        ]
+      },
+      "Van Yüzüncü Yıl Üniversitesi": {
+        "faculty_urls": [
+          "https://www.yyu.edu.tr/Birimler/14"
+        ]
+      },
+      "Balıkesir Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.balikesir.edu.tr/akademik-takvim"
+        ]
+      },
+      "Tekirdağ Namık Kemal Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.nku.edu.tr/tr/akademik-takvim",
+          "https://tip.nku.edu.tr/tr/koordinatorlukler",
+          "https://tip.nku.edu.tr:443/DersProgramı/0/s/457/759#icerik"
+        ]
+      },
+      "Acıbadem Mehmet Ali Aydınlar Üniversitesi": {
+        "faculty_urls": [
+          "https://www.acibadem.edu.tr/ogrenci/ogrenci-isleri/akademik-takvim"
+        ]
+      },
+      "Altınbaş Üniversitesi": {
+        "faculty_urls": [
+          "https://altinbas.edu.tr/akademik/fakulteler/tip/ders-programi.web",
+          "https://altinbas.edu.tr/ogrenci/akademik-takvim.web",
+          "https://altinbas.edu.tr/ogrenci/staj-ve-coop/main.web"
+        ]
+      },
+      "Amasya Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx",
+          "https://tip.amasya.edu.tr/ogrenci/ders-programi.aspx"
+        ]
+      },
+      "Atılım Üniversitesi": {
+        "faculty_urls": [
+          "https://www.atilim.edu.tr/akademik-takvim",
+          "https://www.atilim.edu.tr/tr/dersprogrami",
+          "https://www.atilim.edu.tr/tr/koordinatorlukler"
+        ]
+      },
+      "Zonguldak Bülent Ecevit Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.beun.edu.tr/ogrenciler-icin-kurallar/intornluk-ogrencilerinin-egitim-ve-ogretimi-yonergesi.html"
+        ]
+      },
+      "Biruni Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.biruni.edu.tr/index.php/395408-2/",
+          "https://tip.biruni.edu.tr/index.php/staj-karneleri/",
+          "https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/"
+        ]
+      },
+      "Yozgat Bozok Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx",
+          "https://tip.bozok.edu.tr/sayfa/donem-vi,tr-775.aspx",
+          "https://tip.bozok.edu.tr/sayfa/koordinatorluk,tr-760.aspx"
+        ]
+      },
+      "Gaziantep Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168",
+          "https://tip.gantep.edu.tr/pages.php?url=staj-programlari-162"
+        ]
+      },
+      "Hitit Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.hitit.edu.tr/tr/detay/donem-i-ders-programi-yeni",
+          "https://tip.hitit.edu.tr/tr/detay/staj"
+        ]
+      },
+      "İzmir Ekonomi Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ieu.edu.tr/tr/tip-fakulesi-intorn-egitim-ve-calisma-usul-ve-esas"
+        ]
+      },
+      "Kütahya Sağlık Bilimleri Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ksbu.edu.tr/defaultx/sayfa/3388/donem-6",
+          "https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim",
+          "https://tip.ksbu.edu.tr/defaultx/sayfa/8892/mezuniyet-oncesi-tip-egitimi-koordinasyon-kurulu-koordinatorler-kurulu"
+        ]
+      },
+      "Kahramanmaraş Sütçü İmam Üniversitesi": {
+        "faculty_urls": [
+          "https://tipfakultesi.ksu.edu.tr/Default.aspx?SId=23834",
+          "https://tipfakultesi.ksu.edu.tr/depo/belgeler/DönemKoordinatörleri_2608251608095711.pdf"
+        ]
+      },
+      "İstanbul Medeniyet Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.medeniyet.edu.tr/tr/egitim/ders-programi",
+          "https://tip.medeniyet.edu.tr/tr/ogrenciler/akademik-takvim"
+        ]
+      },
+      "Eskişehir Osmangazi Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim"
+        ]
+      },
+      "Siirt Üniversitesi": {
+        "faculty_urls": [
+          "https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html",
+          "https://tip.siirt.edu.tr/detay/ders-programi/479809538.html",
+          "https://tip.siirt.edu.tr/detay/koordinatorlukler/509953682.html"
+        ]
+      }
+    }
+  ],
+  "sks_hints": [
+    {
+      "from": "adu_sks",
+      "url": "http://www.site.adu.edu.tr/ogrencitopluluklari/"
+    },
+    {
+      "from": "akdeniz_sks",
+      "url": "https://sks.akdeniz.edu.tr/tr/kultur_hizmetleri_ogrenci_topluluklari-7276"
+    },
+    {
+      "from": "akdeniz_sks",
+      "url": "https://sks.akdeniz.edu.tr/tr/ogrenci_topluluklari_etkinlik_on_talep_formu-10739"
+    },
+    {
+      "from": "akdeniz_sks",
+      "url": "https://sks.akdeniz.edu.tr/tr/duyuru/ogrenci_topluluklari_etkinlikleri-15494"
+    },
+    {
+      "from": "aksaray_sks",
+      "url": "https://sks.aksaray.edu.tr/ogrenci-topluluklari"
+    },
+    {
+      "from": "aksaray_sks",
+      "url": "https://topluluklar.aksaray.edu.tr/"
+    },
+    {
+      "from": "alanya_sks",
+      "url": "https://sksdb.alanya.edu.tr/ogrenci/ogrenci-topluluklari/"
+    },
+    {
+      "from": "amasya_sks",
+      "url": "https://sksdb.amasya.edu.tr/üniversite-ogrenci-topluluklari-is-birligi-ve-destek-programi-ünides-hakkinda-bilgilendirme-toplantisi-yapildi.aspx"
+    },
+    {
+      "from": "ankara_sks",
+      "url": "https://sks.ankara.edu.tr/topluluklar/"
+    },
+    {
+      "from": "bandirma_sks",
+      "url": "https://sksdb.bandirma.edu.tr/tr/sksdb/s/Ogrenci-Topluluklarimiz-105"
+    },
+    {
+      "from": "biruni_sks",
+      "url": "https://topluluklar.biruni.edu.tr/"
+    },
+    {
+      "from": "deu_sks",
+      "url": "https://sks.deu.edu.tr/ogrenci/kultur-sanat-spor-hizmetlerimiz/ogrenci-topluluklari/"
+    },
+    {
+      "from": "deu_sks",
+      "url": "https://ogrencitopluluklari.deu.edu.tr/"
+    },
+    {
+      "from": "ege_sks",
+      "url": "https://sksdb.ege.edu.tr/a-685455/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+    },
+    {
+      "from": "ege_sks",
+      "url": "https://sksdb.ege.edu.tr/a-685454/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+    },
+    {
+      "from": "ege_sks",
+      "url": "https://sksdb.ege.edu.tr/a-685453/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+    },
+    {
+      "from": "ege_sks",
+      "url": "https://sksdb.ege.edu.tr/a-685452/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+    },
+    {
+      "from": "ege_sks",
+      "url": "https://sksdb.ege.edu.tr/a-685451/ogrenci_topluluklari_ogrenci_senato_uyeleri.html"
+    },
+    {
+      "from": "gazi_sks",
+      "url": "https://topluluklar.gazi.edu.tr/"
+    },
+    {
+      "from": "gazi_sks",
+      "url": "http://topluluklar.gazi.edu.tr/"
+    },
+    {
+      "from": "hacettepe_sks",
+      "url": "https://topluluklar.hacettepe.edu.tr/"
+    },
+    {
+      "from": "ibu_sks",
+      "url": "https://sksdb.ibu.edu.tr/Files/ckFiles/sksdb-ibu-edu-tr/Yönetmelik-Yönergeler/Öğrenci Toplulukları Kuruluş Ve İşleyiş Yönergesi.pdf"
+    },
+    {
+      "from": "ibu_sks",
+      "url": "https://sksdb.ibu.edu.tr/tr/page/universitemizde-faaliyet-gosteren-ogrenci-topluluklari/9496"
+    },
+    {
+      "from": "ibu_sks",
+      "url": "https://sksdb.ibu.edu.tr/tr/page/topluluklar-icin-gerekli-formlar/9734"
+    },
+    {
+      "from": "ibu_sks",
+      "url": "https://sksdb.ibu.edu.tr/tr/page/ogrenci-topluluklari/9743"
+    },
+    {
+      "from": "ibu_sks",
+      "url": "https://sksdb.ibu.edu.tr/tr/news-detail/ogrenci-topluluklarimizin-dikkatine/13050"
+    },
+    {
+      "from": "ieu_sks",
+      "url": "https://www.linkedin.com/shareArticle?mini=true&url=https://sks.ieu.edu.tr/tr/news/type/read/id/9816&title=Dansın Birleştirici Gücü İzmir Ekonomi’de Bir Araya Geldi!&summary=Bu yıl ilk kez, t&uuml;m dans topluluklarımızın bir araya gelerek ortak d&uuml;zenlediği İzmir Ekonomi &Uuml;niversitesi Dans Festivali, sahneden izleyicilere yayılan&source=https://sks.ieu.edu.tr/tr/news/type/read/id/9816"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/duyurular/ieee-kulubu-embcon26"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/t-era-dijital-donusum-ve-surdurulebilirlik-kulubu-ile-toplumsal-fayda-icin"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/istinye-genc-tema-kulubu-tur-say-etkinligi"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/psikoloji-kulubu-bagimlilik-semineri"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/su-alti-sporlari-kulubu-marmaris-dalis-etkinligi-26"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/ieee-kulubu-pestalk-enerji-ve-muhendislik"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/kizilay-kulubu-engelliler-haftasi-farkindalik-calismasi"
+    },
+    {
+      "from": "istinye_sks",
+      "url": "https://www.istinye.edu.tr/tr/sks/kulupler/haberler/siber-guvenlik-kulubu-isuctf26"
+    },
+    {
+      "from": "karatay_sks",
+      "url": "https://www.karatay.edu.tr/tr/birim/ogrenci-topluluklari"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://topluluklar.kastamonu.edu.tr/index.php?option=com_sppagebuilder&view=page&id=286"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://sks.kastamonu.edu.tr/index.php/component/content/article/oryantasyon-programinda-topluluk-tanitimi?catid=2&Itemid=101"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://kastamonu.edu.tr/index.php/tr/bilgi/universite-haberleri/5052-kastamonu-universitesi-nde-ogrenci-topluluklari-tanitim-gunleri-basladi"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://topluluklar.kastamonu.edu.tr/index.php/component/content/article/uenides-3-doenem-basvurulari-bilgilendirme-toplantisi-2?catid=2&Itemid=101"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://topluluklar.kastamonu.edu.tr/"
+    },
+    {
+      "from": "kastamonu_sks",
+      "url": "https://topluluklar.kastamonu.edu.tr/index.php?option=com_sppagebuilder&amp;view=page&amp;id=286"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/sayfa/1776/ogrenci-topluluk-bilgileri/tr"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/sayfa/3011/ogrenci-topluluk-formlari/tr"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/sayfa/3291/ogrenci-topluluklari-tasnifi/tr"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://kmu.edu.tr/sks/bilgi/1513/20182019-egitim-ogretim-yili-topluluk-faaliyetleri"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/sayfa/1772/ogrenci-topluluklariyla-yapilan-toplantilar/tr"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/duyuru/49247/ogrenci-topluluklari-&quot;donem-basi-yonetim-kurullarini-olusturarak&quot;-21102026-carsamba-gunu-mesai-bitimine-kadar-teslim-edilmesi-hakkinda-duyurusu/tr"
+    },
+    {
+      "from": "kmu_sks",
+      "url": "https://www.kmu.edu.tr/sks/duyuru/48677/10072026-tarih-ve-06-sayili-ogrenci-topluluklari-degerlendirme-kurulu-kararlari/tr"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://sks.ksbu.edu.tr/defaultx/sayfa/7730/ogrenci-topluluklari"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://sks.ksbu.edu.tr/defaultx/sayfa/8276/ogrenci-topluluklari-videolari"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://sks.ksbu.edu.tr/defaultx/sayfa/11227/ogrenci-topluluklari-ile-ilgili-formlar"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://topluluklar.ksbu.edu.tr/defaultx"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://sks.ksbu.edu.tr/defaultx/slide/11120/ogrenci-temsilcileri-ve-topluluk-baskanlariyla-istisare-toplantisi"
+    },
+    {
+      "from": "ksbu_sks",
+      "url": "https://topluluklar.ksbu.edu.tr"
+    },
+    {
+      "from": "mcbu_sks",
+      "url": "http://sks.mcbu.edu.tr/Sayfa/ToplulukveKuluplerEtkinlikDilekceleri#baslangic"
+    },
+    {
+      "from": "medeniyet_sks",
+      "url": "https://sks.medeniyet.edu.tr/tr/haberler/universitemizin-bilisim-ve-bilgi-topluluklarinin-ankara-gezisi"
+    },
+    {
+      "from": "nku_sks",
+      "url": "http://topluluklar.nku.edu.tr/"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3171/endustri-muhendisligi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3172/insaat-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/2821/kimya-muhendisligi-ogrenci-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3174/maden-muhendisligi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3173/genclik-atolyesi-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-stanti"
+    },
+    {
+      "from": "ogu_sks",
+      "url": "https://sks.ogu.edu.tr/Etkinlik/Detay/3169/avrupa-tip-ogrencileri-kulubunun-yeni-uye-kaydi-ve-kulup-tanitim-standi"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-kurmak-icin-gerekli-formlar"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-yonetim-kurulu-ve-genel-kuruluna-iliskin-formlar"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/ogrenci-topluluklari-afis-standardi"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-uye-kayit-liste-formu"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/topluluk-kurmak-icin-gerekli-formalar"
+    },
+    {
+      "from": "pau_sks",
+      "url": "https://www.pau.edu.tr/sks/tr/sayfa/ogrenci-topluluklari-3"
+    },
+    {
+      "from": "pau_sks",
+      "url": "http://www.pau.edu.tr/sks/tr/sayfa/baskanligimiza-bagli-ogrenci-topluluklari"
+    },
+    {
+      "from": "sakarya_sks",
+      "url": "https://malihiz.sakarya.edu.tr/sites/malihiz.sakarya.edu.tr/file/Arac_Talep_ve_Tahsis_Kriterleri__Ogrenci_Topluluklari__26-27.pdf"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://twitter.com/sdutopluluklar"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://www.instagram.com/sdutopluluklari/"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu.html"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu/birim-gorev-tanimi-3230s.html"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/topluluklar-sube-mudurlugu/birim-personel-listesi-6279s.html"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/haber/sdu-rock-toplulugu-ogrenci-topluluklari-tanitim-ve-oryantasyon-gunleri-60273h.html"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/kolay-ulasim-linkleri/ogrenci-topluluklari-14625s.html"
+    },
+    {
+      "from": "sdu_sks",
+      "url": "https://sksdb.sdu.edu.tr/tr/haber/topluluk-akademik-danismanlari-ve-topluluk-baskanlariyla-yeni-donem-degerlendirme-toplantisi-gerceklestirildi-61895h.html"
+    }
+  ],
+  "known": {
+    "Hacettepe Üniversitesi": [
+      "https://topluluklar.hacettepe.edu.tr/"
+    ],
+    "Ankara Üniversitesi": [
+      "https://sks.ankara.edu.tr/topluluklar/"
+    ],
+    "Dokuz Eylül Üniversitesi": [
+      "https://ogrencitopluluklari.deu.edu.tr/"
+    ],
+    "Biruni Üniversitesi": [
+      "https://topluluklar.biruni.edu.tr/"
+    ],
+    "Gazi Üniversitesi": [
+      "https://topluluklar.gazi.edu.tr/"
+    ],
+    "Aksaray Üniversitesi": [
+      "https://topluluklar.aksaray.edu.tr/"
+    ],
+    "Kastamonu Üniversitesi": [
+      "https://topluluklar.kastamonu.edu.tr/"
+    ],
+    "Kütahya Sağlık Bilimleri Üniversitesi": [
+      "https://topluluklar.ksbu.edu.tr/"
+    ],
+    "Tekirdağ Namık Kemal Üniversitesi": [
+      "http://topluluklar.nku.edu.tr/"
+    ],
+    "Siirt Üniversitesi": [
+      "http://ogrencitopluluklari.siirt.edu.tr/"
+    ]
+  }
+}

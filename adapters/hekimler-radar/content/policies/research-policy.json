@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "bibleVersion": "4.0",
+  "policyId": "research-v1",
+  "primary_category": "research",
+  "editorialBrand": "Kaduse Research",
+  "hubLane": "research",
+  "route": "kaduse-research",
+  "auto_publish": false,
+  "publication_eligible": false,
+  "purpose": "Peer-reviewed or indexed scientific findings with career/clinical value. Medical evidence gate required (Bible §13).",
+  "hard_rules": [
+    "No auto-publish.",
+    "Claim strength cannot exceed evidence.",
+    "Observational studies must not use causal language.",
+    "Animal/in-vitro must not be presented as human treatment.",
+    "Preprints must be labelled preprint.",
+    "Retracted work is not published as normal content.",
+    "Program listing is not clinical endorsement.",
+    "Trend/citation ranking runs only after hard gates."
+  ],
+  "evaluation_track": "ENGAGEMENT"
+}

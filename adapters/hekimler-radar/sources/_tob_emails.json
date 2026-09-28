@@ -1,0 +1,618 @@
+[
+  {
+    "name": "mailto",
+    "email": "yonetimkurulu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "president@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "secgen@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "treasurer@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "vpi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "vpe@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "yurutmekurulu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "nome@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "neo-in@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "neo-out@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "npo@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "nora@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "nore-in@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "nore-out@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "norp@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "psdd@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "itsdd@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "pubsdd@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "cbsdd@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "denetimkurulu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "supco1@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "supco2@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "supco3@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "alumni@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "eb-ga@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "iciliskilertakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "disiliskilertakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kaynakaramatakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lph@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lra@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lrp@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "loa@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lme@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "loso@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lsr@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ifmsa@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "pr@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sempozyum@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "tipegitimitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "stajdegisimitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "halksagligitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "uremesagligitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "arastirmadegisimitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "insanhaklaritakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "projevegirisimlertakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bilisimvehaberlesmetakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "yayindestektakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kapasitegelisimitakimi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "abant@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "acibadem@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "adiyaman@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "afyonsbu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "akdeniz@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "aksaray@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "altinbas@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "amasya@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ankaramedipol@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ankara@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ankarayildirimbeyazit@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "arel@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ataturk@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "atilim@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "atlas@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "aydinadnanmenderes@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bahcesehir@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bakircay@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "balikesir@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bandirmaonyedieylul@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "baskent@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "beykent@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bezmialem@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bilecikseyhedebali@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "biruni@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bozok@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bursauludag@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "bulentecevit@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "celalbayar@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "cerrahpasa@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "cumhuriyet@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "canakkaleonsekizmart@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "cukurova@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "demiroglubilim@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "dicle@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "dokuzeylul@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "duzce@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ege@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "erciyes@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "erzincanbinaliyildirim@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "firat@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "gazi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "gaziantep@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "gaziantepibt@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "gaziosmanpasa@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "giresun@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "hacettepe@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "halic@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "harran@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "mustafakemal@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "hitit@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "inonu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istanbulaydin@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istanbulmedeniyet@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istanbulnisantasi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istanbul@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istinye@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "istun@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "izmirdemokrasi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "izmirekonomi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "izmirkatipcelebi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "izmirtinaztepe@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kafkas@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kahramanmarassutcuimam@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "karadeniz@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "karaman@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "karatay@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kirikkale@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kirklareli@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kocaeli@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kocuniversitesi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "kutahyasbu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "lokmanhekim@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "malatyaturgutozal@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "maltepe@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "mardinartuklu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "marmara@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "medipol@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "meram@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "mersin@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "mugla@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "namikkemal@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "nigdeomerhalisdemir@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "okan@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ondokuzmayis@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ordu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "osmangazi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "pamukkale@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "rizerte@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sakarya@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "samsun@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sanko@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sbugulhane@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sbuhamidiye@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "sbuuluslararasi@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "selcuk@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "suleymandemirel@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "tobbetu@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "trakya@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "ufuk@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "usak@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "uskudar@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "vanyuzuncuyil@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "yeditepe@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "yuksekihtisas@turkmsic.org"
+  },
+  {
+    "name": "mailto",
+    "email": "iletisim@turkmsic.org"
+  }
+]

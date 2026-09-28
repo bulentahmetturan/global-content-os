@@ -1,0 +1,62 @@
+name: Hekimler Türkiye-region runner
+
+# Optional. Runs the SAME adapter/ingest contract for sources tagged runner_region=TR (currently hsgm_public_health)
+# on a self-hosted runner located in Türkiye (labels: self-hosted, tr). Manual dispatch only: without such a runner
+# the job simply waits and nothing is ingested. No credentials are embedded; the ingest token is the repo secret.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "tr-runner | comma-separated ids"
+        default: "tr-runner"
+      timeout:
+        default: "240"
+      retries:
+        default: "2"
+
+  schedule:
+    - cron: "47 4 * * *"   # daily; stays queued (visible, no ingest) until a self-hosted runner labelled `tr` exists
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hekimler-tr-runner
+  cancel-in-progress: false
+
+jobs:
+  run:
+    # Scheduled runs are skipped until a Türkiye self-hosted runner exists: set repo variable TR_RUNNER_ENABLED=true.
+    # Manual dispatch always runs.
+    if: github.event_name != 'schedule' || vars.TR_RUNNER_ENABLED == 'true'
+    runs-on: [self-hosted, tr]
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: adapters/hekimler-radar
+    env:
+      GCOS_HUB_URL: https://global-content-os.channel-content-os-mcp.workers.dev
+      HEKIMLER_CONTINUOUS_INGESTION_ENABLED: "true"
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: adapters/hekimler-radar/requirements-runner.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements-runner.txt
+      - name: Run sources
+        env:
+          TIP_RADAR_INGEST_TOKEN: ${{ secrets.TIP_RADAR_INGEST_TOKEN }}
+          SOURCES: ${{ github.event.inputs.sources }}
+          SOURCE_TIMEOUT: ${{ github.event.inputs.timeout }}
+          SOURCE_RETRIES: ${{ github.event.inputs.retries }}
+        run: python scripts/hekimler_scheduled_run.py --sources "$SOURCES" --timeout "$SOURCE_TIMEOUT" --retries "$SOURCE_RETRIES" --report-dir report
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: hekimler-tr-run-report
+          path: adapters/hekimler-radar/report/
+          retention-days: 30

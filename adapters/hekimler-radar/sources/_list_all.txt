@@ -1,0 +1,522 @@
+TOPLAM: 322 kaynak  |  gruplu liste (takip URL'leri ayrı; görünüm birleşik)
+
+## Merkezi / sınavlar  (14)
+    1. osym_duyurular  |  ÖSYM Duyuruları  |  https://www.osym.gov.tr/Duyurular/Index
+    2. yok_duyurular  |  YÖK Duyuruları  |  https://www.yok.gov.tr/tr/announcements
+    3. tubitak_duyurular  |  TÜBİTAK Duyuruları  |  https://www.tubitak.gov.tr/tr/duyuru
+    4. osym_tus  |  ÖSYM TUS (Tıpta Uzmanlık Eğitimi Giriş Sınavı)  |  https://www.osym.gov.tr/SinavGrubu/Index/6
+    5. osym_yokdil  |  ÖSYM YÖKDİL / e-YÖKDİL  |  https://www.osym.gov.tr/SinavGrubu/Index/12
+    6. osym_yds  |  ÖSYM YDS / e-YDS  |  https://www.osym.gov.tr/SinavGrubu/Index/7
+    7. osym_ales  |  ÖSYM ALES  |  https://www.osym.gov.tr/SinavGrubu/Index/5
+    8. ecfmg_announcements  |  ECFMG Duyuruları (USMLE / sertifikasyon)  |  https://www.ecfmg.org/news/
+    9. gmc_plab  |  GMC — PLAB Sınavı  |  https://www.gmc-uk.org/registration-and-licensing/join-the-register/plab
+   10. mcc_mccqe  |  Medical Council of Canada — MCCQE  |  https://mcc.ca/examinations-assessments/
+   11. germany_approbation  |  Almanya — Recognition in Germany (Approbation)  |  https://www.anerkennung-in-deutschland.de/html/en/2688.php
+   12. osym_sts_tip  |  ÖSYM STS Tıp Doktorluğu (Yurt Dışı Diploma Denkliği)  |  https://www.osym.gov.tr/SinavGrubu/Index/45
+   13. osym_kpss  |  ÖSYM KPSS  |  https://www.osym.gov.tr/SinavGrubu/Index/3
+   14. ecfmg_sponsor_notes_policy  |  ECFMG — Sponsor Notes Politikası  |  https://www.ecfmg.org/resources/sponsor-notes.html
+
+## Öğrenci örgütleri  (5)
+   15. turkmsic_haberler  |  TurkMSIC (Türk Tıp Öğrencileri Birliği) Haberleri  |  https://turkmsic.org/haberler
+   16. ttb_tok  |  TTB Tıp Öğrencileri Kolu  |  https://www.ttb.org.tr/kollar/tok/
+   17. emsa_europe  |  EMSA — European Medical Students' Association  |  https://emsa-europe.eu/
+   18. turkmsic_sempozyum  |  TurkMSIC — Tıp Öğrencileri Sempozyumu  |  https://www.turkmsic.org/sempozyum
+   19. turkmsic_scome_yerellerde  |  TurkMSIC SCOME — Yerellerde SCOME (Yerel Komite Etkinlik Haberleri)  |  https://scome.turkmsic.org/index.php/yerellerdescome
+
+## Tıp fakülteleri  (206 kaynak / 84 üniversite)
+    (aynı üniversite altında birden fazla URL = ayrı takip, gruplu görünüm)
+
+### Acıbadem Mehmet Ali Aydınlar Üniversitesi  (1)
+   20. [akademik takvim] tip_acibadem_duyuru_akademik_takvim  |  https://www.acibadem.edu.tr/ogrenci/ogrenci-isleri/akademik-takvim
+
+### Afyonkarahisar Sağlık Bilimleri Üniversitesi  (1)
+   21. [duyuru] tip_afsu_duyuru  |  https://tip.afsu.edu.tr/
+
+### Akdeniz Üniversitesi  (2)
+   22. [duyuru] tip_akdeniz_duyuru  |  https://tip.akdeniz.edu.tr/tr
+   23. [sınav takvimi] tip_akdeniz_duyuru_sinav_takvimi  |  https://tip.akdeniz.edu.tr/tr/20262027_ders_programi-19233
+
+### Aksaray Üniversitesi  (5)
+   24. [duyuru] tip_aksaray_duyuru  |  https://tip.aksaray.edu.tr/duyurular
+   25. [akademik takvim] tip_aksaray_duyuru_akademik_takvim  |  https://tip.aksaray.edu.tr/akademik-takvim
+   26. [sınav takvimi] tip_aksaray_duyuru_sinav_takvimi  |  https://tip.aksaray.edu.tr/ders-programi
+   27. [koordinatörlük] tip_aksaray_duyuru_koordinatorluk  |  https://tip.aksaray.edu.tr/kurullar--komisyonlar-ve-koordinatorlukler
+   28. [öğrenci konseyi] tip_aksaray_duyuru_ogrenci_konseyi  |  https://tip.aksaray.edu.tr/ogrenci-temsilciligi
+
+### Alanya Alaaddin Keykubat Üniversitesi  (3)
+   29. [duyuru] tip_alanya_duyuru  |  https://tip.alanya.edu.tr/duyuru/
+   30. [akademik takvim] tip_alanya_duyuru_akademik_takvim  |  https://tip.alanya.edu.tr/ogrenci/akademik-takvim/
+   31. [sınav takvimi] tip_alanya_duyuru_sinav_takvimi  |  https://tip.alanya.edu.tr/ogrenci/ders-programi/
+
+### Altınbaş Üniversitesi  (3)
+   32. [akademik takvim] tip_altinbas_duyuru_akademik_takvim  |  https://altinbas.edu.tr/ogrenci/akademik-takvim.web
+   33. [sınav takvimi] tip_altinbas_duyuru_sinav_takvimi  |  https://altinbas.edu.tr/akademik/fakulteler/tip/ders-programi.web
+   34. [staj / intörnlük] tip_altinbas_duyuru_staj_intornluk  |  https://altinbas.edu.tr/ogrenci/staj-ve-coop/main.web
+
+### Amasya Üniversitesi  (2)
+   35. [akademik takvim] tip_amasya_duyuru_akademik_takvim  |  https://tip.amasya.edu.tr/ogrenci/akademik-takvim.aspx
+   36. [sınav takvimi] tip_amasya_duyuru_sinav_takvimi  |  https://tip.amasya.edu.tr/ogrenci/ders-programi.aspx
+
+### Ankara Yıldırım Beyazıt Üniversitesi  (1)
+   37. [duyuru] tip_aybu_duyuru  |  https://www.aybu.edu.tr/tip
+
+### Ankara Üniversitesi  (2)
+   38. [duyuru] tip_ankara_duyuru  |  https://www.medicine.ankara.edu.tr/duyurular/
+   39. [akademik takvim] tip_ankara_duyuru_akademik_takvim  |  https://www.medicine.ankara.edu.tr/akademik-takvim-ingilizce-program/
+
+### Atatürk Üniversitesi  (2)
+   40. [duyuru] tip_atauni_duyuru  |  https://atauni.edu.tr/tip-fakultesi/
+   41. [sınav takvimi] tip_atauni_duyuru_sinav_takvimi  |  https://atauni.edu.tr/tip-fakultesi/ders-programi-arsivi/
+
+### Atılım Üniversitesi  (3)
+   42. [akademik takvim] tip_atilim_duyuru_akademik_takvim  |  https://www.atilim.edu.tr/akademik-takvim
+   43. [sınav takvimi] tip_atilim_duyuru_sinav_takvimi  |  https://www.atilim.edu.tr/tr/dersprogrami
+   44. [koordinatörlük] tip_atilim_duyuru_koordinatorluk  |  https://www.atilim.edu.tr/tr/koordinatorlukler
+
+### Aydın Adnan Menderes Üniversitesi  (1)
+   45. [duyuru] tip_adu_duyuru  |  https://fakulte.adu.edu.tr/med/
+
+### Balıkesir Üniversitesi  (1)
+   46. [akademik takvim] tip_balikesir_duyuru_akademik_takvim  |  https://tip.balikesir.edu.tr/akademik-takvim
+
+### Bandırma Onyedi Eylül Üniversitesi  (4)
+   47. [duyuru] tip_bandirma_duyuru  |  https://tip.bandirma.edu.tr/tr/tip/Duyuru/Liste?k=-1
+   48. [akademik takvim] tip_bandirma_duyuru_akademik_takvim  |  http://tip.bandirma.edu.tr/tr/tip/s/ONLISANS-LISANS-VE-LISANSUSTU-AKADEMIK-TAKVIMLER-2
+   49. [sınav takvimi] tip_bandirma_duyuru_sinav_takvimi  |  https://tip.bandirma.edu.tr/tr/tip/s/Sinav-Programi-19698
+   50. [staj / intörnlük] tip_bandirma_duyuru_staj_intornluk  |  https://tip.bandirma.edu.tr/tr/tip/s/Intorn-Karneleri-37811
+
+### Beykent Üniversitesi  (2)
+   51. [duyuru] tip_beykent_duyuru  |  https://tip.beykent.edu.tr/
+   52. [akademik takvim] tip_beykent_duyuru_akademik_takvim  |  https://tip.beykent.edu.tr/tr/akademik-takvim
+
+### Biruni Üniversitesi  (3)
+   53. [akademik takvim] tip_biruni_duyuru_akademik_takvim  |  https://tip.biruni.edu.tr/index.php/tip-fakultesi-akademik-takvim/
+   54. [sınav takvimi] tip_biruni_duyuru_sinav_takvimi  |  https://tip.biruni.edu.tr/index.php/395408-2/
+   55. [staj / intörnlük] tip_biruni_duyuru_staj_intornluk  |  https://tip.biruni.edu.tr/index.php/staj-karneleri/
+
+### Bolu Abant İzzet Baysal Üniversitesi  (4)
+   56. [duyuru] tip_ibu_duyuru  |  https://tip.ibu.edu.tr/tr/news
+   57. [akademik takvim] tip_ibu_duyuru_akademik_takvim  |  https://tip.ibu.edu.tr/Files/ckFiles/tip-ibu-edu-tr/ogrenci/ders/2026-2027/2026-2027_Tip_Fakultesi_Akademik_Takvim.pdf
+   58. [sınav takvimi] tip_ibu_duyuru_sinav_takvimi  |  https://tip.ibu.edu.tr/tr/page/ders-programi-arsivi/16969
+   59. [staj / intörnlük] tip_ibu_duyuru_staj_intornluk  |  https://tip.ibu.edu.tr/tr/page/staj-karneleri/16858
+
+### Bursa Uludağ Üniversitesi  (2)
+   60. [duyuru] tip_uludag_duyuru  |  https://www.uludag.edu.tr/tip/duyuru
+   61. [akademik takvim] tip_uludag_duyuru_akademik_takvim  |  https://www.uludag.edu.tr/tip/akademik-takvim-86919
+
+### Dicle Üniversitesi  (3)
+   62. [duyuru] tip_dicle_duyuru  |  https://www.dicle.edu.tr/tr/birimler/tip-fakultesi
+   63. [akademik takvim] tip_dicle_duyuru_akademik_takvim  |  https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-akademik-takvim-1520
+   64. [sınav takvimi] tip_dicle_duyuru_sinav_takvimi  |  https://www.dicle.edu.tr/tr/birimler/tip-fakultesi/sayfalar/dutf-sinav-takvimi-2164
+
+### Dokuz Eylül Üniversitesi  (3)
+   65. [duyuru] tip_deu_duyuru  |  https://tip.deu.edu.tr/tr/
+   66. [akademik takvim] tip_deu_duyuru_akademik_takvim  |  https://tip.deu.edu.tr/tr/akademik-takvim-2/
+   67. [staj / intörnlük] tip_deu_duyuru_staj_intornluk  |  https://tip.deu.edu.tr/tr/donem-6/
+
+### Ege Üniversitesi  (3)
+   68. [duyuru] tip_ege_duyuru  |  https://med.ege.edu.tr/
+   69. [akademik takvim] tip_ege_duyuru_akademik_takvim  |  https://med.ege.edu.tr/tr-24101/akademik_takvim.html
+   70. [staj / intörnlük] tip_ege_duyuru_staj_intornluk  |  https://med.ege.edu.tr/tr-2254/kilavuzlar.html
+
+### Erzincan Binali Yıldırım Üniversitesi  (3)
+   71. [duyuru] tip_erzincan_duyuru  |  https://tip.ebyu.edu.tr/
+   72. [akademik takvim] tip_erzincan_duyuru_akademik_takvim  |  https://tip.ebyu.edu.tr/akademik-takvim/
+   73. [staj / intörnlük] tip_erzincan_duyuru_staj_intornluk  |  https://tip.ebyu.edu.tr/donem-vi/
+
+### Eskişehir Osmangazi Üniversitesi  (1)
+   74. [akademik takvim] tip_ogu_duyuru_akademik_takvim  |  https://tip.ogu.edu.tr/Sayfa/Index/1078/akademik-takvim
+
+### Fırat Üniversitesi  (3)
+   75. [duyuru] tip_firat_duyuru  |  https://tip.firat.edu.tr/
+   76. [akademik takvim] tip_firat_duyuru_akademik_takvim  |  https://tip.firat.edu.tr/page/2329
+   77. [koordinatörlük] tip_firat_duyuru_koordinatorluk  |  https://tip.firat.edu.tr/page/7195
+
+### Gazi Üniversitesi  (4)
+   78. [duyuru] tip_gazi_duyuru  |  https://med.gazi.edu.tr/
+   79. [akademik takvim] tip_gazi_duyuru_akademik_takvim  |  http://med.gazi.edu.tr/view/page/189939
+   80. [staj / intörnlük] tip_gazi_duyuru_staj_intornluk  |  http://med.gazi.edu.tr/view/page/136628
+   81. [koordinatörlük] tip_gazi_duyuru_koordinatorluk  |  https://med.gazi.edu.tr/view/page/187795/egitim-kurul-ve-koordinatorlukler
+
+### Gaziantep İslam Bilim ve Teknoloji Üniversitesi  (3)
+   82. [duyuru] tip_gibtu_duyuru  |  https://www.gibtu.edu.tr/Birim.aspx?id=20
+   83. [akademik takvim] tip_gibtu_duyuru_akademik_takvim  |  https://www.gibtu.edu.tr/Medya/Birim/Dosya/20260826095457_9100fd60.pdf
+   84. [staj / intörnlük] tip_gibtu_duyuru_staj_intornluk  |  https://www.gibtu.edu.tr/tip/Icerik/34012/klinik-stajlar-degerlendirme-toplantisi
+
+### Gaziantep Üniversitesi  (2)
+   85. [akademik takvim] tip_gantep_duyuru_akademik_takvim  |  https://tip.gantep.edu.tr/pages.php?url=akademik-takvim-168
+   86. [staj / intörnlük] tip_gantep_duyuru_staj_intornluk  |  https://tip.gantep.edu.tr/pages.php?url=staj-programlari-162
+
+### Giresun Üniversitesi  (3)
+   87. [duyuru] tip_giresun_duyuru  |  https://tip.giresun.edu.tr/
+   88. [akademik takvim] tip_giresun_duyuru_akademik_takvim  |  https://tip.giresun.edu.tr/tr/page/akademik-takvim/17151
+   89. [staj / intörnlük] tip_giresun_duyuru_staj_intornluk  |  https://tip.giresun.edu.tr/tr/page/staj/17215
+
+### Hacettepe Üniversitesi  (4)
+   90. [duyuru] tip_hacettepe_duyuru  |  https://tip.hacettepe.edu.tr/tr/duyurular
+   91. [akademik takvim] tip_hacettepe_duyuru_akademik_takvim  |  https://tip.hacettepe.edu.tr/tr/akademik-takvim
+   92. [staj / intörnlük] tip_hacettepe_duyuru_staj_intornluk  |  https://tip.hacettepe.edu.tr/tr/staj
+   93. [öğrenci konseyi] tip_hacettepe_duyuru_ogrenci_konseyi  |  https://tip.hacettepe.edu.tr/tr/ogrenci-konseyi
+
+### Haliç Üniversitesi  (4)
+   94. [duyuru] tip_halic_duyuru  |  https://halic.edu.tr/tr/tum-duyurular/duyurular-tip-fakultesi
+   95. [akademik takvim] tip_halic_duyuru_akademik_takvim  |  https://halic.edu.tr/tr/ogrencimiz/akademik-takvim
+   96. [staj / intörnlük] tip_halic_duyuru_staj_intornluk  |  https://halic.edu.tr/tr/ogrencimiz/uygulamali-egitimler-ve-staj-koordinatorlugu
+   97. [koordinatörlük] tip_halic_duyuru_koordinatorluk  |  https://halic.edu.tr/tr/universitemiz/rektorluk-ofisi/koordinatorlukler
+
+### Harran Üniversitesi  (2)
+   98. [duyuru] tip_harran_duyuru  |  https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi
+   99. [koordinatörlük] tip_harran_duyuru_koordinatorluk  |  https://www.harran.edu.tr/akademik/fakulteler/tip-fakultesi/bolumler/koordinatorlukler 
+
+### Hitit Üniversitesi  (2)
+  100. [sınav takvimi] tip_hitit_duyuru_sinav_takvimi  |  https://tip.hitit.edu.tr/tr/detay/donem-i-ders-programi-yeni
+  101. [staj / intörnlük] tip_hitit_duyuru_staj_intornluk  |  https://tip.hitit.edu.tr/tr/detay/staj
+
+### İnönü Üniversitesi  (1)
+  102. [duyuru] tip_inonu_duyuru  |  https://tip.inonu.edu.tr/tr
+
+### İstanbul Atlas Üniversitesi  (4)
+  103. [duyuru] tip_atlas_duyuru  |  https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce
+  104. [akademik takvim] tip_atlas_duyuru_akademik_takvim  |  https://www.atlas.edu.tr/akademik-takvim
+  105. [sınav takvimi] tip_atlas_duyuru_sinav_takvimi  |  https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/ders-programi
+  106. [staj / intörnlük] tip_atlas_duyuru_staj_intornluk  |  https://www.atlas.edu.tr/tip-fakultesi-turkce-ingilizce/intornluk
+
+### İstanbul Medeniyet Üniversitesi  (2)
+  107. [akademik takvim] tip_medeniyet_duyuru_akademik_takvim  |  https://tip.medeniyet.edu.tr/tr/ogrenciler/akademik-takvim
+  108. [sınav takvimi] tip_medeniyet_duyuru_sinav_takvimi  |  https://tip.medeniyet.edu.tr/tr/egitim/ders-programi
+
+### İstanbul Medipol Üniversitesi  (5)
+  109. [duyuru] tip_medipol_duyuru  |  https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi
+  110. [akademik takvim] tip_medipol_duyuru_akademik_takvim  |  https://www.medipol.edu.tr/ogrenci/akademik-takvim
+  111. [sınav takvimi] tip_medipol_duyuru_sinav_takvimi  |  https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ders-programi
+  112. [staj / intörnlük] tip_medipol_duyuru_staj_intornluk  |  https://www.medipol.edu.tr/akademik/fakulteler/tip-fakultesi/ogrenci/intorn-karnesi
+  113. [koordinatörlük] tip_medipol_duyuru_koordinatorluk  |  https://www.medipol.edu.tr/akademik#link-37746
+
+### İstanbul Okan Üniversitesi  (4)
+  114. [duyuru] tip_okan_duyuru  |  https://www.okan.edu.tr/tip/
+  115. [akademik takvim] tip_okan_duyuru_akademik_takvim  |  https://www.okan.edu.tr/sayfa/9911/2026-2027-akademik-takvim/
+  116. [sınav takvimi] tip_okan_duyuru_sinav_takvimi  |  https://www.okan.edu.tr/sayfa/1306/sinav-takvimi/
+  117. [koordinatörlük] tip_okan_duyuru_koordinatorluk  |  https://www.okan.edu.tr/tip/sayfa/7827/koordinatorlukler/
+
+### İstanbul Sağlık ve Teknoloji Üniversitesi  (1)
+  118. [duyuru] tip_istun_duyuru  |  https://tip.istun.edu.tr/
+
+### İstanbul Yeni Yüzyıl Üniversitesi  (4)
+  119. [duyuru] tip_yeniyuzyil_duyuru  |  https://www.yeniyuzyil.edu.tr/fakulteler/tip-fakultesi/duyurular
+  120. [akademik takvim] tip_yeniyuzyil_duyuru_akademik_takvim  |  https://www.yeniyuzyil.edu.tr/akademik-takvim/
+  121. [sınav takvimi] tip_yeniyuzyil_duyuru_sinav_takvimi  |  https://www.yeniyuzyil.edu.tr/haber-detay/akademik-yili-guz-donemi-ders-programlari-2/
+  122. [staj / intörnlük] tip_yeniyuzyil_duyuru_staj_intornluk  |  https://www.yeniyuzyil.edu.tr/ogrenci-2/staj-evraklari/
+
+### İstanbul Üniversitesi  (1)
+  123. [duyuru] tip_istanbul_ogrenci_duyuru  |  https://ogrenci-istanbultip.istanbul.edu.tr/tr/duyurular/1/3
+
+### İstanbul Üniversitesi-Cerrahpaşa  (1)
+  124. [duyuru] tip_cerrahpasa_ogrenci_duyuru  |  https://cerrahpasa.iuc.edu.tr/tr/duyurular/3/1
+
+### İstinye Üniversitesi  (2)
+  125. [duyuru] tip_istinye_duyuru  |  https://www.istinye.edu.tr/tr/tip
+  126. [akademik takvim] tip_istinye_duyuru_akademik_takvim  |  https://www.istinye.edu.tr/tr/tip/egitim/akademik-takvim
+
+### İzmir Bakırçay Üniversitesi  (3)
+  127. [duyuru] tip_bakircay_duyuru  |  https://tip.bakircay.edu.tr/
+  128. [akademik takvim] tip_bakircay_duyuru_akademik_takvim  |  https://tip.bakircay.edu.tr/Sayfalar/1977/akademik-takvim
+  129. [sınav takvimi] tip_bakircay_duyuru_sinav_takvimi  |  https://tip.bakircay.edu.tr/Sayfalar/4839/ders-programlari
+
+### İzmir Demokrasi Üniversitesi  (1)
+  130. [duyuru] tip_idu_duyuru  |  https://tip.idu.edu.tr/
+
+### İzmir Ekonomi Üniversitesi  (1)
+  131. [staj / intörnlük] tip_ieu_duyuru_staj_intornluk  |  https://tip.ieu.edu.tr/tr/tip-fakulesi-intorn-egitim-ve-calisma-usul-ve-esas
+
+### İzmir Kâtip Çelebi Üniversitesi  (1)
+  132. [duyuru] tip_ikcu_duyuru  |  https://tip.ikcu.edu.tr/
+
+### İzmir Tınaztepe Üniversitesi  (1)
+  133. [duyuru] tip_tinaztepe_duyuru  |  https://www.tinaztepe.edu.tr/akademik/tip-fakultesi
+
+### Kafkas Üniversitesi  (5)
+  134. [duyuru] tip_kafkas_duyuru  |  https://www.kafkas.edu.tr/Tipfak
+  135. [akademik takvim] tip_kafkas_duyuru_akademik_takvim  |  https://www.kafkas.edu.tr/oidb/tr/sayfaYeni6016
+  136. [sınav takvimi] tip_kafkas_duyuru_sinav_takvimi  |  https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni19294
+  137. [staj / intörnlük] tip_kafkas_duyuru_staj_intornluk  |  https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni10123
+  138. [koordinatörlük] tip_kafkas_duyuru_koordinatorluk  |  https://www.kafkas.edu.tr/Tipfak/tr/sayfaYeni5071
+
+### Kahramanmaraş Sütçü İmam Üniversitesi  (2)
+  139. [staj / intörnlük] tip_ksu_duyuru_staj_intornluk  |  https://tipfakultesi.ksu.edu.tr/Default.aspx?SId=23834
+  140. [koordinatörlük] tip_ksu_duyuru_koordinatorluk  |  https://tipfakultesi.ksu.edu.tr/depo/belgeler/DönemKoordinatörleri_2608251608095711.pdf
+
+### Karabük Üniversitesi  (4)
+  141. [duyuru] tip_karabuk_duyuru  |  https://tip.karabuk.edu.tr/index.aspx
+  142. [akademik takvim] tip_karabuk_duyuru_akademik_takvim  |  https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1129&BA=index.aspx
+  143. [staj / intörnlük] tip_karabuk_duyuru_staj_intornluk  |  https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1228&BA=index.aspx
+  144. [koordinatörlük] tip_karabuk_duyuru_koordinatorluk  |  https://tip.karabuk.edu.tr/icerikGoster.aspx?K=S&id=1224&BA=index.aspx
+
+### Karadeniz Teknik Üniversitesi  (1)
+  145. [duyuru] tip_ktu_duyuru  |  https://med.ktu.edu.tr/
+
+### Karamanoğlu Mehmetbey Üniversitesi  (2)
+  146. [duyuru] tip_kmu_duyuru  |  https://www.kmu.edu.tr/tip
+  147. [akademik takvim] tip_kmu_duyuru_akademik_takvim  |  https://www.kmu.edu.tr/tip/sayfa/4841/akademik-takvim/tr
+
+### Kastamonu Üniversitesi  (2)
+  148. [duyuru] tip_kastamonu_duyuru  |  https://tip.kastamonu.edu.tr/
+  149. [akademik takvim] tip_kastamonu_duyuru_akademik_takvim  |  https://tip.kastamonu.edu.tr/index.php/oegrenci/akademik-takvim
+
+### Koç Üniversitesi  (2)
+  150. [duyuru] tip_koc_duyuru  |  https://medicine.ku.edu.tr/
+  151. [staj / intörnlük] tip_koc_duyuru_staj_intornluk  |  https://medicine.ku.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/secmeli-stajlar/
+
+### Kütahya Sağlık Bilimleri Üniversitesi  (3)
+  152. [akademik takvim] tip_ksbu_duyuru_akademik_takvim  |  https://tip.ksbu.edu.tr/defaultx/sayfa/376/akademik-takvim
+  153. [staj / intörnlük] tip_ksbu_duyuru_staj_intornluk  |  https://tip.ksbu.edu.tr/defaultx/sayfa/3388/donem-6
+  154. [koordinatörlük] tip_ksbu_duyuru_koordinatorluk  |  https://tip.ksbu.edu.tr/defaultx/sayfa/8892/mezuniyet-oncesi-tip-egitimi-koordinasyon-kurulu-koordinatorler-kurulu
+
+### Kırklareli Üniversitesi  (4)
+  155. [duyuru] tip_klu_duyuru  |  https://tip.klu.edu.tr/
+  156. [akademik takvim] tip_klu_duyuru_akademik_takvim  |  https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/akademik_takvimler/2026-2027_tip_fakultesi_akademik_takvim.pdf
+  157. [sınav takvimi] tip_klu_duyuru_sinav_takvimi  |  https://tip.klu.edu.tr/dosyalar/birimler/tip/dosyalar/dosya_ve_belgeler/ders_programi_egitim_planlari/2026-2027_egitim__plan_ve_ders_programi/2026-2027_do%CC%88nem_1_07_08_2026.pdf
+  158. [staj / intörnlük] tip_klu_duyuru_staj_intornluk  |  https://tip.klu.edu.tr/Sayfalar/46031-fakultemizde-bir-ilk-klinik-stajlar-basladi.klu
+
+### Kırşehir Ahi Evran Üniversitesi  (1)
+  159. [duyuru] tip_ahievran_duyuru  |  https://tip.ahievran.edu.tr/
+
+### Malatya Turgut Özal Üniversitesi  (5)
+  160. [duyuru] tip_ozal_duyuru  |  https://tipfakultesi.ozal.edu.tr/
+  161. [akademik takvim] tip_ozal_duyuru_akademik_takvim  |  https://tipfakultesi.ozal.edu.tr/page/4055
+  162. [sınav takvimi] tip_ozal_duyuru_sinav_takvimi  |  https://tipfakultesi.ozal.edu.tr/page/9325
+  163. [staj / intörnlük] tip_ozal_duyuru_staj_intornluk  |  https://tipfakultesi.ozal.edu.tr/page/12361
+  164. [koordinatörlük] tip_ozal_duyuru_koordinatorluk  |  https://tipfakultesi.ozal.edu.tr/page/9847
+
+### Maltepe Üniversitesi  (2)
+  165. [duyuru] tip_maltepe_duyuru  |  https://www.maltepe.edu.tr/tip
+  166. [akademik takvim] tip_maltepe_duyuru_akademik_takvim  |  https://www.maltepe.edu.tr/tr/akademik-takvimler
+
+### Manisa Celal Bayar Üniversitesi  (4)
+  167. [duyuru] tip_mcbu_duyuru  |  http://tip.mcbu.edu.tr/
+  168. [akademik takvim] tip_mcbu_duyuru_akademik_takvim  |  http://tip.mcbu.edu.tr/akademik/2021-22-akademik-takvim.44238.tr.html
+  169. [sınav takvimi] tip_mcbu_duyuru_sinav_takvimi  |  http://tip.mcbu.edu.tr/2026-2027-ders-programi.70205.tr.html
+  170. [staj / intörnlük] tip_mcbu_duyuru_staj_intornluk  |  http://tip.mcbu.edu.tr/intorn-semineri.8757.tr.html
+
+### Mardin Artuklu Üniversitesi  (2)
+  171. [duyuru] tip_artuklu_duyuru  |  https://www.artuklu.edu.tr/tip-fakultesi
+  172. [akademik takvim] tip_artuklu_duyuru_akademik_takvim  |  https://www.artuklu.edu.tr/akademik-takvim
+
+### Marmara Üniversitesi  (2)
+  173. [duyuru] tip_marmara_duyuru  |  https://tip.marmara.edu.tr/
+  174. [akademik takvim] tip_marmara_duyuru_akademik_takvim  |  https://tip.marmara.edu.tr/akademik-takvim
+
+### Muğla Sıtkı Koçman Üniversitesi  (2)
+  175. [duyuru] tip_mu_duyuru  |  https://tip.mu.edu.tr/
+  176. [akademik takvim] tip_mu_duyuru_akademik_takvim  |  https://tip.mu.edu.tr/tr/akademik-takvim-6442
+
+### Niğde Ömer Halisdemir Üniversitesi  (3)
+  177. [duyuru] tip_ohu_duyuru  |  https://www.ohu.edu.tr/tipfakultesi
+  178. [akademik takvim] tip_ohu_duyuru_akademik_takvim  |  https://www.ohu.edu.tr/oidb/sayfa/akademik-takvim
+  179. [sınav takvimi] tip_ohu_duyuru_sinav_takvimi  |  https://www.ohu.edu.tr/tipfakultesi/dersprogrami
+
+### Nişantaşı Üniversitesi  (1)
+  180. [duyuru] tip_nisantasi_duyuru  |  https://tip.nisantasi.edu.tr/
+
+### Ondokuz Mayıs Üniversitesi  (3)
+  181. [duyuru] tip_omu_duyuru  |  https://tip.omu.edu.tr/tr
+  182. [akademik takvim] tip_omu_duyuru_akademik_takvim  |  https://tip.omu.edu.tr/tr/ogrenci/akademik-takvim
+  183. [koordinatörlük] tip_omu_duyuru_koordinatorluk  |  https://tip.omu.edu.tr/tr/fakultemiz/komisyon-ve-koordinatorlukler
+
+### Pamukkale Üniversitesi  (2)
+  184. [duyuru] tip_pau_duyuru  |  https://www.pau.edu.tr/tip
+  185. [akademik takvim] tip_pau_duyuru_akademik_takvim  |  https://www.pau.edu.tr/oidb/tr/sayfa/akademik-takvim-3
+
+### Sakarya Üniversitesi  (2)
+  186. [duyuru] tip_sakarya_duyuru  |  https://tip.sakarya.edu.tr/
+  187. [staj / intörnlük] tip_sakarya_duyuru_staj_intornluk  |  https://tip.sakarya.edu.tr/tr/personel-liste/28559/156640/faz-iii-staj-sorumlulari
+
+### Sanko Üniversitesi  (4)
+  188. [duyuru] tip_sanko_duyuru  |  https://www.sanko.edu.tr/fakulteler/tip-fakultesi/duyurular/
+  189. [akademik takvim] tip_sanko_duyuru_akademik_takvim  |  https://www.sanko.edu.tr/fakulteler/tip-fakultesi/akademik-takvim/
+  190. [sınav takvimi] tip_sanko_duyuru_sinav_takvimi  |  https://www.sanko.edu.tr/fakulteler/tip-fakultesi/sinav-takvim/
+  191. [staj / intörnlük] tip_sanko_duyuru_staj_intornluk  |  https://www.sanko.edu.tr/fakulteler/tip-fakultesi/kurul-staj-degerlendirme-takvimi/
+
+### Sağlık Bilimleri Üniversitesi  (7)
+  192. [duyuru] tip_sbu_duyuru  |  https://tip.sbu.edu.tr/
+  193. [duyuru] tip_sbu_gulhane_duyuru  |  https://gulhanetip.sbu.edu.tr/
+  194. [akademik takvim] tip_sbu_duyuru_akademik_takvim  |  https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim-4/
+  195. [akademik takvim] tip_sbu_gulhane_duyuru_akademik_takvim  |  https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/akademik-takvim/
+  196. [sınav takvimi] tip_sbu_duyuru_sinav_takvimi  |  https://tip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/guncel-ders-programi/1-sinif-ders-programi/
+  197. [sınav takvimi] tip_sbu_gulhane_duyuru_sinav_takvimi  |  https://gulhanetip.sbu.edu.tr/egitim/mezuniyet-oncesi-tip-egitimi/2025-2026-egitim-ogretim-yili-ders-programi/
+  198. [staj / intörnlük] tip_sbu_gulhane_duyuru_staj_intornluk  |  https://gulhanetip.sbu.edu.tr/mevzuat-ve-formlar/yonergeler/intorn-doktor-yonergesi/
+
+### Siirt Üniversitesi  (3)
+  199. [akademik takvim] tip_siirt_duyuru_akademik_takvim  |  https://tip.siirt.edu.tr/detay/akademik-takvim/285542063.html
+  200. [sınav takvimi] tip_siirt_duyuru_sinav_takvimi  |  https://tip.siirt.edu.tr/detay/ders-programi/479809538.html
+  201. [koordinatörlük] tip_siirt_duyuru_koordinatorluk  |  https://tip.siirt.edu.tr/detay/koordinatorlukler/509953682.html
+
+### Sivas Cumhuriyet Üniversitesi  (1)
+  202. [duyuru] tip_cumhuriyet_duyuru  |  https://tip.cumhuriyet.edu.tr/duyuru
+
+### Süleyman Demirel Üniversitesi  (2)
+  203. [duyuru] tip_sdu_duyuru  |  https://tip.sdu.edu.tr/tr/duyurular
+  204. [koordinatörlük] tip_sdu_duyuru_koordinatorluk  |  https://tip.sdu.edu.tr/tr/tip-egitimi-koordinatorlukleri.html
+
+### Tekirdağ Namık Kemal Üniversitesi  (3)
+  205. [akademik takvim] tip_nku_duyuru_akademik_takvim  |  https://tip.nku.edu.tr/tr/akademik-takvim
+  206. [sınav takvimi] tip_nku_duyuru_sinav_takvimi  |  https://tip.nku.edu.tr:443/DersProgramı/0/s/457/759#icerik
+  207. [koordinatörlük] tip_nku_duyuru_koordinatorluk  |  https://tip.nku.edu.tr/tr/koordinatorlukler
+
+### TOBB Ekonomi ve Teknoloji Üniversitesi  (2)
+  208. [duyuru] tip_etu_duyuru  |  https://etu.edu.tr/tr/akademik/tip-fakultesi
+  209. [akademik takvim] tip_etu_duyuru_akademik_takvim  |  https://etu.edu.tr/tr/akademik-takvim
+
+### Trakya Üniversitesi  (1)
+  210. [duyuru] tip_trakya_duyuru  |  https://tip.trakya.edu.tr/
+
+### Van Yüzüncü Yıl Üniversitesi  (1)
+  211. [duyuru] tip_yyu_duyuru  |  https://www.yyu.edu.tr/Birimler/14
+
+### Yalova Üniversitesi  (2)
+  212. [duyuru] tip_yalova_duyuru  |  https://tip.yalova.edu.tr/
+  213. [akademik takvim] tip_yalova_duyuru_akademik_takvim  |  https://tip.yalova.edu.tr/tr/Icerik/Detay/akademik-takvim-2
+
+### Yeditepe Üniversitesi  (2)
+  214. [duyuru] tip_yeditepe_duyuru  |  https://med.yeditepe.edu.tr/tr/duyurular
+  215. [sınav takvimi] tip_yeditepe_duyuru_sinav_takvimi  |  https://med.yeditepe.edu.tr/tr/dersler
+
+### Yozgat Bozok Üniversitesi  (3)
+  216. [akademik takvim] tip_bozok_duyuru_akademik_takvim  |  https://tip.bozok.edu.tr/sayfa/akademik-takvim,tr-2878.aspx
+  217. [staj / intörnlük] tip_bozok_duyuru_staj_intornluk  |  https://tip.bozok.edu.tr/sayfa/donem-vi,tr-775.aspx
+  218. [koordinatörlük] tip_bozok_duyuru_koordinatorluk  |  https://tip.bozok.edu.tr/sayfa/koordinatorluk,tr-760.aspx
+
+### Zonguldak Bülent Ecevit Üniversitesi  (1)
+  219. [staj / intörnlük] tip_beun_duyuru_staj_intornluk  |  https://tip.beun.edu.tr/ogrenciler-icin-kurallar/intornluk-ogrencilerinin-egitim-ve-ogretimi-yonergesi.html
+
+### Çanakkale Onsekiz Mart Üniversitesi  (2)
+  220. [duyuru] tip_comu_duyuru  |  https://tip.comu.edu.tr/arsiv/duyurular
+  221. [akademik takvim] tip_comu_duyuru_akademik_takvim  |  https://tip.comu.edu.tr/arsiv/ogrenci/akademik-takvim-r19.html
+
+### Çukurova Üniversitesi  (1)
+  222. [duyuru] tip_cu_duyuru  |  https://tip.cu.edu.tr/
+
+### Üsküdar Üniversitesi  (3)
+  223. [duyuru] tip_uskudar_duyuru  |  https://uskudar.edu.tr/tip-fakultesi/duyurular
+  224. [akademik takvim] tip_uskudar_duyuru_akademik_takvim  |  https://uskudar.edu.tr/tip-fakultesi/akademik-takvim
+  225. [staj / intörnlük] tip_uskudar_duyuru_staj_intornluk  |  https://uskudar.edu.tr/tip-fakultesi/staj-karneleri
+
+## Burs — ulusal / program  (38)
+  226. tubitak_2205  |  TÜBİTAK 2205 Lisans Burs Programı  |  https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2205-lisans-burs-programi
+  227. tubitak_2247c  |  TÜBİTAK 2247-C STAR Stajyer Araştırmacı Burs Programı  |  https://tubitak.gov.tr/tr/burslar/lisans-onlisans/burs-programlari/2247-c-stajyer-arastirmaci-burs-programi-star
+  228. tuseb_haberler  |  TÜSEB Haberler (proje çağrıları)  |  https://www.tuseb.gov.tr/
+  229. vgm_duyurular  |  Vakıflar Genel Müdürlüğü Burs Duyuruları  |  https://www.vgm.gov.tr/duyurular
+  230. tev_burslar  |  Türk Eğitim Vakfı Burs Duyuruları  |  https://www.tev.org.tr/
+  231. teknofest_saglik_yz  |  TEKNOFEST Sağlıkta Yapay Zeka Yarışması  |  https://teknofest.org/tr/yarismalar/saglikta-yapay-zeka-yarismasi/
+  232. ua_erasmus_sonuclar  |  Ulusal Ajans — Erasmus+ Öğrenim Hareketliliği Başvuru Sonuçları  |  https://www.ua.gov.tr/anasayfa/icerikler/basvuru-sonuclari/
+  233. tubitak_2242  |  TÜBİTAK 2242 Üniversite Öğrencileri Araştırma Proje Yarışması  |  https://tubitak.gov.tr/tr/yarismalar/oncelikli-alanlarda-universite-ogrencileri-proje-yarismasi
+  234. kizilay_burslari  |  Türk Kızılay Burs Yönetim Sistemi  |  https://kizilayburslari.kizilay.org.tr/
+  235. fulbright_turkiye  |  Türkiye Fulbright Eğitim Komisyonu — T.C. Vatandaşlarına Verilen Burslar  |  https://fulbright.org.tr/turk-vatandaslarina-verilen-burslar
+  236. jean_monnet_burs  |  Jean Monnet Burs Programı (AB Başkanlığı)  |  https://jeanmonnet.org.tr/
+  237. daad_turkiye  |  DAAD Türkiye — Türkiye'ye Yönelik Burs Programları  |  https://www.daad-turkiye.org/tr/destek-bul/daad-tuerkiye-burs-programlari/
+  238. japonya_mext_turkiye  |  Japonya Büyükelçiliği Türkiye — Eğitim / Burs (MEXT Monbukagakusho)  |  https://www.tr.emb-japan.go.jp/itpr_tr/00_000075.html
+  239. chevening_turkiye  |  Chevening Türkiye Bursu (Birleşik Krallık)  |  https://www.chevening.org/scholarship/turkey/
+  240. meb_yyegm_ylsy  |  MEB Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü (YLSY)  |  https://yyegm.meb.gov.tr/
+  241. eskas_isvicre  |  İsviçre Hükümeti Mükemmeliyet Bursları (ESKAS)  |  https://www.sbfi.admin.ch/en/swiss-government-excellence-scholarships
+  242. gks_kore  |  Global Korea Scholarship (GKS) — Güney Kore  |  https://www.studyinkorea.go.kr/en/plan/scholarship.do
+  243. campus_france_eiffel  |  France Excellence Eiffel Bursu (Fransa)  |  https://www.campusfrance.org/en/france-excellence-eiffel-scholarship-program
+  244. meb_abdigm  |  MEB Avrupa Birliği ve Dış İlişkiler Genel Müdürlüğü (Yabancı Hükümet Bursları)  |  https://abdigm.meb.gov.tr/
+  245. cin_baskonsoloslugu_istanbul  |  Çin İstanbul Başkonsolosluğu — Haberler ve Burs Duyuruları (Türkçe)  |  https://istanbul.china-consulate.gov.cn/tur/xwdt/
+  246. educanada_burslar  |  EduCanada — Uluslararası Öğrenci Bursları (Kanada)  |  https://www.educanada.ca/scholarships-bourses/index.aspx?lang=eng
+  247. oead_avusturya  |  OeAD — Avusturya Burs ve Araştırma Destekleri  |  https://oead.at/en/study-research-teaching/overview-grants-and-scholarships
+  248. grants_at_avusturya  |  grants.at — Avusturya Burs ve Araştırma Fonu Veritabanı  |  https://grants.at/en/
+  249. nawa_polonya  |  NAWA — Polonya Uluslararası Öğrenci Bursları  |  https://nawa.gov.pl/en/students/foreign-students
+  250. goi_ies_irlanda  |  Government of Ireland International Education Scholarships (İrlanda)  |  https://hea.ie/policy/internationalisation/goi-ies/
+  251. study_in_nl_burslar  |  Study in NL — Hollanda Burs Fırsatları (Orange Tulip dahil)  |  https://www.studyinnl.org/finances/scholarships
+  252. master_mind_belcika  |  Master Mind Bursu — Flanders (Belçika)  |  https://www.studyinflanders.be/scholarships/master-mind-scholarships
+  253. nsp_slovakya  |  Slovakya Ulusal Burs Programı (NSP) — Uluslararası Başvuru  |  https://www.scholarships.sk/en/main/programme-terms-and-conditions/foreign-applicants
+  254. astar_singapur  |  A*STAR Bursları (SINGA dahil) — Singapur  |  https://www.a-star.edu.sg/scholarships
+  255. kaust_suudi  |  KAUST — Lisansüstü Burslar (Suudi Arabistan)  |  https://www.kaust.edu.sa/en/study
+  256. hbku_katar  |  Hamad Bin Khalifa Üniversitesi — Başvuru ve Burslar (Katar)  |  https://www.hbku.edu.qa/en/admissions
+  257. erasmus_mundus_joint_masters  |  Erasmus Mundus Ortak Yüksek Lisans Programları (AB)  |  https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters
+  258. gates_cambridge  |  Gates Cambridge Bursu (İngiltere dışı tüm uyruklar)  |  https://www.gatescambridge.org/
+  259. cgrs_d_kanada  |  Canada Graduate Research Scholarship — Doctoral (Vanier'in halefi)  |  https://nserc-crsng.canada.ca/en/funding-opportunity/canada-graduate-research-scholarship-doctoral-program
+  260. pasteur_stajlar  |  Institut Pasteur — Staj ve Doktora Öncesi Programlar  |  https://www.pasteur.fr/en/education/programs-and-courses/internships-and-pre-doctoral-programs
+  261. daad_burs_veritabani  |  DAAD Burs Veritabanı (KAS, Böll, FES dahil tüm Alman bursları)  |  https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/
+  262. boell_burslari  |  Heinrich Böll Vakfı Bursları (tüm uyruklar ve disiplinler)  |  https://www.boell.de/en/scholarships
+  263. fes_burslari  |  Friedrich Ebert Vakfı Bursları (uluslararası öğrenciler)  |  https://www.fes.de/studienfoerderung
+
+## Burs — belediye  (6)
+  264. belediye_burs_ankara  |  Ankara Büyükşehir Belediyesi Sosyal Hizmetler (Burs)  |  https://sosyalhizmetler.ankara.bel.tr/
+  265. belediye_burs_bursa  |  Bursa Büyükşehir Belediyesi Öğrenci Bursu  |  https://www.bursa.bel.tr/burs
+  266. belediye_burs_hatay  |  Hatay Büyükşehir Belediyesi Sosyal Hizmetler  |  https://www.hatay.bel.tr/sosyal-hizmetler
+  267. belediye_burs_kocaeli  |  Kocaeli Büyükşehir Belediyesi Öğrenci Bursu  |  https://burs.kocaeli.bel.tr/
+  268. belediye_burs_manisa  |  Manisa Büyükşehir Belediyesi Eğitim Desteği (Senin İçin)  |  https://seninicin.manisa.bel.tr/
+  269. belediye_burs_ordu  |  Ordu Büyükşehir Belediyesi Duyuruları (Sosyal Yardım)  |  https://www.ordu.bel.tr/duyurular
+
+## Burs — postdoc / araştırma  (6)
+  270. jsps_japonya  |  JSPS — Japonya'da Araştırma İçin Doktora Sonrası Burslar  |  https://www.jsps.go.jp/english/e-fellow/application.html
+  271. humboldt_almanya  |  Humboldt Araştırma Bursu (Almanya, doktora sonrası)  |  https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship
+  272. embo_fellowships  |  EMBO — Doktora Sonrası Burslar (Yaşam Bilimleri)  |  https://www.embo.org/funding/fellowships-grants-and-career-support/postdoctoral-fellowships/
+  273. msca_postdoc  |  Marie Skłodowska-Curie Actions — Doktora Sonrası Burslar (AB)  |  https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships
+  274. hfsp_fellowships  |  HFSP — Doktora Sonrası Burslar (Yaşam Bilimleri, tüm uyruklar)  |  https://www.hfsp.org/funding/hfsp-funding/postdoctoral-fellowships
+  275. embl_postdoc  |  EMBL — Doktora Sonrası Burs Programları (Moleküler Biyoloji)  |  https://www.embl.org/about/info/postdoctoral-programme/fellowship-programmes/
+
+## Genç hekim / branş / trainee  (43)
+  276. eusem_young_em  |  EUSEM Young Emergency Medicine Doctors Section  |  https://eusem.org/sections-and-committees/sections/young-em-doctors-section
+  277. eyfdm_wonca  |  EYFDM — European Young Family Doctors Movement (WONCA Europe)  |  https://eyfdm.eu/
+  278. uems_training_requirements  |  UEMS — European Training Requirements  |  https://www.uems.eu/european-training-requirements
+  279. esp_ecp_bursaries  |  European Society of Pathology — Congress Bursaries  |  https://www.espcongress.org/bursaries/
+  280. eanm_yim  |  EANM Young Investigators Meeting  |  https://eanm.org/congress-scientific-events/young-investigators-meeting/
+  281. spr_awards  |  Society for Pediatric Research — Awards & Funding  |  https://www.societyforpediatricresearch.org/awards-funding/
+  282. sir_in_training  |  SIR — Interventional Radiology In-Training Opportunities  |  https://www.sirweb.org/in-training/opportunities/
+  283. apa_pass  |  APA — Psychiatry Ambassadors and Student Scholarships (PASS)  |  https://www.psychiatry.org/psychiatrists/meetings/annual-meeting/psychiatry-ambassadors-and-student-scholarships
+  284. eans_courses  |  EANS — Nöroşirürji Eğitim Kursları  |  https://www.eans.org/page/EANS-courses
+  285. eaes_fellowship  |  EAES — Fellowship Programme (Minimal İnvaziv Cerrahi)  |  https://eaes.eu/fellowship/
+  286. ehs_travel_grant  |  European Hernia Society — Travel Grant  |  https://europeanherniasociety.eu/travel-grant/
+  287. efort_fellowships  |  EFORT — Fellowship Programmes  |  https://www.efort.org/fellowships/introduction/
+  288. forte_ortho  |  FORTE — Federation of Orthopaedic and Trauma Trainees in Europe  |  https://www.forteortho.org/
+  289. eshre_research_funding  |  ESHRE — Research and Funding  |  https://www.eshre.eu/Research-and-funding
+  290. wonca_donald_li_scholarship  |  WONCA — Donald Li Young Doctor Global Scholarship  |  https://www.globalfamilydoctor.com/member/awards/DonaldLiYDMGlobalScholarship.aspx
+  291. institut_curie_traineeship  |  Institut Curie — Medical Student / Physician Traineeship  |  https://training.institut-curie.org/article/traineeship-for-medical-students-physicians-from-european-union-and-outside-european-union
+  292. bsh_students  |  British Society for Haematology — Students  |  https://b-s-h.org.uk/education/students
+  293. ime_conference_grants  |  Institute of Medical Ethics — Conference Grants  |  https://ime-uk.org/grants-and-competitions/conference-grants/
+  294. uems_eaccme  |  UEMS EACCME — Akredite CME/CPD Etkinlikleri  |  https://eaccme.uems.eu/
+  295. ebeem_exam  |  EBEEM — European Board Examination in Emergency Medicine  |  https://eusem.org/ebeem
+  296. edaic_exam  |  EDAIC — European Diploma in Anaesthesiology and Intensive Care  |  https://esaic.org/professional-growth/edaic/
+  297. febu_exam  |  FEBU — Fellow of the European Board of Urology  |  https://www.ebu.com/examination/febu/
+  298. feborl_hns_exam  |  FEBORL-HNS — European Board Exam in ORL-HNS  |  https://www.ebeorl-hns.org/
+  299. ebir_exam  |  EBIR — European Board of Interventional Radiology  |  https://www.cirse.org/certification/ebir/
+  300. ebod_exam  |  EBOD — European Board of Ophthalmology Diploma  |  https://www.ebo-online.org/ebo-exam/exam-information/
+  301. edir_exam  |  EDiR — European Diploma in Radiology  |  https://www.myebr.org/edir
+  302. tatd_acil_tip  |  Türkiye Acil Tıp Derneği  |  https://tatd.org.tr/
+  303. tahud_aile_hekimligi  |  Türkiye Aile Hekimleri Uzmanlık Derneği (TAHUD)  |  https://www.tahud.org.tr/
+  304. tpd_psikiyatri  |  Türkiye Psikiyatri Derneği — Haber ve Duyurular  |  https://psikiyatri.org.tr/haber-duyuru
+  305. tpd_patoloji  |  Türk Patoloji Derneği  |  https://www.tpd.org.tr/
+  306. tard_anestezi  |  Türk Anesteziyoloji ve Reanimasyon Derneği (TARD)  |  https://www.tard.org.tr/
+  307. tod_oftalmoloji  |  Türk Oftalmoloji Derneği (TOD)  |  https://www.todnet.org/home/
+  308. kbb_dernek  |  Türk Kulak Burun Boğaz ve Baş Boyun Cerrahisi Derneği  |  https://kbb.org.tr/
+  309. turkcer_cerrahi  |  Türk Cerrahi Derneği  |  https://www.turkcer.org.tr/
+  310. turknorosirurji  |  Türk Nöroşirürji Derneği  |  https://www.turknorosirurji.org.tr/
+  311. tjod_jinekoloji  |  TJOD — Türk Jinekoloji ve Obstetrik Derneği  |  https://www.tjod.org/
+  312. jed_jinekolojik_endoskopi  |  Jinekolojik Endoskopi Derneği (JED)  |  https://www.jed.org.tr/
+  313. amp_trainee_travel_award  |  AMP — International Trainee Travel Award (Moleküler Patoloji)  |  https://www.amp.org/membership/awards-grants-honors/amp-international-trainee-travel-award/
+  314. study_in_europe_scholarships  |  Study in Europe — Scholarships and Funding (Avrupa Komisyonu)  |  https://education.ec.europa.eu/study-in-europe/planning-your-studies/scholarships-and-funding
+  315. escmid_uems_id_exam  |  ESCMID/UEMS — Enfeksiyon Hastalıkları Uzmanlık Sertifikası Sınavı  |  https://www.escmid.org/education/specialty-training-uems/
+  316. mrcp_uk_exam  |  MRCP(UK) — Membership of the Royal Colleges of Physicians  |  https://www.rcp.ac.uk/mrcpuk-examination
+  317. mrcs_uk_exam  |  MRCS — Intercollegiate Membership of the Royal Colleges of Surgeons  |  https://www.rcseng.ac.uk/education-and-exams/exams/search/intercollegiate-mrcs/
+  318. esc_grants_fellowships  |  ESC — Kardiyoloji Burs ve Eğitim Hibeleri (tüm uyruklar)  |  https://www.escardio.org/education/career-development/grants/esc-grants-and-fellowships/
+
+## Yurt dışı klinik visiting (kalan)  (3)
+  319. heidelberg_visiting  |  Heidelberg Üniversitesi Tıp Fakültesi — Uluslararası Öğrenci Klinik Stajı (Praktikum)  |  https://www.medizinische-fakultaet-hd.uni-heidelberg.de/en/studium-lehre/studium/medizin/international/incoming-students/praktikum
+  320. kcl_visiting  |  King's College London GKT — Elective Placement in Clinical Medicine  |  https://www.kcl.ac.uk/elective-placement-in-clinical-medicine-course
+  321. vallhebron_visiting  |  Vall d'Hebron (Barselona) — Specialist Training Placements (Foreign Hospitals)  |  https://www.vallhebron.com/en/teaching/training-stays/specialist-training-placements-foreign-hospitals
+
+## Diğer  (1)
+  322. yokak_ogrenci_katilimi  |  YÖKAK — Öğrenci Katılımı (Kalite Elçisi, Öğrenci Komisyonu)  |  https://www.yokak.gov.tr/ogrenci-katilimi/
+
+
+## Öğrenci kulüpleri (eklenen)
+  - antbat_ankara  |  ANTBAT — Ankara Tıp Fakültesi Bilimsel Araştırma Öğrenci Topluluğu  |  https://sks.ankara.edu.tr/topluluklar/
+  - kinetip_ankara  |  KİNETİP — Ankara Tıp Fakültesi Sinema Öğrenci Topluluğu  |  https://sks.ankara.edu.tr/topluluklar/
+  - ankara_tip_tarih  |  Ankara Tıp Tarih — Tıp Fakültesi Tarih Öğrenci Topluluğu  |  https://sks.ankara.edu.tr/topluluklar/
+  - ivsa_ankara  |  IVSA Ankara — Uluslararası Veteriner Öğrenci Topluluğu  |  https://www.instagram.com/ivsaankara/
+  - akbet_ankara  |  AKBET — Veteriner Klinik Beceri Topluluğu (Ankara)  |  https://sks.ankara.edu.tr/topluluklar/
+  - biyomedikal_toplulugu_ankara  |  Biyomedikal Topluluğu (Ankara)  |  https://sks.ankara.edu.tr/topluluklar/
+  - medikal_kurtarma_ankara  |  Medikal Kurtarma Topluluğu (Ankara)  |  https://sks.ankara.edu.tr/topluluklar/
+  - hutbat_hacettepe  |  HÜTBAT — Hacettepe Tıp Fakültesi Bilimsel Araştırma Topluluğu  |  https://topluluklar.hacettepe.edu.tr/topluluklar/tip-fakultesi-bilimsel-arastirma-toplulugu
+  - hutbat_org  |  HÜTBAT — hutbat.org  |  https://www.hutbat.org/
