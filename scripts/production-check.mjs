@@ -227,6 +227,19 @@ try {
   fail('feedback atomicity check failed', e.message);
 }
 
+// 9. Canonical source identity: one primary heading per source (S66) -----
+section('Canonical source identity: one primary heading per source');
+try {
+  const out = execFileSync('python3', ['scripts/check_source_identity.py'], {
+    cwd: rel('adapters/hekimler-radar'),
+    stdio: 'pipe',
+  }).toString();
+  pass(out.trim().split('\n')[0]);
+} catch (e) {
+  const out = (e.stdout || '').toString().trim();
+  fail('undocumented cross-heading source ownership found', out.split('\n').slice(0, 8).join(' | '));
+}
+
 // ------------------------------------------------------------------------
 console.log(report.join('\n'));
 console.log('');
