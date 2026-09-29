@@ -49,7 +49,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Periodical call pages, not a daily HTML news index. Enable list-page after a verified announcement surface.",
+      "manual_intake_reason": "S66 Phase A re-investigation (2026-09-28): the /burs/3 page itself is a static programme description, confirmed unchanged. Checked the site's actual news surface (/haberler) as a candidate instead: it IS a real, dated list page (HTTP 200, static HTML, no bot-wall) but its content is overwhelmingly event/orientation recaps (\"ABD'ye Gidiş Öncesi Oryantasyonu\", workshop recaps) rather than new-call announcements, with no visible per-item dates in the listing itself (dates would require a per-article page visit). Automating it now would risk either missing real new-cycle announcements in the noise or producing high false-positive volume even with include_keywords filtering. Stays MANUAL_INTAKE -- a real fix here is per-article date extraction plus a stricter positive-signal gate (similar to the abroad-source ABROAD_OPPORTUNITY_SIGNAL_KEYWORDS pattern from S49), which is a bigger change than this pass's scope.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -342,7 +342,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Database of many programmes; emit only medical-field + Turkish-eligible calls.",
+      "manual_intake_reason": "S66 Phase A re-investigation (2026-09-28): confirmed via WebFetch + a live radar.fetchers.fetch() canary against the actual scholarship-database URL (www2.daad.de/.../21148-scholarship-database/) -- the static HTML response (HTTP 200, 2050 chars) is only the search FORM/filters page (\"Refine your selection\", country/subject dropdowns); the '151 Scholarship options' result listing itself is loaded dynamically (JS/AJAX), not present in the fetched HTML. A list-page fetcher here would perpetually see only the unchanging form page and never the real results -- worse than not automating, since it would report HEALTHY while producing zero real signal. Stays MANUAL_INTAKE; a real fix would require finding DAAD's underlying search/results API (not discoverable via a plain page fetch) or accepting a headless-browser fetch (adds real operational cost/risk, not done in this pass).",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -373,9 +373,9 @@
       "source_role": "government_scholarship",
       "status": "active",
       "source_health": "HEALTHY",
-      "canonical_url": "https://www.chevening.org/scholarships/",
-      "source_url": "https://www.chevening.org/scholarships/",
-      "primary_url": "https://www.chevening.org/scholarships/",
+      "canonical_url": "https://www.chevening.org/scholarships/turkey/",
+      "source_url": "https://www.chevening.org/scholarships/turkey/",
+      "primary_url": "https://www.chevening.org/scholarships/turkey/",
       "allowed_hostnames": [
         "www.chevening.org",
         "chevening.org"
@@ -385,13 +385,13 @@
         "/apply"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Annual UK master's call; emit cycle open/close and health-relevant guidance only.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "activation_note": "S66 Phase A (2026-09-28): verified live -- HTTP 200, no bot-wall, real server-rendered text via radar.fetchers.fetch() canary (no browser_fetcher needed). Country page (/scholarships/turkey/) confirmed to carry the actual actionable content: 'Open for applications until 6 October 2026, at 11:00 (UTC)'. Single stable annual programme page (not a news list) -- dedup runs on content_hash of the whole page, so a real change (cycle opens/closes, deadline updates) is what triggers a new candidate, not per-item links. Weekly cadence (poll_minutes unchanged at 10080) since this is an annual-cycle page, not a daily news index -- an open-application-window daily cadence bump is a reasonable future refinement, not done in this pass.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -409,7 +409,22 @@
       "exclude_keywords": [],
       "poll_minutes": 10080,
       "statement_treatment": "official_guidance",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.chevening.org",
+          "chevening.org"
+        ],
+        "allowed_path_patterns": [
+          "/scholarships",
+          "/apply"
+        ],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "notes": "Verified 2026-09-28: HTTP 200, 2091 chars extracted from /scholarships/turkey/, real dated content present ('Open for applications until 6 October 2026, at 11:00 (UTC)')."
+      }
     },
     {
       "source_id": "burs_eu_erasmus_mundus",

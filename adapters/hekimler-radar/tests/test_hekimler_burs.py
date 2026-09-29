@@ -3,9 +3,20 @@ from __future__ import annotations
 
 import unittest
 
-from radar.hekimler_activation import ACTIVATION_MANUAL_INTAKE, compute_activation_state
+from radar.hekimler_activation import (
+    ACTIVATION_AUTOMATION_READY,
+    ACTIVATION_MANUAL_INTAKE,
+    compute_activation_state,
+)
 from radar.hekimler_burs import burs_gate, is_burs_source_id, load_burs_pool, load_burs_registry
 from radar.hekimler_integrity import resolve_effective_registry, resolve_profile
+
+# S66 Phase A (2026-09-28): sources individually researched, live-fetch-verified
+# (radar.fetchers.fetch() canary, HTTP 200 + real content, no bot-wall), and
+# deliberately activated -- see their `activation_note` in
+# content/source-registry-burs-v1.json. Not a blanket-enable: every other
+# burs_* source is still expected to be MANUAL_INTAKE.
+KNOWN_ACTIVATED_BURS_SOURCE_IDS = {"burs_uk_chevening"}
 
 
 class BursLaneTests(unittest.TestCase):
@@ -21,7 +32,12 @@ class BursLaneTests(unittest.TestCase):
             self.assertEqual(p["source_id"], sid)
             self.assertEqual(p.get("publication_eligible"), False)
             self.assertEqual(p.get("default_route_on_accept"), "OPPORTUNITY")
-            self.assertEqual(compute_activation_state(p), ACTIVATION_MANUAL_INTAKE)
+            expected = (
+                ACTIVATION_AUTOMATION_READY
+                if sid in KNOWN_ACTIVATED_BURS_SOURCE_IDS
+                else ACTIVATION_MANUAL_INTAKE
+            )
+            self.assertEqual(compute_activation_state(p), expected, sid)
 
     def test_pool_mirrors_registry(self):
         burs_ids = {s["source_id"] for s in load_burs_registry()["sources"]}

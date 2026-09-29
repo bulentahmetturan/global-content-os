@@ -22,6 +22,7 @@ import {
   type ReasonCode,
   type FeedbackGroupBy,
 } from './triage/feedback';
+import { runSourceRevalidation, getSourceRevalidation, listRevalidationRequired } from './triage/revalidation-run';
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
@@ -292,6 +293,102 @@ export default {
         const limit = Math.min(Number(url.searchParams.get('limit') || 50), 200);
         const summary = await summarizeFeedback(env.DB, groupByParam as FeedbackGroupBy, limit);
         return json({ ok: true, groupBy: groupByParam, summary });
+      }
+
+      // S66 Phase B: recompute revalidation recommendations from live evidence.
+      // Writes ONLY to source_revalidation (a recommendation record) -- never
+      // touches source_feeds, the registry, or any other config table. See
+      // triage/revalidation.ts's evaluateRevalidation() for the invariant.
+      if (path === '/api/source-revalidation/run' && request.method === 'POST') {
+        const result = await runSourceRevalidation(env);
+        return json({ ok: true, ...result });
+      }
+
+      // S66 task 17: one system-health summary the Hub can consume as its
+      // source of truth instead of recomputing per-heading aggregates
+      // client-side. Read-only, computed fresh from D1 on every call.
+      if (path === '/api/system-health' && request.method === 'GET') {
+        const headingQueries: Array<{ heading: string; route: RouteId; family?: string }> = [
+          { heading: 'HABER', route: 'kaduse-news' },
+          { heading: 'RESEARCH', route: 'kaduse-research' },
+          { heading: 'DUYURU', route: 'tip-ogrencileri', family: 'duyuru' },
+          { heading: 'BURS', route: 'tip-ogrencileri', family: 'burs' },
+          { heading: 'EGITIM', route: 'tip-ogrencileri', family: 'egitim' },
+        ];
+        const perHeading: Record<string, unknown> = {};
+        for (const hq of headingQueries) {
+          const items24h = await env.DB.prepare(
+            `SELECT COUNT(*) AS n FROM source_items WHERE route = ? AND fetched_at >= datetime('now','-1 day')${
+              hq.family ? ` AND channel_id = 'hekimler-toplulugu'` : ''
+            }`
+          )
+            .bind(hq.route)
+            .first<{ n: number }>();
+          const items7d = await env.DB.prepare(
+            `SELECT COUNT(*) AS n FROM source_items WHERE route = ? AND fetched_at >= datetime('now','-7 day')${
+              hq.family ? ` AND channel_id = 'hekimler-toplulugu'` : ''
+            }`
+          )
+            .bind(hq.route)
+            .first<{ n: number }>();
+          let rejects7d: { n: number } | null = null;
+          try {
+            rejects7d = await env.DB.prepare(
+              `SELECT COUNT(*) AS n FROM review_feedback WHERE route = ? AND created_at >= datetime('now','-7 day')`
+            )
+              .bind(hq.route)
+              .first<{ n: number }>();
+          } catch {
+            rejects7d = null; // review_feedback may not exist yet
+          }
+          const revalidationCounts = await env.DB.prepare(
+            `SELECT revalidation_status, COUNT(*) AS n FROM source_revalidation WHERE primary_heading = ? GROUP BY revalidation_status`
+          )
+            .bind(hq.heading)
+            .all<{ revalidation_status: string; n: number }>()
+            .catch(() => ({ results: [] as Array<{ revalidation_status: string; n: number }> }));
+          perHeading[hq.heading] = {
+            items_24h: items24h?.n ?? 0,
+            items_7d: items7d?.n ?? 0,
+            rejects_7d: rejects7d?.n ?? null,
+            revalidation: Object.fromEntries((revalidationCounts.results ?? []).map((r) => [r.revalidation_status, r.n])),
+          };
+        }
+        const cronLastObserved = await env.DB.prepare(
+          `SELECT MAX(last_fetched_at) AS t FROM source_feeds WHERE enabled = 1`
+        ).first<{ t: string | null }>();
+        const latestIngestion = await env.DB.prepare(`SELECT MAX(fetched_at) AS t FROM source_items`).first<{
+          t: string | null;
+        }>();
+        let feedbackLastObserved: string | null = null;
+        try {
+          const row = await env.DB.prepare(`SELECT MAX(created_at) AS t FROM review_feedback`).first<{
+            t: string | null;
+          }>();
+          feedbackLastObserved = row?.t ?? null;
+        } catch {
+          feedbackLastObserved = null;
+        }
+        return json({
+          ok: true,
+          generatedAt: new Date().toISOString(),
+          headings: perHeading,
+          overall: {
+            cronLastObserved: cronLastObserved?.t ?? null,
+            latestIngestion: latestIngestion?.t ?? null,
+            feedbackLastObserved,
+          },
+        });
+      }
+
+      if (path === '/api/source-revalidation' && request.method === 'GET') {
+        const key = url.searchParams.get('key');
+        if (key) {
+          const row = await getSourceRevalidation(env, key);
+          return json({ ok: true, key, revalidation: row ?? null });
+        }
+        const required = await listRevalidationRequired(env);
+        return json({ ok: true, requiresRevalidation: required });
       }
 
       if (path === '/api/ingress/news' && request.method === 'POST') {

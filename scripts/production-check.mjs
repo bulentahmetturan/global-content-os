@@ -66,7 +66,11 @@ function findTestFiles(dir) {
   }
   return out;
 }
-const testFiles = findTestFiles(rel('apps/worker/src'));
+const testFiles = [
+  ...findTestFiles(rel('apps/worker/src')),
+  ...findTestFiles(rel('apps/hub')),
+  ...findTestFiles(rel('scripts')),
+];
 for (const f of testFiles) {
   try {
     const out = execFileSync('node', [f], { cwd: root, stdio: 'pipe' }).toString();
@@ -225,6 +229,59 @@ try {
   else fail('reject-reason-required guard not found in actions.ts');
 } catch (e) {
   fail('feedback atomicity check failed', e.message);
+}
+
+// 8b. Source revalidation (S66 Phase B): schema + no-autonomous-mutation ---
+section('Source revalidation (S66 Phase B): schema + no-autonomous-mutation');
+try {
+  const migration = readFileSync(rel('migrations/0024_source_revalidation.sql'), 'utf8');
+  if (/CREATE TABLE IF NOT EXISTS source_revalidation/i.test(migration) && /CREATE TABLE IF NOT EXISTS source_change_history/i.test(migration)) {
+    pass('source_revalidation + source_change_history migration present (0024)');
+  } else {
+    fail('migrations/0024_source_revalidation.sql missing one of the two expected tables');
+  }
+} catch (e) {
+  fail('migration 0024 missing or unreadable', e.message);
+}
+try {
+  const runFile = readFileSync(rel('apps/worker/src/triage/revalidation-run.ts'), 'utf8');
+  const configTables = ['source_feeds', 'hekimler_source_telemetry'];
+  const mutatesConfig = configTables.some((t) => new RegExp(`(UPDATE|INSERT INTO|DELETE FROM)\\s+${t}`, 'i').test(runFile));
+  if (!mutatesConfig) {
+    pass('revalidation-run.ts never writes to source_feeds/hekimler_source_telemetry (recommendation-only, no autonomous mutation)');
+  } else {
+    fail('revalidation-run.ts appears to write to a production config table -- this must only ever recommend, never apply');
+  }
+  if (/INSERT INTO source_revalidation/i.test(runFile) || /ON CONFLICT\(canonical_source_key\)/i.test(runFile)) {
+    pass('revalidation-run.ts writes recommendations to source_revalidation');
+  } else {
+    fail('revalidation-run.ts does not appear to write source_revalidation rows');
+  }
+} catch (e) {
+  fail('revalidation-run.ts check failed', e.message);
+}
+try {
+  const revalidationSrc = readFileSync(rel('apps/worker/src/triage/revalidation.ts'), 'utf8');
+  if (/MIN_SAMPLE_FOR_REJECT_RATE/.test(revalidationSrc) && /Insufficient data/.test(revalidationSrc)) {
+    pass('revalidation evaluator has an explicit insufficient-data floor (no false-confidence verdicts on small samples)');
+  } else {
+    fail('revalidation.ts missing insufficient-data handling');
+  }
+} catch (e) {
+  fail('revalidation.ts check failed', e.message);
+}
+
+// 9. Canonical source identity: one primary heading per source (S66) -----
+section('Canonical source identity: one primary heading per source');
+try {
+  const out = execFileSync('python3', ['scripts/check_source_identity.py'], {
+    cwd: rel('adapters/hekimler-radar'),
+    stdio: 'pipe',
+  }).toString();
+  pass(out.trim().split('\n')[0]);
+} catch (e) {
+  const out = (e.stdout || '').toString().trim();
+  fail('undocumented cross-heading source ownership found', out.split('\n').slice(0, 8).join(' | '));
 }
 
 // ------------------------------------------------------------------------
