@@ -13,9 +13,10 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "content" / "policies" / "hekimler-research-medical-ai-policy.json"
 
-# Sibling Kaduse research registry (channel-content-os)
+# Kaduse research source registry: owned by this repo (global-content-os), moved from
+# channel-content-os by ADR-0004. ROOT = <repo>/adapters/hekimler-radar, so parents[1] is the repo root.
 KADUSE_RESEARCH_REGISTRY = (
-    ROOT.parents[2] / "channel-content-os" / "mcp-server" / "src" / "research" / "source-registry.ts"
+    ROOT.parents[1] / "packages" / "source-catalog" / "src" / "research" / "source-registry.ts"
 )
 
 WATCH_ONLY_DESIGNS = frozenset(

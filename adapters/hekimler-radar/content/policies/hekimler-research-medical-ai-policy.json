@@ -35,12 +35,13 @@
     "status": "reference_only",
     "fetch_mode": "inherited_from_kaduse",
     "dependency": {
-      "kind": "sibling_repo_read_only",
-      "repo": "channel-content-os",
-      "path": "mcp-server/src/research/source-registry.ts",
-      "resolvedRelativeFromThisRepo": "../../channel-content-os/mcp-server/src/research/source-registry.ts"
+      "kind": "same_repo_read_only",
+      "repo": "global-content-os",
+      "path": "packages/source-catalog/src/research/source-registry.ts",
+      "resolvedRelativeFromThisRepo": "packages/source-catalog/src/research/source-registry.ts",
+      "history": "Lived in channel-content-os/mcp-server/src/research/ until ADR-0004 (2026-09-29)."
     },
-    "reuse_rule": "Reference existing Kaduse/channel-content-os research source IDs only. Do not copy rows. Do not create a second fetch. Do not modify Kaduse policies.",
+    "reuse_rule": "Reference existing Kaduse research source IDs (global-content-os source-catalog) only. Do not copy rows. Do not create a second fetch. Do not modify Kaduse policies.",
     "include_kaduse_roles": [
       "RESEARCH_INDEX",
       "BIBLIOGRAPHIC_METADATA",
@@ -99,7 +100,7 @@
       "nature",
       "science"
     ],
-    "notes": "IDs verified against sibling channel-content-os research source-registry.ts. Consumer/science-media and attention metrics excluded from this PRIMARY_SCIENTIFIC bundle."
+    "notes": "IDs verified against packages/source-catalog research source-registry.ts. Consumer/science-media and attention metrics excluded from this PRIMARY_SCIENTIFIC bundle."
   },
   "sources": [
     {

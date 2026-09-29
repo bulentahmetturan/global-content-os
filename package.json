@@ -17,11 +17,18 @@
     "flow:continuous": "node scripts/continuous-flow.mjs",
     "typecheck": "tsc --noEmit -p apps/worker/tsconfig.json",
     "ingest:tip": "node adapters/tip-radar/push-to-hub.mjs",
-    "production:check": "node scripts/production-check.mjs"
+    "production:check": "node scripts/production-check.mjs",
+    "test:catalog": "vitest run --root packages/source-catalog",
+    "typecheck:catalog": "tsc --noEmit -p packages/source-catalog/tsconfig.json"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250702.1",
     "typescript": "^5.9.2",
-    "wrangler": "^3.114.0"
+    "wrangler": "^3.114.0",
+    "vitest": "^2.1.0",
+    "@types/node": "^22.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
   }
 }
