@@ -6,6 +6,7 @@ import {
   type RouteId,
   type TriageStatus,
 } from './db/queries';
+import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -435,9 +436,9 @@ export default {
       }
 
       if (path === '/api/ingress/tip' && request.method === 'POST') {
-        const token = request.headers.get('X-Ingest-Token') || '';
-        if (env.TIP_RADAR_INGEST_TOKEN && token !== env.TIP_RADAR_INGEST_TOKEN) {
-          return json({ error: 'UNAUTHORIZED' }, 401);
+        const tipAuth = authorizeToken(env.TIP_RADAR_INGEST_TOKEN, request.headers.get('X-Ingest-Token'), 'INGEST_TOKEN_NOT_CONFIGURED');
+        if (!tipAuth.ok) {
+          return json({ error: tipAuth.error }, tipAuth.status);
         }
         const body = (await request.json()) as { candidates?: TipRadarCandidatePush[] };
         const result = await ingestTipRadarPush(env, body.candidates ?? []);
@@ -469,20 +470,16 @@ export default {
       }
 
       if (path === '/api/handoff/status' && request.method === 'POST') {
-        const token = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '') || '';
-        if (env.STATUS_CALLBACK_TOKEN && token !== env.STATUS_CALLBACK_TOKEN) {
-          return json({ error: 'UNAUTHORIZED' }, 401);
+        const cbAuth = authorizeToken(env.STATUS_CALLBACK_TOKEN, bearerToken(request.headers.get('Authorization')), 'STATUS_CALLBACK_TOKEN_NOT_CONFIGURED');
+        if (!cbAuth.ok) {
+          return json({ error: cbAuth.error }, cbAuth.status);
         }
-        const body = (await request.json()) as {
-          briefId?: string;
-          status?: string;
-          detail?: string | null;
-        };
-        if (!body.briefId || !body.status) {
-          return json({ error: 'INVALID_BODY' }, 400);
+        const parsed = parseStatusCallback(await request.json().catch(() => null));
+        if (!parsed.ok) {
+          return json({ error: parsed.error }, 400);
         }
-        await recordProductionStatus(env, body.briefId, body.status, body.detail);
-        return json({ ok: true });
+        const recorded = await recordProductionStatus(env, parsed.value.briefId, parsed.value.status, parsed.value.detail);
+        return json({ ok: true, ...(recorded.duplicate ? { duplicate: true } : {}) });
       }
 
       if (path === '/api/cron/run' && request.method === 'POST') {

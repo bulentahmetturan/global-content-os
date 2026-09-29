@@ -9,6 +9,7 @@ import {
 } from '../db/queries';
 import { normalizeDate } from '../ingress/ingest-gate';
 import { isReasonCode, type ReasonCode } from './feedback';
+import { resolveOutbound } from '../handoff-security';
 
 export type TriageAction = 'promote' | 'hold' | 'delete' | 'undo' | 'complete';
 
@@ -214,19 +215,21 @@ async function createAndHandoffBrief(
     sourceItemId: row.id,
   };
 
-  const stub = env.CCOS_HANDOFF_STUB !== 'false';
+  const outbound = resolveOutbound(env);
   let handoffStatus: 'stubbed' | 'sent' | 'failed' = 'stubbed';
   let handoffDetail: string | null = 'CCOS_HANDOFF_STUB=true — logged only; CCOS job API untouched';
 
-  if (!stub && env.CCOS_HANDOFF_URL) {
+  if (outbound.mode === 'misconfigured') {
+    // Fail closed: never send unauthenticated / to an unknown target; record the failure so it is visible + retryable.
+    handoffStatus = 'failed';
+    handoffDetail = outbound.reason;
+  } else if (outbound.mode === 'send') {
     try {
-      const res = await fetch(env.CCOS_HANDOFF_URL, {
+      const res = await fetch(outbound.url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(env.CCOS_HANDOFF_TOKEN
-            ? { Authorization: `Bearer ${env.CCOS_HANDOFF_TOKEN}` }
-            : {}),
+          Authorization: `Bearer ${outbound.token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -275,11 +278,21 @@ export async function recordProductionStatus(
   briefId: string,
   status: string,
   detail?: string | null
-): Promise<void> {
+): Promise<{ duplicate: boolean }> {
   const brief = await env.DB.prepare(`SELECT brief_id FROM approved_briefs WHERE brief_id = ?`)
     .bind(briefId)
     .first();
   if (!brief) throw new Error('BRIEF_NOT_FOUND');
+
+  // Idempotent replay: an identical repeat of the latest recorded status is a no-op (callbacks are retried).
+  const latest = await env.DB.prepare(
+    `SELECT status, detail FROM production_status WHERE brief_id = ? ORDER BY updated_at DESC, rowid DESC LIMIT 1`
+  )
+    .bind(briefId)
+    .first<{ status: string; detail: string | null }>();
+  if (latest && latest.status === status && (latest.detail ?? null) === (detail ?? null)) {
+    return { duplicate: true };
+  }
 
   await env.DB.prepare(
     `INSERT INTO production_status (id, brief_id, status, detail) VALUES (?, ?, ?, ?)`
@@ -292,6 +305,7 @@ export async function recordProductionStatus(
   )
     .bind(newId('log'), briefId, JSON.stringify({ briefId, status, detail: detail ?? null }))
     .run();
+  return { duplicate: false };
 }
 
 /** Hard-delete trash + done items older than `days` (default 2). */
