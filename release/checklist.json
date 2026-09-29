@@ -1,0 +1,19 @@
+{
+  "$comment": "Pre-cutover checklist. `auto` items derive from preflight categories; `manual` items stay OPEN until signed off in release/.artifacts/checklist-signoff.json. Never marked complete before reconciliation.",
+  "items": [
+    { "id": "packages_reconciled", "text": "Required package reconciliation complete (P2-P6 reports reconciled)", "kind": "manual" },
+    { "id": "tests_green", "text": "Required tests green", "kind": "auto", "categories": ["TESTS"] },
+    { "id": "scheduler_safe", "text": "Scheduler safe", "kind": "auto", "categories": ["SCHEDULER"] },
+    { "id": "contracts_compatible", "text": "Contracts compatible", "kind": "auto", "categories": ["CONTRACTS"] },
+    { "id": "migrations_ready", "text": "Migrations ready", "kind": "auto", "categories": ["MIGRATIONS"] },
+    { "id": "secrets_configured", "text": "Required secrets configured", "kind": "auto", "categories": ["SECRETS/CONFIG"] },
+    { "id": "auth_fail_closed", "text": "Auth fail-closed", "kind": "auto", "checks": ["fail_closed_evidence"] },
+    { "id": "identity_known", "text": "Deployment identity known", "kind": "auto", "categories": ["DEPLOYMENT_IDENTITY"] },
+    { "id": "rollback_ready", "text": "Rollback ready", "kind": "auto", "categories": ["ROLLBACK"] },
+    { "id": "smoke_ready", "text": "Smoke harness ready", "kind": "auto", "checks": ["smoke_harness"] },
+    { "id": "feedback_safe", "text": "Feedback path safe (P6)", "kind": "manual" },
+    { "id": "no_concurrent_session", "text": "No concurrent conflicting session", "kind": "auto", "checks": ["concurrent_worktrees"] },
+    { "id": "backlog_inactive", "text": "Inactive backlog remains intentionally inactive (R4, curated-club, ~110 backlog)", "kind": "manual" },
+    { "id": "no_critical_blocker", "text": "No unresolved critical blocker", "kind": "manual" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$comment": "Production health model. CORE decides overall readiness; SOURCE health is per-source and never gates release.",
+  "core": [
+    { "id": "gcos_liveness", "probe": "GET {gcos}/api/health", "pass": "200 and ok=true and service=global-content-os", "status": "defined" },
+    { "id": "gcos_readiness", "probe": "GET {gcos}/api/system-health", "pass": "200, ok=true, overall.cronLastObserved within 2 poll intervals", "status": "defined" },
+    { "id": "ccos_liveness", "probe": "GET {ccos}/", "pass": "200", "status": "defined" },
+    { "id": "ccos_readiness", "probe": "no dedicated endpoint today; auth+validation probe on POST /api/handoff/approved-brief proves DB + route", "pass": "invalid payload with valid token returns 400 (not 5xx, not 503)", "status": "defined_gap_dedicated_endpoint" },
+    { "id": "handoff_connectivity", "probe": "GCOS -> CCOS authenticated invalid-payload probe (smoke)", "pass": "400 invalid_approved_brief", "status": "defined" },
+    { "id": "scheduler_health", "probe": "GCOS /api/system-health overall.cronLastObserved / P5 capacity signals", "pass": "advancing; no scheduled_tick_partial_failure streak", "status": "DEFER_TO_P5" },
+    { "id": "critical_db", "probe": "GCOS /api/system-health (D1 read) and CCOS probe above (D1 read)", "pass": "no 5xx", "status": "defined" },
+    { "id": "callback_health", "probe": "CCOS approved_brief_intake.callback_last_error empty for recent rows", "pass": "no undelivered callbacks older than one retry window", "status": "DEFER_TO_P5" }
+  ],
+  "source": {
+    "rule": "Individual source health (feed failures, disabled/pending/manual sources, R4 research, curated-club, backlog) is reported per source and NEVER affects core readiness or release.",
+    "owner": "P2 / P5"
+  }
+}
