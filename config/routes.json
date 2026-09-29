@@ -43,7 +43,7 @@
       "runtimeAdapter": "adapters/hekimler-radar",
       "officialSourcesRef": "adapters/hekimler-radar/sources/official_sources.yaml",
       "feedCount": 729,
-      "note": "Hekimler Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/hekimler-radar. multi_channel_design keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
+      "note": "Hekimler Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/hekimler-radar. channel-content-os keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
       "sourcePolicy": "adapters/hekimler-radar/content/policies/hekimler-source-policy-map.json",
       "audienceScope": "adapters/hekimler-radar/content/policies/hekimler-audience-scope.json"
     }

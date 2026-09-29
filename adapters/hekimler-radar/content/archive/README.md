@@ -14,3 +14,4 @@ Yaşayan sorun listesi: [`../SORUN-TESPIT-LISTESI.md`](../SORUN-TESPIT-LISTESI.m
 | `PIPELINE-STATUS-46.md` | Yerel dry-run tablo |
 | `PIPELINE-ISSUES.md` | Erken açık sorun listesi (çoğu kapandı) |
 | `HEKIMLER-COVERAGE-MATRIX.md` | GMC/ECFMG/HSGM kapsam notu |
+| `_audit_*.json`, `_fails.json`, `_source_list_audit.json` | GENERATED_EVIDENCE: `scripts/audit_source_lists.py` girdisi olan API/feed anlık görüntüleri ve çıktısı (elle düzenlenmez) |

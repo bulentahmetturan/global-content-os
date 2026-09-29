@@ -37,9 +37,9 @@ npx wrangler d1 migrations apply global-content-os --remote
 npx wrangler deploy
 ```
 
-## 4. Tip radar (sibling repo)
+## 4. Hekimler / tip radar
 
-See `adapters/tip-radar/` and `multi_channel_design` channel pack.
+Canonical runtime: `adapters/hekimler-radar/` (GitHub Actions runner). `adapters/tip-radar/` is legacy migration compatibility only. Channel pack: `channel-content-os/channels/tip-ogrencileri-platformu/`.
 
 ## Recovered vs live
 

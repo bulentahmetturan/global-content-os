@@ -1,6 +1,6 @@
 # Research / Scientific Research Contract (Batch R1)
 
-> **Relocated (2026-09-29, ADR-0004).** The research source registry, schemas, claim routing, age-tier and attention-signal code now live in `global-content-os/packages/source-catalog/src/research/`. `channel-content-os` no longer hosts them; references to `packages/source-catalog/src/research/` below are the former location. Shared candidate-model additions in `channel-content-os/mcp-server/src/candidates/` (production side) remain there.
+> **Relocated (2026-09-29, ADR-0004).** The research source registry, schemas and Research Pool now live in `global-content-os/packages/source-catalog/src/research/`. Post-approval claim routing stays in `channel-content-os/mcp-server/src/research/claim-*.ts`, as do the shared candidate-model additions in `channel-content-os/mcp-server/src/candidates/`. The unwired age-tier and attention-signal helpers were deleted (post-freeze cleanup); only `ResearchAgeTierSchema` remains.
 
 **Status:** discovery-source registry + Research Pool architecture + claim
 routing + candidate integration locked (2026-09-05), USER_APPROVED. Reuses

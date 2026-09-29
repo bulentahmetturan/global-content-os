@@ -1,6 +1,8 @@
 # Global News Hub Contract
 
 > **Relocated (2026-09-29, ADR-0004).** This contract was written when the Global News Hub was assigned to `channel-content-os`. The Hub, the source registry and every other source-monitoring concern are now owned by **this repo (`global-content-os`)**. `channel-content-os` only consumes `approved_brief` objects (see `approved-brief-handoff.md`). Where the text below says "this repo" it now means `global-content-os`; historical references to `channel-content-os` ownership are kept for traceability only. Registry code lives in `packages/source-catalog/`.
+>
+> **HISTORY (2026-09-04 design record).** The "Still NOT implemented" list below is obsolete: ingestion, fetch, dedup, the Hub UI and the D1 schema now exist (`apps/worker`, `apps/hub`, `migrations/`). Current truth: `docs/CURRENT.md`.
 
 **Status:** architecture locked (Batch N1, 2026-09-04; extended by Batch
 N2-FINAL, 2026-09-04), USER_APPROVED. The global source registry
