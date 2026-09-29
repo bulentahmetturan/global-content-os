@@ -81,8 +81,14 @@ for (const f of routerFiles) {
   let bible = null;
   const bm = text.match(/^BIBLE:\s*`([^`]+)`/m);
   if (bm) { const r = resolveToken(bm[1], dirname(f)); bible = r.path && existsSync(r.path) ? readFileSync(r.path, 'utf8').split(/\r?\n/) : null; if (!bible) errors.push(`${rel}: BIBLE target missing (${bm[1]})`); }
+  // Pointers inside a "Do not load" section / a `DO NOT LOAD:` line are EXCLUSIONS, not required-to-exist links
+  // (e.g. artifacts/ may be absent in a working copy); they are not existence-checked.
+  let inDoNotLoad = false;
   lines.forEach((line, i) => {
+    if (/^#{1,6}\s/.test(line)) inDoNotLoad = /do not load/i.test(line);
+    const exclusion = inDoNotLoad || /^\s*DO NOT LOAD:/i.test(line);
     for (const tok of tokens(line)) {
+      if (exclusion && !tok.startsWith('@mcd/') && !/^#{2,3} /.test(tok)) { checked++; continue; }
       if (/^#{2,3} /.test(tok)) {
         checked++;
         if (bible && !bible.some((l) => l.startsWith(tok))) errors.push(`${rel}:${i + 1}: heading not found in Bible: ${tok}`);
