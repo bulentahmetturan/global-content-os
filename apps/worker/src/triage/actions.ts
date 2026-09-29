@@ -8,6 +8,10 @@ import {
   type TriageStatus,
 } from '../db/queries';
 import { normalizeDate } from '../ingress/ingest-gate';
+import {
+  APPROVED_BRIEF_CONTRACT_VERSION,
+  type ApprovedBrief,
+} from '../../../../packages/contracts/src/index';
 import { isReasonCode, type ReasonCode } from './feedback';
 
 export type TriageAction = 'promote' | 'hold' | 'delete' | 'undo' | 'complete';
@@ -25,29 +29,8 @@ const ACTION_TO_STATUS: Record<Exclude<TriageAction, 'undo'>, TriageStatus> = {
   complete: 'trash', // DB trash + archive_kind=done → Hub "Üretimi Bitenler"
 };
 
-export interface ApprovedBriefPayload {
-  briefId: string;
-  route: RouteId;
-  channelId: string;
-  title: string;
-  summary: string;
-  gists: string[];
-  canonicalUrl: string;
-  publisher: string;
-  publishedAt: string | null;
-  dedupeKey: string;
-  approvedAt: string;
-  approvedBy: string;
-  evidence: {
-    doi: string | null;
-    pmid: string | null;
-    pmcid: string | null;
-    finding: string | null;
-    limitation: string | null;
-    studyType: string | null;
-  } | null;
-  sourceItemId: string;
-}
+/** Single canonical definition lives in packages/contracts (ADR-0004); never redeclare it here. */
+export type ApprovedBriefPayload = ApprovedBrief;
 
 export async function applyTriage(
   env: Env,
@@ -188,9 +171,10 @@ async function createAndHandoffBrief(
   const approvedAt = new Date().toISOString();
   const briefId = newId('brief');
   const payload: ApprovedBriefPayload = {
+    contractVersion: APPROVED_BRIEF_CONTRACT_VERSION,
     briefId,
     route: row.route,
-    channelId: row.channel_id,
+    channelId: row.channel_id as ApprovedBrief['channelId'],
     title: row.title,
     summary: row.summary,
     gists,

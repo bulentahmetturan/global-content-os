@@ -1,0 +1,17 @@
+{
+  "contractVersion": "1.0.0",
+  "briefId": "brief_fixture_0002",
+  "route": "tip-ogrencileri",
+  "channelId": "hekimler-toplulugu",
+  "title": "Fixture: brief without evidence",
+  "summary": "",
+  "gists": [],
+  "canonicalUrl": "https://example.org/fixture/announcement",
+  "publisher": "Example Institution",
+  "publishedAt": null,
+  "dedupeKey": "fixture-dedupe-key-0002",
+  "approvedAt": "2026-09-29T12:05:00.000Z",
+  "approvedBy": "hub-user",
+  "evidence": null,
+  "sourceItemId": "item_fixture_0002"
+}

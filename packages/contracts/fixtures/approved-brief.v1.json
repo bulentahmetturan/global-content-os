@@ -1,0 +1,24 @@
+{
+  "contractVersion": "1.0.0",
+  "briefId": "brief_fixture_0001",
+  "route": "kaduse-research",
+  "channelId": "kaduse-medikal",
+  "title": "Fixture: example approved brief title",
+  "summary": "Fixture summary text used only by contract tests.",
+  "gists": ["Fixture gist one.", "Fixture gist two."],
+  "canonicalUrl": "https://example.org/fixture/article",
+  "publisher": "Example Publisher",
+  "publishedAt": "2026-09-01T00:00:00.000Z",
+  "dedupeKey": "fixture-dedupe-key-0001",
+  "approvedAt": "2026-09-29T12:00:00.000Z",
+  "approvedBy": "hub-user",
+  "evidence": {
+    "doi": "10.0000/fixture",
+    "pmid": null,
+    "pmcid": null,
+    "finding": "Fixture finding.",
+    "limitation": null,
+    "studyType": null
+  },
+  "sourceItemId": "item_fixture_0001"
+}
