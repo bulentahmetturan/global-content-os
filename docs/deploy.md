@@ -24,7 +24,7 @@ npx wrangler secret put STATUS_CALLBACK_TOKEN
 npx wrangler secret put TIP_RADAR_INGEST_TOKEN
 ```
 
-Set `CCOS_HANDOFF_STUB=false` in `[vars]` for production once CCOS exposes a brief ingest endpoint.
+CCOS now exposes the ingest endpoint (see `docs/approved-brief-handoff.md`): after deploying CCOS (migration 040) and setting `HANDOFF_INGEST_TOKEN`/`GCOS_STATUS_TOKEN` there, set `CCOS_HANDOFF_URL` here and `CCOS_HANDOFF_STUB=false` in `[vars]`.
 
 ## Deploy
 

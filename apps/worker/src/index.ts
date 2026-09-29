@@ -46,6 +46,7 @@ import {
   listSourcePassFail,
   revalidateUnhealthySources,
 } from './ingress/source-pass-fail';
+import { PRODUCTION_STATUS_VALUES } from '../../../packages/contracts/src/index';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -470,7 +471,11 @@ export default {
 
       if (path === '/api/handoff/status' && request.method === 'POST') {
         const token = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '') || '';
-        if (env.STATUS_CALLBACK_TOKEN && token !== env.STATUS_CALLBACK_TOKEN) {
+        // Fail closed: an unset token must never leave the callback open.
+        if (!env.STATUS_CALLBACK_TOKEN) {
+          return json({ error: 'STATUS_CALLBACK_NOT_CONFIGURED' }, 503);
+        }
+        if (token !== env.STATUS_CALLBACK_TOKEN) {
           return json({ error: 'UNAUTHORIZED' }, 401);
         }
         const body = (await request.json()) as {
@@ -478,7 +483,11 @@ export default {
           status?: string;
           detail?: string | null;
         };
-        if (!body.briefId || !body.status) {
+        if (
+          !body.briefId ||
+          !body.status ||
+          !(PRODUCTION_STATUS_VALUES as readonly string[]).includes(body.status)
+        ) {
           return json({ error: 'INVALID_BODY' }, 400);
         }
         await recordProductionStatus(env, body.briefId, body.status, body.detail);

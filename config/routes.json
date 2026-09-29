@@ -1,35 +1,51 @@
 {
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "3.0.0",
+  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Hekimler audience/source policy. multi_channel_design keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
+  "externalPolicyRepo": {
+    "name": "multi_channel_design",
+    "relativeRoot": "../multi_channel_design",
+    "role": "channel/brand/editorial COVERAGE policy authority (no source runtime truth)"
+  },
   "routes": [
     {
       "id": "kaduse-news",
       "label": "Kaduse News",
       "channelId": "kaduse-medikal",
       "icon": "🌐",
-      "policyRef": "multi_channel_design/channels/kaduse-medikal/content/policies/kaduse-news.json",
-      "subscriptionsRef": "multi_channel_design/channels/kaduse-medikal/content/news-sources.json",
+      "runtimeOwner": "global-content-os",
+      "externalPolicy": {
+        "policy": "channels/kaduse-medikal/content/policies/kaduse-news.json"
+      },
+      "sourceCatalog": "packages/source-catalog/data/news-registry.json",
       "feedCount": 59,
-      "note": "All channel subscriptions registered and enabled. Live fetch this slice: WHO JSON API; other targets WEB_ONLY pending dedicated fetchers."
+      "note": "Subscriptions + acquisition scoping are canonical here (data/kaduse-subscriptions.json). Live fetch this slice: WHO JSON API; other targets WEB_ONLY pending dedicated fetchers.",
+      "subscriptions": "packages/source-catalog/data/kaduse-subscriptions.json"
     },
     {
       "id": "kaduse-research",
       "label": "Kaduse Research",
       "channelId": "kaduse-medikal",
       "icon": "🧪",
-      "policyRef": "multi_channel_design/channels/kaduse-medikal/content/policies/research.json",
-      "registryRef": "channel-content-os/mcp-server/src/research/source-registry.ts",
+      "runtimeOwner": "global-content-os",
+      "externalPolicy": {
+        "policy": "channels/kaduse-medikal/content/policies/research.json"
+      },
+      "sourceCatalog": "packages/source-catalog/data/research-sources.json",
       "feedCount": 41,
-      "note": "Full research registry registered and enabled. Live batch fetch: Europe PMC + PubMed E-utilities."
+      "note": "Research registry registered and enabled. Live batch fetch: Europe PMC + PubMed E-utilities."
     },
     {
       "id": "tip-ogrencileri",
       "label": "Tıp Öğrencileri Birliği",
       "channelId": "tip-ogrencileri-platformu",
       "icon": "🎓",
-      "sourcesOwnedBy": "tip-radar",
+      "runtimeOwner": "global-content-os",
+      "runtimeAdapter": "adapters/hekimler-radar",
       "officialSourcesRef": "adapters/hekimler-radar/sources/official_sources.yaml",
       "feedCount": 729,
-      "note": "Hekimler Topluluğu + tip sources. Python radar lives in adapters/hekimler-radar; brand/logos stay in multi_channel_design/channels/tip-ogrencileri-platformu/brand."
+      "note": "Hekimler Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/hekimler-radar. multi_channel_design keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
+      "sourcePolicy": "adapters/hekimler-radar/content/policies/hekimler-source-policy-map.json",
+      "audienceScope": "adapters/hekimler-radar/content/policies/hekimler-audience-scope.json"
     }
   ]
 }

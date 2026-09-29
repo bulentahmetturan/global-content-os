@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://global-content-os/contracts/approved-brief/1.0.0",
+  "title": "ApprovedBrief",
+  "description": "Immutable compact snapshot sent from Global Content OS (Global Hub 'Üretime Aktar') to Channel Content OS. The ONLY production handoff between the two systems. Never contains raw feed payloads, pending siblings, discarded items or source history.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractVersion",
+    "briefId",
+    "route",
+    "channelId",
+    "title",
+    "summary",
+    "gists",
+    "canonicalUrl",
+    "publisher",
+    "publishedAt",
+    "dedupeKey",
+    "approvedAt",
+    "approvedBy",
+    "evidence",
+    "sourceItemId"
+  ],
+  "properties": {
+    "contractVersion": { "const": "1.0.0" },
+    "briefId": { "type": "string", "minLength": 1 },
+    "route": { "enum": ["kaduse-news", "kaduse-research", "tip-ogrencileri"] },
+    "channelId": { "enum": ["kaduse-medikal", "tip-ogrencileri-platformu", "hekimler-toplulugu"] },
+    "title": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string" },
+    "gists": { "type": "array", "items": { "type": "string" } },
+    "canonicalUrl": { "type": "string", "minLength": 1 },
+    "publisher": { "type": "string" },
+    "publishedAt": { "type": ["string", "null"] },
+    "dedupeKey": { "type": "string", "minLength": 1 },
+    "approvedAt": { "type": "string", "minLength": 1 },
+    "approvedBy": { "type": "string", "minLength": 1 },
+    "evidence": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["doi", "pmid", "pmcid", "finding", "limitation", "studyType"],
+          "properties": {
+            "doi": { "type": ["string", "null"] },
+            "pmid": { "type": ["string", "null"] },
+            "pmcid": { "type": ["string", "null"] },
+            "finding": { "type": ["string", "null"] },
+            "limitation": { "type": ["string", "null"] },
+            "studyType": { "type": ["string", "null"] }
+          }
+        }
+      ]
+    },
+    "sourceItemId": { "type": "string", "minLength": 1 }
+  }
+}

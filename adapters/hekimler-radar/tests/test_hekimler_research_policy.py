@@ -20,9 +20,9 @@ class ResearchPolicyTests(unittest.TestCase):
         cls.policy = load_research_policy()
 
     def test_kaduse_sources_referenced_not_duplicated(self):
+        # The Kaduse research registry is in this repo (packages/source-catalog, ADR-0004): a missing
+        # file is a real failure, never a skip.
         ok, msg = verify_kaduse_bundle_references(self.policy)
-        if not ok and "missing dependency" in str(msg):
-            self.skipTest(f"sibling channel-content-os checkout not available: {msg}")
         self.assertTrue(ok, msg)
         refs = self.policy["kaduse_research_evidence_bundle"]["referenced_source_ids"]
         self.assertIn("nejm", refs)

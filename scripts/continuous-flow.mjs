@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 const hub = process.argv[2] || process.env.GCOS_HUB_URL || 'http://127.0.0.1:8787';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const tipRoot = path.resolve(root, '../multi_channel_design/channels/tip-ogrencileri-platformu');
+const tipRoot = path.resolve(root, 'adapters/hekimler-radar'); // radar runtime lives in this repo (ADR-0004)
 const CYCLE_PAUSE_MS = Number(process.env.GCOS_CYCLE_PAUSE_MS || 10_000);
 const RADAR_EVERY = Number(process.env.GCOS_RADAR_EVERY || 3);
 const WALK_BATCH = {

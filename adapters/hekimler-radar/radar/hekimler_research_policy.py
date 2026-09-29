@@ -13,10 +13,10 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "content" / "policies" / "hekimler-research-medical-ai-policy.json"
 
-# Sibling Kaduse research registry (channel-content-os)
-KADUSE_RESEARCH_REGISTRY = (
-    ROOT.parents[2] / "channel-content-os" / "mcp-server" / "src" / "research" / "source-registry.ts"
-)
+# Kaduse research source catalog: canonical structured data owned by this repo (global-content-os); it
+# used to be TypeScript in channel-content-os that was regex-scraped. ROOT = <repo>/adapters/hekimler-radar,
+# so parents[1] is the repo root.
+KADUSE_RESEARCH_REGISTRY = ROOT.parents[1] / "packages" / "source-catalog" / "data" / "research-sources.json"
 
 WATCH_ONLY_DESIGNS = frozenset(
     {"case_series", "case_report", "in_vitro", "animal_study", "modeling_study"}
@@ -43,8 +43,9 @@ def kaduse_registry_dependency_ok() -> tuple[bool, str]:
     return True, str(KADUSE_RESEARCH_REGISTRY)
 
 
-def extract_kaduse_source_ids_from_ts(text: str) -> list[str]:
-    return re.findall(r"sourceId:\s*'([^']+)'", text)
+def extract_kaduse_source_ids(text: str) -> list[str]:
+    """Source ids from the canonical JSON catalog (no source-code scraping)."""
+    return [entry["sourceId"] for entry in json.loads(text)]
 
 
 def referenced_kaduse_ids(policy: dict[str, Any] | None = None) -> list[str]:
@@ -59,7 +60,7 @@ def verify_kaduse_bundle_references(policy: dict[str, Any] | None = None) -> tup
         return False, msg
     pol = policy or load_research_policy()
     text = KADUSE_RESEARCH_REGISTRY.read_text(encoding="utf-8")
-    available = set(extract_kaduse_source_ids_from_ts(text))
+    available = set(extract_kaduse_source_ids(text))
     refs = referenced_kaduse_ids(pol)
     missing = [r for r in refs if r not in available]
     if missing:

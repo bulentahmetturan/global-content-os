@@ -1,31 +1,32 @@
 /**
  * Sync all registered sources into config/feeds.json for Global Content OS.
- * Sources of truth (not invented here):
- * - multi_channel_design/.../news-sources.json + channel-content-os global-source-registry.ts
- * - channel-content-os research/source-registry.ts
- * - tip-ogrencileri-platformu/sources/official_sources.yaml
+ * Canonical inputs (Package 2: ALL source/runtime inputs are local to this repo; no sibling-repo reads):
+ * - local runtime: packages/source-catalog/data/kaduse-subscriptions.json (which targets Kaduse subscribes to + acquisition scoping)
+ * - local runtime: packages/source-catalog/data/news-registry.json
+ * - local runtime: packages/source-catalog/data/research-sources.json
+ * - local runtime: adapters/hekimler-radar/sources/official_sources.yaml
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const mcd = path.join(root, '..', 'multi_channel_design');
-const ccos = path.join(root, '..', 'channel-content-os');
+// Output directory (defaults to the repo root). Tests set SYNC_FEEDS_OUT_DIR to generate into a temp dir.
+const outRoot = process.env.SYNC_FEEDS_OUT_DIR ? path.resolve(process.env.SYNC_FEEDS_OUT_DIR) : root;
 
 const news = JSON.parse(
-  fs.readFileSync(path.join(mcd, 'channels/kaduse-medikal/content/news-sources.json'), 'utf8')
+  fs.readFileSync(path.join(root, 'packages/source-catalog/data/kaduse-subscriptions.json'), 'utf8')
 );
-const registryTs = fs.readFileSync(
-  path.join(ccos, 'mcp-server/src/news/global-source-registry.ts'),
-  'utf8'
+// Data-first: the canonical catalogs are structured JSON. Nothing here parses TypeScript source.
+const newsRegistry = JSON.parse(
+  fs.readFileSync(path.join(root, 'packages/source-catalog/data/news-registry.json'), 'utf8')
 );
-const researchTs = fs.readFileSync(
-  path.join(ccos, 'mcp-server/src/research/source-registry.ts'),
-  'utf8'
+const researchRegistry = JSON.parse(
+  fs.readFileSync(path.join(root, 'packages/source-catalog/data/research-sources.json'), 'utf8')
 );
 const tipYaml = fs.readFileSync(
-  path.join(mcd, 'channels/tip-ogrencileri-platformu/sources/official_sources.yaml'),
+  path.join(root, 'adapters/hekimler-radar/sources/official_sources.yaml'),
   'utf8'
 );
 
@@ -49,36 +50,23 @@ function sqlEscape(s) {
   return String(s).replace(/'/g, "''");
 }
 
-const targets = [];
-const targetBlock = registryTs.match(/targets:\s*\[([\s\S]*?)\],\s*referenceResources/);
-if (!targetBlock) {
-  console.error('Could not find targets[] in global-source-registry.ts');
+if (!Array.isArray(newsRegistry.targets) || !Array.isArray(newsRegistry.sources)) {
+  console.error('news-registry.json must contain targets[] and sources[]');
   process.exit(1);
 }
-const tre =
-  /\{\s*id:\s*'([^']+)'\s*,\s*sourceId:\s*'([^']+)'\s*,\s*label:\s*(?:'((?:\\'|[^'])*)'|"((?:\\"|[^"])*)")\s*,(?:\s*officialUrl:\s*'([^']+)',)?[\s\S]*?transportStatus:\s*'([^']+)'/g;
-let m;
-while ((m = tre.exec(targetBlock[1]))) {
-  targets.push({
-    id: m[1],
-    sourceId: m[2],
-    label: (m[3] || m[4] || '').replace(/\\'/g, "'").replace(/\\"/g, '"'),
-    officialUrl: m[5] || null,
-    transportStatus: m[6],
-  });
-}
+const targets = newsRegistry.targets.map((t) => ({
+  id: t.id,
+  sourceId: t.sourceId,
+  label: t.label,
+  officialUrl: t.officialUrl || null,
+  transportStatus: t.transportStatus,
+}));
 const byTarget = Object.fromEntries(targets.map((t) => [t.id, t]));
 
 // Source-level official URLs (fallback when a target has no officialUrl)
 const sourceUrls = {};
-const sre =
-  /\{\s*id:\s*'([^']+)'[\s\S]*?officialUrl:\s*'([^']+)'/g;
-let sm;
-const sourcesBlock = registryTs.match(/sources:\s*\[([\s\S]*?)\],\s*targets:/);
-if (sourcesBlock) {
-  while ((sm = sre.exec(sourcesBlock[1]))) {
-    sourceUrls[sm[1]] = sm[2];
-  }
+for (const s of newsRegistry.sources) {
+  if (s.officialUrl) sourceUrls[s.id] = s.officialUrl;
 }
 
 const MANUAL_FALLBACK = {
@@ -138,21 +126,19 @@ newsFeeds.push({
 
 const researchFeeds = [];
 const seenResearch = new Set();
-const rre =
-  /sourceId:\s*'([^']+)'[\s\S]*?publisher:\s*'((?:\\'|[^'])*)'[\s\S]*?canonicalUrl:\s*'([^']+)'/g;
-while ((m = rre.exec(researchTs))) {
-  const id = m[1];
+for (const rs of researchRegistry) {
+  const id = rs.sourceId;
   if (seenResearch.has(id)) continue;
   seenResearch.add(id);
   const isEpmc = id === 'europe-pmc-rest';
   const isPubmed = id === 'pubmed-eutilities';
   researchFeeds.push({
     id: `research-${id}`,
-    label: m[2].replace(/\\'/g, "'"),
+    label: rs.publisher,
     route: 'kaduse-research',
     channelId: 'kaduse-medikal',
     transport: isEpmc || isPubmed ? 'REST_BATCH' : 'RESEARCH_REGISTRY',
-    endpointUrl: m[3],
+    endpointUrl: rs.canonicalUrl,
     pollMinutes: isEpmc || isPubmed ? 360 : 1440,
     enabled: true,
     externalRef: id,
@@ -230,9 +216,59 @@ const tipAdapterFeed = {
 
 const feeds = [tipAdapterFeed, ...newsFeeds, ...researchFeeds, ...tipFeeds];
 
+// Same publisher already listed under Hekimler Duyuru (or Haber for MNT). Do not resurrect on sync.
+// (Carried over from the 2026-09-29 18:09 gcos stash; without it a regeneration re-enables these.)
+const RETIRED_DUPLICATE_FEED_IDS = new Set([
+  'news-hsgm-news-scoped',
+  'news-resmi-gazete-health-scoped',
+  'news-titck-general-regulatory',
+  'news-tuik-saglik-sosyal-koruma',
+  'research-medical-news-today',
+]);
+for (const f of feeds) {
+  if (RETIRED_DUPLICATE_FEED_IDS.has(f.id)) f.enabled = false;
+}
+
+// Batch R4 (2026-09-25) research sources were added to the catalog after the last activation.
+// Registering them here must NOT silently activate new fetching: activation is an explicit runtime/editorial
+// decision. sciencedaily.com additionally already exists under DUYURU (`sciencedaily_nutrition`), so enabling the
+// three ScienceDaily research rows breaks the Bible one-heading-per-domain rule (S66) until a heading owner is chosen.
+const PENDING_ACTIVATION_FEED_IDS = new Set([
+  'research-nature-ageing-subject',
+  'research-nature-nutrition-subject',
+  'research-sciencedaily-healthy-aging',
+  'research-sciencedaily-alternative-medicine',
+  'research-sciencedaily-dietary-supplements',
+  'research-asn-nutrition-news',
+  'research-nccih-news',
+]);
+for (const f of feeds) {
+  if (PENDING_ACTIVATION_FEED_IDS.has(f.id)) {
+    f.enabled = false;
+    f.rules = { ...(f.rules || {}), activation: 'PENDING_EXPLICIT_DECISION' };
+  }
+}
+
+// Provenance: config/feeds.json is GENERATED, never hand-edited. Hashes are over LF-normalised bytes so they are
+// identical on every checkout regardless of autocrlf.
+const PROVENANCE_INPUTS = [
+  'packages/source-catalog/data/news-registry.json',
+  'packages/source-catalog/data/research-sources.json',
+  'packages/source-catalog/data/kaduse-subscriptions.json',
+  'adapters/hekimler-radar/sources/official_sources.yaml',
+];
+const sha256 = (rel) =>
+  createHash('sha256')
+    .update(fs.readFileSync(path.join(root, rel), 'utf8').replaceAll('\r\n', '\n'))
+    .digest('hex');
+
 const out = {
   schemaVersion: '1.1.0',
-  generatedAt: new Date().toISOString(),
+  provenance: {
+    generatedBy: 'scripts/sync-feeds.mjs',
+    editable: false,
+    inputs: PROVENANCE_INPUTS.map((p) => ({ path: p, sha256: sha256(p) })),
+  },
   counts: {
     news: newsFeeds.length,
     research: researchFeeds.length,
@@ -244,7 +280,8 @@ const out = {
   feeds,
 };
 
-fs.writeFileSync(path.join(root, 'config/feeds.json'), JSON.stringify(out, null, 2));
+fs.mkdirSync(path.join(outRoot, 'config'), { recursive: true });
+fs.writeFileSync(path.join(outRoot, 'config/feeds.json'), JSON.stringify(out, null, 2));
 
 // SQL seed migration: batched INSERTs (D1 rejects one giant statement)
 const BATCH = 40;
@@ -270,7 +307,12 @@ const sql = `-- Auto-generated by scripts/sync-feeds.mjs — do not hand-edit
 ${chunks.join('\n\n')}
 `;
 
-fs.writeFileSync(path.join(root, 'migrations/0002_seed_all_feeds.sql'), sql);
+// migrations/0002_seed_all_feeds.sql is an APPLIED migration: regenerating it rewrites history, so it is only
+// written on explicit request (SYNC_FEEDS_WRITE_SEED_MIGRATION=1). config/feeds.json is the generated output.
+if (process.env.SYNC_FEEDS_WRITE_SEED_MIGRATION === '1') {
+  fs.mkdirSync(path.join(outRoot, 'migrations'), { recursive: true });
+  fs.writeFileSync(path.join(outRoot, 'migrations/0002_seed_all_feeds.sql'), sql);
+}
 
 console.log(JSON.stringify(out.counts, null, 2));
-console.log('Wrote config/feeds.json and migrations/0002_seed_all_feeds.sql');
+console.log('Wrote config/feeds.json (deterministic; no timestamp)');

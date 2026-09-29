@@ -1,4 +1,14 @@
-/** Shared contracts between Global Content OS and Channel Content OS. */
+/**
+ * Shared contracts between Global Content OS and Channel Content OS.
+ *
+ * CANONICAL definition of the GCOS -> CCOS handoff (ADR-0004 in multi_channel_design):
+ * approved-brief.schema.json in this package is the machine-readable source; the
+ * ApprovedBrief interface below must match it (enforced by contracts.test.mjs), and
+ * channel-content-os vendors an identical copy of the schema (enforced by its own test).
+ * Bump APPROVED_BRIEF_CONTRACT_VERSION on any payload change.
+ */
+
+export const APPROVED_BRIEF_CONTRACT_VERSION = '1.0.0' as const;
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
 
@@ -23,6 +33,7 @@ export interface EvidenceCardSummary {
  * Never includes raw feed payloads, pending siblings, or source history.
  */
 export interface ApprovedBrief {
+  contractVersion: typeof APPROVED_BRIEF_CONTRACT_VERSION;
   briefId: string;
   route: RouteId;
   channelId: ChannelId;
@@ -39,12 +50,8 @@ export interface ApprovedBrief {
   sourceItemId: string;
 }
 
-export type ProductionStatusValue =
-  | 'accepted'
-  | 'designing'
-  | 'ready'
-  | 'published'
-  | 'failed';
+export const PRODUCTION_STATUS_VALUES = ['accepted', 'designing', 'ready', 'published', 'failed'] as const;
+export type ProductionStatusValue = (typeof PRODUCTION_STATUS_VALUES)[number];
 
 /** Callback from Channel Content OS → Global Hub (status only). */
 export interface ProductionStatusCallback {

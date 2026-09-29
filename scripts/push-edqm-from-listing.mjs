@@ -4,9 +4,11 @@
  */
 import fs from 'node:fs';
 
-const listingPath =
-  process.argv[2] ||
-  'C:/Users/W11/.cursor/projects/c-Users-W11-Desktop-projects-multi-channel-design/agent-tools/a7a0adf3-7dc7-4419-af94-9c9a3dbb6c3d.txt';
+const listingPath = process.argv[2];
+if (!listingPath) {
+  console.error('Usage: node scripts/push-edqm-from-listing.mjs <path-to-listing.md> [hub]');
+  process.exit(2);
+}
 const hub = process.argv[3] || 'http://127.0.0.1:8787';
 
 const text = fs.readFileSync(listingPath, 'utf8');
