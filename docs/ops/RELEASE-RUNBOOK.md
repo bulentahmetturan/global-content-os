@@ -137,3 +137,11 @@ an operator exports a read-only list.
 
 R4 research sources, the 23 curated-club sources, and the ~110-source backlog may stay disabled/pending. Remote MCD archival is not a
 blocker; readiness requires only no active production dependency on retired MCD paths.
+
+## Known recovery limitation: CCOS migration chain cannot replay from zero (migration 010)
+
+`MIGRATION_010_STATUS`: **cutover-safe, rebuild-unsafe.**
+
+- Cutover: production already holds migrations 002..039; cutover applies only `040_approved_brief_intake.sql` (tested locally). No replay from zero is involved.
+- Rebuild from an empty database (schema.sql + migrations) fails at `010_knowledge_seed_evs_ehtml.sql` with foreign keys on: it seeds `design_knowledge_rules` for 6 `design_sources` ids that were registered in production at runtime, not by any migration (`awesome-design-skills-editorial`, `editorial-vision-studio`, `effective-html`, `ink-wash-poster`, `mengto-skills-editorial-tech`, `mono-color-skill`). Their license / pinned_ref cannot be reconstructed without inventing facts, so no repair migration is shipped.
+- Recovery path if the CCOS database is lost: restore via Cloudflare D1 Time Travel / backup. Do not rebuild from migrations. Before any deliberate rebuild, export those 6 `design_sources` rows from production and insert them before migration 010.
