@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { analyzeSession, evaluate, manualManifest, checkBenchmarks, summarize, BENCHMARKS, CLASSES } from './context-telemetry.mjs';
 
-const P = 'C:\\Users\\W11\\Desktop\\projects';
+const P = 'D:\\Desktop\\projects';
 let n = 0;
 const assistant = (tokens, uses = []) => JSON.stringify({
   type: 'assistant', sessionId: 's1', cwd: `${P}\\global-content-os`, timestamp: `2026-09-30T10:00:${String(n).padStart(2, '0')}Z`,
