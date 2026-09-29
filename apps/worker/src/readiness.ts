@@ -5,6 +5,8 @@
 //   DEGRADED  /api/ready   200  serving, but an optional capability is impaired (e.g. callback secret unset,
 //                                 cron heartbeat stale, handoff misconfigured). Never takes unrelated features down.
 //   BLOCKED   /api/ready   503  a critical dependency is missing: DB unreachable or schema behind the code.
+import type { Env } from './db/queries';
+import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
 export const EXPECTED_SCHEMA_MIGRATION = '0024_source_revalidation.sql';
@@ -41,4 +43,30 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
   if (!i.ingestTokenConfigured) degraded.push('INGEST_TOKEN_NOT_CONFIGURED');
   if (i.handoffMode === 'misconfigured') degraded.push('CCOS_HANDOFF_MISCONFIGURED');
   return { level: blocked.length ? 'BLOCKED' : degraded.length ? 'DEGRADED' : 'READY', blocked, degraded };
+}
+
+/** Gathers the /api/ready inputs (shared by /api/ready and /api/ops/summary). */
+export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null }> {
+  let dbReachable = false;
+  let appliedMigration: string | null = null;
+  let cronAge: number | null = null;
+  try {
+    await env.DB.prepare('SELECT 1').first();
+    dbReachable = true;
+    const m = await env.DB.prepare('SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1').first<{ name: string }>().catch(() => null);
+    appliedMigration = m?.name ?? null;
+    const f = await env.DB.prepare('SELECT MAX(last_fetched_at) AS t FROM source_feeds').first<{ t: string | null }>().catch(() => null);
+    if (f?.t) cronAge = Math.max(0, Math.round((Date.now() - Date.parse(f.t.includes('T') ? f.t : f.t.replace(' ', 'T') + 'Z')) / 60000));
+  } catch {
+    dbReachable = false;
+  }
+  const report = evaluateReadiness({
+    dbReachable,
+    appliedMigration,
+    cronLastActivityAgeMin: cronAge,
+    statusCallbackTokenConfigured: !!(env.STATUS_CALLBACK_TOKEN || '').trim(),
+    ingestTokenConfigured: !!(env.TIP_RADAR_INGEST_TOKEN || '').trim(),
+    handoffMode: resolveOutbound(env).mode,
+  });
+  return { report, appliedMigration };
 }

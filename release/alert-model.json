@@ -1,0 +1,264 @@
+{
+  "$comment": "Canonical operational alert model for both systems (global-content-os + channel-content-os). Classification only: no paging vendor is configured. Runtime evaluators: GCOS apps/worker/src/ops-summary.ts (reads this file), CCOS mcp-server/src/ops/summary.ts (runtime copy, parity-tested against this file). A single ordinary source failure never pages.",
+  "version": 1,
+  "classes": {
+    "MUST_ALERT": "A core flow is down or failing systemically. Act now: page the operator once a vendor exists; until then check /api/ops/summary + /ops/summary at least daily and on every deploy.",
+    "SHOULD_ALERT": "A capability is impaired or a pattern is forming. Handle within one working day.",
+    "MANUAL_CHECK": "Needs a human look during routine review. Never pages."
+  },
+  "systemicRule": "Systemic = at least a minimum count AND at least 50% of the relevant rows in the last 24 h (handoffs >= 3, callbacks >= 5, production jobs >= 3). A single failure is never systemic.",
+  "signals": [
+    {
+      "id": "GCOS_BLOCKED",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "GET /api/ready answers 503 BLOCKED (DB unreachable or schema behind the code).",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/readiness.ts", "pattern": "BLOCKED" },
+      "response": "docs/OPERATIONS.md section 5 (Bad Worker deploy / Bad migration)."
+    },
+    {
+      "id": "GCOS_D1_UNAVAILABLE",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "/api/ready blocked reason DB_UNREACHABLE.",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/readiness.ts", "pattern": "DB_UNREACHABLE" },
+      "response": "Check Cloudflare D1 status and quota banner; do not redeploy blindly."
+    },
+    {
+      "id": "GCOS_DEGRADED",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "/api/ready 200 DEGRADED (token unset, handoff misconfigured, cron heartbeat stale, schema version unknown).",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/readiness.ts", "pattern": "DEGRADED" },
+      "response": "Fix the listed reason (docs/OPERATIONS.md section 2)."
+    },
+    {
+      "id": "WORKER_CRON_STALE",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "/api/ready degraded reason CRON_HEARTBEAT_STALE (no feed fetch for > 60 min).",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/readiness.ts", "pattern": "CRON_HEARTBEAT_STALE" },
+      "response": "Check the Worker cron trigger and recent ingress errors."
+    },
+    {
+      "id": "HANDOFF_SYSTEMIC_FAILURE",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": ">= 3 approved_briefs approved in the last 24 h are handoff_status=failed and they are >= 50% of that window.",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/ops-summary.ts", "pattern": "HANDOFF_SYSTEMIC_FAILURE" },
+      "response": "Check CCOS /ready and CCOS_HANDOFF_URL/TOKEN; after the fix resend each failed brief (POST /api/handoff/resend)."
+    },
+    {
+      "id": "HANDOFF_FAILED",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "At least one approved_brief is handoff_status=failed.",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/triage/actions.ts", "pattern": "handoffStatus = 'failed'" },
+      "response": "POST /api/handoff/resend {briefId} (same briefId, stored immutable payload)."
+    },
+    {
+      "id": "HANDOFF_RESEND_EXHAUSTED",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "A failed brief reached the outbound attempt cap (MAX_HANDOFF_ATTEMPTS).",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/handoff-resend.ts", "pattern": "RESEND_BUDGET_EXHAUSTED" },
+      "response": "Investigate the CCOS side before any further action; the cap is not bypassable."
+    },
+    {
+      "id": "HANDOFF_BRIEF_ID_CONFLICT",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "A resend was answered 409: CCOS holds a DIFFERENT payload for the same briefId (immutability breach).",
+      "detect": { "repo": "gcos", "file": "apps/worker/src/handoff-resend.ts", "pattern": "BRIEF_ID_CONFLICT" },
+      "response": "Stop; compare approved_briefs.payload_json with CCOS approved_brief_intake.payload_hash. Never edit either side to force a match."
+    },
+    {
+      "id": "GCOS_IDENTITY_UNSTAMPED",
+      "system": "gcos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "gcos:/api/ops/summary",
+      "condition": "BUILD_COMMIT is not set on the running Worker.",
+      "detect": { "repo": "gcos", "file": "scripts/deploy-identity.mjs", "pattern": "--wrangler-vars" },
+      "response": "Next deploy: npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)."
+    },
+    {
+      "id": "SCHEDULER_SYSTEMIC_FAILURE",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "Run report scheduler.attention contains SYSTEMIC_FETCH_FAILURE (>= 50% of >= 4 selected sources failed).",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "SYSTEMIC_FETCH_FAILURE" },
+      "response": "docs/OPERATIONS.md section 5 (Mass source failures): runner network / network-diagnose workflow."
+    },
+    {
+      "id": "SCHEDULER_RUN_MISSING",
+      "system": "gcos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "No hekimler-python-runner run report for > 48 h (two missed daily runs).",
+      "detect": { "repo": "gcos", "file": ".github/workflows/hekimler-python-runner.yml", "pattern": "cron" },
+      "response": "gh run list --workflow hekimler-python-runner.yml; re-run with workflow_dispatch."
+    },
+    {
+      "id": "SCHEDULER_CAPACITY_DELAY",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "scheduler.attention contains CAPACITY_DELAY (due sources not started this run).",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "CAPACITY_DELAY" },
+      "response": "python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --history <dir>."
+    },
+    {
+      "id": "SCHEDULER_LATENESS",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "scheduler.attention contains LATENESS_BEYOND_THRESHOLD (> 2880 min).",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "LATENESS_BEYOND_THRESHOLD" },
+      "response": "hekimler_ops.py status; check capacity guard before any activation."
+    },
+    {
+      "id": "SCHEDULER_RETRY_BUDGET_EXHAUSTED",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "scheduler.attention contains RETRY_BUDGET_EXHAUSTED.",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "RETRY_BUDGET_EXHAUSTED" },
+      "response": "Inspect failure classes in report/run-report.json rows."
+    },
+    {
+      "id": "SCHEDULER_CAPACITY_BLOCK",
+      "system": "gcos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "gcos:capacity-guard",
+      "condition": "hekimler_ops.py capacity exits 2 (BLOCK) for the current active set.",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/scripts/hekimler_ops.py", "pattern": "\"BLOCK\": 2" },
+      "response": "No activation; reduce load (cadence class) through a reviewed commit."
+    },
+    {
+      "id": "SCHEDULER_MANUAL_REVIEW_REQUIRED",
+      "system": "gcos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "scheduler.attention contains MANUAL_REVIEW_REQUIRED (>= 5 consecutive failures for a source).",
+      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "MANUAL_REVIEW_REQUIRED" },
+      "response": "Investigate the named sources during routine review."
+    },
+    {
+      "id": "SOURCE_SINGLE_FAILURE",
+      "system": "gcos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "gcos:scheduler-run-report",
+      "condition": "One ordinary source fetch failure. Per-source health; never gates readiness or release.",
+      "detect": { "repo": "gcos", "file": "release/health-model.json", "pattern": "NEVER affects core readiness" },
+      "response": "None beyond routine source review."
+    },
+    {
+      "id": "CCOS_BLOCKED",
+      "system": "ccos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "GET /ready answers 503 BLOCKED (D1 binding/reachability, core schema, operator auth).",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/readiness.ts", "pattern": "BLOCKED" },
+      "response": "channel-content-os docs/OPERATIONS.md."
+    },
+    {
+      "id": "CCOS_D1_UNAVAILABLE",
+      "system": "ccos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "/ready blocked reason DB_UNREACHABLE or DB_BINDING_MISSING.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/readiness.ts", "pattern": "DB_UNREACHABLE" },
+      "response": "Check Cloudflare D1 status and the Worker D1 binding."
+    },
+    {
+      "id": "CCOS_DEGRADED",
+      "system": "ccos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "/ready 200 DEGRADED (intake token, callback config, schema 041, browser binding).",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/readiness.ts", "pattern": "DEGRADED" },
+      "response": "Fix the listed reason."
+    },
+    {
+      "id": "CALLBACK_SYSTEMIC_FAILURE",
+      "system": "ccos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": ">= 5 status callbacks attempted in the last 24 h failed and they are >= 50% of attempts.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/summary.ts", "pattern": "CALLBACK_SYSTEMIC_FAILURE" },
+      "response": "Check GCOS /api/ready (STATUS_CALLBACK_TOKEN) and GCOS_STATUS_URL/TOKEN; then POST /ops/callbacks/redeliver."
+    },
+    {
+      "id": "CALLBACK_DELIVERY_FAILED",
+      "system": "ccos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "At least one approved_brief_intake row has callback_last_error.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/handoff/approved-brief.ts", "pattern": "callback_last_error" },
+      "response": "POST /ops/callbacks/redeliver (bounded, idempotent)."
+    },
+    {
+      "id": "CALLBACK_REDELIVERY_EXHAUSTED",
+      "system": "ccos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "A brief reached REDELIVERY_MAX_ATTEMPTS_PER_STATUS for its current status.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/handoff/callback-redelivery.ts", "pattern": "REDELIVERY_MAX_ATTEMPTS_PER_STATUS" },
+      "response": "Fix GCOS first, then POST /ops/callbacks/redeliver {briefId, resetExhausted:true} for that one brief."
+    },
+    {
+      "id": "PRODUCTION_JOB_SYSTEMIC_FAILURE",
+      "system": "ccos",
+      "class": "MUST_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": ">= 3 approved_brief jobs updated in the last 24 h are failed and they are >= 50% of that window.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/summary.ts", "pattern": "PRODUCTION_JOB_SYSTEMIC_FAILURE" },
+      "response": "Inspect recentFailed in /ops/summary and get_job_stage_trace for one job; check PRODUCTION_FEEDBACK."
+    },
+    {
+      "id": "PRODUCTION_JOB_FAILED",
+      "system": "ccos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "At least one approved_brief job is in failed (resumable from its last successful stage).",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/handoff/approved-brief.ts", "pattern": "'failed'" },
+      "response": "Routine review of the job trace."
+    },
+    {
+      "id": "PRODUCTION_FEEDBACK_SINK_UNAVAILABLE",
+      "system": "ccos",
+      "class": "SHOULD_ALERT",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "feedback_events is absent (migration 041 not applied): production feedback is not durable.",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/feedback/d1-feedback-sink.ts", "pattern": "production_feedback_sink_failed" },
+      "response": "Apply migration 041 through the authorized migration process."
+    },
+    {
+      "id": "PRODUCTION_FEEDBACK_NEEDS_REVIEW",
+      "system": "ccos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "Open PRODUCTION_FEEDBACK events (OBSERVED / NEEDS_REVIEW).",
+      "detect": { "repo": "ccos", "file": "mcp-server/src/ops/summary.ts", "pattern": "PRODUCTION_FEEDBACK_NEEDS_REVIEW" },
+      "response": "Review per docs/FEEDBACK.md; feedback never changes rules by itself."
+    },
+    {
+      "id": "CCOS_IDENTITY_UNSTAMPED",
+      "system": "ccos",
+      "class": "MANUAL_CHECK",
+      "evaluatedBy": "ccos:/ops/summary",
+      "condition": "BUILD_COMMIT is not set on the running CCOS Worker.",
+      "detect": { "repo": "ccos", "file": "scripts/deploy-identity.mjs", "pattern": "--wrangler-vars" },
+      "response": "Next deploy: npx wrangler deploy $(node ../scripts/deploy-identity.mjs --wrangler-vars) from mcp-server/."
+    }
+  ]
+}
