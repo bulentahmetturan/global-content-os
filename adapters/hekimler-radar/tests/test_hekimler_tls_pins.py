@@ -1,5 +1,5 @@
-import datetime
-import subprocess
+import ssl
+import time
 import unittest
 from pathlib import Path
 
@@ -14,16 +14,11 @@ class PinnedIntermediateTests(unittest.TestCase):
         self.assertEqual(on_disk, set(c.PINNED_INTERMEDIATE_HOSTS))
 
     def test_pins_not_expired_with_margin(self):
+        # Decoded in-process (CPython's bundled OpenSSL) so the check never depends on an openssl binary on PATH.
         for name in c.PINNED_INTERMEDIATE_HOSTS:
-            try:
-                out = subprocess.run(["openssl", "x509", "-in", str(CERTS / name), "-noout", "-enddate"],
-                                     capture_output=True, text=True)
-            except OSError:
-                self.skipTest("openssl unavailable")
-            if out.returncode != 0:
-                self.skipTest("openssl unavailable")
-            end = datetime.datetime.strptime(out.stdout.strip().split("=")[1], "%b %d %H:%M:%S %Y %Z")
-            self.assertGreater(end, datetime.datetime.utcnow() + datetime.timedelta(days=90), name)
+            not_after = ssl._ssl._test_decode_cert(str(CERTS / name))["notAfter"]
+            end = ssl.cert_time_to_seconds(not_after)
+            self.assertGreater(end, time.time() + 90 * 86400, name)
 
     def test_unrelated_host_gets_no_pin(self):
         self.assertIsNone(c._pinned_intermediates_get("https://example.com/", 1))
