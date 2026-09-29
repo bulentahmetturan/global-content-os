@@ -12,8 +12,9 @@ on:
   push:
     paths:
       - "apps/worker/**"
+      - "apps/hub/**"
       - "migrations/**"
-      - "scripts/production-check.mjs"
+      - "scripts/**"
       - "package.json"
       - ".github/workflows/worker-tests.yml"
 
