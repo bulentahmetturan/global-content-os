@@ -48,6 +48,7 @@ export function human(r) {
   if (r.endpoint) lines.push(`ENDPOINT=${r.endpoint.url} TRANSPORT=${r.endpoint.transport} RUNTIME=${r.endpoint.runtime}${r.endpoint.note ? ` (${r.endpoint.note})` : ''}`);
   if (r.route) lines.push(`ROUTE=${r.route.lane}/${r.route.heading} CHANNEL=${r.route.channelId} TIER=${r.route.source_tier ?? '-'}`);
   if (r.cadence) lines.push(`CADENCE=${r.cadence.poll_minutes}min (${r.cadence.confidence}${r.cadence.flags?.length ? `; ${r.cadence.flags.join(',')}` : ''})`);
+  if (r.migration) lines.push(`MIGRATION=${r.migration} D1=${[...(r.d1?.upserts || []), ...(r.d1?.disables || []).map((d) => `${d} disable`)].join(',')} (remote apply needs explicit authorization)`);
   if (r.capacity) lines.push(`CAPACITY=${r.capacity.status}`);
   if (r.canary) lines.push(`CANARY=${r.canary.gate} candidates=${r.canary.candidates} published=0`);
   if (r.activation) lines.push(`ACTIVATION=${r.activation}`);
