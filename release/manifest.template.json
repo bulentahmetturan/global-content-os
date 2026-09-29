@@ -1,0 +1,12 @@
+{
+  "$comment": "TEMPLATE only. The real record is written at final cutover; systemV1 stays NOT_YET until then.",
+  "releaseId": "TEMPLATE",
+  "status": "TEMPLATE",
+  "gcos": { "repo": "global-content-os", "branch": null, "commit": null, "migrations": [], "expectedMigrationLevel": null },
+  "ccos": { "repo": "channel-content-os", "branch": null, "commit": null, "migrations": [], "expectedMigrationLevel": null },
+  "contractVersion": "1.0.0",
+  "deployedAt": null,
+  "smoke": null,
+  "rollbackRef": { "gcosVersionId": null, "ccosVersionId": null, "gcosCommit": null, "ccosCommit": null },
+  "systemV1": "NOT_YET"
+}
