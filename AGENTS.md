@@ -6,7 +6,7 @@ Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` 
 
 ## Read order (always)
 
-1. `docs/CORE.md` — Four Pillars + universal rules (~1 page)
+1. `docs/CORE.md` — Five Pillars + universal rules (~1 page)
 2. `docs/CURRENT.md` — what is true today
 3. `docs/INDEX.md` — find your task, read only the files it lists
 
