@@ -97,7 +97,7 @@ section('Python test suite (adapters/hekimler-radar)');
 // test_phase1_ingestion_canary.py, out of scope since S07). A regression
 // is any failure COUNT above this baseline, or any failure outside that
 // file.
-const KNOWN_FAILURE_BASELINE = 7;
+const KNOWN_FAILURE_BASELINE = 0; // the 7 phase1 canary failures were STALE fixtures (undated items), fixed in final reconciliation
 try {
   const out = execFileSync('python3', ['-m', 'pytest', 'tests', '-q'], {
     cwd: rel('adapters/hekimler-radar'),

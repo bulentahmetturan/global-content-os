@@ -35,6 +35,10 @@ from radar.phase1_ingestion_canary import (
 
 
 def _json_body(items: list[dict]) -> str:
+    # Undated items are discarded by policy (2026-09-21, discarded_by_policy): fixtures must carry a fresh date, exactly
+    # like test_hekimler_continuous. Items that set their own published_at keep it.
+    today = datetime.now(timezone.utc).date().isoformat()
+    items = [{"published_at": today, **it} for it in items]
     return json.dumps({"items": items}, ensure_ascii=False)
 
 

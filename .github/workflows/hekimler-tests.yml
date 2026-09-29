@@ -37,4 +37,4 @@ jobs:
         # pre-existing failures tracked since S07/S49-S51 as a documented,
         # out-of-scope baseline, not something this workflow should block
         # merges on until a dedicated fix lands for that file specifically.
-        run: python -m pytest tests -q --ignore=tests/test_phase1_ingestion_canary.py
+        run: python -m pytest tests -q
