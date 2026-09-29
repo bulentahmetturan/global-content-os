@@ -61,9 +61,9 @@ must match it and the worker must not redeclare it — both enforced by
   Worker's `STATUS_CALLBACK_TOKEN`). Callback delivery is best-effort and recorded in CCOS's intake ledger.
 - If Cloudflare Access fronts the CCOS hostname, this Worker must call with an Access service token.
 
-Going live (external steps): deploy CCOS with migration 040, set the secrets above on both Workers, then set
-`CCOS_HANDOFF_URL=https://<ccos-host>/api/handoff/approved-brief` and `CCOS_HANDOFF_STUB=false` here.
-Until then briefs stay `stubbed` in D1 (`approved_briefs.handoff_status = stubbed`, `handoff_log`).
+Live since the SYSTEM_V1 cutover (2026-09-29, `docs/CURRENT.md`): CCOS deployed with migration 040, secrets set on
+both Workers, `CCOS_HANDOFF_URL=https://<ccos-host>/api/handoff/approved-brief` and `CCOS_HANDOFF_STUB=false` here.
+With `CCOS_HANDOFF_STUB=true` (containment) briefs stay `stubbed` in D1 (`approved_briefs.handoff_status = stubbed`, `handoff_log`).
 
 `POST /api/handoff/status` fails closed: if `STATUS_CALLBACK_TOKEN` is unset it answers `503`, and it only accepts
 the five contract statuses.
