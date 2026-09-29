@@ -340,3 +340,50 @@ def assess_capacity(
             "cycles_considered": len(cycles),
         },
     }
+
+
+# --- Package 6 binding: operational attention -> SOURCE_FEEDBACK candidates (thresholded, never per-event) -------------
+FEEDBACK_INGEST_ENV = ("GCOS_FEEDBACK_INGEST_URL", "GCOS_FEEDBACK_INGEST_TOKEN")
+
+
+def feedback_candidates(scheduler: dict, stamp: str, policy: "Policy") -> list[dict]:
+    """SOURCE_FEEDBACK inputs for sources that crossed the manual-review threshold (repeated failure).
+
+    A transient failure is TELEMETRY and never produces a candidate. One candidate per source per ISO week bucket, so
+    re-running the same day (or the same week) is idempotent at the feedback store. Inputs are proposals only.
+    """
+    from datetime import datetime
+
+    week = datetime.strptime(stamp[:10], "%Y-%m-%d").strftime("%G-W%V")
+    out = []
+    for sid in scheduler.get("manual_review") or []:
+        out.append({
+            "feedback_type": "SOURCE_FEEDBACK",
+            "origin_system": "global-content-os",
+            "subject_type": "source",
+            "subject_id": sid,
+            "timestamp": stamp,
+            "observation": {"code": "FETCH_FAILURE_REPEATED", "note": f">={policy.manual_review_failures} consecutive failed runs"},
+            "evidence": {"refs": [{"kind": "scheduler_report", "id": stamp}], "data": {"consecutive_failures_min": policy.manual_review_failures}},
+            "proposed_adjustment": {"action": "REVALIDATE", "target_class": "source_lifecycle", "status": "PROPOSAL",
+                                     "rationale": "repeated consecutive failures reported by the scheduler"},
+            "correlation": {"source_id": sid},
+            "bucket": week,
+        })
+    return out
+
+
+def post_feedback_candidates(candidates: list[dict], env: dict, opener) -> dict:
+    """Authenticated transport. FAILS CLOSED: without both URL and token nothing is sent (recorded as NOT_SENT)."""
+    import json as _json
+
+    url, token = (str(env.get(k) or "").strip() for k in FEEDBACK_INGEST_ENV)
+    if not url or not token:
+        return {"sent": 0, "status": "NOT_SENT", "reason": "feedback transport not configured (fail closed)"}
+    if not url.startswith("https://"):
+        return {"sent": 0, "status": "NOT_SENT", "reason": "feedback url must be https"}
+    sent = 0
+    for c in candidates:
+        opener(url, _json.dumps(c).encode("utf-8"), {"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
+        sent += 1
+    return {"sent": sent, "status": "SENT"}

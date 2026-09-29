@@ -346,5 +346,30 @@ class TestCapacityGuard(unittest.TestCase):
         self.assertIn(out["status"], ("CAUTION", "BLOCK"))
 
 
+class TestFeedbackBinding(unittest.TestCase):
+    def test_only_manual_review_sources_become_candidates_one_per_week_bucket(self):
+        from radar.hekimler_scheduler import feedback_candidates
+        sched = {"manual_review": ["a", "b"], "capacity_delayed": ["c"], "backoff": ["d"]}
+        cands = feedback_candidates(sched, "2026-09-29T10:00:00Z", P)
+        self.assertEqual([c["subject_id"] for c in cands], ["a", "b"])  # transient / delayed / backoff -> telemetry only
+        self.assertTrue(all(c["proposed_adjustment"]["status"] == "PROPOSAL" for c in cands))
+        self.assertEqual(cands[0]["bucket"], feedback_candidates(sched, "2026-10-02T01:00:00Z", P)[0]["bucket"])
+        self.assertNotEqual(cands[0]["bucket"], feedback_candidates(sched, "2026-10-06T01:00:00Z", P)[0]["bucket"])
+        self.assertEqual(feedback_candidates({"manual_review": []}, "2026-09-29T10:00:00Z", P), [])
+
+    def test_transport_fails_closed_without_url_and_token(self):
+        from radar.hekimler_scheduler import post_feedback_candidates
+        calls = []
+        cand = [{"x": 1}]
+        for env in ({}, {"GCOS_FEEDBACK_INGEST_URL": "https://x"}, {"GCOS_FEEDBACK_INGEST_TOKEN": "t"},
+                    {"GCOS_FEEDBACK_INGEST_URL": "http://x", "GCOS_FEEDBACK_INGEST_TOKEN": "t"}):
+            r = post_feedback_candidates(cand, env, lambda *a: calls.append(a))
+            self.assertEqual(r["status"], "NOT_SENT")
+        self.assertEqual(calls, [])
+        ok = post_feedback_candidates(cand, {"GCOS_FEEDBACK_INGEST_URL": "https://x", "GCOS_FEEDBACK_INGEST_TOKEN": "t"}, lambda *a: calls.append(a))
+        self.assertEqual(ok["sent"], 1)
+        self.assertEqual(calls[0][2]["Authorization"], "Bearer t")
+
+
 if __name__ == "__main__":
     unittest.main()

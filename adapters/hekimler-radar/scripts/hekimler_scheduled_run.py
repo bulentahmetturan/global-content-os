@@ -33,6 +33,8 @@ from radar.hekimler_scheduler import (  # noqa: E402
     SourceState,
     attention_conditions,
     classify_failure,
+    feedback_candidates,
+    post_feedback_candidates,
     execute_plan,
     plan_run,
     source_status,
@@ -352,6 +354,13 @@ def main() -> int:
 
     out = Path(args.report_dir)
     out.mkdir(parents=True, exist_ok=True)
+    candidates = feedback_candidates(scheduler, cycle_finished_at, policy)
+    if candidates:
+        (out / "feedback-candidates.json").write_text(json.dumps(candidates, ensure_ascii=False, indent=1), encoding="utf-8")
+        if not args.dry_run:
+            scheduler["feedback_transport"] = post_feedback_candidates(
+                candidates, os.environ,
+                lambda u, body, hdrs: urllib.request.urlopen(urllib.request.Request(u, data=body, headers=hdrs, method="POST"), timeout=20))
     stamp = cycle_finished_at
     (out / "run-report.json").write_text(
         json.dumps({"generated_at": stamp, "dry_run": args.dry_run, "cycle": cycle, "scheduler": scheduler, "rows": rows},
