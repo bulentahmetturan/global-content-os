@@ -771,7 +771,8 @@
     routeCounts: {},
     routeMeta: {},
     revalidationBySource: {}, // canonical_source_key -> row from /api/source-revalidation (only sources needing review)
-    onlyNeedsReview: false
+    onlyNeedsReview: false,
+    lifecycleFilter: ''
   };
   if (state.route === 'hekimler' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
     state.showSources = true;
@@ -1134,7 +1135,13 @@
           research: isResearchSource('hekimler', s.sourceId),
           burs: burs,
           egitim: egitim,
-          url: (catalogById()[s.sourceId] || {}).url || ''
+          url: (catalogById()[s.sourceId] || {}).url || '',
+          family: fam,
+          schedulerPath: s.schedulerPath || 'none',
+          lifecycle: t.activation_state || (burs || egitim ? 'MANUAL_INTAKE' : ''),
+          lastAttempt: t.last_run_at ? String(t.last_run_at).slice(0, 10) : '',
+          lastOperatorStatus: t.last_operator_status || '',
+          manualReason: t.coverage_reason || s.note || ''
         });
       });
     } else {
@@ -1169,16 +1176,32 @@
       var filtered = state.onlyNeedsReview
         ? list.filter(function (r) { return sourceNeedsReview(r, state.revalidationBySource); })
         : list;
+      if (state.lifecycleFilter) {
+        filtered = filtered.filter(function (r) { return (r.lifecycle || '') === state.lifecycleFilter; });
+      }
       if (!filtered.length) return '<div>' + (state.onlyNeedsReview ? 'Gözden geçirme gereken kaynak yok.' : 'Yok') + '</div>';
-      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th><th>Doğrulama</th></tr></thead><tbody>' + filtered.map(function (r, i) {
+      var SCHEDULER_TR = {
+        cloudflare_continuous_tick: 'Cloudflare (dakikalık)',
+        python_runner_github_actions: 'GitHub Actions (günlük)',
+        none: '— (hiçbiri)'
+      };
+      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Yaşam döngüsü</th><th>Zamanlayıcı</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th><th>Doğrulama</th></tr></thead><tbody>' + filtered.map(function (r, i) {
         var why = sourceWhy(r.id);
         var href = r.url ? '<a class="src-link" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener">resmi sayfa</a>' : '';
         var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(baseSourceName(r.name)) + '</span>' +
           (why ? ' <span class="src-why">: ' + escapeHtml(why) + '</span>' : '') +
           (href ? ' · ' + href : '');
         var st = shortLabel(r.status);
+        var detailTip = [
+          r.lastAttempt ? 'Son deneme: ' + r.lastAttempt : '',
+          r.lastOperatorStatus ? 'Son işletmen durumu: ' + r.lastOperatorStatus : '',
+          r.manualReason ? 'Not: ' + r.manualReason : ''
+        ].filter(Boolean).join(' · ');
+        var lifecycleCell = '<span' + (detailTip ? ' title="' + escapeHtml(detailTip) + '"' : '') + '>' +
+          escapeHtml(r.lifecycle || '—') + (detailTip ? ' ℹ' : '') + '</span>';
+        var schedCell = escapeHtml(SCHEDULER_TR[r.schedulerPath] || r.schedulerPath || '—');
         return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
-          escapeHtml(st) + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td><td>' + revalidationCell(r) + '</td></tr>';
+          escapeHtml(st) + '</td><td>' + lifecycleCell + '</td><td>' + schedCell + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td><td>' + revalidationCell(r) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     var news = rows.filter(function (r) { return !r.research && !r.burs && !r.egitim; });
@@ -1188,29 +1211,35 @@
     var filt = state.sourceFilter ? '<span class="src-chip" data-src-clear="1">filtre: ' + escapeHtml(state.sourceFilter) + ' ✕</span>' : '';
     var reviewToggle = '<label class="src-review-toggle" style="font-size:12px;font-weight:400;margin-left:10px">' +
       '<input type="checkbox" data-src-review-toggle="1"' + (state.onlyNeedsReview ? ' checked' : '') + '> yalnız sorunlu/gözden geçirme gereken</label>';
+    var lifecycleOptions = ['', 'AUTOMATION_READY', 'MANUAL_INTAKE', 'BLOCKED'];
+    var lifecycleFilterEl = '<select data-src-lifecycle-filter="1" style="font-size:12px;margin-left:10px">' +
+      lifecycleOptions.map(function (v) {
+        return '<option value="' + escapeHtml(v) + '"' + (state.lifecycleFilter === v ? ' selected' : '') + '>' +
+          (v ? escapeHtml(v) : 'tüm yaşam döngüleri') + '</option>';
+      }).join('') + '</select>';
     var bursBlock = '<h3>🎓 Burs (' + burs.length + ')</h3>' + (burs.length ? table(burs) : '<div>Kayıtlı burs kaynağı yok.</div>');
     var egitimBlock = '<h3>📚 Eğitim (' + egitim.length + ')</h3>' + (egitim.length ? table(egitim) : '<div>Prestij eğitim kaynakları henüz eklenmedi.</div>');
     if (state.route === 'hekimler' && state.hekLane === 'burs') {
-      el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + reviewToggle + bursBlock;
+      el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + reviewToggle + lifecycleFilterEl + bursBlock;
       return;
     }
     if (state.route === 'hekimler' && state.hekLane === 'egitim') {
-      el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + reviewToggle + egitimBlock;
+      el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + reviewToggle + lifecycleFilterEl + egitimBlock;
       return;
     }
     if (state.route === 'kaduse') {
       var kaduseNews = rows.filter(function (r) { return !r.research; });
       var kaduseRes = rows.filter(function (r) { return r.research; });
       if (state.kind === 'research') {
-        el.innerHTML = '<b>' + kaduseRes.length + ' araştırma kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
+        el.innerHTML = '<b>' + kaduseRes.length + ' araştırma kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle + lifecycleFilterEl +
           '<h3>🔬 Research (' + kaduseRes.length + ')</h3>' + (kaduseRes.length ? table(kaduseRes) : '<div>Yok</div>');
       } else {
-        el.innerHTML = '<b>' + kaduseNews.length + ' haber kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
+        el.innerHTML = '<b>' + kaduseNews.length + ' haber kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle + lifecycleFilterEl +
           '<h3>📰 Haber (' + kaduseNews.length + ')</h3>' + (kaduseNews.length ? table(kaduseNews) : '<div>Yok</div>');
       }
       return;
     }
-    el.innerHTML = '<b>' + news.length + ' duyuru kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
+    el.innerHTML = '<b>' + news.length + ' duyuru kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle + lifecycleFilterEl +
       '<h3>🩺 Duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>');
   }
   async function ensureFeeds() {
@@ -1462,6 +1491,10 @@
     if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
     if (e.target.hasAttribute && e.target.hasAttribute('data-src-review-toggle')) {
       state.onlyNeedsReview = e.target.checked;
+      renderSourcePanel();
+    }
+    if (e.target.hasAttribute && e.target.hasAttribute('data-src-lifecycle-filter')) {
+      state.lifecycleFilter = e.target.value;
       renderSourcePanel();
     }
   });

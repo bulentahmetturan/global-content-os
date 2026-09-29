@@ -30,6 +30,7 @@ import {
   assertHekimlerChannelPartition,
   authorizeHekimlerIngress,
   hekimlerReadySourceCount,
+  hekimlerSchedulerPath,
   recordPythonRunTelemetry,
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
@@ -133,9 +134,10 @@ export default {
 
       if (path === '/api/hekimler/sources' && request.method === 'GET') {
         const { results } = await env.DB.prepare(
-          `SELECT source_id, last_success_at, source_health, coverage_status, last_item_timestamp,
-                  last_accepted_count, last_discarded_count, last_item_count, failure_count, poll_minutes,
-                  zero_accept_streak
+          `SELECT source_id, last_success_at, source_health, coverage_status, coverage_reason,
+                  last_item_timestamp, last_accepted_count, last_discarded_count, last_item_count,
+                  failure_count, poll_minutes, zero_accept_streak, activation_state, last_run_at,
+                  last_operator_status
            FROM hekimler_source_telemetry ORDER BY source_id`
         ).all<Record<string, unknown>>();
         const byId = new Map((results || []).map((r) => [String(r.source_id), r]));
@@ -147,7 +149,14 @@ export default {
           const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string; poll_minutes?: number } | undefined) ?? null;
           const c = coverageLabel(id, row);
           const pollMinutes = Number(row?.poll_minutes) || 43200;
-          return { sourceId: id, ...c, pollMinutes, telemetry: row, family: classifyHekimlerFamily(id) };
+          return {
+            sourceId: id,
+            ...c,
+            pollMinutes,
+            telemetry: row,
+            family: classifyHekimlerFamily(id),
+            schedulerPath: hekimlerSchedulerPath(id),
+          };
         });
         return json({ sources });
       }
