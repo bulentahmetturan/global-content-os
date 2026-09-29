@@ -141,6 +141,30 @@ export const HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS = [
   'anadolu_ajansi_medical_radar',
 ] as const;
 
+export type HekimlerFamily = 'burs' | 'egitim' | 'duyuru';
+
+const HEKIMLER_BURS_SOURCE_ID_SET = new Set<string>(HEKIMLER_BURS_SOURCE_IDS);
+const HEKIMLER_EGITIM_SOURCE_ID_SET = new Set<string>(HEKIMLER_EGITIM_SOURCE_IDS);
+
+/**
+ * S71 (Work package 1, item 3): the SINGLE canonical place that decides a
+ * Hekimler source's content family (BURS/EĞİTİM/DUYURU). Prefers the
+ * explicit, hand-curated HEKIMLER_BURS_SOURCE_IDS/HEKIMLER_EGITIM_SOURCE_IDS
+ * registrations (real registry membership, not a guess); falls back to the
+ * `burs_`/`egitim_` id-prefix convention only for ids not in either list
+ * (keeps existing behavior for anything not yet explicitly registered).
+ * Both the /api/hekimler/sources response (so the Hub client can read
+ * `family` directly instead of re-deriving it) and db/family-clause.ts's
+ * SQL-side filter should ultimately agree with this function -- it exists
+ * so there is one place to change the rule, not several independently
+ * "clever" heuristics scattered across server and client code.
+ */
+export function classifyHekimlerFamily(sourceId: string): HekimlerFamily {
+  if (HEKIMLER_BURS_SOURCE_ID_SET.has(sourceId) || sourceId.startsWith('burs_')) return 'burs';
+  if (HEKIMLER_EGITIM_SOURCE_ID_SET.has(sourceId) || sourceId.startsWith('egitim_')) return 'egitim';
+  return 'duyuru';
+}
+
 /** Material, documented limitations (snapshot: adapters/hekimler-radar/content/archive/HEKIMLER-COVERAGE-MATRIX.md). */
 export const COVERAGE_OVERRIDES: Record<string, { label: CoverageLabel; note: string }> = {
   abroad_uk_gmc: { label: 'PARTIALLY_COVERED', note: 'Yalnız gov.uk UKVI/DHSC beslemeleri; GMC kayıt/PLAB/haber kapsam dışı (bot engeli).' },

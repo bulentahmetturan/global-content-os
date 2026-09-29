@@ -33,7 +33,7 @@ import {
   recordPythonRunTelemetry,
   runHekimlerContinuousTick,
 } from './ingress/hekimler-continuous';
-import { COVERAGE_OVERRIDES, coverageLabel, HEKIMLER_BURS_SOURCE_IDS, HEKIMLER_EGITIM_SOURCE_IDS, HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/hekimler-coverage';
+import { COVERAGE_OVERRIDES, coverageLabel, classifyHekimlerFamily, HEKIMLER_BURS_SOURCE_IDS, HEKIMLER_EGITIM_SOURCE_IDS, HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/hekimler-coverage';
 import {
   pickScheduledSlot,
   runIsolatedScheduledJobs,
@@ -147,7 +147,7 @@ export default {
           const row = (byId.get(id) as { coverage_status?: string; source_health?: string; last_success_at?: string; poll_minutes?: number } | undefined) ?? null;
           const c = coverageLabel(id, row);
           const pollMinutes = Number(row?.poll_minutes) || 43200;
-          return { sourceId: id, ...c, pollMinutes, telemetry: row };
+          return { sourceId: id, ...c, pollMinutes, telemetry: row, family: classifyHekimlerFamily(id) };
         });
         return json({ sources });
       }

@@ -37,8 +37,9 @@ function extractFunction(name) {
 const src = [
   extractFunction('isBursSource'),
   extractFunction('isEgitimSource'),
+  extractFunction('sourceFamily'),
   extractFunction('computeActiveSourceCount'),
-  '({ computeActiveSourceCount, isBursSource, isEgitimSource })',
+  '({ computeActiveSourceCount, isBursSource, isEgitimSource, sourceFamily })',
 ].join('\n');
 
 const { computeActiveSourceCount } = vm.runInNewContext(src, {}, { filename: 'index.html (extracted)' });

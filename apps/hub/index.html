@@ -998,6 +998,21 @@
   function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
   function isBursSource(id) { return String(id || '').indexOf('burs_') === 0; }
   function isEgitimSource(id) { return String(id || '').indexOf('egitim_') === 0; }
+  /**
+   * S71 (work package 1, item 3): canonical content-family lookup for a
+   * Hekimler source row. Prefers the backend's own classifyHekimlerFamily()
+   * verdict (apps/worker/src/ingress/hekimler-coverage.ts, returned as
+   * `family` on every /api/hekimler/sources entry -- the registry-backed
+   * source of truth), and falls back to the same id-prefix heuristic this
+   * file always used ONLY for entries that predate that field (e.g. this
+   * session's own synthetic RUNNER_REQUIRED placeholders in
+   * mergeHekSources(), which are never sent to/from the backend at all).
+   */
+  function sourceFamily(s) {
+    if (s && (s.family === 'burs' || s.family === 'egitim' || s.family === 'duyuru')) return s.family;
+    var id = s && s.sourceId;
+    return isBursSource(id) ? 'burs' : isEgitimSource(id) ? 'egitim' : 'duyuru';
+  }
 
   /**
    * "N aktif kaynak" header count -- MUST be lane-scoped, never a cross-lane
@@ -1012,12 +1027,12 @@
   function computeActiveSourceCount(state, bursCatalog, egitimCatalog) {
     if (state.route === 'hekimler' && state.hekSources) {
       if (state.hekLane === 'burs') {
-        return bursCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('burs_') === 0; }).length;
+        return bursCatalog.length || state.hekSources.filter(function (s) { return sourceFamily(s) === 'burs'; }).length;
       }
       if (state.hekLane === 'egitim') {
-        return egitimCatalog.length || state.hekSources.filter(function (s) { return String(s.sourceId || '').indexOf('egitim_') === 0; }).length;
+        return egitimCatalog.length || state.hekSources.filter(function (s) { return sourceFamily(s) === 'egitim'; }).length;
       }
-      return state.hekSources.filter(function (s) { return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId); }).length;
+      return state.hekSources.filter(function (s) { return sourceFamily(s) === 'duyuru'; }).length;
     }
     if (state.route === 'kaduse') {
       var kaduseRouteId = state.kind === 'research' ? 'kaduse-research' : 'kaduse-news';
@@ -1055,7 +1070,8 @@
         label: 'RUNNER_REQUIRED',
         note: isEgitimSource(id) ? 'Eğitim şeridi: MANUAL_INTAKE; otomatik çekim kapalı.' : 'Burs şeridi: MANUAL_INTAKE; otomatik çekim kapalı.',
         pollMinutes: 10080,
-        telemetry: null
+        telemetry: null,
+        family: isEgitimSource(id) ? 'egitim' : 'burs'
       };
     });
     return Object.keys(byId).sort().map(function (k) { return byId[k]; });
@@ -1100,8 +1116,9 @@
     var rows = [];
     if (state.route === 'hekimler') {
       (state.hekSources || []).forEach(function (s) {
-        var burs = isBursSource(s.sourceId);
-        var egitim = isEgitimSource(s.sourceId);
+        var fam = sourceFamily(s);
+        var burs = fam === 'burs';
+        var egitim = fam === 'egitim';
         if (state.hekLane === 'burs' && !burs) return;
         if (state.hekLane === 'egitim' && !egitim) return;
         if (state.hekLane === 'duyuru' && (burs || egitim)) return;
@@ -1231,14 +1248,16 @@
     var health = '';
     if (state.hekSources) {
       var healthSources = state.hekSources.filter(function (s) {
-        if (state.hekLane === 'burs') return isBursSource(s.sourceId);
-        if (state.hekLane === 'egitim') return isEgitimSource(s.sourceId);
-        return !isBursSource(s.sourceId) && !isEgitimSource(s.sourceId);
+        var fam = sourceFamily(s);
+        if (state.hekLane === 'burs') return fam === 'burs';
+        if (state.hekLane === 'egitim') return fam === 'egitim';
+        return fam === 'duyuru';
       });
       health = '<details class="hek-health"><summary>Kaynak durumu (' + healthSources.length + ')</summary><table><tbody>' +
         healthSources.map(function (s) {
+          var fam = sourceFamily(s);
           return '<tr><td>' + escapeHtml(SOURCE_LABELS[s.sourceId] || s.sourceId) + '</td><td>' +
-            escapeHtml((isBursSource(s.sourceId) || isEgitimSource(s.sourceId)) ? 'kayıtlı · MANUAL_INTAKE (otomatik çekim kapalı, doğrulama bekliyor)' : (COVERAGE_TR[s.label] || s.label)) +
+            escapeHtml((fam === 'burs' || fam === 'egitim') ? 'kayıtlı · MANUAL_INTAKE (otomatik çekim kapalı, doğrulama bekliyor)' : (COVERAGE_TR[s.label] || s.label)) +
             '</td><td>' + escapeHtml(s.note || '') + '</td></tr>';
         }).join('') + '</tbody></table></details>';
     }

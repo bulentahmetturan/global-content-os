@@ -423,12 +423,13 @@
     },
     {
       "source_id": "abroad_uk_gmc",
-      "name": "GMC — registration and licensing",
+      "name": "GMC registration/licensing -- UK gov substitute signal (gmc-uk.org itself is blocked, see manual_intake_reason)",
       "country": "United Kingdom",
       "coverage_class": "CORE_PATHWAY_DOSSIER",
       "canonical_url": "https://www.gov.uk/government/organisations/uk-visas-and-immigration.atom",
       "source_url": "https://www.gov.uk/government/organisations/uk-visas-and-immigration.atom",
       "primary_url": "https://www.gov.uk/government/organisations/uk-visas-and-immigration.atom",
+      "blocked_primary_source_url": "https://www.gmc-uk.org/news",
       "allowed_hostnames": [
         "www.gov.uk"
       ],
@@ -453,7 +454,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "S69 Phase A canary (2026-09-29) DATA-QUALITY FINDING: this record is named/labelled 'GMC -- registration and licensing' but its canonical_url/source_url/primary_url all point to the UK Visas and Immigration organisation's Atom feed (gov.uk/government/organisations/uk-visas-and-immigration.atom), not to the General Medical Council. The URL IS live and fetchable (HTTP 200, real Atom XML, verified via radar.fetchers.fetch()) but it is the wrong source for what this record claims to represent -- it would surface UKVI immigration-policy items under a 'GMC' label, not real GMC registration/licensing news. Left MANUAL_INTAKE (not activated with the wrong URL); needs the actual GMC news/updates page or feed identified in a follow-up pass before any activation.",
+      "manual_intake_reason": "S70 (2026-09-29) CORRECTED FINDING, supersedes S69's characterization: this record was S69-flagged as a 'wrong canonical_url' data-quality bug, but the fetch_plan.notes field (not checked in S69's pass) already honestly discloses that gov.uk's UKVI+DHSC Atom feeds are a deliberate, tested PARTIAL SUBSTITUTE for gmc-uk.org, not a mistake -- see the existing GmcSubstituteTests in tests/test_hekimler_tdb_gmc.py, which already covers this exact multi-feed composite mechanism (_composite_multi_feed_get, composite_urls). canonical_url/source_url/primary_url/allowed_hostnames have been restored to match fetch_plan (they must stay consistent -- pointing canonical_url at gmc-uk.org while fetch_plan still fetches gov.uk would itself be a self-contradictory record). Instead: (1) added blocked_primary_source_url so the REAL entity's URL is explicit and machine-readable rather than buried in prose; (2) renamed `name` so the substitution is obvious without reading fetch_plan.notes; (3) re-confirmed with FRESH evidence (2026-09-29, two independent fetchers -- radar.fetchers.fetch() and a separate WebFetch call) that gmc-uk.org is still BLOCKED_EXTERNAL on every path tested including /news, /news-and-media-manager/all-news, /sitemap.xml, and /robots.txt -- a blanket WAF, not a selective block, so no unblocked GMC sub-page exists to fall back to; confirmed no gov.uk-hosted GMC organisation feed exists either (gov.uk/government/organisations/general-medical-council(.atom) both 404, GMC is an independent regulator not a listed gov.uk department). FINAL DISPOSITION: stays MANUAL_INTAKE. The substitute fetch_plan works (tested) but, by its own honest notes, does NOT cover real GMC registration/PLAB/rules content -- only adjacent UK-government signal that occasionally overlaps. Not activated to AUTOMATION_READY under a 'GMC' label for content that isn't really GMC's; this is a final, evidence-backed disposition, not a placeholder.",
       "source_health": "MANUAL_REVIEW_REQUIRED",
       "include_keywords": [
         "international medical graduate",
