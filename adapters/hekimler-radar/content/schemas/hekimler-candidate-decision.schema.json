@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://global-content-os.local/schemas/hekimler-candidate-decision.schema.json",
+  "title": "Hekimler Topluluğu Candidate Decision Record",
+  "description": "Stored on every routed candidate. AI may classify/summarize; never invent evidence or replace a source.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "candidateId",
+    "channelId",
+    "sourcePolicyId",
+    "route",
+    "routeReason",
+    "audienceSegments",
+    "evidenceStatus",
+    "primaryUrlRequired",
+    "riskFlags",
+    "decidedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "candidateId": { "type": "string", "minLength": 1 },
+    "channelId": { "const": "tip-ogrencileri-platformu" },
+    "sourcePolicyId": { "type": "string", "minLength": 1 },
+    "sourcePolicyApplied": { "type": "string", "minLength": 1 },
+    "route": {
+      "enum": [
+        "FEED",
+        "PROFESSIONAL_BRIEF",
+        "OPPORTUNITY",
+        "CONGRESS_CALENDAR",
+        "ABROAD_CAREER",
+        "TREND_INBOX",
+        "DISCARD"
+      ]
+    },
+    "routeReason": { "type": "string", "minLength": 1 },
+    "audienceSegments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": ["medical_student", "intern", "resident", "early_career_physician", "physician", "academic_physician", "dental_student", "veterinary_student", "international_student_in_turkey", "tus_candidate", "dus_candidate", "general_practitioner", "family_physician", "specialist", "dentist", "veterinarian", "compulsory_service_physician", "private_practice_physician", "physician_researcher", "abroad_aspirant", "turkish_professional_abroad"]
+      }
+    },
+    "evidenceStatus": {
+      "enum": ["verified", "needs-check", "discovery-only", "insufficient"]
+    },
+    "primaryUrl": { "type": ["string", "null"], "format": "uri" },
+    "primaryUrlRequired": { "type": "boolean" },
+    "signalUrl": { "type": ["string", "null"], "format": "uri" },
+    "referenceUrl": { "type": ["string", "null"], "format": "uri" },
+    "requiredTransform": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "riskFlags": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "patient_privacy",
+          "named_institution_allegation",
+          "medical_claim",
+          "advertising_sensitivity",
+          "organisation_advocacy",
+          "preprint",
+          "consumer_media",
+          "copyright_reference_account",
+          "gulf_watch_only"
+        ]
+      }
+    },
+    "claimScope": {
+      "enum": [
+        "personal_experience",
+        "local_pattern",
+        "national_fact",
+        "organisation_position",
+        "study_finding",
+        "unspecified"
+      ]
+    },
+    "contentAngle": {
+      "enum": [
+        "career",
+        "science-ai",
+        "education",
+        "culture",
+        "opportunity",
+        "policy-impact",
+        "abroad",
+        "congress",
+        "trend"
+      ]
+    },
+    "viralSignal": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mass_appeal": { "type": "number" },
+        "medical_relevance": { "type": "number" },
+        "conversation_hook": { "type": "number" },
+        "commercial_fit": { "type": "number" },
+        "risk": { "type": "number" }
+      }
+    },
+    "aiSummary": { "type": "string" },
+    "humanNotes": { "type": "string" },
+    "decidedAt": { "type": "string", "format": "date-time" }
+  }
+}
