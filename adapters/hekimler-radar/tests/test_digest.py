@@ -43,9 +43,11 @@ class DigestTests(unittest.TestCase):
         self.assertLess(high_pos, low_pos)
 
     def test_digest_includes_deadline_note(self):
-        from datetime import date, timedelta
+        from datetime import datetime, timedelta
+        from radar.deadlines import ISTANBUL_TZ
         candidate = _candidate("a", "Son Başvuru Yaklaşıyor")
-        candidate.deadline = (date.today() + timedelta(days=1)).strftime("%d.%m.%Y")
+        # days_until counts from the Istanbul date; the host clock (UTC on CI) is a day behind after 21:00 UTC.
+        candidate.deadline = (datetime.now(ISTANBUL_TZ).date() + timedelta(days=1)).strftime("%d.%m.%Y")
         self.db.save_candidate(candidate)
         text = build_digest(self.db, hours=24)
         self.assertIn("son 1 gün", text)
