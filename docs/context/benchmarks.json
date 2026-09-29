@@ -1,0 +1,19 @@
+{
+  "note": "Declared context manifest per benchmark task: what the task should load. `route` must exist in the named repo's docs/INDEX.md; checked by `node scripts/context-telemetry.mjs benchmarks`.",
+  "benchmarks": [
+    { "id": 1, "task": "source add", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Add / retire / reactivate a source (lifecycle, any route)", "forbidden": ["channel-content-os", "multi_channel_design", ".p4wt", "source-registry-", "feeds.json"] },
+    { "id": 2, "task": "source inspect", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Modify a source record (any route)", "forbidden": ["source-registry-", "source-matrix.generated.json", "channel-content-os"] },
+    { "id": 3, "task": "source retire", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Add / retire / reactivate a source (lifecycle, any route)", "forbidden": ["channel-content-os", "packages/source-catalog/data"] },
+    { "id": 4, "task": "Kaduse research/news source", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Kaduse news / research source work", "forbidden": ["hekimler-radar/sources/source-registry", "channel-content-os"] },
+    { "id": 5, "task": "Kaduse visual/design", "class": "SINGLE_SUBSYSTEM", "repo": "channel-content-os", "route": "Kaduse visual / design / composition", "forbidden": ["global-content-os", "ASSET-MANIFEST.json", "channels/hekimler"] },
+    { "id": 6, "task": "Hekimler source add", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Add a Hekimler source", "forbidden": ["packages/source-catalog/data", "channel-content-os"] },
+    { "id": 7, "task": "Hekimler parser", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Hekimler parser or fetch fix", "forbidden": ["source-registry-", "content/archive/"] },
+    { "id": 8, "task": "scheduler", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Scheduler / cadence / capacity", "forbidden": ["_history/", "cron-capacity-report"] },
+    { "id": 9, "task": "Hub", "class": "SINGLE_SUBSYSTEM", "repo": "global-content-os", "route": "Hub UI", "forbidden": ["apps/worker/src/ingress", "channel-content-os"] },
+    { "id": 10, "task": "approved_brief producer", "class": "CROSS_SUBSYSTEM", "repo": "global-content-os", "route": "approved_brief producer (or contract change)", "forbidden": ["channel-content-os/mcp-server/src/render", "channels/"] },
+    { "id": 11, "task": "approved_brief consumer", "class": "CROSS_SUBSYSTEM", "repo": "channel-content-os", "route": "approved_brief consumer (or contract change)", "forbidden": ["global-content-os/apps/worker/src/ingress", "source-registry-"] },
+    { "id": 12, "task": "callback / operations", "class": "ORDINARY", "repo": "channel-content-os", "route": "Operations / readiness / callback redelivery / alerts", "forbidden": ["_history/", "evidence/"] },
+    { "id": 13, "task": "feedback / relevance", "class": "ORDINARY", "repo": "global-content-os", "route": "Triage / feedback", "forbidden": ["feedback-export", "review_feedback-dump"] },
+    { "id": 14, "task": "targeted bugfix", "class": "ORDINARY", "repo": "global-content-os", "route": "Tests / CI", "forbidden": ["_history/", ".generated.json"] }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "note": "Advisory per-class context ceilings on task-added tokens (peak turn minus the agent's own first-turn baseline). A starting hypothesis tuned from evidence, not a constitutional number. SYSTEM_CLOSURE has no ceiling but WHY_REQUIRED is mandatory.",
+  "classes": {
+    "SINGLE_SUBSYSTEM": { "meaning": "one subsystem, one repo, no history", "max_repos": 1, "ceiling": 40000 },
+    "ORDINARY": { "meaning": "one repo, at most two subsystems", "max_repos": 1, "ceiling": 80000 },
+    "CROSS_SUBSYSTEM": { "meaning": "both repos or a contract change", "max_repos": 2, "ceiling": 150000 },
+    "SYSTEM_CLOSURE": { "meaning": "freeze, integration, migration, deploy, acceptance", "max_repos": null, "ceiling": null, "why_required": true }
+  }
+}

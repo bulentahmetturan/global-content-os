@@ -110,3 +110,9 @@ READ: `docs/EVIDENCE.md`
 OPTIONAL: `packages/system-evidence/index.mjs`
 DO NOT LOAD: `docs/evidence/system-evidence.ndjson` (append-only ledger; query it with `node scripts/evidence.mjs show <id>` or `audit`). Audits start with `node scripts/evidence.mjs audit-input`; report a user problem with `node scripts/evidence.mjs report-issue "<summary>" --actor human:<name> --apply`
 SECOND REPO: NO
+
+### How much context did a task use? (P4 context telemetry)
+READ: `docs/context/task-classes.json`
+OPTIONAL: `docs/context/benchmarks.json`
+DO NOT LOAD: transcripts. Run `node scripts/context-telemetry.mjs sessions --file <transcript.jsonl> [--class C] [--why "..."] --check`, `summary --scope content-systems`, `benchmarks`, or `manual <manifest.json>` for non-Claude agents
+SECOND REPO: NO

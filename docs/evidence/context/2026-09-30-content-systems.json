@@ -1,0 +1,57 @@
+{"generated_by":"node scripts/context-telemetry.mjs summary --scope content-systems","summary":{
+ "sessions": 33,
+ "over_150k": 17,
+ "by_class": {
+  "CROSS_SUBSYSTEM": {
+   "sessions": 22,
+   "over_150k": 8,
+   "over_ceiling": 5,
+   "with_unnecessary_load": 4,
+   "peak_max": 956544
+  },
+  "SYSTEM_CLOSURE": {
+   "sessions": 9,
+   "over_150k": 9,
+   "over_ceiling": 0,
+   "with_unnecessary_load": 0,
+   "peak_max": 966938
+  },
+  "SINGLE_SUBSYSTEM": {
+   "sessions": 3,
+   "over_150k": 0,
+   "over_ceiling": 0,
+   "with_unnecessary_load": 0,
+   "peak_max": 82884
+  }
+ },
+ "over_150k_shape": {
+  "median_first_turn_tokens": 79756,
+  "median_first_prompt_est_tokens": 892,
+  "median_turn_reaching_150k": 23,
+  "median_turns": 246,
+  "first_turn_over_40k": 16
+ },
+ "top_unnecessary_loads": [
+  {
+   "path": ".p4wt",
+   "sessions": 1
+  },
+  {
+   "path": "repos:content-systems-final-prep+global-content-os+channel-content-os",
+   "sessions": 1
+  },
+  {
+   "path": "repos:channel-content-os+channel-content-os-p1+multi_channel_design",
+   "sessions": 1
+  },
+  {
+   "path": "repos:multi_channel_design+channel-content-os+instagram",
+   "sessions": 1
+  },
+  {
+   "path": "repos:channel-content-os+channel-content-os-renderer-router+multi_channel_design",
+   "sessions": 1
+  }
+ ]
+}
+,"benchmarks":[{"id":1,"task":"source add","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":5539,"ceiling":40000,"status":"PASS"},{"id":2,"task":"source inspect","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":4341,"ceiling":40000,"status":"PASS"},{"id":3,"task":"source retire","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":5539,"ceiling":40000,"status":"PASS"},{"id":4,"task":"Kaduse research/news source","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":4354,"ceiling":40000,"status":"PASS"},{"id":5,"task":"Kaduse visual/design","class":"SINGLE_SUBSYSTEM","repo":"channel-content-os","initial_tokens":10115,"ceiling":40000,"status":"PASS"},{"id":6,"task":"Hekimler source add","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":5133,"ceiling":40000,"status":"PASS"},{"id":7,"task":"Hekimler parser","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":7150,"ceiling":40000,"status":"PASS"},{"id":8,"task":"scheduler","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":11932,"ceiling":40000,"status":"PASS"},{"id":9,"task":"Hub","class":"SINGLE_SUBSYSTEM","repo":"global-content-os","initial_tokens":3570,"ceiling":40000,"status":"PASS"},{"id":10,"task":"approved_brief producer","class":"CROSS_SUBSYSTEM","repo":"global-content-os","initial_tokens":10708,"ceiling":150000,"status":"PASS"},{"id":11,"task":"approved_brief consumer","class":"CROSS_SUBSYSTEM","repo":"channel-content-os","initial_tokens":13497,"ceiling":150000,"status":"PASS"},{"id":12,"task":"callback / operations","class":"ORDINARY","repo":"channel-content-os","initial_tokens":7917,"ceiling":80000,"status":"PASS"},{"id":13,"task":"feedback / relevance","class":"ORDINARY","repo":"global-content-os","initial_tokens":9797,"ceiling":80000,"status":"PASS"},{"id":14,"task":"targeted bugfix","class":"ORDINARY","repo":"global-content-os","initial_tokens":5227,"ceiling":80000,"status":"PASS"}]}
