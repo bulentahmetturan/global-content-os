@@ -1065,5 +1065,5 @@
     ]
   },
   "designIndependence": "This file encodes source routing and evidence policy only. It does not encode layout, typography, art direction, or composition.",
-  "$comment": "Channel pack owner: multi_channel_design / tip-ogrencileri-platformu. Runtime ingestion remains Global News Hub (channel-content-os). Faculty opportunity pack stays large; this map decides route/priority, not whether faculty scanning exists."
+  "$comment": "Channel pack owner: channel-content-os / tip-ogrencileri-platformu (absorbed multi_channel_design, ADR-0005). Runtime ingestion remains Global News Hub (channel-content-os). Faculty opportunity pack stays large; this map decides route/priority, not whether faculty scanning exists."
 }

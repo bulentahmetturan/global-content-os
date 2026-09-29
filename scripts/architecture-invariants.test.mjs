@@ -30,7 +30,7 @@ function walk(dir, exts, out = []) {
 const routes = JSON.parse(read(rel('config/routes.json')));
 
 test('routes.json: every route is owned by global-content-os and has no legacy ownership fields', () => {
-  assert.equal(routes.externalPolicyRepo.name, 'multi_channel_design');
+  assert.equal(routes.externalPolicyRepo.name, 'channel-content-os');
   for (const r of routes.routes) {
     assert.equal(r.runtimeOwner, 'global-content-os', r.id);
     for (const legacy of ['sourcesOwnedBy', 'policyRef', 'subscriptionsRef', 'registryRef']) {
@@ -47,28 +47,30 @@ test('routes.json: local runtime references exist in this repo', () => {
   }
 });
 
-test('routes.json: external policy references resolve in multi_channel_design', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
+test('routes.json: external policy references resolve in channel-content-os', { skip: !existsSync(ccos) && 'channel-content-os sibling not present' }, () => {
   for (const r of routes.routes) {
     for (const [k, p] of Object.entries(r.externalPolicy ?? {})) {
-      assert.ok(existsSync(path.join(mcd, p)), `${r.id}.externalPolicy.${k} -> ${p} missing in multi_channel_design`);
+      assert.ok(existsSync(path.join(ccos, p)), `${r.id}.externalPolicy.${k} -> ${p} missing in channel-content-os`);
     }
   }
 });
 
-test('Hekimler source/audience policy has ONE editable owner: multi_channel_design holds no copy', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
-  for (const name of ['hekimler-source-policy-map.json', 'hekimler-audience-scope.json']) {
+const nonOwners = [['channel-content-os', ccos], ['multi_channel_design (retired)', mcd]].filter(([, p]) => existsSync(p));
+
+test('Hekimler source/audience policy has ONE editable owner: no other repo holds a copy', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
+  for (const [repoName, repoPath] of nonOwners) for (const name of ['hekimler-source-policy-map.json', 'hekimler-audience-scope.json']) {
     assert.ok(existsSync(rel(`adapters/hekimler-radar/content/policies/${name}`)), `${name} must exist in global-content-os`);
-    assert.ok(!existsSync(path.join(mcd, 'channels/tip-ogrencileri-platformu/content/policies', name)), `${name} must not be duplicated in multi_channel_design`);
+    assert.ok(!existsSync(path.join(repoPath, 'channels/tip-ogrencileri-platformu/content/policies', name)), `${name} must not be duplicated in ${repoName}`);
   }
-  for (const name of ['hekimler-source-policy-map.schema.json', 'hekimler-candidate-decision.schema.json']) {
+  for (const [repoName, repoPath] of nonOwners) for (const name of ['hekimler-source-policy-map.schema.json', 'hekimler-candidate-decision.schema.json']) {
     assert.ok(existsSync(rel(`adapters/hekimler-radar/content/schemas/${name}`)), `${name} schema must live beside the runtime`);
-    assert.ok(!existsSync(path.join(mcd, 'design-system/schemas/src', name)), `${name} schema must not be duplicated in multi_channel_design`);
+    assert.ok(!existsSync(path.join(repoPath, 'design-system/schemas/src', name)), `${name} schema must not be duplicated in ${repoName}`);
   }
 });
 
-test('Kaduse news subscriptions have ONE editable owner: global-content-os', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
+test('Kaduse news subscriptions have ONE editable owner: global-content-os', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
   assert.ok(existsSync(rel('packages/source-catalog/data/kaduse-subscriptions.json')));
-  assert.ok(!existsSync(path.join(mcd, 'channels/kaduse-medikal/content/news-sources.json')), 'news-sources.json must not exist in multi_channel_design');
+  for (const [repoName, repoPath] of nonOwners) assert.ok(!existsSync(path.join(repoPath, 'channels/kaduse-medikal/content/news-sources.json')), `news-sources.json must not exist in ${repoName}`);
 });
 
 test('feeds generation reads ONLY local canonical inputs (no sibling-repo reads) and feeds.json carries provenance', () => {
@@ -132,7 +134,8 @@ test('channel-content-os owns no source acquisition (research/ holds post-approv
   const research = path.join(ccos, 'mcp-server/src/research');
   if (existsSync(research)) {
     for (const name of readdirSync(research)) {
-      assert.match(name, /^claim-(routing|vocabulary)(\.test)?\.ts$/, `mcp-server/src/research/${name} is not post-approval claim code`);
+      // post-approval claim code, plus the enums GENERATED from global-content-os/packages/contracts/research-vocabulary.json
+      assert.match(name, /^(claim-(routing|vocabulary)(\.test)?|research-vocabulary\.generated)\.ts$/, `mcp-server/src/research/${name} is not post-approval claim code`);
     }
   }
   assert.ok(!existsSync(path.join(ccos, 'docs/global-news-hub-contract.md')), 'Hub contract must live in global-content-os');

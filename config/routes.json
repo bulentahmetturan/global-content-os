@@ -1,9 +1,9 @@
 {
   "schemaVersion": "3.0.0",
-  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Hekimler audience/source policy. multi_channel_design keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
+  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Hekimler audience/source policy. channel-content-os (which absorbed multi_channel_design, ADR-0005) keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
   "externalPolicyRepo": {
-    "name": "multi_channel_design",
-    "relativeRoot": "../multi_channel_design",
+    "name": "channel-content-os",
+    "relativeRoot": "../channel-content-os",
     "role": "channel/brand/editorial COVERAGE policy authority (no source runtime truth)"
   },
   "routes": [
