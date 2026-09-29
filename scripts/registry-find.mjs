@@ -16,6 +16,10 @@ const ID_KEYS = ['source_id', 'sourceId', 'id'];
 const rel = (f) => relative(root, f).split(sep).join('/');
 
 export function stores() {
+  return storesAt(root);
+}
+
+export function storesAt(root) {
   const out = [];
   const cat = join(root, 'packages', 'source-catalog', 'data');
   if (existsSync(cat)) for (const f of readdirSync(cat).filter((n) => n.endsWith('.json')).sort()) out.push(join(cat, f));
@@ -30,7 +34,7 @@ export function stores() {
 
 const isRecord = (v) => v && typeof v === 'object' && !Array.isArray(v) && ID_KEYS.some((k) => typeof v[k] === 'string');
 
-function* records(node, path, depth = 0) {
+export function* records(node, path, depth = 0) {
   if (depth > 2 || node == null || typeof node !== 'object') return;
   if (Array.isArray(node)) {
     for (let i = 0; i < node.length; i++) if (isRecord(node[i])) yield { path: `${path}[${i}]`, record: node[i] };
@@ -40,8 +44,13 @@ function* records(node, path, depth = 0) {
 }
 
 export function find(sourceId) {
+  return findAt(root, sourceId);
+}
+
+export function findAt(root, sourceId) {
+  const rel = (f) => relative(root, f).split(sep).join('/');
   const hits = [];
-  for (const file of stores()) {
+  for (const file of storesAt(root)) {
     let data;
     try {
       data = JSON.parse(readFileSync(file, 'utf8'));
