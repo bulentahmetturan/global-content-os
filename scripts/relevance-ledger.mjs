@@ -21,8 +21,8 @@ function idFor(parts) {
   return `adj_${createHash('sha256').update(parts.join('|')).digest('hex').slice(0, 16)}`;
 }
 
-export function createRelevanceLedger({ authorize } = {}) {
-  const rows = [];
+export function createRelevanceLedger({ authorize, rows: initial = [] } = {}) {
+  const rows = initial.map((r) => ({ ...r }));
 
   function gate(owner, action) {
     if (typeof authorize !== 'function') return deny('AUTH_FAIL_CLOSED', 'authorize is required');

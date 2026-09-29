@@ -1,0 +1,4 @@
+{
+  "note": "Canonical owner ledger for P5 relevance adjustments (global-content-os). Written only by `node scripts/relevance-loop.mjs apply|reverse --apply`; the Worker bundle is generated from it.",
+  "rows": []
+}

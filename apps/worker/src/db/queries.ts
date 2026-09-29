@@ -1,5 +1,6 @@
 import { ingestGate } from '../ingress/ingest-gate';
 import { familyClause } from './family-clause';
+import { orderByRelevance } from '../triage/relevance-order';
 export { familyClause } from './family-clause';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
@@ -507,10 +508,12 @@ export async function listItems(
 
   const { results } = await db.prepare(sql).bind(...binds).all<SourceItemRow>();
 
-  return (results ?? []).map((row) => ({
-    ...row,
-    triage_status: effectiveStatus(row),
-  }));
+  return orderByRelevance(
+    (results ?? []).map((row) => ({
+      ...row,
+      triage_status: effectiveStatus(row),
+    }))
+  );
 }
 
 function effectiveStatus(row: SourceItemRow): TriageStatus {

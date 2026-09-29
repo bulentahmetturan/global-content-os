@@ -59,7 +59,7 @@ SECOND REPO: NO
 
 ### Triage / feedback
 READ: `apps/worker/src/triage/actions.ts`, `apps/worker/src/triage/actions.test.mjs`, `apps/worker/src/triage/feedback.ts`
-OPTIONAL: `migrations/0023_review_feedback.sql`, `apps/worker/src/db/queries.ts`
+OPTIONAL: `migrations/0023_review_feedback.sql`, `apps/worker/src/db/queries.ts`, `docs/RELEVANCE-LOOP.md` (P5 accept/reject, patterns, owner-applied ordering)
 DO NOT LOAD: ingress code, registries, Bible
 SECOND REPO: NO
 

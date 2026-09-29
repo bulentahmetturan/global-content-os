@@ -1,0 +1,371 @@
+{
+ "generated_by": "node scripts/relevance-loop.mjs patterns --remote (SELECT-only)",
+ "observed_at": "2026-09-30",
+ "decisions": 67,
+ "accepted": 64,
+ "rejected": 3,
+ "floor": {
+  "minEvents": 5,
+  "minSide": 3,
+  "ratio": 0.8,
+  "measureSide": 10,
+  "meaningful": 0.1
+ },
+ "buckets": {
+  "PROPOSAL": 0,
+  "NO_CLEAR_SIGNAL": 4,
+  "BELOW_NOISE_FLOOR": 31
+ },
+ "patterns": [
+  {
+   "pattern_id": "pat_d3cb7cdb94d8",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "content_family",
+   "key": "hekimler_phase1",
+   "accepted": 41,
+   "rejected": 1,
+   "count": 42,
+   "bucket": "NO_CLEAR_SIGNAL"
+  },
+  {
+   "pattern_id": "pat_02d6e05b74a8",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "tdb_dental",
+   "accepted": 8,
+   "rejected": 0,
+   "count": 8,
+   "bucket": "NO_CLEAR_SIGNAL"
+  },
+  {
+   "pattern_id": "pat_90051f8770d5",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "europe-pmc-batch",
+   "accepted": 8,
+   "rejected": 0,
+   "count": 8,
+   "bucket": "NO_CLEAR_SIGNAL"
+  },
+  {
+   "pattern_id": "pat_46ba6d4a1870",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "euronews_tr_saglik",
+   "accepted": 7,
+   "rejected": 0,
+   "count": 7,
+   "bucket": "NO_CLEAR_SIGNAL"
+  },
+  {
+   "pattern_id": "pat_75a00e8758eb",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-nejm",
+   "accepted": 3,
+   "rejected": 0,
+   "count": 3,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_a1b284c5bb1c",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "sondakika_saglik",
+   "accepted": 3,
+   "rejected": 0,
+   "count": 3,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_0985dc225600",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-crossref-rest-api",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_17810faec347",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-medical-xpress",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_241c3e9cf1a8",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-nature",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_5853a8bae1d6",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "dha_saglik_yasam",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_65d9826ed73e",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-nih-news-releases",
+   "accepted": 0,
+   "rejected": 2,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_c7239a6f40d5",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "tahud_family_medicine",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_dd32890a8f3a",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "biopharma_dive",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_def482c37881",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-nature-news",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_ebf75d9572de",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "abroad_sa_scfhs_watch",
+   "accepted": 2,
+   "rejected": 0,
+   "count": 2,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_012c7fcc7de0",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "tvhb_veterinary",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_3020bb6a2590",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "sabah_saglik",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_36493fa7a721",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "turk_pediatri_kurumu",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_3a335e6fd639",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "ttd_thoracic",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_555fbc744718",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "news-newswise-sitemap",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_5a2a54e1ca06",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-pubmed-eutilities",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_5cd08dffd745",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "ttb_national",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_63e26aec70b8",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-medical-news-today",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_6e8f861c6cbe",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "tkd_cardiology",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_7b9223b820b6",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "titck_announcements_general",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_83449b48650a",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "osym_dus_dental_exams",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_8f5a4f1c0513",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "trthaber_saglik",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_b7463d7af42b",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "healthline_news",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_ba2c4512d60a",
+   "channel_id": "kaduse-medikal",
+   "dimension": "source",
+   "key": "research-nature-medicine",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_be17fdfb64b3",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "halk_sagligi_yeterlik",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_cb5fd361e5c8",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "anadolu_ajansi_medical_radar",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_d6ebab406ec8",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "osym_medical_exams",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_e260afc0a16a",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "hasuder_public_health",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_f1b639d5a147",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "tatd_emergency_medicine",
+   "accepted": 1,
+   "rejected": 0,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  },
+  {
+   "pattern_id": "pat_f37a7a930d2f",
+   "channel_id": "hekimler-toplulugu",
+   "dimension": "source",
+   "key": "osym_ydus_subspecialty_exams",
+   "accepted": 0,
+   "rejected": 1,
+   "count": 1,
+   "bucket": "BELOW_NOISE_FLOOR"
+  }
+ ]
+}
