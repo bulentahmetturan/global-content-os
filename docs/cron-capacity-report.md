@@ -131,6 +131,12 @@ per the same no-autonomous-mutation rule as Phase B (S67), it's an input
 to the human/engineering decision made in this PR's actual source
 activations, not an automatic trigger.
 
+> **Update (Package 5):** requirements 1-3 below (due-priority ordering, run-aware time budget with explicit
+> not-attempted reporting, bounded lateness) and the failure-isolation parts of 5-6 are implemented in
+> `adapters/hekimler-radar/radar/hekimler_scheduler.py` and proven by the deterministic simulations in
+> `tests/test_hekimler_scheduler_fairness.py`. Current algorithm, numbers and assumptions: `docs/OPERATIONS.md`.
+> The analysis below is kept as the historical baseline that motivated the change.
+
 ## 3. Correctness analysis (2026-09-29 update, work package 1 item 4)
 
 Task 1's original version stopped at "typical fetches are fast" as its

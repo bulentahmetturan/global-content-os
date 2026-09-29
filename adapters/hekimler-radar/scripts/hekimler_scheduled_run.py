@@ -31,6 +31,7 @@ from radar.hekimler_scheduler import (  # noqa: E402
     MANUAL_REVIEW_REQUIRED,
     Policy,
     SourceState,
+    attention_conditions,
     classify_failure,
     execute_plan,
     plan_run,
@@ -344,6 +345,10 @@ def main() -> int:
         "failure_classes": {c: sum(1 for r in rows if r.get("failure_class") == c)
                             for c in sorted({r.get("failure_class") for r in rows if r.get("failure_class")})},
     }
+
+    scheduler["attention"] = attention_conditions(cycle, scheduler, policy)
+    if scheduler["attention"]:
+        print(f"::warning title=ATTENTION::{', '.join(scheduler['attention'])}")
 
     out = Path(args.report_dir)
     out.mkdir(parents=True, exist_ok=True)

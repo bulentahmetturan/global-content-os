@@ -6,7 +6,8 @@ import {
   type RouteId,
   type TriageStatus,
 } from './db/queries';
-import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
+import { authorizeToken, bearerToken, parseStatusCallback, resolveOutbound } from './handoff-security';
+import { EXPECTED_SCHEMA_MIGRATION, evaluateReadiness } from './readiness';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -82,7 +83,45 @@ export default {
 
     try {
       if (path === '/api/health') {
-        return json({ ok: true, service: 'global-content-os', env: env.ENVIRONMENT ?? 'unknown', commit: env.BUILD_COMMIT ?? null });
+        // LIVENESS only: the process answers. Dependency state is /api/ready.
+        return json({
+          ok: true,
+          level: 'liveness',
+          service: 'global-content-os',
+          env: env.ENVIRONMENT ?? 'unknown',
+          commit: env.BUILD_COMMIT ?? null,
+          branch: env.BUILD_BRANCH ?? null,
+          deployedAt: env.DEPLOYED_AT ?? null,
+          expectedSchema: EXPECTED_SCHEMA_MIGRATION,
+        });
+      }
+
+      if (path === '/api/ready') {
+        let dbReachable = false;
+        let appliedMigration: string | null = null;
+        let cronAge: number | null = null;
+        try {
+          await env.DB.prepare('SELECT 1').first();
+          dbReachable = true;
+          const m = await env.DB.prepare('SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1').first<{ name: string }>().catch(() => null);
+          appliedMigration = m?.name ?? null;
+          const f = await env.DB.prepare('SELECT MAX(last_fetched_at) AS t FROM source_feeds').first<{ t: string | null }>().catch(() => null);
+          if (f?.t) cronAge = Math.max(0, Math.round((Date.now() - Date.parse(f.t.includes('T') ? f.t : f.t.replace(' ', 'T') + 'Z')) / 60000));
+        } catch {
+          dbReachable = false;
+        }
+        const report = evaluateReadiness({
+          dbReachable,
+          appliedMigration,
+          cronLastActivityAgeMin: cronAge,
+          statusCallbackTokenConfigured: !!(env.STATUS_CALLBACK_TOKEN || '').trim(),
+          ingestTokenConfigured: !!(env.TIP_RADAR_INGEST_TOKEN || '').trim(),
+          handoffMode: resolveOutbound(env).mode,
+        });
+        return json(
+          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION },
+          report.level === 'BLOCKED' ? 503 : 200,
+        );
       }
 
       if (path === '/api/feeds' && request.method === 'GET') {

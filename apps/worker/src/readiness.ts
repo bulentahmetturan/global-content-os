@@ -1,0 +1,44 @@
+// Health semantics (Package 5). Pure evaluation; the /api/ready handler only gathers the inputs.
+//
+//   LIVENESS  /api/health  process answers. Says NOTHING about dependencies. Never used as a readiness signal.
+//   READY     /api/ready   200  every critical dependency + expected schema is present, nothing degraded.
+//   DEGRADED  /api/ready   200  serving, but an optional capability is impaired (e.g. callback secret unset,
+//                                 cron heartbeat stale, handoff misconfigured). Never takes unrelated features down.
+//   BLOCKED   /api/ready   503  a critical dependency is missing: DB unreachable or schema behind the code.
+
+/** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
+export const EXPECTED_SCHEMA_MIGRATION = '0024_source_revalidation.sql';
+
+export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
+
+export interface ReadinessInputs {
+  dbReachable: boolean;
+  appliedMigration: string | null; // newest applied migration name, null when unknown
+  cronLastActivityAgeMin: number | null; // minutes since the newest feed fetch; null when never
+  statusCallbackTokenConfigured: boolean;
+  ingestTokenConfigured: boolean;
+  handoffMode: 'stub' | 'send' | 'misconfigured';
+}
+
+export interface ReadinessReport {
+  level: ReadinessLevel;
+  blocked: string[];
+  degraded: string[];
+}
+
+export const CRON_STALE_MIN = 60;
+
+export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
+  const blocked: string[] = [];
+  const degraded: string[] = [];
+  if (!i.dbReachable) blocked.push('DB_UNREACHABLE');
+  else if (i.appliedMigration == null) degraded.push('SCHEMA_VERSION_UNKNOWN');
+  else if (i.appliedMigration < EXPECTED_SCHEMA_MIGRATION) blocked.push(`SCHEMA_BEHIND:${i.appliedMigration}<${EXPECTED_SCHEMA_MIGRATION}`);
+  if (i.dbReachable && (i.cronLastActivityAgeMin == null || i.cronLastActivityAgeMin > CRON_STALE_MIN)) {
+    degraded.push('CRON_HEARTBEAT_STALE');
+  }
+  if (!i.statusCallbackTokenConfigured) degraded.push('STATUS_CALLBACK_TOKEN_NOT_CONFIGURED');
+  if (!i.ingestTokenConfigured) degraded.push('INGEST_TOKEN_NOT_CONFIGURED');
+  if (i.handoffMode === 'misconfigured') degraded.push('CCOS_HANDOFF_MISCONFIGURED');
+  return { level: blocked.length ? 'BLOCKED' : degraded.length ? 'DEGRADED' : 'READY', blocked, degraded };
+}

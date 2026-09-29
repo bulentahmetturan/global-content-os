@@ -306,6 +306,20 @@ class TestSimulationMatrix(unittest.TestCase):
         self.assertLessEqual(lateness_runs(sim, set(order) - {bad}), MAX_HEALTHY_LATENESS_RUNS)
 
 
+class TestAttention(unittest.TestCase):
+    def test_ordinary_single_failure_is_not_attention(self):
+        from radar.hekimler_scheduler import attention_conditions
+        cyc = {"sources_selected": 12, "sources_failed": 1, "max_lateness_min": 30, "retries_used": 1}
+        self.assertEqual(attention_conditions(cyc, {"capacity_delayed": [], "manual_review": []}, P), [])
+
+    def test_actionable_conditions(self):
+        from radar.hekimler_scheduler import attention_conditions
+        cyc = {"sources_selected": 8, "sources_failed": 5, "max_lateness_min": P.lateness_attention_min + 1, "retries_used": 4}
+        got = attention_conditions(cyc, {"capacity_delayed": ["a"], "manual_review": ["b"]}, P)
+        for c in ("LATENESS_BEYOND_THRESHOLD", "CAPACITY_DELAY", "MANUAL_REVIEW_REQUIRED", "SYSTEMIC_FETCH_FAILURE", "RETRY_BUDGET_EXHAUSTED"):
+            self.assertIn(c, got)
+
+
 class TestCapacityGuard(unittest.TestCase):
     CYCLE = {"sources_selected": 12, "total_attempts": 12, "duration_seconds": 360, "sources_failed": 0,
              "timeouts": 0, "sources_capacity_delayed": 0, "max_lateness_min": 0}

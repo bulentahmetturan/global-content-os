@@ -231,6 +231,24 @@ def classify_failure(row: dict) -> str | None:
     return FETCH_FAILURE
 
 
+def attention_conditions(cycle: dict, scheduler: dict, policy: Policy) -> list[str]:
+    """Actionable, machine-detectable conditions for ONE finished run. An ordinary single-source failure is NOT one."""
+    out: list[str] = []
+    selected = int(cycle.get("sources_selected") or 0)
+    failed = int(cycle.get("sources_failed") or 0)
+    if int(cycle.get("max_lateness_min") or 0) > policy.lateness_attention_min:
+        out.append("LATENESS_BEYOND_THRESHOLD")
+    if scheduler.get("capacity_delayed"):
+        out.append(CAPACITY_DELAY)
+    if scheduler.get("manual_review"):
+        out.append(MANUAL_REVIEW_REQUIRED)
+    if selected >= 4 and failed / selected >= 0.5:
+        out.append("SYSTEMIC_FETCH_FAILURE")
+    if int(cycle.get("retries_used") or 0) >= policy.run_retry_budget > 0:
+        out.append("RETRY_BUDGET_EXHAUSTED")
+    return out
+
+
 def utilization(due_per_day: float, avg_cost_s: float, run_budget_s: float, runs_per_day: float = 1.0) -> float:
     return (due_per_day * avg_cost_s) / (run_budget_s * runs_per_day)
 

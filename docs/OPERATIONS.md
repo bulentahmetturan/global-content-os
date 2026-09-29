@@ -1,0 +1,115 @@
+# Operations — Global Content OS
+
+Concise operational reference (Package 5). Detailed logs stay on disk (`.logs/`, CI artifacts), never in agent context.
+
+## 1. Scheduler (Hekimler Python runner)
+
+Code: `adapters/hekimler-radar/radar/hekimler_scheduler.py` (pure, I/O-free) · runner: `scripts/hekimler_scheduled_run.py`
+· ops CLI: `scripts/hekimler_ops.py` · proof: `tests/test_hekimler_scheduler_fairness.py` (deterministic simulations).
+
+**Algorithm (oldest-eligible-first)**
+
+1. `eligible_at = max(last_success_at + cadence, backoff_until)`; a source is *due* when `now >= eligible_at`.
+2. Queue = due sources sorted by `(tier, eligible_at, source_id)`; tier 0 healthy, 1 recently failing, 2 manual-review.
+   Failing sources only use the budget healthy ones leave over. `source_id` makes the order total and deterministic.
+3. Failure backoff: `12 h × 2^(failures-1)`, capped at 7 d. `failure_count >= 5` ⇒ `MANUAL_REVIEW_REQUIRED`
+   (reported, queued last, still re-probed at the 7 d cap so recovery is detected). **Config/lifecycle is never mutated.**
+4. Execution (`execute_plan`): pass 1 = exactly one attempt per queued source; pass 2 = retries of transient failures
+   only, ≤ 2 per source and ≤ 4 per run, only while time remains. A failing source can never spend the run's retries
+   before an unrelated due source had its first attempt.
+5. Time budget 2400 s (job hard cap 2700 s): no new attempt starts unless a full source timeout (240 s) still fits.
+   Due sources not started are reported as `CAPACITY_DELAY` — delayed, never lost (their `last_success_at` is unchanged).
+
+**Supported operating assumptions** (asserted in the simulations): 1 run/day, sequential, timeout 240 s, healthy source
+≈ 30 s, ≥ 20 % of the run budget kept free, ≤ 20–30 % of active sources failing simultaneously.
+
+| Quantity | Value |
+|---|---|
+| SUPPORTED_ACTIVE_SOURCE_CAPACITY | today's 62 + 119 pending weekly sources = 181 (≈ 29 due/day, utilization ≈ 0.36); hard ceiling ≈ 80 healthy sources per run |
+| EXPECTED_DAILY_LOAD | ≈ 11.8 due/day today (0.15 of budget); ≈ 29/day with the full backlog at weekly cadence |
+| FAILURE_HEAVY_CAPACITY | 20–30 % of 181 sources permanently timing out: healthy sources still served; only failing sources are capacity-delayed |
+| MAX_HEALTHY_SOURCE_LATENESS | ≤ 1 run (24 h) in steady state; ≤ 2 runs (48 h) during a cold start / 181-source, 20–30 % failing run. Attention threshold: > 2880 min |
+| Retry budget | ≤ 2 per source, ≤ 4 per run (unit- and invariant-tested) |
+
+Not a mathematical guarantee: it holds only under the assumptions above. When they stop holding, `hekimler_ops.py capacity`
+turns CAUTION → BLOCK (utilization, failure/timeout rate, retry load, any `CAPACITY_DELAY`, any lateness > threshold)
+*before* a source silently starves. Daily-cadence backlog sources (`--pending-manual`) evaluate to **BLOCK**; the same
+count at weekly cadence evaluates to CAUTION/SAFE — cadence class, not source count, is the lever.
+
+**Backlog activation:** `BULK_BACKLOG_ACTIVATION=NO`. The guard only answers; activation stays a reviewed commit.
+
+```bash
+python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --add 20 --add-cadence 10080 --history <dir of run-report.json>
+# exit 0 SAFE · 1 CAUTION · 2 BLOCK
+python adapters/hekimler-radar/scripts/hekimler_ops.py status --hub-url <worker-url>   # due / backoff / manual-review / lateness
+```
+
+Observability (no second truth): every run writes `report/run-report.json` (`cycle`, `scheduler`, `rows` with
+`failure_class`) and `report/scheduler-state.json` (per source: last_attempt, last_success, next_due, due,
+failure_count, backoff_until, lateness_min, manual_review). Source of the inputs is the Hub telemetry table.
+Hub UI rendering of these fields: `DEFER_HUB_UI` (Hub files are edited concurrently elsewhere).
+
+**Failure classes** (complement lifecycle/`operator_status`, never replace them): `FETCH_FAILURE`, `TIMEOUT`,
+`PARSE_FAILURE`, `AUTH_FAILURE`, `DEPENDENCY_FAILURE` (D1 quota / Hub delivery), `CAPACITY_DELAY`, `MANUAL_REVIEW_REQUIRED`.
+
+**Attention conditions** (emitted as `::warning title=ATTENTION::` and in `scheduler.attention`; a single ordinary source
+failure is not one): `LATENESS_BEYOND_THRESHOLD`, `CAPACITY_DELAY`, `MANUAL_REVIEW_REQUIRED`, `SYSTEMIC_FETCH_FAILURE`
+(≥ 50 % of ≥ 4 selected), `RETRY_BUDGET_EXHAUSTED`. Readiness-level conditions come from `/api/ready` (below).
+
+## 2. Health semantics (Worker)
+
+| Endpoint | Level | Meaning |
+|---|---|---|
+| `GET /api/health` | LIVENESS | process answers; carries `commit`, `branch`, `deployedAt`, `expectedSchema`. Says nothing about dependencies. |
+| `GET /api/ready` → 200 `READY` | READINESS | DB reachable, schema ≥ expected, secrets configured, cron heartbeat fresh |
+| `GET /api/ready` → 200 `DEGRADED` | degraded | serving; optional capability impaired: `STATUS_CALLBACK_TOKEN_NOT_CONFIGURED`, `INGEST_TOKEN_NOT_CONFIGURED`, `CCOS_HANDOFF_MISCONFIGURED`, `CRON_HEARTBEAT_STALE` (> 60 min), `SCHEMA_VERSION_UNKNOWN` |
+| `GET /api/ready` → 503 `BLOCKED` | blocked | critical dependency missing: `DB_UNREACHABLE`, `SCHEMA_BEHIND:<applied><<expected>` |
+
+Optional-source failures never move readiness. Secret *values* are never returned — only booleans.
+
+**Fail-closed auth:** `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*` return **503** when their token
+is not configured (never "open"), 401 on mismatch. Live outbound handoff (`CCOS_HANDOFF_STUB=false`) without URL **and**
+token records `handoff_status=failed` and sends nothing. Status callbacks validate the contract enum, are idempotent on an
+identical replay, and return 404 for an unknown `briefId`.
+
+## 3. Deployment identity
+
+```bash
+node scripts/deploy-identity.mjs                    # local: commit, branch, dirty, expected schema, active schedulers
+npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)   # stamps BUILD_COMMIT/BRANCH/DEPLOYED_AT  (not run by Package 5)
+node scripts/deploy-identity.mjs --live <worker-url>   # deployed commit vs local HEAD, readiness, applied vs expected migration
+```
+
+Current production identity is **unstamped** (`BUILD_COMMIT` is not set in `wrangler.toml`): `--live` reports
+`identityStamped:false` until the first stamped deploy.
+
+## 4. Release gate
+
+```bash
+node scripts/release-gate.mjs [--skip-ci-check] [--history <run-report dir>]     # exit 0 = READY
+```
+
+repo tracked-clean → required CI green for HEAD (`gh`) → migrations known → `production:check` (typecheck, worker tests,
+pytest incl. scheduler simulations, ops invariants) → contract/secret posture → scheduler capacity guard → rollback documented.
+`SKIPPED` ≠ `PASS`: a non-optional SKIPPED step makes the verdict `NOT_READY`. Full log: `.logs/release-gate/`. It never deploys.
+
+## 5. Rollback and recovery (symptom → detection → containment → recovery → verification)
+
+| Symptom | Detect | Contain | Recover | Verify |
+|---|---|---|---|---|
+| Bad Worker deploy | `/api/ready` BLOCKED/DEGRADED; `deploy-identity --live` | none needed (stub handoff) | `npx wrangler rollback` (or redeploy previous tagged commit with `--wrangler-vars`) | `/api/ready` READY; `--live` commit == intended |
+| Bad scheduler behaviour | `ATTENTION` warnings; `hekimler_ops.py status` late/manual-review; capacity BLOCK | disable the workflow (`gh workflow disable hekimler-python-runner.yml`) | `git revert` the scheduler commit; re-run with `workflow_dispatch` | next run report: `capacity_delayed=[]`, lateness under threshold |
+| Bad migration | `/api/ready` `SCHEMA_BEHIND` or query errors | stop deploys; do not re-apply blindly | migrations are additive: write a forward fix migration; restore D1 via Cloudflare Time Travel if data damaged | `/api/ready` `appliedMigration == expectedSchema` |
+| Handoff failure | `approved_briefs.handoff_status='failed'` + `handoff_detail`; `CCOS_HANDOFF_MISCONFIGURED` | keep `CCOS_HANDOFF_STUB=true` | fix URL/token secrets, re-promote the brief | `handoff_status='sent'`, status callback recorded |
+| Stuck source | `manual_review` in `scheduler-state.json` / `MANUAL_REVIEW_REQUIRED` | none (already queued last, backoff 7 d) | investigate the source; fix registry via normal commit or set `runtime_activation` deliberately | `failure_count` resets to 0 on next success |
+| Mass source failures | `SYSTEMIC_FETCH_FAILURE`; network diagnose workflow | scheduler already isolates; healthy sources served first | check runner network / `network-diagnose.yml`; D1 quota banner → wait for 00:00 UTC | cycle status HEALTHY |
+| Token / secret misconfig | `/api/ready` `*_TOKEN_NOT_CONFIGURED`; endpoints answer 503 (fail-closed) | none — endpoints refuse rather than run open | `npx wrangler secret put <NAME>` | `/api/ready` READY; callback with token returns 200 |
+
+Bootstrap from an empty machine: `docs/RECOVERY.md`.
+
+## 6. Deferred wiring (do not hard-code transitional paths)
+
+- `DEFER_TO_P2`: bind the source-catalog invariant (registry ⇄ catalog identity) to the final canonical catalog path.
+- `DEFER_TO_P3`: expanded CCOS workflow (merged MCD dashboard/tests) at final paths.
+- `DEFER_TO_P4`: relocate/link this document from the final router; add `.logs/` convention to the final context docs.
+- `DEFER_HUB_UI`: render `scheduler-state.json` fields in the Hub source panel.
