@@ -67,7 +67,8 @@ failure is not one): `LATENESS_BEYOND_THRESHOLD`, `CAPACITY_DELAY`, `MANUAL_REVI
 
 Optional-source failures never move readiness. Secret *values* are never returned — only booleans.
 
-**Fail-closed auth:** `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*` return **503** when their token
+**Fail-closed auth:** `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*`, and `POST /api/triage`
+(`HUB_OPERATOR_TOKEN`; the Hub prompts once and keeps it in browser localStorage) return **503** when their token
 is not configured (never "open"), 401 on mismatch. Live outbound handoff (`CCOS_HANDOFF_STUB=false`) without URL **and**
 token records `handoff_status=failed` and sends nothing. Status callbacks validate the contract enum, are idempotent on an
 identical replay, and return 404 for an unknown `briefId`.

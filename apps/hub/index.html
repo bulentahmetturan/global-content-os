@@ -840,11 +840,24 @@
     toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
   }
 
+  var OPERATOR_TOKEN_KEY = 'gcos.hubOperatorToken';
   async function api(path, opts) {
-    var res = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}));
-    var data = await res.json().catch(function () { return {}; });
-    if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
-    return data;
+    var needsOperator = path === '/api/triage';
+    for (var attempt = 0; attempt < 2; attempt++) {
+      var headers = { 'Content-Type': 'application/json' };
+      var token = needsOperator ? localStorage.getItem(OPERATOR_TOKEN_KEY) : null;
+      if (token) headers.Authorization = 'Bearer ' + token;
+      var res = await fetch(path, Object.assign({ headers: headers }, opts || {}));
+      var data = await res.json().catch(function () { return {}; });
+      if (needsOperator && res.status === 401 && attempt === 0) {
+        var entered = window.prompt('Operatör anahtarı (Hub işlemleri için gerekli):');
+        if (!entered || !entered.trim()) throw new Error('UNAUTHORIZED');
+        localStorage.setItem(OPERATOR_TOKEN_KEY, entered.trim());
+        continue;
+      }
+      if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+      return data;
+    }
   }
 
   function cardHtml(it) {

@@ -48,6 +48,11 @@
         "name": "TIP_RADAR_INGEST_TOKEN",
         "purpose": "source ingress bearer",
         "requiredFor": "always"
+      },
+      {
+        "name": "HUB_OPERATOR_TOKEN",
+        "purpose": "Hub operator bearer for POST /api/triage (promote/reject)",
+        "requiredFor": "cutover"
       }
     ],
     "ccos": [
@@ -100,6 +105,12 @@
       "file": "apps/worker/src/index.ts",
       "pattern": "authorizeToken\\(env\\.TIP_RADAR_INGEST_TOKEN",
       "desc": "GCOS tip ingest fails closed (503 when secret unset)"
+    },
+    {
+      "repo": "gcos",
+      "file": "apps/worker/src/index.ts",
+      "pattern": "authorizeToken\\(env\\.HUB_OPERATOR_TOKEN",
+      "desc": "GCOS triage (promote/reject) fails closed (503 when secret unset)"
     },
     {
       "repo": "gcos",

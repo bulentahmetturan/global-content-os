@@ -283,6 +283,11 @@ export default {
       }
 
       if (path === '/api/triage' && request.method === 'POST') {
+        // Promote creates a CCOS production job once handoff is live; reject writes editorial feedback.
+        const opAuth = authorizeToken(env.HUB_OPERATOR_TOKEN, bearerToken(request.headers.get('Authorization')), 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED');
+        if (!opAuth.ok) {
+          return json({ error: opAuth.error }, opAuth.status);
+        }
         const body = (await request.json()) as {
           itemId?: string;
           action?: string;

@@ -114,6 +114,20 @@ test('hekimler ingest endpoints stay fail-closed', async () => {
   }
 });
 
+test('triage (sole promotion path) fails closed: unset 503, missing/wrong 401, nothing read or written', async () => {
+  const db = fakeDb();
+  const body = { itemId: 'item_1', action: 'promote' };
+  const unset = await worker.fetch(post('/api/triage', body), { DB: db });
+  assert.equal(unset.status, 503);
+  assert.equal((await unset.json()).error, 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED');
+  const env = { DB: db, HUB_OPERATOR_TOKEN: 'op' };
+  assert.equal((await worker.fetch(post('/api/triage', body), env)).status, 401);
+  assert.equal((await worker.fetch(post('/api/triage', body, { authorization: 'Bearer nope' }), env)).status, 401);
+  assert.equal(db.inserts.length, 0);
+  const authed = await worker.fetch(post('/api/triage', { itemId: 'item_1', action: 'bogus' }, { authorization: 'Bearer op' }), env);
+  assert.equal(authed.status, 400);
+});
+
 test('resolveOutbound: stub by default; live send needs BOTH url and token; otherwise misconfigured (never unauthenticated)', () => {
   assert.deepEqual(sec.resolveOutbound({}), { mode: 'stub' });
   assert.deepEqual(sec.resolveOutbound({ CCOS_HANDOFF_STUB: 'true', CCOS_HANDOFF_URL: 'u', CCOS_HANDOFF_TOKEN: 't' }), { mode: 'stub' });
