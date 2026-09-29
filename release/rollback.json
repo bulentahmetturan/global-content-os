@@ -1,0 +1,61 @@
+{
+  "$comment": "Machine-checked by the readiness evaluator (ROLLBACK category). Placeholders <...> are filled from the release manifest rollbackRef. Never contains secret values.",
+  "scenarios": [
+    {
+      "id": "bad_code_deploy",
+      "trigger": "Post-deploy smoke fails, or typecheck/test regression found after merge, on either worker.",
+      "containment": "Freeze promotions in the Hub (no new Uretime Aktar); leave CCOS_HANDOFF_STUB as it was before the release step that failed.",
+      "rollbackAction": "git checkout <rollbackRef.<repo>Commit> in a clean worktree; wrangler deploy --var BUILD_COMMIT:<that sha> (gcos) / wrangler deploy (ccos).",
+      "verification": "Run release/smoke against the rolled-back worker; GET /api/health commit equals the rollback sha.",
+      "dataLossRisk": "None. Worker code is stateless; D1 rows written meanwhile are retained."
+    },
+    {
+      "id": "bad_worker_deploy",
+      "trigger": "Worker fails to start, cron never fires, or bindings (D1, AI, BROWSER) missing after deploy.",
+      "containment": "Stop further deploys; check wrangler tail for the failing worker only.",
+      "rollbackAction": "wrangler rollback <rollbackRef.<repo>VersionId> --name <worker> (Cloudflare version rollback; no rebuild).",
+      "verification": "wrangler deployments list shows the prior version active; smoke passes.",
+      "dataLossRisk": "None."
+    },
+    {
+      "id": "bad_ccos_deploy",
+      "trigger": "CCOS liveness or handoff intake failing, render/QA regression, or ingest 5xx after deploy.",
+      "containment": "Set GCOS CCOS_HANDOFF_STUB=true (redeploy gcos var) so briefs are ledgered, not sent; approved_briefs stay retryable.",
+      "rollbackAction": "wrangler rollback <rollbackRef.ccosVersionId> (mcp-server worker).",
+      "verification": "GET / on CCOS returns 200; authenticated invalid-payload probe returns 400; re-enable handoff only after smoke passes.",
+      "dataLossRisk": "Low. approved_brief_intake rows are kept; briefs sent during the failure window stay in GCOS handoff_log as retry candidates."
+    },
+    {
+      "id": "bad_db_migration",
+      "trigger": "Migration apply errors, or post-apply queries fail (e.g. approved_brief_intake missing/incorrect).",
+      "containment": "Stop deploys and disable the handoff (CCOS_HANDOFF_STUB=true). Do not re-run partially applied migrations blindly.",
+      "rollbackAction": "Additive migrations (040, GCOS numbered) are forward-only: fix forward with a new numbered migration. If data is corrupt, restore with wrangler d1 time-travel restore <db> --timestamp <pre-apply time recorded in the manifest>.",
+      "verification": "wrangler d1 migrations list shows expected level; schema query for the table succeeds; smoke passes.",
+      "dataLossRisk": "Restore discards writes after the restore point; record the pre-apply timestamp BEFORE applying and export needed rows first."
+    },
+    {
+      "id": "handoff_break",
+      "trigger": "GCOS handoff_log shows repeated failed sends, CCOS returns 401/503/4xx for valid briefs, or brief/ingest counts diverge.",
+      "containment": "Set CCOS_HANDOFF_STUB=true in GCOS; briefs remain in approved_briefs and are not lost.",
+      "rollbackAction": "Fix token/URL/contract mismatch (check secret NAMES with wrangler secret list), then re-send stubbed/failed briefs; ingest is idempotent by briefId so re-sending is safe.",
+      "verification": "Authenticated invalid-payload probe returns 400; one real re-sent brief returns 201/200 and a status callback is logged.",
+      "dataLossRisk": "None. Idempotent by briefId; a payload-hash conflict returns 409 and never overwrites."
+    },
+    {
+      "id": "scheduler_regression",
+      "trigger": "Fetch counts drop, cron ticks report partial failures/starvation, or CPU-limit errors after a scheduler deploy.",
+      "containment": "Disable HEKIMLER_CONTINUOUS_INGESTION_ENABLED (var) to stop the heaviest tick; ingestion is optional for core health.",
+      "rollbackAction": "wrangler rollback the GCOS version from rollbackRef; if a cron change caused it, restore the previous crons list from the rollback commit.",
+      "verification": "Next 3 cron ticks complete without scheduled_job_failed; /api/system-health cronLastObserved advances.",
+      "dataLossRisk": "None. Missed ticks are recovered by later polls; no source rows are removed."
+    },
+    {
+      "id": "feedback_integration_failure",
+      "trigger": "Feedback/callback path errors (status callbacks failing, review_feedback writes failing) after release.",
+      "containment": "Feedback is non-blocking: leave production running; callback failures are recorded in approved_brief_intake.callback_last_error.",
+      "rollbackAction": "Disable/roll back only the feedback change (P6 wiring) via the release version rollback; do not roll back the handoff unless it is also broken.",
+      "verification": "Status callback probe succeeds (or is recorded, not lost); core smoke still passes.",
+      "dataLossRisk": "Low. Undelivered status updates are recomputable from CCOS intake status."
+    }
+  ]
+}

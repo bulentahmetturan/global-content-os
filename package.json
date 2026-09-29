@@ -20,6 +20,9 @@
     "production:check": "node scripts/production-check.mjs",
     "release:gate": "node scripts/release-gate.mjs",
     "deploy:identity": "node scripts/deploy-identity.mjs",
+    "release:preflight": "node release/preflight.mjs",
+    "release:test": "node --test release/test/*.test.mjs",
+    "release:smoke": "node release/smoke/smoke.mjs",
     "test:catalog": "vitest run --root packages/source-catalog",
     "typecheck:catalog": "tsc --noEmit -p packages/source-catalog/tsconfig.json"
   },

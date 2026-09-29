@@ -1,0 +1,60 @@
+{
+  "$comment": "P7 readiness config. Paths/names only -- never secret values. Bindings owned by P2-P6 are listed under deferred and resolved at reconciliation.",
+  "repos": {
+    "gcos": { "wrangler": "wrangler.toml", "migrationsDir": "migrations", "healthPath": "/api/health" },
+    "ccos": {
+      "candidates": ["../channel-content-os", "../../channel-content-os"],
+      "marker": "mcp-server/wrangler.toml",
+      "wrangler": "mcp-server/wrangler.toml",
+      "schema": "mcp-server/src/db/schema.sql",
+      "migrationsDir": "mcp-server/src/db/migrations"
+    }
+  },
+  "expectedBranches": { "gcos": null, "ccos": null },
+  "pendingMigrations": { "ccos": ["040_approved_brief_intake.sql"], "gcos": [] },
+  "secrets": {
+    "gcos": [
+      { "name": "CCOS_HANDOFF_URL", "purpose": "outbound handoff URL", "requiredFor": "cutover" },
+      { "name": "CCOS_HANDOFF_TOKEN", "purpose": "outbound handoff bearer", "requiredFor": "cutover" },
+      { "name": "STATUS_CALLBACK_TOKEN", "purpose": "inbound status callback bearer", "requiredFor": "cutover" },
+      { "name": "TIP_RADAR_INGEST_TOKEN", "purpose": "source ingress bearer", "requiredFor": "always" }
+    ],
+    "ccos": [
+      { "name": "HANDOFF_INGEST_TOKEN", "purpose": "inbound approved_brief bearer", "requiredFor": "cutover" },
+      { "name": "GCOS_STATUS_TOKEN", "purpose": "outbound status callback bearer", "requiredFor": "cutover" },
+      { "name": "MCP_AUTH_TOKEN", "purpose": "MCP legacy bearer (preview)", "requiredFor": "optional" }
+    ]
+  },
+  "vars": {
+    "ccos": [{ "name": "GCOS_STATUS_URL", "requiredFor": "cutover" }]
+  },
+  "failClosedEvidence": [
+    { "repo": "ccos", "file": "mcp-server/src/handoff/approved-brief.ts", "pattern": "handoff_not_configured", "desc": "CCOS ingest disabled (503) when HANDOFF_INGEST_TOKEN unset" },
+    { "repo": "ccos", "file": "mcp-server/src/handoff/handoff.test.ts", "pattern": "handoff_not_configured", "desc": "fail-closed covered by CCOS tests" },
+    { "repo": "gcos", "file": "apps/worker/src/index.ts", "pattern": "STATUS_CALLBACK_TOKEN", "desc": "GCOS status callback token gate present" }
+  ],
+  "contracts": {
+    "canonical": { "repo": "gcos", "file": "packages/contracts/approved-brief.schema.json" },
+    "copy": { "repo": "ccos", "file": "mcp-server/src/handoff/contract/approved-brief.schema.json" }
+  },
+  "observabilitySignals": [
+    { "id": "fetch_failure", "repo": "gcos", "pattern": "last_fetched_at|fetch_error|feed_fetch", "file": "apps/worker/src/index.ts" },
+    { "id": "scheduler_failure", "repo": "gcos", "pattern": "scheduled_job_failed", "file": "apps/worker/src/index.ts" },
+    { "id": "scheduler_starvation", "repo": "gcos", "pattern": "scheduled_tick_partial_failure", "file": "apps/worker/src/index.ts" },
+    { "id": "handoff_failure", "repo": "gcos", "pattern": "handoff_log", "file": "apps/worker/src/index.ts" },
+    { "id": "callback_failure", "repo": "ccos", "pattern": "callback_last_error", "file": "mcp-server/src/handoff/approved-brief.ts" },
+    { "id": "production_job_failure", "repo": "ccos", "pattern": "failed", "file": "mcp-server/src/handoff/approved-brief.ts" },
+    { "id": "auth_config_failure", "repo": "ccos", "pattern": "handoff_not_configured", "file": "mcp-server/src/handoff/approved-brief.ts" }
+  ],
+  "tests": {
+    "gcos": [{ "id": "gcos-worker-tests", "cmd": "node --test apps/worker/src/scheduled-jobs.test.mjs" }],
+    "ccos": [{ "id": "ccos-handoff-tests", "cmd": "npx vitest run src/handoff", "cwd": "mcp-server" }]
+  },
+  "deferred": {
+    "P2": "final source/runtime ownership; canonical contract file location in the merged GCOS",
+    "P3": "final CCOS/MCD structure; CCOS worktree/branch to release from",
+    "P4": "final router/context paths (report paths only)",
+    "P5": "scheduler capacity guarantees + final observability signal names",
+    "P6": "feedback wiring: which callbacks/endpoints the feedback loop adds"
+  }
+}
