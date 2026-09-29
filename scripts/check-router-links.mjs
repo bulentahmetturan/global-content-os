@@ -5,15 +5,16 @@
 //   node scripts/check-router-links.mjs              -> link/coverage check (exit 1 on breakage)
 //   node scripts/check-router-links.mjs --simulate   -> per-route initial-context estimate
 //
-// Cross-repo pointers use @gcos/ @ccos/ @mcd/ prefixes. @mcd/ is only legal on a
-// line that also contains the word TRANSITIONAL (multi_channel_design is being merged away).
+// Cross-repo pointers use @gcos/ @ccos/ prefixes. @mcd/ is no longer legal anywhere
+// (multi_channel_design is merged into channel-content-os, ADR-0005): each use counts as TRANSITIONAL_MCD_ROUTES.
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, resolve, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SIBLINGS = { gcos: 'global-content-os', ccos: 'channel-content-os', mcd: 'multi_channel_design' };
-const SKIP_DIRS = new Set(['node_modules', '.git', '.wrangler', '.logs', '_history', '.p4wt']);
+const SKIP_DIRS = new Set(['node_modules', '.git', '.wrangler', '.logs', '_history', '.p4wt', '.p5wt', '.p7wt', '.pfinal']);
+let mcdRoutes = 0;
 const simulate = process.argv.includes('--simulate');
 
 function walk(dir, out = []) {
@@ -89,7 +90,7 @@ for (const f of routerFiles) {
       }
       if (!pathLike(tok)) continue;
       checked++;
-      if (tok.startsWith('@mcd/') && !/TRANSITIONAL/.test(line)) errors.push(`${rel}:${i + 1}: @mcd pointer without TRANSITIONAL marker: ${tok}`);
+      if (tok.startsWith('@mcd/')) { mcdRoutes++; errors.push(`${rel}:${i + 1}: transitional @mcd route (MCD is merged; use in-repo path): ${tok}`); }
       if (/^\.\.\/(multi_channel_design|global-content-os|channel-content-os)/.test(tok)) errors.push(`${rel}:${i + 1}: use @gcos/@ccos/@mcd prefix, not raw ../ sibling path: ${tok}`);
       const r = resolveToken(tok, dirname(f));
       if (r.skip) { notes.push(`${rel}:${i + 1}: sibling not checked out, skipped ${tok}`); continue; }
@@ -152,4 +153,5 @@ for (const e of errors) console.error('BROKEN: ' + e);
 for (const n of notes) console.log('note: ' + n);
 console.log(`checked=${checked} routes=${routes} ROUTING_COVERAGE=${cov}%`);
 console.log(`BROKEN_ROUTER_LINKS=${errors.length}`);
+console.log(`TRANSITIONAL_MCD_ROUTES=${mcdRoutes}`);
 process.exit(errors.length ? 1 : 0);

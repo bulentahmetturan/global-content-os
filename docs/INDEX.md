@@ -1,7 +1,7 @@
 # INDEX — task → exact context
 
 Entry: `AGENTS.md` → `docs/CORE.md` → `docs/CURRENT.md` → your task below. One task = one repo. Cross-repo reading is exceptional (contracts, migration, integration deploy). Routine source work never loads `channel-content-os`. Files are read whole unless a `:start-end` line range is given.
-Shorthand: `@ccos/` = sibling `channel-content-os`; `@mcd/` = sibling `multi_channel_design` (TRANSITIONAL, merging into channel-content-os).
+Shorthand: `@ccos/` = sibling `channel-content-os` (owns channels, brand, design, dashboard, production, render, QA; absorbed `multi_channel_design`, ADR-0005).
 
 ### Add a Hekimler source
 READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`, `adapters/hekimler-radar/scripts/hekimler_wire_source.py`
@@ -12,7 +12,7 @@ SECOND REPO: NO
 ### Modify a source record (any route)
 READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`
 OPTIONAL: `adapters/hekimler-radar/scripts/check_source_identity.py`
-DO NOT LOAD: whole registries — `grep -n '"<source-id>"' adapters/hekimler-radar/content/source-registry-*.json` then read that record only; Kaduse feeds: same on `config/feeds.json` (P2 is reshaping the catalog: see CURRENT)
+DO NOT LOAD: whole registries. Look up one record with `node scripts/registry-find.mjs <source-id>` (read-only, searches only the canonical stores); edit the canonical file it names
 SECOND REPO: NO
 
 ### Hekimler parser or fetch fix
@@ -37,11 +37,11 @@ SECOND REPO: NO
 READ: `AGENTS.md`, `apps/worker/src/ingress/feed-scope.ts`
 OPTIONAL: `apps/worker/src/ingress/who-news.ts`, `apps/worker/src/ingress/europe-pmc.ts`
 DO NOT LOAD: Hekimler adapter, `config/feeds.json` in bulk. Kaduse editorial policy is owned by the channel repo
-SECOND REPO: NO (YES only for a Kaduse editorial-policy question: `@mcd/channels/kaduse-medikal/content/policies/kaduse-news.json` TRANSITIONAL)
+SECOND REPO: NO (YES only for a Kaduse editorial-policy question: `@ccos/channels/kaduse-medikal/content/policies/kaduse-news.json`)
 
 ### Scheduler / cadence / capacity
-READ: `apps/worker/src/scheduled-jobs.ts`, `apps/worker/src/scheduled-jobs.test.mjs`, `wrangler.toml`, `docs/continuous-flow.md`
-OPTIONAL: `docs/cron-capacity-report.md`, `adapters/hekimler-radar/radar/hekimler_continuous_runner.py`, `.github/workflows/hekimler-python-runner.yml`
+READ: `docs/OPERATIONS.md`, `adapters/hekimler-radar/radar/hekimler_scheduler.py`, `apps/worker/src/scheduled-jobs.ts`, `wrangler.toml`
+OPTIONAL: `adapters/hekimler-radar/tests/test_hekimler_scheduler_fairness.py`, `docs/continuous-flow.md`, `docs/cron-capacity-report.md`, `adapters/hekimler-radar/radar/hekimler_continuous_runner.py`, `.github/workflows/hekimler-python-runner.yml`
 DO NOT LOAD: source registries, Bible, run history
 SECOND REPO: NO
 
@@ -70,9 +70,9 @@ DO NOT LOAD: source registries, design docs, Bible, architecture docs, history
 SECOND REPO: NO (YES only when the payload shape changes: then also the consumer read set in `@ccos/docs/INDEX.md`)
 
 ### Registry maintenance / lookup
-READ: `adapters/hekimler-radar/content/README.md`, `adapters/hekimler-radar/scripts/check_source_identity.py`
-OPTIONAL: `adapters/hekimler-radar/scripts/dump_source_registry.py`
-DO NOT LOAD: whole registries; a record-level `registry-find <source-id>` is DEFER_TO_PACKAGE_2 (see CURRENT). Until then grep one id
+READ: `scripts/registry-find.mjs`, `packages/source-catalog/README.md`, `adapters/hekimler-radar/scripts/check_source_identity.py`
+OPTIONAL: `adapters/hekimler-radar/content/README.md`, `adapters/hekimler-radar/scripts/dump_source_registry.py`
+DO NOT LOAD: whole registries; `node scripts/registry-find.mjs <source-id>` returns one record. Any compact index must be generated and non-editable
 SECOND REPO: NO
 
 ### Production deploy
@@ -88,7 +88,13 @@ DO NOT LOAD: full logs, fixtures
 SECOND REPO: NO
 
 ### Architecture migration / ownership boundary
-READ: `docs/CURRENT.md`, `@mcd/docs/CONTENT-SYSTEMS-MAP.md` TRANSITIONAL, `@mcd/docs/decisions/0004-three-system-content-architecture.md` TRANSITIONAL
+READ: `docs/CURRENT.md`, `@ccos/docs/decisions/0005-mcd-consolidation-into-channel-content-os.md`, `@ccos/docs/CONTENT-SYSTEMS-MAP.md` (ADR-0004, partly superseded)
 OPTIONAL: `docs/approved-brief-handoff.md`
 DO NOT LOAD: registries, Bible, run history, feeds
 SECOND REPO: YES
+
+### Operations / readiness / release gate
+READ: `docs/OPERATIONS.md`, `docs/ops/RELEASE-RUNBOOK.md`
+OPTIONAL: `scripts/release-gate.mjs`, `scripts/deploy-identity.mjs`, `release/checklist.json`, `apps/worker/src/readiness.ts`
+DO NOT LOAD: `.logs/` (full logs stay on disk; read the PASS/FAIL summary or failing test names), source registries, history
+SECOND REPO: NO
