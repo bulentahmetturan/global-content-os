@@ -1,13 +1,14 @@
 # CORE — system constitution
 
-## Four Pillars (every decision serves them)
+## Five Pillars (every decision serves them)
 
 - **P1** Finish systemic work and enter production.
 - **P2** Reliable pipeline and source flow.
 - **P3** Operational excellence.
 - **P4** Ultimate token-friendly system.
+- **P5** Controlled learning and relevance adaptation. Feedback is evidence. It never rewrites canonical rules. Future selection changes only after owner action, then measured.
 
-Priority when they conflict: correctness / preservation / security → pipeline reliability → operational excellence → token efficiency → cosmetics. Operational safety outranks token optimization.
+Priority when they conflict: correctness / preservation / security → pipeline reliability → operational excellence → controlled learning quality → token efficiency → cosmetics. Operational safety outranks token optimization.
 
 ## Universal rules
 
