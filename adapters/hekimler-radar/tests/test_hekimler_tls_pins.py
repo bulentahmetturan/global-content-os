@@ -15,8 +15,11 @@ class PinnedIntermediateTests(unittest.TestCase):
 
     def test_pins_not_expired_with_margin(self):
         for name in c.PINNED_INTERMEDIATE_HOSTS:
-            out = subprocess.run(["openssl", "x509", "-in", str(CERTS / name), "-noout", "-enddate"],
-                                 capture_output=True, text=True)
+            try:
+                out = subprocess.run(["openssl", "x509", "-in", str(CERTS / name), "-noout", "-enddate"],
+                                     capture_output=True, text=True)
+            except OSError:
+                self.skipTest("openssl unavailable")
             if out.returncode != 0:
                 self.skipTest("openssl unavailable")
             end = datetime.datetime.strptime(out.stdout.strip().split("=")[1], "%b %d %H:%M:%S %Y %Z")
