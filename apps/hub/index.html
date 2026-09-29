@@ -183,6 +183,8 @@
   #srcPanel tr[data-src]:hover{background:rgba(128,128,128,.12)}
   #srcPanel .src-n{text-align:right;white-space:nowrap;opacity:.8}
   #srcPanel .src-bad{color:var(--danger,#e5584b)}
+  #srcPanel .src-reval-warn{color:#b45309;font-size:12px}
+  #srcPanel .src-reval-ok{opacity:.4}
   #srcPanel .src-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(57,184,212,.18);cursor:pointer}
   #srcPanel .src-n2{color:var(--text-faint,#8A9BA8);font-weight:600}
   #srcPanel .src-name{font-weight:600}
@@ -767,7 +769,9 @@
     feedsByRoute: {},
     showSources: false,
     routeCounts: {},
-    routeMeta: {}
+    routeMeta: {},
+    revalidationBySource: {}, // canonical_source_key -> row from /api/source-revalidation (only sources needing review)
+    onlyNeedsReview: false
   };
   if (state.route === 'hekimler' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
     state.showSources = true;
@@ -1021,6 +1025,19 @@
     }
     return (state.routeMeta[state.route] && state.routeMeta[state.route].enabledFeeds) || 0;
   }
+
+  /**
+   * S69 Hub source panel "yalnız sorunlu / gözden geçirme gereken" filter
+   * (task D). A source needs review if its coverage label is already
+   * flagged bad (r.bad, from coverageLabel()/COVERAGE_TR), OR the backend's
+   * source_revalidation table (via /api/source-revalidation, S66 Phase B)
+   * currently lists it as REVALIDATION_REQUIRED. Pure/standalone so it can
+   * be tested without the full renderSourcePanel() DOM closure.
+   */
+  function sourceNeedsReview(row, revalidationBySource) {
+    if (row && row.bad) return true;
+    return !!(revalidationBySource && revalidationBySource[row && row.id]);
+  }
   var RETIRED_DUPLICATE_SOURCE_IDS = {
     ema_news: 1, fierce_biotech: 1, medpage_today: 1,
     medical_xpress: 1, stat_news: 1, saglik_bakanligi_genel: 1
@@ -1123,8 +1140,20 @@
     el.hidden = false;
     var rows = sourceRows();
     if (!rows.length) { el.innerHTML = 'Kaynaklar yükleniyor…'; return; }
+    function revalidationCell(r) {
+      var rv = state.revalidationBySource[r.id];
+      if (!rv) return '<span class="src-reval-ok" title="Son çalıştırmada gözden geçirme gerekmedi, ya da henüz hesaplanmadı">—</span>';
+      var label = rv.revalidation_status === 'REVALIDATION_REQUIRED' ? '⚠ Gözden geçirme gerekli' : escapeHtml(rv.revalidation_status || '');
+      var rec = rv.recommendation && rv.recommendation !== 'NO_CHANGE' ? ' · Öneri: ' + escapeHtml(rv.recommendation) : '';
+      var detail = rv.recommendation_detail ? escapeHtml(rv.recommendation_detail) : '';
+      return '<span class="src-reval-warn" title="' + detail + '">' + label + rec + '</span>';
+    }
     function table(list) {
-      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th></tr></thead><tbody>' + list.map(function (r, i) {
+      var filtered = state.onlyNeedsReview
+        ? list.filter(function (r) { return sourceNeedsReview(r, state.revalidationBySource); })
+        : list;
+      if (!filtered.length) return '<div>' + (state.onlyNeedsReview ? 'Gözden geçirme gereken kaynak yok.' : 'Yok') + '</div>';
+      return '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son çekim (çekim aralığı)</th><th>Sonraki çekim</th><th>Kayıt</th><th>Doğrulama</th></tr></thead><tbody>' + filtered.map(function (r, i) {
         var why = sourceWhy(r.id);
         var href = r.url ? '<a class="src-link" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener">resmi sayfa</a>' : '';
         var nameCell = '<span class="src-n2">' + (i + 1) + '.</span> <span class="src-name">' + escapeHtml(baseSourceName(r.name)) + '</span>' +
@@ -1132,7 +1161,7 @@
           (href ? ' · ' + href : '');
         var st = shortLabel(r.status);
         return '<tr data-src="' + escapeHtml(r.id) + '" data-kind-of="' + escapeHtml(r.route || '') + '"><td>' + nameCell + '</td><td class="' + (r.bad ? 'src-bad' : '') + '">' +
-          escapeHtml(st) + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td></tr>';
+          escapeHtml(st) + '</td><td>' + escapeHtml(lastWithCadence(r)) + '</td><td>' + escapeHtml(nextFetchLabel(r)) + '</td><td class="src-n">' + r.n + ' kayıt</td><td>' + revalidationCell(r) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
     }
     var news = rows.filter(function (r) { return !r.research && !r.burs && !r.egitim; });
@@ -1140,29 +1169,31 @@
     var res = rows.filter(function (r) { return r.research; });
     var egitim = rows.filter(function (r) { return r.egitim; });
     var filt = state.sourceFilter ? '<span class="src-chip" data-src-clear="1">filtre: ' + escapeHtml(state.sourceFilter) + ' ✕</span>' : '';
+    var reviewToggle = '<label class="src-review-toggle" style="font-size:12px;font-weight:400;margin-left:10px">' +
+      '<input type="checkbox" data-src-review-toggle="1"' + (state.onlyNeedsReview ? ' checked' : '') + '> yalnız sorunlu/gözden geçirme gereken</label>';
     var bursBlock = '<h3>🎓 Burs (' + burs.length + ')</h3>' + (burs.length ? table(burs) : '<div>Kayıtlı burs kaynağı yok.</div>');
     var egitimBlock = '<h3>📚 Eğitim (' + egitim.length + ')</h3>' + (egitim.length ? table(egitim) : '<div>Prestij eğitim kaynakları henüz eklenmedi.</div>');
     if (state.route === 'hekimler' && state.hekLane === 'burs') {
-      el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + bursBlock;
+      el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + reviewToggle + bursBlock;
       return;
     }
     if (state.route === 'hekimler' && state.hekLane === 'egitim') {
-      el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + egitimBlock;
+      el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + reviewToggle + egitimBlock;
       return;
     }
     if (state.route === 'kaduse') {
       var kaduseNews = rows.filter(function (r) { return !r.research; });
       var kaduseRes = rows.filter(function (r) { return r.research; });
       if (state.kind === 'research') {
-        el.innerHTML = '<b>' + kaduseRes.length + ' araştırma kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+        el.innerHTML = '<b>' + kaduseRes.length + ' araştırma kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
           '<h3>🔬 Research (' + kaduseRes.length + ')</h3>' + (kaduseRes.length ? table(kaduseRes) : '<div>Yok</div>');
       } else {
-        el.innerHTML = '<b>' + kaduseNews.length + ' haber kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+        el.innerHTML = '<b>' + kaduseNews.length + ' haber kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
           '<h3>📰 Haber (' + kaduseNews.length + ')</h3>' + (kaduseNews.length ? table(kaduseNews) : '<div>Yok</div>');
       }
       return;
     }
-    el.innerHTML = '<b>' + news.length + ' duyuru kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt +
+    el.innerHTML = '<b>' + news.length + ' duyuru kaynağı</b> · satıra tıklayınca liste o kaynağa süzülür ' + filt + reviewToggle +
       '<h3>🩺 Duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>');
   }
   async function ensureFeeds() {
@@ -1315,7 +1346,19 @@
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     state.selected = {};
-    if (state.showSources) { try { await ensureFeeds(); } catch (e) { /* panel shows loading */ } }
+    if (state.showSources) {
+      try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }
+      try {
+        var reval = await api('/api/source-revalidation');
+        var bySource = {};
+        (reval.requiresRevalidation || []).forEach(function (r) { bySource[r.canonical_source_key] = r; });
+        state.revalidationBySource = bySource;
+      } catch (e) {
+        // Endpoint may not be deployed yet, or D1 migration 0024 not applied --
+        // panel must still render normally without a "Doğrulama" verdict.
+        state.revalidationBySource = {};
+      }
+    }
     if (state.route === 'hekimler') {
       try { state.hekSources = mergeHekSources((await api('/api/hekimler/sources')).sources || []); } catch (e) { state.hekSources = mergeHekSources([]); }
       if (state.hekLane === 'burs' || state.hekLane === 'egitim') { await loadLaneCatalogs(); }
@@ -1398,6 +1441,10 @@
     if (e.target.id === 'hekSourceFilter') { state.sourceFilter = e.target.value; renderList(); return; }
     var pick = e.target.getAttribute && e.target.getAttribute('data-pick');
     if (pick) { if (e.target.checked) state.selected[pick] = true; else delete state.selected[pick]; renderToolbar(); }
+    if (e.target.hasAttribute && e.target.hasAttribute('data-src-review-toggle')) {
+      state.onlyNeedsReview = e.target.checked;
+      renderSourcePanel();
+    }
   });
   document.addEventListener('click', function (e) {
     var sel = window.getSelection();
