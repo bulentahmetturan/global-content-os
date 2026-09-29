@@ -1,6 +1,8 @@
 name = "global-content-os"
 main = "apps/worker/src/index.ts"
 compatibility_date = "2025-07-18"
+# Handoff POSTs to channel-content-os on this account's workers.dev; without this flag the edge rejects it (error 1042).
+compatibility_flags = ["global_fetch_strictly_public"]
 workers_dev = true
 
 [[d1_databases]]
