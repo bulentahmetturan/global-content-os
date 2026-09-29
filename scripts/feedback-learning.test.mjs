@@ -1,15 +1,27 @@
-import { test } from 'node:test';
+import { test as nodeTest } from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { editorialFeedbackInput } from './editorial-feedback.mjs';
 import { createRelevanceLedger } from './relevance-ledger.mjs';
 import { rankCandidates } from './relevance-selection.mjs';
 
+// The feedback model is owned by channel-content-os. CI checks out only this repo, so resolve the
+// sibling (P7_CCOS_ROOT, else ../channel-content-os) and report a skip when it is absent -- never a crash.
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const ccos = process.env.P7_CCOS_ROOT ? path.resolve(process.env.P7_CCOS_ROOT) : path.resolve(root, '..', 'channel-content-os');
+const feedbackSrc = path.join(ccos, 'packages', 'feedback', 'src');
+const skip = !existsSync(path.join(feedbackSrc, 'model.mjs')) && 'channel-content-os feedback package not present';
+const test = (name, fn) => nodeTest(name, { skip }, fn);
+
 const require = createRequire(import.meta.url);
-const { buildFeedbackEvent } = require('../../channel-content-os/packages/feedback/src/model.mjs');
-const { createFeedbackStore } = require('../../channel-content-os/packages/feedback/src/store.mjs');
-const { aggregatePatterns, proposalsFromPatterns, inspectLearning } = require('../../channel-content-os/packages/feedback/src/patterns.mjs');
-const { measureEffectiveness } = require('../../channel-content-os/packages/feedback/src/effectiveness.mjs');
+const load = (file) => (skip ? {} : require(path.join(feedbackSrc, file)));
+const { buildFeedbackEvent } = load('model.mjs');
+const { createFeedbackStore } = load('store.mjs');
+const { aggregatePatterns, proposalsFromPatterns, inspectLearning } = load('patterns.mjs');
+const { measureEffectiveness } = load('effectiveness.mjs');
 
 const T = '2026-09-29T10:00:00.000Z';
 const human = { kind: 'human', id: 'editor-1' };
