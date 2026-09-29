@@ -1,23 +1,22 @@
 /**
  * Sync all registered sources into config/feeds.json for Global Content OS.
- * Sources of truth (not invented here):
- * Sources of truth (ADR-0004: RUNTIME registries are local to this repo; only channel POLICY is external):
- * - external policy: multi_channel_design/.../news-sources.json (which sources Kaduse subscribes to)
- * - local runtime: packages/source-catalog/src/news/global-source-registry.ts
- * - local runtime: packages/source-catalog/src/research/source-registry.ts
+ * Canonical inputs (Package 2: ALL source/runtime inputs are local to this repo; no sibling-repo reads):
+ * - local runtime: packages/source-catalog/data/kaduse-subscriptions.json (which targets Kaduse subscribes to + acquisition scoping)
+ * - local runtime: packages/source-catalog/data/news-registry.json
+ * - local runtime: packages/source-catalog/data/research-sources.json
  * - local runtime: adapters/hekimler-radar/sources/official_sources.yaml
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Output directory (defaults to the repo root). Tests set SYNC_FEEDS_OUT_DIR to generate into a temp dir.
 const outRoot = process.env.SYNC_FEEDS_OUT_DIR ? path.resolve(process.env.SYNC_FEEDS_OUT_DIR) : root;
-const mcd = path.join(root, '..', 'multi_channel_design'); // external canonical policy repo (sibling checkout)
 
 const news = JSON.parse(
-  fs.readFileSync(path.join(mcd, 'channels/kaduse-medikal/content/news-sources.json'), 'utf8')
+  fs.readFileSync(path.join(root, 'packages/source-catalog/data/kaduse-subscriptions.json'), 'utf8')
 );
 // Data-first: the canonical catalogs are structured JSON. Nothing here parses TypeScript source.
 const newsRegistry = JSON.parse(
@@ -250,8 +249,26 @@ for (const f of feeds) {
   }
 }
 
+// Provenance: config/feeds.json is GENERATED, never hand-edited. Hashes are over LF-normalised bytes so they are
+// identical on every checkout regardless of autocrlf.
+const PROVENANCE_INPUTS = [
+  'packages/source-catalog/data/news-registry.json',
+  'packages/source-catalog/data/research-sources.json',
+  'packages/source-catalog/data/kaduse-subscriptions.json',
+  'adapters/hekimler-radar/sources/official_sources.yaml',
+];
+const sha256 = (rel) =>
+  createHash('sha256')
+    .update(fs.readFileSync(path.join(root, rel), 'utf8').replaceAll('\r\n', '\n'))
+    .digest('hex');
+
 const out = {
   schemaVersion: '1.1.0',
+  provenance: {
+    generatedBy: 'scripts/sync-feeds.mjs',
+    editable: false,
+    inputs: PROVENANCE_INPUTS.map((p) => ({ path: p, sha256: sha256(p) })),
+  },
   counts: {
     news: newsFeeds.length,
     research: researchFeeds.length,

@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "1.0.0",
+  "channelId": "kaduse-medikal",
+  "$comment": "CANONICAL (Package 2): the ONLY editable copy of Kaduse news source subscriptions and acquisition scoping. Owned by global-content-os (source acquisition/runtime). Moved from multi_channel_design/channels/kaduse-medikal/content/news-sources.json; editorial COVERAGE rules stay in multi_channel_design kaduse-news.json. sourceId/targetId reference news-registry.json in this directory; publisher identity, URLs, transport, cadence and health are NOT duplicated here. `enabled` = the subscription participates in scripts/sync-feeds.mjs output; actual fetching still requires a working fetcher (HTTP 200 != automation ready). inclusionPolicy/exclusionPolicy are acquisition scoping filters, emitted into feed rules. Superseded/excluded identities live only in news-registry.json.",
+  "status": "ACTIVE_SUBSCRIPTIONS",
+  "subscriptionCount": 59,
+  "subscriptions": [
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "who-newsroom",
+      "targetId": "who-newsroom-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fda-press-announcements",
+      "targetId": "fda-press-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "diagnostics",
+        "human medicine",
+        "health AI",
+        "major approvals/safety/regulation",
+        "digital health"
+      ],
+      "exclusionPolicy": [
+        "food",
+        "tobacco",
+        "veterinary",
+        "administrative announcements"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fda-cdrh",
+      "targetId": "fda-cdrh-digital-health",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fda-cdrh",
+      "targetId": "fda-cdrh-ai-ml-device",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fda-cdrh",
+      "targetId": "fda-cdrh-samd",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fda-cdrh",
+      "targetId": "fda-cdrh-device-safety",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ema-news",
+      "targetId": "ema-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ec-medical-devices",
+      "targetId": "ec-medical-devices-target",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "saglik-bakanligi",
+      "targetId": "saglik-bakanligi-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "titck-announcements",
+      "targetId": "titck-tibbi-cihaz-duyurulari",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "titck-announcements",
+      "targetId": "titck-general-regulatory",
+      "enabled": true,
+      "inclusionPolicy": [
+        "drug safety",
+        "medical-device regulation",
+        "product safety",
+        "national regulatory changes"
+      ],
+      "exclusionPolicy": [
+        "generic institutional noise"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ecdc-news",
+      "targetId": "ecdc-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "medtech-europe-news",
+      "targetId": "medtech-europe-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "medtech-dive-news",
+      "targetId": "medtech-dive-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "reuters-healthcare",
+      "targetId": "reuters-healthcare-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "healthcare",
+        "pharma where medically/news relevant",
+        "medtech",
+        "medical devices",
+        "diagnostics",
+        "digital health",
+        "AI in healthcare"
+      ],
+      "exclusionPolicy": [
+        "general Reuters news"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "resmi-gazete-source",
+      "targetId": "resmi-gazete-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "health",
+        "healthcare",
+        "Ministry of Health",
+        "TİTCK",
+        "SGK health reimbursement",
+        "SUT",
+        "medical devices",
+        "medicines",
+        "diagnostics",
+        "public health",
+        "health professions",
+        "healthcare delivery",
+        "relevant health regulations"
+      ],
+      "exclusionPolicy": [
+        "unrelated government administration"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "observatory-news",
+      "targetId": "observatory-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hma-news",
+      "targetId": "hma-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "edqm-news",
+      "targetId": "edqm-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ec-hta-htacg",
+      "targetId": "ec-hta-htacg-target",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "oecd-health",
+      "targetId": "oecd-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Health section only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "un-news-health",
+      "targetId": "un-news-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Health tag only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "aa-saglik",
+      "targetId": "aa-saglik-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Sağlık (Health) section only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ec-dg-sante",
+      "targetId": "ec-dg-sante-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "health-related DG SANTE updates"
+      ],
+      "exclusionPolicy": [
+        "unrelated food/agriculture material"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hhs-press",
+      "targetId": "hhs-press-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "AI-health",
+        "medical technology",
+        "public health",
+        "major healthcare regulation/policy",
+        "meaningful HHS technology initiatives"
+      ],
+      "exclusionPolicy": [
+        "purely administrative/political staffing noise"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "africa-cdc-news",
+      "targetId": "africa-cdc-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ec-mdcg",
+      "targetId": "ec-mdcg-target",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "raps-regulatory-focus",
+      "targetId": "raps-regulatory-focus-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "digital health",
+        "AI in regulated health products",
+        "major pharmaceutical regulation only when broadly newsworthy",
+        "health-product regulatory changes"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "swissmedic-news",
+      "targetId": "swissmedic-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "safety",
+        "recalls",
+        "device regulation",
+        "digital/AI health where applicable"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "tuseb-news",
+      "targetId": "tuyze-saglikta-yapay-zeka",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "tuseb-news",
+      "targetId": "tuseb-health-tech-innovation",
+      "enabled": true,
+      "inclusionPolicy": [
+        "health technology/innovation/translational health developments"
+      ],
+      "exclusionPolicy": [
+        "ceremonial/institutional noise"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "bfarm-news",
+      "targetId": "bfarm-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "DiGA/digital health",
+        "medical-device regulation/safety",
+        "digital health/software/AI where applicable"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "imdrf-news",
+      "targetId": "imdrf-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ansm-news",
+      "targetId": "ansm-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "dispositifs médicaux",
+        "alerts",
+        "safety",
+        "surveillance",
+        "regulation",
+        "meaningful enforcement"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hpw-news",
+      "targetId": "hpw-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "sgk-announcements",
+      "targetId": "sgk-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Genel Sağlık Sigortası",
+        "Sağlık Uygulama Tebliği/SUT",
+        "medical device/material reimbursement",
+        "medicine reimbursement where editorially relevant",
+        "MEDULA healthcare changes",
+        "health service financing",
+        "related attachments/lists/implementation announcements"
+      ],
+      "exclusionPolicy": [
+        "pensions",
+        "employment premiums",
+        "retirement",
+        "unrelated social-security administration"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "eur-lex-source",
+      "targetId": "eur-lex-mdr-ivdr-health-query",
+      "enabled": true,
+      "inclusionPolicy": [
+        "MDR",
+        "IVDR",
+        "medical devices",
+        "IVD",
+        "health",
+        "health technology assessment",
+        "medicines where relevant",
+        "AI Act x health",
+        "AI Act x medical device",
+        "implementing acts",
+        "delegated acts",
+        "Commission decisions materially affecting healthcare/medtech"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hpra-news",
+      "targetId": "hpra-news-scoped",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "euractiv-health",
+      "targetId": "euractiv-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Health/Healthcare section only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ep-sant",
+      "targetId": "ep-sant-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "SANT press releases",
+        "meaningful public-health committee highlights",
+        "legislative health decisions"
+      ],
+      "exclusionPolicy": [
+        "all other Parliament press"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "team-nb-news",
+      "targetId": "team-nb-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "council-eu-epsco",
+      "targetId": "council-eu-epsco-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "meeting outcomes",
+        "health conclusions",
+        "health legislative positions",
+        "relevant press releases"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hsgm-news",
+      "targetId": "hsgm-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "infectious disease",
+        "outbreaks",
+        "vaccination",
+        "field public health",
+        "meaningful operational public-health developments"
+      ],
+      "exclusionPolicy": [
+        "ceremonies",
+        "visits",
+        "generic institutional events"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "ec-hera",
+      "targetId": "ec-hera-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "preparedness",
+        "health emergency countermeasures",
+        "procurement",
+        "critical medical products",
+        "shortages/supply security",
+        "health emergency technology"
+      ],
+      "exclusionPolicy": [
+        "entire EC corporate news stream"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "tuik-saglik-source",
+      "targetId": "tuik-saglik-sosyal-koruma",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Sağlık ve Sosyal Koruma category only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "healthai-news",
+      "targetId": "healthai-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "nhs-aidrs-news",
+      "targetId": "nhs-aidrs-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Latest News",
+        "relevant Blog/regulatory updates"
+      ],
+      "exclusionPolicy": [
+        "all NHS England modeled as this source"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "jtc21-ai",
+      "targetId": "jtc21-ai-health-gated",
+      "enabled": true,
+      "inclusionPolicy": [
+        "JTC 21 AI standardization activity gated by an ADDITIONAL health/medicine/medtech/medical-device/healthcare relevance constraint"
+      ],
+      "exclusionPolicy": [
+        "generic industrial AI standards"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "pmda-news",
+      "targetId": "pmda-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "SaMD",
+        "relevant review reports",
+        "innovative SaMD",
+        "device safety",
+        "post-market device information",
+        "AI-device developments"
+      ],
+      "exclusionPolicy": [
+        "all pharmaceutical administrative notices"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "hsa-medical-devices",
+      "targetId": "hsa-medical-devices-scoped",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "fierce-medtech",
+      "targetId": "fierce-medtech-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medtech/device content only"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "medica-sphere-medtech",
+      "targetId": "medica-sphere-medtech-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "MedTech & Devices sphere only"
+      ],
+      "exclusionPolicy": [
+        "trade-fair marketing content"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "health-canada-medical-devices",
+      "targetId": "health-canada-devices-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Medical Devices",
+        "What's New/announcements",
+        "ML-enabled medical devices",
+        "device guidance/safety",
+        "digital-health/device regulation"
+      ],
+      "exclusionPolicy": [
+        "all Government of Canada news"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "nice-healthtech",
+      "targetId": "nice-healthtech-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical devices",
+        "diagnostics",
+        "digital technologies",
+        "AI technologies",
+        "technology evaluations",
+        "adoption/recommendations/consultations where newsworthy"
+      ],
+      "exclusionPolicy": [
+        "all NICE guidance indiscriminately"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "advamed-digital-health",
+      "targetId": "advamed-digital-health-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "Digital Health Tech",
+        "AI in medtech",
+        "device policy",
+        "meaningful device developments",
+        "regulatory/industry changes"
+      ],
+      "notes": "AdvaMed is an industry association; association statements are never treated as regulatory fact."
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "massdevice-news",
+      "targetId": "massdevice-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "medical-device-network-news",
+      "targetId": "medical-device-network-news-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "aami-news",
+      "targetId": "aami-news-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "medical-device standards",
+        "safety engineering",
+        "AI/device standards",
+        "lifecycle",
+        "health technology management news"
+      ],
+      "exclusionPolicy": [
+        "complete formal standards library (reference, not news)"
+      ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "mobihealthnews-source",
+      "targetId": "mobihealthnews-ai-device-scoped",
+      "enabled": true,
+      "inclusionPolicy": [
+        "AI/ML healthcare",
+        "diagnostics",
+        "regulated/near-regulated digital health",
+        "medical devices",
+        "wearables",
+        "monitoring",
+        "digital therapeutics",
+        "imaging",
+        "clinically relevant health technology"
+      ],
+      "exclusionPolicy": [
+        "generic funding",
+        "generic hospital IT",
+        "general enterprise software",
+        "broad digital-health business stories unless directly material"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,27 @@
 {
   "schemaVersion": "1.1.0",
+  "provenance": {
+    "generatedBy": "scripts/sync-feeds.mjs",
+    "editable": false,
+    "inputs": [
+      {
+        "path": "packages/source-catalog/data/news-registry.json",
+        "sha256": "2167eed4c5336ced634d25b19f1d5f0cd655490865929ceff067a5e3849a1a70"
+      },
+      {
+        "path": "packages/source-catalog/data/research-sources.json",
+        "sha256": "103f0a39ca200cbf8a4756c8166d8e0049246a5194d9e379b54720525c49a887"
+      },
+      {
+        "path": "packages/source-catalog/data/kaduse-subscriptions.json",
+        "sha256": "341b504f0c4ca8568aa7f465d7c2532043ce4572bcb05edec0852290a04d1679"
+      },
+      {
+        "path": "adapters/hekimler-radar/sources/official_sources.yaml",
+        "sha256": "ebbf7e0756cc19efa1c40b6fa5185582c5aca0c3c3f47a90cd350f74f928871d"
+      }
+    ]
+  },
   "counts": {
     "news": 60,
     "research": 49,
