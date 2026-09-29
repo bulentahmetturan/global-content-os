@@ -110,6 +110,6 @@ Bootstrap from an empty machine: `docs/RECOVERY.md`.
 
 ## 6. Bindings (final reconciliation)
 
-- Source catalog + registries: `scripts/registry-find.mjs` (read-only lookup); reviewed source-feedback actions: `docs/FEEDBACK-SOURCE-ACTIONS.md`.
+- Source catalog + registries: `scripts/registry-find.mjs` (read-only lookup); reviewed source-feedback actions: `docs/FEEDBACK-SOURCE-ACTIONS.md`; add / retire / reactivate: `docs/SOURCE-LIFECYCLE.md` (capacity via the guard above, never bypassed).
 - CCOS CI is defined in its own repo (`.github/workflows/ccos-ci.yml`); release/readiness for both repos: `release/` + `docs/ops/RELEASE-RUNBOOK.md`.
 - Still open by design: Hub UI rendering of `scheduler-state.json` (Hub files are UI work, not release-critical).
