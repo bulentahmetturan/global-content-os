@@ -11,7 +11,7 @@
 - `adapters/tip-radar/` is legacy migration compatibility only (local SQLite push).
 - `apps/hub/00_TURK_TIP_*BIBLE*.md` are build copies of the Bible in `adapters/hekimler-radar/content/` (DEFERRED_BUILD_COPY).
 - `**/legacy-cleanup/`, `**/archive/`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` run log: preserved evidence.
-- Deliberately inactive: ~117 `MANUAL_INTAKE` Hekimler sources, R4 research sources, the 23 curated-club feeds, GMC (honest substitute). Never bulk-activate (`hekimler_ops.py capacity` first).
+- Deliberately inactive: ~117 `MANUAL_INTAKE` Hekimler sources, R4 research sources, the 24 curated-club feeds (canonical count: `hekimler-opportunity-pack.json` inventory snapshot; none registered yet), GMC (honest substitute). Never bulk-activate (`hekimler_ops.py capacity` first).
 
 ## Real blockers
 - None. CCOS fresh migration replay is unsafe (`docs/ops/RELEASE-RUNBOOK.md`, migration 010). Hub write routes other than triage (cron run, purge, expire, ingress news/research/generic, enrich, localize) are still unauthenticated; list in `release/manifest.json` postFreeze.

@@ -136,8 +136,8 @@ The same applies to 041 when it is authorized.
 
 ## 10. Pending decisions that are NOT release blockers
 
-R4 research sources, the 23 curated-club sources, and the ~110-source backlog may stay disabled/pending. Remote MCD archival is not a
-blocker; readiness requires only no active production dependency on retired MCD paths.
+R4 research sources, the 24 curated-club sources, and the ~110-source backlog may stay disabled/pending. Remote MCD archival is not a
+blocker; readiness requires only no active production dependency on retired MCD paths (open until the MCD scheduled workflows are disabled after the first successful GCOS scheduled run, evidence E15).
 
 ## Known recovery limitation: CCOS migration chain cannot replay from zero (migration 010)
 
