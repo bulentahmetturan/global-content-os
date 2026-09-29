@@ -1,0 +1,79 @@
+# Source Lifecycle Orchestrator
+
+One entry point for adding, retiring and reactivating a source. The operator gives a name or URL. The tool works out the rest from evidence. It asks a question only when the ambiguity is real.
+
+```bash
+node scripts/source-lifecycle.mjs add "<name | url | source_id>" [--url U] [--channel hekimler|kaduse-news|kaduse-research] [--history <run-report dir>] [--apply] [--json]
+node scripts/source-lifecycle.mjs retire "<source>" [--reason R] [--apply]
+node scripts/source-lifecycle.mjs reactivate "<source_id>" [--history DIR] [--apply]
+node scripts/source-lifecycle.mjs inspect | plan | recalibrate | purge-plan "<source>"
+```
+
+Without `--apply` nothing is written. The user's explicit "add"/"stop using" is the authorization; the agent then passes `--apply`. Exit: 0 done, 3 needs user decision, 4 blocked, 1 denied/error. Full per-run trace: `.logs/source-lifecycle/<request_id>.json` (outside git and default context).
+
+## Ownership and state
+
+GCOS is the only source owner. There is no new registry and no new lifecycle enum. Persistent state is derived from existing fields:
+
+| Derived state | Hekimler (`source-registry-*.json`) | Kaduse (catalog + generated `config/feeds.json`) |
+|---|---|---|
+| ACTIVE | `runtime_activation=AUTOMATION_READY`, status not retired | feed `enabled=true` |
+| READY | `MANUAL_INTAKE` and last `lifecycle_history` outcome `READY` (every gate passed except capacity) | – |
+| INACTIVE | `MANUAL_INTAKE` / disabled | `PENDING_EXPLICIT_DECISION` / disabled |
+| RETIRED | `status=retired` (then `compute_activation_state` returns BLOCKED) | disabled, not pending |
+
+`REQUESTED → RESOLVING → VALIDATING → CANARY → READY/ACTIVE` exist only in the trace.
+
+**Write scope:** the Hekimler registries go through `scripts/source-lifecycle/store.mjs`, the only write site. It uses the same guards as `source-actions.mjs`: operator or canonical-owner actor, `authorize() === true`, `apply === true`, and a byte-stable JSON round trip (otherwise `REQUIRES_MANUAL_EDIT`). The Kaduse lanes are **PLAN_ONLY**: the tool fully validates the source, then returns the reviewed steps (catalog edit → `sync-feeds.mjs` → S66 check → D1 migration). Kaduse feeds reach D1 only by migration, so the tool never activates R4, curated-club or `PENDING_EXPLICIT_DECISION` feeds.
+
+## Add: gates
+
+| Gate | What it decides | Reuses |
+|---|---|---|
+| G0 request | normalizes name/URL/id, request id | – |
+| G1 identity | exact id / URL / same-host path / name tokens; `ALREADY_ACTIVE`; a RETIRED match goes to reactivation; `AMBIGUOUS`/`UNRESOLVED` → one question | `registry-find` stores |
+| G2 access + endpoint | robots.txt, 401/403/429/451/login wall → `BLOCKED_ACCESS`; known official API → RSS/Atom (page or `rel=alternate`, same registrable domain only) → HTML list; ≤ 6 requests | Worker API adapters |
+| G3 parser | the lane's existing runtime parser (`list-page`, `generic-web.ts`, API adapters). If none fits → `ADAPTER_REQUIRED` + fixture sample in the trace. At least 3 items with title and URL; dates only from markup | runtime parsers |
+| G4 routing | one lane + heading (+ tier, evidence role). A tie → question, never fan-out | S66 headings, registry vocab |
+| G5 cadence | see below | scheduler policy |
+| G6 dedupe | endpoint collision, S66 one-primary-heading with the candidate added, optional known-item overlap | `check_source_identity.py` via bridge |
+| G7 capacity | unchanged `hekimler_ops.py capacity --add 1 --add-cadence N`. Only SAFE activates; CAUTION/BLOCK stage READY (`MANUAL_INTAKE` + reason); guard unavailable → BLOCK | capacity guard |
+| G8 canary | fetch → parse → normalize → dedupe → candidate shape (inside plan hosts/paths) → routing → the exact profile through `automation_ready_gates`. Publishes nothing | `hekimler_activation.py` via bridge |
+| G9 activate | all PASS + SAFE → `AUTOMATION_READY` in an additive layer (burs / egitim / v1.1 for `.tr` / batch3) | canonical owner path |
+| G10 observe | existing telemetry only (below) | – |
+
+Bridge: `adapters/hekimler-radar/scripts/hekimler_lifecycle_bridge.py` (read-only).
+
+## Cadence
+
+`publication timestamps (feed > list dates > sitemap lastmod) → gaps ≥ 5 min → drop > 10× median → expected gap = median → poll = gap/2 → min(freshness cap) → clamp [lane min, lane max] → snap down to 60/120/180/360/720/1440/2880/4320/10080/20160`.
+
+Future-dated items (deadlines) are ignored. A source silent for more than 4× its gap is flagged `DORMANT_SUSPECT`. Fewer than 4 gaps → class fallback (Hekimler 10080, Kaduse news 360, research 1440).
+
+Lane bounds: Hekimler 1440 (daily runner) … 20160; Kaduse news 60 … 1440; Kaduse research 360 … 1440.
+
+The value is written once, into the one field the scheduler reads (`fetch_plan.expected_check_interval_minutes`). `cadence_policy` stores bounds and evidence, never a second value. `recalibrate` proposes a change only after at least one ladder step and not on LOW confidence; `--apply` is the owner action, and it is capacity-checked when load rises.
+
+## Retire (default for "remove" / "stop using")
+
+O1 `status=retired`, `runtime_activation=BLOCKED`, fetch/scheduled/candidate/pipeline flags false (applied to every registry layer holding the id), verified through the runtime gates.
+O2 in-flight: `inbox → hold` with an `editorial_decisions` row. hold / production / trash / approved briefs / published stay untouched. This is returned as D1 SQL for an operator step and never executed here.
+O3 tombstone: the record stays, with `former_*`, `retired_reason/at/change_ref` and `lifecycle_history`.
+O4 detach: scheduler eligibility is removed by status. Regenerate the derivatives with their generators (never hand-edit): `hekimler-automation-ready.ts/.json`, `docs/source-matrix.generated.json`, and for Kaduse `config/feeds.json`.
+O5 artifacts: references are classified KEEP / REVIEW / CLEANUP_CANDIDATE / NEVER_AUTO_DELETE (secrets). A file name belongs to the longest source id it starts with. Nothing is deleted.
+O6 provenance kept: see `PRESERVED` in `offboard.mjs`.
+O7 `purge-plan` is a separate command that returns a dry-run dependency/FK report; purge is never executed.
+`retire` twice → `ALREADY_RETIRED`. `add` on a retired source → reactivation of the same id.
+
+## Boundaries
+
+- Pillar 5: actors `feedback`, `pillar5`, `learning`, `relevance_ledger` and `machine` are refused (`FEEDBACK_CANNOT_MUTATE_SOURCE`). Feedback still reaches sources only through `docs/FEEDBACK-SOURCE-ACTIONS.md`.
+- One source per operation; the tool never bulk-enables anything.
+- Observability (no new store): `hekimler_source_telemetry`, `report/scheduler-state.json` + `run-report.json`, `source_items`/`decided_links`, `editorial_decisions`/`review_feedback`, `source_revalidation`, `hekimler_ops.py status|capacity`.
+
+## Post-freeze integration
+
+1. Merge `feature/source-lifecycle-orchestrator` after `SYSTEM_V1=FROZEN`. It adds files and makes one additive export change to `scripts/registry-find.mjs` (`storesAt`, `findAt`, `records`).
+2. Run `node scripts/source-lifecycle/orchestrator.test.mjs`, `python -m pytest adapters/hekimler-radar/tests/test_hekimler_lifecycle_bridge.py`, `npm run production:check` and `node scripts/check-router-links.mjs`.
+3. No migration, no env/secret, no endpoint. The Kaduse PLAN_ONLY path produces per-source forward migrations only when an operator activates or retires a Kaduse feed.
+4. For real capacity answers, point `--history` at the runner's `run-report.json` artifacts. Without history the guard returns CAUTION, so nothing auto-activates.

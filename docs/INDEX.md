@@ -3,6 +3,12 @@
 Entry: `AGENTS.md` → `docs/CORE.md` → `docs/CURRENT.md` → your task below. One task = one repo. Cross-repo reading is exceptional (contracts, migration, integration deploy). Routine source work never loads `channel-content-os`. Files are read whole unless a `:start-end` line range is given.
 Shorthand: `@ccos/` = sibling `channel-content-os` (owns channels, brand, design, dashboard, production, render, QA; absorbed `multi_channel_design`, ADR-0005).
 
+### Add / retire / reactivate a source (lifecycle, any route)
+READ: `docs/SOURCE-LIFECYCLE.md`
+OPTIONAL: `scripts/source-lifecycle/orchestrator.mjs`, `scripts/source-lifecycle/cadence.mjs`
+DO NOT LOAD: registries, `config/feeds.json`, traces in `.logs/source-lifecycle/`. Run `node scripts/source-lifecycle.mjs <add|retire|inspect> "<name or url>"`; it returns compact gate results
+SECOND REPO: NO
+
 ### Add a Hekimler source
 READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`, `adapters/hekimler-radar/scripts/hekimler_wire_source.py`
 OPTIONAL: `adapters/hekimler-radar/radar/hekimler_registry.py`, `adapters/hekimler-radar/content/policies/hekimler-audience-scope.json`
