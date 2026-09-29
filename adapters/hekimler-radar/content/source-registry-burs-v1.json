@@ -201,7 +201,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Programme page + periodic calls; wire list-page after duyuru index is verified.",
+      "manual_intake_reason": "S69 Phase A canary (2026-09-29): live radar.fetchers.fetch() canary confirms /tr/burslar is a static PROGRAMME-NAME MENU (a flat list of programme titles like '2214-A Yurt Dışı Doktora Sırası...', '2244 - Sanayi Doktora Programı', no dates, no individual call/deadline text at all) -- not a dated announcement index. Also: response encoding is mis-detected (Turkish characters render as mojibake, e.g. 'Lisans/Ã¶nlisans'), a real parsing-quality issue that would need fixing before this source could be trusted even for its menu content. Stays MANUAL_INTAKE; a real fix needs the actual TÜBİTAK duyuru/announcement sub-page (not found in this pass) plus an encoding fix.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -453,7 +453,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Official catalogue; emit only health/medicine joint masters.",
+      "manual_intake_reason": "S69 Phase A canary (2026-09-29): live radar.fetchers.fetch() canary confirms this is a filterable reference catalogue (country/keyword filter widget, likely JS-driven for actual results), not a dated call list -- extracted text is generic guidance ('Most master's programmes require applications to be submitted between October and January...') with no per-programme dated entries in the static HTML. Stays MANUAL_INTAKE; would need either the underlying catalogue API (not found) or per-programme page monitoring instead of this index.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -650,7 +650,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "IADR ödül portföyü; Centennial Travel Award UMIC + 2025 Ankara Medipol kazananı. Üyelik 2 yıl.",
+      "manual_intake_reason": "IADR ödül portföyü; Centennial Travel Award UMIC + 2025 Ankara Medipol kazananı. Üyelik 2 yıl. S69 Phase A canary (2026-09-29): live radar.fetchers.fetch() canary shows the search-results UI text itself ('135 Results ... Loading... Your search did not return any results' -- contradictory static-HTML fragments), confirming actual award listings render via JS/search-widget, not present in the static fetch. Stays MANUAL_INTAKE.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -888,7 +888,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Official ESMO fellowship catalogue; membership/experience per call.",
+      "manual_intake_reason": "Official ESMO fellowship catalogue; membership/experience per call. S69 Phase A canary (2026-09-29): live radar.fetchers.fetch() canary returned only 591 chars of generic site chrome (meeting calendar, login, cookie settings, 'No results found') -- the actual fellowship-offer content did not come through the static fetch, likely JS-rendered or behind a different real URL than this listing page. Stays MANUAL_INTAKE; needs the real underlying content URL identified in a future pass.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -1069,12 +1069,13 @@
         "/scholarships"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "activation_note": "S69 Phase A canary (2026-09-29): verified live via radar.fetchers.fetch() -- HTTP 200, no bot-wall, 3471 chars of real static-HTML content covering 5 named programmes (Short Visit, 1-Year Scholarship, Academic Visit, Collaborative Fellowship, Visiting Professor), eligibility rules, and a concrete recurring deadline statement ('Important dates: 1st of January, 1st of May, and 1st of September'). Single stable programme page (like burs_uk_chevening), not a per-item news list -- dedup runs on whole-page content_hash. Weekly cadence unchanged (poll_minutes=10080); deadlines recur only 3x/year so weekly is ample headroom, see docs/cron-capacity-report.md.",
       "manual_intake_reason": "Official EUSP scholarships; 1 Jan / 1 May / 1 Sep cycles.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
@@ -1095,7 +1096,22 @@
       ],
       "poll_minutes": 10080,
       "statement_treatment": "official_guidance",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "uroweb.org",
+          "www.uroweb.org"
+        ],
+        "allowed_path_patterns": [
+          "/education/",
+          "/scholarships"
+        ],
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "notes": "Verified 2026-09-29: HTTP 200, 3471 chars, real deadline cycle text present."
+      }
     },
     {
       "source_id": "burs_ers_fellowships",

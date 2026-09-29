@@ -453,6 +453,7 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": false,
       "runtime_activation": "MANUAL_INTAKE",
+      "manual_intake_reason": "S69 Phase A canary (2026-09-29) DATA-QUALITY FINDING: this record is named/labelled 'GMC -- registration and licensing' but its canonical_url/source_url/primary_url all point to the UK Visas and Immigration organisation's Atom feed (gov.uk/government/organisations/uk-visas-and-immigration.atom), not to the General Medical Council. The URL IS live and fetchable (HTTP 200, real Atom XML, verified via radar.fetchers.fetch()) but it is the wrong source for what this record claims to represent -- it would surface UKVI immigration-policy items under a 'GMC' label, not real GMC registration/licensing news. Left MANUAL_INTAKE (not activated with the wrong URL); needs the actual GMC news/updates page or feed identified in a follow-up pass before any activation.",
       "source_health": "MANUAL_REVIEW_REQUIRED",
       "include_keywords": [
         "international medical graduate",

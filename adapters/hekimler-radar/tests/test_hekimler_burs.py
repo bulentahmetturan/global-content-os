@@ -16,7 +16,7 @@ from radar.hekimler_integrity import resolve_effective_registry, resolve_profile
 # deliberately activated -- see their `activation_note` in
 # content/source-registry-burs-v1.json. Not a blanket-enable: every other
 # burs_* source is still expected to be MANUAL_INTAKE.
-KNOWN_ACTIVATED_BURS_SOURCE_IDS = {"burs_uk_chevening"}
+KNOWN_ACTIVATED_BURS_SOURCE_IDS = {"burs_uk_chevening", "burs_eau_eusp"}
 
 
 class BursLaneTests(unittest.TestCase):

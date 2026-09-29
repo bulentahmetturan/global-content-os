@@ -44,6 +44,19 @@ class SourceActivationPhaseATests(unittest.TestCase):
         profile = resolve_profile("burs_uk_chevening", self.eff)
         self.assertIn("turkey", (profile.get("canonical_url") or "").lower())
 
+    def test_burs_eau_eusp_is_automation_ready(self):
+        # S69 canary batch (2026-09-29).
+        profile = resolve_profile("burs_eau_eusp", self.eff)
+        self.assertEqual(compute_activation_state(profile), ACTIVATION_AUTOMATION_READY)
+        ok, failures = automation_ready_gates(profile)
+        self.assertTrue(ok, failures)
+
+    def test_burs_eau_eusp_has_a_dated_verification_note(self):
+        profile = resolve_profile("burs_eau_eusp", self.eff)
+        note = profile.get("activation_note") or ""
+        self.assertIn("2026-09-29", note)
+        self.assertIn("HTTP 200", note)
+
 
 if __name__ == "__main__":
     unittest.main()
