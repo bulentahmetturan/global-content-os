@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "341b504f0c4ca8568aa7f465d7c2532043ce4572bcb05edec0852290a04d1679"
+        "sha256": "3246e946a83ade15dcb7aba0e61d86cbf9b0dd8cbc799f6283f38d471f263d90"
       },
       {
         "path": "adapters/hekimler-radar/sources/official_sources.yaml",

@@ -70,6 +70,8 @@ test('Hekimler source/audience policy has ONE editable owner: no other repo hold
 
 test('Kaduse news subscriptions have ONE editable owner: global-content-os', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
   assert.ok(existsSync(rel('packages/source-catalog/data/kaduse-subscriptions.json')));
+  const subsComment = JSON.parse(read(rel('packages/source-catalog/data/kaduse-subscriptions.json'))).$comment;
+  assert.match(subsComment, /coverage rules stay in channel-content-os/i, 'Kaduse editorial coverage owner is channel-content-os (ADR-0005), not multi_channel_design');
   for (const [repoName, repoPath] of nonOwners) assert.ok(!existsSync(path.join(repoPath, 'channels/kaduse-medikal/content/news-sources.json')), `news-sources.json must not exist in ${repoName}`);
 });
 
