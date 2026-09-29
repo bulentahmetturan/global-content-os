@@ -1076,7 +1076,6 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "activation_note": "S69 Phase A canary (2026-09-29): verified live via radar.fetchers.fetch() -- HTTP 200, no bot-wall, 3471 chars of real static-HTML content covering 5 named programmes (Short Visit, 1-Year Scholarship, Academic Visit, Collaborative Fellowship, Visiting Professor), eligibility rules, and a concrete recurring deadline statement ('Important dates: 1st of January, 1st of May, and 1st of September'). Single stable programme page (like burs_uk_chevening), not a per-item news list -- dedup runs on whole-page content_hash. Weekly cadence unchanged (poll_minutes=10080); deadlines recur only 3x/year so weekly is ample headroom, see docs/cron-capacity-report.md.",
-      "manual_intake_reason": "Official EUSP scholarships; 1 Jan / 1 May / 1 Sep cycles.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",

@@ -130,3 +130,122 @@ This report does not itself change any source's cadence or lifecycle --
 per the same no-autonomous-mutation rule as Phase B (S67), it's an input
 to the human/engineering decision made in this PR's actual source
 activations, not an automatic trigger.
+
+## 3. Correctness analysis (2026-09-29 update, work package 1 item 4)
+
+Task 1's original version stopped at "typical fetches are fast" as its
+safety argument. That is not sufficient on its own -- this section answers
+the specific correctness questions the process now requires, from reading
+`adapters/hekimler-radar/scripts/hekimler_scheduled_run.py` directly
+(not inferred):
+
+**What happens if multiple due sources time out simultaneously?**
+Sources run **sequentially, in a single Python process, one `subprocess.run()`
+per source** (`for sid in sources: run_source(sid, ...)`, line 235-241).
+There is no concurrency at all within a run. If several due sources in a
+row are all broken (timing out on every attempt), their worst-case costs
+(`(1 + retries) × timeout` = `3 × 240s = 720s = 12 min` each, confirmed by
+reading `run_source()`'s retry loop) **add up linearly and consume the
+shared 45-minute job budget**, directly reducing how many of the sources
+later in that day's list ever get attempted at all.
+
+**Can one broken source starve later sources in the same run?**
+**Yes, this is a real, confirmed risk, not hypothetical.** `select_sources()`
+(line 71-113) builds the day's source list by iterating
+`all_sources(resolve_effective_registry())` in **fixed registry-file
+order** -- there is no due-date-priority sort (e.g. "most overdue first"),
+no shuffling, no round-robin rotation across days. This means the same
+sources are always near the back of the list on any given day, and if
+sources earlier in that fixed order are broken/slow, the same
+later-in-the-list sources are **systematically, repeatedly** the ones
+starved -- not a random one-off. This risk grows directly with source
+count: today's 62 sources rarely fill the 45-minute budget even in bad
+cases, but as more sources are added, a bad day involving several failing
+early-list sources becomes more likely to actually exhaust the window
+before reaching the later ones.
+
+**Does unfinished due work resume on a later run, or is it lost?**
+**Delayed, not lost, but not bounded either.** If the GitHub Actions job
+is killed by the external 45-minute ceiling mid-loop (a hard kill the
+Python script itself has no visibility into -- it cannot checkpoint or
+warn), whatever sources in `sources` were never reached this run simply
+weren't attempted; their `last_success_at` is unchanged, so
+`is_due_for_fetch()` will correctly still consider them due on the *next*
+scheduled run (tomorrow 04:17 UTC). No source is permanently skipped by
+this failure mode. However: if the *same* starvation pattern recurs on
+consecutive days (e.g. a chronically slow/broken source sits early in the
+fixed list every day), a source further down the list could be pushed
+late repeatedly, with **no upper bound enforced by the scheduler itself**
+on how many consecutive days this can happen.
+
+**Maximum possible lateness for any source?**
+Given a source's own cadence C (e.g. 10080 min for weekly), and assuming
+the starvation pattern above does not recur: lateness ≈ up to +1 full
+scheduler cycle (+1 day, since the next opportunity is tomorrow's run) on
+top of C. If the starvation pattern *does* recur (a genuine but currently
+unbounded scenario), there is **no hard ceiling in the current design** --
+lateness could accumulate indefinitely for a source unlucky enough to
+always be reached last. This is the single most important gap for the
+final scheduler (work package 3) to close.
+
+**Is once-daily GitHub Actions sufficient for the FINAL intended source
+universe (not just today's 62)?**
+Not indefinitely, on current numbers alone. At ~12 typical due-sources/day
+for 62 AUTOMATION_READY sources (this report's Section 2), the *average*
+case has large headroom. But the *worst case* is only ~3.75 sources before
+exhausting the 45-minute ceiling, and that worst-case bound does not
+improve as more sources are added -- it is a function of `timeout ×
+(1+retries)`, not source count. If the eventual "final" source universe
+(work package 2's target, currently unknown in size but this report's own
+data shows ~119 MANUAL_INTAKE sources exist today, i.e. the universe could
+nearly triple) pushes typical daily due-load materially above the current
+~12, or if even a handful of those newly-activated sources are unreliable
+enough to regularly hit their retry ceiling, the *realistic* (not just
+worst-case) risk of missing the 45-minute window on an ordinary day
+becomes real. **Conclusion: today's design is adequate for today's load,
+but does not have headroom to safely absorb the full remaining ~119-source
+backlog without either (a) a due-priority-ordered queue (so starvation
+hits the least-recently-fetched source, not a fixed unlucky position),
+(b) a longer or multi-run job budget, or (c) enforced cadence-class limits
+on daily-tier sources.** This report does not implement any of those --
+see the requirements below for work package 3.
+
+### Exact requirements for the final scheduler (work package 3)
+
+Not a redesign here -- these are the requirements a correct final design
+must satisfy, derived directly from the gaps above:
+
+1. **Due-priority ordering, not fixed registry order.** The source list
+   for a run must be ordered by how overdue each source is (most overdue
+   first), not by JSON file position, so a bad day's starvation always
+   hits the *least urgent* sources, never the same fixed set every time.
+2. **A hard per-run time budget the script itself is aware of**, not just
+   the external GitHub Actions job-level timeout it can't see. The loop
+   should stop starting new sources once remaining budget is below one
+   source's worst-case cost, and cleanly report which due sources were
+   *not even attempted* this run (today's design has no such report --
+   sources simply don't appear in `rows` with no explicit "skipped, ran
+   out of time" marker).
+3. **A bounded maximum lateness guarantee.** If a source has gone
+   unattempted for more than some explicit threshold (e.g. 2-3× its own
+   cadence), it must be prioritized to the front of the next run's queue
+   regardless of due-priority ordering ties, and ideally surfaced as a
+   `source_revalidation` `REVALIDATION_REQUIRED` case (S66 Phase B
+   already has the evaluator hook for "overdue beyond N×cadence" --
+   `evaluateRevalidation()`'s `overdue_beyond_tolerance` reason -- this
+   just needs the scheduler itself to feed it accurate data).
+4. **Explicit daily-tier cadence budget.** Cap how many sources may be
+   configured at daily (or sub-daily) cadence in total, since those are
+   the ones contributing every single day to the due-count baseline;
+   weekly/monthly sources are comparatively free (this report's Section 2
+   math). A concrete number should be set once the final source count is
+   known, not left implicit.
+5. **Never remove the per-source subprocess isolation, hard timeout, or
+   bounded retry** -- those are working correctly today and are not part
+   of the gap; do not regress them while addressing 1-4.
+6. **No autonomous mutation.** Whatever design work package 3 implements,
+   it must keep respecting the same rule as Phase B (S66-S67) and this
+   report: capacity/scheduling telemetry can inform priority *within* a
+   run, but must never autonomously change a source's `runtime_activation`,
+   `poll_minutes`, or any other config field -- that stays a human/
+   engineering decision through the normal commit path.

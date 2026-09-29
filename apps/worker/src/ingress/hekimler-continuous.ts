@@ -19,6 +19,29 @@ export function hekimlerReadySourceCount(): number {
   return ((readyBundle as unknown as { profiles?: unknown[] }).profiles || []).length;
 }
 
+export type HekimlerSchedulerPath = 'cloudflare_continuous_tick' | 'python_runner_github_actions' | 'none';
+
+/**
+ * S71 (work package 1, item 2): which runtime actually owns this source's
+ * scheduling, derived from the ACTUAL deployed ready-bundle (never assumed
+ * from the registry) -- same ground truth scripts/source-matrix.mjs uses.
+ * A source only counts as cloudflare_continuous_tick if it is really
+ * present in this bundle's `profiles` array; python_runner_source_ids
+ * membership (or execution: python_runner in the registry, which the
+ * bundle also tags) means the GitHub Actions runner owns it instead.
+ */
+export function hekimlerSchedulerPath(sourceId: string): HekimlerSchedulerPath {
+  const bundle = readyBundle as unknown as {
+    profiles?: Array<{ source_id?: string; sourceId?: string }>;
+    python_runner_source_ids?: string[];
+  };
+  const cfWired = new Set((bundle.profiles || []).map((p) => p.source_id || p.sourceId).filter(Boolean));
+  if (cfWired.has(sourceId)) return 'cloudflare_continuous_tick';
+  const pyRunner = new Set(bundle.python_runner_source_ids || []);
+  if (pyRunner.has(sourceId)) return 'python_runner_github_actions';
+  return 'none';
+}
+
 export interface HekimlerReadyProfile {
   source_id: string;
   source_url?: string;
