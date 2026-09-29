@@ -4,6 +4,26 @@ Independent source-monitoring and editorial triage system. **Global Hub** is the
 
 Channel Content OS receives only compact `approved_brief` snapshots — never raw feeds, pending items, or source history.
 
+## Ownership (ADR-0004 in `multi_channel_design`)
+
+This repo owns the **Global Hub and all source-monitoring runtime**: source registry, fetch, cadence, ingestion, dedupe, candidate state, Hekimler radar, `approved_brief` creation and the production-status mirror. It does **not** own brand/channel/editorial policy (`multi_channel_design`) or design/render/QA (`channel-content-os`). Map and decision table: `multi_channel_design/docs/CONTENT-SYSTEMS-MAP.md`.
+
+Policy vs runtime: channel POLICY (audience, relevance, editorial routes, subscription intent) is canonical in `multi_channel_design` and referenced from `config/routes.json` as an external policy dependency. `adapters/hekimler-radar/content/policies/hekimler-source-policy-map.json` and `hekimler-audience-scope.json` are deployable **snapshots** of the canonical files there (a parity test in `multi_channel_design` fails on drift); edit them in `multi_channel_design` first, then copy here.
+
+## Brands in Hub
+
+Five primary categories (Bible v4 §2): **Haber**, **Burs**, **Eğitim**, **Duyuru**, **Research**. No automatic publishing. Bible: `adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (Hub: `/?route=bible`).
+
+| Category | Brand | Technical route |
+|---|---|---|
+| Haber | Kaduse | `kaduse-news` |
+| Research | Kaduse | `kaduse-research` |
+| Duyuru | Hekimler Topluluğu | `tip-ogrencileri` + `channel=hekimler-toplulugu` + `family=duyuru` |
+| Burs | Hekimler Topluluğu | same + `family=burs` |
+| Eğitim | Hekimler Topluluğu | same + `family=egitim` |
+
+Burs = `burs_*`, Eğitim = `egitim_*` source ids; review-only. Brand/logos for the tip channel live in the channel repo (`channel-content-os`, merged from `multi_channel_design`).
+
 ## Routes (this slice)
 
 1. Kaduse News (`kaduse-news` → channel `kaduse-medikal`)
@@ -14,10 +34,12 @@ Channel Content OS receives only compact `approved_brief` snapshots — never ra
 
 - `apps/hub/` — Global Hub UI
 - `apps/worker/` — Cloudflare Worker (API, cron, ingress)
-- `packages/contracts/` — shared TypeScript contracts (`approved_brief`, status callback)
+- `packages/contracts/` — canonical `approved_brief` contract (JSON Schema v1.0.0, TS types, fixtures, invariants test) and status callback
+- `packages/source-catalog/` — global news + research source registries, schemas, claim routing, age-tier/attention classification (moved from `channel-content-os`, ADR-0004); `npm run test:catalog`
 - `migrations/` — D1 schema
 - `config/` — feed + routing rules (versioned; no live items)
-- `adapters/tip-radar/` — reads existing Python radar SQLite; does not rewrite radar
+- `adapters/hekimler-radar/` — canonical Hekimler/tip radar runtime
+- `adapters/tip-radar/` — LEGACY / migration-compatibility push helper only (see its README for the removal condition)
 
 ## Local
 
@@ -53,4 +75,4 @@ Global Hub promote → approved_brief → CCOS (design/render)
 CCOS status callback → Global Hub production_status
 ```
 
-CCOS `/api/candidates` and job-review are untouched.
+CCOS `/api/candidates` and job-review are untouched. CCOS now has a real ingest endpoint (`POST /api/handoff/approved-brief`); see `docs/approved-brief-handoff.md` for the contract, auth, idempotency and the external steps to go live.

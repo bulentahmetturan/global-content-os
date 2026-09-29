@@ -13,7 +13,7 @@ Python kaynak izleme. Marka/logo Design OS’ta kalır.
 | `content/policies/` | Kategori kilit JSON |
 | `content/source-registry-*.json` | Kaynak kayıtları |
 | `tests/` | Pipeline testleri |
-| `../tip-radar/` | Hub push |
+| `../tip-radar/` | LEGACY local push helper (see its README) |
 
 Hub beş primary category: Haber, Burs, Eğitim, Duyuru, Research. Bible bir kategori değildir.
 
