@@ -1,8 +1,9 @@
 // Global News Hub source registry (Batch N2-FINAL). Durable, channel-agnostic
 // truth: WHO publishes what, what logical sources exist, what monitored
 // targets/sub-feeds are real. Contains ZERO Kaduse-specific editorial
-// decisions -- those live in multi_channel_design's
-// channels/kaduse-medikal/content/news-sources.json, referencing the IDs
+// coverage decisions -- channel editorial coverage policy lives in
+// multi_channel_design; channel SUBSCRIPTIONS (and acquisition scoping) live
+// beside this registry in data/kaduse-subscriptions.json, referencing the IDs
 // defined here by ID only.
 //
 // Verification discipline (batch section 12): official domains for
@@ -34,16 +35,8 @@ import { GlobalNewsSourceRegistrySchema, type GlobalNewsSourceRegistry } from '.
 // (global-content-os a88b18c; channel-content-os f0d0118^). Schema defaults are applied by .parse().
 export const globalNewsSourceRegistry: GlobalNewsSourceRegistry = GlobalNewsSourceRegistrySchema.parse(registryData);
 
-// Batch N2-FINAL-R1: the JSON snapshot file that used to live in this
-// directory was removed. It existed only so multi_channel_design's test
-// suite could read the registry without a TS toolchain -- that coupling was
-// architecturally wrong (a channel repo's normal tests should not depend on
-// a sibling checkout, and the snapshot risked becoming a second, driftable
-// copy of this truth). The cross-repo referential-integrity check now lives
-// HERE instead, as an explicit integration/contract test
-// (kaduse-subscription-contract.test.ts) that imports this module directly
-// and reads multi_channel_design's news-sources.json from an explicit
-// sibling path, skipping (not failing) when that sibling isn't present.
+// Referential integrity of channel subscriptions against this registry is
+// proven locally by kaduse-subscription-contract.test.ts (no sibling checkout).
 
 export function getPublisher(id: string) {
   return globalNewsSourceRegistry.publishers.find((p) => p.id === id);

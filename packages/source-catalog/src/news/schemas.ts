@@ -91,10 +91,8 @@ export type ReferenceResource = z.infer<typeof ReferenceResourceSchema>;
 export type SupersededOrExcludedIdentity = z.infer<typeof SupersededOrExcludedIdentitySchema>;
 export type GlobalNewsSourceRegistry = z.infer<typeof GlobalNewsSourceRegistrySchema>;
 
-// --- Channel subscription (owned in multi_channel_design, mirrored here only
-// as a TYPE so both repos share one contract shape -- the data itself lives
-// in multi_channel_design/channels/<slug>/content/news-sources.json, never
-// duplicated as a second editable copy here). ---
+// --- Channel subscription (owned HERE: data/<channel>-subscriptions.json; Package 2
+// moved it from multi_channel_design so source acquisition has one editable owner). ---
 export const ChannelNewsSubscriptionSchema = z.object({
   channelId: z.string(),
   sourceId: z.string(),
