@@ -11,7 +11,8 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Centralized sibling resolution: works both under projects/ and projects/content-systems/.
 const sibling = (name) => path.resolve(root, '..', name);
-const mcd = sibling('multi_channel_design');
+// Retired MCD stays outside content-systems/ (projects/) until local retirement (evidence E15).
+const mcd = [sibling('multi_channel_design'), path.resolve(root, '..', '..', 'multi_channel_design')].find((p) => existsSync(p)) ?? sibling('multi_channel_design');
 const ccos = sibling('channel-content-os');
 const read = (p) => readFileSync(p, 'utf8');
 const rel = (p) => path.join(root, p);
@@ -122,7 +123,7 @@ test('exactly one canonical Hekimler runtime in this repo; tip-radar is marked L
   assert.equal(engines.length, 1, engines.join(', '));
 });
 
-test('multi_channel_design keeps no executable Hekimler runtime', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
+test('multi_channel_design keeps no executable Hekimler runtime', { skip: !existsSync(mcd) && 'multi_channel_design retired (expected absent)' }, () => {
   const tip = path.join(mcd, 'channels/tip-ogrencileri-platformu');
   for (const dir of ['radar', 'scripts', 'sources', 'tests', 'database']) {
     assert.ok(!existsSync(path.join(tip, dir)), `${dir}/ must not exist in multi_channel_design`);
