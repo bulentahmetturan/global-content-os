@@ -5,7 +5,7 @@
 - Two active repos only: this one and `channel-content-os` (which absorbed `multi_channel_design`, ADR-0005). Only `approved_brief` crosses to it.
 - Source truth: `packages/source-catalog/data` (news, research, Kaduse subscriptions), `adapters/hekimler-radar/content/source-registry-*.json` (Hekimler), `config/feeds.json`. Look up one record: `node scripts/registry-find.mjs <source-id>`.
 - Scheduler, capacity guard, fail-closed auth, the health endpoint (liveness) vs the ready endpoint (READY/DEGRADED/BLOCKED): `docs/OPERATIONS.md`. Release gate + runbook: `docs/ops/RELEASE-RUNBOOK.md`, `release/`.
-- Production: NOT deployed from this branch. `CCOS_HANDOFF_STUB=true`. Deploy, remote migration, handoff switch and SYSTEM_V1 freeze need explicit user authorization.
+- Production: SYSTEM_V1 frozen 2026-09-29. Deployed `4c7d40b` (Worker version `fcd168f4`), `CCOS_HANDOFF_STUB=false` (live handoff), D1 at 0024. Triage needs `HUB_OPERATOR_TOKEN`. Record + post-freeze items: `release/manifest.json`.
 
 ## Known intentional legacy (do not "clean up")
 - `adapters/tip-radar/` is legacy migration compatibility only (local SQLite push).
@@ -14,7 +14,7 @@
 - Deliberately inactive: ~117 `MANUAL_INTAKE` Hekimler sources, R4 research sources, the 23 curated-club feeds, GMC (honest substitute). Never bulk-activate (`hekimler_ops.py capacity` first).
 
 ## Real blockers
-- None for local readiness. Open before cutover: GitHub CI has not run on this branch; production secret names and remote migration state are not inspected; CCOS fresh migration replay is unsafe (`docs/ops/RELEASE-RUNBOOK.md`, migration 010).
+- None. CCOS fresh migration replay is unsafe (`docs/ops/RELEASE-RUNBOOK.md`, migration 010). Hub write routes other than triage (cron run, purge, expire, ingress news/research/generic, enrich, localize) are still unauthenticated; list in `release/manifest.json` postFreeze.
 
 ## Run
 - Links: `node scripts/check-router-links.mjs` (`--simulate` for route cost).

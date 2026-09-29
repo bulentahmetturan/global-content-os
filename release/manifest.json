@@ -1,0 +1,81 @@
+{
+  "$comment": "SYSTEM_V1 release record (Central Cutover, Package 7 runbook). Deployed SHAs are below; later doc-only commits do not change runtime.",
+  "releaseId": "system-v1-2026-09-29",
+  "status": "RELEASED",
+  "gcos": {
+    "repo": "global-content-os",
+    "branch": "final/system-v1-reconciliation",
+    "commit": "4c7d40bdc7951247728ae3eece856359ba2703f7",
+    "workerVersionId": "fcd168f4-8955-4bdc-b308-0e1834ddae6d",
+    "ci": "Worker tests success on 4c7d40b; Hekimler tests success on 4720891 (no adapter change after it)",
+    "migrations": [],
+    "expectedMigrationLevel": "0024_source_revalidation.sql"
+  },
+  "ccos": {
+    "repo": "channel-content-os",
+    "branch": "final/system-v1-reconciliation",
+    "commit": "d81e7798f4c5d774d1a7be8ce866e5d2f988d278",
+    "workerVersionId": "790ca0df-917a-4a64-9432-cb05ecff8814",
+    "ci": "CCOS CI success on d81e779",
+    "migrations": [
+      "023_content_candidates.sql",
+      "024_clinical_education_candidate_fields.sql",
+      "025_research_candidate_fields.sql",
+      "040_approved_brief_intake.sql"
+    ],
+    "migrationNote": "040 was the planned forward migration. 023-025 (additive jobs columns/indexes) were found absent in production during the supervised promote (HTTP 500: no column trigger_id) and applied after a schema audit of every migration. Still absent, not required: index idx_post_concepts_project (004).",
+    "expectedMigrationLevel": "040_approved_brief_intake.sql"
+  },
+  "contractVersion": "1.0.0",
+  "deployedAt": "2026-09-29T21:26:00Z",
+  "smoke": "SMOKE_PASS",
+  "rollbackRef": {
+    "gcosVersionId": "0a2ceef2-4b66-4652-8546-8d5311b09b44",
+    "ccosVersionId": "651b9ba7-83a6-4ddc-b846-e144f67acd29",
+    "gcosCommit": "617e07fdf9e6ccf6d8499157f652e729f8f2ed6c",
+    "ccosCommit": "2c141c66848176abb338ab38b346e7bac52568d1",
+    "note": "Version ids are the authoritative rollback targets (pre-cutover Workers exposed no commit). Commits are the last pre-cutover heads of the release branch.",
+    "d1TimeTravel": {
+      "gcos": { "bookmark": "000001de-00000002-000050f5-528ed7a4f08b7e1823a91aaa13ac4123", "capturedAt": "2026-09-29T21:08:34Z" },
+      "ccosBeforeMigration040": { "bookmark": "000000bf-00000000-000050f5-2105648b3ef788bdebbbef7d948aa58f", "capturedAt": "2026-09-29T21:08:34Z" },
+      "ccosBeforeMigrations023to025": { "bookmark": "000000c2-00000000-000050f5-129ebad9b951860b1edd8a45733aa1c4", "capturedAt": "2026-09-29T21:29:16Z" }
+    }
+  },
+  "evidence": {
+    "secrets": "Names only. GCOS: CCOS_HANDOFF_URL, CCOS_HANDOFF_TOKEN, STATUS_CALLBACK_TOKEN, TIP_RADAR_INGEST_TOKEN, HUB_OPERATOR_TOKEN. CCOS: HANDOFF_INGEST_TOKEN, GCOS_STATUS_TOKEN (+ existing). Two independent pairs; both proven by authed invalid payloads answering 400.",
+    "smoke": "release/smoke/smoke.mjs SMOKE_PASS in stub mode (4720891) and live mode (4c7d40b); /api/ready READY, degraded=[]; triage unauth/wrong token 401; CCOS handoff unauth 401.",
+    "workerToWorker": "Probe Worker proved same-account workers.dev fetch returns error 1042 without global_fetch_strictly_public; flag added to both Workers.",
+    "supervisedPromote": {
+      "item": "item_c44e90cfea77404a",
+      "briefId": "brief_976a98a2ea8846ae",
+      "ccosJobId": "f43a2243-b9cb-4303-8329-8e00796c4dc8",
+      "firstAttempt": "CCOS HTTP 500 (missing 023 columns); no job or intake row written",
+      "delivery": "operator replay of the stored GCOS payload after migrations: 201 created; identical resend 200 duplicate (same job)",
+      "callback": "CCOS callback_last_status=accepted, no error; GCOS production_status row status=accepted",
+      "counts": "GCOS approved_briefs 63 -> 64; CCOS jobs 31 -> 32; jobs for brief = 1; intake rows for brief = 1"
+    },
+    "p5": {
+      "freezeScope": "SATISFIED_WITHOUT_041",
+      "exercisedInProduction": "editorial capture (editorial_decisions incl. this promote; review_feedback with closed reason codes, channel/route context); aggregation (/api/feedback/summary by source/route/reason); recommendation-only evaluator (/api/source-revalidation/run: 216 evaluated, 40 REVALIDATION_REQUIRED, 0 errors, nothing applied)",
+      "structuralNotYetExercised": "source_change_history (commit_ref, followed_recommendation) = 0 rows because no owner action has happened; reversal and before/after measurement are proven by CI tests, not by a production event",
+      "notInProduction": "topic-level relevance ledger (scripts/relevance-ledger.mjs) and CCOS feedback store persistence (packages/feedback migrations 0001/0002, Ops Hardening 041) -- post-freeze",
+      "autonomousRuleMutation": 0
+    },
+    "sourceActivation": "0 activation-field changes in catalog/registry data this session; source_change_history 0 rows; 139 of 882 source_feeds enabled"
+  },
+  "postFreeze": [
+    "Source Lifecycle 9f7de69, 5333eee; registry-find.mjs watchpoint; Kaduse PLAN_ONLY; unknown-name official URL discovery; source-actions change_cadence writes poll_minutes while the Python scheduler reads fetch_plan.expected_check_interval_minutes (no runtime caller today); Hekimler ready bundle drift (missing burs_eau_eusp, burs_uk_chevening; extra anadolu_ajansi_medical_radar -> their python-runner telemetry is rejected UNKNOWN_SOURCE, fetching unaffected)",
+    "Database Recovery 995d15f (fresh-db bootstrap; no production migration rewrite)",
+    "Operations Hardening CCOS 58fbb6f, GCOS 32d8fcd: migration 041, OPS_TOKEN, /ready, /version, callback redelivery, same-brief resend endpoint (would have replaced this cutover's manual replay), alert model, durable production feedback",
+    "Non-source cleanup GCOS efd926c, CCOS a79f8a2",
+    "Workspace: physical move runbook, raw asset portability, launch paths, worktree repair, MCD retirement",
+    "MCD: b1d54a9 reachability contradiction, reverify 628/628 assets, 4 generated preserved files, manual remote archive",
+    "External: Git/GitHub/Cloudflare closure, MCD stale scheduled workflows, GCOS scheduled workflow/default branch",
+    "NEW: remaining unauthenticated GCOS Hub write routes (/api/cron/run, /api/purge/trash, /api/expire/stale-inbox, /api/source-health/low-yield, /api/source-revalidation/run, ingress news/research/generic/feed-items/journal-fallback, /api/enrich, /api/localize*) and CCOS /api/* operations routes",
+    "NEW: triage actor is still the constant 'hub-user' (token-gated, not per-person)",
+    "NEW: CCOS index idx_post_concepts_project (004) absent in production",
+    "NEW: 40 REVALIDATION_REQUIRED source recommendations await owner review (none applied)",
+    "NEW: Wrangler 3.x in GCOS (no deploy --message); upgrade to 4"
+  ],
+  "systemV1": "FROZEN"
+}
