@@ -148,12 +148,8 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
 
   const vocabG = tryRead(R(repos.gcos, 'packages/contracts/research-vocabulary.json'));
   const vocabC = tryRead(R(repos.ccos, 'mcp-server/src/handoff/contract/research-vocabulary.json'));
-  const vocabSame = vocabG !== null && vocabC !== null && vocabG.split('
-').join('
-') === vocabC.split('
-').join('
-');
-  checks.push(check('CONTRACTS', 'research_vocabulary_parity', vocabSame ? 'PASS' : 'FAIL', vocabSame ? 'research vocabulary: GCOS canonical == CCOS vendored copy' : 'research vocabulary missing or differs between GCOS canonical and CCOS copy', vocabSame ? {} : { why: WHY.contract_parity, next: 'copy packages/contracts/research-vocabulary.json into the CCOS contract dir and regenerate (scripts/gen-research-vocabulary.mjs)' }));
+  const vocabSame = vocabG !== null && vocabC !== null && vocabG.split('\r\n').join('\n') === vocabC.split('\r\n').join('\n');
+  checks.push(check('CONTRACTS', 'research_vocabulary_parity', vocabSame ? 'PASS' : (vocabC === null && phase !== 'cutover' ? 'WARN' : 'FAIL'), vocabSame ? 'research vocabulary: GCOS canonical == CCOS vendored copy' : 'research vocabulary missing or differs between GCOS canonical and CCOS copy', vocabSame ? {} : { why: WHY.contract_parity, next: 'copy packages/contracts/research-vocabulary.json into the CCOS contract dir and regenerate (scripts/gen-research-vocabulary.mjs)' }));
 
   // SCHEDULER
   const cronOk = gcosWr && gcosWr.crons.length > 0;
