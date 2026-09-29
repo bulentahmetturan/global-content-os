@@ -1,0 +1,19 @@
+# Agent search-ignore (ripgrep/Glob/Grep). NOT .gitignore: files stay tracked and readable by explicit path.
+# Rule: hide generated / history / probe dumps / binary-ish noise. Never hide src, tests, contracts, canonical registries.
+config/feeds.json
+docs/source-matrix.generated.json
+migrations/0002_seed_all_feeds.sql
+package-lock.json
+.logs/
+**/_history/
+**/archive/
+**/legacy-cleanup/
+**/fixtures/
+adapters/hekimler-radar/sources/_*
+adapters/hekimler-radar/sources/faculty_*_report.json
+adapters/hekimler-radar/content/PIPELINE-STATUS-46.json
+adapters/hekimler-radar/content/certs/
+# Bible copies: read via content/BIBLE-INDEX.md with an explicit path (explicit paths bypass this file)
+adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md
+adapters/hekimler-radar/content/_bible_v4_book2.md
+apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md
