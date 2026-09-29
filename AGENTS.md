@@ -14,7 +14,8 @@ Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` 
 
 - `config/feeds.json`, `docs/source-matrix.generated.json`, `migrations/0002_seed_all_feeds.sql` (generated/mega; inspect with `jq`/`grep` on one record)
 - `adapters/hekimler-radar/sources/_*`, `**/archive/`, `**/legacy-cleanup/`, `**/fixtures/`, `.logs/`
-- `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` past line 98 (run history)
+- `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` past line 104 (run history; the issue table is generated from `docs/evidence/system-evidence.ndjson`, see `docs/EVIDENCE.md`)
+- `docs/evidence/system-evidence.ndjson` (append-only evidence ledger; use `node scripts/evidence.mjs show|audit|audit-input`)
 - the full Hekimler Bible — use `adapters/hekimler-radar/content/BIBLE-INDEX.md` and read only the listed range
 - the sibling repo, unless `docs/INDEX.md` says `SECOND REPO: YES`
 

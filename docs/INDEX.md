@@ -104,3 +104,9 @@ READ: `docs/OPERATIONS.md`, `docs/ops/RELEASE-RUNBOOK.md`
 OPTIONAL: `scripts/release-gate.mjs`, `scripts/deploy-identity.mjs`, `release/checklist.json`, `apps/worker/src/readiness.ts`
 DO NOT LOAD: `.logs/` (full logs stay on disk; read the PASS/FAIL summary or failing test names), source registries, history
 SECOND REPO: NO
+
+### Report a system problem / evidence lifecycle / audit
+READ: `docs/EVIDENCE.md`
+OPTIONAL: `packages/system-evidence/index.mjs`
+DO NOT LOAD: `docs/evidence/system-evidence.ndjson` (append-only ledger; query it with `node scripts/evidence.mjs show <id>` or `audit`). Audits start with `node scripts/evidence.mjs audit-input`; report a user problem with `node scripts/evidence.mjs report-issue "<summary>" --actor human:<name> --apply`
+SECOND REPO: NO

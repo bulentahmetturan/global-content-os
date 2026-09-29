@@ -5,7 +5,7 @@
 - **P1** Finish systemic work and enter production.
 - **P2** Reliable pipeline and source flow.
 - **P3** Operational excellence.
-- **P4** Ultimate token-friendly system.
+- **P4** Ultimate token-friendly system, and the system's evidence backbone: every material finding (user report, runtime, test, CI, production check, audit, incident, agent, migration, context telemetry, security) becomes one ledger record with an owner and moves CAPTURED → CLOSED / DEFERRED (owner, reason, review trigger) / REJECTED / ROLLED_BACK. Evidence never rewrites canonical rules; changes go through the owning subsystem's normal path. Content relevance feedback belongs to P5.
 - **P5** Controlled learning and relevance adaptation. Feedback is evidence. It never rewrites canonical rules. Future selection changes only after owner action, then measured.
 
 Priority when they conflict: correctness / preservation / security → pipeline reliability → operational excellence → controlled learning quality → token efficiency → cosmetics. Operational safety outranks token optimization.

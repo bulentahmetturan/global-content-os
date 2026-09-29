@@ -122,7 +122,7 @@ if (existsSync(idx)) {
   }
 }
 
-const FORBIDDEN_DEFAULT = [/_history\//, /\/archive\//, /legacy-cleanup\//, /\.generated\.json$/, /(^|\/)feeds\.json$/, /migrations\/0002_seed/, /\/fixtures\//, /rendered-examples\//, /\.(png|jpg|ttf|pem)$/, /SORUN-TESPIT/, /RUNTIME-AUDIT|RAPOR-1/];
+const FORBIDDEN_DEFAULT = [/_history\//, /\/archive\//, /legacy-cleanup\//, /\.generated\.json$/, /(^|\/)feeds\.json$/, /migrations\/0002_seed/, /\/fixtures\//, /rendered-examples\//, /\.(png|jpg|ttf|pem)$/, /SORUN-TESPIT/, /system-evidence\.ndjson$/, /RUNTIME-AUDIT|RAPOR-1/];
 
 if (simulate) {
   const base = ['AGENTS.md', 'docs/CORE.md', 'docs/CURRENT.md', 'docs/INDEX.md'];
