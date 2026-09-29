@@ -1,7 +1,7 @@
 # Release Runbook — Production Readiness & Final Cutover (Package 7)
 
 Status: **EXECUTED 2026-09-29 (SYSTEM_V1 cutover and freeze).** Deployed state and record: `docs/CURRENT.md`,
-`release/manifest.json`; CCOS remote D1 has migration 040, CCOS migration 041 is prepared but not applied. Sections 3 and 9
+`release/manifest.json`; CCOS remote D1 has migrations 040 and 041 (041 applied 2026-09-30, post-freeze closure). Sections 3 and 9
 are kept as the procedure for the next cutover; re-running them needs explicit user authorization. Machine-readable parts live in `release/`
 (`preflight.mjs`, `rollback.json`, `health-model.json`, `checklist.json`, `manifest.template.json`, `smoke/`, `e2e/`).
 
