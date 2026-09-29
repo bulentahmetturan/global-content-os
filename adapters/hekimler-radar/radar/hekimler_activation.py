@@ -186,6 +186,11 @@ def compute_activation_state(profile: dict[str, Any]) -> str:
     return ACTIVATION_MANUAL_INTAKE
 
 
+def check_interval_minutes(profile: dict[str, Any]) -> int:
+    """Cadence (minutes) a source is expected to be re-checked at; default daily."""
+    return int(_plan(profile).get("expected_check_interval_minutes") or 1440)
+
+
 def is_due_for_fetch(
     profile: dict[str, Any],
     *,

@@ -20,10 +20,24 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from radar.hekimler_scheduler import (  # noqa: E402
+    CAPACITY_DELAY,
+    MANUAL_REVIEW_REQUIRED,
+    Policy,
+    SourceState,
+    classify_failure,
+    execute_plan,
+    plan_run,
+    source_status,
+)
+
+POLICY = Policy()
 
 QUOTA_MARKERS = ("d1_quota_exceeded", "row write limit", "free tier daily")
 
@@ -68,13 +82,14 @@ def fetch_hub_telemetry(hub_url: str, timeout: float = 20.0) -> dict[str, dict]:
 ZERO_ACCEPT_STREAK_WARN_THRESHOLD = 6  # consecutive empty-eligible runs before flagging as possibly broken
 
 
-def select_sources(spec: str, *, force_due: bool = False, hub_url: str | None = None) -> list[str]:
+def select_sources(spec: str, *, force_due: bool = False, hub_url: str | None = None,
+                   plan_out: dict | None = None, policy: Policy = POLICY) -> list[str]:
     os.environ.setdefault("HEKIMLER_CONTINUOUS_INGESTION_ENABLED", "true")
     from radar.hekimler_activation import (
         ACTIVATION_AUTOMATION_READY,
         all_sources,
+        check_interval_minutes,
         compute_activation_state,
-        is_due_for_fetch,
     )
     from radar.hekimler_integrity import resolve_effective_registry
 
@@ -87,16 +102,31 @@ def select_sources(spec: str, *, force_due: bool = False, hub_url: str | None = 
     hosted = [s for s in ready if not s.get("runner_region")]
 
     def apply_due_filter(candidates: list[dict]) -> list[str]:
-        ids = [s["source_id"] for s in candidates]
-        if force_due:
-            return ids
-        telemetry = fetch_hub_telemetry(hub_url or os.environ.get("GCOS_HUB_URL") or "http://127.0.0.1:8787")
-        last_success = {sid: row.get("last_success_at") for sid, row in telemetry.items()}
-        due = [s for s in candidates if is_due_for_fetch(s, last_success_at=last_success.get(s["source_id"]))]
-        skipped = [s["source_id"] for s in candidates if s["source_id"] not in {d["source_id"] for d in due}]
-        if skipped:
-            print(f"::notice::skipping {len(skipped)} source(s) not yet due (interval not elapsed): {', '.join(skipped)}")
-        return [s["source_id"] for s in due]
+        """Order the due sources oldest-eligible-first (radar/hekimler_scheduler.py); never registry order."""
+        telemetry = {} if force_due else fetch_hub_telemetry(
+            hub_url or os.environ.get("GCOS_HUB_URL") or "http://127.0.0.1:8787")
+        states = [
+            SourceState(
+                s["source_id"],
+                check_interval_minutes(s),
+                (telemetry.get(s["source_id"]) or {}).get("last_success_at"),
+                (telemetry.get(s["source_id"]) or {}).get("last_run_at"),
+                int((telemetry.get(s["source_id"]) or {}).get("failure_count") or 0),
+            )
+            for s in candidates
+        ]
+        now = datetime.now(timezone.utc)
+        plan = plan_run(states, now, policy, force_due=force_due)
+        if plan_out is not None:
+            plan_out["plan"] = plan
+            plan_out["status"] = [source_status(st, now, policy) for st in states]
+        if plan.not_due:
+            print(f"::notice::skipping {len(plan.not_due)} source(s) not yet due (interval not elapsed)")
+        if plan.backoff:
+            print(f"::notice::{len(plan.backoff)} source(s) cadence-due but in failure backoff: {', '.join(plan.backoff)}")
+        if plan.manual_review:
+            print(f"::warning::{MANUAL_REVIEW_REQUIRED}: {', '.join(plan.manual_review)}")
+        return plan.queue
 
     if spec == "all":
         return apply_due_filter(hosted)
@@ -132,6 +162,7 @@ def run_once(source_id: str, timeout: int, dry_run: bool) -> tuple[dict | None, 
 def run_source(source_id: str, timeout: int, retries: int, dry_run: bool) -> dict:
     attempts = 0
     last_err = ""
+    retryable = False
     row: dict = {"source_id": source_id}
     while attempts <= retries:
         attempts += 1
@@ -157,10 +188,12 @@ def run_source(source_id: str, timeout: int, retries: int, dry_run: bool) -> dic
             transient = row["fetch_result"] not in ("ok", "no_change") and any(
                 m in str(row.get("error") or row.get("operator_status") or "").lower() for m in TRANSIENT_MARKERS
             )
+            retryable = bool(transient or row["hub_failures"])
             if not transient and not row["hub_failures"]:
                 break
             last_err = str(row.get("error") or row.get("operator_status"))
             if is_quota_error(last_err):
+                retryable = False
                 # Retrying only burns more of the exhausted quota; surface it and stop retrying this source.
                 row["d1_quota"] = True
                 row["error"] = "D1_QUOTA_EXCEEDED: " + str(last_err)[:200]
@@ -168,12 +201,15 @@ def run_source(source_id: str, timeout: int, retries: int, dry_run: bool) -> dic
         else:
             last_err = err
             row.update(operator_status="run_failed", error=err)
-            if not any(m in err.lower() for m in TRANSIENT_MARKERS) and "exit" not in err.lower():
+            retryable = any(m in err.lower() for m in TRANSIENT_MARKERS) or "exit" in err.lower()
+            if not retryable:
                 break
         if attempts <= retries:
             time.sleep(min(60, 5 * 2 ** (attempts - 1)))
     row["attempts"] = attempts
     row["ok"] = bool(row.get("fetch_result") in ("ok", "no_change") and not row.get("hub_failures"))
+    row["retryable"] = bool(retryable and not row["ok"])
+    row["failure_class"] = classify_failure(row)
     if not row["ok"] and not row.get("error"):
         row["error"] = last_err
     return row
@@ -221,7 +257,8 @@ def main() -> int:
     ap.add_argument("--hub-url", default=None, help="Override GCOS_HUB_URL for the last_success_at read-back.")
     args = ap.parse_args()
 
-    sources = select_sources(args.sources, force_due=args.force_due, hub_url=args.hub_url)
+    plan_info: dict = {}
+    sources = select_sources(args.sources, force_due=args.force_due, hub_url=args.hub_url, plan_out=plan_info)
     if not sources:
         print("no sources selected (none due yet, or none AUTOMATION_READY)")
         return 0
@@ -229,16 +266,23 @@ def main() -> int:
         print("::error::TIP_RADAR_INGEST_TOKEN is not set")
         return 2
 
+    policy = Policy(source_timeout_s=args.timeout, max_retries=args.retries)
     cycle_started = time.time()
     cycle_started_at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    rows = []
-    for sid in sources:
+
+    def _run(sid: str, retries_allowed: int) -> dict:
         print(f"::group::{sid}")
-        row = run_source(sid, args.timeout, args.retries, args.dry_run)
-        rows.append(row)
+        row = run_source(sid, args.timeout, retries_allowed, args.dry_run)
         print(f"{sid}: {row.get('operator_status')} parsed={row.get('parsed', 0)} eligible={row.get('eligible', 0)} "
               f"new={row.get('new_rows', 0)} dup={row.get('duplicates', 0)} ok={row['ok']} attempts={row['attempts']}")
         print("::endgroup::")
+        return row
+
+    rows, capacity_delayed, budget = execute_plan(
+        sources, _run, policy, lambda: time.time() - cycle_started, sleep_fn=time.sleep)
+    if capacity_delayed:
+        print(f"::warning title={CAPACITY_DELAY}::{len(capacity_delayed)} due source(s) not started this run "
+              f"(run budget {policy.run_budget_s}s): {', '.join(capacity_delayed)}")
 
     failed = [r for r in rows if not r["ok"]]
     empty = [r for r in rows if r["ok"] and not r.get("new_rows")]
@@ -287,15 +331,32 @@ def main() -> int:
         "articles_new": sum(r.get("new_rows", 0) for r in rows),
         "articles_duplicate": sum(r.get("duplicates", 0) for r in rows),
         "total_attempts": sum(r.get("attempts", 0) for r in rows),
+        "timeouts": sum(1 for r in rows if r.get("failure_class") == "TIMEOUT"),
+        "retries_used": budget.retries_used,
+        "sources_capacity_delayed": len(capacity_delayed),
+        "max_lateness_min": getattr(plan_info.get("plan"), "max_lateness_min", 0),
+    }
+    scheduler = {
+        "run_budget_s": policy.run_budget_s,
+        "capacity_delayed": capacity_delayed,
+        "backoff": getattr(plan_info.get("plan"), "backoff", []),
+        "manual_review": getattr(plan_info.get("plan"), "manual_review", []),
+        "failure_classes": {c: sum(1 for r in rows if r.get("failure_class") == c)
+                            for c in sorted({r.get("failure_class") for r in rows if r.get("failure_class")})},
     }
 
     out = Path(args.report_dir)
     out.mkdir(parents=True, exist_ok=True)
     stamp = cycle_finished_at
     (out / "run-report.json").write_text(
-        json.dumps({"generated_at": stamp, "dry_run": args.dry_run, "cycle": cycle, "rows": rows}, ensure_ascii=False, indent=2),
+        json.dumps({"generated_at": stamp, "dry_run": args.dry_run, "cycle": cycle, "scheduler": scheduler, "rows": rows},
+                   ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+    if plan_info.get("status"):  # per-source scheduling state (observability); non-secret, no registry dump
+        (out / "scheduler-state.json").write_text(
+            json.dumps({"generated_at": stamp, "sources": plan_info["status"]}, ensure_ascii=False, indent=1),
+            encoding="utf-8")
     md = (
         f"## Hekimler Python runner — {stamp}\n\n"
         f"**Cycle status: {cycle_status}** | sources={cycle['sources_selected']} ok={cycle['sources_ok']} "
