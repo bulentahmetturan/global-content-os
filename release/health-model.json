@@ -21,9 +21,9 @@
     },
     {
       "id": "ccos_readiness",
-      "probe": "no dedicated endpoint today; auth+validation probe on POST /api/handoff/approved-brief proves DB + route",
-      "pass": "invalid payload with valid token returns 400 (not 5xx, not 503)",
-      "status": "defined_gap_dedicated_endpoint"
+      "probe": "GET {ccos}/ready (READY/DEGRADED/BLOCKED; D1, required schema, operator auth, handoff + callback config, bindings) and GET {ccos}/version (commit, deployedAt, contractVersion, expectedSchema)",
+      "pass": "HTTP 200 and level READY or DEGRADED (never BLOCKED / 503); degraded reasons are listed, secret values never returned",
+      "status": "defined"
     },
     {
       "id": "handoff_connectivity",
@@ -45,8 +45,8 @@
     },
     {
       "id": "callback_health",
-      "probe": "GCOS /api/ready has no STATUS_CALLBACK_TOKEN_NOT_CONFIGURED; CCOS approved_brief_intake.callback_last_error empty for recent rows",
-      "pass": "no undelivered callbacks older than one retry window",
+      "probe": "GCOS /api/ready has no STATUS_CALLBACK_TOKEN_NOT_CONFIGURED; CCOS GET /ops/summary intake.callbacks (failed, exhausted) and signals",
+      "pass": "no undelivered callbacks older than one retry window; recover with CCOS POST /ops/callbacks/redeliver",
       "status": "defined"
     }
   ],

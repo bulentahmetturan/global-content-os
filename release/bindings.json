@@ -7,6 +7,30 @@
   "p5SchedulerGuaranteesFile": "docs/OPERATIONS.md",
   "p5Signals": [
     {
+      "id": "ops_alert_model",
+      "repo": "gcos",
+      "pattern": "MUST_ALERT",
+      "file": "release/alert-model.json"
+    },
+    {
+      "id": "gcos_ops_summary",
+      "repo": "gcos",
+      "pattern": "/api/ops/summary",
+      "file": "apps/worker/src/index.ts"
+    },
+    {
+      "id": "ccos_readiness",
+      "repo": "ccos",
+      "pattern": "'/ready'",
+      "file": "mcp-server/src/index.ts"
+    },
+    {
+      "id": "ccos_callback_redelivery",
+      "repo": "ccos",
+      "pattern": "/ops/callbacks/redeliver",
+      "file": "mcp-server/src/index.ts"
+    },
+    {
       "id": "fetch_failure",
       "repo": "gcos",
       "pattern": "last_fetched_at|fetch_error|feed_fetch",

@@ -18,6 +18,8 @@ export interface Env {
   CCOS_HANDOFF_TOKEN?: string;
   STATUS_CALLBACK_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
+  /** Bearer for the operator surface (/api/ops/summary, /api/handoff/resend); unset = those endpoints answer 503. */
+  OPS_TOKEN?: string;
   HEKIMLER_CONTINUOUS_INGESTION_ENABLED?: string;
   BIBLE_VERSION?: string;
 }

@@ -67,3 +67,16 @@ Until then briefs stay `stubbed` in D1 (`approved_briefs.handoff_status = stubbe
 
 `POST /api/handoff/status` fails closed: if `STATUS_CALLBACK_TOKEN` is unset it answers `503`, and it only accepts
 the five contract statuses.
+
+## Recovery (operations hardening)
+
+- **Resend a failed brief** — `POST /api/handoff/resend {"briefId"}` (`Authorization: Bearer <OPS_TOKEN>`; unset =
+  503). Re-POSTs the *stored* `payload_json` bytes under the same `briefId` (never rebuilt, so CCOS's payload hash
+  matches). Only `handoff_status='failed'` rows; `sent` answers `already_sent` without sending. Bounded:
+  `MAX_HANDOFF_ATTEMPTS=5` outbound attempts per brief (original included), then `429 RESEND_BUDGET_EXHAUSTED`;
+  concurrent resends lose a compare-and-set claim (`409 RESEND_IN_PROGRESS`). CCOS `200 duplicate` counts as delivered
+  (it already held the brief); CCOS `409` is `BRIEF_ID_CONFLICT` and stays failed (MUST_ALERT). CCOS still creates
+  exactly one job per brief. Every attempt is a `handoff_log` outbound row (`resend:true`).
+- **Redeliver a status callback** — CCOS side: `POST {ccos}/ops/callbacks/redeliver` re-sends the *current* status for
+  rows whose last callback failed or lags; this endpoint accepts the same status idempotently.
+- Alert classes for both: `release/alert-model.json`; triage view: `GET /api/ops/summary` (see `docs/OPERATIONS.md`).

@@ -69,7 +69,7 @@ node release/smoke/smoke.mjs --gcos https://<gcos-host> --ccos https://<ccos-hos
 ## 6. Health model
 
 Core (gates readiness): GCOS liveness/readiness, CCOS liveness/readiness, handoff connectivity, scheduler health, critical DB, callback health
-(`release/health-model.json`; scheduler + callback signals **DEFER_TO_P5**; a dedicated CCOS readiness endpoint is a known gap, covered by the authed-invalid-payload probe).
+(`release/health-model.json`; scheduler + callback signals **DEFER_TO_P5**; CCOS readiness is `GET {ccos}/ready` + `GET {ccos}/version` once operations hardening is integrated; alert classes: `release/alert-model.json`).
 Individual source health (failing/disabled/pending sources, R4, curated-club, backlog) never gates release.
 
 ## 7. Rollback (details in `release/rollback.json`)

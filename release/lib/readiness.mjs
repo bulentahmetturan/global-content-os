@@ -184,7 +184,8 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
   checks.push(check('HEALTH', 'health_model', hmOk ? 'PASS' : 'FAIL', hmOk ? 'core health defined (8 checks), source health separated' : `health model incomplete: ${hmMissing.join(',') || 'source rule'}`, hmOk ? {} : { why: WHY.health_model, next: 'complete release/health-model.json' }));
   const gcosHealth = grepFile(repos.gcos, 'apps/worker/src/index.ts', "'/api/health'");
   checks.push(check('HEALTH', 'health_endpoint_gcos', gcosHealth ? 'PASS' : 'FAIL', gcosHealth ? 'GCOS /api/health present' : 'GCOS /api/health missing', gcosHealth ? {} : { why: WHY.health_model, next: 'restore /api/health' }));
-  checks.push(check('HEALTH', 'health_endpoint_ccos', 'WARN', 'CCOS has liveness (GET /) but no dedicated readiness endpoint; readiness proven by authenticated invalid-payload probe', { defer: 'P3', why: WHY.health_model, next: 'optional: add /api/health to CCOS; smoke does not require it' }));
+  const ccosReady = grepFile(repos.ccos, 'mcp-server/src/index.ts', "'/ready'") && existsSync(R(repos.ccos, 'mcp-server/src/ops/readiness.ts'));
+  checks.push(check('HEALTH', 'health_endpoint_ccos', ccosReady ? 'PASS' : 'WARN', ccosReady ? 'CCOS /ready (READY/DEGRADED/BLOCKED) and /version present' : 'CCOS has liveness (GET /) but no dedicated readiness endpoint; readiness proven by authenticated invalid-payload probe', ccosReady ? {} : { defer: 'P3', why: WHY.health_model, next: 'merge CCOS operations hardening (GET /ready)' }));
 
   // OBSERVABILITY (assertions against P5's final signals)
   const signals = bindings.p5Signals ?? config.observabilitySignals;

@@ -72,6 +72,20 @@ is not configured (never "open"), 401 on mismatch. Live outbound handoff (`CCOS_
 token records `handoff_status=failed` and sends nothing. Status callbacks validate the contract enum, are idempotent on an
 identical replay, and return 404 for an unknown `briefId`.
 
+**Operator endpoints** (`Authorization: Bearer <OPS_TOKEN>`; unset = 503, mismatch = 401; `OPS_TOKEN` does not affect
+readiness):
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/ops/summary` | compact triage: readiness, identity (incl. applied migration), handoff counts by status, failed-in-24h, oldest failed briefs with attempt counts, callbacks received, evaluated alert signals + `highestAlert`. Booleans/codes only, no secret values, no payloads. |
+| `POST /api/handoff/resend {"briefId"}` | same-`briefId` resend of a failed brief from the stored payload; bounded, idempotent — see `docs/approved-brief-handoff.md` § Recovery |
+
+**Alert model:** `release/alert-model.json` is canonical for both systems — classes `MUST_ALERT` (page a human now),
+`SHOULD_ALERT` (look within the working day), `MANUAL_CHECK` (next routine review), each signal with its evaluator,
+condition, code pointer (parity-tested in both repos) and response. No paging vendor is configured; the evaluators are
+`/api/ops/summary` here, `{ccos}/ops/summary`, the scheduler run report and the capacity guard. A single source failure is
+`MANUAL_CHECK`, never an alert.
+
 ## 3. Deployment identity
 
 ```bash
@@ -100,7 +114,7 @@ pytest incl. scheduler simulations, ops invariants) → contract/secret posture 
 | Bad Worker deploy | `/api/ready` BLOCKED/DEGRADED; `deploy-identity --live` | none needed (stub handoff) | `npx wrangler rollback` (or redeploy previous tagged commit with `--wrangler-vars`) | `/api/ready` READY; `--live` commit == intended |
 | Bad scheduler behaviour | `ATTENTION` warnings; `hekimler_ops.py status` late/manual-review; capacity BLOCK | disable the workflow (`gh workflow disable hekimler-python-runner.yml`) | `git revert` the scheduler commit; re-run with `workflow_dispatch` | next run report: `capacity_delayed=[]`, lateness under threshold |
 | Bad migration | `/api/ready` `SCHEMA_BEHIND` or query errors | stop deploys; do not re-apply blindly | migrations are additive: write a forward fix migration; restore D1 via Cloudflare Time Travel if data damaged | `/api/ready` `appliedMigration == expectedSchema` |
-| Handoff failure | `approved_briefs.handoff_status='failed'` + `handoff_detail`; `CCOS_HANDOFF_MISCONFIGURED` | keep `CCOS_HANDOFF_STUB=true` | fix URL/token secrets, re-promote the brief | `handoff_status='sent'`, status callback recorded |
+| Handoff failure | `approved_briefs.handoff_status='failed'` + `handoff_detail`; `CCOS_HANDOFF_MISCONFIGURED` | keep `CCOS_HANDOFF_STUB=true` | fix URL/token secrets, then `POST /api/handoff/resend {"briefId"}` (same brief, stored payload) | `handoff_status='sent'`, status callback recorded |
 | Stuck source | `manual_review` in `scheduler-state.json` / `MANUAL_REVIEW_REQUIRED` | none (already queued last, backoff 7 d) | investigate the source; fix registry via normal commit or set `runtime_activation` deliberately | `failure_count` resets to 0 on next success |
 | Mass source failures | `SYSTEMIC_FETCH_FAILURE`; network diagnose workflow | scheduler already isolates; healthy sources served first | check runner network / `network-diagnose.yml`; D1 quota banner → wait for 00:00 UTC | cycle status HEALTHY |
 | Token / secret misconfig | `/api/ready` `*_TOKEN_NOT_CONFIGURED`; endpoints answer 503 (fail-closed) | none — endpoints refuse rather than run open | `npx wrangler secret put <NAME>` | `/api/ready` READY; callback with token returns 200 |
