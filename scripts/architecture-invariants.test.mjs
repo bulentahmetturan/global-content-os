@@ -41,7 +41,7 @@ test('routes.json: every route is owned by global-content-os and has no legacy o
 
 test('routes.json: local runtime references exist in this repo', () => {
   for (const r of routes.routes) {
-    for (const key of ['sourceCatalog', 'officialSourcesRef', 'runtimeAdapter']) {
+    for (const key of ['sourceCatalog', 'officialSourcesRef', 'runtimeAdapter', 'subscriptions', 'sourcePolicy', 'audienceScope']) {
       if (r[key]) assert.ok(existsSync(rel(r[key])), `${r.id}.${key} -> ${r[key]} missing`);
     }
   }
@@ -55,12 +55,41 @@ test('routes.json: external policy references resolve in multi_channel_design', 
   }
 });
 
-test('policy snapshots are identical to the canonical files in multi_channel_design', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
+test('Hekimler source/audience policy has ONE editable owner: multi_channel_design holds no copy', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
   for (const name of ['hekimler-source-policy-map.json', 'hekimler-audience-scope.json']) {
-    const canonical = path.join(mcd, 'channels/tip-ogrencileri-platformu/content/policies', name);
-    const snapshot = rel(`adapters/hekimler-radar/content/policies/${name}`);
-    assert.deepEqual(JSON.parse(read(snapshot)), JSON.parse(read(canonical)), `${name}: snapshot drifted from canonical`);
+    assert.ok(existsSync(rel(`adapters/hekimler-radar/content/policies/${name}`)), `${name} must exist in global-content-os`);
+    assert.ok(!existsSync(path.join(mcd, 'channels/tip-ogrencileri-platformu/content/policies', name)), `${name} must not be duplicated in multi_channel_design`);
   }
+  for (const name of ['hekimler-source-policy-map.schema.json', 'hekimler-candidate-decision.schema.json']) {
+    assert.ok(existsSync(rel(`adapters/hekimler-radar/content/schemas/${name}`)), `${name} schema must live beside the runtime`);
+    assert.ok(!existsSync(path.join(mcd, 'design-system/schemas/src', name)), `${name} schema must not be duplicated in multi_channel_design`);
+  }
+});
+
+test('Kaduse news subscriptions have ONE editable owner: global-content-os', { skip: !existsSync(mcd) && 'multi_channel_design sibling not present' }, () => {
+  assert.ok(existsSync(rel('packages/source-catalog/data/kaduse-subscriptions.json')));
+  assert.ok(!existsSync(path.join(mcd, 'channels/kaduse-medikal/content/news-sources.json')), 'news-sources.json must not exist in multi_channel_design');
+});
+
+test('feeds generation reads ONLY local canonical inputs (no sibling-repo reads) and feeds.json carries provenance', () => {
+  const gen = read(rel('scripts/sync-feeds.mjs'));
+  assert.ok(!/multi_channel_design|channel-content-os/.test(gen.replace(/\/\*[\s\S]*?\*\//, '')), 'sync-feeds.mjs must not reference sibling repos');
+  const feeds = JSON.parse(read(rel('config/feeds.json')));
+  assert.equal(feeds.provenance.generatedBy, 'scripts/sync-feeds.mjs');
+  assert.equal(feeds.provenance.editable, false);
+  for (const i of feeds.provenance.inputs) assert.ok(existsSync(rel(i.path)), `provenance input missing: ${i.path}`);
+});
+
+test('no active runtime scrapes another registry via regex over TypeScript or sibling files', () => {
+  const files = [...walk(rel('scripts'), ['.mjs']), ...walk(rel('apps/worker/src'), ['.ts']), ...walk(rel('adapters/hekimler-radar/radar'), ['.py']), ...walk(rel('adapters/hekimler-radar/scripts'), ['.py'])].filter(
+    (f) => !f.endsWith('architecture-invariants.test.mjs')
+  );
+  const bad = /(source-registry|global-source-registry)\.ts/;
+  for (const f of files) assert.ok(!bad.test(read(f)), `${path.relative(root, f)} reads a TS registry file`);
+});
+
+test('post-approval claim routing is not in the source catalog (it belongs to channel-content-os)', () => {
+  assert.ok(!existsSync(rel('packages/source-catalog/src/research/claim-routing.ts')));
 });
 
 test('no active documentation says the Global Hub / source monitoring is owned by channel-content-os', () => {
@@ -98,9 +127,13 @@ test('multi_channel_design keeps no executable Hekimler runtime', { skip: !exist
   assert.ok(!existsSync(path.join(mcd, 'radar')), 'top-level radar/ scaffold stays retired');
 });
 
-test('channel-content-os owns no source monitoring', { skip: !existsSync(ccos) && 'channel-content-os sibling not present' }, () => {
-  for (const dir of ['news', 'research']) {
-    assert.ok(!existsSync(path.join(ccos, 'mcp-server/src', dir)), `mcp-server/src/${dir} must not exist in channel-content-os`);
+test('channel-content-os owns no source acquisition (research/ holds post-approval claim routing only)', { skip: !existsSync(ccos) && 'channel-content-os sibling not present' }, () => {
+  assert.ok(!existsSync(path.join(ccos, 'mcp-server/src/news')), 'mcp-server/src/news must not exist in channel-content-os');
+  const research = path.join(ccos, 'mcp-server/src/research');
+  if (existsSync(research)) {
+    for (const name of readdirSync(research)) {
+      assert.match(name, /^claim-(routing|vocabulary)(\.test)?\.ts$/, `mcp-server/src/research/${name} is not post-approval claim code`);
+    }
   }
   assert.ok(!existsSync(path.join(ccos, 'docs/global-news-hub-contract.md')), 'Hub contract must live in global-content-os');
 });

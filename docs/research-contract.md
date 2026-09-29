@@ -32,7 +32,7 @@ exists in a given window, the band simply goes unmet; quality always wins.
 ## Ownership -- deliberately NOT Clinical Education, NOT Stethoscope Guide
 
 `packages/source-catalog/src/research/` (`schemas.ts`, `source-registry.ts`,
-`claim-routing.ts`, `research-pool.ts`) is its own registry, structurally
+`research-pool.ts`) is its own registry, structurally
 disjoint from `clinical-education/`, `stethoscope-guide/`, `news/`, and
 `observance/`.
 
@@ -88,7 +88,7 @@ access scope (section 22). `ACCESS_LEVEL_ALLOWED_LOCATORS`
 (`schemas.ts`) maps each access level to the `ClaimLocator`s reachable at it
 -- e.g. a `PAYWALLED_WITH_USABLE_ABSTRACT` paper may only cite
 `ABSTRACT_*` locators, never `FULL_TEXT_RESULTS`. `validateClaim()`
-(`claim-routing.ts`) enforces this structurally; `INSUFFICIENT_PUBLIC_INFORMATION`
+(post-approval, `channel-content-os/mcp-server/src/research/claim-routing.ts`) enforces this structurally; `INSUFFICIENT_PUBLIC_INFORMATION`
 allows zero claims (no locator is reachable), which is the only case where
 `resolveEvidenceStatus()` returns `INSUFFICIENT_EVIDENCE` rather than
 `BLOCKED`/`VERIFIED`.

@@ -28,11 +28,11 @@ That reservation is **superseded by this document** -- see "Relationship to
   (`global-content-os`; originally decided as `channel-content-os`, relocated by ADR-0004), serves every channel (Kaduse Medikal, Macaristan
   Rehberi, Futboscope, and future channels). It is never duplicated per
   channel and never reimplemented as a second engine for a new channel.
-- **Channel-specific editorial/source truth is owned by `multi_channel_design`**,
-  under `channels/<slug>/content/` (e.g. `news-sources.json`,
-  archetype/policy files such as this batch's `kaduse-news.json`). This repo
-  never hosts a second, independently editable copy of a channel's source
-  list or topic preferences.
+- **Channel subscriptions and acquisition scoping are owned HERE** (Package 2):
+  `packages/source-catalog/data/kaduse-subscriptions.json`. `multi_channel_design`
+  owns only channel editorial COVERAGE policy (archetype/policy files such as
+  `kaduse-news.json`). Neither repo hosts a second, independently editable copy
+  of a channel's source list.
 - **This repo maintains a synchronized runtime representation** (an index
   loaded/derived from the channel-owned config) needed to actually execute
   ingestion and routing. That runtime representation is not itself canonical
@@ -139,8 +139,8 @@ MONITORED TARGET / SUB-FEED         (e.g. FDA CDRH -> Digital Health Center
                                       dedicated endpoint exists)
         |
         v  (targetId, referenced by ID only)
-CHANNEL SUBSCRIPTION                (multi_channel_design,
-                                      channels/<slug>/content/news-sources.json)
+CHANNEL SUBSCRIPTION                (global-content-os,
+                                      packages/source-catalog/data/<channel>-subscriptions.json)
         |
         v
 future: ingestion -> canonical candidate -> channel routing ->
@@ -176,10 +176,10 @@ become a News subscription.
   registry + channel subscriptions -- it is never a second manually
   editable source of truth.
 
-Full data: `packages/source-catalog/src/news/global-source-registry.ts` (49 publishers,
+Full data: `packages/source-catalog/data/news-registry.json` (49 publishers,
 54 logical sources, 59 monitored targets, 5 reference resources, as of
 Batch N2-FINAL). Kaduse's actual subscriptions live in
-`multi_channel_design/channels/kaduse-medikal/content/news-sources.json`,
+`packages/source-catalog/data/kaduse-subscriptions.json`,
 referencing these IDs only.
 
 ## Relationship to `multi_channel_design`'s ADR-0002

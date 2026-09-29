@@ -1,10 +1,10 @@
 {
-  "schemaVersion": "2.0.0",
-  "$comment": "Hub route metadata (ADR-0004 in multi_channel_design). Ownership model: POLICY (what a channel wants: audience, relevance, editorial routes, source-subscription intent) is owned by the multi_channel_design repo and referenced here as an EXTERNAL canonical policy dependency via `externalPolicy.*`; RUNTIME (what is fetched, how, how often, source health) is owned by THIS repo. `externalPolicy.*` paths are relative to the root of the repo named in `externalPolicyRepo`; they are never treated as global-content-os-owned files. Local resolution of that root is centralized in scripts/architecture-invariants.test.mjs (sibling checkout `../multi_channel_design`, which also holds after grouping under projects/content-systems/). This file has no runtime consumer today; it is validated by the invariants test.",
+  "schemaVersion": "3.0.0",
+  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Hekimler audience/source policy. multi_channel_design keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
   "externalPolicyRepo": {
     "name": "multi_channel_design",
     "relativeRoot": "../multi_channel_design",
-    "role": "channel/brand/editorial policy authority (canonical)"
+    "role": "channel/brand/editorial COVERAGE policy authority (no source runtime truth)"
   },
   "routes": [
     {
@@ -14,12 +14,12 @@
       "icon": "🌐",
       "runtimeOwner": "global-content-os",
       "externalPolicy": {
-        "policy": "channels/kaduse-medikal/content/policies/kaduse-news.json",
-        "subscriptions": "channels/kaduse-medikal/content/news-sources.json"
+        "policy": "channels/kaduse-medikal/content/policies/kaduse-news.json"
       },
-      "sourceCatalog": "packages/source-catalog/src/news/global-source-registry.ts",
+      "sourceCatalog": "packages/source-catalog/data/news-registry.json",
       "feedCount": 59,
-      "note": "All channel subscriptions registered and enabled. Live fetch this slice: WHO JSON API; other targets WEB_ONLY pending dedicated fetchers."
+      "note": "Subscriptions + acquisition scoping are canonical here (data/kaduse-subscriptions.json). Live fetch this slice: WHO JSON API; other targets WEB_ONLY pending dedicated fetchers.",
+      "subscriptions": "packages/source-catalog/data/kaduse-subscriptions.json"
     },
     {
       "id": "kaduse-research",
@@ -30,7 +30,7 @@
       "externalPolicy": {
         "policy": "channels/kaduse-medikal/content/policies/research.json"
       },
-      "sourceCatalog": "packages/source-catalog/src/research/source-registry.ts",
+      "sourceCatalog": "packages/source-catalog/data/research-sources.json",
       "feedCount": 41,
       "note": "Research registry registered and enabled. Live batch fetch: Europe PMC + PubMed E-utilities."
     },
@@ -41,13 +41,11 @@
       "icon": "🎓",
       "runtimeOwner": "global-content-os",
       "runtimeAdapter": "adapters/hekimler-radar",
-      "externalPolicy": {
-        "policy": "channels/tip-ogrencileri-platformu/content/policies/hekimler-source-policy-map.json",
-        "audienceScope": "channels/tip-ogrencileri-platformu/content/policies/hekimler-audience-scope.json"
-      },
       "officialSourcesRef": "adapters/hekimler-radar/sources/official_sources.yaml",
       "feedCount": 729,
-      "note": "Hekimler Topluluğu + tip sources. Runtime lives in adapters/hekimler-radar. Brand/logos and the canonical policy files stay in multi_channel_design/channels/tip-ogrencileri-platformu. The Worker's ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability."
+      "note": "Hekimler Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/hekimler-radar. multi_channel_design keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
+      "sourcePolicy": "adapters/hekimler-radar/content/policies/hekimler-source-policy-map.json",
+      "audienceScope": "adapters/hekimler-radar/content/policies/hekimler-audience-scope.json"
     }
   ]
 }
