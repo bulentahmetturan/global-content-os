@@ -26,7 +26,7 @@ const tok = (chars) => Math.round(chars / 3.6);
 export const CONTENT_SYSTEMS = ['global-content-os', 'channel-content-os', 'multi_channel_design'];
 function repoOf(p) {
   if (/\.claude[\\/]+projects/i.test(p)) return null;
-  const m = /Desktop[\\/]+projects[\\/]+(?:content-systems[\\/]+)?(?:\.p4wt[\\/]+)?([\w][\w.-]*)(?=[\\/]|$)/i.exec(p);
+  const m = /[\\/]projects[\\/]+(?:content-systems[\\/]+)?(?:\.p4wt[\\/]+)?([\w][\w.-]*)(?=[\\/]|$)/i.exec(p);
   if (!m || /^[0-9a-f]{8}-/i.test(m[1]) || /\.(md|json|mjs|txt|log)$/i.test(m[1])) return null;
   return m[1];
 }

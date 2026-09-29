@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { analyzeSession, evaluate, manualManifest, checkBenchmarks, summarize, BENCHMARKS, CLASSES } from './context-telemetry.mjs';
 
-const P = 'C:\\Users\\W11\\Desktop\\projects';
+const P = 'D:\\work\\projects';
 let n = 0;
 const assistant = (tokens, uses = []) => JSON.stringify({
   type: 'assistant', sessionId: 's1', cwd: `${P}\\global-content-os`, timestamp: `2026-09-30T10:00:${String(n).padStart(2, '0')}Z`,
@@ -36,7 +36,7 @@ test('Claude transcript: exact usage per turn, baseline split, loads classified 
 });
 
 test('transcript store paths are not repos; every spec field is present', () => {
-  const m = analyzeSession([assistant(1000, [['a', 'Read', { file_path: 'C:\\Users\\W11\\.claude\\projects\\C--Users-W11-Desktop-projects\\x.jsonl' }]]), result('a', 10)]);
+  const m = analyzeSession([assistant(1000, [['a', 'Read', { file_path: 'D:\\home\\.claude\\projects\\D--work-projects\\x.jsonl' }]]), result('a', 10)]);
   assert.deepEqual(m.REPOS_LOADED, ['global-content-os']);
   for (const k of ['TASK_CLASS', 'CONTEXT_TOKENS', 'REPOS_LOADED', 'CHANNELS_LOADED', 'HISTORY_LOADED', 'GENERATED_EVIDENCE_LOADED', 'FULL_REGISTRY_LOADED', 'FULL_FEEDBACK_HISTORY_LOADED', 'WHY_REQUIRED']) assert.ok(k in m, k);
 });
