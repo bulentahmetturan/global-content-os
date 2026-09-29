@@ -121,7 +121,7 @@ const FORBIDDEN_DEFAULT = [/_history\//, /\/archive\//, /legacy-cleanup\//, /\.g
 if (simulate) {
   const base = ['AGENTS.md', 'docs/CORE.md', 'docs/CURRENT.md', 'docs/INDEX.md'];
   const cost = (f, range) => {
-    if (!existsSync(f)) return 0;
+    if (!existsSync(f) || statSync(f).isDirectory()) return 0; // directory pointers cost nothing until a file is chosen
     const raw = readFileSync(f, 'utf8');
     if (!range) return Math.ceil(raw.length / 4);
     const [a, b = a] = range.split('-').map(Number);

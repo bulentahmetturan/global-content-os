@@ -107,9 +107,8 @@ pytest incl. scheduler simulations, ops invariants) → contract/secret posture 
 
 Bootstrap from an empty machine: `docs/RECOVERY.md`.
 
-## 6. Deferred wiring (do not hard-code transitional paths)
+## 6. Bindings (final reconciliation)
 
-- `DEFER_TO_P2`: bind the source-catalog invariant (registry ⇄ catalog identity) to the final canonical catalog path.
-- `DEFER_TO_P3`: expanded CCOS workflow (merged MCD dashboard/tests) at final paths.
-- `DEFER_TO_P4`: relocate/link this document from the final router; add `.logs/` convention to the final context docs.
-- `DEFER_HUB_UI`: render `scheduler-state.json` fields in the Hub source panel.
+- Source catalog + registries: `scripts/registry-find.mjs` (read-only lookup); reviewed source-feedback actions: `docs/FEEDBACK-SOURCE-ACTIONS.md`.
+- CCOS CI is defined in its own repo (`.github/workflows/ccos-ci.yml`); release/readiness for both repos: `release/` + `docs/ops/RELEASE-RUNBOOK.md`.
+- Still open by design: Hub UI rendering of `scheduler-state.json` (Hub files are UI work, not release-critical).

@@ -1,26 +1,22 @@
 # CURRENT — state as of 2026-09-29 (no history here)
 
 ## Runtime reality
-- Canonical runtime: Cloudflare Worker (`apps/worker`) + D1 (`migrations/`) + cron (`wrangler.toml`), Hub UI in `apps/hub`, Python Hekimler radar in `adapters/hekimler-radar` (GitHub Actions runners).
-- Active branch: `feat/manual-intake-activation` (PR #4, draft, per S70 log). `main` is an ancestor of it.
-- Last confirmed production deploy: S66 (2026-09-28), migrations 0022–0023 applied. Whether 0024 and later branch work are live is NOT confirmed here — check `docs/deploy.md` procedure with the user before assuming.
-- Deploy, remote migration, and merge of PR #4 need explicit user authorization.
+- Canonical runtime: Cloudflare Worker (`apps/worker`) + D1 (`migrations/`) + cron (`wrangler.toml`), Hub UI in `apps/hub`, Python Hekimler radar + scheduler in `adapters/hekimler-radar` (GitHub Actions runner).
+- Two active repos only: this one and `channel-content-os` (which absorbed `multi_channel_design`, ADR-0005). Only `approved_brief` crosses to it.
+- Source truth: `packages/source-catalog/data` (news, research, Kaduse subscriptions), `adapters/hekimler-radar/content/source-registry-*.json` (Hekimler), `config/feeds.json`. Look up one record: `node scripts/registry-find.mjs <source-id>`.
+- Scheduler, capacity guard, fail-closed auth, the health endpoint (liveness) vs the ready endpoint (READY/DEGRADED/BLOCKED): `docs/OPERATIONS.md`. Release gate + runbook: `docs/ops/RELEASE-RUNBOOK.md`, `release/`.
+- Production: NOT deployed from this branch. `CCOS_HANDOFF_STUB=true`. Deploy, remote migration, handoff switch and SYSTEM_V1 freeze need explicit user authorization.
 
 ## Known intentional legacy (do not "clean up")
-- `adapters/tip-radar/` reads the local Python radar SQLite; push via `push-to-hub`.
+- `adapters/tip-radar/` is legacy migration compatibility only (local SQLite push).
 - `apps/hub/00_TURK_TIP_*BIBLE*.md` are build copies of the Bible in `adapters/hekimler-radar/content/` (DEFERRED_BUILD_COPY).
 - `**/legacy-cleanup/`, `**/archive/`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` run log: preserved evidence.
-- 118 registry sources shown as "registered but not fetching" are deliberate `MANUAL_INTAKE` (S61–S63), not bugs.
-
-## Parallel work in flight (results not assumed)
-- Package 2 (source catalog, registries, feeds generation, Hekimler source policy, tip-radar): worktree `global-content-os.arch`, branch `arch/three-system-reconciliation`. Registry/feeds paths may move. DEFER_TO_PACKAGE_2.
-- Package 3 (multi_channel_design → channel-content-os merge; channel/brand/design ownership): DEFER_TO_PACKAGE_3. Final two-repo target: `global-content-os` + `channel-content-os`.
-- Package 4 (this router set): branch `chore/token-context-architecture`; needs reconciliation against final P2/P3 paths.
+- Deliberately inactive: ~117 `MANUAL_INTAKE` Hekimler sources, R4 research sources, the 23 curated-club feeds, GMC (honest substitute). Never bulk-activate (`hekimler_ops.py capacity` first).
 
 ## Real blockers
-- Test baseline noted in S60/S63: 7 known failures in `adapters/hekimler-radar/tests/test_phase1_ingestion_canary.py` (since S07). Re-verify before relying on it.
-- Registry record-level lookup (`registry-find`) waits on Package 2's final catalog path/schema.
+- None for local readiness. Open before cutover: GitHub CI has not run on this branch; production secret names and remote migration state are not inspected; CCOS fresh migration replay is unsafe (`docs/ops/RELEASE-RUNBOOK.md`, migration 010).
 
 ## Run
-- Links: `node scripts/check-router-links.mjs`; route cost: `node scripts/check-router-links.mjs --simulate`.
-- Typecheck: `npm run typecheck`. Worker tests: `node apps/worker/src/<file>.test.mjs`. Hekimler: `python adapters/hekimler-radar/scripts/run_hekimler_tests.py`.
+- Links: `node scripts/check-router-links.mjs` (`--simulate` for route cost).
+- Everything: `npm run production:check` (typecheck, worker + contract tests, pytest, invariants). Release: `npm run release:preflight`, `npm run release:gate`.
+- Catalog: `npm run test:catalog`, `npm run typecheck:catalog`.
