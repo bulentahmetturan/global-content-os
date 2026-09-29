@@ -7,6 +7,7 @@ import {
   type TriageStatus,
 } from './db/queries';
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
+import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
@@ -105,6 +106,9 @@ export default {
           report.level === 'BLOCKED' ? 503 : 200,
         );
       }
+
+      const routeAuth = authorizeRoute(env, request, path);
+      if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {

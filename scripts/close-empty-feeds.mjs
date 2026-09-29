@@ -5,6 +5,7 @@
  * Usage: node scripts/close-empty-feeds.mjs [hubUrl]
  */
 import { spawnSync } from 'node:child_process';
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
 
 const hub = process.argv[2] || process.env.GCOS_HUB_URL || 'http://127.0.0.1:8787';
 const UA =
@@ -228,7 +229,7 @@ async function extract(url) {
 async function push(feedId, items) {
   const res = await fetch(`${hub}/api/ingress/feed-items`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/feed-items') },
     body: JSON.stringify({ feedId, items }),
   });
   return res.json();
@@ -247,7 +248,7 @@ async function patchEndpoint(id, url) {
 async function main() {
   console.log('Closing empty feeds via Node →', hub);
   try {
-    console.log('journal-fallback', await (await fetch(`${hub}/api/ingress/journal-fallback`, { method: 'POST' })).json());
+    console.log('journal-fallback', await (await fetch(`${hub}/api/ingress/journal-fallback`, { method: 'POST', headers: hubAuthHeaders('/api/ingress/journal-fallback') })).json());
   } catch (e) {
     console.warn('journal-fallback fail', e.message);
   }

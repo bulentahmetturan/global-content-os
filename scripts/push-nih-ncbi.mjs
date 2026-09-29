@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
 
 const hub = process.argv[2] || 'http://127.0.0.1:8787';
 const url =
@@ -32,7 +33,7 @@ for (const block of xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || []) {
 console.log('parsed', items.length);
 const res = await fetch(`${hub}/api/ingress/feed-items`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/feed-items') },
   body: JSON.stringify({ feedId: 'research-nih-news-releases', items }),
 });
 console.log(await res.json());
@@ -56,7 +57,7 @@ for (const u of eaTries) {
     if (title) {
       const r2 = await fetch(`${hub}/api/ingress/feed-items`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/feed-items') },
         body: JSON.stringify({
           feedId: 'research-eurekalert',
           items: [{ title, url: u, summary: title, publishedAt: null }],

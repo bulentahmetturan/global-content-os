@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
 
 const hub = process.argv[2] || 'http://127.0.0.1:8787';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
@@ -151,7 +152,7 @@ async function main() {
     }
     const res = await fetch(`${hub}/api/ingress/feed-items`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/feed-items') },
       body: JSON.stringify({ feedId: feed.id, items }),
     });
     const body = await res.json();

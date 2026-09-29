@@ -7,6 +7,7 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
 
 const hub = process.argv[2] || process.env.GCOS_HUB_URL || 'http://127.0.0.1:8787';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -17,7 +18,7 @@ async function post(p, body, attempt = 1) {
   try {
     const res = await fetch(`${hub}${p}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...hubAuthHeaders(p) },
       body: JSON.stringify(body || {}),
       signal: ctrl.signal,
     });

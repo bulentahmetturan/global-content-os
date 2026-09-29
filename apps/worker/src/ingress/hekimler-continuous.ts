@@ -13,6 +13,7 @@ import {
 } from './tip-radar';
 import { type Env } from '../db/queries';
 import { recordHealthRevalidation } from './source-pass-fail';
+import { authorizeToken } from '../handoff-security';
 
 /** Number of AUTOMATION_READY Hekimler sources bundled into this Worker (shown in the Hub). */
 export function hekimlerReadySourceCount(): number {
@@ -786,15 +787,7 @@ export async function recordPythonRunTelemetry(env: Env, body: Record<string, un
 
 /** Fail-closed auth for HTTP ingress. Scheduled path never hits this. */
 export function authorizeHekimlerIngress(env: Env, request: Request): { ok: true } | { ok: false; error: string; status: number } {
-  const expected = (env.TIP_RADAR_INGEST_TOKEN || '').trim();
-  if (!expected) {
-    return { ok: false, error: 'INGEST_TOKEN_NOT_CONFIGURED', status: 503 };
-  }
-  const token = (request.headers.get('X-Ingest-Token') || '').trim();
-  if (!token || token !== expected) {
-    return { ok: false, error: 'UNAUTHORIZED', status: 401 };
-  }
-  return { ok: true };
+  return authorizeToken(env.TIP_RADAR_INGEST_TOKEN, request.headers.get('X-Ingest-Token'), 'INGEST_TOKEN_NOT_CONFIGURED');
 }
 
 export function assertHekimlerChannelPartition(body: Record<string, unknown> | null | undefined): string | null {

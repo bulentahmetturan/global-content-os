@@ -6,6 +6,8 @@
  *   node scripts/activate-all-sources.mjs [hubUrl]
  *   node scripts/activate-all-sources.mjs http://127.0.0.1:8787 --news-offset=24
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const args = process.argv.slice(2);
 const hub =
   args.find((a) => a.startsWith('http')) ||
@@ -29,7 +31,7 @@ async function post(path, body, attempt = 1) {
   try {
     const res = await fetch(`${hub}${path}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...hubAuthHeaders(path) },
       body: JSON.stringify(body || {}),
       signal: ctrl.signal,
     });

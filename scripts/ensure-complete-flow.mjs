@@ -2,6 +2,8 @@
  * Drive complete source activation until every enabled feed has been attempted,
  * then print coverage. Resumes via --*-offset flags.
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const args = process.argv.slice(2);
 const hub =
   args.find((a) => a.startsWith('http')) ||
@@ -25,7 +27,7 @@ async function post(path, body, attempt = 1) {
   try {
     const res = await fetch(`${hub}${path}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...hubAuthHeaders(path) },
       body: JSON.stringify(body || {}),
       signal: ctrl.signal,
     });
