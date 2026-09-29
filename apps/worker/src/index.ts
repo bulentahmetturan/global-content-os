@@ -6,6 +6,8 @@ import {
   type RouteId,
   type TriageStatus,
 } from './db/queries';
+import { authorizeToken, bearerToken, parseStatusCallback, resolveOutbound } from './handoff-security';
+import { EXPECTED_SCHEMA_MIGRATION, evaluateReadiness } from './readiness';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -46,7 +48,6 @@ import {
   listSourcePassFail,
   revalidateUnhealthySources,
 } from './ingress/source-pass-fail';
-import { PRODUCTION_STATUS_VALUES } from '../../../packages/contracts/src/index';
 
 const ROUTES: RouteId[] = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 const STATUSES: TriageStatus[] = ['inbox', 'hold', 'production', 'trash', 'done'];
@@ -82,7 +83,45 @@ export default {
 
     try {
       if (path === '/api/health') {
-        return json({ ok: true, service: 'global-content-os', env: env.ENVIRONMENT ?? 'unknown', commit: env.BUILD_COMMIT ?? null });
+        // LIVENESS only: the process answers. Dependency state is /api/ready.
+        return json({
+          ok: true,
+          level: 'liveness',
+          service: 'global-content-os',
+          env: env.ENVIRONMENT ?? 'unknown',
+          commit: env.BUILD_COMMIT ?? null,
+          branch: env.BUILD_BRANCH ?? null,
+          deployedAt: env.DEPLOYED_AT ?? null,
+          expectedSchema: EXPECTED_SCHEMA_MIGRATION,
+        });
+      }
+
+      if (path === '/api/ready') {
+        let dbReachable = false;
+        let appliedMigration: string | null = null;
+        let cronAge: number | null = null;
+        try {
+          await env.DB.prepare('SELECT 1').first();
+          dbReachable = true;
+          const m = await env.DB.prepare('SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1').first<{ name: string }>().catch(() => null);
+          appliedMigration = m?.name ?? null;
+          const f = await env.DB.prepare('SELECT MAX(last_fetched_at) AS t FROM source_feeds').first<{ t: string | null }>().catch(() => null);
+          if (f?.t) cronAge = Math.max(0, Math.round((Date.now() - Date.parse(f.t.includes('T') ? f.t : f.t.replace(' ', 'T') + 'Z')) / 60000));
+        } catch {
+          dbReachable = false;
+        }
+        const report = evaluateReadiness({
+          dbReachable,
+          appliedMigration,
+          cronLastActivityAgeMin: cronAge,
+          statusCallbackTokenConfigured: !!(env.STATUS_CALLBACK_TOKEN || '').trim(),
+          ingestTokenConfigured: !!(env.TIP_RADAR_INGEST_TOKEN || '').trim(),
+          handoffMode: resolveOutbound(env).mode,
+        });
+        return json(
+          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION },
+          report.level === 'BLOCKED' ? 503 : 200,
+        );
       }
 
       if (path === '/api/feeds' && request.method === 'GET') {
@@ -436,9 +475,9 @@ export default {
       }
 
       if (path === '/api/ingress/tip' && request.method === 'POST') {
-        const token = request.headers.get('X-Ingest-Token') || '';
-        if (env.TIP_RADAR_INGEST_TOKEN && token !== env.TIP_RADAR_INGEST_TOKEN) {
-          return json({ error: 'UNAUTHORIZED' }, 401);
+        const tipAuth = authorizeToken(env.TIP_RADAR_INGEST_TOKEN, request.headers.get('X-Ingest-Token'), 'INGEST_TOKEN_NOT_CONFIGURED');
+        if (!tipAuth.ok) {
+          return json({ error: tipAuth.error }, tipAuth.status);
         }
         const body = (await request.json()) as { candidates?: TipRadarCandidatePush[] };
         const result = await ingestTipRadarPush(env, body.candidates ?? []);
@@ -470,28 +509,16 @@ export default {
       }
 
       if (path === '/api/handoff/status' && request.method === 'POST') {
-        const token = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '') || '';
-        // Fail closed: an unset token must never leave the callback open.
-        if (!env.STATUS_CALLBACK_TOKEN) {
-          return json({ error: 'STATUS_CALLBACK_NOT_CONFIGURED' }, 503);
+        const cbAuth = authorizeToken(env.STATUS_CALLBACK_TOKEN, bearerToken(request.headers.get('Authorization')), 'STATUS_CALLBACK_TOKEN_NOT_CONFIGURED');
+        if (!cbAuth.ok) {
+          return json({ error: cbAuth.error }, cbAuth.status);
         }
-        if (token !== env.STATUS_CALLBACK_TOKEN) {
-          return json({ error: 'UNAUTHORIZED' }, 401);
+        const parsed = parseStatusCallback(await request.json().catch(() => null));
+        if (!parsed.ok) {
+          return json({ error: parsed.error }, 400);
         }
-        const body = (await request.json()) as {
-          briefId?: string;
-          status?: string;
-          detail?: string | null;
-        };
-        if (
-          !body.briefId ||
-          !body.status ||
-          !(PRODUCTION_STATUS_VALUES as readonly string[]).includes(body.status)
-        ) {
-          return json({ error: 'INVALID_BODY' }, 400);
-        }
-        await recordProductionStatus(env, body.briefId, body.status, body.detail);
-        return json({ ok: true });
+        const recorded = await recordProductionStatus(env, parsed.value.briefId, parsed.value.status, parsed.value.detail);
+        return json({ ok: true, ...(recorded.duplicate ? { duplicate: true } : {}) });
       }
 
       if (path === '/api/cron/run' && request.method === 'POST') {

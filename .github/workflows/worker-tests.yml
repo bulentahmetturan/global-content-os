@@ -11,12 +11,35 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "apps/worker/**"
-      - "apps/hub/**"
+      - "apps/**"
+      - "adapters/**"
+      - "packages/**"
+      - "config/**"
       - "migrations/**"
       - "scripts/**"
       - "package.json"
-      - ".github/workflows/worker-tests.yml"
+      - "package-lock.json"
+      - "wrangler.toml"
+      - "tsconfig.base.json"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "apps/**"
+      - "adapters/**"
+      - "packages/**"
+      - "config/**"
+      - "migrations/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - "wrangler.toml"
+      - "tsconfig.base.json"
+      - ".github/workflows/**"
+
+# Package 5: path filters cover everything that can change operational behavior (Python runner/scheduler under
+# adapters/**, contracts under packages/**, config/**, wrangler.toml, workflows) so validation is never silently
+# skipped; docs-only commits still skip. production:check also runs scripts/ops-invariants.test.mjs, the
+# scheduler simulation matrix (pytest), auth fail-closed tests and the readiness/schema drift guard.
 
 permissions:
   contents: read
@@ -43,5 +66,15 @@ jobs:
           cache: pip
           cache-dependency-path: adapters/hekimler-radar/requirements-test.txt
       - run: python -m pip install --disable-pip-version-check -r adapters/hekimler-radar/requirements-test.txt
-      - name: production:check (typecheck + worker tests + pytest + Bible/S57/S63 invariants)
-        run: npm run production:check
+      - name: production:check (typecheck + worker tests + pytest + Bible/S57/S63 + ops invariants)
+        run: |
+          mkdir -p .logs
+          npm run production:check 2>&1 | tee .logs/production-check.log
+          exit "${PIPESTATUS[0]}"
+      - name: Upload full log (kept out of agent/PR context)
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-check-log
+          path: .logs/
+          retention-days: 14

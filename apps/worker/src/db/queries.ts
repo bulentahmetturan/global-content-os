@@ -4,6 +4,9 @@ export { familyClause } from './family-clause';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
   BUILD_COMMIT?: string;
+  /** Branch and UTC time of the deploy (same --var mechanism; see scripts/deploy-identity.mjs). */
+  BUILD_BRANCH?: string;
+  DEPLOYED_AT?: string;
   DB: D1Database;
   ASSETS: Fetcher;
   AI?: {
