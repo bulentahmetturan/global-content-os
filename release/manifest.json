@@ -2,6 +2,17 @@
   "$comment": "SYSTEM_V1 release record (Central Cutover, Package 7 runbook). Deployed SHAs are below; later doc-only commits do not change runtime.",
   "releaseId": "system-v1-2026-09-29",
   "status": "RELEASED",
+  "postFreezeClosure": {
+    "$comment": "SYSTEM V1 post-freeze closure (Phase 5/6). The fields below this block stay the frozen SYSTEM_V1 record; tag system-v1-frozen is unchanged in both repos.",
+    "releaseId": "system-v1-closure-2026-09-30",
+    "branch": "postfreeze/system-v1-closure",
+    "tag": "system-v1-closure (both repos; annotated, points at the deployed commit and names the Worker version ids)",
+    "frozenTag": "system-v1-frozen (GCOS b6c632b, CCOS 4c312ea)",
+    "migrations": { "gcos": [], "ccos": ["041_operations_hardening.sql"] },
+    "expectedMigrationLevel": { "gcos": "0024_source_revalidation.sql", "ccos": "041_operations_hardening.sql" },
+    "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
+    "deferred": "MCD workflow disable, MCD repo secret deletion and local MCD retirement wait for the first successful GCOS Hekimler scheduled run after 2026-09-30T04:17Z (evidence E15)"
+  },
   "gcos": {
     "repo": "global-content-os",
     "branch": "final/system-v1-reconciliation",
