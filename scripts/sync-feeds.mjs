@@ -75,8 +75,8 @@ const MANUAL_FALLBACK = {
     'https://eur-lex.europa.eu/search.html?scope=EURLEX&text=medical+device+OR+MDR+OR+IVDR&type=quick&lang=en',
 };
 
+// Disabled subscriptions stay as enabled=false rows so a retirement is visible and D1 is disabled, never orphaned.
 const newsFeeds = news.subscriptions
-  .filter((s) => s.enabled)
   .map((s) => {
     const t = byTarget[s.targetId];
     const isWho = s.targetId === 'who-newsroom-whole';
@@ -94,7 +94,7 @@ const newsFeeds = news.subscriptions
       transport: isWho ? 'JSON_API' : t?.transportStatus || 'WEB_ONLY',
       endpointUrl,
       pollMinutes: isWho ? 60 : 360,
-      enabled: true,
+      enabled: s.enabled === true,
       externalRef: s.targetId,
       registrySourceId: s.sourceId,
       inclusionPolicy: s.inclusionPolicy || null,
@@ -140,7 +140,7 @@ for (const rs of researchRegistry) {
     transport: isEpmc || isPubmed ? 'REST_BATCH' : 'RESEARCH_REGISTRY',
     endpointUrl: rs.canonicalUrl,
     pollMinutes: isEpmc || isPubmed ? 360 : 1440,
-    enabled: true,
+    enabled: rs.verificationStatus !== 'EXCLUDE',
     externalRef: id,
     rules: isEpmc
       ? {

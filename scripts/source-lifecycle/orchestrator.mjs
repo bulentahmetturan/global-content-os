@@ -11,6 +11,7 @@ import { commitCanonical, getAt, readRegistry, targetFileFor, writeTrace, author
 import { newHekimlerRecord, activationPatch, retirementPatch, pushHistory, clearRetirement, canary } from './profile.mjs';
 import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, HEKIMLER_DERIVATIVES } from './offboard.mjs';
 import { stateOf, LANES, ACTIVATION } from './model.mjs';
+import { prepareKaduseChange } from './kaduse-change.mjs';
 
 const OBSERVABILITY = {
   fetch_success_last_success_last_error: 'D1 hekimler_source_telemetry (last_success_at, failure_count, last_operator_status) / feed fetch stats (0004)',
@@ -146,6 +147,7 @@ export function createLifecycle(opts) {
     return {
       gates: g,
       sourceId,
+      name,
       routing,
       endpoint: { url: disc.endpoint.url, page_url: page.url, transport: disc.endpoint.transport, runtime: runtime.method, runtime_module: runtime.module, note: transportNote },
       access: disc.access,
@@ -181,6 +183,16 @@ export function createLifecycle(opts) {
       recommended_cadence_minutes: v.cadence.poll_minutes,
     };
   }
+
+  const kaduseOk = (c) => !['DENIED', 'BLOCKED_TECHNICAL'].includes(c.outcome);
+  const kaduseResult = (c) => ({
+    outcome: c.outcome,
+    ...(c.reason ? { reason: c.reason } : {}),
+    ...(c.code ? { commit: { code: c.code, detail: c.detail } } : {}),
+    ...(c.patch ? { catalog_patch: c.patch } : {}),
+    ...(c.migration ? { migration: c.migration, d1: c.d1 } : {}),
+    ...(c.review_gate ? { review_gate: c.review_gate, remote_applied: false } : {}),
+  });
 
   // ---------- ADD ----------------------------------------------------------------------------------------------------
   async function add(input, { url, channel, apply = false } = {}) {
@@ -222,7 +234,10 @@ export function createLifecycle(opts) {
       if (v.fixture && traces) trace.fixture_sample = v.fixture;
       return finish(trace, { ok: false, op: 'add', ...v.stop, gates: { ...gates, ...v.stop.gates } });
     }
-    if (v.routing.lane !== 'hekimler') return finish(trace, { ok: true, op: 'add', gates: { ...gates, ...v.gates }, ...summary(v), ...kadusePlan('add', v) });
+    if (v.routing.lane !== 'hekimler') {
+      const change = prepareKaduseChange({ root, op: 'add', target: v, mutateArgs: { name: v.name, at: clock() }, apply, actor, authorize, requestId: req.request_id, sync: opts.kaduseSync });
+      return finish(trace, { ok: kaduseOk(change), op: 'add', gates: { ...gates, ...v.gates }, ...summary(v), ...kaduseResult(change), recommended_cadence_minutes: v.cadence.poll_minutes });
+    }
 
     const safe = v.capacity.status === 'SAFE';
     const record = structuredClone(v.profile);
@@ -305,7 +320,8 @@ export function createLifecycle(opts) {
     if (state === 'ACTIVE') return finish(trace, { ok: true, op: 'reactivate', outcome: 'ALREADY_ACTIVE', source_id: m.source_id, gates });
     if (state !== 'RETIRED') return finish(trace, { ok: false, op: 'reactivate', outcome: 'NOT_RETIRED', source_id: m.source_id, state, next_step: `use: add ${m.source_id}`, gates });
     if (m.store !== 'hekimler') {
-      return finish(trace, { ok: true, op: 'reactivate', outcome: 'PLAN_ONLY', source_id: m.source_id, reason: 'KADUSE_CATALOG_ACTIVATION_IS_A_REVIEWED_COMMIT', plan: ['Re-enable the catalog entry (subscription enabled / remove from RETIRED_DUPLICATE_FEED_IDS) by reviewed commit', 'node scripts/sync-feeds.mjs', 'check_source_identity.py', 'forward D1 migration enabling the source_feeds row'], gates });
+      const change = prepareKaduseChange({ root, op: 'reactivate', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
+      return finish(trace, { ok: kaduseOk(change), op: 'reactivate', source_id: m.source_id, gates, ...kaduseResult(change) });
     }
     return activateExisting({ req: { ...req, url: null, fetch_url: null }, identity, projections, trace, gates, apply, op: 'reactivate', previous: { state: 'RETIRED' } });
   }
@@ -328,10 +344,11 @@ export function createLifecycle(opts) {
     const at = clock();
 
     if (!hekimler) {
+      const change = prepareKaduseChange({ root, op: 'retire', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
       return finish(trace, {
-        ok: true, ...base, outcome: 'PLAN_ONLY', reason: 'KADUSE_CATALOG_CHANGE_IS_A_REVIEWED_COMMIT',
+        ok: kaduseOk(change), ...base, ...kaduseResult(change),
         steps: {
-          O1_stop_new_fetches: [`Disable the catalog entry (${m.lane === 'kaduse-news' ? `kaduse-subscriptions.json targetId=${m.source_id} enabled=false` : `research-sources.json ${m.source_id} -> add ${m.feed_id} to RETIRED_DUPLICATE_FEED_IDS or mark verificationStatus RETIRED`})`, 'node scripts/sync-feeds.mjs (regenerate; never hand-edit feeds.json)', `forward D1 migration: UPDATE source_feeds SET enabled = 0 WHERE id = '${m.feed_id}';`],
+          O1_stop_new_fetches: change.migration ? [`catalog ${change.patch?.field}: ${change.patch?.before} -> ${change.patch?.after}`, 'config/feeds.json regenerated by scripts/sync-feeds.mjs', `forward migration ${change.migration}`] : change.reason,
           O2_inflight: inflight,
           O3_tombstone: 'catalog record stays (identity, URL, role); only enabled/subscription state changes',
           O5_artifacts: artifacts,

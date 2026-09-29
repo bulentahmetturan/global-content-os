@@ -141,7 +141,22 @@ function fakeBridge({ capacity = 'SAFE', violations = [], gatesOverride = null }
   };
 }
 
-const lc = (root, o = {}) => createLifecycle({ root, now: () => NOW, actor: operator, authorize: yes, bridge: fakeBridge(), fetcher: fakeFetcher({}), ...o });
+// Fixture stand-in for scripts/sync-feeds.mjs over the sandbox catalogs (same enabled semantics; R4 pending stays off).
+const PENDING_FIXTURE = new Set(['research-nccih-news']);
+function fixtureSync(dir) {
+  const read = (f) => JSON.parse(readFileSync(join(dir, f), 'utf8'));
+  const subs = read('packages/source-catalog/data/kaduse-subscriptions.json').subscriptions;
+  const targets = read('packages/source-catalog/data/news-registry.json').targets;
+  const research = read('packages/source-catalog/data/research-sources.json');
+  const feeds = [
+    ...research.map((r) => ({ id: `research-${r.sourceId}`, route: 'kaduse-research', enabled: r.verificationStatus !== 'EXCLUDE', endpointUrl: r.canonicalUrl, pollMinutes: 1440 })),
+    ...subs.map((s) => ({ id: `news-${s.targetId}`, route: 'kaduse-news', enabled: s.enabled === true, endpointUrl: targets.find((t) => t.id === s.targetId)?.officialUrl ?? null, pollMinutes: 360 })),
+  ];
+  for (const f of feeds) if (PENDING_FIXTURE.has(f.id)) Object.assign(f, { enabled: false, rules: { activation: 'PENDING_EXPLICIT_DECISION' } });
+  writeFileSync(join(dir, 'config/feeds.json'), JSON.stringify({ feeds }, null, 2));
+  return feeds;
+}
+const lc = (root, o = {}) => createLifecycle({ root, now: () => NOW, actor: operator, authorize: yes, bridge: fakeBridge(), fetcher: fakeFetcher({}), kaduseSync: fixtureSync, ...o });
 const reg = (root, f = 'batch3') => JSON.parse(readFileSync(join(root, `${HEK}/source-registry-${f}.json`), 'utf8'));
 const bytes = (root, f = 'batch3') => readFileSync(join(root, `${HEK}/source-registry-${f}.json`), 'utf8');
 const rec = (root, id, f = 'batch3') => reg(root, f).sources.filter((s) => s.source_id === id);
@@ -240,7 +255,7 @@ test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Hekimler lane 
   assert.equal(k.endpoint.transport, 'RSS');
   assert.equal(k.endpoint.url, feed);
   assert.equal(k.route.lane, 'kaduse-research');
-  assert.equal(k.outcome, 'PLAN_ONLY');
+  assert.equal(k.outcome, 'CHANGE_DRY_RUN');
   assert.equal(k.cadence.evidence.source, 'feed_published');
 
   const h = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { channel: 'hekimler' });
@@ -470,6 +485,67 @@ test('Kaduse (R4 pending) source: validated end to end but PLAN_ONLY -- catalog 
   assert.equal(readFileSync(join(root, 'packages/source-catalog/data/research-sources.json'), 'utf8'), catalogBefore);
 });
 
+test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + deterministic forward migrations, never a remote apply', async () => {
+  const root = sandbox();
+  const subs = () => JSON.parse(readFileSync(join(root, 'packages/source-catalog/data/kaduse-subscriptions.json'), 'utf8')).subscriptions[0].enabled;
+  const feed = () => JSON.parse(readFileSync(join(root, 'config/feeds.json'), 'utf8')).feeds.find((f) => f.id === 'news-who-newsroom-whole');
+
+  const dry = await lc(root).retire('who-newsroom-whole');
+  assert.equal(dry.outcome, 'CHANGE_DRY_RUN');
+  assert.equal(subs(), true);
+  assert.equal(existsSync(join(root, 'migrations')), false);
+
+  const denied = await lc(root, { authorize: undefined }).retire('who-newsroom-whole', { apply: true });
+  assert.equal(denied.outcome, 'DENIED');
+  assert.equal(subs(), true);
+
+  const r = await lc(root).retire('who-newsroom-whole', { apply: true });
+  assert.equal(r.outcome, 'CHANGE_PREPARED', JSON.stringify(r));
+  assert.equal(r.migration, 'migrations/0001_source_lifecycle_retire_who_newsroom_whole.sql');
+  assert.equal(r.remote_applied, false);
+  assert.equal(subs(), false);
+  assert.equal(feed().enabled, false);
+  const sql1 = readFileSync(join(root, r.migration), 'utf8');
+  assert.match(sql1, /INSERT INTO source_feeds \(id, label,[^\n]+\nVALUES \('news-who-newsroom-whole',[^\n]+, 0, /);
+  assert.match(sql1, /ON CONFLICT\(id\) DO UPDATE SET/);
+  assert.doesNotMatch(sql1, /DELETE/i);
+  assert.equal(readFileSync(join(root, 'config/feeds.json'), 'utf8').includes('research-nccih-news'), true, 'other feeds preserved');
+
+  assert.equal((await lc(root).retire('who-newsroom-whole', { apply: true })).outcome, 'ALREADY_RETIRED');
+
+  const back = await lc(root).reactivate('who-newsroom-whole', { apply: true });
+  assert.equal(back.outcome, 'CHANGE_PREPARED', JSON.stringify(back));
+  assert.equal(back.migration, 'migrations/0002_source_lifecycle_reactivate_who_newsroom_whole.sql');
+  assert.equal(subs(), true);
+  assert.equal(feed().enabled, true);
+  assert.match(readFileSync(join(root, back.migration), 'utf8'), /'news-who-newsroom-whole',[^\n]+, 1, /);
+});
+
+test('Kaduse R4 pending feed cannot be activated by retire/reactivate round trip (explicit decision stays in sync-feeds)', async () => {
+  const root = sandbox();
+  const r = await lc(root).reactivate('nccih-news', { apply: true });
+  assert.notEqual(r.outcome, 'CHANGE_PREPARED');
+  assert.equal(existsSync(join(root, 'migrations')), false);
+});
+
+test('new Kaduse source with --apply: catalog record + feeds.json row + forward migration (CHANGE_PREPARED)', async () => {
+  const root = sandbox();
+  const host = 'www.research-inst.org';
+  const page = `https://${host}/news/`;
+  const feedUrl = `https://${host}/news/feed.xml`;
+  const items = Array.from({ length: 12 }, (_, i) => ({ title: `Randomized trial study findings in cohort research ${i}`, url: `https://${host}/news/study-${i}`, date: hoursAgo(1 + i * 6) }));
+  const routes = { [page]: listPage({ host, section: '/news/', lang: 'en', words: 'study research trial', title: 'Research News', alternate: feedUrl }), [feedUrl]: { body: rss(items), contentType: 'application/rss+xml' } };
+  const r = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { apply: true });
+  assert.equal(r.outcome, 'CHANGE_PREPARED', JSON.stringify(r));
+  const research = JSON.parse(readFileSync(join(root, 'packages/source-catalog/data/research-sources.json'), 'utf8'));
+  const added = research.find((x) => x.sourceId === r.catalog_patch.insert);
+  assert.ok(added, 'catalog record inserted');
+  assert.equal(added.verificationStatus, 'PENDING_VERIFICATION');
+  const sql = readFileSync(join(root, r.migration), 'utf8');
+  assert.match(sql, new RegExp(`'research-${r.catalog_patch.insert}'`));
+  assert.equal(r.recommended_cadence_minutes, r.cadence.poll_minutes);
+});
+
 // ---------- RETIRE ------------------------------------------------------------------------------------------------
 
 test('retire active source: fetch disabled, tombstone kept, in-flight held, provenance preserved, other records untouched', async () => {
@@ -643,8 +719,15 @@ test('token-friendly: inspect returns one compact record, never the catalog', ()
 
 test('exactly one guarded canonical write site across the lifecycle modules', () => {
   const dir = dirname(fileURLToPath(import.meta.url));
-  const offenders = readdirSync(dir).filter((f) => f.endsWith('.mjs') && !f.endsWith('.test.mjs') && f !== 'store.mjs').filter((f) => /writeFileSync|appendFileSync|rmSync|unlinkSync/.test(readFileSync(join(dir, f), 'utf8')));
+  // kaduse-change.mjs may write only inside its own OS-temp sandbox (`box`); repo writes go through store.writeCanonicalFiles.
+  const offenders = readdirSync(dir).filter((f) => f.endsWith('.mjs') && !f.endsWith('.test.mjs') && f !== 'store.mjs' && f !== 'kaduse-change.mjs').filter((f) => /writeFileSync|appendFileSync|rmSync|unlinkSync/.test(readFileSync(join(dir, f), 'utf8')));
   assert.deepEqual(offenders, []);
+  const kc = readFileSync(join(dir, 'kaduse-change.mjs'), 'utf8');
+  for (const m of kc.matchAll(/\b(writeFileSync|rmSync|cpSync)\(([^,)]+)/g)) {
+    if (m[1] === 'cpSync') assert.equal(m[2], 'join(root', 'only the repo -> sandbox copy');
+    else assert.match(m[2], /^(join\(box|box$)/, `${m[1]}(${m[2]}) must target the sandbox`);
+  }
+  assert.match(kc, /cpSync\(join\(root, p\), join\(box, p\)/, 'repo -> sandbox copy only');
   const store = readFileSync(join(dir, 'store.mjs'), 'utf8');
   assert.equal((store.match(/writeCanonical\(/g) || []).length, 2, 'one definition + one call');
   assert.doesNotMatch(store, /unlinkSync|rmSync/);

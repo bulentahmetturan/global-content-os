@@ -24,7 +24,13 @@ GCOS is the only source owner. There is no new registry and no new lifecycle enu
 
 `REQUESTED → RESOLVING → VALIDATING → CANARY → READY/ACTIVE` exist only in the trace.
 
-**Write scope:** the Hekimler registries go through `scripts/source-lifecycle/store.mjs`, the only write site. It uses the same guards as `source-actions.mjs`: operator or canonical-owner actor, `authorize() === true`, `apply === true`, and a byte-stable JSON round trip (otherwise `REQUIRES_MANUAL_EDIT`). The Kaduse lanes are **PLAN_ONLY**: the tool fully validates the source, then returns the reviewed steps (catalog edit → `sync-feeds.mjs` → S66 check → D1 migration). Kaduse feeds reach D1 only by migration, so the tool never activates R4, curated-club or `PENDING_EXPLICIT_DECISION` feeds.
+**Write scope:** every repo write goes through `scripts/source-lifecycle/store.mjs` (`writeCanonicalFiles`), the only write site. It uses the same guards as `source-actions.mjs`: operator or canonical-owner actor, `authorize() === true`, `apply === true`, and a byte-stable JSON round trip (otherwise `REQUIRES_MANUAL_EDIT`).
+
+**Kaduse lanes** (`scripts/source-lifecycle/kaduse-change.mjs`): Kaduse feeds reach D1 only by migration, so `add` (new source) / `retire` / `reactivate` with `--apply` run the full gates, then in a disposable sandbox edit the catalog record (news: subscription `enabled`; research: `verificationStatus EXCLUDE` ↔ previous; new: catalog record), regenerate `config/feeds.json` with `sync-feeds.mjs`, and derive the next forward migration `migrations/NNNN_source_lifecycle_<op>_<id>.sql` from the feeds diff (upsert of catalog-owned columns only; never DELETE). The result is `CHANGE_PREPARED` with a `review_gate`: commit, local `wrangler d1 migrations apply --local`, then remote apply only with explicit authorization. The operator never writes migrations or config by hand. Registered-but-pending feeds (R4, curated-club, `PENDING_ACTIVATION_FEED_IDS` / `RETIRED_DUPLICATE_FEED_IDS` in `sync-feeds.mjs`) stay `PLAN_ONLY`/`NO_CHANGE`: activating them is an explicit decision, never a lifecycle apply.
+
+## Name-only requests ("add <name>")
+
+Catalog-known names resolve automatically. For an unknown name the tool returns `NEEDS_USER_DECISION / IDENTITY_UNRESOLVED` (exit 3) and never guesses a publisher URL. The operating agent then resolves it itself: web-search the name, take the publisher's own official domain (not an aggregator, mirror or social page), and re-run `add "<name>" --url <official URL>`. The user is asked only if the search yields no official domain or more than one plausible publisher.
 
 ## Add: gates
 
@@ -71,9 +77,6 @@ O7 `purge-plan` is a separate command that returns a dry-run dependency/FK repor
 - One source per operation; the tool never bulk-enables anything.
 - Observability (no new store): `hekimler_source_telemetry`, `report/scheduler-state.json` + `run-report.json`, `source_items`/`decided_links`, `editorial_decisions`/`review_feedback`, `source_revalidation`, `hekimler_ops.py status|capacity`.
 
-## Post-freeze integration
+## Verification
 
-1. Merge `feature/source-lifecycle-orchestrator` after `SYSTEM_V1=FROZEN`. It adds files and makes one additive export change to `scripts/registry-find.mjs` (`storesAt`, `findAt`, `records`).
-2. Run `node scripts/source-lifecycle/orchestrator.test.mjs`, `python -m pytest adapters/hekimler-radar/tests/test_hekimler_lifecycle_bridge.py`, `npm run production:check` and `node scripts/check-router-links.mjs`.
-3. No migration, no env/secret, no endpoint. The Kaduse PLAN_ONLY path produces per-source forward migrations only when an operator activates or retires a Kaduse feed.
-4. For real capacity answers, point `--history` at the runner's `run-report.json` artifacts. Without history the guard returns CAUTION, so nothing auto-activates.
+`node --test scripts/source-lifecycle/orchestrator.test.mjs`, `python -m pytest adapters/hekimler-radar/tests/test_hekimler_lifecycle_bridge.py`, `npm run production:check`, `node scripts/check-router-links.mjs`. For real capacity answers, point `--history` at the runner's `run-report.json` artifacts; without history the guard returns CAUTION, so nothing auto-activates.

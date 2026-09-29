@@ -1,7 +1,8 @@
 // The ONLY lifecycle write path into canonical source truth (Hekimler source-registry-*.json), plus the trace log.
 // Guards (same shape as scripts/source-actions.mjs): operator/canonical-owner actor, `authorize` returning exactly
 // true (fail closed), `apply === true`, and a byte-stable JSON round trip -- otherwise REQUIRES_MANUAL_EDIT + patch.
-// Kaduse catalog stores are never written here (their activation is a reviewed commit + D1 migration).
+// Kaduse catalog stores are written only as a prepared change (catalog + feeds.json + forward migration file); the D1
+// migration is never applied from here -- remote apply is the review/authorization gate.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
@@ -45,11 +46,23 @@ export function commitCanonical({ root, file, mutate, apply = false, actor, auth
   const auth = authorizeLifecycle({ actor, authorize, op });
   if (!auth.ok) return { outcome: 'DENIED', file, patch, ...auth };
   if (!reg.stable) return { outcome: 'REQUIRES_MANUAL_EDIT', file, patch, reason: 'file is not byte-stable under JSON round trip' };
-  writeCanonical(join(root, file), (JSON.stringify(reg.data, null, 2) + (reg.trailing ? '\n' : '')).split('\n').join(reg.eol));
+  writeCanonicalFiles(root, [{ file, text: (JSON.stringify(reg.data, null, 2) + (reg.trailing ? '\n' : '')).split('\n').join(reg.eol) }]);
   return { outcome: 'APPLIED', file, patch };
 }
 
+// Kaduse lanes: catalog JSON, the regenerated config/feeds.json and the new forward migration (kaduse-change.mjs).
+const KADUSE_WRITABLE = /^(packages\/source-catalog\/data\/[a-z-]+\.json|config\/feeds\.json|migrations\/\d{4}_source_lifecycle_[a-z0-9_]+\.sql)$/;
+
+/** The single repo write path. Callers must have passed authorizeLifecycle and apply === true. */
+export function writeCanonicalFiles(root, writes) {
+  for (const w of writes) {
+    if (!w.file.startsWith('adapters/hekimler-radar/content/source-registry-') && !KADUSE_WRITABLE.test(w.file)) throw new Error(`not a lifecycle-writable path: ${w.file}`);
+    writeCanonical(join(root, w.file), w.text);
+  }
+}
+
 function writeCanonical(abs, text) {
+  mkdirSync(dirname(abs), { recursive: true });
   writeFileSync(abs, text);
 }
 
