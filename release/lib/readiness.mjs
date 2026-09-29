@@ -146,6 +146,15 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
   const ccosVer = /APPROVED_BRIEF_CONTRACT_VERSION\s*=\s*'([^']+)'/.exec(tryRead(R(repos.ccos, 'mcp-server/src/handoff/approved-brief.ts')) ?? '')?.[1] ?? null;
   checks.push(check('CONTRACTS', 'contract_version', ccosVer ? 'PASS' : 'FAIL', `approved_brief contractVersion=${ccosVer ?? 'not found'}`, ccosVer ? {} : { why: WHY.contract_parity, next: 'contract version constant missing in CCOS' }));
 
+  const vocabG = tryRead(R(repos.gcos, 'packages/contracts/research-vocabulary.json'));
+  const vocabC = tryRead(R(repos.ccos, 'mcp-server/src/handoff/contract/research-vocabulary.json'));
+  const vocabSame = vocabG !== null && vocabC !== null && vocabG.split('
+').join('
+') === vocabC.split('
+').join('
+');
+  checks.push(check('CONTRACTS', 'research_vocabulary_parity', vocabSame ? 'PASS' : 'FAIL', vocabSame ? 'research vocabulary: GCOS canonical == CCOS vendored copy' : 'research vocabulary missing or differs between GCOS canonical and CCOS copy', vocabSame ? {} : { why: WHY.contract_parity, next: 'copy packages/contracts/research-vocabulary.json into the CCOS contract dir and regenerate (scripts/gen-research-vocabulary.mjs)' }));
+
   // SCHEDULER
   const cronOk = gcosWr && gcosWr.crons.length > 0;
   checks.push(check('SCHEDULER', 'scheduler_cron', cronOk ? 'PASS' : 'FAIL', cronOk ? `GCOS cron: ${gcosWr.crons.join(', ')}` : 'GCOS has no cron trigger', cronOk ? {} : { why: WHY.scheduler, next: 'declare [triggers] crons in wrangler.toml' }));

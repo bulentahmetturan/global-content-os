@@ -1,0 +1,18 @@
+{
+  "$comment": "CANONICAL research/claim vocabulary shared by global-content-os (source acquisition) and channel-content-os (post-approval claim routing). Owner: global-content-os/packages/contracts. channel-content-os holds a byte-checked vendored copy and GENERATES its TypeScript enums from it (scripts/gen-research-vocabulary.mjs) -- never hand-maintain these lists in two places.",
+  "version": 1,
+  "accessLevel": ["OPEN_FULL_TEXT", "OPEN_ABSTRACT_ONLY", "PARTIAL_PUBLIC_RESULTS", "PAYWALLED_WITH_USABLE_ABSTRACT", "INSUFFICIENT_PUBLIC_INFORMATION"],
+  "peerReviewStatus": ["PEER_REVIEWED", "PREPRINT", "UNKNOWN"],
+  "integrityStatus": ["OK", "RETRACTED", "CORRECTED", "EXPRESSION_OF_CONCERN", "UNKNOWN"],
+  "researchSourceRole": [
+    "RESEARCH_INDEX",
+    "BIBLIOGRAPHIC_METADATA",
+    "PUBLICATION_INTEGRITY",
+    "OPEN_FULL_TEXT",
+    "SYSTEMATIC_EVIDENCE",
+    "TRIAL_REGISTRY",
+    "PRIMARY_RESEARCH_PUBLISHER",
+    "ACCESSIBLE_SCIENCE_MEDIA",
+    "ATTENTION_METRIC"
+  ]
+}

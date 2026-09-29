@@ -70,6 +70,7 @@ const testFiles = [
   ...findTestFiles(rel('apps/worker/src')),
   ...findTestFiles(rel('apps/hub')),
   ...findTestFiles(rel('scripts')),
+  ...findTestFiles(rel('packages/contracts')),
 ];
 for (const f of testFiles) {
   try {
