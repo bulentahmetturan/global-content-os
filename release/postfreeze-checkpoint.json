@@ -1,0 +1,32 @@
+{
+  "note": "Recovery checkpoint taken before any Post-Freeze production change (migrations, secrets, deploys). Frozen reference remains tag system-v1-frozen in both repos.",
+  "takenAt": "2026-09-30T01:22+03:00",
+  "gcos": {
+    "worker": "global-content-os",
+    "activeVersion": "fcd168f4-8955-4bdc-b308-0e1834ddae6d",
+    "frozenSha": "b6c632b8a31e57e1fd90d4311f1f24e5372c6564",
+    "d1": "global-content-os",
+    "d1Bookmark": "000001e5-00000000-000050f5-caa63bf89148a80bc1f0da7c2f1d1448",
+    "schemaMigration": "0024_source_revalidation.sql",
+    "rollback": [
+      "npx wrangler rollback fcd168f4-8955-4bdc-b308-0e1834ddae6d",
+      "npx wrangler d1 time-travel restore global-content-os --bookmark=000001e5-00000000-000050f5-caa63bf89148a80bc1f0da7c2f1d1448"
+    ]
+  },
+  "ccos": {
+    "worker": "channel-content-os",
+    "activeVersion": "790ca0df-917a-4a64-9432-cb05ecff8814",
+    "frozenSha": "4c312eaf972325f67d2f155f8328049591f15f94",
+    "d1": "channel_content_os",
+    "d1Bookmark": "000000c6-00000000-000050f5-187f3f581802d83e8169becd0f1e2277",
+    "schemaLineage": "040",
+    "rollback": [
+      "cd mcp-server && npx wrangler rollback 790ca0df-917a-4a64-9432-cb05ecff8814",
+      "cd mcp-server && npx wrangler d1 time-travel restore channel_content_os --bookmark=000000c6-00000000-000050f5-187f3f581802d83e8169becd0f1e2277"
+    ]
+  },
+  "secretNames": {
+    "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
+    "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
+  }
+}
