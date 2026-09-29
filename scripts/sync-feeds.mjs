@@ -1,31 +1,32 @@
 /**
  * Sync all registered sources into config/feeds.json for Global Content OS.
  * Sources of truth (not invented here):
- * - multi_channel_design/.../news-sources.json + channel-content-os global-source-registry.ts
- * - channel-content-os research/source-registry.ts
- * - tip-ogrencileri-platformu/sources/official_sources.yaml
+ * Sources of truth (ADR-0004: RUNTIME registries are local to this repo; only channel POLICY is external):
+ * - external policy: multi_channel_design/.../news-sources.json (which sources Kaduse subscribes to)
+ * - local runtime: packages/source-catalog/src/news/global-source-registry.ts
+ * - local runtime: packages/source-catalog/src/research/source-registry.ts
+ * - local runtime: adapters/hekimler-radar/sources/official_sources.yaml
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const mcd = path.join(root, '..', 'multi_channel_design');
-const ccos = path.join(root, '..', 'channel-content-os');
+const mcd = path.join(root, '..', 'multi_channel_design'); // external canonical policy repo (sibling checkout)
 
 const news = JSON.parse(
   fs.readFileSync(path.join(mcd, 'channels/kaduse-medikal/content/news-sources.json'), 'utf8')
 );
 const registryTs = fs.readFileSync(
-  path.join(ccos, 'mcp-server/src/news/global-source-registry.ts'),
+  path.join(root, 'packages/source-catalog/src/news/global-source-registry.ts'),
   'utf8'
 );
 const researchTs = fs.readFileSync(
-  path.join(ccos, 'mcp-server/src/research/source-registry.ts'),
+  path.join(root, 'packages/source-catalog/src/research/source-registry.ts'),
   'utf8'
 );
 const tipYaml = fs.readFileSync(
-  path.join(mcd, 'channels/tip-ogrencileri-platformu/sources/official_sources.yaml'),
+  path.join(root, 'adapters/hekimler-radar/sources/official_sources.yaml'),
   'utf8'
 );
 
@@ -229,6 +230,19 @@ const tipAdapterFeed = {
 };
 
 const feeds = [tipAdapterFeed, ...newsFeeds, ...researchFeeds, ...tipFeeds];
+
+// Same publisher already listed under Hekimler Duyuru (or Haber for MNT). Do not resurrect on sync.
+// (Carried over from the 2026-09-29 18:09 gcos stash; without it a regeneration re-enables these.)
+const RETIRED_DUPLICATE_FEED_IDS = new Set([
+  'news-hsgm-news-scoped',
+  'news-resmi-gazete-health-scoped',
+  'news-titck-general-regulatory',
+  'news-tuik-saglik-sosyal-koruma',
+  'research-medical-news-today',
+]);
+for (const f of feeds) {
+  if (RETIRED_DUPLICATE_FEED_IDS.has(f.id)) f.enabled = false;
+}
 
 const out = {
   schemaVersion: '1.1.0',

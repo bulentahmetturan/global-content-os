@@ -1,10 +1,12 @@
 import json
+import sys
 from pathlib import Path
 
+# adapters/hekimler-radar/scripts/ -> adapters/hekimler-radar/ (no machine-specific absolute paths)
+RADAR_ROOT = Path(__file__).resolve().parents[1]
+
 d = json.loads(
-    Path(r"C:\Users\W11\Desktop\projects\global-content-os\adapters\hekimler-radar\content\archive\_source_list_audit.json").read_text(
-        encoding="utf-8"
-    )
+    (RADAR_ROOT / "content" / "archive" / "_source_list_audit.json").read_text(encoding="utf-8")
 )
 rows = [{k: r[k] for k in ("category", "id", "name", "verdict", "why")} for r in d["rows"]]
 for r in rows:
@@ -148,6 +150,11 @@ body = (
     + mid
 )
 
-out = Path(r"C:\Users\W11\.cursor\projects\c-Users-W11-Desktop-projects-channel-content-os\canvases\five-category-source-audit.canvas.tsx")
+# Optional first argument: output path (e.g. an editor canvases directory). Default stays in the repo.
+out = (
+    Path(sys.argv[1])
+    if len(sys.argv) > 1
+    else RADAR_ROOT / "content" / "archive" / "five-category-source-audit.canvas.tsx"
+)
 out.write_text(body, encoding="utf-8")
 print("wrote", out, out.stat().st_size)

@@ -1,18 +1,38 @@
-# Tip radar adapter
+# Tip radar adapter — LEGACY / MIGRATION COMPATIBILITY ONLY
 
-Does **not** rewrite or replace `multi_channel_design/channels/tip-ogrencileri-platformu/radar/`.
+> **Not a canonical runtime.** The canonical Hekimler runtime is
+> [`../hekimler-radar/`](../hekimler-radar/) (ADR-0004, `multi_channel_design`).
+> This directory is a thin local push helper kept only for compatibility.
 
-1. Tip radar continues to fetch/analyze into its own `radar.sqlite`
-2. This adapter reads `candidates` with `status=review`
-3. POSTs to Global Content OS `POST /api/ingress/tip`
+## Why it still exists
+
+The Hekimler radar used to live in `multi_channel_design/channels/tip-ogrencileri-platformu/radar/`
+and wrote a local `radar.sqlite`; this adapter pushed its `status=review` candidates to the Hub. That radar
+now lives in `adapters/hekimler-radar/` and pushes through its own bridge, so this helper is only a local
+development convenience.
+
+## What still consumes the name `tip-radar`
+
+| Consumer | Kind | Note |
+| --- | --- | --- |
+| `package.json` script `ingest:tip` -> `adapters/tip-radar/push-to-hub.mjs` | local dev command | not used in production |
+| `scripts/sync-feeds.mjs` stamps `adapter: 'adapters/tip-radar'` on 729 tip feed rows in `config/feeds.json` and on feed `tip-radar-adapter` | metadata label | no worker code reads `rules.adapter` (verified by grep of `apps/worker/src`) |
+| Worker ingress `POST /api/ingress/tip` (`apps/worker/src/ingress/tip-radar.ts`) and D1 feed id `tip-radar-adapter` | production plumbing | **kept**: historical name, renaming it is a D1 data migration; Hekimler ingestion depends on it |
+
+## Exact removal condition
+
+Delete `adapters/tip-radar/` and the `ingest:tip` script only after all of these hold:
+
+1. `scripts/sync-feeds.mjs` labels tip feeds with `adapters/hekimler-radar` and `config/feeds.json` is regenerated.
+2. The regenerated feed rules are synced to remote D1 (`source_feeds.rules_json`) and verified.
+3. Nothing reads `tip-radar` as an adapter path (`grep -r "adapters/tip-radar"` finds only history).
+
+The ingress route/feed id `tip-radar-adapter` is out of scope for this removal (separate D1 migration).
+
+## Usage (local development only)
 
 ```bash
-# dry-run
 python adapters/tip-radar/push_to_hub.py --dry-run
-
-# push to local Hub
-pnpm ingest:tip
-# or
 python adapters/tip-radar/push_to_hub.py --hub http://127.0.0.1:8787 --limit 50
 ```
 

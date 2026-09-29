@@ -20,9 +20,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-DEFAULT_DB = Path(__file__).resolve().parents[3] / "multi_channel_design" / "channels" / "tip-ogrencileri-platformu" / "database" / "radar.sqlite"
-# When this adapter lives inside global-content-os, sibling is ../multi_channel_design
-SIBLING_DB = Path(__file__).resolve().parents[2].parent / "multi_channel_design" / "channels" / "tip-ogrencileri-platformu" / "database" / "radar.sqlite"
+# Radar engine + SQLite live beside this adapter in Global Content OS.
+DEFAULT_DB = Path(__file__).resolve().parents[1] / "hekimler-radar" / "database" / "radar.sqlite"
 
 
 def resolve_db(explicit: str | None) -> Path:
@@ -31,11 +30,9 @@ def resolve_db(explicit: str | None) -> Path:
     env = os.environ.get("RADAR_DB_PATH")
     if env:
         return Path(env)
-    if SIBLING_DB.exists():
-        return SIBLING_DB
     if DEFAULT_DB.exists():
         return DEFAULT_DB
-    raise SystemExit(f"radar.sqlite not found. Tried {SIBLING_DB} and {DEFAULT_DB}")
+    raise SystemExit(f"radar.sqlite not found. Tried {DEFAULT_DB} (or set RADAR_DB_PATH)")
 
 
 def load_candidates(db_path: Path, status: str, limit: int) -> list[dict]:
