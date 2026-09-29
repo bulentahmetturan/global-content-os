@@ -1,7 +1,8 @@
 # Release Runbook — Production Readiness & Final Cutover (Package 7)
 
-Status: **PREPARED, NOT EXECUTED.** Nothing here has been run against production. Final cutover happens only after
-P2–P6 reconciliation and explicit user authorization. Machine-readable parts live in `release/`
+Status: **EXECUTED 2026-09-29 (SYSTEM_V1 cutover and freeze).** Deployed state and record: `docs/CURRENT.md`,
+`release/manifest.json`; CCOS remote D1 has migration 040, CCOS migration 041 is prepared but not applied. Sections 3 and 9
+are kept as the procedure for the next cutover; re-running them needs explicit user authorization. Machine-readable parts live in `release/`
 (`preflight.mjs`, `rollback.json`, `health-model.json`, `checklist.json`, `manifest.template.json`, `smoke/`, `e2e/`).
 
 ## 1. Ask the system: is it ready?
@@ -130,8 +131,8 @@ node -e "import('./release/lib/manifest.mjs').then(m=>console.log(m.validateMani
 # rollback: see section 7 / release/rollback.json
 ```
 
-Note: migration 040 is applied with `d1 execute --file` because CCOS has no `migrations_dir`; its remote applied state is unknown until
-an operator exports a read-only list.
+Note: migration 040 is applied with `d1 execute --file` because CCOS has no `migrations_dir`; it was applied at the 2026-09-29 cutover (`@ccos/docs/CURRENT.md`).
+The same applies to 041 when it is authorized.
 
 ## 10. Pending decisions that are NOT release blockers
 

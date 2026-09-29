@@ -75,4 +75,4 @@ Global Hub promote → approved_brief → CCOS (design/render)
 CCOS status callback → Global Hub production_status
 ```
 
-CCOS `/api/candidates` and job-review are untouched. CCOS now has a real ingest endpoint (`POST /api/handoff/approved-brief`); see `docs/approved-brief-handoff.md` for the contract, auth, idempotency and the external steps to go live.
+CCOS `/api/candidates` and job-review are untouched. CCOS now has a real ingest endpoint (`POST /api/handoff/approved-brief`); see `docs/approved-brief-handoff.md` for the contract, auth and idempotency. The handoff is live (`CCOS_HANDOFF_STUB=false`, `docs/CURRENT.md`).

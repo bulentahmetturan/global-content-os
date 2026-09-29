@@ -1,7 +1,8 @@
 # Tip radar adapter — LEGACY / MIGRATION COMPATIBILITY ONLY
 
 > **Not a canonical runtime.** The canonical Hekimler runtime is
-> [`../hekimler-radar/`](../hekimler-radar/) (ADR-0004, `multi_channel_design`).
+> [`../hekimler-radar/`](../hekimler-radar/) (ADR-0004, now in `channel-content-os/docs/decisions/`;
+> `multi_channel_design` was merged there by ADR-0005).
 > This directory is a thin local push helper kept only for compatibility.
 
 ## Why it still exists
