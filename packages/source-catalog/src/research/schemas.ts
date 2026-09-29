@@ -120,38 +120,6 @@ export const ResearchPoolStatusSchema = z.enum([
 ]);
 export type ResearchPoolStatus = z.infer<typeof ResearchPoolStatusSchema>;
 
-// Section 36: claim locators must never overstate what was actually read.
-export const ClaimLocatorSchema = z.enum([
-  'ABSTRACT_BACKGROUND',
-  'ABSTRACT_METHODS',
-  'ABSTRACT_RESULTS',
-  'ABSTRACT_CONCLUSION',
-  'FULL_TEXT_METHODS',
-  'FULL_TEXT_RESULTS',
-  'TABLE',
-  'FIGURE',
-  'DISCUSSION',
-  'LIMITATIONS',
-  'SUPPLEMENT',
-]);
-export type ClaimLocator = z.infer<typeof ClaimLocatorSchema>;
-
-// Section 35: NO "PRICE"/"DIAGNOSIS"/"CAUSATION" claim type exists --
-// structurally, a Research claim can only ever be a reported finding.
-export const ResearchClaimTypeSchema = z.enum(['REPORTED_FINDING', 'STUDY_DESIGN_FACT', 'SAMPLE_FACT', 'CONCLUSION_AS_STATED']);
-export type ResearchClaimType = z.infer<typeof ResearchClaimTypeSchema>;
-
-// Which locators are legitimately reachable at each access level (section 22:
-// claim scope must match access scope). FULL_TEXT_* locators require actual
-// full-text access; abstract-only papers may cite ABSTRACT_* only.
-export const ACCESS_LEVEL_ALLOWED_LOCATORS: Record<AccessLevel, ClaimLocator[]> = {
-  OPEN_FULL_TEXT: ['ABSTRACT_BACKGROUND', 'ABSTRACT_METHODS', 'ABSTRACT_RESULTS', 'ABSTRACT_CONCLUSION', 'FULL_TEXT_METHODS', 'FULL_TEXT_RESULTS', 'TABLE', 'FIGURE', 'DISCUSSION', 'LIMITATIONS', 'SUPPLEMENT'],
-  PARTIAL_PUBLIC_RESULTS: ['ABSTRACT_BACKGROUND', 'ABSTRACT_METHODS', 'ABSTRACT_RESULTS', 'ABSTRACT_CONCLUSION', 'FULL_TEXT_RESULTS'],
-  OPEN_ABSTRACT_ONLY: ['ABSTRACT_BACKGROUND', 'ABSTRACT_METHODS', 'ABSTRACT_RESULTS', 'ABSTRACT_CONCLUSION'],
-  PAYWALLED_WITH_USABLE_ABSTRACT: ['ABSTRACT_BACKGROUND', 'ABSTRACT_METHODS', 'ABSTRACT_RESULTS', 'ABSTRACT_CONCLUSION'],
-  INSUFFICIENT_PUBLIC_INFORMATION: [],
-};
-
 export const ResearchPaperIdentitySchema = z.object({
   paperId: z.string(), // canonical internal id -- normalized DOI when present, else PMID/PMCID
   doi: z.string().nullable(),
@@ -162,21 +130,6 @@ export const ResearchPaperIdentitySchema = z.object({
   publicationDate: z.string(), // actual publication date -- never fabricated, never implied-recent for historical finds
 });
 export type ResearchPaperIdentity = z.infer<typeof ResearchPaperIdentitySchema>;
-
-export const ResearchClaimSchema = z.object({
-  claim: z.string().min(1),
-  claimType: ResearchClaimTypeSchema,
-  paperId: z.string(),
-  sourceId: z.string(),
-  sourceRole: ResearchSourceRoleSchema,
-  sourceUrl: z.string().url(),
-  locator: ClaimLocatorSchema,
-  verifiedAt: z.string(),
-});
-export type ResearchClaim = z.infer<typeof ResearchClaimSchema>;
-
-export const ResearchEvidenceStatusSchema = z.enum(['UNVERIFIED', 'VERIFIED', 'BLOCKED', 'INSUFFICIENT_EVIDENCE']);
-export type ResearchEvidenceStatus = z.infer<typeof ResearchEvidenceStatusSchema>;
 
 // Section 40/41/42/43/44. RESEARCH_PUBLICATION_EVENT and
 // HISTORICAL_RESEARCH_DISCOVERY are deliberately distinct (never collapsed

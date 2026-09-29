@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { researchSourceRegistry, getSource, getSourcesByRole, computeSourceCounts } from './source-registry.js';
-import { validateClaim, checkIntegrityGate, checkPeerReviewLabel, resolveEvidenceStatus } from './claim-routing.js';
 import { resolvePaperKey, deduplicatePool, resolvePoolStatus, computeContentMixReport } from './research-pool.js';
 import { globalNewsSourceRegistry } from '../news/global-source-registry.js';
-import type { ResearchClaim, ResearchPaperIdentity, ResearchPoolRecord } from './schemas.js';
+import type { ResearchPaperIdentity, ResearchPoolRecord } from './schemas.js';
 
 describe('Research source registry (Batch R1)', () => {
   it('65. source roles: PubMed/Europe PMC are RESEARCH_INDEX', () => {
@@ -100,52 +99,6 @@ describe('Research source registry (Batch R1)', () => {
 
   it('getSourcesByRole resolves the PRIMARY_RESEARCH_PUBLISHER set (not an exclusive whitelist -- just a discovery aid)', () => {
     expect(getSourcesByRole('PRIMARY_RESEARCH_PUBLISHER').length).toBeGreaterThanOrEqual(15);
-  });
-});
-
-describe('Research claim routing / access-scope discipline (Batch R1)', () => {
-  const pubmed = getSource('pubmed-eutilities')!;
-
-  function claim(locator: ResearchClaim['locator'], text = 'A study finding.'): ResearchClaim {
-    return { claim: text, claimType: 'REPORTED_FINDING', paperId: 'doi:10.1/example', sourceId: pubmed.sourceId, sourceRole: pubmed.sourceRole, sourceUrl: pubmed.canonicalUrl, locator, verifiedAt: '2026-09-05' };
-  }
-
-  it('60. PAYWALLED_WITH_USABLE_ABSTRACT: an abstract-scoped claim is valid', () => {
-    const result = validateClaim(claim('ABSTRACT_RESULTS'), 'PAYWALLED_WITH_USABLE_ABSTRACT');
-    expect(result.ok).toBe(true);
-  });
-
-  it('60. PAYWALLED_WITH_USABLE_ABSTRACT: a full-text-scoped claim is rejected -- claim scope cannot exceed access scope', () => {
-    const result = validateClaim(claim('FULL_TEXT_RESULTS'), 'PAYWALLED_WITH_USABLE_ABSTRACT');
-    expect(result.ok).toBe(false);
-    expect(result.reason).toMatch(/not reachable/);
-  });
-
-  it('61. INSUFFICIENT_PUBLIC_INFORMATION: no claim of any kind is valid', () => {
-    const result = validateClaim(claim('ABSTRACT_RESULTS'), 'INSUFFICIENT_PUBLIC_INFORMATION');
-    expect(result.ok).toBe(false);
-    expect(resolveEvidenceStatus([claim('ABSTRACT_RESULTS')], 'INSUFFICIENT_PUBLIC_INFORMATION', 'OK')).toBe('INSUFFICIENT_EVIDENCE');
-  });
-
-  it('64. a RETRACTED paper is structurally blocked regardless of otherwise-valid claims', () => {
-    expect(checkIntegrityGate('RETRACTED').ok).toBe(false);
-    expect(resolveEvidenceStatus([claim('ABSTRACT_RESULTS')], 'OPEN_FULL_TEXT', 'RETRACTED')).toBe('BLOCKED');
-  });
-
-  it('64. a PREPRINT can never be labeled peer reviewed', () => {
-    expect(checkPeerReviewLabel('PREPRINT', true).ok).toBe(false);
-    expect(checkPeerReviewLabel('PREPRINT', false).ok).toBe(true);
-    expect(checkPeerReviewLabel('PEER_REVIEWED', true).ok).toBe(true);
-  });
-
-  it('resolveEvidenceStatus: VERIFIED only when every claim is within access scope and integrity is OK', () => {
-    expect(resolveEvidenceStatus([claim('ABSTRACT_RESULTS')], 'OPEN_FULL_TEXT', 'OK')).toBe('VERIFIED');
-    expect(resolveEvidenceStatus([], 'OPEN_FULL_TEXT', 'OK')).toBe('UNVERIFIED');
-  });
-
-  it('67. no legitimate claimType exists for causal language conversion -- structural safety', () => {
-    const claimTypes = ['REPORTED_FINDING', 'STUDY_DESIGN_FACT', 'SAMPLE_FACT', 'CONCLUSION_AS_STATED'];
-    expect(claimTypes.includes('CAUSAL_PROOF' as any)).toBe(false);
   });
 });
 

@@ -4,7 +4,6 @@
 // localhost directly; only ELIGIBLE pool records may become a candidate.
 // Pure, deterministic functions only -- no opaque ML ranking (section 46).
 import type { IntegrityStatus, ResearchPaperIdentity, ResearchPoolRecord, ResearchPoolStatus } from './schemas.js';
-import { checkIntegrityGate } from './claim-routing.js';
 
 // Identity resolution (section 24): DOI > PMID > PMCID > normalized-title
 // fallback, so the same paper indexed by both PubMed and Europe PMC
@@ -40,7 +39,8 @@ export function resolvePoolStatus(record: {
   isEditoriallyRelevant: boolean;
 }): ResearchPoolStatus {
   if (record.isDuplicate) return 'DUPLICATE';
-  if (!checkIntegrityGate(record.integrityStatus).ok) return 'INTEGRITY_BLOCKED';
+  // Hard rule (section 12/64): a RETRACTED paper is never eligible for a normal Research post.
+  if (record.integrityStatus === 'RETRACTED') return 'INTEGRITY_BLOCKED';
   if (!record.hasSufficientEvidence) return 'INSUFFICIENT_EVIDENCE';
   if (!record.isEditoriallyRelevant) return 'NOT_EDITORIALLY_RELEVANT';
   return 'ELIGIBLE';
