@@ -32,15 +32,9 @@ CCOS now exposes the ingest endpoint (see `docs/approved-brief-handoff.md`): aft
 npx wrangler deploy
 ```
 
-Cron Triggers in `wrangler.toml`:
+Cron Trigger in `wrangler.toml`: one `* * * * *` tick; `apps/worker/src/scheduled-jobs.ts` decides which jobs run on each tick. Schedule and CPU budget: `docs/continuous-flow.md`, `docs/cron-capacity-report.md`.
 
-| Cron | Intent |
-|------|--------|
-| `0 * * * *` | WHO news poll |
-| `15 */6 * * *` | Europe PMC research batch |
-| `30 */2 * * *` | Tip adapter reminder log (push still via `adapters/tip-radar`) |
-
-Tip radar cannot run inside the Worker (local SQLite). Schedule `python adapters/tip-radar/push_to_hub.py` on a machine/CI that can read `radar.sqlite`, or later replace with an R2/upload path.
+The Hekimler radar is Python and runs outside the Worker (`.github/workflows/hekimler-python-runner.yml`). `adapters/tip-radar/` is legacy migration compatibility only.
 
 ## Git vs live data
 
