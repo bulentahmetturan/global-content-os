@@ -11,9 +11,16 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { find } from './registry-find.mjs';
+import { findAt } from './registry-find.mjs';
+import { LANES } from './source-lifecycle/model.mjs';
+import { LADDER, LANE_POLICY } from './source-lifecycle/cadence.mjs';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+// The Hekimler scheduler (radar/hekimler_activation.py is_due_for_fetch) reads only this field; legacy `poll_minutes`
+// keys on some records are history and are never written.
+export const CADENCE_FIELD = LANES.hekimler.cadenceField;
+const CADENCE_PATH = CADENCE_FIELD.split('.');
+const CADENCE_BOUNDS = LANE_POLICY.hekimler;
 
 export const SOURCE_ACTIONS = ['disable', 'revalidate', 'change_url', 'change_cadence', 'parser_review', 'classification_review'];
 // PROPOSED_ADJUSTMENT.action (feedback schema) -> owner action implemented here
@@ -40,8 +47,11 @@ export function validateRequest({ feedback, action, params = {}, owner, authoriz
   const proposed = feedback.proposed_adjustment?.action;
   if (proposed && ADJUSTMENT_TO_ACTION[proposed] !== action) return deny('ACTION_MISMATCH', `proposal ${proposed} != ${action}`);
   if (action === 'change_url' && !HTTPS_URL.test(String(params.url ?? ''))) return deny('INVALID_PARAMS', 'https url required');
-  if (action === 'change_cadence' && !(Number.isInteger(params.poll_minutes) && params.poll_minutes >= 60 && params.poll_minutes <= 129600)) {
-    return deny('INVALID_PARAMS', 'poll_minutes integer 60..129600 required');
+  if (action === 'change_cadence') {
+    const m = params.poll_minutes;
+    if (!(Number.isInteger(m) && m >= CADENCE_BOUNDS.min && m <= CADENCE_BOUNDS.max && LADDER.includes(m))) {
+      return deny('INVALID_PARAMS', `poll_minutes must be a ladder step within ${CADENCE_BOUNDS.min}..${CADENCE_BOUNDS.max}`);
+    }
   }
   return { ok: true };
 }
@@ -49,24 +59,26 @@ export function validateRequest({ feedback, action, params = {}, owner, authoriz
 function patchFor(action, record, params) {
   if (action === 'disable') return { field: 'runtime_activation', before: record.runtime_activation ?? null, after: 'BLOCKED' };
   if (action === 'change_url') return { field: 'source_url', before: record.source_url ?? null, after: params.url };
-  return { field: 'poll_minutes', before: record.poll_minutes ?? null, after: params.poll_minutes };
+  const plan = record[CADENCE_PATH[0]];
+  const before = plan && typeof plan === 'object' ? plan[CADENCE_PATH[1]] ?? null : undefined;
+  return { field: CADENCE_FIELD, before, after: params.poll_minutes };
 }
 
 /** Returns a result object; never throws for expected refusals. `apply` must be exactly true to write. */
 export function performSourceAction(req) {
   const v = validateRequest(req);
   if (!v.ok) return v;
-  const { feedback, action, apply = false } = req;
+  const { feedback, action, apply = false, root = repoRoot } = req;
   const base = { action, source_id: feedback.subject_id, feedback_id: feedback.feedback_id };
   if (!EDIT_ACTIONS.has(action)) {
     // revalidate / parser_review / classification_review are work items for the owner's existing tooling; no registry edit.
     return { ok: true, ...base, outcome: 'REVIEW_TASK_RECORDED', edits_registry: false };
   }
-  const hits = find(feedback.subject_id).filter((h) => h.file.startsWith('adapters/hekimler-radar/content/source-registry-'));
+  const hits = findAt(root, feedback.subject_id).filter((h) => h.file.startsWith('adapters/hekimler-radar/content/source-registry-'));
   if (hits.length !== 1) return deny(hits.length ? 'AMBIGUOUS_RECORD' : 'RECORD_NOT_FOUND', `${hits.length} canonical Hekimler record(s)`);
   const hit = hits[0];
   const patch = patchFor(action, hit.record, req.params ?? {});
-  if (action === 'change_cadence' && patch.before === null) return deny('UNSUPPORTED_FOR_RECORD', 'record has no poll_minutes');
+  if (action === 'change_cadence' && patch.before === undefined) return deny('UNSUPPORTED_FOR_RECORD', 'record has no fetch_plan');
   const result = { ok: true, ...base, file: hit.file, path: hit.path, patch };
   const abs = join(root, hit.file);
   const raw = readFileSync(abs, 'utf8');
@@ -78,7 +90,8 @@ export function performSourceAction(req) {
   if (apply !== true) return deny('APPLY_MUST_BE_TRUE');
   if (!stable) return { ...result, outcome: 'REQUIRES_MANUAL_EDIT', reason: 'file is not byte-stable under JSON round trip' };
   const rec = hit.path.split(/[.[\]]+/).filter(Boolean).reduce((o, k) => o[k], data);
-  rec[patch.field] = patch.after;
+  if (patch.field === CADENCE_FIELD) rec[CADENCE_PATH[0]][CADENCE_PATH[1]] = patch.after;
+  else rec[patch.field] = patch.after;
   writeFileSync(abs, (JSON.stringify(data, null, 2) + '\n').split('\n').join(eol));
   return { ...result, outcome: 'APPLIED', report_back: { kind: 'canonical_owner_change', system: 'global-content-os', change: `${hit.file}:${hit.path}.${patch.field}` } };
 }
