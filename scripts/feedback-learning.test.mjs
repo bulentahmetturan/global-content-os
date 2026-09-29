@@ -1,15 +1,21 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { editorialFeedbackInput } from './editorial-feedback.mjs';
 import { createRelevanceLedger } from './relevance-ledger.mjs';
 import { rankCandidates } from './relevance-selection.mjs';
 
+// The feedback store/patterns live in the channel-content-os sibling; CI checks out this repo alone.
 const require = createRequire(import.meta.url);
-const { buildFeedbackEvent } = require('../../channel-content-os/packages/feedback/src/model.mjs');
-const { createFeedbackStore } = require('../../channel-content-os/packages/feedback/src/store.mjs');
-const { aggregatePatterns, proposalsFromPatterns, inspectLearning } = require('../../channel-content-os/packages/feedback/src/patterns.mjs');
-const { measureEffectiveness } = require('../../channel-content-os/packages/feedback/src/effectiveness.mjs');
+const ccosFeedback = fileURLToPath(new URL('../../channel-content-os/packages/feedback/src/', import.meta.url));
+const hasCcos = existsSync(ccosFeedback);
+const skipCcos = { skip: !hasCcos && 'channel-content-os sibling not present' };
+const { buildFeedbackEvent } = hasCcos ? require(`${ccosFeedback}model.mjs`) : {};
+const { createFeedbackStore } = hasCcos ? require(`${ccosFeedback}store.mjs`) : {};
+const { aggregatePatterns, proposalsFromPatterns, inspectLearning } = hasCcos ? require(`${ccosFeedback}patterns.mjs`) : {};
+const { measureEffectiveness } = hasCcos ? require(`${ccosFeedback}effectiveness.mjs`) : {};
 
 const T = '2026-09-29T10:00:00.000Z';
 const human = { kind: 'human', id: 'editor-1' };
@@ -31,7 +37,7 @@ function decisionRow(item, action, reason_code) {
   return editorialFeedbackInput(item, { action, reason_code, at: T });
 }
 
-test('accept and reject become channel-scoped evidence without invented fields', () => {
+test('accept and reject become channel-scoped evidence without invented fields', skipCcos, () => {
   const item = { id: 'h1', channel_id: 'kaduse-medikal', source_id: 'med-wire', topic: 'hospital-opening', content_family: 'news' };
   const rejected = buildFeedbackEvent(decisionRow(item, 'delete', 'not_relevant_for_channel'));
   assert.equal(rejected.ok, true, JSON.stringify(rejected.errors));
@@ -46,7 +52,7 @@ test('accept and reject become channel-scoped evidence without invented fields',
   assert.equal(noTopic.event.evidence.data.topic, undefined);
 });
 
-test('reviewed pattern changes later Kaduse selection and leaves the other channel alone', () => {
+test('reviewed pattern changes later Kaduse selection and leaves the other channel alone', skipCcos, () => {
   const before = rankCandidates(universe, []);
   assert.equal(before.find((c) => c.id === 'h1').selection_priority, before.find((c) => c.id === 'r1').selection_priority);
 
@@ -153,10 +159,32 @@ test('reviewed pattern changes later Kaduse selection and leaves the other chann
   assert.equal(Object.keys(store).some((k) => /registry|policy|mutate|applyRule/i.test(k)), false);
 });
 
+test('owner ledger: channel-scoped, reviewed-only, reversible (GCOS only)', () => {
+  const lower = { action: 'LOWER_TOPIC_PRIORITY', status: 'PROPOSAL', channel_id: 'kaduse-medikal', scope: { dimension: 'topic', key: 'hospital-opening' }, rationale: 'repeated low relevance' };
+  const accepted = {
+    ...decisionRow(universe[0], 'delete', 'not_relevant_for_channel'),
+    feedback_id: 'fb_pattern',
+    review_state: 'ACCEPTED',
+    reviewed_by: human,
+    proposed_adjustment: { ...lower, target_class: 'editorial_policy' },
+  };
+  const pattern = { pattern_id: 'pat_hospital', count: 3 };
+  const ledger = createRelevanceLedger({ authorize: allow });
+  assert.equal(ledger.apply({ owner, feedback: { ...accepted, reviewed_by: machine }, proposal: lower, pattern }).code, 'NOT_REVIEWED');
+  assert.equal(ledger.apply({ owner: ccosOwner, feedback: accepted, proposal: lower, pattern }).code, 'FEEDBACK_CANONICAL_OWNER_BOUNDARY');
+  const applied = ledger.apply({ owner, feedback: accepted, proposal: lower, pattern });
+  assert.equal(applied.ok, true, JSON.stringify(applied));
+  const after = ledger.rank(universe);
+  assert.ok(after.find((c) => c.id === 'h1').selection_priority < 10);
+  assert.equal(after.find((c) => c.id === 'o1').selection_priority, 10);
+  assert.equal(ledger.reverse({ owner, adjustment_id: applied.adjustment.adjustment_id }).ok, true);
+  assert.equal(ledger.rank(universe).find((c) => c.id === 'h1').selection_priority, 10);
+});
+
 test('one decision cannot apply a selection change', () => {
   const input = decisionRow({ id: 'h1', channel_id: 'kaduse-medikal', source_id: 'med-wire', topic: 'hospital-opening', content_family: 'news' }, 'delete', 'not_relevant_for_channel');
-  const event = buildFeedbackEvent(input).event;
-  assert.equal(proposalsFromPatterns(aggregatePatterns([event])).length, 0);
+  const event = { ...input, feedback_id: 'fb_single' };
+  if (hasCcos) assert.equal(proposalsFromPatterns(aggregatePatterns([buildFeedbackEvent(input).event])).length, 0);
   const ledger = createRelevanceLedger({ authorize: allow });
   const refused = ledger.apply({
     owner,
