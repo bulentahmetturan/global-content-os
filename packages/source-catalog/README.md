@@ -18,7 +18,7 @@ Canonical, PRE_APPROVAL source truth of global-content-os (Package 2). Nothing h
 | Module | Status |
 | --- | --- |
 | `news/global-source-registry.ts`, `research/source-registry.ts`, `research/research-pool.ts` (eligibility + RETRACTED gate) | ACTIVE source-side (registry loaders used by tests/generator inputs; pool logic pure) |
-| `research/attention-signals.ts`, `research/age-tier-classification.ts`, `news/delivery-handoff.ts` | LEGACY/UNWIRED: no runtime importer. Source-side semantics, so they stay here; they hold no registry data, so they are not a second source truth. Wire or delete in a later package with evidence. |
+| `news/schemas.ts` `DeliveryHandoffSchema`, `research/schemas.ts` `ResearchAgeTierSchema` | Schema only (used by registry/pool records and tests). The unwired `attention-signals.ts`, `age-tier-classification.ts` and `delivery-handoff.ts` helpers were deleted (no importer); recover them from git history if a runtime needs them. |
 | post-approval claim routing (`validateClaim`, peer-review label, evidence status) | NOT HERE: `channel-content-os/mcp-server/src/research/claim-routing.ts` |
 
 ## Safety invariant

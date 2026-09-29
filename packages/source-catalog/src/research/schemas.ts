@@ -16,7 +16,7 @@ export const ResearchSourceRoleSchema = z.enum([
   'TRIAL_REGISTRY', // ClinicalTrials.gov
   'PRIMARY_RESEARCH_PUBLISHER', // JAMA/NEJM/Lancet/BMJ/etc -- the actual article/journal
   'ACCESSIBLE_SCIENCE_MEDIA', // STAT News/EurekAlert!/Medical Xpress/Medical News Today/Nature News/NIH News -- press-release-grade coverage already translated for a general/student reader; a real discovery aid AND evidence the finding is understandable, never a replacement for the primary publisher's own record
-  'ATTENTION_METRIC', // OpenAlex/GDELT/Altmetric -- real-world attention/impact signals (citation count, news-mention volume, social/policy attention). Optional enrichment ONLY, per Batch R3's explicit rule: absence of a signal here must NEVER exclude an otherwise-eligible paper (see attention-signals.ts).
+  'ATTENTION_METRIC', // OpenAlex/GDELT/Altmetric -- real-world attention/impact signals (citation count, news-mention volume, social/policy attention). Optional enrichment ONLY, per Batch R3's explicit rule: absence of a signal here must NEVER exclude an otherwise-eligible paper.
 ]);
 export type ResearchSourceRole = z.infer<typeof ResearchSourceRoleSchema>;
 
@@ -83,9 +83,8 @@ export type ResearchAffinity = z.infer<typeof ResearchAffinitySchema>;
 // quota (same discipline as ResearchAffinity/the 10-15% stethoscope band).
 // `null` (not a 4th enum value) means the paper falls outside every defined
 // window (older than the 5-10y landmark bracket, or a future/invalid date)
-// -- age-tier-classification.ts's classifyResearchAgeTier() never invents a
-// tier for a paper that doesn't fit one; such a paper is simply untiered,
-// not excluded from Research entirely.
+// -- a tier is never invented for a paper that doesn't fit one; such a paper
+// is simply untiered, not excluded from Research entirely.
 export const ResearchAgeTierSchema = z.enum(['NEW_DEVELOPMENT', 'RECENT_MAJOR', 'LANDMARK']);
 export type ResearchAgeTier = z.infer<typeof ResearchAgeTierSchema>;
 

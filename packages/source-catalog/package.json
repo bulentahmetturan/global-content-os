@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Global source catalog (news + research registries, Kaduse subscriptions, schemas, research pool, age-tier and attention-signal classification). Moved from channel-content-os per ADR-0004: source registry runtime is owned by global-content-os.",
+  "description": "Global source catalog (news + research registries, Kaduse subscriptions, schemas, research pool). Moved from channel-content-os per ADR-0004: source registry runtime is owned by global-content-os.",
   "scripts": {
     "test": "vitest run"
   }
