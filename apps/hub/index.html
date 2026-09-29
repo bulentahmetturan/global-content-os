@@ -842,7 +842,8 @@
 
   var OPERATOR_TOKEN_KEY = 'gcos.hubOperatorToken';
   async function api(path, opts) {
-    var needsOperator = path === '/api/triage';
+    // Every Hub write (triage, source sync) is gated server-side on the operator token.
+    var needsOperator = !!(opts && opts.method && opts.method !== 'GET');
     for (var attempt = 0; attempt < 2; attempt++) {
       var headers = { 'Content-Type': 'application/json' };
       var token = needsOperator ? localStorage.getItem(OPERATOR_TOKEN_KEY) : null;
@@ -850,6 +851,8 @@
       var res = await fetch(path, Object.assign({ headers: headers }, opts || {}));
       var data = await res.json().catch(function () { return {}; });
       if (needsOperator && res.status === 401 && attempt === 0) {
+        // A parallel request may already have prompted and stored a new token.
+        if (localStorage.getItem(OPERATOR_TOKEN_KEY) !== token) continue;
         var entered = window.prompt('Operatör anahtarı (Hub işlemleri için gerekli):');
         if (!entered || !entered.trim()) throw new Error('UNAUTHORIZED');
         localStorage.setItem(OPERATOR_TOKEN_KEY, entered.trim());

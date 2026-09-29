@@ -2,12 +2,14 @@
  * Bulk-localize still-English Hub cards via Worker /api/localize,
  * prioritizing title==title_orig rows until a pass updates 0.
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const base = process.argv[2] || 'http://127.0.0.1:8787';
 const routes = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 
 async function once(route) {
   const url = `${base}/api/localize?route=${encodeURIComponent(route)}&limit=50`;
-  const res = await fetch(url, { method: 'POST' });
+  const res = await fetch(url, { method: 'POST', headers: hubAuthHeaders('/api/localize') });
   if (!res.ok) throw new Error(`${route} ${res.status} ${await res.text()}`);
   return res.json();
 }

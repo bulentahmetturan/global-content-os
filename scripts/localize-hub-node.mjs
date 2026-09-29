@@ -4,6 +4,8 @@
  *
  * Usage: node scripts/localize-hub-node.mjs [baseUrl] [route]
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const base = process.argv[2] || 'http://127.0.0.1:8787';
 const routeArg = process.argv[3] || 'all';
 const routes =
@@ -119,7 +121,7 @@ async function localizeItem(it) {
 async function applyBatch(items) {
   const res = await fetch(`${base}/api/localize/apply`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/localize/apply') },
     body: JSON.stringify({ items }),
   });
   if (!res.ok) throw new Error(`apply ${res.status} ${await res.text()}`);

@@ -3,6 +3,7 @@
  * Usage: node scripts/push-edqm-from-listing.mjs [path-to-listing.md] [hub]
  */
 import fs from 'node:fs';
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
 
 const listingPath = process.argv[2];
 if (!listingPath) {
@@ -34,7 +35,7 @@ for (let i = 0; i < lines.length; i++) {
 console.log('parsed', items.length);
 const res = await fetch(`${hub}/api/ingress/feed-items`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/feed-items') },
   body: JSON.stringify({ feedId: 'news-edqm-news-whole', items }),
 });
 console.log(await res.json());

@@ -2,6 +2,8 @@
  * Continuity audit: prove every enabled feed is on a continuous rotation path.
  * Usage: node scripts/audit-continuity.mjs [hubUrl]
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const hub = process.argv[2] || 'http://127.0.0.1:8787';
 
 function ageMin(iso) {
@@ -55,15 +57,15 @@ async function main() {
   });
   checks.push({
     name: 'ingress_news',
-    ok: (await (await fetch(`${hub}/api/ingress/news`, { method: 'POST' })).json()).ok === true,
+    ok: (await (await fetch(`${hub}/api/ingress/news`, { method: 'POST', headers: hubAuthHeaders('/api/ingress/news') })).json()).ok === true,
   });
   checks.push({
     name: 'ingress_research',
-    ok: (await (await fetch(`${hub}/api/ingress/research`, { method: 'POST' })).json()).ok === true,
+    ok: (await (await fetch(`${hub}/api/ingress/research`, { method: 'POST', headers: hubAuthHeaders('/api/ingress/research') })).json()).ok === true,
   });
   checks.push({
     name: 'journal_fallback',
-    ok: (await (await fetch(`${hub}/api/ingress/journal-fallback`, { method: 'POST' })).json()).ok ===
+    ok: (await (await fetch(`${hub}/api/ingress/journal-fallback`, { method: 'POST', headers: hubAuthHeaders('/api/ingress/journal-fallback') })).json()).ok ===
       true,
   });
   // Stale-first walk one batch per route
@@ -71,7 +73,7 @@ async function main() {
     const r = await (
       await fetch(`${hub}/api/ingress/generic`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/ingress/generic') },
         body: JSON.stringify({ route, offset: 0, limit: 3, onlyEmpty: false }),
       })
     ).json();

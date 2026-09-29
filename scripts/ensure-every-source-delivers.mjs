@@ -2,6 +2,8 @@
  * Retry only feeds that still cannot deliver into Hub (never fetched OR 0 items).
  * Goal: every enabled source should end with last_ok_items > 0.
  */
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const hub = process.argv[2] || process.env.GCOS_HUB_URL || 'http://127.0.0.1:8787';
 const routes = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
 
@@ -11,7 +13,7 @@ async function post(path, body, attempt = 1) {
   try {
     const res = await fetch(`${hub}${path}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...hubAuthHeaders(path) },
       body: JSON.stringify(body || {}),
       signal: ctrl.signal,
     });

@@ -1,3 +1,5 @@
+import { hubAuthHeaders } from './lib/hub-auth.mjs';
+
 const base = process.argv[2] || 'http://127.0.0.1:8787';
 const GTX =
   'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=tr&dt=t&q=';
@@ -53,7 +55,7 @@ async function tr(text) {
   if (!out.length) return;
   const a = await fetch(`${base}/api/localize/apply`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...hubAuthHeaders('/api/localize/apply') },
     body: JSON.stringify({ items: out }),
   });
   console.log('apply', await a.json());
