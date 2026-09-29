@@ -1,0 +1,64 @@
+{
+  "$comment": "Bindings resolved at final reconciliation. Paths are relative to the GCOS repo root.",
+  "expectedBranches": {
+    "gcos": "final/system-v1-reconciliation",
+    "ccos": "final/system-v1-reconciliation"
+  },
+  "p5SchedulerGuaranteesFile": "docs/OPERATIONS.md",
+  "p5Signals": [
+    {
+      "id": "fetch_failure",
+      "repo": "gcos",
+      "pattern": "last_fetched_at|fetch_error|feed_fetch",
+      "file": "apps/worker/src/index.ts"
+    },
+    {
+      "id": "handoff_failure",
+      "repo": "gcos",
+      "pattern": "handoff_log",
+      "file": "apps/worker/src/triage/actions.ts"
+    },
+    {
+      "id": "readiness_endpoint",
+      "repo": "gcos",
+      "pattern": "/api/ready",
+      "file": "apps/worker/src/index.ts"
+    },
+    {
+      "id": "scheduler_capacity_delay",
+      "repo": "gcos",
+      "pattern": "CAPACITY_DELAY",
+      "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py"
+    },
+    {
+      "id": "scheduler_attention",
+      "repo": "gcos",
+      "pattern": "attention_conditions",
+      "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py"
+    },
+    {
+      "id": "scheduler_state_report",
+      "repo": "gcos",
+      "pattern": "scheduler-state\\.json",
+      "file": "adapters/hekimler-radar/scripts/hekimler_scheduled_run.py"
+    },
+    {
+      "id": "callback_failure",
+      "repo": "ccos",
+      "pattern": "callback_last_error",
+      "file": "mcp-server/src/handoff/approved-brief.ts"
+    },
+    {
+      "id": "production_job_failure",
+      "repo": "ccos",
+      "pattern": "failed",
+      "file": "mcp-server/src/handoff/approved-brief.ts"
+    },
+    {
+      "id": "auth_config_failure",
+      "repo": "ccos",
+      "pattern": "handoff_not_configured",
+      "file": "mcp-server/src/handoff/approved-brief.ts"
+    }
+  ]
+}

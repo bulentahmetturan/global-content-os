@@ -52,7 +52,7 @@ function repoChecks({ key, root, cfg, phase, bindings }) {
   if (!expected) {
     out.push(check('GIT', `release_branch_${key}`, phase === 'cutover' ? 'FAIL' : 'WARN', `${label} release branch not designated`, { defer: 'P3', why: WHY.release_branch, next: 'record expectedBranches in release/bindings.json at reconciliation' }));
   } else {
-    out.push(check('GIT', `release_branch_${key}`, branch === expected ? 'PASS' : 'FAIL', `${label} on ${branch}, expected ${expected}`, branch === expected ? {} : { why: WHY.release_branch, next: `check out ${expected}` }));
+    out.push(check('GIT', `release_branch_${key}`, branch === expected ? 'PASS' : (phase === 'cutover' ? 'FAIL' : 'WARN'), `${label} on ${branch}, expected ${expected}`, branch === expected ? {} : { why: WHY.release_branch, next: `check out ${expected}` }));
   }
   const wt = (git(root, ['worktree', 'list']) ?? '').split(/\r?\n/).filter(Boolean).length;
   out.push(check('GIT', `concurrent_worktrees_${key}`, wt > 1 ? 'WARN' : 'PASS', `${label} has ${wt} worktree(s)`, wt > 1 ? { why: WHY.concurrent_worktrees, next: 'confirm the other worktrees/sessions are finished or unrelated before cutover' } : {}));
@@ -139,7 +139,10 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
   const copyText = tryRead(R(repos[config.contracts.copy.repo], config.contracts.copy.file));
   if (copyText === null) checks.push(check('CONTRACTS', 'contract_parity', 'FAIL', 'CCOS contract copy missing', { why: WHY.contract_parity, next: 'restore the CCOS approved_brief contract copy' }));
   else if (canonText === null) checks.push(check('CONTRACTS', 'contract_parity', 'WARN', 'canonical GCOS contract schema not present in this checkout (exists on arch branch)', { defer: 'P2', why: WHY.contract_parity, next: 'set contractsCanonical in release/bindings.json to the reconciled location' }));
-  else checks.push(check('CONTRACTS', 'contract_parity', canonText === copyText ? 'PASS' : 'FAIL', canonText === copyText ? 'GCOS canonical == CCOS copy (byte-identical)' : 'GCOS canonical and CCOS copy differ', canonText === copyText ? {} : { why: WHY.contract_parity, next: 'sync the CCOS copy from the canonical schema' }));
+  else {
+    const same = canonText.split('\r\n').join('\n') === copyText.split('\r\n').join('\n'); // line endings are checkout noise, content must match
+    checks.push(check('CONTRACTS', 'contract_parity', same ? 'PASS' : 'FAIL', same ? 'GCOS canonical == CCOS copy (content-identical)' : 'GCOS canonical and CCOS copy differ', same ? {} : { why: WHY.contract_parity, next: 'sync the CCOS copy from the canonical schema' }));
+  }
   const ccosVer = /APPROVED_BRIEF_CONTRACT_VERSION\s*=\s*'([^']+)'/.exec(tryRead(R(repos.ccos, 'mcp-server/src/handoff/approved-brief.ts')) ?? '')?.[1] ?? null;
   checks.push(check('CONTRACTS', 'contract_version', ccosVer ? 'PASS' : 'FAIL', `approved_brief contractVersion=${ccosVer ?? 'not found'}`, ccosVer ? {} : { why: WHY.contract_parity, next: 'contract version constant missing in CCOS' }));
 
@@ -148,9 +151,24 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
   checks.push(check('SCHEDULER', 'scheduler_cron', cronOk ? 'PASS' : 'FAIL', cronOk ? `GCOS cron: ${gcosWr.crons.join(', ')}` : 'GCOS has no cron trigger', cronOk ? {} : { why: WHY.scheduler, next: 'declare [triggers] crons in wrangler.toml' }));
   const capDoc = existsSync(R(repos.gcos, 'docs/cron-capacity-report.md'));
   checks.push(check('SCHEDULER', 'scheduler_capacity_report', capDoc ? 'PASS' : 'WARN', capDoc ? 'capacity report present' : 'capacity report missing', capDoc ? {} : { why: WHY.scheduler, next: 'regenerate the capacity report' }));
-  const p5file = bindings.p5SchedulerGuaranteesFile;
-  const p5ok = p5file && existsSync(p5file);
+  const p5file = bindings.p5SchedulerGuaranteesFile ? R(repos.gcos, bindings.p5SchedulerGuaranteesFile) : null;
+  const p5ok = !!p5file && existsSync(p5file) && /MAX_HEALTHY|Supported operating assumptions/.test(tryRead(p5file) ?? '');
   checks.push(check('SCHEDULER', 'scheduler_guarantees_p5', p5ok ? 'PASS' : 'WARN', p5ok ? 'P5 scheduler guarantees bound' : 'P5 final scheduler/capacity guarantees not yet bound', p5ok ? {} : { defer: 'P5', why: WHY.scheduler, next: 'set p5SchedulerGuaranteesFile in release/bindings.json at reconciliation' }));
+
+  // P5 operational invariants (cheap, deterministic, run every time). A broken critical invariant FAILS readiness;
+  // optional-source health never does.
+  if (repos.gcos) {
+    let inv = 'PASS'; let invTail = '';
+    try { execSync('node --test scripts/ops-invariants.test.mjs', { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 120000 }); } catch (e) { inv = 'FAIL'; invTail = String(e.stdout ?? '').split(/\r?\n/).filter((l) => /not ok|failing/.test(l)).slice(0, 2).join(' | ').slice(0, 200); }
+    checks.push(check('SCHEDULER', 'ops_invariants', inv, inv === 'PASS' ? 'scheduler/auth/cron/contract invariants hold' : `operational invariant broken: ${invTail}`, inv === 'PASS' ? {} : { why: WHY.scheduler, next: 'run node --test scripts/ops-invariants.test.mjs' }));
+    let cap = 'UNKNOWN';
+    for (const py of ['python3', 'python']) {
+      try { cap = JSON.parse(execSync(`${py} adapters/hekimler-radar/scripts/hekimler_ops.py capacity`, { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).status; break; } catch (e) { try { cap = JSON.parse(String(e.stdout ?? '')).status; break; } catch { /* next interpreter */ } }
+    }
+    checks.push(check('SCHEDULER', 'capacity_guard', cap === 'SAFE' ? 'PASS' : cap === 'CAUTION' ? 'WARN' : 'FAIL', `capacity guard for the CURRENT active set: ${cap}${cap === 'CAUTION' ? ' (no measured run history supplied)' : ''}`, cap === 'SAFE' ? {} : { why: WHY.scheduler, next: 'python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --history <run-report dir>' }));
+    const readyEp = grepFile(repos.gcos, 'apps/worker/src/index.ts', "'/api/ready'") && existsSync(R(repos.gcos, 'apps/worker/src/readiness.ts'));
+    checks.push(check('HEALTH', 'readiness_endpoint_gcos', readyEp ? 'PASS' : 'FAIL', readyEp ? 'GCOS /api/ready (READY/DEGRADED/BLOCKED) present' : 'GCOS /api/ready missing', readyEp ? {} : { why: WHY.health_model, next: 'restore /api/ready' }));
+  }
 
   // HEALTH
   let hm = null;
