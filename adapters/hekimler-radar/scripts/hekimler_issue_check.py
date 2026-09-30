@@ -16,6 +16,7 @@ import os
 import re
 import sys
 import urllib.request
+from datetime import date as _date, datetime as _datetime, timezone as _timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -71,6 +72,19 @@ def is_article_link(title: str, url: str) -> bool:
     return not (len(segs) <= 1 and len(words) < 7)
 
 
+def future_dated(items: list[dict], today: _date | None = None) -> list[dict]:
+    """Items whose ISO publishedAt is after today (UTC). Was a fixed "2026-09-30" literal, which kept
+    flagging items after their date had passed and would miss real future dates once that day was over."""
+    limit = (today or _datetime.now(_timezone.utc).date()).isoformat()
+    return [i for i in items if re.match(r"20\d\d-\d\d-\d\d", str(i.get("publishedAt") or "")) and str(i["publishedAt"])[:10] > limit]
+
+
+def hub_scheduled_sources(sources: list[dict]) -> list[dict]:
+    """Hub sources the deployed readyBundle schedules (schedulerPath != none). /api/hekimler/sources also lists
+    coverage-override sources that are deliberately inactive, so its full length is not the ready count."""
+    return [s for s in sources if (s.get("schedulerPath") or "none") != "none"]
+
+
 results: list[tuple[str, str, str]] = []
 
 
@@ -117,7 +131,7 @@ def main(only: str | None = None) -> int:
 
     # 4 Title Pending / yanlış tarih
     tp = [i for i in allk if re.search(r"title pending|^untitled", i["title"], re.I)]
-    fut = [i for i in allk if re.match(r"20\d\d-\d\d-\d\d", str(i.get("publishedAt") or "")) and str(i["publishedAt"])[:10] > "2026-09-30"]
+    fut = future_dated(allk)
     check("S04 yer tutucu başlık yok", not tp, f"{len(tp)} adet")
     check("S04b ileri tarihli kayıt yok", not fut, f"{len(fut)} adet")
 
@@ -165,12 +179,13 @@ def main(only: str | None = None) -> int:
     # 7 Hekimler kaynak durumu (42/46) ve HSGM
     src = get("/api/hekimler/sources")["sources"]
     canon = [s for s in src if s["sourceId"] not in EXTRAS]
+    scheduled = hub_scheduled_sources(src)  # registry AUTOMATION_READY includes the EXTRAS too
     strict = sum(1 for s in canon if s["label"] in ("PIPELINE_OK", "PIPELINE_OK_EMPTY", "PIPELINE_OK_LIMITED"))
     expected_canon = canonical_source_count()
     if expected_canon is None:
-        manual("S07 kanonik kaynak sayısı", f"registry lokal olarak okunamadı (yalnız Hub API ile karşılaştırma yapılamıyor); Hub'da {len(canon)} kaynak var")
+        manual("S07 kanonik kaynak sayısı", f"registry lokal olarak okunamadı (yalnız Hub API ile karşılaştırma yapılamıyor); Hub'da {len(scheduled)} zamanlanmış kaynak var")
     else:
-        check("S07 kanonik kaynak sayısı == registry AUTOMATION_READY", len(canon) == expected_canon, f"Hub {len(canon)} / registry {expected_canon} kaynak")
+        check("S07 kanonik kaynak sayısı == registry AUTOMATION_READY", len(scheduled) == expected_canon, f"Hub zamanlanmış {len(scheduled)} (listelenen {len(canon)}) / registry {expected_canon} kaynak")
     check("S07b katı operasyonel >= 42", strict >= 42, f"{strict}/{len(canon)} (hedef: tümü)")
     hs = next((s for s in src if s["sourceId"] == "hsgm_public_health"), None)
     external("S08 HSGM canlı (PIPELINE_OK)", bool(hs) and hs["label"].startswith("PIPELINE_OK"), f"etiket {hs and hs['label']}, son başarı {hs and (hs.get('telemetry') or {}).get('last_success_at')}")
