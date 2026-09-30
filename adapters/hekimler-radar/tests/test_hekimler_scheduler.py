@@ -80,6 +80,54 @@ class ExitStatusTests(unittest.TestCase):
     def test_all_failed_is_nonzero(self):
         self.assertEqual(self._run({"a": False, "b": False}), 1)
 
+    def test_minority_source_failures_stay_green(self):
+        self.assertEqual(self._run({f"s{i}": i >= 4 for i in range(14)}), 0)  # 4 of 14 = 29%
+
+    def test_2026_09_30_run_is_red_at_the_30_percent_threshold(self):
+        # 5 of 14 failed (three HTTP 403 blocks, one SSL error, one timeout) while 9 ingested: 36% >= 30%.
+        self.assertEqual(self._run({f"s{i}": i >= 5 for i in range(14)}), 1)
+
+
+class RunExitStatusTests(unittest.TestCase):
+    def rows(self, n_ok, n_failed, **failed_extra):
+        return ([{"source_id": f"ok{i}", "ok": True} for i in range(n_ok)]
+                + [{"source_id": f"bad{i}", "ok": False, **failed_extra} for i in range(n_failed)])
+
+    def test_nothing_selected_is_green(self):
+        self.assertEqual(sched.run_exit_status([]), (0, []))
+
+    def test_below_threshold_is_green(self):
+        self.assertEqual(sched.run_exit_status(self.rows(3, 1))[0], 0)  # 25%
+        self.assertEqual(sched.run_exit_status(self.rows(10, 4))[0], 0)  # 29%
+
+    def test_at_threshold_is_red(self):
+        code, reasons = sched.run_exit_status(self.rows(7, 3))  # 30%
+        self.assertEqual(code, 1)
+        self.assertIn("3 of 10 sources failed (threshold 30%)", reasons[0])
+        self.assertEqual(sched.run_exit_status(self.rows(9, 5))[0], 1)  # 36%
+
+    def test_zero_succeeded_is_red(self):
+        code, reasons = sched.run_exit_status(self.rows(0, 1))
+        self.assertEqual(code, 1)
+        self.assertTrue(any("no source succeeded" in r for r in reasons))
+
+    def test_any_hub_delivery_failure_is_red(self):
+        code, reasons = sched.run_exit_status(self.rows(9, 1, hub_failures=2))
+        self.assertEqual(code, 1)
+        self.assertTrue(any("Hub delivery failed for bad0" in r for r in reasons))
+
+    def test_d1_quota_is_red(self):
+        self.assertEqual(sched.run_exit_status(self.rows(9, 1, d1_quota=True))[0], 1)
+
+    def test_green_partial_run_still_lists_every_failure(self):
+        rows = self.rows(9, 2, failure_class="AUTH_FAILURE", error="HTTP 403")
+        self.assertEqual(sched.run_exit_status(rows)[0], 0)  # 18%
+        section = sched.nonfatal_failures_section(rows)
+        self.assertIn("Source failures (2 of 11)", section)
+        self.assertIn("`bad0` (AUTH_FAILURE): HTTP 403", section)
+        self.assertIn("`bad1`", section)
+        self.assertEqual(sched.nonfatal_failures_section(self.rows(3, 0)), "")
+
 
 class QuotaTests(unittest.TestCase):
     def test_quota_text_is_recognised(self):

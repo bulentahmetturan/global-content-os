@@ -3,8 +3,11 @@
 * one subprocess per source (hard per-source timeout, failure isolation);
 * bounded retry with exponential backoff for transient fetch/network failures only;
 * writes a non-secret JSON + Markdown report and appends the table to the GitHub job summary;
-* exit code is 1 when ANY source failed (partial failure turns the workflow red; the report/summary/artifact are
-  written first, and upload steps run with if: always()); 2 when the ingest token is missing.
+* exit code (run_exit_status): 1 when the run itself failed -- no selected source succeeded, any Hub delivery / D1
+  quota failure, or at least MAX_FAILED_SOURCE_RATIO of the selected sources failed; 2 when the ingest token is
+  missing; otherwise 0. Individual source failures below that threshold (403 blocks, timeouts) keep the run green
+  but are never hidden: one ::warning annotation each, a "Source failures" section in the job summary, and
+  the full rows in the report artifact (the report/summary/artifact are written first; uploads run with if: always()).
 
 Usage:
   python scripts/hekimler_scheduled_run.py --sources all-python|all|tr-runner|id1,id2 [--timeout 240] [--retries 2]
@@ -234,6 +237,35 @@ def markdown(rows: list[dict]) -> str:
     return head + body
 
 
+MAX_FAILED_SOURCE_RATIO = 0.30  # owner decision 2026-09-30: a run with >= 30% failed sources is red
+
+
+def run_exit_status(rows: list[dict]) -> tuple[int, list[str]]:
+    """(exit code, reasons) for a finished run; reasons is empty when the run is green."""
+    if not rows:
+        return 0, []
+    failed = [r for r in rows if not r.get("ok")]
+    reasons: list[str] = []
+    if len(failed) == len(rows):
+        reasons.append(f"no source succeeded ({len(rows)} selected)")
+    hub = [r["source_id"] for r in rows if r.get("hub_failures") or r.get("d1_quota")]
+    if hub:
+        reasons.append(f"Hub delivery failed for {', '.join(hub)}")
+    if failed and len(failed) / len(rows) >= MAX_FAILED_SOURCE_RATIO:
+        reasons.append(f"{len(failed)} of {len(rows)} sources failed (threshold {MAX_FAILED_SOURCE_RATIO:.0%})")
+    return (1 if reasons else 0), reasons
+
+
+def nonfatal_failures_section(rows: list[dict]) -> str:
+    failed = [r for r in rows if not r.get("ok")]
+    if not failed:
+        return ""
+    lines = "".join(
+        f"- `{r['source_id']}` ({r.get('failure_class') or 'FAILED'}): {str(r.get('error') or '')[:120]}\n" for r in failed
+    )
+    return f"\n### Source failures ({len(failed)} of {len(rows)})\n\n{lines}"
+
+
 def quota_banner(rows: list[dict]) -> str:
     hit = [r["source_id"] for r in rows if r.get("d1_quota")]
     if not hit:
@@ -376,7 +408,7 @@ def main() -> int:
         f"**Cycle status: {cycle_status}** | sources={cycle['sources_selected']} ok={cycle['sources_ok']} "
         f"empty={cycle['sources_empty']} failed={cycle['sources_failed']} | "
         f"new={cycle['articles_new']} dup={cycle['articles_duplicate']} | duration={duration_s}s\n\n"
-        + quota_banner(rows) + markdown(rows)
+        + quota_banner(rows) + markdown(rows) + nonfatal_failures_section(rows)
     )
     (out / "run-report.md").write_text(md, encoding="utf-8")
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
@@ -388,9 +420,17 @@ def main() -> int:
     if any(r.get("d1_quota") for r in rows):
         print("::error title=D1 quota exceeded::Cloudflare D1 daily write quota is exhausted; ingest rejected for "
               + ", ".join(r["source_id"] for r in rows if r.get("d1_quota")))
-    if failed:
-        print(f"::error::{len(failed)} of {len(rows)} sources failed: {', '.join(r['source_id'] for r in failed)}")
-    return 1 if failed else 0
+    code, reasons = run_exit_status(rows)
+    if code:
+        print(f"::error title=Hekimler run failed::{'; '.join(reasons)}")
+    for r in failed:
+        level = "error" if code else "warning"
+        print(f"::{level} title=Hekimler source {r['source_id']}::{r.get('failure_class') or 'FAILED'}: "
+              f"{str(r.get('error') or '')[:200]}")
+    if failed and not code:
+        print(f"{len(failed)} of {len(rows)} sources failed (below the {MAX_FAILED_SOURCE_RATIO:.0%} run-failure threshold; "
+              "see the job summary and run-report.json)")
+    return code
 
 
 if __name__ == "__main__":
