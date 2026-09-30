@@ -1,5 +1,5 @@
 import { type Env } from '../db/queries';
-import { isFutureDate, isPlaceholderTitle } from './research-quality';
+import { clinicalTrialPublishedAt, isFutureDate, isPlaceholderTitle } from './research-quality';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 
 /**
@@ -155,7 +155,7 @@ async function ingestClinicalTrials(env: Env, force = false) {
     studies?: Array<{
       protocolSection?: {
         identificationModule?: { nctId?: string; briefTitle?: string; officialTitle?: string };
-        statusModule?: { startDateStruct?: { date?: string } };
+        statusModule?: { startDateStruct?: { date?: string }; studyFirstPostDateStruct?: { date?: string } };
       };
     }>;
   };
@@ -180,7 +180,7 @@ async function ingestClinicalTrials(env: Env, force = false) {
       gists: [`Trial registry record ${id}: ${title}`],
       canonicalUrl,
       publisher: 'ClinicalTrials.gov',
-      publishedAt: it.protocolSection?.statusModule?.startDateStruct?.date || null,
+      publishedAt: clinicalTrialPublishedAt(it.protocolSection?.statusModule),
       dedupeKey: id.toLowerCase(),
       evidence: {
         doi: null,

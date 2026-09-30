@@ -41,6 +41,9 @@ describe('ingest gate: research and dates', () => {
     assert.equal(g.normalizeDate('2026 Sep'), '2026-09-01');
     assert.equal(g.normalizeDate('2026'), '2026-01-01');
     assert.equal(g.normalizeDate('garbage'), null);
+    assert.equal(g.normalizeDate('2026-9-29'), '2026-09-29'); // Medical News Today news sitemap (unpadded)
+    assert.equal(g.normalizeDate('2026-9-7T10:00:00Z'), '2026-09-07');
+    assert.equal(g.normalizeDate('2026-09-29T23:30:00-04:00'), '2026-09-29');
   });
   it('ignores non-Kaduse routes', () => {
     assert.equal(g.ingestGate({ route: 'tip-ogrencileri', feedId: 'x', title: 'x', publishedAt: null }, NOW).ok, true);

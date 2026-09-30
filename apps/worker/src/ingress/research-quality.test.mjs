@@ -21,4 +21,17 @@ describe('research quality gates', () => {
     assert.ok(!q.containerMatches(q.expectedContainer('container-title:Circulation'), ['Circulation Research']));
     assert.ok(q.containerMatches(q.expectedContainer('publisher-name:medRxiv'), ['anything']));
   });
+  it('PubMed: online date wins over the future print-issue date (PMID 42727319, Clin Nutr)', () => {
+    assert.equal(q.pubmedPublishedAt({ pubdate: '2026 Oct', epubdate: '2026 Sep 2' }), '2026 Sep 2');
+    assert.equal(q.pubmedPublishedAt({ pubdate: '2026 Oct', epubdate: '' }), '2026 Oct');
+    assert.equal(q.pubmedPublishedAt({}), null);
+  });
+  it('ClinicalTrials.gov: first-posted date wins over the planned start date (NCT07597187)', () => {
+    assert.equal(
+      q.clinicalTrialPublishedAt({ startDateStruct: { date: '2026-10-01' }, studyFirstPostDateStruct: { date: '2026-05-19' } }),
+      '2026-05-19'
+    );
+    assert.equal(q.clinicalTrialPublishedAt({ startDateStruct: { date: '2026-10-01' } }), '2026-10-01');
+    assert.equal(q.clinicalTrialPublishedAt(undefined), null);
+  });
 });

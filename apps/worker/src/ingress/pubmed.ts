@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
+import { pubmedPublishedAt } from './research-quality';
 
 /**
  * Journal-specific PubMed feeds (added 2026-09-24): these journals are indexed in PubMed, so
@@ -125,7 +126,10 @@ export async function ingestPubmed(
   });
   if (!sumRes.ok) throw new Error(`PubMed esummary failed: ${sumRes.status}`);
   const sumBody = (await sumRes.json()) as {
-    result?: Record<string, { title?: string; fulljournalname?: string; source?: string; pubdate?: string; elocationid?: string }>;
+    result?: Record<
+      string,
+      { title?: string; fulljournalname?: string; source?: string; pubdate?: string; epubdate?: string; elocationid?: string }
+    >;
   };
 
   let created = 0;
@@ -149,7 +153,7 @@ export async function ingestPubmed(
       gists: [summary],
       canonicalUrl,
       publisher,
-      publishedAt: it.pubdate || null,
+      publishedAt: pubmedPublishedAt(it),
       dedupeKey: (doi || `pmid:${pmid}`).toLowerCase(),
       evidence: {
         doi,

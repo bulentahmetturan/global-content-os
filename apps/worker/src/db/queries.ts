@@ -1,4 +1,4 @@
-import { ingestGate } from '../ingress/ingest-gate';
+import { ingestGate, normalizeDate } from '../ingress/ingest-gate';
 import { familyClause } from './family-clause';
 import { orderByRelevance } from '../triage/relevance-order';
 export { familyClause } from './family-clause';
@@ -224,6 +224,11 @@ export async function upsertSourceItem(
     } | null;
   }
 ): Promise<{ id: string; created: boolean; rejected?: string }> {
+  // Existing rows skip the admission gate below, so a raw source date ("2026-9-29", "2026 Oct") would
+  // otherwise overwrite the ISO date the gate stored on insert.
+  if ((input.route === 'kaduse-news' || input.route === 'kaduse-research') && input.publishedAt) {
+    input.publishedAt = normalizeDate(input.publishedAt) ?? input.publishedAt;
+  }
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
   const enrichmentStatus = input.enrichmentStatus ?? 'pending';
   const existing = await db

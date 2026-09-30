@@ -21,11 +21,11 @@ const MONTHS: Record<string, number> = {
   jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12,
 };
 
-/** ISO, RFC 822, "2026 Sep 7", "2026 Sep", "2026" -> "YYYY-MM-DD" (partial dates use day/month 1) or null. */
+/** ISO (also unpadded "2026-9-7"), RFC 822, "2026 Sep 7", "2026 Sep", "2026" -> "YYYY-MM-DD" (partial dates use day/month 1) or null. */
 export function normalizeDate(v: string | null | undefined): string | null {
   const s = (v ?? '').trim();
   if (!s) return null;
-  let m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)/);
   if (m) return valid(+m[1], +m[2], +m[3]);
   m = s.match(/^(\d{4})\s+([A-Za-z]{3})[a-z]*\.?(?:\s+(\d{1,2}))?/);
   if (m && MONTHS[m[2].toLowerCase()]) return valid(+m[1], MONTHS[m[2].toLowerCase()], m[3] ? +m[3] : 1);

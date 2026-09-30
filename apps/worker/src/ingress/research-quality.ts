@@ -14,6 +14,19 @@ export function isFutureDate(publishedAt: string | null, now: Date = new Date())
   return Number.isFinite(t) && t > now.getTime() + 2 * 86_400_000;
 }
 
+/** PubMed `pubdate` is the print-issue date (often weeks ahead, e.g. "2026 Oct"); `epubdate` is when the article went online. */
+export function pubmedPublishedAt(it: { pubdate?: string; epubdate?: string }): string | null {
+  return it.epubdate?.trim() || it.pubdate?.trim() || null;
+}
+
+/** ClinicalTrials.gov `startDate` is the study start (often planned, in the future); first-posted is when the record was published. */
+export function clinicalTrialPublishedAt(status?: {
+  studyFirstPostDateStruct?: { date?: string };
+  startDateStruct?: { date?: string };
+}): string | null {
+  return status?.studyFirstPostDateStruct?.date || status?.startDateStruct?.date || null;
+}
+
 /** Journal name from a `container-title:"X"` / `container-title:X` Crossref query, else null (no journal constraint). */
 export function expectedContainer(query: string): string | null {
   const m = query.match(/^container-title:(?:"([^"]+)"|(.+))$/i);

@@ -77,6 +77,45 @@ test('real intake meta change still writes', async () => {
   assert.equal(db.writes.length, 1);
 });
 
+function bindingDb(existing) {
+  const writes = [];
+  return {
+    writes,
+    prepare(sql) {
+      return {
+        bind(...args) {
+          return {
+            first: async () => (/FROM source_items/.test(sql) ? existing : null),
+            run: async () => { writes.push({ sql: sql.trim().split(/\s+/).slice(0, 3).join(' '), args }); return { success: true }; },
+          };
+        },
+      };
+    },
+  };
+}
+const news = { ...input, route: 'kaduse-news', channelId: 'kaduse-medikal', contentFamily: null, sourceId: null, decisionRoute: null, intakeMetaJson: null };
+const newsRow = { ...base, published_at: '2026-09-29', content_family: null, source_id: null, decision_route: null, intake_meta_json: null };
+
+test('re-poll with an unpadded source date keeps the stored ISO date: zero writes (2026-09 MNT regression)', async () => {
+  const db = bindingDb(newsRow);
+  await upsertSourceItem(db, { ...news, publishedAt: '2026-9-29' });
+  assert.deepEqual(db.writes, []);
+});
+
+test('re-poll repairs a previously stored raw date to ISO', async () => {
+  const db = bindingDb({ ...newsRow, published_at: '2026-9-29' });
+  await upsertSourceItem(db, { ...news, publishedAt: '2026-9-29' });
+  assert.equal(db.writes.length, 1);
+  assert.ok(db.writes[0].args.includes('2026-09-29'), JSON.stringify(db.writes[0].args));
+  assert.ok(!db.writes[0].args.includes('2026-9-29'));
+});
+
+test('research month-precision dates are normalised on update too', async () => {
+  const db = bindingDb({ ...newsRow, published_at: '2026-09-02' });
+  await upsertSourceItem(db, { ...news, route: 'kaduse-research', publishedAt: '2026 Sep 2' });
+  assert.deepEqual(db.writes, []);
+});
+
 test('top-level fetched_at/created_at differences are volatile too', async () => {
   const meta = (f) => JSON.stringify({ decision: 'NEEDS_REVIEW', fetched_at: f, created_at: f, provenance: { fetched_at: f, content_hash: 'h' } });
   const db = fakeDb({ ...base, intake_meta_json: meta('2026-09-21T14:47:04Z') });
