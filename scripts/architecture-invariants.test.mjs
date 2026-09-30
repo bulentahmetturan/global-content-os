@@ -48,6 +48,11 @@ test('routes.json: local runtime references exist in this repo', () => {
   }
 });
 
+test('routes.json: every route targets a channel the approved_brief contract can hand off', () => {
+  const channels = JSON.parse(read(rel('packages/contracts/approved-brief.schema.json'))).properties.channelId.enum;
+  for (const r of routes.routes) assert.ok(channels.includes(r.channelId), `${r.id}.channelId ${r.channelId} not in approved_brief channelId enum`);
+});
+
 test('routes.json: external policy references resolve in channel-content-os', { skip: !existsSync(ccos) && 'channel-content-os sibling not present' }, () => {
   for (const r of routes.routes) {
     for (const [k, p] of Object.entries(r.externalPolicy ?? {})) {
