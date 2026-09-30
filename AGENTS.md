@@ -16,6 +16,7 @@ Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` 
 - `adapters/hekimler-radar/sources/_*`, `**/archive/`, `**/legacy-cleanup/`, `**/fixtures/`, `.logs/`
 - `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` past line 104 (run history; the issue table is generated from `docs/evidence/system-evidence.ndjson`, see `docs/EVIDENCE.md`)
 - `docs/evidence/system-evidence.ndjson` (append-only evidence ledger; use `node scripts/evidence.mjs show|audit|audit-input`)
+- history / evidence, never current truth (list: `docs/INDEX.md` → "History / evidence"): `docs/global-news-hub-contract.md` (2026-09-04 design record)
 - the full Hekimler Bible — use `adapters/hekimler-radar/content/BIBLE-INDEX.md` and read only the listed range
 - the sibling repo, unless `docs/INDEX.md` says `SECOND REPO: YES`
 

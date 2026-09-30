@@ -116,3 +116,9 @@ READ: `docs/context/task-classes.json`
 OPTIONAL: `docs/context/benchmarks.json`
 DO NOT LOAD: transcripts. Run `node scripts/context-telemetry.mjs sessions --file <transcript.jsonl> [--class C] [--why "..."] --check`, `summary --scope content-systems`, `benchmarks`, or `manual <manifest.json>` for non-Claude agents
 SECOND REPO: NO
+
+### History / evidence (not current truth; only when the question is "why/what was true then")
+READ: `docs/CURRENT.md` (current truth wins over every file below)
+OPTIONAL: only the one record for your question: `docs/global-news-hub-contract.md` (2026-09-04 Hub/source-registry design record, pre-ADR-0004 ownership), `adapters/hekimler-radar/content/archive/` (pre-v4 Hekimler history)
+DO NOT LOAD: any of these as rules or current state; they are archived at their original paths (HISTORY / EVIDENCE banner) because code and tests cite them
+SECOND REPO: NO
