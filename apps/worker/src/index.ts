@@ -611,7 +611,7 @@ export default {
             'User-Agent': 'global-content-os-hub',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ref: 'main', inputs: { sources: laneSources.join(','), force_due: body.forceDue === true ? 'true' : 'false' } }),
+          body: JSON.stringify({ ref: 'main', inputs: { sources: laneSources.join(','), force_due: body.forceDue === true ? 'true' : 'false', lane } }),
         });
         if (gh.status !== 204) {
           const raw = await gh.text().catch(() => '');

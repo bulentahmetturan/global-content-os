@@ -29,6 +29,10 @@ on:
         required: false
         type: boolean
         default: false
+      lane:
+        description: "Hub lane that triggered this run (duyuru|burs|egitim); only used to keep lanes from cancelling each other"
+        required: false
+        default: ""
   schedule:
     - cron: "17 4 * * *"   # daily, 04:17 UTC
 
@@ -36,8 +40,10 @@ permissions:
   contents: read
 
 concurrency:
-  group: tip-toplulugu-python-runner
-  cancel-in-progress: false   # never overlap two runs
+  # One run at a time per lane (and one for the scheduled full run). Before: a single group, so a manual run for another
+  # lane queued behind a running one was cancelled when a third arrived (only one run can be pending per group).
+  group: tip-toplulugu-python-runner-${{ github.event.inputs.lane || 'all' }}
+  cancel-in-progress: false
 
 jobs:
   run:
