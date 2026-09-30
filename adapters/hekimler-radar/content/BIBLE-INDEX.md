@@ -1,6 +1,6 @@
 # BIBLE-INDEX — task → exact Bible section
 
-BIBLE: `adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (the only editable copy; the Hub copy in `apps/hub/` is generated: `node scripts/generate-hub-bible.mjs`)
+BIBLE: `adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (the only editable copy; the Hub copy in `apps/hub/` is generated: `node scripts/generate-hub-assets.mjs`)
 
 Canonical Bible stays whole. Read only the range for your task: find the heading (`grep -n '^## BÖLÜM 26'`), read to the next `## `/`### `. Approx. lines are hints; the heading is the anchor (checked by `scripts/check-router-links.mjs`). Kitap I hard gates win over Kitap II.
 

@@ -44,8 +44,8 @@
   {
     "id": "burs_uk_chevening",
     "name": "Chevening Scholarships",
-    "url": "https://www.chevening.org/scholarships/",
-    "mode": "MANUAL_INTAKE"
+    "url": "https://www.chevening.org/scholarships/turkey/",
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_eu_erasmus_mundus",
@@ -129,7 +129,7 @@
     "id": "burs_eau_eusp",
     "name": "EAU / EUSP Scholarships",
     "url": "https://uroweb.org/education/scholarships",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_ers_fellowships",
@@ -385,9 +385,8 @@
   },
   {
     "id": "burs_imperial_gozukara",
-    "name": "Imperial Gözükara Research Awards",
+    "name": "Imperial Gözükara Medical Undergraduate Research Awards",
     "url": "https://www.imperial.ac.uk/medicine/study/undergraduate/scholarships-and-awards/",
-    "mode": "MANUAL_INTAKE",
-    "why": "Imperial + Gözükara Vakfı; 8 hafta araştırma placement + £3000. 1 visiting TR kontenjanı yalnızca listedeki tıp fakülteleri. 2026 başvuru 27 Şub kapandı. Vize. Imperial MBBS ödülleri TR kitlesi değil."
+    "mode": "MANUAL_INTAKE"
   }
 ]

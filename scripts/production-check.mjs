@@ -122,18 +122,19 @@ try {
   }
 }
 
-// 4. Bible v4 Hub copy is generated from the one canonical source -------
-section('Bible v4 generated Hub copy (D-BIBLE-V4-HUB-COPY)');
+// 4. Hub static assets are generated from their one canonical source ----
+section('Generated Hub assets (D-BIBLE-V4-HUB-COPY, MANUAL_SYNC_MIRRORS=0)');
 try {
-  const { checkHubBible } = await import('./generate-hub-bible.mjs');
-  const r = checkHubBible();
-  if (r.inSync) {
-    pass(`Hub copy equals a fresh generation from ${r.source} (sha256 ${r.sourceSha256.slice(0, 12)})`);
-  } else {
-    fail('Bible v4 Hub copy is stale or hand-edited', `${r.destination} != ${r.source}; run node scripts/generate-hub-bible.mjs`);
+  const { checkHubAssets } = await import('./generate-hub-assets.mjs');
+  for (const r of checkHubAssets()) {
+    if (r.inSync) {
+      pass(`${r.destination} equals a fresh generation from ${r.source} (sha256 ${r.expectedSha256.slice(0, 12)})`);
+    } else {
+      fail('Hub asset is stale or hand-edited', `${r.destination} != generation from ${r.source}; run node scripts/generate-hub-assets.mjs`);
+    }
   }
 } catch (e) {
-  fail('Bible v4 Hub copy check failed', e.message);
+  fail('Hub asset check failed', e.message);
 }
 
 // 5. Human-review gate: no code path may set triage_status -> production

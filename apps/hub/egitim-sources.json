@@ -3,294 +3,252 @@
     "id": "egitim_ifm",
     "name": "Institute for Functional Medicine",
     "url": "https://www.ifm.org/education",
-    "mode": "MANUAL_INTAKE",
-    "why": "IFM eğitim hub; FMCP/AFMCP ayrı. TR practitioner kanıtı. TUK uzmanlığı değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_acam_chelation",
     "name": "ACAM Chelation Training",
     "url": "https://www.acam.org/mpage/ChelationHome",
-    "mode": "MANUAL_INTAKE",
-    "why": "ileri kelasyon eğitimi; Türkiye yasağı yok, tanınmış klinik yetki gerekebilir"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_cleveland_cfm",
     "name": "Cleveland Clinic Center for Functional Medicine",
     "url": "https://my.clevelandclinic.org/departments/functional-medicine/medical-professionals/international-preceptorship",
-    "mode": "MANUAL_INTAKE",
-    "why": "named Functional Medicine preceptorship; TR excluded-country değil. Vize/CIME. Denklik değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_stanford_integrative",
     "name": "Stanford Medicine Integrative Medicine Education",
     "url": "https://med.stanford.edu/peds-integrative.html",
-    "mode": "MANUAL_INTAKE",
-    "why": "pediatrik integratif tıp eğitimi; program bazlı klinik uygunluk"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_charite_im_summer",
     "name": "Charité Berlin Summer School Integrative Medizin",
     "url": "https://ccctim.charite.de/en/berlin_summerschool_integrative_medizin/",
-    "mode": "MANUAL_INTAKE",
-    "why": "yaz okulu; Türkiye dışlaması yok, Almanca/etkinlik koşulları var"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_who_academy",
     "name": "WHO Academy",
     "url": "https://whoacademy.org/courses",
-    "mode": "MANUAL_INTAKE",
-    "why": "WHO Academy e-öğrenme; OpenWHO acil sağlık ayrı kaynak"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_hms_ce",
     "name": "Harvard Medical School Continuing Education",
     "url": "https://cmecatalog.hms.harvard.edu/",
-    "mode": "MANUAL_INTAKE",
-    "why": "HMS CME; HMX Fundamentals öğrenci kursları ayrı. Türkiye dışlaması yok"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_mayo_scpd",
     "name": "Mayo Clinic School of Continuous Professional Development",
     "url": "https://ce.mayo.edu/",
-    "mode": "MANUAL_INTAKE",
-    "why": "açık CME kataloğu; etkinlik kuralları kurs bazlı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_lshtm_short",
     "name": "LSHTM Short Courses",
     "url": "https://www.lshtm.ac.uk/study/courses/short-courses",
-    "mode": "MANUAL_INTAKE",
-    "why": "uluslararası kısa kurs; önkoşullar kursa göre değişir"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_pasteur",
     "name": "Institut Pasteur Education & Training",
     "url": "https://www.pasteur.fr/en/education",
-    "mode": "MANUAL_INTAKE",
-    "why": "MOOC dünya çapında açık; yüz yüze kabul program bazlı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eso",
     "name": "European School of Oncology",
     "url": "https://www.eso.net/education-and-training/",
-    "mode": "MANUAL_INTAKE",
-    "why": "ESO eğitim kataloğu; tıp öğrencisi onkoloji kursu ayrı kaynak. Fellowship burs şeridinde"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eau",
     "name": "European Association of Urology Education & Events",
     "url": "https://uroweb.org/education",
-    "mode": "MANUAL_INTAKE",
-    "why": "eğitim/etkinlik kataloğu; burs/exchange üyelik şartlı ve burs şeridinde"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_ean_learn",
     "name": "European Academy of Neurology Learn",
     "url": "https://www.ean.org/learn",
-    "mode": "MANUAL_INTAKE",
-    "why": "öğrenme portalı; fellowship hattı burs şeridinde ayrı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_esaic_academy",
     "name": "ESAIC Academy",
     "url": "https://esaic.org/academy/",
-    "mode": "MANUAL_INTAKE",
-    "why": "akademi kurs/masterclass; araştırma grant'ları burs şeridinde ayrı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_ers",
     "name": "European Respiratory Society Education",
     "url": "https://www.ersnet.org/education-and-professional-development/",
-    "mode": "MANUAL_INTAKE",
-    "why": "eğitim/bursiyer kayıtlı TR alıcı belgelenmiş; fellowship burs şeridinde"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eular",
     "name": "EULAR Education",
     "url": "https://www.eular.org/education",
-    "mode": "MANUAL_INTAKE",
-    "why": "Türk sağlık örgütü EULAR ağında; kurs/CME eğitim şeridi"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eha",
     "name": "European Hematology Association Education",
     "url": "https://ehaweb.org/education",
-    "mode": "MANUAL_INTAKE",
-    "why": "Türk Hematoloji Derneği bağlantısı; grant hattı burs şeridinde"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_fens",
     "name": "FENS Training",
     "url": "https://www.fens.org/training",
-    "mode": "MANUAL_INTAKE",
-    "why": "eğitim/kurs; exchange fellowship burs şeridinde ayrı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_febs_courses",
     "name": "FEBS Advanced Courses",
     "url": "https://www.febs.org/our-activities/advanced-courses/",
-    "mode": "MANUAL_INTAKE",
-    "why": "ileri kurslar; short-term fellowship burs şeridinde ayrı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_bif_travel",
     "name": "Boehringer Ingelheim Fonds Travel Grants",
     "url": "https://www.bifonds.de/fellowships-grants/travel-grants.html",
-    "mode": "MANUAL_INTAKE",
-    "why": "pratik kurs ve araştırma ziyareti seyahat hibesi; dünya çapında MD/PhD"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eons_eso_nurses",
     "name": "EONS–ESO Cancer Nurses Fellowship",
     "url": "https://cancernurse.eu/",
-    "mode": "MANUAL_INTAKE",
-    "why": "yapılandırılmış kanser hemşireliği klinik yerleştirmesi; Türkiye yasağı yok"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_esso",
     "name": "European Society of Surgical Oncology Education",
     "url": "https://www.essoweb.org/courses/",
-    "mode": "MANUAL_INTAKE",
-    "why": "kurs/webinar eğitim şeridi; educational grant burs şeridinde ayrı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_isglobal",
     "name": "ISGlobal Training & Education",
     "url": "https://www.isglobal.org/en/training",
-    "mode": "MANUAL_INTAKE",
-    "why": "uluslararası eğitim portföyü; kabul program bazlı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_wcmq_cpd",
     "name": "Weill Cornell Medicine–Qatar CPD",
     "url": "https://qatar-weill.cornell.edu/continuing-professional-development",
-    "mode": "MANUAL_INTAKE",
-    "why": "grand round ve araştırma yöntemleri CPD; bazı etkinlik Katar odaklı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_monash_pd",
     "name": "Monash Medicine Nursing & Health Sciences Professional Development",
     "url": "https://www.monash.edu/medicine/professional-development",
-    "mode": "MANUAL_INTAKE",
-    "why": "uluslararası kısa kurs/mikro-kredi; tanıma program bazlı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_wfot",
     "name": "WFOT — World Federation of Occupational Therapists",
     "url": "https://wfot.org/",
-    "mode": "MANUAL_INTAKE",
-    "why": "Türk Ergoterapi Derneği tam üye; onaylı eğitim programları ve çevrimiçi öğrenme."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_world_physio",
     "name": "World Physiotherapy Congress & Education",
     "url": "https://world.physio/congress",
-    "mode": "MANUAL_INTAKE",
-    "why": "Uluslararası fizyoterapi kongre/eğitim izleme. 2027 konuşmacı bursu LMIC-only — o çağrı alınmadı."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_espen_training",
     "name": "ESPEN Clinical Nutrition Training",
     "url": "https://www.espen.org/education/training/information-on-training",
-    "mode": "MANUAL_INTAKE",
-    "why": "KEPAN + TR eğitim merkezleri; Educational Grant diyetisyen/hemşire kazananları. Fellowship burs şeridinde ayrı."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_ifm_fmcp",
     "name": "IFM FMCP / FMCP-M Certification",
     "url": "https://www.ifm.org/certification",
-    "mode": "MANUAL_INTAKE",
-    "why": "FMCP/FMCP-M uluslararası eşdeğer lisans; TR practitioner kanıtı. Mevcut lisans/TUK uzmanlığı değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_ifm_afmcp",
     "name": "IFM AFMCP",
     "url": "https://www.ifm.org/afmcp",
-    "mode": "MANUAL_INTAKE",
-    "why": "ACCME 11 hafta online; TR AFMCP kaydı var. FMCP otomatik değil. Klinik ruhsat değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_cleveland_observership",
     "name": "Cleveland Clinic Functional Medicine Observership",
     "url": "https://my.clevelandclinic.org/departments/international-medical-education/international-programs/physician-observer",
-    "mode": "MANUAL_INTAKE",
-    "why": "named 1 ay CIME observership; Functional Medicine listede. Vize/CIME. Hasta bakımı yok"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_uws_cnfm",
     "name": "UWS Clinical Nutrition and Functional Medicine Graduate Certificate",
     "url": "https://www.uws.edu/academics/programs/clinical-nutrition-functional-medicine/graduate-certificate/",
-    "mode": "MANUAL_INTAKE",
-    "why": "NWCCU üniversite graduate certificate, %100 online. Tek başına licensure veya TR denklik değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_kresser_adapt",
     "name": "Kresser Institute ADAPT Practitioner Training",
     "url": "https://kresserinstitute.com/adapt-practitioner-training-program/",
-    "mode": "MANUAL_INTAKE",
-    "why": "12 ay sanal; international açık. Bağımsız board/NCCA yok. TR resmi tanıma doğrulanmadı"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_fmca",
     "name": "FMCA Functional Medicine Health Coach Certification",
     "url": "https://functionalmedicinecoaching.org/program/health-coach-certification/",
-    "mode": "MANUAL_INTAKE",
-    "why": "NBHWC/UKIHCA health-coach; TR mezun kanıtı. Hekimlik veya klinik yetki değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_egfm",
     "name": "EGFM Therapeut/Coach fuer Funktionelle Medizin",
     "url": "https://egfm.eu/online-lernen/",
-    "mode": "MANUAL_INTAKE",
-    "why": "Berlin Tabip Odası CME; Almanca. TR meslek belgesi otomatik kabul değil"
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_nih_ippcr",
     "name": "NIH IPPCR",
     "url": "https://ocreco.od.nih.gov/courses/ippcr.html",
-    "mode": "MANUAL_INTAKE",
-    "why": "Ücretsiz online klinik araştırma kursu; tıp ve diş öğrencileri hedef grupta. 150+ ülke. 2026–27 kayıt açık; sınav ≥80 Certificate of Completion. CME/akademik kredi yok."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_hms_hmx",
     "name": "Harvard Medical School HMX Fundamentals",
     "url": "https://learn.hms.harvard.edu/about/program-categories/hmx-online-learning",
-    "mode": "MANUAL_INTAKE",
-    "why": "Online temel tıp bilimleri (genetik, immünoloji, farmakoloji, fizyoloji, biyokimya). Tıp ve diğer sağlık öğrencileri açık. Certificate of Completion. HMS CME kataloğundan ayrı. Ücretli."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_eso_medstudents",
     "name": "ESO–ESSO–ESTRO–ESP Oncology Course for Medical Students",
     "url": "https://www.essoweb.org/courses-and-webinars/eso-esso-estro-esp-multidisciplinary-course-on-oncology-for-medical-students/",
-    "mode": "MANUAL_INTAKE",
-    "why": "1 hafta yüz yüze; 4. sınıfını tamamlamış tıp öğrencileri. 40 kişilik rekabetçi seçim. 2026 Linz kapalı (30 Nis). Vize/ücret. TR dışlanmıyor. ESO hub ayrı."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_esmo_students",
     "name": "ESMO Course in Medical Oncology for Medical Students",
     "url": "https://www.esmo.org/meeting-calendar/esmo-course-in-medical-oncology-for-medical-students-2026",
-    "mode": "MANUAL_INTAKE",
-    "why": "Yüz yüze yoğun öğrenci kursu; ESMO eğitim portföyünde ayrı kategori. Geçmiş kriter: 4.–5. sınıf, İngilizce, CV, motivasyon, referans. Vize. Fellowship burs şeridinde ayrı."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_ucl_moorfields_oss",
     "name": "UCL Institute of Ophthalmology + Moorfields Summer School",
     "url": "https://www.ucl.ac.uk/brain-sciences/ioo/study/summer-school",
-    "mode": "MANUAL_INTAKE",
-    "why": "5 gün yüz yüze Londra; late-stage tıp öğrencileri ve trainee doctors. UCL uluslararası kitleyi açıkça belirtiyor. 2026: 29 Tem–4 Ağu. Vize/ücret."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_erasmus_summer",
     "name": "Erasmus MC Erasmus Summer Programme",
     "url": "https://www.erasmussummerprogramme.nl/",
-    "mode": "MANUAL_INTAKE",
-    "why": "3 hafta Rotterdam; epidemiyoloji/klinik araştırma/biyoistatistik. Master/PhD düzeyinde à la carte. Her tıp öğrencisi otomatik uygun değil. Uluslararası, vize."
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "egitim_openwho",
     "name": "OpenWHO Health Emergencies Training",
     "url": "https://openwho.org/courses",
-    "mode": "MANUAL_INTAKE",
-    "why": "WHO resmi acil sağlık öğrenme hub. Her yerden ücretsiz, kayıt yok. 2025 yeniden tasarım sonrası sertifika verilmiyor. WHO Academy ayrı kaynak."
+    "mode": "MANUAL_INTAKE"
   }
 ]

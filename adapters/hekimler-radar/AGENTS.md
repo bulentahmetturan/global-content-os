@@ -7,7 +7,7 @@ Scope gate: strict physician / dentist / vet / student / abroad-scholarship scop
 ## Read
 - Bible task → `content/BIBLE-INDEX.md` (read the listed range, never the whole 2181-line Bible).
 - Source → grep one id in `content/source-registry-*.json`; registry load order is in `content/README.md`.
-- Bible edit: change only `content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md`, then regenerate the Hub copy from the repo root with `node scripts/generate-hub-bible.mjs`.
+- Bible edit: change only `content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md`, then regenerate the Hub copies from the repo root with `node scripts/generate-hub-assets.mjs` (also after editing `config/bible-config.json`, `taxonomy/controlled-vocabulary.json` or the burs/egitim registries).
 - Code map: `radar/` fetch, gates, lifecycle, continuous runner; `scripts/` operators; `tests/` mirrors `radar/`.
 
 ## Do not load

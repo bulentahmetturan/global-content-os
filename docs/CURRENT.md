@@ -9,7 +9,7 @@
 
 ## Known intentional legacy (do not "clean up")
 - `adapters/tip-radar/` is legacy migration compatibility only (local SQLite push).
-- `apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` is generated from the canonical Bible in `adapters/hekimler-radar/content/` (`node scripts/generate-hub-bible.mjs`; never hand-edited, checked by `production:check`).
+- Hub static data (`apps/hub/` Bible v4, `bible-config.json`, `controlled-vocabulary.json`, `burs-sources.json`, `egitim-sources.json`) is generated from the canonical files in `adapters/hekimler-radar/content/` (`node scripts/generate-hub-assets.mjs`; never hand-edited, checked by `production:check`).
 - `**/legacy-cleanup/`, `**/archive/`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` run log: preserved evidence.
 - Deliberately inactive: ~117 `MANUAL_INTAKE` Hekimler sources, R4 research sources, the 24 curated-club feeds (canonical count: `adapters/hekimler-radar/content/policies/hekimler-opportunity-pack.json` inventory snapshot; none registered yet), GMC (honest substitute). Never bulk-activate (`hekimler_ops.py capacity` first).
 
