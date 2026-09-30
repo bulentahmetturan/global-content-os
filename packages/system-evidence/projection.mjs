@@ -24,8 +24,21 @@ export function withStatus(row, text) {
   return `${trimmed.slice(0, cut)}| ${cell(text)} |`;
 }
 
+// The one-time legacy import stored at most this many characters of the old status text.
+export const LEGACY_STATUS_CAP = 160;
+
+function previousStatus(r, status) {
+  const prev = r.legacy_status_text;
+  if (!prev || status.includes(prev)) return '';
+  return ` — önceki: ${prev}${prev.length >= LEGACY_STATUS_CAP ? '…' : ''}`;
+}
+
 export function renderRow(r) {
-  if (r.legacy_row) return r.status === r.legacy_status ? r.legacy_row : withStatus(r.legacy_row, `${statusText(r)}${r.legacy_status_text ? ` — önceki: ${r.legacy_status_text}` : ''}`);
+  if (r.legacy_row) {
+    if (r.status === r.legacy_status) return r.legacy_row;
+    const status = statusText(r);
+    return withStatus(r.legacy_row, `${status}${previousStatus(r, status)}`);
+  }
   return `| ${r.evidence_id} | ${cell(r.summary)} | ${cell(r.before_state)} | ${cell(r.implementation_reference?.note || r.implementation_reference?.id || r.implementation_reference?.sha)} | ${cell(r.verification_reference?.id || r.verification_reference?.note)} | ${cell(statusText(r))} |`;
 }
 

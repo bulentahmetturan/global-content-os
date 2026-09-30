@@ -5,7 +5,7 @@ import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { checkTransition, fold, readEvents, validateLedger, audit, auditInput, TRANSITIONS, STATUSES } from '../packages/system-evidence/index.mjs';
-import { renderTable, applyProjection, extractRegion, BEGIN, END } from '../packages/system-evidence/projection.mjs';
+import { renderTable, renderRow, applyProjection, extractRegion, BEGIN, END, LEGACY_STATUS_CAP } from '../packages/system-evidence/projection.mjs';
 import { run, LEDGER, SORUN } from './evidence.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -127,6 +127,15 @@ test('projection: generated rows for new records; drift detected; markers requir
   } finally {
     s.done();
   }
+});
+
+test('projection: legacy previous status is not repeated when the new status already carries it; capped text is marked', () => {
+  const base = { legacy_row: '| S99 | x | y | z | w | eski |', legacy_status: 'OPEN_TEXT', status: 'DEFERRED', deferral: { owner: 'P3/ops', review_trigger: 't' } };
+  const capped = 'k'.repeat(LEGACY_STATUS_CAP);
+  const one = renderRow({ ...base, legacy_status_text: capped, deferral: { ...base.deferral, reason: `legacy state: ${capped} tam` } });
+  assert.doesNotMatch(one, /önceki/);
+  const two = renderRow({ ...base, legacy_status_text: capped, deferral: { ...base.deferral, reason: 'r' } });
+  assert.match(two, new RegExp(`önceki: ${capped}… \\|$`));
 });
 
 test('REAL ledger: valid lifecycle replay, zero accountability violations, projection in sync', () => {
