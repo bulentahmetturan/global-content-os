@@ -41,7 +41,7 @@ SECOND REPO: NO
 
 ### Kaduse news / research source work
 READ: `AGENTS.md`, `apps/worker/src/ingress/feed-scope.ts`
-OPTIONAL: `apps/worker/src/ingress/who-news.ts`, `apps/worker/src/ingress/europe-pmc.ts`
+OPTIONAL: `apps/worker/src/ingress/who-news.ts`, `apps/worker/src/ingress/europe-pmc.ts`, `docs/research-contract.md` (research registry + Research Pool contract; code: `packages/source-catalog/src/research/`)
 DO NOT LOAD: Hekimler adapter, `config/feeds.json` in bulk. Kaduse editorial policy is owned by the channel repo
 SECOND REPO: NO (YES only for a Kaduse editorial-policy question: `@ccos/channels/kaduse-medikal/content/policies/kaduse-news.json`)
 
