@@ -1,8 +1,10 @@
 name: Hekimler Türkiye-region runner
 
 # Optional. Runs the SAME adapter/ingest contract for sources tagged runner_region=TR (currently hsgm_public_health)
-# on a self-hosted runner located in Türkiye (labels: self-hosted, tr). Manual dispatch only: without such a runner
-# the job simply waits and nothing is ingested. No credentials are embedded; the ingest token is the repo secret.
+# on a self-hosted runner located in Türkiye (labels: self-hosted, tr). Dispatch-only until that runner exists: the
+# daily schedule is skipped unless repo variable TR_RUNNER_ENABLED=true (no such runner or variable as of
+# 2026-09-30), and hekimler-tr-freshness.yml enforces freshness under the same switch. A manual dispatch without the
+# runner just waits in the queue and ingests nothing. No credentials are embedded; the ingest token is the repo secret.
 
 on:
   workflow_dispatch:

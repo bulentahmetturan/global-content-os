@@ -30,10 +30,30 @@ def evaluate(telemetry: dict | None, now: datetime, max_age_hours: float) -> lis
     return problems
 
 
+NOT_PROVISIONED = (
+    "TR runner not provisioned (repo variable TR_RUNNER_ENABLED != true, no self-hosted `tr` runner): "
+    "{sources} are not collected at all. Known external blocker, reported daily as DIŞ by the issue check (S08); "
+    "freshness is enforced once the runner exists. Setup: adapters/hekimler-radar/scripts/hekimler_tr_runner_setup.md"
+)
+
+
+def runner_enabled(env: dict | None = None) -> bool:
+    """Same switch that gates the scheduled TR runner job (.github/workflows/hekimler-tr-runner.yml)."""
+    return str((env if env is not None else os.environ).get("TR_RUNNER_ENABLED") or "").strip().lower() == "true"
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-age-hours", type=float, default=48)
     args = ap.parse_args(argv)
+    if not runner_enabled():
+        msg = NOT_PROVISIONED.format(sources=", ".join(TR_SOURCES))
+        print(f"::notice title=Hekimler TR sources not collected::{msg}")
+        summary = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary:
+            with open(summary, "a", encoding="utf-8") as fh:
+                fh.write(f"## Hekimler TR source freshness\n\n**NOT MEASURED** - {msg}\n")
+        return 0
     req = urllib.request.Request(HUB + "/api/hekimler/sources", headers={"User-Agent": "hekimler-tr-freshness/1.0"})
     with urllib.request.urlopen(req, timeout=30) as resp:
         rows = {r["sourceId"]: r for r in json.load(resp)["sources"]}
