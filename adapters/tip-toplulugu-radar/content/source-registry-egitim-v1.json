@@ -530,13 +530,12 @@
         "/"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Prestige education catalogue; enable list-page after a verified course-announcement surface.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "EDUCATION",
       "allowed_routes": [
         "EDUCATION",
@@ -562,7 +561,49 @@
       "execution": "python_runner",
       "hub_lane": "egitim",
       "audit_no": 10,
-      "turkey_eligibility": "Evet"
+      "turkey_eligibility": "Evet",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "pasteur.fr",
+          "www.pasteur.fr"
+        ],
+        "allowed_path_patterns": [
+          "/en/education",
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official course-announcement surface verified by live dry-run through the real ingest path (HTTP 200, candidate accepted, current dates). Weekly cadence; one of 2 Eğitim canary sources (the other 40 fail the dry-run: HTTP 403/404 or no in-policy course items) and stay MANUAL_INTAKE.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.pasteur.fr/en/education",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official course-announcement surface verified by live dry-run through the real ingest path (HTTP 200, candidate accepted, current dates). Weekly cadence; one of 2 Eğitim canary sources (the other 40 fail the dry-run: HTTP 403/404 or no in-policy course items) and stay MANUAL_INTAKE."
     },
     {
       "source_id": "egitim_eso",
@@ -584,13 +625,12 @@
         "/"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "ESO eğitim kataloğu. Tıp öğrencisi multidisipliner kurs ayrı kaynak: egitim_eso_medstudents. Doctors Fellowship burs şeridinde.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "EDUCATION",
       "allowed_routes": [
         "EDUCATION",
@@ -616,7 +656,49 @@
       "execution": "python_runner",
       "hub_lane": "egitim",
       "audit_no": 11,
-      "turkey_eligibility": "Evet"
+      "turkey_eligibility": "Evet",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "eso.net",
+          "www.eso.net"
+        ],
+        "allowed_path_patterns": [
+          "/education-and-training/",
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official course-announcement surface verified by live dry-run through the real ingest path (HTTP 200, candidate accepted, current dates). Weekly cadence; one of 2 Eğitim canary sources (the other 40 fail the dry-run: HTTP 403/404 or no in-policy course items) and stay MANUAL_INTAKE.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.eso.net/education-and-training/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official course-announcement surface verified by live dry-run through the real ingest path (HTTP 200, candidate accepted, current dates). Weekly cadence; one of 2 Eğitim canary sources (the other 40 fail the dry-run: HTTP 403/404 or no in-policy course items) and stay MANUAL_INTAKE."
     },
     {
       "source_id": "egitim_eau",

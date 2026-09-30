@@ -9,7 +9,7 @@
     "id": "burs_tr_humphrey",
     "name": "Hubert H. Humphrey Programı",
     "url": "https://fulbright.org.tr/burs/10/Hubert-H.-Humphrey-Program%C4%B1",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_tr_meb_ylsy",
@@ -44,8 +44,8 @@
   {
     "id": "burs_uk_chevening",
     "name": "Chevening Scholarships",
-    "url": "https://www.chevening.org/scholarships/turkey/",
-    "mode": "AUTOMATION_READY"
+    "url": "https://www.chevening.org/scholarship/turkey/",
+    "mode": "MANUAL_INTAKE"
   },
   {
     "id": "burs_eu_erasmus_mundus",
@@ -111,7 +111,7 @@
     "id": "burs_ean_fellowships",
     "name": "EAN Fellowships & Funding",
     "url": "https://www.ean.org/",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_esso_grants",
@@ -135,7 +135,7 @@
     "id": "burs_ers_fellowships",
     "name": "ERS Fellowships & Grants",
     "url": "https://www.ersnet.org/",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_eacts_fontan",
@@ -315,7 +315,7 @@
     "id": "burs_febs_fellowships",
     "name": "FEBS Short-Term Fellowships",
     "url": "https://www.febs.org/funding/fellowships/",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_embo",
@@ -339,7 +339,7 @@
     "id": "burs_esaic_grants",
     "name": "ESAIC Research Grants",
     "url": "https://esaic.org/research/grants/esaic-grants/",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "burs_us_morris",

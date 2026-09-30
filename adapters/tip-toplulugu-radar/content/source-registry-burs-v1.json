@@ -98,13 +98,12 @@
         "/"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Annual mid-career call; not a rolling list index.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -124,7 +123,51 @@
       ],
       "poll_minutes": 10080,
       "statement_treatment": "official_guidance",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "fulbright.org.tr",
+          "www.fulbright.org.tr",
+          "www.humphreyfellowship.org",
+          "humphreyfellowship.org"
+        ],
+        "allowed_path_patterns": [
+          "/burs/",
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://fulbright.org.tr/burs/10/Hubert-H.-Humphrey-Program%C4%B1",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason."
     },
     {
       "source_id": "burs_tr_meb_ylsy",
@@ -373,24 +416,25 @@
       "source_role": "government_scholarship",
       "status": "active",
       "source_health": "HEALTHY",
-      "canonical_url": "https://www.chevening.org/scholarships/turkey/",
-      "source_url": "https://www.chevening.org/scholarships/turkey/",
-      "primary_url": "https://www.chevening.org/scholarships/turkey/",
+      "canonical_url": "https://www.chevening.org/scholarship/turkey/",
+      "source_url": "https://www.chevening.org/scholarship/turkey/",
+      "primary_url": "https://www.chevening.org/scholarship/turkey/",
       "allowed_hostnames": [
         "www.chevening.org",
         "chevening.org"
       ],
       "allowed_path_patterns": [
+        "/scholarship",
         "/scholarships",
         "/apply"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "MANUAL_INTAKE",
       "activation_note": "S66 Phase A (2026-09-28): verified live -- HTTP 200, no bot-wall, real server-rendered text via radar.fetchers.fetch() canary (no browser_fetcher needed). Country page (/scholarships/turkey/) confirmed to carry the actual actionable content: 'Open for applications until 6 October 2026, at 11:00 (UTC)'. Single stable annual programme page (not a news list) -- dedup runs on content_hash of the whole page, so a real change (cycle opens/closes, deadline updates) is what triggers a new candidate, not per-item links. Weekly cadence (poll_minutes unchanged at 10080) since this is an annual-cycle page, not a daily news index -- an open-application-window daily cadence bump is a reasonable future refinement, not done in this pass.",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
@@ -418,13 +462,15 @@
           "chevening.org"
         ],
         "allowed_path_patterns": [
+          "/scholarship",
           "/scholarships",
           "/apply"
         ],
         "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
-        "notes": "Verified 2026-09-28: HTTP 200, 2091 chars extracted from /scholarships/turkey/, real dated content present ('Open for applications until 6 October 2026, at 11:00 (UTC)')."
-      }
+        "notes": "Verified 2026-09-28: HTTP 200, 2091 chars extracted from /scholarships/turkey/, real dated content present ('Open for applications until 6 October 2026, at 11:00 (UTC)'). 2026-09-30: site moved /scholarships/turkey/ -> /scholarship/turkey/ (301, ~10 s load); registry URL updated, timeout 60 s."
+      },
+      "manual_intake_reason": "2026-09-30 production audit: registry URL moved (/scholarships/turkey/ -> /scholarship/turkey/, updated). The server then stalls every request that carries the project's honest User-Agent (60 s timeout, retested once) while answering a generic UA in ~4-10 s. No UA spoofing: paused to MANUAL_INTAKE. Reactivate if the publisher allowlists the identified UA."
     },
     {
       "source_id": "burs_eu_erasmus_mundus",
@@ -928,13 +974,12 @@
         "/"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Official EAN funding centre; Turkey in national neurology society network. Membership per call.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -954,7 +999,48 @@
       ],
       "poll_minutes": 10080,
       "statement_treatment": "official_guidance",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ean.org",
+          "ean.org"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.ean.org/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason."
     },
     {
       "source_id": "burs_esso_grants",
@@ -1131,13 +1217,12 @@
         "/"
       ],
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
-      "manual_intake_reason": "Official ERS fellowships including RESPIRE; Turkish Thoracic Society in network.",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -1157,7 +1242,48 @@
       ],
       "poll_minutes": 10080,
       "statement_treatment": "official_guidance",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ersnet.org",
+          "ersnet.org"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.ersnet.org/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason."
     },
     {
       "source_id": "burs_eacts_fontan",
@@ -2591,12 +2717,12 @@
       "status": "active",
       "source_health": "HEALTHY",
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -2626,14 +2752,56 @@
         "/funding/fellowships",
         "/"
       ],
-      "manual_intake_reason": "Official FEBS short-term fellowships. TBS is FEBS constituent since 1977. PROBio-Africa/LatAm and Ukrainian schemes are out of TR scope.",
       "include_keywords": [
         "FEBS",
         "Short-Term Fellowship",
         "biochemistry",
         "molecular",
         "deadline"
-      ]
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.febs.org",
+          "febs.org",
+          "fellowships.febs.org"
+        ],
+        "allowed_path_patterns": [
+          "/funding/fellowships",
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.febs.org/funding/fellowships/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason."
     },
     {
       "source_tier": "OFFICIAL_PRIMARY",
@@ -2784,12 +2952,12 @@
       "status": "active",
       "source_health": "HEALTHY",
       "fetch_mode": "list-page",
-      "fetch_enabled": false,
-      "scheduled_fetch_enabled": false,
-      "candidate_emission_enabled": false,
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
       "default_route_on_accept": "OPPORTUNITY",
       "allowed_routes": [
         "OPPORTUNITY",
@@ -2818,14 +2986,55 @@
         "/research/grants/",
         "/esaic-grants"
       ],
-      "manual_intake_reason": "Official ESAIC grants. Turkey sits on ESAIC Council (TARD). Host must be ESAIC Council/national-society country. 2027 call open.",
       "include_keywords": [
         "ESAIC",
         "research grant",
         "anaesthesiology",
         "intensive care",
         "deadline"
-      ]
+      ],
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "esaic.org",
+          "www.esaic.org"
+        ],
+        "allowed_path_patterns": [
+          "/research/grants/",
+          "/esaic-grants"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason.",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "rare",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://esaic.org/research/grants/esaic-grants/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "activation_note": "2026-09-30 production canary set: official list surface verified by live dry-run through the real ingest path (HTTP 200, candidates accepted, current dates). Weekly cadence; one of 5 Burs canary sources. Other Burs sources stay MANUAL_INTAKE with their own reason."
     },
     {
       "source_tier": "OFFICIAL_PRIMARY",

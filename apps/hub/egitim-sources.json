@@ -57,13 +57,13 @@
     "id": "egitim_pasteur",
     "name": "Institut Pasteur Education & Training",
     "url": "https://www.pasteur.fr/en/education",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "egitim_eso",
     "name": "European School of Oncology",
     "url": "https://www.eso.net/education-and-training/",
-    "mode": "MANUAL_INTAKE"
+    "mode": "AUTOMATION_READY"
   },
   {
     "id": "egitim_eau",

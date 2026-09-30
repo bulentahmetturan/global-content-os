@@ -423,6 +423,8 @@ PINNED_INTERMEDIATE_HOSTS = {
     "fnmt-ac-componentes-informaticos.pem": ("universidades.gob.es",),
     "geotrust-tls-rsa-ca-g1.pem": ("resmigazete.gov.tr",),
     "sectigo-public-server-auth-ca-dv-r36.pem": ("ttb.org.tr",),
+    # ttb.org.tr was reissued 2026-09-28 by SSL.com and serves the leaf only (no intermediate).
+    "ssl-com-tls-issuing-rsa-ca-r1.pem": ("ttb.org.tr",),
 }
 
 

@@ -14,3 +14,7 @@ Verified with `openssl verify -partial_chain` against the live leaf certificate.
 | `sectigo-public-server-auth-ca-dv-r36.pem` | `ttb.org.tr` | Sectigo Public Server Authentication CA DV R36 | AIA `http://crt.sectigo.com/SectigoPublicServerAuthenticationCADVR36.crt` (SHA-256 8C:54:C3:34:…:EF:22:E0) | 2036-03-21 |
 
 Each pin is loaded only for its listed host suffixes (`PINNED_INTERMEDIATE_HOSTS` in `radar/phase1_ingestion_canary.py`); other hosts never see it. Re-check expiry dates above before they lapse.
+
+| `ssl-com-tls-issuing-rsa-ca-r1.pem` | `ttb.org.tr` | SSL.com TLS Issuing RSA CA R1 (root: SSL.com TLS RSA Root CA 2022) | AIA `http://cert.ssl.com/SSL.com-TLS-I-RSA-R1.cer` (SHA-256 BF:BC:39:E9:…:0C:69) | 2032-10-18 |
+
+ttb.org.tr was reissued by SSL.com on 2026-09-28 and serves the leaf only; `openssl verify -CAfile <certifi> -untrusted <pin> <live leaf>` = OK (2026-09-30).

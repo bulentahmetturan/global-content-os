@@ -1045,13 +1045,14 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "MANUAL_INTAKE",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access."
     },
     {
       "source_id": "trthaber_saglik",
@@ -2733,13 +2734,14 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "MANUAL_INTAKE",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access."
     },
     {
       "source_id": "ahaber_saglik",
@@ -3011,13 +3013,14 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "MANUAL_INTAKE",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access."
     },
     {
       "source_id": "dha_saglik_yasam",
