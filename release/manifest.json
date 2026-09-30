@@ -22,6 +22,12 @@
       "gcos": { "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "change": "Hub static assets only (generated catalogs, dev files excluded); rollback target = workerVersions.gcos" },
       "ccos": "unchanged (commits.ccos / workerVersions.ccos)"
     },
+    "batch3HubStubRemoval": {
+      "decision": "D-UD-BATCH-3 UD-1 A (user/owner 2026-09-30 ~14:05 UTC+3): remove Hub static asset 00_TURK_TIP_CONTENT_OS_BIBLE_v3.md (redirect stub, 0 consumers)",
+      "rollbackTarget": { "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "recordedBeforeDeploy": "2026-09-30T11:20Z" },
+      "d1BookmarkBeforeDeploy": { "gcos": "00000241-00000004-000050f6-9722dc393693dceddc58f7138072e975", "note": "no migration and no D1 write in this deploy; bookmark recorded for discipline only" },
+      "change": "Hub static assets only (one file removed); Worker code, migrations, bindings unchanged"
+    },
     "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
     "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub archive = open user decision (E28)."
   },
