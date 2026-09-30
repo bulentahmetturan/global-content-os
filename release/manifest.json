@@ -10,8 +10,20 @@
     "frozenTag": "system-v1-frozen (GCOS b6c632b, CCOS 4c312ea)",
     "migrations": { "gcos": [], "ccos": ["041_operations_hardening.sql"] },
     "expectedMigrationLevel": { "gcos": "0024_source_revalidation.sql", "ccos": "041_operations_hardening.sql" },
+    "commits": {
+      "gcos": "9257283600d04fcb7c4d82a8f58dbab7dbecd899",
+      "ccos": "6fd3804f078c4f331c2180c35f828576e5b93a50"
+    },
+    "workerVersions": {
+      "gcos": "c0118839-5180-4c61-9f4a-45d286864d2b",
+      "ccos": "1706770d-13f6-416c-835f-0e1188b9e83d"
+    },
+    "liveAfterPhase5B": {
+      "gcos": { "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "change": "Hub static assets only (generated catalogs, dev files excluded); rollback target = workerVersions.gcos" },
+      "ccos": "unchanged (commits.ccos / workerVersions.ccos)"
+    },
     "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
-    "deferred": "MCD workflow disable, MCD repo secret deletion and local MCD retirement wait for the first successful GCOS Hekimler scheduled run after 2026-09-30T04:17Z (evidence E15)"
+    "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub archive = open user decision (E28)."
   },
   "gcos": {
     "repo": "global-content-os",

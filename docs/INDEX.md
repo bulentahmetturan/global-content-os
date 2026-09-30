@@ -35,7 +35,7 @@ SECOND REPO: NO
 
 ### Hekimler source policy, audience, lifecycle
 READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`, `adapters/hekimler-radar/content/policies/hekimler-audience-scope.json`
-OPTIONAL: `adapters/hekimler-radar/radar/hekimler_audience_scope.py`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md:1-98`
+OPTIONAL: `adapters/hekimler-radar/radar/hekimler_audience_scope.py`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md:1-104`
 DO NOT LOAD: full Bible, run history, other channels
 SECOND REPO: NO
 
