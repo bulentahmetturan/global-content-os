@@ -1,6 +1,6 @@
 {
   "schemaVersion": "3.0.0",
-  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Hekimler audience/source policy. channel-content-os (which absorbed multi_channel_design, ADR-0005) keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
+  "$comment": "Hub route metadata. Ownership model (Package 2): ALL source acquisition/runtime truth is owned by THIS repo -- source identities, endpoints, subscriptions, acquisition scoping, fetch/cadence/health, Tıp Topluluğu audience/source policy. channel-content-os (which absorbed multi_channel_design, ADR-0005) keeps only channel/editorial COVERAGE policy (what the channel is about), referenced as `externalPolicy.*` relative to `externalPolicyRepo`; those files are never source-runtime truth and no runtime code reads them. This file has no runtime consumer today; it is validated by scripts/architecture-invariants.test.mjs.",
   "externalPolicyRepo": {
     "name": "channel-content-os",
     "relativeRoot": "../channel-content-os",
@@ -40,12 +40,12 @@
       "channelId": "tip-ogrencileri-platformu",
       "icon": "🎓",
       "runtimeOwner": "global-content-os",
-      "runtimeAdapter": "adapters/hekimler-radar",
-      "officialSourcesRef": "adapters/hekimler-radar/sources/official_sources.yaml",
+      "runtimeAdapter": "adapters/tip-toplulugu-radar",
+      "officialSourcesRef": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
       "feedCount": 729,
-      "note": "Hekimler Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/hekimler-radar. channel-content-os keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
-      "sourcePolicy": "adapters/hekimler-radar/content/policies/hekimler-source-policy-map.json",
-      "audienceScope": "adapters/hekimler-radar/content/policies/hekimler-audience-scope.json"
+      "note": "Tıp Topluluğu + tip sources. Runtime AND source/audience policy are canonical in adapters/tip-toplulugu-radar. channel-content-os keeps only brand/logos for this channel. The Worker ingress feed id `tip-radar-adapter` is a historical name kept for D1 stability (tip-radar = LEGACY_MIGRATION_COMPATIBILITY_ONLY).",
+      "sourcePolicy": "adapters/tip-toplulugu-radar/content/policies/tip-toplulugu-source-policy-map.json",
+      "audienceScope": "adapters/tip-toplulugu-radar/content/policies/tip-toplulugu-audience-scope.json"
     }
   ]
 }

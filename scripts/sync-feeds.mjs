@@ -4,7 +4,7 @@
  * - local runtime: packages/source-catalog/data/kaduse-subscriptions.json (which targets Kaduse subscribes to + acquisition scoping)
  * - local runtime: packages/source-catalog/data/news-registry.json
  * - local runtime: packages/source-catalog/data/research-sources.json
- * - local runtime: adapters/hekimler-radar/sources/official_sources.yaml
+ * - local runtime: adapters/tip-toplulugu-radar/sources/official_sources.yaml
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -26,7 +26,7 @@ const researchRegistry = JSON.parse(
   fs.readFileSync(path.join(root, 'packages/source-catalog/data/research-sources.json'), 'utf8')
 );
 const tipYaml = fs.readFileSync(
-  path.join(root, 'adapters/hekimler-radar/sources/official_sources.yaml'),
+  path.join(root, 'adapters/tip-toplulugu-radar/sources/official_sources.yaml'),
   'utf8'
 );
 
@@ -216,7 +216,7 @@ const tipAdapterFeed = {
 
 const feeds = [tipAdapterFeed, ...newsFeeds, ...researchFeeds, ...tipFeeds];
 
-// Same publisher already listed under Hekimler Duyuru (or Haber for MNT). Do not resurrect on sync.
+// Same publisher already listed under Tıp Topluluğu Duyuru (or Haber for MNT). Do not resurrect on sync.
 // (Carried over from the 2026-09-29 18:09 gcos stash; without it a regeneration re-enables these.)
 const RETIRED_DUPLICATE_FEED_IDS = new Set([
   'news-hsgm-news-scoped',
@@ -255,7 +255,7 @@ const PROVENANCE_INPUTS = [
   'packages/source-catalog/data/news-registry.json',
   'packages/source-catalog/data/research-sources.json',
   'packages/source-catalog/data/kaduse-subscriptions.json',
-  'adapters/hekimler-radar/sources/official_sources.yaml',
+  'adapters/tip-toplulugu-radar/sources/official_sources.yaml',
 ];
 const sha256 = (rel) =>
   createHash('sha256')

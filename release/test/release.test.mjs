@@ -120,7 +120,7 @@ test('e2e brief contract mirrors CCOS source (keys + enums)', () => {
   const src = ccos && existsSync(join(ccos, 'mcp-server/src/handoff/approved-brief.ts')) ? readFileSync(join(ccos, 'mcp-server/src/handoff/approved-brief.ts'), 'utf8') : null;
   if (!src) return; // CCOS checkout not available: skip
   for (const k of BRIEF_KEYS) assert.ok(src.includes(`${k}:`), `CCOS contract lacks ${k}`);
-  for (const v of ['kaduse-news', 'kaduse-research', 'tip-ogrencileri', 'kaduse-medikal', 'tip-ogrencileri-platformu', 'hekimler-toplulugu']) assert.ok(src.includes(`'${v}'`), v);
+  for (const v of ['kaduse-news', 'kaduse-research', 'tip-ogrencileri', 'kaduse-medikal', 'tip-ogrencileri-platformu', 'tip_toplulugu']) assert.ok(src.includes(`'${v}'`), v);
 });
 
 // ---- e2e harness ------------------------------------------------------------------------------------------

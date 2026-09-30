@@ -1,5 +1,5 @@
 // Source lifecycle model. Persistent state is NOT a new enum: it is derived from the canonical fields the runtime
-// already reads (Hekimler `status` + `runtime_activation`, Kaduse `enabled` / `activation` / subscription state).
+// already reads (Tıp Topluluğu `status` + `runtime_activation`, Kaduse `enabled` / `activation` / subscription state).
 // Transaction phases (REQUESTED .. ACTIVE) exist only in an operation's trace and are never written to a registry.
 
 export const PHASES = ['REQUESTED', 'RESOLVING', 'VALIDATING', 'CANARY', 'READY', 'ACTIVE'];
@@ -7,16 +7,16 @@ export const EXCEPTIONAL = ['NEEDS_USER_DECISION', 'BLOCKED_ACCESS', 'BLOCKED_CA
 // Kaduse lanes: CHANGE_PREPARED = catalog + feeds.json + forward migration written locally (remote apply is the review gate).
 export const OUTCOMES = [...PHASES, ...EXCEPTIONAL, 'ALREADY_ACTIVE', 'ALREADY_RETIRED', 'NOT_FOUND', 'PLAN_ONLY', 'CHANGE_DRY_RUN', 'CHANGE_PREPARED', 'NO_CHANGE'];
 
-// Canonical Hekimler vocabulary (radar/hekimler_activation.py). Re-declared only to read it, never extended.
+// Canonical Tıp Topluluğu vocabulary (radar/tip_toplulugu_activation.py). Re-declared only to read it, never extended.
 export const ACTIVATION = { READY: 'AUTOMATION_READY', MANUAL: 'MANUAL_INTAKE', BLOCKED: 'BLOCKED' };
-export const HEKIMLER_STATUS = { ACTIVE: 'active', RETIRED: 'retired' };
+export const TIP_TOPLULUGU_STATUS = { ACTIVE: 'active', RETIRED: 'retired' };
 
 export const LANES = {
-  hekimler: {
+  tip_toplulugu: {
     channelId: 'tip-ogrencileri-platformu',
-    scheduler: 'hekimler-python-runner',
+    scheduler: 'tip-toplulugu-python-runner',
     runsPerDay: 1,
-    store: 'adapters/hekimler-radar/content/source-registry-*.json',
+    store: 'adapters/tip-toplulugu-radar/content/source-registry-*.json',
     cadenceField: 'fetch_plan.expected_check_interval_minutes',
     apply: true,
   },

@@ -17,7 +17,7 @@
         "sha256": "3246e946a83ade15dcb7aba0e61d86cbf9b0dd8cbc799f6283f38d471f263d90"
       },
       {
-        "path": "adapters/hekimler-radar/sources/official_sources.yaml",
+        "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
         "sha256": "ebbf7e0756cc19efa1c40b6fa5185582c5aca0c3c3f47a90cd350f74f928871d"
       }
     ]

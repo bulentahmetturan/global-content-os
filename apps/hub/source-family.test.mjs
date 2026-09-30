@@ -1,8 +1,8 @@
 // S71 (work package 1, item 3): content-family classification must be
 // canonical (registry-backed), not a UI-only heuristic re-derived from the
 // source id on the client. sourceFamily() prefers the backend's own
-// classifyHekimlerFamily() verdict (apps/worker/src/ingress/hekimler-
-// coverage.ts, sent as `family` on every /api/hekimler/sources entry) and
+// classifyTipTopluluguFamily() verdict (apps/worker/src/ingress/tip_toplulugu-
+// coverage.ts, sent as `family` on every /api/tip_toplulugu/sources entry) and
 // only falls back to the id-prefix heuristic for entries that never went
 // through the backend at all (this file's own synthetic RUNNER_REQUIRED
 // placeholders).

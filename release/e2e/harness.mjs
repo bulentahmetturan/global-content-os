@@ -9,7 +9,7 @@
 import { createHash } from 'node:crypto';
 
 export const ROUTES = ['kaduse-news', 'kaduse-research', 'tip-ogrencileri'];
-export const CHANNELS = ['kaduse-medikal', 'tip-ogrencileri-platformu', 'hekimler-toplulugu'];
+export const CHANNELS = ['kaduse-medikal', 'tip-ogrencileri-platformu', 'tip_toplulugu'];
 export const CONTRACT_VERSION = '1.0.0';
 export const BRIEF_KEYS = ['contractVersion', 'briefId', 'route', 'channelId', 'title', 'summary', 'gists', 'canonicalUrl', 'publisher', 'publishedAt', 'dedupeKey', 'approvedAt', 'approvedBy', 'evidence', 'sourceItemId'];
 const EVIDENCE_KEYS = ['doi', 'pmid', 'pmcid', 'finding', 'limitation', 'studyType'];

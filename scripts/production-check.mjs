@@ -106,7 +106,7 @@ for (const f of testFiles) {
 console.log(`  SKIPPED_TESTS=${unjustifiedSkips + justifiedSkips} UNJUSTIFIED_TEST_SKIPS=${unjustifiedSkips} JUSTIFIED_SKIPS=${justifiedSkips} (sibling repo absent)`);
 
 // 3. Python test suite ---------------------------------------------------
-section('Python test suite (adapters/hekimler-radar)');
+section('Python test suite (adapters/tip-toplulugu-radar)');
 // Known, tracked-in-SORUN-TESPIT-LISTESI pre-existing failures (all in
 // test_phase1_ingestion_canary.py, out of scope since S07). A regression
 // is any failure COUNT above this baseline, or any failure outside that
@@ -114,7 +114,7 @@ section('Python test suite (adapters/hekimler-radar)');
 const KNOWN_FAILURE_BASELINE = 0; // the 7 phase1 canary failures were STALE fixtures (undated items), fixed in final reconciliation
 try {
   const out = execFileSync('python3', ['-m', 'pytest', 'tests', '-q', '-rs'], {
-    cwd: rel('adapters/hekimler-radar'),
+    cwd: rel('adapters/tip-toplulugu-radar'),
     stdio: 'pipe',
   }).toString();
   const m = out.match(/(\d+) passed/);
@@ -184,12 +184,12 @@ try {
   fail('migration 0022 missing or unreadable', e.message);
 }
 try {
-  const phase1 = JSON.parse(readFileSync(rel('adapters/hekimler-radar/content/source-registry-phase1.json'), 'utf8'));
+  const phase1 = JSON.parse(readFileSync(rel('adapters/tip-toplulugu-radar/content/source-registry-phase1.json'), 'utf8'));
   const aa = [...(phase1.sources || []), ...(phase1.secondary_sources || [])].find(
     (s) => s.source_id === 'anadolu_ajansi_medical_radar'
   );
-  if (aa && aa.status === 'retired') pass('aa.com.tr Hekimler-side registration is retired');
-  else fail('aa.com.tr Hekimler-side registration is not retired', JSON.stringify(aa?.status));
+  if (aa && aa.status === 'retired') pass('aa.com.tr Tıp Topluluğu-side registration is retired');
+  else fail('aa.com.tr Tıp Topluluğu-side registration is not retired', JSON.stringify(aa?.status));
 } catch (e) {
   fail('aa.com.tr ownership check failed', e.message);
 }
@@ -261,10 +261,10 @@ try {
 }
 try {
   const runFile = readFileSync(rel('apps/worker/src/triage/revalidation-run.ts'), 'utf8');
-  const configTables = ['source_feeds', 'hekimler_source_telemetry'];
+  const configTables = ['source_feeds', 'tip_toplulugu_source_telemetry'];
   const mutatesConfig = configTables.some((t) => new RegExp(`(UPDATE|INSERT INTO|DELETE FROM)\\s+${t}`, 'i').test(runFile));
   if (!mutatesConfig) {
-    pass('revalidation-run.ts never writes to source_feeds/hekimler_source_telemetry (recommendation-only, no autonomous mutation)');
+    pass('revalidation-run.ts never writes to source_feeds/tip_toplulugu_source_telemetry (recommendation-only, no autonomous mutation)');
   } else {
     fail('revalidation-run.ts appears to write to a production config table -- this must only ever recommend, never apply');
   }
@@ -291,7 +291,7 @@ try {
 section('Canonical source identity: one primary heading per source');
 try {
   const out = execFileSync('python3', ['scripts/check_source_identity.py'], {
-    cwd: rel('adapters/hekimler-radar'),
+    cwd: rel('adapters/tip-toplulugu-radar'),
     stdio: 'pipe',
   }).toString();
   pass(out.trim().split('\n')[0]);

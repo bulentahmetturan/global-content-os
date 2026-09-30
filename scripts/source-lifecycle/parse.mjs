@@ -4,9 +4,9 @@ import { hostOf, normalizeUrl } from './catalog.mjs';
 
 // Existing runtime parsers per lane (reuse; one generic parser per transport, never one parser per source).
 export const RUNTIME_PARSERS = {
-  hekimler: {
-    HTML_LIST: { method: 'list-page', module: 'adapters/hekimler-radar/radar/hekimler_fetch.py' },
-    OFFICIAL_API: { method: 'eutilities_api', module: 'adapters/hekimler-radar/radar/hekimler_fetch.py', hosts: ['eutils.ncbi.nlm.nih.gov', 'pubmed.ncbi.nlm.nih.gov'] },
+  tip_toplulugu: {
+    HTML_LIST: { method: 'list-page', module: 'adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py' },
+    OFFICIAL_API: { method: 'eutilities_api', module: 'adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py', hosts: ['eutils.ncbi.nlm.nih.gov', 'pubmed.ncbi.nlm.nih.gov'] },
   },
   'kaduse-news': {
     HTML_LIST: { method: 'WEB_ONLY', module: 'apps/worker/src/ingress/generic-web.ts' },

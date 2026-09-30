@@ -12,7 +12,7 @@ describe('familyClause — Bible v3 one primary category', () => {
     assert.match(duyuru.sql, /NOT LIKE 'burs_%'/);
     assert.match(duyuru.sql, /NOT LIKE 'egitim_%'/);
   });
-  it('empty family is a no-op for non-hekimler callers', () => {
+  it('empty family is a no-op for non-tip_toplulugu callers', () => {
     assert.equal(familyClause(undefined).sql, '');
     assert.equal(familyClause('').sql, '');
   });

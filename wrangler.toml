@@ -25,8 +25,8 @@ crons = ["* * * * *"]
 [vars]
 ENVIRONMENT = "production"
 CCOS_HANDOFF_STUB = "false"
-# Hekimler continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
-HEKIMLER_CONTINUOUS_INGESTION_ENABLED = "true"
+# Tıp Topluluğu continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
+TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED = "true"
 BIBLE_VERSION = "4.0"
 
 [ai]

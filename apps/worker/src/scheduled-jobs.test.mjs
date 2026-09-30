@@ -48,7 +48,7 @@ async function runIsolatedScheduledJobs(jobs, opts = {}) {
 }
 
 describe('runIsolatedScheduledJobs', () => {
-  it('runs Hekimler when enrichment fails', async () => {
+  it('runs Tıp Topluluğu when enrichment fails', async () => {
     const ran = [];
     const errors = [];
     const report = await runIsolatedScheduledJobs(
@@ -61,28 +61,28 @@ describe('runIsolatedScheduledJobs', () => {
           },
         },
         {
-          id: 'hekimler-continuous',
+          id: 'tip-toplulugu-continuous',
           run: async () => {
-            ran.push('hekimler');
+            ran.push('tip_toplulugu');
             return { due: 1 };
           },
         },
       ],
       { onError: (r) => errors.push(r) }
     );
-    assert.deepEqual(ran, ['enrich', 'hekimler']);
+    assert.deepEqual(ran, ['enrich', 'tip_toplulugu']);
     assert.equal(report.ok, false);
     assert.equal(report.failures.length, 1);
     assert.equal(report.failures[0].id, 'enrich');
     assert.equal(report.failures[0].error.message, 'enrichment_boom');
     assert.equal(errors.length, 1);
     assert.equal(
-      report.results.find((r) => r.id === 'hekimler-continuous').status,
+      report.results.find((r) => r.id === 'tip-toplulugu-continuous').status,
       'fulfilled'
     );
   });
 
-  it('runs enrichment when Hekimler fails', async () => {
+  it('runs enrichment when Tıp Topluluğu fails', async () => {
     const ran = [];
     const report = await runIsolatedScheduledJobs([
       {
@@ -92,10 +92,10 @@ describe('runIsolatedScheduledJobs', () => {
         },
       },
       {
-        id: 'hekimler-continuous',
+        id: 'tip-toplulugu-continuous',
         run: async () => {
-          ran.push('hekimler');
-          throw new Error('hekimler_boom');
+          ran.push('tip_toplulugu');
+          throw new Error('tip_toplulugu_boom');
         },
       },
       {
@@ -105,10 +105,10 @@ describe('runIsolatedScheduledJobs', () => {
         },
       },
     ]);
-    assert.deepEqual(ran, ['enrich', 'hekimler', 'news']);
+    assert.deepEqual(ran, ['enrich', 'tip_toplulugu', 'news']);
     assert.equal(report.failures.length, 1);
-    assert.equal(report.failures[0].id, 'hekimler-continuous');
-    assert.equal(report.failures[0].error.message, 'hekimler_boom');
+    assert.equal(report.failures[0].id, 'tip-toplulugu-continuous');
+    assert.equal(report.failures[0].error.message, 'tip_toplulugu_boom');
     assert.equal(report.results.find((r) => r.id === 'enrich').status, 'fulfilled');
     assert.equal(report.results.find((r) => r.id === 'news-generic').status, 'fulfilled');
   });
@@ -118,7 +118,7 @@ describe('runIsolatedScheduledJobs', () => {
     const report = await runIsolatedScheduledJobs(
       [
         { id: 'enrich', run: async () => { throw new TypeError('no_ai_binding'); } },
-        { id: 'hekimler-continuous', run: async () => { throw new Error('lock_table_missing'); } },
+        { id: 'tip-toplulugu-continuous', run: async () => { throw new Error('lock_table_missing'); } },
       ],
       { onError: (r) => logged.push(r) }
     );
@@ -127,8 +127,8 @@ describe('runIsolatedScheduledJobs', () => {
     const byId = Object.fromEntries(logged.map((r) => [r.id, r.error]));
     assert.equal(byId.enrich.name, 'TypeError');
     assert.equal(byId.enrich.message, 'no_ai_binding');
-    assert.equal(byId['hekimler-continuous'].name, 'Error');
-    assert.equal(byId['hekimler-continuous'].message, 'lock_table_missing');
+    assert.equal(byId['tip-toplulugu-continuous'].name, 'Error');
+    assert.equal(byId['tip-toplulugu-continuous'].message, 'lock_table_missing');
   });
 });
 
@@ -139,7 +139,7 @@ describe('pickScheduledSlot (one job per tick)', async () => {
     for (let h = 0; h < 24; h++) for (let m = 0; m < 60; m++) seen.add(pickScheduledSlot(h, m));
     for (const id of [
       'who-news', 'europe-pmc', 'pubmed', 'research-apis', 'journal-fallback',
-      'purge-trash', 'news-generic', 'research-generic', 'enrich', 'hekimler-continuous',
+      'purge-trash', 'news-generic', 'research-generic', 'enrich', 'tip-toplulugu-continuous',
     ]) assert.ok(seen.has(id), `slot ${id} never scheduled`);
   });
   it('feed polling stays at least 10x per hour for news and research', () => {

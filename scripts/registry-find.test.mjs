@@ -19,10 +19,10 @@ test('returns only the requested record, from a canonical store, small output', 
   assert.ok(r.stdout.length < 8000, 'ordinary lookup must not dump a registry');
 });
 
-test('finds a Hekimler source in the Hekimler canonical registry', () => {
+test('finds a Tıp Topluluğu source in the Tıp Topluluğu canonical registry', () => {
   const r = run('tdb_dental');
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /adapters\/hekimler-radar\/content\/source-registry-/);
+  assert.match(r.stdout, /adapters\/tip-toplulugu-radar\/content\/source-registry-/);
 });
 
 test('unknown id: exit 1, usage error: exit 2', () => {
@@ -30,10 +30,10 @@ test('unknown id: exit 1, usage error: exit 2', () => {
   assert.equal(run().status, 2);
 });
 
-test('searches only canonical stores (catalog data, hekimler registries, config/feeds.json)', () => {
+test('searches only canonical stores (catalog data, tip_toplulugu registries, config/feeds.json)', () => {
   const files = execFileSync('node', ['scripts/registry-find.mjs', '--files'], { cwd: root, encoding: 'utf8' }).trim().split('\n');
   assert.ok(files.length >= 5);
-  for (const f of files) assert.match(f, /^(packages\/source-catalog\/data\/|adapters\/hekimler-radar\/content\/source-registry-|config\/feeds\.json)/);
+  for (const f of files) assert.match(f, /^(packages\/source-catalog\/data\/|adapters\/tip-toplulugu-radar\/content\/source-registry-|config\/feeds\.json)/);
 });
 
 test('is read-only: no fs write APIs in the tool', () => {

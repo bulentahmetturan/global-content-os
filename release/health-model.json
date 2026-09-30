@@ -33,7 +33,7 @@
     },
     {
       "id": "scheduler_health",
-      "probe": "python adapters/hekimler-radar/scripts/hekimler_ops.py status + capacity; GCOS /api/ready CRON_HEARTBEAT_STALE absent",
+      "probe": "python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py status + capacity; GCOS /api/ready CRON_HEARTBEAT_STALE absent",
       "pass": "capacity guard not BLOCK; no source lateness > 2880 min; no CAPACITY_DELAY in last run report",
       "status": "defined"
     },

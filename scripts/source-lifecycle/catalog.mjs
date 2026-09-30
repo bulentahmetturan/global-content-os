@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { storesAt, records } from '../registry-find.mjs';
-import { ACTIVATION, HEKIMLER_STATUS } from './model.mjs';
+import { ACTIVATION, TIP_TOPLULUGU_STATUS } from './model.mjs';
 
 const TWO_LEVEL_SUFFIXES = new Set(['gov.tr', 'edu.tr', 'org.tr', 'com.tr', 'k12.tr', 'av.tr', 'bel.tr', 'co.uk', 'ac.uk', 'gov.uk', 'nhs.uk', 'org.uk', 'europa.eu', 'nih.gov', 'com.au', 'gov.au', 'org.au']);
 const TRACKING_PARAM = /^(utm_[a-z]+|fbclid|gclid|mc_cid|mc_eid)$/i;
@@ -58,14 +58,14 @@ const pathOf = (url) => {
 
 const readJson = (f) => JSON.parse(readFileSync(f, 'utf8').replace(/^\uFEFF/, ''));
 
-function hekimlerProjection(rel, path, r) {
+function tipTopluluguProjection(rel, path, r) {
   const plan = r.fetch_plan || {};
   const urls = [r.canonical_url, r.source_url, r.primary_url, ...(plan.surfaces || []).map((s) => s.url)].map(normalizeUrl).filter(Boolean);
   const status = String(r.status || '').toLowerCase();
   const hist = Array.isArray(r.lifecycle_history) ? r.lifecycle_history : [];
   return {
-    store: 'hekimler',
-    lane: 'hekimler',
+    store: 'tip_toplulugu',
+    lane: 'tip_toplulugu',
     source_id: r.source_id,
     name: r.name || r.label || r.source_id,
     urls: [...new Set(urls)],
@@ -74,8 +74,8 @@ function hekimlerProjection(rel, path, r) {
     heading: r.source_id.startsWith('burs_') ? 'BURS' : r.source_id.startsWith('egitim_') ? 'EGITIM' : 'DUYURU',
     status: r.status,
     runtime_activation: r.runtime_activation ?? null,
-    retired: status === HEKIMLER_STATUS.RETIRED,
-    active: status !== HEKIMLER_STATUS.RETIRED && r.runtime_activation === ACTIVATION.READY,
+    retired: status === TIP_TOPLULUGU_STATUS.RETIRED,
+    active: status !== TIP_TOPLULUGU_STATUS.RETIRED && r.runtime_activation === ACTIVATION.READY,
     lastOutcome: hist.length ? hist[hist.length - 1].outcome : null,
     cadence_min: plan.expected_check_interval_minutes ?? null,
     file: rel,
@@ -132,8 +132,8 @@ export function loadProjections(root) {
     } catch {
       continue;
     }
-    if (rel.startsWith('adapters/hekimler-radar/content/source-registry-')) {
-      for (const { path, record } of records(data, '')) if (record.source_id) out.push(hekimlerProjection(rel, path, record));
+    if (rel.startsWith('adapters/tip-toplulugu-radar/content/source-registry-')) {
+      for (const { path, record } of records(data, '')) if (record.source_id) out.push(tipTopluluguProjection(rel, path, record));
     } else if (rel.endsWith('research-sources.json')) {
       (Array.isArray(data) ? data : []).forEach((r, i) => {
         if (r.sourceId) out.push(kaduseProjection('kaduse-research', 'kaduse-research', rel, `[${i}]`, r.sourceId, r.publisher, r.canonicalUrl, feeds.get(`research-${r.sourceId}`)));

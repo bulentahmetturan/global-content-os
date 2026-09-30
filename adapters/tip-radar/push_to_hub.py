@@ -21,7 +21,7 @@ import urllib.request
 from pathlib import Path
 
 # Radar engine + SQLite live beside this adapter in Global Content OS.
-DEFAULT_DB = Path(__file__).resolve().parents[1] / "hekimler-radar" / "database" / "radar.sqlite"
+DEFAULT_DB = Path(__file__).resolve().parents[1] / "tip-toplulugu-radar" / "database" / "radar.sqlite"
 
 
 def resolve_db(explicit: str | None) -> Path:

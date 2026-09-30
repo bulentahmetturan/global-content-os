@@ -191,7 +191,7 @@ export async function revalidateUnhealthySources(env: Env, limit = 8): Promise<{
   try {
     const { results } = await env.DB.prepare(
       `SELECT t.source_id, t.source_health, t.failure_count, t.last_operator_status
-       FROM hekimler_source_telemetry t
+       FROM tip_toplulugu_source_telemetry t
        WHERE t.source_health IN ('DEGRADED', 'UNHEALTHY', 'WARNING')
        LIMIT ?`
     )

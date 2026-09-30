@@ -5,7 +5,7 @@
 // Feedback never writes registry data. This module is the canonical GCOS code that performs a change, and only when
 //   1. the feedback event is a SOURCE_FEEDBACK that a human or review gate ACCEPTED (review_state ACCEPTED),
 //   2. the caller is an authenticated canonical owner (`authorize` present and returning exactly true -- fail closed),
-//   3. the record resolves to exactly one canonical Hekimler registry record (registry-find),
+//   3. the record resolves to exactly one canonical Tıp Topluluğu registry record (registry-find),
 //   4. the file is byte-stable under JSON round trip (otherwise the exact patch is returned for a manual edit).
 // Nothing is written unless `apply: true` is passed; the default is a dry run that returns the patch.
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -16,11 +16,11 @@ import { LANES } from './source-lifecycle/model.mjs';
 import { LADDER, LANE_POLICY } from './source-lifecycle/cadence.mjs';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-// The Hekimler scheduler (radar/hekimler_activation.py is_due_for_fetch) reads only this field; legacy `poll_minutes`
+// The Tıp Topluluğu scheduler (radar/tip_toplulugu_activation.py is_due_for_fetch) reads only this field; legacy `poll_minutes`
 // keys on some records are history and are never written.
-export const CADENCE_FIELD = LANES.hekimler.cadenceField;
+export const CADENCE_FIELD = LANES.tip_toplulugu.cadenceField;
 const CADENCE_PATH = CADENCE_FIELD.split('.');
-const CADENCE_BOUNDS = LANE_POLICY.hekimler;
+const CADENCE_BOUNDS = LANE_POLICY.tip_toplulugu;
 
 export const SOURCE_ACTIONS = ['disable', 'revalidate', 'change_url', 'change_cadence', 'parser_review', 'classification_review'];
 // PROPOSED_ADJUSTMENT.action (feedback schema) -> owner action implemented here
@@ -74,8 +74,8 @@ export function performSourceAction(req) {
     // revalidate / parser_review / classification_review are work items for the owner's existing tooling; no registry edit.
     return { ok: true, ...base, outcome: 'REVIEW_TASK_RECORDED', edits_registry: false };
   }
-  const hits = findAt(root, feedback.subject_id).filter((h) => h.file.startsWith('adapters/hekimler-radar/content/source-registry-'));
-  if (hits.length !== 1) return deny(hits.length ? 'AMBIGUOUS_RECORD' : 'RECORD_NOT_FOUND', `${hits.length} canonical Hekimler record(s)`);
+  const hits = findAt(root, feedback.subject_id).filter((h) => h.file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-'));
+  if (hits.length !== 1) return deny(hits.length ? 'AMBIGUOUS_RECORD' : 'RECORD_NOT_FOUND', `${hits.length} canonical Tıp Topluluğu record(s)`);
   const hit = hits[0];
   const patch = patchFor(action, hit.record, req.params ?? {});
   if (action === 'change_cadence' && patch.before === undefined) return deny('UNSUPPORTED_FOR_RECORD', 'record has no fetch_plan');

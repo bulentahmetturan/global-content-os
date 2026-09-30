@@ -2,7 +2,7 @@
   "contractVersion": "1.0.0",
   "briefId": "brief_fixture_0002",
   "route": "tip-ogrencileri",
-  "channelId": "hekimler-toplulugu",
+  "channelId": "tip_toplulugu",
   "title": "Fixture: brief without evidence",
   "summary": "",
   "gists": [],

@@ -4,9 +4,9 @@
 
 `OBSERVATION → EVIDENCE → PROPOSED_ADJUSTMENT → REVIEW (human / review gate) → source-actions (canonical owner) → report back: markApplied {change_ref}`
 
-Actions: `disable` (`runtime_activation → BLOCKED`), `change_url` (`source_url`), `change_cadence` (`fetch_plan.expected_check_interval_minutes` -- the field the Hekimler scheduler reads; ladder step within the Hekimler lane bounds 1440..20160; legacy `poll_minutes` keys are history and never written), `revalidate`, `parser_review`, `classification_review` (the last three record an owner work item; no registry edit).
+Actions: `disable` (`runtime_activation → BLOCKED`), `change_url` (`source_url`), `change_cadence` (`fetch_plan.expected_check_interval_minutes` -- the field the Tıp Topluluğu scheduler reads; ladder step within the Tıp Topluluğu lane bounds 1440..20160; legacy `poll_minutes` keys are history and never written), `revalidate`, `parser_review`, `classification_review` (the last three record an owner work item; no registry edit).
 
-Guards (all tested in `scripts/source-actions.test.mjs`): feedback must be `ACCEPTED` by `human`/`review_gate`; caller must be `canonical_owner` with `authorize(...) === true` (missing, throwing or non-true → `AUTH_FAIL_CLOSED`); exactly one canonical Hekimler record must resolve (`scripts/registry-find.mjs`); the default is a dry run returning the patch; `apply: true` writes only if the file is byte-stable under a JSON round trip, otherwise `REQUIRES_MANUAL_EDIT` with the exact patch. Kaduse catalog stores are not edited by this module.
+Guards (all tested in `scripts/source-actions.test.mjs`): feedback must be `ACCEPTED` by `human`/`review_gate`; caller must be `canonical_owner` with `authorize(...) === true` (missing, throwing or non-true → `AUTH_FAIL_CLOSED`); exactly one canonical Tıp Topluluğu record must resolve (`scripts/registry-find.mjs`); the default is a dry run returning the patch; `apply: true` writes only if the file is byte-stable under a JSON round trip, otherwise `REQUIRES_MANUAL_EDIT` with the exact patch. Kaduse catalog stores are not edited by this module.
 
 The lifecycle orchestrator (`docs/SOURCE-LIFECYCLE.md`) refuses feedback, learning and machine actors outright (`FEEDBACK_CANNOT_MUTATE_SOURCE`).
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Generates every Hub static asset that mirrors a canonical Hekimler file (D-BIBLE-V4-HUB-COPY, evidence E22; same
+// Generates every Hub static asset that mirrors a canonical Tıp Topluluğu file (D-BIBLE-V4-HUB-COPY, evidence E22; same
 // model for the Hub config copies and source catalogs, MANUAL_SYNC_MIRRORS=0). The Hub is served as Workers static
 // assets (wrangler.toml [assets] directory = "apps/hub"), which needs physical files there; they are GENERATED and must
 // never be edited by hand. Edit the canonical file, then run:
@@ -11,7 +11,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const CONTENT = 'adapters/hekimler-radar/content';
+const CONTENT = 'adapters/tip-toplulugu-radar/content';
 
 const copy = (buf) => buf;
 // Hub catalog = the registry's sources in registry order, projected to what the Hub UI reads.

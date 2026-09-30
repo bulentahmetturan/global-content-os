@@ -4,7 +4,7 @@
 // The canonical files remain the only editable truth; this tool builds no index and writes nothing.
 // It returns ONLY the matching record(s) (plus file + JSON path), so ordinary lookups never need a whole registry
 // in context. Stores searched (package 2 ownership): packages/source-catalog/data (news, research, Kaduse
-// subscriptions), adapters/hekimler-radar/content/source-registry-*.json (Hekimler), config/feeds.json (Kaduse feeds).
+// subscriptions), adapters/tip-toplulugu-radar/content/source-registry-*.json (Tıp Topluluğu), config/feeds.json (Kaduse feeds).
 //
 //   node scripts/registry-find.mjs <source-id> | --files        exit 0 found, 1 not found, 2 usage
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
@@ -23,7 +23,7 @@ export function storesAt(root) {
   const out = [];
   const cat = join(root, 'packages', 'source-catalog', 'data');
   if (existsSync(cat)) for (const f of readdirSync(cat).filter((n) => n.endsWith('.json')).sort()) out.push(join(cat, f));
-  const hek = join(root, 'adapters', 'hekimler-radar', 'content');
+  const hek = join(root, 'adapters', 'tip-toplulugu-radar', 'content');
   if (existsSync(hek)) {
     for (const f of readdirSync(hek).filter((n) => n.startsWith('source-registry-') && n.endsWith('.json')).sort()) out.push(join(hek, f));
   }

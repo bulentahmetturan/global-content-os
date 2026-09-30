@@ -10,7 +10,7 @@ export const KNOWN_APIS = [
   { domain: 'who.int', endpoint: 'https://www.who.int/api/news/newsitems', transport: 'OFFICIAL_API', runtime: 'apps/worker/src/ingress/who-news.ts', lanes: ['kaduse-news'] },
   { domain: 'europepmc.org', endpoint: 'https://www.ebi.ac.uk/europepmc/webservices/rest/search', transport: 'OFFICIAL_API', runtime: 'apps/worker/src/ingress/europe-pmc.ts', lanes: ['kaduse-research'] },
   { domain: 'ebi.ac.uk', endpoint: 'https://www.ebi.ac.uk/europepmc/webservices/rest/search', transport: 'OFFICIAL_API', runtime: 'apps/worker/src/ingress/europe-pmc.ts', lanes: ['kaduse-research'] },
-  { domain: 'nih.gov', hosts: ['eutils.ncbi.nlm.nih.gov', 'pubmed.ncbi.nlm.nih.gov'], endpoint: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi', transport: 'OFFICIAL_API', runtime: 'eutilities_api (hekimler) / REST_BATCH (kaduse)', lanes: ['hekimler', 'kaduse-research'] },
+  { domain: 'nih.gov', hosts: ['eutils.ncbi.nlm.nih.gov', 'pubmed.ncbi.nlm.nih.gov'], endpoint: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi', transport: 'OFFICIAL_API', runtime: 'eutilities_api (tip_toplulugu) / REST_BATCH (kaduse)', lanes: ['tip_toplulugu', 'kaduse-research'] },
 ];
 
 export async function defaultFetcher(url, { timeoutMs = 20000, maxBytes = 2_000_000 } = {}) {

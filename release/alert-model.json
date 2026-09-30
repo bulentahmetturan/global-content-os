@@ -95,7 +95,7 @@
       "class": "MUST_ALERT",
       "evaluatedBy": "gcos:scheduler-run-report",
       "condition": "Run report scheduler.attention contains SYSTEMIC_FETCH_FAILURE (>= 50% of >= 4 selected sources failed).",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "SYSTEMIC_FETCH_FAILURE" },
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py", "pattern": "SYSTEMIC_FETCH_FAILURE" },
       "response": "docs/OPERATIONS.md section 5 (Mass source failures): runner network / network-diagnose workflow."
     },
     {
@@ -103,9 +103,9 @@
       "system": "gcos",
       "class": "MUST_ALERT",
       "evaluatedBy": "gcos:scheduler-run-report",
-      "condition": "No hekimler-python-runner run report for > 48 h (two missed daily runs).",
-      "detect": { "repo": "gcos", "file": ".github/workflows/hekimler-python-runner.yml", "pattern": "cron" },
-      "response": "gh run list --workflow hekimler-python-runner.yml; re-run with workflow_dispatch."
+      "condition": "No tip-toplulugu-python-runner run report for > 48 h (two missed daily runs).",
+      "detect": { "repo": "gcos", "file": ".github/workflows/tip-toplulugu-python-runner.yml", "pattern": "cron" },
+      "response": "gh run list --workflow tip-toplulugu-python-runner.yml; re-run with workflow_dispatch."
     },
     {
       "id": "SCHEDULER_CAPACITY_DELAY",
@@ -113,8 +113,8 @@
       "class": "SHOULD_ALERT",
       "evaluatedBy": "gcos:scheduler-run-report",
       "condition": "scheduler.attention contains CAPACITY_DELAY (due sources not started this run).",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "CAPACITY_DELAY" },
-      "response": "python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --history <dir>."
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py", "pattern": "CAPACITY_DELAY" },
+      "response": "python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity --history <dir>."
     },
     {
       "id": "SCHEDULER_LATENESS",
@@ -122,8 +122,8 @@
       "class": "SHOULD_ALERT",
       "evaluatedBy": "gcos:scheduler-run-report",
       "condition": "scheduler.attention contains LATENESS_BEYOND_THRESHOLD (> 2880 min).",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "LATENESS_BEYOND_THRESHOLD" },
-      "response": "hekimler_ops.py status; check capacity guard before any activation."
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py", "pattern": "LATENESS_BEYOND_THRESHOLD" },
+      "response": "tip_toplulugu_ops.py status; check capacity guard before any activation."
     },
     {
       "id": "SCHEDULER_RETRY_BUDGET_EXHAUSTED",
@@ -131,7 +131,7 @@
       "class": "SHOULD_ALERT",
       "evaluatedBy": "gcos:scheduler-run-report",
       "condition": "scheduler.attention contains RETRY_BUDGET_EXHAUSTED.",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "RETRY_BUDGET_EXHAUSTED" },
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py", "pattern": "RETRY_BUDGET_EXHAUSTED" },
       "response": "Inspect failure classes in report/run-report.json rows."
     },
     {
@@ -139,8 +139,8 @@
       "system": "gcos",
       "class": "SHOULD_ALERT",
       "evaluatedBy": "gcos:capacity-guard",
-      "condition": "hekimler_ops.py capacity exits 2 (BLOCK) for the current active set.",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/scripts/hekimler_ops.py", "pattern": "\"BLOCK\": 2" },
+      "condition": "tip_toplulugu_ops.py capacity exits 2 (BLOCK) for the current active set.",
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py", "pattern": "\"BLOCK\": 2" },
       "response": "No activation; reduce load (cadence class) through a reviewed commit."
     },
     {
@@ -149,7 +149,7 @@
       "class": "MANUAL_CHECK",
       "evaluatedBy": "gcos:scheduler-run-report",
       "condition": "scheduler.attention contains MANUAL_REVIEW_REQUIRED (>= 5 consecutive failures for a source).",
-      "detect": { "repo": "gcos", "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py", "pattern": "MANUAL_REVIEW_REQUIRED" },
+      "detect": { "repo": "gcos", "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py", "pattern": "MANUAL_REVIEW_REQUIRED" },
       "response": "Investigate the named sources during routine review."
     },
     {

@@ -1,4 +1,4 @@
-/** Bible v4: one primary category per Hekimler item. Burs/egitim prefixes; duyuru is the remainder. */
+/** Bible v4: one primary category per Tıp Topluluğu item. Burs/egitim prefixes; duyuru is the remainder. */
 export function familyClause(family: string | undefined, alias = ''): { sql: string } {
   const sid = `COALESCE(${alias}source_id, '')`;
   const fid = `COALESCE(${alias}feed_id, '')`;

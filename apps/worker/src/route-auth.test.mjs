@@ -89,7 +89,7 @@ test('every POST handler in index.ts is gated (table or inline) -- a new write r
   const posts = [...src.matchAll(/path === '([^']+)' && request\.method === '(POST|PUT|PATCH|DELETE)'/g)].map((m) => `${m[2]} ${m[1]}`);
   const inline = new Set([
     'POST /api/triage', 'POST /api/handoff/resend', 'POST /api/handoff/status', 'POST /api/ingress/tip',
-    'POST /api/ingress/hekimler-telemetry', 'POST /api/ingress/hekimler-continuous',
+    'POST /api/ingress/tip-toplulugu-telemetry', 'POST /api/ingress/tip-toplulugu-continuous',
   ]);
   assert.ok(posts.length >= 19, `found ${posts.length}`);
   for (const k of posts) assert.ok(inline.has(k) || gates.ROUTE_GATES[k], `ungated write route: ${k}`);
@@ -170,9 +170,9 @@ test('authorized behaviour unchanged: handler-level validation and results are t
   });
 });
 
-test('hekimler ingress (now constant-time via authorizeToken): correct ingest token passes the auth check', async () => {
+test('tip_toplulugu ingress (now constant-time via authorizeToken): correct ingest token passes the auth check', async () => {
   const res = await worker.fetch(
-    req('POST', '/api/ingress/hekimler-continuous', { 'x-ingest-token': SECRETS.TIP_RADAR_INGEST_TOKEN }, { channelId: 'someone-else' }),
+    req('POST', '/api/ingress/tip-toplulugu-continuous', { 'x-ingest-token': SECRETS.TIP_RADAR_INGEST_TOKEN }, { channelId: 'someone-else' }),
     { DB: fakeDb(), ...SECRETS },
     { waitUntil() {} }
   );

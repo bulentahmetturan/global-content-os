@@ -17,7 +17,7 @@ export type TriageStatus = 'inbox' | 'hold' | 'production' | 'trash';
 export type ChannelId =
   | 'kaduse-medikal'
   | 'tip-ogrencileri-platformu'
-  | 'hekimler-toplulugu';
+  | 'tip_toplulugu';
 
 export interface EvidenceCardSummary {
   doi: string | null;

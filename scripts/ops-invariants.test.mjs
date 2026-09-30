@@ -13,17 +13,17 @@ const read = (...p) => readFileSync(join(root, ...p), 'utf8');
 function py(code) {
   for (const exe of ['python3', 'python']) {
     try {
-      return execFileSync(exe, ['-c', code], { cwd: join(root, 'adapters', 'hekimler-radar'), stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+      return execFileSync(exe, ['-c', code], { cwd: join(root, 'adapters', 'tip-toplulugu-radar'), stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
     } catch {
       /* try next interpreter */
     }
   }
   throw new Error('no python interpreter available');
 }
-const policy = JSON.parse(py('import json,dataclasses;from radar.hekimler_scheduler import Policy;print(json.dumps(dataclasses.asdict(Policy())))'));
+const policy = JSON.parse(py('import json,dataclasses;from radar.tip_toplulugu_scheduler import Policy;print(json.dumps(dataclasses.asdict(Policy())))'));
 
 test('INV-1/2 scheduler: runner uses the planner + budgeted executor, not registry-order iteration', () => {
-  const src = read('adapters', 'hekimler-radar', 'scripts', 'hekimler_scheduled_run.py');
+  const src = read('adapters', 'tip-toplulugu-radar', 'scripts', 'tip_toplulugu_scheduled_run.py');
   assert.match(src, /plan_run\(/);
   assert.match(src, /execute_plan\(/);
   assert.doesNotMatch(src, /for sid in sources:/, 'fixed-order loop must not return');
@@ -53,7 +53,7 @@ test('INV-10 scheduled-job configuration is machine-verifiable (cron syntax + ru
     assert.equal(parts.length, 5, `cron "${c}" must have 5 fields`);
     for (const p of parts) assert.match(p, field, `cron "${c}" field "${p}"`);
   }
-  const wf = read('.github', 'workflows', 'hekimler-python-runner.yml');
+  const wf = read('.github', 'workflows', 'tip-toplulugu-python-runner.yml');
   const timeoutMin = Number((wf.match(/timeout-minutes:\s*(\d+)/) || [])[1]);
   assert.ok(timeoutMin * 60 >= policy.run_budget_s + policy.source_timeout_s + 60, 'job timeout must exceed run budget + one source timeout + margin');
   assert.match(wf, /cancel-in-progress:\s*false/, 'runs must never cancel/overlap each other');
@@ -95,10 +95,10 @@ test('INV-11 deployment identity is stampable and readiness expects the newest m
   assert.ok(read('apps', 'worker', 'src', 'readiness.ts').includes(`'${newest}'`));
 });
 
-test('INV-9 CI runs the operationally meaningful suites (worker tests, hekimler python tests, scheduler simulations)', () => {
+test('INV-9 CI runs the operationally meaningful suites (worker tests, tip_toplulugu python tests, scheduler simulations)', () => {
   const w = read('.github', 'workflows', 'worker-tests.yml');
   assert.match(w, /production:check/);
-  const h = read('.github', 'workflows', 'hekimler-tests.yml');
+  const h = read('.github', 'workflows', 'tip-toplulugu-tests.yml');
   assert.match(h, /pytest tests/);
-  assert.ok(readdirSync(join(root, 'adapters', 'hekimler-radar', 'tests')).includes('test_hekimler_scheduler_fairness.py'));
+  assert.ok(readdirSync(join(root, 'adapters', 'tip-toplulugu-radar', 'tests')).includes('test_tip_toplulugu_scheduler_fairness.py'));
 });

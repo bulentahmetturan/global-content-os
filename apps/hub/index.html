@@ -316,15 +316,15 @@
 (function () {
   var ROUTES = [
     { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse Haber ve Research ayrı primary category. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
-    { id: 'hekimler', label: 'Hekimler Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
+    { id: 'tip_toplulugu', label: 'Tıp Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
     { id: 'bible', label: 'Türk Tıp Bible v4', icon: '📜', note: 'Normatif anayasa v4. Kitap I hard gate + Kitap II Source Pass/Fail. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
   var NAV = [
     { navId: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
     { navId: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: '🔬' },
-    { navId: 'duyuru', route: 'hekimler', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
-    { navId: 'burs', route: 'hekimler', lane: 'burs', label: 'Burs', icon: '🎓' },
-    { navId: 'egitim', route: 'hekimler', lane: 'egitim', label: 'Eğitim', icon: '📚' },
+    { navId: 'duyuru', route: 'tip_toplulugu', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
+    { navId: 'burs', route: 'tip_toplulugu', lane: 'burs', label: 'Burs', icon: '🎓' },
+    { navId: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
     { navId: 'bible', route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
   ];
   function routeNote() {
@@ -334,14 +334,14 @@
     if (state.route === 'kaduse' && state.kind === 'research') {
       return 'Kaduse Research. İddia kanıtı aşamaz; preprint etiketlenir. Otomatik yayın yok.';
     }
-    if (state.route === 'hekimler' && state.hekLane === 'burs') {
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') {
       return 'Gelen Kutusu, burs kaynaklarından çekilen ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; çağrı henüz otomatik çekilmiyor.';
     }
-    if (state.route === 'hekimler' && state.hekLane === 'egitim') {
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') {
       return 'Gelen Kutusu, eğitim kaynaklarından çekilen kurs/ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; kurs henüz otomatik çekilmiyor.';
     }
-    if (state.route === 'hekimler') {
-      return 'Hekimler Duyuru. Burs ve Eğitim bu kutuya karışmaz. Otomatik yayın yok.';
+    if (state.route === 'tip_toplulugu') {
+      return 'Tıp Topluluğu Duyuru. Burs ve Eğitim bu kutuya karışmaz. Otomatik yayın yok.';
     }
     var r = ROUTES.find(function (x) { return x.id === state.route; });
     return r ? r.note : '';
@@ -725,18 +725,19 @@
     return SOURCE_LABELS[it.sourceId] || it.sourceId.replace(/_/g, ' ');
   }
   function itemsQuery(route, view, days, limit) {
-    var q = route === 'hekimler'
-      ? 'route=tip-ogrencileri&channel=hekimler-toplulugu'
+    var q = route === 'tip_toplulugu'
+      ? 'route=tip-ogrencileri&channel=tip_toplulugu'
       : 'route=' + encodeURIComponent(route);
-    if (route === 'hekimler' && state.hekLane === 'burs') q += '&family=burs';
-    else if (route === 'hekimler' && state.hekLane === 'egitim') q += '&family=egitim';
-    else if (route === 'hekimler') q += '&family=duyuru';
+    if (route === 'tip_toplulugu' && state.hekLane === 'burs') q += '&family=burs';
+    else if (route === 'tip_toplulugu' && state.hekLane === 'egitim') q += '&family=egitim';
+    else if (route === 'tip_toplulugu') q += '&family=duyuru';
     return '/api/items?' + q + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
   }
 
-  // Deep link: /?route=hekimler&view=inbox overrides the last tab remembered in this browser.
+  // Deep link: /?route=tip_toplulugu&view=inbox overrides the last tab remembered in this browser.
   var qs = new URLSearchParams(location.search);
   function parseRoute(v) {
+    if (v === 'hekimler') v = 'tip_toplulugu'; // pre-rename saved route / bookmarked URL
     if (v === 'bible') return { route: 'bible', kind: null };
     if (v === 'kaduse-news') return { route: 'kaduse', kind: 'news' };
     if (v === 'kaduse-research') return { route: 'kaduse', kind: 'research' };
@@ -755,7 +756,7 @@
   var qsLane = qs.get('lane');
   if (qsLane === 'all') qsLane = 'duyuru';
   if (qsLane !== 'burs' && qsLane !== 'egitim' && qsLane !== 'duyuru') qsLane = null;
-  if (qs.get('route') === 'hekimler' && qs.get('lane') == null) qsLane = 'duyuru';
+  if (qs.get('route') === 'tip_toplulugu' && qs.get('lane') == null) qsLane = 'duyuru';
   var state = {
     route: qsRoute || savedRoute || 'kaduse',
     kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
@@ -774,7 +775,7 @@
     onlyNeedsReview: false,
     lifecycleFilter: ''
   };
-  if (state.route === 'hekimler' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
+  if (state.route === 'tip_toplulugu' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
     state.showSources = true;
   }
 
@@ -841,6 +842,20 @@
   }
 
   var OPERATOR_TOKEN_KEY = 'gcos.hubOperatorToken';
+  // One operator-token prompt at a time: parallel 401s share the same prompt (was: one dialog per request).
+  var tokenPrompt = null;
+  function askOperatorToken() {
+    if (!tokenPrompt) {
+      tokenPrompt = Promise.resolve().then(function () {
+        var entered = window.prompt('Operatör anahtarı (Hub işlemleri için gerekli):');
+        if (!entered || !entered.trim()) return null;
+        localStorage.setItem(OPERATOR_TOKEN_KEY, entered.trim());
+        return entered.trim();
+      }).then(function (t) { tokenPrompt = null; return t; }, function (e) { tokenPrompt = null; throw e; });
+    }
+    return tokenPrompt;
+  }
+
   async function api(path, opts) {
     // Every Hub write (triage, source sync) is gated server-side on the operator token.
     var needsOperator = !!(opts && opts.method && opts.method !== 'GET');
@@ -853,12 +868,11 @@
       if (needsOperator && res.status === 401 && attempt === 0) {
         // A parallel request may already have prompted and stored a new token.
         if (localStorage.getItem(OPERATOR_TOKEN_KEY) !== token) continue;
-        var entered = window.prompt('Operatör anahtarı (Hub işlemleri için gerekli):');
-        if (!entered || !entered.trim()) throw new Error('UNAUTHORIZED');
-        localStorage.setItem(OPERATOR_TOKEN_KEY, entered.trim());
+        var entered = await askOperatorToken();
+        if (!entered) throw new Error('UNAUTHORIZED');
         continue;
       }
-      if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+      if (!res.ok) { var err = new Error(data.error || ('HTTP ' + res.status)); err.status = res.status; err.data = data; throw err; }
       return data;
     }
   }
@@ -906,7 +920,7 @@
     }
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '">' +
-        (state.route === 'hekimler' && (mode === 'inbox' || mode === 'hold')
+        (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
           ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
         '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
         (it.decisionRoute
@@ -933,7 +947,7 @@
     function navActive(n) {
       if (n.route === 'bible') return state.route === 'bible';
       if (n.route === 'kaduse') return state.route === 'kaduse' && n.kind === state.kind;
-      if (n.route === 'hekimler') return state.route === 'hekimler' && n.lane === state.hekLane;
+      if (n.route === 'tip_toplulugu') return state.route === 'tip_toplulugu' && n.lane === state.hekLane;
       return n.route === state.route;
     }
     projectNavEl.innerHTML = '';
@@ -941,9 +955,9 @@
       var shown = 0;
       if (n.route === 'kaduse' && n.kind === 'news') shown = routeInbox('kaduse-news');
       else if (n.route === 'kaduse' && n.kind === 'research') shown = routeInbox('kaduse-research');
-      else if (n.lane === 'burs') shown = ((state.routeCounts['hekimler-burs'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'burs' ? (state.counts.inbox || 0) : 0);
-      else if (n.lane === 'egitim') shown = ((state.routeCounts['hekimler-egitim'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'egitim' ? (state.counts.inbox || 0) : 0);
-      else if (n.lane === 'duyuru') shown = ((state.routeCounts['hekimler-duyuru'] || {}).inbox) || (state.route === 'hekimler' && state.hekLane === 'duyuru' ? (state.counts.inbox || 0) : 0);
+      else if (n.lane === 'burs') shown = ((state.routeCounts['tip-toplulugu-burs'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'burs' ? (state.counts.inbox || 0) : 0);
+      else if (n.lane === 'egitim') shown = ((state.routeCounts['tip-toplulugu-egitim'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'egitim' ? (state.counts.inbox || 0) : 0);
+      else if (n.lane === 'duyuru') shown = ((state.routeCounts['tip-toplulugu-duyuru'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru' ? (state.counts.inbox || 0) : 0);
       var btn = document.createElement('button');
       btn.className = 'project-item' + (n.child ? ' nav-child' : '') + (n.doc ? ' nav-doc' : '') + (navActive(n) ? ' active' : '');
       btn.setAttribute('data-nav', n.navId);
@@ -976,7 +990,7 @@
       kindbar.hidden = true;
       kindbar.innerHTML = '';
       pillbarEl.hidden = true;
-    } else if (state.route === 'kaduse' || state.route === 'hekimler') {
+    } else if (state.route === 'kaduse' || state.route === 'tip_toplulugu') {
       pillbarEl.hidden = false;
       kindbar.hidden = true;
       kindbar.innerHTML = '';
@@ -988,9 +1002,9 @@
     var title = meta.icon + ' ' + meta.label;
     if (state.route === 'kaduse' && state.kind === 'news') title = '📰 Haber';
     if (state.route === 'kaduse' && state.kind === 'research') title = '🔬 Research';
-    if (state.route === 'hekimler' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
-    if (state.route === 'hekimler' && state.hekLane === 'burs') title = '🎓 Burs';
-    if (state.route === 'hekimler' && state.hekLane === 'egitim') title = '📚 Eğitim';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') title = '🎓 Burs';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = '📚 Eğitim';
     mainTitleEl.textContent = title;
     if (isBible) {
       mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
@@ -1012,14 +1026,14 @@
 
   // ---- Kaynak paneli: "N aktif kaynak" tıklanınca kaynaklar Haber / Araştırma olarak ikiye ayrılır ----
   var HEK_RESEARCH = { pubmed_biomedical_evidence: 1, tuik_medical_public_health: 1 };
-  function isResearchSource(route, id) { return route === 'hekimler' && !!HEK_RESEARCH[id]; }
+  function isResearchSource(route, id) { return route === 'tip_toplulugu' && !!HEK_RESEARCH[id]; }
   function isBursSource(id) { return String(id || '').indexOf('burs_') === 0; }
   function isEgitimSource(id) { return String(id || '').indexOf('egitim_') === 0; }
   /**
    * S71 (work package 1, item 3): canonical content-family lookup for a
-   * Hekimler source row. Prefers the backend's own classifyHekimlerFamily()
-   * verdict (apps/worker/src/ingress/hekimler-coverage.ts, returned as
-   * `family` on every /api/hekimler/sources entry -- the registry-backed
+   * Tıp Topluluğu source row. Prefers the backend's own classifyTipTopluluguFamily()
+   * verdict (apps/worker/src/ingress/tip-toplulugu-coverage.ts, returned as
+   * `family` on every /api/tip_toplulugu/sources entry -- the registry-backed
    * source of truth), and falls back to the same id-prefix heuristic this
    * file always used ONLY for entries that predate that field (e.g. this
    * session's own synthetic RUNNER_REQUIRED placeholders in
@@ -1035,14 +1049,14 @@
    * "N aktif kaynak" header count -- MUST be lane-scoped, never a cross-lane
    * sum. Haber and Research share the coarse state.route === 'kaduse' (the
    * real lane selector is state.kind), and Burs/Eğitim/Duyuru share
-   * state.route === 'hekimler' (real lane selector state.hekLane). A prior
+   * state.route === 'tip_toplulugu' (real lane selector state.hekLane). A prior
    * bug summed kaduse-news + kaduse-research's enabledFeeds regardless of
    * which tab was open, so Haber and Research showed the identical combined
    * number (e.g. both showed "137 aktif kaynak"). See
    * apps/hub/route-counts.test.mjs for the regression test.
    */
   function computeActiveSourceCount(state, bursCatalog, egitimCatalog) {
-    if (state.route === 'hekimler' && state.hekSources) {
+    if (state.route === 'tip_toplulugu' && state.hekSources) {
       if (state.hekLane === 'burs') {
         return bursCatalog.length || state.hekSources.filter(function (s) { return sourceFamily(s) === 'burs'; }).length;
       }
@@ -1131,7 +1145,7 @@
       counts[k] = (counts[k] || 0) + 1;
     });
     var rows = [];
-    if (state.route === 'hekimler') {
+    if (state.route === 'tip_toplulugu') {
       (state.hekSources || []).forEach(function (s) {
         var fam = sourceFamily(s);
         var burs = fam === 'burs';
@@ -1148,7 +1162,7 @@
           bad: (burs || egitim) ? false : !/^PIPELINE_OK/.test(s.label),
           last: t.last_success_at ? String(t.last_success_at).slice(0, 10) : '',
           pollMinutes: s.pollMinutes, n: counts[s.sourceId] || 0,
-          research: isResearchSource('hekimler', s.sourceId),
+          research: isResearchSource('tip_toplulugu', s.sourceId),
           burs: burs,
           egitim: egitim,
           url: (catalogById()[s.sourceId] || {}).url || '',
@@ -1235,11 +1249,11 @@
       }).join('') + '</select>';
     var bursBlock = '<h3>🎓 Burs (' + burs.length + ')</h3>' + (burs.length ? table(burs) : '<div>Kayıtlı burs kaynağı yok.</div>');
     var egitimBlock = '<h3>📚 Eğitim (' + egitim.length + ')</h3>' + (egitim.length ? table(egitim) : '<div>Prestij eğitim kaynakları henüz eklenmedi.</div>');
-    if (state.route === 'hekimler' && state.hekLane === 'burs') {
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') {
       el.innerHTML = '<b>' + burs.length + ' izlenen burs kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen ilanları gösterir ' + filt + reviewToggle + lifecycleFilterEl + bursBlock;
       return;
     }
-    if (state.route === 'hekimler' && state.hekLane === 'egitim') {
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') {
       el.innerHTML = '<b>' + egitim.length + ' izlenen eğitim kaynağı</b> · Gelen Kutusu bu kaynaklardan çekilen kurs/ilanları gösterir ' + filt + reviewToggle + lifecycleFilterEl + egitimBlock;
       return;
     }
@@ -1259,7 +1273,7 @@
       '<h3>🩺 Duyuru (' + news.length + ')</h3>' + (news.length ? table(news) : '<div>Yok</div>');
   }
   async function ensureFeeds() {
-    if (state.route === 'hekimler' || state.feedsByRoute[state.route]) return;
+    if (state.route === 'tip_toplulugu' || state.feedsByRoute[state.route]) return;
     if (state.route === 'kaduse') {
       var both = await Promise.all([api('/api/feeds?route=kaduse-news'), api('/api/feeds?route=kaduse-research')]);
       state.feedsByRoute.kaduse = (both[0].feeds || []).concat(both[1].feeds || []);
@@ -1280,7 +1294,7 @@
   }
   function renderToolbar() {
     var el = document.getElementById('hekToolbar');
-    if (state.route !== 'hekimler') { el.hidden = true; return; }
+    if (state.route !== 'tip_toplulugu') { el.hidden = true; return; }
     if ((state.hekLane === 'burs' || state.hekLane === 'egitim') && !state.items.length) { el.hidden = true; return; }
     el.hidden = false;
     var ids = {};
@@ -1423,8 +1437,8 @@
         state.revalidationBySource = {};
       }
     }
-    if (state.route === 'hekimler') {
-      try { state.hekSources = mergeHekSources((await api('/api/hekimler/sources')).sources || []); } catch (e) { state.hekSources = mergeHekSources([]); }
+    if (state.route === 'tip_toplulugu') {
+      try { state.hekSources = mergeHekSources((await api('/api/tip_toplulugu/sources')).sources || []); } catch (e) { state.hekSources = mergeHekSources([]); }
       if (state.hekLane === 'burs' || state.hekLane === 'egitim') { await loadLaneCatalogs(); }
     }
     await refreshRouteCounts();
@@ -1565,7 +1579,7 @@
       if (!n) return;
       state.route = n.route;
       if (n.kind) state.kind = n.kind;
-      state.hekLane = n.lane || (n.route === 'hekimler' ? 'duyuru' : state.hekLane);
+      state.hekLane = n.lane || (n.route === 'tip_toplulugu' ? 'duyuru' : state.hekLane);
       state.view = 'inbox';
       state.sourceFilter = '';
       state.showSources = n.lane === 'burs' || n.lane === 'egitim';
@@ -1577,7 +1591,7 @@
       if (n.route === 'bible') url = '/?route=bible';
       else if (n.route === 'kaduse' && n.kind === 'news') url = '/?route=kaduse-news';
       else if (n.route === 'kaduse' && n.kind === 'research') url = '/?route=kaduse-research';
-      else if (n.route === 'hekimler') url = '/?route=hekimler&lane=' + encodeURIComponent(n.lane || 'duyuru');
+      else if (n.route === 'tip_toplulugu') url = '/?route=tip_toplulugu&lane=' + encodeURIComponent(n.lane || 'duyuru');
       history.replaceState(null, '', url);
       load().catch(function (err) { showToast(err.message); });
       return;
@@ -1609,24 +1623,56 @@
     }
   });
 
+  // "Kaynakları çek" is lane-aware: each lane triggers ONLY its own acquisition path, and any failed
+  // request is named in the toast (a partial failure is never reported as success).
+  function syncPlan() {
+    if (state.route === 'kaduse' && state.kind === 'research') {
+      return [
+        { name: 'Research API', path: '/api/ingress/research', body: null },
+        { name: 'Research kaynakları', path: '/api/ingress/generic', body: { route: 'kaduse-research', offset: 0, limit: 10 } }
+      ];
+    }
+    if (state.route === 'kaduse') {
+      return [
+        { name: 'WHO haber', path: '/api/ingress/news', body: null },
+        { name: 'Haber kaynakları', path: '/api/ingress/generic', body: { route: 'kaduse-news', offset: 0, limit: 10 } }
+      ];
+    }
+    if (state.route === 'tip_toplulugu') {
+      var lane = state.hekLane === 'burs' || state.hekLane === 'egitim' ? state.hekLane : 'duyuru';
+      return [{ name: 'Tıp Topluluğu ' + lane + ' (GitHub runner)', path: '/api/ingress/tip-toplulugu-run', body: { lane: lane } }];
+    }
+    return [];
+  }
+
   document.getElementById('btnSync').addEventListener('click', function () {
-    showToast('Kaynaklar taranıyor… (yaklaşık 30-40 sn sürebilir)');
-    var genericRoutes = state.route === 'kaduse' ? ['kaduse-news', 'kaduse-research'] : [state.route];
-    var calls = [
-      api('/api/ingress/news', { method: 'POST' }),
-      api('/api/ingress/research', { method: 'POST' })
-    ].concat(genericRoutes.map(function (rt) {
-      return api('/api/ingress/generic', { method: 'POST', body: JSON.stringify({ route: rt, offset: 0, limit: 10 }) });
-    }));
-    Promise.allSettled(calls).then(function (results) {
-      var ok = results.filter(function (r) { return r.status === 'fulfilled'; }).length;
+    var plan = syncPlan();
+    if (!plan.length) { showToast('Bu sayfada çekilecek kaynak yok.'); return; }
+    showToast('Kaynaklar taranıyor… (Haber/Research yaklaşık 30-40 sn sürebilir)');
+    Promise.allSettled(plan.map(function (c) {
+      return api(c.path, { method: 'POST', body: c.body ? JSON.stringify(c.body) : undefined });
+    })).then(function (results) {
+      var failed = [];
       var created = 0;
-      (function sum(o) {
-        if (!o || typeof o !== 'object') return;
-        if (typeof o.created === 'number') created += o.created;
-        Object.keys(o).forEach(function (k) { if (o[k] && typeof o[k] === 'object') sum(o[k]); });
-      })(results.filter(function (r) { return r.status === 'fulfilled'; }).map(function (r) { return r.value; }));
-      showToast('Senkron: ' + ok + '/' + results.length + ' istek tamam · ' + created + ' yeni kayıt (yoksa kaynaklarda yeni içerik yok)');
+      var notes = [];
+      results.forEach(function (r, i) {
+        if (r.status === 'rejected') {
+          var e = r.reason || {};
+          failed.push(plan[i].name + ': ' + (e.message || 'hata'));
+          return;
+        }
+        (function sum(o) {
+          if (!o || typeof o !== 'object') return;
+          if (typeof o.created === 'number') created += o.created;
+          Object.keys(o).forEach(function (k) { if (o[k] && typeof o[k] === 'object') sum(o[k]); });
+        })(r.value);
+        if (r.value && r.value.dispatched === true) notes.push(plan[i].name + ': ' + r.value.sources + ' kaynak için çalışma başlatıldı; sonuç birkaç dakika içinde gelen kutusuna düşer.');
+        if (r.value && r.value.dispatched === false) notes.push(plan[i].name + ': ' + (r.value.reason || 'çalıştırılacak kaynak yok'));
+      });
+      var msg = failed.length
+        ? 'HATA — ' + failed.length + '/' + plan.length + ' istek başarısız: ' + failed.join(' | ')
+        : 'Senkron tamam: ' + plan.length + '/' + plan.length + ' istek' + (created ? ' · ' + created + ' yeni kayıt' : '') + (notes.length ? ' · ' + notes.join(' ') : ' · (yeni kayıt yoksa kaynaklarda yeni içerik yok)');
+      showToast(msg);
       return load();
     }).catch(function (err) { showToast(err.message); });
   });

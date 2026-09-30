@@ -1,8 +1,8 @@
-// Canonical record shapes produced by the orchestrator: a NEW Hekimler record (same shape as
-// adapters/hekimler-radar/scripts/hekimler_wire_source.py), activation / retirement / reactivation patches, and the
+// Canonical record shapes produced by the orchestrator: a NEW Tıp Topluluğu record (same shape as
+// adapters/tip-toplulugu-radar/scripts/tip_toplulugu_wire_source.py), activation / retirement / reactivation patches, and the
 // G8 canary. Field names are the registry's own; nothing here introduces a parallel field for the same fact.
 import { hostOf, normalizeUrl } from './catalog.mjs';
-import { ACTIVATION, HEKIMLER_STATUS } from './model.mjs';
+import { ACTIVATION, TIP_TOPLULUGU_STATUS } from './model.mjs';
 
 const KEYWORDS = {
   BURS: ['burs', 'scholarship', 'fellowship', 'grant', 'hibe', 'başvuru', 'application'],
@@ -62,8 +62,8 @@ function fetchPlan({ pageUrl, hosts, paths, cadence, notes }) {
 
 const cadencePolicy = (c) => ({ strategy: c.strategy, bounds: c.bounds, confidence: c.confidence, evidence: c.evidence, flags: c.flags });
 
-/** NEW Hekimler record in its fully-activated form (activation state decided later by capacity). */
-export function newHekimlerRecord({ sourceId, name, pageUrl, items, routing, cadence, feedUrl = null }) {
+/** NEW Tıp Topluluğu record in its fully-activated form (activation state decided later by capacity). */
+export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing, cadence, feedUrl = null }) {
   const host = new URL(pageUrl).hostname.toLowerCase();
   const bare = host.replace(/^www\./, '');
   const hosts = [...new Set([host, bare, `www.${bare}`])];
@@ -80,7 +80,7 @@ export function newHekimlerRecord({ sourceId, name, pageUrl, items, routing, cad
     source_tier: routing.source_tier,
     statement_treatment: routing.statement_treatment,
     source_role: routing.evidence_role.toLowerCase(),
-    status: HEKIMLER_STATUS.ACTIVE,
+    status: TIP_TOPLULUGU_STATUS.ACTIVE,
     fetch_mode: 'list-page',
     execution: 'python_runner',
     ...Object.fromEntries(FLAGS.map((f) => [f, true])),
@@ -97,14 +97,14 @@ export function newHekimlerRecord({ sourceId, name, pageUrl, items, routing, cad
   };
 }
 
-/** Activation / reactivation patch for an EXISTING Hekimler record (same identity, same file). */
+/** Activation / reactivation patch for an EXISTING Tıp Topluluğu record (same identity, same file). */
 export function activationPatch(record, { pageUrl, items, cadence, routing }) {
   const next = structuredClone(record);
   const host = new URL(pageUrl).hostname.toLowerCase();
   const bare = host.replace(/^www\./, '');
   const hosts = [...new Set([...(record.allowed_hostnames || []), host, bare])];
   const paths = record.allowed_path_patterns?.length ? record.allowed_path_patterns : pathPatterns(pageUrl, items);
-  next.status = HEKIMLER_STATUS.ACTIVE;
+  next.status = TIP_TOPLULUGU_STATUS.ACTIVE;
   for (const f of FLAGS) next[f] = true;
   next.publication_eligible = false;
   next.fetch_mode = record.fetch_mode && record.fetch_mode !== 'not_wired' ? record.fetch_mode : 'list-page';
@@ -127,7 +127,7 @@ export function retirementPatch(record, { reason, at, changeRef }) {
   const next = structuredClone(record);
   next.former_status = record.status ?? null;
   next.former_runtime_activation = record.runtime_activation ?? null;
-  next.status = HEKIMLER_STATUS.RETIRED;
+  next.status = TIP_TOPLULUGU_STATUS.RETIRED;
   next.runtime_activation = ACTIVATION.BLOCKED;
   for (const f of FLAGS) next[f] = false;
   if (next.fetch_plan) for (const f of FLAGS) if (f in next.fetch_plan) next.fetch_plan[f] = false;

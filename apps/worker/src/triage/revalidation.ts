@@ -3,7 +3,7 @@
  *
  * Reads evidence about one source (fetch health, reject-feedback stats) and
  * produces a RECOMMENDATION only. This module (and everything that calls
- * it) must NEVER write to source_feeds, the Hekimler registry, or any other
+ * it) must NEVER write to source_feeds, the Tıp Topluluğu registry, or any other
  * production config table -- it only ever writes to `source_revalidation`
  * (a recommendation record) and, when an actual config change is later made
  * by a human/engineer, `source_change_history` records that separately.

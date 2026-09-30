@@ -5,6 +5,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/ingress/news': 'HUB_OPERATOR_TOKEN',
   '/api/ingress/research': 'HUB_OPERATOR_TOKEN',
   '/api/ingress/generic': 'HUB_OPERATOR_TOKEN',
+  '/api/ingress/tip-toplulugu-run': 'HUB_OPERATOR_TOKEN',
   '/api/ingress/journal-fallback': 'HUB_OPERATOR_TOKEN',
   '/api/enrich': 'HUB_OPERATOR_TOKEN',
   '/api/localize': 'HUB_OPERATOR_TOKEN',

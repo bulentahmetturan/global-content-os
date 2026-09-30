@@ -23,7 +23,10 @@ export interface Env {
   TIP_RADAR_INGEST_TOKEN?: string;
   /** Bearer for the operator surface (/api/ops/summary, /api/handoff/resend); unset = those endpoints answer 503. */
   OPS_TOKEN?: string;
-  HEKIMLER_CONTINUOUS_INGESTION_ENABLED?: string;
+  TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED?: string;
+  /** Fine-grained GitHub token (Actions: write, this repo only) used by POST /api/ingress/tip-toplulugu-run; unset = 424, nothing dispatched. */
+  GITHUB_DISPATCH_TOKEN?: string;
+  GITHUB_REPO?: string;
   BIBLE_VERSION?: string;
 }
 
@@ -382,9 +385,9 @@ export async function upsertSourceItem(
   return { id, created: true };
 }
 
-/** Hub review filter for Hekimler partition — does not require raw JSON. */
-export function hekimlerReviewWhereClause(): string {
-  return `channel_id = 'hekimler-toplulugu' AND content_family = 'hekimler_phase1'`;
+/** Hub review filter for Tıp Topluluğu partition — does not require raw JSON. */
+export function tipTopluluguReviewWhereClause(): string {
+  return `channel_id = 'tip_toplulugu' AND content_family = 'tip_toplulugu_phase1'`;
 }
 
 async function upsertEvidence(
@@ -496,7 +499,7 @@ export async function listItems(
   binds.push(sinceIso);
 
   if (opts.channelId) {
-    // Channel view (e.g. Hekimler): drop non-readable junk such as bare e-mail addresses.
+    // Channel view (e.g. Tıp Topluluğu): drop non-readable junk such as bare e-mail addresses.
     sql += ` AND i.channel_id = ? AND i.title NOT LIKE '%@%' AND LENGTH(TRIM(i.title)) >= 12 AND COALESCE(i.decision_route, '') != 'REJECTED_LEGACY'`;
     binds.push(opts.channelId);
   } else if (opts.excludeChannelId) {
@@ -537,7 +540,7 @@ export async function countByStatus(
     .prepare(
       `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
        FROM source_items WHERE route = ?${
-         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'hekimler-toplulugu'" : ''
+         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'tip_toplulugu'" : ''
        }${fam.sql}
        GROUP BY triage_status, archive_kind`
     )

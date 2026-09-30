@@ -1,12 +1,12 @@
 // G4 -- routing / content fit. Exactly one channel lane per source; a tie returns NEEDS_USER_DECISION instead of
 // fanning a medical source out to every channel. Vocabulary is the canonical one (lanes = feeds.json routes /
-// Hekimler registry; headings = S66 HABER/RESEARCH/DUYURU/BURS/EGITIM; tiers/treatments = registry values).
+// Tıp Topluluğu registry; headings = S66 HABER/RESEARCH/DUYURU/BURS/EGITIM; tiers/treatments = registry values).
 import { hostOf, registrableDomain } from './catalog.mjs';
 import { LANES } from './model.mjs';
 
 const CHANNEL_ALIASES = {
-  hekimler: 'hekimler',
-  'tip-ogrencileri-platformu': 'hekimler',
+  tip_toplulugu: 'tip_toplulugu',
+  'tip-ogrencileri-platformu': 'tip_toplulugu',
   'kaduse-news': 'kaduse-news',
   'kaduse-research': 'kaduse-research',
 };
@@ -27,7 +27,7 @@ function tierFor(url, hay) {
   return { source_tier: 'SECONDARY_NEWSWIRE', statement_treatment: 'reported_news', evidence_role: 'DISCOVERY_ONLY' };
 }
 
-export function hekimlerHeading(hay) {
+export function tipTopluluguHeading(hay) {
   const b = count(hay, BURS);
   const e = count(hay, EGITIM);
   if (b > e && b >= 2) return 'BURS';
@@ -53,13 +53,13 @@ export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle
   const hay = [pageTitle, ...sample.map((s) => s.title || '')].join(' \n ').toLowerCase();
   const tier = tierFor(url, `${hay} ${hostOf(url)}`);
   const finish = (lane, basis, extra = {}) => {
-    const heading = lane === 'hekimler' ? hekimlerHeading(hay) : lane === 'kaduse-news' ? 'HABER' : 'RESEARCH';
+    const heading = lane === 'tip_toplulugu' ? tipTopluluguHeading(hay) : lane === 'kaduse-news' ? 'HABER' : 'RESEARCH';
     return {
       gate: 'PASS',
       lane,
       channelId: LANES[lane].channelId,
       heading,
-      ...(lane === 'hekimler' ? { allowed_routes: ROUTES_BY_HEADING[heading], default_route_on_accept: 'NEEDS_REVIEW' } : {}),
+      ...(lane === 'tip_toplulugu' ? { allowed_routes: ROUTES_BY_HEADING[heading], default_route_on_accept: 'NEEDS_REVIEW' } : {}),
       ...tier,
       basis,
       ...extra,
@@ -69,19 +69,19 @@ export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle
   if (req.channel_hint) {
     const lane = CHANNEL_ALIASES[req.channel_hint];
     if (lane) return finish(lane, 'OPERATOR_HINT');
-    if (req.channel_hint !== 'kaduse-medikal') return { gate: 'NEEDS_USER_DECISION', reason: 'UNKNOWN_CHANNEL', question: `Unknown channel "${req.channel_hint}". Use hekimler, kaduse-news or kaduse-research.` };
+    if (req.channel_hint !== 'kaduse-medikal') return { gate: 'NEEDS_USER_DECISION', reason: 'UNKNOWN_CHANNEL', question: `Unknown channel "${req.channel_hint}". Use tip_toplulugu, kaduse-news or kaduse-research.` };
   }
 
-  const holders = [...new Set(sameDomain.filter((s) => s.state !== 'RETIRED').map((s) => (s.store === 'hekimler' ? 'hekimler' : s.store)))];
+  const holders = [...new Set(sameDomain.filter((s) => s.state !== 'RETIRED').map((s) => (s.store === 'tip_toplulugu' ? 'tip_toplulugu' : s.store)))];
   if (holders.length === 1 && !req.channel_hint) return finish(holders[0], 'SAME_DOMAIN_OWNER');
 
   const tr = (/\.tr$/.test(hostOf(url) || '') ? 3 : 0) + (/[ğüşıöç]/.test(hay) ? 2 : 0);
   const scores = {
-    hekimler: tr + 2 * Math.min(3, count(hay, AUDIENCE)),
+    tip_toplulugu: tr + 2 * Math.min(3, count(hay, AUDIENCE)),
     'kaduse-research': tr ? 0 : 2 * Math.min(3, count(hay, RESEARCH)),
     'kaduse-news': tr ? 0 : Math.min(3, count(hay, NEWS)),
   };
-  if (req.channel_hint === 'kaduse-medikal') scores.hekimler = -1;
+  if (req.channel_hint === 'kaduse-medikal') scores.tip_toplulugu = -1;
   const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const [[top, s1], [second, s2]] = ranked;
   if (s1 >= 2 && s1 - s2 >= 2) return finish(top, 'CONTENT_SIGNALS', { scores });
@@ -98,11 +98,11 @@ export function proposeSourceId({ lane, heading, url, taken }) {
   const u = new URL(url);
   const label = (registrableDomain(url) || 'source').split('.')[0];
   const seg = u.pathname.split('/').filter(Boolean).find((s) => /^[a-z][a-z0-9-]{2,}$/i.test(s)) || '';
-  const parts = [label, seg].filter(Boolean).map((s) => s.toLowerCase().replace(/[^a-z0-9]+/g, lane === 'hekimler' ? '_' : '-'));
-  let base = lane === 'hekimler' ? parts.join('_') : parts.join('-');
-  if (lane === 'hekimler' && heading === 'BURS') base = `burs_${base}`;
-  if (lane === 'hekimler' && heading === 'EGITIM') base = `egitim_${base}`;
+  const parts = [label, seg].filter(Boolean).map((s) => s.toLowerCase().replace(/[^a-z0-9]+/g, lane === 'tip_toplulugu' ? '_' : '-'));
+  let base = lane === 'tip_toplulugu' ? parts.join('_') : parts.join('-');
+  if (lane === 'tip_toplulugu' && heading === 'BURS') base = `burs_${base}`;
+  if (lane === 'tip_toplulugu' && heading === 'EGITIM') base = `egitim_${base}`;
   let id = base;
-  for (let i = 2; taken.has(id); i++) id = `${base}${lane === 'hekimler' ? '_' : '-'}${i}`;
+  for (let i = 2; taken.has(id); i++) id = `${base}${lane === 'tip_toplulugu' ? '_' : '-'}${i}`;
   return id;
 }

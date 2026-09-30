@@ -2,10 +2,10 @@
 
 Concise operational reference (Package 5). Detailed logs stay on disk (`.logs/`, CI artifacts), never in agent context.
 
-## 1. Scheduler (Hekimler Python runner)
+## 1. Scheduler (Tıp Topluluğu Python runner)
 
-Code: `adapters/hekimler-radar/radar/hekimler_scheduler.py` (pure, I/O-free) · runner: `adapters/hekimler-radar/scripts/hekimler_scheduled_run.py`
-· ops CLI: `adapters/hekimler-radar/scripts/hekimler_ops.py` · proof: `adapters/hekimler-radar/tests/test_hekimler_scheduler_fairness.py` (deterministic simulations).
+Code: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py` (pure, I/O-free) · runner: `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_scheduled_run.py`
+· ops CLI: `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py` · proof: `adapters/tip-toplulugu-radar/tests/test_tip_toplulugu_scheduler_fairness.py` (deterministic simulations).
 
 **Algorithm (oldest-eligible-first)**
 
@@ -31,7 +31,7 @@ Code: `adapters/hekimler-radar/radar/hekimler_scheduler.py` (pure, I/O-free) · 
 | MAX_HEALTHY_SOURCE_LATENESS | ≤ 1 run (24 h) in steady state; ≤ 2 runs (48 h) during a cold start / 181-source, 20–30 % failing run. Attention threshold: > 2880 min |
 | Retry budget | ≤ 2 per source, ≤ 4 per run (unit- and invariant-tested) |
 
-Not a mathematical guarantee: it holds only under the assumptions above. When they stop holding, `hekimler_ops.py capacity`
+Not a mathematical guarantee: it holds only under the assumptions above. When they stop holding, `tip_toplulugu_ops.py capacity`
 turns CAUTION → BLOCK (utilization, failure/timeout rate, retry load, any `CAPACITY_DELAY`, any lateness > threshold)
 *before* a source silently starves. Daily-cadence backlog sources (`--pending-manual`) evaluate to **BLOCK**; the same
 count at weekly cadence evaluates to CAUTION/SAFE — cadence class, not source count, is the lever.
@@ -39,9 +39,9 @@ count at weekly cadence evaluates to CAUTION/SAFE — cadence class, not source 
 **Backlog activation:** `BULK_BACKLOG_ACTIVATION=NO`. The guard only answers; activation stays a reviewed commit.
 
 ```bash
-python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --add 20 --add-cadence 10080 --history <dir of run-report.json>
+python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity --add 20 --add-cadence 10080 --history <dir of run-report.json>
 # exit 0 SAFE · 1 CAUTION · 2 BLOCK
-python adapters/hekimler-radar/scripts/hekimler_ops.py status --hub-url <worker-url>   # due / backoff / manual-review / lateness
+python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py status --hub-url <worker-url>   # due / backoff / manual-review / lateness
 ```
 
 Observability (no second truth): every run writes `report/run-report.json` (`cycle`, `scheduler`, `rows` with
@@ -68,7 +68,7 @@ failure is not one): `LATENESS_BEYOND_THRESHOLD`, `CAPACITY_DELAY`, `MANUAL_REVI
 Optional-source failures never move readiness. Secret *values* are never returned — only booleans.
 
 **Fail-closed auth:** every state-changing route fails closed; the canonical route-to-token map is
-`apps/worker/src/route-auth.ts` (tested by `route-auth.test.mjs`). Examples: `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*`, and `POST /api/triage`
+`apps/worker/src/route-auth.ts` (tested by `route-auth.test.mjs`). Examples: `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/tip_toplulugu-*`, and `POST /api/triage`
 (`HUB_OPERATOR_TOKEN`; the Hub prompts once and keeps it in browser localStorage) return **503** when their token
 is not configured (never "open"), 401 on mismatch. Live outbound handoff (`CCOS_HANDOFF_STUB=false`) without URL **and**
 token records `handoff_status=failed` and sends nothing. Status callbacks validate the contract enum, are idempotent on an
@@ -114,7 +114,7 @@ pytest incl. scheduler simulations, ops invariants) → contract/secret posture 
 | Symptom | Detect | Contain | Recover | Verify |
 |---|---|---|---|---|
 | Bad Worker deploy | `/api/ready` BLOCKED/DEGRADED; `deploy-identity --live` | handoff is live: set `CCOS_HANDOFF_STUB=true` if briefs are affected | `npx wrangler rollback` (or redeploy previous tagged commit with `--wrangler-vars`) | `/api/ready` READY; `--live` commit == intended |
-| Bad scheduler behaviour | `ATTENTION` warnings; `hekimler_ops.py status` late/manual-review; capacity BLOCK | disable the workflow (`gh workflow disable hekimler-python-runner.yml`) | `git revert` the scheduler commit; re-run with `workflow_dispatch` | next run report: `capacity_delayed=[]`, lateness under threshold |
+| Bad scheduler behaviour | `ATTENTION` warnings; `tip_toplulugu_ops.py status` late/manual-review; capacity BLOCK | disable the workflow (`gh workflow disable tip-toplulugu-python-runner.yml`) | `git revert` the scheduler commit; re-run with `workflow_dispatch` | next run report: `capacity_delayed=[]`, lateness under threshold |
 | Bad migration | `/api/ready` `SCHEMA_BEHIND` or query errors | stop deploys; do not re-apply blindly | migrations are additive: write a forward fix migration; restore D1 via Cloudflare Time Travel if data damaged | `/api/ready` `appliedMigration == expectedSchema` |
 | Handoff failure | `approved_briefs.handoff_status='failed'` + `handoff_detail`; `CCOS_HANDOFF_MISCONFIGURED` | set `CCOS_HANDOFF_STUB=true` (live handoff is the normal state) | fix URL/token secrets, then `POST /api/handoff/resend {"briefId"}` (same brief, stored payload) | `handoff_status='sent'`, status callback recorded |
 | Stuck source | `manual_review` in `scheduler-state.json` / `MANUAL_REVIEW_REQUIRED` | none (already queued last, backoff 7 d) | investigate the source; fix registry via normal commit or set `runtime_activation` deliberately | `failure_count` resets to 0 on next success |

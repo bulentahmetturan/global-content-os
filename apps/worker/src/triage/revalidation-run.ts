@@ -1,6 +1,6 @@
 /**
  * S66 Phase B -- recomputes source_revalidation from live D1 evidence and
- * upserts recommendations. NEVER writes to source_feeds, hekimler_source_
+ * upserts recommendations. NEVER writes to source_feeds, tip_toplulugu_source_
  * telemetry, or any config table -- see revalidation.ts's evaluateRevalidation()
  * for the "NO AUTONOMOUS MUTATION" invariant this preserves. Mirrors the
  * existing pruneLowYieldSources() pattern (triage/actions.ts): a periodic
@@ -19,7 +19,7 @@ interface KaduseFeedRow {
   fetch_attempts: number | null;
 }
 
-interface HekimlerTelemetryRow {
+interface TipTopluluguTelemetryRow {
   source_id: string;
   last_success_at: string | null;
   failure_count: number | null;
@@ -79,8 +79,8 @@ export async function runSourceRevalidation(env: Env): Promise<RevalidationRunRe
   ).all<KaduseFeedRow>();
 
   const { results: hekTelemetry } = await env.DB.prepare(
-    `SELECT source_id, last_success_at, failure_count, poll_minutes FROM hekimler_source_telemetry`
-  ).all<HekimlerTelemetryRow>();
+    `SELECT source_id, last_success_at, failure_count, poll_minutes FROM tip_toplulugu_source_telemetry`
+  ).all<TipTopluluguTelemetryRow>();
 
   const now = Date.now();
   const rows: Array<{ key: string; heading: string; poll_minutes: number | null; lastSuccess: string | null; lastError: string | null; failureCount: number }> = [];

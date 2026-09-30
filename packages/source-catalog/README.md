@@ -24,7 +24,7 @@ Canonical, PRE_APPROVAL source truth of global-content-os (Package 2). Nothing h
 ## Safety invariant
 
 HTTP 200 != automation ready. A source is automation-ready only if configured -> fetch -> parse -> URL/title/content gates ->
-audience/relevance gates -> freshness -> valid candidate is demonstrated (see `adapters/hekimler-radar` `runtime_activation`,
+audience/relevance gates -> freshness -> valid candidate is demonstrated (see `adapters/tip-toplulugu-radar` `runtime_activation`,
 `fetch_enabled`, `scheduled_fetch_enabled`, `candidate_emission_enabled`). This catalog cannot bypass it: catalog membership
 never enables fetching. Example: `abroad_uk_gmc` is `MANUAL_INTAKE` (real GMC site WAF-blocked; UKVI/DHSC substitute is labelled as such;
 `blocked_primary_source_url` records the intended endpoint).

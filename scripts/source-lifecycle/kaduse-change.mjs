@@ -17,7 +17,7 @@ export const KADUSE_FILES = {
   news: 'packages/source-catalog/data/news-registry.json',
   research: 'packages/source-catalog/data/research-sources.json',
 };
-const SYNC_INPUTS = ['scripts/sync-feeds.mjs', 'packages/source-catalog/data', 'adapters/hekimler-radar/sources/official_sources.yaml', 'config/feeds.json'];
+const SYNC_INPUTS = ['scripts/sync-feeds.mjs', 'packages/source-catalog/data', 'adapters/tip-toplulugu-radar/sources/official_sources.yaml', 'config/feeds.json'];
 // Columns the catalog owns; runtime columns (last_fetched_at, health, counters) are never touched by a lifecycle migration.
 const MANAGED = ['label', 'route', 'channel_id', 'transport', 'endpoint_url', 'poll_minutes', 'enabled', 'external_ref', 'rules_json'];
 

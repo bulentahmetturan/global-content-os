@@ -1,5 +1,5 @@
-// Human-readable projection of USER_REPORTED_ISSUE records into the Hekimler issue list
-// (adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md, between the markers). The ledger is the only editable truth;
+// Human-readable projection of USER_REPORTED_ISSUE records into the Tıp Topluluğu issue list
+// (adapters/tip-toplulugu-radar/content/SORUN-TESPIT-LISTESI.md, between the markers). The ledger is the only editable truth;
 // the table is regenerated, never hand-edited. Legacy rows keep their original markdown while their ledger state is the
 // state they were imported with; any later lifecycle change regenerates the row's status cell.
 export const BEGIN = '<!-- SYSTEM-EVIDENCE:BEGIN generated from docs/evidence/system-evidence.ndjson by `node scripts/evidence.mjs project`; do not edit -->';

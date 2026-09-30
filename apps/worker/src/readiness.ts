@@ -9,7 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0024_source_revalidation.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0025_tip_toplulugu_rename.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

@@ -25,4 +25,4 @@ jobs:
         env:
           DIAG_HOST: ${{ github.event.inputs.host }}
           DIAG_URL: ${{ github.event.inputs.url }}
-        run: bash adapters/hekimler-radar/scripts/network_diagnose.sh "$DIAG_HOST" "$DIAG_URL"
+        run: bash adapters/tip-toplulugu-radar/scripts/network_diagnose.sh "$DIAG_HOST" "$DIAG_URL"

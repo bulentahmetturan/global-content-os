@@ -26,7 +26,7 @@
     "contractVersion": { "const": "1.0.0" },
     "briefId": { "type": "string", "minLength": 1 },
     "route": { "enum": ["kaduse-news", "kaduse-research", "tip-ogrencileri"] },
-    "channelId": { "enum": ["kaduse-medikal", "tip-ogrencileri-platformu", "hekimler-toplulugu"] },
+    "channelId": { "enum": ["kaduse-medikal", "tip-ogrencileri-platformu", "tip_toplulugu", "hekimler-toplulugu"] },
     "title": { "type": "string", "minLength": 1 },
     "summary": { "type": "string" },
     "gists": { "type": "array", "items": { "type": "string" } },

@@ -402,7 +402,7 @@ export async function runEnrichmentBatch(
  * Mark new/updated English items pending without wiping prior TR enrichments.
  *
  * 2026-09-23: tried extending this to also run LLM enrichment for already-Turkish items with a
- * real excerpt (so Hekimler announcements would get a genuine gistTr instead of a title-echo).
+ * real excerpt (so Tıp Topluluğu announcements would get a genuine gistTr instead of a title-echo).
  * Reverted after a live test: the free-tier model (Llama 3.1 8B) hallucinated on Turkish medical
  * terminology -- "Erişkin İnfluenza" (adult influenza) came back as "erik hastalığı" ("plum
  * disease"), a fabricated claim with zero basis in the source text. That is exactly what

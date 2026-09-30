@@ -15,7 +15,7 @@ push(5, 'rejected', 'noisy-feed', 10);
 push(1, 'accepted', 'noisy-feed', 10);
 push(8, 'accepted', 'europe-pmc-batch', 11);
 push(2, 'rejected', 'rare-feed', 12);
-push(3, 'accepted', 'tdb_dental', 12, { channel_id: 'hekimler-toplulugu', content_family: 'hekimler_phase1' });
+push(3, 'accepted', 'tdb_dental', 12, { channel_id: 'tip_toplulugu', content_family: 'tip_toplulugu_phase1' });
 
 function sandbox() {
   const dir = mkdtempSync(join(tmpdir(), 'p5-'));
@@ -34,7 +34,7 @@ test('capture: accepts AND rejects become structured events with channel, source
   assert.deepEqual(rej.channel_scope, { kind: 'channel', channel_id: 'kaduse-medikal' });
   assert.equal(rej.evidence.data.source_id, 'noisy-feed');
   assert.equal(rej.observation.code, 'LOW_RELEVANCE');
-  assert.equal(ev.find((e) => e.evidence.data.source_id === 'tdb_dental').evidence.data.content_family, 'hekimler_phase1');
+  assert.equal(ev.find((e) => e.evidence.data.source_id === 'tdb_dental').evidence.data.content_family, 'tip_toplulugu_phase1');
 });
 
 test('patterns: noise floor buckets; only a repeated, dominant signal becomes a proposal', () => {
@@ -71,7 +71,7 @@ const hub = [
   { id: 'a', channel_id: 'kaduse-medikal', feed_id: 'noisy-feed', source_id: null, route: 'kaduse-news', triage_status: 'inbox' },
   { id: 'b', channel_id: 'kaduse-medikal', feed_id: 'europe-pmc-batch', source_id: null, route: 'kaduse-news', triage_status: 'inbox' },
   { id: 'c', channel_id: 'kaduse-medikal', feed_id: 'noisy-feed', source_id: null, route: 'kaduse-news', triage_status: 'inbox' },
-  { id: 'd', channel_id: 'hekimler-toplulugu', feed_id: 'x', source_id: 'noisy-feed', route: 'kaduse-news', triage_status: 'inbox' },
+  { id: 'd', channel_id: 'tip_toplulugu', feed_id: 'x', source_id: 'noisy-feed', route: 'kaduse-news', triage_status: 'inbox' },
 ];
 const fakeDb = { prepare: () => ({ bind: () => ({ all: async () => ({ results: hub.map((r) => ({ ...r })) }) }) }) };
 const ids = (xs) => xs.map((x) => x.id).join('');

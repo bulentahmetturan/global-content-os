@@ -18,7 +18,7 @@ import { renderTable, applyProjection } from '../packages/system-evidence/projec
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const LEDGER = join(root, 'docs', 'evidence', 'system-evidence.ndjson');
-export const SORUN = join(root, 'adapters', 'hekimler-radar', 'content', 'SORUN-TESPIT-LISTESI.md');
+export const SORUN = join(root, 'adapters', 'tip-toplulugu-radar', 'content', 'SORUN-TESPIT-LISTESI.md');
 
 function parse(argv) {
   const [verb, ...rest] = argv;

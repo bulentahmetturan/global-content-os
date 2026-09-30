@@ -20,7 +20,7 @@ const fb = (o = {}) => ({
   reviewed_by: { kind: 'human', id: 'r1' },
   ...o,
 });
-const registryBytes = () => readFileSync(join(root, 'adapters/hekimler-radar/content/source-registry-v1.1.json'), 'utf8');
+const registryBytes = () => readFileSync(join(root, 'adapters/tip-toplulugu-radar/content/source-registry-v1.1.json'), 'utf8');
 
 test('fails closed: no authorize / non-true authorize / throwing authorize / non-owner actor', () => {
   assert.equal(performSourceAction({ feedback: fb(), action: 'disable', owner }).code, 'AUTH_FAIL_CLOSED');
@@ -68,7 +68,7 @@ test('unknown source id is refused, not guessed', () => {
   assert.equal(performSourceAction({ feedback: fb({ subject_id: 'no_such_source' }), action: 'disable', owner, authorize: yes }).code, 'RECORD_NOT_FOUND');
 });
 
-test('change_cadence patches the field the scheduler reads and is bounded by the Hekimler lane ladder', () => {
+test('change_cadence patches the field the scheduler reads and is bounded by the Tıp Topluluğu lane ladder', () => {
   for (const bad of [60, 1000, 43200]) {
     assert.equal(validateRequest({ feedback: fb(), action: 'change_cadence', params: { poll_minutes: bad }, owner, authorize: yes }).code, 'INVALID_PARAMS', String(bad));
   }
@@ -84,13 +84,13 @@ test('applied change_cadence changes Python scheduler due behaviour (disposable 
   if (py.status !== 0) return t.skip('python not available');
   const tmp = mkdtempSync(join(tmpdir(), 'cadence-'));
   try {
-    cpSync(join(root, 'adapters/hekimler-radar/content'), join(tmp, 'adapters/hekimler-radar/content'), { recursive: true });
+    cpSync(join(root, 'adapters/tip-toplulugu-radar/content'), join(tmp, 'adapters/tip-toplulugu-radar/content'), { recursive: true });
     const due = () => {
-      const hit = findAt(tmp, 'tdb_dental').find((h) => h.file.startsWith('adapters/hekimler-radar/content/source-registry-'));
+      const hit = findAt(tmp, 'tdb_dental').find((h) => h.file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-'));
       const code = [
         'import json,sys',
-        `sys.path.insert(0, ${JSON.stringify(join(root, 'adapters/hekimler-radar'))})`,
-        'from radar.hekimler_activation import is_due_for_fetch',
+        `sys.path.insert(0, ${JSON.stringify(join(root, 'adapters/tip-toplulugu-radar'))})`,
+        'from radar.tip_toplulugu_activation import is_due_for_fetch',
         'p=json.loads(sys.stdin.read())',
         "print(is_due_for_fetch(p, last_success_at='2026-09-01T00:00:00Z', now_iso='2026-09-03T00:00:00Z'))",
       ].join('\n');

@@ -1,16 +1,16 @@
 // G5 -- automatic cadence. Pure and deterministic:
 //   publication timestamps -> robust median gap -> expected gap -> poll = gap/2 -> freshness cap -> lane bounds -> ladder
 // The result is written once, through the canonical owner path, into the ONE field the scheduler reads
-// (Hekimler: fetch_plan.expected_check_interval_minutes). Later observations produce reviewed recalibration proposals;
+// (Tıp Topluluğu: fetch_plan.expected_check_interval_minutes). Later observations produce reviewed recalibration proposals;
 // nothing rewrites canonical cadence per observation.
 
 export const LADDER = [60, 120, 180, 360, 720, 1440, 2880, 4320, 10080, 20160, 43200];
 
-// min: scheduler granularity (the Hekimler runner runs once a day, so < 1440 buys nothing);
+// min: scheduler granularity (the Tıp Topluluğu runner runs once a day, so < 1440 buys nothing);
 // max: longest acceptable blind spot; fallback: conservative class default when history is insufficient;
 // freshness: longest acceptable delay between publication and detection for the heading.
 export const LANE_POLICY = {
-  hekimler: { min: 1440, max: 20160, fallback: 10080, freshness: { DUYURU: 10080, BURS: 10080, EGITIM: 10080 } },
+  tip_toplulugu: { min: 1440, max: 20160, fallback: 10080, freshness: { DUYURU: 10080, BURS: 10080, EGITIM: 10080 } },
   'kaduse-news': { min: 60, max: 1440, fallback: 360, freshness: { HABER: 720 } },
   'kaduse-research': { min: 360, max: 1440, fallback: 1440, freshness: { RESEARCH: 1440 } },
 };

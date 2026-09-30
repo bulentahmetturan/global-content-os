@@ -9,10 +9,10 @@ package-lock.json
 **/archive/
 **/legacy-cleanup/
 **/fixtures/
-adapters/hekimler-radar/sources/_*
-adapters/hekimler-radar/sources/faculty_*_report.json
-adapters/hekimler-radar/content/PIPELINE-STATUS-46.json
-adapters/hekimler-radar/content/certs/
+adapters/tip-toplulugu-radar/sources/_*
+adapters/tip-toplulugu-radar/sources/faculty_*_report.json
+adapters/tip-toplulugu-radar/content/PIPELINE-STATUS-46.json
+adapters/tip-toplulugu-radar/content/certs/
 # Bible copies: read via content/BIBLE-INDEX.md with an explicit path (explicit paths bypass this file)
-adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md
+adapters/tip-toplulugu-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md
 apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md

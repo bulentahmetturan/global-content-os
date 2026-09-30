@@ -1,6 +1,6 @@
 /**
  * Isolated scheduled-job runner for Global Content OS Worker.
- * One job failure must not silence unrelated jobs (e.g. enrich vs Hekimler).
+ * One job failure must not silence unrelated jobs (e.g. enrich vs Tıp Topluluğu).
  */
 export type ScheduledJobFn = () => Promise<unknown>;
 
@@ -89,7 +89,7 @@ export type ScheduledSlot =
   | 'news-generic'
   | 'research-generic'
   | 'enrich'
-  | 'hekimler-continuous';
+  | 'tip-toplulugu-continuous';
 
 const HOURLY_INGEST: ScheduledSlot[] = ['who-news', 'europe-pmc', 'pubmed', 'research-apis', 'journal-fallback'];
 const MINUTE_ROTATION: ScheduledSlot[] = [
@@ -98,12 +98,12 @@ const MINUTE_ROTATION: ScheduledSlot[] = [
   'enrich',
   'news-generic',
   'research-generic',
-  'hekimler-continuous',
+  'tip-toplulugu-continuous',
 ];
 
 /**
  * One job per cron tick. Workers Free allows 10 ms CPU per invocation; running every job in parallel each
- * minute (feed fetch + parse for 14 feeds, enrichment, Hekimler tick) exceeded it on ~90% of ticks, so the
+ * minute (feed fetch + parse for 14 feeds, enrichment, Tıp Topluluğu tick) exceeded it on ~90% of ticks, so the
  * invocation was killed mid-flight. Rotating keeps every job on a schedule while each tick stays small.
  */
 export function pickScheduledSlot(hour: number, minute: number): ScheduledSlot {

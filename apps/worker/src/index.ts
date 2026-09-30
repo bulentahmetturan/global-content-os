@@ -6,6 +6,7 @@ import {
   type RouteId,
   type TriageStatus,
 } from './db/queries';
+import { familyClause } from './db/family-clause';
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
@@ -32,14 +33,15 @@ import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { backfillJournalWindow, ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
 import {
-  assertHekimlerChannelPartition,
-  authorizeHekimlerIngress,
-  hekimlerReadySourceCount,
-  hekimlerSchedulerPath,
+  assertTipTopluluguChannelPartition,
+  authorizeTipTopluluguIngress,
+  tipTopluluguReadySourceCount,
+  tipTopluluguSchedulerPath,
+  tipTopluluguPythonRunnerSourceIds,
   recordPythonRunTelemetry,
-  runHekimlerContinuousTick,
-} from './ingress/hekimler-continuous';
-import { COVERAGE_OVERRIDES, coverageLabel, classifyHekimlerFamily, HEKIMLER_BURS_SOURCE_IDS, HEKIMLER_EGITIM_SOURCE_IDS, HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/hekimler-coverage';
+  runTipTopluluguContinuousTick,
+} from './ingress/tip-toplulugu-continuous';
+import { COVERAGE_OVERRIDES, coverageLabel, classifyTipTopluluguFamily, TIP_TOPLULUGU_BURS_SOURCE_IDS, TIP_TOPLULUGU_EGITIM_SOURCE_IDS, TIP_TOPLULUGU_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/tip-toplulugu-coverage';
 import {
   journalFallbackOffset,
   pickScheduledSlot,
@@ -176,16 +178,16 @@ export default {
         return json({ ok: true, total: results?.length ?? 0, feeds: results ?? [] });
       }
 
-      if (path === '/api/hekimler/sources' && request.method === 'GET') {
+      if (path === '/api/tip_toplulugu/sources' && request.method === 'GET') {
         const { results } = await env.DB.prepare(
           `SELECT source_id, last_success_at, source_health, coverage_status, coverage_reason,
                   last_item_timestamp, last_accepted_count, last_discarded_count, last_item_count,
                   failure_count, poll_minutes, zero_accept_streak, activation_state, last_run_at,
                   last_operator_status
-           FROM hekimler_source_telemetry ORDER BY source_id`
+           FROM tip_toplulugu_source_telemetry ORDER BY source_id`
         ).all<Record<string, unknown>>();
         const byId = new Map((results || []).map((r) => [String(r.source_id), r]));
-        const retired = new Set<string>(HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS);
+        const retired = new Set<string>(TIP_TOPLULUGU_RETIRED_DUPLICATE_SOURCE_IDS);
         const ids = new Set<string>(
           [...byId.keys(), ...Object.keys(COVERAGE_OVERRIDES)].filter((id) => !retired.has(id)),
         );
@@ -198,8 +200,8 @@ export default {
             ...c,
             pollMinutes,
             telemetry: row,
-            family: classifyHekimlerFamily(id),
-            schedulerPath: hekimlerSchedulerPath(id),
+            family: classifyTipTopluluguFamily(id),
+            schedulerPath: tipTopluluguSchedulerPath(id),
           };
         });
         return json({ sources });
@@ -219,17 +221,18 @@ export default {
             enabledFeeds: Number(feedRow?.c ?? 0),
           });
         }
-        const hekimlerDuyuru = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'duyuru');
-        const hekimlerBurs = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'burs');
-        const hekimlerEgitim = await countByStatus(env.DB, 'tip-ogrencileri', 'hekimler-toplulugu', 'egitim');
+        const tipTopluluguDuyuru = await countByStatus(env.DB, 'tip-ogrencileri', 'tip_toplulugu', 'duyuru');
+        const tipTopluluguBurs = await countByStatus(env.DB, 'tip-ogrencileri', 'tip_toplulugu', 'burs');
+        const tipTopluluguEgitim = await countByStatus(env.DB, 'tip-ogrencileri', 'tip_toplulugu', 'egitim');
         routes.push({
-          id: 'hekimler',
-          counts: hekimlerDuyuru,
-          enabledFeeds: hekimlerReadySourceCount(),
+          id: 'tip_toplulugu',
+          counts: tipTopluluguDuyuru,
+          enabledFeeds: tipTopluluguReadySourceCount(),
         });
-        routes.push({ id: 'hekimler-duyuru', counts: hekimlerDuyuru, enabledFeeds: hekimlerReadySourceCount() });
-        routes.push({ id: 'hekimler-burs', counts: hekimlerBurs, enabledFeeds: HEKIMLER_BURS_SOURCE_IDS.length });
-        routes.push({ id: 'hekimler-egitim', counts: hekimlerEgitim, enabledFeeds: HEKIMLER_EGITIM_SOURCE_IDS.length });
+        routes.push({ id: 'tip-toplulugu-duyuru', counts: tipTopluluguDuyuru, enabledFeeds: tipTopluluguReadySourceCount() });
+        // enabledFeeds = sources with a real scheduler (not the catalogue size): MANUAL_INTAKE catalogue entries are not "active".
+        routes.push({ id: 'tip-toplulugu-burs', counts: tipTopluluguBurs, enabledFeeds: TIP_TOPLULUGU_BURS_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
+        routes.push({ id: 'tip-toplulugu-egitim', counts: tipTopluluguEgitim, enabledFeeds: TIP_TOPLULUGU_EGITIM_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
         return json({ routes, bibleVersion: env.BIBLE_VERSION || '4.0' });
       }
 
@@ -246,9 +249,10 @@ export default {
       if (path === '/api/items' && request.method === 'GET') {
         const route = url.searchParams.get('route') || '';
         const status = url.searchParams.get('status') || 'inbox';
-        const channel = url.searchParams.get('channel') || '';
+        const channelParam = url.searchParams.get('channel') || '';
+        const channel = channelParam === 'hekimler-toplulugu' ? 'tip_toplulugu' : channelParam; // pre-rename Hub tabs
         let family = url.searchParams.get('family') || '';
-        if (channel === 'hekimler-toplulugu' && !family) family = 'duyuru';
+        if (channel === 'tip_toplulugu' && !family) family = 'duyuru';
         // Tip Students: day window (default 2). News/research: 14-day working set.
         const defaultDays = route === 'tip-ogrencileri' ? 2 : 14;
         const sinceDays = Number(url.searchParams.get('days') || defaultDays);
@@ -263,10 +267,10 @@ export default {
           await listItems(env.DB, route, status, {
             sinceDays,
             limit,
-            ...(channel === 'hekimler-toplulugu'
+            ...(channel === 'tip_toplulugu'
               ? { channelId: channel }
               : route === 'tip-ogrencileri'
-                ? { excludeChannelId: 'hekimler-toplulugu' }
+                ? { excludeChannelId: 'tip_toplulugu' }
                 : {}),
             ...(family ? { family } : {}),
           })
@@ -274,7 +278,7 @@ export default {
         const counts = await countByStatus(
           env.DB,
           route,
-          channel === 'hekimler-toplulugu' ? channel : undefined,
+          channel === 'tip_toplulugu' ? channel : undefined,
           family || undefined
         );
         return json({
@@ -377,14 +381,14 @@ export default {
         for (const hq of headingQueries) {
           const items24h = await env.DB.prepare(
             `SELECT COUNT(*) AS n FROM source_items WHERE route = ? AND fetched_at >= datetime('now','-1 day')${
-              hq.family ? ` AND channel_id = 'hekimler-toplulugu'` : ''
+              hq.family ? ` AND channel_id = 'tip_toplulugu'${familyClause(hq.family).sql}` : ''
             }`
           )
             .bind(hq.route)
             .first<{ n: number }>();
           const items7d = await env.DB.prepare(
             `SELECT COUNT(*) AS n FROM source_items WHERE route = ? AND fetched_at >= datetime('now','-7 day')${
-              hq.family ? ` AND channel_id = 'hekimler-toplulugu'` : ''
+              hq.family ? ` AND channel_id = 'tip_toplulugu'${familyClause(hq.family).sql}` : ''
             }`
           )
             .bind(hq.route)
@@ -392,7 +396,9 @@ export default {
           let rejects7d: { n: number } | null = null;
           try {
             rejects7d = await env.DB.prepare(
-              `SELECT COUNT(*) AS n FROM review_feedback WHERE route = ? AND created_at >= datetime('now','-7 day')`
+              `SELECT COUNT(*) AS n FROM review_feedback WHERE route = ? AND created_at >= datetime('now','-7 day')${
+                hq.family ? ` AND channel_id = 'tip_toplulugu'${familyClause(hq.family).sql}` : ''
+              }`
             )
               .bind(hq.route)
               .first<{ n: number }>();
@@ -549,8 +555,8 @@ export default {
         return json({ ok: true, results });
       }
 
-      if (path === '/api/ingress/hekimler-telemetry' && request.method === 'POST') {
-        const auth = authorizeHekimlerIngress(env, request);
+      if (path === '/api/ingress/tip-toplulugu-telemetry' && request.method === 'POST') {
+        const auth = authorizeTipTopluluguIngress(env, request);
         if (!auth.ok) {
           return json({ error: auth.error }, auth.status);
         }
@@ -559,8 +565,8 @@ export default {
         return json(res.ok ? { ok: true } : { error: res.error }, res.ok ? 200 : 400);
       }
 
-      if (path === '/api/ingress/hekimler-continuous' && request.method === 'POST') {
-        const auth = authorizeHekimlerIngress(env, request);
+      if (path === '/api/ingress/tip-toplulugu-continuous' && request.method === 'POST') {
+        const auth = authorizeTipTopluluguIngress(env, request);
         if (!auth.ok) {
           return json({ error: auth.error }, auth.status);
         }
@@ -572,17 +578,43 @@ export default {
           editorialBrand?: string;
           contentFamily?: string;
         };
-        const partitionErr = assertHekimlerChannelPartition(body);
+        const partitionErr = assertTipTopluluguChannelPartition(body);
         if (partitionErr) {
           return json({ error: 'PARTITION_REJECTED', reason: partitionErr }, 403);
         }
-        const result = await runHekimlerContinuousTick(env, {
+        const result = await runTipTopluluguContinuousTick(env, {
           dryRun: body.dryRun === true,
           forceDue: body.forceDue === true,
           sourceId: body.sourceId,
           holder: 'http-backup',
         });
         return json({ ok: true, ...result });
+      }
+
+      // Manual "Kaynakları çek" for the Tıp Topluluğu lanes. Every Tıp Topluluğu source runs on the GitHub Actions
+      // Python runner (the Worker bundle has no profiles), so the manual path dispatches that SAME workflow for the
+      // lane's sources -- no second pipeline. Interval-respecting (force_due=false) unless forceDue is asked for.
+      if (path === '/api/ingress/tip-toplulugu-run' && request.method === 'POST') {
+        const body = (await request.json().catch(() => ({}))) as { lane?: string; forceDue?: boolean };
+        const lane = String(body.lane || '');
+        if (lane !== 'duyuru' && lane !== 'burs' && lane !== 'egitim') return json({ error: 'INVALID_LANE' }, 400);
+        const laneSources = tipTopluluguPythonRunnerSourceIds().filter((id) => classifyTipTopluluguFamily(id) === lane);
+        if (!laneSources.length) return json({ ok: true, lane, dispatched: false, reason: 'NO_AUTOMATED_SOURCES_IN_LANE', sources: 0 });
+        if (!env.GITHUB_DISPATCH_TOKEN) return json({ error: 'GITHUB_DISPATCH_TOKEN_NOT_CONFIGURED', lane, sources: laneSources.length }, 424);
+        const repo = env.GITHUB_REPO || 'bulentahmetturan/global-content-os';
+        const gh = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/tip-toplulugu-python-runner.yml/dispatches`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${env.GITHUB_DISPATCH_TOKEN}`,
+            Accept: 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'User-Agent': 'global-content-os-hub',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ref: 'main', inputs: { sources: laneSources.join(','), force_due: body.forceDue === true ? 'true' : 'false' } }),
+        });
+        if (gh.status !== 204) return json({ error: 'DISPATCH_FAILED', githubStatus: gh.status, lane }, 502);
+        return json({ ok: true, lane, dispatched: true, sources: laneSources.length, forceDue: body.forceDue === true });
       }
 
       if (path === '/api/enrich' && request.method === 'POST') {
@@ -709,8 +741,8 @@ export default {
             };
           },
           enrich: () => runEnrichmentBatch(env, { limit: 3 }),
-          'hekimler-continuous': () =>
-            runHekimlerContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
+          'tip-toplulugu-continuous': () =>
+            runTipTopluluguContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
           'who-news': () => ingestWhoNews(env),
           'europe-pmc': () => ingestEuropePmc(env),
           pubmed: () => ingestPubmedAll(env),

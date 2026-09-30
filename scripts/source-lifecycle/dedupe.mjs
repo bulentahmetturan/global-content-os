@@ -1,5 +1,5 @@
 // G6 -- dedupe / domain-heading ownership. The S66 one-primary-heading rule is evaluated by the existing Python
-// check (adapters/hekimler-radar/scripts/check_source_identity.py) through the bridge; the Node fallback applies the
+// check (adapters/tip-toplulugu-radar/scripts/check_source_identity.py) through the bridge; the Node fallback applies the
 // same rule shape only when the bridge is unavailable and says so.
 import { normalizeUrl, registrableDomain } from './catalog.mjs';
 

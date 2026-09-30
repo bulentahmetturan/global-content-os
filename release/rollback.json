@@ -44,7 +44,7 @@
     {
       "id": "scheduler_regression",
       "trigger": "Fetch counts drop, cron ticks report partial failures/starvation, or CPU-limit errors after a scheduler deploy.",
-      "containment": "Disable HEKIMLER_CONTINUOUS_INGESTION_ENABLED (var) to stop the heaviest tick; ingestion is optional for core health.",
+      "containment": "Disable TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED (var) to stop the heaviest tick; ingestion is optional for core health.",
       "rollbackAction": "wrangler rollback the GCOS version from rollbackRef; if a cron change caused it, restore the previous crons list from the rollback commit.",
       "verification": "Next 3 cron ticks complete without scheduled_job_failed; /api/system-health cronLastObserved advances.",
       "dataLossRisk": "None. Missed ticks are recovered by later polls; no source rows are removed."

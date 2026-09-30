@@ -1,6 +1,6 @@
 # global-content-os — agent router
 
-Purpose: source monitoring, ingestion, dedupe, Global Hub triage, and `approved_brief` production. Runtime: Cloudflare Worker + D1 + cron, Python Hekimler radar.
+Purpose: source monitoring, ingestion, dedupe, Global Hub triage, and `approved_brief` production. Runtime: Cloudflare Worker + D1 + cron, Python Tıp Topluluğu radar.
 
 Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` owns **channels, brand, design, production, render, QA**. Only a compact `approved_brief` crosses to it (`docs/approved-brief-handoff.md`).
 
@@ -13,11 +13,11 @@ Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` 
 ## Do not load by default
 
 - `config/feeds.json`, `docs/source-matrix.generated.json`, `migrations/0002_seed_all_feeds.sql` (generated/mega; inspect with `jq`/`grep` on one record)
-- `adapters/hekimler-radar/sources/_*`, `**/archive/`, `**/legacy-cleanup/`, `**/fixtures/`, `.logs/`
-- `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md` past line 104 (run history; the issue table is generated from `docs/evidence/system-evidence.ndjson`, see `docs/EVIDENCE.md`)
+- `adapters/tip-toplulugu-radar/sources/_*`, `**/archive/`, `**/legacy-cleanup/`, `**/fixtures/`, `.logs/`
+- `adapters/tip-toplulugu-radar/content/SORUN-TESPIT-LISTESI.md` past line 104 (run history; the issue table is generated from `docs/evidence/system-evidence.ndjson`, see `docs/EVIDENCE.md`)
 - `docs/evidence/system-evidence.ndjson` (append-only evidence ledger; use `node scripts/evidence.mjs show|audit|audit-input`)
 - history / evidence, never current truth (list: `docs/INDEX.md` → "History / evidence"): `docs/global-news-hub-contract.md` (2026-09-04 design record)
-- the full Hekimler Bible — use `adapters/hekimler-radar/content/BIBLE-INDEX.md` and read only the listed range
+- the full Tıp Topluluğu Bible — use `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md` and read only the listed range
 - the sibling repo, unless `docs/INDEX.md` says `SECOND REPO: YES`
 
 `.ignore` hides these from search tools only; they stay in git and stay readable on purpose.

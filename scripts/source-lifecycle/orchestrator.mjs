@@ -8,22 +8,22 @@ import { deriveCadence, recalibration } from './cadence.mjs';
 import { dedupeGate } from './dedupe.mjs';
 import { pythonBridge } from './bridge.mjs';
 import { commitCanonical, getAt, readRegistry, targetFileFor, writeTrace, authorizeLifecycle } from './store.mjs';
-import { newHekimlerRecord, activationPatch, retirementPatch, pushHistory, clearRetirement, canary } from './profile.mjs';
-import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, HEKIMLER_DERIVATIVES } from './offboard.mjs';
+import { newTipTopluluguRecord, activationPatch, retirementPatch, pushHistory, clearRetirement, canary } from './profile.mjs';
+import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, TIP_TOPLULUGU_DERIVATIVES } from './offboard.mjs';
 import { stateOf, LANES, ACTIVATION } from './model.mjs';
 import { prepareKaduseChange } from './kaduse-change.mjs';
 
 const OBSERVABILITY = {
-  fetch_success_last_success_last_error: 'D1 hekimler_source_telemetry (last_success_at, failure_count, last_operator_status) / feed fetch stats (0004)',
+  fetch_success_last_success_last_error: 'D1 tip_toplulugu_source_telemetry (last_success_at, failure_count, last_operator_status) / feed fetch stats (0004)',
   scheduler: 'report/scheduler-state.json (next_due, backoff_until, lateness_min, manual_review) + report/run-report.json rows.failure_class',
-  capacity: 'python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --history <run-report dir>',
+  capacity: 'python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity --history <run-report dir>',
   duplicate_rate_and_yield: 'source_items per source_id/feed_id + decided_links (0014)',
   editorial_acceptance: 'editorial_decisions + review_feedback (0023); relevance ledger (scripts/relevance-ledger.mjs)',
   revalidation: 'source_revalidation (0024) / source_pass_fail_decisions (0021)',
   rule: 'One rejection never disables a source; SOURCE_FEEDBACK -> reviewed proposal -> canonical owner action only.',
 };
 
-const regenerateSteps = () => HEKIMLER_DERIVATIVES.map((path) => ({ path, generator: REGENERATE[path] }));
+const regenerateSteps = () => TIP_TOPLULUGU_DERIVATIVES.map((path) => ({ path, generator: REGENERATE[path] }));
 
 const pageTitle = (html) => (String(html || '').match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]?.replace(/\s+/g, ' ').trim() || '';
 
@@ -106,10 +106,10 @@ export function createLifecycle(opts) {
     const sourceId = identity.match?.source_id || proposeSourceId({ lane: routing.lane, heading: routing.heading, url: page.url, taken });
     const name = identity.match?.name || pageTitle(page.body).split(/\s[|–-]\s/)[0].slice(0, 120) || sourceId;
     let profile = null;
-    if (routing.lane === 'hekimler') {
+    if (routing.lane === 'tip_toplulugu') {
       profile = existingRecord
         ? activationPatch(existingRecord, { pageUrl: page.url, items, cadence, routing })
-        : newHekimlerRecord({ sourceId, name, pageUrl: page.url, items, routing, cadence, feedUrl: disc._feed && disc._feed.url !== page.url ? disc._feed.url : null });
+        : newTipTopluluguRecord({ sourceId, name, pageUrl: page.url, items, routing, cadence, feedUrl: disc._feed && disc._feed.url !== page.url ? disc._feed.url : null });
     }
 
     // G6 dedupe / ownership
@@ -124,7 +124,7 @@ export function createLifecycle(opts) {
 
     // G7 capacity (existing guard; only SAFE activates)
     let capacity;
-    if (routing.lane === 'hekimler') {
+    if (routing.lane === 'tip_toplulugu') {
       capacity = bridge ? bridge.capacity({ addCadence: cadence.poll_minutes, history }) : { status: 'BLOCK', reasons: ['BLOCK: capacity guard unavailable -- fail closed'] };
     } else {
       capacity = { status: 'NOT_EVALUATED', reasons: ['Kaduse lane is plan-only here; worker cron capacity is reviewed with the catalog commit'] };
@@ -140,7 +140,7 @@ export function createLifecycle(opts) {
       const blockedByPolicy = can.persistence?.computed === ACTIVATION.BLOCKED && !(can.persistence.failures || []).length;
       return {
         stop: blockedByPolicy
-          ? { outcome: 'NEEDS_USER_DECISION', reason: 'BLOCKED_BY_CODE_POLICY', question: `${sourceId} is blocked by code policy (radar/hekimler_activation.py BLOCKED_SOURCE_IDS / congress family). Change that policy first?`, gates: g, canary: can }
+          ? { outcome: 'NEEDS_USER_DECISION', reason: 'BLOCKED_BY_CODE_POLICY', question: `${sourceId} is blocked by code policy (radar/tip_toplulugu_activation.py BLOCKED_SOURCE_IDS / congress family). Change that policy first?`, gates: g, canary: can }
           : { outcome: 'BLOCKED_TECHNICAL', reason: 'CANARY_FAILED', gates: g, canary: can },
       };
     }
@@ -177,7 +177,7 @@ export function createLifecycle(opts) {
           ? `Add the ${v.routing.lane === 'kaduse-news' ? 'target + subscription to packages/source-catalog/data/news-registry.json + kaduse-subscriptions.json' : 'record to packages/source-catalog/data/research-sources.json'} (endpoint ${v.endpoint.url}, transport ${v.endpoint.runtime})`
           : `Remove the feed id from PENDING_ACTIVATION_FEED_IDS in scripts/sync-feeds.mjs (explicit decision; S66 check must pass)`,
         'node scripts/sync-feeds.mjs  (regenerates config/feeds.json -- never hand-edit)',
-        'python adapters/hekimler-radar/scripts/check_source_identity.py  (S66 must print OK)',
+        'python adapters/tip-toplulugu-radar/scripts/check_source_identity.py  (S66 must print OK)',
         'Forward D1 migration to insert/enable the source_feeds row (Post-Freeze migration requirement; remote apply needs explicit authorization)',
       ],
       recommended_cadence_minutes: v.cadence.poll_minutes,
@@ -220,7 +220,7 @@ export function createLifecycle(opts) {
         return { ...r, routed_from: 'add' };
       }
       // Registered but inactive: activate the existing identity (never a duplicate).
-      if (m.store !== 'hekimler') {
+      if (m.store !== 'tip_toplulugu') {
         const v = await validate({ req, identity, url: req.fetch_url || m.fetch_url || m.urls[0], laneHint: m.lane, projections, trace });
         if (v.stop) return finish(trace, { ok: false, op: 'add', source_id: m.source_id, ...v.stop, gates: { ...gates, ...v.stop.gates } });
         return finish(trace, { ok: true, op: 'add', source_id: m.source_id, state, gates: { ...gates, ...v.gates }, ...summary(v), ...kadusePlan('activate', v, { existing_status: m.status }) });
@@ -234,7 +234,7 @@ export function createLifecycle(opts) {
       if (v.fixture && traces) trace.fixture_sample = v.fixture;
       return finish(trace, { ok: false, op: 'add', ...v.stop, gates: { ...gates, ...v.stop.gates } });
     }
-    if (v.routing.lane !== 'hekimler') {
+    if (v.routing.lane !== 'tip_toplulugu') {
       const change = prepareKaduseChange({ root, op: 'add', target: v, mutateArgs: { name: v.name, at: clock() }, apply, actor, authorize, requestId: req.request_id, sync: opts.kaduseSync });
       return finish(trace, { ok: kaduseOk(change), op: 'add', gates: { ...gates, ...v.gates }, ...summary(v), ...kaduseResult(change), recommended_cadence_minutes: v.cadence.poll_minutes });
     }
@@ -268,7 +268,7 @@ export function createLifecycle(opts) {
     if (m.layers.length !== 1) return finish(trace, { ok: false, op, source_id: m.source_id, outcome: 'BLOCKED_TECHNICAL', reason: 'MULTI_LAYER_RECORD', detail: m.layers, next_step: 'Shared phase1/v1.1 id: edit the winning layer by reviewed commit.', gates });
     const reg = readRegistry(root, m.file);
     const record = getAt(reg.data, m.path);
-    const v = await validate({ req, identity, url: req.fetch_url || m.fetch_url || m.urls[0], laneHint: 'hekimler', projections, existingRecord: record, trace });
+    const v = await validate({ req, identity, url: req.fetch_url || m.fetch_url || m.urls[0], laneHint: 'tip_toplulugu', projections, existingRecord: record, trace });
     if (v.stop) return finish(trace, { ok: false, op, source_id: m.source_id, ...v.stop, gates: { ...gates, ...v.stop.gates } });
     const safe = v.capacity.status === 'SAFE';
     const commit = commitCanonical({
@@ -319,7 +319,7 @@ export function createLifecycle(opts) {
     const state = stateOf(m);
     if (state === 'ACTIVE') return finish(trace, { ok: true, op: 'reactivate', outcome: 'ALREADY_ACTIVE', source_id: m.source_id, gates });
     if (state !== 'RETIRED') return finish(trace, { ok: false, op: 'reactivate', outcome: 'NOT_RETIRED', source_id: m.source_id, state, next_step: `use: add ${m.source_id}`, gates });
-    if (m.store !== 'hekimler') {
+    if (m.store !== 'tip_toplulugu') {
       const change = prepareKaduseChange({ root, op: 'reactivate', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
       return finish(trace, { ok: kaduseOk(change), op: 'reactivate', source_id: m.source_id, gates, ...kaduseResult(change) });
     }
@@ -336,14 +336,14 @@ export function createLifecycle(opts) {
     const base = { op: 'retire', source_id: m.source_id, remove_semantics: 'RETIRE (not purge)' };
     if (m.retired) return finish(trace, { ok: true, ...base, outcome: 'ALREADY_RETIRED', writes: 0 });
 
-    const hekimler = m.store === 'hekimler';
-    const layers = hekimler ? projections.filter((p) => p.source_id === m.source_id) : [m];
-    const record = hekimler ? getAt(readRegistry(root, m.file).data, m.path) : null;
+    const tip_toplulugu = m.store === 'tip_toplulugu';
+    const layers = tip_toplulugu ? projections.filter((p) => p.source_id === m.source_id) : [m];
+    const record = tip_toplulugu ? getAt(readRegistry(root, m.file).data, m.path) : null;
     const artifacts = classifyArtifacts({ root, projection: m, record, projections, files: opts.files || null });
     const inflight = inflightPlan(m, trace.request_id);
     const at = clock();
 
-    if (!hekimler) {
+    if (!tip_toplulugu) {
       const change = prepareKaduseChange({ root, op: 'retire', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
       return finish(trace, {
         ok: kaduseOk(change), ...base, ...kaduseResult(change),
@@ -418,13 +418,13 @@ export function createLifecycle(opts) {
     const { identity } = resolveOne(target, trace);
     if (identity.outcome !== 'EXISTING') return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_FOUND' });
     const m = identity.match;
-    if (m.store !== 'hekimler' || !m.active) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: m.store !== 'hekimler' ? 'Kaduse cadence is generator-assigned (sync-feeds.mjs)' : 'source is not ACTIVE' });
-    const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: 'hekimler', fetcher });
+    if (m.store !== 'tip_toplulugu' || !m.active) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: m.store !== 'tip_toplulugu' ? 'Kaduse cadence is generator-assigned (sync-feeds.mjs)' : 'source is not ACTIVE' });
+    const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: 'tip_toplulugu', fetcher });
     if (disc.gate !== 'PASS') return finish(trace, { ok: false, op: 'recalibrate', outcome: disc.gate, reason: disc.reason, source_id: m.source_id });
     const feed = disc._feed ? parseFeed(disc._feed.body) : [];
     const list = extractListPage(disc._page.body, disc._page.url);
     const ts = (feed.length ? feed : list).map((i) => i.published_at).filter(Boolean);
-    const derived = deriveCadence({ timestamps: ts, lane: 'hekimler', heading: m.heading, now: clock(), evidenceSource: feed.length ? 'feed_published' : 'list_page_dates' });
+    const derived = deriveCadence({ timestamps: ts, lane: 'tip_toplulugu', heading: m.heading, now: clock(), evidenceSource: feed.length ? 'feed_published' : 'list_page_dates' });
     const proposal = recalibration(m.cadence_min, derived);
     if (proposal.outcome !== 'PROPOSAL' || !apply) return finish(trace, { ok: true, op: 'recalibrate', source_id: m.source_id, outcome: proposal.outcome === 'PROPOSAL' ? 'PROPOSAL' : proposal.outcome, proposal, writes: 0 });
     if (proposal.patch.after < proposal.patch.before) {
@@ -450,7 +450,7 @@ export function createLifecycle(opts) {
     const { projections, identity } = resolveOne(target, trace);
     if (identity.outcome !== 'EXISTING') return { ok: false, op: 'purge-plan', outcome: 'NOT_FOUND' };
     const m = identity.match;
-    const record = m.store === 'hekimler' ? getAt(readRegistry(root, m.file).data, m.path) : null;
+    const record = m.store === 'tip_toplulugu' ? getAt(readRegistry(root, m.file).data, m.path) : null;
     const artifacts = classifyArtifacts({ root, projection: m, record, projections, files: opts.files || null });
     return { ok: true, op: 'purge-plan', source_id: m.source_id, outcome: 'PLAN_ONLY', purge: purgePlan(m, artifacts), writes: 0 };
   }

@@ -13,14 +13,14 @@ export interface TipRadarCandidatePush {
   discoveredAt?: string | null;
   status?: string | null;
   sourceId?: string | null;
-  /** First-class Hub partition (Hekimler Bridge v1). */
+  /** First-class Hub partition (Tıp Topluluğu Bridge v1). */
   channelId?: string | null;
   editorialBrand?: string | null;
   contentFamily?: string | null;
   contentHash?: string | null;
   primaryUrl?: string | null;
   decision?: string | null;
-  /** Hekimler decision route (e.g. NEEDS_REVIEW) — not Hub route id. */
+  /** Tıp Topluluğu decision route (e.g. NEEDS_REVIEW) — not Hub route id. */
   decisionRoute?: string | null;
   evidenceStatus?: string | null;
   sourcePolicyApplied?: string | null;
@@ -32,10 +32,15 @@ export interface TipRadarCandidatePush {
   createdAt?: string | null;
 }
 
-export const HEKIMLER_CHANNEL_ID = 'hekimler-toplulugu';
-export const HEKIMLER_EDITORIAL_BRAND = 'Hekimler Topluluğu';
-export const HEKIMLER_CONTENT_FAMILY = 'hekimler_phase1';
-export const HEKIMLER_FEED_ID = 'hekimler-phase1-canary';
+export const TIP_TOPLULUGU_CHANNEL_ID = 'tip_toplulugu';
+export const TIP_TOPLULUGU_EDITORIAL_BRAND = 'Tıp Topluluğu';
+/** Pre-rename brand: still accepted from in-flight pushes and existing D1 rows (channel rename, 2026-09-30). */
+export const LEGACY_EDITORIAL_BRANDS: readonly string[] = ['Hekimler Topluluğu'];
+/** Pre-rename identifiers, still accepted at validation (rows are always stored under the new ids). */
+export const LEGACY_CHANNEL_IDS: readonly string[] = ['hekimler-toplulugu'];
+export const LEGACY_CONTENT_FAMILIES: readonly string[] = ['hekimler_phase1'];
+export const TIP_TOPLULUGU_CONTENT_FAMILY = 'tip_toplulugu_phase1';
+export const TIP_TOPLULUGU_FEED_ID = 'tip-toplulugu-phase1-canary';
 
 /** Tip Hub is day-based: reject decade-old duyurular; keep today + upcoming deadlines. */
 const TIP_LOOKBACK_DAYS = 2;
@@ -100,40 +105,42 @@ export function isTipDayRelevant(c: TipRadarCandidatePush, now = new Date()): bo
   return false;
 }
 
-export function isHekimlerPhase1Push(c: TipRadarCandidatePush): boolean {
-  return (c.contentFamily || '').trim() === HEKIMLER_CONTENT_FAMILY;
+export function isTipTopluluguPhase1Push(c: TipRadarCandidatePush): boolean {
+  const fam = (c.contentFamily || '').trim();
+  return fam === TIP_TOPLULUGU_CONTENT_FAMILY || LEGACY_CONTENT_FAMILIES.includes(fam);
 }
 
 /**
- * Validate Hekimler partition identity. Returns error message or null if ok.
- * Never infer Hekimler identity from title text alone.
+ * Validate Tıp Topluluğu partition identity. Returns error message or null if ok.
+ * Never infer Tıp Topluluğu identity from title text alone.
  */
-export function validateHekimlerPartition(c: TipRadarCandidatePush): string | null {
+export function validateTipTopluluguPartition(c: TipRadarCandidatePush): string | null {
   const channelId = (c.channelId || '').trim();
   if (!channelId) return 'missing channel_id';
-  if (channelId !== HEKIMLER_CHANNEL_ID) {
-    return `invalid channel_id for Hekimler Phase 1: ${channelId}`;
+  if (channelId !== TIP_TOPLULUGU_CHANNEL_ID && !LEGACY_CHANNEL_IDS.includes(channelId)) {
+    return `invalid channel_id for Tıp Topluluğu Phase 1: ${channelId}`;
   }
-  if ((c.editorialBrand || '').trim() !== HEKIMLER_EDITORIAL_BRAND) {
-    return 'invalid editorial_brand for Hekimler Phase 1';
+  const brand = (c.editorialBrand || '').trim();
+  if (brand !== TIP_TOPLULUGU_EDITORIAL_BRAND && !LEGACY_EDITORIAL_BRANDS.includes(brand)) {
+    return 'invalid editorial_brand for Tıp Topluluğu Phase 1';
   }
-  if ((c.contentFamily || '').trim() !== HEKIMLER_CONTENT_FAMILY) {
-    return 'invalid content_family for Hekimler Phase 1';
+  if ((c.contentFamily || '').trim() !== TIP_TOPLULUGU_CONTENT_FAMILY && !LEGACY_CONTENT_FAMILIES.includes((c.contentFamily || '').trim())) {
+    return 'invalid content_family for Tıp Topluluğu Phase 1';
   }
   if (!(c.sourceId || '').trim()) return 'missing source_id';
   if (!(c.contentHash || '').trim()) return 'missing content_hash';
   return null;
 }
 
-export function hekimlerDedupeKey(channelId: string, sourceId: string, contentHash: string): string {
-  return `hekimler:${channelId}:${sourceId}:${contentHash}`;
+export function tipTopluluguDedupeKey(channelId: string, sourceId: string, contentHash: string): string {
+  return `tip_toplulugu:${channelId}:${sourceId}:${contentHash}`;
 }
 
 /**
  * Tip Students ingress: accepts already-fetched radar candidates via adapter push.
  * Day-based filter drops decade-old duyurular; does not run the Python radar.
  *
- * Hekimler Phase 1 (contentFamily=hekimler_phase1) uses first-class channel
+ * Tıp Topluluğu Phase 1 (contentFamily=tip_toplulugu_phase1) uses first-class channel
  * partition fields and idempotency channel_id+source_id+content_hash.
  */
 export async function ingestTipRadarPush(
@@ -155,10 +162,10 @@ export async function ingestTipRadarPush(
     throw new Error('tip-radar-adapter feed missing or disabled');
   }
 
-  const hekimlerFeed = await env.DB.prepare(
+  const tipTopluluguFeed = await env.DB.prepare(
     `SELECT id, channel_id FROM source_feeds WHERE id = ? AND enabled = 1`
   )
-    .bind(HEKIMLER_FEED_ID)
+    .bind(TIP_TOPLULUGU_FEED_ID)
     .first<{ id: string; channel_id: string }>();
 
   let created = 0;
@@ -177,17 +184,17 @@ export async function ingestTipRadarPush(
       continue;
     }
 
-    const hekimler = isHekimlerPhase1Push(c);
-    if (hekimler) {
-      const err = validateHekimlerPartition(c);
+    const tip_toplulugu = isTipTopluluguPhase1Push(c);
+    if (tip_toplulugu) {
+      const err = validateTipTopluluguPartition(c);
       if (err) {
         rejected += 1;
         rejectionReasons.push(err);
         continue;
       }
-      if (!hekimlerFeed) {
+      if (!tipTopluluguFeed) {
         rejected += 1;
-        rejectionReasons.push('hekimler-phase1-canary feed missing or disabled');
+        rejectionReasons.push('tip-toplulugu-phase1-canary feed missing or disabled');
         continue;
       }
     } else if (!isTipDayRelevant(c)) {
@@ -204,22 +211,22 @@ export async function ingestTipRadarPush(
     let decisionRoute: string | null = null;
     let intakeMetaJson: string | null = null;
 
-    if (hekimler) {
-      channelId = HEKIMLER_CHANNEL_ID;
-      editorialBrand = HEKIMLER_EDITORIAL_BRAND;
-      contentFamily = HEKIMLER_CONTENT_FAMILY;
+    if (tip_toplulugu) {
+      channelId = TIP_TOPLULUGU_CHANNEL_ID;
+      editorialBrand = TIP_TOPLULUGU_EDITORIAL_BRAND;
+      contentFamily = TIP_TOPLULUGU_CONTENT_FAMILY;
       decisionRoute = (c.decisionRoute || c.decision || '').trim() || null;
       // Sources that overlap (e.g. three OSYM exam groups, Australian regulators) share a dedupeGroup, and an item
       // already stored under the same canonical URL is reused, so path/profile changes never create duplicate rows.
       const group = ((c as { dedupeGroup?: string | null }).dedupeGroup || '').trim();
-      dedupeKey = hekimlerDedupeKey(channelId, group || sourceId!, (c.contentHash || '').trim());
+      dedupeKey = tipTopluluguDedupeKey(channelId, group || sourceId!, (c.contentHash || '').trim());
       const sameUrl = await env.DB.prepare(
         `SELECT dedupe_key FROM source_items WHERE route = 'tip-ogrencileri' AND channel_id = ? AND canonical_url = ? LIMIT 1`
       )
         .bind(channelId, url)
         .first<{ dedupe_key: string }>();
       if (sameUrl?.dedupe_key) dedupeKey = sameUrl.dedupe_key;
-      resolvedFeedId = hekimlerFeed!.id;
+      resolvedFeedId = tipTopluluguFeed!.id;
       intakeMetaJson = JSON.stringify({
         decision: c.decision || null,
         evidence_status: c.evidenceStatus || null,
@@ -251,7 +258,7 @@ export async function ingestTipRadarPush(
 
     const summary = (c.summary || title).trim();
     const publisher =
-      c.institution || (hekimler ? HEKIMLER_EDITORIAL_BRAND : 'Tıp Öğrencileri Radar');
+      c.institution || (tip_toplulugu ? TIP_TOPLULUGU_EDITORIAL_BRAND : 'Tıp Öğrencileri Radar');
     // D9: an item whose publication date could not be verified must not get the ingestion time as its publication
     // time. It stays NEEDS_REVIEW (date_unverified_needs_review) with a null published_at.
     const dateUnverified = (c.riskFlags || []).includes('date_unverified_needs_review');

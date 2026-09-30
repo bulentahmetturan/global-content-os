@@ -84,7 +84,7 @@ test('falls back to 0 when routeMeta has not loaded yet for that lane', () => {
   assert.equal(computeActiveSourceCount(state, [], []), 0);
 });
 
-test('hekimler lanes (burs/egitim/duyuru) stay independently scoped too', () => {
+test('tip_toplulugu lanes (burs/egitim/duyuru) stay independently scoped too', () => {
   const hekSources = [
     { sourceId: 'burs_tr_fulbright' },
     { sourceId: 'egitim_ifm_fmcp' },
@@ -94,17 +94,17 @@ test('hekimler lanes (burs/egitim/duyuru) stay independently scoped too', () => 
   const egitimCatalog = [{}]; // 1 egitim catalog entry
 
   const burs = computeActiveSourceCount(
-    { route: 'hekimler', hekLane: 'burs', hekSources },
+    { route: 'tip_toplulugu', hekLane: 'burs', hekSources },
     bursCatalog,
     egitimCatalog
   );
   const egitim = computeActiveSourceCount(
-    { route: 'hekimler', hekLane: 'egitim', hekSources },
+    { route: 'tip_toplulugu', hekLane: 'egitim', hekSources },
     bursCatalog,
     egitimCatalog
   );
   const duyuru = computeActiveSourceCount(
-    { route: 'hekimler', hekLane: 'duyuru', hekSources },
+    { route: 'tip_toplulugu', hekLane: 'duyuru', hekSources },
     bursCatalog,
     egitimCatalog
   );
@@ -114,7 +114,7 @@ test('hekimler lanes (burs/egitim/duyuru) stay independently scoped too', () => 
   assert.equal(duyuru, 1); // only ttb_national is neither burs_ nor egitim_
 });
 
-test('non-kaduse, non-hekimler routes read their own routeMeta entry', () => {
+test('non-kaduse, non-tip_toplulugu routes read their own routeMeta entry', () => {
   const state = { route: 'tip-ogrencileri', routeMeta: { 'tip-ogrencileri': { enabledFeeds: 729 } } };
   assert.equal(computeActiveSourceCount(state, [], []), 729);
 });

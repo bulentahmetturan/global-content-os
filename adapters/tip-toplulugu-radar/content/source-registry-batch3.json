@@ -1,0 +1,2174 @@
+{
+  "registry_id": "tip-toplulugu-batch3-candidates-v1",
+  "channelId": "tip-ogrencileri-platformu",
+  "editorialBrand": "Tıp Topluluğu",
+  "notes": "Batch 3 international-English pass: ~50 user-pasted English health/medical outlets deduped and vetted; only sources with a verified working RSS/Atom feed (curl-checked, real <rss>/<channel> body with live items) were added. Discovery-only, human-review-required, matching the batch2 pattern exactly (see S35 in SORUN-TESPIT-LISTESI.md for precedent and the readyBundle gotcha).",
+  "batch3_review": {
+    "mayo_clinic_news": {
+      "decision": "SKIPPED",
+      "reason": "mayoclinic.org RSS paths return WAF 403 Access Denied from this egress; no working feed found."
+    },
+    "mayo_clinic_news_network": {
+      "decision": "SKIPPED",
+      "reason": "Same mayoclinic.org domain/WAF as mayo_clinic_news."
+    },
+    "cleveland_clinic_newsroom": {
+      "decision": "SKIPPED",
+      "reason": "newsroom.clevelandclinic.org is a Next.js app; /feed, /feed/, /rss all 404 -- no public RSS endpoint found."
+    },
+    "cleveland_clinic_health_essentials": {
+      "decision": "SKIPPED",
+      "reason": "health.clevelandclinic.org same Next.js stack as newsroom; no RSS endpoint found."
+    },
+    "medscape_news": {
+      "decision": "SKIPPED",
+      "reason": "All guessed medscape.com RSS paths (cx/rssfeeds/*, /rss/public, /rss/newsheadlines) return 404; Medscape appears to have retired public RSS."
+    },
+    "medscape_pharmacists": {
+      "decision": "SKIPPED",
+      "reason": "Same medscape.com domain as medscape_news; no working feed path found."
+    },
+    "medical_news_today": {
+      "decision": "SKIPPED",
+      "reason": "newsfeed.xml/rss both return HTTP 403 CloudFront AccessDenied even though the body is XML-shaped -- feed is blocked, not absent."
+    },
+    "nih_research_matters": {
+      "decision": "SKIPPED",
+      "reason": "nih.gov is behind a Cloudflare JS challenge ('Just a moment...') for this egress on all /feed and /rss paths tried."
+    },
+    "eurekalert": {
+      "decision": "SKIPPED",
+      "reason": "eurekalert.org/rss/medicine_health.xml and /rss/all.xml both 404; EurekAlert appears to have moved/retired its public RSS."
+    },
+    "webmd_news": {
+      "decision": "SKIPPED",
+      "reason": "rssfeeds.webmd.com does not resolve (DNS failure); webmd.com/rss/* paths all 404. No working feed found."
+    },
+    "healthday": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://consumer.healthday.com/feed returns a live <rss> body with current items."
+    },
+    "harvard_health_publishing": {
+      "decision": "SKIPPED",
+      "reason": "health.harvard.edu/feed, /blog/feed, /blog/feed/ all 404; no working feed path found."
+    },
+    "johns_hopkins_medicine_news": {
+      "decision": "SKIPPED",
+      "reason": "hopkinsmedicine.org RSS paths return WAF 403; no working feed found."
+    },
+    "yale_medicine_news": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.yalemedicine.org/rss/news.xml returns a live <rss> body with current items."
+    },
+    "stanford_medicine_news": {
+      "decision": "SKIPPED",
+      "reason": "med.stanford.edu RSS path guesses all 404; no working feed found."
+    },
+    "ashp_news": {
+      "decision": "SKIPPED",
+      "reason": "ashp.org/rss and /rss.aspx both return Cloudflare JS challenge (403)."
+    },
+    "pharmacy_times": {
+      "decision": "SKIPPED",
+      "reason": "pharmacytimes.com RSS paths return Cloudflare/WAF 403."
+    },
+    "apha_news": {
+      "decision": "SKIPPED",
+      "reason": "pharmacist.com/rss.aspx returns HTTP 200 but an EMPTY <rss><channel/></rss> with zero items -- not a usable feed."
+    },
+    "drug_topics": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.drugtopics.com/rss.xml returns a live <rss> body with current items."
+    },
+    "pharmacy_practice_news": {
+      "decision": "SKIPPED",
+      "reason": "pharmacypracticenews.com/rss returns HTTP 200 but body is an Imperva/Incapsula bot-challenge page, not a real feed."
+    },
+    "ema_news": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "Bible §2.1 one primary category per content stream. EMA news already lives on Haber; retire the Duyuru listing.",
+      "canonical_hub_category": "haber"
+    },
+    "academy_nutrition_dietetics": {
+      "decision": "SKIPPED",
+      "reason": "eatright.org/rss and /rss.xml both return WAF 403."
+    },
+    "jand_journal": {
+      "decision": "SKIPPED",
+      "reason": "jandonline.org/rss/current.xml returns HTTP 410 Gone; no working replacement found."
+    },
+    "todays_dietitian": {
+      "decision": "SKIPPED",
+      "reason": "todaysdietitian.com/rss returns a Cloudflare JS challenge (403)."
+    },
+    "ajcn_journal": {
+      "decision": "SKIPPED",
+      "reason": "No working OUP academic.oup.com RSS slug found for AJCN after multiple guesses; sciencedirect.com mirror also 403 WAF."
+    },
+    "advances_in_nutrition": {
+      "decision": "SKIPPED",
+      "reason": "No working OUP academic.oup.com RSS slug found after multiple guesses (404)."
+    },
+    "nutrition_reviews": {
+      "decision": "SKIPPED",
+      "reason": "No working OUP academic.oup.com RSS slug found after multiple guesses (404)."
+    },
+    "journal_of_nutrition": {
+      "decision": "SKIPPED",
+      "reason": "No working OUP academic.oup.com RSS slug found after multiple guesses (404)."
+    },
+    "current_dev_nutrition": {
+      "decision": "SKIPPED",
+      "reason": "No working OUP academic.oup.com RSS slug found after multiple guesses (404)."
+    },
+    "nutrition_journal": {
+      "decision": "SKIPPED",
+      "reason": "BMC nutritionj.biomedcentral.com most-recent/rss.xml returns HTTP 200 but an HTML cookie-consent page, not real XML -- not usable without a headless browser."
+    },
+    "niddk_diet_nutrition": {
+      "decision": "SKIPPED",
+      "reason": "No RSS endpoint found under niddk.nih.gov; /news HTML page is mostly static navigation with stale (2024) archive links, not a reliable list-page source."
+    },
+    "niddk_nutrition_research": {
+      "decision": "SKIPPED",
+      "reason": "Same niddk.nih.gov domain/limitation as niddk_diet_nutrition."
+    },
+    "nih_nutrition_research": {
+      "decision": "SKIPPED",
+      "reason": "Same nih.gov Cloudflare JS-challenge block as nih_research_matters."
+    },
+    "harvard_nutrition_source": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.hsph.harvard.edu/nutritionsource/feed/ returns a live <rss> body with current items."
+    },
+    "foodnavigator": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.foodnavigator.com/Info/FoodNavigator-RSS returns a live <rss> body with current items."
+    },
+    "medical_xpress_nutrition": {
+      "decision": "SKIPPED",
+      "reason": "The '?search=nutrition' query param on medicalxpress.com/rss-feed/search/ is ignored by the server -- it returns the identical general feed already covered by medical_xpress, so this would be a duplicate source, not a genuinely filtered one."
+    },
+    "sciencedaily_nutrition": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.sciencedaily.com/rss/health_medicine/nutrition.xml returns a live <rss> body with current nutrition-research items."
+    },
+    "stat_news": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "STAT News already lives on Research; retire the Duyuru listing.",
+      "canonical_hub_category": "research"
+    },
+    "cleveland_clinic": {
+      "decision": "SKIPPED",
+      "reason": "See cleveland_clinic_newsroom/health_essentials."
+    },
+    "medical_xpress": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "Medical Xpress already lives on Research; retire the Duyuru listing.",
+      "canonical_hub_category": "research"
+    },
+    "medicalresearch_com": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://medicalresearch.com/feed/ returns a live <rss> body with current items."
+    },
+    "fierce_biotech": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "Fierce Biotech already lives on Haber; retire the Duyuru listing.",
+      "canonical_hub_category": "haber"
+    },
+    "biopharma_dive": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.biopharmadive.com/feeds/news/ returns a live <rss> body with current items."
+    },
+    "medpage_today": {
+      "decision": "RETIRED_DUPLICATE",
+      "reason": "MedPage Today already lives on Haber; retire the Duyuru listing.",
+      "canonical_hub_category": "haber"
+    },
+    "medical_economics": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.medicaleconomics.com/rss.xml returns a live <rss> body with current items."
+    },
+    "healthline_news": {
+      "decision": "AUTOMATION_READY",
+      "reason": "Verified https://www.healthline.com/rss/health-news returns a live <rss> body with current items."
+    }
+  },
+  "sources": [
+    {
+      "source_id": "stat_news",
+      "name": "STAT News",
+      "label": "STAT News",
+      "canonical_url": "https://www.statnews.com/feed/",
+      "source_url": "https://www.statnews.com/feed/",
+      "primary_url": "https://www.statnews.com/feed/",
+      "allowed_hostnames": [
+        "www.statnews.com"
+      ],
+      "allowed_path_patterns": [
+        "/feed/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary medical/biotech newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "international_health_biotech_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Physician-relevant biotech/health-policy reporting; strong business/markets slant on some items -- gate on clinical/regulatory keywords.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.statnews.com"
+        ],
+        "allowed_path_patterns": [
+          "/feed/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.statnews.com/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "research",
+      "retired_reason": "STAT News already lives on Research; retire the Duyuru listing."
+    },
+    {
+      "source_id": "healthline_news",
+      "name": "Healthline -- Health News",
+      "label": "Healthline -- Health News",
+      "canonical_url": "https://www.healthline.com/rss/health-news",
+      "source_url": "https://www.healthline.com/rss/health-news",
+      "primary_url": "https://www.healthline.com/rss/health-news",
+      "allowed_hostnames": [
+        "www.healthline.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss/health-news"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary consumer-health newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_consumer_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Consumer-facing outlet -- strict include/exclude gate required so only physician-relevant clinical/regulatory items survive, not general wellness/lifestyle content.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.healthline.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss/health-news"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.healthline.com/rss/health-news",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "medical_xpress",
+      "name": "Medical Xpress",
+      "label": "Medical Xpress",
+      "canonical_url": "https://medicalxpress.com/rss-feed/",
+      "source_url": "https://medicalxpress.com/rss-feed/",
+      "primary_url": "https://medicalxpress.com/rss-feed/",
+      "allowed_hostnames": [
+        "medicalxpress.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss-feed/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary biomedical research newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "international_biomedical_research_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Aggregates university/journal press releases -- require primary source (journal DOI/press release) before leaving NEEDS_REVIEW.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "medicalxpress.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss-feed/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://medicalxpress.com/rss-feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "research",
+      "retired_reason": "Medical Xpress already lives on Research; retire the Duyuru listing."
+    },
+    {
+      "source_id": "medicalresearch_com",
+      "name": "MedicalResearch.com",
+      "label": "MedicalResearch.com",
+      "canonical_url": "https://medicalresearch.com/feed/",
+      "source_url": "https://medicalresearch.com/feed/",
+      "primary_url": "https://medicalresearch.com/feed/",
+      "allowed_hostnames": [
+        "medicalresearch.com"
+      ],
+      "allowed_path_patterns": [
+        "/feed/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary biomedical research newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_biomedical_research_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Interview-style research summaries -- require primary source (journal article) before leaving NEEDS_REVIEW.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "medicalresearch.com"
+        ],
+        "allowed_path_patterns": [
+          "/feed/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://medicalresearch.com/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "fierce_biotech",
+      "name": "Fierce Biotech",
+      "label": "Fierce Biotech",
+      "canonical_url": "https://www.fiercebiotech.com/rss/xml",
+      "source_url": "https://www.fiercebiotech.com/rss/xml",
+      "primary_url": "https://www.fiercebiotech.com/rss/xml",
+      "allowed_hostnames": [
+        "www.fiercebiotech.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss/xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary biotech/pharma trade newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "international_biotech_pharma_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Trade-press biotech/pharma coverage; deal/financing items are out of physician scope -- gate on clinical/regulatory/drug-approval keywords.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.fiercebiotech.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss/xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.fiercebiotech.com/rss/xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "haber",
+      "retired_reason": "Fierce Biotech already lives on Haber; retire the Duyuru listing."
+    },
+    {
+      "source_id": "biopharma_dive",
+      "name": "BioPharma Dive",
+      "label": "BioPharma Dive",
+      "canonical_url": "https://www.biopharmadive.com/feeds/news/",
+      "source_url": "https://www.biopharmadive.com/feeds/news/",
+      "primary_url": "https://www.biopharmadive.com/feeds/news/",
+      "allowed_hostnames": [
+        "www.biopharmadive.com"
+      ],
+      "allowed_path_patterns": [
+        "/feeds/news/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary biotech/pharma trade newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_biotech_pharma_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Trade-press biotech/pharma coverage; deal/financing items are out of physician scope -- gate on clinical/regulatory/drug-approval keywords.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.biopharmadive.com"
+        ],
+        "allowed_path_patterns": [
+          "/feeds/news/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.biopharmadive.com/feeds/news/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "medpage_today",
+      "name": "MedPage Today",
+      "label": "MedPage Today",
+      "canonical_url": "https://www.medpagetoday.com/rss/headlines.xml",
+      "source_url": "https://www.medpagetoday.com/rss/headlines.xml",
+      "primary_url": "https://www.medpagetoday.com/rss/headlines.xml",
+      "allowed_hostnames": [
+        "www.medpagetoday.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss/headlines.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary physician-audience newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "international_physician_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Physician-targeted outlet already; keyword gate mainly excludes CME-ad/sponsored slots.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.medpagetoday.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss/headlines.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.medpagetoday.com/rss/headlines.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "haber",
+      "retired_reason": "MedPage Today already lives on Haber; retire the Duyuru listing."
+    },
+    {
+      "source_id": "medical_economics",
+      "name": "Medical Economics",
+      "label": "Medical Economics",
+      "canonical_url": "https://www.medicaleconomics.com/rss.xml",
+      "source_url": "https://www.medicaleconomics.com/rss.xml",
+      "primary_url": "https://www.medicaleconomics.com/rss.xml",
+      "allowed_hostnames": [
+        "www.medicaleconomics.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary physician practice-management newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_physician_practice_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Mixes clinical items with personal-finance/practice-management content (e.g. retirement planning) -- exclude keywords must filter non-clinical finance content.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.medicaleconomics.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.medicaleconomics.com/rss.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "yale_medicine_news",
+      "name": "Yale Medicine News",
+      "label": "Yale Medicine News",
+      "canonical_url": "https://www.yalemedicine.org/rss/news.xml",
+      "source_url": "https://www.yalemedicine.org/rss/news.xml",
+      "primary_url": "https://www.yalemedicine.org/rss/news.xml",
+      "allowed_hostnames": [
+        "www.yalemedicine.org"
+      ],
+      "allowed_path_patterns": [
+        "/rss/news.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary academic medical center newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_academic_medical_center_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Academic medical center explainer/news content -- require primary source before leaving NEEDS_REVIEW.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.yalemedicine.org"
+        ],
+        "allowed_path_patterns": [
+          "/rss/news.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.yalemedicine.org/rss/news.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "drug_topics",
+      "name": "Drug Topics",
+      "label": "Drug Topics",
+      "canonical_url": "https://www.drugtopics.com/rss.xml",
+      "source_url": "https://www.drugtopics.com/rss.xml",
+      "primary_url": "https://www.drugtopics.com/rss.xml",
+      "allowed_hostnames": [
+        "www.drugtopics.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary pharmacy-practice newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_pharmacy_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Pharmacy-practice trade press; relevant to physician-pharmacist collaboration and drug-approval news.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.drugtopics.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.drugtopics.com/rss.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "ema_news",
+      "name": "European Medicines Agency -- News",
+      "label": "European Medicines Agency -- News",
+      "canonical_url": "https://www.ema.europa.eu/en/news.xml",
+      "source_url": "https://www.ema.europa.eu/en/news.xml",
+      "primary_url": "https://www.ema.europa.eu/en/news.xml",
+      "allowed_hostnames": [
+        "www.ema.europa.eu"
+      ],
+      "allowed_path_patterns": [
+        "/en/news.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "official EU medicines regulator newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "retired",
+      "medical_scope": "international_regulatory_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "OFFICIAL_PRIMARY-adjacent regulator feed, but still discovery-only pending this channel's own evidence check (EMA committee/meeting-highlight items are regulatory notices, not always finished guidance).",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ema.europa.eu"
+        ],
+        "allowed_path_patterns": [
+          "/en/news.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.ema.europa.eu/en/news.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
+      },
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
+      "source_health": "HEALTHY",
+      "execution": "python_runner",
+      "canonical_hub_category": "haber",
+      "retired_reason": "Bible §2.1 one primary category per content stream. EMA news already lives on Haber; retire the Duyuru listing."
+    },
+    {
+      "source_id": "harvard_nutrition_source",
+      "name": "Harvard T.H. Chan -- The Nutrition Source",
+      "label": "Harvard T.H. Chan -- The Nutrition Source",
+      "canonical_url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+      "source_url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+      "primary_url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+      "allowed_hostnames": [
+        "www.hsph.harvard.edu"
+      ],
+      "allowed_path_patterns": [
+        "/nutritionsource/feed/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary academic nutrition-science newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_nutrition_science_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Academic public-health nutrition guidance -- require primary source (peer-reviewed study/dietary guideline) before leaving NEEDS_REVIEW.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.hsph.harvard.edu"
+        ],
+        "allowed_path_patterns": [
+          "/nutritionsource/feed/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "foodnavigator",
+      "name": "FoodNavigator",
+      "label": "FoodNavigator",
+      "canonical_url": "https://www.foodnavigator.com/Info/FoodNavigator-RSS",
+      "source_url": "https://www.foodnavigator.com/Info/FoodNavigator-RSS",
+      "primary_url": "https://www.foodnavigator.com/Info/FoodNavigator-RSS",
+      "allowed_hostnames": [
+        "www.foodnavigator.com"
+      ],
+      "allowed_path_patterns": [
+        "/Info/FoodNavigator-RSS"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary food-industry/nutrition trade newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_food_industry_nutrition_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Food-industry trade press -- most items are industry/product/regulatory, not clinical; gate strictly on nutrition-science/regulatory keywords, exclude product-launch/marketing content.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.foodnavigator.com"
+        ],
+        "allowed_path_patterns": [
+          "/Info/FoodNavigator-RSS"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.foodnavigator.com/Info/FoodNavigator-RSS",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "sciencedaily_nutrition",
+      "name": "ScienceDaily -- Nutrition Research News",
+      "label": "ScienceDaily -- Nutrition Research News",
+      "canonical_url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+      "source_url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+      "primary_url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+      "allowed_hostnames": [
+        "www.sciencedaily.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss/health_medicine/nutrition.xml"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary nutrition research newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_nutrition_research_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Aggregates university/journal press releases -- require primary source (journal article) before leaving NEEDS_REVIEW.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.sciencedaily.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss/health_medicine/nutrition.xml"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    },
+    {
+      "source_id": "healthday",
+      "name": "HealthDay",
+      "label": "HealthDay",
+      "canonical_url": "https://consumer.healthday.com/feed",
+      "source_url": "https://consumer.healthday.com/feed",
+      "primary_url": "https://consumer.healthday.com/feed",
+      "allowed_hostnames": [
+        "consumer.healthday.com"
+      ],
+      "allowed_path_patterns": [
+        "/feed"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "role": "secondary consumer-health newswire discovery only",
+      "fetch_mode": "list-page",
+      "status": "active",
+      "medical_scope": "international_consumer_health_news_discovery",
+      "audience_scope": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "audience_segments": [
+        "medical_student",
+        "intern",
+        "resident",
+        "physician",
+        "academic_physician"
+      ],
+      "include_keywords": [
+        "physician",
+        "clinician",
+        "clinical trial",
+        "FDA",
+        "guideline",
+        "diagnosis",
+        "treatment",
+        "drug approval",
+        "vaccine",
+        "outbreak",
+        "residency",
+        "board certification",
+        "hospital",
+        "medical school",
+        "peer-reviewed",
+        "public health",
+        "epidemic",
+        "prescription"
+      ],
+      "exclude_keywords": [
+        "weight-loss quiz",
+        "celebrity",
+        "horoscope",
+        "sponsored",
+        "advertorial",
+        "10 tips",
+        "quiz:",
+        "slideshow",
+        "product roundup",
+        "gift guide",
+        "sex tips",
+        "astrology"
+      ],
+      "allowed_routes": [
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "statement_treatment": "reported_news",
+      "evidence_rule": "needs_primary_check_before_any_publish_route",
+      "evidence_status": "needs_primary_check",
+      "transform_rule": "Discovery only. Never publish outlet-only claims. Attach an official primary source (FDA/EMA/CDC/WHO/peer-reviewed journal/professional society) before leaving NEEDS_REVIEW. Store title/URL/date only -- no outlet body/photos/videos.",
+      "content_angle": "international_health_news_radar",
+      "publication_eligible": false,
+      "auto_publish": false,
+      "required_fields": [
+        "title",
+        "canonical_url",
+        "published_at",
+        "discovery_url"
+      ],
+      "policy_notes": "SECONDARY_NEWSWIRE. Consumer-facing wire service syndicated to many outlets -- strict include/exclude gate required so only physician-relevant clinical/regulatory items survive.",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "consumer.healthday.com"
+        ],
+        "allowed_path_patterns": [
+          "/feed"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "expected_check_interval_minutes": 43200,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "common",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 14,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "primary",
+            "url": "https://consumer.healthday.com/feed",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "runtime_activation": "AUTOMATION_READY",
+      "source_health": "HEALTHY",
+      "execution": "python_runner"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 Required before any mass MANUAL_INTAKE → automation activation (S66/S67-68
 follow-up). Numbers below are from live production config/D1 as of this
 date (`config/feeds.json`, `resolve_effective_registry()`, `wrangler.toml`,
-`apps/worker/src/scheduled-jobs.ts`, `.github/workflows/hekimler-python-runner.yml`)
+`apps/worker/src/scheduled-jobs.ts`, `.github/workflows/tip-toplulugu-python-runner.yml`)
 -- not estimates. Regenerate the source counts with
 `node scripts/source-matrix.mjs`.
 
@@ -11,14 +11,14 @@ There are **two independent schedulers**, not one shared budget:
 
 1. **Cloudflare Worker cron** (`* * * * *`, every minute) -- owns Kaduse
    (Haber/Research) generic-web feeds, the research APIs, and the
-   Cloudflare-native Hekimler continuous tick (currently processing zero
+   Cloudflare-native Tıp Topluluğu continuous tick (currently processing zero
    sources -- its deployed bundle's `profiles` array is empty, see PR #3 /
    S67).
-2. **GitHub Actions daily cron** (`hekimler-python-runner.yml`,
-   `17 4 * * *`) -- owns every Hekimler `execution: python_runner` source
+2. **GitHub Actions daily cron** (`tip-toplulugu-python-runner.yml`,
+   `17 4 * * *`) -- owns every Tıp Topluluğu `execution: python_runner` source
    (all of Burs/Eğitim/Duyuru's automation, currently 62 AUTOMATION_READY).
 
-**Activating more Hekimler (Burs/Eğitim/Duyuru) sources adds load to
+**Activating more Tıp Topluluğu (Burs/Eğitim/Duyuru) sources adds load to
 scheduler #2 only.** It does not consume scheduler #1's per-minute Kaduse
 budget at all. This report focuses on #2's real capacity since that's what
 governs Task A/B's activation batch size.
@@ -33,7 +33,7 @@ governs Task A/B's activation batch size.
   Minutes 7 and 37 of every hour → `purge-trash` (48 ticks/day). All other
   1296 ticks/day cycle through `MINUTE_ROTATION` = [news-generic,
   research-generic, enrich, news-generic, research-generic,
-  hekimler-continuous] (6-slot cycle).
+  tip-toplulugu-continuous] (6-slot cycle).
 - `news-generic` and `research-generic` each get 2/6 of 1296 ≈ **432
   ticks/day**, each tick fetching exactly **1** due feed
   (`ingestGenericFeeds(..., limit: 1)`, `ORDER BY last_fetched_at ASC` so
@@ -47,9 +47,9 @@ governs Task A/B's activation batch size.
 - Error backoff: `ERROR_BACKOFF_HOURS = 12` -- a feed that just failed is
   skipped for 12h before being retried, so one broken feed can't spin the
   rotation.
-- `hekimler-continuous` gets 1296/6 = **216 ticks/day**, but the deployed
+- `tip-toplulugu-continuous` gets 1296/6 = **216 ticks/day**, but the deployed
   ready-bundle has zero profiles wired -- these ticks currently do nothing
-  for Hekimler (confirmed, not assumed -- see `docs/source-matrix.generated.json`).
+  for Tıp Topluluğu (confirmed, not assumed -- see `docs/source-matrix.generated.json`).
 
 **Conclusion for #1:** no action needed for this activation batch; it isn't
 the constrained resource.
@@ -58,7 +58,7 @@ the constrained resource.
 
 - Trigger: `schedule: cron: "17 4 * * *"` -- **once per day**, plus
   `workflow_dispatch` for manual/backfill runs.
-- `concurrency: group: hekimler-python-runner, cancel-in-progress: false`
+- `concurrency: group: tip-toplulugu-python-runner, cancel-in-progress: false`
   -- runs never overlap.
 - `timeout-minutes: 45` for the whole job. Per-source `timeout: 240`
   seconds (4 min) default, `retries: 2` default.
@@ -92,7 +92,7 @@ the constrained resource.
 - **Min/max revisit interval**: min = 1440 min (daily tier, the fastest
   cadence any source currently uses -- no source is polled sub-daily,
   consistent with S36's "fast newsroom" tier not being used for any
-  Hekimler source today). Max = 43200 min (30 days) for the slowest
+  Tıp Topluluğu source today). Max = 43200 min (30 days) for the slowest
   monthly+ sources.
 - **Rate-limit/politeness protection**: sources run sequentially within
   the job (not concurrently against the same or different hosts), each
@@ -133,8 +133,8 @@ activations, not an automatic trigger.
 
 > **Update (Package 5):** requirements 1-3 below (due-priority ordering, run-aware time budget with explicit
 > not-attempted reporting, bounded lateness) and the failure-isolation parts of 5-6 are implemented in
-> `adapters/hekimler-radar/radar/hekimler_scheduler.py` and proven by the deterministic simulations in
-> `tests/test_hekimler_scheduler_fairness.py`. Current algorithm, numbers and assumptions: `docs/OPERATIONS.md`.
+> `adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py` and proven by the deterministic simulations in
+> `tests/test_tip_toplulugu_scheduler_fairness.py`. Current algorithm, numbers and assumptions: `docs/OPERATIONS.md`.
 > The analysis below is kept as the historical baseline that motivated the change.
 
 ## 3. Correctness analysis (2026-09-29 update, work package 1 item 4)
@@ -142,7 +142,7 @@ activations, not an automatic trigger.
 Task 1's original version stopped at "typical fetches are fast" as its
 safety argument. That is not sufficient on its own -- this section answers
 the specific correctness questions the process now requires, from reading
-`adapters/hekimler-radar/scripts/hekimler_scheduled_run.py` directly
+`adapters/tip-toplulugu-radar/scripts/tip_toplulugu_scheduled_run.py` directly
 (not inferred):
 
 **What happens if multiple due sources time out simultaneously?**

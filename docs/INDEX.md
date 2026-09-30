@@ -9,45 +9,45 @@ OPTIONAL: `scripts/source-lifecycle/orchestrator.mjs`, `scripts/source-lifecycle
 DO NOT LOAD: registries, `config/feeds.json`, traces in `.logs/source-lifecycle/`. Run `node scripts/source-lifecycle.mjs <add|retire|inspect> "<name or url>"`; it returns compact gate results
 SECOND REPO: NO
 
-### Add a Hekimler source
-READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`, `adapters/hekimler-radar/scripts/hekimler_wire_source.py`
-OPTIONAL: `adapters/hekimler-radar/radar/hekimler_registry.py`, `adapters/hekimler-radar/content/policies/hekimler-audience-scope.json`
+### Add a Tıp Topluluğu source
+READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`, `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_wire_source.py`
+OPTIONAL: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_registry.py`, `adapters/tip-toplulugu-radar/content/policies/tip-toplulugu-audience-scope.json`
 DO NOT LOAD: full Bible, `config/feeds.json`, `docs/source-matrix.generated.json`, run history, `_*` probe dumps
 SECOND REPO: NO
 
 ### Modify a source record (any route)
-READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`
-OPTIONAL: `adapters/hekimler-radar/scripts/check_source_identity.py`
+READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`
+OPTIONAL: `adapters/tip-toplulugu-radar/scripts/check_source_identity.py`
 DO NOT LOAD: whole registries. Look up one record with `node scripts/registry-find.mjs <source-id>` (read-only, searches only the canonical stores); edit the canonical file it names
 SECOND REPO: NO
 
-### Hekimler parser or fetch fix
-READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/radar/hekimler_fetch.py`
-OPTIONAL: `adapters/hekimler-radar/radar/fetchers.py`, `adapters/hekimler-radar/scripts/hekimler_run_one.py`, `adapters/hekimler-radar/scripts/hekimler_tr_runner_setup.md` (sources blocked outside Türkiye, e.g. HSGM: `.github/workflows/hekimler-tr-runner.yml`)
+### Tıp Topluluğu parser or fetch fix
+READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py`
+OPTIONAL: `adapters/tip-toplulugu-radar/radar/fetchers.py`, `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_run_one.py`, `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_tr_runner_setup.md` (sources blocked outside Türkiye, e.g. HSGM: `.github/workflows/tip-toplulugu-tr-runner.yml`)
 DO NOT LOAD: fixtures beyond the one failing case, full logs, generated matrices, Bible
 SECOND REPO: NO
 
 ### Worker / Kaduse parser or ingest fix
 READ: `AGENTS.md`, `apps/worker/src/ingress/generic-web.ts`
 OPTIONAL: `apps/worker/src/ingress/ingest-gate.ts`, `apps/worker/src/ingress/link-quality.ts`
-DO NOT LOAD: Hekimler adapter, fixtures beyond the failing case, `config/feeds.json` in bulk
+DO NOT LOAD: Tıp Topluluğu adapter, fixtures beyond the failing case, `config/feeds.json` in bulk
 SECOND REPO: NO
 
-### Hekimler source policy, audience, lifecycle
-READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`, `adapters/hekimler-radar/content/policies/hekimler-audience-scope.json`
-OPTIONAL: `adapters/hekimler-radar/radar/hekimler_audience_scope.py`, `adapters/hekimler-radar/content/SORUN-TESPIT-LISTESI.md:1-104`
+### Tıp Topluluğu source policy, audience, lifecycle
+READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`, `adapters/tip-toplulugu-radar/content/policies/tip-toplulugu-audience-scope.json`
+OPTIONAL: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_audience_scope.py`, `adapters/tip-toplulugu-radar/content/SORUN-TESPIT-LISTESI.md:1-104`
 DO NOT LOAD: full Bible, run history, other channels
 SECOND REPO: NO
 
 ### Kaduse news / research source work
 READ: `AGENTS.md`, `apps/worker/src/ingress/feed-scope.ts`
 OPTIONAL: `apps/worker/src/ingress/who-news.ts`, `apps/worker/src/ingress/europe-pmc.ts`, `docs/research-contract.md` (research registry + Research Pool contract; code: `packages/source-catalog/src/research/`)
-DO NOT LOAD: Hekimler adapter, `config/feeds.json` in bulk. Kaduse editorial policy is owned by the channel repo
+DO NOT LOAD: Tıp Topluluğu adapter, `config/feeds.json` in bulk. Kaduse editorial policy is owned by the channel repo
 SECOND REPO: NO (YES only for a Kaduse editorial-policy question: `@ccos/channels/kaduse-medikal/content/policies/kaduse-news.json`)
 
 ### Scheduler / cadence / capacity
-READ: `docs/OPERATIONS.md`, `adapters/hekimler-radar/radar/hekimler_scheduler.py`, `apps/worker/src/scheduled-jobs.ts`, `wrangler.toml`
-OPTIONAL: `adapters/hekimler-radar/tests/test_hekimler_scheduler_fairness.py`, `docs/continuous-flow.md`, `docs/cron-capacity-report.md`, `adapters/hekimler-radar/radar/hekimler_continuous_runner.py`, `.github/workflows/hekimler-python-runner.yml`
+READ: `docs/OPERATIONS.md`, `adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py`, `apps/worker/src/scheduled-jobs.ts`, `wrangler.toml`
+OPTIONAL: `adapters/tip-toplulugu-radar/tests/test_tip_toplulugu_scheduler_fairness.py`, `docs/continuous-flow.md`, `docs/cron-capacity-report.md`, `adapters/tip-toplulugu-radar/radar/tip_toplulugu_continuous_runner.py`, `.github/workflows/tip-toplulugu-python-runner.yml`
 DO NOT LOAD: source registries, Bible, run history
 SECOND REPO: NO
 
@@ -64,8 +64,8 @@ DO NOT LOAD: ingress code, registries, Bible
 SECOND REPO: NO
 
 ### Source health / revalidation / pass-fail
-READ: `apps/worker/src/triage/revalidation.ts`, `apps/worker/src/ingress/source-pass-fail.ts`, `adapters/hekimler-radar/content/BIBLE-INDEX.md`
-OPTIONAL: `adapters/hekimler-radar/radar/source_pass_fail.py`, `migrations/0024_source_revalidation.sql`, `scripts/production-check.mjs`
+READ: `apps/worker/src/triage/revalidation.ts`, `apps/worker/src/ingress/source-pass-fail.ts`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`
+OPTIONAL: `adapters/tip-toplulugu-radar/radar/source_pass_fail.py`, `migrations/0024_source_revalidation.sql`, `scripts/production-check.mjs`
 DO NOT LOAD: full Bible (use the SPF rows), registries in bulk
 SECOND REPO: NO
 
@@ -76,8 +76,8 @@ DO NOT LOAD: source registries, design docs, Bible, architecture docs, history
 SECOND REPO: NO (YES only when the payload shape changes: then also the consumer read set in `@ccos/docs/INDEX.md`)
 
 ### Registry maintenance / lookup
-READ: `scripts/registry-find.mjs`, `packages/source-catalog/README.md`, `adapters/hekimler-radar/scripts/check_source_identity.py`
-OPTIONAL: `adapters/hekimler-radar/content/README.md`, `adapters/hekimler-radar/scripts/dump_source_registry.py`
+READ: `scripts/registry-find.mjs`, `packages/source-catalog/README.md`, `adapters/tip-toplulugu-radar/scripts/check_source_identity.py`
+OPTIONAL: `adapters/tip-toplulugu-radar/content/README.md`, `adapters/tip-toplulugu-radar/scripts/dump_source_registry.py`
 DO NOT LOAD: whole registries; `node scripts/registry-find.mjs <source-id>` returns one record. Any compact index must be generated and non-editable
 SECOND REPO: NO
 
@@ -88,8 +88,8 @@ DO NOT LOAD: source registries, Bible, history. Deploy / remote migration need e
 SECOND REPO: NO
 
 ### Tests / CI
-READ: `AGENTS.md`, `.github/workflows/worker-tests.yml`, `.github/workflows/hekimler-tests.yml`
-OPTIONAL: `adapters/hekimler-radar/scripts/run_hekimler_tests.py`
+READ: `AGENTS.md`, `.github/workflows/worker-tests.yml`, `.github/workflows/tip-toplulugu-tests.yml`
+OPTIONAL: `adapters/tip-toplulugu-radar/scripts/run_tip_toplulugu_tests.py`
 DO NOT LOAD: full logs, fixtures
 SECOND REPO: NO
 
@@ -119,6 +119,6 @@ SECOND REPO: NO
 
 ### History / evidence (not current truth; only when the question is "why/what was true then")
 READ: `docs/CURRENT.md` (current truth wins over every file below)
-OPTIONAL: only the one record for your question: `docs/global-news-hub-contract.md` (2026-09-04 Hub/source-registry design record, pre-ADR-0004 ownership), `adapters/hekimler-radar/content/archive/` (pre-v4 Hekimler history)
+OPTIONAL: only the one record for your question: `docs/global-news-hub-contract.md` (2026-09-04 Hub/source-registry design record, pre-ADR-0004 ownership), `adapters/tip-toplulugu-radar/content/archive/` (pre-v4 Tıp Topluluğu history)
 DO NOT LOAD: any of these as rules or current state; they are archived at their original paths (HISTORY / EVIDENCE banner) because code and tests cite them
 SECOND REPO: NO

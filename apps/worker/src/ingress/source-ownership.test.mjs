@@ -1,10 +1,10 @@
 // S57 — single-channel-per-source regression (Kaduse side).
 //
 // resmigazete.gov.tr was independently registered on both Kaduse
-// ('news-resmi-gazete-health-scoped', route=kaduse-news) and Hekimler
+// ('news-resmi-gazete-health-scoped', route=kaduse-news) and Tıp Topluluğu
 // ('tip-resmi_gazete', route=tip-ogrencileri), each polling the same daily
 // gazette index page with only a downstream keyword filter as the
-// differentiator. User decision: resmigazete.gov.tr -> Duyuru (Hekimler)
+// differentiator. User decision: resmigazete.gov.tr -> Duyuru (Tıp Topluluğu)
 // exclusively. The fix must be structural (the row disabled in D1 via
 // migrations/0022_resmi_gazete_single_channel.sql), not a keyword gate --
 // this test proves (a) the Kaduse-side generic-web feed-selection query
@@ -39,7 +39,7 @@ test('single-channel-per-source: resmigazete.gov.tr (Kaduse side disabled struct
     assert.match(migration, /SET\s+enabled\s*=\s*0/i);
     assert.match(migration, /news-resmi-gazete-health-scoped/);
     // the executable UPDATE statement itself must target only the
-    // Kaduse-side id, never the Hekimler-side one (the comment header may
+    // Kaduse-side id, never the Tıp Topluluğu-side one (the comment header may
     // still mention it for context)
     const statement = migration.slice(migration.indexOf('UPDATE source_feeds'));
     assert.doesNotMatch(statement, /tip-resmi_gazete/);

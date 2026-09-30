@@ -24,7 +24,7 @@ const BASE_ROW = {
   id: 'item_1',
   feed_id: 'tip-radar-adapter',
   route: 'tip-ogrencileri', // avoids the recordDecidedLink (kaduse-only) branch, which needs crypto.subtle
-  channel_id: 'hekimler-toplulugu',
+  channel_id: 'tip_toplulugu',
   title: 'Başlık',
   title_orig: 'Original',
   summary: 'özet',

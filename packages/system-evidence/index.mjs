@@ -30,7 +30,7 @@ const MACHINE = new Set(['machine', 'agent', 'ci']);
 // Symptom family -> owner (addendum §4.5). Content relevance is deliberately absent: it belongs to P5 feedback.
 export const ROUTES = [
   { match: /context|token|prompt size|router|retrieval/i, pillar: 'P4', subsystem: 'context-routing' },
-  { match: /cadence|scheduler|fetch|parser|feed|source|registry|hekimler/i, pillar: 'P2', subsystem: 'source-runtime' },
+  { match: /cadence|scheduler|fetch|parser|feed|source|registry|tip_toplulugu/i, pillar: 'P2', subsystem: 'source-runtime' },
   { match: /hub|triage|approved_brief|handoff producer/i, pillar: 'P2', subsystem: 'hub-approved-brief' },
   { match: /auth|token gate|unauthenticated|secret|security/i, pillar: 'P3', subsystem: 'security' },
   { match: /callback|readiness|deploy|d1|migration|recovery|github|cloudflare|workflow|cron/i, pillar: 'P3', subsystem: 'operations' },

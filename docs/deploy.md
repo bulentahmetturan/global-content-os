@@ -40,7 +40,7 @@ node scripts/deploy-identity.mjs --live <worker-url>
 
 Cron Trigger in `wrangler.toml`: one `* * * * *` tick; `apps/worker/src/scheduled-jobs.ts` decides which jobs run on each tick. Schedule and CPU budget: `docs/continuous-flow.md`, `docs/cron-capacity-report.md`.
 
-The Hekimler radar is Python and runs outside the Worker (`.github/workflows/hekimler-python-runner.yml`). `adapters/tip-radar/` is legacy migration compatibility only.
+The Tıp Topluluğu radar is Python and runs outside the Worker (`.github/workflows/tip-toplulugu-python-runner.yml`). `adapters/tip-radar/` is legacy migration compatibility only.
 
 ## Git vs live data
 

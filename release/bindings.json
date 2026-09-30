@@ -52,19 +52,19 @@
       "id": "scheduler_capacity_delay",
       "repo": "gcos",
       "pattern": "CAPACITY_DELAY",
-      "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py"
+      "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py"
     },
     {
       "id": "scheduler_attention",
       "repo": "gcos",
       "pattern": "attention_conditions",
-      "file": "adapters/hekimler-radar/radar/hekimler_scheduler.py"
+      "file": "adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py"
     },
     {
       "id": "scheduler_state_report",
       "repo": "gcos",
       "pattern": "scheduler-state\\.json",
-      "file": "adapters/hekimler-radar/scripts/hekimler_scheduled_run.py"
+      "file": "adapters/tip-toplulugu-radar/scripts/tip_toplulugu_scheduled_run.py"
     },
     {
       "id": "callback_failure",

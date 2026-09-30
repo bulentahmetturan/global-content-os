@@ -106,9 +106,9 @@ test('tip ingest endpoint FAILS CLOSED when TIP_RADAR_INGEST_TOKEN is not config
   assert.equal(res2.status, 401);
 });
 
-test('hekimler ingest endpoints stay fail-closed', async () => {
+test('tip_toplulugu ingest endpoints stay fail-closed', async () => {
   const db = fakeDb();
-  for (const path of ['/api/ingress/hekimler-telemetry', '/api/ingress/hekimler-continuous']) {
+  for (const path of ['/api/ingress/tip-toplulugu-telemetry', '/api/ingress/tip-toplulugu-continuous']) {
     assert.equal((await worker.fetch(post(path, {}), { DB: db })).status, 503, path);
     assert.equal((await worker.fetch(post(path, {}, { 'x-ingest-token': 'x' }), { DB: db, TIP_RADAR_INGEST_TOKEN: 'good' })).status, 401, path);
   }
@@ -155,7 +155,7 @@ test('live handoff misconfiguration is recorded as failed and NO outbound reques
   };
   const inserted = [];
   const row = {
-    id: 'item_1', feed_id: 'f', route: 'tip-ogrencileri', channel_id: 'hekimler-toplulugu', title: 't', summary: 's',
+    id: 'item_1', feed_id: 'f', route: 'tip-ogrencileri', channel_id: 'tip_toplulugu', title: 't', summary: 's',
     gists_json: '["s"]', canonical_url: 'https://e.org/a', publisher: 'p', published_at: '2026-09-20', triage_status: 'inbox',
     dedupe_key: 'dk', fetched_at: '2026-09-20T00:00:00.000Z', source_id: 'ttb_national', intake_meta_json: '{}',
   };

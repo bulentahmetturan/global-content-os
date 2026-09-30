@@ -62,8 +62,8 @@ export async function applyTriage(
 
   // D9: items whose publication date is unverified stay in review; they can never be promoted to production.
   if (action === 'promote') {
-    // Hekimler items without any publication date can never be promoted, even if the risk flag is missing.
-    if (row.channel_id === 'hekimler-toplulugu' && !row.published_at) {
+    // Tıp Topluluğu items without any publication date can never be promoted, even if the risk flag is missing.
+    if (row.channel_id === 'tip_toplulugu' && !row.published_at) {
       throw new Error('DATE_UNVERIFIED_NOT_PROMOTABLE');
     }
     try {
@@ -395,7 +395,7 @@ const LOW_YIELD_MIN_DECIDED = 100;
 const LOW_YIELD_REJECT_RATE = 0.99;
 
 export interface LowYieldResult {
-  key: string; // feed_id (Kaduse) or source_id (Hekimler)
+  key: string; // feed_id (Kaduse) or source_id (Tıp Topluluğu)
   route: RouteId;
   total: number;
   deleted: number;
@@ -408,7 +408,7 @@ export interface LowYieldResult {
  * complete/delete, counted only since LOW_YIELD_POLICY_SINCE -- not retroactive) and
  * LOW_YIELD_REJECT_RATE of them were deletions, it's disabled.
  * Kaduse feeds are DB-driven (source_feeds.enabled) so this can flip the switch itself.
- * Hekimler python_runner sources live in a git-tracked registry + deployed readyBundle -- a
+ * Tıp Topluluğu python_runner sources live in a git-tracked registry + deployed readyBundle -- a
  * scheduled Worker job can't safely edit and redeploy that, so those are only reported back for
  * an operator/agent to act on (see disabled=false entries in the result).
  */

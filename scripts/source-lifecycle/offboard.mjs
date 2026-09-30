@@ -10,19 +10,19 @@ export const REGENERATE = {
   'config/feeds.json': 'node scripts/sync-feeds.mjs',
   'migrations/0002_seed_all_feeds.sql': 'node scripts/sync-feeds.mjs',
   'docs/source-matrix.generated.json': 'node scripts/source-matrix.mjs --out docs/source-matrix.generated.json',
-  'apps/worker/src/ingress/hekimler-automation-ready.ts': 'cd adapters/hekimler-radar && python -c "from radar.hekimler_continuous_runner import write_worker_profile_bundle as w; w()"',
-  'apps/worker/src/ingress/hekimler-automation-ready.json': 'cd adapters/hekimler-radar && python -c "from radar.hekimler_continuous_runner import write_worker_profile_bundle as w; w()"',
+  'apps/worker/src/ingress/tip-toplulugu-automation-ready.ts': 'cd adapters/tip-toplulugu-radar && python -c "from radar.tip_toplulugu_continuous_runner import write_worker_profile_bundle as w; w()"',
+  'apps/worker/src/ingress/tip-toplulugu-automation-ready.json': 'cd adapters/tip-toplulugu-radar && python -c "from radar.tip_toplulugu_continuous_runner import write_worker_profile_bundle as w; w()"',
 };
 const GENERATED = new Set(Object.keys(REGENERATE));
-export const HEKIMLER_DERIVATIVES = ['apps/worker/src/ingress/hekimler-automation-ready.ts', 'docs/source-matrix.generated.json'];
+export const TIP_TOPLULUGU_DERIVATIVES = ['apps/worker/src/ingress/tip-toplulugu-automation-ready.ts', 'docs/source-matrix.generated.json'];
 const sqlStr = (s) => `'${String(s).replace(/'/g, "''")}'`;
 
 // ---------- O2: in-flight work -------------------------------------------------------------------------------------
 
 /** Deterministic treatment using existing triage vocabulary (source_items.triage_status / editorial_decisions.action). */
 export function inflightPlan(p, requestId) {
-  const col = p.store === 'hekimler' ? 'source_id' : 'feed_id';
-  const key = p.store === 'hekimler' ? p.source_id : p.feed_id || p.source_id;
+  const col = p.store === 'tip_toplulugu' ? 'source_id' : 'feed_id';
+  const key = p.store === 'tip_toplulugu' ? p.source_id : p.feed_id || p.source_id;
   const where = `${col} = ${sqlStr(key)}`;
   return {
     policy: {
@@ -102,7 +102,7 @@ export function classifyArtifacts({ root, projection: p, record, projections, fi
   }
   const parser = record?.parser_profile
     ? (() => {
-        const users = projections.filter((x) => x.source_id !== id && x.store === 'hekimler' && x._parser_profile === record.parser_profile);
+        const users = projections.filter((x) => x.source_id !== id && x.store === 'tip_toplulugu' && x._parser_profile === record.parser_profile);
         return { profile: record.parser_profile, other_users: users.length, action: users.length ? 'KEEP_SHARED' : 'CLEANUP_CANDIDATE' };
       })()
     : { profile: record?.fetch_mode || record?.transport || 'generic', other_users: 'GENERIC_RUNTIME_PARSER', action: 'KEEP_SHARED' };
@@ -127,15 +127,15 @@ export const PRESERVED = [
   'source_items rows and their evidence_cards / source_routes / editorial_decisions (ON DELETE CASCADE -> never delete source_items)',
   'approved_briefs + handoff/status callback history',
   'review_feedback, relevance ledger, source_pass_fail_decisions, source_revalidation',
-  'hekimler_source_telemetry row (last success/error history)',
+  'tip_toplulugu_source_telemetry row (last success/error history)',
   'git history of the canonical change (lifecycle_history.change_ref)',
 ];
 
 // ---------- O7: purge plan (dry run only) --------------------------------------------------------------------------
 
 export function purgePlan(p, artifacts) {
-  const col = p.store === 'hekimler' ? 'source_id' : 'feed_id';
-  const key = p.store === 'hekimler' ? p.source_id : p.feed_id || p.source_id;
+  const col = p.store === 'tip_toplulugu' ? 'source_id' : 'feed_id';
+  const key = p.store === 'tip_toplulugu' ? p.source_id : p.feed_id || p.source_id;
   return {
     mode: 'DRY_RUN_PLAN_ONLY',
     execution: 'NOT_IMPLEMENTED_IN_FEATURE_TRACK (remote/production purge is out of scope; requires explicit purge intent + legal/data-retention reason)',

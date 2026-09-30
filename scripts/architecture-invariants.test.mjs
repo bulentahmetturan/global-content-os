@@ -63,13 +63,13 @@ test('routes.json: external policy references resolve in channel-content-os', { 
 
 const nonOwners = [['channel-content-os', ccos]].filter(([, p]) => existsSync(p));
 
-test('Hekimler source/audience policy has ONE editable owner: no other repo holds a copy', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
-  for (const [repoName, repoPath] of nonOwners) for (const name of ['hekimler-source-policy-map.json', 'hekimler-audience-scope.json']) {
-    assert.ok(existsSync(rel(`adapters/hekimler-radar/content/policies/${name}`)), `${name} must exist in global-content-os`);
+test('Tıp Topluluğu source/audience policy has ONE editable owner: no other repo holds a copy', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
+  for (const [repoName, repoPath] of nonOwners) for (const name of ['tip-toplulugu-source-policy-map.json', 'tip-toplulugu-audience-scope.json']) {
+    assert.ok(existsSync(rel(`adapters/tip-toplulugu-radar/content/policies/${name}`)), `${name} must exist in global-content-os`);
     assert.ok(!existsSync(path.join(repoPath, 'channels/tip-ogrencileri-platformu/content/policies', name)), `${name} must not be duplicated in ${repoName}`);
   }
-  for (const [repoName, repoPath] of nonOwners) for (const name of ['hekimler-source-policy-map.schema.json', 'hekimler-candidate-decision.schema.json']) {
-    assert.ok(existsSync(rel(`adapters/hekimler-radar/content/schemas/${name}`)), `${name} schema must live beside the runtime`);
+  for (const [repoName, repoPath] of nonOwners) for (const name of ['tip-toplulugu-source-policy-map.schema.json', 'tip-toplulugu-candidate-decision.schema.json']) {
+    assert.ok(existsSync(rel(`adapters/tip-toplulugu-radar/content/schemas/${name}`)), `${name} schema must live beside the runtime`);
     assert.ok(!existsSync(path.join(repoPath, 'design-system/schemas/src', name)), `${name} schema must not be duplicated in ${repoName}`);
   }
 });
@@ -91,7 +91,7 @@ test('feeds generation reads ONLY local canonical inputs (no sibling-repo reads)
 });
 
 test('no active runtime scrapes another registry via regex over TypeScript or sibling files', () => {
-  const files = [...walk(rel('scripts'), ['.mjs']), ...walk(rel('apps/worker/src'), ['.ts']), ...walk(rel('adapters/hekimler-radar/radar'), ['.py']), ...walk(rel('adapters/hekimler-radar/scripts'), ['.py'])].filter(
+  const files = [...walk(rel('scripts'), ['.mjs']), ...walk(rel('apps/worker/src'), ['.ts']), ...walk(rel('adapters/tip-toplulugu-radar/radar'), ['.py']), ...walk(rel('adapters/tip-toplulugu-radar/scripts'), ['.py'])].filter(
     (f) => !f.endsWith('architecture-invariants.test.mjs')
   );
   const bad = /(source-registry|global-source-registry)\.ts/;
@@ -120,15 +120,15 @@ test('the relocated global-news-hub contract carries its relocation banner', () 
   assert.match(read(rel('docs/global-news-hub-contract.md')), /Relocated \(2026-09-29, ADR-0004\)/);
 });
 
-test('exactly one canonical Hekimler runtime in this repo; tip-radar is marked LEGACY', () => {
-  assert.ok(existsSync(rel('adapters/hekimler-radar/radar/hekimler_continuous_runner.py')));
+test('exactly one canonical Tıp Topluluğu runtime in this repo; tip-radar is marked LEGACY', () => {
+  assert.ok(existsSync(rel('adapters/tip-toplulugu-radar/radar/tip_toplulugu_continuous_runner.py')));
   assert.match(read(rel('adapters/tip-radar/README.md')), /LEGACY \/ MIGRATION COMPATIBILITY ONLY/);
-  // No second copy of the Hekimler engine elsewhere in this repo.
-  const engines = walk(root, ['hekimler_continuous_runner.py']);
+  // No second copy of the Tıp Topluluğu engine elsewhere in this repo.
+  const engines = walk(root, ['tip_toplulugu_continuous_runner.py']);
   assert.equal(engines.length, 1, engines.join(', '));
 });
 
-test('multi_channel_design is retired: no active checkout, so no second Hekimler runtime', () => {
+test('multi_channel_design is retired: no active checkout, so no second Tıp Topluluğu runtime', () => {
   for (const p of mcdActivePaths) {
     assert.ok(!existsSync(p), `${p} must not exist: multi_channel_design is retired (ADR-0005, E15); its history and assets are in the private preservation bundles (local copy deleted in Phase 6, K-01)`);
   }
@@ -147,7 +147,7 @@ test('channel-content-os owns no source acquisition (research/ holds post-approv
 });
 
 test('no script/adapter code depends on files that moved out of channel-content-os or multi_channel_design', () => {
-  const files = [...walk(rel('scripts'), ['.mjs', '.py']), ...walk(rel('adapters/hekimler-radar/radar'), ['.py']), ...walk(rel('adapters/hekimler-radar/scripts'), ['.py'])].filter(
+  const files = [...walk(rel('scripts'), ['.mjs', '.py']), ...walk(rel('adapters/tip-toplulugu-radar/radar'), ['.py']), ...walk(rel('adapters/tip-toplulugu-radar/scripts'), ['.py'])].filter(
     (f) => !f.endsWith('architecture-invariants.test.mjs')
   );
   const banned = [

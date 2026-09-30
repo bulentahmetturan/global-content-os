@@ -30,7 +30,7 @@ const universe = [
   { id: 'r1', channel_id: 'kaduse-medikal', source_id: 'med-wire', topic: 'regulatory-device', content_family: 'regulatory', base_priority: 10 },
   { id: 'r2', channel_id: 'kaduse-medikal', source_id: 'med-wire', topic: 'regulatory-device', content_family: 'regulatory', base_priority: 10 },
   { id: 'c1', channel_id: 'kaduse-medikal', source_id: 'med-wire', topic: 'clinical-product', content_family: 'clinical', base_priority: 10 },
-  { id: 'o1', channel_id: 'hekimler-toplulugu', source_id: 'med-wire', topic: 'hospital-opening', content_family: 'news', base_priority: 10 },
+  { id: 'o1', channel_id: 'tip_toplulugu', source_id: 'med-wire', topic: 'hospital-opening', content_family: 'news', base_priority: 10 },
 ];
 
 function decisionRow(item, action, reason_code) {

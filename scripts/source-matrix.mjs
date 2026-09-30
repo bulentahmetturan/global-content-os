@@ -47,25 +47,25 @@ function kaduseStatic() {
     }));
 }
 
-// ---- static: Hekimler sources (Python registry dump) -------------------
-function hekimlerStatic() {
+// ---- static: Tıp Topluluğu sources (Python registry dump) -------------------
+function tipTopluluguStatic() {
   const out = execFileSync('python3', ['scripts/dump_source_registry.py'], {
-    cwd: rel('adapters/hekimler-radar'),
+    cwd: rel('adapters/tip-toplulugu-radar'),
     stdio: 'pipe',
   }).toString();
   const rows = JSON.parse(out);
 
   // Ground truth for scheduler_path: read the actual deployed Cloudflare
   // ready-bundle. If its `profiles` array is empty, the Cloudflare-native
-  // continuous tick (hekimler-continuous.ts::runHekimlerContinuousTick)
-  // owns ZERO Hekimler sources right now, regardless of what the registry
+  // continuous tick (tip-toplulugu-continuous.ts::runTipTopluluguContinuousTick)
+  // owns ZERO Tıp Topluluğu sources right now, regardless of what the registry
   // says -- per task 12, never report a runtime as processing sources it
   // does not actually have wired.
   let cfWiredIds = new Set();
   let pythonRunnerIds = new Set();
   try {
     const bundle = JSON.parse(
-      execFileSync('node', ['-e', `console.log(JSON.stringify(require('./apps/worker/src/ingress/hekimler-automation-ready.json')))`], {
+      execFileSync('node', ['-e', `console.log(JSON.stringify(require('./apps/worker/src/ingress/tip-toplulugu-automation-ready.json')))`], {
         cwd: root,
       }).toString()
     );
@@ -124,7 +124,7 @@ function liveData() {
     `SELECT id, last_fetched_at, last_ok_items, last_error, fetch_attempts FROM source_feeds WHERE route IN ('kaduse-news','kaduse-research')`
   );
   const hekTelemetry = d1Query(
-    `SELECT source_id, last_success_at, source_health, coverage_status, failure_count, zero_accept_streak, last_item_count FROM hekimler_source_telemetry`
+    `SELECT source_id, last_success_at, source_health, coverage_status, failure_count, zero_accept_streak, last_item_count FROM tip_toplulugu_source_telemetry`
   );
   const items24hKaduse = d1Query(
     `SELECT feed_id, COUNT(*) AS n FROM source_items WHERE route IN ('kaduse-news','kaduse-research') AND fetched_at >= datetime('now','-1 day') GROUP BY feed_id`
@@ -199,7 +199,7 @@ function nextDueLabel(row, live) {
 
 // ---- build ---------------------------------------------------------------
 function build() {
-  const rows = [...kaduseStatic(), ...hekimlerStatic()];
+  const rows = [...kaduseStatic(), ...tipTopluluguStatic()];
   const live = liveData();
   return rows.map((row) => {
     const kLive = live.kaduseFeeds.get(row.source_id);

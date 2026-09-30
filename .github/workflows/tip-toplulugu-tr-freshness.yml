@@ -1,0 +1,29 @@
+name: Tıp Topluluğu TR source freshness
+
+# Visible alarm for runner_region=TR sources (hsgm_public_health). Reads the public Hub telemetry and fails
+# (red run + GitHub e-mail) when the source has no recent success, is unhealthy, or last_success_at is stale.
+# Does not fetch HSGM itself and needs no secret.
+# Enforced only when the TR runner is enabled (repo variable TR_RUNNER_ENABLED=true, same switch as
+# tip-toplulugu-tr-runner.yml); until then it reports NOT MEASURED in the job summary instead of a red run for a job
+# that cannot run. HSGM stays visible daily as an external blocker (S08 DIŞ) in tip-toplulugu-issue-check.yml.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - run: python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_tr_freshness.py --max-age-hours 48
+        env:
+          TR_RUNNER_ENABLED: ${{ vars.TR_RUNNER_ENABLED }}

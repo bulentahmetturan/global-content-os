@@ -1,4 +1,4 @@
-// The ONLY lifecycle write path into canonical source truth (Hekimler source-registry-*.json), plus the trace log.
+// The ONLY lifecycle write path into canonical source truth (Tıp Topluluğu source-registry-*.json), plus the trace log.
 // Guards (same shape as scripts/source-actions.mjs): operator/canonical-owner actor, `authorize` returning exactly
 // true (fail closed), `apply === true`, and a byte-stable JSON round trip -- otherwise REQUIRES_MANUAL_EDIT + patch.
 // Kaduse catalog stores are written only as a prepared change (catalog + feeds.json + forward migration file); the D1
@@ -39,7 +39,7 @@ export const getAt = (data, path) => path.split(/[.[\]]+/).filter(Boolean).reduc
  * Returns { outcome: DRY_RUN | APPLIED | REQUIRES_MANUAL_EDIT, file, patch }.
  */
 export function commitCanonical({ root, file, mutate, apply = false, actor, authorize, op }) {
-  if (!file.startsWith('adapters/hekimler-radar/content/source-registry-')) return { outcome: 'PLAN_ONLY', file, reason: 'not a lifecycle-writable canonical store' };
+  if (!file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-')) return { outcome: 'PLAN_ONLY', file, reason: 'not a lifecycle-writable canonical store' };
   const reg = readRegistry(root, file);
   const patch = mutate(reg.data);
   if (apply !== true) return { outcome: 'DRY_RUN', file, patch, writable: reg.stable };
@@ -56,7 +56,7 @@ const KADUSE_WRITABLE = /^(packages\/source-catalog\/data\/[a-z-]+\.json|config\
 /** The single repo write path. Callers must have passed authorizeLifecycle and apply === true. */
 export function writeCanonicalFiles(root, writes) {
   for (const w of writes) {
-    if (!w.file.startsWith('adapters/hekimler-radar/content/source-registry-') && !KADUSE_WRITABLE.test(w.file)) throw new Error(`not a lifecycle-writable path: ${w.file}`);
+    if (!w.file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-') && !KADUSE_WRITABLE.test(w.file)) throw new Error(`not a lifecycle-writable path: ${w.file}`);
     writeCanonical(join(root, w.file), w.text);
   }
 }
@@ -74,9 +74,9 @@ export function writeTrace(root, trace) {
   return f.slice(root.length + 1).split('\\').join('/');
 }
 
-/** Target registry file for a NEW Hekimler record (additive layers only; never phase1). */
+/** Target registry file for a NEW Tıp Topluluğu record (additive layers only; never phase1). */
 export function targetFileFor({ heading, url }) {
-  if (heading === 'BURS') return 'adapters/hekimler-radar/content/source-registry-burs-v1.json';
-  if (heading === 'EGITIM') return 'adapters/hekimler-radar/content/source-registry-egitim-v1.json';
-  return /\.tr$/.test(new URL(url).hostname) ? 'adapters/hekimler-radar/content/source-registry-v1.1.json' : 'adapters/hekimler-radar/content/source-registry-batch3.json';
+  if (heading === 'BURS') return 'adapters/tip-toplulugu-radar/content/source-registry-burs-v1.json';
+  if (heading === 'EGITIM') return 'adapters/tip-toplulugu-radar/content/source-registry-egitim-v1.json';
+  return /\.tr$/.test(new URL(url).hostname) ? 'adapters/tip-toplulugu-radar/content/source-registry-v1.1.json' : 'adapters/tip-toplulugu-radar/content/source-registry-batch3.json';
 }

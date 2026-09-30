@@ -16,7 +16,7 @@ import { exitCode } from '../source-lifecycle.mjs';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const NOW = '2026-09-29T12:00:00.000Z';
-const HEK = 'adapters/hekimler-radar/content';
+const HEK = 'adapters/tip-toplulugu-radar/content';
 const operator = { kind: 'operator', id: 'test' };
 const yes = () => true;
 
@@ -77,9 +77,9 @@ function sandbox() {
   }, { crlf: false });
   // artifacts
   writeJson(root, `${HEK}/policies/audience.json`, { audienceNativeSources: ['tdb_dental'] }, { crlf: false });
-  writeJson(root, 'adapters/hekimler-radar/tests/fixtures/shared_ready.json', { ids: ['tdb_dental', 'health_news_one'] }, { crlf: false });
-  writeJson(root, 'adapters/hekimler-radar/tests/fixtures/tdb_dental_list.json', { html: '<ul></ul>' }, { crlf: false });
-  writeJson(root, 'adapters/hekimler-radar/tests/fixtures/abc_x_2_list.json', { html: '' }, { crlf: false });
+  writeJson(root, 'adapters/tip-toplulugu-radar/tests/fixtures/shared_ready.json', { ids: ['tdb_dental', 'health_news_one'] }, { crlf: false });
+  writeJson(root, 'adapters/tip-toplulugu-radar/tests/fixtures/tdb_dental_list.json', { html: '<ul></ul>' }, { crlf: false });
+  writeJson(root, 'adapters/tip-toplulugu-radar/tests/fixtures/abc_x_2_list.json', { html: '' }, { crlf: false });
   mkdirSync(join(root, '.github/workflows'), { recursive: true });
   writeFileSync(join(root, '.github/workflows/runner.yml'), 'env:\n  TDB_DENTAL_API_KEY: ${{ secrets.TDB_DENTAL_API_KEY }}\n');
   return root;
@@ -186,7 +186,7 @@ test('URL request for a new source: full onboarding -> ACTIVE through the canoni
   assert.equal(r.outcome, 'ACTIVE', JSON.stringify(r));
   for (const g of ['IDENTITY', 'ACCESS', 'ENDPOINT', 'PARSER', 'ROUTING', 'CADENCE', 'DEDUPE', 'CANARY']) assert.equal(r.gates[g], 'PASS', g);
   assert.equal(r.gates.CAPACITY, 'SAFE');
-  assert.equal(r.route.lane, 'hekimler');
+  assert.equal(r.route.lane, 'tip_toplulugu');
   assert.equal(r.endpoint.runtime, 'list-page');
   assert.equal(r.cadence.poll_minutes, 4320);
   assert.equal(r.canary.published, 0);
@@ -199,7 +199,7 @@ test('URL request for a new source: full onboarding -> ACTIVE through the canoni
   assert.ok(bytes(root, 'v1.1').includes('\r\n'), 'CRLF preserved');
   assert.ok(existsSync(join(root, r.trace_file)));
   assert.deepEqual(bridge.calls.capacity, [4320]);
-  assert.ok(r.regenerate.some((s) => s.path.endsWith('hekimler-automation-ready.ts')));
+  assert.ok(r.regenerate.some((s) => s.path.endsWith('tip-toplulugu-automation-ready.ts')));
   assert.equal(exitCode(r), 0);
 });
 
@@ -244,7 +244,7 @@ test('unknown name without official-URL evidence is not guessed', async () => {
 
 // ---------- G2 discovery / access -----------------------------------------------------------------------------------
 
-test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Hekimler lane keeps list page + feed as cadence evidence', async () => {
+test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Tıp Topluluğu lane keeps list page + feed as cadence evidence', async () => {
   const root = sandbox();
   const host = 'www.research-inst.org';
   const page = `https://${host}/news/`;
@@ -258,7 +258,7 @@ test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Hekimler lane 
   assert.equal(k.outcome, 'CHANGE_DRY_RUN');
   assert.equal(k.cadence.evidence.source, 'feed_published');
 
-  const h = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { channel: 'hekimler' });
+  const h = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { channel: 'tip_toplulugu' });
   assert.equal(h.endpoint.transport, 'RSS');
   assert.equal(h.endpoint.runtime, 'list-page');
   assert.match(h.endpoint.note, /cadence evidence/);
@@ -305,7 +305,7 @@ test('robots parser: longest match wins, Allow beats Disallow on tie, sitemaps c
 test('unsupported HTML: no parser reuse possible -> BLOCKED_TECHNICAL with a fixture sample for a targeted adapter', async () => {
   const root = sandbox();
   const u = 'https://spa.example.org.tr/app/';
-  const r = await lc(root, { fetcher: fakeFetcher({ [u]: '<html><body><div id="root"></div><script src="/app.js"></script></body></html>' }) }).add(u, { channel: 'hekimler' });
+  const r = await lc(root, { fetcher: fakeFetcher({ [u]: '<html><body><div id="root"></div><script src="/app.js"></script></body></html>' }) }).add(u, { channel: 'tip_toplulugu' });
   assert.equal(r.outcome, 'BLOCKED_TECHNICAL');
   assert.equal(r.reason, 'PARSER_YIELD_BELOW_MINIMUM');
   const trace = JSON.parse(readFileSync(join(root, r.trace_file), 'utf8'));
@@ -316,16 +316,16 @@ test('feed-only endpoint for a lane whose runtime cannot parse feeds -> ADAPTER_
   const root = sandbox();
   const u = 'https://feedonly.example.org.tr/rss.xml';
   const items = Array.from({ length: 6 }, (_, i) => ({ title: `Hekim duyurusu başlığı ${i}`, url: `https://feedonly.example.org.tr/d/${i}`, date: daysAgo(i * 3 + 1) }));
-  const r = await lc(root, { fetcher: fakeFetcher({ [u]: { body: rss(items), contentType: 'application/rss+xml' } }) }).add(u, { channel: 'hekimler' });
+  const r = await lc(root, { fetcher: fakeFetcher({ [u]: { body: rss(items), contentType: 'application/rss+xml' } }) }).add(u, { channel: 'tip_toplulugu' });
   assert.equal(r.outcome, 'BLOCKED_TECHNICAL');
   assert.equal(r.reason, 'ADAPTER_REQUIRED');
 });
 
 test('shared parser reuse: one runtime parser per transport and lane', () => {
-  assert.equal(runtimeParserFor('hekimler', { transport: 'HTML_LIST', url: 'https://a.org/x' }).method, 'list-page');
-  assert.equal(runtimeParserFor('hekimler', { transport: 'RSS', url: 'https://a.org/x' }), null);
+  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'HTML_LIST', url: 'https://a.org/x' }).method, 'list-page');
+  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'RSS', url: 'https://a.org/x' }), null);
   assert.equal(runtimeParserFor('kaduse-news', { transport: 'RSS', url: 'https://a.org/x' }).module, 'apps/worker/src/ingress/generic-web.ts');
-  assert.equal(runtimeParserFor('hekimler', { transport: 'OFFICIAL_API', url: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi' }).method, 'eutilities_api');
+  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'OFFICIAL_API', url: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi' }).method, 'eutilities_api');
 });
 
 test('parsers: RSS, Atom, list page; dates only from explicit markup (never fabricated)', () => {
@@ -360,38 +360,38 @@ test('route ambiguity: no channel signal -> NEEDS_USER_DECISION, never fan-out',
 test('auto cadence: high-frequency publisher polls often, bounded by scheduler granularity', () => {
   const hourly = Array.from({ length: 20 }, (_, i) => hoursAgo(i + 0.5));
   assert.equal(deriveCadence({ timestamps: hourly, lane: 'kaduse-news', heading: 'HABER', now: NOW }).poll_minutes, 60);
-  const h = deriveCadence({ timestamps: hourly, lane: 'hekimler', heading: 'DUYURU', now: NOW });
+  const h = deriveCadence({ timestamps: hourly, lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW });
   assert.equal(h.poll_minutes, 1440);
   assert.ok(h.flags.includes('SCHEDULER_FLOOR'));
 });
 
 test('auto cadence: low-frequency publisher is not polled hourly; monthly is capped by freshness', () => {
-  const w = deriveCadence({ timestamps: weekly, lane: 'hekimler', heading: 'DUYURU', now: NOW });
+  const w = deriveCadence({ timestamps: weekly, lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW });
   assert.equal(w.poll_minutes, 4320);
   assert.equal(w.evidence.expected_gap_min, 10080);
   const monthly = Array.from({ length: 8 }, (_, i) => daysAgo(3 + i * 30));
-  const m = deriveCadence({ timestamps: monthly, lane: 'hekimler', heading: 'BURS', now: NOW });
+  const m = deriveCadence({ timestamps: monthly, lane: 'tip_toplulugu', heading: 'BURS', now: NOW });
   assert.equal(m.poll_minutes, 10080);
   assert.ok(m.flags.includes('FRESHNESS_CAPPED'));
   assert.equal(deriveCadence({ timestamps: weekly, lane: 'kaduse-news', heading: 'HABER', now: NOW }).poll_minutes, 720);
 });
 
 test('auto cadence: insufficient history -> conservative class fallback; outliers, future dates and dormancy handled', () => {
-  const few = deriveCadence({ timestamps: [daysAgo(1), daysAgo(9)], lane: 'hekimler', heading: 'DUYURU', now: NOW });
+  const few = deriveCadence({ timestamps: [daysAgo(1), daysAgo(9)], lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW });
   assert.equal(few.poll_minutes, 10080);
   assert.equal(few.confidence, 'LOW');
   assert.ok(few.flags.includes('INSUFFICIENT_HISTORY'));
-  const withOutlier = deriveCadence({ timestamps: [...Array.from({ length: 8 }, (_, i) => daysAgo(1 + i)), daysAgo(300)], lane: 'hekimler', heading: 'DUYURU', now: NOW });
+  const withOutlier = deriveCadence({ timestamps: [...Array.from({ length: 8 }, (_, i) => daysAgo(1 + i)), daysAgo(300)], lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW });
   assert.ok(withOutlier.flags.some((f) => f.startsWith('OUTLIER_GAPS_IGNORED')));
-  const future = deriveCadence({ timestamps: [daysAgo(-30), daysAgo(-60), daysAgo(1), daysAgo(8)], lane: 'hekimler', heading: 'BURS', now: NOW });
+  const future = deriveCadence({ timestamps: [daysAgo(-30), daysAgo(-60), daysAgo(1), daysAgo(8)], lane: 'tip_toplulugu', heading: 'BURS', now: NOW });
   assert.equal(future.evidence.sample_size, 2, 'deadlines/event dates are not publications');
-  const dormant = deriveCadence({ timestamps: Array.from({ length: 8 }, (_, i) => daysAgo(60 + i)), lane: 'hekimler', heading: 'DUYURU', now: NOW });
+  const dormant = deriveCadence({ timestamps: Array.from({ length: 8 }, (_, i) => daysAgo(60 + i)), lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW });
   assert.ok(dormant.flags.includes('DORMANT_SUSPECT'));
 });
 
 test('publication frequency change -> reviewed recalibration proposal on the same identity (hysteresis)', async () => {
-  assert.equal(recalibration(1440, deriveCadence({ timestamps: weekly, lane: 'hekimler', heading: 'DUYURU', now: NOW })).outcome, 'PROPOSAL');
-  assert.equal(recalibration(4320, deriveCadence({ timestamps: weekly, lane: 'hekimler', heading: 'DUYURU', now: NOW })).outcome, 'NO_CHANGE');
+  assert.equal(recalibration(1440, deriveCadence({ timestamps: weekly, lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW })).outcome, 'PROPOSAL');
+  assert.equal(recalibration(4320, deriveCadence({ timestamps: weekly, lane: 'tip_toplulugu', heading: 'DUYURU', now: NOW })).outcome, 'NO_CHANGE');
   const root = sandbox();
   const host = 'www.tdb.org.tr';
   const routes = { 'https://www.tdb.org.tr/duyurular/': listPage({ host, section: '/duyurular/', dates: weekly }) };
@@ -416,10 +416,10 @@ test('duplicate domain/heading ownership -> NEEDS_USER_DECISION with an explanat
   assert.equal(r.outcome, 'NEEDS_USER_DECISION');
   assert.equal(r.reason, 'DUPLICATE_OR_OWNERSHIP');
   const projections = loadProjections(root);
-  const fb = dedupeGate({ candidate: { source_id: 'burs_tdb', url: 'https://www.tdb.org.tr/burs/', heading: 'BURS', lane: 'hekimler' }, projections });
+  const fb = dedupeGate({ candidate: { source_id: 'burs_tdb', url: 'https://www.tdb.org.tr/burs/', heading: 'BURS', lane: 'tip_toplulugu' }, projections });
   assert.equal(fb.gate, 'NEEDS_USER_DECISION');
   assert.match(fb.explanation.join(' '), /tdb_dental/);
-  const known = dedupeGate({ candidate: { source_id: 'n', url: 'https://z.org/a/', heading: 'DUYURU', lane: 'hekimler' }, projections, sample: [{ url: 'https://z.org/a/1' }, { url: 'https://z.org/a/2' }], knownItemUrls: new Set(['https://z.org/a/1', 'https://z.org/a/2']) });
+  const known = dedupeGate({ candidate: { source_id: 'n', url: 'https://z.org/a/', heading: 'DUYURU', lane: 'tip_toplulugu' }, projections, sample: [{ url: 'https://z.org/a/1' }, { url: 'https://z.org/a/2' }], knownItemUrls: new Set(['https://z.org/a/1', 'https://z.org/a/2']) });
   assert.equal(known.checks.known_item_overlap.status, 'FAIL');
 });
 
@@ -614,14 +614,14 @@ test('artifacts: shared kept, source-exclusive classified, secrets never auto-de
   const p = projections.find((x) => x.source_id === 'tdb_dental');
   const a = classifyArtifacts({ root, projection: p, record: rec(root, 'tdb_dental')[0], projections });
   const by = Object.fromEntries(a.references.map((r) => [r.path, r]));
-  assert.equal(by['adapters/hekimler-radar/tests/fixtures/shared_ready.json'].action, 'KEEP');
-  assert.equal(by['adapters/hekimler-radar/tests/fixtures/tdb_dental_list.json'].action, 'CLEANUP_CANDIDATE');
+  assert.equal(by['adapters/tip-toplulugu-radar/tests/fixtures/shared_ready.json'].action, 'KEEP');
+  assert.equal(by['adapters/tip-toplulugu-radar/tests/fixtures/tdb_dental_list.json'].action, 'CLEANUP_CANDIDATE');
   assert.equal(by[`${HEK}/source-registry-batch3.json`].action, 'TOMBSTONE_KEEP');
   assert.equal(by[`${HEK}/policies/audience.json`].class, 'RUNTIME_POLICY_REFERENCE');
   assert.deepEqual(a.external_secrets.map((s) => [s.name, s.action]), [['TDB_DENTAL_API_KEY', 'NEVER_AUTO_DELETE']]);
   assert.equal(a.parser.action, 'KEEP_SHARED');
   assert.equal(a.deletions_performed, 0);
-  assert.ok(existsSync(join(root, 'adapters/hekimler-radar/tests/fixtures/tdb_dental_list.json')));
+  assert.ok(existsSync(join(root, 'adapters/tip-toplulugu-radar/tests/fixtures/tdb_dental_list.json')));
   const px = { ...projections.find((x) => x.source_id === 'abc_x_2'), source_id: 'abc_x' };
   const ax = classifyArtifacts({ root, projection: px, record: null, projections });
   assert.equal(ax.references.length, 0, '"abc_x" must not match "abc_x_2"');
@@ -632,7 +632,7 @@ test('in-flight policy is deterministic and only moves unreviewed inbox items to
   assert.match(p.inspect_sql[0], /feed_id = 'research-x''y'/);
   assert.match(p.treatment_sql[0], /'hold', 'inbox', 'hold'/);
   assert.equal(p.policy.production.startsWith('KEEP'), true);
-  assert.equal(purgePlan({ store: 'hekimler', source_id: 'a', retired: false, file: 'f', path: 'p' }, null).execution.startsWith('NOT_IMPLEMENTED'), true);
+  assert.equal(purgePlan({ store: 'tip_toplulugu', source_id: 'a', retired: false, file: 'f', path: 'p' }, null).execution.startsWith('NOT_IMPLEMENTED'), true);
 });
 
 // ---------- REACTIVATE ----------------------------------------------------------------------------------------------
@@ -677,7 +677,7 @@ test('Pillar 5: feedback/learning actors cannot enable, disable or mutate a sour
     assert.equal(r.commits[0].code, 'FEEDBACK_CANNOT_MUTATE_SOURCE');
   }
   assert.equal(bytes(root), before);
-  for (const f of ['apps/worker/src/triage/feedback.ts', 'scripts/relevance-ledger.mjs', 'adapters/hekimler-radar/radar/hekimler_scheduler.py']) {
+  for (const f of ['apps/worker/src/triage/feedback.ts', 'scripts/relevance-ledger.mjs', 'adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py']) {
     if (existsSync(join(repoRoot, f))) assert.doesNotMatch(readFileSync(join(repoRoot, f), 'utf8'), /source-lifecycle/, f);
   }
 });
@@ -743,7 +743,7 @@ test('real bridge: canonical gates, S66 identity and the unchanged capacity guar
   const r = JSON.parse(readFileSync(join(root, `${HEK}/source-registry-batch3.json`), 'utf8')).sources[0];
   assert.equal(b.gates(r).computed, 'AUTOMATION_READY');
   assert.equal(b.gates({ ...r, status: 'retired' }).computed, 'BLOCKED');
-  const v = b.identity({ source_id: 'burs_lifecycle_probe', url: 'https://www.nrmp.org/fellowships/', heading: 'BURS', lane: 'hekimler' });
+  const v = b.identity({ source_id: 'burs_lifecycle_probe', url: 'https://www.nrmp.org/fellowships/', heading: 'BURS', lane: 'tip_toplulugu' });
   assert.equal(v.violations.length, 1);
   const cap = b.capacity({ addCadence: 10080 });
   assert.ok(['SAFE', 'CAUTION', 'BLOCK'].includes(cap.status));

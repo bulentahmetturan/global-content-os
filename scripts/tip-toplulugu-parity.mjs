@@ -1,0 +1,33 @@
+// Runs the shared Tıp Topluluğu parity fixtures through the real Worker TypeScript gate.
+// Usage: node scripts/tip-toplulugu-parity.mjs <fixtures.json>  -> prints JSON results to stdout
+import { build } from 'esbuild';
+import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+const out = join(tmpdir(), `tip-toplulugu-parity-${process.pid}.mjs`);
+await build({
+  entryPoints: ['apps/worker/src/ingress/tip-toplulugu-continuous.ts'],
+  bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent',
+});
+const mod = await import(pathToFileURL(out).href);
+const bundle = (await import(pathToFileURL(out).href)).default ?? null;
+// Full profile export (all AUTOMATION_READY sources, including python_runner ones) can be supplied by the caller.
+const profilesPath = process.env.TIP_TOPLULUGU_PARITY_PROFILES || 'apps/worker/src/ingress/tip-toplulugu-automation-ready.json';
+const profiles = JSON.parse(readFileSync(profilesPath, 'utf8')).profiles;
+const fixtures = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+const results = fixtures.cases.map((c) => {
+  const profile = profiles.find((p) => p.source_id === c.source_id);
+  if (!profile) return { id: c.id, error: 'unknown_source' };
+  const gate = mod.classifyTitle(profile, c.title, '');
+  let final = gate.decision;
+  let reason = gate.reason;
+  if (gate.decision === 'ACCEPT') {
+    const dv = mod.dateVerdict(c.source_id, { publishedAt: c.published_at || null, title: c.title, url: c.url || '' }, new Date(fixtures.today + 'T12:00:00Z'));
+    if (dv.verdict === 'STALE') { final = 'DISCARD'; reason = 'stale'; }
+    return { id: c.id, decision: final, reason, date_verdict: dv.verdict };
+  }
+  return { id: c.id, decision: final, reason, date_verdict: null };
+});
+console.log(JSON.stringify(results));

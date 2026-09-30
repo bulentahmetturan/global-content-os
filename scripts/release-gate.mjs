@@ -41,7 +41,7 @@ if (args.includes('--skip-ci-check')) {
     add('ci.head_green', 'SKIPPED', 'gh unavailable or HEAD not pushed');
   } else {
     const runs = JSON.parse(gh.stdout || '[]');
-    const need = ['Worker tests', 'Hekimler tests'];
+    const need = ['Worker tests', 'Tıp Topluluğu tests'];
     const bad = need.filter((n) => !runs.some((r) => r.name === n && r.conclusion === 'success'));
     add('ci.head_green', bad.length ? 'FAIL' : 'PASS', bad.length ? `no successful run for: ${bad.join(', ')}` : need.join(' + '));
   }
@@ -71,7 +71,7 @@ add('contract.required_secrets_documented', need.every((k) => devVarsExample.inc
 add('contract.secrets_set_in_production', 'SKIPPED', 'verify with: npx wrangler secret list  (then GET /api/ready must be READY, not DEGRADED)', true);
 
 // 6. scheduler healthy (capacity guard) ---------------------------------------------------------------------
-const cap = sh(process.platform === 'win32' ? 'python' : 'python3', ['adapters/hekimler-radar/scripts/hekimler_ops.py', 'capacity', ...(opt('--history') ? ['--history', opt('--history')] : [])]);
+const cap = sh(process.platform === 'win32' ? 'python' : 'python3', ['adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py', 'capacity', ...(opt('--history') ? ['--history', opt('--history')] : [])]);
 let capStatus = 'UNKNOWN';
 try {
   capStatus = JSON.parse(cap.stdout).status;

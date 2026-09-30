@@ -25,7 +25,7 @@ jobs:
           while IFS= read -r u; do
             [ -z "$u" ] && continue
             out=$(mktemp)
-            meta=$(curl -sS -L -m 25 -o "$out" -w "%{http_code} %{size_download} %{content_type}" -A "HekimlerContinuousWorker/1.0 (+review-only)" "$u" 2>&1 | tail -1)
+            meta=$(curl -sS -L -m 25 -o "$out" -w "%{http_code} %{size_download} %{content_type}" -A "TipTopluluguContinuousWorker/1.0 (+review-only)" "$u" 2>&1 | tail -1)
             title=$(grep -o -i "<title>[^<]*" "$out" | head -1 | cut -c1-80)
             echo "PROBE $meta | $u | $title"
           done <<< "$URLS"

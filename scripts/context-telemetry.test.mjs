@@ -19,7 +19,7 @@ test('Claude transcript: exact usage per turn, baseline split, loads classified 
     result('t1', 36000),
     assistant(90000, [['t2', 'Read', { file_path: `${P}\\global-content-os\\docs\\source-matrix.generated.json` }]]),
     result('t2', 360000),
-    assistant(200000, [['t3', 'Bash', { command: `rg foo ${P}\\global-content-os\\adapters\\hekimler-radar\\content\\archive\\old.md` }]]),
+    assistant(200000, [['t3', 'Bash', { command: `rg foo ${P}\\global-content-os\\adapters\\tip-toplulugu-radar\\content\\archive\\old.md` }]]),
     result('t3', 100),
   ]);
   assert.equal(m.CONTEXT_TOKENS.peak, 200000);

@@ -168,9 +168,9 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
     checks.push(check('SCHEDULER', 'ops_invariants', inv, inv === 'PASS' ? 'scheduler/auth/cron/contract invariants hold' : `operational invariant broken: ${invTail}`, inv === 'PASS' ? {} : { why: WHY.scheduler, next: 'run node --test scripts/ops-invariants.test.mjs' }));
     let cap = 'UNKNOWN';
     for (const py of ['python3', 'python']) {
-      try { cap = JSON.parse(execSync(`${py} adapters/hekimler-radar/scripts/hekimler_ops.py capacity`, { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).status; break; } catch (e) { try { cap = JSON.parse(String(e.stdout ?? '')).status; break; } catch { /* next interpreter */ } }
+      try { cap = JSON.parse(execSync(`${py} adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity`, { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).status; break; } catch (e) { try { cap = JSON.parse(String(e.stdout ?? '')).status; break; } catch { /* next interpreter */ } }
     }
-    checks.push(check('SCHEDULER', 'capacity_guard', cap === 'SAFE' ? 'PASS' : cap === 'CAUTION' ? 'WARN' : 'FAIL', `capacity guard for the CURRENT active set: ${cap}${cap === 'CAUTION' ? ' (no measured run history supplied)' : ''}`, cap === 'SAFE' ? {} : { why: WHY.scheduler, next: 'python adapters/hekimler-radar/scripts/hekimler_ops.py capacity --history <run-report dir>' }));
+    checks.push(check('SCHEDULER', 'capacity_guard', cap === 'SAFE' ? 'PASS' : cap === 'CAUTION' ? 'WARN' : 'FAIL', `capacity guard for the CURRENT active set: ${cap}${cap === 'CAUTION' ? ' (no measured run history supplied)' : ''}`, cap === 'SAFE' ? {} : { why: WHY.scheduler, next: 'python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity --history <run-report dir>' }));
     const readyEp = grepFile(repos.gcos, 'apps/worker/src/index.ts', "'/api/ready'") && existsSync(R(repos.gcos, 'apps/worker/src/readiness.ts'));
     checks.push(check('HEALTH', 'readiness_endpoint_gcos', readyEp ? 'PASS' : 'FAIL', readyEp ? 'GCOS /api/ready (READY/DEGRADED/BLOCKED) present' : 'GCOS /api/ready missing', readyEp ? {} : { why: WHY.health_model, next: 'restore /api/ready' }));
   }

@@ -41,9 +41,9 @@ npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)
 node scripts/deploy-identity.mjs --live <worker-url>
 ```
 
-## 4. Hekimler / tip radar
+## 4. Tıp Topluluğu / tip radar
 
-Canonical runtime: `adapters/hekimler-radar/` (GitHub Actions runner). `adapters/tip-radar/` is legacy migration compatibility only. Channel pack: `channel-content-os/channels/tip-ogrencileri-platformu/`.
+Canonical runtime: `adapters/tip-toplulugu-radar/` (GitHub Actions runner). `adapters/tip-radar/` is legacy migration compatibility only. Channel pack: `channel-content-os/channels/tip-ogrencileri-platformu/`.
 
 ## Recovered vs live
 

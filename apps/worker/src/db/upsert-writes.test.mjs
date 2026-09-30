@@ -30,11 +30,11 @@ function fakeDb(existing, evidence = null) {
 const base = {
   id: 'item_1', triage_status: 'inbox', title: 'Başlık TR', title_orig: 'Original title', summary: 'özet', gists_json: '["özet"]',
   canonical_url: 'https://example.org/a', publisher: 'Pub', published_at: '2026-09-20', enrichment_status: 'done',
-  editorial_brand: null, content_family: 'hekimler_phase1', source_id: 's1', decision_route: 'NEEDS_REVIEW', intake_meta_json: '{"a":1}',
+  editorial_brand: null, content_family: 'tip_toplulugu_phase1', source_id: 's1', decision_route: 'NEEDS_REVIEW', intake_meta_json: '{"a":1}',
 };
 const input = {
-  feedId: 'f', route: 'tip-ogrencileri', channelId: 'hekimler-toplulugu', title: 'Original title', summary: 'summary EN',
-  canonicalUrl: 'https://example.org/a', publisher: 'Pub', publishedAt: '2026-09-20', contentFamily: 'hekimler_phase1',
+  feedId: 'f', route: 'tip-ogrencileri', channelId: 'tip_toplulugu', title: 'Original title', summary: 'summary EN',
+  canonicalUrl: 'https://example.org/a', publisher: 'Pub', publishedAt: '2026-09-20', contentFamily: 'tip_toplulugu_phase1',
   sourceId: 's1', decisionRoute: 'NEEDS_REVIEW', intakeMetaJson: '{"a":1}',
 };
 
