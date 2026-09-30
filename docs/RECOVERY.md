@@ -32,9 +32,13 @@ Cron drains `enrichment_status=pending` (~6 cards/minute). Model: `@cf/meta/llam
 
 ## 3. Cloudflare production
 
+Production only with explicit authorization. Record the rollback target first (`release/postfreeze-checkpoint.json`),
+apply only new numbered migrations (never re-run or rewrite applied ones), then verify `/api/health` and `/api/ready`.
+
 ```bash
 npx wrangler d1 migrations apply global-content-os --remote
-npx wrangler deploy
+npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)
+node scripts/deploy-identity.mjs --live <worker-url>
 ```
 
 ## 4. Hekimler / tip radar

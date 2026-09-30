@@ -4,8 +4,8 @@ Concise operational reference (Package 5). Detailed logs stay on disk (`.logs/`,
 
 ## 1. Scheduler (Hekimler Python runner)
 
-Code: `adapters/hekimler-radar/radar/hekimler_scheduler.py` (pure, I/O-free) · runner: `scripts/hekimler_scheduled_run.py`
-· ops CLI: `scripts/hekimler_ops.py` · proof: `tests/test_hekimler_scheduler_fairness.py` (deterministic simulations).
+Code: `adapters/hekimler-radar/radar/hekimler_scheduler.py` (pure, I/O-free) · runner: `adapters/hekimler-radar/scripts/hekimler_scheduled_run.py`
+· ops CLI: `adapters/hekimler-radar/scripts/hekimler_ops.py` · proof: `adapters/hekimler-radar/tests/test_hekimler_scheduler_fairness.py` (deterministic simulations).
 
 **Algorithm (oldest-eligible-first)**
 
@@ -67,7 +67,8 @@ failure is not one): `LATENESS_BEYOND_THRESHOLD`, `CAPACITY_DELAY`, `MANUAL_REVI
 
 Optional-source failures never move readiness. Secret *values* are never returned — only booleans.
 
-**Fail-closed auth:** `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*`, and `POST /api/triage`
+**Fail-closed auth:** every state-changing route fails closed; the canonical route-to-token map is
+`apps/worker/src/route-auth.ts` (tested by `route-auth.test.mjs`). Examples: `/api/handoff/status`, `/api/ingress/tip`, `/api/ingress/hekimler-*`, and `POST /api/triage`
 (`HUB_OPERATOR_TOKEN`; the Hub prompts once and keeps it in browser localStorage) return **503** when their token
 is not configured (never "open"), 401 on mismatch. Live outbound handoff (`CCOS_HANDOFF_STUB=false`) without URL **and**
 token records `handoff_status=failed` and sends nothing. Status callbacks validate the contract enum, are idempotent on an
@@ -91,12 +92,12 @@ condition, code pointer (parity-tested in both repos) and response. No paging ve
 
 ```bash
 node scripts/deploy-identity.mjs                    # local: commit, branch, dirty, expected schema, active schedulers
-npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)   # stamps BUILD_COMMIT/BRANCH/DEPLOYED_AT  (not run by Package 5)
+npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)   # stamps BUILD_COMMIT/BRANCH/DEPLOYED_AT
 node scripts/deploy-identity.mjs --live <worker-url>   # deployed commit vs local HEAD, readiness, applied vs expected migration
 ```
 
-Current production identity is **unstamped** (`BUILD_COMMIT` is not set in `wrangler.toml`): `--live` reports
-`identityStamped:false` until the first stamped deploy.
+Production deploys are stamped (`BUILD_COMMIT` comes from `--wrangler-vars`, never from `wrangler.toml`); `--live`
+reports `identityStamped:true` and whether the deployed commit matches local HEAD. The current live commit is in `docs/CURRENT.md`.
 
 ## 4. Release gate
 

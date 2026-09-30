@@ -22,14 +22,20 @@ npx wrangler secret put CCOS_HANDOFF_URL
 npx wrangler secret put CCOS_HANDOFF_TOKEN
 npx wrangler secret put STATUS_CALLBACK_TOKEN
 npx wrangler secret put TIP_RADAR_INGEST_TOKEN
+npx wrangler secret put HUB_OPERATOR_TOKEN
+npx wrangler secret put OPS_TOKEN
 ```
 
-CCOS now exposes the ingest endpoint (see `docs/approved-brief-handoff.md`): after deploying CCOS (migration 040) and setting `HANDOFF_INGEST_TOKEN`/`GCOS_STATUS_TOKEN` there, set `CCOS_HANDOFF_URL` here and `CCOS_HANDOFF_STUB=false` in `[vars]`.
+Routes whose secret is unset answer 503 (fail-closed; map in `apps/worker/src/route-auth.ts`). Live handoff is the production
+state (`CCOS_HANDOFF_STUB="false"`, see `docs/approved-brief-handoff.md`); set it to `true` only to contain an incident.
 
 ## Deploy
 
+Record the rollback target first (`release/postfreeze-checkpoint.json`; see `docs/ops/RELEASE-RUNBOOK.md`).
+
 ```bash
-npx wrangler deploy
+npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)
+node scripts/deploy-identity.mjs --live <worker-url>
 ```
 
 Cron Trigger in `wrangler.toml`: one `* * * * *` tick; `apps/worker/src/scheduled-jobs.ts` decides which jobs run on each tick. Schedule and CPU budget: `docs/continuous-flow.md`, `docs/cron-capacity-report.md`.

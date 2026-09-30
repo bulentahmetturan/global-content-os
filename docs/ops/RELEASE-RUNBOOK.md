@@ -23,7 +23,7 @@ node release/preflight.mjs --phase cutover --run-tests --checklist \
 
 Before/after a deploy the operator can state: repo, branch, commit, worker name, D1 name/id, expected migration level
 (all from `preflight` identity block), and post-deploy: GCOS `GET /api/health` returns `commit` (deploy with
-`--var BUILD_COMMIT:<sha>`); CCOS has no commit endpoint (use `wrangler deployments list` / version id, recorded in the manifest).
+`$(node scripts/deploy-identity.mjs --wrangler-vars)`); CCOS returns it at `GET /version`.
 
 ## 3. Deployment order (dependency-derived, DO NOT execute yet)
 
@@ -36,8 +36,8 @@ Consumer before producer; handoff enablement last.
 | 0 | Preflight `--phase cutover` PASS; record D1 pre-apply timestamps + current worker version ids; manifest `CANDIDATE` | reconciliation done | preflight exit 0 |
 | 1 | CCOS D1: apply migration 040 (additive) | 0 | `d1 migrations list` shows 040; table exists |
 | 2 | Deploy CCOS (consumer) with `HANDOFF_INGEST_TOKEN`, `GCOS_STATUS_TOKEN`, var `GCOS_STATUS_URL` | 1 | `GET /` 200; unauth POST → 401 |
-| 3 | GCOS D1: apply any pending GCOS migrations (status currently UNKNOWN) | 0 | migrations list at expected level |
-| 4 | Deploy GCOS with `CCOS_HANDOFF_STUB=true` still set, `--var BUILD_COMMIT:<sha>` | 3 | `/api/health` commit == sha |
+| 3 | GCOS D1: apply only new numbered migrations (production is at 0024) | 0 | migrations list at expected level |
+| 4 | Deploy GCOS with `CCOS_HANDOFF_STUB=true` still set, `npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)` | 3 | `node scripts/deploy-identity.mjs --live <gcos-url>` matches HEAD |
 | 5 | Smoke (stub mode) | 2, 4 | `SMOKE_PASS` |
 | 6 | Handoff verification (section 5) | 5 | all checks green |
 | 7 | Enable handoff: set secrets `CCOS_HANDOFF_URL`/`CCOS_HANDOFF_TOKEN`, set `CCOS_HANDOFF_STUB=false`, redeploy GCOS | 6 | smoke again `SMOKE_PASS` |
@@ -70,7 +70,7 @@ node release/smoke/smoke.mjs --gcos https://<gcos-host> --ccos https://<ccos-hos
 ## 6. Health model
 
 Core (gates readiness): GCOS liveness/readiness, CCOS liveness/readiness, handoff connectivity, scheduler health, critical DB, callback health
-(`release/health-model.json`; scheduler + callback signals **DEFER_TO_P5**; CCOS readiness is `GET {ccos}/ready` + `GET {ccos}/version` once operations hardening is integrated; alert classes: `release/alert-model.json`).
+(`release/health-model.json`; scheduler + callback signals **DEFER_TO_P5**; CCOS readiness is `GET {ccos}/ready` + `GET {ccos}/version`; alert classes: `release/alert-model.json`).
 Individual source health (failing/disabled/pending sources, R4, curated-club, backlog) never gates release.
 
 ## 7. Rollback (details in `release/rollback.json`)
@@ -99,7 +99,7 @@ Architecture change requires a real operational need or material technical debt.
 ```bash
 # 0. clean release worktrees at the reconciled commits; record rollback refs
 git -C <gcos> rev-parse HEAD ; git -C <ccos> rev-parse HEAD
-npx wrangler versions list --name global-content-os ; npx wrangler versions list --name channel-content-os-mcp
+npx wrangler versions list --name global-content-os ; npx wrangler versions list --name channel-content-os
 npx wrangler d1 time-travel info channel_content_os ; npx wrangler d1 time-travel info global-content-os
 node release/preflight.mjs --phase cutover --run-tests --checklist ...
 
@@ -128,20 +128,28 @@ node release/smoke/smoke.mjs ...                     # SMOKE_PASS required
 # 9. SYSTEM_V1 release record (fill manifest from the template, validate, commit)
 node -e "import('./release/lib/manifest.mjs').then(m=>console.log(m.validateManifest(JSON.parse(require('fs').readFileSync('release/manifest.json','utf8')))))"
 
+# after every deploy: /version and /ready (CCOS), /api/health and /api/ready (GCOS) match the deployed commit;
+# REMOTE_SHA_MISMATCH=0; no D1 data change beyond the authorized migration
 # rollback: see section 7 / release/rollback.json
 ```
 
+Before any deploy, record the rollback target (current Worker version id + D1 Time Travel bookmark) in `release/postfreeze-checkpoint.json`.
+
 Note: migration 040 is applied with `d1 execute --file` because CCOS has no `migrations_dir`; it was applied at the 2026-09-29 cutover (`@ccos/docs/CURRENT.md`).
-The same applies to 041 when it is authorized.
+041 was applied the same way on 2026-09-30.
 
 ## 10. Pending decisions that are NOT release blockers
 
 R4 research sources, the 24 curated-club sources, and the ~110-source backlog may stay disabled/pending. Remote MCD archival is not a
-blocker; readiness requires only no active production dependency on retired MCD paths (open until the MCD scheduled workflows are disabled after the first successful GCOS scheduled run, evidence E15).
+blocker (user decision, evidence E28). MCD is retired (ADR-0005, E15): its schedules are disabled and its history is preserved; there is no production dependency on it.
 
-## Known recovery limitation: CCOS migration chain cannot replay from zero (migration 010)
+## History: CCOS migration 010 replay limitation (resolved)
 
-`MIGRATION_010_STATUS`: **cutover-safe, rebuild-unsafe.**
+Superseded: a fresh rebuild into a new, non-production database is now supported by `mcp-server/scripts/db-rebuild.ts` with the
+`fresh-db-parents.sql` bootstrap (see `@ccos/docs/DATABASE-RECOVERY.md`). Production recovery stays D1 Time Travel or an export restore.
+The record below is kept as history.
+
+`MIGRATION_010_STATUS` (at cutover): **cutover-safe, rebuild-unsafe.**
 
 - Cutover: production already holds migrations 002..039; cutover applies only `040_approved_brief_intake.sql` (tested locally). No replay from zero is involved.
 - Rebuild from an empty database (schema.sql + migrations) fails at `010_knowledge_seed_evs_ehtml.sql` with foreign keys on: it seeds `design_knowledge_rules` for 6 `design_sources` ids that were registered in production at runtime, not by any migration (`awesome-design-skills-editorial`, `editorial-vision-studio`, `effective-html`, `ink-wash-poster`, `mengto-skills-editorial-tech`, `mono-color-skill`). Their license / pinned_ref cannot be reconstructed without inventing facts, so no repair migration is shipped.
