@@ -23,7 +23,7 @@ SECOND REPO: NO
 
 ### Hekimler parser or fetch fix
 READ: `adapters/hekimler-radar/AGENTS.md`, `adapters/hekimler-radar/radar/hekimler_fetch.py`
-OPTIONAL: `adapters/hekimler-radar/radar/fetchers.py`, `adapters/hekimler-radar/scripts/hekimler_run_one.py`
+OPTIONAL: `adapters/hekimler-radar/radar/fetchers.py`, `adapters/hekimler-radar/scripts/hekimler_run_one.py`, `adapters/hekimler-radar/scripts/hekimler_tr_runner_setup.md` (sources blocked outside Türkiye, e.g. HSGM: `.github/workflows/hekimler-tr-runner.yml`)
 DO NOT LOAD: fixtures beyond the one failing case, full logs, generated matrices, Bible
 SECOND REPO: NO
 

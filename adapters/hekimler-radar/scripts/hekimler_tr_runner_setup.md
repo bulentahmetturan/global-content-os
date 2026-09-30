@@ -7,14 +7,15 @@ Aynı adaptör, aynı politika, aynı kimlik doğrulamalı ingest ve telemetri k
 1. Türkiye'deki bir makinede (ev PC / küçük VPS) repo → Settings → Actions → Runners → New self-hosted runner.
    Etiketler: `self-hosted`, `tr`. Bu runner yalnızca `hekimler-tr-runner.yml` tarafından kullanılır.
 2. Secret zaten repo secret'ı olarak var (`TIP_RADAR_INGEST_TOKEN`); makinede saklanmaz.
-3. Actions → "Hekimler Türkiye-region runner" → Run workflow (`sources=tr-runner`). Günlük çalıştırmak için
-   bu workflow'a `schedule` ekleyin (varsayılan olarak yalnızca elle tetiklenir: runner yoksa iş beklemede kalır).
+3. Actions → "Hekimler Türkiye-region runner" → Run workflow (`sources=tr-runner`). Workflow'da günlük `schedule`
+   zaten var; zamanlanmış çalıştırmalar repo değişkeni `TR_RUNNER_ENABLED=true` olana kadar atlanır.
 4. Kaldırma: Runner sayfasında Remove; makinede `./config.sh remove --token <TOKEN>`.
 
 ## Seçenek 2 — Zamanlanmış yerel komut (Windows)
 ```powershell
 $env:TIP_RADAR_INGEST_TOKEN = (Get-Content $HOME\.hekimler_token -Raw).Trim()   # dosya yalnızca sizde, repo dışı
-python channels\tip-ogrencileri-platformu\scripts\hekimler_scheduled_run.py --sources tr-runner --report-dir $HOME\hekimler-report
+cd adapters\hekimler-radar
+python scripts\hekimler_scheduled_run.py --sources tr-runner --report-dir $HOME\hekimler-report
 ```
 Görev Zamanlayıcı'da günlük 07:17 (Türkiye saati) çalıştırın. Kaldırma: görevi silin, token dosyasını silin.
 
