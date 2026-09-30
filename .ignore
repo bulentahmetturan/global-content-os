@@ -15,5 +15,4 @@ adapters/hekimler-radar/content/PIPELINE-STATUS-46.json
 adapters/hekimler-radar/content/certs/
 # Bible copies: read via content/BIBLE-INDEX.md with an explicit path (explicit paths bypass this file)
 adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md
-adapters/hekimler-radar/content/_bible_v4_book2.md
 apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v*.md

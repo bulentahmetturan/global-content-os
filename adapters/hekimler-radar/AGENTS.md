@@ -10,7 +10,7 @@ Scope gate: strict physician / dentist / vet / student / abroad-scholarship scop
 - Code map: `radar/` fetch, gates, lifecycle, continuous runner; `scripts/` operators; `tests/` mirrors `radar/`.
 
 ## Do not load
-`sources/_*` probe dumps, `content/archive/`, `content/legacy-cleanup/`, `tests/fixtures/`, `content/PIPELINE-STATUS-46.json`, `content/00_TURK_TIP_CONTENT_OS_BIBLE_v3.md`, `content/_bible_v4_book2.md` (assembly input), `content/SORUN-TESPIT-LISTESI.md` after line 98.
+`sources/_*` probe dumps, `content/archive/`, `content/legacy-cleanup/`, `tests/fixtures/`, `content/PIPELINE-STATUS-46.json`, `content/00_TURK_TIP_CONTENT_OS_BIBLE_v3.md`, `content/SORUN-TESPIT-LISTESI.md` after line 98.
 
 ## Test
 From this directory: `python scripts/run_hekimler_tests.py` (canonical suite). Run the single relevant `tests/test_hekimler_*.py` first; write full output to `.logs/`.

@@ -17,6 +17,7 @@ Bible ile çelişen MD yok sayılır. İkinci bible yazılmaz.
 | Opportunity pool | `burs/pool.json`, `egitim/pool.json` |
 | Policies | `policies/*.json` |
 | Problem MD | `SORUN-TESPIT-LISTESI.md` |
+| Burs / Eğitim işletim kilitleri (Config/Registry, Bible değil) | `policies/hekimler-burs-policy.json`, `policies/hekimler-egitim-policy.json`, `source-registry-burs-v1.json`, `source-registry-egitim-v1.json` |
 
 ## Hub kategorileri (Bible §2)
 
