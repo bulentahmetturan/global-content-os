@@ -99,6 +99,8 @@ const JOURNAL_QUERIES: Array<{ feedId: string; query: string; issn?: string }> =
   { feedId: 'research-medrxiv-preprint', query: 'publisher-name:medRxiv' },
 ];
 
+export const JOURNAL_QUERY_COUNT = JOURNAL_QUERIES.length;
+
 async function mark(env: Env, feedId: string, ok: number, err: string | null) {
   await env.DB.prepare(
     `UPDATE source_feeds SET last_fetched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),

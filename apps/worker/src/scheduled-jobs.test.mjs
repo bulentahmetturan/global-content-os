@@ -147,3 +147,45 @@ describe('pickScheduledSlot (one job per tick)', async () => {
     assert.ok(count('news-generic') >= 10 && count('research-generic') >= 10);
   });
 });
+
+describe('journalFallbackOffset (journal Crossref rotation)', async () => {
+  const { pickScheduledSlot, journalFallbackOffset } = await import('./scheduled-jobs.ts');
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('./ingress/journal-fallback.ts', import.meta.url), 'utf8');
+  const realTotal = (src.match(/feedId: '/g) || []).length;
+  const LIMIT = 5;
+
+  /** Minute-of-simulation at which each journal index is polled, over `days` UTC days of 1-minute cron ticks. */
+  function simulate(total, days) {
+    const visits = Array.from({ length: total }, () => []);
+    for (let d = 0; d < days; d++)
+      for (let h = 0; h < 24; h++)
+        for (let m = 0; m < 60; m++) {
+          if (pickScheduledSlot(h, m) !== 'journal-fallback') continue;
+          const offset = journalFallbackOffset(h, m, total, LIMIT);
+          assert.ok(offset >= 0 && offset < total, `offset ${offset} out of range for total ${total}`);
+          for (let i = offset; i < Math.min(offset + LIMIT, total); i++) visits[i].push(d * 1440 + h * 60 + m);
+        }
+    return visits;
+  }
+
+  it('reads the real journal count from journal-fallback.ts', () => {
+    assert.ok(realTotal >= 20, `expected the JOURNAL_QUERIES list, found ${realTotal} entries`);
+  });
+
+  it('polls every journal every UTC day, not only the last batch (2026-09-22 regression)', () => {
+    for (const total of [realTotal, 26, 30, 7, 5]) {
+      const visits = simulate(total, 2);
+      const never = visits.map((v, i) => (v.some((t) => t < 1440) ? null : i)).filter((i) => i !== null);
+      assert.deepEqual(never, [], `total=${total}: journals never polled on day 1: ${never.join(',')}`);
+    }
+  });
+
+  it('keeps the gap between polls of any journal within 12h, so a 1440-min journal is fetched <= 36h apart', () => {
+    const visits = simulate(realTotal, 3);
+    for (let i = 0; i < realTotal; i++) {
+      const gaps = visits[i].slice(1).map((t, k) => t - visits[i][k]);
+      assert.ok(Math.max(...gaps) <= 720, `journal ${i}: max gap ${Math.max(...gaps)} min`);
+    }
+  });
+});

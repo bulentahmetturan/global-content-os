@@ -111,3 +111,15 @@ export function pickScheduledSlot(hour: number, minute: number): ScheduledSlot {
   if (minute === 7 || minute === 37) return 'purge-trash';
   return MINUTE_ROTATION[minute % MINUTE_ROTATION.length];
 }
+
+/**
+ * Batch start for the journal Crossref fallback. The slot runs on only one in every HOURLY_INGEST.length
+ * quarter hours, so the batch must advance per run of the slot: a per-quarter-hour formula
+ * (`floor(dayMinute / 15) * 5 % 25`) lands on the same batch every run and starved journals 0-19
+ * (2026-09-22 .. 2026-09-30). Every journal is visited once per ceil(total / limit) runs.
+ */
+export function journalFallbackOffset(hour: number, minute: number, total: number, limit: number): number {
+  const run = Math.floor((hour * 4 + Math.floor(minute / 15)) / HOURLY_INGEST.length);
+  const batches = Math.max(1, Math.ceil(total / limit));
+  return (run % batches) * limit;
+}

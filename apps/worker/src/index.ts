@@ -29,7 +29,7 @@ import {
 } from './triage/feedback';
 import { runSourceRevalidation, getSourceRevalidation, listRevalidationRequired } from './triage/revalidation-run';
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
-import { ingestJournalCrossrefFallbacks } from './ingress/journal-fallback';
+import { ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
 import {
   assertHekimlerChannelPartition,
@@ -41,6 +41,7 @@ import {
 } from './ingress/hekimler-continuous';
 import { COVERAGE_OVERRIDES, coverageLabel, classifyHekimlerFamily, HEKIMLER_BURS_SOURCE_IDS, HEKIMLER_EGITIM_SOURCE_IDS, HEKIMLER_RETIRED_DUPLICATE_SOURCE_IDS } from './ingress/hekimler-coverage';
 import {
+  journalFallbackOffset,
   pickScheduledSlot,
   runIsolatedScheduledJobs,
   type ScheduledJobSpec,
@@ -669,7 +670,6 @@ export default {
     // Continuous coverage: every cron tick advances a sliding window across ALL feeds.
     const minute = new Date(controller.scheduledTime).getUTCMinutes();
     const hour = new Date(controller.scheduledTime).getUTCHours();
-    const dayMinute = hour * 60 + minute;
 
     ctx.waitUntil(
       (async () => {
@@ -702,7 +702,7 @@ export default {
           pubmed: () => ingestPubmedAll(env),
           'research-apis': () => ingestResearchApis(env),
           'journal-fallback': () => {
-            const journalOffset = (Math.floor(dayMinute / 15) * 5) % 25;
+            const journalOffset = journalFallbackOffset(hour, minute, JOURNAL_QUERY_COUNT, 5);
             return ingestJournalCrossrefFallbacks(env, { offset: journalOffset, limit: 5 });
           },
           'news-generic': () => ingestGenericFeeds(env, { route: 'kaduse-news', offset: 0, limit: 1 }),
