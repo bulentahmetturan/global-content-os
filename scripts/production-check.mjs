@@ -196,11 +196,11 @@ try {
 
 // 7. Migration file numbering sanity (no gaps/dupes) ---------------------
 section('D1 migration numbering');
-// 0008 is a documented, intentionally-unused/reserved gap (SORUN-TESPIT-LISTESI.md
-// S61) -- D1 applies migrations by filename order, not a contiguous integer
-// requirement, and per the production spec's own instruction: do NOT renumber
-// to fill it. Any OTHER gap is still a genuine anomaly worth a WARN.
-const KNOWN_RESERVED_GAPS = ['7 -> 9'];
+// No gaps are expected. 0008 was applied in production but its file was missing
+// from the repo until 2026-09-30 (ledger E40); the "reserved gap" notes in S61 and
+// in the header of the applied 0023 file are stale and stay unedited (applied
+// migration files are never rewritten).
+const KNOWN_RESERVED_GAPS = [];
 try {
   const files = readdirSync(rel('migrations')).filter((f) => /^\d{4}_/.test(f));
   const nums = files.map((f) => Number(f.slice(0, 4))).sort((a, b) => a - b);
@@ -214,7 +214,7 @@ try {
   if (unknownGaps.length) warn('unrecognized migration numbering gap(s)', unknownGaps.join(', '));
   if (!dupes.length && !unknownGaps.length) {
     pass(
-      `${files.length} migrations, sequential (0008 intentionally reserved/unused, documented in S61)`
+      `${files.length} migrations, sequential, no gaps`
     );
   }
 } catch (e) {
