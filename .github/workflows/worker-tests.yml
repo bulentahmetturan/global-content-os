@@ -75,8 +75,13 @@ jobs:
         run: |
           npm run typecheck:catalog 2>&1 | tee .logs/catalog-typecheck.log; test "${PIPESTATUS[0]}" -eq 0
           npm run test:catalog 2>&1 | tee .logs/catalog-tests.log | tail -8; test "${PIPESTATUS[0]}" -eq 0
+          if grep -E "Tests .*(skipped|todo)" .logs/catalog-tests.log; then echo "UNEXPECTED_TEST_SKIPS (catalog)"; exit 1; fi
           node scripts/check-router-links.mjs | tee .logs/router.txt
           grep -q "^BROKEN_ROUTER_LINKS=0" .logs/router.txt && grep -q "^TRANSITIONAL_MCD_ROUTES=0" .logs/router.txt
+      - name: Summary (test counts incl. skipped)
+        run: |
+          grep -E "SKIPPED_TESTS=|pytest --|^Summary:" .logs/production-check.log | tee -a "$GITHUB_STEP_SUMMARY"
+          grep -E "Test Files|Tests " .logs/catalog-tests.log | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Upload full log (kept out of agent/PR context)
         if: failure()
         uses: actions/upload-artifact@v7

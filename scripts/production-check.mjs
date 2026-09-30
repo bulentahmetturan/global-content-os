@@ -72,14 +72,20 @@ const testFiles = [
   ...findTestFiles(rel('scripts')),
   ...findTestFiles(rel('packages/contracts')),
 ];
+// UNJUSTIFIED_TEST_SKIPS=0: any skipped/todo test fails the gate (no allowlist today).
+let skippedTotal = 0;
 for (const f of testFiles) {
   try {
     const out = execFileSync('node', [f], { cwd: root, stdio: 'pipe' }).toString();
+    const count = (name) => Number((out.match(new RegExp(`(?:#|ℹ) ${name} (\\d+)`)) || [])[1] ?? 0);
     const passMatch = out.match(/# pass (\d+)/) || out.match(/ℹ pass (\d+)/);
     const failMatch = out.match(/# fail (\d+)/) || out.match(/ℹ fail (\d+)/);
     const nPass = passMatch ? Number(passMatch[1]) : null;
     const nFail = failMatch ? Number(failMatch[1]) : null;
+    const nSkip = count('skipped') + count('todo');
+    skippedTotal += nSkip;
     if (nFail && nFail > 0) fail(f.replace(root, '.'), `${nFail} failing`);
+    else if (nSkip > 0) fail(f.replace(root, '.'), `${nSkip} skipped/todo test(s) (UNJUSTIFIED_TEST_SKIPS must be 0)`);
     else pass(`${f.replace(root, '.')} (${nPass ?? '?'} tests)`);
   } catch (e) {
     const detail = (e.stderr?.toString() || e.stdout?.toString() || e.message || '')
@@ -90,6 +96,7 @@ for (const f of testFiles) {
     fail(f.replace(root, '.'), `process exited non-zero -- ${detail}`);
   }
 }
+console.log(`  SKIPPED_TESTS=${skippedTotal} (worker/hub/scripts/contracts *.test.mjs)`);
 
 // 3. Python test suite ---------------------------------------------------
 section('Python test suite (adapters/hekimler-radar)');
@@ -104,7 +111,9 @@ try {
     stdio: 'pipe',
   }).toString();
   const m = out.match(/(\d+) passed/);
-  pass(`pytest -- ${m ? m[1] : '?'} passed, 0 failed`);
+  const s = Number((out.match(/(\d+) (?:skipped|xfailed|deselected)/) || [])[1] ?? 0);
+  if (s > 0) fail('pytest', `${s} skipped/xfailed/deselected test(s) (UNJUSTIFIED_TEST_SKIPS must be 0)`);
+  else pass(`pytest -- ${m ? m[1] : '?'} passed, 0 failed, SKIPPED_TESTS=0`);
 } catch (e) {
   const out = (e.stdout || '').toString();
   const failedLines = out.split('\n').filter((l) => l.startsWith('FAILED') || l.startsWith('SUBFAILED'));
