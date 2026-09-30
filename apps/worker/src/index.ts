@@ -605,7 +605,7 @@ export default {
         const gh = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/tip-toplulugu-python-runner.yml/dispatches`, {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${env.GITHUB_DISPATCH_TOKEN}`,
+            Authorization: `Bearer ${env.GITHUB_DISPATCH_TOKEN.replace(/[^A-Za-z0-9_-]/g, '')}`, // GitHub tokens are [A-Za-z0-9_-]; a pasted secret can carry quotes/newlines, which GitHub's edge answers with an empty 400
             Accept: 'application/vnd.github+json',
             'X-GitHub-Api-Version': '2022-11-28',
             'User-Agent': 'global-content-os-hub',
@@ -613,7 +613,12 @@ export default {
           },
           body: JSON.stringify({ ref: 'main', inputs: { sources: laneSources.join(','), force_due: body.forceDue === true ? 'true' : 'false' } }),
         });
-        if (gh.status !== 204) return json({ error: 'DISPATCH_FAILED', githubStatus: gh.status, lane }, 502);
+        if (gh.status !== 204) {
+          const raw = await gh.text().catch(() => '');
+          let detail = raw;
+          try { detail = (JSON.parse(raw) as { message?: string }).message || raw; } catch { /* keep raw */ }
+          return json({ error: 'DISPATCH_FAILED', githubStatus: gh.status, githubMessage: String(detail || '').slice(0, 200), githubRequestId: gh.headers.get('x-github-request-id'), githubServer: gh.headers.get('server'), lane }, 502);
+        }
         return json({ ok: true, lane, dispatched: true, sources: laneSources.length, forceDue: body.forceDue === true });
       }
 
