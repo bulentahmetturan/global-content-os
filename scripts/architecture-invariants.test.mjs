@@ -1,5 +1,5 @@
-// Architecture invariants (ADR-0004 in multi_channel_design). These fail loudly if the
-// three-system ownership model silently regresses. Sibling-repo checks run only when the
+// Architecture invariants (ADR-0004 / ADR-0005 in channel-content-os/docs). These fail loudly if the
+// two-repo ownership model silently regresses. Sibling-repo checks run only when the
 // sibling checkout exists and report a skip otherwise -- they never pass by absence.
 // Run: node --test scripts/architecture-invariants.test.mjs
 import { test } from 'node:test';
@@ -11,8 +11,8 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // Centralized sibling resolution: works both under projects/ and projects/content-systems/.
 const sibling = (name) => path.resolve(root, '..', name);
-// Retired MCD stays outside content-systems/ (projects/) until local retirement (evidence E15).
-const mcd = [sibling('multi_channel_design'), path.resolve(root, '..', '..', 'multi_channel_design')].find((p) => existsSync(p)) ?? sibling('multi_channel_design');
+// multi_channel_design is retired (ADR-0005, evidence E15): no active checkout may exist under its name.
+const mcdActivePaths = [sibling('multi_channel_design'), path.resolve(root, '..', '..', 'multi_channel_design')];
 const ccos = sibling('channel-content-os');
 const read = (p) => readFileSync(p, 'utf8');
 const rel = (p) => path.join(root, p);
@@ -56,7 +56,7 @@ test('routes.json: external policy references resolve in channel-content-os', { 
   }
 });
 
-const nonOwners = [['channel-content-os', ccos], ['multi_channel_design (retired)', mcd]].filter(([, p]) => existsSync(p));
+const nonOwners = [['channel-content-os', ccos]].filter(([, p]) => existsSync(p));
 
 test('Hekimler source/audience policy has ONE editable owner: no other repo holds a copy', { skip: nonOwners.length === 0 && 'no sibling repo present' }, () => {
   for (const [repoName, repoPath] of nonOwners) for (const name of ['hekimler-source-policy-map.json', 'hekimler-audience-scope.json']) {
@@ -123,13 +123,10 @@ test('exactly one canonical Hekimler runtime in this repo; tip-radar is marked L
   assert.equal(engines.length, 1, engines.join(', '));
 });
 
-test('multi_channel_design keeps no executable Hekimler runtime', { skip: !existsSync(mcd) && 'multi_channel_design retired (expected absent)' }, () => {
-  const tip = path.join(mcd, 'channels/tip-ogrencileri-platformu');
-  for (const dir of ['radar', 'scripts', 'sources', 'tests', 'database']) {
-    assert.ok(!existsSync(path.join(tip, dir)), `${dir}/ must not exist in multi_channel_design`);
+test('multi_channel_design is retired: no active checkout, so no second Hekimler runtime', () => {
+  for (const p of mcdActivePaths) {
+    assert.ok(!existsSync(p), `${p} must not exist: multi_channel_design is retired (ADR-0005, E15); its preserved copy is multi_channel_design.retired-<date>`);
   }
-  assert.equal(walk(tip, ['.py']).length, 0, 'no python runtime under the tip channel pack');
-  assert.ok(!existsSync(path.join(mcd, 'radar')), 'top-level radar/ scaffold stays retired');
 });
 
 test('channel-content-os owns no source acquisition (research/ holds post-approval claim routing only)', { skip: !existsSync(ccos) && 'channel-content-os sibling not present' }, () => {
