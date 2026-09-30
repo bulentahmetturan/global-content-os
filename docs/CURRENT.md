@@ -5,7 +5,7 @@
 - Two active repos only: this one and `channel-content-os` (which absorbed `multi_channel_design`, ADR-0005). Only `approved_brief` crosses to it.
 - Source truth: `packages/source-catalog/data` (news, research, Kaduse subscriptions), `adapters/hekimler-radar/content/source-registry-*.json` (Hekimler), `config/feeds.json`. Look up one record: `node scripts/registry-find.mjs <source-id>`.
 - Scheduler, capacity guard, fail-closed auth, the health endpoint (liveness) vs the ready endpoint (READY/DEGRADED/BLOCKED): `docs/OPERATIONS.md`. Release gate + runbook: `docs/ops/RELEASE-RUNBOOK.md`, `release/`.
-- Production: SYSTEM_V1 frozen 2026-09-29, post-freeze closure deployed 2026-09-30: tag `system-v1-closure` (`9257283`, Worker version `c0118839`), `CCOS_HANDOFF_STUB=false` (live handoff), D1 at 0024. Every state-changing route fails closed (route → token map: `apps/worker/src/route-auth.test.mjs`). Record: `release/manifest.json`; rollback targets: `release/postfreeze-checkpoint.json`.
+- Production: SYSTEM_V1 frozen 2026-09-29, post-freeze closure deployed 2026-09-30: tag `system-v1-closure` (`9257283`, Worker version `c0118839`); live now `a20b6e8` (Worker version `5f5c49d3`, 2026-09-30 Phase 5B static-asset-only redeploy: generated Hub catalogs, dev files excluded; rollback target `c0118839`), `CCOS_HANDOFF_STUB=false` (live handoff), D1 at 0024. Every state-changing route fails closed (route → token map: `apps/worker/src/route-auth.test.mjs`). Record: `release/manifest.json`; rollback targets: `release/postfreeze-checkpoint.json`.
 
 ## Known intentional legacy (do not "clean up")
 - `adapters/tip-radar/` is legacy migration compatibility only (local SQLite push).
