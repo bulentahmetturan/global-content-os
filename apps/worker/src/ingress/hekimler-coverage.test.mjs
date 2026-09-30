@@ -5,6 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { build } from 'esbuild';
+import { readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -33,6 +34,16 @@ test('every explicitly-registered egitim source classifies as egitim', () => {
     assert.equal(classifyHekimlerFamily(id), 'egitim', id);
   }
 });
+
+// The Worker lists mirror the canonical registries (SOURCE_TRUTH_DUPLICATION=0): same ids, no drift.
+for (const [lane, ids] of [['burs', HEKIMLER_BURS_SOURCE_IDS], ['egitim', HEKIMLER_EGITIM_SOURCE_IDS]]) {
+  test(`${lane} Worker source ids equal source-registry-${lane}-v1.json`, () => {
+    const reg = JSON.parse(readFileSync(`adapters/hekimler-radar/content/source-registry-${lane}-v1.json`, 'utf8'));
+    const registryIds = reg.sources.map((s) => s.source_id ?? s.id);
+    assert.equal(new Set(ids).size, ids.length, 'duplicate id in the Worker list');
+    assert.deepEqual([...ids].sort(), [...registryIds].sort());
+  });
+}
 
 test('a plain duyuru-style source (no prefix, not registered) classifies as duyuru', () => {
   assert.equal(classifyHekimlerFamily('ttb_national'), 'duyuru');
