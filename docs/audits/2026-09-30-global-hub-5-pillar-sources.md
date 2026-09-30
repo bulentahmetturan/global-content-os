@@ -336,3 +336,15 @@ Simgeler: ✔ PASS · ~ DEGRADED · ✖ BLOCKED · – N/A (manuel).
 - 5.40 **WFOT — World Federation of Occupational Therapis** `egitim_wfot` — KEEP_MANUAL_BY_DESIGN · P1– P2~ P3– P4– P5– · durum: MANUAL(dry-run:66 kayıt/0 aday) · dry-run 2026-09-30: sayfa çekiliyor (66 kayıt) ama politika içi aday 0 → Türk Ergoterapi Derneği tam üye; onaylı eğitim programları ve çevrimiçi öğrenme.
 - 5.41 **WHO Academy** `egitim_who_academy` — KEEP_MANUAL_BY_DESIGN · P1– P2~ P3– P4– P5– · durum: MANUAL(dry-run:7 kayıt/0 aday) · dry-run 2026-09-30: sayfa çekiliyor (7 kayıt) ama politika içi aday 0 → WHO Academy kurs kataloğu. OpenWHO acil sağlık kaynakları ayrı: egitim_openwho (2025 sonra
 - 5.42 **World Physiotherapy Congress & Education** `egitim_world_physio` — KEEP_MANUAL_BY_DESIGN · P1– P2~ P3– P4– P5– · durum: MANUAL(dry-run:34 kayıt/0 aday) · dry-run 2026-09-30: sayfa çekiliyor (34 kayıt) ama politika içi aday 0 → Uluslararası fizyoterapi kongre/eğitim izleme. 2027 konuşmacı bursu LMIC-only — o çağrı al
+
+## Ek: manuel trigger canary sonuçları (2026-09-30, Hub operatör anahtarıyla)
+
+| Alan | Yol | Sonuç |
+|---|---|---|
+| Haber | Worker `/api/ingress/news` + `/generic` | PASS: 5 feed tarandı, 46 öğe dedup ile güncellendi, off-topic elendi, 0 yeni |
+| Research | Worker `/api/ingress/research` | PASS: inbox 1484 → 1557 (+73 yeni) |
+| Duyuru | `/api/ingress/tip-toplulugu-run` → GitHub runner | PASS: 58 kaynak, 55 başarılı, 5 yeni, 149 dup, 17 dk. Başarısız 3: `hsgm_public_health` (timeout), `tihud_internal_medicine` (404), `yok_medical_education` (HTTP 418, yeni) |
+| Burs | aynı, `forceDue` | PASS: 6/6 başarılı, 0 yeni, 8 dup (çift kayıt yok) |
+| Eğitim | aynı, `forceDue` | PASS: 2/2 başarılı, 0 yeni, 2 dup |
+
+Bulgu ve düzeltme: tek küresel `concurrency` grubu yüzünden farklı lane'lerden art arda verilen komutlarda ortadaki koşu iptal oluyordu; grup lane'e göre ayrıldı (`f2dd1f7`), Burs ve Eğitim paralel koşup tamamlandı. Açık: Hub koşu ilerlemesini/sonucunu göstermiyor (yalnız "başlatıldı" bildirimi; sonuç GitHub Actions'ta).
