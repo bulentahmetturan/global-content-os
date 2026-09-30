@@ -25,6 +25,21 @@
       "cd mcp-server && npx wrangler d1 time-travel restore channel_content_os --bookmark=000000c6-00000000-000050f5-187f3f581802d83e8169becd0f1e2277"
     ]
   },
+  "phase6PipelineFix": {
+    "note": "Owner-authorized Phase 6 live-mutation exception (2026-09-30 ~18:00 UTC+3): deploy of the journal rotation / date / Hekimler fixes, then a 22-row published_at patch and a journal backfill through the ingest gate. Taken before that deploy.",
+    "takenAt": "2026-09-30T18:10+03:00",
+    "worker": "global-content-os",
+    "rollbackVersion": "ae6e0e1a-90e8-4621-a029-b355918676af",
+    "rollbackCommit": "a4f648b",
+    "fixCommits": "2841b30..801c039 (deployed as the commit that records this checkpoint)",
+    "d1": "global-content-os",
+    "d1Bookmark": "00000246-00000098-000050f6-2350a2758383429c73e23b05f9555368",
+    "schemaMigration": "0024_source_revalidation.sql",
+    "rollback": [
+      "npx wrangler rollback ae6e0e1a-90e8-4621-a029-b355918676af",
+      "npx wrangler d1 time-travel restore global-content-os --bookmark=00000246-00000098-000050f6-2350a2758383429c73e23b05f9555368"
+    ]
+  },
   "secretNames": {
     "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
     "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
