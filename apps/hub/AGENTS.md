@@ -4,4 +4,4 @@
 
 Tests: `node apps/hub/<name>.test.mjs` (`route-counts`, `source-family`, `source-review-filter`).
 Data next to it (`bible-config.json`, `controlled-vocabulary.json`, `burs-sources.json`, `egitim-sources.json`) is loaded by the UI/worker — change with care, not for context.
-The `00_TURK_TIP_*BIBLE*.md` files here are build copies of `adapters/hekimler-radar/content/`; edit the canonical one only (DEFERRED_BUILD_COPY).
+`00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` here is GENERATED from `adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` by `node scripts/generate-hub-bible.mjs` (static-asset packaging needs a physical file). Never edit it; `production:check` fails on a stale or hand-edited copy. `00_TURK_TIP_CONTENT_OS_BIBLE_v3.md` is a public redirect stub to v4.

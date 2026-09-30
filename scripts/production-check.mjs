@@ -122,21 +122,18 @@ try {
   }
 }
 
-// 4. Bible v4 canonical-copy byte-identity ------------------------------
-section('Bible v4 canonical-copy integrity');
-const bibleCopies = [
-  'adapters/hekimler-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md',
-  'apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md',
-];
+// 4. Bible v4 Hub copy is generated from the one canonical source -------
+section('Bible v4 generated Hub copy (D-BIBLE-V4-HUB-COPY)');
 try {
-  const contents = bibleCopies.map((p) => readFileSync(rel(p), 'utf8'));
-  if (contents[0] === contents[1]) {
-    pass(`Bible v4 copies byte-identical (${bibleCopies.length} locations)`);
+  const { checkHubBible } = await import('./generate-hub-bible.mjs');
+  const r = checkHubBible();
+  if (r.inSync) {
+    pass(`Hub copy equals a fresh generation from ${r.source} (sha256 ${r.sourceSha256.slice(0, 12)})`);
   } else {
-    fail('Bible v4 copies have drifted', bibleCopies.join(' vs '));
+    fail('Bible v4 Hub copy is stale or hand-edited', `${r.destination} != ${r.source}; run node scripts/generate-hub-bible.mjs`);
   }
 } catch (e) {
-  fail('Bible v4 copy read failed', e.message);
+  fail('Bible v4 Hub copy check failed', e.message);
 }
 
 // 5. Human-review gate: no code path may set triage_status -> production

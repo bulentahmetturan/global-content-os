@@ -18,6 +18,7 @@
     "typecheck": "tsc --noEmit -p apps/worker/tsconfig.json",
     "ingest:tip": "node adapters/tip-radar/push-to-hub.mjs",
     "production:check": "node scripts/production-check.mjs",
+    "generate:hub-bible": "node scripts/generate-hub-bible.mjs",
     "release:gate": "node scripts/release-gate.mjs",
     "deploy:identity": "node scripts/deploy-identity.mjs",
     "release:preflight": "node release/preflight.mjs",
