@@ -140,8 +140,8 @@ Note: migration 040 is applied with `d1 execute --file` because CCOS has no `mig
 
 ## 10. Pending decisions that are NOT release blockers
 
-R4 research sources, the 24 curated-club sources, and the ~110-source backlog may stay disabled/pending. Remote MCD archival is not a
-blocker (user decision, evidence E28). MCD is retired (ADR-0005, E15): its schedules are disabled and its history is preserved; there is no production dependency on it.
+R4 research sources, the 24 curated-club sources, and the ~110-source backlog may stay disabled/pending. The MCD GitHub repo is
+archived (owner decision 2026-09-30, all 7 workflows disabled, evidence E28). MCD is retired (ADR-0005, E15): its schedules are disabled and its history is preserved; there is no production dependency on it.
 
 ## History: CCOS migration 010 replay limitation (resolved)
 

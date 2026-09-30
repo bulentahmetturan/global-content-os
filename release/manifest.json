@@ -26,10 +26,11 @@
       "decision": "D-UD-BATCH-3 UD-1 A (user/owner 2026-09-30 ~14:05 UTC+3): remove Hub static asset 00_TURK_TIP_CONTENT_OS_BIBLE_v3.md (redirect stub, 0 consumers)",
       "rollbackTarget": { "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "recordedBeforeDeploy": "2026-09-30T11:20Z" },
       "d1BookmarkBeforeDeploy": { "gcos": "00000241-00000004-000050f6-9722dc393693dceddc58f7138072e975", "note": "no migration and no D1 write in this deploy; bookmark recorded for discipline only" },
-      "change": "Hub static assets only (one file removed); Worker code, migrations, bindings unchanged"
+      "change": "Hub static assets only (one file removed); Worker code, migrations, bindings unchanged",
+      "deployed": { "commit": "a4f648b083e8c536fe3a2041ff1a1c2afee6e7b9", "workerVersion": "ae6e0e1a-90e8-4621-a029-b355918676af", "deployedAt": "2026-09-30T11:31:57Z", "releaseGate": "READY", "verify": "deploy-identity --live matchesLocalHead + identityStamped + schema 0024; /api/ready READY degraded []; /version 200; origin = a4f648b (REMOTE_SHA_MISMATCH=0); SMOKE_PASS; old v3 URL now serves the Hub SPA (200 text/html)" }
     },
     "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
-    "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub archive = open user decision (E28)."
+    "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub repo archived 2026-09-30 on owner authorization, all 7 workflows disabled (E28 CLOSED)."
   },
   "gcos": {
     "repo": "global-content-os",
