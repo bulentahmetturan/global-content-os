@@ -29,7 +29,7 @@ import {
 } from './triage/feedback';
 import { runSourceRevalidation, getSourceRevalidation, listRevalidationRequired } from './triage/revalidation-run';
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
-import { ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
+import { backfillJournalWindow, ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
 import {
   assertHekimlerChannelPartition,
@@ -509,7 +509,21 @@ export default {
         const body = (await request.json().catch(() => ({}))) as {
           offset?: number;
           limit?: number;
+          backfill?: { feedId?: string; from?: string; until?: string; cursor?: string; rows?: number; dryRun?: boolean };
         };
+        if (body.backfill) {
+          const b = body.backfill;
+          if (!b.feedId || !b.from || !b.until) return json({ error: 'INVALID_BACKFILL' }, 400);
+          const page = await backfillJournalWindow(env, {
+            feedId: b.feedId,
+            from: b.from,
+            until: b.until,
+            cursor: b.cursor,
+            rows: b.rows,
+            dryRun: b.dryRun !== false,
+          });
+          return json({ ok: true, backfill: page });
+        }
         const result = await ingestJournalCrossrefFallbacks(env, {
           offset: body.offset,
           limit: body.limit,

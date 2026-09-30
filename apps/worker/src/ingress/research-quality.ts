@@ -27,6 +27,22 @@ export function clinicalTrialPublishedAt(status?: {
   return status?.studyFirstPostDateStruct?.date || status?.startDateStruct?.date || null;
 }
 
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Crossref /works URL for one journal (by ISSN) and a publication-date window, one cursor page at a time.
+ * Used by the operator backfill; `cursor` is "*" for the first page, then the previous page's next-cursor.
+ */
+export function crossrefWindowUrl(opts: { issn: string; from: string; until: string; rows: number; cursor?: string }): string {
+  if (!opts.issn) throw new Error('issn_required');
+  if (!ISO_DAY.test(opts.from) || !ISO_DAY.test(opts.until) || opts.from > opts.until) throw new Error('invalid_window');
+  const url = new URL('https://api.crossref.org/works');
+  url.searchParams.set('filter', `issn:${opts.issn},from-pub-date:${opts.from},until-pub-date:${opts.until}`);
+  url.searchParams.set('rows', String(Math.min(20, Math.max(1, Math.floor(opts.rows)))));
+  url.searchParams.set('cursor', opts.cursor || '*');
+  return url.toString();
+}
+
 /** Journal name from a `container-title:"X"` / `container-title:X` Crossref query, else null (no journal constraint). */
 export function expectedContainer(query: string): string | null {
   const m = query.match(/^container-title:(?:"([^"]+)"|(.+))$/i);

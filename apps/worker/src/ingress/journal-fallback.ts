@@ -1,6 +1,6 @@
 import { type Env } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
-import { containerMatches, expectedContainer, isFutureDate, isPlaceholderTitle } from './research-quality';
+import { containerMatches, crossrefWindowUrl, expectedContainer, isFutureDate, isPlaceholderTitle } from './research-quality';
 
 /**
  * Continuous research fallback: when journal HTML/RSS is bot-blocked,
@@ -101,6 +101,122 @@ const JOURNAL_QUERIES: Array<{ feedId: string; query: string; issn?: string }> =
 
 export const JOURNAL_QUERY_COUNT = JOURNAL_QUERIES.length;
 
+type JournalQuery = (typeof JOURNAL_QUERIES)[number];
+type FeedRow = { id: string; channel_id: string; label: string };
+type CrossrefWork = {
+  DOI?: string;
+  title?: string[];
+  'container-title'?: string[];
+  abstract?: string;
+  published?: { 'date-parts'?: number[][] };
+};
+type CrossrefBody = { message?: { items?: CrossrefWork[]; 'next-cursor'?: string; 'total-results'?: number } };
+
+/** One Crossref work -> ingest input (same filters and DOI dedupe key for the scheduled job and the backfill), or null. */
+function crossrefItemInput(it: CrossrefWork, j: JournalQuery, feed: FeedRow) {
+  const title = (it.title?.[0] || '').trim();
+  const doi = it.DOI;
+  if (!title || !doi || isPlaceholderTitle(title)) return null;
+  if (!containerMatches(expectedContainer(j.query), it['container-title'])) return null;
+  const publisher = it['container-title']?.[0] || feed.label;
+  const abstract = (it.abstract || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const parts = it.published?.['date-parts']?.[0];
+  const publishedAt = parts
+    ? `${parts[0]}-${String(parts[1] || 1).padStart(2, '0')}-${String(parts[2] || 1).padStart(2, '0')}`
+    : null;
+  if (isFutureDate(publishedAt)) return null;
+  return {
+    feedId: feed.id,
+    route: 'kaduse-research' as const,
+    channelId: feed.channel_id,
+    title,
+    titleOrig: title,
+    summary: abstract.slice(0, 480) || `${publisher} — DOI ${doi}`,
+    gists: [abstract.slice(0, 480) || title],
+    canonicalUrl: `https://doi.org/${doi}`,
+    publisher,
+    publishedAt,
+    dedupeKey: doi.toLowerCase(),
+    evidence: {
+      doi,
+      pmid: null,
+      pmcid: null,
+      finding: abstract.slice(0, 600) || null,
+      limitation: null,
+      studyType: null,
+    },
+  };
+}
+
+export interface JournalBackfillPage {
+  feedId: string;
+  dryRun: boolean;
+  fetched: number;
+  candidates: number;
+  created: number;
+  updated: number;
+  rejected: number;
+  existing: number;
+  wouldCreate: number;
+  nextCursor: string | null;
+  totalResults: number | null;
+}
+
+/**
+ * One-off operator backfill: one Crossref cursor page of one journal's works published in [from, until].
+ * Items go through the same filters, DOI dedupe key and upsertLocalizedSourceItem (ingest gate) as the
+ * scheduled job; source_feeds cadence fields are not touched. dryRun only reads (dedupe lookup), never writes.
+ */
+export async function backfillJournalWindow(
+  env: Env,
+  opts: { feedId: string; from: string; until: string; cursor?: string; rows?: number; dryRun?: boolean }
+): Promise<JournalBackfillPage> {
+  const j = JOURNAL_QUERIES.find((q) => q.feedId === opts.feedId);
+  if (!j || !j.issn) throw new Error(`backfill_unknown_journal:${opts.feedId}`);
+  const url = crossrefWindowUrl({ issn: j.issn, from: opts.from, until: opts.until, rows: opts.rows ?? 20, cursor: opts.cursor });
+  const feed = await env.DB.prepare(`SELECT id, channel_id, label FROM source_feeds WHERE id = ? AND enabled = 1`)
+    .bind(j.feedId)
+    .first<FeedRow>();
+  if (!feed) throw new Error(`backfill_feed_disabled:${opts.feedId}`);
+  const res = await fetch(url, {
+    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.2 (mailto:ops@local)' },
+  });
+  if (!res.ok) throw new Error(`crossref_${res.status}`);
+  const body = (await res.json()) as CrossrefBody;
+  const items = body.message?.items ?? [];
+  const page: JournalBackfillPage = {
+    feedId: j.feedId,
+    dryRun: !!opts.dryRun,
+    fetched: items.length,
+    candidates: 0,
+    created: 0,
+    updated: 0,
+    rejected: 0,
+    existing: 0,
+    wouldCreate: 0,
+    nextCursor: items.length ? body.message?.['next-cursor'] ?? null : null,
+    totalResults: body.message?.['total-results'] ?? null,
+  };
+  for (const it of items) {
+    const input = crossrefItemInput(it, j, feed);
+    if (!input) continue;
+    page.candidates += 1;
+    if (opts.dryRun) {
+      const hit = await env.DB.prepare(`SELECT id FROM source_items WHERE route = ? AND dedupe_key = ?`)
+        .bind(input.route, input.dedupeKey)
+        .first();
+      if (hit) page.existing += 1;
+      else page.wouldCreate += 1;
+      continue;
+    }
+    const result = (await upsertLocalizedSourceItem(env, input)) as { created: boolean; rejected?: string };
+    if (result.created) page.created += 1;
+    else if (result.rejected) page.rejected += 1;
+    else page.updated += 1;
+  }
+  return page;
+}
+
 async function mark(env: Env, feedId: string, ok: number, err: string | null) {
   await env.DB.prepare(
     `UPDATE source_feeds SET last_fetched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
@@ -158,53 +274,14 @@ export async function ingestJournalCrossrefFallbacks(
         feeds[j.feedId] = { created: 0, updated: 0, total: 0, error: `http_${res.status}` };
         continue;
       }
-      const body = (await res.json()) as {
-        message?: {
-          items?: Array<{
-            DOI?: string;
-            title?: string[];
-            'container-title'?: string[];
-            abstract?: string;
-            published?: { 'date-parts'?: number[][] };
-          }>;
-        };
-      };
+      const body = (await res.json()) as CrossrefBody;
       const items = body.message?.items ?? [];
       let created = 0;
       let updated = 0;
       for (const it of items) {
-        const title = (it.title?.[0] || '').trim();
-        const doi = it.DOI;
-        if (!title || !doi || isPlaceholderTitle(title)) continue;
-        if (!containerMatches(expectedContainer(j.query), it['container-title'])) continue;
-        const publisher = it['container-title']?.[0] || feed.label;
-        const abstract = (it.abstract || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        const parts = it.published?.['date-parts']?.[0];
-        const publishedAt = parts
-          ? `${parts[0]}-${String(parts[1] || 1).padStart(2, '0')}-${String(parts[2] || 1).padStart(2, '0')}`
-          : null;
-        if (isFutureDate(publishedAt)) continue;
-        const result = await upsertLocalizedSourceItem(env, {
-          feedId: feed.id,
-          route: 'kaduse-research',
-          channelId: feed.channel_id,
-          title,
-          titleOrig: title,
-          summary: abstract.slice(0, 480) || `${publisher} — DOI ${doi}`,
-          gists: [abstract.slice(0, 480) || title],
-          canonicalUrl: `https://doi.org/${doi}`,
-          publisher,
-          publishedAt,
-          dedupeKey: doi.toLowerCase(),
-          evidence: {
-            doi,
-            pmid: null,
-            pmcid: null,
-            finding: abstract.slice(0, 600) || null,
-            limitation: null,
-            studyType: null,
-          },
-        });
+        const input = crossrefItemInput(it, j, feed);
+        if (!input) continue;
+        const result = await upsertLocalizedSourceItem(env, input);
         if (result.created) created += 1;
         else updated += 1;
       }
