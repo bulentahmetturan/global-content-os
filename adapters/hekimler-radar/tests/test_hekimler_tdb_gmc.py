@@ -112,9 +112,9 @@ class PubmedRateLimitTests(unittest.TestCase):
 class SameUrlTwiceTests(unittest.TestCase):
     def test_duplicate_anchor_for_one_url_yields_one_candidate(self):
         import os
+        import tempfile
         from unittest import mock
 
-        from radar.config import settings
         from radar.database import Database
         from radar.hekimler_hub_bridge import InMemoryHubStore
         from radar.phase1_ingestion_canary import TransportResult, ingest_one_source
@@ -126,7 +126,9 @@ class SameUrlTwiceTests(unittest.TestCase):
             f'Director of Policy recently hosted a webinar for medical school officials</a></li></ul>'
         )
         prof = _src("abroad_us_nrmp")
-        db = Database(settings.db_path)
+        tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+        self.addCleanup(tmp.cleanup)
+        db = Database(Path(tmp.name) / "test.sqlite")
         db.init()
         hub = InMemoryHubStore()
         with mock.patch.dict(os.environ, {"HEKIMLER_CONTINUOUS_INGESTION_ENABLED": "true"}):

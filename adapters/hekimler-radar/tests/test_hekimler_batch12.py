@@ -44,7 +44,8 @@ class Batch12Tests(unittest.TestCase):
 
     def test_recency_probe_runs_even_when_no_item_is_eligible(self):
         """Regression: with zero eligible items the newest-date probe must still read detail pages."""
-        from radar.config import settings
+        import tempfile
+
         from radar.database import Database
         from radar.hekimler_activation import all_sources
         from radar.hekimler_integrity import resolve_effective_registry
@@ -64,7 +65,9 @@ class Batch12Tests(unittest.TestCase):
         from unittest import mock
 
         with mock.patch.dict(os.environ, {"HEKIMLER_CONTINUOUS_INGESTION_ENABLED": "true"}):
-            db = Database(settings.db_path)
+            tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+            self.addCleanup(tmp.cleanup)
+            db = Database(Path(tmp.name) / "test.sqlite")
             db.init()
             res = ingest_one_source(profile, db=db, dry_run=True, transport=transport, force_due=True)
         self.assertEqual(res.newest_record_date, "2026-09-02")
