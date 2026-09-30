@@ -72,8 +72,11 @@ const testFiles = [
   ...findTestFiles(rel('scripts')),
   ...findTestFiles(rel('packages/contracts')),
 ];
-// UNJUSTIFIED_TEST_SKIPS=0: any skipped/todo test fails the gate (no allowlist today).
-let skippedTotal = 0;
+// UNJUSTIFIED_TEST_SKIPS=0: a skip is allowed only for the reason below. channel-content-os is private, so GCOS CI
+// has no sibling checkout; those invariants run wherever both repos are present (operator production:check).
+const JUSTIFIED_SKIP = /sibling not present|no sibling repo present/;
+let unjustifiedSkips = 0;
+let justifiedSkips = 0;
 for (const f of testFiles) {
   try {
     const out = execFileSync('node', [f], { cwd: root, stdio: 'pipe' }).toString();
@@ -82,11 +85,15 @@ for (const f of testFiles) {
     const failMatch = out.match(/# fail (\d+)/) || out.match(/ℹ fail (\d+)/);
     const nPass = passMatch ? Number(passMatch[1]) : null;
     const nFail = failMatch ? Number(failMatch[1]) : null;
-    const nSkip = count('skipped') + count('todo');
-    skippedTotal += nSkip;
+    // TAP: "ok 1 - name # SKIP reason"; spec reporter: "﹣ name (0.7ms) # reason"
+    const reasons = [...out.matchAll(/# (?:SKIP|TODO)\b ?(.*)$|^\s*﹣ .*? # (.*)$/gm)].map((m) => (m[1] ?? m[2]).trim());
+    const nSkip = Math.max(count('skipped') + count('todo'), reasons.length);
+    const nJustified = reasons.filter((r) => JUSTIFIED_SKIP.test(r)).length;
+    justifiedSkips += nJustified;
+    unjustifiedSkips += nSkip - nJustified;
     if (nFail && nFail > 0) fail(f.replace(root, '.'), `${nFail} failing`);
-    else if (nSkip > 0) fail(f.replace(root, '.'), `${nSkip} skipped/todo test(s) (UNJUSTIFIED_TEST_SKIPS must be 0)`);
-    else pass(`${f.replace(root, '.')} (${nPass ?? '?'} tests)`);
+    else if (nSkip > nJustified) fail(f.replace(root, '.'), `${nSkip - nJustified} unjustified skipped/todo test(s): ${reasons.filter((r) => !JUSTIFIED_SKIP.test(r)).slice(0, 2).join(' | ') || 'no reason'}`);
+    else pass(`${f.replace(root, '.')} (${nPass ?? '?'} tests${nJustified ? `, ${nJustified} justified skip: sibling repo absent` : ''})`);
   } catch (e) {
     const detail = (e.stderr?.toString() || e.stdout?.toString() || e.message || '')
       .split('\n')
@@ -96,7 +103,7 @@ for (const f of testFiles) {
     fail(f.replace(root, '.'), `process exited non-zero -- ${detail}`);
   }
 }
-console.log(`  SKIPPED_TESTS=${skippedTotal} (worker/hub/scripts/contracts *.test.mjs)`);
+console.log(`  SKIPPED_TESTS=${unjustifiedSkips + justifiedSkips} UNJUSTIFIED_TEST_SKIPS=${unjustifiedSkips} JUSTIFIED_SKIPS=${justifiedSkips} (sibling repo absent)`);
 
 // 3. Python test suite ---------------------------------------------------
 section('Python test suite (adapters/hekimler-radar)');
@@ -106,13 +113,14 @@ section('Python test suite (adapters/hekimler-radar)');
 // file.
 const KNOWN_FAILURE_BASELINE = 0; // the 7 phase1 canary failures were STALE fixtures (undated items), fixed in final reconciliation
 try {
-  const out = execFileSync('python3', ['-m', 'pytest', 'tests', '-q'], {
+  const out = execFileSync('python3', ['-m', 'pytest', 'tests', '-q', '-rs'], {
     cwd: rel('adapters/hekimler-radar'),
     stdio: 'pipe',
   }).toString();
   const m = out.match(/(\d+) passed/);
   const s = Number((out.match(/(\d+) (?:skipped|xfailed|deselected)/) || [])[1] ?? 0);
-  if (s > 0) fail('pytest', `${s} skipped/xfailed/deselected test(s) (UNJUSTIFIED_TEST_SKIPS must be 0)`);
+  const why = out.split('\n').filter((l) => l.startsWith('SKIPPED')).slice(0, 2).join(' | ');
+  if (s > 0) fail('pytest', `${s} skipped/xfailed/deselected test(s) (UNJUSTIFIED_TEST_SKIPS must be 0): ${why}`);
   else pass(`pytest -- ${m ? m[1] : '?'} passed, 0 failed, SKIPPED_TESTS=0`);
 } catch (e) {
   const out = (e.stdout || '').toString();
