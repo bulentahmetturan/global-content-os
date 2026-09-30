@@ -130,7 +130,7 @@ test('exactly one canonical Hekimler runtime in this repo; tip-radar is marked L
 
 test('multi_channel_design is retired: no active checkout, so no second Hekimler runtime', () => {
   for (const p of mcdActivePaths) {
-    assert.ok(!existsSync(p), `${p} must not exist: multi_channel_design is retired (ADR-0005, E15); its preserved copy is multi_channel_design.retired-<date>`);
+    assert.ok(!existsSync(p), `${p} must not exist: multi_channel_design is retired (ADR-0005, E15); its history and assets are in the private preservation bundles (local copy deleted in Phase 6, K-01)`);
   }
 });
 
