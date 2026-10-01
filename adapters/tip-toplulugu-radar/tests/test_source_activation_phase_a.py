@@ -14,6 +14,7 @@ import unittest
 
 from radar.tip_toplulugu_activation import (
     ACTIVATION_AUTOMATION_READY,
+    ACTIVATION_MANUAL_INTAKE,
     automation_ready_gates,
     compute_activation_state,
 )
@@ -25,11 +26,12 @@ class SourceActivationPhaseATests(unittest.TestCase):
     def setUpClass(cls):
         cls.eff = resolve_effective_registry()
 
-    def test_burs_uk_chevening_is_automation_ready(self):
+    def test_burs_uk_chevening_is_paused_manual_intake(self):
+        # 2026-09-30 production audit: the site stalls requests that carry the project's honest User-Agent;
+        # paused to MANUAL_INTAKE (no UA spoofing) with a recorded reason.
         profile = resolve_profile("burs_uk_chevening", self.eff)
-        self.assertEqual(compute_activation_state(profile), ACTIVATION_AUTOMATION_READY)
-        ok, failures = automation_ready_gates(profile)
-        self.assertTrue(ok, failures)
+        self.assertEqual(compute_activation_state(profile), ACTIVATION_MANUAL_INTAKE)
+        self.assertIn("2026-09-30", profile.get("manual_intake_reason") or "")
 
     def test_burs_uk_chevening_has_a_dated_verification_note(self):
         profile = resolve_profile("burs_uk_chevening", self.eff)

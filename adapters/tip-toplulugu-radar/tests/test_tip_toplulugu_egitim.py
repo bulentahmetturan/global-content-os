@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import unittest
 
-from radar.tip_toplulugu_activation import ACTIVATION_MANUAL_INTAKE, compute_activation_state
+from radar.tip_toplulugu_activation import ACTIVATION_AUTOMATION_READY, ACTIVATION_MANUAL_INTAKE, compute_activation_state
 from radar.tip_toplulugu_egitim import egitim_gate, is_egitim_source_id, load_egitim_pool, load_egitim_registry
 from radar.tip_toplulugu_integrity import resolve_effective_registry, resolve_profile
 
@@ -21,7 +21,9 @@ class EgitimLaneTests(unittest.TestCase):
             self.assertEqual(p["source_id"], sid)
             self.assertEqual(p.get("publication_eligible"), False)
             self.assertEqual(p.get("default_route_on_accept"), "EDUCATION")
-            self.assertEqual(compute_activation_state(p), ACTIVATION_MANUAL_INTAKE)
+            # 2026-09-30: only the production canary set is automated; the other 40 stay MANUAL_INTAKE
+            expected = ACTIVATION_AUTOMATION_READY if sid in {"egitim_eso", "egitim_pasteur"} else ACTIVATION_MANUAL_INTAKE
+            self.assertEqual(compute_activation_state(p), expected, sid)
 
     def test_pool_mirrors_registry(self):
         ids = {s["source_id"] for s in load_egitim_registry()["sources"]}

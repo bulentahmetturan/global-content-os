@@ -16,7 +16,15 @@ from radar.tip_toplulugu_integrity import resolve_effective_registry, resolve_pr
 # deliberately activated -- see their `activation_note` in
 # content/source-registry-burs-v1.json. Not a blanket-enable: every other
 # burs_* source is still expected to be MANUAL_INTAKE.
-KNOWN_ACTIVATED_BURS_SOURCE_IDS = {"burs_uk_chevening", "burs_eau_eusp"}
+# 2026-09-30: production canary set (+5); burs_uk_chevening paused to MANUAL_INTAKE (identified UA stalls)
+KNOWN_ACTIVATED_BURS_SOURCE_IDS = {
+    "burs_eau_eusp",
+    "burs_tr_humphrey",
+    "burs_ean_fellowships",
+    "burs_ers_fellowships",
+    "burs_febs_fellowships",
+    "burs_esaic_grants",
+}
 
 
 class BursLaneTests(unittest.TestCase):
