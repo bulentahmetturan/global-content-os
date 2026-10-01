@@ -55,6 +55,7 @@ export const MonitoredTargetSchema = z.object({
   scopeDescription: z.string().min(1),
   transportStatus: TransportStatusSchema,
   machineReadable: z.boolean().default(false), // true only once an actual feed/API has been verified in a later batch
+  pollMinutes: z.number().int().positive().optional(), // the one cadence value; scripts/sync-feeds.mjs -> config/feeds.json -> D1 source_feeds.poll_minutes (source-lifecycle writes it, default 360)
 });
 
 export const ReferenceResourceSchema = z.object({

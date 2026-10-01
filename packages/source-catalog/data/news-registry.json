@@ -739,7 +739,7 @@
       "officialUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
-      "verificationNote": "Added by source-lifecycle 2026-10-01T13:39:46.325Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed."
+      "verificationNote": "Added by source-lifecycle 2026-10-01T14:21:46.022Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed."
     }
   ],
   "targets": [
@@ -1337,9 +1337,10 @@
       "label": "Sağlık",
       "officialUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
       "scopeType": "WHOLE_SOURCE",
-      "scopeDescription": "Added by source-lifecycle 2026-10-01T13:39:46.325Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed.",
+      "scopeDescription": "Added by source-lifecycle 2026-10-01T14:21:46.022Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 720
     }
   ],
   "referenceResources": [

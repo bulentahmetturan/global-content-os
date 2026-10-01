@@ -44,7 +44,7 @@ For "bu kaynak", "bunu kaldır", "artık bunu kullanma": if the current conversa
 | G1 identity | exact id / URL / same-host path / name tokens; `ALREADY_ACTIVE`; a RETIRED match goes to reactivation; `AMBIGUOUS`/`UNRESOLVED` → one question | `registry-find` stores |
 | G2 access + endpoint | robots.txt, 401/403/429/451/login wall → `BLOCKED_ACCESS`; known official API → RSS/Atom (page or `rel=alternate`, same registrable domain only) → HTML list; ≤ 6 requests | Worker API adapters |
 | G3 parser | the lane's existing runtime parser (`list-page`, `generic-web.ts`, API adapters). If none fits → `ADAPTER_REQUIRED` + fixture sample in the trace. At least 3 items with title and URL; dates only from markup | runtime parsers |
-| G4 routing | one lane + heading (+ tier, evidence role). A tie → question, never fan-out | S66 headings, registry vocab |
+| G4 routing | one lane + heading (+ tier, evidence role). A tie → question, never fan-out. `HABER` exists only on the `kaduse-news` lane (the Global Hub Haber lane); Tıp Topluluğu headings are DUYURU / BURS / EGITIM, so lay health news is not routed there | S66 headings, registry vocab |
 | G5 cadence | see below | scheduler policy |
 | G6 dedupe | endpoint collision, S66 one-primary-heading with the candidate added, optional known-item overlap | `check_source_identity.py` via bridge |
 | G7 capacity | unchanged `tip_toplulugu_ops.py capacity --add 1 --add-cadence N`. Only SAFE activates; CAUTION/BLOCK stage READY (`MANUAL_INTAKE` + reason); guard unavailable → BLOCK | capacity guard |
@@ -62,7 +62,7 @@ Future-dated items (deadlines) are ignored. A source silent for more than 4× it
 
 Lane bounds: Tıp Topluluğu 1440 (daily runner) … 20160; Kaduse news 60 … 1440; Kaduse research 360 … 1440.
 
-The value is written once, into the one field the scheduler reads (`fetch_plan.expected_check_interval_minutes`). `cadence_policy` stores bounds and evidence, never a second value. `recalibrate` proposes a change only after at least one ladder step and not on LOW confidence; `--apply` is the owner action, and it is capacity-checked when load rises.
+The value is written once, into the one field the scheduler reads (`fetch_plan.expected_check_interval_minutes`). `cadence_policy` stores bounds and evidence, never a second value. Kaduse lanes: the value is written once, to the catalog target `pollMinutes`, and flows only through generated `config/feeds.json` into D1 `source_feeds.poll_minutes` (default 360 when absent). `recalibrate` proposes a change only after at least one ladder step and not on LOW confidence; `--apply` is the owner action, and it is capacity-checked when load rises.
 
 ## Retire (default for "remove" / "stop using")
 

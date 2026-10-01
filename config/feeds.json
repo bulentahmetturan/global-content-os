@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "3bc9cc5daef346ab85e142aac985cf4b6c524efc940de68c43f2166c0829e8fb"
+        "sha256": "fe4f1f26ef8d041e885205993c3b3b17e661ad3919093b7c5277a7620280deb9"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -1676,7 +1676,7 @@
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
       "endpointUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
-      "pollMinutes": 360,
+      "pollMinutes": 720,
       "enabled": true,
       "externalRef": "bilimgenc-tubitak-saglik-whole",
       "registrySourceId": "bilimgenc-tubitak-saglik",

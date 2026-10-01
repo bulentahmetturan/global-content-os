@@ -150,7 +150,7 @@ function fixtureSync(dir) {
   const research = read('packages/source-catalog/data/research-sources.json');
   const feeds = [
     ...research.map((r) => ({ id: `research-${r.sourceId}`, route: 'kaduse-research', enabled: r.verificationStatus !== 'EXCLUDE', endpointUrl: r.canonicalUrl, pollMinutes: 1440 })),
-    ...subs.map((s) => ({ id: `news-${s.targetId}`, route: 'kaduse-news', enabled: s.enabled === true, endpointUrl: targets.find((t) => t.id === s.targetId)?.officialUrl ?? null, pollMinutes: 360 })),
+    ...subs.map((s) => ({ id: `news-${s.targetId}`, route: 'kaduse-news', enabled: s.enabled === true, endpointUrl: targets.find((t) => t.id === s.targetId)?.officialUrl ?? null, pollMinutes: targets.find((t) => t.id === s.targetId)?.pollMinutes || 360 })),
   ];
   for (const f of feeds) if (PENDING_FIXTURE.has(f.id)) Object.assign(f, { enabled: false, rules: { activation: 'PENDING_EXPLICIT_DECISION' } });
   writeFileSync(join(dir, 'config/feeds.json'), JSON.stringify({ feeds }, null, 2));
@@ -544,6 +544,25 @@ test('new Kaduse source with --apply: catalog record + feeds.json row + forward 
   const sql = readFileSync(join(root, r.migration), 'utf8');
   assert.match(sql, new RegExp(`'research-${r.catalog_patch.insert}'`));
   assert.equal(r.recommended_cadence_minutes, r.cadence.poll_minutes);
+});
+
+test('new Kaduse news source: the lifecycle cadence is the one value written to catalog target, feeds.json and the migration', async () => {
+  const root = sandbox();
+  const host = 'www.health-news-inst.org';
+  const page = `https://${host}/news/`;
+  const items = Array.from({ length: 12 }, (_, i) => ({ title: `Hospital outbreak vaccine public health update ${i}`, url: `https://${host}/news/update-${i}`, date: hoursAgo(1 + i * 2) }));
+  const feedUrl = `https://${host}/news/feed.xml`;
+  const routes = { [page]: listPage({ host, section: '/news/', lang: 'en', words: 'health hospital vaccine', title: 'Health News', alternate: feedUrl }), [feedUrl]: { body: rss(items), contentType: 'application/rss+xml' } };
+  const r = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { apply: true, channel: 'kaduse-news' });
+  assert.equal(r.outcome, 'CHANGE_PREPARED', JSON.stringify(r));
+  const poll = r.cadence.poll_minutes;
+  assert.notEqual(poll, 360, 'test must use a cadence that differs from the generator default');
+  const reg = JSON.parse(readFileSync(join(root, 'packages/source-catalog/data/news-registry.json'), 'utf8'));
+  assert.equal(reg.targets.find((x) => x.id === r.catalog_patch.insert).pollMinutes, poll);
+  const feeds = JSON.parse(readFileSync(join(root, 'config/feeds.json'), 'utf8'));
+  const feed = (feeds.feeds || feeds).find((f) => f.id === `news-${r.catalog_patch.insert}`);
+  assert.equal(feed.pollMinutes, poll);
+  assert.match(readFileSync(join(root, r.migration), 'utf8'), new RegExp(`, ${poll}, 1, `));
 });
 
 // ---------- RETIRE ------------------------------------------------------------------------------------------------

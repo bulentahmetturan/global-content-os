@@ -128,7 +128,7 @@ export const MUTATIONS = {
       reg.sources ||= [];
       if (!reg.publishers.some((p) => p.id === pubId)) reg.publishers.push({ id: pubId, canonicalName: label, officialUrl: `https://${hostname}` });
       reg.sources.push({ id: slug, publisherId: pubId, canonicalName: label, officialUrl: url, status: 'ACTIVE', verificationStatus: 'PENDING_VERIFICATION', verificationNote: note });
-      reg.targets.push({ id: `${slug}-whole`, sourceId: slug, label, officialUrl: url, scopeType: 'WHOLE_SOURCE', scopeDescription: note, transportStatus: 'WEB_ONLY', machineReadable: false });
+      reg.targets.push({ id: `${slug}-whole`, sourceId: slug, label, officialUrl: url, scopeType: 'WHOLE_SOURCE', scopeDescription: note, transportStatus: 'WEB_ONLY', machineReadable: false, pollMinutes: v.cadence.poll_minutes });
       const subs = files.subscriptions.data;
       subs.subscriptions.push({ channelId: 'kaduse-medikal', sourceId: slug, targetId: `${slug}-whole`, enabled: true });
       if ('subscriptionCount' in subs) subs.subscriptionCount = subs.subscriptions.length;

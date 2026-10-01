@@ -60,6 +60,7 @@ const targets = newsRegistry.targets.map((t) => ({
   label: t.label,
   officialUrl: t.officialUrl || null,
   transportStatus: t.transportStatus,
+  pollMinutes: t.pollMinutes,
 }));
 const byTarget = Object.fromEntries(targets.map((t) => [t.id, t]));
 
@@ -93,7 +94,7 @@ const newsFeeds = news.subscriptions
       channelId: 'kaduse-medikal',
       transport: isWho ? 'JSON_API' : t?.transportStatus || 'WEB_ONLY',
       endpointUrl,
-      pollMinutes: isWho ? 60 : 360,
+      pollMinutes: isWho ? 60 : t?.pollMinutes || 360,
       enabled: s.enabled === true,
       externalRef: s.targetId,
       registrySourceId: s.sourceId,
