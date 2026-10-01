@@ -30,6 +30,8 @@ function textFromAi(out: unknown): string {
   const o = out as Record<string, unknown>;
   if (typeof o.response === 'string') return o.response.trim();
   if (typeof o.result === 'string') return o.result.trim();
+  const choice = (o.choices as Array<{ message?: { content?: string | null } }> | undefined)?.[0];
+  if (typeof choice?.message?.content === 'string') return choice.message.content.trim();
   if (Array.isArray(o.response)) {
     return o.response
       .map((p: unknown) => (typeof p === 'string' ? p : (p as { content?: string })?.content || ''))
@@ -46,12 +48,14 @@ function textFromAi(out: unknown): string {
 
 async function runLlm(env: Env, system: string, user: string): Promise<string> {
   if (!env.AI) throw new Error('AI_BINDING_MISSING');
-  const out = await env.AI.run(MODEL, {
+  const model = (env as { ENRICH_MODEL?: string }).ENRICH_MODEL || MODEL;
+  const out = await env.AI.run(model as Parameters<typeof env.AI.run>[0], {
     messages: [
       { role: 'system', content: system },
       { role: 'user', content: user },
     ],
     max_tokens: 500,
+    temperature: 0.1,
   });
   const text = textFromAi(out);
   if (!text) throw new Error('AI_EMPTY_RESPONSE');
@@ -177,6 +181,8 @@ Kurallar:
 - titleTr: orijinal başlığın doğal Türkçe çevirisi. Kurum/yayıncı adları orijinal kalabilir.
 - gistTr: haberin/çalışmanın asıl özünü anlatan 1-2 tam Türkçe cümle (toplam en fazla ~250 karakter, en az 8 kelime). Kaynak metni kopyalama, kendi cümlenle özetle. Format: "<özne>, <bu içeriğe özel somut eylem/sonuç>."
 - gistTr içinde SADECE ORIGINAL_TITLE, SOURCE_EXCERPT veya EVIDENCE_JSON'da geçen özneler/kurumlar/konular yer alsın; oralarda adı geçmeyen hiçbir özne, kurum veya konudan bahsetme.
+- SOURCE_EXCERPT boşsa veya başlıkla aynıysa gistTr yalnızca başlıktaki bilgiyi tam bir cümleyle ifade etsin; başlıkta olmayan hiçbir olgu, eylem, sonuç veya yorum ekleme.
+- gistTr tam bir cümle olsun ve nokta ile bitsin.
 - İki alan da MUTLAKA Türkçe. İngilizce kelime yasak (özel adlar hariç). Uydurma yasak.${
     strict
       ? '\n- ÖNCEKİ DENEME GEÇERSİZDİ: titleTr ve gistTr içinde hiç İngilizce kelime bırakma, gistTr en az 8 kelimelik tam cümle olsun, başlığı tekrar etme.'
@@ -199,27 +205,36 @@ JSON:`;
     typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
       ? parsed.gistTr.trim()
       : '';
-  const evidenceSource = [titleOrig, excerpt.slice(0, 500), ...Object.values(evidence)].join(' ');
+  // If model ignored Turkish, force-translate (still free Workers AI).
+  titleTr = await toTurkish(env, titleTr);
+  // Cross-lingual on-topic check: the Turkish gist is compared with the Turkish title as well as the English sources
+  // (a Turkish sentence about a title-only English item shares no words with the English title).
+  const evidenceSource = [titleOrig, titleTr, excerpt.slice(0, 500), ...Object.values(evidence)].join(' ');
   if (gistTr && !isOnTopic(gistTr, evidenceSource)) {
     gistTr = ''; // discard: shares no real content with title+evidence, almost certainly fabricated
   }
-
-  // If model ignored Turkish, force-translate (still free Workers AI).
-  titleTr = await toTurkish(env, titleTr);
-  if (!gistTr) {
-    // Evidence itself came from the same model (step A) and can be hallucinated too (observed
-    // live: evidence.actor = "DSÖ" on an Africa CDC item that never mentions WHO) -- each bit is
-    // only trusted here if it's independently grounded in titleOrig, never in the other evidence
-    // fields. titleOrig is the one thing that's never model output, so it's always the final
-    // fallback. The result still has to pass validateSummaryTr (a bare title echo does not).
-    const bits = [evidence.actor, evidence.action, evidence.whatsNew, evidence.finding, evidence.outcome]
-      .filter((b) => b && isOnTopic(b, titleOrig))
-      .join(' — ');
-    gistTr = bits || titleOrig;
-  }
+  // No fallback to evidence fragments or the title: when the model gives no usable gist the contract rejects the item
+  // (retry, then an explicit failed state) instead of storing a fragment.
   gistTr = await toTurkish(env, gistTr);
   gistTr = trimToSentences(gistTr);
   return { titleTr, gistTr };
+}
+
+/**
+ * Semantic fidelity check (a format validator cannot see a fluent but invented claim): a second, closed-form question to the
+ * same model. Fail closed: anything other than an explicit SUPPORTED is treated as unsupported.
+ */
+async function summaryIsGrounded(env: Env, titleOrig: string, excerpt: string, gistTr: string): Promise<boolean> {
+  const out = await runLlm(
+    env,
+    'You are a strict fact checker. Compare a Turkish SUMMARY with its English SOURCE (title and excerpt). ' +
+      'Answer UNSUPPORTED if the SUMMARY states any fact, result, action, number, actor or cause that the SOURCE does not state, or contradicts the SOURCE. ' +
+      'Check who did what to whom: UNSUPPORTED if subject and object are swapped (e.g. someone was questioned vs someone asked questions), or if the direction of a change or effect is reversed. ' +
+      'Also UNSUPPORTED if the SUMMARY presents something as an observed finding or as something people do, when the SOURCE only names a topic, a guide or an analysis. ' +
+      'Answer SUPPORTED only if every claim in the SUMMARY is stated by the SOURCE. Reply with exactly one word: SUPPORTED or UNSUPPORTED.',
+    `SOURCE TITLE: ${titleOrig}\nSOURCE EXCERPT: ${excerpt.slice(0, 500) || '(none)'}\nSUMMARY (Turkish): ${gistTr}\n\nAnswer:`
+  );
+  return /^\W*SUPPORTED\b/i.test(out.trim());
 }
 
 /**
@@ -236,9 +251,11 @@ async function renderValidated(
   let reason = 'UNKNOWN';
   for (const strict of [false, true]) {
     const r = await renderHubTr(env, route, titleOrig, evidence, excerpt, strict);
-    const bad =
+    let bad =
       validateTitleTr(r.titleTr, titleOrig) ||
       validateSummaryTr(r.gistTr, { titleOrig, titleTr: r.titleTr, excerpt });
+    // Only item sources that are not already Turkish need the cross-language check.
+    if (!bad && looksMostlyEnglish(titleOrig) && !(await summaryIsGrounded(env, titleOrig, excerpt, r.gistTr))) bad = 'SUMMARY_UNSUPPORTED';
     if (!bad) return r;
     reason = bad;
   }
@@ -303,7 +320,7 @@ export async function enrichOneItem(
         sourceTitle,
         gistTr,
         JSON.stringify([gistTr]),
-        JSON.stringify({ route: row.route, evidence, model: MODEL }),
+        JSON.stringify({ route: row.route, evidence, model: (env as { ENRICH_MODEL?: string }).ENRICH_MODEL || MODEL }),
         row.id
       )
       .run();

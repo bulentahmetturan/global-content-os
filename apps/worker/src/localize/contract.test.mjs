@@ -52,8 +52,10 @@ function harness(aiResponses) {
   const updates = [];
   let json = null;
   const env = {
-    // Translation helper calls (toTurkish) are answered with the input unchanged and do not consume scripted responses.
-    AI: { run: async (_m, a) => ({ response: /^Translate/.test(a.messages[0].content) ? a.messages[1].content : queue.shift() ?? '{}' }) },
+    judge: 'SUPPORTED',
+    // Translation helper calls are answered with the input unchanged; the grounding judge answers `judge` (default SUPPORTED).
+    // Neither consumes scripted responses.
+    AI: { run: async (_m, a) => ({ response: /^Translate/.test(a.messages[0].content) ? a.messages[1].content : /strict fact checker/.test(a.messages[0].content) ? env.judge : queue.shift() ?? '{}' }) },
     DB: {
       prepare(sql) {
         return {
@@ -65,7 +67,7 @@ function harness(aiResponses) {
       },
     },
   };
-  return { env, updates, setJson: (j) => { json = j; }, left: () => queue.length };
+  return { env, updates, setJudge: (j) => { env.judge = j; }, setJson: (j) => { json = j; }, left: () => queue.length };
 }
 const row = { id: 'item_1', route: 'kaduse-news', title: HC, title_orig: null, summary: 'Learn how extreme heat events affect health and what you can do to stay safe.' };
 const evidence = JSON.stringify({ actor: 'Health Canada', action: 'rehber yayımladı', whatsNew: '', audience: '' });
@@ -94,7 +96,7 @@ test('two invalid attempts -> failed (explicit state), never done; the English e
   const h = harness([evidence, bad, bad]);
   const r = await e.enrichOneItem(h.env, row);
   assert.equal(r.ok, false);
-  assert.match(r.error, /^CONTRACT_VIOLATION:SUMMARY_TOO_SHORT/);
+  assert.match(r.error, /^CONTRACT_VIOLATION:SUMMARY_(EMPTY|TOO_SHORT)/);
   const u = h.updates.at(-1);
   assert.match(u.sql, /enrichment_status = 'failed'/);
   assert.ok(!h.updates.some((x) => /enrichment_status = 'done'/.test(x.sql)));
@@ -116,4 +118,29 @@ test('batch selection: fresh items before re-queued ones before failure retries;
   assert.match(selectSql, /triage_status IN \('inbox', 'hold', 'production'\)/);
   assert.match(selectSql, /ORDER BY \(enrichment_status = 'failed'\) ASC, \(enrichment_json IS NOT NULL\) ASC, fetched_at ASC/);
   assert.match(selectSql, /\$\.attempts'\), 0\) < 3/);
+});
+
+test('summary: fragments without a sentence end and foreign-script tokens are rejected (canary: "nghiênmelere", "trải qua", evidence-bit fragments)', () => {
+  const ctx = { titleOrig: HC, titleTr: GOOD_TITLE, excerpt: '' };
+  assert.equal(c.validateSummaryTr('Kalp damar sağlığı eşitsizlikleri — Kalp damar riski, sosyal belirleyiciler ve yaşam kalitesi', ctx), 'SUMMARY_NOT_A_SENTENCE');
+  assert.equal(c.validateSummaryTr('Kaiser üyeleri statinlerin yan etkilerini belirlemek için nghiênmelere katıldı.', ctx), 'SUMMARY_FOREIGN_SCRIPT');
+  assert.equal(c.validateSummaryTr('Pennsylvania salgın trải qua süreçte 800 kızamık vakası bildirdi.', ctx), 'SUMMARY_FOREIGN_SCRIPT');
+  assert.equal(c.validateTitleTr('Hastalarda trải nghiệm değişiklikleri', 'Changes in patients'), 'TITLE_FOREIGN_SCRIPT');
+  assert.equal(c.validateSummaryTr(GOOD_GIST, ctx), null);
+});
+
+test('semantic fidelity: a fluent summary the judge calls UNSUPPORTED is never stored as done (both attempts)', async () => {
+  const h = harness([evidence, JSON.stringify({ titleTr: GOOD_TITLE, gistTr: GOOD_GIST }), JSON.stringify({ titleTr: GOOD_TITLE, gistTr: GOOD_GIST })]);
+  h.setJudge('UNSUPPORTED');
+  const r = await e.enrichOneItem(h.env, row);
+  assert.equal(r.ok, false);
+  assert.equal(r.error, 'CONTRACT_VIOLATION:SUMMARY_UNSUPPORTED');
+  assert.ok(!h.updates.some((x) => /enrichment_status = 'done'/.test(x.sql)));
+});
+
+test('semantic fidelity: anything other than an explicit SUPPORTED fails closed', async () => {
+  const h = harness([evidence, JSON.stringify({ titleTr: GOOD_TITLE, gistTr: GOOD_GIST }), JSON.stringify({ titleTr: GOOD_TITLE, gistTr: GOOD_GIST })]);
+  h.setJudge('I think it is probably fine');
+  const r = await e.enrichOneItem(h.env, row);
+  assert.equal(r.error, 'CONTRACT_VIOLATION:SUMMARY_UNSUPPORTED');
 });

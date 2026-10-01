@@ -59,6 +59,13 @@ export function englishLeaks(text: string): string[] {
   return out;
 }
 
+// Scripts and letters that never occur in Turkish text (observed live from LLM output: Vietnamese tokens such as "nghiên", "trải").
+const FOREIGN_CHARS = /[\u0400-\u04FF\u0590-\u06FF\u0900-\u0DFF\u0E00-\u0E7F\u3040-\u30FF\u3400-\u9FFF\uAC00-\uD7AF\u1E00-\u1EFF\u0102\u0103\u0110\u0111\u01A0\u01A1\u01AF\u01B0\u00EA\u00F4]/;
+
+export function foreignScript(text: string): boolean {
+  return FOREIGN_CHARS.test(text || '');
+}
+
 export function sentenceCount(text: string): number {
   return (text || '')
     .trim()
@@ -78,6 +85,7 @@ function norm(s: string): string {
 export function validateTitleTr(titleTr: string, titleOrig: string): string | null {
   const t = (titleTr || '').trim();
   if (!t) return 'TITLE_EMPTY';
+  if (foreignScript(t)) return 'TITLE_FOREIGN_SCRIPT';
   if (looksMostlyEnglish(t)) return 'TITLE_ENGLISH';
   const leaks = englishLeaks(t);
   if (leaks.length) return `TITLE_ENGLISH_LEAK:${leaks.slice(0, 3).join(',')}`;
@@ -95,6 +103,8 @@ export function validateSummaryTr(
   if (w < SUMMARY_MIN_WORDS) return `SUMMARY_TOO_SHORT:${w}`;
   if (w > SUMMARY_MAX_WORDS || g.length > SUMMARY_MAX_CHARS) return 'SUMMARY_TOO_LONG';
   if (sentenceCount(g) > 2) return 'SUMMARY_TOO_MANY_SENTENCES';
+  if (foreignScript(g)) return 'SUMMARY_FOREIGN_SCRIPT';
+  if (!/[.!?…]["”')]?$/.test(g)) return 'SUMMARY_NOT_A_SENTENCE';
   if (looksMostlyEnglish(g)) return 'SUMMARY_ENGLISH';
   const leaks = englishLeaks(g);
   if (leaks.length) return `SUMMARY_ENGLISH_LEAK:${leaks.slice(0, 3).join(',')}`;
