@@ -21,6 +21,7 @@ const OK = {
   cronLastActivityAgeMin: 2,
   statusCallbackTokenConfigured: true,
   ingestTokenConfigured: true,
+  openAlexKeyConfigured: true,
   handoffMode: 'stub',
 };
 
@@ -44,6 +45,7 @@ test('optional-capability problems DEGRADE, never BLOCK', () => {
   for (const patch of [
     { statusCallbackTokenConfigured: false },
     { ingestTokenConfigured: false },
+    { openAlexKeyConfigured: false },
     { handoffMode: 'misconfigured' },
     { cronLastActivityAgeMin: 500 },
     { cronLastActivityAgeMin: null },
@@ -78,7 +80,7 @@ test('/api/health is liveness only and answers even when the DB is down; /api/re
 });
 
 test('/api/ready: 200 READY / DEGRADED with secrets flags only (no secret values leaked)', async () => {
-  const env = { DB: db(), STATUS_CALLBACK_TOKEN: 'sekret-1', TIP_RADAR_INGEST_TOKEN: 'sekret-2' };
+  const env = { DB: db(), STATUS_CALLBACK_TOKEN: 'sekret-1', TIP_RADAR_INGEST_TOKEN: 'sekret-2', OPENALEX_API_KEY: 'sekret-3' };
   const ok = await worker.fetch(new Request('https://x.test/api/ready'), env);
   const body = await ok.json();
   assert.equal(ok.status, 200);

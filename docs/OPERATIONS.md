@@ -62,7 +62,7 @@ failure is not one): `LATENESS_BEYOND_THRESHOLD`, `CAPACITY_DELAY`, `MANUAL_REVI
 |---|---|---|
 | `GET /api/health` | LIVENESS | process answers; carries `commit`, `branch`, `deployedAt`, `expectedSchema`. Says nothing about dependencies. |
 | `GET /api/ready` → 200 `READY` | READINESS | DB reachable, schema ≥ expected, secrets configured, cron heartbeat fresh |
-| `GET /api/ready` → 200 `DEGRADED` | degraded | serving; optional capability impaired: `STATUS_CALLBACK_TOKEN_NOT_CONFIGURED`, `INGEST_TOKEN_NOT_CONFIGURED`, `CCOS_HANDOFF_MISCONFIGURED`, `CRON_HEARTBEAT_STALE` (> 60 min), `SCHEMA_VERSION_UNKNOWN` |
+| `GET /api/ready` → 200 `DEGRADED` | degraded | serving; optional capability impaired: `STATUS_CALLBACK_TOKEN_NOT_CONFIGURED`, `INGEST_TOKEN_NOT_CONFIGURED`, `OPENALEX_API_KEY_NOT_CONFIGURED`, `CCOS_HANDOFF_MISCONFIGURED`, `CRON_HEARTBEAT_STALE` (> 60 min), `SCHEMA_VERSION_UNKNOWN` |
 | `GET /api/ready` → 503 `BLOCKED` | blocked | critical dependency missing: `DB_UNREACHABLE`, `SCHEMA_BEHIND:<applied><<expected>` |
 
 Optional-source failures never move readiness. Secret *values* are never returned — only booleans.

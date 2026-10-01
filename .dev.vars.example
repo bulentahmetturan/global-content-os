@@ -4,3 +4,4 @@ CCOS_HANDOFF_TOKEN=
 STATUS_CALLBACK_TOKEN=dev-status-token
 TIP_RADAR_INGEST_TOKEN=dev-tip-ingest-token
 HUB_OPERATOR_TOKEN=dev-operator-token
+OPENALEX_API_KEY=

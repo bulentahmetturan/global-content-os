@@ -19,6 +19,7 @@ export interface ReadinessInputs {
   cronLastActivityAgeMin: number | null; // minutes since the newest feed fetch; null when never
   statusCallbackTokenConfigured: boolean;
   ingestTokenConfigured: boolean;
+  openAlexKeyConfigured: boolean;
   handoffMode: 'stub' | 'send' | 'misconfigured';
 }
 
@@ -41,6 +42,7 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
   }
   if (!i.statusCallbackTokenConfigured) degraded.push('STATUS_CALLBACK_TOKEN_NOT_CONFIGURED');
   if (!i.ingestTokenConfigured) degraded.push('INGEST_TOKEN_NOT_CONFIGURED');
+  if (!i.openAlexKeyConfigured) degraded.push('OPENALEX_API_KEY_NOT_CONFIGURED');
   if (i.handoffMode === 'misconfigured') degraded.push('CCOS_HANDOFF_MISCONFIGURED');
   return { level: blocked.length ? 'BLOCKED' : degraded.length ? 'DEGRADED' : 'READY', blocked, degraded };
 }
@@ -66,6 +68,7 @@ export async function gatherReadiness(env: Env): Promise<{ report: ReadinessRepo
     cronLastActivityAgeMin: cronAge,
     statusCallbackTokenConfigured: !!(env.STATUS_CALLBACK_TOKEN || '').trim(),
     ingestTokenConfigured: !!(env.TIP_RADAR_INGEST_TOKEN || '').trim(),
+    openAlexKeyConfigured: !!(env.OPENALEX_API_KEY || '').trim(),
     handoffMode: resolveOutbound(env).mode,
   });
   return { report, appliedMigration };
