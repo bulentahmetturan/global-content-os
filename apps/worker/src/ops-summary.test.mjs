@@ -74,7 +74,7 @@ test('GCOS runtime signals: classes come from the catalog; single failures are n
 
 const call = (env, auth) =>
   worker.fetch(new Request('https://gcos.test/api/ops/summary', { headers: auth ? { Authorization: auth } : {} }), env, { waitUntil() {} });
-const SECRET_ENV = { OPS_TOKEN: 'ops-secret-abc', STATUS_CALLBACK_TOKEN: 'cb-secret-def', TIP_RADAR_INGEST_TOKEN: 'ingest-secret-ghi', CCOS_HANDOFF_TOKEN: 'handoff-secret-jkl' };
+const SECRET_ENV = { OPS_TOKEN: 'ops-secret-abc', STATUS_CALLBACK_TOKEN: 'cb-secret-def', TIP_RADAR_INGEST_TOKEN: 'ingest-secret-ghi', CCOS_HANDOFF_TOKEN: 'handoff-secret-jkl', OPENALEX_API_KEY: 'openalex-secret-mno' };
 
 test('GET /api/ops/summary fails closed on OPS_TOKEN', async () => {
   const { db } = openGcosDb();

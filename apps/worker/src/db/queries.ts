@@ -28,6 +28,8 @@ export interface Env {
   GITHUB_DISPATCH_TOKEN?: string;
   GITHUB_REPO?: string;
   BIBLE_VERSION?: string;
+  /** OpenAlex API key (sent as a Bearer token); unset = the OpenAlex research feed records OPENALEX_API_KEY_NOT_CONFIGURED and makes no keyless call. */
+  OPENALEX_API_KEY?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';

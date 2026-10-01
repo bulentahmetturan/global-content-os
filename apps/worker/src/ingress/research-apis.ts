@@ -26,7 +26,7 @@ export async function ingestResearchApis(
     try {
       out[key] = await fn();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
+      const msg = redactSecrets(env, e instanceof Error ? e.message : String(e));
       console.error(`research-api ${key}`, msg);
       out[key] = { created: 0, updated: 0, total: 0 };
       // Make the failure visible in the Hub feed list; last_fetched_at is untouched so the feed stays due for the next slot.
@@ -47,6 +47,28 @@ export async function ingestResearchApis(
   await run('pmc', () => ingestPmcOa(env, force));
   await run('gdelt', () => ingestGdelt(env, force));
   return out;
+}
+
+function redactSecrets(env: Env, msg: string): string {
+  const key = openAlexKey(env);
+  return key ? msg.split(key).join('[redacted]') : msg;
+}
+
+/** Visible ASCII only: a pasted secret can carry quotes, spaces or newlines, which an HTTP header cannot. */
+function openAlexKey(env: Env): string {
+  return (env.OPENALEX_API_KEY || '').replace(/[^\x21-\x7E]/g, '').replace(/^["']+|["']+$/g, '');
+}
+
+/** last_error text for a non-2xx OpenAlex answer: auth vs rate limit vs other; never the body (it can echo the key). */
+export function openAlexHttpError(res: Response): string {
+  if (res.status === 401 || res.status === 403) return `OPENALEX_AUTH_REJECTED: HTTP ${res.status}`;
+  if (res.status === 429) {
+    const digits = (h: string) => (res.headers.get(h) || '').replace(/[^0-9.]/g, '').slice(0, 12);
+    const reset = digits('X-RateLimit-Reset') || digits('Retry-After');
+    const remaining = digits('X-RateLimit-Remaining');
+    return `OPENALEX_RATE_LIMITED: HTTP 429${reset ? ` reset_in_s=${reset}` : ''}${remaining ? ` remaining=${remaining}` : ''}`;
+  }
+  return `OpenAlex failed: ${res.status}`;
 }
 
 async function getFeed(env: Env, id: string, force = false) {
@@ -117,14 +139,18 @@ async function ingestCrossref(env: Env, force = false) {
 async function ingestOpenAlex(env: Env, force = false) {
   const feed = await getFeed(env, 'research-openalex-api', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
+  // Keys are required for production use; a keyless call would silently draw on the shared demo budget.
+  const key = openAlexKey(env);
+  if (!key) throw new Error('OPENALEX_API_KEY_NOT_CONFIGURED');
   const url = new URL('https://api.openalex.org/works');
   url.searchParams.set('search', 'auscultation OR stethoscope OR "artificial intelligence" medicine');
   url.searchParams.set('per_page', '15');
   url.searchParams.set('sort', 'publication_date:desc');
+  // Bearer header, not the api_key query parameter, so the key never appears in a URL.
   const res = await fetch(url.toString(), {
-    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
+    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1', Authorization: `Bearer ${key}` },
   });
-  if (!res.ok) throw new Error(`OpenAlex failed: ${res.status}`);
+  if (!res.ok) throw new Error(openAlexHttpError(res));
   const body = (await res.json()) as {
     results?: Array<{ id?: string; doi?: string; display_name?: string; publication_date?: string; primary_location?: { source?: { display_name?: string } } }>;
   };
