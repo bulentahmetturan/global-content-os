@@ -2,6 +2,14 @@ import { type Env } from '../db/queries';
 import { clinicalTrialPublishedAt, isFutureDate, isPlaceholderTitle } from './research-quality';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 
+const RESEARCH_API_FEED_IDS: Record<string, string> = {
+  crossref: 'research-crossref-rest-api',
+  openalex: 'research-openalex-api',
+  clinicaltrials: 'research-clinicaltrials-gov-api-v2',
+  pmc: 'research-pubmed-central-oa',
+  gdelt: 'research-gdelt-doc-api',
+};
+
 /**
  * Extra research API batches beyond Europe PMC / PubMed.
  */
@@ -21,6 +29,16 @@ export async function ingestResearchApis(
       const msg = e instanceof Error ? e.message : String(e);
       console.error(`research-api ${key}`, msg);
       out[key] = { created: 0, updated: 0, total: 0 };
+      // Make the failure visible in the Hub feed list; last_fetched_at is untouched so the feed stays due for the next slot.
+      const feedId = RESEARCH_API_FEED_IDS[key];
+      if (feedId) {
+        await env.DB.prepare(
+          `UPDATE source_feeds SET last_error = ?, fetch_attempts = COALESCE(fetch_attempts, 0) + 1 WHERE id = ?`
+        )
+          .bind(msg.slice(0, 200), feedId)
+          .run()
+          .catch(() => undefined);
+      }
     }
   };
   await run('crossref', () => ingestCrossref(env, force));
