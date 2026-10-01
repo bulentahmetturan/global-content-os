@@ -574,6 +574,9 @@ def _parse_rss_items(
         if not t or not l:
             continue
         title, link = _txt(t.group(1)), _txt(l.group(1))
+        if link.startswith("/") and not link.startswith("//"):
+            # Root-relative item links (e.g. yalemedicine.org RSS) resolve against the feed URL; allowed-host checks run downstream.
+            link = urljoin(source_url, link)
         if len(title) < 8 or not link.startswith("http"):
             continue
         pub = None

@@ -4,6 +4,7 @@ import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
 import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
+import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
 
 export interface FeedRow {
   id: string;
@@ -55,12 +56,14 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
   'https://www.fda.gov/news-events/fda-newsroom/press-announcements':
     'https://www.bing.com/news/search?q=site%3Afda.gov+(device+OR+approval+OR+recall+OR+%22digital+health%22+OR+SaMD+OR+software+OR+safety)&format=rss',
   'https://www.hma.eu/news.html': 'https://www.hma.eu/',
-  'https://www.imdrf.org/news':
-    'https://www.bing.com/news/search?q=site%3Aimdrf.org&format=rss',
+  // 2026-10-01: IMDRF's own news-and-events list carries pubDate-dated items; the Bing query only ever produced a page monitor.
+  'https://www.imdrf.org/news': 'https://www.imdrf.org/news-events',
+  // 2026-10-01: the DG SANTE home page has no dated list; the Commission's "latest updates" page does (dated cards, health.ec.europa.eu only).
+  'https://health.ec.europa.eu': 'https://health.ec.europa.eu/latest-updates_en',
   'https://hsgm.saglik.gov.tr/tr/duyurular':
     'https://www.bing.com/news/search?q=site%3Ahsgm.saglik.gov.tr&format=rss&setmkt=tr-TR',
-  'https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html':
-    'https://www.bing.com/news/search?q=site%3Apmda.go.jp&format=rss',
+  // 2026-10-01: the old What's-new path is 404; PMDA's own site-wide RSS (Top All, dc:date) is the official feed.
+  'https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html': 'https://www.pmda.go.jp/rss_008.xml',
   'https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices':
     'https://www.hpra.ie/safety-information/safety-notices',
   'https://www.saglik.gov.tr/TR,10169/haberler.html':
@@ -139,8 +142,8 @@ const ENDPOINT_OVERRIDES: Record<string, string> = {
     'https://www.bing.com/news/search?q=site%3Aoecd.org+health&format=rss',
   'https://www.reuters.com/business/healthcare-pharmaceuticals/':
     'https://www.bing.com/news/search?q=site%3Areuters.com+(healthcare+OR+medtech+OR+%22medical+device%22+OR+pharmaceutical)&format=rss',
-  'https://www.tuseb.gov.tr/haberler':
-    'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
+  // 2026-10-01: /haberler answers 500; the live news list is /tr/haberler (server-rendered, dated "16 Temmuz 2026" rows).
+  'https://www.tuseb.gov.tr/haberler': 'https://www.tuseb.gov.tr/tr/haberler',
   'https://www.tuseb.gov.tr/':
     'https://www.bing.com/news/search?q=site%3Atuseb.gov.tr&format=rss&setmkt=tr-TR',
   'https://www.tuseb.gov.tr/tuyze':
@@ -209,7 +212,7 @@ function stripTags(s: string): string {
     .trim();
 }
 
-function parseRssOrAtom(xml: string, baseUrl: string): ExtractedItem[] {
+export function parseRssOrAtom(xml: string, baseUrl: string): ExtractedItem[] {
   const items: ExtractedItem[] = [];
   const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>|<entry[\s>][\s\S]*?<\/entry>/gi) || [];
   for (const block of blocks.slice(0, 30)) {
@@ -224,12 +227,11 @@ function parseRssOrAtom(xml: string, baseUrl: string): ExtractedItem[] {
         /<description[^>]*>([\s\S]*?)<\/description>|<summary[^>]*>([\s\S]*?)<\/summary>|<content[^>]*>([\s\S]*?)<\/content>/i
       ) || [])[1] || title
     );
-    const publishedAt =
-      stripTags(
-        (block.match(
-          /<pubDate[^>]*>([\s\S]*?)<\/pubDate>|<updated[^>]*>([\s\S]*?)<\/updated>|<published[^>]*>([\s\S]*?)<\/published>/i
-        ) || [])[1] || ''
-      ) || null;
+    // The pattern has one capture group per tag form (pubDate | updated | published | dc:date): take whichever matched.
+    const dateMatch = block.match(
+      /<pubDate[^>]*>([\s\S]*?)<\/pubDate>|<updated[^>]*>([\s\S]*?)<\/updated>|<published[^>]*>([\s\S]*?)<\/published>|<dc:date[^>]*>([\s\S]*?)<\/dc:date>/i
+    );
+    const publishedAt = stripTags(dateMatch ? (dateMatch[1] ?? dateMatch[2] ?? dateMatch[3] ?? dateMatch[4] ?? '') : '') || null;
     if (!title || !link) continue;
     const url = absolutize(baseUrl, link);
     if (!url || !/^https?:/i.test(url)) continue;
@@ -243,8 +245,23 @@ function sameRegistrableDomain(a: string, b: string): boolean {
   return strip(a) === strip(b) || strip(a).endsWith('.' + strip(b)) || strip(b).endsWith('.' + strip(a));
 }
 
-function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => boolean): ExtractedItem[] {
+/** Entries scanned per listing page; dated entries are kept first so site navigation cannot crowd the real list out. */
+const LIST_SCAN_LIMIT = 400;
+const LIST_ITEM_LIMIT = 25;
+
+const READ_MORE_LINK =
+  /^(read more|read on|continue reading|learn more|more|details?|view|devam[ıi]?(n[ıi] oku)?|devam[ıi] oku|weiterlesen|mehr( erfahren)?|en savoir plus|lire la suite)\W*$/i;
+
+function lastHeadingBefore(html: string, from: number, to: number): string | null {
+  const hs = [...html.slice(from, to).matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)];
+  const last = hs[hs.length - 1];
+  const t = last ? stripTags(last[1]) : '';
+  return t.length >= 8 ? t : null;
+}
+
+export function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => boolean): ExtractedItem[] {
   const items: ExtractedItem[] = [];
+  const anchors: ListingAnchor[] = [];
   const seen = new Set<string>();
   let baseHost = '';
   try {
@@ -255,10 +272,21 @@ function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => b
 
   const re = /<a\s+[^>]*href=["']([^"'#]+)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(html)) && items.length < 25) {
+  let prevAnchorEnd = 0;
+  while ((m = re.exec(html)) && items.length < LIST_SCAN_LIMIT) {
     const href = m[1];
     if (/^(mailto:|tel:|javascript:)/i.test(href)) continue;
-    const title = stripTags(m[2]);
+    let title = stripTags(m[2]);
+    // Card layouts link the whole card through a "Read more" button: the headline is the last heading before the button.
+    if (READ_MORE_LINK.test(title)) {
+      const heading = lastHeadingBefore(html, Math.max(prevAnchorEnd, m.index - 1500), m.index);
+      if (!heading) {
+        prevAnchorEnd = m.index + m[0].length;
+        continue;
+      }
+      title = heading;
+    }
+    prevAnchorEnd = m.index + m[0].length;
     if (title.length < 8 || title.length > 300) continue;
     if (
       /^(home|login|menu|skip|next|prev|cookie|privacy|subscribe|english|türkçe|search|rss|pdf|more|read more|devamı|tümü)$/i.test(
@@ -281,9 +309,20 @@ function parseHtmlLinks(html: string, baseUrl: string, keep?: (url: string) => b
     if (seen.has(url)) continue;
     seen.add(url);
     items.push({ title, url, summary: title, publishedAt: null });
+    anchors.push({ start: m.index, end: m.index + m[0].length });
   }
 
-  return items;
+  // The listing's own printed dates (never invented): without them the news gate rejects every entry as `undated`.
+  const dates = assignListingDates(html, anchors);
+  items.forEach((it, i) => {
+    it.publishedAt = dates[i];
+    if (dates[i]) {
+      it.title = stripPrintedDateFromTitle(it.title);
+      it.summary = it.title;
+    }
+  });
+  // Stable: dated entries first (newest listing order kept), then undated ones.
+  return [...items.filter((it) => it.publishedAt), ...items.filter((it) => !it.publishedAt)].slice(0, LIST_ITEM_LIMIT);
 }
 
 function discoverFeedUrls(html: string, baseUrl: string): string[] {
@@ -656,7 +695,7 @@ export async function ingestGenericFeeds(
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
   }
   if (opts.route === 'kaduse-research') {
-    sql += ` AND id NOT IN ('europe-pmc-batch', 'research-europe-pmc-rest', 'research-pubmed-eutilities', 'research-crossref-rest-api', 'research-openalex-api', 'research-clinicaltrials-gov-api-v2')`;
+    sql += ` AND id NOT IN ('europe-pmc-batch', 'research-europe-pmc-rest', 'research-pubmed-eutilities', 'research-crossref-rest-api', 'research-openalex-api', 'research-clinicaltrials-gov-api-v2', 'research-pubmed-central-oa', 'research-gdelt-doc-api')`;
     sql += ` AND COALESCE(transport, '') NOT IN ('PUBMED_EUTILS', 'REST_BATCH')`;
   }
   if (opts.route === 'tip-ogrencileri') {

@@ -1,6 +1,6 @@
 {
   "version": "tip-toplulugu-continuous-v1",
-  "generated_at": "2026-09-30T18:09:38Z",
+  "generated_at": "2026-10-01T19:00:12Z",
   "channel_id": "tip_toplulugu",
   "editorial_brand": "Tıp Topluluğu",
   "content_family": "tip_toplulugu_phase1",
@@ -305,7 +305,6 @@
     "tdb_dental",
     "teged_medical_education",
     "tepdad_medical_accreditation",
-    "tihud_internal_medicine",
     "titck_announcements_general",
     "tkd_cardiology",
     "tpd_psychiatry",
