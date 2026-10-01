@@ -408,6 +408,26 @@ test('publication frequency change -> reviewed recalibration proposal on the sam
   assert.equal(after[0].poll_minutes, undefined, 'no second cadence field created');
 });
 
+test('owner-directed cadence (--set/--basis): guarded, ladder-bound, capacity-checked, written once', async () => {
+  const root = sandbox();
+  const l = lc(root);
+  assert.equal((await l.recalibrate('tdb_dental', { setMinutes: 1000, basis: 'x' })).outcome, 'INVALID_CADENCE');
+  assert.equal((await l.recalibrate('tdb_dental', { setMinutes: 720, basis: 'x' })).outcome, 'INVALID_CADENCE', 'below the scheduler floor');
+  assert.equal((await l.recalibrate('tdb_dental', { setMinutes: 2880 })).outcome, 'BASIS_REQUIRED');
+  const dry = await l.recalibrate('tdb_dental', { setMinutes: 2880, basis: 'publishes every 2-3 days (publisher archive)' });
+  assert.equal(dry.outcome, 'PROPOSAL');
+  assert.equal(rec(root, 'tdb_dental')[0].fetch_plan.expected_check_interval_minutes, 1440, 'dry run writes nothing');
+  const bridge = fakeBridge({ capacity: 'CAUTION' });
+  assert.equal((await lc(root, { bridge }).recalibrate('tdb_dental', { apply: true, setMinutes: 2880, basis: 'b' })).outcome, 'RECALIBRATED', 'lowering load needs no capacity check');
+  const a = await l.recalibrate('tdb_dental', { apply: true, setMinutes: 1440, basis: 'daily again' });
+  assert.equal(a.outcome, 'RECALIBRATED');
+  const after = rec(root, 'tdb_dental')[0];
+  assert.equal(after.fetch_plan.expected_check_interval_minutes, 1440);
+  assert.equal(after.cadence_policy.strategy, 'RECALIBRATED_OWNER_DIRECTED');
+  assert.equal(after.cadence_policy.evidence.basis, 'daily again');
+  assert.equal((await lc(root, { bridge: fakeBridge({ capacity: 'BLOCK' }) }).recalibrate('tdb_dental', { apply: true, setMinutes: 1440, basis: 'b' })).outcome, 'NO_CHANGE');
+});
+
 // ---------- G6 dedupe -----------------------------------------------------------------------------------------------
 
 test('duplicate domain/heading ownership -> NEEDS_USER_DECISION with an explanation (bridge + node fallback)', async () => {

@@ -4,7 +4,7 @@ import { loadProjections, normalizeRequest, resolveIdentity, compactProjection }
 import { discoverEndpoint, defaultFetcher, stripBodies } from './discovery.mjs';
 import { parseFeed, extractListPage, sitemapTimestamps, runtimeParserFor } from './parse.mjs';
 import { resolveRouting, proposeSourceId } from './routing.mjs';
-import { deriveCadence, recalibration } from './cadence.mjs';
+import { deriveCadence, recalibration, LADDER, LANE_POLICY } from './cadence.mjs';
 import { dedupeGate } from './dedupe.mjs';
 import { pythonBridge } from './bridge.mjs';
 import { commitCanonical, getAt, readRegistry, targetFileFor, writeTrace, authorizeLifecycle } from './store.mjs';
@@ -413,36 +413,66 @@ export function createLifecycle(opts) {
     };
   }
 
-  async function recalibrate(target, { apply = false } = {}) {
-    const trace = { request_id: normalizeRequest(`recal:${target}`, { now: clock() }).request_id, op: 'recalibrate', input: { raw: target, apply }, actor, phases: [] };
+  async function recalibrate(target, { apply = false, setMinutes = null, basis = null } = {}) {
+    const trace = { request_id: normalizeRequest(`recal:${target}`, { now: clock() }).request_id, op: 'recalibrate', input: { raw: target, apply, ...(setMinutes ? { setMinutes, basis } : {}) }, actor, phases: [] };
     const { identity } = resolveOne(target, trace);
     if (identity.outcome !== 'EXISTING') return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_FOUND' });
     const m = identity.match;
     if (m.store !== 'tip_toplulugu' || !m.active) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: m.store !== 'tip_toplulugu' ? 'Kaduse cadence is generator-assigned (sync-feeds.mjs)' : 'source is not ACTIVE' });
-    const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: 'tip_toplulugu', fetcher });
-    if (disc.gate !== 'PASS') return finish(trace, { ok: false, op: 'recalibrate', outcome: disc.gate, reason: disc.reason, source_id: m.source_id });
-    const feed = disc._feed ? parseFeed(disc._feed.body) : [];
-    const list = extractListPage(disc._page.body, disc._page.url);
-    const ts = (feed.length ? feed : list).map((i) => i.published_at).filter(Boolean);
-    const derived = deriveCadence({ timestamps: ts, lane: 'tip_toplulugu', heading: m.heading, now: clock(), evidenceSource: feed.length ? 'feed_published' : 'list_page_dates' });
-    const proposal = recalibration(m.cadence_min, derived);
+    let derived;
+    let proposal;
+    if (setMinutes !== null) {
+      // Owner-directed value for sources whose publication cadence is known from the publisher's own behaviour but not
+      // measurable from feed/list timestamps (daily gazette TOC, login-walled or undated lists). Same guards as the
+      // evidence path: ladder step inside the lane bounds, a written basis, authorize/apply, capacity, byte-stable write.
+      const pol = LANE_POLICY.tip_toplulugu;
+      if (!(Number.isInteger(setMinutes) && LADDER.includes(setMinutes) && setMinutes >= pol.min && setMinutes <= pol.max)) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'INVALID_CADENCE', source_id: m.source_id, reason: `must be a ladder step within ${pol.min}..${pol.max}` });
+      if (!basis || !String(basis).trim()) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'BASIS_REQUIRED', source_id: m.source_id, reason: 'owner-directed cadence needs --basis "<publication-behaviour evidence>"' });
+      derived = { bounds: { min: pol.min, max: pol.max, freshness: pol.freshness[m.heading] ?? pol.max }, confidence: 'OWNER_DIRECTED', evidence: { source: 'owner_directed', basis: String(basis).trim(), computed_at: clock() }, flags: ['OWNER_DIRECTED'] };
+      proposal = m.cadence_min === setMinutes
+        ? { outcome: 'NO_CHANGE', current: m.cadence_min, derived: setMinutes }
+        : { outcome: 'PROPOSAL', requires: 'canonical owner apply (scripts/source-lifecycle.mjs recalibrate <id> --set <min> --basis <text> --apply)', patch: { field: 'fetch_plan.expected_check_interval_minutes', before: m.cadence_min, after: setMinutes }, evidence: derived.evidence };
+    } else {
+      const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: 'tip_toplulugu', fetcher });
+      if (disc.gate !== 'PASS') return finish(trace, { ok: false, op: 'recalibrate', outcome: disc.gate, reason: disc.reason, source_id: m.source_id });
+      const feed = disc._feed ? parseFeed(disc._feed.body) : [];
+      const list = extractListPage(disc._page.body, disc._page.url);
+      const ts = (feed.length ? feed : list).map((i) => i.published_at).filter(Boolean);
+      derived = deriveCadence({ timestamps: ts, lane: 'tip_toplulugu', heading: m.heading, now: clock(), evidenceSource: feed.length ? 'feed_published' : 'list_page_dates' });
+      proposal = recalibration(m.cadence_min, derived);
+    }
     if (proposal.outcome !== 'PROPOSAL' || !apply) return finish(trace, { ok: true, op: 'recalibrate', source_id: m.source_id, outcome: proposal.outcome === 'PROPOSAL' ? 'PROPOSAL' : proposal.outcome, proposal, writes: 0 });
     if (proposal.patch.after < proposal.patch.before) {
       const cap = bridge ? bridge.capacity({ addCadence: proposal.patch.after, history }) : { status: 'BLOCK' };
       if (cap.status !== 'SAFE') return finish(trace, { ok: false, op: 'recalibrate', source_id: m.source_id, outcome: 'BLOCKED_CAPACITY', capacity: cap, proposal });
     }
-    if (m.layers.length !== 1) return finish(trace, { ok: false, op: 'recalibrate', source_id: m.source_id, outcome: 'BLOCKED_TECHNICAL', reason: 'MULTI_LAYER_RECORD' });
-    const commit = commitCanonical({
-      root, file: m.file, apply, actor, authorize, op: 'recalibrate',
-      mutate: (data) => {
-        const rec = getAt(data, m.path);
-        rec.fetch_plan = { ...(rec.fetch_plan || {}), expected_check_interval_minutes: proposal.patch.after };
-        rec.cadence_policy = { strategy: 'RECALIBRATED_REVIEWED', bounds: derived.bounds, confidence: derived.confidence, evidence: derived.evidence, flags: derived.flags };
-        pushHistory(rec, { op: 'recalibrate', request_id: trace.request_id, at: clock(), outcome: 'ACTIVE', by: actor.id, cadence: proposal.patch });
-        return proposal.patch;
-      },
+    // A record can live in several registry layers (e.g. phase1 + v1.1 scope registration): keep every layer's cadence equal.
+    const layers = m.layers.map((l) => {
+      const i = l.indexOf(':');
+      return { file: l.slice(0, i), path: l.slice(i + 1) };
     });
-    return finish(trace, { ok: commit.outcome === 'APPLIED', op: 'recalibrate', source_id: m.source_id, outcome: commit.outcome === 'APPLIED' ? 'RECALIBRATED' : commit.outcome, proposal, commit: { outcome: commit.outcome, file: commit.file, ...(commit.code ? { code: commit.code } : {}) } });
+    const commitLayer = (layer, applyNow) =>
+      commitCanonical({
+        root, file: layer.file, apply: applyNow, actor, authorize, op: 'recalibrate',
+        mutate: (data) => {
+          const rec = getAt(data, layer.path);
+          rec.fetch_plan = { ...(rec.fetch_plan || {}), expected_check_interval_minutes: proposal.patch.after };
+          if (layer.file === m.file) {
+            rec.cadence_policy = { strategy: setMinutes !== null ? 'RECALIBRATED_OWNER_DIRECTED' : 'RECALIBRATED_REVIEWED', bounds: derived.bounds, confidence: derived.confidence, evidence: derived.evidence, flags: derived.flags };
+            pushHistory(rec, { op: 'recalibrate', request_id: trace.request_id, at: clock(), outcome: 'ACTIVE', by: actor.id, cadence: proposal.patch });
+          }
+          return proposal.patch;
+        },
+      });
+    // All layers must be writable before the first one is written (no half-applied record).
+    if (layers.length > 1) {
+      const dry = layers.map((l) => commitLayer(l, false));
+      if (dry.some((c) => c.writable === false || c.outcome === 'PLAN_ONLY')) return finish(trace, { ok: false, op: 'recalibrate', source_id: m.source_id, outcome: 'REQUIRES_MANUAL_EDIT', proposal, reason: 'a layer file is not byte-stable' });
+    }
+    const commits = layers.map((l) => commitLayer(l, apply));
+    const commit = commits.find((c) => c.outcome !== 'APPLIED') || commits[0];
+    const allApplied = commits.every((c) => c.outcome === 'APPLIED');
+    return finish(trace, { ok: allApplied, op: 'recalibrate', source_id: m.source_id, outcome: allApplied ? 'RECALIBRATED' : commit.outcome, proposal, commit: { outcome: commit.outcome, file: commit.file, ...(commit.code ? { code: commit.code } : {}) }, ...(layers.length > 1 ? { layers: commits.map((c) => `${c.file}:${c.outcome}`) } : {}) });
   }
 
   function purge(target) {

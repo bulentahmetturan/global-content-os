@@ -1,4 +1,4 @@
-import { ingestGate, normalizeDate } from '../ingress/ingest-gate';
+import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
 import { familyClause } from './family-clause';
 import { orderByRelevance } from '../triage/relevance-order';
 export { familyClause } from './family-clause';
@@ -140,6 +140,24 @@ function intakeMetaEquivalent(incoming: string | null | undefined, current: stri
   }
 }
 
+/**
+ * published_at is immutable once a canonical item has one (Temporal V2 Group 0): a re-sighting with null or a
+ * different date never overwrites it. Only an explicit verified correction may change it; a null stored date may
+ * be filled in by a later sighting.
+ */
+export function publishedAtSame(
+  input: { publishedAt?: string | null; verifiedDateCorrection?: boolean },
+  current: string | null | undefined
+): boolean {
+  const incoming = input.publishedAt ?? null;
+  if (current === null || current === undefined || current === '') return incoming === null;
+  if (input.verifiedDateCorrection === true) return incoming === null || incoming === current;
+  return true;
+}
+
+/** Binds (verifiedCorrection 0|1, incoming, incoming): keeps a stored date unless an owner-verified correction supplies a new one. */
+const PUBLISHED_AT_SET = `CASE WHEN ? = 1 THEN COALESCE(?, published_at) ELSE COALESCE(published_at, ?) END`;
+
 export interface ExistingItemForWrite {
   title: string;
   title_orig: string | null;
@@ -171,6 +189,7 @@ export function planExistingItemWrite(
     canonicalUrl: string;
     publisher: string;
     publishedAt?: string | null;
+    verifiedDateCorrection?: boolean;
     editorialBrand?: string | null;
     contentFamily?: string | null;
     sourceId?: string | null;
@@ -190,7 +209,7 @@ export function planExistingItemWrite(
   const metaSame =
     (input.canonicalUrl === existing.canonical_url || canonicalizeUrl(input.canonicalUrl) === existing.canonical_url) &&
     input.publisher === existing.publisher &&
-    n(input.publishedAt) === n(existing.published_at) &&
+    publishedAtSame(input, existing.published_at) &&
     coalesced(input.editorialBrand, existing.editorial_brand) &&
     coalesced(input.contentFamily, existing.content_family) &&
     coalesced(input.sourceId, existing.source_id) &&
@@ -212,6 +231,8 @@ export async function upsertSourceItem(
     canonicalUrl: string;
     publisher: string;
     publishedAt?: string | null;
+    /** Owner-verified correction of an already stored published_at; the only way to change it. */
+    verifiedDateCorrection?: boolean;
     dedupeKey?: string;
     enrichmentStatus?: 'pending' | 'done' | 'failed' | 'skipped';
     editorialBrand?: string | null;
@@ -231,6 +252,7 @@ export async function upsertSourceItem(
 ): Promise<{ id: string; created: boolean; rejected?: string }> {
   // Existing rows skip the admission gate below, so a raw source date ("2026-9-29", "2026 Oct") would
   // otherwise overwrite the ISO date the gate stored on insert.
+  const rawPublishedAt = input.publishedAt ?? null;
   if ((input.route === 'kaduse-news' || input.route === 'kaduse-research') && input.publishedAt) {
     input.publishedAt = normalizeDate(input.publishedAt) ?? input.publishedAt;
   }
@@ -246,6 +268,12 @@ export async function upsertSourceItem(
     .first<ExistingItemForWrite & { id: string; triage_status: string }>();
 
   if (existing) {
+    // An impossible year (2105) is source garbage: never let it become a stored date (new rows are rejected by the gate).
+    if (hasImpossibleYear(input.publishedAt)) input.publishedAt = null;
+    // Representation repair only ("2026-9-29" -> "2026-09-29": same day, canonical form) is not a date change.
+    if (existing.published_at && input.publishedAt && existing.published_at !== input.publishedAt && normalizeDate(existing.published_at) === input.publishedAt) {
+      input.verifiedDateCorrection = true;
+    }
     // D1 Free plan bills every index update as a row write: re-polling an unchanged item must not write at all.
     const plan = planExistingItemWrite(existing, input, enrichmentStatus);
     if (plan === 'none') {
@@ -255,7 +283,7 @@ export async function upsertSourceItem(
     if (plan === 'meta') {
       await db
         .prepare(
-          `UPDATE source_items SET canonical_url = ?, publisher = ?, published_at = ?,
+          `UPDATE source_items SET canonical_url = ?, publisher = ?, published_at = ${PUBLISHED_AT_SET},
            editorial_brand = COALESCE(?, editorial_brand),
            content_family = COALESCE(?, content_family),
            source_id = COALESCE(?, source_id),
@@ -267,6 +295,8 @@ export async function upsertSourceItem(
         .bind(
           input.canonicalUrl,
           input.publisher,
+          input.verifiedDateCorrection === true ? 1 : 0,
+          input.publishedAt ?? null,
           input.publishedAt ?? null,
           input.editorialBrand ?? null,
           input.contentFamily ?? null,
@@ -282,7 +312,7 @@ export async function upsertSourceItem(
     await db
       .prepare(
         `UPDATE source_items SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
-         canonical_url = ?, publisher = ?, published_at = ?, enrichment_status = ?,
+         canonical_url = ?, publisher = ?, published_at = ${PUBLISHED_AT_SET}, enrichment_status = ?,
          editorial_brand = COALESCE(?, editorial_brand),
          content_family = COALESCE(?, content_family),
          source_id = COALESCE(?, source_id),
@@ -298,6 +328,8 @@ export async function upsertSourceItem(
         JSON.stringify(input.gists ?? [input.summary]),
         input.canonicalUrl,
         input.publisher,
+        input.verifiedDateCorrection === true ? 1 : 0,
+        input.publishedAt ?? null,
         input.publishedAt ?? null,
         enrichmentStatus,
         input.editorialBrand ?? null,
@@ -334,6 +366,15 @@ export async function upsertSourceItem(
   });
   if (!gate.ok) return { id: '', created: false, rejected: gate.reason };
   input.publishedAt = gate.publishedAt;
+  // Provenance: keep the date exactly as the source stated it when normalisation changed it (new rows only).
+  if (
+    (input.route === 'kaduse-news' || input.route === 'kaduse-research') &&
+    rawPublishedAt &&
+    rawPublishedAt.trim() !== gate.publishedAt &&
+    !input.intakeMetaJson
+  ) {
+    input.intakeMetaJson = JSON.stringify({ published_at_source: rawPublishedAt.trim().slice(0, 80), published_at_normalized: gate.publishedAt });
+  }
   if (input.route === 'kaduse-news') {
     const dupTitle = await db
       .prepare(`SELECT id FROM source_items WHERE route = ? AND lower(title) = lower(?) AND triage_status != 'trash' LIMIT 1`)

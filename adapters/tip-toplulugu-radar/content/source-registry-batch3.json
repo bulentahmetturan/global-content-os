@@ -424,7 +424,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -457,7 +457,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: feed with 50 undated items; daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:07.596Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_fd9951456ac357dd",
+          "at": "2026-10-01T22:08:08.135Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "medical_xpress",
@@ -688,7 +719,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -721,7 +752,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:55.445Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_bfd174c4a3e88355",
+          "at": "2026-10-01T22:03:50.300Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_46bfdea31391762a",
+          "at": "2026-10-01T22:07:55.447Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "fierce_biotech",
@@ -952,7 +1026,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -985,7 +1059,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:55.714Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_fb867f98a68a04bc",
+          "at": "2026-10-01T22:03:51.329Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_6e0951e2749acf81",
+          "at": "2026-10-01T22:07:55.718Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "medpage_today",
@@ -1216,7 +1333,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1249,7 +1366,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:55.991Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_f7bce68271bc0924",
+          "at": "2026-10-01T22:03:52.630Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_d38b466cd2349543",
+          "at": "2026-10-01T22:07:55.994Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "yale_medicine_news",
@@ -1347,7 +1507,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1380,7 +1540,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:56.257Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_b95fe6854995ba22",
+          "at": "2026-10-01T22:03:54.568Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_ab2e37c3f92d9743",
+          "at": "2026-10-01T22:07:56.260Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "drug_topics",
@@ -1478,7 +1681,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1511,7 +1714,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:56.502Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_b2715b25633df598",
+          "at": "2026-10-01T22:03:55.888Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_f01e75ec95c79fb1",
+          "at": "2026-10-01T22:07:56.505Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "ema_news",
@@ -1742,7 +1988,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 20160,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1775,7 +2021,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F3 slow measured: 10 dated feed items 2020-10..2026-01 (gaps of months); poll=gap/2 exceeds lane max -> lane max 20160 (was 43200 > lane max)",
+          "computed_at": "2026-10-01T22:06:36.622Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_e1807630ab4f6419",
+          "at": "2026-10-01T22:06:37.054Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 20160
+          }
+        }
+      ]
     },
     {
       "source_id": "foodnavigator",
@@ -1873,7 +2150,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1906,7 +2183,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:56.752Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_08dd7dffbc3dbf2a",
+          "at": "2026-10-01T22:03:57.321Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_ec08c557609c72db",
+          "at": "2026-10-01T22:07:56.755Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "sciencedaily_nutrition",
@@ -2004,7 +2324,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2037,7 +2357,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:57.037Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_8b52f488fc1e868b",
+          "at": "2026-10-01T22:03:58.925Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_e8998679f4111210",
+          "at": "2026-10-01T22:07:57.040Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "healthday",
@@ -2135,7 +2498,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2168,7 +2531,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: feed items dated 2026-10-01 (2 of 2 today); daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:08.433Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_cf077f97ea08fb7c",
+          "at": "2026-10-01T22:08:08.982Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     }
   ]
 }

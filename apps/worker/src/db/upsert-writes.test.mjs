@@ -47,7 +47,7 @@ test('identical enriched item: zero writes', async () => {
 
 test('only metadata changed: one narrow UPDATE that keeps enrichment', async () => {
   const db = fakeDb(base);
-  await upsertSourceItem(db, { ...input, publishedAt: '2026-09-21' });
+  await upsertSourceItem(db, { ...input, sourceId: "s2" });
   assert.equal(db.writes.length, 1);
 });
 
@@ -121,4 +121,71 @@ test('top-level fetched_at/created_at differences are volatile too', async () =>
   const db = fakeDb({ ...base, intake_meta_json: meta('2026-09-21T14:47:04Z') });
   await upsertSourceItem(db, { ...input, intakeMetaJson: meta('2026-09-21T16:00:00Z') });
   assert.deepEqual(db.writes, []);
+});
+
+// Temporal V2 Group 0: published_at is immutable once set.
+function recordingDb(existing) {
+  const calls = [];
+  return {
+    calls,
+    prepare(sql) {
+      return {
+        bind(...args) {
+          return {
+            first: async () => (/FROM source_items/.test(sql) ? existing : null),
+            run: async () => { calls.push({ sql, args }); return { success: true }; },
+          };
+        },
+      };
+    },
+  };
+}
+
+test('published_at preserved: later sighting with a different date writes nothing', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, publishedAt: '2026-09-25' });
+  assert.deepEqual(db.calls, []);
+});
+
+test('published_at preserved: later sighting with null date writes nothing', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, publishedAt: null });
+  assert.deepEqual(db.calls, []);
+});
+
+test('published_at preserved: a meta UPDATE for another field cannot null or replace it', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, publishedAt: null, sourceId: 's2' });
+  assert.equal(db.calls.length, 1);
+  assert.match(db.calls[0].sql, /published_at = CASE WHEN \? = 1 THEN COALESCE\(\?, published_at\) ELSE COALESCE\(published_at, \?\) END/);
+  const [, , flag, incoming, fallback] = db.calls[0].args;
+  assert.equal(flag, 0);
+  assert.equal(incoming, null);
+  assert.equal(fallback, null);
+});
+
+test('published_at: a null stored date may be filled by a later sighting', async () => {
+  const db = recordingDb({ ...base, published_at: null });
+  await upsertSourceItem(db, { ...input, publishedAt: '2026-09-25' });
+  assert.equal(db.calls.length, 1);
+});
+
+test('published_at: explicit verified correction is the only way to change it', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, publishedAt: '2026-09-25', verifiedDateCorrection: true });
+  assert.equal(db.calls.length, 1);
+  assert.equal(db.calls[0].args[2], 1);
+  assert.equal(db.calls[0].args[3], '2026-09-25');
+});
+
+test('published_at: impossible-year source date never reaches an existing row', async () => {
+  const db = recordingDb({ ...base, route: 'kaduse-research', published_at: null });
+  await upsertSourceItem(db, { ...input, route: 'kaduse-research', publishedAt: '2105-03-04' });
+  assert.deepEqual(db.calls, []);
+});
+
+test('published_at: a different day is not a representation repair', async () => {
+  const db = recordingDb({ ...base, published_at: '2026-9-20' });
+  await upsertSourceItem(db, { ...input, publishedAt: '2026-09-25' });
+  assert.deepEqual(db.calls, []);
 });

@@ -7,6 +7,26 @@
  */
 
 export const NEWS_MAX_AGE_DAYS = 10;
+/**
+ * Research *media* (press / science-news feeds: ACCESSIBLE_SCIENCE_MEDIA + GDELT news mentions) is news-like and
+ * must be fresh; journal / research-publication sources are deliberately not age-gated. Evergreen admission is not
+ * open (Temporal V2 Group 0). Kept in sync with the catalog roles by ingest-gate.test.mjs.
+ */
+export const RESEARCH_MEDIA_MAX_AGE_DAYS = 14;
+export const RESEARCH_MEDIA_FEEDS = new Set([
+  'research-stat-news',
+  'research-eurekalert',
+  'research-medical-xpress',
+  'research-medical-news-today',
+  'research-nature-news',
+  'research-nih-news-releases',
+  'research-sciencedaily-healthy-aging',
+  'research-sciencedaily-alternative-medicine',
+  'research-sciencedaily-dietary-supplements',
+  'research-asn-nutrition-news',
+  'research-nccih-news',
+  'research-gdelt-doc-api',
+]);
 
 /** Listing pages whose newest-first list is current even though items carry no date (first-seen is used). */
 const UNDATED_OK_FEEDS = new Set(['news-aa-saglik-scoped']);
@@ -16,6 +36,13 @@ const RELEVANCE_FEEDS = new Set(['research-gdelt-doc-api']);
 const PLACEHOLDER = /\btitle pending\b|^\s*(untitled|no title|n\/a)\b/i;
 const HEALTH =
   /sağlık|saglik|hasta|hekim|doktor|tıp\b|tıbbi|tibbi|ilaç|aşı|tedavi|kanser|kalp|cerrah|klinik|hastane|cihaz|ameliyat|enfeksiyon|salgın|virüs|diyabet|health|medic|clinic|patient|disease|cancer|drug|vaccin|surg|hospital|therap|diagnos|cardi|neuro|covid|infect|pharma|physician|nurs|dental|stethoscope|auscult|wellness|epidemi/i;
+
+const IMPOSSIBLE_YEAR = /(?<!\d)(2[1-9]\d{2}|[3-9]\d{3})(?!\d)/;
+
+/** True when a raw source date names a year after 2100 (2101..9999): impossible, never a real publication date. */
+export function hasImpossibleYear(v: string | null | undefined): boolean {
+  return IMPOSSIBLE_YEAR.test(v ?? '');
+}
 
 const MONTHS: Record<string, number> = {
   jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12,
@@ -34,7 +61,10 @@ export function normalizeDate(v: string | null | undefined): string | null {
   m = s.match(/^(\d{4})$/);
   if (m) return valid(+m[1], 1, 1);
   const t = Date.parse(s);
-  if (Number.isFinite(t)) return new Date(t).toISOString().slice(0, 10);
+  if (Number.isFinite(t)) {
+    const iso = new Date(t).toISOString().slice(0, 10);
+    return valid(+iso.slice(0, 4), +iso.slice(5, 7), +iso.slice(8, 10));
+  }
   return null;
 }
 
@@ -60,14 +90,19 @@ export function ingestGate(input: GateInput, now: Date = new Date()): GateVerdic
   if (title.length < 12 || PLACEHOLDER.test(title)) return { ok: false, reason: 'placeholder_title' };
   const date = normalizeDate(input.publishedAt);
   const isNews = input.route === 'kaduse-news';
+  const isMedia = !isNews && RESEARCH_MEDIA_FEEDS.has(input.feedId);
   if (!date) {
+    // A date that names an impossible year (2101..9999) is source garbage, not "undated": reject it.
+    if (hasImpossibleYear(input.publishedAt)) return { ok: false, reason: 'invalid_date' };
     if (isNews && !UNDATED_OK_FEEDS.has(input.feedId)) return { ok: false, reason: 'undated' };
+    if (isMedia) return { ok: false, reason: 'undated' };
   } else {
     // Whole calendar days (UTC), so an item dated exactly N days ago is N days old regardless of the hour.
     const ageDays = (Date.parse(now.toISOString().slice(0, 10)) - Date.parse(date)) / 86_400_000;
     // News must not be ahead of today; research allows month-precision issue dates (e.g. "2026 Oct") up to ~3 months ahead.
     if (ageDays < (isNews ? -2 : -92)) return { ok: false, reason: 'future_date' };
     if (isNews && ageDays > NEWS_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
+    if (isMedia && ageDays > RESEARCH_MEDIA_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
   }
   if (RELEVANCE_FEEDS.has(input.feedId) && !HEALTH.test(`${title} ${input.titleOrig ?? ''} ${input.summary ?? ''}`)) {
     return { ok: false, reason: 'off_topic' };

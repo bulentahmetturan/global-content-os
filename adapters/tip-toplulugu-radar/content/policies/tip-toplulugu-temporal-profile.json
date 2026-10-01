@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "purpose": "Temporal Acquisition V2 Group 0: marks sources whose items can carry deadlines or an expiry (application windows, exam registration, effective dates). Marking only: no expiry engine exists yet (Group 2). Cadence is NOT stored here; it stays in the one canonical field (fetch_plan.expected_check_interval_minutes / pollMinutes).",
+  "owner_authorization": "Group 0 approved 2026-10-02 (owner message, Temporal V2 prerequisites)",
+  "evidence_tiers": {
+    "RECORD_EVIDENCE": "the canonical record itself names a deadline/application/effective_date field",
+    "ROLE_INFERRED": "inferred from the source's role; must be verified against real items in Group 2 before any expiry behaviour depends on it"
+  },
+  "expiry_sensitivity": {
+    "HIGH": "window of days to a few weeks; a 7-day blind spot can miss it (expiry cadence cap 2880 min)",
+    "MEDIUM": "window of weeks to months or a regulatory date (lane freshness 10080 min applies)"
+  },
+  "cadence_caps_min": {
+    "HIGH": 2880,
+    "MEDIUM": 10080,
+    "LOW_URGENCY_NON_DEADLINE_NEWS": 2880
+  },
+  "sources": [
+    {
+      "source_id": "osym_medical_exams",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names application + deadline fields (exam registration windows)"
+    },
+    {
+      "source_id": "osym_dus_dental_exams",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names application + deadline fields"
+    },
+    {
+      "source_id": "osym_ydus_subspecialty_exams",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names application + deadline fields"
+    },
+    {
+      "source_id": "burs_tr_humphrey",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names basvuru (application) deadline"
+    },
+    {
+      "source_id": "burs_ean_fellowships",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names deadline"
+    },
+    {
+      "source_id": "burs_eau_eusp",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names deadline"
+    },
+    {
+      "source_id": "burs_ers_fellowships",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names deadline"
+    },
+    {
+      "source_id": "burs_febs_fellowships",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names deadline"
+    },
+    {
+      "source_id": "burs_esaic_grants",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names deadline"
+    },
+    {
+      "source_id": "tepdad_medical_accreditation",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names basvuru"
+    },
+    {
+      "source_id": "halk_sagligi_yeterlik",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names basvuru"
+    },
+    {
+      "source_id": "abroad_sa_scfhs_watch",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry record names application"
+    },
+    {
+      "source_id": "yok_medical_education",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry required_fields include effective_date"
+    },
+    {
+      "source_id": "tuk_specialty_training",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry required_fields include effective_date"
+    },
+    {
+      "source_id": "resmi_gazete_medical_regulation",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "RECORD_EVIDENCE",
+      "basis": "registry required_fields include effective_date (regulation entry-into-force dates, not application windows)"
+    },
+    {
+      "source_id": "abroad_es_mir_fse",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "MIR-FSE exam registration; role-based, not stated in the record"
+    },
+    {
+      "source_id": "egitim_eso",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "course/application pages; role-based"
+    },
+    {
+      "source_id": "egitim_pasteur",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "course/application pages; role-based"
+    },
+    {
+      "source_id": "abroad_ca_mcc_img_pathways",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "exam session/registration pathways; role-based"
+    },
+    {
+      "source_id": "abroad_au_medical_board",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "registration pathways; role-based (login-walled, unevaluated)"
+    },
+    {
+      "source_id": "abroad_au_ahpra",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "registration pathways; role-based (login-walled, unevaluated)"
+    },
+    {
+      "source_id": "abroad_it_salute_foreign_qual",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "qualification recognition procedures; role-based (robots-disallowed, unevaluated)"
+    },
+    {
+      "source_id": "titck_announcements_general",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "licence/tender announcements; role-based"
+    },
+    {
+      "source_id": "moh_physician_workforce",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "HIGH",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "staff recruitment / placement announcements; role-based"
+    },
+    {
+      "source_id": "turkmsic_medical_students",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "student programme applications; role-based"
+    },
+    {
+      "source_id": "teged_medical_education",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "education events; role-based"
+    },
+    {
+      "source_id": "ttb_national",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "professional-body announcements; role-based (network error, unevaluated)"
+    },
+    {
+      "source_id": "tkd_cardiology",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based"
+    },
+    {
+      "source_id": "ttd_thoracic",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based"
+    },
+    {
+      "source_id": "klimık_infectious_diseases",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based (login-walled, unevaluated)"
+    },
+    {
+      "source_id": "tpd_psychiatry",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based (login-walled, unevaluated)"
+    },
+    {
+      "source_id": "trd_radiology",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based"
+    },
+    {
+      "source_id": "tahud_family_medicine",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based"
+    },
+    {
+      "source_id": "turk_pediatri_kurumu",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based (feed already carries future-dated events)"
+    },
+    {
+      "source_id": "tatd_emergency_medicine",
+      "lane": "tip_toplulugu",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "society congress / abstract deadlines; role-based"
+    },
+    {
+      "source_id": "eur-lex-mdr-ivdr-health-query",
+      "lane": "kaduse-news",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "EU legal acts with application/transition dates; role-based candidate"
+    },
+    {
+      "source_id": "ec-medical-devices-target",
+      "lane": "kaduse-news",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "MDR/IVDR transition and guidance dates; role-based candidate"
+    },
+    {
+      "source_id": "ec-dg-sante-health-scoped",
+      "lane": "kaduse-news",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "consultation/feedback windows; role-based candidate"
+    },
+    {
+      "source_id": "council-eu-epsco-health-scoped",
+      "lane": "kaduse-news",
+      "deadline_bearing": true,
+      "expiry_sensitivity": "MEDIUM",
+      "evidence_tier": "ROLE_INFERRED",
+      "basis": "Council decision/application dates; role-based candidate"
+    }
+  ]
+}

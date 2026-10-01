@@ -49,3 +49,43 @@ describe('ingest gate: research and dates', () => {
     assert.equal(g.ingestGate({ route: 'tip-ogrencileri', feedId: 'x', title: 'x', publishedAt: null }, NOW).ok, true);
   });
 });
+describe('ingest gate: Temporal V2 Group 0 research dates and media age', () => {
+  const research = (o) => g.ingestGate({ route: 'kaduse-research', feedId: 'research-nejm', title: 'Randomised trial of a new therapy', ...o }, NOW);
+  const media = (o) => g.ingestGate({ route: 'kaduse-research', feedId: 'research-eurekalert', title: 'Researchers report a new therapy result', ...o }, NOW);
+  it('normalises valid research dates to ISO', () => {
+    assert.deepEqual(research({ publishedAt: 'Mon, 21 Sep 2026 10:00:00 GMT' }), { ok: true, publishedAt: '2026-09-21' });
+    assert.deepEqual(research({ publishedAt: '2026-9-7' }), { ok: true, publishedAt: '2026-09-07' });
+  });
+  it('rejects impossible 2101-2109 style garbage dates, in any format', () => {
+    for (const d of ['2101-03-04', '2105-12-31', '2109-01-01', 'Oct 2105', '4 Mar 2107', '9999-01-01']) {
+      assert.equal(research({ publishedAt: d }).reason, 'invalid_date', d);
+    }
+    assert.equal(g.normalizeDate('Oct 2105'), null);
+    assert.equal(g.normalizeDate('4 Mar 2107'), null);
+  });
+  it('still rejects real near-future research dates but allows month-precision issue dates', () => {
+    assert.equal(research({ publishedAt: '2027-03-01' }).reason, 'future_date');
+    assert.equal(research({ publishedAt: '2026 Oct' }).ok, true);
+  });
+  it('journal/research sources are not age-gated or undated-gated', () => {
+    assert.equal(research({ publishedAt: '2024-01-15' }).ok, true);
+    assert.equal(research({ publishedAt: null }).ok, true);
+  });
+  it('research media: stale and undated content is rejected (14-day boundary)', () => {
+    assert.equal(media({ publishedAt: '2026-09-08' }).ok, true);
+    assert.equal(media({ publishedAt: '2026-09-07' }).reason, 'stale');
+    assert.equal(media({ publishedAt: '2023-05-01' }).reason, 'stale');
+    assert.equal(media({ publishedAt: null }).reason, 'undated');
+    assert.equal(g.ingestGate({ route: 'kaduse-research', feedId: 'research-gdelt-doc-api', title: 'Hospital outbreak health news', publishedAt: '2026-08-01' }, NOW).reason, 'stale');
+  });
+  it('media feed set equals the catalog ACCESSIBLE_SCIENCE_MEDIA roles (+ GDELT)', async () => {
+    const { readFileSync } = await import('node:fs');
+    const cat = JSON.parse(readFileSync('packages/source-catalog/data/research-sources.json', 'utf8'));
+    const list = Array.isArray(cat) ? cat : cat.sources;
+    const want = new Set(list.filter((s) => s.sourceRole === 'ACCESSIBLE_SCIENCE_MEDIA').map((s) => `research-${s.sourceId}`));
+    want.add('research-gdelt-doc-api');
+    const have = [...g.RESEARCH_MEDIA_FEEDS].filter((id) => !want.has(id));
+    const missing = [...want].filter((id) => !g.RESEARCH_MEDIA_FEEDS.has(id));
+    assert.deepEqual({ have, missing }, { have: [], missing: [] });
+  });
+});

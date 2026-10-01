@@ -319,7 +319,7 @@
           "/Sayfalar/",
           "/announcement"
         ],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "last_success_at": null,
         "last_content_hash": null,
         "last_item_timestamp": null,
@@ -378,7 +378,38 @@
         "kontenjan",
         "akademi"
       ],
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F1 deadline-bearing HIGH (effective_date/exam-application announcements); 1 dated item of 15, unmeasurable -> expiry cap 2880",
+          "computed_at": "2026-10-01T22:06:37.974Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9337d6173c62c78b",
+          "at": "2026-10-01T22:06:38.420Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "yokak_medical_accreditation",
@@ -455,7 +486,7 @@
           "/akreditasyon",
           "/program"
         ],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 1440,
         "last_success_at": null,
         "last_content_hash": null,
         "last_item_timestamp": null,
@@ -512,7 +543,43 @@
         "program",
         "standart"
       ],
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_REVIEWED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 10,
+          "gaps_used": 9,
+          "expected_gap_min": 1455,
+          "newest": "2026-09-29T13:14:00.000Z",
+          "computed_at": "2026-10-01T22:04:24.029Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1",
+          "DORMANT_SUSPECT",
+          "SCHEDULER_FLOOR"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_3e56a1fa992b2cd1",
+          "at": "2026-10-01T22:04:24.474Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        }
+      ]
     },
     {
       "source_id": "tuk_specialty_training",
@@ -600,7 +667,7 @@
           "/mevzuat",
           "/"
         ],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "last_success_at": null,
         "last_content_hash": null,
         "last_item_timestamp": null,
@@ -648,7 +715,38 @@
       "publication_eligible": false,
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F1 deadline-bearing HIGH (TUK exam/effective_date); list parser returns 0 items so unmeasurable -> expiry cap 2880",
+          "computed_at": "2026-10-01T22:08:11.967Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9efb1c83e88a634b",
+          "at": "2026-10-01T22:08:12.490Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "resmi_gazete_medical_regulation",
@@ -749,7 +847,7 @@
           "/ilanlar/",
           "/"
         ],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 1440,
         "last_success_at": null,
         "last_content_hash": null,
         "last_item_timestamp": null,
@@ -795,7 +893,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "parser_profile": "daily_toc_fihrist",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "Resmi Gazete is issued every calendar day (incl. weekends; mukerrer issues same day); daily_toc fihrist?tarih={today} has no feed timestamps so the engine cannot measure; expected gap 1440 -> poll 720 -> scheduler floor 1440 (daily runner)",
+          "computed_at": "2026-10-01T21:59:24.806Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_8c2546f7cbdd2196",
+          "at": "2026-10-01T21:59:25.271Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        }
+      ]
     },
     {
       "source_id": "tuik_medical_public_health",
@@ -877,7 +1006,7 @@
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
         "notes": "Official server-rendered home page bulletin slider (latest bulletins: title, period, veriportali press URL). veriportali/data.tuik.gov.tr are JS-only shells; press API not reachable without the portal proxy.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -917,7 +1046,38 @@
         "veriportali\\.tuik\\.gov\\.tr/tr/press/\\d+"
       ],
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F4 unmeasurable non-deadline statistical bulletins (59 undated list items); engine class fallback 10080 (was 43200 > lane max)",
+          "computed_at": "2026-10-01T22:06:37.298Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_583095709891609a",
+          "at": "2026-10-01T22:06:37.730Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 10080
+          }
+        }
+      ]
     }
   ],
   "hardenedAt": "2026-09-19",

@@ -596,7 +596,7 @@
           "/TR/"
         ],
         "notes": "Official RSS feed only.",
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 1440,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -623,7 +623,39 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_REVIEWED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 10,
+          "gaps_used": 6,
+          "expected_gap_min": 3531,
+          "newest": "2026-09-28T06:54:00.000Z",
+          "computed_at": "2026-10-01T22:01:57.189Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_fd64b7b50814660d",
+          "at": "2026-10-01T22:01:57.684Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
+          }
+        }
+      ]
     },
     {
       "source_id": "tdb_dental",
@@ -878,7 +910,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -911,7 +943,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F5 deadline-bearing MEDIUM (licence/tender announcements); 14 undated items -> lane freshness 10080 (was 43200)",
+          "computed_at": "2026-10-01T22:06:48.716Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_02b01658557688d8",
+          "at": "2026-10-01T22:06:49.287Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 10080
+          }
+        }
+      ]
     },
     {
       "source_id": "medimagazin_general",
@@ -1159,7 +1222,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1192,7 +1255,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:53.723Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_e3c4aed4b8b1ef1a",
+          "at": "2026-10-01T22:02:14.294Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_39e361a0a3edd57d",
+          "at": "2026-10-01T22:07:53.727Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "cnnturk_saglik",
@@ -1299,7 +1405,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1332,7 +1438,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: undated index page lists 37 current items (no timestamps to measure); daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:05.577Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9d12b356e69e913b",
+          "at": "2026-10-01T22:06:23.237Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_431b009037bc68a2",
+          "at": "2026-10-01T22:08:05.579Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "sabah_saglik",
@@ -1437,7 +1586,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1470,7 +1619,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:54.078Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9b663bc772720121",
+          "at": "2026-10-01T22:02:54.210Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_a4812279c467f4b0",
+          "at": "2026-10-01T22:07:54.084Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "euronews_tr_saglik",
@@ -1575,7 +1767,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1608,7 +1800,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:54.430Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_251a74e36e7a09f5",
+          "at": "2026-10-01T22:03:37.047Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_55c3ae9b62f3198d",
+          "at": "2026-10-01T22:07:54.433Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "saglik_bakanligi_genel",
@@ -1871,7 +2106,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1904,7 +2139,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:53.420Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9ca0894b60e7ae09",
+          "at": "2026-10-01T22:03:45.211Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_909e3d4518de57ac",
+          "at": "2026-10-01T22:07:53.422Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "ntv_saglik",
@@ -2009,7 +2287,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2042,7 +2320,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:54.676Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_1e14de3ca2cbb37c",
+          "at": "2026-10-01T22:03:46.399Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_496fb0773a956fc3",
+          "at": "2026-10-01T22:07:54.678Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "bbc_turkce_saglik",
@@ -2147,7 +2468,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2180,7 +2501,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:54.929Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_8e52b2615da101e6",
+          "at": "2026-10-01T22:03:47.539Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_d43f310041bfd7cf",
+          "at": "2026-10-01T22:07:54.931Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "t24_saglik",
@@ -2427,7 +2791,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2460,7 +2824,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: undated index page lists 22 current items; daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:05.862Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_e030754854350f96",
+          "at": "2026-10-01T22:08:06.483Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "saglikpersonelihaberi_net",
@@ -2567,7 +2962,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2600,7 +2995,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: undated index page lists 61 current items; daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:10.184Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_51f4b9e00a73bac6",
+          "at": "2026-10-01T22:08:10.798Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "doktorclub",
@@ -2846,7 +3272,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2879,7 +3305,50 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "U-LOW urgency cap 2880: lay/trade health news without deadlines (DUYURU freshness 10080); velocity evidence unchanged (see lifecycle_history) but capacity is allocated to deadline-bearing sources first (capacity guard CAUTION at 32 runs/day)",
+          "computed_at": "2026-10-01T22:07:55.188Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_7c3934d5071acb4b",
+          "at": "2026-10-01T22:03:49.232Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_c2c298e7e1276488",
+          "at": "2026-10-01T22:07:55.191Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 1440,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "iha_saglik",
@@ -3127,7 +3596,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -3160,7 +3629,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: undated index page lists 28 current items; daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:09.263Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_6aa3da8f75a4d267",
+          "at": "2026-10-01T22:08:09.867Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "gazeteoksijen_saglik",
@@ -3267,7 +3767,7 @@
         ],
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -3300,7 +3800,38 @@
       "pipeline_wiring_enabled": true,
       "runtime_activation": "AUTOMATION_READY",
       "source_health": "HEALTHY",
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F2 newsroom U-LOW: undated index page lists 16 current items; daily newsroom -> urgency cap 2880 (scheduler floor 1440 not affordable: capacity guard)",
+          "computed_at": "2026-10-01T22:08:06.776Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_db3dc696794ad470",
+          "at": "2026-10-01T22:08:07.309Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     }
   ]
 }

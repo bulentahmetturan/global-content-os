@@ -195,7 +195,7 @@
       "pipeline_wiring_enabled": false,
       "execution": "python_runner",
       "fetch_plan": {
-        "expected_check_interval_minutes": 43200
+        "expected_check_interval_minutes": 2880
       }
     },
     {
@@ -248,7 +248,7 @@
       "pipeline_wiring_enabled": false,
       "execution": "python_runner",
       "fetch_plan": {
-        "expected_check_interval_minutes": 43200
+        "expected_check_interval_minutes": 1440
       }
     },
     {
@@ -305,7 +305,7 @@
       "pipeline_wiring_enabled": false,
       "execution": "python_runner",
       "fetch_plan": {
-        "expected_check_interval_minutes": 10080
+        "expected_check_interval_minutes": 2880
       }
     },
     {
@@ -366,7 +366,7 @@
       "pipeline_wiring_enabled": false,
       "execution": "python_runner",
       "fetch_plan": {
-        "expected_check_interval_minutes": 43200
+        "expected_check_interval_minutes": 1440
       }
     },
     {
@@ -457,7 +457,7 @@
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
         "notes": "Official server-rendered home page bulletin slider (latest bulletins: title, period, veriportali press URL). veriportali/data.tuik.gov.tr are JS-only shells; press API not reachable without the portal proxy.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -709,7 +709,7 @@
           "/tr/mevzuat"
         ],
         "notes": "Use basin-odasi haber list only. /tr/duyurular and /tr/haberler are 404. Homepage /tr/ forbidden. mevzuat.html is not the announcement index.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -739,7 +739,41 @@
       "execution": "python_runner",
       "http_timeout_seconds": 90,
       "runner_region": "TR",
-      "runner_region_reason": "hsgm.saglik.gov.tr does not accept TCP connections from GitHub/Cloudflare datacenter egress (diagnosis run 35532846118); reachable from Turkish networks."
+      "runner_region_reason": "hsgm.saglik.gov.tr does not accept TCP connections from GitHub/Cloudflare datacenter egress (diagnosis run 35532846118); reachable from Turkish networks.",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_REVIEWED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 22,
+          "gaps_used": 21,
+          "expected_gap_min": 20160,
+          "newest": "2026-08-08T00:00:00.000Z",
+          "computed_at": "2026-10-01T22:04:02.842Z"
+        },
+        "flags": [
+          "DORMANT_SUSPECT"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_f0c71b70290bd8a8",
+          "at": "2026-10-01T22:04:03.319Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 10080
+          }
+        }
+      ]
     },
     {
       "source_id": "ttb_national",
@@ -1018,7 +1052,7 @@
           "/TR/"
         ],
         "notes": "Official RSS feed only.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1045,7 +1079,38 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F1 deadline-bearing HIGH (basvuru in record); feed gaps of months but application windows are short -> expiry cap 2880",
+          "computed_at": "2026-10-01T22:08:12.776Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_3d4c47e4aa1b07ac",
+          "at": "2026-10-01T22:08:13.266Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "teged_medical_education",
@@ -1121,7 +1186,7 @@
           "/TR/"
         ],
         "notes": "Official RSS feed only.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1148,7 +1213,38 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F5 deadline-bearing MEDIUM (education events); 8 dated feed items 2024-04..2025-12 (slow) -> lane freshness cap 10080 (was 43200)",
+          "computed_at": "2026-10-01T22:06:49.551Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_afb2c1725c01ace7",
+          "at": "2026-10-01T22:06:49.985Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 10080
+          }
+        }
+      ]
     },
     {
       "source_id": "hasuder_public_health",
@@ -1331,7 +1427,7 @@
           "/TR/"
         ],
         "notes": "Homepage announcements only; posts pinned by item_url_patterns (timestamped /detail/ slugs).",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 2880,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1358,7 +1454,38 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F1 deadline-bearing HIGH (basvuru in record); 1 dated item (2021), unmeasurable -> expiry cap 2880",
+          "computed_at": "2026-10-01T22:08:13.504Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_174ccb050cdea986",
+          "at": "2026-10-01T22:08:13.965Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 2880
+          }
+        }
+      ]
     },
     {
       "source_id": "tkd_cardiology",
@@ -1437,7 +1564,7 @@
           "/TR/"
         ],
         "notes": "Exact list index only; never homepage.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 10080,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1467,7 +1594,38 @@
       "item_url_patterns": [
         "/duyuru/\\d+/"
       ],
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "F5 deadline-bearing MEDIUM (congress/abstract); 1 dated item of 13, unmeasurable -> engine fallback 10080 (was 43200)",
+          "computed_at": "2026-10-01T22:06:50.236Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_9b0a1cf00674bd75",
+          "at": "2026-10-01T22:06:50.679Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 10080
+          }
+        }
+      ]
     },
     {
       "source_id": "ttd_thoracic",
@@ -1557,7 +1715,7 @@
           "/TR/"
         ],
         "notes": "Exact list index only; posts pinned by item_url_patterns.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 1440,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1584,7 +1742,39 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_REVIEWED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 6,
+          "gaps_used": 5,
+          "expected_gap_min": 4320,
+          "newest": "2026-09-26T00:00:00.000Z",
+          "computed_at": "2026-10-01T22:04:03.946Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_5fd11bc66e890247",
+          "at": "2026-10-01T22:04:04.432Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        }
+      ]
     },
     {
       "source_id": "klimık_infectious_diseases",
@@ -2315,7 +2505,7 @@
           "/TR/"
         ],
         "notes": "Official RSS feed only.",
-        "expected_check_interval_minutes": 43200,
+        "expected_check_interval_minutes": 1440,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -2342,7 +2532,41 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_REVIEWED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 10,
+          "gaps_used": 9,
+          "expected_gap_min": 5740,
+          "newest": "2026-09-17T14:22:00.000Z",
+          "computed_at": "2026-10-01T22:04:06.563Z"
+        },
+        "flags": [
+          "DORMANT_SUSPECT"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "recalibrate",
+          "request_id": "slr_c3e63c4cc598cf99",
+          "at": "2026-10-01T22:04:07.005Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 43200,
+            "after": 1440
+          }
+        }
+      ]
     }
   ],
   "secondary_sources": [

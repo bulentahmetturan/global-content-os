@@ -7,6 +7,7 @@
 //   node scripts/source-lifecycle.mjs inspect     "<source_id | name | url>"
 //   node scripts/source-lifecycle.mjs plan        "<name | url>"            (= add without --apply)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
+//   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --set <minutes> --basis "<evidence>" [--history DIR] [--apply]   (owner-directed; ladder step in lane bounds)
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
@@ -28,6 +29,8 @@ function parseArgs(argv) {
     else if (a === '--url') o.url = rest[++i];
     else if (a === '--channel') o.channel = rest[++i];
     else if (a === '--reason') o.reason = rest[++i];
+    else if (a === '--set') o.set = Number(rest[++i]);
+    else if (a === '--basis') o.basis = rest[++i];
     else if (a === '--history') while (rest[i + 1] && !rest[i + 1].startsWith('--')) o.history.push(rest[++i]);
     else throw new Error(`unknown option ${a}`);
   }
@@ -82,7 +85,7 @@ async function main() {
   else if (o.cmd === 'retire') r = await lc.retire(o.target, { reason: o.reason, apply: o.apply });
   else if (o.cmd === 'reactivate') r = await lc.reactivate(o.target, { apply: o.apply });
   else if (o.cmd === 'inspect') r = lc.inspect(o.target);
-  else if (o.cmd === 'recalibrate') r = await lc.recalibrate(o.target, { apply: o.apply });
+  else if (o.cmd === 'recalibrate') r = await lc.recalibrate(o.target, { apply: o.apply, setMinutes: o.set ?? null, basis: o.basis ?? null });
   else r = lc.purgePlan(o.target);
   console.log(o.json ? JSON.stringify(r, null, 1) : human(r));
   return exitCode(r);
