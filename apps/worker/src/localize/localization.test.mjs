@@ -62,7 +62,7 @@ function makeEnv({ title = [GOOD_TITLE], summary = [JSON.stringify({ gistTr: GOO
     AI: {
       run: async (_model, a) => {
         const sys = a.messages[0].content;
-        const kind = /^Translate the title/.test(sys) ? 'title' : /bilingual \(English-Turkish\)/.test(sys) ? 'titleJudge' : /strict fact checker/.test(sys) ? 'judge' : 'summary';
+        const kind = /^You are a professional English-to-Turkish medical translator/.test(sys) ? 'title' : /bilingual \(English-Turkish\)/.test(sys) ? 'titleJudge' : /strict fact checker/.test(sys) ? 'judge' : 'summary';
         calls[kind]++;
         return { response: q[kind].shift() ?? '' };
       },
@@ -199,14 +199,48 @@ test('model defaults come from code / operator vars only', () => {
   assert.equal(pipe.modelsFor({ ENRICH_MODEL: 'y' }).title, 'y');
 });
 
-test('title meaning judge: a fluent Turkish title that changes the meaning (measles -> smallpox) is rejected twice -> failed', async () => {
+test('terminology guard: measles -> smallpox is rejected deterministically on every candidate, before the meaning judge', async () => {
   const wrong = 'CDC, epidemiyologlar çiçek hastalığı ölümleri için tanım üzerinde çalışıyor';
-  const h = makeEnv({ title: [wrong, wrong], titleJudge: ['WRONG', 'WRONG'] });
-  const r = await pipe.localizeItem(h.env, { title: 'CDC, epidemiologists work on definition for measles deaths', excerpt: HC_EXCERPT });
+  const h = makeEnv({ title: [wrong, wrong, wrong], titleJudge: ['CORRECT', 'CORRECT', 'CORRECT'] });
+  const r = await pipe.localizeItem(h.env, { title: 'CDC, epidemiologists work on definition for measles deaths', excerpt: HC_EXCERPT, url: null }, { fetchImpl: null });
+  assert.equal(r.outcome, 'FAILED');
+  assert.match(r.failure, /^TITLE:ENTITY_SUBSTITUTION:measles->smallpox/);
+  assert.equal(h.calls.titleJudge, 0);
+  assert.equal(h.calls.summary, 0);
+  assert.equal(r.title_candidates.length, 3);
+});
+
+test('title meaning judge: a fluent title outside the glossary that inverts the claim is rejected on every candidate', async () => {
+  const wrong = 'Çalışma: kahve karaciğer hastalığı riskini artırıyor';
+  const h = makeEnv({ title: [wrong, wrong, wrong], titleJudge: ['WRONG', 'WRONG', 'WRONG'] });
+  const r = await pipe.localizeItem(h.env, { title: 'Study: coffee lowers liver disease risk', excerpt: HC_EXCERPT }, { fetchImpl: null });
   assert.equal(r.outcome, 'FAILED');
   assert.equal(r.failure, 'TITLE:TITLE_MEANING_CHANGED');
-  assert.equal(h.calls.titleJudge, 2);
+  assert.equal(h.calls.titleJudge, 3);
   assert.equal(h.calls.summary, 0);
+});
+
+test('a valid fallback title is used when the primary candidate is rejected; the path is recorded', async () => {
+  const h = makeEnv({ title: [HC_TITLE, GOOD_TITLE] });
+  const r = await pipe.localizeItem(h.env, { title: HC_TITLE, excerpt: HC_EXCERPT }, { fetchImpl: null });
+  assert.equal(r.titleTr, GOOD_TITLE);
+  assert.equal(r.paths.title, 'translate:fallback');
+  assert.equal(r.title_candidates[0].rejected?.length > 0, true);
+});
+
+test('provenance records source type and title / summary paths', async () => {
+  const h = makeEnv();
+  const r = await pipe.localizeItem(h.env, { title: HC_TITLE, excerpt: HC_EXCERPT, url: 'https://www.canada.ca/en/health-canada/x.html' }, { fetchImpl: null });
+  assert.equal(r.outcome, 'READY');
+  assert.equal(r.paths.title, 'translate:primary');
+  assert.match(r.paths.summary, /^grounded:/);
+  assert.ok(['news', 'research', 'consumer_health', 'regulation'].includes(r.source_type));
+  assert.equal(r.evidence.kind, 'publisher_excerpt');
+});
+
+test('language: an English headline with Turkish-looking brand words is foreign (Galleri case)', () => {
+  assert.equal(lang.detectLanguage('FDA Advisors Recommend Galleri Multi-Cancer Test Approval'), 'foreign');
+  assert.equal(lang.detectLanguage('Van’daki kalp merkezi hastalara umut oluyor'), 'tr');
 });
 
 test('entity preservation: "U.S." may become "ABD"; hyphenated ordinary words are not entities; acronyms and codes still must survive', () => {

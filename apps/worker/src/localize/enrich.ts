@@ -35,11 +35,14 @@ function provenance(r: LocalizationResult) {
   return {
     contract_version: r.contract_version,
     language: r.language,
+    source_type: r.source_type,
     outcome: r.outcome,
     failure: r.failure,
+    paths: r.paths,
     evidence: r.evidence,
     validator: r.validator,
     judge: r.judge,
+    title_candidates: r.title_candidates.map((c) => ({ model: c.model, variant: c.variant, rejected: c.rejected, text: c.text.slice(0, 200) })),
     models: r.models,
     attempts: r.attempts,
     produced_at: r.produced_at,
@@ -54,13 +57,21 @@ export async function enrichOneItem(
     title: string;
     title_orig: string | null;
     summary: string;
-  }
+    canonical_url?: string | null;
+    feed_id?: string | null;
+  },
+  opts: { fetchImpl?: ((url: string, init?: RequestInit) => Promise<Response>) | null } = {}
 ): Promise<{ ok: boolean; error?: string; outcome?: LocalizationResult['outcome'] }> {
   const sourceTitle = (row.title_orig || row.title || '').trim();
   const sourceExcerpt = stripHtml(row.summary || '');
+  let failedResult: LocalizationResult | null = null;
 
   try {
-    const r = await localizeItem(env, { title: sourceTitle, excerpt: sourceExcerpt });
+    const r = await localizeItem(
+      env,
+      { title: sourceTitle, excerpt: sourceExcerpt, url: row.canonical_url ?? null, feed: row.feed_id ?? null, route: row.route },
+      { fetchImpl: opts.fetchImpl }
+    );
 
     if (r.outcome === 'NOT_REQUIRED') {
       await env.DB.prepare(
@@ -74,7 +85,10 @@ export async function enrichOneItem(
       return { ok: true, outcome: r.outcome };
     }
 
-    if (r.outcome === 'FAILED') throw new Error(`CONTRACT_VIOLATION:${r.failure}`);
+    if (r.outcome === 'FAILED') {
+      failedResult = r;
+      throw new Error(`CONTRACT_VIOLATION:${r.failure}`);
+    }
 
     if (r.outcome === 'READY') {
       const gist = r.summaryTr as string;
@@ -131,7 +145,11 @@ export async function enrichOneItem(
        SET enrichment_status = 'failed', enrichment_error = ?, enrichment_json = ?, updated_at = ${NOW_SQL}
        WHERE id = ?`
     )
-      .bind(message.slice(0, 500), JSON.stringify({ attempts: attempts + 1, error: message.slice(0, 200) }), row.id)
+      .bind(
+        message.slice(0, 500),
+        JSON.stringify({ attempts: attempts + 1, error: message.slice(0, 200), ...(failedResult ? { localization: provenance(failedResult) } : {}) }),
+        row.id
+      )
       .run();
     return { ok: false, error: message };
   }
@@ -143,12 +161,12 @@ export async function runEnrichmentBatch(
   opts: { limit?: number; route?: RouteId; ids?: string[] } = {}
 ): Promise<{ scanned: number; done: number; titleOnly: number; failed: number; skipped: number }> {
   const limit = Math.min(Math.max(opts.limit ?? BATCH_DEFAULT, 1), 20);
-  type Row = { id: string; route: RouteId; title: string; title_orig: string | null; summary: string };
+  type Row = { id: string; route: RouteId; title: string; title_orig: string | null; summary: string; canonical_url: string | null; feed_id: string | null };
   let results: Row[] = [];
 
   if (opts.ids?.length) {
     for (const id of opts.ids.slice(0, limit)) {
-      const row = await env.DB.prepare(`SELECT id, route, title, title_orig, summary FROM source_items WHERE id = ?`).bind(id).first<Row>();
+      const row = await env.DB.prepare(`SELECT id, route, title, title_orig, summary, canonical_url, feed_id FROM source_items WHERE id = ?`).bind(id).first<Row>();
       if (row) results.push(row);
     }
   } else {
@@ -157,7 +175,7 @@ export async function runEnrichmentBatch(
     const retryBefore = new Date(Date.now() - RETRY_BACKOFF_MIN * 60000).toISOString();
     // Every live state is enriched (an item moved to hold/production while pending must not stay in processing forever).
     // Failed items are retried with backoff, at most MAX_ENRICH_ATTEMPTS times.
-    let sql = `SELECT id, route, title, title_orig, summary
+    let sql = `SELECT id, route, title, title_orig, summary, canonical_url, feed_id
              FROM source_items
              WHERE triage_status IN ('inbox', 'hold', 'production')
                AND (enrichment_status = 'pending'

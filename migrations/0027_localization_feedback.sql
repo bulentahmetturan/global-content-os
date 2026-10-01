@@ -21,6 +21,10 @@ CREATE TABLE IF NOT EXISTS localization_feedback (
   localization_outcome TEXT,
   enrichment_status TEXT,
   produced_at TEXT,
+  source_type TEXT,
+  title_path TEXT,
+  summary_path TEXT,
+  failure_reason TEXT,
   feedback_code TEXT NOT NULL,
   polarity TEXT NOT NULL,
   note TEXT,
@@ -32,3 +36,4 @@ CREATE INDEX IF NOT EXISTS idx_loc_feedback_item ON localization_feedback(item_i
 CREATE INDEX IF NOT EXISTS idx_loc_feedback_source ON localization_feedback(source_id, feedback_code, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_loc_feedback_model ON localization_feedback(summary_model, title_model, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_loc_feedback_created ON localization_feedback(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_loc_feedback_type ON localization_feedback(source_type, feedback_code, created_at DESC);

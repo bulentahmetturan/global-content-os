@@ -4,10 +4,18 @@
  * Pure functions; tested in localization.test.mjs.
  */
 import { englishLeaks, foreignScript } from './contract';
+import { ACRONYM_EQUIVALENTS } from './terminology';
+import type { EvidenceKind, EvidenceSource } from './acquire';
 
-export const LOCALIZATION_CONTRACT_VERSION = 'tr-loc/2026-10-02.1';
+export const LOCALIZATION_CONTRACT_VERSION = 'tr-loc/2026-10-02.2';
 
-export type EvidenceInsufficiency = 'NO_EXCERPT' | 'EXCERPT_IS_TITLE' | 'BOILERPLATE_ONLY' | 'TOO_SHORT';
+export type EvidenceInsufficiency = 'NO_EXCERPT' | 'EXCERPT_IS_TITLE' | 'BOILERPLATE_ONLY' | 'TOO_SHORT' | 'OFF_TOPIC';
+
+/** A summary needs at least this many evidence spans (and uses at most EVIDENCE_MAX_SPANS). */
+export const EVIDENCE_MIN_SPANS = 2;
+export const EVIDENCE_MAX_SPANS = 5;
+const EVIDENCE_MAX_CHARS = 900;
+const EVIDENCE_MIN_WORDS = 16;
 
 export interface EvidenceAssessment {
   sufficient: boolean;
@@ -15,6 +23,8 @@ export interface EvidenceAssessment {
   passages: string[];
   /** Stable hash of the passages: provenance id for feedback and audits. */
   id: string;
+  kind: EvidenceKind | null;
+  origin: string | null;
 }
 
 /** FNV-1a 32-bit, hex. Not a security hash: an identifier for "which evidence produced this summary". */
@@ -35,7 +45,24 @@ const BOILERPLATE = [
   /gathered by .{0,40}staff/i,
   /^(read more|continue reading|click here|learn more|subscribe|sign up|share this|advertisement|cookie|all rights reserved)/i,
   /\b(cookies?|newsletter|privacy policy|terms of use)\b/i,
+  // Page chrome seen in fetched article pages.
+  /^(photo|image|credit|source|related|watch|listen|editor'?s note|recommended|trending)\b\s*[:|]/i,
+  /^By [A-Z][a-z]+(?: [A-Z]\.)? [A-Z][a-z]+/,
+  /(©|\bcopyright\b|\ball rights reserved\b)/i,
+  /\b(sign in|log ?in|subscribe|subscription|unlock this article|already a member|create an account)\b/i,
+  /\b(javascript|your browser|enable cookies)\b/i,
+  /\b(follow us|share (this|on)|click (here|to)|download (the )?(pdf|app))\b/i,
+  /\bthis (site|website) uses\b/i,
+  /\badvertis(e|ement|ing)\b/i,
+  /\bregister (now|today|here)\b|\bon-demand webinar\b/i,
 ];
+
+const STOP = new Set(['with', 'from', 'that', 'this', 'than', 'have', 'into', 'over', 'after', 'about', 'more', 'their', 'what', 'when', 'will', 'your', 'study', 'new', 'news', 'says']);
+
+/** Content-word stems (first 5 letters), so "vaccinated" and "vaccine" count as the same topic word. */
+function contentTokens(s: string): Set<string> {
+  return new Set([...tokens(s)].filter((w) => w.length >= 4 && !STOP.has(w)).map((w) => w.slice(0, 5)));
+}
 
 function tokens(s: string): Set<string> {
   return new Set(
@@ -58,19 +85,22 @@ function overlap(a: string, b: string): number {
   return n / ta.size;
 }
 
+// Sentence boundary, except after initials / common abbreviations ("U.S. Food", "Dr. Smith", "et al. reported").
+const SENTENCE_SPLIT = /(?<![A-Z]\.[A-Z]\.)(?<!\b(?:Dr|Mr|Ms|Mrs|Prof|St|vs|al|Fig|No|Inc|Ltd|Co|Jr|Sr)\.)(?<=[.!?])\s+(?=[A-Z0-9"“(])/;
+
 function splitSentences(text: string): string[] {
   return (text || '')
     .replace(/\s+/g, ' ')
     .trim()
-    .split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/)
+    .split(SENTENCE_SPLIT)
     .map((s) => s.trim())
     .filter(Boolean);
 }
 
-export function assessEvidence(titleOrig: string, excerpt: string): EvidenceAssessment {
-  const raw = (excerpt || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const empty = (reason: EvidenceInsufficiency): EvidenceAssessment => ({ sufficient: false, reason, passages: [], id: fnv1a(raw) });
-  if (!raw) return empty('NO_EXCERPT');
+/** Spans of one source text, or why it has none. Spans are verbatim source sentences (extractive). */
+function spansOf(titleOrig: string, text: string): { spans: string[]; reason: EvidenceInsufficiency | null } {
+  const raw = (text || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!raw) return { spans: [], reason: 'NO_EXCERPT' };
   const kept: string[] = [];
   let sawBoilerplate = false;
   let nearTitle = false;
@@ -84,21 +114,48 @@ export function assessEvidence(titleOrig: string, excerpt: string): EvidenceAsse
       nearTitle = true;
       continue;
     }
+    if (kept.includes(s)) continue;
     kept.push(s);
   }
-  const passages: string[] = [];
+  const spans: string[] = [];
   let len = 0;
   for (const s of kept) {
-    if (len + s.length > 700) break;
-    passages.push(s);
+    if (len + s.length > EVIDENCE_MAX_CHARS) break;
+    spans.push(s);
     len += s.length;
-    if (passages.length === 3) break;
+    if (spans.length === EVIDENCE_MAX_SPANS) break;
   }
-  const wordsTotal = passages.join(' ').split(' ').filter(Boolean).length;
-  const id = fnv1a(passages.join(' '));
-  if (!passages.length) return { sufficient: false, reason: sawBoilerplate ? 'BOILERPLATE_ONLY' : nearTitle ? 'EXCERPT_IS_TITLE' : 'TOO_SHORT', passages: [], id };
-  if (wordsTotal < 12) return { sufficient: false, reason: 'TOO_SHORT', passages, id };
-  return { sufficient: true, reason: null, passages, id };
+  if (!spans.length) return { spans, reason: sawBoilerplate ? 'BOILERPLATE_ONLY' : nearTitle ? 'EXCERPT_IS_TITLE' : 'TOO_SHORT' };
+  const words = spans.join(' ').split(' ').filter(Boolean).length;
+  if (spans.length < EVIDENCE_MIN_SPANS || words < EVIDENCE_MIN_WORDS) return { spans, reason: 'TOO_SHORT' };
+  // The spans must be about the item: they share content words with the title (page chrome / a sidebar story does not).
+  const titleTokens = contentTokens(titleOrig);
+  const spanTokens = contentTokens(spans.join(' '));
+  let shared = 0;
+  for (const w of titleTokens) if (spanTokens.has(w)) shared++;
+  if (shared < Math.min(2, titleTokens.size)) return { spans, reason: 'OFF_TOPIC' };
+  return { spans, reason: null };
+}
+
+const REASON_RANK: EvidenceInsufficiency[] = ['OFF_TOPIC', 'TOO_SHORT', 'EXCERPT_IS_TITLE', 'BOILERPLATE_ONLY', 'NO_EXCERPT'];
+
+/**
+ * 2-5 verbatim spans from the highest-priority source that has enough (article > abstract > publisher excerpt > metadata;
+ * acquire.ts ranks them). Spans are never mixed across sources. Nothing adequate: INSUFFICIENT (no summary is attempted).
+ */
+export function assessEvidenceSources(titleOrig: string, sources: EvidenceSource[]): EvidenceAssessment {
+  let best: EvidenceInsufficiency = 'NO_EXCERPT';
+  for (const src of sources) {
+    const r = spansOf(titleOrig, src.text);
+    if (!r.reason) return { sufficient: true, reason: null, passages: r.spans, id: fnv1a(r.spans.join(' ')), kind: src.kind, origin: src.origin };
+    if (REASON_RANK.indexOf(r.reason) < REASON_RANK.indexOf(best)) best = r.reason;
+  }
+  return { sufficient: false, reason: best, passages: [], id: fnv1a(sources.map((s) => s.text).join(' ')), kind: null, origin: null };
+}
+
+/** Feed excerpt only (no network): the publisher excerpt path. */
+export function assessEvidence(titleOrig: string, excerpt: string): EvidenceAssessment {
+  return assessEvidenceSources(titleOrig, excerpt ? [{ kind: 'publisher_excerpt', text: excerpt, origin: 'feed' }] : []);
 }
 
 function digitRuns(s: string): string[] {
@@ -138,7 +195,12 @@ export function preservationIssues(source: string, target: string): string[] {
     if (d.length >= 2 && !targetDigits.some((t) => t === d || t.includes(d))) issues.push(`NUMBER_MISSING:${d}`);
   }
   for (const e of entityTokens(source)) {
-    if (!targetFlat.includes(e.toLowerCase())) issues.push(`ENTITY_MISSING:${e}`);
+    if (targetFlat.includes(e.toLowerCase())) continue;
+    // Same entity under its accepted Turkish acronym / name (WHO -> DSÖ, CT -> BT); anything else must survive verbatim.
+    const eq = ACRONYM_EQUIVALENTS[e.toUpperCase()];
+    const trFlat = (target || '').toLocaleLowerCase('tr-TR');
+    if (eq && eq.some((x) => trFlat.includes(x.toLocaleLowerCase('tr-TR')))) continue;
+    issues.push(`ENTITY_MISSING:${e}`);
   }
   return issues;
 }

@@ -3,8 +3,9 @@
 //   node scripts/localization-review.mjs queue [--remote | --file inputs.json] [--days 30]
 // Read-only. Remote reads are SELECT-only (`wrangler d1 execute --remote`). Nothing here writes D1, the registry, a model/prompt
 // default or lifecycle state: a flag is a signal for an operator, who may choose prompt improvement, model change, a
-// source-specific extraction fix, an evidence extractor fix or a source-lifecycle re-canary -- each change goes through a
-// bounded canary and a reviewed commit / explicit authorization.
+// source-type policy recalibration, a source-specific extraction fix, an evidence extractor fix or a source-lifecycle
+// re-canary -- each change goes through a bounded canary and a reviewed commit / explicit authorization.
+// Aggregation dimensions: source, source type, title / summary model, title / summary path, failure reason, contract, language.
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -29,7 +30,7 @@ function remoteRows(sql) {
 export async function buildQueue({ feedback, stats }) {
   const m = await loadModule();
   const aggregates = m.aggregateLocalizationFeedback(feedback);
-  return { review_required: m.reviewQueue(aggregates, stats), aggregates: aggregates.slice(0, 30), actions: m.REVIEW_ACTIONS };
+  return { review_required: m.reviewQueue(aggregates, stats), aggregates: aggregates.slice(0, 30), failure_breakdown: m.failureBreakdown(stats).slice(0, 30), actions: m.REVIEW_ACTIONS };
 }
 
 async function main(argv) {
@@ -45,7 +46,7 @@ async function main(argv) {
     const m = await loadModule();
     const since = new Date(Date.now() - days * 86400000).toISOString();
     inputs = {
-      feedback: remoteRows(`SELECT source_id, summary_model, contract_version, source_language, feedback_code, polarity FROM localization_feedback WHERE created_at >= '${since}'`),
+      feedback: remoteRows(m.FEEDBACK_SQL.replace('?', `'${since}'`)),
       stats: remoteRows(m.STATS_SQL.replace('?', `'${since}'`)),
     };
   } else if (opt('--file')) {

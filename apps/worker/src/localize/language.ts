@@ -36,8 +36,10 @@ export function detectLanguage(text: string): Language {
   const ws = words(t);
   if (ws.length < 3) return TR_LETTERS.test(t) ? 'tr' : 'unknown';
   let tr = 0;
+  let trWords = 0;
   let en = 0;
   for (const w of ws) {
+    if (TR_WORDS.has(w)) trWords++;
     if (TR_WORDS.has(w) || TR_SUFFIX.test(w)) tr++;
     if (EN_WORDS.has(w)) en++;
   }
@@ -46,7 +48,8 @@ export function detectLanguage(text: string): Language {
   if (tr >= 2 && tr > en) return 'tr';
   if (en >= 2 && en > tr) return 'foreign';
   if (trLetters) return en >= 2 ? 'foreign' : 'tr';
-  if (tr > en) return 'tr';
+  // One suffix-shaped ending alone is not Turkish (observed: "Galleri" in an English headline matched "-leri").
+  if (tr > en && trWords >= 1) return 'tr';
   if (en > tr) return 'foreign';
   // No function-word signal either way: long Latin text with no Turkish letters is not claimed as Turkish.
   return ws.length >= 4 ? 'foreign' : 'unknown';

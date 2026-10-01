@@ -7,7 +7,7 @@ node scripts/source-lifecycle.mjs add "<name | url | source_id>" [--url U] [--ch
 node scripts/source-lifecycle.mjs retire "<source>" [--reason R] [--apply]
 node scripts/source-lifecycle.mjs reactivate "<source_id>" [--history DIR] [--apply]
 node scripts/source-lifecycle.mjs inspect | plan | recalibrate | purge-plan "<source>"
-# add / reactivate: [--localization-sample FILE]; foreign-language sources also need HUB_OPERATOR_TOKEN (G8b)
+# add / reactivate / recalibrate: [--localization-sample FILE]; foreign-language sources also need HUB_OPERATOR_TOKEN (G8b)
 ```
 
 Without `--apply` nothing is written. The user's explicit "add"/"stop using" is the authorization; the agent then passes `--apply`. Exit: 0 done, 3 needs user decision, 4 blocked, 1 denied/error. Full per-run trace: `.logs/source-lifecycle/<request_id>.json` (outside git and default context).
@@ -58,7 +58,7 @@ Bridge: `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_lifecycle_bridge.py`
 
 ## Localization readiness (G8b)
 
-A readiness / diagnostic outcome on `add` and `reactivate`, never a lifecycle state and never a reason to retire. Classes: `LOCALIZATION_READY`, `LOCALIZATION_TITLE_ONLY`, `LOCALIZATION_INSUFFICIENT_EVIDENCE`, `LOCALIZATION_NOT_REQUIRED` (all activatable) and `LOCALIZATION_MODEL_UNSAFE` / canary unavailable (blocking). The rule is "grounded whenever generated": a missing summary is acceptable, a wrong or unsafe one is not (zero tolerance on leak, unsupported claim, subject inversion, numeric/entity error, garble; titles must localize). The sample is at most 8 parsed items; only foreign items are sent to the canary. The CLI needs `HUB_OPERATOR_TOKEN` (and `GCOS_LOCALIZE_CANARY_URL` unless production); without it a foreign source is blocked, not activated. `--localization-sample FILE` supplies `[{title, excerpt}]` for sources the lifecycle cannot sample (JSON APIs) or to canary real article excerpts. The pipeline, statuses and feedback loop: `docs/LOCALIZATION.md`.
+A readiness / diagnostic outcome on `add`, `reactivate` and `recalibrate`, never a lifecycle state and never a reason to retire. `recalibrate` re-measures it every time: the dry run reports it next to the cadence proposal; `--apply` on a blocking class is `BLOCKED_LOCALIZATION` with no write; a Kaduse source reports it with `NOT_APPLICABLE` (its cadence is generator-assigned). Classes: `LOCALIZATION_READY`, `LOCALIZATION_TITLE_ONLY`, `LOCALIZATION_INSUFFICIENT_EVIDENCE`, `LOCALIZATION_NOT_REQUIRED` (all activatable) and `LOCALIZATION_MODEL_UNSAFE` / canary unavailable (blocking). The rule is "grounded whenever generated": a missing summary is acceptable, a wrong or unsafe one is not (zero tolerance on leak, unsupported claim, subject inversion, numeric/entity error, garble; titles must localize). The sample is at most 8 parsed items; only foreign items are sent to the canary. The CLI needs `HUB_OPERATOR_TOKEN` (and `GCOS_LOCALIZE_CANARY_URL` unless production); without it a foreign source is blocked, not activated. `--localization-sample FILE` supplies `[{title, excerpt, url?}]` for sources the lifecycle cannot sample (JSON APIs) or to canary real article excerpts. The pipeline, statuses and feedback loop: `docs/LOCALIZATION.md`.
 
 ## Cadence
 

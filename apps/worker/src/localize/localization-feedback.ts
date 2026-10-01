@@ -36,9 +36,11 @@ export function isLocalizationFeedbackCode(v: unknown): v is LocalizationFeedbac
 /** Feedback is a human judgement; machine / automated reviewers are refused (it is not model self-assessment). */
 const MACHINE_REVIEWER = /^(machine|auto|automation|llm|model|agent|bot|system|pillar5|learning|feedback)\b/i;
 
+/** Recommendations only: model / prompt / source-type recalibration is an operator change behind a bounded canary. */
 export const REVIEW_ACTIONS = [
   'prompt_improvement',
   'model_change',
+  'source_type_policy_recalibration',
   'source_specific_extraction_fix',
   'evidence_extractor_fix',
   'source_lifecycle_recanary',
@@ -61,6 +63,10 @@ export interface LocalizationFeedbackRow {
   localization_outcome: string | null;
   enrichment_status: string | null;
   produced_at: string | null;
+  source_type: string | null;
+  title_path: string | null;
+  summary_path: string | null;
+  failure_reason: string | null;
   feedback_code: string;
   polarity: 'negative' | 'positive';
   note: string | null;
@@ -105,6 +111,10 @@ export function provenanceOf(item: ItemRow) {
     localization_outcome: loc.outcome ?? null,
     enrichment_status: item.enrichment_status,
     produced_at: loc.produced_at ?? item.enriched_at ?? null,
+    source_type: loc.source_type ?? null,
+    title_path: loc.paths?.title ?? null,
+    summary_path: loc.paths?.summary ?? null,
+    failure_reason: typeof loc.failure === 'string' ? loc.failure.slice(0, 120) : null,
   };
 }
 
@@ -139,13 +149,15 @@ export async function recordLocalizationFeedback(
     .prepare(
       `INSERT INTO localization_feedback
         (id, item_id, source_id, feed_id, route, source_url, source_language, title_model, summary_model, contract_version, evidence_id,
-         validator_json, judge_result, localization_outcome, enrichment_status, produced_at, feedback_code, polarity, note, reviewer, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         validator_json, judge_result, localization_outcome, enrichment_status, produced_at, source_type, title_path, summary_path, failure_reason,
+         feedback_code, polarity, note, reviewer, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       row.id, row.item_id, row.source_id, row.feed_id, row.route, row.source_url, row.source_language, row.title_model, row.summary_model,
       row.contract_version, row.evidence_id, row.validator_json, row.judge_result, row.localization_outcome, row.enrichment_status,
-      row.produced_at, row.feedback_code, row.polarity, row.note, row.reviewer, row.created_at
+      row.produced_at, row.source_type, row.title_path, row.summary_path, row.failure_reason,
+      row.feedback_code, row.polarity, row.note, row.reviewer, row.created_at
     )
     .run();
   return { ok: true, row };
@@ -160,6 +172,11 @@ export interface LocalizationStatRow {
   language: string | null;
   summary_model: string | null;
   contract_version: string | null;
+  source_type?: string | null;
+  title_model?: string | null;
+  title_path?: string | null;
+  summary_path?: string | null;
+  failure_reason?: string | null;
   items: number;
   ready: number;
   title_only: number;
@@ -190,7 +207,7 @@ export const DEFAULT_THRESHOLDS: Thresholds = {
 
 export interface ReviewFlag {
   flag: 'REVIEW_REQUIRED';
-  subject: { kind: 'source' | 'model' | 'contract_version' | 'language'; key: string };
+  subject: { kind: SubjectKind; key: string };
   reasons: string[];
   metrics: Record<string, number>;
   /** Suggestions only: choosing one is an operator decision, and every resulting change passes a bounded canary. */
@@ -198,8 +215,20 @@ export interface ReviewFlag {
   automatic_mutation: false;
 }
 
-type Dim = 'source_id' | 'summary_model' | 'contract_version' | 'source_language';
-const DIM_KIND: Record<Dim, ReviewFlag['subject']['kind']> = { source_id: 'source', summary_model: 'model', contract_version: 'contract_version', source_language: 'language' };
+type SubjectKind = 'source' | 'model' | 'title_model' | 'contract_version' | 'language' | 'source_type' | 'title_path' | 'summary_path' | 'failure_reason';
+type Dim = 'source_id' | 'summary_model' | 'title_model' | 'contract_version' | 'source_language' | 'source_type' | 'title_path' | 'summary_path' | 'failure_reason';
+const DIMS: Dim[] = ['source_id', 'summary_model', 'title_model', 'contract_version', 'source_language', 'source_type', 'title_path', 'summary_path', 'failure_reason'];
+const DIM_KIND: Record<Dim, SubjectKind> = {
+  source_id: 'source',
+  summary_model: 'model',
+  title_model: 'title_model',
+  contract_version: 'contract_version',
+  source_language: 'language',
+  source_type: 'source_type',
+  title_path: 'title_path',
+  summary_path: 'summary_path',
+  failure_reason: 'failure_reason',
+};
 
 export interface FeedbackAggregate {
   dimension: Dim;
@@ -211,10 +240,13 @@ export interface FeedbackAggregate {
   by_code: Record<string, number>;
 }
 
-export function aggregateLocalizationFeedback(rows: Array<Pick<LocalizationFeedbackRow, 'source_id' | 'summary_model' | 'contract_version' | 'source_language' | 'feedback_code' | 'polarity'>>): FeedbackAggregate[] {
+type FeedbackInput = Pick<LocalizationFeedbackRow, 'source_id' | 'summary_model' | 'contract_version' | 'source_language' | 'feedback_code' | 'polarity'> &
+  Partial<Pick<LocalizationFeedbackRow, 'title_model' | 'source_type' | 'title_path' | 'summary_path' | 'failure_reason'>>;
+
+export function aggregateLocalizationFeedback(rows: FeedbackInput[]): FeedbackAggregate[] {
   const map = new Map<string, FeedbackAggregate>();
   for (const r of rows) {
-    for (const dimension of ['source_id', 'summary_model', 'contract_version', 'source_language'] as Dim[]) {
+    for (const dimension of DIMS) {
       const key = r[dimension];
       if (!key) continue;
       const id = `${dimension}|${key}`;
@@ -233,16 +265,33 @@ const FOREIGN = 'foreign_language_leak';
 const TITLE_CODES = ['wrong_translation', 'title_wrong'];
 const SEMANTIC = ['unsupported_claim', 'subject_inversion', 'entity_error', 'number_error', 'garbled_turkish', 'summary_wrong'];
 
+/** What a flag may recommend, by the kind of subject it is about (recommendations only, never applied here). */
+function actionsFor(dim: Dim, base: readonly string[]): readonly string[] {
+  const extra = dim === 'source_type' ? ['source_type_policy_recalibration'] : dim === 'summary_path' ? ['source_type_policy_recalibration', 'prompt_improvement'] : dim === 'title_model' || dim === 'title_path' ? ['model_change', 'prompt_improvement'] : [];
+  return [...new Set([...base, ...extra])];
+}
+
+const STAT_DIMS: Array<[Dim, keyof LocalizationStatRow]> = [
+  ['source_id', 'source_id'],
+  ['source_type', 'source_type'],
+  ['summary_model', 'summary_model'],
+  ['title_model', 'title_model'],
+  ['title_path', 'title_path'],
+  ['summary_path', 'summary_path'],
+];
+
 export function reviewQueue(
   aggregates: FeedbackAggregate[],
   stats: LocalizationStatRow[],
   t: Thresholds = DEFAULT_THRESHOLDS
 ): ReviewFlag[] {
   const flags = new Map<string, ReviewFlag>();
-  const flag = (dim: Dim, key: string, reason: string, metrics: Record<string, number>, actions: readonly string[]) => {
+  const flag = (dim: Dim, key: string, reason: string, metrics: Record<string, number>, base: readonly string[]) => {
     const id = `${dim}|${key}`;
+    const actions = actionsFor(dim, base);
     const f = flags.get(id) || { flag: 'REVIEW_REQUIRED' as const, subject: { kind: DIM_KIND[dim], key }, reasons: [], metrics: {}, suggested_actions: actions, automatic_mutation: false as const };
     if (!f.reasons.includes(reason)) f.reasons.push(reason);
+    f.suggested_actions = [...new Set([...f.suggested_actions, ...actions])];
     Object.assign(f.metrics, metrics);
     flags.set(id, f);
   };
@@ -254,27 +303,48 @@ export function reviewQueue(
     const titles = TITLE_CODES.reduce((n, c) => n + (a.by_code[c] || 0), 0);
     if (titles >= t.repeatedTitle) flag(a.dimension, a.key, 'REPEATED_TITLE_MISTRANSLATION', { title_errors: titles, feedback: a.total }, ['prompt_improvement', 'model_change', 'source_specific_extraction_fix']);
   }
-  const bySource = new Map<string, LocalizationStatRow>();
-  for (const s of stats) {
-    if (!s.source_id) continue;
-    const m = bySource.get(s.source_id) || { ...s, items: 0, ready: 0, title_only: 0, insufficient_evidence: 0, grounding_failures: 0, failed: 0 };
-    m.items += s.items; m.ready += s.ready; m.title_only += s.title_only; m.insufficient_evidence += s.insufficient_evidence; m.grounding_failures += s.grounding_failures; m.failed += s.failed;
-    bySource.set(s.source_id, m);
-  }
-  for (const [source, s] of bySource) {
-    if (s.items < t.minItems) continue;
-    const g = s.grounding_failures / s.items;
-    const e = s.insufficient_evidence / s.items;
-    if (g >= t.groundingFailureRate) flag('source_id', source, 'GROUNDING_FAILURE_SPIKE', { grounding_failure_rate: Math.round(g * 1000) / 1000, items: s.items }, ['prompt_improvement', 'model_change', 'evidence_extractor_fix']);
-    if (e >= t.insufficientEvidenceRate) flag('source_id', source, 'EVIDENCE_INSUFFICIENT', { insufficient_evidence_rate: Math.round(e * 1000) / 1000, items: s.items }, ['source_specific_extraction_fix', 'evidence_extractor_fix', 'source_lifecycle_recanary']);
+  for (const [dim, field] of STAT_DIMS) {
+    const by = new Map<string, LocalizationStatRow>();
+    for (const s of stats) {
+      const key = s[field] as string | null | undefined;
+      if (!key) continue;
+      const m = by.get(key) || { ...s, items: 0, ready: 0, title_only: 0, insufficient_evidence: 0, grounding_failures: 0, failed: 0 };
+      m.items += s.items; m.ready += s.ready; m.title_only += s.title_only; m.insufficient_evidence += s.insufficient_evidence; m.grounding_failures += s.grounding_failures; m.failed += s.failed;
+      by.set(key, m);
+    }
+    for (const [key, s] of by) {
+      if (s.items < t.minItems) continue;
+      const g = s.grounding_failures / s.items;
+      const e = s.insufficient_evidence / s.items;
+      if (g >= t.groundingFailureRate) flag(dim, key, 'GROUNDING_FAILURE_SPIKE', { grounding_failure_rate: Math.round(g * 1000) / 1000, items: s.items }, ['prompt_improvement', 'model_change', 'evidence_extractor_fix']);
+      if (e >= t.insufficientEvidenceRate) flag(dim, key, 'EVIDENCE_INSUFFICIENT', { insufficient_evidence_rate: Math.round(e * 1000) / 1000, items: s.items }, ['source_specific_extraction_fix', 'evidence_extractor_fix', 'source_lifecycle_recanary']);
+    }
   }
   return [...flags.values()];
+}
+
+/** Failure reasons by source type and model (diagnostic table for the review output; no flag, no mutation). */
+export function failureBreakdown(stats: LocalizationStatRow[]): Array<{ source_type: string; summary_model: string; failure_reason: string; items: number }> {
+  const map = new Map<string, { source_type: string; summary_model: string; failure_reason: string; items: number }>();
+  for (const s of stats) {
+    if (!s.failure_reason) continue;
+    const k = `${s.source_type || '?'}|${s.summary_model || '?'}|${s.failure_reason}`;
+    const m = map.get(k) || { source_type: s.source_type || '?', summary_model: s.summary_model || '?', failure_reason: s.failure_reason, items: 0 };
+    m.items += s.items;
+    map.set(k, m);
+  }
+  return [...map.values()].sort((a, b) => b.items - a.items);
 }
 
 export const STATS_SQL = `SELECT COALESCE(source_id, feed_id) AS source_id,
   json_extract(enrichment_json, '$.localization.language') AS language,
   json_extract(enrichment_json, '$.localization.models.summary') AS summary_model,
   json_extract(enrichment_json, '$.localization.contract_version') AS contract_version,
+  json_extract(enrichment_json, '$.localization.source_type') AS source_type,
+  json_extract(enrichment_json, '$.localization.models.title') AS title_model,
+  json_extract(enrichment_json, '$.localization.paths.title') AS title_path,
+  json_extract(enrichment_json, '$.localization.paths.summary') AS summary_path,
+  json_extract(enrichment_json, '$.localization.failure') AS failure_reason,
   COUNT(*) AS items,
   SUM(enrichment_status = 'done') AS ready,
   SUM(enrichment_status = 'title_only') AS title_only,
@@ -284,12 +354,14 @@ export const STATS_SQL = `SELECT COALESCE(source_id, feed_id) AS source_id,
 FROM source_items
 WHERE json_extract(enrichment_json, '$.localization.contract_version') IS NOT NULL
   AND COALESCE(enriched_at, updated_at) >= ?
-GROUP BY 1, 2, 3, 4`;
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9`;
+
+export const FEEDBACK_SQL = `SELECT source_id, summary_model, title_model, contract_version, source_language, source_type, title_path, summary_path, failure_reason, feedback_code, polarity FROM localization_feedback WHERE created_at >= ?`;
 
 export async function loadReviewInputs(db: D1Database, sinceDays = 30) {
   const since = new Date(Date.now() - sinceDays * 86400000).toISOString();
   const fb = await db
-    .prepare(`SELECT source_id, summary_model, contract_version, source_language, feedback_code, polarity FROM localization_feedback WHERE created_at >= ?`)
+    .prepare(FEEDBACK_SQL)
     .bind(since)
     .all<LocalizationFeedbackRow>();
   const st = await db.prepare(STATS_SQL).bind(since).all<LocalizationStatRow>();

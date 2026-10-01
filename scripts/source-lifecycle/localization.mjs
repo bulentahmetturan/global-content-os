@@ -27,8 +27,10 @@ export function detectLanguage(text) {
   const ws = wordsOf(t);
   if (ws.length < 3) return TR_LETTERS.test(t) ? 'tr' : 'unknown';
   let tr = 0;
+  let trWords = 0;
   let en = 0;
   for (const w of ws) {
+    if (TR_WORDS.has(w)) trWords++;
     if (TR_WORDS.has(w) || TR_SUFFIX.test(w)) tr++;
     if (EN_WORDS.has(w)) en++;
   }
@@ -37,7 +39,7 @@ export function detectLanguage(text) {
   if (tr >= 2 && tr > en) return 'tr';
   if (en >= 2 && en > tr) return 'foreign';
   if (trLetters) return en >= 2 ? 'foreign' : 'tr';
-  if (tr > en) return 'tr';
+  if (tr > en && trWords >= 1) return 'tr';
   if (en > tr) return 'foreign';
   return ws.length >= 4 ? 'foreign' : 'unknown';
 }
@@ -47,12 +49,12 @@ export function detectItemLanguage(title, excerpt) {
   return t !== 'unknown' ? t : detectLanguage(String(excerpt || '').slice(0, 200));
 }
 
-/** Sample of the source's candidate items that the lifecycle already parsed (title + feed summary when the transport has one). */
+/** Sample of the source's candidate items that the lifecycle already parsed (title + feed summary + item URL for evidence acquisition). */
 export function sampleFromItems(items, n = SAMPLE_SIZE) {
   return (items || [])
     .filter((i) => i && i.title)
     .slice(0, n)
-    .map((i) => ({ title: i.title, excerpt: i.summary || '' }));
+    .map((i) => ({ title: i.title, excerpt: i.summary || i.excerpt || '', ...(i.url ? { url: i.url } : {}) }));
 }
 
 // ---- classification (pure) -------------------------------------------------------------------------------------------------

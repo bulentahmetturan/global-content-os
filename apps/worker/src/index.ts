@@ -34,7 +34,7 @@ import { backfillJournalWindow, ingestJournalCrossrefFallbacks, JOURNAL_QUERY_CO
 import { runEnrichmentBatch } from './localize/enrich';
 import { localizeItem, modelsFor } from './localize/pipeline';
 import { auditLocalization } from './localize/audit';
-import { aggregateLocalizationFeedback, loadReviewInputs, recordLocalizationFeedback, reviewQueue } from './localize/localization-feedback';
+import { aggregateLocalizationFeedback, failureBreakdown, loadReviewInputs, recordLocalizationFeedback, reviewQueue } from './localize/localization-feedback';
 import {
   assertTipTopluluguChannelPartition,
   authorizeTipTopluluguIngress,
@@ -653,13 +653,13 @@ export default {
       // Lifecycle localization canary: runs the production pipeline on sample items and returns the measurements.
       // Writes nothing (no DB access). Operator-gated (route-auth). Used by scripts/source-lifecycle for add/reactivate.
       if (path === '/api/localize/canary' && request.method === 'POST') {
-        const body = (await request.json().catch(() => ({}))) as { items?: Array<{ title?: string; excerpt?: string }> };
+        const body = (await request.json().catch(() => ({}))) as { items?: Array<{ title?: string; excerpt?: string; url?: string; feed?: string; route?: string }> };
         const items = (body.items || []).filter((i) => i && typeof i.title === 'string' && i.title.trim()).slice(0, 12);
         if (!items.length) return json({ error: 'NO_ITEMS' }, 400);
         const results = [];
         for (const it of items) {
           try {
-            const input = { title: String(it.title), excerpt: String(it.excerpt || '') };
+            const input = { title: String(it.title), excerpt: String(it.excerpt || ''), url: it.url ? String(it.url) : null, feed: it.feed ? String(it.feed) : null, route: it.route ? String(it.route) : null };
             const r = await localizeItem(env, input);
             // Independent audit (second model family + deterministic re-checks) of what the pipeline produced.
             const audit = r.outcome === 'FAILED' || r.outcome === 'NOT_REQUIRED' ? null : await auditLocalization(env, input, r);
@@ -684,7 +684,7 @@ export default {
       if (path === '/api/localize/review' && request.method === 'POST') {
         const inputs = await loadReviewInputs(env.DB, 30);
         const aggregates = aggregateLocalizationFeedback(inputs.feedback);
-        return json({ ok: true, window_days: 30, review_required: reviewQueue(aggregates, inputs.stats), aggregates: aggregates.slice(0, 50) });
+        return json({ ok: true, window_days: 30, review_required: reviewQueue(aggregates, inputs.stats), aggregates: aggregates.slice(0, 50), failure_breakdown: failureBreakdown(inputs.stats).slice(0, 50) });
       }
 
       if (path === '/api/localize/apply' && request.method === 'POST') {

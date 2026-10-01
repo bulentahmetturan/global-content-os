@@ -8,7 +8,7 @@
 //   node scripts/source-lifecycle.mjs plan        "<name | url>"            (= add without --apply)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
-//   add / reactivate also take --localization-sample FILE ([{title, excerpt}]) and need HUB_OPERATOR_TOKEN for the localization canary (G8b).
+//   add / reactivate / recalibrate also take --localization-sample FILE ([{title, excerpt, url?}]) and need HUB_OPERATOR_TOKEN for the localization canary (G8b).
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
 // Exit: 0 done / dry-run ok, 3 needs user decision, 4 blocked (access/capacity/technical), 1 error/denied, 2 usage.

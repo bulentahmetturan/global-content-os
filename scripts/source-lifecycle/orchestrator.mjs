@@ -324,7 +324,10 @@ export function createLifecycle(opts) {
     return { req, projections, identity };
   }
 
-  // Sample for a registered source that is not re-validated end to end (Kaduse reactivation): fetch + parse its endpoint.
+  const gatesOf = (trace) => (trace.gates = trace.gates || {});
+  const compactLocalization = (l) => ({ class: l.class, source_language: l.source_language, reason: l.reason, measurements: l.measurements, models: l.models || null });
+
+  // Sample for a registered source that is not re-validated end to end (Kaduse reactivation / recalibrate): fetch + parse its endpoint.
   async function localizationForExisting(m) {
     if (localizationSample) return gateLocalization({ items: [] });
     const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: m.lane, fetcher });
@@ -449,15 +452,28 @@ export function createLifecycle(opts) {
     const { identity } = resolveOne(target, trace);
     if (identity.outcome !== 'EXISTING') return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_FOUND' });
     const m = identity.match;
-    if (m.store !== 'tip_toplulugu' || !m.active) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: m.store !== 'tip_toplulugu' ? 'Kaduse cadence is generator-assigned (sync-feeds.mjs)' : 'source is not ACTIVE' });
+    if (!m.active) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: 'source is not ACTIVE' });
+    // Localization readiness (G8b) is re-measured on every recalibrate: a diagnostic outcome, never a lifecycle state.
+    if (m.store !== 'tip_toplulugu') {
+      const localization = await localizationForExisting(m);
+      gatesOf(trace).LOCALIZATION = localization.class;
+      trace.localization = localization;
+      return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: 'Kaduse cadence is generator-assigned (sync-feeds.mjs)', gates: gatesOf(trace), localization: compactLocalization(localization), next_step: localizationNextStep(localization), writes: 0 });
+    }
     const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: 'tip_toplulugu', fetcher });
     if (disc.gate !== 'PASS') return finish(trace, { ok: false, op: 'recalibrate', outcome: disc.gate, reason: disc.reason, source_id: m.source_id });
     const feed = disc._feed ? parseFeed(disc._feed.body) : [];
     const list = extractListPage(disc._page.body, disc._page.url);
+    const localization = await gateLocalization({ items: feed.length ? feed : list });
+    gatesOf(trace).LOCALIZATION = localization.class;
+    trace.localization = localization;
+    const loc = compactLocalization(localization);
     const ts = (feed.length ? feed : list).map((i) => i.published_at).filter(Boolean);
     const derived = deriveCadence({ timestamps: ts, lane: 'tip_toplulugu', heading: m.heading, now: clock(), evidenceSource: feed.length ? 'feed_published' : 'list_page_dates' });
     const proposal = recalibration(m.cadence_min, derived);
-    if (proposal.outcome !== 'PROPOSAL' || !apply) return finish(trace, { ok: true, op: 'recalibrate', source_id: m.source_id, outcome: proposal.outcome === 'PROPOSAL' ? 'PROPOSAL' : proposal.outcome, proposal, writes: 0 });
+    if (proposal.outcome !== 'PROPOSAL' || !apply) return finish(trace, { ok: true, op: 'recalibrate', source_id: m.source_id, outcome: proposal.outcome === 'PROPOSAL' ? 'PROPOSAL' : proposal.outcome, proposal, gates: gatesOf(trace), localization: loc, next_step: localizationNextStep(localization), writes: 0 });
+    // Same fail-closed rule as add / reactivate: an unsafe or un-canaried foreign-language source is not changed.
+    if (localization.blocking) return finish(trace, { ok: false, op: 'recalibrate', source_id: m.source_id, outcome: 'BLOCKED_LOCALIZATION', reason: localization.reason, gates: gatesOf(trace), localization: loc, next_step: localizationNextStep(localization), proposal, writes: 0 });
     if (proposal.patch.after < proposal.patch.before) {
       const cap = bridge ? bridge.capacity({ addCadence: proposal.patch.after, history }) : { status: 'BLOCK' };
       if (cap.status !== 'SAFE') return finish(trace, { ok: false, op: 'recalibrate', source_id: m.source_id, outcome: 'BLOCKED_CAPACITY', capacity: cap, proposal });
@@ -473,7 +489,7 @@ export function createLifecycle(opts) {
         return proposal.patch;
       },
     });
-    return finish(trace, { ok: commit.outcome === 'APPLIED', op: 'recalibrate', source_id: m.source_id, outcome: commit.outcome === 'APPLIED' ? 'RECALIBRATED' : commit.outcome, proposal, commit: { outcome: commit.outcome, file: commit.file, ...(commit.code ? { code: commit.code } : {}) } });
+    return finish(trace, { ok: commit.outcome === 'APPLIED', op: 'recalibrate', source_id: m.source_id, outcome: commit.outcome === 'APPLIED' ? 'RECALIBRATED' : commit.outcome, proposal, gates: gatesOf(trace), localization: loc, commit: { outcome: commit.outcome, file: commit.file, ...(commit.code ? { code: commit.code } : {}) } });
   }
 
   function purge(target) {

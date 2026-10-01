@@ -418,6 +418,38 @@ test('publication frequency change -> reviewed recalibration proposal on the sam
   assert.equal(after.length, 1);
   assert.equal(after[0].fetch_plan.expected_check_interval_minutes, 4320);
   assert.equal(after[0].poll_minutes, undefined, 'no second cadence field created');
+  assert.equal(p.gates.LOCALIZATION, 'LOCALIZATION_NOT_REQUIRED', 'Turkish source: localization re-measured, not required');
+  assert.equal(a.localization.class, 'LOCALIZATION_NOT_REQUIRED');
+});
+
+test('recalibrate re-measures localization (G8b): an unsafe foreign sample blocks the cadence write; a safe one does not', async () => {
+  const host = 'www.tdb.org.tr';
+  const routes = { 'https://www.tdb.org.tr/duyurular/': listPage({ host, section: '/duyurular/', dates: weekly }) };
+  const sample = [{ title: 'WHO publishes new guidance on cholera vaccines', excerpt: 'The World Health Organization published new guidance on cholera vaccines for outbreak response.' }];
+  const root = sandbox();
+  const dry = await lc(root, { fetcher: fakeFetcher(routes), localizationSample: sample, localizer: fakeLocalizer({ audit: { entity_error: true } }) }).recalibrate('tdb_dental');
+  assert.equal(dry.outcome, 'PROPOSAL', 'dry run still reports the proposal');
+  assert.equal(dry.gates.LOCALIZATION, 'LOCALIZATION_MODEL_UNSAFE');
+  const blocked = await lc(root, { fetcher: fakeFetcher(routes), localizationSample: sample, localizer: fakeLocalizer({ audit: { entity_error: true } }) }).recalibrate('tdb_dental', { apply: true });
+  assert.equal(blocked.outcome, 'BLOCKED_LOCALIZATION', JSON.stringify(blocked));
+  assert.equal(blocked.writes, 0);
+  assert.equal(rec(root, 'tdb_dental')[0].fetch_plan.expected_check_interval_minutes, 1440, 'nothing written');
+  const noLocalizer = await lc(root, { fetcher: fakeFetcher(routes), localizationSample: sample, localizer: null }).recalibrate('tdb_dental', { apply: true });
+  assert.equal(noLocalizer.outcome, 'BLOCKED_LOCALIZATION');
+  assert.equal(noLocalizer.gates.LOCALIZATION, 'LOCALIZATION_CANARY_UNAVAILABLE');
+  const ok = await lc(root, { fetcher: fakeFetcher(routes), localizationSample: sample, localizer: fakeLocalizer() }).recalibrate('tdb_dental', { apply: true });
+  assert.equal(ok.outcome, 'RECALIBRATED', JSON.stringify(ok));
+  assert.equal(ok.localization.class, 'LOCALIZATION_READY');
+});
+
+test('recalibrate on a Kaduse source reports localization readiness and writes nothing (cadence is generator-assigned)', async () => {
+  const root = sandbox();
+  const sample = [{ title: 'WHO publishes new guidance on cholera vaccines', excerpt: 'The World Health Organization published new guidance on cholera vaccines for outbreak response.' }];
+  const r = await lc(root, { localizationSample: sample, localizer: fakeLocalizer({ outcome: 'TITLE_ONLY' }) }).recalibrate('who-newsroom-whole', { apply: true });
+  assert.equal(r.outcome, 'NOT_APPLICABLE');
+  assert.equal(r.writes, 0);
+  assert.equal(r.localization.class, 'LOCALIZATION_TITLE_ONLY');
+  assert.equal(r.gates.LOCALIZATION, 'LOCALIZATION_TITLE_ONLY');
 });
 
 // ---------- G6 dedupe -----------------------------------------------------------------------------------------------

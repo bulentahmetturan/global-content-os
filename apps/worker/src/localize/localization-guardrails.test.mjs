@@ -95,5 +95,25 @@ test('review script is read-only: SELECT-only reads, no write statements', () =>
   const src = code(read('scripts/localization-review.mjs'));
   for (const verb of ['INSERT INTO', 'UPDATE ', 'DELETE FROM', 'REPLACE INTO', 'DROP TABLE', 'ALTER TABLE']) assert.ok(!src.includes(verb), `review script must not contain ${verb}`);
   assert.ok(!src.includes('--file') || !/execute[^\n]*--file/.test(src), 'no wrangler --file execution');
-  assert.ok(src.includes('SELECT source_id, summary_model, contract_version, source_language, feedback_code, polarity FROM localization_feedback'));
+  assert.ok(src.includes('m.FEEDBACK_SQL') && src.includes('m.STATS_SQL'), 'review script reuses the module SELECTs');
+  for (const q of [fb.FEEDBACK_SQL, fb.STATS_SQL]) {
+    assert.match(q, /^SELECT /);
+    assert.ok(!/\b(INSERT|UPDATE|DELETE|REPLACE|DROP|ALTER)\b/i.test(q), 'shared review SQL is read-only');
+  }
+  assert.match(fb.FEEDBACK_SQL, /FROM localization_feedback WHERE/);
+});
+
+test('V2 feedback dimensions are recommendation-only: per-dimension actions never include a mutation verb', () => {
+  const rows = Array.from({ length: 12 }, () => ({ source_id: 's1', summary_model: 'm1', title_model: 't1', contract_version: 'v', source_language: 'foreign', source_type: 'research', title_path: 'translate:primary', summary_path: 'grounded:research', failure_reason: 'SUMMARY:SUMMARY_UNSUPPORTED', feedback_code: 'unsupported_claim', polarity: 'negative' }));
+  const agg = fb.aggregateLocalizationFeedback(rows);
+  const dims = new Set(agg.map((a) => a.dimension));
+  for (const k of ['source_type', 'title_path', 'summary_path', 'failure_reason', 'title_model']) assert.ok(dims.has(k), `aggregated by ${k}`);
+  const q = fb.reviewQueue(agg, []);
+  assert.ok(q.length > 0);
+  for (const f of q) {
+    assert.equal(f.flag, 'REVIEW_REQUIRED');
+    assert.equal(f.automatic_mutation, false);
+    for (const a of f.suggested_actions) assert.ok(fb.REVIEW_ACTIONS.includes(a), `unknown action ${a}`);
+  }
+  assert.ok(q.some((f) => f.subject.kind === 'source_type' && f.suggested_actions.includes('source_type_policy_recalibration')));
 });
