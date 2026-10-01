@@ -32,6 +32,9 @@ import { runSourceRevalidation, getSourceRevalidation, listRevalidationRequired 
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { backfillJournalWindow, ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
+import { localizeItem, modelsFor } from './localize/pipeline';
+import { auditLocalization } from './localize/audit';
+import { aggregateLocalizationFeedback, loadReviewInputs, recordLocalizationFeedback, reviewQueue } from './localize/localization-feedback';
 import {
   assertTipTopluluguChannelPartition,
   authorizeTipTopluluguIngress,
@@ -632,7 +635,7 @@ export default {
           limit: Number.isFinite(limit) ? limit : 6,
           ids: idParam ? [idParam] : undefined,
         });
-        return json({ ok: true, model: '@cf/meta/llama-3.1-8b-instruct-fp8', ...result });
+        return json({ ok: true, models: modelsFor(env), ...result });
       }
 
       // Legacy alias → new enrich queue
@@ -644,7 +647,44 @@ export default {
           route: routeParam && isRoute(routeParam) ? routeParam : undefined,
           limit: Number.isFinite(limit) ? limit : 6,
         });
-        return json({ ok: true, model: '@cf/meta/llama-3.1-8b-instruct-fp8', ...result });
+        return json({ ok: true, models: modelsFor(env), ...result });
+      }
+
+      // Lifecycle localization canary: runs the production pipeline on sample items and returns the measurements.
+      // Writes nothing (no DB access). Operator-gated (route-auth). Used by scripts/source-lifecycle for add/reactivate.
+      if (path === '/api/localize/canary' && request.method === 'POST') {
+        const body = (await request.json().catch(() => ({}))) as { items?: Array<{ title?: string; excerpt?: string }> };
+        const items = (body.items || []).filter((i) => i && typeof i.title === 'string' && i.title.trim()).slice(0, 12);
+        if (!items.length) return json({ error: 'NO_ITEMS' }, 400);
+        const results = [];
+        for (const it of items) {
+          try {
+            const input = { title: String(it.title), excerpt: String(it.excerpt || '') };
+            const r = await localizeItem(env, input);
+            // Independent audit (second model family + deterministic re-checks) of what the pipeline produced.
+            const audit = r.outcome === 'FAILED' || r.outcome === 'NOT_REQUIRED' ? null : await auditLocalization(env, input, r);
+            results.push({ title: it.title, ...r, audit });
+          } catch (e) {
+            results.push({ title: it.title, outcome: 'FAILED', failure: `CANARY_ERROR:${String(e).slice(0, 120)}` });
+          }
+        }
+        return json({ ok: true, models: modelsFor(env), results });
+      }
+
+      // Localization feedback (P5 evidence): persists one human judgement with provenance. Operator-gated.
+      if (path === '/api/localize/feedback' && request.method === 'POST') {
+        const body = (await request.json().catch(() => ({}))) as { itemId?: string; code?: unknown; note?: string; reviewer?: string };
+        const r = await recordLocalizationFeedback(env.DB, { item_id: String(body.itemId || ''), code: body.code, note: body.note, reviewer: body.reviewer });
+        if (!r.ok) return json({ error: r.error }, r.error === 'ITEM_NOT_FOUND' ? 404 : 400);
+        return json({ ok: true, id: r.row.id, feedback_code: r.row.feedback_code, polarity: r.row.polarity });
+      }
+
+      // Review queue: deterministic aggregation of stored feedback + localization stats. Read-only; flags are
+      // REVIEW_REQUIRED signals, never mutations. Operator-gated (POST so it sits in the same gate table).
+      if (path === '/api/localize/review' && request.method === 'POST') {
+        const inputs = await loadReviewInputs(env.DB, 30);
+        const aggregates = aggregateLocalizationFeedback(inputs.feedback);
+        return json({ ok: true, window_days: 30, review_required: reviewQueue(aggregates, inputs.stats), aggregates: aggregates.slice(0, 50) });
       }
 
       if (path === '/api/localize/apply' && request.method === 'POST') {

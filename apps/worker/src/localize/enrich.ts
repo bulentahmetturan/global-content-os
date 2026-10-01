@@ -1,265 +1,49 @@
 /**
- * LLM + structured evidence enrichment (Workers AI, free-tier friendly).
- * A: extract route-specific evidence JSON (no invention)
- * B: titleTr + one-sentence gistTr from that evidence only
+ * Turkish localization of ingested items: stores the result of the hybrid pipeline (pipeline.ts).
+ *
+ * Status vocabulary (source_items.enrichment_status, no schema change):
+ *   pending     queued, being processed (temporary)
+ *   done        Turkish title + grounded Turkish summary stored
+ *   title_only  Turkish title stored; summary not generated (insufficient evidence, or it failed validation/grounding)
+ *   skipped     source already Turkish: nothing translated
+ *   failed      title could not be localized, or an infrastructure error; retried within a bounded policy
  */
-
 import type { Env, RouteId } from '../db/queries';
-import { looksMostlyEnglish } from './tr';
-import { trimToSentences, validateSummaryTr, validateTitleTr } from './contract';
+import { detectItemLanguage } from './language';
+import { localizeItem, type LocalizationResult } from './pipeline';
 
-const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 const BATCH_DEFAULT = 6;
 /** A failed item is retried up to this many times (spaced by RETRY_BACKOFF_MIN), then stays `failed` with an explicit Hub state. */
 export const MAX_ENRICH_ATTEMPTS = 3;
 const RETRY_BACKOFF_MIN = 30;
 
-export type EnrichmentStatus = 'pending' | 'done' | 'failed' | 'skipped';
+export type EnrichmentStatus = 'pending' | 'done' | 'title_only' | 'failed' | 'skipped';
 
 function stripHtml(s: string): string {
   return (s || '')
     .replace(/<[^>]+>/g, ' ')
+    .replace(/&#x?[0-9a-f]+;/gi, ' ')
     .replace(/&[a-z]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
-function textFromAi(out: unknown): string {
-  if (typeof out === 'string') return out.trim();
-  if (!out || typeof out !== 'object') return String(out ?? '');
-  const o = out as Record<string, unknown>;
-  if (typeof o.response === 'string') return o.response.trim();
-  if (typeof o.result === 'string') return o.result.trim();
-  const choice = (o.choices as Array<{ message?: { content?: string | null } }> | undefined)?.[0];
-  if (typeof choice?.message?.content === 'string') return choice.message.content.trim();
-  if (Array.isArray(o.response)) {
-    return o.response
-      .map((p: unknown) => (typeof p === 'string' ? p : (p as { content?: string })?.content || ''))
-      .join('')
-      .trim();
-  }
-  // Some models return { response: { response: "..." } } nesting
-  if (o.response && typeof o.response === 'object') {
-    const inner = o.response as Record<string, unknown>;
-    if (typeof inner.response === 'string') return inner.response.trim();
-  }
-  return JSON.stringify(out);
-}
+const NOW_SQL = `strftime('%Y-%m-%dT%H:%M:%fZ', 'now')`;
 
-async function runLlm(env: Env, system: string, user: string): Promise<string> {
-  if (!env.AI) throw new Error('AI_BINDING_MISSING');
-  const model = (env as { ENRICH_MODEL?: string }).ENRICH_MODEL || MODEL;
-  const out = await env.AI.run(model as Parameters<typeof env.AI.run>[0], {
-    messages: [
-      { role: 'system', content: system },
-      { role: 'user', content: user },
-    ],
-    max_tokens: 500,
-    temperature: 0.1,
-  });
-  const text = textFromAi(out);
-  if (!text) throw new Error('AI_EMPTY_RESPONSE');
-  return text;
-}
-
-function extractJsonObject(text: string): Record<string, unknown> | null {
-  const raw = (text || '').trim();
-  if (!raw) return null;
-  const fence = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = (fence?.[1] || raw).trim();
-  const start = candidate.indexOf('{');
-  const end = candidate.lastIndexOf('}');
-  if (start < 0 || end <= start) return null;
-  try {
-    return JSON.parse(candidate.slice(start, end + 1)) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-function schemaForRoute(route: RouteId): { systemA: string; fields: string[] } {
-  if (route === 'kaduse-research') {
-    return {
-      fields: ['finding', 'population', 'outcome', 'limitation'],
-      systemA: `You extract structured medical-research evidence from a paper title and abstract.
-Return ONLY valid JSON with keys: finding, population, outcome, limitation (strings; use "" if unknown).
-Rules: use only facts present in the text; never invent results, numbers, or claims.
-Prefer the strongest concrete finding/outcome for "finding" and "outcome".`,
-    };
-  }
-  if (route === 'tip-ogrencileri') {
-    return {
-      fields: ['topic', 'announcement'],
-      systemA: `You extract structured facts from a Turkish/English medical-student announcement.
-Return ONLY valid JSON with keys: topic, announcement (strings; use "" if unknown).
-Rules: use only facts in the text; never invent dates, deadlines, or eligibility.`,
-    };
-  }
+/** Provenance block stored in enrichment_json.localization (read back by localization feedback). The texts live in their own columns. */
+function provenance(r: LocalizationResult) {
   return {
-    fields: ['actor', 'action', 'whatsNew', 'audience'],
-    systemA: `You extract structured news evidence from a health/medtech/regulatory headline and blurb.
-Return ONLY valid JSON with keys: actor, action, whatsNew, audience (strings; use "" if unknown).
-Rules: use only facts in the text; never invent approvals, products, or outcomes.`,
+    contract_version: r.contract_version,
+    language: r.language,
+    outcome: r.outcome,
+    failure: r.failure,
+    evidence: r.evidence,
+    validator: r.validator,
+    judge: r.judge,
+    models: r.models,
+    attempts: r.attempts,
+    produced_at: r.produced_at,
   };
-}
-
-async function extractEvidence(
-  env: Env,
-  route: RouteId,
-  title: string,
-  summary: string
-): Promise<Record<string, string>> {
-  const { systemA, fields } = schemaForRoute(route);
-  const user = `TITLE: ${title}\nTEXT: ${summary.slice(0, 1200)}\n\nJSON:`;
-  const raw = await runLlm(env, systemA, user);
-  const parsed = extractJsonObject(raw) || {};
-  const out: Record<string, string> = {};
-  for (const f of fields) {
-    const v = parsed[f];
-    out[f] = typeof v === 'string' ? v.trim() : '';
-  }
-  return out;
-}
-
-async function toTurkish(env: Env, text: string): Promise<string> {
-  const raw = (text || '').trim();
-  if (!raw) return raw;
-  if (!looksMostlyEnglish(raw) || /[ğüşıöçĞÜŞİÖÇ]/.test(raw)) return raw;
-  const out = await runLlm(
-    env,
-    'Translate the user text into natural Turkish. Return ONLY the Turkish translation, no quotes, no JSON, no explanation.',
-    raw.slice(0, 500)
-  );
-  // Model output that is JSON/structured instead of a translation is not a translation: keep the input and let the contract reject it.
-  if (/^\s*[\[{]/.test(out)) return raw;
-  const line = out.split('\n').map((x) => x.trim()).find((x) => x && !x.startsWith('{')) || out.trim();
-  return line || raw;
-}
-
-function significantWords(s: string): Set<string> {
-  return new Set(
-    (s || '')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9ığüşöç\s]/gi, ' ')
-      .split(/\s+/)
-      .filter((w) => w.length >= 4)
-  );
-}
-
-/**
- * Anti-hallucination guard (2026-09-23 incident): the free-tier model sometimes produces a
- * fluent, well-formed Turkish sentence about an entirely different, unrelated topic (observed
- * repeatedly: a WHO/traditional-medicine sentence on items about Africa CDC, drug trials, etc. --
- * not copied from any prompt text, the model appears to default to it when the real evidence is
- * thin). A sentence sharing ZERO significant words with the actual title/evidence is almost
- * certainly this failure mode, not a real paraphrase -- reject it rather than publish a
- * fabricated claim (AGENTS.md hard rule: never invent factual claims).
- */
-function isOnTopic(candidate: string, source: string): boolean {
-  const sourceWords = significantWords(source);
-  if (sourceWords.size === 0) return true; // nothing to compare against — don't block
-  const candidateWords = significantWords(candidate);
-  for (const w of candidateWords) {
-    if (sourceWords.has(w)) return true;
-  }
-  return false;
-}
-
-async function renderHubTr(
-  env: Env,
-  route: RouteId,
-  titleOrig: string,
-  evidence: Record<string, string>,
-  excerpt: string,
-  strict = false
-): Promise<{ titleTr: string; gistTr: string }> {
-  const systemB = `Sen bir Türkçe editörsün. Sadece verilen ORIGINAL_TITLE, SOURCE_EXCERPT ve EVIDENCE_JSON kullan.
-SADECE geçerli JSON döndür: {"titleTr":"...","gistTr":"..."}.
-Kurallar:
-- titleTr: orijinal başlığın doğal Türkçe çevirisi. Kurum/yayıncı adları orijinal kalabilir.
-- gistTr: haberin/çalışmanın asıl özünü anlatan 1-2 tam Türkçe cümle (toplam en fazla ~250 karakter, en az 8 kelime). Kaynak metni kopyalama, kendi cümlenle özetle. Format: "<özne>, <bu içeriğe özel somut eylem/sonuç>."
-- gistTr içinde SADECE ORIGINAL_TITLE, SOURCE_EXCERPT veya EVIDENCE_JSON'da geçen özneler/kurumlar/konular yer alsın; oralarda adı geçmeyen hiçbir özne, kurum veya konudan bahsetme.
-- SOURCE_EXCERPT boşsa veya başlıkla aynıysa gistTr yalnızca başlıktaki bilgiyi tam bir cümleyle ifade etsin; başlıkta olmayan hiçbir olgu, eylem, sonuç veya yorum ekleme.
-- gistTr tam bir cümle olsun ve nokta ile bitsin.
-- İki alan da MUTLAKA Türkçe. İngilizce kelime yasak (özel adlar hariç). Uydurma yasak.${
-    strict
-      ? '\n- ÖNCEKİ DENEME GEÇERSİZDİ: titleTr ve gistTr içinde hiç İngilizce kelime bırakma, gistTr en az 8 kelimelik tam cümle olsun, başlığı tekrar etme.'
-      : ''
-  }`;
-
-  const user = `ROUTE: ${route}
-ORIGINAL_TITLE: ${titleOrig}
-SOURCE_EXCERPT: ${excerpt.slice(0, 500)}
-EVIDENCE_JSON: ${JSON.stringify(evidence)}
-
-JSON:`;
-  const raw = await runLlm(env, systemB, user);
-  const parsed = extractJsonObject(raw) || {};
-  let titleTr =
-    typeof parsed.titleTr === 'string' && parsed.titleTr.trim()
-      ? parsed.titleTr.trim()
-      : titleOrig;
-  let gistTr =
-    typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
-      ? parsed.gistTr.trim()
-      : '';
-  // If model ignored Turkish, force-translate (still free Workers AI).
-  titleTr = await toTurkish(env, titleTr);
-  // Cross-lingual on-topic check: the Turkish gist is compared with the Turkish title as well as the English sources
-  // (a Turkish sentence about a title-only English item shares no words with the English title).
-  const evidenceSource = [titleOrig, titleTr, excerpt.slice(0, 500), ...Object.values(evidence)].join(' ');
-  if (gistTr && !isOnTopic(gistTr, evidenceSource)) {
-    gistTr = ''; // discard: shares no real content with title+evidence, almost certainly fabricated
-  }
-  // No fallback to evidence fragments or the title: when the model gives no usable gist the contract rejects the item
-  // (retry, then an explicit failed state) instead of storing a fragment.
-  gistTr = await toTurkish(env, gistTr);
-  gistTr = trimToSentences(gistTr);
-  return { titleTr, gistTr };
-}
-
-/**
- * Semantic fidelity check (a format validator cannot see a fluent but invented claim): a second, closed-form question to the
- * same model. Fail closed: anything other than an explicit SUPPORTED is treated as unsupported.
- */
-async function summaryIsGrounded(env: Env, titleOrig: string, excerpt: string, gistTr: string): Promise<boolean> {
-  const out = await runLlm(
-    env,
-    'You are a strict fact checker. Compare a Turkish SUMMARY with its English SOURCE (title and excerpt). ' +
-      'Answer UNSUPPORTED if the SUMMARY states any fact, result, action, number, actor or cause that the SOURCE does not state, or contradicts the SOURCE. ' +
-      'Check who did what to whom: UNSUPPORTED if subject and object are swapped (e.g. someone was questioned vs someone asked questions), or if the direction of a change or effect is reversed. ' +
-      'Also UNSUPPORTED if the SUMMARY presents something as an observed finding or as something people do, when the SOURCE only names a topic, a guide or an analysis. ' +
-      'Answer SUPPORTED only if every claim in the SUMMARY is stated by the SOURCE. Reply with exactly one word: SUPPORTED or UNSUPPORTED.',
-    `SOURCE TITLE: ${titleOrig}\nSOURCE EXCERPT: ${excerpt.slice(0, 500) || '(none)'}\nSUMMARY (Turkish): ${gistTr}\n\nAnswer:`
-  );
-  return /^\W*SUPPORTED\b/i.test(out.trim());
-}
-
-/**
- * Production contract (see contract.ts): one normal attempt, one stricter retry, otherwise a contract violation.
- * Never returns a title/summary that failed validation.
- */
-async function renderValidated(
-  env: Env,
-  route: RouteId,
-  titleOrig: string,
-  evidence: Record<string, string>,
-  excerpt: string
-): Promise<{ titleTr: string; gistTr: string }> {
-  let reason = 'UNKNOWN';
-  for (const strict of [false, true]) {
-    const r = await renderHubTr(env, route, titleOrig, evidence, excerpt, strict);
-    let bad =
-      validateTitleTr(r.titleTr, titleOrig) ||
-      validateSummaryTr(r.gistTr, { titleOrig, titleTr: r.titleTr, excerpt });
-    // Only item sources that are not already Turkish need the cross-language check.
-    if (!bad && looksMostlyEnglish(titleOrig) && !(await summaryIsGrounded(env, titleOrig, excerpt, r.gistTr))) bad = 'SUMMARY_UNSUPPORTED';
-    if (!bad) return r;
-    reason = bad;
-  }
-  throw new Error(`CONTRACT_VIOLATION:${reason}`);
 }
 
 export async function enrichOneItem(
@@ -271,89 +55,64 @@ export async function enrichOneItem(
     title_orig: string | null;
     summary: string;
   }
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<{ ok: boolean; error?: string; outcome?: LocalizationResult['outcome'] }> {
   const sourceTitle = (row.title_orig || row.title || '').trim();
-  const sourceSummary = stripHtml(row.summary || sourceTitle);
-
-  // Already Turkish AND no real content beyond the title → skip LLM (free-tier thrift). A Turkish
-  // item WITH a genuine summary/excerpt (e.g. a fetched detail-page lead paragraph) still needs the
-  // evidence-extraction + gistTr treatment -- shouldSkipEnrichment() carries that exception.
-  // Force-enrich clear EN regulatory/news cues even if detector is unsure.
-  const forceEn =
-    /\b(WHO|FDA|NIH|EMA|U\.S\.|United States|approved|licensed|prequalif|Council|Press Release)\b/i.test(
-      sourceTitle
-    );
-  if (!forceEn && shouldSkipEnrichment(sourceTitle, sourceSummary)) {
-    await env.DB.prepare(
-      `UPDATE source_items
-       SET enrichment_status = 'skipped',
-           enrichment_json = ?,
-           enrichment_error = NULL,
-           enriched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
-           updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
-       WHERE id = ?`
-    )
-      .bind(JSON.stringify({ reason: 'already_turkish' }), row.id)
-      .run();
-    return { ok: true };
-  }
+  const sourceExcerpt = stripHtml(row.summary || '');
 
   try {
-    const evidence = await extractEvidence(env, row.route, sourceTitle, sourceSummary);
-    const { titleTr, gistTr } = await renderValidated(env, row.route, sourceTitle, evidence, sourceSummary);
+    const r = await localizeItem(env, { title: sourceTitle, excerpt: sourceExcerpt });
 
-    await env.DB.prepare(
-      `UPDATE source_items
-       SET title = ?,
-           title_orig = ?,
-           summary = ?,
-           gists_json = ?,
-           enrichment_status = 'done',
-           enrichment_json = ?,
-           enrichment_error = NULL,
-           enriched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
-           updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
-       WHERE id = ?`
-    )
-      .bind(
-        titleTr,
-        sourceTitle,
-        gistTr,
-        JSON.stringify([gistTr]),
-        JSON.stringify({ route: row.route, evidence, model: (env as { ENRICH_MODEL?: string }).ENRICH_MODEL || MODEL }),
-        row.id
+    if (r.outcome === 'NOT_REQUIRED') {
+      await env.DB.prepare(
+        `UPDATE source_items
+         SET enrichment_status = 'skipped', enrichment_json = ?, enrichment_error = NULL,
+             enriched_at = ${NOW_SQL}, updated_at = ${NOW_SQL}
+         WHERE id = ?`
       )
-      .run();
-
-    // Mirror finding into evidence_cards when research
-    if (row.route === 'kaduse-research' && evidence.finding) {
-      const existing = await env.DB.prepare(
-        `SELECT id FROM evidence_cards WHERE source_item_id = ?`
-      )
-        .bind(row.id)
-        .first<{ id: string }>();
-      if (existing) {
-        await env.DB.prepare(
-          `UPDATE evidence_cards SET finding = ?, limitation = ? WHERE id = ?`
-        )
-          .bind(evidence.finding || null, evidence.limitation || null, existing.id)
-          .run();
-      } else {
-        await env.DB.prepare(
-          `INSERT INTO evidence_cards (id, source_item_id, finding, limitation)
-           VALUES (?, ?, ?, ?)`
-        )
-          .bind(
-            `ev_${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`,
-            row.id,
-            evidence.finding || null,
-            evidence.limitation || null
-          )
-          .run();
-      }
+        .bind(JSON.stringify({ reason: 'already_turkish', localization: provenance(r) }), row.id)
+        .run();
+      return { ok: true, outcome: r.outcome };
     }
 
-    return { ok: true };
+    if (r.outcome === 'FAILED') throw new Error(`CONTRACT_VIOLATION:${r.failure}`);
+
+    if (r.outcome === 'READY') {
+      const gist = r.summaryTr as string;
+      await env.DB.prepare(
+        `UPDATE source_items
+         SET title = ?, title_orig = ?, summary = ?, gists_json = ?,
+             enrichment_status = 'done', enrichment_json = ?, enrichment_error = NULL,
+             enriched_at = ${NOW_SQL}, updated_at = ${NOW_SQL}
+         WHERE id = ?`
+      )
+        .bind(r.titleTr, sourceTitle, gist, JSON.stringify([gist]), JSON.stringify({ route: row.route, localization: provenance(r) }), row.id)
+        .run();
+
+      // Research items mirror the grounded summary into the evidence card (finding only; no model-made evidence any more).
+      if (row.route === 'kaduse-research') {
+        const existing = await env.DB.prepare(`SELECT id FROM evidence_cards WHERE source_item_id = ?`).bind(row.id).first<{ id: string }>();
+        if (existing) {
+          await env.DB.prepare(`UPDATE evidence_cards SET finding = ? WHERE id = ?`).bind(gist, existing.id).run();
+        } else {
+          await env.DB.prepare(`INSERT INTO evidence_cards (id, source_item_id, finding, limitation) VALUES (?, ?, ?, ?)`)
+            .bind(`ev_${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`, row.id, gist, null)
+            .run();
+        }
+      }
+      return { ok: true, outcome: r.outcome };
+    }
+
+    // TITLE_ONLY / INSUFFICIENT_EVIDENCE: the Turkish title is kept; the (source-language) summary column is left untouched
+    // and the Hub never renders it for this status.
+    await env.DB.prepare(
+      `UPDATE source_items
+       SET title = ?, title_orig = ?, enrichment_status = 'title_only', enrichment_json = ?, enrichment_error = ?,
+           enriched_at = ${NOW_SQL}, updated_at = ${NOW_SQL}
+       WHERE id = ?`
+    )
+      .bind(r.titleTr, sourceTitle, JSON.stringify({ route: row.route, localization: provenance(r) }), (r.failure || '').slice(0, 200), row.id)
+      .run();
+    return { ok: true, outcome: r.outcome };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     // Attempt counter lives in enrichment_json (no schema change): retries stop at MAX_ENRICH_ATTEMPTS.
@@ -369,10 +128,7 @@ export async function enrichOneItem(
     }
     await env.DB.prepare(
       `UPDATE source_items
-       SET enrichment_status = 'failed',
-           enrichment_error = ?,
-           enrichment_json = ?,
-           updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+       SET enrichment_status = 'failed', enrichment_error = ?, enrichment_json = ?, updated_at = ${NOW_SQL}
        WHERE id = ?`
     )
       .bind(message.slice(0, 500), JSON.stringify({ attempts: attempts + 1, error: message.slice(0, 200) }), row.id)
@@ -381,34 +137,18 @@ export async function enrichOneItem(
   }
 }
 
-/** Process pending (and retry failed) inbox items — small batches for free tier. */
+/** Process pending (and retry failed) items in every live state, in small batches for the free tier. */
 export async function runEnrichmentBatch(
   env: Env,
   opts: { limit?: number; route?: RouteId; ids?: string[] } = {}
-): Promise<{ scanned: number; done: number; failed: number; skipped: number }> {
+): Promise<{ scanned: number; done: number; titleOnly: number; failed: number; skipped: number }> {
   const limit = Math.min(Math.max(opts.limit ?? BATCH_DEFAULT, 1), 20);
-
-  let results: Array<{
-    id: string;
-    route: RouteId;
-    title: string;
-    title_orig: string | null;
-    summary: string;
-  }> = [];
+  type Row = { id: string; route: RouteId; title: string; title_orig: string | null; summary: string };
+  let results: Row[] = [];
 
   if (opts.ids?.length) {
     for (const id of opts.ids.slice(0, limit)) {
-      const row = await env.DB.prepare(
-        `SELECT id, route, title, title_orig, summary FROM source_items WHERE id = ?`
-      )
-        .bind(id)
-        .first<{
-          id: string;
-          route: RouteId;
-          title: string;
-          title_orig: string | null;
-          summary: string;
-        }>();
+      const row = await env.DB.prepare(`SELECT id, route, title, title_orig, summary FROM source_items WHERE id = ?`).bind(id).first<Row>();
       if (row) results.push(row);
     }
   } else {
@@ -435,50 +175,25 @@ export async function runEnrichmentBatch(
     sql += ` ORDER BY (enrichment_status = 'failed') ASC, (enrichment_json IS NOT NULL) ASC, fetched_at ASC
             LIMIT ?`;
     binds.push(limit);
-
-    const q = await env.DB.prepare(sql).bind(...binds).all<{
-      id: string;
-      route: RouteId;
-      title: string;
-      title_orig: string | null;
-      summary: string;
-    }>();
+    const q = await env.DB.prepare(sql).bind(...binds).all<Row>();
     results = q.results ?? [];
   }
 
-  let done = 0;
-  let failed = 0;
-  let skipped = 0;
-  for (const row of results ?? []) {
+  const counts = { scanned: results.length, done: 0, titleOnly: 0, failed: 0, skipped: 0 };
+  for (const row of results) {
     const r = await enrichOneItem(env, row);
-    if (!r.ok) failed += 1;
-    else {
-      const st = await env.DB.prepare(
-        `SELECT enrichment_status AS s FROM source_items WHERE id = ?`
-      )
-        .bind(row.id)
-        .first<{ s: string }>();
-      if (st?.s === 'skipped') skipped += 1;
-      else done += 1;
-    }
+    if (!r.ok) counts.failed += 1;
+    else if (r.outcome === 'NOT_REQUIRED') counts.skipped += 1;
+    else if (r.outcome === 'READY') counts.done += 1;
+    else counts.titleOnly += 1;
   }
-
-  return { scanned: results?.length ?? 0, done, failed, skipped };
+  return counts;
 }
 
 /**
- * Mark new/updated English items pending without wiping prior TR enrichments.
- *
- * 2026-09-23: tried extending this to also run LLM enrichment for already-Turkish items with a
- * real excerpt (so Tıp Topluluğu announcements would get a genuine gistTr instead of a title-echo).
- * Reverted after a live test: the free-tier model (Llama 3.1 8B) hallucinated on Turkish medical
- * terminology -- "Erişkin İnfluenza" (adult influenza) came back as "erik hastalığı" ("plum
- * disease"), a fabricated claim with zero basis in the source text. That is exactly what
- * AGENTS.md's hard rule forbids ("Never invent factual claims"), so LLM paraphrasing stays OFF
- * for Turkish-native content regardless of how much real excerpt is available. If a Turkish item
- * needs a real (non-title-echo) summary, the fix is upstream -- fetch and show the real excerpt
- * verbatim, never run it through this model.
+ * Ingest-time decision: only a clearly Turkish item skips localization. `unknown` is localized (fail closed), and a
+ * Turkish title with an English excerpt stays Turkish (title-first language detection).
  */
 export function shouldSkipEnrichment(title: string, summary: string): boolean {
-  return !looksMostlyEnglish(title) && !looksMostlyEnglish((summary || '').slice(0, 160));
+  return detectItemLanguage(title, summary) === 'tr';
 }

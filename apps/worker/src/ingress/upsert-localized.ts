@@ -53,7 +53,7 @@ export async function upsertLocalizedSourceItem(
 
   if (
     existing &&
-    (existing.enrichment_status === 'done' || existing.enrichment_status === 'skipped') &&
+    (existing.enrichment_status === 'done' || existing.enrichment_status === 'title_only' || existing.enrichment_status === 'skipped') &&
     existing.title_orig &&
     !looksMostlyEnglish(existing.title)
   ) {
@@ -69,7 +69,7 @@ export async function upsertLocalizedSourceItem(
       titleOrig: existing.title_orig,
       summary: existing.summary,
       gists: gists.length ? gists : [existing.summary],
-      enrichmentStatus: existing.enrichment_status as 'done' | 'skipped',
+      enrichmentStatus: existing.enrichment_status as 'done' | 'title_only' | 'skipped',
     });
   }
 

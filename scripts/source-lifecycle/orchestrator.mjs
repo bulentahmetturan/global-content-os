@@ -12,6 +12,7 @@ import { newTipTopluluguRecord, activationPatch, retirementPatch, pushHistory, c
 import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, TIP_TOPLULUGU_DERIVATIVES } from './offboard.mjs';
 import { stateOf, LANES, ACTIVATION } from './model.mjs';
 import { prepareKaduseChange } from './kaduse-change.mjs';
+import { localizationGate, localizationNextStep } from './localization.mjs';
 
 const OBSERVABILITY = {
   fetch_success_last_success_last_error: 'D1 tip_toplulugu_source_telemetry (last_success_at, failure_count, last_operator_status) / feed fetch stats (0004)',
@@ -36,6 +37,11 @@ export function createLifecycle(opts) {
   const actor = opts.actor || { kind: 'operator', id: 'cli' };
   const authorize = opts.authorize;
   const traces = opts.writeTraces !== false;
+  // Localization readiness (G8b): the canary runs the production localization pipeline through this localizer
+  // (Worker POST /api/localize/canary). No localizer = a foreign-language source cannot pass (fail closed).
+  const localizer = opts.localizer === undefined ? null : opts.localizer;
+  const localizationSample = opts.localizationSample || null; // operator-supplied [{title, excerpt}] (JSON-API sources, real excerpts)
+  const gateLocalization = ({ items }) => localizationGate({ items: localizationSample || items, localizer });
 
   function finish(trace, result) {
     trace.outcome = result.outcome;
@@ -144,8 +150,17 @@ export function createLifecycle(opts) {
           : { outcome: 'BLOCKED_TECHNICAL', reason: 'CANARY_FAILED', gates: g, canary: can },
       };
     }
+    // G8b localization readiness: readiness/diagnostic outcome, not a lifecycle state. A foreign-language source whose
+    // localization is unsafe (or cannot be canaried) is not activated; a missing summary is acceptable, a wrong one is not.
+    const localization = await gateLocalization({ items });
+    g.LOCALIZATION = localization.class;
+    trace.localization = localization;
+    if (localization.blocking) {
+      return { stop: { outcome: 'BLOCKED_LOCALIZATION', reason: localization.reason, gates: g, localization, next_step: localizationNextStep(localization) } };
+    }
     return {
       gates: g,
+      localization,
       sourceId,
       name,
       routing,
@@ -165,6 +180,7 @@ export function createLifecycle(opts) {
     cadence: { poll_minutes: v.cadence.poll_minutes, confidence: v.cadence.confidence, flags: v.cadence.flags, evidence: v.cadence.evidence },
     capacity: { status: v.capacity.status, reasons: v.capacity.reasons },
     canary: { gate: v.canary.gate, candidates: v.canary.candidates, dated: v.canary.dated, published: 0 },
+    localization: v.localization ? { class: v.localization.class, source_language: v.localization.source_language, reason: v.localization.reason, measurements: v.localization.measurements, models: v.localization.models || null } : null,
   });
 
   function kadusePlan(op, v, extra = {}) {
@@ -308,6 +324,17 @@ export function createLifecycle(opts) {
     return { req, projections, identity };
   }
 
+  // Sample for a registered source that is not re-validated end to end (Kaduse reactivation): fetch + parse its endpoint.
+  async function localizationForExisting(m) {
+    if (localizationSample) return gateLocalization({ items: [] });
+    const disc = await discoverEndpoint({ url: m.fetch_url || m.urls[0], lane: m.lane, fetcher });
+    if (disc.gate !== 'PASS') return { class: 'LOCALIZATION_CANARY_UNAVAILABLE', blocking: true, reason: `SOURCE_UNREACHABLE:${disc.gate}`, source_language: 'unknown', measurements: {} };
+    const page = disc._page;
+    const feedItems = disc._feed ? parseFeed(disc._feed.body) : [];
+    const listItems = disc._feed && disc._feed.url === page.url ? [] : extractListPage(page.body, page.url);
+    return gateLocalization({ items: feedItems.length ? feedItems : listItems });
+  }
+
   // ---------- REACTIVATE ---------------------------------------------------------------------------------------------
   async function reactivate(target, { apply = false, requestTrace = null } = {}) {
     const trace = requestTrace || { request_id: normalizeRequest(target, { now: clock() }).request_id, op: 'reactivate', input: { raw: target, apply }, actor, phases: [{ phase: 'REQUESTED', at: clock() }] };
@@ -320,8 +347,12 @@ export function createLifecycle(opts) {
     if (state === 'ACTIVE') return finish(trace, { ok: true, op: 'reactivate', outcome: 'ALREADY_ACTIVE', source_id: m.source_id, gates });
     if (state !== 'RETIRED') return finish(trace, { ok: false, op: 'reactivate', outcome: 'NOT_RETIRED', source_id: m.source_id, state, next_step: `use: add ${m.source_id}`, gates });
     if (m.store !== 'tip_toplulugu') {
+      const localization = await localizationForExisting(m);
+      gates.LOCALIZATION = localization.class;
+      trace.localization = localization;
+      if (localization.blocking) return finish(trace, { ok: false, op: 'reactivate', source_id: m.source_id, outcome: 'BLOCKED_LOCALIZATION', reason: localization.reason, gates, localization, next_step: localizationNextStep(localization) });
       const change = prepareKaduseChange({ root, op: 'reactivate', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
-      return finish(trace, { ok: kaduseOk(change), op: 'reactivate', source_id: m.source_id, gates, ...kaduseResult(change) });
+      return finish(trace, { ok: kaduseOk(change), op: 'reactivate', source_id: m.source_id, gates, localization: { class: localization.class, source_language: localization.source_language, reason: localization.reason, measurements: localization.measurements }, ...kaduseResult(change) });
     }
     return activateExisting({ req: { ...req, url: null, fetch_url: null }, identity, projections, trace, gates, apply, op: 'reactivate', previous: { state: 'RETIRED' } });
   }

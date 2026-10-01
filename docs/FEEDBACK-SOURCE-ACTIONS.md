@@ -12,4 +12,6 @@ The lifecycle orchestrator (`docs/SOURCE-LIFECYCLE.md`) refuses feedback, learni
 
 `AUTONOMOUS_RULE_MUTATION=0`. Transient events (a single fetch failure) are telemetry; feedback is raised only at the thresholds in `docs/OPERATIONS.md` (`MANUAL_REVIEW_REQUIRED`, `SYSTEMIC_FETCH_FAILURE`, lateness).
 
+Turkish localization feedback (`localization_feedback`, `docs/LOCALIZATION.md`) follows the same rule: evidence and `REVIEW_REQUIRED` flags only. It never adds, retires or reactivates a source, edits the registry, loosens scope, changes a model or prompt default, or mutates lifecycle state (`apps/worker/src/localize/localization-guardrails.test.mjs`; the lifecycle store also refuses `localization` and `localization_feedback` actors).
+
 Relevance learning is a separate owner ledger (`scripts/relevance-ledger.mjs`). It changes future candidate selection priority for one channel and one topic, content family, or source. It does not edit the source registry. One decision is refused (`ONE_SHOT_POLICY_MUTATION`). The canonical owner can reverse an applied adjustment. Production and brand actions stay with channel-content-os.

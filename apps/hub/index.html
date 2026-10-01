@@ -877,6 +877,21 @@
     }
   }
 
+  // Turkish localization feedback (P5 evidence): a human judgement stored with the item's provenance. It never changes
+  // sources, models, prompts or rules; operators review aggregated REVIEW_REQUIRED flags separately.
+  var LOC_FEEDBACK = [
+    ['wrong_translation', 'Yanlış çeviri'], ['title_wrong', 'Başlık yanlış'], ['summary_wrong', 'Özet yanlış'],
+    ['unsupported_claim', 'Kaynakta olmayan iddia'], ['subject_inversion', 'Özne/nesne ters'], ['entity_error', 'Özel ad hatası'],
+    ['number_error', 'Sayı hatası'], ['garbled_turkish', 'Bozuk Türkçe'], ['foreign_language_leak', 'Yabancı dil sızıntısı'],
+    ['too_vague', 'Çok belirsiz'], ['summary_not_useful', 'Özet işe yaramaz'],
+    ['good_translation', 'İyi çeviri'], ['good_summary', 'İyi özet']
+  ];
+  function locFeedbackHtml(it) {
+    if (it.enrichmentStatus !== 'done' && it.enrichmentStatus !== 'title_only') return '';
+    return '<select class="loc-fb" data-loc-fb="' + it.id + '" title="Türkçe çeviri geri bildirimi"><option value="">Çeviri geri bildirimi…</option>' +
+      LOC_FEEDBACK.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('') + '</select>';
+  }
+
   function cardHtml(it) {
     var mode = it.triageStatus;
     var extra = mode === 'production' ? ' in-production'
@@ -906,7 +921,7 @@
     }
     // Turkish title/summary contract: while enrichment is pending or failed the stored summary is the source-language
     // excerpt, so it is never shown; an explicit Turkish state is shown instead.
-    var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed';
+    var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed' || it.enrichmentStatus === 'title_only';
     var gist = unenriched ? '' : stripHtml((it.gists && it.gists[0]) || it.summary || '');
     var title = stripHtml(it.title || '');
     var titleOrig = stripHtml(it.titleOrig || '');
@@ -920,8 +935,9 @@
     var enrichNote = '';
     if (it.enrichmentStatus === 'pending') {
       enrichNote = '<p class="original-title">Öz hazırlanıyor…</p>';
-    } else if (it.enrichmentStatus === 'failed') {
-      enrichNote = '<p class="original-title">Türkçe özet üretilemedi — içeriği kaynak bağlantısından inceleyin.</p>';
+    } else if (it.enrichmentStatus === 'failed' || it.enrichmentStatus === 'title_only') {
+      // title_only: the Turkish title is stored and shown; the summary was not generated (no/insufficient evidence or not grounded).
+      enrichNote = '<p class="original-title">Türkçe özet üretilemedi — kaynağı inceleyin.</p>';
     }
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '">' +
@@ -942,7 +958,7 @@
         evidence +
         enrichNote +
         (gist ? '<p class="gist">' + escapeHtml(gist) + '</p>' : '') +
-        '<div class="actions">' + actions + '</div>' +
+        '<div class="actions">' + actions + locFeedbackHtml(it) + '</div>' +
       '</div>'
     );
   }
@@ -1626,6 +1642,18 @@
         .catch(function (err) { showToast(err.message); });
       return;
     }
+  });
+
+  document.addEventListener('change', function (e) {
+    var sel = e.target.closest ? e.target.closest('[data-loc-fb]') : null;
+    if (!sel || !sel.value) return;
+    var code = sel.value;
+    var id = sel.getAttribute('data-loc-fb');
+    sel.disabled = true;
+    api('/api/localize/feedback', { method: 'POST', body: JSON.stringify({ itemId: id, code: code, reviewer: 'hub-user' }) })
+      .then(function () { showToast('Geri bildirim kaydedildi (yalnızca kanıt olarak; kaynak/model/kural değişmez)'); })
+      .catch(function (err) { showToast(err.message); })
+      .then(function () { sel.disabled = false; sel.value = ''; });
   });
 
   // "Kaynakları çek" is lane-aware: each lane triggers ONLY its own acquisition path, and any failed

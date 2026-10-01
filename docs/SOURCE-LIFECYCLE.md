@@ -7,6 +7,7 @@ node scripts/source-lifecycle.mjs add "<name | url | source_id>" [--url U] [--ch
 node scripts/source-lifecycle.mjs retire "<source>" [--reason R] [--apply]
 node scripts/source-lifecycle.mjs reactivate "<source_id>" [--history DIR] [--apply]
 node scripts/source-lifecycle.mjs inspect | plan | recalibrate | purge-plan "<source>"
+# add / reactivate: [--localization-sample FILE]; foreign-language sources also need HUB_OPERATOR_TOKEN (G8b)
 ```
 
 Without `--apply` nothing is written. The user's explicit "add"/"stop using" is the authorization; the agent then passes `--apply`. Exit: 0 done, 3 needs user decision, 4 blocked, 1 denied/error. Full per-run trace: `.logs/source-lifecycle/<request_id>.json` (outside git and default context).
@@ -49,10 +50,15 @@ For "bu kaynak", "bunu kaldır", "artık bunu kullanma": if the current conversa
 | G6 dedupe | endpoint collision, S66 one-primary-heading with the candidate added, optional known-item overlap | `check_source_identity.py` via bridge |
 | G7 capacity | unchanged `tip_toplulugu_ops.py capacity --add 1 --add-cadence N`. Only SAFE activates; CAUTION/BLOCK stage READY (`MANUAL_INTAKE` + reason); guard unavailable → BLOCK | capacity guard |
 | G8 canary | fetch → parse → normalize → dedupe → candidate shape (inside plan hosts/paths) → routing → the exact profile through `automation_ready_gates`. Publishes nothing | `tip_toplulugu_activation.py` via bridge |
+| G8b localization | readiness for foreign / mixed-language sources: language, Turkish title, extractive evidence, grounded summary, independent audit (unsupported claim, subject inversion, numeric/entity, garble, leak). Outcome class below; `LOCALIZATION_MODEL_UNSAFE` or an unavailable canary stops activation (`BLOCKED_LOCALIZATION`, exit 4). Turkish sources are `LOCALIZATION_NOT_REQUIRED` with no model call | Worker `POST /api/localize/canary` (operator-gated, no writes) |
 | G9 activate | all PASS + SAFE → `AUTOMATION_READY` in an additive layer (burs / egitim / v1.1 for `.tr` / batch3) | canonical owner path |
 | G10 observe | existing telemetry only (below) | – |
 
 Bridge: `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_lifecycle_bridge.py` (read-only).
+
+## Localization readiness (G8b)
+
+A readiness / diagnostic outcome on `add` and `reactivate`, never a lifecycle state and never a reason to retire. Classes: `LOCALIZATION_READY`, `LOCALIZATION_TITLE_ONLY`, `LOCALIZATION_INSUFFICIENT_EVIDENCE`, `LOCALIZATION_NOT_REQUIRED` (all activatable) and `LOCALIZATION_MODEL_UNSAFE` / canary unavailable (blocking). The rule is "grounded whenever generated": a missing summary is acceptable, a wrong or unsafe one is not (zero tolerance on leak, unsupported claim, subject inversion, numeric/entity error, garble; titles must localize). The sample is at most 8 parsed items; only foreign items are sent to the canary. The CLI needs `HUB_OPERATOR_TOKEN` (and `GCOS_LOCALIZE_CANARY_URL` unless production); without it a foreign source is blocked, not activated. `--localization-sample FILE` supplies `[{title, excerpt}]` for sources the lifecycle cannot sample (JSON APIs) or to canary real article excerpts. The pipeline, statuses and feedback loop: `docs/LOCALIZATION.md`.
 
 ## Cadence
 

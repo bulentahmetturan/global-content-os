@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
 export const MUTATING_ACTORS = new Set(['operator', 'canonical_owner']);
-const FEEDBACK_ACTORS = new Set(['feedback', 'pillar5', 'learning', 'relevance_ledger', 'machine']);
+const FEEDBACK_ACTORS = new Set(['feedback', 'pillar5', 'learning', 'relevance_ledger', 'machine', 'localization_feedback', 'localization']);
 
 export function authorizeLifecycle({ actor, authorize, op }) {
   if (actor && FEEDBACK_ACTORS.has(actor.kind)) return { ok: false, code: 'FEEDBACK_CANNOT_MUTATE_SOURCE', detail: 'feedback produces reviewed proposals; a canonical owner action is required' };

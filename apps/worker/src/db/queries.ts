@@ -211,7 +211,7 @@ export async function upsertSourceItem(
     publisher: string;
     publishedAt?: string | null;
     dedupeKey?: string;
-    enrichmentStatus?: 'pending' | 'done' | 'failed' | 'skipped';
+    enrichmentStatus?: 'pending' | 'done' | 'title_only' | 'failed' | 'skipped';
     editorialBrand?: string | null;
     contentFamily?: string | null;
     sourceId?: string | null;

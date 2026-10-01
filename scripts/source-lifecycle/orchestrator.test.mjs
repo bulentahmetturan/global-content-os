@@ -12,7 +12,7 @@ import { classifyArtifacts, inflightPlan, purgePlan, PRESERVED } from './offboar
 import { loadProjections, normalizeRequest, resolveIdentity } from './catalog.mjs';
 import { dedupeGate } from './dedupe.mjs';
 import { pythonBridge, pythonCmd } from './bridge.mjs';
-import { exitCode } from '../source-lifecycle.mjs';
+import { exitCode, human } from '../source-lifecycle.mjs';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const NOW = '2026-09-29T12:00:00.000Z';
@@ -156,7 +156,19 @@ function fixtureSync(dir) {
   writeFileSync(join(dir, 'config/feeds.json'), JSON.stringify({ feeds }, null, 2));
   return feeds;
 }
-const lc = (root, o = {}) => createLifecycle({ root, now: () => NOW, actor: operator, authorize: yes, bridge: fakeBridge(), fetcher: fakeFetcher({}), kaduseSync: fixtureSync, ...o });
+// Localization canary stand-in (the real one is the Worker's POST /api/localize/canary running the production pipeline).
+const CLEAN_AUDIT = { english_leak: false, foreign_script: false, numeric_error: false, entity_error: false, garbled: false, unsupported_claim: false, subject_inversion: false, title_wrong: false, auditor_model: 'fake-auditor' };
+const fakeLocalizer = ({ outcome = 'READY', audit = {}, evidence = true } = {}) => {
+  const calls = [];
+  return {
+    calls,
+    canary: async (items) => {
+      calls.push(items);
+      return { models: { title: 'fake-title', summary: 'fake-summary', judge: 'fake-judge' }, results: items.map((it) => ({ title: it.title, outcome, titleTr: outcome === 'FAILED' ? null : 'Türkçe başlık', summaryTr: outcome === 'READY' ? 'Türkçe özet cümlesi burada yer alıyor.' : null, failure: outcome === 'READY' ? null : `X:${outcome}`, evidence: { sufficient: evidence, reason: evidence ? null : 'NO_EXCERPT', passages: evidence ? 2 : 0, id: 'e1' }, audit: { ...CLEAN_AUDIT, ...audit } })) };
+    },
+  };
+};
+const lc = (root, o = {}) => createLifecycle({ root, now: () => NOW, actor: operator, authorize: yes, bridge: fakeBridge(), fetcher: fakeFetcher({}), kaduseSync: fixtureSync, localizer: fakeLocalizer(), ...o });
 const reg = (root, f = 'batch3') => JSON.parse(readFileSync(join(root, `${HEK}/source-registry-${f}.json`), 'utf8'));
 const bytes = (root, f = 'batch3') => readFileSync(join(root, `${HEK}/source-registry-${f}.json`), 'utf8');
 const rec = (root, id, f = 'batch3') => reg(root, f).sources.filter((s) => s.source_id === id);
@@ -513,7 +525,7 @@ test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + determinis
 
   assert.equal((await lc(root).retire('who-newsroom-whole', { apply: true })).outcome, 'ALREADY_RETIRED');
 
-  const back = await lc(root).reactivate('who-newsroom-whole', { apply: true });
+  const back = await lc(root, { localizationSample: [{ title: 'WHO publishes new guidance on cholera vaccines', excerpt: 'The World Health Organization published new guidance on cholera vaccines for outbreak response.' }] }).reactivate('who-newsroom-whole', { apply: true });
   assert.equal(back.outcome, 'CHANGE_PREPARED', JSON.stringify(back));
   assert.equal(back.migration, 'migrations/0002_source_lifecycle_reactivate_who_newsroom_whole.sql');
   assert.equal(subs(), true);
@@ -779,4 +791,110 @@ test('real bridge: a profile produced by onboarding passes the runtime activatio
   const retiredRoot = sandbox();
   await lc(retiredRoot).retire('tdb_dental', { apply: true });
   assert.equal(pythonBridge(repoRoot).gates(rec(retiredRoot, 'tdb_dental')[0]).computed, 'BLOCKED');
+});
+
+// ---------- LOCALIZATION READINESS (G8b) -----------------------------------------------------------------------------------
+
+const EN_HOST = 'www.health-news-inst.org';
+const EN_PAGE = `https://${EN_HOST}/news/`;
+const enRoutes = () => {
+  const feedUrl = `https://${EN_HOST}/news/feed.xml`;
+  const items = Array.from({ length: 12 }, (_, i) => ({ title: `Hospital outbreak vaccine public health update ${i}`, url: `https://${EN_HOST}/news/update-${i}`, date: hoursAgo(1 + i * 2) }));
+  return { [EN_PAGE]: listPage({ host: EN_HOST, section: '/news/', lang: 'en', words: 'health hospital vaccine', title: 'Health News', alternate: feedUrl }), [feedUrl]: { body: rss(items), contentType: 'application/rss+xml' } };
+};
+const nothingPrepared = (root, r) => {
+  assert.equal(existsSync(join(root, 'migrations')), false, 'no migration prepared');
+  assert.ok(!r.migration);
+};
+
+test('new foreign source cannot silently bypass the localization canary: no localizer -> BLOCKED_LOCALIZATION, nothing written', async () => {
+  const root = sandbox();
+  const r = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: null }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+  assert.equal(r.outcome, 'BLOCKED_LOCALIZATION', JSON.stringify(r));
+  assert.equal(r.reason, 'LOCALIZER_NOT_CONFIGURED');
+  assert.equal(r.gates.LOCALIZATION, 'LOCALIZATION_CANARY_UNAVAILABLE');
+  assert.equal(exitCode(r), 4);
+  assert.match(r.next_step, /HUB_OPERATOR_TOKEN/);
+  nothingPrepared(root, r);
+});
+
+test('canary endpoint failure is also fail closed (LOCALIZER_ERROR), never a pass', async () => {
+  const root = sandbox();
+  const broken = { canary: async () => { throw new Error('LOCALIZER_HTTP_503'); } };
+  const r = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: broken }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+  assert.equal(r.outcome, 'BLOCKED_LOCALIZATION');
+  assert.match(r.reason, /^LOCALIZER_ERROR:LOCALIZER_HTTP_503/);
+  nothingPrepared(root, r);
+});
+
+test('add exposes the localization outcome and measurements; a READY foreign source proceeds', async () => {
+  const root = sandbox();
+  const loc = fakeLocalizer();
+  const r = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: loc }).add(EN_PAGE, { channel: 'kaduse-news' });
+  assert.equal(r.gates.LOCALIZATION, 'LOCALIZATION_READY');
+  assert.equal(r.localization.class, 'LOCALIZATION_READY');
+  assert.equal(r.localization.source_language, 'foreign');
+  assert.equal(r.localization.measurements.title_success_rate, 1);
+  assert.equal(r.localization.measurements.grounded_summary_rate, 1);
+  assert.equal(r.localization.measurements.unsupported_claim, 0);
+  assert.ok(r.localization.models.summary);
+  assert.equal(loc.calls.length, 1);
+  assert.match(human(r), /LOCALIZATION=LOCALIZATION_READY language=foreign titles=100% grounded_summaries=100%/);
+  assert.notEqual(r.outcome, 'BLOCKED_LOCALIZATION');
+});
+
+test('title-only and insufficient-evidence sources stay activatable (a missing summary is acceptable); the class is visible', async () => {
+  for (const [opt, cls] of [[{ outcome: 'TITLE_ONLY' }, 'LOCALIZATION_TITLE_ONLY'], [{ outcome: 'INSUFFICIENT_EVIDENCE', evidence: false }, 'LOCALIZATION_INSUFFICIENT_EVIDENCE']]) {
+    const root = sandbox();
+    const r = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: fakeLocalizer(opt) }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+    assert.equal(r.gates.LOCALIZATION, cls);
+    assert.equal(r.outcome, 'CHANGE_PREPARED', JSON.stringify(r));
+    assert.equal(r.localization.class, cls);
+  }
+});
+
+test('unsafe output (unsupported claim / inversion / entity / numeric / garble / leak / title) -> LOCALIZATION_MODEL_UNSAFE blocks activation', async () => {
+  for (const flag of ['unsupported_claim', 'subject_inversion', 'entity_error', 'numeric_error', 'garbled', 'english_leak', 'title_wrong']) {
+    const root = sandbox();
+    const r = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: fakeLocalizer({ audit: { [flag]: true } }) }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+    assert.equal(r.outcome, 'BLOCKED_LOCALIZATION', flag);
+    assert.equal(r.gates.LOCALIZATION, 'LOCALIZATION_MODEL_UNSAFE', flag);
+    assert.match(r.reason, /^UNSAFE_OUTPUT:/);
+    assert.match(r.next_step, /prompt improvement, model change/);
+    nothingPrepared(root, r);
+  }
+});
+
+test('title that did not localize is unsafe; an audit that could not run is not a pass', async () => {
+  const root = sandbox();
+  const failedTitle = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: fakeLocalizer({ outcome: 'FAILED' }) }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+  assert.equal(failedTitle.gates.LOCALIZATION, 'LOCALIZATION_MODEL_UNSAFE');
+  const unaudited = await lc(root, { fetcher: fakeFetcher(enRoutes()), localizer: fakeLocalizer({ audit: { error: 'AUDIT_UNPARSABLE' } }) }).add(EN_PAGE, { apply: true, channel: 'kaduse-news' });
+  assert.equal(unaudited.gates.LOCALIZATION, 'LOCALIZATION_CANARY_UNAVAILABLE');
+  assert.equal(unaudited.reason, 'AUDIT_INCOMPLETE');
+  nothingPrepared(root, unaudited);
+});
+
+test('Turkish source is not translated: LOCALIZATION_NOT_REQUIRED, the localizer is never called', async () => {
+  const root = sandbox();
+  const loc = fakeLocalizer();
+  const r = await lc(root, { fetcher: fakeFetcher(trRoutes()), localizer: loc }).add(TR_URL);
+  assert.equal(r.gates.LOCALIZATION, 'LOCALIZATION_NOT_REQUIRED');
+  assert.equal(r.localization.source_language, 'turkish');
+  assert.equal(loc.calls.length, 0);
+  assert.equal(r.outcome, 'ACTIVE_DRY_RUN');
+});
+
+test('reactivate exposes the localization outcome and is gated the same way', async () => {
+  const sample = [{ title: 'WHO publishes new guidance on cholera vaccines', excerpt: 'The World Health Organization published new guidance on cholera vaccines for outbreak response.' }];
+  const root = sandbox();
+  assert.equal((await lc(root).retire('who-newsroom-whole', { apply: true })).outcome, 'CHANGE_PREPARED');
+  const unsafe = await lc(root, { localizationSample: sample, localizer: fakeLocalizer({ audit: { subject_inversion: true } }) }).reactivate('who-newsroom-whole', { apply: true });
+  assert.equal(unsafe.outcome, 'BLOCKED_LOCALIZATION', JSON.stringify(unsafe));
+  assert.equal(unsafe.gates.LOCALIZATION, 'LOCALIZATION_MODEL_UNSAFE');
+  const noLocalizer = await lc(root, { localizationSample: sample, localizer: null }).reactivate('who-newsroom-whole', { apply: true });
+  assert.equal(noLocalizer.outcome, 'BLOCKED_LOCALIZATION');
+  const ok = await lc(root, { localizationSample: sample, localizer: fakeLocalizer() }).reactivate('who-newsroom-whole', { apply: true });
+  assert.equal(ok.outcome, 'CHANGE_PREPARED', JSON.stringify(ok));
+  assert.equal(ok.localization.class, 'LOCALIZATION_READY');
 });

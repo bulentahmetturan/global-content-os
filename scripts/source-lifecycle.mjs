@@ -8,12 +8,15 @@
 //   node scripts/source-lifecycle.mjs plan        "<name | url>"            (= add without --apply)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
+//   add / reactivate also take --localization-sample FILE ([{title, excerpt}]) and need HUB_OPERATOR_TOKEN for the localization canary (G8b).
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
 // Exit: 0 done / dry-run ok, 3 needs user decision, 4 blocked (access/capacity/technical), 1 error/denied, 2 usage.
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
 import { createLifecycle } from './source-lifecycle/orchestrator.mjs';
+import { localizerFromEnv } from './source-lifecycle/localization.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const COMMANDS = ['add', 'retire', 'reactivate', 'inspect', 'plan', 'recalibrate', 'purge-plan'];
@@ -28,6 +31,7 @@ function parseArgs(argv) {
     else if (a === '--url') o.url = rest[++i];
     else if (a === '--channel') o.channel = rest[++i];
     else if (a === '--reason') o.reason = rest[++i];
+    else if (a === '--localization-sample') o.localizationSample = rest[++i];
     else if (a === '--history') while (rest[i + 1] && !rest[i + 1].startsWith('--')) o.history.push(rest[++i]);
     else throw new Error(`unknown option ${a}`);
   }
@@ -51,6 +55,10 @@ export function human(r) {
   if (r.migration) lines.push(`MIGRATION=${r.migration} D1=${[...(r.d1?.upserts || []), ...(r.d1?.disables || []).map((d) => `${d} disable`)].join(',')} (remote apply needs explicit authorization)`);
   if (r.capacity) lines.push(`CAPACITY=${r.capacity.status}`);
   if (r.canary) lines.push(`CANARY=${r.canary.gate} candidates=${r.canary.candidates} published=0`);
+  if (r.localization) {
+    const m = r.localization.measurements || {};
+    lines.push(`LOCALIZATION=${r.localization.class} language=${r.localization.source_language}${r.localization.reason ? ` (${r.localization.reason})` : ''}${m.foreign_items ? ` titles=${Math.round(m.title_success_rate * 100)}% grounded_summaries=${Math.round(m.grounded_summary_rate * 100)}% insufficient_evidence=${Math.round(m.insufficient_evidence_rate * 100)}% leaks=${m.english_or_foreign_leak} unsupported=${m.unsupported_claim} inversion=${m.subject_inversion} numeric_entity=${m.numeric_or_entity_error} garbled=${m.garbled}` : ''}`);
+  }
   if (r.activation) lines.push(`ACTIVATION=${r.activation}`);
   if (r.question) lines.push(`QUESTION: ${r.question}`);
   if (r.next_step) lines.push(`NEXT: ${r.next_step}`);
@@ -76,7 +84,8 @@ async function main() {
     return 2;
   }
   // The operator's explicit command + --apply is the authorization; feedback/automation actors are refused in store.
-  const lc = createLifecycle({ root, history: o.history, actor: { kind: 'operator', id: process.env.USER || process.env.USERNAME || 'operator' }, authorize: () => o.apply === true });
+  const localizationSample = o.localizationSample ? JSON.parse(readFileSync(o.localizationSample, 'utf8')) : null;
+  const lc = createLifecycle({ root, history: o.history, localizer: localizerFromEnv(), localizationSample, actor: { kind: 'operator', id: process.env.USER || process.env.USERNAME || 'operator' }, authorize: () => o.apply === true });
   let r;
   if (o.cmd === 'add' || o.cmd === 'plan') r = await lc.add(o.target, { url: o.url, channel: o.channel, apply: o.cmd === 'add' && o.apply });
   else if (o.cmd === 'retire') r = await lc.retire(o.target, { reason: o.reason, apply: o.apply });

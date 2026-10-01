@@ -28,7 +28,9 @@ const ctx = {
   formatNewsAge: () => '',
 };
 vm.createContext(ctx);
-vm.runInContext([extractFunction('escapeHtml'), extractFunction('stripHtml'), extractFunction('cardHtml')].join('\n'), ctx);
+const locStart = html.indexOf('var LOC_FEEDBACK = ');
+const locVar = html.slice(locStart, html.indexOf('];', locStart) + 2);
+vm.runInContext([locVar, extractFunction('escapeHtml'), extractFunction('stripHtml'), extractFunction('locFeedbackHtml'), extractFunction('cardHtml')].join('\n'), ctx);
 
 const item = (o) => ({ id: 'i1', triageStatus: 'inbox', canonicalUrl: 'https://x.test/a', title: 'Başlık', titleOrig: 'Title', gists: ['Source English excerpt that must not leak.'], summary: 'Source English excerpt that must not leak.', ...o });
 
@@ -49,4 +51,20 @@ test('done: Turkish summary shown, no processing note', () => {
   const h = ctx.cardHtml(item({ enrichmentStatus: 'done', gists: ['Sağlık Kanada, yeni ilaç rehberini yayımladı.'] }));
   assert.match(h, /Sağlık Kanada, yeni ilaç rehberini yayımladı\./);
   assert.doesNotMatch(h, /Öz hazırlanıyor|üretilemedi/);
+});
+
+test('title_only: Turkish title shown, English excerpt hidden, explicit summary note', () => {
+  const h = ctx.cardHtml(item({ enrichmentStatus: 'title_only', title: 'Aşırı sıcak olayları' }));
+  assert.match(h, /Aşırı sıcak olayları/);
+  assert.match(h, /Türkçe özet üretilemedi — kaynağı inceleyin\./);
+  assert.doesNotMatch(h, /must not leak|Öz hazırlanıyor/);
+});
+
+test('localization feedback control is offered only for localized items (done / title_only), with every feedback code', () => {
+  const codes = vm.runInContext('LOC_FEEDBACK.map(function (o) { return o[0]; })', ctx);
+  assert.deepEqual(JSON.parse(JSON.stringify(codes)), ['wrong_translation', 'title_wrong', 'summary_wrong', 'unsupported_claim', 'subject_inversion', 'entity_error', 'number_error', 'garbled_turkish', 'foreign_language_leak', 'too_vague', 'summary_not_useful', 'good_translation', 'good_summary']);
+  for (const [status, expected] of [['done', true], ['title_only', true], ['pending', false], ['failed', false], ['skipped', false]]) {
+    assert.equal(ctx.cardHtml(item({ enrichmentStatus: status })).includes('data-loc-fb="i1"'), expected, status);
+  }
+  assert.match(html, /api\('\/api\/localize\/feedback', \{ method: 'POST'/);
 });

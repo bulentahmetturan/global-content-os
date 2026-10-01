@@ -9,7 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0027_localization_feedback.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

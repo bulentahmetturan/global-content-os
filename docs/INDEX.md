@@ -47,6 +47,12 @@ OPTIONAL: `apps/worker/src/ingress/who-news.ts`, `apps/worker/src/ingress/europe
 DO NOT LOAD: Tıp Topluluğu adapter, `config/feeds.json` in bulk. Kaduse editorial policy is owned by the channel repo
 SECOND REPO: NO (YES only for a Kaduse editorial-policy question: `@ccos/channels/kaduse-medikal/content/policies/kaduse-news.json`)
 
+### Turkish title / summary localization, localization feedback
+READ: `docs/LOCALIZATION.md`
+OPTIONAL: `apps/worker/src/localize/pipeline.ts`, `apps/worker/src/localize/enrich.ts`, `apps/worker/src/localize/localization-feedback.ts`, `scripts/source-lifecycle/localization.mjs`
+DO NOT LOAD: source registries, run history. A model or prompt default change, a migration or a deploy needs explicit authorization; feedback never changes them
+SECOND REPO: NO
+
 ### Scheduler / cadence / capacity
 READ: `docs/OPERATIONS.md`, `adapters/tip-toplulugu-radar/radar/tip_toplulugu_scheduler.py`, `apps/worker/src/scheduled-jobs.ts`, `wrangler.toml`
 OPTIONAL: `adapters/tip-toplulugu-radar/tests/test_tip_toplulugu_scheduler_fairness.py`, `docs/continuous-flow.md`, `docs/cron-capacity-report.md`, `adapters/tip-toplulugu-radar/radar/tip_toplulugu_continuous_runner.py`, `.github/workflows/tip-toplulugu-python-runner.yml`
