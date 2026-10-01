@@ -189,3 +189,60 @@ test('published_at: a different day is not a representation repair', async () =>
   await upsertSourceItem(db, { ...input, publishedAt: '2026-09-25' });
   assert.deepEqual(db.calls, []);
 });
+
+/** Args bound to PUBLISHED_AT_SET (flag, incoming, fallback), located by placeholder position in the SQL. */
+function publishedAtArgs(call) {
+  const at = call.sql.indexOf('published_at = CASE');
+  assert.ok(at !== -1, 'UPDATE must set published_at through PUBLISHED_AT_SET');
+  const i = (call.sql.slice(0, at).match(/\?/g) || []).length;
+  return call.args.slice(i, i + 3);
+}
+
+test('published_at preserved: a full UPDATE (new title) with a different date keeps the stored date', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, title: 'Changed title', publishedAt: '2026-09-25' });
+  assert.equal(db.calls.length, 1);
+  assert.match(db.calls[0].sql, /SET title = \?/);
+  const [flag, incoming, fallback] = publishedAtArgs(db.calls[0]);
+  assert.equal(flag, 0);
+  assert.equal(incoming, '2026-09-25');
+  assert.equal(fallback, '2026-09-25');
+});
+
+test('published_at preserved: a full UPDATE with a null date cannot null the stored date', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, title: 'Changed title', publishedAt: null });
+  assert.equal(db.calls.length, 1);
+  assert.deepEqual(publishedAtArgs(db.calls[0]), [0, null, null]);
+});
+
+test('published_at preserved on kaduse-news and kaduse-research re-sightings', async () => {
+  for (const route of ['kaduse-news', 'kaduse-research']) {
+    const existing = { ...base, route, channel_id: 'kaduse-medikal', content_family: null };
+    const seen = { ...input, route, channelId: 'kaduse-medikal', contentFamily: undefined };
+    const changed = recordingDb(existing);
+    await upsertSourceItem(changed, { ...seen, publishedAt: '2026-09-25' });
+    assert.deepEqual(changed.calls, [], `${route}: different date`);
+    const monthOnly = recordingDb(existing);
+    await upsertSourceItem(monthOnly, { ...seen, publishedAt: '2026 Oct' });
+    assert.deepEqual(monthOnly.calls, [], `${route}: month-precision raw date`);
+  }
+});
+
+test('published_at: a verified correction without a date cannot null the stored date', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, sourceId: 's2', publishedAt: null, verifiedDateCorrection: true });
+  assert.equal(db.calls.length, 1);
+  assert.deepEqual(publishedAtArgs(db.calls[0]), [1, null, null]);
+});
+
+test('canonical identity: no re-sighting UPDATE writes id, dedupe_key (DOI), feed_id or route', async () => {
+  const db = recordingDb(base);
+  await upsertSourceItem(db, { ...input, sourceId: 's2', dedupeKey: '10.1000/other' });
+  await upsertSourceItem(db, { ...input, title: 'Changed title', dedupeKey: '10.1000/other' });
+  assert.equal(db.calls.length, 2);
+  for (const { sql } of db.calls) {
+    const set = sql.slice(sql.indexOf(' SET '), sql.lastIndexOf(' WHERE '));
+    assert.doesNotMatch(set, /\b(id|dedupe_key|feed_id|route)\s*=/);
+  }
+});
