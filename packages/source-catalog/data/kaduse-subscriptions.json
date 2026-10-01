@@ -3,7 +3,7 @@
   "channelId": "kaduse-medikal",
   "$comment": "CANONICAL (Package 2): the ONLY editable copy of Kaduse news source subscriptions and acquisition scoping. Owned by global-content-os (source acquisition/runtime). Moved from multi_channel_design/channels/kaduse-medikal/content/news-sources.json; editorial COVERAGE rules stay in channel-content-os channels/kaduse-medikal/content/policies/kaduse-news.json (ADR-0005). sourceId/targetId reference news-registry.json in this directory; publisher identity, URLs, transport, cadence and health are NOT duplicated here. `enabled` = the subscription participates in scripts/sync-feeds.mjs output; actual fetching still requires a working fetcher (HTTP 200 != automation ready). inclusionPolicy/exclusionPolicy are acquisition scoping filters, emitted into feed rules. Superseded/excluded identities live only in news-registry.json.",
   "status": "ACTIVE_SUBSCRIPTIONS",
-  "subscriptionCount": 59,
+  "subscriptionCount": 60,
   "subscriptions": [
     {
       "channelId": "kaduse-medikal",
@@ -632,6 +632,12 @@
         "general enterprise software",
         "broad digital-health business stories unless directly material"
       ]
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "bilimgenc-tubitak-saglik",
+      "targetId": "bilimgenc-tubitak-saglik-whole",
+      "enabled": true
     }
   ]
 }

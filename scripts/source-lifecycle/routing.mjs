@@ -93,12 +93,17 @@ export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle
   };
 }
 
+// Path segments that name a listing type, not a publisher section; the next segment is the identity.
+const GENERIC_PATH_SEGMENTS = new Set(['kategori', 'category', 'konu', 'konular', 'haber', 'haberler', 'news', 'tag', 'taxonomy', 'page']);
+
 /** Deterministic, collision-free source id in the lane's naming convention. */
 export function proposeSourceId({ lane, heading, url, taken }) {
   const u = new URL(url);
   const label = (registrableDomain(url) || 'source').split('.')[0];
-  const seg = u.pathname.split('/').filter(Boolean).find((s) => /^[a-z][a-z0-9-]{2,}$/i.test(s)) || '';
-  const parts = [label, seg].filter(Boolean).map((s) => s.toLowerCase().replace(/[^a-z0-9]+/g, lane === 'tip_toplulugu' ? '_' : '-'));
+  const seg = u.pathname.split('/').filter(Boolean).find((s) => /^[a-z][a-z0-9-]{2,}$/i.test(s) && !GENERIC_PATH_SEGMENTS.has(s.toLowerCase())) || '';
+  const reg = registrableDomain(url) || '';
+  const sub = reg && u.hostname.endsWith(`.${reg}`) ? u.hostname.slice(0, -reg.length - 1).replace(/^www\./, '').split('.').pop() : '';
+  const parts = [sub, label, seg].filter(Boolean).map((s) => s.toLowerCase().replace(/[^a-z0-9]+/g, lane === 'tip_toplulugu' ? '_' : '-'));
   let base = lane === 'tip_toplulugu' ? parts.join('_') : parts.join('-');
   if (lane === 'tip_toplulugu' && heading === 'BURS') base = `burs_${base}`;
   if (lane === 'tip_toplulugu' && heading === 'EGITIM') base = `egitim_${base}`;

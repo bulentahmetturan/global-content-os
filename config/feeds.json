@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "2167eed4c5336ced634d25b19f1d5f0cd655490865929ceff067a5e3849a1a70"
+        "sha256": "3bc9cc5daef346ab85e142aac985cf4b6c524efc940de68c43f2166c0829e8fb"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "3246e946a83ade15dcb7aba0e61d86cbf9b0dd8cbc799f6283f38d471f263d90"
+        "sha256": "54deec3753d68bf5820380a920f761923e10723fa57f4e9549e742c8eb9206ee"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 60,
+    "news": 61,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 838,
-    "registryTargetsParsed": 59
+    "total": 839,
+    "registryTargetsParsed": 60
   },
   "feeds": [
     {
@@ -1667,6 +1667,26 @@
           "general enterprise software",
           "broad digital-health business stories unless directly material"
         ]
+      }
+    },
+    {
+      "id": "news-bilimgenc-tubitak-saglik-whole",
+      "label": "Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "bilimgenc-tubitak-saglik-whole",
+      "registrySourceId": "bilimgenc-tubitak-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
       }
     },
     {

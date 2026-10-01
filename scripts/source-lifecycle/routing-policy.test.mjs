@@ -35,3 +35,10 @@ test('SOURCE-LIFECYCLE keeps the deictic-reference rule and retire default', () 
   assert.match(l, /## Deictic references[\s\S]*exactly one source identity[\s\S]*ask the user one question/);
   assert.match(l, /Retire \(default for "remove" \/ "stop using"\)/);
 });
+
+test('proposed source ids skip generic listing segments and keep the publisher subdomain', async () => {
+  const { proposeSourceId } = await import('./routing.mjs');
+  const taken = new Set();
+  assert.equal(proposeSourceId({ lane: 'kaduse-news', heading: 'HABER', url: 'https://bilimgenc.tubitak.gov.tr/kategori/saglik', taken }), 'bilimgenc-tubitak-saglik');
+  assert.equal(proposeSourceId({ lane: 'tip_toplulugu', heading: 'BURS', url: 'https://tubitak.gov.tr/tr/duyuru', taken }), 'burs_tubitak_duyuru');
+});

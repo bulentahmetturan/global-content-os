@@ -287,6 +287,11 @@
       "id": "mobihealthnews",
       "canonicalName": "MobiHealthNews (HIMSS Media)",
       "officialUrl": "https://www.mobihealthnews.com"
+    },
+    {
+      "id": "gov",
+      "canonicalName": "Sağlık",
+      "officialUrl": "https://bilimgenc.tubitak.gov.tr"
     }
   ],
   "sources": [
@@ -726,6 +731,15 @@
       "officialUrl": "https://www.mobihealthnews.com",
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION"
+    },
+    {
+      "id": "bilimgenc-tubitak-saglik",
+      "publisherId": "gov",
+      "canonicalName": "Sağlık",
+      "officialUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-10-01T13:39:46.325Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed."
     }
   ],
   "targets": [
@@ -1314,6 +1328,16 @@
       "officialUrl": "https://www.mobihealthnews.com",
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Strong relevance constraint around AI/ML healthcare, diagnostics, regulated/near-regulated digital health, medical devices, wearables, monitoring, digital therapeutics, imaging, clinically relevant health technology; excludes generic funding/hospital-IT/enterprise-software/broad digital-health-business stories unless directly material to Kaduse, per Batch N2-FINAL section 5.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false
+    },
+    {
+      "id": "bilimgenc-tubitak-saglik-whole",
+      "sourceId": "bilimgenc-tubitak-saglik",
+      "label": "Sağlık",
+      "officialUrl": "https://bilimgenc.tubitak.gov.tr/kategori/saglik",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-10-01T13:39:46.325Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed.",
       "transportStatus": "WEB_ONLY",
       "machineReadable": false
     }
