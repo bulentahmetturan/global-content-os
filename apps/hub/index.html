@@ -904,7 +904,10 @@
     } else {
       actions = '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">↩ Geri Al</button>';
     }
-    var gist = stripHtml((it.gists && it.gists[0]) || it.summary || '');
+    // Turkish title/summary contract: while enrichment is pending or failed the stored summary is the source-language
+    // excerpt, so it is never shown; an explicit Turkish state is shown instead.
+    var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed';
+    var gist = unenriched ? '' : stripHtml((it.gists && it.gists[0]) || it.summary || '');
     var title = stripHtml(it.title || '');
     var titleOrig = stripHtml(it.titleOrig || '');
     var evidence = '';
@@ -915,8 +918,10 @@
     }
     var ageLabel = formatNewsAge(it.publishedAt, it.fetchedAt);
     var enrichNote = '';
-    if (it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed') {
+    if (it.enrichmentStatus === 'pending') {
       enrichNote = '<p class="original-title">Öz hazırlanıyor…</p>';
+    } else if (it.enrichmentStatus === 'failed') {
+      enrichNote = '<p class="original-title">Türkçe özet üretilemedi — içeriği kaynak bağlantısından inceleyin.</p>';
     }
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '">' +
@@ -936,7 +941,7 @@
           ? '<p class="original-title">Orijinal: ' + escapeHtml(titleOrig) + '</p>' : '') +
         evidence +
         enrichNote +
-        '<p class="gist">' + escapeHtml(gist) + '</p>' +
+        (gist ? '<p class="gist">' + escapeHtml(gist) + '</p>' : '') +
         '<div class="actions">' + actions + '</div>' +
       '</div>'
     );

@@ -6,9 +6,13 @@
 
 import type { Env, RouteId } from '../db/queries';
 import { looksMostlyEnglish } from './tr';
+import { trimToSentences, validateSummaryTr, validateTitleTr } from './contract';
 
 const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 const BATCH_DEFAULT = 6;
+/** A failed item is retried up to this many times (spaced by RETRY_BACKOFF_MIN), then stays `failed` with an explicit Hub state. */
+export const MAX_ENRICH_ATTEMPTS = 3;
+const RETRY_BACKOFF_MIN = 30;
 
 export type EnrichmentStatus = 'pending' | 'done' | 'failed' | 'skipped';
 
@@ -122,6 +126,8 @@ async function toTurkish(env: Env, text: string): Promise<string> {
     'Translate the user text into natural Turkish. Return ONLY the Turkish translation, no quotes, no JSON, no explanation.',
     raw.slice(0, 500)
   );
+  // Model output that is JSON/structured instead of a translation is not a translation: keep the input and let the contract reject it.
+  if (/^\s*[\[{]/.test(out)) return raw;
   const line = out.split('\n').map((x) => x.trim()).find((x) => x && !x.startsWith('{')) || out.trim();
   return line || raw;
 }
@@ -161,18 +167,25 @@ async function renderHubTr(
   env: Env,
   route: RouteId,
   titleOrig: string,
-  evidence: Record<string, string>
+  evidence: Record<string, string>,
+  excerpt: string,
+  strict = false
 ): Promise<{ titleTr: string; gistTr: string }> {
-  const systemB = `Sen bir Türkçe editörsün. Sadece verilen EVIDENCE_JSON ve ORIGINAL_TITLE kullan.
+  const systemB = `Sen bir Türkçe editörsün. Sadece verilen ORIGINAL_TITLE, SOURCE_EXCERPT ve EVIDENCE_JSON kullan.
 SADECE geçerli JSON döndür: {"titleTr":"...","gistTr":"..."}.
 Kurallar:
-- titleTr: orijinal başlığın doğal Türkçe çevirisi.
-- gistTr: SADECE bu ORIGINAL_TITLE ve EVIDENCE_JSON'daki bilgiden üretilen, bu habere özgü, EN GÜÇLÜ sonucu anlatan TEK kısa Türkçe cümle (max ~120 karakter). Format: "<özne>, <bu habere özel somut eylem/sonuç>."
-- gistTr içinde SADECE ORIGINAL_TITLE'da veya EVIDENCE_JSON'da geçen özneler/kurumlar/konular yer alsın; oralarda adı geçmeyen hiçbir özne, kurum veya konudan bahsetme.
-- İki alan da MUTLAKA Türkçe. İngilizce yasak. Uydurma yasak.`;
+- titleTr: orijinal başlığın doğal Türkçe çevirisi. Kurum/yayıncı adları orijinal kalabilir.
+- gistTr: haberin/çalışmanın asıl özünü anlatan 1-2 tam Türkçe cümle (toplam en fazla ~250 karakter, en az 8 kelime). Kaynak metni kopyalama, kendi cümlenle özetle. Format: "<özne>, <bu içeriğe özel somut eylem/sonuç>."
+- gistTr içinde SADECE ORIGINAL_TITLE, SOURCE_EXCERPT veya EVIDENCE_JSON'da geçen özneler/kurumlar/konular yer alsın; oralarda adı geçmeyen hiçbir özne, kurum veya konudan bahsetme.
+- İki alan da MUTLAKA Türkçe. İngilizce kelime yasak (özel adlar hariç). Uydurma yasak.${
+    strict
+      ? '\n- ÖNCEKİ DENEME GEÇERSİZDİ: titleTr ve gistTr içinde hiç İngilizce kelime bırakma, gistTr en az 8 kelimelik tam cümle olsun, başlığı tekrar etme.'
+      : ''
+  }`;
 
   const user = `ROUTE: ${route}
 ORIGINAL_TITLE: ${titleOrig}
+SOURCE_EXCERPT: ${excerpt.slice(0, 500)}
 EVIDENCE_JSON: ${JSON.stringify(evidence)}
 
 JSON:`;
@@ -186,7 +199,7 @@ JSON:`;
     typeof parsed.gistTr === 'string' && parsed.gistTr.trim()
       ? parsed.gistTr.trim()
       : '';
-  const evidenceSource = [titleOrig, ...Object.values(evidence)].join(' ');
+  const evidenceSource = [titleOrig, excerpt.slice(0, 500), ...Object.values(evidence)].join(' ');
   if (gistTr && !isOnTopic(gistTr, evidenceSource)) {
     gistTr = ''; // discard: shares no real content with title+evidence, almost certainly fabricated
   }
@@ -198,20 +211,38 @@ JSON:`;
     // live: evidence.actor = "DSÖ" on an Africa CDC item that never mentions WHO) -- each bit is
     // only trusted here if it's independently grounded in titleOrig, never in the other evidence
     // fields. titleOrig is the one thing that's never model output, so it's always the final
-    // fallback.
+    // fallback. The result still has to pass validateSummaryTr (a bare title echo does not).
     const bits = [evidence.actor, evidence.action, evidence.whatsNew, evidence.finding, evidence.outcome]
       .filter((b) => b && isOnTopic(b, titleOrig))
       .join(' — ');
     gistTr = bits || titleOrig;
   }
   gistTr = await toTurkish(env, gistTr);
-
-  if (gistTr.length > 160) {
-    const cut = gistTr.slice(0, 160);
-    const sp = cut.lastIndexOf(' ');
-    gistTr = (sp > 80 ? cut.slice(0, sp) : cut).trim();
-  }
+  gistTr = trimToSentences(gistTr);
   return { titleTr, gistTr };
+}
+
+/**
+ * Production contract (see contract.ts): one normal attempt, one stricter retry, otherwise a contract violation.
+ * Never returns a title/summary that failed validation.
+ */
+async function renderValidated(
+  env: Env,
+  route: RouteId,
+  titleOrig: string,
+  evidence: Record<string, string>,
+  excerpt: string
+): Promise<{ titleTr: string; gistTr: string }> {
+  let reason = 'UNKNOWN';
+  for (const strict of [false, true]) {
+    const r = await renderHubTr(env, route, titleOrig, evidence, excerpt, strict);
+    const bad =
+      validateTitleTr(r.titleTr, titleOrig) ||
+      validateSummaryTr(r.gistTr, { titleOrig, titleTr: r.titleTr, excerpt });
+    if (!bad) return r;
+    reason = bad;
+  }
+  throw new Error(`CONTRACT_VIOLATION:${reason}`);
 }
 
 export async function enrichOneItem(
@@ -252,7 +283,7 @@ export async function enrichOneItem(
 
   try {
     const evidence = await extractEvidence(env, row.route, sourceTitle, sourceSummary);
-    const { titleTr, gistTr } = await renderHubTr(env, row.route, sourceTitle, evidence);
+    const { titleTr, gistTr } = await renderValidated(env, row.route, sourceTitle, evidence, sourceSummary);
 
     await env.DB.prepare(
       `UPDATE source_items
@@ -308,14 +339,26 @@ export async function enrichOneItem(
     return { ok: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    // Attempt counter lives in enrichment_json (no schema change): retries stop at MAX_ENRICH_ATTEMPTS.
+    const prev = await env.DB.prepare(`SELECT enrichment_json AS j FROM source_items WHERE id = ?`)
+      .bind(row.id)
+      .first<{ j: string | null }>()
+      .catch(() => null);
+    let attempts = 0;
+    try {
+      attempts = Number((JSON.parse(prev?.j || '{}') as { attempts?: number }).attempts) || 0;
+    } catch {
+      /* first failure */
+    }
     await env.DB.prepare(
       `UPDATE source_items
        SET enrichment_status = 'failed',
            enrichment_error = ?,
+           enrichment_json = ?,
            updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
        WHERE id = ?`
     )
-      .bind(message.slice(0, 500), row.id)
+      .bind(message.slice(0, 500), JSON.stringify({ attempts: attempts + 1, error: message.slice(0, 200) }), row.id)
       .run();
     return { ok: false, error: message };
   }
@@ -354,17 +397,23 @@ export async function runEnrichmentBatch(
   } else {
     const binds: (string | number)[] = [];
     const sinceIso = new Date(Date.now() - 21 * 86400000).toISOString();
+    const retryBefore = new Date(Date.now() - RETRY_BACKOFF_MIN * 60000).toISOString();
+    // Every live state is enriched (an item moved to hold/production while pending must not stay in processing forever).
+    // Failed items are retried with backoff, at most MAX_ENRICH_ATTEMPTS times.
     let sql = `SELECT id, route, title, title_orig, summary
              FROM source_items
-             WHERE triage_status = 'inbox'
-               AND enrichment_status IN ('pending', 'failed')
+             WHERE triage_status IN ('inbox', 'hold', 'production')
+               AND (enrichment_status = 'pending'
+                    OR (enrichment_status = 'failed'
+                        AND COALESCE(json_extract(enrichment_json, '$.attempts'), 0) < ${MAX_ENRICH_ATTEMPTS}
+                        AND updated_at <= ?))
                AND COALESCE(fetched_at, updated_at) >= ?`;
-    binds.push(sinceIso);
+    binds.push(retryBefore, sinceIso);
     if (opts.route) {
       sql += ` AND route = ?`;
       binds.push(opts.route);
     }
-    sql += ` ORDER BY fetched_at ASC
+    sql += ` ORDER BY (enrichment_status = 'failed') ASC, fetched_at ASC
             LIMIT ?`;
     binds.push(limit);
 
