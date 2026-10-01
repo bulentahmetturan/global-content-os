@@ -10,6 +10,10 @@ Ownership: this repo owns **source truth + Hub + triage**; `channel-content-os` 
 2. `docs/CURRENT.md` — what is true today
 3. `docs/INDEX.md` — find your task, read only the files it lists
 
+## Source requests
+
+Adding, retiring, reactivating or materially changing a source ("add X", "remove / stop using X") → `docs/SOURCE-LIFECYCLE.md` + `scripts/source-lifecycle.mjs`. Do not pick another `docs/INDEX.md` route for these.
+
 ## Do not load by default
 
 - `config/feeds.json`, `docs/source-matrix.generated.json`, `migrations/0002_seed_all_feeds.sql` (generated/mega; inspect with `jq`/`grep` on one record)

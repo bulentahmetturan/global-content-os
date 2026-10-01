@@ -32,6 +32,10 @@ GCOS is the only source owner. There is no new registry and no new lifecycle enu
 
 Catalog-known names resolve automatically. For an unknown name the tool returns `NEEDS_USER_DECISION / IDENTITY_UNRESOLVED` (exit 3) and never guesses a publisher URL. The operating agent then resolves it itself: web-search the name, take the publisher's own official domain (not an aggregator, mirror or social page), and re-run `add "<name>" --url <official URL>`. The user is asked only if the search yields no official domain or more than one plausible publisher.
 
+## Deictic references
+
+For "bu kaynak", "bunu kaldır", "artık bunu kullanma": if the current conversation resolves to exactly one source identity, use it (retire, never delete). If it is ambiguous, do not guess; ask the user one question.
+
 ## Add: gates
 
 | Gate | What it decides | Reuses |

@@ -9,13 +9,15 @@ OPTIONAL: `scripts/source-lifecycle/orchestrator.mjs`, `scripts/source-lifecycle
 DO NOT LOAD: registries, `config/feeds.json`, traces in `.logs/source-lifecycle/`. Run `node scripts/source-lifecycle.mjs <add|retire|inspect> "<name or url>"`; it returns compact gate results
 SECOND REPO: NO
 
-### Add a Tıp Topluluğu source
+### Add a Tıp Topluluğu source (subsystem wiring only)
+Not an independent add path: a new source, retire or reactivate goes to the lifecycle route above. The wire tool is used only for the subsystem wiring the lifecycle orchestrator requires.
 READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`, `adapters/tip-toplulugu-radar/scripts/tip_toplulugu_wire_source.py`
 OPTIONAL: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_registry.py`, `adapters/tip-toplulugu-radar/content/policies/tip-toplulugu-audience-scope.json`
 DO NOT LOAD: full Bible, `config/feeds.json`, `docs/source-matrix.generated.json`, run history, `_*` probe dumps
 SECOND REPO: NO
 
 ### Modify a source record (any route)
+Field-level canonical maintenance only. Add, retire, reactivate or any lifecycle-grade change goes to the lifecycle route above.
 READ: `adapters/tip-toplulugu-radar/AGENTS.md`, `adapters/tip-toplulugu-radar/content/BIBLE-INDEX.md`
 OPTIONAL: `adapters/tip-toplulugu-radar/scripts/check_source_identity.py`
 DO NOT LOAD: whole registries. Look up one record with `node scripts/registry-find.mjs <source-id>` (read-only, searches only the canonical stores); edit the canonical file it names
