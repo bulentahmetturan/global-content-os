@@ -22,7 +22,9 @@ export interface Models {
 export const DEFAULT_MODELS: Models = {
   title: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
   summary: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
-  judge: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+  // Judges come from a different model family than the generator: a same-family judge shares the generator's blind spots
+  // (observed: it accepted measles rendered as smallpox and an untranslated English word).
+  judge: '@cf/mistralai/mistral-small-3.1-24b-instruct',
 };
 
 type ModelEnv = { ENRICH_MODEL?: string; ENRICH_MODEL_TITLE?: string; ENRICH_MODEL_SUMMARY?: string; ENRICH_MODEL_JUDGE?: string };

@@ -38,4 +38,4 @@ The summary column of a `title_only` item keeps the source text and is never ren
 
 No bulk re-processing. Active sources follow the new contract as they produce new items; sources with a high feedback error rate enter the review queue. The older weak items (about 419) stay a separate, bounded backlog, re-queued only in small waves after a live canary passes.
 
-Models and cost: defaults in `pipeline.ts` (`DEFAULT_MODELS`), overridable per Worker var (`ENRICH_MODEL`, `ENRICH_MODEL_TITLE`, `ENRICH_MODEL_SUMMARY`, `ENRICH_MODEL_JUDGE`, `ENRICH_MODEL_AUDIT`). A model change is never made by feedback.
+Models and cost: the generator is `llama-3.3-70b-instruct-fp8-fast`; the title and summary judges and the canary auditor use `mistral-small-3.1-24b-instruct`, a different family (a same-family judge accepted measles rendered as smallpox). Per item: title + title judge + summary + summary judge, and one auditor call in the lifecycle canary. Defaults in `pipeline.ts` (`DEFAULT_MODELS`), overridable per Worker var (`ENRICH_MODEL`, `ENRICH_MODEL_TITLE`, `ENRICH_MODEL_SUMMARY`, `ENRICH_MODEL_JUDGE`, `ENRICH_MODEL_AUDIT`). A model change is never made by feedback.
