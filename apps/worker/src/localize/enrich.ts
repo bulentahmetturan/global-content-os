@@ -413,7 +413,9 @@ export async function runEnrichmentBatch(
       sql += ` AND route = ?`;
       binds.push(opts.route);
     }
-    sql += ` ORDER BY (enrichment_status = 'failed') ASC, fetched_at ASC
+    // New items (never enriched, no enrichment_json) first, then re-queued ones, then retries of failures: a re-enrichment
+    // backlog must never delay the Turkish title/summary of fresh items.
+    sql += ` ORDER BY (enrichment_status = 'failed') ASC, (enrichment_json IS NOT NULL) ASC, fetched_at ASC
             LIMIT ?`;
     binds.push(limit);
 

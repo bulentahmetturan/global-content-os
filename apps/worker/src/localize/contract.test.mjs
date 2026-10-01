@@ -108,3 +108,12 @@ test('attempt counter accumulates across failures', async () => {
   assert.equal(JSON.parse(h.updates.at(-1).b[1]).attempts, 3);
   assert.equal(e.MAX_ENRICH_ATTEMPTS, 3);
 });
+
+test('batch selection: fresh items before re-queued ones before failure retries; hold/production included; attempts capped', async () => {
+  let selectSql = '';
+  const env = { DB: { prepare(sql) { if (/FROM source_items\s+WHERE triage_status IN/.test(sql)) selectSql = sql; return { bind: () => ({ all: async () => ({ results: [] }), run: async () => ({}), first: async () => null }) }; } } };
+  await e.runEnrichmentBatch(env, { limit: 3 });
+  assert.match(selectSql, /triage_status IN \('inbox', 'hold', 'production'\)/);
+  assert.match(selectSql, /ORDER BY \(enrichment_status = 'failed'\) ASC, \(enrichment_json IS NOT NULL\) ASC, fetched_at ASC/);
+  assert.match(selectSql, /\$\.attempts'\), 0\) < 3/);
+});
