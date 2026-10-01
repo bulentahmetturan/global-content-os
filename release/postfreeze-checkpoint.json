@@ -40,6 +40,20 @@
       "npx wrangler d1 time-travel restore global-content-os --bookmark=00000246-00000098-000050f6-2350a2758383429c73e23b05f9555368"
     ]
   },
+  "bilimGencSourceActivation": {
+    "note": "Owner-authorized 2026-10-01: migration 0026 (bilimgenc-tubitak-saglik, kaduse-news/HABER) remote apply + deploy of 0f12f3c. Taken before the migration.",
+    "takenAt": "2026-10-01T14:30+03:00",
+    "worker": "global-content-os",
+    "rollbackVersion": "3874d18f-ddcd-41de-9a7c-1c38b786855d",
+    "rollbackCommit": "7416988",
+    "d1": "global-content-os",
+    "d1Bookmark": "0000024b-0000006e-000050f7-188399343cf54737f5017ffbceed92bd",
+    "schemaMigration": "0025_tip_toplulugu_rename.sql",
+    "rollback": [
+      "npx wrangler rollback 3874d18f-ddcd-41de-9a7c-1c38b786855d",
+      "npx wrangler d1 time-travel restore global-content-os --bookmark=0000024b-0000006e-000050f7-188399343cf54737f5017ffbceed92bd"
+    ]
+  },
   "secretNames": {
     "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
     "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
