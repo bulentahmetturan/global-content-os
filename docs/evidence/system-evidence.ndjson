@@ -700,3 +700,6 @@
 {"v":1,"evidence_id":"E88","to":"ROUTED","at":"2026-10-01T22:38:37.416Z","actor":{"kind":"agent","id":"cursor-temporal"},"set":{"owning_pillar":"P3","owning_subsystem":"operations"}}
 {"v":1,"evidence_id":"E90","to":"CLASSIFIED","at":"2026-10-01T22:38:37.599Z","actor":{"kind":"agent","id":"cursor-temporal"},"set":{"materiality":"MATERIAL"}}
 {"v":1,"evidence_id":"E90","to":"ROUTED","at":"2026-10-01T22:38:37.681Z","actor":{"kind":"agent","id":"cursor-temporal"},"set":{"owning_pillar":"P2","owning_subsystem":"hub-approved-brief"}}
+{"v":1,"evidence_id":"E87","to":"NO_ACTION","at":"2026-10-01T22:45:49.862Z","actor":{"kind":"human","id":"owner"},"set":{"action_required":false,"resolution":"Corrected root cause (owner, 2026-10-02): not writes and not Temporal V2. Two ad-hoc production duplicate-title self-join SELECTs read ~9.86M rows and exhausted the 5M/day free-tier row-read limit (normal use ~1M rows/day). Capture summary said write quota: the Worker reports any D1 quota error as write quota. Self-heals at 00:00 UTC reset."}}
+{"v":1,"evidence_id":"E88","to":"ACTION_REQUIRED","at":"2026-10-01T22:45:56.943Z","actor":{"kind":"agent","id":"cursor-temporal"},"set":{"action_required":true}}
+{"v":1,"evidence_id":"E88","to":"APPROVED","at":"2026-10-01T22:45:57.022Z","actor":{"kind":"human","id":"owner"},"set":{}}

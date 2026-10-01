@@ -83,6 +83,21 @@
       "npx wrangler d1 time-travel restore global-content-os --bookmark=0000024c-000001d4-000050f7-76bcd15c9c553fa507d0e35568894449"
     ]
   },
+  "temporalV2Group0": {
+    "note": "Recorded after the fact (E88): deploy of 26f4a45 (Temporal V2 Group 0: immutable published_at, research date/media gates, Resmi Gazete + Duyuru cadence), no migration. No pre-deploy checkpoint was recorded; the D1 bookmark is unknown. Commit and deployedAt from the live health endpoint, Worker version from the owner (2026-10-02).",
+    "deployedAt": "2026-10-01T22:27:51.621Z",
+    "worker": "global-content-os",
+    "deployedCommit": "26f4a45",
+    "deployedVersion": "d69ef1f2",
+    "rollbackVersion": "21e92a95-da81-47b7-b11b-5e31dd816505",
+    "rollbackCommit": "c59972f",
+    "d1": "global-content-os",
+    "d1Bookmark": null,
+    "schemaMigration": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql",
+    "rollback": [
+      "npx wrangler rollback 21e92a95-da81-47b7-b11b-5e31dd816505"
+    ]
+  },
   "secretNames": {
     "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
     "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
