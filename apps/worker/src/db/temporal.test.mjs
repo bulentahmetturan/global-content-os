@@ -192,6 +192,27 @@ test('ingest gate is path-aware: EVERGREEN admits old/undated items, still rejec
   assert.ok(staleTs.rejected);
 });
 
+test('stale-inbox expiry is TIME_SENSITIVE only: EVERGREEN-first items and items with an EVERGREEN membership stay in inbox', async () => {
+  const actions = await bundle('apps/worker/src/triage/actions.ts', 'temporal-actions');
+  const { sqlite, db, feedId } = openDb();
+  const old = daysAgo(40).slice(0, 10);
+  const insertTs = (id) =>
+    sqlite
+      .prepare(`INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at)
+        VALUES (?, ?, 'kaduse-news', 'kaduse-medikal', ?, ?, 'P', 'inbox', ?, ?)`)
+      .run(id, feedId, `Eski bir haber başlığı ${id}`, `https://example.org/${id}`, `https://example.org/${id}`, old);
+  insertTs('ts_only');
+  insertTs('ts_plus_evergreen');
+  await q.addPathMembership(db, 'ts_plus_evergreen', { path: 'EVERGREEN', evergreenView: 'health_reference' });
+  const ev = await q.upsertSourceItem(db, news(feedId, { publishedAt: old, acquisitionPath: 'EVERGREEN', evergreenView: 'health_reference' }));
+  assert.equal(ev.created, true);
+  const r = await actions.expireStaleInboxItems({ DB: db }, 'kaduse-news', 10);
+  assert.deepEqual(r.ids, ['ts_only']);
+  assert.equal(rowOf(sqlite, 'ts_only').triage_status, 'hold');
+  assert.equal(rowOf(sqlite, 'ts_plus_evergreen').triage_status, 'inbox');
+  assert.equal(rowOf(sqlite, ev.id).triage_status, 'inbox');
+});
+
 test('missing importance signal is stored as null, never 0', async () => {
   const { sqlite, db, feedId } = openDb();
   const r = await q.upsertSourceItem(db, news(feedId, {
@@ -205,6 +226,47 @@ test('missing importance signal is stored as null, never 0', async () => {
   assert.equal(sig.value, null);
   const view = q.rowToView((await evList(db, 'kaduse-research', 'research_rediscovery'))[0]);
   assert.equal(view.importanceSignal.value, null);
+});
+
+test('0028 is additive and backward-compatible: a production-shaped 0026 DB keeps every row byte-identical; pre-0028 SQL still works', () => {
+  const sqlite = new DatabaseSync(':memory:');
+  const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
+  assert.equal(files.at(-1), '0028_temporal_paths.sql', '0028_temporal_paths.sql is the only temporal migration and the newest');
+  assert.equal(files.filter((f) => /temporal/.test(f)).length, 1);
+  for (const f of files.slice(0, -1)) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
+  const feedId = sqlite.prepare(`SELECT id FROM source_feeds LIMIT 1`).get().id;
+  const legacyInsert = `INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at)
+    VALUES (?, ?, ?, ?, ?, ?, 'P', ?, ?, ?)`;
+  sqlite.prepare(legacyInsert).run('pre_news', feedId, 'kaduse-news', 'kaduse-medikal', 'Önceki haber', 'https://example.org/p1', 'inbox', 'p1', '2026-09-01');
+  sqlite.prepare(legacyInsert).run('pre_research', feedId, 'kaduse-research', 'kaduse-medikal', 'Önceki araştırma', 'https://example.org/p2', 'hold', '10.1/x', '2019-01-01');
+  sqlite.prepare(legacyInsert).run('pre_tip', feedId, 'tip-ogrencileri', 'tip_toplulugu', 'Önceki duyuru', 'https://example.org/p3', 'production', 'p3', null);
+  const cols0 = sqlite.prepare(`PRAGMA table_info(source_items)`).all().map((c) => c.name);
+  const snap = () => sqlite.prepare(`SELECT ${cols0.join(', ')} FROM source_items ORDER BY id`).all();
+  const before = JSON.stringify(snap());
+  const tables0 = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name`).all().map((t) => t.name);
+
+  sqlite.exec(readFileSync('migrations/0028_temporal_paths.sql', 'utf8'));
+
+  assert.equal(JSON.stringify(snap()), before, 'no existing value changes');
+  const cols1 = sqlite.prepare(`PRAGMA table_info(source_items)`).all();
+  assert.deepEqual(cols1.slice(0, cols0.length).map((c) => c.name), cols0, 'existing columns untouched, in order');
+  for (const c of cols1.slice(cols0.length)) {
+    assert.equal(c.notnull, 0, `${c.name} is nullable`);
+    assert.equal(c.dflt_value, null, `${c.name} has no default (no implicit value for old rows)`);
+  }
+  for (const id of ['pre_news', 'pre_research', 'pre_tip']) assert.equal(rowOf(sqlite, id).acquisition_path, null, 'no backfill');
+  const tables1 = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name`).all().map((t) => t.name);
+  assert.deepEqual(tables1.filter((t) => !tables0.includes(t)), ['item_path_membership'], 'one new table, none dropped');
+
+  // The live Worker (26f4a45) keeps working on the new schema: its INSERT/UPDATE/DELETE never name the new columns.
+  sqlite.prepare(legacyInsert).run('post_news', feedId, 'kaduse-news', 'kaduse-medikal', 'Sonraki haber', 'https://example.org/p4', 'inbox', 'p4', '2026-10-01');
+  assert.equal(rowOf(sqlite, 'post_news').acquisition_path, null);
+  sqlite.prepare(`UPDATE source_items SET triage_status = 'hold', title = 'Güncel', updated_at = 'x' WHERE id = 'pre_news'`).run();
+  sqlite.prepare(`INSERT INTO item_path_membership (source_item_id, temporal_path, evergreen_view) VALUES ('pre_research', 'EVERGREEN', 'research_rediscovery')`).run();
+  sqlite.prepare(`DELETE FROM source_items WHERE id = 'pre_research'`).run();
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM item_path_membership`).get().c, 0, 'trash purge cascades memberships; no orphan rows');
+  // Re-running 0028's guarded statements is harmless (the ALTERs are what d1_migrations protects).
+  sqlite.exec(readFileSync('migrations/0028_temporal_paths.sql', 'utf8').split('\n').filter((l) => !/^ALTER|^\s+CHECK/.test(l)).join('\n'));
 });
 
 test('legacy rows: NULL acquisition_path is inferred (no backfill write); unknown platform rows are UNCLASSIFIED and counted apart', async () => {
