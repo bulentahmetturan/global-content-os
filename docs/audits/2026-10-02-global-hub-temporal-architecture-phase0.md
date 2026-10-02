@@ -1,6 +1,6 @@
 # Global Hub temporal architecture: Phase 0 audit + owner decisions
 
-Status: **plan approved for Phase 1 only** (2026-10-02). No migration, deploy or remote write is approved by this record. Ledger: E87 (D1 quota incident), E88 (CURRENT / manifest drift), E90 (owner decisions below).
+Status: Phase 1 approved and done; **Phase 2 implemented locally** on `temporal-architecture` (see "Phase 2 as built"). No remote migration, deploy or remote write is approved by this record. Ledger: E87 (D1 quota incident), E88 (CURRENT / manifest drift), E90 (owner decisions below).
 
 ## Owner decisions (2026-10-02)
 
@@ -43,6 +43,18 @@ Fixed in `26f4a45` (`publishedAtSame`, `PUBLISHED_AT_SET`). Phase 1 added regres
 Membership read rule: TIME_SENSITIVE = `acquisition_path = TIME_SENSITIVE` (or legacy-inferred); EVERGREEN = `acquisition_path = EVERGREEN` or an EVERGREEN membership row. An item in both paths appears once in each path's view, never twice in one view. One shared predicate feeds list and count.
 
 Legacy rows: no backfill write. Evergreen admission was never open before this work, so rows on `kaduse-news`, `kaduse-research` and `tip_toplulugu` read as TIME_SENSITIVE; other `tip-ogrencileri` rows read as `UNCLASSIFIED` and enter no temporal count. Rollback: code revert leaves the new columns unread; new tables can be dropped; no existing row changes.
+
+## Phase 2 as built (`migrations/0028_temporal_path_membership.sql`, local only)
+
+The donor snapshot `5bab576` on `evergreen-v1` carries a different `migrations/0028_temporal_paths.sql` (one overwritable `source_items.temporal_path`, `rediscovery_count`, no membership table). It contradicts decision 4 and is not canonical; the canonical file has a distinct name so the two can never be confused in `d1_migrations`.
+
+- `source_items`: the seven columns above. Trigger `trg_source_items_acquisition_path_immutable` aborts any change of a non-NULL `acquisition_path` (`ACQUISITION_PATH_IMMUTABLE`).
+- `item_path_membership (source_item_id, temporal_path, evergreen_view, discovery_mode, discovery_reason, source_id, importance_signal_json, first_at, PK(source_item_id, temporal_path))`. Written with `INSERT … ON CONFLICT DO NOTHING`; trigger `trg_item_path_membership_immutable` aborts every UPDATE. No `last_at`: refreshing it would be a row write per re-sighting and would make the row mutable.
+- Not created in 0028: `item_rediscovery_events`, `temporal_cycle_telemetry`, `review_feedback` columns. The membership row (`first_at`, reason, signal) is the rediscovery record; repeat-sighting history and cycle telemetry belong to the Phase 3 acquisition runner, feedback codes to Phase 3 / P5.
+- Indexes: `(route, acquisition_path, evergreen_view, triage_status)` and a partial `(route, canonical_work_id) WHERE canonical_work_id IS NOT NULL` (second dedupe key: the same work never gets a second row on a route).
+- Code: `apps/worker/src/db/temporal.ts` (`itemScope` = the one list/count predicate, `effectivePathSql` legacy inference, `semanticLane`, `normalizeSignal`), `upsertSourceItem` / `addPathMembership` / `temporalNavCounts` in `queries.ts`, path-aware stale/undated gate in `ingress/ingest-gate.ts` (future / impossible dates still rejected on every path), `/api/routes` `temporal` block and `/api/items?path=&evergreen_view=` in `index.ts`, grouped sidebar and evergreen card in `apps/hub/index.html`.
+- Tests: `apps/worker/src/db/temporal.test.mjs` (real 0001..0028 chain in `node:sqlite`), `apps/hub/temporal-nav.test.mjs`.
+- Deploy order when approved: apply 0028 remotely **before** the Worker deploy (readiness expects `0028_temporal_path_membership.sql`; code reads the new columns).
 
 ## Source / path matrix (draft; tier and target are owner values, not set here)
 

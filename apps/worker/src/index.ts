@@ -1,12 +1,15 @@
 import {
   countByStatus,
+  HUB_WINDOW_DAYS,
   listItems,
   rowToView,
+  temporalNavCounts,
   type Env,
   type RouteId,
   type TriageStatus,
 } from './db/queries';
 import { familyClause } from './db/family-clause';
+import { EVERGREEN_VIEW_ROUTE, isEvergreenView, isTemporalPath, type TemporalFilter } from './db/temporal';
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
@@ -233,7 +236,9 @@ export default {
         // enabledFeeds = sources with a real scheduler (not the catalogue size): MANUAL_INTAKE catalogue entries are not "active".
         routes.push({ id: 'tip-toplulugu-burs', counts: tipTopluluguBurs, enabledFeeds: TIP_TOPLULUGU_BURS_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
         routes.push({ id: 'tip-toplulugu-egitim', counts: tipTopluluguEgitim, enabledFeeds: TIP_TOPLULUGU_EGITIM_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
-        return json({ routes, bibleVersion: env.BIBLE_VERSION || '4.0' });
+        // Sidebar counts: one entry per temporal nav item, same predicate and window as GET /api/items for that item.
+        const temporal = await temporalNavCounts(env.DB, HUB_WINDOW_DAYS);
+        return json({ routes, temporal, bibleVersion: env.BIBLE_VERSION || '4.0' });
       }
 
       if (path === '/api/bible' && request.method === 'GET') {
@@ -263,6 +268,17 @@ export default {
         if (family && family !== 'burs' && family !== 'duyuru' && family !== 'egitim') {
           return json({ error: 'INVALID_FAMILY' }, 400);
         }
+        // Temporal filter (optional; old callers without it keep the legacy all-time count).
+        const pathParam = url.searchParams.get('path') || '';
+        const viewParam = url.searchParams.get('evergreen_view') || '';
+        if (pathParam && !isTemporalPath(pathParam)) return json({ error: 'INVALID_TEMPORAL_PATH' }, 400);
+        if (viewParam && (!isEvergreenView(viewParam) || pathParam !== 'EVERGREEN')) return json({ error: 'INVALID_EVERGREEN_VIEW' }, 400);
+        if (pathParam === 'EVERGREEN' && (!viewParam || EVERGREEN_VIEW_ROUTE[viewParam as keyof typeof EVERGREEN_VIEW_ROUTE] !== route)) {
+          return json({ error: 'INVALID_EVERGREEN_VIEW' }, 400);
+        }
+        const temporal: TemporalFilter = pathParam
+          ? { path: pathParam as TemporalFilter['path'], ...(viewParam ? { view: viewParam as TemporalFilter['view'] } : {}) }
+          : {};
         const items = (
           await listItems(env.DB, route, status, {
             sinceDays,
@@ -273,13 +289,15 @@ export default {
                 ? { excludeChannelId: 'tip_toplulugu' }
                 : {}),
             ...(family ? { family } : {}),
+            ...temporal,
           })
         ).map(rowToView);
         const counts = await countByStatus(
           env.DB,
           route,
           channel === 'tip_toplulugu' ? channel : undefined,
-          family || undefined
+          family || undefined,
+          temporal.path ? { sinceDays, ...temporal } : {}
         );
         return json({
           route,

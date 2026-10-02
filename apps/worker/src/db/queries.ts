@@ -1,6 +1,19 @@
 import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
-import { familyClause } from './family-clause';
 import { orderByRelevance } from '../triage/relevance-order';
+import {
+  defaultAcquisitionPath,
+  effectiveAcquisitionPath,
+  effectivePathSql,
+  isEvergreenView,
+  isTemporalPath,
+  itemScope,
+  normalizeSignal,
+  semanticLane,
+  type DiscoveryMode,
+  type EvergreenView,
+  type TemporalFilter,
+  type TemporalPath,
+} from './temporal';
 export { familyClause } from './family-clause';
 export interface Env {
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
@@ -57,6 +70,20 @@ export interface SourceItemRow {
   source_id?: string | null;
   decision_route?: string | null;
   intake_meta_json?: string | null;
+  acquisition_path?: string | null;
+  evergreen_view?: string | null;
+  discovery_mode?: string | null;
+  discovery_reason?: string | null;
+  deadline_at?: string | null;
+  canonical_work_id?: string | null;
+  importance_signal_json?: string | null;
+  /** From the EVERGREEN / TIME_SENSITIVE item_path_membership rows joined by listItems. */
+  mev_view?: string | null;
+  mev_mode?: string | null;
+  mev_reason?: string | null;
+  mev_signal?: string | null;
+  mev_first_at?: string | null;
+  mts_first_at?: string | null;
   doi?: string | null;
   pmid?: string | null;
   pmcid?: string | null;
@@ -240,6 +267,20 @@ export async function upsertSourceItem(
     sourceId?: string | null;
     decisionRoute?: string | null;
     intakeMetaJson?: string | null;
+    /**
+     * Temporal path of this sighting. Omitted = today's ingress default (TIME_SENSITIVE on Global Hub routes).
+     * On a new row it becomes the immutable acquisition_path; on an existing row with a different first path it
+     * adds an item_path_membership row instead (the existing path is never overwritten).
+     */
+    acquisitionPath?: TemporalPath;
+    evergreenView?: EvergreenView | null;
+    discoveryMode?: DiscoveryMode | null;
+    discoveryReason?: string | null;
+    deadlineAt?: string | null;
+    /** Normalised work identity (e.g. lower-case DOI); a second lookup key so the same work never gets a second row. */
+    canonicalWorkId?: string | null;
+    /** Raw signal block; normalised by normalizeSignal (missing metric = null, never 0). */
+    importanceSignal?: unknown;
     evidence?: {
       doi?: string | null;
       pmid?: string | null;
@@ -249,7 +290,7 @@ export async function upsertSourceItem(
       studyType?: string | null;
     } | null;
   }
-): Promise<{ id: string; created: boolean; rejected?: string }> {
+): Promise<{ id: string; created: boolean; rejected?: string; membership?: MembershipResult }> {
   // Existing rows skip the admission gate below, so a raw source date ("2026-9-29", "2026 Oct") would
   // otherwise overwrite the ISO date the gate stored on insert.
   const rawPublishedAt = input.publishedAt ?? null;
@@ -258,16 +299,46 @@ export async function upsertSourceItem(
   }
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
   const enrichmentStatus = input.enrichmentStatus ?? 'pending';
-  const existing = await db
-    .prepare(
-      `SELECT id, triage_status, title, title_orig, summary, gists_json, canonical_url, publisher, published_at,
-              enrichment_status, editorial_brand, content_family, source_id, decision_route, intake_meta_json
-       FROM source_items WHERE route = ? AND dedupe_key = ?`
-    )
+  const canonicalWorkId = input.canonicalWorkId ? input.canonicalWorkId.trim().toLowerCase() : null;
+  const existingCols = `id, triage_status, title, title_orig, summary, gists_json, canonical_url, publisher, published_at,
+              enrichment_status, editorial_brand, content_family, source_id, decision_route, intake_meta_json`;
+  let existing = await db
+    .prepare(`SELECT ${existingCols} FROM source_items WHERE route = ? AND dedupe_key = ?`)
     .bind(input.route, dedupeKey)
     .first<ExistingItemForWrite & { id: string; triage_status: string }>();
+  if (!existing && canonicalWorkId) {
+    existing = await db
+      .prepare(`SELECT ${existingCols} FROM source_items WHERE route = ? AND canonical_work_id = ? LIMIT 1`)
+      .bind(input.route, canonicalWorkId)
+      .first<ExistingItemForWrite & { id: string; triage_status: string }>();
+  }
 
   if (existing) {
+    // A sighting on another temporal path (e.g. EVERGREEN rediscovery) adds a membership; it never rewrites the row's path.
+    let membership: MembershipResult | undefined;
+    if (input.acquisitionPath) {
+      membership = await addPathMembership(db, existing.id, {
+        path: input.acquisitionPath,
+        evergreenView: input.evergreenView ?? null,
+        discoveryMode: input.discoveryMode ?? (input.acquisitionPath === 'EVERGREEN' ? 'EVERGREEN_REDISCOVERY' : null),
+        discoveryReason: input.discoveryReason ?? null,
+        sourceId: input.sourceId ?? null,
+        importanceSignal: input.importanceSignal,
+      });
+    }
+    const result = await updateExistingItem(db, existing, input, enrichmentStatus);
+    return membership ? { ...result, membership } : result;
+  }
+  return insertNewItem(db, input, { dedupeKey, enrichmentStatus, rawPublishedAt, canonicalWorkId });
+}
+
+async function updateExistingItem(
+  db: D1Database,
+  existing: ExistingItemForWrite & { id: string; triage_status: string },
+  input: Parameters<typeof upsertSourceItem>[1],
+  enrichmentStatus: 'pending' | 'done' | 'failed' | 'skipped'
+): Promise<{ id: string; created: boolean }> {
+  {
     // An impossible year (2105) is source garbage: never let it become a stored date (new rows are rejected by the gate).
     if (hasImpossibleYear(input.publishedAt)) input.publishedAt = null;
     // Representation repair only ("2026-9-29" -> "2026-09-29": same day, canonical form) is not a date change.
@@ -345,6 +416,21 @@ export async function upsertSourceItem(
     }
     return { id: existing.id, created: false };
   }
+}
+
+async function insertNewItem(
+  db: D1Database,
+  input: Parameters<typeof upsertSourceItem>[1],
+  ctx: {
+    dedupeKey: string;
+    enrichmentStatus: 'pending' | 'done' | 'failed' | 'skipped';
+    rawPublishedAt: string | null;
+    canonicalWorkId: string | null;
+  }
+): Promise<{ id: string; created: boolean; rejected?: string }> {
+  const { dedupeKey, enrichmentStatus, rawPublishedAt } = ctx;
+  const acquisitionPath = input.acquisitionPath ?? defaultAcquisitionPath(input.route, input.channelId);
+  const evergreen = acquisitionPath === 'EVERGREEN';
 
   // A "most read / trending" scrape re-lists the same popular article for days or weeks; once a
   // link has been decided (promoted, completed, or deleted) it must never come back for review
@@ -363,6 +449,7 @@ export async function upsertSourceItem(
     titleOrig: input.titleOrig,
     summary: input.summary,
     publishedAt: input.publishedAt,
+    acquisitionPath,
   });
   if (!gate.ok) return { id: '', created: false, rejected: gate.reason };
   input.publishedAt = gate.publishedAt;
@@ -389,8 +476,9 @@ export async function upsertSourceItem(
       `INSERT INTO source_items
        (id, feed_id, route, channel_id, title, title_orig, summary, gists_json,
         canonical_url, publisher, published_at, triage_status, dedupe_key, enrichment_status,
-        editorial_brand, content_family, source_id, decision_route, intake_meta_json)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?, ?, ?, ?, ?, ?, ?)`
+        editorial_brand, content_family, source_id, decision_route, intake_meta_json,
+        acquisition_path, evergreen_view, discovery_mode, discovery_reason, deadline_at, canonical_work_id, importance_signal_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'inbox', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       id,
@@ -410,7 +498,14 @@ export async function upsertSourceItem(
       input.contentFamily ?? null,
       input.sourceId ?? null,
       input.decisionRoute ?? null,
-      input.intakeMetaJson ?? null
+      input.intakeMetaJson ?? null,
+      acquisitionPath,
+      evergreen && isEvergreenView(input.evergreenView) ? input.evergreenView : null,
+      evergreen ? input.discoveryMode ?? 'EVERGREEN_NEW' : null,
+      input.discoveryReason ?? null,
+      input.deadlineAt ?? null,
+      ctx.canonicalWorkId,
+      input.importanceSignal === undefined ? null : JSON.stringify(normalizeSignal(input.importanceSignal))
     )
     .run();
 
@@ -426,6 +521,58 @@ export async function upsertSourceItem(
   }
 
   return { id, created: true };
+}
+
+export type MembershipResult =
+  | { status: 'same_as_acquisition'; path: TemporalPath }
+  | { status: 'exists'; path: TemporalPath }
+  | { status: 'added'; path: TemporalPath }
+  | { status: 'invalid'; reason: string };
+
+/**
+ * Adds `path` to an existing canonical item. The item's first path (acquisition_path, or its legacy inference) is
+ * never changed; a membership that already exists is never overwritten (insert-or-nothing, update trigger in 0028).
+ * Touches no source_items column, so published_at, DOI / dedupe key and source identity stay as they are.
+ */
+export async function addPathMembership(
+  db: D1Database,
+  itemId: string,
+  m: {
+    path: TemporalPath;
+    evergreenView?: EvergreenView | null;
+    discoveryMode?: DiscoveryMode | null;
+    discoveryReason?: string | null;
+    sourceId?: string | null;
+    importanceSignal?: unknown;
+  }
+): Promise<MembershipResult> {
+  if (!isTemporalPath(m.path)) return { status: 'invalid', reason: 'UNKNOWN_TEMPORAL_PATH' };
+  const item = await db
+    .prepare(`SELECT id, route, channel_id, acquisition_path FROM source_items WHERE id = ?`)
+    .bind(itemId)
+    .first<{ id: string; route: string; channel_id: string | null; acquisition_path: string | null }>();
+  if (!item) return { status: 'invalid', reason: 'ITEM_NOT_FOUND' };
+  if (effectiveAcquisitionPath(item) === m.path) return { status: 'same_as_acquisition', path: m.path };
+  const evergreen = m.path === 'EVERGREEN';
+  const res = await db
+    .prepare(
+      `INSERT INTO item_path_membership
+       (source_item_id, temporal_path, evergreen_view, discovery_mode, discovery_reason, source_id, importance_signal_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(source_item_id, temporal_path) DO NOTHING`
+    )
+    .bind(
+      itemId,
+      m.path,
+      evergreen && isEvergreenView(m.evergreenView) ? m.evergreenView : null,
+      evergreen ? m.discoveryMode ?? 'EVERGREEN_REDISCOVERY' : null,
+      m.discoveryReason ?? null,
+      m.sourceId ?? null,
+      m.importanceSignal === undefined ? null : JSON.stringify(normalizeSignal(m.importanceSignal))
+    )
+    .run();
+  const changes = Number((res as { meta?: { changes?: number } })?.meta?.changes ?? 0);
+  return { status: changes > 0 ? 'added' : 'exists', path: m.path };
 }
 
 /** Hub review filter for Tıp Topluluğu partition — does not require raw JSON. */
@@ -516,42 +663,22 @@ export async function listItems(
     channelId?: string;
     excludeChannelId?: string;
     family?: string;
-  } = {}
+  } & TemporalFilter = {}
 ): Promise<SourceItemRow[]> {
   // Steady-state Hub: only the recent window — full inbox history is not needed daily.
-  const sinceDays = Math.min(Math.max(opts.sinceDays ?? 14, 1), 365);
   const limit = Math.min(Math.max(opts.limit ?? 200, 1), 500);
-  const sinceIso = new Date(Date.now() - sinceDays * 86400000).toISOString();
+  const scope = itemScope({ ...opts, route, sinceIso: windowStart(opts.sinceDays) });
 
-  let sql = `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
+  let sql = `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type,
+       mev.evergreen_view AS mev_view, mev.discovery_mode AS mev_mode, mev.discovery_reason AS mev_reason,
+       mev.importance_signal_json AS mev_signal, mev.first_at AS mev_first_at, mts.first_at AS mts_first_at
        FROM source_items i
        LEFT JOIN evidence_cards e ON e.source_item_id = i.id
-       WHERE i.route = ?`;
-  const binds: (string | number)[] = [route];
-
-  if (status === 'done') {
-    sql += ` AND i.triage_status = 'trash' AND i.archive_kind = 'done'`;
-  } else if (status === 'trash') {
-    sql += ` AND i.triage_status = 'trash' AND (i.archive_kind IS NULL OR i.archive_kind = '' OR i.archive_kind = 'deleted')`;
-  } else {
-    sql += ` AND i.triage_status = ?`;
-    binds.push(status);
-  }
-
-  sql += ` AND COALESCE(i.fetched_at, i.published_at, i.updated_at) >= ?`;
-  binds.push(sinceIso);
-
-  if (opts.channelId) {
-    // Channel view (e.g. Tıp Topluluğu): drop non-readable junk such as bare e-mail addresses.
-    sql += ` AND i.channel_id = ? AND i.title NOT LIKE '%@%' AND LENGTH(TRIM(i.title)) >= 12 AND COALESCE(i.decision_route, '') != 'REJECTED_LEGACY'`;
-    binds.push(opts.channelId);
-  } else if (opts.excludeChannelId) {
-    sql += ` AND COALESCE(i.channel_id, '') != ?`;
-    binds.push(opts.excludeChannelId);
-  }
-
-  const fam = familyClause(opts.family, 'i.');
-  sql += fam.sql;
+       LEFT JOIN item_path_membership mev ON mev.source_item_id = i.id AND mev.temporal_path = 'EVERGREEN'
+       LEFT JOIN item_path_membership mts ON mts.source_item_id = i.id AND mts.temporal_path = 'TIME_SENSITIVE'
+       WHERE ${scope.sql}${statusClause(status)}`;
+  const binds: (string | number)[] = [...scope.binds];
+  if (status !== 'done' && status !== 'trash') binds.push(status);
 
   // Newest first everywhere: with the 200-item cap, oldest-first hid every newly pulled item.
   sql += ` ORDER BY COALESCE(i.fetched_at, i.published_at) DESC LIMIT ?`;
@@ -572,22 +699,44 @@ function effectiveStatus(row: SourceItemRow): TriageStatus {
   return row.triage_status === 'done' ? 'done' : row.triage_status;
 }
 
+function windowStart(sinceDays: number | undefined): string {
+  const days = Math.min(Math.max(sinceDays ?? 14, 1), 365);
+  return new Date(Date.now() - days * 86400000).toISOString();
+}
+
+function statusClause(status: TriageStatus): string {
+  if (status === 'done') return ` AND i.triage_status = 'trash' AND i.archive_kind = 'done'`;
+  if (status === 'trash') return ` AND i.triage_status = 'trash' AND (i.archive_kind IS NULL OR i.archive_kind = '' OR i.archive_kind = 'deleted')`;
+  return ` AND i.triage_status = ?`;
+}
+
+/**
+ * Counts per status. With `opts.sinceDays` (and a temporal filter) it uses exactly the listItems predicate, so a
+ * path-aware Hub count equals the list it labels; without it the legacy all-time count is kept for old callers.
+ */
 export async function countByStatus(
   db: D1Database,
   route: RouteId,
   channelId?: string,
-  family?: string
+  family?: string,
+  opts: { sinceDays?: number } & TemporalFilter = {}
 ): Promise<Record<TriageStatus, number>> {
-  const fam = familyClause(family);
+  const scope = itemScope({
+    route,
+    channelId,
+    excludeChannelId: !channelId && route === 'tip-ogrencileri' ? 'tip_toplulugu' : undefined,
+    family,
+    path: opts.path,
+    view: opts.view,
+    sinceIso: opts.sinceDays === undefined ? undefined : windowStart(opts.sinceDays),
+  });
   const { results } = await db
     .prepare(
-      `SELECT triage_status AS status, archive_kind AS archive_kind, COUNT(*) AS c
-       FROM source_items WHERE route = ?${
-         channelId ? " AND channel_id = ? AND COALESCE(decision_route, '') != 'REJECTED_LEGACY' AND title NOT LIKE '%@%' AND LENGTH(TRIM(title)) >= 12" : route === 'tip-ogrencileri' ? " AND COALESCE(channel_id, '') != 'tip_toplulugu'" : ''
-       }${fam.sql}
-       GROUP BY triage_status, archive_kind`
+      `SELECT i.triage_status AS status, i.archive_kind AS archive_kind, COUNT(*) AS c
+       FROM source_items i WHERE ${scope.sql}
+       GROUP BY i.triage_status, i.archive_kind`
     )
-    .bind(...(channelId ? [route, channelId] : [route]))
+    .bind(...scope.binds)
     .all<{ status: TriageStatus; archive_kind: string | null; c: number }>();
 
   const out: Record<TriageStatus, number> = {
@@ -608,6 +757,102 @@ export async function countByStatus(
     }
   }
   return out;
+}
+
+/** Hub list window (days); the sidebar counts use the same window so each count equals the list it labels. */
+export const HUB_WINDOW_DAYS = 14;
+
+/**
+ * Sidebar groups. Each entry is the exact listItems / countByStatus argument set for that nav item, so the Hub list
+ * request and the count are built from one definition.
+ */
+export const TEMPORAL_NAV = {
+  TIME_SENSITIVE: {
+    haber: { route: 'kaduse-news', path: 'TIME_SENSITIVE' },
+    research: { route: 'kaduse-research', path: 'TIME_SENSITIVE' },
+    duyuru: { route: 'tip-ogrencileri', channelId: 'tip_toplulugu', family: 'duyuru', path: 'TIME_SENSITIVE' },
+    burs: { route: 'tip-ogrencileri', channelId: 'tip_toplulugu', family: 'burs', path: 'TIME_SENSITIVE' },
+    egitim: { route: 'tip-ogrencileri', channelId: 'tip_toplulugu', family: 'egitim', path: 'TIME_SENSITIVE' },
+  },
+  EVERGREEN: {
+    health_reference: { route: 'kaduse-news', path: 'EVERGREEN', view: 'health_reference' },
+    research_rediscovery: { route: 'kaduse-research', path: 'EVERGREEN', view: 'research_rediscovery' },
+  },
+} as const satisfies Record<
+  TemporalPath,
+  Record<string, { route: RouteId; channelId?: string; family?: string; path: TemporalPath; view?: EvergreenView }>
+>;
+
+type NavEntry = { route: RouteId; channelId?: string; family?: string; path: TemporalPath; view?: EvergreenView };
+
+export async function countNavEntry(db: D1Database, e: NavEntry, sinceDays = HUB_WINDOW_DAYS) {
+  return countByStatus(db, e.route, e.channelId, e.family, { sinceDays, path: e.path, view: e.view });
+}
+
+/**
+ * Rows in the window that no temporal view shows: legacy rows without a deterministic path and no membership, and
+ * EVERGREEN rows whose view is unknown. Reported, never folded into a path count.
+ */
+export async function countUnclassified(db: D1Database, sinceDays = HUB_WINDOW_DAYS): Promise<number> {
+  const row = await db
+    .prepare(
+      `SELECT COUNT(*) AS c FROM source_items i
+       WHERE COALESCE(i.fetched_at, i.published_at, i.updated_at) >= ?
+         AND (
+           (${effectivePathSql('i.')} = 'UNCLASSIFIED'
+             AND NOT EXISTS (SELECT 1 FROM item_path_membership m WHERE m.source_item_id = i.id))
+           OR (i.acquisition_path = 'EVERGREEN' AND i.evergreen_view IS NULL
+             AND NOT EXISTS (SELECT 1 FROM item_path_membership m WHERE m.source_item_id = i.id AND m.temporal_path = 'TIME_SENSITIVE'))
+         )`
+    )
+    .bind(windowStart(sinceDays))
+    .first<{ c: number }>();
+  return Number(row?.c ?? 0);
+}
+
+export async function temporalNavCounts(db: D1Database, sinceDays = HUB_WINDOW_DAYS) {
+  const out: Record<TemporalPath, Record<string, Record<TriageStatus, number>>> = { TIME_SENSITIVE: {}, EVERGREEN: {} };
+  for (const path of ['TIME_SENSITIVE', 'EVERGREEN'] as const) {
+    for (const [key, entry] of Object.entries(TEMPORAL_NAV[path])) {
+      out[path][key] = await countNavEntry(db, entry as NavEntry, sinceDays);
+    }
+  }
+  return { window: { sinceDays }, ...out, unclassified: await countUnclassified(db, sinceDays) };
+}
+
+function parseSignal(raw: string | null | undefined): ReturnType<typeof normalizeSignal> | null {
+  if (!raw) return null;
+  try {
+    return normalizeSignal(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Temporal fields of one item for the Hub. Evergreen details come from the row when EVERGREEN is its first path,
+ * otherwise from its EVERGREEN membership (rediscovery). published_at is always the original publication date.
+ */
+export function temporalView(row: SourceItemRow) {
+  const acquisitionPath = effectiveAcquisitionPath(row);
+  const paths: TemporalPath[] = [];
+  if (acquisitionPath !== 'UNCLASSIFIED') paths.push(acquisitionPath);
+  if (row.mts_first_at && !paths.includes('TIME_SENSITIVE')) paths.push('TIME_SENSITIVE');
+  if (row.mev_first_at && !paths.includes('EVERGREEN')) paths.push('EVERGREEN');
+  const viaMembership = acquisitionPath !== 'EVERGREEN' && !!row.mev_first_at;
+  return {
+    acquisitionPath,
+    temporalPaths: paths,
+    semanticLane: semanticLane(row),
+    evergreenView: (viaMembership ? row.mev_view : row.evergreen_view) ?? null,
+    discoveryMode: (viaMembership ? row.mev_mode : row.discovery_mode) ?? null,
+    discoveryReason: (viaMembership ? row.mev_reason : row.discovery_reason) ?? null,
+    rediscovery: viaMembership || row.discovery_mode === 'EVERGREEN_REDISCOVERY',
+    rediscoveredAt: viaMembership ? row.mev_first_at ?? null : null,
+    importanceSignal: parseSignal(viaMembership ? row.mev_signal : row.importance_signal_json),
+    deadlineAt: row.deadline_at ?? null,
+    canonicalWorkId: row.canonical_work_id ?? null,
+  };
 }
 
 export function rowToView(row: SourceItemRow) {
@@ -636,6 +881,7 @@ export function rowToView(row: SourceItemRow) {
     enrichmentStatus: row.enrichment_status ?? null,
     dedupeKey: row.dedupe_key,
     fetchedAt: row.fetched_at,
+    ...temporalView(row),
     evidence:
       row.doi || row.pmid || row.finding
         ? {

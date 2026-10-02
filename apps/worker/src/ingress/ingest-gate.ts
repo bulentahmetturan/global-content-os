@@ -80,6 +80,8 @@ export interface GateInput {
   titleOrig?: string | null;
   summary?: string | null;
   publishedAt?: string | null;
+  /** EVERGREEN: publication age is not a rejection reason and an unknown date stays NULL; future / impossible dates still fail. */
+  acquisitionPath?: 'TIME_SENSITIVE' | 'EVERGREEN' | null;
 }
 
 export type GateVerdict = { ok: true; publishedAt: string | null } | { ok: false; reason: string };
@@ -91,18 +93,19 @@ export function ingestGate(input: GateInput, now: Date = new Date()): GateVerdic
   const date = normalizeDate(input.publishedAt);
   const isNews = input.route === 'kaduse-news';
   const isMedia = !isNews && RESEARCH_MEDIA_FEEDS.has(input.feedId);
+  const timeSensitive = input.acquisitionPath !== 'EVERGREEN';
   if (!date) {
     // A date that names an impossible year (2101..9999) is source garbage, not "undated": reject it.
     if (hasImpossibleYear(input.publishedAt)) return { ok: false, reason: 'invalid_date' };
-    if (isNews && !UNDATED_OK_FEEDS.has(input.feedId)) return { ok: false, reason: 'undated' };
-    if (isMedia) return { ok: false, reason: 'undated' };
+    if (timeSensitive && isNews && !UNDATED_OK_FEEDS.has(input.feedId)) return { ok: false, reason: 'undated' };
+    if (timeSensitive && isMedia) return { ok: false, reason: 'undated' };
   } else {
     // Whole calendar days (UTC), so an item dated exactly N days ago is N days old regardless of the hour.
     const ageDays = (Date.parse(now.toISOString().slice(0, 10)) - Date.parse(date)) / 86_400_000;
     // News must not be ahead of today; research allows month-precision issue dates (e.g. "2026 Oct") up to ~3 months ahead.
     if (ageDays < (isNews ? -2 : -92)) return { ok: false, reason: 'future_date' };
-    if (isNews && ageDays > NEWS_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
-    if (isMedia && ageDays > RESEARCH_MEDIA_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
+    if (timeSensitive && isNews && ageDays > NEWS_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
+    if (timeSensitive && isMedia && ageDays > RESEARCH_MEDIA_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
   }
   if (RELEVANCE_FEEDS.has(input.feedId) && !HEALTH.test(`${title} ${input.titleOrig ?? ''} ${input.summary ?? ''}`)) {
     return { ok: false, reason: 'off_topic' };
