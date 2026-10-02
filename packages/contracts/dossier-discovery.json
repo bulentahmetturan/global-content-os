@@ -149,7 +149,12 @@
     "triple": {
       "arbitrary_combination_allowed": false,
       "requires_one_of": ["DIRECT_TRIPLE_SIGNAL", "SUPPORTED_PAIR_NETWORK"],
-      "supported_pair_network_minimum": { "supporting_pairs": 3, "independent_signal_families": 2 }
+      "supported_pair_network": {
+        "structural_requirements": ["COMPLETE_PAIR_TRIANGLE", "EACH_PAIR_HAS_JOINT_SIGNAL", "INDEPENDENT_SIGNAL_SUPPORT"],
+        "sufficiency": "POLICY_NOT_SET",
+        "sufficiency_is_a_future_calibration_decision": true,
+        "without_a_configured_policy": "FAIL_CLOSED"
+      }
     }
   },
 

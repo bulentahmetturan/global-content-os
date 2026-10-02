@@ -109,7 +109,7 @@ test('observation: a source item is not an observation; one item can yield many;
   assert.ok(d.validateObservation(obs({ signal_family: 'MADE_UP' })).includes('signal_family_not_in_vocabulary'));
 });
 
-test('relations: no causal/effectiveness semantic, pair needs a joint signal, triple needs a direct signal or a supported network, automatic depth <= 3', () => {
+test('relations: no causal/effectiveness semantic, pair needs a joint signal, triple needs a direct signal or a structurally supported network under a (not yet set) policy, automatic depth <= 3', () => {
   for (const s of ['CAUSES', 'CURES', 'TREATS', 'IMPROVES', 'PREVENTS', 'causes']) {
     assert.ok(d.validateRelation({ semantic: s, depth: 1, member_ids: ['a'] }).includes('forbidden_causal_or_effectiveness_semantic'));
   }
@@ -119,12 +119,30 @@ test('relations: no causal/effectiveness semantic, pair needs a joint signal, tr
   assert.ok(d.validateRelation({ semantic: 'CO_INTEREST', depth: 2, member_ids: ['a', 'b'] }).includes('pair_requires_joint_signal'));
   assert.ok(d.validateRelation({ semantic: 'CO_INTEREST', depth: 2, member_ids: ['a', 'b'], joint_signal_kinds: ['SEPARATE_POPULARITY'] }).includes('pair_requires_joint_signal'));
   assert.deepEqual(d.validateRelation({ semantic: 'MENTIONED_WITH', depth: 2, member_ids: ['a', 'b'], joint_signal_kinds: ['JOINT_SOURCE_MENTION'] }), []);
-  // triple
+  // triple: structural rule only; no numeric threshold exists in the contract
   const t = { semantic: 'CO_INTEREST', depth: 3, member_ids: ['a', 'b', 'c'] };
-  assert.ok(d.validateRelation(t).includes('triple_requires_direct_signal_or_supported_pair_network'));
-  assert.ok(d.validateRelation({ ...t, supporting_pair_count: 3, independent_signal_family_count: 1 }).includes('triple_requires_direct_signal_or_supported_pair_network'));
-  assert.deepEqual(d.validateRelation({ ...t, direct_triple_signal: true }), []);
-  assert.deepEqual(d.validateRelation({ ...t, supporting_pair_count: 3, independent_signal_family_count: 2 }), []);
+  const J = ['JOINT_SOURCE_MENTION'];
+  const full = [{ members: ['a', 'b'], joint_signal_kinds: J }, { members: ['c', 'a'], joint_signal_kinds: J }, { members: ['b', 'c'], joint_signal_kinds: J }];
+  assert.ok(d.validateRelation(t).includes('triple_requires_direct_signal_or_supported_pair_network'), 'arbitrary combination is not a triple');
+  assert.deepEqual(d.validateRelation({ ...t, direct_triple_signal: true }), [], 'a direct triple signal needs no policy');
+  const incomplete = { ...t, supporting_pairs: full.slice(0, 2), independent_signal_family_ids: ['f1', 'f2'] };
+  assert.ok(d.validateRelation(incomplete, { tripleNetworkSufficient: () => true }).includes('triple_requires_direct_signal_or_supported_pair_network'), 'a policy cannot waive the structure');
+  const noJoint = { ...t, supporting_pairs: full.map((p) => ({ members: p.members })), independent_signal_family_ids: ['f1'] };
+  assert.ok(d.validateRelation(noJoint, { tripleNetworkSufficient: () => true }).includes('triple_requires_direct_signal_or_supported_pair_network'), 'each pair needs a joint signal');
+  const network = { ...t, supporting_pairs: full };
+  assert.ok(d.validateRelation(network, { tripleNetworkSufficient: () => true }).includes('triple_network_needs_independent_signal_support'));
+  const complete = { ...network, independent_signal_family_ids: ['f1'] };
+  assert.deepEqual(d.validateRelation(complete), ['triple_network_policy_not_configured'], 'no policy configured: a network fails closed');
+  assert.deepEqual(d.validateRelation(complete, {}), ['triple_network_policy_not_configured']);
+  assert.deepEqual(d.validateRelation(complete, { tripleNetworkSufficient: () => false }), ['triple_network_not_sufficient_under_policy']);
+  assert.deepEqual(d.validateRelation(complete, { tripleNetworkSufficient: () => true }), [], 'sufficiency is whatever a future policy says');
+  const triple = V.relation.triple;
+  assert.deepEqual(triple.requires_one_of, ['DIRECT_TRIPLE_SIGNAL', 'SUPPORTED_PAIR_NETWORK']);
+  assert.equal(triple.supported_pair_network.sufficiency, 'POLICY_NOT_SET');
+  assert.equal(triple.supported_pair_network.without_a_configured_policy, 'FAIL_CLOSED');
+  const numbers = [];
+  (function scan(o, p) { for (const [k, v] of Object.entries(o)) { if (typeof v === 'number') numbers.push(p + k); else if (v && typeof v === 'object') scan(v, p + k + '.'); } })(triple, 'triple.');
+  assert.deepEqual(numbers, [], 'no numeric triple threshold in the canonical contract');
   assert.ok(d.validateRelation({ semantic: 'CO_INTEREST', depth: 4, member_ids: ['a', 'b', 'c', 'd'], automatic: true }).includes('automatic_depth_above_limit'));
   assert.equal(d.relationDepthLabel(4), 'COMPOSITE');
 });

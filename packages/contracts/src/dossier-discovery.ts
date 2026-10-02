@@ -104,11 +104,21 @@ export interface Relation {
   automatic?: boolean;
   joint_signal_kinds?: string[];
   direct_triple_signal?: boolean;
-  supporting_pair_count?: number;
-  independent_signal_family_count?: number;
+  /** SUPPORTED_PAIR_NETWORK evidence: the pair relations among the three members and the independent signal families behind them. */
+  supporting_pairs?: Array<{ members: [string, string]; joint_signal_kinds?: string[] }>;
+  independent_signal_family_ids?: string[];
 }
 
-export function validateRelation(r: unknown): string[] {
+/**
+ * Future calibration hook. The canonical rule only says a pair network must be "sufficiently supported with independent
+ * signal support"; how much is sufficient is a policy decision that is deliberately NOT set in this contract. With no
+ * policy a network can never justify a triple (fail closed); a direct triple signal needs no policy.
+ */
+export interface RelationPolicy {
+  tripleNetworkSufficient?: (r: Relation) => boolean;
+}
+
+export function validateRelation(r: unknown, policy?: RelationPolicy): string[] {
   const e: string[] = [];
   if (!isObj(r)) return ['relation_not_object'];
   if (isForbiddenRelationSemantic(r.semantic)) e.push('forbidden_causal_or_effectiveness_semantic');
@@ -122,13 +132,27 @@ export function validateRelation(r: unknown): string[] {
     const kinds = Array.isArray(r.joint_signal_kinds) ? r.joint_signal_kinds : [];
     if (!kinds.some((k) => inList(vocab.relation.pair.joint_signal_kinds, k))) e.push('pair_requires_joint_signal');
   }
-  if (depth === 3 && r.direct_triple_signal !== true) {
-    const min = vocab.relation.triple.supported_pair_network_minimum;
-    if (!(typeof r.supporting_pair_count === 'number' && r.supporting_pair_count >= min.supporting_pairs && typeof r.independent_signal_family_count === 'number' && r.independent_signal_family_count >= min.independent_signal_families)) {
-      e.push('triple_requires_direct_signal_or_supported_pair_network');
-    }
-  }
+  if (depth === 3 && r.direct_triple_signal !== true) e.push(...tripleNetworkErrors(r as unknown as Relation, policy));
   return e;
+}
+
+const pairKey = (a: string, b: string): string => [a, b].sort().join('|');
+
+/** Structure only (complete triangle of pairs, each with a joint signal, plus declared independent support); sufficiency is policy. */
+function tripleNetworkErrors(r: Relation, policy?: RelationPolicy): string[] {
+  const m = r.member_ids;
+  const wanted = new Set([pairKey(m[0], m[1]), pairKey(m[0], m[2]), pairKey(m[1], m[2])]);
+  const covered = new Set<string>();
+  for (const p of r.supporting_pairs ?? []) {
+    const kinds = p.joint_signal_kinds ?? [];
+    if (Array.isArray(p.members) && p.members.length === 2 && kinds.some((k) => inList(vocab.relation.pair.joint_signal_kinds, k))) covered.add(pairKey(p.members[0], p.members[1]));
+  }
+  const e: string[] = [];
+  if (![...wanted].every((k) => covered.has(k))) e.push('triple_requires_direct_signal_or_supported_pair_network');
+  if (!Array.isArray(r.independent_signal_family_ids) || r.independent_signal_family_ids.length === 0) e.push('triple_network_needs_independent_signal_support');
+  if (e.length) return e;
+  if (!policy?.tripleNetworkSufficient) return ['triple_network_policy_not_configured'];
+  return policy.tripleNetworkSufficient(r) ? [] : ['triple_network_not_sufficient_under_policy'];
 }
 
 export interface DossierCandidate {
