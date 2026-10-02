@@ -383,3 +383,43 @@ test('0029 is additive: a 0028 DB keeps every row and column; one new runtime ta
   const row = sqlite.prepare(`SELECT * FROM evergreen_runtime_state WHERE source_id = 'x'`).get();
   assert.deepEqual([row.cursor_json, row.lease_until, row.next_due, row.failure_count, row.evaluated, row.accepted, row.underfill], ['{}', null, null, 0, 0, 0, 0]);
 });
+
+test('0030 reconciles exactly the PubMed carrier row (enabled, poll_minutes) and nothing else; it matches config/feeds.json', () => {
+  const sqlite = new DatabaseSync(':memory:');
+  const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
+  const f0030 = '0030_source_lifecycle_pubmed_carrier_reconcile.sql';
+  assert.equal(files.at(-1), f0030, '0030 is the newest migration');
+  for (const f of files.filter((f) => f < f0030)) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
+  // Reproduce the production drift (read-only evidence 2026-10-02) plus runtime telemetry the migration must not touch.
+  sqlite.prepare(`UPDATE source_feeds SET enabled = 0, poll_minutes = 1440, last_fetched_at = '2026-09-24T11:33:41.145Z', last_ok_items = 15, fetch_attempts = 39 WHERE id = 'research-pubmed-eutilities'`).run();
+  const feedId = 'research-pubmed-eutilities';
+  sqlite.prepare(`INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at) VALUES ('pm1', ?, 'kaduse-research', 'kaduse-medikal', 'T', 'https://doi.org/10.1/pm', 'P', 'hold', '10.1/pm', '2026-09-24')`).run(feedId);
+  const rows = () => sqlite.prepare('SELECT * FROM source_feeds ORDER BY id').all();
+  const before = rows();
+  const itemsBefore = JSON.stringify(sqlite.prepare('SELECT * FROM source_items ORDER BY id').all());
+  const triggers = () => sqlite.prepare(`SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'trigger'`).get().n;
+  const schemaBefore = JSON.stringify(sqlite.prepare(`SELECT name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY name`).all());
+  const t0 = triggers();
+  const sql = readFileSync(`migrations/${f0030}`, 'utf8');
+  assert.equal((sql.match(/INSERT INTO source_feeds/g) || []).length, 1, 'one feed row');
+  assert.ok(!/(DELETE|DROP|ALTER|CREATE|TRIGGER|source_items|item_path_membership|evergreen_runtime_state)/i.test(sql.replace(/--.*$/gm, '')), 'no backfill, schema, trigger or item/path statement');
+  assert.ok(/research-pubmed-eutilities/.test(sql) && /pubmed-eutilities/.test(sql) && /enabled=0, poll_minutes=1440/.test(sql), 'provenance names the ids and the old values');
+  sqlite.exec(sql);
+  const after = rows();
+  const changed = after.flatMap((r, i) => Object.keys(r).filter((k) => r[k] !== before[i][k]).map((k) => `${r.id}.${k}`));
+  assert.deepEqual(changed.sort(), ['research-pubmed-eutilities.enabled', 'research-pubmed-eutilities.poll_minutes']);
+  const pm = after.find((r) => r.id === feedId);
+  assert.deepEqual([pm.enabled, pm.poll_minutes, pm.last_fetched_at, pm.fetch_attempts], [1, 360, '2026-09-24T11:33:41.145Z', 39], 'runtime telemetry preserved');
+  assert.equal(after.length, before.length, 'no feed added or removed');
+  assert.equal(JSON.stringify(sqlite.prepare('SELECT * FROM source_items ORDER BY id').all()), itemsBefore);
+  assert.equal(triggers(), t0);
+  assert.equal(JSON.stringify(sqlite.prepare(`SELECT name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY name`).all()), schemaBefore, 'schema unchanged');
+  // It is the catalog row: same values config/feeds.json holds.
+  const cfgDoc = JSON.parse(readFileSync('config/feeds.json', 'utf8'));
+  const cfg = (cfgDoc.feeds || cfgDoc).find((x) => x.id === feedId);
+  assert.deepEqual([pm.enabled, pm.poll_minutes, pm.rules_json], [cfg.enabled ? 1 : 0, cfg.pollMinutes, JSON.stringify(cfg.rules)]);
+  // The temporal registry still keeps the legacy time-sensitive batch off.
+  const reg = JSON.parse(readFileSync('packages/source-catalog/data/temporal-paths.json', 'utf8')).sources.find((s) => s.feed_id === feedId);
+  assert.equal(reg.time_sensitive.enabled, false);
+  assert.equal(reg.evergreen.enabled, true);
+});
