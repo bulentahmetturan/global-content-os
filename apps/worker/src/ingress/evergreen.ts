@@ -9,13 +9,14 @@
  *    REDISCOVERY = one item_path_membership row on the existing item; the item row (published_at, title, DOI, source,
  *    first path) is never updated.
  *  - The executor (adapters/tip-toplulugu-radar/radar/evergreen_runner.py) only runs a plan from evergreenPlan().
- * No cursor table exists in 0028: plans carry an empty cursor, so every run starts at the archive head (bounded).
+ * Runtime leases and cursors are Worker-owned (0029); lifecycle config remains read-only.
  */
 import { addPathMembership, dedupeKeyFromUrl, upsertSourceItem, type Env, type RouteId } from '../db/queries';
 import { canonicalWorkIdFor, DISCOVERY_REASONS, EVERGREEN_VIEW_ROUTE, normalizeSignal, type SignalObservation } from '../db/temporal';
 import { hasImpossibleYear } from './ingest-gate';
 import { evergreenEntries, temporalRegistry, type TemporalEntry } from '../temporal/registry';
 import { TIP_TOPLULUGU_FEED_ID } from './tip-radar';
+import { claimEvergreenRun, finishEvergreenRun, readEvergreenState, validateCursor } from './evergreen-state';
 
 export const EVERGREEN_POLICY_VERSION = 'temporal-v2';
 const MAX_ITEMS_PER_CALL = 30;
@@ -146,9 +147,9 @@ async function seenKeys(env: Env, e: TemporalEntry, since: string): Promise<stri
 }
 
 /** Executor plan: everything it may do, derived from canonical config and item state. Read-only. */
-export async function evergreenPlan(env: Env, now: Date = new Date(), opts: { sourceId?: string; entries?: TemporalEntry[] } = {}) {
+export async function evergreenPlan(env: Env, now: Date = new Date(), opts: { sourceId?: string; entries?: TemporalEntry[]; claim?: boolean } = {}) {
   const all = evergreenEntries(opts.entries ?? temporalRegistry().entries);
-  const chosen = opts.sourceId ? all.filter((e) => e.source_id === opts.sourceId) : all;
+  const chosen = (opts.sourceId ? all.filter((e) => e.source_id === opts.sourceId) : all).slice(0, 4);
   const today = dayStart(now);
   const famUsed = new Map<string, number>();
   const handed = new Set<string>();
@@ -158,11 +159,18 @@ export async function evergreenPlan(env: Env, now: Date = new Date(), opts: { so
     const fam = familyKey(e);
     if (!famUsed.has(fam)) famUsed.set(fam, await surfacedSince(env, all.filter((x) => familyKey(x) === fam).map((x) => x.source_id), today));
     const blockers = await writeBlockers(env, e);
+    const state = await readEvergreenState(env, e.source_id);
     // Pool members share one budget: only the first member of a family is handed what is left today.
     const budget = handed.has(fam) ? 0 : Math.max(0, eg.daily_target - (famUsed.get(fam) ?? 0));
     handed.add(fam);
+    const due = !state?.next_due || state.next_due <= now.toISOString();
+    const available = !state?.lease_until || state.lease_until <= now.toISOString();
+    const runId = opts.claim && blockers.length === 0 && budget > 0 && due && available
+      ? await claimEvergreenRun(env, e.source_id, now, all.filter((x) => familyKey(x) === fam).map((x) => x.source_id)) : null;
+    if (opts.claim && !runId) continue;
     sources.push({
       source_id: e.source_id,
+      run_id: runId,
       feed_id: e.feed_id ?? null,
       semantic_lane: e.semantic_lane,
       evergreen_view: eg.evergreen_view,
@@ -180,7 +188,8 @@ export async function evergreenPlan(env: Env, now: Date = new Date(), opts: { so
       importance_signal_strategy: eg.importance_signal_strategy,
       signal_providers: eg.signal_providers,
       archives: eg.archives,
-      cursor: {},
+      cursor: state ? JSON.parse(state.cursor_json) : {},
+      next_due: state?.next_due ?? null,
       seen_keys: await seenKeys(env, e, new Date(now.getTime() - eg.cooldown_days * DAY_MS).toISOString()),
       recent_clusters: {},
     });
@@ -394,4 +403,95 @@ export async function ingestEvergreenItems(
   out.budget.underfilled = remaining > 0;
   out.budget.flag = remaining > 0 ? 'DAILY_TARGET_UNDERFILLED' : null;
   return out;
+}
+
+const SOURCE_NAMES: Record<string, string> = {
+  harvard_nutrition_source: 'Harvard Nutrition Source',
+  'news-cleveland-clinic-health-essentials-sitemap': 'Cleveland Clinic',
+  'research-cochrane-library': 'Cochrane (Europe PMC)',
+  'research-pubmed-eutilities': 'PubMed rediscovery',
+};
+
+/** Lease/retry observability: no row = IDLE; live lease + PROCESSING = completion in flight; expired lease = recoverable by the next plan. */
+function leaseView(s: { lease_until: string | null; result_json: string | null; run_id: string | null; next_due: string | null; failure_count: number } | null | undefined, now: Date) {
+  if (!s) return { state: 'IDLE', leaseUntil: null, runId: null, retryAt: null };
+  const live = !!s.lease_until && s.lease_until > now.toISOString();
+  const state = live ? (s.result_json === 'PROCESSING' ? 'PROCESSING' : 'LEASED') : s.lease_until && !s.result_json ? 'LEASE_EXPIRED_RECOVERABLE' : s.result_json && s.result_json !== 'PROCESSING' ? 'COMPLETED' : s.result_json === 'PROCESSING' ? 'LEASE_EXPIRED_RECOVERABLE' : 'IDLE';
+  return { state, leaseUntil: s.lease_until, runId: live ? s.run_id : null, retryAt: s.failure_count > 0 ? s.next_due : null };
+}
+
+export async function evergreenStatus(env: Env, now = new Date(), entries = temporalRegistry().entries) {
+  const sources = [];
+  for (const e of evergreenEntries(entries).slice(0, 4)) {
+    const s = await readEvergreenState(env, e.source_id);
+    const today = await surfacedSince(env, [e.source_id], dayStart(now));
+    sources.push({ sourceId: e.source_id, name: SOURCE_NAMES[e.source_id] ?? e.source_id,
+      temporalPath: 'EVERGREEN', evergreenView: e.evergreen.evergreen_view,
+      activation: e.evergreen.activation, tier: e.evergreen.tier, dailyTarget: e.evergreen.daily_target,
+      writeBlockers: await writeBlockers(env, e), lastSuccessfulFetch: s?.last_success_at ?? null,
+      lastAttempt: s?.last_attempt_at ?? null, nextDue: s?.next_due ?? null,
+      evaluated: s?.evaluated ?? null, accepted: s?.accepted ?? null, acceptedToday: today,
+      // Underfill is only meaningful for a source that may write: CANARY_ONLY / blocked sources report null, not a false alarm.
+      underfill: e.evergreen.activation === 'ACTIVE' ? today < e.evergreen.daily_target : null,
+      lease: leaseView(s, now), lastError: s?.last_error ?? null,
+      cursor: s ? JSON.parse(s.cursor_json) : {}, failureCount: s?.failure_count ?? 0 });
+  }
+  return { ok: true, sources };
+}
+
+/** HTTP production boundary: a Worker-issued lease is required; completion retries return the cached result. */
+export async function completeEvergreenRun(env: Env, sourceId: string,
+  body: { runId?: string; items?: EvergreenItemInput[]; cursor?: unknown; runStats?: { evaluated?: number }; error?: string },
+  now = new Date(), entries = temporalRegistry().entries) {
+  const e = evergreenEntries(entries).find((x) => x.source_id === sourceId);
+  if (!e) throw new Error('source_not_evergreen');
+  if ((await writeBlockers(env, e)).length) throw new Error('write_blocked');
+  if (!body.runId || !Array.isArray(body.items) || body.items.length > Math.min(MAX_ITEMS_PER_CALL, e.evergreen.max_items_evaluated_per_cycle)) throw new Error('invalid_body');
+  const cursor = validateCursor(body.cursor, e);
+  const evaluated = body.runStats?.evaluated;
+  if (!Number.isInteger(evaluated) || evaluated! < 0 || evaluated! > e.evergreen.max_items_evaluated_per_cycle || body.items.length > evaluated!) throw new Error('invalid_stats');
+  for (const it of body.items) {
+    if (!it || typeof it.title !== 'string' || typeof it.url !== 'string') throw new Error('invalid_item');
+    let host: string;
+    try { const u = new URL(it.url); if (u.protocol !== 'https:' || u.username || u.password) throw new Error(); host = u.hostname; }
+    catch { throw new Error('invalid_item'); }
+    const archive = e.evergreen.archives.find((a) => a.id === it.archiveId);
+    if (!archive) throw new Error('invalid_archive');
+    if (archive.kind === 'europepmc' || archive.kind === 'pubmed') {
+      if (!['doi.org', 'europepmc.org', 'pubmed.ncbi.nlm.nih.gov', 'pmc.ncbi.nlm.nih.gov'].includes(host)) throw new Error('invalid_source_url');
+      const doi = canonicalWorkIdFor(it.url, it.evidence?.doi ?? null);
+      if (typeof archive.doi_prefix === 'string' && (!doi || !doi.startsWith(archive.doi_prefix.toLowerCase()))) throw new Error('invalid_source_doi');
+    } else {
+      const urls = Array.isArray(archive.urls) ? archive.urls : typeof archive.url === 'string' ? [archive.url] : [];
+      const hosts = urls.map((u: string) => new URL(u).hostname);
+      if (sourceId === 'harvard_nutrition_source') hosts.push('nutritionsource.hsph.harvard.edu');
+      if (!hosts.includes(host) || (typeof archive.path_filter === 'string' && !new URL(it.url).pathname.startsWith(archive.path_filter))) throw new Error('invalid_source_url');
+    }
+  }
+  if (body.error && body.items.length) throw new Error('invalid_error_items');
+  const state = await readEvergreenState(env, sourceId);
+  if (!state || state.run_id !== body.runId) throw new Error('stale_run');
+  if (state.result_json && state.result_json !== 'PROCESSING') return JSON.parse(state.result_json);
+  const locked = await env.DB.prepare(`UPDATE evergreen_runtime_state SET result_json = 'PROCESSING'
+    WHERE source_id = ? AND run_id = ? AND lease_until > ? AND result_json IS NULL`)
+    .bind(sourceId, body.runId, now.toISOString()).run();
+  if (locked.meta.changes !== 1) throw new Error('stale_run');
+  let error = body.error ? String(body.error).slice(0, 200) : null;
+  let result: unknown;
+  let accepted = 0;
+  let underfill = true;
+  try {
+    if (error) result = { ok: false, error };
+    else {
+      const r = await ingestEvergreenItems(env, sourceId, { items: body.items }, now, { entries });
+      accepted = r.created + r.rediscovered;
+      underfill = r.budget.underfilled;
+      result = { ok: true, ...r };
+    }
+  } catch {
+    error = 'EVERGREEN_INGEST_FAILED';
+    result = { ok: false, error };
+  }
+  await finishEvergreenRun(env, e, body.runId, now, { cursor, evaluated: evaluated!, accepted, underfill, error, result });
+  return result;
 }

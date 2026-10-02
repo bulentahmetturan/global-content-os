@@ -84,7 +84,7 @@
   .project-item.nav-child .p-icon { font-size: 1.05rem; }
   .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
   .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .main { padding: 22px 24px 48px; max-width: 780px; }
+  .main { padding: 22px 24px 48px; max-width: 780px; min-width: 0; }
   .main.bible-mode { max-width: 920px; }
   .main-header { margin-bottom: 16px; }
   .main-header h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -0.01em; }
@@ -750,6 +750,8 @@
     PUBLIC_HEALTH: 'Halk sağlığı', EDUCATION: 'Eğitim'
   };
   function sourceLabel(it) {
+    var evergreenSource = (state.evergreenSources || []).find(function (s) { return s.sourceId === it.sourceId; });
+    if (evergreenSource) return evergreenSource.name;
     if (!it.sourceId) return it.publisher;
     return SOURCE_LABELS[it.sourceId] || it.sourceId.replace(/_/g, ' ');
   }
@@ -1296,6 +1298,19 @@
   }
   function renderSourcePanel() {
     var el = document.getElementById('srcPanel');
+    if (state.temporal === 'EVERGREEN') {
+      el.hidden = false;
+      if (state.evergreenError) { el.textContent = 'Kaynak durumu: ' + state.evergreenError; return; }
+      var sources = (state.evergreenSources || []).filter(function (s) { return s.evergreenView === state.evView; });
+      el.innerHTML = '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son başarılı çekim</th><th>Sonraki çekim</th><th>Değerlendirilen</th><th>Kabul edilen</th><th>Günlük hedef</th><th>Eksik hedef</th><th>Son hata</th></tr></thead><tbody>' + sources.map(function (s) {
+        return '<tr><td>' + escapeHtml(s.name) + '</td><td>' + escapeHtml(s.activation) + '</td><td>' +
+          escapeHtml(s.lastSuccessfulFetch || 'Henüz yok') + '</td><td>' + escapeHtml(s.nextDue || 'Henüz planlanmadı') +
+          '</td><td>' + (s.evaluated == null ? '—' : s.evaluated) + '</td><td>' + (s.accepted == null ? '—' : s.accepted) +
+          '</td><td>' + s.dailyTarget + '</td><td>' + (s.underfill ? 'DAILY_TARGET_UNDERFILLED' : '—') +
+          '</td><td>' + escapeHtml(s.lastError || (s.writeBlockers || []).join(', ') || '—') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+      return;
+    }
     if (!state.showSources) { el.hidden = true; return; }
     el.hidden = false;
     var rows = sourceRows();
@@ -1528,6 +1543,15 @@
     var days = state.route === 'tip-ogrencileri' ? 2 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
+    if (state.temporal === 'EVERGREEN') {
+      try {
+        state.evergreenSources = (await api('/api/evergreen/status')).sources || [];
+        state.evergreenError = null;
+      } catch (e) {
+        state.evergreenSources = [];
+        state.evergreenError = e.message;
+      }
+    }
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     state.selected = {};

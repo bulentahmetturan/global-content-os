@@ -53,6 +53,12 @@ OPTIONAL: `adapters/tip-toplulugu-radar/tests/test_tip_toplulugu_scheduler_fairn
 DO NOT LOAD: source registries, Bible, run history
 SECOND REPO: NO
 
+### Evergreen runtime / cursor / runner / source telemetry
+READ: `docs/EVERGREEN-RUNTIME.md`, `docs/SOURCE-LIFECYCLE.md`
+OPTIONAL: `apps/worker/src/ingress/evergreen.ts`, `apps/worker/src/ingress/evergreen-state.ts`, `adapters/tip-toplulugu-radar/radar/evergreen_runner.py`
+DO NOT LOAD: source registries in bulk, archived run history. Activation stays lifecycle-owned and requires owner approval
+SECOND REPO: NO
+
 ### Hub UI
 READ: `apps/hub/AGENTS.md`
 OPTIONAL: `apps/hub/route-counts.test.mjs`, `apps/hub/source-family.test.mjs`, `apps/hub/source-review-filter.test.mjs`

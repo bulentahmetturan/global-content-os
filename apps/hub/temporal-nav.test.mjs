@@ -40,6 +40,22 @@ const hub = vm.runInNewContext(src, {}, { filename: 'index.html (extracted)' });
 // vm-realm arrays/objects fail deepStrictEqual prototype checks; compare plain copies.
 const plain = (x) => JSON.parse(JSON.stringify(x));
 
+test('Evergreen source panel renders names and runtime telemetry even with the source toggle off', () => {
+  const panel = {};
+  const context = { document: { getElementById: () => panel }, state: {
+    temporal: 'EVERGREEN', evView: 'health_reference', showSources: false,
+    evergreenSources: [{ name: 'Cleveland <Clinic>', evergreenView: 'health_reference', activation: 'CANARY_ONLY',
+      lastSuccessfulFetch: '2026-10-02T12:00:00Z', nextDue: '2026-10-03T12:00:00Z', evaluated: 12, accepted: 2,
+      dailyTarget: 4, underfill: true, lastError: 'ARCHIVE_HTTP_403', writeBlockers: [] }],
+  }, escapeHtml: (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') };
+  vm.runInNewContext(fn('renderSourcePanel') + '\nrenderSourcePanel();', context);
+  assert.equal(panel.hidden, false);
+  for (const text of ['Cleveland &lt;Clinic&gt;', 'CANARY_ONLY', '2026-10-02', '2026-10-03', '>12<', '>2<', '>4<', 'DAILY_TARGET_UNDERFILLED', 'ARCHIVE_HTTP_403']) assert.ok(panel.innerHTML.includes(text), text);
+  context.state.evergreenError = 'STATUS_UNAVAILABLE';
+  vm.runInNewContext(fn('renderSourcePanel') + '\nrenderSourcePanel();', context);
+  assert.match(panel.textContent, /STATUS_UNAVAILABLE/);
+});
+
 test('sidebar: Time Sensitive group (5 lanes), Evergreen group (2 views), Bible outside both', () => {
   assert.deepEqual(plain(hub.NAV_GROUPS.map((g) => g.path)), ['TIME_SENSITIVE', 'EVERGREEN']);
   const by = (p) => plain(hub.NAV.filter((n) => n.path === p).map((n) => n.navId));

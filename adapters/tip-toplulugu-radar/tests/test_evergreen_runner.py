@@ -76,6 +76,28 @@ def plan_source(**over):
 
 
 class ExecutorOnlyTests(unittest.TestCase):
+    def test_write_requires_worker_lease_before_fetch(self):
+        with self.assertRaisesRegex(ValueError, "Worker-issued"):
+            er.run({"sources": [plan_source(write_allowed=True)]}, write=True, hub="https://hub.example", token="secret", now=NOW, fetch=lambda _: self.fail("must not fetch"))
+
+    def test_blocked_archive_reports_error_to_worker_without_candidates(self):
+        src = plan_source(write_allowed=True, run_id="leased")
+        with mock.patch.object(er, "hub_post", return_value={"ok": False, "error": "ARCHIVE_HTTP_403"}) as post:
+            code, _ = er.run({"sources": [src]}, write=True, hub="https://hub.example", token="secret", now=NOW,
+                             fetch=fetcher({"https://my.clevelandclinic.org/site.xml": (403, "")}), out=io.StringIO())
+        self.assertEqual(code, 1)
+        body = post.call_args.args[3]
+        self.assertEqual(body["error"], "ARCHIVE_HTTP_403")
+        self.assertEqual(body["items"], [])
+
+    def test_lost_ingest_response_retries_same_payload(self):
+        src = plan_source(write_allowed=True, run_id="leased")
+        with mock.patch.object(er, "hub_post", side_effect=[TimeoutError(), {"ok": True}]) as post:
+            code, _ = er.run({"sources": [src]}, write=True, hub="https://hub.example", token="secret", now=NOW,
+                             fetch=fetcher(site(20)), out=io.StringIO())
+        self.assertEqual(code, 0)
+        self.assertEqual(post.call_args_list[0], post.call_args_list[1])
+
     def test_missing_plan_fields_raise_instead_of_being_filled_in(self):
         for k in er.PLAN_FIELDS:
             src = plan_source()
@@ -142,7 +164,7 @@ class WriteOptInTests(unittest.TestCase):
             er.run({"sources": []}, write=True, hub="https://hub.example", now=NOW)
 
     def test_write_only_for_plan_write_allowed_sources_and_token_never_printed(self):
-        allowed = plan_source(source_id="a", write_allowed=True, write_blockers=[])
+        allowed = plan_source(source_id="a", write_allowed=True, write_blockers=[], run_id="worker-run-1")
         blocked = plan_source(source_id="b")
         out = io.StringIO()
         with mock.patch.object(er, "hub_post", return_value={"ok": True, "created": 1}) as post:
@@ -151,10 +173,11 @@ class WriteOptInTests(unittest.TestCase):
         self.assertEqual(post.call_count, 1)
         body = post.call_args.args[3]
         self.assertEqual(body["sourceId"], "a")
-        self.assertEqual(set(body), {"sourceId", "items", "cursor", "runStats"})
+        self.assertEqual(set(body), {"sourceId", "runId", "items", "cursor", "runStats", "error"})
+        self.assertEqual(body["runId"], "worker-run-1")
         b = next(s for s in doc["sources"] if s["source_id"] == "b")
         self.assertFalse(b["written"])
-        self.assertIn("plan_write_blocked:EVERGREEN_PATH_NOT_ACTIVE:CANARY_ONLY", b["write_skipped_reason"])
+        self.assertEqual("plan_write_blocked", b["write_skipped_reason"])
         self.assertNotIn("SECRET-TOKEN-123", out.getvalue())
         self.assertNotIn("SECRET-TOKEN-123", json.dumps(doc))
 

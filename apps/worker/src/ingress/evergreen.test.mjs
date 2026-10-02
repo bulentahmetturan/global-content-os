@@ -57,6 +57,74 @@ function registry(...entries) {
 const item = (n, over = {}) => ({ title: `Evergreen reference article number ${n}`, url: `https://example.org/ref/${n}`, summary: 'Özet', publishedAt: '2019-03-12', discoveryReason: 'reference_importance', ...over });
 const row = (sqlite, id) => sqlite.prepare(`SELECT * FROM source_items WHERE id = ?`).get(id);
 
+test('Worker leases persist cursor, cache replay, enforce due cadence, and expose source telemetry', async () => {
+  const { sqlite, db, newsFeed } = openDb();
+  const entries = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const env = { DB: db };
+  const p = await ev.evergreenPlan(env, NOW, { entries, claim: true });
+  const runId = p.sources[0].run_id;
+  assert.ok(runId);
+  assert.equal((await ev.evergreenPlan(env, NOW, { entries, claim: true })).sources.length, 0);
+  const body = { runId, items: [item(1, { archiveId: 'a1' })], cursor: { a1: { cursor: 5 } }, runStats: { evaluated: 3 } };
+  const r = await ev.completeEvergreenRun(env, 'cc', body, NOW, entries);
+  assert.equal(r.created, 1);
+  assert.deepEqual(await ev.completeEvergreenRun(env, 'cc', body, NOW, entries), r);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 1);
+  const status = (await ev.evergreenStatus(env, NOW, entries)).sources[0];
+  assert.deepEqual(status.cursor, { a1: { cursor: 5 } });
+  assert.equal(status.lastSuccessfulFetch, NOW.toISOString());
+  assert.equal(status.evaluated, 3);
+  assert.equal(status.accepted, 1);
+  assert.equal(status.underfill, true);
+  assert.equal(status.lastError, null);
+  const later = new Date(NOW.getTime() + 73 * 3600000);
+  const next = await ev.evergreenPlan(env, later, { entries, claim: true });
+  assert.deepEqual(next.sources[0].cursor, body.cursor);
+  assert.notEqual(next.sources[0].run_id, runId);
+  await assert.rejects(ev.completeEvergreenRun(env, 'cc', body, later, entries), /stale_run/);
+});
+
+test('failed fetch preserves cursor, exposes last error, retries with backoff, then clears error', async () => {
+  const { db, newsFeed } = openDb();
+  const entries = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const env = { DB: db };
+  const runId = (await ev.evergreenPlan(env, NOW, { entries, claim: true })).sources[0].run_id;
+  await ev.completeEvergreenRun(env, 'cc', { runId, items: [], cursor: { a1: { cursor: 100 } }, runStats: { evaluated: 0 }, error: 'HTTP_403' }, NOW, entries);
+  const status = (await ev.evergreenStatus(env, NOW, entries)).sources[0];
+  assert.deepEqual(status.cursor, {});
+  assert.equal(status.lastError, 'HTTP_403');
+  assert.equal(status.lastSuccessfulFetch, null);
+  assert.equal(status.underfill, true);
+  assert.equal((await ev.evergreenPlan(env, NOW, { entries, claim: true })).sources.length, 0);
+  const retryAt = new Date(NOW.getTime() + 3600001);
+  const retry = (await ev.evergreenPlan(env, retryAt, { entries, claim: true })).sources[0];
+  await ev.completeEvergreenRun(env, 'cc', { runId: retry.run_id, items: [], cursor: { a1: { cursor: 1 } }, runStats: { evaluated: 0 } }, retryAt, entries);
+  assert.equal((await ev.evergreenStatus(env, retryAt, entries)).sources[0].lastError, null);
+});
+
+test('expired lease is recoverable; invalid cursor, source URL, and excessive evaluation fail before item writes', async () => {
+  const { sqlite, db, newsFeed } = openDb();
+  const entries = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const env = { DB: db };
+  const first = (await ev.evergreenPlan(env, NOW, { entries, claim: true })).sources[0];
+  const later = new Date(NOW.getTime() + 31 * 60000);
+  const next = (await ev.evergreenPlan(env, later, { entries, claim: true })).sources[0];
+  assert.notEqual(next.run_id, first.run_id);
+  const body = { runId: next.run_id, items: [], cursor: {}, runStats: { evaluated: 0 } };
+  await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, cursor: { evil: { cursor: 1 } } }, later, entries), /invalid_cursor/);
+  await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, runStats: { evaluated: 100 } }, later, entries), /invalid_stats/);
+  await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, items: [item(1, { archiveId: 'a1', url: 'https://evil.example/x' })], runStats: { evaluated: 1 } }, later, entries), /invalid_source_url/);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+});
+
+test('CANARY_ONLY sources cannot receive a production lease or persist cursor', async () => {
+  const { sqlite, db, newsFeed } = openDb();
+  const entries = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference', activation: 'CANARY_ONLY' }));
+  assert.equal((await ev.evergreenPlan({ DB: db }, NOW, { entries, claim: true })).sources.length, 0);
+  await assert.rejects(ev.completeEvergreenRun({ DB: db }, 'cc', { runId: 'made-up', items: [], cursor: {} }, NOW, entries), /write_blocked/);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM evergreen_runtime_state').get().n, 0);
+});
+
 test('the committed lifecycle registry is valid: one entry per identity, CANARY_ONLY, lanes derived', () => {
   const r = reg.temporalRegistry();
   assert.deepEqual(r.errors, []);
@@ -245,4 +313,46 @@ test('daily target is soft: budget caps admissions, underfill is flagged, qualit
   assert.equal(plan.sources[0].budget_remaining_today, 0, 'works surfaced today consume the next plan budget');
   assert.equal(plan.sources[0].seen_keys.length, 2);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 2);
+});
+
+test('lease and retry state are observable: IDLE, LEASED, COMPLETED, retry after failure, and recoverable after expiry', async () => {
+  const { db, newsFeed } = openDb();
+  const entries = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const env = { DB: db };
+  const lease = async (at) => (await ev.evergreenStatus(env, at, entries)).sources[0].lease;
+  assert.deepEqual(await lease(NOW), { state: 'IDLE', leaseUntil: null, runId: null, retryAt: null });
+  const runId = (await ev.evergreenPlan(env, NOW, { entries, claim: true })).sources[0].run_id;
+  const leased = await lease(NOW);
+  assert.equal(leased.state, 'LEASED');
+  assert.equal(leased.runId, runId);
+  assert.equal((await lease(new Date(NOW.getTime() + 31 * 60000))).state, 'LEASE_EXPIRED_RECOVERABLE');
+  await ev.completeEvergreenRun(env, 'cc', { runId, items: [], cursor: {}, runStats: { evaluated: 0 }, error: 'HTTP_429' }, NOW, entries);
+  const failed = await lease(NOW);
+  assert.equal(failed.state, 'COMPLETED');
+  assert.equal(failed.runId, null);
+  assert.ok(failed.retryAt && failed.retryAt > NOW.toISOString(), 'a failed run exposes when the Worker will retry');
+});
+
+test('underfill is only reported for a source that may write; a CANARY_ONLY source reports null, not a false alarm', async () => {
+  const { db, newsFeed } = openDb();
+  const active = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const canary = registry(entry({ id: 'cc', feedId: newsFeed, lane: 'Haber', view: 'health_reference', activation: 'CANARY_ONLY' }));
+  assert.equal((await ev.evergreenStatus({ DB: db }, NOW, active)).sources[0].underfill, true);
+  const c = (await ev.evergreenStatus({ DB: db }, NOW, canary)).sources[0];
+  assert.equal(c.underfill, null);
+  assert.ok(c.writeBlockers.some((b) => b.startsWith('EVERGREEN_PATH_NOT_ACTIVE')));
+});
+
+test('a disabled production feed blocks writes and the runtime never re-enables it (PubMed case)', async () => {
+  const { sqlite, db, researchFeed } = openDb();
+  sqlite.prepare('UPDATE source_feeds SET enabled = 0 WHERE id = ?').run(researchFeed);
+  const entries = registry(entry({ id: 'pm', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery', archives: [{ id: 'a1', kind: 'pubmed', query: 'SRC:MED', publisher: 'PubMed', discovery_proxy: 'europepmc', sort: 'CITED desc' }] }));
+  const env = { DB: db };
+  const plan = await ev.evergreenPlan(env, NOW, { entries, claim: true });
+  assert.equal(plan.sources.length, 0, 'no lease is issued for a blocked source');
+  const st = (await ev.evergreenStatus(env, NOW, entries)).sources[0];
+  assert.ok(st.writeBlockers.includes('SOURCE_FEED_DISABLED_OR_MISSING'));
+  await assert.rejects(ev.completeEvergreenRun(env, 'pm', { runId: 'x', items: [], cursor: {}, runStats: { evaluated: 0 } }, NOW, entries), /write_blocked/);
+  assert.equal(sqlite.prepare('SELECT enabled FROM source_feeds WHERE id = ?').get(researchFeed).enabled, 0, 'the runtime did not touch source_feeds');
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM evergreen_runtime_state').get().n, 0);
 });

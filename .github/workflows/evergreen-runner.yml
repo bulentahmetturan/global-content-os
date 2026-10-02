@@ -1,0 +1,29 @@
+name: Evergreen bounded executor
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: evergreen-executor
+  cancel-in-progress: false
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      TIP_RADAR_INGEST_TOKEN: ${{ secrets.TIP_RADAR_INGEST_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Execute Worker-issued due plans
+        run: python adapters/tip-toplulugu-radar/scripts/evergreen_scheduled_run.py --hub https://global-content-os.channel-content-os-mcp.workers.dev --write --out evergreen-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evergreen-report
+          path: evergreen-report.json
+          retention-days: 14

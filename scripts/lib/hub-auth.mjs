@@ -16,6 +16,8 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/source-health/low-yield': 'OPS_TOKEN',
   '/api/source-revalidation/run': 'OPS_TOKEN',
   '/api/ingress/feed-items': 'TIP_RADAR_INGEST_TOKEN',
+  '/api/evergreen/plan': 'TIP_RADAR_INGEST_TOKEN',
+  '/api/ingress/evergreen-items': 'TIP_RADAR_INGEST_TOKEN',
 });
 
 const warned = new Set();

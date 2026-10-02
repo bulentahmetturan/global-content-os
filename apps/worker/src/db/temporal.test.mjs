@@ -231,9 +231,9 @@ test('missing importance signal is stored as null, never 0', async () => {
 test('0028 is additive and backward-compatible: a production-shaped 0026 DB keeps every row byte-identical; pre-0028 SQL still works', () => {
   const sqlite = new DatabaseSync(':memory:');
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
-  assert.equal(files.at(-1), '0028_temporal_paths.sql', '0028_temporal_paths.sql is the only temporal migration and the newest');
+  assert.ok(files.includes('0028_temporal_paths.sql'), 'canonical temporal migration is preserved');
   assert.equal(files.filter((f) => /temporal/.test(f)).length, 1);
-  for (const f of files.slice(0, -1)) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
+  for (const f of files.filter((f) => f < '0028_temporal_paths.sql')) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
   const feedId = sqlite.prepare(`SELECT id FROM source_feeds LIMIT 1`).get().id;
   const legacyInsert = `INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at)
     VALUES (?, ?, ?, ?, ?, ?, 'P', ?, ?, ?)`;
@@ -344,4 +344,42 @@ test('every sidebar count equals the length of the list it labels (same predicat
   assert.equal(nav.TIME_SENSITIVE.burs.inbox, 1);
   assert.equal(nav.TIME_SENSITIVE.egitim.inbox, 1);
   assert.equal(nav.TIME_SENSITIVE.duyuru.inbox, 1);
+});
+
+test('0029 is additive: a 0028 DB keeps every row and column; one new runtime table, no backfill, no trigger; the 0028-era Worker is unaffected', () => {
+  const sqlite = new DatabaseSync(':memory:');
+  const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
+  assert.ok(files.includes('0029_evergreen_runtime_state.sql'));
+  for (const f of files.filter((f) => f <= '0028_temporal_paths.sql')) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
+  const feedId = sqlite.prepare(`SELECT id FROM source_feeds LIMIT 1`).get().id;
+  sqlite.prepare(`INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at, acquisition_path, canonical_work_id)
+    VALUES ('ev1', ?, 'kaduse-research', 'kaduse-medikal', 'Rediscovered work', 'https://doi.org/10.1/x', 'P', 'inbox', '10.1/x', '2019-01-01', 'EVERGREEN', '10.1/x')`).run(feedId);
+  sqlite.prepare(`INSERT INTO item_path_membership (source_item_id, temporal_path, evergreen_view) VALUES ('ev1', 'EVERGREEN', 'research_rediscovery')`).run();
+  const snapshot = () => JSON.stringify({
+    items: sqlite.prepare('SELECT * FROM source_items ORDER BY id').all(),
+    members: sqlite.prepare('SELECT * FROM item_path_membership ORDER BY source_item_id').all(),
+    feeds: sqlite.prepare('SELECT * FROM source_feeds ORDER BY id').all(),
+  });
+  const schema = () => JSON.stringify(sqlite.prepare(`SELECT name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name != 'evergreen_runtime_state' ORDER BY name`).all());
+  const before = snapshot();
+  const schemaBefore = schema();
+  const tables0 = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((t) => t.name);
+  const triggers0 = sqlite.prepare(`SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'trigger'`).get().n;
+  const sql = readFileSync('migrations/0029_evergreen_runtime_state.sql', 'utf8');
+  assert.ok(!/(DROP|DELETE|UPDATE|ALTER|REPLACE|TRIGGER|INSERT)/i.test(sql.replace(/--.*$/gm, '')), 'only a CREATE TABLE: no rewrite, backfill, alteration or trigger');
+  sqlite.exec(sql);
+  assert.equal(snapshot(), before, 'every existing row is byte-identical');
+  assert.equal(schema(), schemaBefore, 'no existing table, column, index or constraint changed');
+  const tables1 = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((t) => t.name);
+  assert.deepEqual(tables1.filter((t) => !tables0.includes(t)), ['evergreen_runtime_state']);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM evergreen_runtime_state').get().n, 0, 'no backfill: runtime state starts empty');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'trigger'`).get().n, triggers0, '0029 adds no trigger');
+  // Production-shaped legacy statements (the 0028 Worker never names the new table) keep working, and rollback is dropping nothing:
+  sqlite.prepare(`UPDATE source_items SET triage_status = 'hold' WHERE id = 'ev1'`).run();
+  sqlite.prepare(`DELETE FROM source_items WHERE id = 'ev1'`).run();
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM item_path_membership').get().n, 0);
+  // Defaults on the new table are inert: a bare row has no lease, no due date, zero counters, empty cursor.
+  sqlite.prepare(`INSERT INTO evergreen_runtime_state (source_id, updated_at) VALUES ('x', 'now')`).run();
+  const row = sqlite.prepare(`SELECT * FROM evergreen_runtime_state WHERE source_id = 'x'`).get();
+  assert.deepEqual([row.cursor_json, row.lease_until, row.next_due, row.failure_count, row.evaluated, row.accepted, row.underfill], ['{}', null, null, 0, 0, 0, 0]);
 });

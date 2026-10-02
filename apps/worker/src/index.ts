@@ -22,6 +22,7 @@ import { ingestResearchApis } from './ingress/research-apis';
 import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
+import { completeEvergreenRun, evergreenPlan, evergreenStatus } from './ingress/evergreen';
 import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, pruneLowYieldSources, type TriageAction } from './triage/actions';
 import {
   REASON_CODES,
@@ -517,6 +518,28 @@ export default {
         return json({ ok: true, feed: 'tip-radar-adapter', ...result });
       }
 
+      if (path === '/api/evergreen/status' && request.method === 'GET') {
+        return json(await evergreenStatus(env));
+      }
+      if (path === '/api/evergreen/plan' && (request.method === 'GET' || request.method === 'POST')) {
+        const body = request.method === 'POST' ? await request.json().catch(() => null) as { sourceId?: string } | null : {};
+        if (!body || (body.sourceId !== undefined && typeof body.sourceId !== 'string')) return json({ error: 'INVALID_BODY' }, 400);
+        return json(await evergreenPlan(env, new Date(), { sourceId: body.sourceId || url.searchParams.get('sourceId') || undefined, claim: request.method === 'POST' }));
+      }
+      if (path === '/api/ingress/evergreen-items' && request.method === 'POST') {
+        if (Number(request.headers.get('content-length') || 0) > 100_000) return json({ error: 'BODY_TOO_LARGE' }, 413);
+        const text = await request.text();
+        if (text.length > 100_000) return json({ error: 'BODY_TOO_LARGE' }, 413);
+        let body;
+        try { body = JSON.parse(text); } catch { return json({ error: 'INVALID_BODY' }, 400); }
+        if (!body || typeof body.sourceId !== 'string') return json({ error: 'INVALID_BODY' }, 400);
+        try {
+          return json(await completeEvergreenRun(env, body.sourceId, body));
+        } catch (err) {
+          const reason = err instanceof Error ? err.message : 'EVERGREEN_INGEST_FAILED';
+          return json({ error: reason }, reason.startsWith('invalid_') ? 400 : reason === 'source_not_evergreen' ? 404 : 409);
+        }
+      }
       if (path === '/api/ingress/feed-items' && request.method === 'POST') {
         const body = (await request.json()) as {
           feedId?: string;

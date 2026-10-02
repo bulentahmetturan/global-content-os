@@ -40,8 +40,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.write and not token:
         print("--write needs TIP_RADAR_INGEST_TOKEN", file=sys.stderr)
         return 2
-    plan = json.loads(Path(args.plan_file).read_text(encoding="utf-8")) if args.plan_file else hub_get_plan(args.hub)
     only = [x.strip() for x in args.only.split(",") if x.strip()] or None
+    plan = json.loads(Path(args.plan_file).read_text(encoding="utf-8")) if args.plan_file else hub_get_plan(args.hub, token=token, only=only)
     code, doc = run(plan, only=only, write=args.write, hub=args.hub, token=token, now=datetime.now(timezone.utc))
     if args.out:
         Path(args.out).write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")

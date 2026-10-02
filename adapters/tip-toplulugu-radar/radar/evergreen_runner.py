@@ -636,10 +636,12 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
                 st, xml = fetch(u)
                 if st in (403, 429):
                     stats["blocked"] += 1
+                    stats["last_error"] = f"ARCHIVE_HTTP_{st}"
                     continue
                 if st != 200:
                     stats.setdefault("archive_fetch_failed", 0)
                     stats["archive_fetch_failed"] += 1
+                    stats["last_error"] = f"ARCHIVE_HTTP_{st}"
                     continue
                 entries.extend(parse_sitemap(xml))
             got, st_out = sitemap_candidates(entries, archive_id=aid, path_filter=a.get("path_filter", ""), seen=seen, budget=per_archive_cap, state=st_in, now=now, rediscovery_cadence_h=int(src["rediscovery_cadence_hours"]), deep_cadence_h=int(src["deep_archive_cadence_hours"]))
@@ -655,8 +657,12 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
                 st, xml = fetch(u)
                 if st in (403, 429):
                     stats["blocked"] += 1
+                    stats["last_error"] = f"ARCHIVE_HTTP_{st}"
                     break
                 if st != 200 or "<item>" not in xml:
+                    if st != 200 and not (p > 1 and st == 404):
+                        stats["archive_fetch_failed"] = stats.get("archive_fetch_failed", 0) + 1
+                        stats["last_error"] = f"ARCHIVE_HTTP_{st}"
                     wrapped = p > 1
                     break
                 pages[p] = xml
@@ -710,7 +716,20 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
 
 
 # ---------------------------------------------------------------- plan I/O and main
-def hub_get_plan(hub: str) -> dict:
+def hub_get_plan(hub: str, token: str | None = None, only: list[str] | None = None) -> dict:
+    if token:
+        if only:
+            sources = []
+            for source_id in only[:4]:
+                plan = hub_post(hub, token, "/api/evergreen/plan", {"sourceId": source_id})
+                if not plan.get("ok"):
+                    raise RuntimeError("Worker plan unavailable")
+                sources.extend(plan.get("sources", []))
+            return {"ok": True, "sources": sources}
+        plan = hub_post(hub, token, "/api/evergreen/plan", {})
+        if not plan.get("ok"):
+            raise RuntimeError("Worker plan unavailable")
+        return plan
     st, text = http_fetch(hub.rstrip("/") + "/api/evergreen/plan")
     if st != 200:
         raise RuntimeError(f"plan fetch -> HTTP {st}")
@@ -740,7 +759,20 @@ def run(plan: dict, *, only: list[str] | None = None, write: bool = False, hub: 
     for src in plan.get("sources", []):
         if only and src.get("source_id") not in only:
             continue
-        res = run_source(src, fetch=fetch, now=now, json_fetch=json_fetch)
+        if write and src.get("write_allowed") is not True:
+            report.append({"source_id": src.get("source_id"), "written": False, "underfilled": False,
+                           "write_skipped_reason": "plan_write_blocked"})
+            continue
+        if write and not src.get("run_id"):
+            raise ValueError("write requires a Worker-issued run_id")
+        error = None
+        try:
+            res = run_source(src, fetch=fetch, now=now, json_fetch=json_fetch)
+            if res.stats.get("blocked") or res.stats.get("archive_fetch_failed") or res.stats.get("signal_errors") or res.stats.get("robots_skipped") or res.stats.get("errors"):
+                error = res.stats.get("last_error") or "FETCH_OR_SIGNAL_ERROR"
+        except Exception:
+            error = "EXECUTOR_ERROR"
+            res = SourceResult(src["source_id"], [], src.get("cursor") or {}, {"evaluated": 0}, True)
         entry = {
             "source_id": res.source_id,
             "semantic_lane": src.get("semantic_lane"),
@@ -754,7 +786,13 @@ def run(plan: dict, *, only: list[str] | None = None, write: bool = False, hub: 
             "items": res.items,
         }
         if write and src.get("write_allowed") is True:
-            r = hub_post(hub, token, "/api/ingress/evergreen-items", {"sourceId": res.source_id, "items": res.items, "cursor": res.cursor, "runStats": res.stats})
+            payload = {"sourceId": res.source_id, "runId": src["run_id"], "items": [] if error else res.items,
+                       "cursor": res.cursor, "runStats": res.stats, "error": error}
+            try:
+                r = hub_post(hub, token, "/api/ingress/evergreen-items", payload)
+            except (OSError, TimeoutError):
+                # Same run id and payload: Worker returns the persisted completion on a lost response.
+                r = hub_post(hub, token, "/api/ingress/evergreen-items", payload)
             entry["worker"] = {k: r.get(k) for k in ("ok", "created", "rediscovered", "error", "budget")}
             if not r.get("ok"):
                 failures += 1
