@@ -128,3 +128,20 @@ Bootstrap from an empty machine: `docs/RECOVERY.md`.
 - Source catalog + registries: `scripts/registry-find.mjs` (read-only lookup); reviewed source-feedback actions: `docs/FEEDBACK-SOURCE-ACTIONS.md`; add / retire / reactivate: `docs/SOURCE-LIFECYCLE.md` (capacity via the guard above, never bypassed).
 - CCOS CI is defined in its own repo (`.github/workflows/ccos-ci.yml`); release/readiness for both repos: `release/` + `docs/ops/RELEASE-RUNBOOK.md`.
 - Still open by design: Hub UI rendering of `scheduler-state.json` (Hub files are UI work, not release-critical).
+
+## 7. Production D1 query rule
+
+Free tier: 5M rows read/day, shared with the live Worker (≈ 0.75M/day app load). Over the limit every D1 call fails (code 7500)
+until 00:00 UTC. On 2026-10-01 one ad-hoc self-join on `source_items` read ≈ 4.9M rows; two of them blocked production.
+
+- **Never** run ad-hoc analytical, self-join or full-table-scan queries with `wrangler d1 execute --remote`.
+- Remote is for small, targeted, indexed lookups only (e.g. the `source_feeds` rows of one source).
+- Analysis runs on a local copy. The export itself reads every row, so export sparingly (at most once per analysis, never in a loop):
+
+```bash
+npx wrangler d1 export global-content-os --remote --output .logs/d1-export.sql
+npx wrangler d1 execute global-content-os --local --file .logs/d1-export.sql   # then query with --local
+```
+
+- Duplicate titles: `GROUP BY lower(trim(title)) HAVING count(*) > 1`, never a self-join.
+- Quota / cost inspection without reading rows: `npx wrangler d1 insights global-content-os`, `npx wrangler d1 info global-content-os`.
