@@ -1,103 +1,671 @@
-# DOSSIER DISCOVERY V1 — architecture and production plan
+# DOSSIER DISCOVERY V1 — ARCHITECTURE ONLY
 
-Status: **IN DEVELOPMENT on `dossier-discovery-v1`**. This document is not production truth until merged/released.
+Status: **ARCHITECTURE DESIGN ONLY on `dossier-discovery-v1`**.
+
+**No implementation is authorized by this document.**  
+No D1 migration, runtime code, source activation, scheduler change, Hub route, deploy, production write or CCOS contract change is part of the current step.
+
+This document freezes the architecture for the new DOSYA discovery areas discussed to date. Implementation will be a separate owner-approved step.
+
+---
 
 ## 0. Mission
 
-DOSSIER DISCOVERY exists to answer one question:
+DOSSIER DISCOVERY answers one question:
 
-> **Which health topic is worth researching for a Turkish-language audience now?**
+> **Which health-related topic is worth researching for a Turkish-language audience now?**
 
-It does **not** perform the research, synthesize medical evidence, decide whether a claim is true, or write the dossier. Human selection is followed by a separate research workflow.
+It must do two things simultaneously:
 
-It must do two things at the same time:
+1. represent real interest, questions and health reality in Türkiye without being captured by one creator, platform, sponsor, viral spike or commercial campaign;
+2. connect Turkish readers to important subjects emerging in modern international medicine, biomedical research, geroscience, nutrition, health technology, environmental health and public health.
 
-1. represent real Turkish interest and health reality without being captured by one platform, creator, sponsor, or viral spike;
-2. connect the Turkish audience to important topics emerging in modern international medicine, biomedical research, public health, geroscience, nutrition and health technology.
+Canonical epistemic rule:
 
-Canonical rule:
+> **Demand and frontier signals tell us what to investigate. Evidence later tells us what we may say.**
 
-> **Demand tells us what to investigate. Evidence later tells us what we may say.**
+The system discovers and prioritizes **topics**. It does not research those topics.
 
-## 1. Relationship to the existing Global Hub
+---
+
+## 1. Hard boundary: DISCOVERY != RESEARCH
+
+DOSSIER DISCOVERY does **not**:
+
+- synthesize scientific literature;
+- decide whether a treatment, supplement, protocol or technology works;
+- create efficacy claims;
+- create causal medical relationships;
+- produce dose/safety/interaction guidance;
+- label something a myth as a scientific verdict;
+- summarize "what Dr X thinks" as the dossier;
+- write the dossier;
+- publish automatically.
+
+After a human accepts a topic, a separate research workflow starts independently.
+
+Example:
+
+```text
+DISCOVERY
+Magnesium Glycinate × Sleep
+        ↓
+HUMAN ACCEPT
+        ↓
+INDEPENDENT RESEARCH
+forms / evidence / myths / safety / dose / mechanisms / etc.
+```
+
+The research content is outside this architecture.
+
+---
+
+## 2. Relationship to Global Hub
 
 DOSSIER DISCOVERY is **not**:
 
-- a third acquisition path;
-- a sixth semantic lane;
+- a third temporal acquisition path;
+- a sixth existing semantic lane;
 - a replacement for Haber / Research / Duyuru / Burs / Eğitim;
-- a literature-research engine;
-- an automatic publishing path.
+- a new automatic publishing channel.
 
 Existing canonical temporal paths remain:
 
-- `TIME_SENSITIVE`
-- `EVERGREEN`
+```text
+TIME_SENSITIVE
+EVERGREEN
+```
 
 Existing semantic lanes remain unchanged.
 
-DOSSIER DISCOVERY is an independent bounded-domain module inside GCOS. It may reuse existing GCOS source items when useful, but its sensor observations and candidates have their own runtime tables because numeric public-demand data, geospatial measurements, manual snapshots and creator observations are not ordinary Hub inbox items.
+DOSSIER DISCOVERY is a **parallel discovery domain** owned by GCOS. Existing GCOS source material may be reused as sensors when appropriate, but DOSYA candidate logic is separate from ordinary Hub inbox logic.
 
-Acute events can still route to existing Haber/Research pipelines. Repeated or structural patterns can separately become DOSSIER candidates.
+An acute event may remain Haber while a repeated/structural pattern from the same source becomes a DOSYA candidate.
 
-## 2. Five first-class discovery domains
+---
+
+# 3. Top-level architecture
 
 ```text
-DOSSIER DISCOVERY
-├── HEALTH
-├── NUTRITION_PROTOCOL
-├── SUPPLEMENT
-├── LONGEVITY_TECHNOLOGY
-└── POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH
+                           DOSSIER DISCOVERY
+                                  │
+                       SHARED SIGNAL FABRIC
+                                  │
+        ┌─────────────────────────┼───────────────────────────┐
+        │                         │                           │
+        ▼                         ▼                           ▼
+ TURKEY REALITY             GLOBAL FRONTIER            PUBLIC / SOCIAL
+ & DEMAND                   & RESEARCH ACTIVITY         ATTENTION
+        │                         │                           │
+        └─────────────────────────┼───────────────────────────┘
+                                  ▼
+                         CONCEPT NORMALIZATION
+                                  ▼
+                         CANONICAL CONCEPT GRAPH
+                                  │
+        ┌──────────────┬──────────┼──────────┬──────────────┐
+        ▼              ▼          ▼          ▼              ▼
+      HEALTH       NUTRITION   SUPPLEMENT  LONGEVITY    POPULATION,
+                    PROTOCOL                 TECH        ENVIRONMENTAL
+                                                        & PUBLIC HEALTH
+        └──────────────┴──────────┼──────────┴──────────────┘
+                                  ▼
+                     CROSS-DOMAIN RELATION ENGINE
+                                  ▼
+                       CANDIDATE GENERATION
+                                  ▼
+                     QUALITY & INTEGRITY GATE
+                                  ▼
+                            DOSYA RADARI
+                                  ▼
+                   ACCEPT / REJECT / SNOOZE
+                                  ▼
+                     EXTERNAL RESEARCH HANDOFF
 ```
 
-All five share one signal fabric and one quality/governance layer, but each domain has its own discovery rules.
+---
 
-### 2.1 HEALTH
+# 4. Five first-class DOSYA domains
 
-Examples: sleep, SIBO, migraine, tinnitus, anxiety, cortisol, type 2 diabetes, PFAS exposure as a health topic.
+The five domains share infrastructure but are **not flattened into one generic topic bucket**.
 
-### 2.2 NUTRITION_PROTOCOL
+```text
+1. HEALTH
+2. NUTRITION_PROTOCOL
+3. SUPPLEMENT
+4. LONGEVITY_TECHNOLOGY
+5. POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH
+```
 
-Examples: intermittent fasting, time-restricted eating, Low-FODMAP, AIP, ketogenic diet, Mediterranean diet, fasting mimicking diet, Wahls Protocol.
+Each domain has:
 
-The system discovers the protocol and its co-interest relations. It does not decide whether the protocol works.
+- its own concept taxonomy;
+- its own preferred signal mix;
+- its own quality rules;
+- its own candidate patterns;
+- shared cross-domain relations.
 
-### 2.3 SUPPLEMENT
+---
 
-Examples: magnesium, magnesium glycinate, creatine, berberine, taurine, NMN.
+# 5. HEALTH DOSSIER architecture
 
-Forms may be first-class discovery concepts when people specifically search/discuss the form, e.g. `magnesium glycinate`, but the system does not research form superiority, dose, safety or efficacy.
+## 5.1 Scope
 
-### 2.4 LONGEVITY_TECHNOLOGY
+Health concepts can include:
 
-Examples: epigenetic clocks, CGM, senolytics, partial cellular reprogramming, proteomics, photobiomodulation, HBOT.
+```text
+DISEASE_CONDITION
+SYMPTOM
+PHYSIOLOGY
+DIAGNOSTIC
+TREATMENT
+MEDICATION
+EXPOSURE
+RISK_FACTOR
+BEHAVIOR_LIFESTYLE
+BIOMARKER
+INTERVENTION
+```
 
-The system detects attention, research activity and institutional/scientist interest. It does not infer efficacy or clinical readiness.
+Examples:
 
-### 2.5 POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH
+- Sleep
+- SIBO
+- Migraine
+- Tinnitus
+- Anxiety
+- Cortisol
+- Type 2 Diabetes
+- PFAS exposure
+- Insulin resistance
+- PCOS
 
-This domain covers both Turkey and globally significant public-health issues.
+## 5.2 Preferred discovery signals
 
-Core v1 subdomains:
+```text
+TURKEY_PUBLIC_DEMAND
+        +
+TURKEY_SOCIAL_MOMENTUM
+        +
+TR_CLINICIAN_CREATOR_PULSE
+        +
+TURKEY_HEALTH_BURDEN
+        +
+GLOBAL_MEDICAL_FRONTIER
+        +
+GLOBAL_RESEARCH_ACTIVITY
+```
 
-- AIR_QUALITY
-- WATER
-- CLIMATE_HEALTH
-- FOOD_SAFETY
-- ENVIRONMENTAL_EXPOSURE
-- PUBLIC_HEALTH_SURVEILLANCE
-- ANTIMICROBIAL_RESISTANCE
-- VECTOR_ONE_HEALTH
-- POPULATION_RISK_BEHAVIOR
+Turkey burden is valuable but not mandatory. A focused topic can remain a strong candidate with burden = UNKNOWN / NOT_APPLICABLE.
 
-Examples: PM2.5, drinking-water access/quality, heat, antimicrobial resistance, PFAS, microplastics, wastewater surveillance, vector expansion, food adulteration patterns.
+## 5.3 Candidate forms
 
-Health consequence must be central, not incidental. This module is not a general politics, climate-policy or world-news crawler.
+```text
+Sleep
+SIBO
+Sleep × Magnesium
+SIBO × Probiotics
+Sleep × Anxiety × Cortisol
+```
 
-## 3. Shared signal fabric
+No causal meaning is inferred.
 
-The canonical signal families are multidimensional. They are not collapsed into one opaque score.
+---
+
+# 6. NUTRITION PROTOCOL DOSSIER architecture
+
+Nutrition protocols are first-class concepts, not HEALTH aliases.
+
+## 6.1 Protocol families
+
+```text
+FASTING
+MEAL_TIMING
+CARBOHYDRATE_RESTRICTION
+ELIMINATION
+GI_PROTOCOL
+DIETARY_PATTERN
+NAMED_PROTOCOL
+OTHER
+```
+
+Examples:
+
+- Intermittent Fasting
+- Time-Restricted Eating
+- Alternate-Day Fasting
+- Fasting Mimicking Diet
+- Low-FODMAP
+- AIP
+- Ketogenic Diet
+- Mediterranean Diet
+- Elemental Diet
+- Wahls Protocol
+
+## 6.2 Preferred discovery signals
+
+```text
+TURKEY_PUBLIC_DEMAND
+        +
+TURKEY_SOCIAL_MOMENTUM
+        +
+TR_CLINICIAN_CREATOR_PULSE
+        +
+GLOBAL_PROTOCOL / NUTRITION SCOUTS
+        +
+GLOBAL_RESEARCH_ACTIVITY
+        +
+PERSISTENCE
+```
+
+The system discovers that a protocol is becoming worth investigating. It does **not** determine whether the protocol is effective.
+
+## 6.3 Candidate forms
+
+```text
+Intermittent Fasting
+Low-FODMAP
+
+Intermittent Fasting × Sleep
+Low-FODMAP × SIBO
+AIP × Hashimoto
+
+Intermittent Fasting × Type 2 Diabetes × Weight Loss
+```
+
+The graph records co-interest / joint topic activity only.
+
+---
+
+# 7. SUPPLEMENT DOSSIER architecture
+
+SUPPLEMENT is a discovery domain, **not a supplement knowledge base**.
+
+The system only brings the supplement/topic to us. The later research process may investigate forms, uses, myths, dose, safety and evidence.
+
+## 7.1 Scope
+
+Examples:
+
+- Magnesium
+- Magnesium Glycinate
+- Creatine
+- Berberine
+- Taurine
+- Glycine
+- Omega-3
+- NAC
+- NMN
+- CoQ10
+
+## 7.2 Topic hierarchy
+
+Forms may be separate discovery concepts when there is independent demand:
+
+```text
+MAGNESIUM
+├── Magnesium Glycinate
+├── Magnesium Citrate
+├── Magnesium Oxide
+└── Magnesium L-Threonate
+```
+
+This hierarchy is for **topic identity**, not evidence or chemistry assessment.
+
+## 7.3 Preferred discovery signals
+
+```text
+TURKEY_PUBLIC_DEMAND
+        +
+TURKEY_SOCIAL_MOMENTUM
+        +
+TR_CLINICIAN / PHARMACIST CREATOR PULSE
+        +
+GLOBAL_CREATOR_SCOUT
+        +
+GLOBAL_MEDICAL_FRONTIER
+        +
+GLOBAL_RESEARCH_ACTIVITY
+        +
+COMMERCIAL_CONCENTRATION CHECK
+```
+
+Commercial-pressure control is stricter in this domain than in most others.
+
+## 7.4 Candidate forms
+
+```text
+Magnesium Glycinate
+Creatine
+Berberine
+
+Magnesium Glycinate × Sleep
+Creatine × Cognition
+Creatine × Longevity
+Berberine × Glucose
+```
+
+The system must **not** convert these into:
+
+- "Magnesium glycinate improves sleep."
+- "Creatine improves cognition."
+- "NMN reverses aging."
+
+Those belong to later research.
+
+---
+
+# 8. LONGEVITY TECHNOLOGY DOSSIER architecture
+
+LONGEVITY_TECHNOLOGY is separate from supplements and health topics.
+
+## 8.1 Technology families
+
+```text
+MEASUREMENT
+DIAGNOSTIC
+DIGITAL_MONITORING
+THERAPEUTIC_PLATFORM
+DRUG_PLATFORM
+REGENERATIVE
+GENE_TECH
+CELLULAR_TECH
+OMICS
+DEVICE
+CONSUMER_TECH
+```
+
+Examples:
+
+- Epigenetic clocks
+- Biological-age measurement
+- CGM
+- Proteomics
+- Metabolomics
+- Senolytics
+- mTOR-related interventions
+- Partial cellular reprogramming
+- Gene editing
+- Stem-cell approaches
+- Photobiomodulation
+- HBOT
+- DEXA
+- VO2max measurement
+
+## 8.2 Preferred discovery signals
+
+Here the source hierarchy changes.
+
+```text
+GLOBAL_MEDICAL_FRONTIER
+        +
+GLOBAL_RESEARCH_ACTIVITY
+        +
+GLOBAL_INSTITUTIONAL_FRONTIER
+        +
+RESEARCHER / SCIENTIST TOPIC ACTIVITY
+        +
+TURKEY_PUBLIC_DEMAND
+        +
+SOCIAL CURIOSITY
+```
+
+Global research/scientist/institutional activity is stronger than creator popularity.
+
+## 8.3 International doctors/researchers
+
+International doctors are **topic sensors**, not content subjects.
+
+Wrong model:
+
+```text
+"Amy Myers says..."
+"Peter Attia thinks..."
+```
+
+Correct model:
+
+```text
+expert/researcher source
+        ↓
+topic observation
+        ↓
+independent corroboration
+        ↓
+DOSYA candidate
+```
+
+A name stays in provenance. The dossier remains topic-centered.
+
+## 8.4 Candidate forms
+
+```text
+Epigenetic Clocks
+Partial Cellular Reprogramming
+CGM
+
+CGM × Intermittent Fasting
+VO2max × Healthy Aging
+Partial Reprogramming × Aging
+```
+
+The system does not infer efficacy or clinical readiness.
+
+---
+
+# 9. POPULATION, ENVIRONMENTAL & PUBLIC HEALTH DOSSIER architecture
+
+This is not merely a Turkey-environment lane. It covers:
+
+1. important realities in Türkiye;
+2. globally significant public/environmental health topics;
+3. cross-border/transnational health issues.
+
+## 9.1 Three discovery lanes
+
+```text
+POPULATION, ENVIRONMENTAL & PUBLIC HEALTH
+│
+├── TURKEY_REALITY
+├── GLOBAL_PUBLIC_HEALTH_FRONTIER
+└── TRANSNATIONAL_HEALTH
+```
+
+### TURKEY_REALITY
+
+Turkey-specific population, environmental, infrastructure or surveillance signals.
+
+### GLOBAL_PUBLIC_HEALTH_FRONTIER
+
+Globally important or emerging issues may qualify even if Turkey-specific data are weak or unavailable.
+
+### TRANSNATIONAL_HEALTH
+
+Cross-border issues such as:
+
+- antimicrobial resistance;
+- air pollution;
+- wildfire smoke;
+- vector expansion;
+- pandemic/wastewater surveillance;
+- PFAS;
+- water stress;
+- food-chain contamination.
+
+## 9.2 Core topic families
+
+```text
+AIR_QUALITY
+WATER
+CLIMATE_HEALTH
+FOOD_SAFETY
+ENVIRONMENTAL_EXPOSURE
+PUBLIC_HEALTH_SURVEILLANCE
+ANTIMICROBIAL_RESISTANCE
+VECTOR_ONE_HEALTH
+POPULATION_RISK_BEHAVIOR
+```
+
+Possible future families are architecture-supported but not required now:
+
+```text
+NOISE
+HOUSING
+WASTE_WASTEWATER
+OCCUPATIONAL_ENVIRONMENT
+VECTOR_ENVIRONMENT
+```
+
+## 9.3 WATER is not one concept
+
+```text
+WATER
+├── DRINKING_WATER_ACCESS
+├── DRINKING_WATER_QUALITY
+├── WATER_TREATMENT
+├── WATER_SECURITY_SCARCITY
+├── WASTEWATER
+├── BATHING_WATER
+└── WATER_CONTAMINANTS
+```
+
+Access != quality != treatment != availability.
+
+## 9.4 Primary signal hierarchy
+
+Unlike supplements or social topics, this domain is more data-engine than social-listening engine.
+
+```text
+OFFICIAL / STRUCTURED PUBLIC DATA
+        +
+ENVIRONMENTAL MEASUREMENT
+        +
+PUBLIC HEALTH SURVEILLANCE
+        +
+GLOBAL PUBLIC HEALTH DATA
+        +
+GLOBAL FRONTIER
+        +
+PUBLIC CURIOSITY
+```
+
+Public/social interest is a relevance signal, not the factual health anchor.
+
+## 9.5 Source families
+
+Architecture-level candidate source families:
+
+Turkey:
+- TÜİK;
+- Sağlık Bakanlığı / HSGM;
+- Tarım ve Orman Bakanlığı;
+- SYGM;
+- MGM;
+- SGK where usable granularity exists;
+- national surveillance systems.
+
+Global:
+- WHO / WHO Europe;
+- OECD;
+- WHO/UNICEF JMP;
+- IARC;
+- IHME/GBD where lawful machine access exists;
+- ECDC / EFSA;
+- Copernicus CAMS;
+- WHO CAESAR / antimicrobial consumption datasets;
+- major public-health surveillance and environmental-observation systems.
+
+Source inclusion in architecture does not mean production activation.
+
+## 9.6 Observation provenance
+
+Public/environmental data require explicit observation kind:
+
+```text
+MEASURED
+MODELED
+ADMINISTRATIVE
+SURVEY
+ESTIMATE
+ALERT
+CONTENT
+SEARCH
+SOCIAL
+```
+
+Measured and modeled values are never treated as the same thing.
+
+## 9.7 WOW architecture
+
+"Wow" means:
+
+> surprising + important + explainable + researchable
+
+not clickbait.
+
+Pattern detectors:
+
+```text
+SURPRISING_BASELINE
+CROSS_COUNTRY_GAP
+RAPID_CHANGE
+HIDDEN_EXPOSURE
+SPATIAL_INEQUALITY
+BEHAVIOR_SURPRISE
+SYSTEM_SURPRISE
+ONE_HEALTH_SIGNAL
+FRONTIER_IMPORT
+SCALE_SHOCK
+GLOBAL_SHIFT
+SCIENCE_TO_PUBLIC_HEALTH
+EVERYDAY_SYSTEM
+```
+
+Quality dimensions:
+
+```text
+SURPRISE
+PUBLIC_REACH
+TURKEY_RELEVANCE
+GLOBAL_SIGNIFICANCE
+AUDIENCE_RELEVANCE
+DATA_STRENGTH
+CONTRAST
+NOVELTY
+PERSONAL_PROXIMITY
+VISUALIZABILITY
+FRONTIER_VALUE
+SENSATIONALISM_RISK
+```
+
+A globally important topic can qualify when:
+
+```text
+GLOBAL_SIGNIFICANCE = HIGH
+AUDIENCE_RELEVANCE = HIGH
+TURKEY_SPECIFIC_DATA = UNKNOWN
+```
+
+Unknown is not zero.
+
+## 9.8 Acute event vs DOSYA
+
+```text
+single acute event
+→ HABER
+
+repeated / structural pattern
+→ DOSYA CANDIDATE
+
+new global issue with strong health significance
+→ FRONTIER CANDIDATE
+```
+
+---
+
+# 10. Shared signal fabric
+
+Canonical signal families:
 
 ```text
 TURKEY_PUBLIC_DEMAND
@@ -119,133 +687,46 @@ GLOBAL_CREATOR_SCOUT
 RELATION_SIGNAL
 ```
 
-Missing signal = `UNKNOWN`, never zero.
+No opaque universal score is allowed to erase these dimensions.
 
-### 3.1 Turkey public demand
+---
 
-Candidate readers:
+# 11. Turkish clinician / health creator architecture
 
-- Google keyword/search-demand source;
-- Google Trends TR;
-- TikTok Creator Search Insights — manual/managed snapshot until a lawful production API exists;
-- optional secondary keyword source when credits/API are available.
+The panel contains public-facing health professionals who regularly create health-education content.
 
-Search magnitude and velocity are separate.
-
-### 3.2 Social momentum
-
-Candidate readers:
-
-- YouTube;
-- permitted Instagram tracked-public provider;
-- permitted TikTok public/trend data.
-
-Social momentum means discussion/viewing/content activity. It never means prevalence or scientific truth.
-
-### 3.3 Turkish clinician/health creator pulse
-
-This panel contains health professionals who regularly create public health-education content. Posts are classified:
-
-- HEALTH_EDUCATIONAL
-- PATIENT_QUESTION
-- CLINICAL_OBSERVATION
-- RESEARCH_COMMENTARY
-- PERSONAL
-- PROMOTIONAL
-- SPONSORED
-- OWN_PRODUCT
-- OWN_SERVICE
-
-The first four may create topic observations. Commercial/personal material is excluded or down-weighted as a discovery signal.
-
-A statement such as "my patients ask this often" becomes `CLINICIAN_REPORTED_PUBLIC_QUESTION`, not Turkish prevalence.
-
-### 3.4 Global medical frontier
-
-The global frontier is **not a list of celebrity doctors**.
-
-Primary frontier signals come from:
-
-- research-activity metadata;
-- trial activity;
-- major biomedical/public-health institutions;
-- researcher/scientist topic activity;
-- guideline/consensus update activity where available.
-
-Named international clinicians/researchers are topic sensors and provenance, not dossier subjects.
-
-The output is:
-
-> "topic X is rising across independent frontier signals"
-
-not:
-
-> "Dr X says Y."
-
-### 3.5 Global creator scouts
-
-Functional/integrative/health creators may be useful topic scouts, but they are not placed at the same epistemic level as modern medical research activity.
-
-Their role is discovery only. Their visibility must never overpower research/institutional signals through raw mention counts.
-
-## 4. Concept architecture
-
-One common identity layer allows domain separation plus cross-domain relations.
+Eligible content classes:
 
 ```text
-dossier_concepts
-├── HEALTH
-├── NUTRITION_PROTOCOL
-├── SUPPLEMENT
-├── LONGEVITY_TECHNOLOGY
-└── POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH
+HEALTH_EDUCATIONAL
+PATIENT_QUESTION
+CLINICAL_OBSERVATION
+RESEARCH_COMMENTARY
 ```
 
-Minimum concept fields:
+Other classes:
 
-- id
-- domain
-- concept_type
-- canonical_label_tr
-- canonical_label_en
-- parent_concept_id
-- aliases
-- optional external IDs
-- state: PROPOSED / ACTIVE / PAUSED / REJECTED
+```text
+PERSONAL
+PROMOTIONAL
+SPONSORED
+OWN_PRODUCT
+OWN_SERVICE
+```
 
-External ontologies such as MeSH/SNOMED/UMLS/ICD/Wikidata are enrichment, not the canonical master.
+Commercial/personal material is excluded or treated with lower confidence.
 
-Unknown topics/forms/protocols/technologies create proposals. They never become canonical automatically.
+A creator saying "my patients ask this often" becomes:
 
-## 5. Expert/source identity
+```text
+CLINICIAN_REPORTED_PUBLIC_QUESTION
+```
 
-Accepted expert/creator records are canonical entities with:
+not prevalence.
 
-- expert_id
-- canonical_name
-- exact credentials
-- specialties
-- country/languages
-- panels
-- official website/platform identities
-- external IDs when available
-- commercial profile / COI notes
-- status: ACTIVE / WATCH / PAUSED / REJECTED
+## 11.1 Current user-approved Turkish seed panel
 
-Entity resolution states:
-
-- AUTO_LINK
-- REVIEW_REQUIRED
-- UNRESOLVED
-
-Low-confidence merges are never automatic.
-
-Rejected experts and reasons remain durable so the system does not repeatedly resurface them.
-
-
-### 5.1 User-approved Turkish creator seed panel
-
-These are **seed candidates for the Turkish clinician/health creator pulse**, not scientific-authority rankings. Credentials, specialty and canonical platform identity must be verified before production activation.
+These are seed candidates for identity/credential verification and later source wiring. Inclusion does not itself assign scientific authority or production activation.
 
 - Prof. Dr. Nazan Uysal Harzadın
 - Prof. Dr. Muhammed Keskin
@@ -258,11 +739,163 @@ These are **seed candidates for the Turkish clinician/health creator pulse**, no
 - Dt. Tuğba Duymaz
 - Dr. Mustafa Kalkan — Instagram seed: `@drmustafakalkan`
 
-User-approved here means "include in the discovery seed panel for identity/credential verification and later source wiring"; it does not by itself activate ingestion or assign evidence weight.
+---
 
-## 6. Reader architecture
+# 12. Global expert / researcher architecture
 
-Each reader uses one runtime contract:
+Global people are divided by role; they are not all one epistemic tier.
+
+```text
+CLINICIAN_RESEARCHER
+ACADEMIC_SCIENTIST
+CLINICIAN_CREATOR
+HEALTH_CREATOR
+FUNCTIONAL_INTEGRATIVE_CREATOR
+PHARMACIST_CREATOR
+INSTITUTION
+```
+
+## 12.1 Modern medical frontier
+
+Primary frontier is built from:
+
+- research activity;
+- trials;
+- major institutions;
+- scientist/researcher topic activity;
+- guideline/consensus activity where available.
+
+This is the main bridge between Turkish readers and modern international medicine.
+
+## 12.2 Creator scouts
+
+Functional/integrative/health creators can identify topics worth investigating, but their popularity cannot substitute for medical-frontier signals.
+
+Their job:
+
+```text
+discover topic
+→ create observation
+→ await independent signal
+```
+
+not:
+
+```text
+creator statement
+→ dossier truth
+```
+
+---
+
+# 13. Expert graph
+
+Accepted expert sources may reveal other experts they repeatedly cite.
+
+```text
+EXPERT_A
+   └── MENTIONS_EXPERT
+          └── EXPERT_B
+```
+
+Unknown repeated experts become:
+
+```text
+NEW_EXPERT_CANDIDATE
+```
+
+They never become ACTIVE automatically.
+
+Entity resolution states:
+
+```text
+AUTO_LINK
+REVIEW_REQUIRED
+UNRESOLVED
+```
+
+Low-confidence merge is forbidden.
+
+Rejected experts and reasons persist.
+
+---
+
+# 14. Canonical concept architecture
+
+One shared concept identity layer preserves domain boundaries and allows cross-domain relations.
+
+```text
+DOSSIER_CONCEPT
+├── HEALTH
+├── NUTRITION_PROTOCOL
+├── SUPPLEMENT
+├── LONGEVITY_TECHNOLOGY
+└── POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH
+```
+
+Concept-level architecture:
+
+```text
+concept_id
+domain
+concept_type
+canonical_label_tr
+canonical_label_en
+parent_concept_id?
+aliases_tr[]
+aliases_en[]
+acronyms[]
+colloquial_terms[]
+external_mappings[]
+state
+```
+
+External ontologies (MeSH, SNOMED CT, ICD, UMLS, Wikidata etc.) are enrichment, not the canonical master.
+
+Unknown concepts create proposals only.
+
+---
+
+# 15. Source → observation architecture
+
+A source is not a topic.
+
+```text
+SOURCE / SIGNAL
+      ↓
+SOURCE ITEM / SNAPSHOT
+      ↓
+NORMALIZE
+      ↓
+CONTENT / DATA CLASSIFY
+      ↓
+CONCEPT RESOLUTION
+      ↓
+TOPIC OBSERVATION
+      ↓
+RELATION OBSERVATION
+```
+
+The architecture must support content and non-content sources:
+
+- article/video metadata;
+- public search demand;
+- social trend snapshots;
+- burden statistics;
+- measured environmental data;
+- modeled environmental data;
+- survey estimates;
+- surveillance releases;
+- research-activity counts;
+- institution/researcher topic activity.
+
+Full article/transcript storage is not the default.
+
+---
+
+# 16. Reader architecture
+
+Future readers must share one abstract contract:
 
 ```text
 plan()
@@ -271,296 +904,263 @@ normalize()
 checkpoint()
 ```
 
-Required telemetry:
-
-- reader_id
-- source_id
-- last_attempt
-- last_success
-- next_due
-- cursor
-- items_seen
-- items_new
-- observations_written
-- last_error
-- failure_count
-- freshness
-- coverage
-- quota/rate-limit state where applicable
-
-One reader failure must not silence another reader.
-
 Reader classes:
 
-- RSS_WEB
-- YOUTUBE_CHANNEL
-- PUBLIC_DEMAND
-- PUBLIC_DATA_API
-- PUBLIC_TABLE
-- PUBLICATION_METADATA
-- GEO_OBSERVATION
-- SURVEILLANCE_RELEASE
-- MANUAL_SNAPSHOT
-
-Every source also has a legal/access state:
-
-- APPROVED
-- RESTRICTED
-- MANUAL_ONLY
-- UNRESOLVED
-- REJECTED
-
-No unauthorized scraping, bot bypass or commercial use of a restricted research API.
-
-## 7. Source item vs observation
-
-A source item is not a topic.
-
-A single article/video/publication/snapshot may produce several observations and relations.
-
 ```text
-SOURCE ITEM
-    ↓
-NORMALIZE / CLASSIFY
-    ↓
-TOPIC OBSERVATIONS
-    ↓
-CONCEPT RESOLUTION
-    ↓
-RELATION OBSERVATIONS
+RSS_WEB
+YOUTUBE_CHANNEL
+PUBLIC_DEMAND
+PUBLIC_DATA_API
+PUBLIC_TABLE
+PUBLICATION_METADATA
+GEO_OBSERVATION
+SURVEILLANCE_RELEASE
+MANUAL_SNAPSHOT
 ```
 
-The dossier source-item store keeps metadata/snippet/provenance only. Full article/transcript storage is not the default.
+Every source has a legal/access state:
 
-Observation kinds can represent:
+```text
+APPROVED
+RESTRICTED
+MANUAL_ONLY
+UNRESOLVED
+REJECTED
+```
 
-- content mention;
-- search magnitude;
-- search velocity;
-- social momentum;
-- burden/utilization;
-- measured environmental value;
-- modeled environmental value;
-- survey estimate;
-- administrative statistic;
-- surveillance change;
-- research-activity count;
-- institution/researcher topic activity.
+No unauthorized scraping, anti-bot bypass or restricted commercial API use.
 
-Measurement provenance is explicit:
+---
 
-- MEASURED
-- MODELED
-- ADMINISTRATIVE
-- SURVEY
-- ESTIMATE
-- ALERT
-- CONTENT
-- SEARCH
-- SOCIAL
-
-## 8. Relation architecture
+# 17. Cross-domain relation engine
 
 Relation depth:
 
-- 1 = SINGLE
-- 2 = DOUBLE
-- 3 = TRIPLE
+```text
+1 = SINGLE
+2 = DOUBLE
+3 = TRIPLE
+4+ = COMPOSITE (supported conceptually, not initial automatic generation)
+```
 
-V1 candidate generation is bounded to depth <= 3.
+Discovery relations:
 
-Discovery relation types:
+```text
+CO_INTEREST
+MENTIONED_WITH
+PUBLIC_SEARCH_ASSOCIATION
+CREATOR_ASSOCIATION
+FRONTIER_ASSOCIATION
+ENVIRONMENTAL_ASSOCIATION
+```
 
-- CO_INTEREST
-- MENTIONED_WITH
-- PUBLIC_SEARCH_ASSOCIATION
-- CREATOR_ASSOCIATION
-- FRONTIER_ASSOCIATION
-- ENVIRONMENTAL_ASSOCIATION
+The discovery layer never creates:
 
-The discovery layer does **not** create:
+```text
+CAUSES
+CURES
+TREATS
+IMPROVES
+PREVENTS
+```
 
-- CAUSES
-- CURES
-- TREATS
-- IMPROVES
-- PREVENTS
+## 17.1 Pair integrity
 
-Two individually popular topics do not automatically create a pair candidate. A pair needs direct joint signal. Triple generation requires direct triple evidence or a sufficiently supported joint/pair network across at least two independent signal families.
+```text
+Sleep popular
++
+Magnesium popular
+```
 
-## 9. Candidate generation
+does **not** automatically mean:
 
-Candidate classes:
+```text
+Sleep × Magnesium
+```
 
-- STRONG
-- EMERGING
-- WATCH
-- CORRECTIVE
-- FRONTIER
+Direct joint signal is required.
+
+## 17.2 Triple integrity
+
+A triple requires:
+
+- direct triple signal; or
+- sufficiently supported pair/joint network;
+- plus independent evidence across at least two signal families.
+
+This prevents combinatorial spam.
+
+---
+
+# 18. Candidate classes
+
+```text
+STRONG
+EMERGING
+WATCH
+CORRECTIVE
+FRONTIER
+```
 
 ### STRONG
-
-Multiple independent signal families and healthy source diversity.
+Multiple independent signal families, healthy diversity and sufficient persistence.
 
 ### EMERGING
-
-A rising signal with at least one independent support family.
+Rising topic with at least one independent supporting family.
 
 ### WATCH
-
-Interesting but insufficiently independent or persistent.
+Interesting, but not yet independent/persistent enough.
 
 ### CORRECTIVE
-
-High public interest plus high misinformation/hype/commercial-risk characteristics. The system does not decide the claim is false; it says the topic deserves corrective research.
+High public interest plus high misinformation, commercial or hype risk. This means "research this carefully," not "this claim is false."
 
 ### FRONTIER
+Strong global medical/public-health frontier activity even if Turkish demand is still low.
 
-Strong global medical/public-health frontier activity even when Turkey demand is still low.
+---
 
-This allows Tıp Topluluğu to bring important global topics to Turkish readers before they are already mainstream.
+# 19. Candidate Quality & Integrity Gate
 
-## 10. Candidate Quality & Integrity Gate
-
-The gate performs **signal hygiene, not medical research**.
+The gate performs **signal hygiene**, not research.
 
 Dimensions:
 
-- signal_diversity
-- source_quality
-- creator_diversity
-- platform_diversity
-- persistence
-- commercial_pressure
-- hype_risk
-- topic_coherence
-- turkey_relevance
-- global_significance
-- audience_relevance
-- relation_integrity
-- data_strength
-- geographic_spread
-- sensationalism_risk
+```text
+signal_diversity
+source_quality
+creator_diversity
+platform_diversity
+persistence
+commercial_pressure
+hype_risk
+topic_coherence
+turkey_relevance
+global_significance
+audience_relevance
+relation_integrity
+data_strength
+geographic_spread
+sensationalism_risk
+```
 
-No single public "87/100" truth score.
+Missing = UNKNOWN, never 0.
 
-Reason codes are mandatory, e.g.:
+No single public "truth score".
 
-- MULTI_PLATFORM
-- MULTI_CREATOR
-- STRONG_TR_SEARCH
-- GLOBAL_FRONTIER_RISING
-- HIGH_COMMERCIAL_CONCENTRATION
-- SINGLE_SOURCE_DEPENDENCY
-- BURST_ONLY
-- DIRECT_RELATION_SIGNAL
-- LOW_TURKEY_DATA
-- STRONG_OFFICIAL_DATA
-- MODELED_DATA_ONLY
+Reason codes explain the decision, for example:
 
-Creator concentration is corrected with:
+```text
+MULTI_PLATFORM
+MULTI_CREATOR
+STRONG_TR_SEARCH
+GLOBAL_FRONTIER_RISING
+HIGH_COMMERCIAL_CONCENTRATION
+SINGLE_SOURCE_DEPENDENCY
+BURST_ONLY
+DIRECT_RELATION_SIGNAL
+LOW_TURKEY_DATA
+STRONG_OFFICIAL_DATA
+MODELED_DATA_ONLY
+```
 
-- mention_count
-- unique_creator_count
-- unique_platform_count
-- independent_signal_family_count
+Raw mention count is never sufficient.
 
-Reposts/near-duplicates should be origin-clustered where possible so one viral item is not counted as many independent signals.
+Independence architecture tracks:
 
-## 11. Public / environmental health WOW gate
+```text
+mention_count
+unique_creator_count
+unique_platform_count
+independent_signal_family_count
+```
 
-"Wow" does not mean clickbait. A good candidate is surprising, important, explainable and researchable.
+Near-duplicates/reposts should be origin-clustered where possible.
 
-Pattern detectors:
+---
 
-- SURPRISING_BASELINE
-- CROSS_COUNTRY_GAP
-- RAPID_CHANGE
-- HIDDEN_EXPOSURE
-- SPATIAL_INEQUALITY
-- BEHAVIOR_SURPRISE
-- SYSTEM_SURPRISE
-- ONE_HEALTH_SIGNAL
-- FRONTIER_IMPORT
-- SCALE_SHOCK
-- GLOBAL_SHIFT
-- SCIENCE_TO_PUBLIC_HEALTH
-- EVERYDAY_SYSTEM
+# 20. Temporal signal model
 
-Quality dimensions:
+Initial architecture uses:
 
-- SURPRISE
-- PUBLIC_REACH
-- TURKEY_RELEVANCE
-- GLOBAL_SIGNIFICANCE
-- AUDIENCE_RELEVANCE
-- DATA_STRENGTH
-- CONTRAST
-- NOVELTY
-- PERSONAL_PROXIMITY
-- VISUALIZABILITY
-- FRONTIER_VALUE
-- SENSATIONALISM_RISK
+```text
+7D  = burst
+30D = current momentum
+90D = baseline
+```
 
-A strong Turkey-specific signal is sufficient; a globally significant frontier topic may also pass with Turkey-specific data UNKNOWN.
+This allows:
 
-Acute one-off events stay Haber. Repeated/structural patterns may become DOSSIER candidates.
+- viral spike;
+- persistent demand;
+- emerging frontier;
+- sustained structural issue
 
-## 12. Initial source strategy
+to remain distinguishable.
 
-### Existing GCOS sources to reuse as sensors where appropriate
+Advanced seasonality/z-score models are optional future improvements, not architectural dependencies.
 
-Do not duplicate source truth. Existing PubMed, Europe PMC, Nature/NCCIH and related research/news sources may contribute research-activity/frontier observations without becoming evidence synthesis.
+---
 
-### New candidate source families, to be onboarded only through SOURCE-LIFECYCLE
+# 21. Candidate output architecture
 
-Public demand / social:
-- Google demand / Trends;
-- YouTube;
-- TikTok Creator Search Insights manual snapshot;
-- Instagram/TikTok providers only after legal/access approval.
+Weekly radar is separated by domain:
 
-Turkey burden/public health:
-- TÜİK;
-- Sağlık Bakanlığı;
-- Tarım ve Orman Bakanlığı;
-- SGK where usable granularity is verified;
-- MGM;
-- SYGM.
+```text
+DOSYA RADARI
 
-Global/public health:
-- WHO / WHO Europe;
-- OECD;
-- IHME/GBD where lawful machine access is available;
-- IARC;
-- ECDC / EFSA;
-- WHO/UNICEF JMP;
-- Copernicus CAMS;
-- WHO CAESAR / antimicrobial consumption datasets;
-- Lancet Countdown as release-driven context.
+HEALTH
+• ...
 
-No source is considered production-active merely because it is listed in this architecture.
+NUTRITION PROTOCOLS
+• ...
 
-## 13. Cadence
+SUPPLEMENTS
+• ...
 
-Suggested v1 cadence:
+LONGEVITY TECHNOLOGIES
+• ...
 
-- creator website/RSS: daily;
-- YouTube tracked channels: daily;
-- permitted social creator panel: daily;
-- TikTok Creator Search Insights: weekly manual;
-- Google/public demand: weekly;
-- research/frontier topic aggregation: daily or weekly depending source;
-- topic graph aggregation: daily;
-- candidate generation: weekly;
-- public-health structured data: release-driven or source-appropriate;
-- expert-panel discovery: monthly.
+POPULATION, ENVIRONMENTAL & PUBLIC HEALTH
+• ...
 
-Initial backfill is bounded to 90 days where the source supports it.
+RELATIONSHIPS
+• ...
+```
 
-## 14. Human review and research handoff
+Each candidate shows **WHY NOW**, not a scientific verdict.
 
-Lifecycle:
+Example:
+
+```text
+MAGNESIUM GLYCINATE × SLEEP
+
+Domain:
+SUPPLEMENT × HEALTH
+
+Why now:
+- Turkish demand rising
+- multi-platform discussion
+- multiple independent creator mentions
+- global topic activity present
+
+Signal quality:
+- diversity: HIGH
+- persistence: HIGH
+- commercial pressure: MEDIUM
+- relation integrity: DIRECT
+
+Candidate class:
+STRONG
+
+Scientific conclusion:
+NONE — research required
+```
+
+---
+
+# 22. Human review architecture
+
+Candidate lifecycle:
 
 ```text
 DISCOVERED
@@ -570,226 +1170,221 @@ DISCOVERED
 → RESEARCH_REQUESTED
 ```
 
-DOSSIER DISCOVERY ends at the research handoff.
+Canonical proposal types:
 
-The handoff may include:
+```text
+NEW_HEALTH_TOPIC
+NEW_PROTOCOL
+NEW_SUPPLEMENT
+NEW_SUPPLEMENT_FORM
+NEW_LONGEVITY_TECH
+NEW_PUBLIC_HEALTH_TOPIC
+NEW_EXPERT
+NEW_RELATION
+```
 
-- canonical topic title;
-- aliases;
-- domain;
-- relation depth;
-- WHY NOW;
+All require human governance.
+
+Reject reasons persist, for example:
+
+```text
+NOISE
+DUPLICATE
+TOO_BROAD
+TOO_NARROW
+COMMERCIAL_ARTIFACT
+NO_AUDIENCE_RELEVANCE
+NO_INDEPENDENT_SIGNAL
+RELATION_NOT_SUPPORTED
+OUT_OF_SCOPE
+```
+
+Feedback cannot automatically rewrite registries, weights, source states or cadence.
+
+---
+
+# 23. Research handoff architecture
+
+After ACCEPT, discovery stops.
+
+Handoff contains only:
+
+```text
+canonical topic
+domain
+aliases
+relation depth
+WHY NOW
+signal-family summary
+common public questions
+related concepts
+discovery provenance
+quality reason codes
+```
+
+It does not contain:
+
+- efficacy conclusion;
+- myth verdict;
+- treatment recommendation;
+- dose;
+- safety conclusion;
+- literature synthesis.
+
+Research begins independently from that point.
+
+---
+
+# 24. Privacy / legal architecture
+
+The system is not a patient-profiling system.
+
+Do not store or infer:
+
+- commenter health conditions;
+- commenter identity unless strictly required by an approved provider contract;
+- patient identity;
+- person-level medical status;
+- person-level location for health inference.
+
+Data minimization by default.
+
+Public professional creators may be represented as canonical source entities.
+
+---
+
+# 25. LOOP control — architecture stage
+
+## L — LIVE STATE
+
+- GCOS production remains unchanged.
+- TIME_SENSITIVE + EVERGREEN remain canonical acquisition paths.
+- DOSSIER DISCOVERY is architecture only.
+- No new production reader exists from this work.
+- No D1 migration has been created.
+- No scheduler/runtime route has been changed.
+- No remote write/deploy has been made.
+- Existing sources may later be reused as sensors, but this document does not activate them.
+
+## O — OBJECTIVE
+
+Freeze one coherent architecture for all five new DOSYA discovery domains and their shared signal, relation, quality and governance layers.
+
+## O — OBSERVABILITY / OUTPUT
+
+Architecture is complete only when it explicitly defines:
+
+- five domains;
 - signal families;
-- common public questions;
-- related concepts;
-- discovery provenance;
-- quality/reason codes.
+- source roles;
+- international frontier role;
+- creator role;
+- concept identity;
+- relation rules;
+- public-health WOW logic;
+- quality gate;
+- human governance;
+- research handoff boundary;
+- legal/privacy boundary.
 
-It does **not** include a scientific conclusion.
+## P — ARCHITECTURE GATE
 
-Research starts independently after human acceptance.
+Architecture PASS requires:
 
-## 15. P5 governance
+1. discovery vs research boundary is unambiguous;
+2. nutrition protocols, supplements and longevity technologies are first-class domains;
+3. public/environmental/public health supports both Turkey and global significance;
+4. international doctors are topic sensors, not dossier protagonists;
+5. global modern medicine/research activity has its own stronger frontier channel;
+6. Turkey demand cannot be replaced by social popularity alone;
+7. commercial/manipulation controls exist;
+8. cross-domain pairs/triples require joint signal;
+9. no autonomous canonical mutation;
+10. existing GCOS temporal/semantic architecture remains untouched.
 
-Human gate is required for:
+**Current step ends at this gate. Implementation is explicitly out of scope.**
 
-- NEW_TOPIC
-- NEW_PROTOCOL
-- NEW_SUPPLEMENT
-- NEW_SUPPLEMENT_FORM
-- NEW_LONGEVITY_TECH
-- NEW_EXPERT
-- NEW_RELATION
+---
 
-Actions:
+# 26. Five Pillars — architecture conformance
 
-- ACCEPT
-- REJECT
-- SNOOZE
-- PAUSE
+## P1 — Production-ready by design
 
-Rejected decisions and reasons persist.
+The architecture can later be implemented as isolated readers/modules without making every optional source a blocker.
 
-Feedback never autonomously changes canonical registries, weights, source states or cadence.
+## P2 — Real E2E by design
 
-## 16. Five Pillars
-
-### P1 — Production-ready
-
-- independent module;
-- source/readers fail in isolation;
-- weekly candidate output;
-- no dependency on full Instagram/TikTok automation;
-- no research synthesis dependency;
-- no change to existing temporal-path semantics.
-
-### P2 — Real E2E
-
-Production proof must show:
+The future contract is:
 
 ```text
 real source
-→ source item / signal
+→ signal/source item
 → observation
-→ concept resolution
-→ relation (when applicable)
+→ concept
+→ relation
 → candidate
 → quality gate
 → human review
 ```
 
-Synthetic-only PASS is not enough.
+No synthetic-only architecture is accepted as the target state.
 
-### P3 — Observable / recoverable
+## P3 — Observable / recoverable by design
 
-Every reader and candidate is traceable:
+Future observations/candidates must remain attributable to:
 
 - source;
-- period;
-- geography;
+- time window;
+- geography where relevant;
 - measurement type;
-- cursor;
-- timestamps;
+- provenance;
 - extractor/algorithm version;
-- quality reasons;
-- signal snapshot IDs.
+- reason codes.
 
-The system must be able to answer: "Why was this candidate proposed on that date?"
+The design must be able to answer: "Why was this topic proposed then?"
 
-### P4 — Bounded
+## P4 — Bounded by design
 
 - no whole-platform crawl;
-- bounded 90-day initial backfill;
-- max concept/relation depth = 3;
-- bounded URLs/videos per run;
-- no full-article archive by default;
-- raw personal audience data is not stored;
-- no person-level patient profiling;
-- public/environmental readers fetch only necessary indicators/geography.
+- bounded windows;
+- bounded relation depth;
+- no default full-text archive;
+- no patient profiling;
+- no unrestricted source expansion;
+- no evidence-synthesis creep inside discovery.
 
-### P5 — Governed learning
+## P5 — Governed by design
 
-- all canonical changes are human-gated;
-- reject reasons persist;
-- feedback is evidence, not autonomous mutation;
-- no automatic publication;
-- no automatic medical claim generation.
+- new concepts are proposals;
+- new experts are proposals;
+- new relations are proposals;
+- human ACCEPT / REJECT / SNOOZE remains mandatory;
+- feedback does not autonomously mutate canonical behavior.
 
-## 17. LOOP control
+---
 
-### L — LIVE STATE
+# 27. Current architectural decision
 
-At branch creation:
-- GCOS main production remains operational;
-- canonical paths remain TIME_SENSITIVE + EVERGREEN;
-- DOSSIER DISCOVERY has no production reader, table or route yet;
-- existing research/news sources may later be reused as sensors;
-- no remote migration or deploy is authorized by this architecture work.
+The canonical model is therefore:
 
-### O — OBJECTIVE
+```text
+FIVE DOMAIN RADARS
+        +
+SHARED SIGNAL FABRIC
+        +
+GLOBAL MEDICAL / PUBLIC-HEALTH FRONTIER
+        +
+CROSS-DOMAIN CONCEPT GRAPH
+        +
+QUALITY & INTEGRITY GATE
+        +
+HUMAN REVIEW
+        ↓
+RESEARCH TOPIC HANDOFF
+```
 
-Build a bounded production module that produces 10–20 high-quality weekly DOSSIER candidates across the five domains, including single/double/triple relations, without performing evidence synthesis.
+The system's job ends at:
 
-### O — OBSERVABILITY / OUTPUT
+> **"This is a healthy, sufficiently independent, relevant and research-worthy topic to put in front of the editorial team now."**
 
-Each increment must report:
-
-- readers attempted/succeeded/failed;
-- items/signals seen;
-- observations written;
-- concepts linked/proposed;
-- relations created/proposed;
-- candidates generated;
-- quality reason codes;
-- human review outcomes.
-
-Local PASS and live PASS are distinct.
-
-### P — PRODUCTION GATE
-
-V1 can advance when it has:
-
-1. schema + runtime contracts;
-2. one real public-demand reader;
-3. one real global-frontier/research-activity reader;
-4. one real Turkey health/public-health reader;
-5. topic normalization;
-6. single + pair candidate generation;
-7. quality/integrity gate;
-8. human review;
-9. provenance;
-10. scheduler/reader telemetry.
-
-Not blockers for V1:
-
-- every expert onboarded;
-- full TikTok automation;
-- full Instagram automation;
-- triple generation;
-- all public-health datasets;
-- advanced seasonality;
-- full ontology mapping;
-- Semrush availability.
-
-When the production gate passes, advance. Do not open a new audit merely because an optional source remains deferred.
-
-## 18. Implementation increments
-
-### Increment A — core contracts and schema
-
-- additive D1 schema;
-- domain/status enums in code;
-- observation/candidate/review contracts;
-- no source activation;
-- local tests.
-
-### Increment B — minimal real readers
-
-- reuse one existing global-frontier/research source;
-- add one Turkey public-health structured reader through source lifecycle;
-- add one public-demand reader or bounded manual snapshot reader;
-- write reader telemetry.
-
-### Increment C — normalization and relations
-
-- concept resolver;
-- aliasing;
-- single + pair relations;
-- origin-cluster/duplicate guard.
-
-### Increment D — candidate quality gate
-
-- reason-code based quality snapshots;
-- STRONG / EMERGING / WATCH / CORRECTIVE / FRONTIER;
-- public-health WOW detector.
-
-### Increment E — Hub review
-
-- DOSYA RADARI route in Hub;
-- domain filters;
-- WHY NOW;
-- source/signal provenance;
-- ACCEPT / REJECT / SNOOZE;
-- research handoff export.
-
-### Increment F — production canary
-
-- bounded readers;
-- bounded candidate output;
-- no auto-publish;
-- live E2E evidence;
-- owner-approved deploy/migration only.
-
-## 19. Non-goals for V1
-
-- medical evidence synthesis;
-- automatic truth verdicts;
-- automatic "myth" labeling;
-- dose/safety/interaction research for supplements;
-- protocol efficacy assessment;
-- longevity-technology efficacy assessment;
-- full literature review;
-- patient profiling;
-- whole-platform social scraping;
-- autonomous source/weight/cadence mutation;
-- CCOS contract change unless the later research-handoff workflow explicitly requires one.
+The system does not answer the topic itself.
