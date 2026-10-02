@@ -1,7 +1,6 @@
 import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
 import { orderByRelevance } from '../triage/relevance-order';
 import {
-  canonicalWorkIdFor,
   defaultAcquisitionPath,
   effectiveAcquisitionPath,
   effectivePathSql,
@@ -300,9 +299,7 @@ export async function upsertSourceItem(
   }
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);
   const enrichmentStatus = input.enrichmentStatus ?? 'pending';
-  const canonicalWorkId = input.canonicalWorkId
-    ? input.canonicalWorkId.trim().toLowerCase()
-    : canonicalWorkIdFor(input.canonicalUrl, input.evidence?.doi ?? null);
+  const canonicalWorkId = input.canonicalWorkId ? input.canonicalWorkId.trim().toLowerCase() : null;
   const existingCols = `id, triage_status, title, title_orig, summary, gists_json, canonical_url, publisher, published_at,
               enrichment_status, editorial_brand, content_family, source_id, decision_route, intake_meta_json`;
   let existing = await db

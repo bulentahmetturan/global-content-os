@@ -82,12 +82,39 @@ test('CANARY_ONLY never writes; dry run computes verdicts and writes nothing', a
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 0);
 });
 
-test('a lane without a route for its view stays blocked even for the local canary (Harvard: Duyuru -> health_reference)', async () => {
-  const { db } = openDb();
-  const entries = registry(entry({ id: 'hv', store: 'tip_toplulugu', lane: 'Duyuru', view: 'health_reference', activation: 'CANARY_ONLY' }));
-  await assert.rejects(ev.ingestEvergreenItems({ DB: db }, 'hv', { items: [item(1)] }, NOW, { entries, localCanaryWrite: true }), /LANE_WRITE_UNSUPPORTED:Duyuru/);
-  const plan = await ev.evergreenPlan({ DB: db }, NOW, { entries });
-  assert.equal(plan.sources[0].write_allowed, false);
+test('Harvard (Tıp identity, Duyuru lane) and Cleveland write health_reference to kaduse-news / Haber; Haber TS excludes them; stale expiry skips them', async () => {
+  const actions = await bundle('apps/worker/src/triage/actions.ts', 'evergreen-unit-actions');
+  const { sqlite, db, newsFeed } = openDb();
+  const harvard = { id: 'harvard_nutrition_source', store: 'tip_toplulugu', lane: 'Duyuru', view: 'health_reference' };
+  const canary = registry(entry({ ...harvard, activation: 'CANARY_ONLY' }));
+  const plan = await ev.evergreenPlan({ DB: db }, NOW, { entries: canary });
+  assert.deepEqual(plan.sources[0].write_blockers, ['EVERGREEN_PATH_NOT_ACTIVE:CANARY_ONLY'], 'only activation blocks: no lane/Duyuru blocker');
+  const feedsBefore = sqlite.prepare(`SELECT COUNT(*) AS n FROM source_feeds`).get().n;
+  const ts = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Time-sensitive Haber item from this week', summary: 's', canonicalUrl: 'https://news.example.org/ts-1', publisher: 'News', publishedAt: daysAgo(1) });
+  const tsBefore = row(sqlite, ts.id);
+  const r = await ev.ingestEvergreenItems({ DB: db }, 'harvard_nutrition_source', { items: [item(1, { url: 'https://nutritionsource.hsph.harvard.edu/vitamin-d/' })] }, NOW, { entries: registry(entry(harvard)) });
+  assert.equal(r.created, 1);
+  const s = row(sqlite, r.decisions[0].itemId);
+  assert.deepEqual([s.route, s.channel_id, s.feed_id, s.source_id, s.acquisition_path, s.evergreen_view], ['kaduse-news', 'kaduse-medikal', 'tip-toplulugu-phase1-canary', 'harvard_nutrition_source', 'EVERGREEN', 'health_reference']);
+  assert.equal(s.published_at.slice(0, 10), '2019-03-12');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE route = 'tip-ogrencileri'`).get().n, 0, 'no Duyuru workaround');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_feeds`).get().n, feedsBefore, 'no new feed / identity row');
+  const cleveland = registry(entry({ id: 'news-cleveland-clinic-health-essentials-sitemap', feedId: newsFeed, lane: 'Haber', view: 'health_reference' }));
+  const c = await ev.ingestEvergreenItems({ DB: db }, 'news-cleveland-clinic-health-essentials-sitemap', { items: [item(2, { url: 'https://health.clevelandclinic.org/10-second-balance-test', publishedAt: '2025-02-13' })] }, NOW, { entries: cleveland });
+  const cid = c.decisions[0].itemId;
+  assert.deepEqual([row(sqlite, cid).route, row(sqlite, cid).acquisition_path, row(sqlite, cid).evergreen_view], ['kaduse-news', 'EVERGREEN', 'health_reference']);
+  for (const [filter, want] of [[{ path: 'TIME_SENSITIVE' }, [ts.id]], [{ path: 'EVERGREEN', view: 'health_reference' }, [s.id, cid].sort()]]) {
+    const list = await q.listItems(db, 'kaduse-news', 'inbox', { sinceDays: 14, ...filter });
+    const counts = await q.countByStatus(db, 'kaduse-news', undefined, undefined, { sinceDays: 14, ...filter });
+    assert.deepEqual(list.map((x) => x.id).sort(), want, JSON.stringify(filter));
+    assert.equal(counts.inbox, list.length, 'path-aware count == list predicate');
+  }
+  assert.deepEqual(row(sqlite, ts.id), tsBefore, 'existing TIME_SENSITIVE item unaffected');
+  const stale = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Old time-sensitive Haber item', summary: 's', canonicalUrl: 'https://news.example.org/ts-old', publisher: 'News', publishedAt: daysAgo(5) });
+  assert.ok(stale.id);
+  const exp = await actions.expireStaleInboxItems({ DB: db }, 'kaduse-news', 3);
+  assert.deepEqual(exp.ids, [stale.id], 'only the stale TIME_SENSITIVE item expires');
+  for (const id of [s.id, cid]) assert.equal(row(sqlite, id).triage_status, 'inbox', `${id} (published years ago) is not expired`);
 });
 
 test('NEW writes one EVERGREEN row with view, reason, provenance; missing signal stays null', async () => {
@@ -109,9 +136,9 @@ test('NEW writes one EVERGREEN row with view, reason, provenance; missing signal
 
 test('REDISCOVERY of a time-sensitive item adds one membership; the row (published_at, path) is unchanged; reruns write nothing', async () => {
   const { sqlite, db, researchFeed } = openDb();
-  const ts = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Cochrane review first seen time-sensitive', summary: 's', canonicalUrl: 'https://europepmc.org/article/MED/1', publisher: 'Cochrane', publishedAt: daysAgo(2), evidence: { doi: '10.1002/14651858.CD000259.pub3' } });
+  const ts = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Cochrane review first seen time-sensitive', summary: 's', canonicalUrl: 'https://europepmc.org/article/MED/1', dedupeKey: '10.1002/14651858.cd000259.pub3', publisher: 'Cochrane', publishedAt: daysAgo(2), evidence: { doi: '10.1002/14651858.CD000259.pub3' } });
   const before = row(sqlite, ts.id);
-  assert.equal(before.canonical_work_id, '10.1002/14651858.cd000259.pub3');
+  assert.equal(before.canonical_work_id, null, 'TIME_SENSITIVE rows carry no work id');
   const entries = registry(entry({ id: 'cochrane', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery' }));
   const cand = { title: 'Audit and feedback: effects on professional practice', url: 'https://doi.org/10.1002/14651858.CD000259.pub3', publishedAt: '2012-06-13', discoveryReason: 'citation_signal', signal: { tier: 'T1_DIRECT', type: 'nih_percentile', value: 99.1, source: 'icite', normalization: 'nih_percentile_field_and_year_normalized', observed_at: '2026-10-02T12:24:10.672613+00:00' }, evidence: { doi: '10.1002/14651858.CD000259.pub3' } };
   const r = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, NOW, { entries });
@@ -133,18 +160,63 @@ test('REDISCOVERY of a time-sensitive item adds one membership; the row (publish
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 1);
 });
 
-test('Nature DOI groundwork: a nature.com/articles item and a doi.org candidate are one canonical work', async () => {
+test('Nature DOI groundwork: TIME_SENSITIVE rows are unchanged; rediscovery finds the work by its nature.com key; EVERGREEN NEW stores the DOI work id', async () => {
   const { sqlite, db, researchFeed } = openDb();
   const ts = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Nature article seen in the RSS feed', summary: 's', canonicalUrl: 'https://www.nature.com/articles/s41586-024-07051-0', publisher: 'Nature', publishedAt: daysAgo(1) });
-  assert.equal(row(sqlite, ts.id).canonical_work_id, '10.1038/s41586-024-07051-0');
-  // A second time-sensitive sighting under the DOI link is the same row, not a duplicate.
-  const dup = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Nature article via DOI link', summary: 's', canonicalUrl: 'https://doi.org/10.1038/S41586-024-07051-0', publisher: 'Nature', publishedAt: daysAgo(1) });
-  assert.equal(dup.id, ts.id);
+  const before = row(sqlite, ts.id);
+  assert.equal(before.canonical_work_id, null);
+  assert.equal(before.dedupe_key, q.dedupeKeyFromUrl('https://www.nature.com/articles/s41586-024-07051-0'), 'dedupe_key is still the URL key, never DOI-derived');
+  // Owner decision 2: a TIME_SENSITIVE sighting under another URL dedupes exactly as production does today (route + dedupe_key).
+  const other = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Nature article via DOI link', summary: 's', canonicalUrl: 'https://doi.org/10.1038/S41586-024-07051-0', publisher: 'Nature', publishedAt: daysAgo(1) });
+  assert.notEqual(other.id, ts.id, 'TS items are not collapsed on a DOI match');
+  assert.deepEqual(row(sqlite, ts.id), before, 'first row untouched by the second sighting');
+  assert.equal(row(sqlite, other.id).canonical_work_id, null);
   const entries = registry(entry({ id: 'nat', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery' }));
   const r = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Nature article rediscovered by citations', url: 'https://doi.org/10.1038/s41586-024-07051-0', discoveryReason: 'citation_signal' }] }, NOW, { entries });
   assert.equal(r.decisions[0].outcome, 'rediscovered');
+  assert.equal(r.decisions[0].itemId, ts.id, 'the earliest canonical row carries the membership');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 2, 'rediscovery creates no row');
+  assert.deepEqual(row(sqlite, ts.id), before, 'rediscovery changes no stored row');
+  const fresh = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Another Nature article found by citations', url: 'https://www.nature.com/articles/s41586-023-00002-2', discoveryReason: 'citation_signal' }] }, NOW, { entries });
+  const nr = row(sqlite, fresh.decisions[0].itemId);
+  assert.deepEqual([nr.acquisition_path, nr.canonical_work_id, nr.dedupe_key], ['EVERGREEN', '10.1038/s41586-023-00002-2', '10.1038/s41586-023-00002-2']);
+});
+
+test('regression: a normal TIME_SENSITIVE insert is exactly as before FAZ 3 (URL dedupe key, no work id, DOI-keyed research unchanged)', async () => {
+  const { sqlite, db, newsFeed, researchFeed } = openDb();
+  const n = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Haber item with a DOI in evidence', summary: 's', canonicalUrl: 'https://news.example.org/a?utm_source=x', publisher: 'News', publishedAt: daysAgo(1), evidence: { doi: '10.1000/xyz' } });
+  const r = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'PubMed item keyed on its DOI', summary: 's', canonicalUrl: 'https://pubmed.ncbi.nlm.nih.gov/1/', dedupeKey: '10.1000/xyz', publisher: 'PubMed', publishedAt: daysAgo(1), evidence: { doi: '10.1000/xyz' } });
+  const a = row(sqlite, n.id);
+  const b = row(sqlite, r.id);
+  assert.deepEqual([a.dedupe_key, a.canonical_work_id, a.acquisition_path, a.evergreen_view, a.discovery_mode], [q.dedupeKeyFromUrl('https://news.example.org/a?utm_source=x'), null, 'TIME_SENSITIVE', null, null]);
+  assert.deepEqual([b.dedupe_key, b.canonical_work_id, b.acquisition_path], ['10.1000/xyz', null, 'TIME_SENSITIVE']);
+  assert.notEqual(n.id, r.id, 'no cross-route collapse on a DOI match');
+  const again = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Same DOI via Europe PMC', summary: 's', canonicalUrl: 'https://europepmc.org/article/MED/1', dedupeKey: '10.1000/xyz', publisher: 'Europe PMC', publishedAt: daysAgo(1) });
+  assert.equal(again.id, r.id, 'research dedupe on its own DOI key behaves as before');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 0);
+});
+
+test('a production-shaped PubMed row (DOI dedupe_key, no canonical_work_id) is rediscovered by Cochrane via Europe PMC, never duplicated', async () => {
+  const { sqlite, db, researchFeed } = openDb();
+  const doi = '10.1002/14651858.CD003177.pub5';
+  const ts = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Cochrane review seen through PubMed', summary: 's', canonicalUrl: 'https://pubmed.ncbi.nlm.nih.gov/12345678/', dedupeKey: doi.toLowerCase(), publisher: 'Cochrane Database Syst Rev', publishedAt: daysAgo(3), sourceId: 'research-pubmed-eutilities' });
+  const before = row(sqlite, ts.id);
+  assert.equal(before.canonical_work_id, null);
+  const entries = registry(entry({ id: 'research-cochrane-library', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery' }));
+  const cand = { title: 'Cochrane review via Europe PMC', url: `https://doi.org/${doi}`, publisher: 'Cochrane', discoveredVia: 'europepmc', discoveryReason: 'citation_signal', evidence: { doi, pmid: '12345678' } };
+  const r = await ev.ingestEvergreenItems({ DB: db }, 'research-cochrane-library', { items: [cand] }, NOW, { entries });
+  assert.equal(r.decisions[0].outcome, 'rediscovered');
   assert.equal(r.decisions[0].itemId, ts.id);
+  assert.deepEqual(row(sqlite, ts.id), before, 'published_at, publisher, dedupe_key unchanged');
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 1);
+  // A NEW Cochrane work is keyed like the research ingress (bare DOI), so a later PubMed sighting dedupes onto it.
+  const fresh = await ev.ingestEvergreenItems({ DB: db }, 'research-cochrane-library', { items: [{ ...cand, url: 'https://doi.org/10.1002/14651858.CD000001.pub2', evidence: { doi: '10.1002/14651858.CD000001.pub2' } }] }, NOW, { entries });
+  const nr = row(sqlite, fresh.decisions[0].itemId);
+  assert.equal(nr.dedupe_key, '10.1002/14651858.cd000001.pub2');
+  assert.equal(nr.publisher, 'Cochrane', 'canonical publisher is Cochrane; Europe PMC is provenance only');
+  assert.equal(JSON.parse(nr.intake_meta_json).evergreen.discovered_via, 'europepmc');
+  const later = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'Same review via PubMed', summary: 's', canonicalUrl: 'https://pubmed.ncbi.nlm.nih.gov/999/', dedupeKey: '10.1002/14651858.cd000001.pub2', publisher: 'PubMed', publishedAt: daysAgo(0) });
+  assert.equal(later.id, nr.id);
 });
 
 test('a work known on another route is reported, never duplicated and never given an invisible membership', async () => {

@@ -157,6 +157,7 @@ if (researchSrc) {
     title: it.title,
     summary: 'earlier time-sensitive sighting',
     canonicalUrl: `https://europepmc.org/article/MED/${it.evidence.pmid || 'canary'}`,
+    dedupeKey: String(it.evidence.doi).toLowerCase(),
     publisher: it.publisher || 'canary',
     publishedAt: new Date(now.getTime() - 2 * 86400000).toISOString(),
     evidence: { doi: it.evidence.doi, pmid: it.evidence.pmid ?? null },
@@ -191,11 +192,16 @@ e2e.checks.time_sensitive_unaffected = JSON.stringify(sqlite.prepare(`SELECT * F
 e2e.checks.counts_equal_lists = Object.keys(HUB).every((k) => navCount[k] === lists[k].items.length && lists[k].counts.inbox === lists[k].items.length);
 e2e.checks.no_duplicate_in_any_view = Object.keys(HUB).every((k) => new Set(viewIds(k)).size === viewIds(k).length);
 e2e.checks.one_row_per_work = rows === works;
+const harvardIds = sqlite.prepare(`SELECT id FROM source_items WHERE source_id = 'harvard_nutrition_source' AND route = 'kaduse-news' AND acquisition_path = 'EVERGREEN'`).all().map((r) => r.id);
+if (executor.sources.some((s) => s.source_id === 'harvard_nutrition_source' && s.items.length)) {
+  e2e.checks.harvard_health_reference_not_haber = harvardIds.length > 0 && harvardIds.every((id) => viewIds('health_reference').includes(id) && !viewIds('haber').includes(id));
+}
 e2e.checks.second_run_writes_nothing = writeRuns.filter((r) => r.pass === 2).every((r) => r.blocked || (r.created === 0 && r.rediscovered === 0));
 if (seededWork) {
   const after = sqlite.prepare(`SELECT published_at, acquisition_path FROM source_items WHERE id = ?`).get(seededWork.id);
   const m = sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership WHERE source_item_id = ? AND temporal_path = 'EVERGREEN'`).get(seededWork.id).n;
-  e2e.checks.rediscovery_is_membership_not_new_row = m === 1 && sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE canonical_work_id = ?`).get(seededWork.doi).n === 1;
+  const doi = String(seededWork.doi).toLowerCase();
+  e2e.checks.rediscovery_is_membership_not_new_row = m === 1 && sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE dedupe_key = ? OR canonical_work_id = ?`).get(doi, doi).n === 1;
   e2e.checks.rediscovered_item_in_both_paths = viewIds('research').includes(seededWork.id) && viewIds('research_rediscovery').includes(seededWork.id);
   e2e.checks.published_at_preserved = after.published_at === seededWork.published_at && after.acquisition_path === 'TIME_SENSITIVE';
 } else {

@@ -14,7 +14,8 @@
 import { addPathMembership, dedupeKeyFromUrl, upsertSourceItem, type Env, type RouteId } from '../db/queries';
 import { canonicalWorkIdFor, DISCOVERY_REASONS, EVERGREEN_VIEW_ROUTE, normalizeSignal, type SignalObservation } from '../db/temporal';
 import { hasImpossibleYear } from './ingest-gate';
-import { evergreenEntries, LANE_WRITE_TARGET, temporalRegistry, type TemporalEntry } from '../temporal/registry';
+import { evergreenEntries, temporalRegistry, type TemporalEntry } from '../temporal/registry';
+import { TIP_TOPLULUGU_FEED_ID } from './tip-radar';
 
 export const EVERGREEN_POLICY_VERSION = 'temporal-v2';
 const MAX_ITEMS_PER_CALL = 30;
@@ -74,18 +75,25 @@ export interface EvergreenIngestResult {
 const dayStart = (d: Date) => new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())).toISOString();
 const familyKey = (e: TemporalEntry) => e.evergreen.family ?? e.source_id;
 
-/** Route the source's EVERGREEN view lives on, if its semantic lane can write there. */
+/**
+ * Destination of the source's EVERGREEN items: the view decides the route (owner decision 1: health_reference ->
+ * kaduse-news / Haber, research_rediscovery -> kaduse-research). The identity's own lane (e.g. Harvard = Duyuru on
+ * its TIME_SENSITIVE path) does not move, and no sixth lane exists.
+ */
 function writeTarget(e: TemporalEntry): { route: RouteId; channelId: string } | null {
-  const lane = e.semantic_lane === 'UNCLASSIFIED' ? undefined : LANE_WRITE_TARGET[e.semantic_lane];
   const view = e.evergreen.evergreen_view;
-  if (!lane || view === 'UNCLASSIFIED') return null;
-  return EVERGREEN_VIEW_ROUTE[view] === lane.route ? lane : null;
+  return view === 'UNCLASSIFIED' ? null : { route: EVERGREEN_VIEW_ROUTE[view], channelId: 'kaduse-medikal' };
 }
 
-async function feedRow(env: Env, feedId: string | undefined) {
-  if (!feedId) return null;
+/**
+ * The identity's existing transport row (source_items.feed_id is a FK): its Kaduse feed, or the Tıp Topluluğu carrier
+ * feed its TIME_SENSITIVE items already use. Never a new feed row, so never a second source identity.
+ */
+async function feedRow(env: Env, e: TemporalEntry) {
+  const id = e.identity_store === 'tip_toplulugu' ? TIP_TOPLULUGU_FEED_ID : e.feed_id;
+  if (!id) return null;
   return env.DB.prepare(`SELECT id, route, label, enabled FROM source_feeds WHERE id = ?`)
-    .bind(feedId)
+    .bind(id)
     .first<{ id: string; route: RouteId; label: string; enabled: number }>();
 }
 
@@ -93,16 +101,10 @@ async function feedRow(env: Env, feedId: string | undefined) {
 export async function writeBlockers(env: Env, e: TemporalEntry): Promise<string[]> {
   const out: string[] = [];
   if (e.evergreen.activation !== 'ACTIVE') out.push(`EVERGREEN_PATH_NOT_ACTIVE:${e.evergreen.activation}`);
-  if (e.evergreen.evergreen_view === 'UNCLASSIFIED') out.push('EVERGREEN_VIEW_UNCLASSIFIED');
-  const lane = e.semantic_lane === 'UNCLASSIFIED' ? undefined : LANE_WRITE_TARGET[e.semantic_lane];
-  if (!lane) out.push(`LANE_WRITE_UNSUPPORTED:${e.semantic_lane}`);
-  else if (e.evergreen.evergreen_view !== 'UNCLASSIFIED' && EVERGREEN_VIEW_ROUTE[e.evergreen.evergreen_view] !== lane.route) {
-    out.push(`VIEW_ROUTE_MISMATCH:${e.evergreen.evergreen_view}->${EVERGREEN_VIEW_ROUTE[e.evergreen.evergreen_view]}`);
-  } else {
-    const feed = await feedRow(env, e.feed_id);
-    if (!feed || feed.enabled !== 1) out.push('SOURCE_FEED_DISABLED_OR_MISSING');
-    else if (feed.route !== lane.route) out.push(`SOURCE_FEED_ROUTE_MISMATCH:${feed.route}`);
-  }
+  if (!writeTarget(e)) out.push('EVERGREEN_VIEW_UNCLASSIFIED');
+  const feed = await feedRow(env, e);
+  if (!feed || feed.enabled !== 1) out.push('SOURCE_FEED_DISABLED_OR_MISSING');
+  else if (e.identity_store !== 'tip_toplulugu' && writeTarget(e) && feed.route !== writeTarget(e)!.route) out.push(`SOURCE_FEED_ROUTE_MISMATCH:${feed.route}`);
   return out;
 }
 
@@ -194,18 +196,35 @@ interface KnownWork {
   ev_first_at: string | null;
 }
 
-/** The canonical item behind a URL / DOI on any Global Hub route, with its EVERGREEN membership date if any. */
-async function findKnownWork(env: Env, url: string, workId: string | null): Promise<KnownWork | null> {
-  const key = dedupeKeyFromUrl(url);
+/**
+ * dedupe_key an EVERGREEN row gets on its route: research rows follow the existing research-ingress convention
+ * (bare lower-case DOI, else pmid:<n>) so a TIME_SENSITIVE PubMed/Europe PMC row and an EVERGREEN rediscovery of the
+ * same work share one key; other routes keep the URL key. No existing row's key changes.
+ */
+function evergreenDedupeKey(route: RouteId | undefined, url: string, workId: string | null, pmid: string | null | undefined): string {
+  if (route === 'kaduse-research') {
+    if (workId) return workId;
+    const p = String(pmid ?? '').trim();
+    if (/^\d+$/.test(p)) return `pmid:${p}`;
+  }
+  return dedupeKeyFromUrl(url);
+}
+
+/** The canonical item behind a URL / DOI / PMID on any Global Hub route, with its EVERGREEN membership date if any. */
+async function findKnownWork(env: Env, url: string, workId: string | null, pmid: string | null | undefined): Promise<KnownWork | null> {
+  const keys = new Set([dedupeKeyFromUrl(url), evergreenDedupeKey('kaduse-research', url, workId, pmid)]);
+  // A Nature work first seen TIME_SENSITIVE is stored under its nature.com URL key (no work id on TS rows).
+  if (workId?.startsWith('10.1038/')) keys.add(dedupeKeyFromUrl(`https://www.nature.com/articles/${workId.slice('10.1038/'.length)}`));
+  const marks = [...keys].map(() => '?').join(',');
   return env.DB.prepare(
     `SELECT i.id, i.route, i.acquisition_path, i.fetched_at,
             (SELECT m.first_at FROM item_path_membership m WHERE m.source_item_id = i.id AND m.temporal_path = 'EVERGREEN') AS ev_first_at
        FROM source_items i
       WHERE i.route IN ('kaduse-news', 'kaduse-research', 'tip-ogrencileri')
-        AND (i.dedupe_key = ?${workId ? ' OR i.canonical_work_id = ?' : ''})
-      ORDER BY i.fetched_at ASC LIMIT 1`
+        AND (i.dedupe_key IN (${marks})${workId ? ' OR i.canonical_work_id = ?' : ''})
+      ORDER BY i.fetched_at ASC, i.rowid ASC LIMIT 1`
   )
-    .bind(key, ...(workId ? [workId] : []))
+    .bind(...[...keys], ...(workId ? [workId] : []))
     .first<KnownWork>();
 }
 
@@ -236,7 +255,7 @@ export async function ingestEvergreenItems(
   const hardBlockers = opts.localCanaryWrite ? blockers.filter((b) => !b.startsWith('EVERGREEN_PATH_NOT_ACTIVE')) : blockers;
   if (!dryRun && hardBlockers.length) throw new Error(`write_blocked:${hardBlockers.join(',')}`);
   const target = writeTarget(e);
-  const feed = await feedRow(env, e.feed_id);
+  const feed = await feedRow(env, e);
   const view = e.evergreen.evergreen_view;
 
   const fam = familyKey(e);
@@ -276,7 +295,7 @@ export async function ingestEvergreenItems(
     batch.add(batchKey);
     const signal = normalizeSignal(it.signal, now);
     const reason = (DISCOVERY_REASONS as readonly string[]).includes(String(it.discoveryReason)) ? String(it.discoveryReason) : 'evergreen_relevance';
-    const known = await findKnownWork(env, url, workId);
+    const known = await findKnownWork(env, url, workId, it.evidence?.pmid);
 
     if (known) {
       // A view lists one route; a membership on another route's item would be invisible, so it is reported, not written.
@@ -337,6 +356,7 @@ export async function ingestEvergreenItems(
       summary,
       gists: [summary],
       canonicalUrl: url,
+      dedupeKey: evergreenDedupeKey(target.route, url, workId, it.evidence?.pmid),
       publisher: it.publisher || feed.label,
       publishedAt: it.publishedAt ?? null,
       sourceId: e.source_id,
