@@ -35,17 +35,20 @@ test('temporal identity: DOSSIER_DISCOVERY sits under EVERGREEN and creates no t
   assert.equal(V.temporal.signal_freshness_is_not_candidate_identity, true);
 });
 
-test('no migration, runtime wiring or closed-world CHECK carries DOSSIER (0028 CHECKs untouched, no dossier SQL)', () => {
+test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations untouched); no runtime wiring', () => {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n));
-  assert.ok(!files.some((f) => /dossier/i.test(f)), 'no dossier migration in the foundation');
-  for (const f of files) assert.ok(!/dossier/i.test(readFileSync(`migrations/${f}`, 'utf8')), `${f} must not mention dossier`);
+  assert.deepEqual(files.filter((f) => /dossier/i.test(f)), ['0031_dossier_discovery_foundation.sql'], 'the dossier schema is exactly one migration');
+  for (const f of files.filter((f) => f !== '0031_dossier_discovery_foundation.sql')) assert.ok(!/dossier/i.test(readFileSync(`migrations/${f}`, 'utf8')), `${f} must not mention dossier`);
   const m28 = readFileSync('migrations/0028_temporal_paths.sql', 'utf8');
   assert.ok(/evergreen_view IN \('health_reference', 'research_rediscovery'\)/.test(m28));
   assert.ok(/acquisition_path IN \('TIME_SENSITIVE', 'EVERGREEN'\)/.test(m28));
   // The Worker does not import the contract: no reader, route or live behavior.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
   for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test'))) {
-    assert.ok(!/dossier/i.test(readFileSync(f, 'utf8')), `${f} must not reference dossier yet`);
+    const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
+    // the only allowed mention is the schema-level expectation in readiness.ts (the migration file name); no behavior
+    if (f.endsWith('readiness.ts')) assert.ok(hits.every((l) => /EXPECTED_SCHEMA_MIGRATION/.test(l)), 'readiness.ts mentions dossier only as the expected schema marker');
+    else assert.deepEqual(hits, [], `${f} must not reference dossier yet`);
   }
   assert.equal(V.reader_status.live_readers, 0);
 });
@@ -330,7 +333,7 @@ test('reader runtime state reuse is undecided and no second scheduler is introdu
   assert.equal(r.source_items_rewrite_or_backfill, false);
   // still no migration, and the existing runtime table is untouched by this contract
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n));
-  assert.ok(!files.some((f) => /^0031/.test(f)), 'migration 0031 is not created');
+  assert.equal(files.filter((f) => /^0031/.test(f)).length, 1, '0031 exists exactly once');
   assert.ok(!/dossier/i.test(readFileSync('migrations/0029_evergreen_runtime_state.sql', 'utf8')));
 });
 
@@ -599,9 +602,10 @@ test('historical candidate snapshot state is immutable and self-describing; comp
   // bounded, self-describing provenance: readable without the raw observation row, no raw payload
   const pr = () => ({ provenance_ref_id: 'pr1', snapshot_id: 's1', ref_kind: 'OBSERVATION', observation_id: 'o1', acquisition_source_id: 'src1', run_id: 'r1', observed_at: 't', evidence_span: 'short' });
   assert.deepEqual(d.validateProvenanceRef(pr()), []);
-  assert.ok(d.validateProvenanceRef({ ...pr(), acquisition_source_id: undefined }).includes('needs_exactly_one_source_identity'), 'a ref that names no source is not self-describing');
-  assert.ok(d.validateProvenanceRef({ ...pr(), source_item_id: 'si1' }).includes('needs_exactly_one_source_identity'));
-  assert.deepEqual(d.validateProvenanceRef({ ...pr(), acquisition_source_id: undefined, source_item_id: 'si1' }), []);
+  assert.ok(d.validateProvenanceRef({ ...pr(), acquisition_source_id: undefined }).includes('missing:acquisition_source_id'), 'a ref that names no source is not self-describing');
+  assert.ok(d.validateProvenanceRef({ ...pr(), source_item_id: 'si1', origin_item_id: 'oi1' }).includes('at_most_one_item_ref'));
+  assert.deepEqual(d.validateProvenanceRef({ ...pr(), source_item_id: 'si1' }), [], 'a Hub item ref still carries its own source identity');
+  assert.equal(V.candidate_snapshot.provenance_ref.survives_purge_of_the_referenced_source_item, true);
   assert.ok(d.validateProvenanceRef({ ...pr(), full_text: 'x' }).includes('raw_payload_forbidden:full_text'));
   assert.ok(d.validateProvenanceRef({ ...pr(), observed_at: undefined }).includes('missing:observed_at'));
   assert.equal(V.candidate_snapshot.provenance_ref.bound, 'POLICY_NOT_SET');

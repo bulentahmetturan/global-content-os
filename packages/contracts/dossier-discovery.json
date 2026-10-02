@@ -318,11 +318,13 @@
       "bound": "POLICY_NOT_SET",
       "self_describing": true,
       "ref_kinds": ["OBSERVATION", "RELATION_OBSERVATION"],
-      "fields": ["provenance_ref_id", "snapshot_id", "aggregate_state_id", "ref_kind", "observation_id", "relation_observation_id", "acquisition_source_id", "source_item_id", "origin_item_id", "run_id", "observed_at", "evidence_span"],
-      "required_fields": ["provenance_ref_id", "snapshot_id", "ref_kind", "observed_at"],
-      "exactly_one_of_source_identity": ["acquisition_source_id", "source_item_id", "origin_item_id"],
+      "fields": ["provenance_ref_id", "snapshot_id", "aggregate_state_id", "ref_kind", "acquisition_source_id", "observation_id", "relation_observation_id", "source_item_id", "origin_item_id", "item_locator", "run_id", "published_at", "observed_at", "evidence_span"],
+      "required_fields": ["provenance_ref_id", "snapshot_id", "ref_kind", "acquisition_source_id", "observed_at"],
       "readable_without_the_raw_observation_row": true,
-      "raw_payload_stored": false
+      "raw_payload_stored": false,
+      "at_most_one_of_item_refs": ["source_item_id", "origin_item_id"],
+      "survives_purge_of_the_referenced_source_item": true,
+      "item_and_observation_refs_are_soft": true
     },
     "explainability_guarantee": {
       "explains_why_now_after_raw_compaction": true,

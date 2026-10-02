@@ -388,7 +388,7 @@ test('0030 reconciles exactly the PubMed carrier row (enabled, poll_minutes) and
   const sqlite = new DatabaseSync(':memory:');
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
   const f0030 = '0030_source_lifecycle_pubmed_carrier_reconcile.sql';
-  assert.equal(files.at(-1), f0030, '0030 is the newest migration');
+  assert.ok(files.includes(f0030), '0030 exists');
   for (const f of files.filter((f) => f < f0030)) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
   // Reproduce the production drift (read-only evidence 2026-10-02) plus runtime telemetry the migration must not touch.
   sqlite.prepare(`UPDATE source_feeds SET enabled = 0, poll_minutes = 1440, last_fetched_at = '2026-09-24T11:33:41.145Z', last_ok_items = 15, fetch_attempts = 39 WHERE id = 'research-pubmed-eutilities'`).run();

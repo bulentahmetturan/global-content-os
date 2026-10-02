@@ -421,8 +421,8 @@ export function validateProvenanceRef(p: unknown): string[] {
     else if (!spec.fields.includes(k)) e.push(`field_not_allowed:${k}`);
   }
   if (p.ref_kind !== undefined && !inList(spec.ref_kinds, p.ref_kind)) e.push('ref_kind_not_in_vocabulary');
-  const ids = spec.exactly_one_of_source_identity.filter((k) => typeof p[k] === 'string' && p[k] !== '');
-  if (ids.length !== 1) e.push('needs_exactly_one_source_identity');
+  const items = spec.at_most_one_of_item_refs.filter((k) => typeof p[k] === 'string' && p[k] !== '');
+  if (items.length > 1) e.push('at_most_one_item_ref');
   return e;
 }
 
