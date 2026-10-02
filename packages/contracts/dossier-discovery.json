@@ -16,11 +16,6 @@
       "single_acute_event": "TIME_SENSITIVE (existing path, unchanged)",
       "repeated_or_structural_pattern": "EVERGREEN > DOSSIER_DISCOVERY",
       "global_emerging_issue_with_health_significance": "EVERGREEN > DOSSIER_DISCOVERY (FRONTIER)"
-    },
-    "signal_windows": {
-      "7D": "burst",
-      "30D": "momentum",
-      "90D": "baseline"
     }
   },
   "open_world": {
@@ -83,7 +78,8 @@
     "concept_ref": {
       "exactly_one_of": ["concept_id", "unresolved_label"]
     },
-    "clinician_reported_public_question_is_not_prevalence": true
+    "clinician_reported_public_question_is_not_prevalence": true,
+    "optional_fields": ["run_id", "window_kind", "concept_id", "unresolved_label", "domain_hint", "signal", "actor_ref"]
   },
   "source": {
     "roles": ["ACADEMIC_SCIENTIST", "CLINICIAN_RESEARCHER", "CLINICIAN_CREATOR", "HEALTH_CREATOR", "FUNCTIONAL_INTEGRATIVE_CREATOR", "PHARMACIST_CREATOR", "INSTITUTION"],
@@ -100,11 +96,18 @@
     "credentials_invented_by_contract": false,
     "actor": {
       "kinds": ["PERSON", "INSTITUTION"],
+      "owner": "DOSSIER_DISCOVERY",
+      "identity_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+      "identity_store": "FUTURE_DOSSIER_DURABLE_STORE",
+      "separate_json_registry_required": false,
       "is_acquisition_source": false,
       "maps_to_many_acquisition_sources": true,
+      "mapping_references_canonical_acquisition_source_id_when_one_exists": true,
       "forced_into_source_lifecycle": false,
-      "registry_owner": "UNDECIDED_FUTURE_CONTROLLED_ACTOR_REGISTRY",
-      "unknown_actor_policy": "PROPOSAL"
+      "unknown_actor_policy": "PROPOSAL",
+      "accept_changes_only_actor_identity_state": true,
+      "accept_activates_acquisition_source": false,
+      "acquisition_source_activation_owner": "SOURCE_LIFECYCLE"
     },
     "acquisition_source": {
       "kinds": ["RSS_FEED", "WEBSITE_ENDPOINT", "VIDEO_CHANNEL", "SOCIAL_PROVIDER_IDENTITY", "PODCAST", "NEWSLETTER", "PUBLIC_API", "OFFICIAL_DATASET"],
@@ -198,7 +201,8 @@
     "reject_requires_reason_code": true,
     "effects_are_limited_to_the_reviewed_object": true,
     "cascades_forbidden": true,
-    "accept_may_imply_a_later_lifecycle_action_which_stays_an_explicit_human_operator_step": true
+    "accept_may_imply_a_later_lifecycle_action_which_stays_an_explicit_human_operator_step": true,
+    "expert_accept_effect": "ACTOR_IDENTITY_STATE_ONLY"
   },
   "handoff": {
     "starts_after": "ACCEPT",
@@ -207,7 +211,7 @@
     "auto_publish": false
   },
   "boundary": {
-    "chain": ["SIGNAL_SOURCE_ITEM", "OBSERVATION", "CONCEPT", "RELATION", "CANDIDATE", "REVIEW", "RESEARCH_HANDOFF"],
+    "chain": ["SIGNAL_SOURCE_ITEM", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CONCEPT", "RELATION", "CANDIDATE", "CANDIDATE_SNAPSHOT", "REVIEW", "RESEARCH_HANDOFF"],
     "dossier_entities_live_in_source_items": false,
     "discovery_is_research": false
   },
@@ -228,16 +232,17 @@
     "created_only_on": ["CANDIDATE_EVALUATION", "MATERIAL_STATE_CHANGE"],
     "never_created_per_source_event": true,
     "fields": ["candidate_id", "generated_at", "algorithm_version", "candidate_class", "why_now", "quality_dimensions", "reason_codes", "summary_signal_metrics"],
-    "why_now_fields": ["signal_windows", "signal_families", "origin_cluster_ids"],
+    "why_now_fields": ["window_kinds", "signal_families", "origin_cluster_ids"],
     "quality_dimension_values_may_be_unknown": true,
     "reason_codes_live_in_snapshot_structured_data": true,
     "separate_reason_table": false,
     "signal_refs": {
       "separately_addressable": true,
       "entity": "CANDIDATE_SNAPSHOT_SIGNAL_REF",
-      "exactly_one_of": ["observation_id", "relation_observation_id"],
+      "exactly_one_of": ["aggregate_id", "observation_id", "relation_observation_id"],
       "required_non_empty": true,
-      "reconstructs": ["candidate", "snapshot", "exact_supporting_observations", "original_source_provenance"]
+      "observation_refs_are_representative_not_exhaustive": true,
+      "reconstructs": ["candidate", "snapshot", "signal_aggregates", "supporting_observations", "original_source_provenance"]
     }
   },
   "identity": {
@@ -283,7 +288,12 @@
     "evidence_span_length": "POLICY_NOT_SET",
     "origin_clusters_bounded_to_discovery_purpose": true,
     "retention_durations": "POLICY_NOT_SET",
-    "compaction_rules": "POLICY_NOT_SET"
+    "compaction_rules": "POLICY_NOT_SET",
+    "signal_aggregates_prevent_recurring_whole_table_analytics": true,
+    "aggregate_generation": "INCREMENTAL",
+    "normal_candidate_generation_requires_raw_whole_table_scan": false,
+    "structural_data_not_discarded_for_fast_window_age": true,
+    "raw_observation_retention": "POLICY_NOT_SET"
   },
   "sql_design_rules": {
     "check_only_for_true_architectural_invariants": true,
@@ -293,5 +303,93 @@
     "unknown_is_null_with_explicit_value_state": true,
     "destructive_migration_patterns": false,
     "source_items_rewrite_or_backfill": false
+  },
+  "window": {
+    "rule": "SIGNAL_WINDOW_MUST_FOLLOW_SIGNAL_SEMANTICS",
+    "kinds": {
+      "FAST_7D": {
+        "role": "burst",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "FAST_30D": {
+        "role": "momentum",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "BASELINE_90D": {
+        "role": "baseline",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "SOURCE_PERIOD": {
+        "role": "period defined by the source",
+        "momentum_applicable": false,
+        "fast": false
+      },
+      "RELEASE_PERIOD": {
+        "role": "period defined by a periodic release",
+        "momentum_applicable": false,
+        "fast": false
+      },
+      "STRUCTURAL_PERIOD": {
+        "role": "long-period structural summary",
+        "momentum_applicable": false,
+        "fast": false
+      }
+    },
+    "family_classes": {
+      "FAST": ["TURKEY_PUBLIC_DEMAND", "TURKEY_SOCIAL_MOMENTUM", "TR_CLINICIAN_CREATOR_PULSE", "GLOBAL_CREATOR_SCOUT"],
+      "STRUCTURAL_OR_RELEASE_DRIVEN": ["TURKEY_HEALTH_BURDEN", "TURKEY_PUBLIC_HEALTH_DATA", "GLOBAL_PUBLIC_HEALTH_DATA"],
+      "SOURCE_DEFINED": ["ENVIRONMENTAL_MEASUREMENT", "GLOBAL_ENVIRONMENTAL_OBSERVATION", "GLOBAL_MEDICAL_FRONTIER", "GLOBAL_RESEARCH_ACTIVITY", "GLOBAL_INSTITUTIONAL_FRONTIER", "RELATION_SIGNAL"]
+    },
+    "fast_kinds_forbidden_for_structural_or_release_driven_families": true,
+    "momentum_inputs_only_for_momentum_applicable_kinds": true,
+    "why_now_may_combine_kinds_but_keeps_them_separate": true,
+    "older_structural_data_is_not_discarded_for_fast_window_age": true
+  },
+  "signal_aggregate": {
+    "derived": true,
+    "canonical_evidence": false,
+    "universal_scalar_score": false,
+    "target_types": ["CONCEPT", "RELATION"],
+    "fields": ["aggregate_id", "target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "observation_count", "independent_source_count", "unique_actor_count", "unique_platform_count", "commercial_context_summary", "persistence_inputs", "momentum_inputs", "value", "value_unit", "value_status", "measurement_provenance", "aggregation_version", "generated_at"],
+    "required_fields": ["aggregate_id", "target_type", "target_id", "signal_family", "window_kind", "observation_count", "value_status", "measurement_provenance", "aggregation_version", "generated_at"],
+    "value_states_follow_signal_value": true,
+    "groups_by_measurement_provenance": true,
+    "measured_and_modeled_never_merged": true,
+    "generation": "INCREMENTAL",
+    "prevents_recurring_whole_table_analytics": true,
+    "lineage": {
+      "to_observations": "RECOVERABLE",
+      "membership": "DETERMINISTIC_SELECTOR_PLUS_BOUNDED_REPRESENTATIVE_REFS",
+      "selector_fields": ["target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "measurement_provenance", "aggregation_version"],
+      "representative_refs_bound": "POLICY_NOT_SET",
+      "cannot_erase_underlying_provenance": true,
+      "raw_compaction_must_preserve_aggregate_lineage": true
+    }
+  },
+  "signal_run": {
+    "append_only": true,
+    "purpose": "PROVENANCE_OF_ONE_READER_SOURCE_EXECUTION",
+    "fields": ["run_id", "reader_id", "source_ref", "started_at", "finished_at", "status", "items_seen", "items_new", "observations_written", "reader_version", "error_summary"],
+    "required_fields": ["run_id", "reader_id", "source_ref", "started_at", "finished_at", "status", "reader_version"],
+    "statuses": ["SUCCEEDED", "PARTIAL", "FAILED"],
+    "counts_are_compact": true,
+    "excluded_scheduler_runtime_fields": ["lease", "lease_until", "cursor", "cursor_json", "next_due", "claim", "claimed_by", "run_lock", "failure_count"],
+    "scheduler_runtime_state": "DEFERRED",
+    "observations_reference_run_id": true
+  },
+  "lineage": {
+    "chain": ["SOURCE_OR_EXTERNAL_REF", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_EVALUATION", "CANDIDATE_SNAPSHOT"],
+    "relation_chain": ["RELATION", "RELATION_OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_SNAPSHOT"],
+    "snapshot_cites": {
+      "aggregate_refs": "PRIMARY_EVIDENCE_UNIT",
+      "observation_refs": "REPRESENTATIVE_OR_EXACT_SUPPORTING_NOT_EXHAUSTIVE",
+      "exhaustive_membership_recoverable_via": "AGGREGATE_SELECTOR",
+      "raw_reference_explosion_allowed": false,
+      "raw_data_duplicated_into_snapshot": false
+    },
+    "answers": "WHY_DID_THIS_APPEAR_NOW"
   }
 }

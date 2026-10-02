@@ -71,6 +71,10 @@ export function validateObservation(o: unknown): string[] {
   const hasLabel = typeof o.unresolved_label === 'string' && o.unresolved_label.trim() !== '';
   if (hasId === hasLabel) e.push('concept_ref_needs_exactly_one_of_concept_id_or_unresolved_label');
   if (o.signal !== undefined && !isValidSignalValue(o.signal)) e.push('signal_value_invalid');
+  if (o.window_kind !== undefined) {
+    if (typeof o.window_kind !== 'string' || !(o.window_kind in vocab.window.kinds)) e.push('window_kind_not_in_vocabulary');
+    else if (typeof o.signal_family === 'string' && !windowKindAllowedForFamily(o.signal_family, o.window_kind)) e.push('window_kind_does_not_follow_signal_semantics');
+  }
   return e;
 }
 
@@ -215,8 +219,8 @@ export function validateCandidateSnapshot(s: unknown): string[] {
   if (s.candidate_class !== undefined && !inList(vocab.candidate.classes, s.candidate_class)) e.push('candidate_class_not_in_vocabulary');
   if (isObj(s.why_now)) {
     for (const f of vocab.candidate_snapshot.why_now_fields) if (s.why_now[f] === undefined) e.push(`why_now_missing:${f}`);
-    const windows = isObj(s.why_now.signal_windows) ? Object.keys(s.why_now.signal_windows) : [];
-    for (const k of windows) if (!(k in vocab.temporal.signal_windows)) e.push(`signal_window_not_in_vocabulary:${k}`);
+    const kinds = isObj(s.why_now.window_kinds) ? Object.keys(s.why_now.window_kinds) : [];
+    for (const k of kinds) if (!(k in vocab.window.kinds)) e.push(`window_kind_not_in_vocabulary:${k}`);
   }
   if (isObj(s.quality_dimensions)) {
     for (const [k, v] of Object.entries(s.quality_dimensions)) if (!isValidSignalValue(v)) e.push(`quality_dimension_needs_explicit_value_state:${k}`);
@@ -227,11 +231,52 @@ export function validateCandidateSnapshot(s: unknown): string[] {
   else {
     refs.forEach((ref, i) => {
       const r = isObj(ref) ? ref : {};
-      const a = typeof r.observation_id === 'string' && r.observation_id !== '';
-      const b = typeof r.relation_observation_id === 'string' && r.relation_observation_id !== '';
-      if (a === b) e.push(`signal_ref_${i}_needs_exactly_one_of_observation_id_or_relation_observation_id`);
+      const present = vocab.candidate_snapshot.signal_refs.exactly_one_of.filter((k) => typeof r[k] === 'string' && r[k] !== '');
+      if (present.length !== 1) e.push(`signal_ref_${i}_needs_exactly_one_of_aggregate_id_observation_id_relation_observation_id`);
     });
   }
+  return e;
+}
+
+/** Window kind must follow the signal's semantics: a structural / release-driven family has no fast (momentum) window. */
+export function windowKindAllowedForFamily(family: string, windowKind: string): boolean {
+  const kind = (vocab.window.kinds as Record<string, { fast: boolean }>)[windowKind];
+  if (!kind) return false;
+  if ((vocab.window.family_classes.STRUCTURAL_OR_RELEASE_DRIVEN as string[]).includes(family)) return !kind.fast;
+  return inList(vocab.signal.families, family);
+}
+
+/** Derived, bounded signal state for candidate evaluation. Never canonical evidence, never a universal score. */
+export function validateSignalAggregate(a: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(a)) return ['aggregate_not_object'];
+  for (const f of vocab.signal_aggregate.required_fields) if (a[f] === undefined || a[f] === null || a[f] === '') e.push(`missing:${f}`);
+  for (const k of Object.keys(a)) if (!vocab.signal_aggregate.fields.includes(k)) e.push(`field_not_allowed:${k}`);
+  for (const k of ['score', 'universal_score', 'total_score', 'rank_score']) if (k in a) e.push('universal_scalar_score_forbidden');
+  if (a.canonical === true || a.canonical_evidence === true || a.derived === false) e.push('aggregate_is_derived_not_canonical');
+  if (a.target_type !== undefined && !inList(vocab.signal_aggregate.target_types, a.target_type)) e.push('target_type_must_be_concept_or_relation');
+  if (typeof a.signal_family === 'string' && !inList(vocab.signal.families, a.signal_family)) e.push('signal_family_not_in_vocabulary');
+  if (a.measurement_provenance !== undefined && !inList(vocab.signal.measurement_provenance, a.measurement_provenance)) e.push('measurement_provenance_not_in_vocabulary');
+  if (typeof a.window_kind === 'string' && typeof a.signal_family === 'string') {
+    if (!(a.window_kind in vocab.window.kinds)) e.push('window_kind_not_in_vocabulary');
+    else if (!windowKindAllowedForFamily(a.signal_family, a.window_kind)) e.push('window_kind_does_not_follow_signal_semantics');
+    else if (a.momentum_inputs !== undefined && a.momentum_inputs !== null && !(vocab.window.kinds as Record<string, { momentum_applicable: boolean }>)[a.window_kind].momentum_applicable) e.push('momentum_not_applicable_to_window_kind');
+  }
+  if (a.value_status !== undefined && !inList(vocab.signal.value_states, a.value_status)) e.push('value_status_not_in_vocabulary');
+  if (a.value_status === 'MEASURED' ? !(typeof a.value === 'number' && Number.isFinite(a.value)) : a.value !== undefined && a.value !== null) e.push('value_must_be_null_unless_measured');
+  return e;
+}
+
+/** Append-only provenance of one reader execution. Scheduler runtime state (lease, cursor, next_due, claim) is a different, deferred concern. */
+export function validateSignalRun(r: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(r)) return ['signal_run_not_object'];
+  for (const f of vocab.signal_run.required_fields) if (r[f] === undefined || r[f] === null || r[f] === '') e.push(`missing:${f}`);
+  for (const k of Object.keys(r)) {
+    if (vocab.signal_run.excluded_scheduler_runtime_fields.includes(k)) e.push(`scheduler_runtime_field_forbidden:${k}`);
+    else if (!vocab.signal_run.fields.includes(k)) e.push(`field_not_allowed:${k}`);
+  }
+  if (r.status !== undefined && !inList(vocab.signal_run.statuses, r.status)) e.push('status_not_in_vocabulary');
   return e;
 }
 

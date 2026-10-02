@@ -177,10 +177,10 @@ test('candidates are EVERGREEN editorial opportunities, separate from concepts; 
 test('candidate snapshots keep direct lineage: separate addressable signal refs, reasons inside the snapshot, no opaque blob', () => {
   const snap = () => ({
     candidate_id: 'cand1', generated_at: '2026-10-03T00:00:00Z', algorithm_version: 'v-test', candidate_class: 'FRONTIER',
-    why_now: { signal_windows: { '7D': {}, '30D': {}, '90D': {} }, signal_families: ['GLOBAL_MEDICAL_FRONTIER'], origin_cluster_ids: ['k1'] },
+    why_now: { window_kinds: { FAST_7D: {}, FAST_30D: {}, STRUCTURAL_PERIOD: {} }, signal_families: ['GLOBAL_MEDICAL_FRONTIER'], origin_cluster_ids: ['k1'] },
     quality_dimensions: { TURKEY_RELEVANCE: { state: 'UNKNOWN', value: null }, DATA_STRENGTH: { state: 'MEASURED', value: 0 } },
     reason_codes: ['TURKEY_DATA_UNKNOWN'], summary_signal_metrics: { observations: 2 },
-    signal_refs: [{ observation_id: 'o1' }, { relation_observation_id: 'ro1' }],
+    signal_refs: [{ aggregate_id: 'a1' }, { observation_id: 'o1' }, { relation_observation_id: 'ro1' }],
   });
   assert.deepEqual(d.validateCandidateSnapshot(snap()), []);
   for (const f of V.candidate_snapshot.fields) assert.ok(d.validateCandidateSnapshot({ ...snap(), [f]: undefined }).includes(`missing:${f}`), `snapshot requires ${f}`);
@@ -191,14 +191,15 @@ test('candidate snapshots keep direct lineage: separate addressable signal refs,
   // an unknown quality dimension is explicit UNKNOWN, never a bare 0
   assert.ok(d.validateCandidateSnapshot({ ...snap(), quality_dimensions: { TURKEY_RELEVANCE: 0 } }).includes('quality_dimension_needs_explicit_value_state:TURKEY_RELEVANCE'));
   assert.ok(d.validateCandidateSnapshot({ ...snap(), reason_codes: ['MADE_UP'] }).includes('reason_code_not_in_vocabulary:MADE_UP'));
-  assert.ok(d.validateCandidateSnapshot({ ...snap(), why_now: { ...snap().why_now, signal_windows: { '1D': {} } } }).includes('signal_window_not_in_vocabulary:1D'));
+  assert.ok(d.validateCandidateSnapshot({ ...snap(), why_now: { ...snap().why_now, window_kinds: { '1D': {} } } }).includes('window_kind_not_in_vocabulary:1D'));
   const cs = V.candidate_snapshot;
   assert.equal(cs.append_only, true);
   assert.equal(cs.separate_reason_table, false);
   assert.equal(cs.reason_codes_live_in_snapshot_structured_data, true);
   assert.equal(cs.signal_refs.separately_addressable, true);
   assert.equal(cs.signal_refs.required_non_empty, true);
-  assert.deepEqual(cs.signal_refs.reconstructs, ['candidate', 'snapshot', 'exact_supporting_observations', 'original_source_provenance']);
+  assert.deepEqual(cs.signal_refs.exactly_one_of, ['aggregate_id', 'observation_id', 'relation_observation_id']);
+  assert.deepEqual(cs.signal_refs.reconstructs, ['candidate', 'snapshot', 'signal_aggregates', 'supporting_observations', 'original_source_provenance']);
   assert.equal(cs.never_created_per_source_event, true);
   assert.deepEqual(cs.created_only_on, ['CANDIDATE_EVALUATION', 'MATERIAL_STATE_CHANGE']);
   assert.equal(V.candidate.class_lives_on_snapshot, true);
@@ -247,7 +248,7 @@ test('actor (expert/institution) is not an acquisition source; origin items carr
   assert.equal(a.is_acquisition_source, false);
   assert.equal(a.maps_to_many_acquisition_sources, true);
   assert.equal(a.forced_into_source_lifecycle, false);
-  assert.equal(a.registry_owner, 'UNDECIDED_FUTURE_CONTROLLED_ACTOR_REGISTRY');
+  assert.equal(a.owner, 'DOSSIER_DISCOVERY');
   assert.equal(a.unknown_actor_policy, 'PROPOSAL');
   assert.deepEqual(a.kinds, ['PERSON', 'INSTITUTION']);
   assert.ok(['RSS_FEED', 'VIDEO_CHANNEL', 'SOCIAL_PROVIDER_IDENTITY', 'PODCAST', 'NEWSLETTER', 'OFFICIAL_DATASET'].every((k) => s.kinds.includes(k)));
@@ -363,5 +364,122 @@ test('roles, access, commercial context, privacy and quality dimensions are pres
   assert.equal(V.domains.SUPPLEMENT.is_knowledge_engine, false);
   assert.equal(V.wow.wow_is_not_viral, true);
   assert.equal(V.signal.frontier_is_not_a_person_list, true);
-  assert.deepEqual(V.boundary.chain, ['SIGNAL_SOURCE_ITEM', 'OBSERVATION', 'CONCEPT', 'RELATION', 'CANDIDATE', 'REVIEW', 'RESEARCH_HANDOFF']);
+  assert.deepEqual(V.boundary.chain, ['SIGNAL_SOURCE_ITEM', 'SIGNAL_RUN', 'OBSERVATION', 'SIGNAL_AGGREGATE', 'CONCEPT', 'RELATION', 'CANDIDATE', 'CANDIDATE_SNAPSHOT', 'REVIEW', 'RESEARCH_HANDOFF']);
+});
+
+test('signal aggregate is DERIVED, targets a concept or relation, keeps lineage recoverable, has no universal score and no merged provenance', () => {
+  const sa = V.signal_aggregate;
+  assert.equal(sa.derived, true);
+  assert.equal(sa.canonical_evidence, false);
+  assert.equal(sa.universal_scalar_score, false);
+  assert.deepEqual(sa.target_types, ['CONCEPT', 'RELATION']);
+  assert.equal(sa.generation, 'INCREMENTAL');
+  assert.equal(sa.prevents_recurring_whole_table_analytics, true);
+  assert.equal(sa.groups_by_measurement_provenance, true);
+  assert.equal(sa.measured_and_modeled_never_merged, true);
+  assert.equal(sa.lineage.to_observations, 'RECOVERABLE');
+  assert.equal(sa.lineage.cannot_erase_underlying_provenance, true);
+  assert.equal(sa.lineage.raw_compaction_must_preserve_aggregate_lineage, true);
+  assert.equal(sa.lineage.membership, 'DETERMINISTIC_SELECTOR_PLUS_BOUNDED_REPRESENTATIVE_REFS');
+  assert.equal(sa.lineage.representative_refs_bound, 'POLICY_NOT_SET');
+  for (const f of ['target_type', 'target_id', 'signal_family', 'geo_scope', 'window_kind', 'measurement_provenance', 'aggregation_version']) assert.ok(sa.lineage.selector_fields.includes(f), `selector includes ${f}`);
+  for (const f of ['signal_subfamily', 'observation_count', 'independent_source_count', 'unique_actor_count', 'unique_platform_count', 'commercial_context_summary', 'persistence_inputs', 'momentum_inputs', 'value_status', 'generated_at']) assert.ok(sa.fields.includes(f), `aggregate carries ${f}`);
+  const agg = () => ({ aggregate_id: 'a1', target_type: 'CONCEPT', target_id: 'c1', signal_family: 'TURKEY_PUBLIC_DEMAND', window_kind: 'FAST_30D', observation_count: 12, independent_source_count: 3, value: 4.2, value_status: 'MEASURED', measurement_provenance: 'SEARCH', aggregation_version: 'v-test', generated_at: '2026-10-03T00:00:00Z', momentum_inputs: { delta: 1 } });
+  assert.deepEqual(d.validateSignalAggregate(agg()), []);
+  assert.deepEqual(d.validateSignalAggregate({ ...agg(), target_type: 'RELATION', target_id: 'r1' }), []);
+  assert.ok(d.validateSignalAggregate({ ...agg(), target_type: 'CANDIDATE' }).includes('target_type_must_be_concept_or_relation'));
+  for (const f of sa.required_fields) assert.ok(d.validateSignalAggregate({ ...agg(), [f]: undefined }).includes(`missing:${f}`), `aggregate requires ${f}`);
+  assert.ok(d.validateSignalAggregate({ ...agg(), score: 0.9 }).includes('universal_scalar_score_forbidden'));
+  assert.ok(d.validateSignalAggregate({ ...agg(), total_score: 1 }).includes('universal_scalar_score_forbidden'));
+  assert.ok(d.validateSignalAggregate({ ...agg(), canonical_evidence: true }).includes('aggregate_is_derived_not_canonical'));
+  assert.ok(d.validateSignalAggregate({ ...agg(), measurement_provenance: undefined }).includes('missing:measurement_provenance'), 'provenance cannot be dropped');
+  assert.ok(d.validateSignalAggregate({ ...agg(), measurement_provenance: 'MEASURED_OR_MODELED' }).includes('measurement_provenance_not_in_vocabulary'), 'measured and modeled are not blended');
+  // UNKNOWN is never 0
+  assert.deepEqual(d.validateSignalAggregate({ ...agg(), value_status: 'UNKNOWN', value: null }), []);
+  assert.ok(d.validateSignalAggregate({ ...agg(), value_status: 'UNKNOWN', value: 0 }).includes('value_must_be_null_unless_measured'));
+  assert.ok(d.validateSignalAggregate({ ...agg(), value_status: 'MEASURED', value: null }).includes('value_must_be_null_unless_measured'));
+});
+
+test('signal windows follow signal semantics: a structural / release-driven indicator is not forced into 7/30/90-day momentum', () => {
+  assert.deepEqual(Object.keys(V.window.kinds), ['FAST_7D', 'FAST_30D', 'BASELINE_90D', 'SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD']);
+  assert.equal(V.window.rule, 'SIGNAL_WINDOW_MUST_FOLLOW_SIGNAL_SEMANTICS');
+  for (const k of ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD']) assert.deepEqual(V.window.kinds[k], { ...V.window.kinds[k], momentum_applicable: false, fast: false });
+  const classes = V.window.family_classes;
+  const all = Object.values(classes).flat();
+  assert.deepEqual([...all].sort(), [...V.signal.families].sort(), 'every signal family has a window class, once');
+  const base = { aggregate_id: 'a', target_type: 'CONCEPT', target_id: 'c', observation_count: 1, value_status: 'UNKNOWN', value: null, measurement_provenance: 'ADMINISTRATIVE', aggregation_version: 'v', generated_at: 't' };
+  for (const family of classes.STRUCTURAL_OR_RELEASE_DRIVEN) {
+    for (const fast of ['FAST_7D', 'FAST_30D', 'BASELINE_90D']) {
+      assert.ok(d.validateSignalAggregate({ ...base, signal_family: family, window_kind: fast }).includes('window_kind_does_not_follow_signal_semantics'), `${family} must not use ${fast}`);
+      assert.equal(d.windowKindAllowedForFamily(family, fast), false);
+    }
+    for (const ok of ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD']) assert.deepEqual(d.validateSignalAggregate({ ...base, signal_family: family, window_kind: ok }), []);
+  }
+  for (const family of classes.FAST) for (const fast of ['FAST_7D', 'FAST_30D', 'BASELINE_90D']) assert.equal(d.windowKindAllowedForFamily(family, fast), true);
+  // momentum inputs only where momentum has meaning
+  assert.ok(d.validateSignalAggregate({ ...base, signal_family: 'TURKEY_HEALTH_BURDEN', window_kind: 'STRUCTURAL_PERIOD', momentum_inputs: { delta: 1 } }).includes('momentum_not_applicable_to_window_kind'));
+  assert.ok(d.validateSignalAggregate({ ...base, signal_family: 'GLOBAL_RESEARCH_ACTIVITY', window_kind: 'SOURCE_PERIOD', momentum_inputs: { delta: 1 } }).includes('momentum_not_applicable_to_window_kind'));
+  assert.ok(d.validateSignalAggregate({ ...base, signal_family: 'TURKEY_PUBLIC_DEMAND', window_kind: 'YEARLY' }).includes('window_kind_not_in_vocabulary'));
+  // observations obey the same rule
+  const o = { observation_id: 'o', kind: 'ADMINISTRATIVE_STATISTIC', signal_family: 'TURKEY_PUBLIC_HEALTH_DATA', measurement_provenance: 'ADMINISTRATIVE', observed_at: 't', origin: { kind: 'STATISTICAL_RELEASE' }, unresolved_label: 'x' };
+  assert.deepEqual(d.validateObservation({ ...o, window_kind: 'RELEASE_PERIOD' }), []);
+  assert.ok(d.validateObservation({ ...o, window_kind: 'FAST_7D' }).includes('window_kind_does_not_follow_signal_semantics'));
+  // why-now keeps different window kinds separate
+  assert.equal(V.window.why_now_may_combine_kinds_but_keeps_them_separate, true);
+  assert.equal(V.window.older_structural_data_is_not_discarded_for_fast_window_age, true);
+  assert.equal(V.temporal.signal_windows, undefined, 'the universal 7/30/90 map is gone from the temporal block');
+});
+
+test('actor identity is owned by dossier discovery; accepting an actor changes only actor state and never activates an acquisition source', () => {
+  const a = V.source.actor;
+  assert.equal(a.owner, 'DOSSIER_DISCOVERY');
+  assert.equal(a.identity_store, 'FUTURE_DOSSIER_DURABLE_STORE');
+  assert.equal(a.separate_json_registry_required, false);
+  assert.deepEqual(a.identity_states, V.identity.states);
+  assert.equal(a.accept_changes_only_actor_identity_state, true);
+  assert.equal(a.accept_activates_acquisition_source, false);
+  assert.equal(a.acquisition_source_activation_owner, 'SOURCE_LIFECYCLE');
+  assert.equal(a.mapping_references_canonical_acquisition_source_id_when_one_exists, true);
+  assert.equal(V.review.expert_accept_effect, 'ACTOR_IDENTITY_STATE_ONLY');
+  const accept = { target_type: 'EXPERT_PROPOSAL', target_id: 'p1', decision: 'ACCEPT', reviewer: 'hub-user', reviewed_at: 't' };
+  assert.deepEqual(d.validateReview(accept), []);
+  for (const k of ['source_activation', 'registry', 'cadence', 'routing']) assert.ok(d.validateReview({ ...accept, [k]: ['activate'] }).includes(`review_may_not_mutate:${k}`), `an actor ACCEPT cannot carry ${k}`);
+});
+
+test('signal run is append-only provenance, not scheduler runtime state; scheduler state stays deferred', () => {
+  const sr = V.signal_run;
+  assert.equal(sr.append_only, true);
+  assert.equal(sr.scheduler_runtime_state, 'DEFERRED');
+  assert.equal(sr.observations_reference_run_id, true);
+  for (const f of ['lease', 'lease_until', 'cursor', 'cursor_json', 'next_due', 'claim', 'claimed_by', 'run_lock', 'failure_count']) {
+    assert.ok(sr.excluded_scheduler_runtime_fields.includes(f));
+    assert.ok(!sr.fields.includes(f), `signal run must not carry ${f}`);
+  }
+  const run = { run_id: 'r1', reader_id: 'rd', source_ref: 's1', started_at: 't0', finished_at: 't1', status: 'SUCCEEDED', items_seen: 10, items_new: 2, observations_written: 4, reader_version: 'v1', error_summary: null };
+  assert.deepEqual(d.validateSignalRun(run), []);
+  for (const f of sr.required_fields) assert.ok(d.validateSignalRun({ ...run, [f]: undefined }).includes(`missing:${f}`));
+  for (const f of ['lease_until', 'cursor_json', 'next_due', 'claimed_by', 'failure_count']) assert.ok(d.validateSignalRun({ ...run, [f]: 'x' }).includes(`scheduler_runtime_field_forbidden:${f}`));
+  assert.ok(d.validateSignalRun({ ...run, status: 'RUNNING' }).includes('status_not_in_vocabulary'));
+  assert.equal(V.reader_status.runtime_state_reuse, 'UNDECIDED_DEFERRED');
+  assert.equal(V.reader_status.own_scheduler, false);
+});
+
+test('final lineage: run -> observation -> aggregate -> evaluation -> snapshot, bounded and without raw-reference explosion', () => {
+  assert.deepEqual(V.lineage.chain, ['SOURCE_OR_EXTERNAL_REF', 'SIGNAL_RUN', 'OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_EVALUATION', 'CANDIDATE_SNAPSHOT']);
+  assert.deepEqual(V.lineage.relation_chain, ['RELATION', 'RELATION_OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_SNAPSHOT']);
+  assert.equal(V.lineage.snapshot_cites.aggregate_refs, 'PRIMARY_EVIDENCE_UNIT');
+  assert.equal(V.lineage.snapshot_cites.exhaustive_membership_recoverable_via, 'AGGREGATE_SELECTOR');
+  assert.equal(V.lineage.snapshot_cites.raw_reference_explosion_allowed, false);
+  assert.equal(V.lineage.snapshot_cites.raw_data_duplicated_into_snapshot, false);
+  assert.equal(V.candidate_snapshot.signal_refs.observation_refs_are_representative_not_exhaustive, true);
+  const b = V.storage_bounds;
+  assert.equal(b.signal_aggregates_prevent_recurring_whole_table_analytics, true);
+  assert.equal(b.aggregate_generation, 'INCREMENTAL');
+  assert.equal(b.normal_candidate_generation_requires_raw_whole_table_scan, false);
+  assert.equal(b.structural_data_not_discarded_for_fast_window_age, true);
+  assert.equal(b.raw_observation_retention, 'POLICY_NOT_SET');
+  assert.deepEqual(Object.values(b).filter((v) => typeof v === 'number'), []);
+  const nums = [];
+  (function scan(o, p) { for (const [k, v] of Object.entries(o)) { if (typeof v === 'number') nums.push(p + k); else if (v && typeof v === 'object') scan(v, p + k + '.'); } })({ aggregate: V.signal_aggregate, run: V.signal_run, window: V.window, lineage: V.lineage }, '');
+  assert.deepEqual(nums, [], 'no invented numeric policy in aggregate, run, window or lineage');
 });
