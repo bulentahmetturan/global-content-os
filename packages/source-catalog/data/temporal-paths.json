@@ -120,7 +120,7 @@
         "rediscovery_cadence_hours": 72,
         "tier": "SMALL",
         "daily_target": 1,
-        "activation": "CANARY_ONLY",
+        "activation": "ACTIVE",
         "deep_archive_cadence_hours": 168,
         "family": null,
         "max_items_evaluated_per_cycle": 20,
@@ -138,8 +138,8 @@
         "enabled": true,
         "importance_signal_strategy": "DIRECT_SIGNAL"
       },
-      "basis": "owner FAZ 3 canary 2026-10-02: Europe PMC as discovery/metadata proxy, provenance stays Cochrane, cochranelibrary.com never fetched; CANARY_ONLY",
-      "updated_at": "2026-10-02T12:22:09.738Z",
+      "basis": "owner 2026-10-02 fast path to close P2: Cochrane via Europe PMC; Cleveland ACTIVE live and healthy, bounded canary passed (1 candidate, 0 blocked)",
+      "updated_at": "2026-10-02T18:54:46.326Z",
       "history": [
         {
           "op": "recalibrate-temporal",
@@ -147,6 +147,13 @@
           "at": "2026-10-02T12:22:09.738Z",
           "by": "W11",
           "basis": "owner FAZ 3 canary 2026-10-02: Europe PMC as discovery/metadata proxy, provenance stays Cochrane, cochranelibrary.com never fetched; CANARY_ONLY"
+        },
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_31c62f5506d8838d",
+          "at": "2026-10-02T18:54:46.326Z",
+          "by": "W11",
+          "basis": "owner 2026-10-02 fast path to close P2: Cochrane via Europe PMC; Cleveland ACTIVE live and healthy, bounded canary passed (1 candidate, 0 blocked)"
         }
       ]
     },
