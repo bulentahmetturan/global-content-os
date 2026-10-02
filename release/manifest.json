@@ -8,8 +8,16 @@
     "branch": "postfreeze/system-v1-closure",
     "tag": "system-v1-closure (both repos; annotated, points at the deployed commit and names the Worker version ids)",
     "frozenTag": "system-v1-frozen (GCOS b6c632b, CCOS 4c312ea)",
-    "migrations": { "gcos": [], "ccos": ["041_operations_hardening.sql"] },
-    "expectedMigrationLevel": { "gcos": "0024_source_revalidation.sql", "ccos": "041_operations_hardening.sql" },
+    "migrations": {
+      "gcos": [],
+      "ccos": [
+        "041_operations_hardening.sql"
+      ]
+    },
+    "expectedMigrationLevel": {
+      "gcos": "0024_source_revalidation.sql",
+      "ccos": "041_operations_hardening.sql"
+    },
     "commits": {
       "gcos": "9257283600d04fcb7c4d82a8f58dbab7dbecd899",
       "ccos": "6fd3804f078c4f331c2180c35f828576e5b93a50"
@@ -19,25 +27,113 @@
       "ccos": "1706770d-13f6-416c-835f-0e1188b9e83d"
     },
     "liveAfterPhase5B": {
-      "gcos": { "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "change": "Hub static assets only (generated catalogs, dev files excluded); rollback target = workerVersions.gcos" },
+      "gcos": {
+        "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808",
+        "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73",
+        "change": "Hub static assets only (generated catalogs, dev files excluded); rollback target = workerVersions.gcos"
+      },
       "ccos": "unchanged (commits.ccos / workerVersions.ccos)"
     },
     "batch3HubStubRemoval": {
       "decision": "D-UD-BATCH-3 UD-1 A (user/owner 2026-09-30 ~14:05 UTC+3): remove Hub static asset 00_TURK_TIP_CONTENT_OS_BIBLE_v3.md (redirect stub, 0 consumers)",
-      "rollbackTarget": { "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73", "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808", "recordedBeforeDeploy": "2026-09-30T11:20Z" },
-      "d1BookmarkBeforeDeploy": { "gcos": "00000241-00000004-000050f6-9722dc393693dceddc58f7138072e975", "note": "no migration and no D1 write in this deploy; bookmark recorded for discipline only" },
+      "rollbackTarget": {
+        "workerVersion": "5f5c49d3-365c-4b4d-8494-3b4cf46ace73",
+        "commit": "a20b6e8f8eda2a6f90118c71ce25aee70b4a3808",
+        "recordedBeforeDeploy": "2026-09-30T11:20Z"
+      },
+      "d1BookmarkBeforeDeploy": {
+        "gcos": "00000241-00000004-000050f6-9722dc393693dceddc58f7138072e975",
+        "note": "no migration and no D1 write in this deploy; bookmark recorded for discipline only"
+      },
       "change": "Hub static assets only (one file removed); Worker code, migrations, bindings unchanged",
-      "deployed": { "commit": "a4f648b083e8c536fe3a2041ff1a1c2afee6e7b9", "workerVersion": "ae6e0e1a-90e8-4621-a029-b355918676af", "deployedAt": "2026-09-30T11:31:57Z", "releaseGate": "READY", "verify": "deploy-identity --live matchesLocalHead + identityStamped + schema 0024; /api/ready READY degraded []; /version 200; origin = a4f648b (REMOTE_SHA_MISMATCH=0); SMOKE_PASS; old v3 URL now serves the Hub SPA (200 text/html)" }
+      "deployed": {
+        "commit": "a4f648b083e8c536fe3a2041ff1a1c2afee6e7b9",
+        "workerVersion": "ae6e0e1a-90e8-4621-a029-b355918676af",
+        "deployedAt": "2026-09-30T11:31:57Z",
+        "releaseGate": "READY",
+        "verify": "deploy-identity --live matchesLocalHead + identityStamped + schema 0024; /api/ready READY degraded []; /version 200; origin = a4f648b (REMOTE_SHA_MISMATCH=0); SMOKE_PASS; old v3 URL now serves the Hub SPA (200 text/html)"
+      }
     },
+    "temporalV2Release": {
+      "decision": "Owner approval 2026-10-02: Temporal V2 remote migration + deploy (branch temporal-architecture; E90 canonical line)",
+      "rollbackTarget": {
+        "workerVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc",
+        "commit": "26f4a45",
+        "recordedBeforeDeploy": "2026-10-02T14:25Z"
+      },
+      "d1BookmarkBeforeMigration": {
+        "gcos": "0000029b-0000000a-000050f8-db1b2cf446435d1a61bf8230533aaf5d"
+      },
+      "migrations": {
+        "gcos": [
+          "0028_temporal_paths.sql"
+        ],
+        "ccos": []
+      },
+      "expectedMigrationLevel": {
+        "gcos": "0028_temporal_paths.sql"
+      },
+      "change": "Temporal paths (TIME_SENSITIVE + EVERGREEN): additive 0028 (nullable source_items columns, item_path_membership, immutability triggers), path-aware list/count, grouped Hub nav, Evergreen views; all Evergreen sources CANARY_ONLY",
+      "deployed": {
+        "commit": "a013a8456664c1dad6605babf414802c357d9b53",
+        "workerVersion": "3f85ff95-6999-44cd-bfa7-25f804f66655",
+        "deployedAt": "2026-10-02T14:28:06.413Z",
+        "releaseGate": "READY (CI green on a013a84: Worker tests + Tip Toplulugu tests)",
+        "verify": "0028 applied (13 statements); row counts unchanged (source_items 3221, source_feeds 883, review_feedback 3); new columns nullable, no defaults; item_path_membership empty; deploy-identity --live matchesLocalHead + identityStamped + schema 0028; /api/ready READY degraded []; temporal nav live (/api/routes temporal block; Hub Time Sensitive Haber/Research/Duyuru/Burs/Egitim, Evergreen Saglik & Referans/Research Rediscovery); TIME_SENSITIVE flow PASS (path-aware and legacy /api/items 200); EVERGREEN views 200 and empty; SMOKE_PASS"
+      },
+      "sourceActivation": "none (temporal-paths.json: 4 entries, all CANARY_ONLY)",
+      "productionEvergreenWrites": "none (source_items acquisition_path=EVERGREEN 0; item_path_membership 0)",
+      "pillars": {
+        "P1": "YES",
+        "P2": "LOCAL_ONLY",
+        "P3": "PARTIAL",
+        "P4": "YES",
+        "P5": "PARTIAL"
+      },
+      "rollbackRef": "release/postfreeze-checkpoint.json temporalV2Release"
+    },
+    "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
+    "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub repo archived 2026-09-30 on owner authorization, all 7 workflows disabled (E28 CLOSED).",
     "temporalV2Group0": {
       "decision": "Owner-approved 2026-10-01: deploy of 26f4a45 (Temporal V2 Group 0: immutable published_at, research date/media gates, Resmi Gazete + Duyuru cadence) from an isolated worktree; no migration",
-      "rollbackTarget": { "workerVersion": "4f6b3774-a941-4806-8b11-8423f886ccaa", "commit": "b34c3ea", "deployedAt": "2026-10-01T22:20:35Z", "change": "OpenAlex OPENALEX_API_KEY Bearer fix", "before": "434bd240 (secret OPENALEX_API_KEY added 2026-10-01T22:18:22Z), then 21e92a95 (c59972f)" },
-      "deployed": { "commit": "26f4a455c0377d1bd6a0377e20182937983c93c0", "workerVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc", "deployedAt": "2026-10-01T22:27:51Z", "command": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)", "schemaMigration": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql" },
+      "rollbackTarget": {
+        "workerVersion": "4f6b3774-a941-4806-8b11-8423f886ccaa",
+        "commit": "b34c3ea",
+        "deployedAt": "2026-10-01T22:20:35Z",
+        "change": "OpenAlex OPENALEX_API_KEY Bearer fix",
+        "before": "434bd240 (secret OPENALEX_API_KEY added 2026-10-01T22:18:22Z), then 21e92a95 (c59972f)"
+      },
+      "deployed": {
+        "commit": "26f4a455c0377d1bd6a0377e20182937983c93c0",
+        "workerVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc",
+        "deployedAt": "2026-10-01T22:27:51Z",
+        "command": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)",
+        "schemaMigration": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql"
+      },
       "verify": "2026-10-02 after D1 quota reset: /api/ready READY; OPENALEX_AUTH PASS, OPENALEX_429 RESOLVED, canary PASS (research-openalex-api 00:45:57Z, 15 items, last_error null); SECRET_EXPOSURE NO; RESMI_GAZETE_LIVE_FLOW PASS (10:29Z scheduled run: due, 20 parsed, next_due +1440 min); PUBLISHED_AT_PRESERVED_LIVE PASS (55 pre-deploy rows updated, no date lost/overwritten; 21 new news rows carry published_at_source); RESEARCH_MEDIA_AGE_GATE_LIVE PARTIAL (11 media rows <=14 days, no live rejection observed; production feed id research-asn-news does not match gate/config id research-asn-nutrition-news, so ASN news is outside the gate: open source-lifecycle item); P2 PASS (app ~0.75M of 5M D1 rows read/day); P3 OPEN (abroad_es_mir_fse, abroad_sa_scfhs_watch unchanged by byte-stable guard)",
       "incident": "D1 daily row-read limit (7500) exceeded 2026-10-01 ~22:28Z-00:00Z by two manual ad-hoc self-joins on source_items (~9.86M rows, ~20:38-21:38Z, before both deploys); not caused by the deploy, rollback not needed; rule: docs/OPERATIONS.md"
     },
-    "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
-    "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub repo archived 2026-09-30 on owner authorization, all 7 workflows disabled (E28 CLOSED)."
+    "evergreenRuntimeRelease": {
+      "decision": "Owner-authorized 2026-10-02: remote migrations 0029 + 0030 and deploy of b332c8a (Evergreen runtime P3, PubMed carrier reconciliation); all Evergreen sources remain CANARY_ONLY",
+      "migrations": {
+        "gcos": [
+          "0029_evergreen_runtime_state.sql",
+          "0030_source_lifecycle_pubmed_carrier_reconcile.sql"
+        ],
+        "ccos": []
+      },
+      "expectedMigrationLevel": {
+        "gcos": "0030_source_lifecycle_pubmed_carrier_reconcile.sql"
+      },
+      "deployed": {
+        "commit": "b332c8af4659933d8e16bd1414f203843c9df41d",
+        "workerVersion": "510c5ea6-4ca4-4420-898c-8149a4244a87"
+      },
+      "verify": "/api/ready READY degraded [] on b332c8a / schema 0030; /api/evergreen/status: 4 sources CANARY_ONLY, lease IDLE",
+      "sourceActivation": "none",
+      "productionEvergreenWrites": "none (items = 0 at record time)",
+      "rollbackRef": "release/postfreeze-checkpoint.json evergreenRuntimeRelease"
+    }
   },
   "gcos": {
     "repo": "global-content-os",
@@ -73,9 +169,18 @@
     "ccosCommit": "2c141c66848176abb338ab38b346e7bac52568d1",
     "note": "Version ids are the authoritative rollback targets (pre-cutover Workers exposed no commit). Commits are the last pre-cutover heads of the release branch.",
     "d1TimeTravel": {
-      "gcos": { "bookmark": "000001de-00000002-000050f5-528ed7a4f08b7e1823a91aaa13ac4123", "capturedAt": "2026-09-29T21:08:34Z" },
-      "ccosBeforeMigration040": { "bookmark": "000000bf-00000000-000050f5-2105648b3ef788bdebbbef7d948aa58f", "capturedAt": "2026-09-29T21:08:34Z" },
-      "ccosBeforeMigrations023to025": { "bookmark": "000000c2-00000000-000050f5-129ebad9b951860b1edd8a45733aa1c4", "capturedAt": "2026-09-29T21:29:16Z" }
+      "gcos": {
+        "bookmark": "000001de-00000002-000050f5-528ed7a4f08b7e1823a91aaa13ac4123",
+        "capturedAt": "2026-09-29T21:08:34Z"
+      },
+      "ccosBeforeMigration040": {
+        "bookmark": "000000bf-00000000-000050f5-2105648b3ef788bdebbbef7d948aa58f",
+        "capturedAt": "2026-09-29T21:08:34Z"
+      },
+      "ccosBeforeMigrations023to025": {
+        "bookmark": "000000c2-00000000-000050f5-129ebad9b951860b1edd8a45733aa1c4",
+        "capturedAt": "2026-09-29T21:29:16Z"
+      }
     }
   },
   "evidence": {

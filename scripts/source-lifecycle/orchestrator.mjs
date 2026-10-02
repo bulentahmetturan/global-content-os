@@ -12,6 +12,7 @@ import { newTipTopluluguRecord, activationPatch, retirementPatch, pushHistory, c
 import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, TIP_TOPLULUGU_DERIVATIVES } from './offboard.mjs';
 import { stateOf, LANES, ACTIVATION } from './model.mjs';
 import { prepareKaduseChange } from './kaduse-change.mjs';
+import { d1FeedIdentity, inspectTemporal, prepareTemporalChange } from './temporal-lifecycle.mjs';
 
 const OBSERVABILITY = {
   fetch_success_last_success_last_error: 'D1 tip_toplulugu_source_telemetry (last_success_at, failure_count, last_operator_status) / feed fetch stats (0004)',
@@ -402,18 +403,37 @@ export function createLifecycle(opts) {
   function inspect(target) {
     const trace = { request_id: 'inspect', op: 'inspect', phases: [] };
     const { identity } = resolveOne(target, trace);
-    if (identity.outcome !== 'EXISTING') return { ok: false, op: 'inspect', outcome: identity.outcome === 'AMBIGUOUS' ? 'NEEDS_USER_DECISION' : 'NOT_FOUND', question: identity.question, candidates: identity.candidates };
+    if (identity.outcome !== 'EXISTING') {
+      const d1 = identity.outcome === 'AMBIGUOUS' ? null : d1FeedIdentity(root, String(target).trim());
+      if (d1) return { ok: true, op: 'inspect', outcome: 'FOUND', source: { source_id: d1.source_id, store: d1.store, name: d1.name, state: d1.active ? 'ACTIVE' : 'RETIRED', status: d1.active ? 'enabled' : 'disabled', lane: d1.lane, channelId: LANES[d1.lane].channelId, declared_in: d1.declared_in }, temporal: inspectTemporal(root, d1), observability: OBSERVABILITY };
+      return { ok: false, op: 'inspect', outcome: identity.outcome === 'AMBIGUOUS' ? 'NEEDS_USER_DECISION' : 'NOT_FOUND', question: identity.question, candidates: identity.candidates };
+    }
     const m = identity.match;
     return {
       ok: true,
       op: 'inspect',
       outcome: 'FOUND',
       source: { ...compactProjection(m), state: stateOf(m), lane: m.lane, channelId: LANES[m.lane].channelId, status: m.status, runtime_activation: m.runtime_activation, cadence_minutes: m.cadence_min, record: m.layers },
+      temporal: inspectTemporal(root, m),
       observability: OBSERVABILITY,
     };
   }
 
-  async function recalibrate(target, { apply = false, setMinutes = null, basis = null } = {}) {
+  // Temporal/capacity config (time_sensitive + evergreen path blocks) of one existing identity. Never creates an identity.
+  function recalibrateTemporal(target, { apply, temporal, basis }) {
+    const trace = { request_id: normalizeRequest(`recal-temporal:${target}`, { now: clock() }).request_id, op: 'recalibrate-temporal', input: { raw: target, apply }, actor, phases: [] };
+    const { identity } = resolveOne(target, trace);
+    let match = identity.outcome === 'EXISTING' ? identity.match : null;
+    if (!match && identity.outcome !== 'AMBIGUOUS') match = d1FeedIdentity(root, String(target).trim());
+    if (!match) return finish(trace, { ok: false, op: 'recalibrate', outcome: identity.outcome === 'AMBIGUOUS' ? 'NEEDS_USER_DECISION' : 'NOT_FOUND', reason: 'temporal config attaches to an existing identity only', candidates: identity.candidates });
+    if (match.retired) return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_APPLICABLE', source_id: match.source_id, reason: 'source is retired: reactivate first' });
+    const r = prepareTemporalChange({ root, match, patch: temporal, basis, apply, actor, authorize, now: clock(), requestId: trace.request_id });
+    const ok = ['TEMPORAL_DRY_RUN', 'TEMPORAL_APPLIED', 'NO_CHANGE'].includes(r.outcome);
+    return finish(trace, { ok, op: 'recalibrate', source_id: match.source_id, ...r });
+  }
+
+  async function recalibrate(target, { apply = false, setMinutes = null, basis = null, temporal = null } = {}) {
+    if (temporal !== null) return recalibrateTemporal(target, { apply, temporal, basis });
     const trace = { request_id: normalizeRequest(`recal:${target}`, { now: clock() }).request_id, op: 'recalibrate', input: { raw: target, apply, ...(setMinutes ? { setMinutes, basis } : {}) }, actor, phases: [] };
     const { identity } = resolveOne(target, trace);
     if (identity.outcome !== 'EXISTING') return finish(trace, { ok: false, op: 'recalibrate', outcome: 'NOT_FOUND' });

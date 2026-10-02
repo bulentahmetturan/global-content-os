@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "1.0.0",
+  "sources": [
+    {
+      "source_id": "harvard_nutrition_source",
+      "identity_store": "tip_toplulugu",
+      "semantic_lane": "Duyuru",
+      "time_sensitive": {
+        "enabled": true
+      },
+      "evergreen": {
+        "evergreen_view": "health_reference",
+        "cooldown_days": 180,
+        "signal_providers": [],
+        "rediscovery_cadence_hours": 72,
+        "tier": "SMALL",
+        "daily_target": 1,
+        "activation": "CANARY_ONLY",
+        "deep_archive_cadence_hours": 720,
+        "family": null,
+        "max_items_evaluated_per_cycle": 10,
+        "archives": [
+          {
+            "max_pages_per_run": 3,
+            "url": "https://www.hsph.harvard.edu/nutritionsource/feed/",
+            "id": "nutritionsource-feed",
+            "kind": "wp_feed"
+          }
+        ],
+        "enabled": true,
+        "importance_signal_strategy": "EDITORIAL_RELEVANCE"
+      },
+      "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (SMALL 1/day); CANARY_ONLY",
+      "updated_at": "2026-10-02T12:22:09.600Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_0f6f4c0d9fb3e00d",
+          "at": "2026-10-02T12:22:09.600Z",
+          "by": "W11",
+          "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (SMALL 1/day); CANARY_ONLY"
+        }
+      ]
+    },
+    {
+      "source_id": "news-cleveland-clinic-health-essentials-sitemap",
+      "identity_store": "kaduse-d1-feed",
+      "feed_id": "news-cleveland-clinic-health-essentials-sitemap",
+      "semantic_lane": "Haber",
+      "time_sensitive": {
+        "enabled": true
+      },
+      "evergreen": {
+        "evergreen_view": "health_reference",
+        "cooldown_days": 90,
+        "signal_providers": [],
+        "rediscovery_cadence_hours": 24,
+        "tier": "FAMILY_POOL",
+        "daily_target": 4,
+        "activation": "CANARY_ONLY",
+        "deep_archive_cadence_hours": 168,
+        "family": "cleveland",
+        "max_items_evaluated_per_cycle": 60,
+        "archives": [
+          {
+            "path_filter": "/",
+            "urls": [
+              "https://health.clevelandclinic.org/post.xml"
+            ],
+            "id": "health-essentials-posts",
+            "kind": "sitemap"
+          },
+          {
+            "path_filter": "/health/",
+            "urls": [
+              "https://my.clevelandclinic.org/site.xml",
+              "https://my.clevelandclinic.org/page.xml"
+            ],
+            "id": "health-library",
+            "kind": "sitemap"
+          }
+        ],
+        "enabled": true,
+        "importance_signal_strategy": "EDITORIAL_RELEVANCE"
+      },
+      "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (FAMILY_POOL 4/day proposal; Health Library = second archive of the same identity); CANARY_ONLY",
+      "updated_at": "2026-10-02T12:22:09.479Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_6ef84930bfceb30d",
+          "at": "2026-10-02T12:22:09.479Z",
+          "by": "W11",
+          "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (FAMILY_POOL 4/day proposal; Health Library = second archive of the same identity); CANARY_ONLY"
+        }
+      ]
+    },
+    {
+      "source_id": "research-cochrane-library",
+      "identity_store": "kaduse-d1-feed",
+      "feed_id": "research-cochrane-library",
+      "semantic_lane": "Research",
+      "time_sensitive": {
+        "enabled": true
+      },
+      "evergreen": {
+        "evergreen_view": "research_rediscovery",
+        "cooldown_days": 180,
+        "signal_providers": [
+          "europepmc",
+          "icite"
+        ],
+        "rediscovery_cadence_hours": 72,
+        "tier": "SMALL",
+        "daily_target": 1,
+        "activation": "CANARY_ONLY",
+        "deep_archive_cadence_hours": 168,
+        "family": null,
+        "max_items_evaluated_per_cycle": 20,
+        "archives": [
+          {
+            "id": "europepmc-cdsr",
+            "doi_prefix": "10.1002/14651858",
+            "publisher": "Cochrane",
+            "discovery_proxy": "europepmc",
+            "sort": "CITED desc",
+            "kind": "europepmc",
+            "query": "JOURNAL:\"Cochrane Database Syst Rev\""
+          }
+        ],
+        "enabled": true,
+        "importance_signal_strategy": "DIRECT_SIGNAL"
+      },
+      "basis": "owner FAZ 3 canary 2026-10-02: Europe PMC as discovery/metadata proxy, provenance stays Cochrane, cochranelibrary.com never fetched; CANARY_ONLY",
+      "updated_at": "2026-10-02T12:22:09.738Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_84ac45ef4d66eb7a",
+          "at": "2026-10-02T12:22:09.738Z",
+          "by": "W11",
+          "basis": "owner FAZ 3 canary 2026-10-02: Europe PMC as discovery/metadata proxy, provenance stays Cochrane, cochranelibrary.com never fetched; CANARY_ONLY"
+        }
+      ]
+    },
+    {
+      "source_id": "research-pubmed-eutilities",
+      "identity_store": "kaduse-d1-feed",
+      "feed_id": "research-pubmed-eutilities",
+      "semantic_lane": "Research",
+      "time_sensitive": {
+        "enabled": false
+      },
+      "evergreen": {
+        "evergreen_view": "research_rediscovery",
+        "cooldown_days": 180,
+        "signal_providers": [
+          "europepmc",
+          "icite"
+        ],
+        "rediscovery_cadence_hours": 72,
+        "tier": "SMALL",
+        "daily_target": 1,
+        "activation": "CANARY_ONLY",
+        "deep_archive_cadence_hours": 168,
+        "family": null,
+        "max_items_evaluated_per_cycle": 20,
+        "archives": [
+          {
+            "id": "pubmed-reviews",
+            "publisher": "PubMed",
+            "discovery_proxy": "europepmc",
+            "sort": "CITED desc",
+            "kind": "pubmed",
+            "query": "SRC:MED AND (TITLE:\"systematic review\" OR TITLE:\"meta-analysis\") AND FIRST_PDATE:[2015-01-01 TO 2023-12-31]"
+          }
+        ],
+        "enabled": true,
+        "importance_signal_strategy": "DIRECT_SIGNAL"
+      },
+      "basis": "owner 2026-10-02 state reconciliation: PubMed stays ONE canonical source; Evergreen rediscovery eligible, legacy time-sensitive topic batch (auscultation/stethoscope/AI) not eligible; D1 feed row is only the write carrier",
+      "updated_at": "2026-10-02T16:29:40.493Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_336e137e2ee1e8f2",
+          "at": "2026-10-02T12:22:09.880Z",
+          "by": "W11",
+          "basis": "owner FAZ 3 canary 2026-10-02: bounded PubMed research rediscovery via Europe PMC SRC:MED, signal citedByCount + iCite; CANARY_ONLY"
+        },
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_46feafe1381ebe94",
+          "at": "2026-10-02T16:29:40.493Z",
+          "by": "W11",
+          "basis": "owner 2026-10-02 state reconciliation: PubMed stays ONE canonical source; Evergreen rediscovery eligible, legacy time-sensitive topic batch (auscultation/stethoscope/AI) not eligible; D1 feed row is only the write carrier"
+        }
+      ]
+    }
+  ]
+}

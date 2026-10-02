@@ -341,6 +341,7 @@ export async function purgeExpiredTrash(
  * 9 kaduse-news items ingested 2026-09-17..21 were still sitting in inbox, now >10 days old).
  * 'hold' keeps them visible/reversible in the Hub ("Beklemede" tab, undo action) instead of
  * silently vanishing or being hard-deleted.
+ * Age is a TIME_SENSITIVE notion: an item acquired on, or also a member of, the EVERGREEN path is never expired here.
  */
 export async function expireStaleInboxItems(
   env: Env,
@@ -355,6 +356,8 @@ export async function expireStaleInboxItems(
   const { results } = await env.DB.prepare(
     `SELECT id, published_at FROM source_items
      WHERE route = ? AND triage_status = 'inbox' AND published_at IS NOT NULL
+       AND COALESCE(acquisition_path, '') != 'EVERGREEN'
+       AND NOT EXISTS (SELECT 1 FROM item_path_membership m WHERE m.source_item_id = source_items.id AND m.temporal_path = 'EVERGREEN')
      LIMIT ?`
   )
     .bind(route, limit)

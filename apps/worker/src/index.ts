@@ -1,12 +1,15 @@
 import {
   countByStatus,
+  HUB_WINDOW_DAYS,
   listItems,
   rowToView,
+  temporalNavCounts,
   type Env,
   type RouteId,
   type TriageStatus,
 } from './db/queries';
 import { familyClause } from './db/family-clause';
+import { EVERGREEN_VIEW_ROUTE, isEvergreenView, isTemporalPath, type TemporalFilter } from './db/temporal';
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
@@ -19,6 +22,7 @@ import { ingestResearchApis } from './ingress/research-apis';
 import { ingestGenericFeeds, coverageReport } from './ingress/generic-web';
 import { ingestTipRadarPush, type TipRadarCandidatePush } from './ingress/tip-radar';
 import { ingestFeedItems, type ExternalFeedItem } from './ingress/feed-push';
+import { completeEvergreenRun, evergreenPlan, evergreenStatus } from './ingress/evergreen';
 import { applyTriage, recordProductionStatus, purgeExpiredTrash, expireStaleInboxItems, pruneLowYieldSources, type TriageAction } from './triage/actions';
 import {
   REASON_CODES,
@@ -233,7 +237,9 @@ export default {
         // enabledFeeds = sources with a real scheduler (not the catalogue size): MANUAL_INTAKE catalogue entries are not "active".
         routes.push({ id: 'tip-toplulugu-burs', counts: tipTopluluguBurs, enabledFeeds: TIP_TOPLULUGU_BURS_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
         routes.push({ id: 'tip-toplulugu-egitim', counts: tipTopluluguEgitim, enabledFeeds: TIP_TOPLULUGU_EGITIM_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
-        return json({ routes, bibleVersion: env.BIBLE_VERSION || '4.0' });
+        // Sidebar counts: one entry per temporal nav item, same predicate and window as GET /api/items for that item.
+        const temporal = await temporalNavCounts(env.DB, HUB_WINDOW_DAYS);
+        return json({ routes, temporal, bibleVersion: env.BIBLE_VERSION || '4.0' });
       }
 
       if (path === '/api/bible' && request.method === 'GET') {
@@ -263,6 +269,17 @@ export default {
         if (family && family !== 'burs' && family !== 'duyuru' && family !== 'egitim') {
           return json({ error: 'INVALID_FAMILY' }, 400);
         }
+        // Temporal filter (optional; old callers without it keep the legacy all-time count).
+        const pathParam = url.searchParams.get('path') || '';
+        const viewParam = url.searchParams.get('evergreen_view') || '';
+        if (pathParam && !isTemporalPath(pathParam)) return json({ error: 'INVALID_TEMPORAL_PATH' }, 400);
+        if (viewParam && (!isEvergreenView(viewParam) || pathParam !== 'EVERGREEN')) return json({ error: 'INVALID_EVERGREEN_VIEW' }, 400);
+        if (pathParam === 'EVERGREEN' && (!viewParam || EVERGREEN_VIEW_ROUTE[viewParam as keyof typeof EVERGREEN_VIEW_ROUTE] !== route)) {
+          return json({ error: 'INVALID_EVERGREEN_VIEW' }, 400);
+        }
+        const temporal: TemporalFilter = pathParam
+          ? { path: pathParam as TemporalFilter['path'], ...(viewParam ? { view: viewParam as TemporalFilter['view'] } : {}) }
+          : {};
         const items = (
           await listItems(env.DB, route, status, {
             sinceDays,
@@ -273,13 +290,15 @@ export default {
                 ? { excludeChannelId: 'tip_toplulugu' }
                 : {}),
             ...(family ? { family } : {}),
+            ...temporal,
           })
         ).map(rowToView);
         const counts = await countByStatus(
           env.DB,
           route,
           channel === 'tip_toplulugu' ? channel : undefined,
-          family || undefined
+          family || undefined,
+          temporal.path ? { sinceDays, ...temporal } : {}
         );
         return json({
           route,
@@ -499,6 +518,28 @@ export default {
         return json({ ok: true, feed: 'tip-radar-adapter', ...result });
       }
 
+      if (path === '/api/evergreen/status' && request.method === 'GET') {
+        return json(await evergreenStatus(env));
+      }
+      if (path === '/api/evergreen/plan' && (request.method === 'GET' || request.method === 'POST')) {
+        const body = request.method === 'POST' ? await request.json().catch(() => null) as { sourceId?: string } | null : {};
+        if (!body || (body.sourceId !== undefined && typeof body.sourceId !== 'string')) return json({ error: 'INVALID_BODY' }, 400);
+        return json(await evergreenPlan(env, new Date(), { sourceId: body.sourceId || url.searchParams.get('sourceId') || undefined, claim: request.method === 'POST' }));
+      }
+      if (path === '/api/ingress/evergreen-items' && request.method === 'POST') {
+        if (Number(request.headers.get('content-length') || 0) > 100_000) return json({ error: 'BODY_TOO_LARGE' }, 413);
+        const text = await request.text();
+        if (text.length > 100_000) return json({ error: 'BODY_TOO_LARGE' }, 413);
+        let body;
+        try { body = JSON.parse(text); } catch { return json({ error: 'INVALID_BODY' }, 400); }
+        if (!body || typeof body.sourceId !== 'string') return json({ error: 'INVALID_BODY' }, 400);
+        try {
+          return json(await completeEvergreenRun(env, body.sourceId, body));
+        } catch (err) {
+          const reason = err instanceof Error ? err.message : 'EVERGREEN_INGEST_FAILED';
+          return json({ error: reason }, reason.startsWith('invalid_') ? 400 : reason === 'source_not_evergreen' ? 404 : 409);
+        }
+      }
       if (path === '/api/ingress/feed-items' && request.method === 'POST') {
         const body = (await request.json()) as {
           feedId?: string;

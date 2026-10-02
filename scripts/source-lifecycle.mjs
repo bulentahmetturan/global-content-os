@@ -8,10 +8,12 @@
 //   node scripts/source-lifecycle.mjs plan        "<name | url>"            (= add without --apply)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --set <minutes> --basis "<evidence>" [--history DIR] [--apply]   (owner-directed; ladder step in lane bounds)
+//   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --temporal <patch.json> --basis "<evidence>" [--apply]  (time_sensitive / evergreen path config)
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
 // Exit: 0 done / dry-run ok, 3 needs user decision, 4 blocked (access/capacity/technical), 1 error/denied, 2 usage.
+import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createLifecycle } from './source-lifecycle/orchestrator.mjs';
@@ -31,6 +33,7 @@ function parseArgs(argv) {
     else if (a === '--reason') o.reason = rest[++i];
     else if (a === '--set') o.set = Number(rest[++i]);
     else if (a === '--basis') o.basis = rest[++i];
+    else if (a === '--temporal') o.temporal = JSON.parse(readFileSync(rest[++i], 'utf8'));
     else if (a === '--history') while (rest[i + 1] && !rest[i + 1].startsWith('--')) o.history.push(rest[++i]);
     else throw new Error(`unknown option ${a}`);
   }
@@ -62,6 +65,9 @@ export function human(r) {
   if (r.commits) lines.push(...r.commits.map((c) => `COMMIT=${c.outcome} ${c.file}`));
   if (r.steps?.O5_artifacts) lines.push(`ARTIFACTS refs=${r.steps.O5_artifacts.references_total} ${JSON.stringify(r.steps.O5_artifacts.action_counts)} deletions=0`);
   if (r.source) lines.push(`STATE=${r.source.state} LANE=${r.source.lane} ACTIVATION=${r.source.runtime_activation ?? r.source.status} CADENCE=${r.source.cadence_minutes ?? '-'}min`);
+  if (r.temporal) lines.push(`TEMPORAL lane=${r.temporal.semantic_lane} TIME_SENSITIVE=${r.temporal.time_sensitive.effective ? 'ON' : 'OFF'} EVERGREEN=${r.temporal.evergreen.effective}${r.temporal.config?.evergreen?.enabled ? ` view=${r.temporal.config.evergreen.evergreen_view} tier=${r.temporal.config.evergreen.tier} target=${r.temporal.config.evergreen.daily_target}/day` : ''}`);
+  if (r.after && r.file) lines.push(`TEMPORAL_CHANGE ${r.file} evergreen=${r.after.evergreen.enabled ? `${r.after.evergreen.activation}/${r.after.evergreen.evergreen_view}` : 'DISABLED'} time_sensitive=${r.after.time_sensitive.enabled ? 'ON' : 'OFF'}${r.warnings?.length ? ` warnings=${r.warnings.join(',')}` : ''}`);
+  if (r.errors?.length) lines.push(`ERRORS ${r.errors.join('; ')}`);
   if (r.trace_file) lines.push(`TRACE=${r.trace_file}`);
   return lines.join('\n');
 }
@@ -85,7 +91,7 @@ async function main() {
   else if (o.cmd === 'retire') r = await lc.retire(o.target, { reason: o.reason, apply: o.apply });
   else if (o.cmd === 'reactivate') r = await lc.reactivate(o.target, { apply: o.apply });
   else if (o.cmd === 'inspect') r = lc.inspect(o.target);
-  else if (o.cmd === 'recalibrate') r = await lc.recalibrate(o.target, { apply: o.apply, setMinutes: o.set ?? null, basis: o.basis ?? null });
+  else if (o.cmd === 'recalibrate') r = await lc.recalibrate(o.target, { apply: o.apply, setMinutes: o.set ?? null, basis: o.basis ?? null, temporal: o.temporal ?? null });
   else r = lc.purgePlan(o.target);
   console.log(o.json ? JSON.stringify(r, null, 1) : human(r));
   return exitCode(r);

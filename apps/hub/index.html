@@ -84,7 +84,7 @@
   .project-item.nav-child .p-icon { font-size: 1.05rem; }
   .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
   .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .main { padding: 22px 24px 48px; max-width: 780px; }
+  .main { padding: 22px 24px 48px; max-width: 780px; min-width: 0; }
   .main.bible-mode { max-width: 920px; }
   .main-header { margin-bottom: 16px; }
   .main-header h2 { font-size: 1.15rem; margin: 0 0 2px; letter-spacing: -0.01em; }
@@ -197,6 +197,10 @@
   .hek-health table{border-collapse:collapse;width:100%;margin-top:6px}
   .hek-health td{padding:3px 8px;border-bottom:1px solid rgba(128,128,128,.25);vertical-align:top}
   .project-item.nav-doc .p-count { display: none; }
+  .project-nav .nav-label.nav-group { margin-top: 10px; }
+  .project-nav .nav-label.nav-group:first-child { margin-top: 0; }
+  .project-nav .nav-sep { height: 10px; }
+  .ev-pill { background: rgba(57,184,212,.14); color: var(--text-dim); border-radius: 20px; padding: 2px 9px; font-weight: 600; }
   .bible-doc { font-size: .92rem; line-height: 1.65; color: var(--text); }
   .bible-doc h1 { font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 8px; }
   .bible-doc h2 { font-size: 1.12rem; margin: 1.7em 0 .5em; padding-bottom: .35em; border-bottom: 1px solid var(--border); }
@@ -256,7 +260,6 @@
       </div>
     </div>
     <div>
-      <div class="nav-label">Rotalar</div>
       <nav class="project-nav" id="projectNav"></nav>
     </div>
     <div class="sidebar-footnote">Kaynak triyajı · CCOS’a yalnızca approved_brief gider</div>
@@ -319,15 +322,41 @@
     { id: 'tip_toplulugu', label: 'Tıp Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
     { id: 'bible', label: 'Türk Tıp Bible v4', icon: '📜', note: 'Normatif anayasa v4. Kitap I hard gate + Kitap II Source Pass/Fail. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
-  var NAV = [
-    { navId: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
-    { navId: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: '🔬' },
-    { navId: 'duyuru', route: 'tip_toplulugu', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
-    { navId: 'burs', route: 'tip_toplulugu', lane: 'burs', label: 'Burs', icon: '🎓' },
-    { navId: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
-    { navId: 'bible', route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
+  // Temporal path groups (E90). `key` indexes /api/routes `temporal[path]`; Bible sits outside both groups.
+  var NAV_GROUPS = [
+    { path: 'TIME_SENSITIVE', label: 'Time Sensitive' },
+    { path: 'EVERGREEN', label: 'Evergreen' }
   ];
+  var NAV = [
+    { navId: 'haber', path: 'TIME_SENSITIVE', key: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
+    { navId: 'research', path: 'TIME_SENSITIVE', key: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: '🔬' },
+    { navId: 'duyuru', path: 'TIME_SENSITIVE', key: 'duyuru', route: 'tip_toplulugu', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
+    { navId: 'burs', path: 'TIME_SENSITIVE', key: 'burs', route: 'tip_toplulugu', lane: 'burs', label: 'Burs', icon: '🎓' },
+    { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
+    { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: '🌿' },
+    { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: '♻️' },
+    { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
+  ];
+  /** Sidebar count for a nav entry from /api/routes `temporal`; null (shown as "–") when the block is missing — never a fake 0. */
+  function navTemporalCount(n, temporal) {
+    if (!n || !n.path || !temporal || !temporal[n.path]) return null;
+    var c = temporal[n.path][n.key];
+    return c && typeof c.inbox === 'number' ? c.inbox : null;
+  }
+  /** Extra /api/items params for the active temporal path; must match the nav count predicate. */
+  function temporalQuery(st) {
+    if (st.temporal === 'EVERGREEN' && st.evView) {
+      return '&path=EVERGREEN&evergreen_view=' + encodeURIComponent(st.evView);
+    }
+    return '&path=TIME_SENSITIVE';
+  }
   function routeNote() {
+    if (state.temporal === 'EVERGREEN' && state.evView === 'health_reference') {
+      return 'Evergreen · Sağlık & Referans. Yayın yaşı tek başına ret sebebi değildir; kartta özgün yayın tarihi ve seçilme nedeni görünür. Otomatik yayın yok.';
+    }
+    if (state.temporal === 'EVERGREEN' && state.evView === 'research_rediscovery') {
+      return 'Evergreen · Research Rediscovery. Yeniden keşfedilen çalışma yeni kayıt olmaz; özgün yayın tarihiyle gösterilir. Otomatik yayın yok.';
+    }
     if (state.route === 'kaduse' && state.kind === 'news') {
       return 'Kaduse Haber. En fazla 10 gün, tarihli. Otomatik yayın yok.';
     }
@@ -721,6 +750,8 @@
     PUBLIC_HEALTH: 'Halk sağlığı', EDUCATION: 'Eğitim'
   };
   function sourceLabel(it) {
+    var evergreenSource = (state.evergreenSources || []).find(function (s) { return s.sourceId === it.sourceId; });
+    if (evergreenSource) return evergreenSource.name;
     if (!it.sourceId) return it.publisher;
     return SOURCE_LABELS[it.sourceId] || it.sourceId.replace(/_/g, ' ');
   }
@@ -731,7 +762,7 @@
     if (route === 'tip_toplulugu' && state.hekLane === 'burs') q += '&family=burs';
     else if (route === 'tip_toplulugu' && state.hekLane === 'egitim') q += '&family=egitim';
     else if (route === 'tip_toplulugu') q += '&family=duyuru';
-    return '/api/items?' + q + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
+    return '/api/items?' + q + temporalQuery(state) + '&status=' + encodeURIComponent(view) + '&days=' + days + '&limit=' + limit;
   }
 
   // Deep link: /?route=tip_toplulugu&view=inbox overrides the last tab remembered in this browser.
@@ -757,6 +788,11 @@
   if (qsLane === 'all') qsLane = 'duyuru';
   if (qsLane !== 'burs' && qsLane !== 'egitim' && qsLane !== 'duyuru') qsLane = null;
   if (qs.get('route') === 'tip_toplulugu' && qs.get('lane') == null) qsLane = 'duyuru';
+  var EV_VIEW_KIND = { health_reference: 'news', research_rediscovery: 'research' };
+  // Deep link: /?route=kaduse-news&path=EVERGREEN&ev=health_reference. A route without `path` is Time Sensitive.
+  var qsEv = qs.get('path') === 'EVERGREEN' && EV_VIEW_KIND[qs.get('ev')] ? qs.get('ev') : null;
+  var savedEv = EV_VIEW_KIND[localStorage.getItem('gcos-ev-view')] ? localStorage.getItem('gcos-ev-view') : null;
+  var startEv = qs.get('route') ? qsEv : savedEv;
   var state = {
     route: qsRoute || savedRoute || 'kaduse',
     kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
@@ -773,14 +809,17 @@
     routeMeta: {},
     revalidationBySource: {}, // canonical_source_key -> row from /api/source-revalidation (only sources needing review)
     onlyNeedsReview: false,
-    lifecycleFilter: ''
+    lifecycleFilter: '',
+    temporal: startEv ? 'EVERGREEN' : 'TIME_SENSITIVE',
+    evView: startEv,
+    temporalCounts: null
   };
+  if (startEv) { state.route = 'kaduse'; state.kind = EV_VIEW_KIND[startEv]; }
   if (state.route === 'tip_toplulugu' && (state.hekLane === 'burs' || state.hekLane === 'egitim')) {
     state.showSources = true;
   }
 
   function backendRoute() { return state.route === 'kaduse' ? 'kaduse-' + state.kind : state.route; }
-  function routeInbox(id) { return ((state.routeCounts[id] || {}).inbox) || 0; }
   var projectNavEl = document.getElementById('projectNav');
   var pillbarEl = document.getElementById('pillbar');
   var mainTitleEl = document.getElementById('mainTitle');
@@ -832,6 +871,39 @@
     if (days === 0) return 'bugün';
     if (days === 1) return '1 gün';
     return days + ' gün';
+  }
+
+  var TR_MONTHS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+  function formatAbsDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.getUTCDate() + ' ' + TR_MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+  var DISCOVERY_REASON_LABELS = {
+    citation_signal: 'atıf sinyali', citation_velocity: 'atıf ivmesi', source_popular: 'kaynakta popüler',
+    source_trending: 'kaynakta yükselen', source_featured: 'kaynağın öne çıkardığı', evergreen_relevance: 'kalıcı konu değeri',
+    editorial_rediscovery: 'editoryal yeniden keşif', reference_importance: 'referans değeri', updated_content: 'güncellenmiş içerik',
+    fresh: 'yeni yayın'
+  };
+  /** Evergreen card meta lines. Unknown date / reason / signal are said out loud, never invented. */
+  function evergreenMeta(it) {
+    var date = formatAbsDate(it.publishedAt);
+    var reason = it.discoveryReason ? (DISCOVERY_REASON_LABELS[it.discoveryReason] || it.discoveryReason) : null;
+    var sig = it.importanceSignal;
+    var signal = 'Önem sinyali: bilinmiyor';
+    if (sig && sig.value != null && sig.type && sig.source) {
+      signal = 'Önem sinyali: ' + sig.type + ' ' + sig.value + ' · kaynak ' + sig.source +
+        (sig.observed_at ? ' · ' + formatAbsDate(sig.observed_at) : '') +
+        (sig.normalization === 'none' ? ' · ham değer' : '');
+    }
+    return {
+      badge: it.rediscovery ? '♻️ Yeniden keşfedildi' : '🌿 Kalıcı içerik',
+      date: date ? 'İlk yayın: ' + date : 'İlk yayın tarihi bilinmiyor',
+      rediscoveredAt: it.rediscovery && it.rediscoveredAt ? 'Yeniden keşif: ' + formatAbsDate(it.rediscoveredAt) : null,
+      reason: reason ? 'Neden seçildi: ' + reason : 'Seçilme nedeni kaydedilmedi',
+      signal: signal
+    };
   }
 
   function showToast(msg) {
@@ -916,7 +988,21 @@
         (it.evidence.doi ? 'DOI ' + escapeHtml(it.evidence.doi) + ' ' : '') +
         (it.evidence.pmid ? 'PMID ' + escapeHtml(it.evidence.pmid) : '') + '</p>';
     }
-    var ageLabel = formatNewsAge(it.publishedAt, it.fetchedAt);
+    var isEv = state.temporal === 'EVERGREEN';
+    var ev = isEv ? evergreenMeta(it) : null;
+    var ageLabel = isEv ? '' : formatNewsAge(it.publishedAt, it.fetchedAt);
+    var paths = it.temporalPaths || [];
+    var alsoPill = isEv
+      ? (paths.indexOf('TIME_SENSITIVE') >= 0 ? '<span class="pub-pill">güncel akışta da</span>' : '')
+      : (paths.indexOf('EVERGREEN') >= 0 ? '<span class="pub-pill">Evergreen’de de</span>' : '');
+    var temporalLines = '';
+    if (ev) {
+      temporalLines = '<p class="original-title">' + escapeHtml(ev.date) +
+        (ev.rediscoveredAt ? ' · ' + escapeHtml(ev.rediscoveredAt) : '') + '</p>' +
+        '<p class="original-title">' + escapeHtml(ev.reason) + ' · ' + escapeHtml(ev.signal) + '</p>';
+    } else if (it.deadlineAt && formatAbsDate(it.deadlineAt)) {
+      temporalLines = '<p class="original-title">Son tarih: ' + escapeHtml(formatAbsDate(it.deadlineAt)) + '</p>';
+    }
     var enrichNote = '';
     if (it.enrichmentStatus === 'pending') {
       enrichNote = '<p class="original-title">Öz hazırlanıyor…</p>';
@@ -928,6 +1014,7 @@
         (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
           ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
         '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+        (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') + alsoPill +
         (it.decisionRoute
           ? '<span class="pub-pill">' + escapeHtml(DECISION_LABELS[it.decisionRoute] || it.decisionRoute) + '</span>'
           : '') +
@@ -939,6 +1026,7 @@
           escapeHtml(title) + '</a></p>' +
         (titleOrig && titleOrig !== title
           ? '<p class="original-title">Orijinal: ' + escapeHtml(titleOrig) + '</p>' : '') +
+        temporalLines +
         evidence +
         enrichNote +
         (gist ? '<p class="gist">' + escapeHtml(gist) + '</p>' : '') +
@@ -951,18 +1039,25 @@
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
     function navActive(n) {
       if (n.route === 'bible') return state.route === 'bible';
+      if (n.path !== state.temporal) return false;
+      if (n.path === 'EVERGREEN') return n.evView === state.evView;
       if (n.route === 'kaduse') return state.route === 'kaduse' && n.kind === state.kind;
       if (n.route === 'tip_toplulugu') return state.route === 'tip_toplulugu' && n.lane === state.hekLane;
       return n.route === state.route;
     }
     projectNavEl.innerHTML = '';
+    var lastGroup;
     NAV.forEach(function (n) {
-      var shown = 0;
-      if (n.route === 'kaduse' && n.kind === 'news') shown = routeInbox('kaduse-news');
-      else if (n.route === 'kaduse' && n.kind === 'research') shown = routeInbox('kaduse-research');
-      else if (n.lane === 'burs') shown = ((state.routeCounts['tip-toplulugu-burs'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'burs' ? (state.counts.inbox || 0) : 0);
-      else if (n.lane === 'egitim') shown = ((state.routeCounts['tip-toplulugu-egitim'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'egitim' ? (state.counts.inbox || 0) : 0);
-      else if (n.lane === 'duyuru') shown = ((state.routeCounts['tip-toplulugu-duyuru'] || {}).inbox) || (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru' ? (state.counts.inbox || 0) : 0);
+      if (n.path !== lastGroup) {
+        var g = NAV_GROUPS.filter(function (x) { return x.path === n.path; })[0];
+        var head = document.createElement('div');
+        head.className = g ? 'nav-label nav-group' : 'nav-sep';
+        if (g) head.textContent = g.label;
+        projectNavEl.appendChild(head);
+        lastGroup = n.path;
+      }
+      var count = navTemporalCount(n, state.temporalCounts);
+      var shown = count == null ? '–' : count;
       var btn = document.createElement('button');
       btn.className = 'project-item' + (n.child ? ' nav-child' : '') + (n.doc ? ' nav-doc' : '') + (navActive(n) ? ' active' : '');
       btn.setAttribute('data-nav', n.navId);
@@ -1010,6 +1105,7 @@
     if (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
     if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') title = '🎓 Burs';
     if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = '📚 Eğitim';
+    if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? '♻️ Research Rediscovery' : '🌿 Sağlık & Referans';
     mainTitleEl.textContent = title;
     if (isBible) {
       mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
@@ -1019,13 +1115,18 @@
     }
     var feedN = computeActiveSourceCount(state, bursCatalog, egitimCatalog);
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
-    mainSubEl.innerHTML = escapeHtml(state.view) + ' · <button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
-      feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button> · D1' +
+    mainSubEl.innerHTML = escapeHtml(state.view) + ' · ' +
+      (feedN == null ? 'Evergreen' : '<button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
+        feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button>') + ' · D1' +
       (shownN && totalN > shownN ? escapeHtml(' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor') : '');
     laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(routeNote()) + '</div>';
     footnoteEl.innerHTML =
       'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
-      'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.';
+      'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.' +
+      (state.temporalCounts && state.temporalCounts.unclassified
+        ? ' Zaman yolu belirsiz (UNCLASSIFIED, son ' + escapeHtml(String((state.temporalCounts.window || {}).sinceDays || 14)) +
+          ' gün): ' + escapeHtml(String(state.temporalCounts.unclassified)) + ' kayıt; hiçbir sayıma katılmaz.'
+        : '');
   }
 
 
@@ -1061,6 +1162,8 @@
    * apps/hub/route-counts.test.mjs for the regression test.
    */
   function computeActiveSourceCount(state, bursCatalog, egitimCatalog) {
+    // Evergreen views share kaduse routes with the Time Sensitive lanes; their feed count would be misleading.
+    if (state.temporal === 'EVERGREEN') return null;
     if (state.route === 'tip_toplulugu' && state.hekSources) {
       if (state.hekLane === 'burs') {
         return bursCatalog.length || state.hekSources.filter(function (s) { return sourceFamily(s) === 'burs'; }).length;
@@ -1195,6 +1298,19 @@
   }
   function renderSourcePanel() {
     var el = document.getElementById('srcPanel');
+    if (state.temporal === 'EVERGREEN') {
+      el.hidden = false;
+      if (state.evergreenError) { el.textContent = 'Kaynak durumu: ' + state.evergreenError; return; }
+      var sources = (state.evergreenSources || []).filter(function (s) { return s.evergreenView === state.evView; });
+      el.innerHTML = '<div class="src-scroll"><table><thead><tr><th>Kaynak</th><th>Durum</th><th>Son başarılı çekim</th><th>Sonraki çekim</th><th>Değerlendirilen</th><th>Kabul edilen</th><th>Günlük hedef</th><th>Eksik hedef</th><th>Son hata</th></tr></thead><tbody>' + sources.map(function (s) {
+        return '<tr><td>' + escapeHtml(s.name) + '</td><td>' + escapeHtml(s.activation) + '</td><td>' +
+          escapeHtml(s.lastSuccessfulFetch || 'Henüz yok') + '</td><td>' + escapeHtml(s.nextDue || 'Henüz planlanmadı') +
+          '</td><td>' + (s.evaluated == null ? '—' : s.evaluated) + '</td><td>' + (s.accepted == null ? '—' : s.accepted) +
+          '</td><td>' + s.dailyTarget + '</td><td>' + (s.underfill ? 'DAILY_TARGET_UNDERFILLED' : '—') +
+          '</td><td>' + escapeHtml(s.lastError || (s.writeBlockers || []).join(', ') || '—') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+      return;
+    }
     if (!state.showSources) { el.hidden = true; return; }
     el.hidden = false;
     var rows = sourceRows();
@@ -1355,6 +1471,7 @@
     var data = await api('/api/routes');
     state.routeCounts = {};
     state.routeMeta = {};
+    state.temporalCounts = data.temporal || null;
     (data.routes || []).forEach(function (r) {
       state.routeCounts[r.id] = r.counts;
       state.routeMeta[r.id] = r;
@@ -1426,6 +1543,15 @@
     var days = state.route === 'tip-ogrencileri' ? 2 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
+    if (state.temporal === 'EVERGREEN') {
+      try {
+        state.evergreenSources = (await api('/api/evergreen/status')).sources || [];
+        state.evergreenError = null;
+      } catch (e) {
+        state.evergreenSources = [];
+        state.evergreenError = e.message;
+      }
+    }
     state.counts = data.counts || state.counts;
     state.items = data.items || [];
     state.selected = {};
@@ -1585,6 +1711,8 @@
       state.route = n.route;
       if (n.kind) state.kind = n.kind;
       state.hekLane = n.lane || (n.route === 'tip_toplulugu' ? 'duyuru' : state.hekLane);
+      state.temporal = n.path === 'EVERGREEN' ? 'EVERGREEN' : 'TIME_SENSITIVE';
+      state.evView = n.evView || null;
       state.view = 'inbox';
       state.sourceFilter = '';
       state.showSources = n.lane === 'burs' || n.lane === 'egitim';
@@ -1592,8 +1720,11 @@
       localStorage.setItem('gcos-hek-lane', state.hekLane);
       localStorage.setItem('gcos-kind', state.kind);
       localStorage.setItem('gcos-view', state.view);
+      if (state.evView) localStorage.setItem('gcos-ev-view', state.evView);
+      else localStorage.removeItem('gcos-ev-view');
       var url = '/?route=' + encodeURIComponent(n.route);
       if (n.route === 'bible') url = '/?route=bible';
+      else if (n.evView) url = '/?route=kaduse-' + n.kind + '&path=EVERGREEN&ev=' + encodeURIComponent(n.evView);
       else if (n.route === 'kaduse' && n.kind === 'news') url = '/?route=kaduse-news';
       else if (n.route === 'kaduse' && n.kind === 'research') url = '/?route=kaduse-research';
       else if (n.route === 'tip_toplulugu') url = '/?route=tip_toplulugu&lane=' + encodeURIComponent(n.lane || 'duyuru');
@@ -1604,6 +1735,9 @@
     var routeBtn = e.target.closest('[data-route]');
     if (routeBtn) {
       state.route = routeBtn.getAttribute('data-route');
+      state.temporal = 'TIME_SENSITIVE';
+      state.evView = null;
+      localStorage.removeItem('gcos-ev-view');
       state.view = 'inbox';
       state.sourceFilter = '';
       state.showSources = false;

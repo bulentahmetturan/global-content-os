@@ -200,7 +200,8 @@ section('D1 migration numbering');
 // from the repo until 2026-09-30 (ledger E40); the "reserved gap" notes in S61 and
 // in the header of the applied 0023 file are stale and stay unedited (applied
 // migration files are never rewritten).
-const KNOWN_RESERVED_GAPS = [];
+// 0027 is reserved for localization-v2 (0027_localization_feedback.sql); temporal paths took 0028 (E90).
+const KNOWN_RESERVED_GAPS = ['26 -> 28'];
 try {
   const files = readdirSync(rel('migrations')).filter((f) => /^\d{4}_/.test(f));
   const nums = files.map((f) => Number(f.slice(0, 4))).sort((a, b) => a - b);

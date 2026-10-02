@@ -96,8 +96,51 @@
       "npx wrangler rollback 4f6b3774-a941-4806-8b11-8423f886ccaa"
     ]
   },
+  "temporalV2Release": {
+    "note": "Owner-authorized 2026-10-02: remote migration 0028_temporal_paths.sql (only pending migration; canonical membership model, additive) + deploy of a013a84 from a clean worktree on temporal-architecture. D1 bookmark taken before the migration. Recorded in a later docs-only commit; runtime = a013a84.",
+    "takenAt": "2026-10-02T14:26Z",
+    "worker": "global-content-os",
+    "rollbackVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc",
+    "rollbackCommit": "26f4a45",
+    "deployedCommit": "a013a8456664c1dad6605babf414802c357d9b53",
+    "deployedVersion": "3f85ff95-6999-44cd-bfa7-25f804f66655",
+    "deployedAt": "2026-10-02T14:28:06.413Z",
+    "d1": "global-content-os",
+    "d1Bookmark": "0000029b-0000000a-000050f8-db1b2cf446435d1a61bf8230533aaf5d",
+    "schemaMigration": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql",
+    "schemaMigrationAfter": "0028_temporal_paths.sql",
+    "rollback": [
+      "npx wrangler rollback d69ef1f2-9fe6-4cee-9858-748d0ede54bc",
+      "npx wrangler d1 time-travel restore global-content-os --bookmark=0000029b-0000000a-000050f8-db1b2cf446435d1a61bf8230533aaf5d"
+    ],
+    "rollbackNote": "0028 is additive and the d69ef1f2 Worker was verified READY on the 0028 schema before the deploy, so a Worker rollback needs no D1 restore; restore only on data damage (writes after the bookmark are lost)."
+  },
   "secretNames": {
-    "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
-    "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
+    "gcos": [
+      "CCOS_HANDOFF_TOKEN",
+      "CCOS_HANDOFF_URL",
+      "HUB_OPERATOR_TOKEN",
+      "STATUS_CALLBACK_TOKEN",
+      "TIP_RADAR_INGEST_TOKEN"
+    ],
+    "ccos": [
+      "GCOS_STATUS_TOKEN",
+      "HANDOFF_INGEST_TOKEN",
+      "HUGGINGFACE_TOKEN",
+      "MCP_AUTH_TOKEN"
+    ]
+  },
+  "evergreenRuntimeRelease": {
+    "note": "Recorded after the deploy (owner-operated, 2026-10-02): Evergreen runtime P3 + PubMed carrier reconciliation live. Migrations 0029_evergreen_runtime_state.sql and 0030_source_lifecycle_pubmed_carrier_reconcile.sql already applied; the Worker was not redeployed when main was aligned. D1 Time Travel bookmark taken before 0029/0030 is not available to this record (null).",
+    "worker": "global-content-os",
+    "deployedCommit": "b332c8af4659933d8e16bd1414f203843c9df41d",
+    "deployedVersion": "510c5ea6-4ca4-4420-898c-8149a4244a87",
+    "rollbackVersion": "3f85ff95-6999-44cd-bfa7-25f804f66655",
+    "rollbackCommit": "a013a84",
+    "d1": "global-content-os",
+    "d1Bookmark": null,
+    "schemaMigration": "0028_temporal_paths.sql",
+    "schemaMigrationAfter": "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
+    "rollbackNote": "Do NOT roll the Worker back to 3f85ff95 (a013a84) while the PubMed carrier row is enabled: that build lacks the time-sensitive eligibility gate in ingestPubmed and would revive the legacy PubMed topic batch. First disable the carrier through canonical state handling, or restore D1 to the pre-0029/0030 Time Travel checkpoint (writes after it are lost). 0029/0030 are additive/idempotent and need no restore for a code-only change."
   }
 }
