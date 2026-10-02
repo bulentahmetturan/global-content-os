@@ -83,6 +83,19 @@
       "npx wrangler d1 time-travel restore global-content-os --bookmark=0000024c-000001d4-000050f7-76bcd15c9c553fa507d0e35568894449"
     ]
   },
+  "temporalV2Group0": {
+    "note": "Owner-approved 2026-10-01: deploy of b34c3ea (OpenAlex Bearer fix, after secret OPENALEX_API_KEY = version 434bd240 at 22:18:22Z; before that 21e92a95 = c59972f) then 26f4a45 (Temporal V2 Group 0), from isolated worktrees, no migration. Recorded after the deploy; no D1 bookmark was recorded (no migration, no data patch).",
+    "worker": "global-content-os",
+    "rollbackVersion": "4f6b3774-a941-4806-8b11-8423f886ccaa",
+    "rollbackCommit": "b34c3ea",
+    "deployedVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc",
+    "deployedCommit": "26f4a45",
+    "d1": "global-content-os",
+    "schemaMigration": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql",
+    "rollback": [
+      "npx wrangler rollback 4f6b3774-a941-4806-8b11-8423f886ccaa"
+    ]
+  },
   "secretNames": {
     "gcos": ["CCOS_HANDOFF_TOKEN", "CCOS_HANDOFF_URL", "HUB_OPERATOR_TOKEN", "STATUS_CALLBACK_TOKEN", "TIP_RADAR_INGEST_TOKEN"],
     "ccos": ["GCOS_STATUS_TOKEN", "HANDOFF_INGEST_TOKEN", "HUGGINGFACE_TOKEN", "MCP_AUTH_TOKEN"]
