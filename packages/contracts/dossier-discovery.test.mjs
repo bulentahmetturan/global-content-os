@@ -66,8 +66,8 @@ test('open world: brief examples are not in the vocabulary, the contract text, o
 
 test('unknown concepts are never dropped and never auto-canonicalized: they become PROPOSED for human review', () => {
   assert.deepEqual(V.open_world.proposal_families, ['NEW_HEALTH_TOPIC', 'NEW_PROTOCOL', 'NEW_SUPPLEMENT', 'NEW_SUPPLEMENT_FORM', 'NEW_LONGEVITY_TECH', 'NEW_PUBLIC_HEALTH_TOPIC', 'NEW_EXPERT', 'NEW_RELATION']);
-  assert.deepEqual(V.open_world.resolution_outcomes, ['MATCHED_EXISTING', 'PROPOSED']);
-  for (const bad of ['DROPPED', 'AUTO_CANONICAL']) assert.ok(V.open_world.forbidden_resolution_outcomes.includes(bad) && !V.open_world.resolution_outcomes.includes(bad));
+  assert.deepEqual(V.open_world.resolution_outcomes, ['MATCHED_EXISTING', 'REVIEW_REQUIRED', 'PROPOSED']);
+  for (const bad of ['DROPPED', 'AUTO_CANONICAL', 'AUTO_MERGED']) assert.ok(V.open_world.forbidden_resolution_outcomes.includes(bad) && !V.open_world.resolution_outcomes.includes(bad));
   const empty = new Map();
   // Any string, in any domain, resolves to a proposal when the (runtime) index does not know it.
   for (const [label, domain, family] of [['zzz unseen concept 1', 'HEALTH', 'NEW_HEALTH_TOPIC'], ['qqq unseen concept 2', 'SUPPLEMENT', 'NEW_SUPPLEMENT'], ['www unseen concept 3', 'POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH', 'NEW_PUBLIC_HEALTH_TOPIC'], ['eee unseen concept 4', 'LONGEVITY_TECHNOLOGY', 'NEW_LONGEVITY_TECH'], ['rrr unseen concept 5', 'NUTRITION_PROTOCOL', 'NEW_PROTOCOL']]) {
@@ -79,7 +79,7 @@ test('unknown concepts are never dropped and never auto-canonicalized: they beco
   }
   assert.equal(d.resolveConcept({ observation_id: 'o', unresolved_label: 'x' }, empty, 'NEW_EXPERT').proposal.family, 'NEW_EXPERT');
   // A runtime-known concept (any state, including REJECTED) matches instead of resurfacing as a new proposal.
-  const idx = new Map([[d.normalizeLabel('Some Known  Concept'), { conceptId: 'c-1', state: 'REJECTED' }]]);
+  const idx = new Map([[d.normalizeLabel('Some Known  Concept'), [{ conceptId: 'c-1', state: 'REJECTED' }]]]);
   assert.deepEqual(d.resolveConcept({ observation_id: 'o', unresolved_label: ' some known concept ' }, idx), { outcome: 'MATCHED_EXISTING', conceptId: 'c-1', state: 'REJECTED' });
 });
 
@@ -180,14 +180,14 @@ test('candidate snapshots keep direct lineage: separate addressable signal refs,
     why_now: { window_kinds: { FAST_7D: {}, FAST_30D: {}, STRUCTURAL_PERIOD: {} }, signal_families: ['GLOBAL_MEDICAL_FRONTIER'], origin_cluster_ids: ['k1'] },
     quality_dimensions: { TURKEY_RELEVANCE: { state: 'UNKNOWN', value: null }, DATA_STRENGTH: { state: 'MEASURED', value: 0 } },
     reason_codes: ['TURKEY_DATA_UNKNOWN'], summary_signal_metrics: { observations: 2 },
-    signal_refs: [{ aggregate_id: 'a1' }, { observation_id: 'o1' }, { relation_observation_id: 'ro1' }],
+    signal_refs: [{ aggregate_state_id: 'as1' }, { provenance_ref_id: 'pr1' }, { provenance_ref_id: 'pr2' }],
   });
   assert.deepEqual(d.validateCandidateSnapshot(snap()), []);
   for (const f of V.candidate_snapshot.fields) assert.ok(d.validateCandidateSnapshot({ ...snap(), [f]: undefined }).includes(`missing:${f}`), `snapshot requires ${f}`);
   assert.ok(d.validateCandidateSnapshot({ ...snap(), signal_refs: [] }).includes('signal_refs_required_and_separately_addressable'));
   assert.ok(d.validateCandidateSnapshot({ ...snap(), signal_refs: undefined }).includes('signal_refs_required_and_separately_addressable'));
   assert.ok(d.validateCandidateSnapshot({ ...snap(), signal_refs: [{}] }).some((x) => x.startsWith('signal_ref_0_needs_exactly_one_of')));
-  assert.ok(d.validateCandidateSnapshot({ ...snap(), signal_refs: [{ observation_id: 'o', relation_observation_id: 'r' }] }).some((x) => x.startsWith('signal_ref_0_needs_exactly_one_of')));
+  assert.ok(d.validateCandidateSnapshot({ ...snap(), signal_refs: [{ aggregate_state_id: 'a', provenance_ref_id: 'p' }] }).some((x) => x.startsWith('signal_ref_0_needs_exactly_one_of')));
   // an unknown quality dimension is explicit UNKNOWN, never a bare 0
   assert.ok(d.validateCandidateSnapshot({ ...snap(), quality_dimensions: { TURKEY_RELEVANCE: 0 } }).includes('quality_dimension_needs_explicit_value_state:TURKEY_RELEVANCE'));
   assert.ok(d.validateCandidateSnapshot({ ...snap(), reason_codes: ['MADE_UP'] }).includes('reason_code_not_in_vocabulary:MADE_UP'));
@@ -198,8 +198,8 @@ test('candidate snapshots keep direct lineage: separate addressable signal refs,
   assert.equal(cs.reason_codes_live_in_snapshot_structured_data, true);
   assert.equal(cs.signal_refs.separately_addressable, true);
   assert.equal(cs.signal_refs.required_non_empty, true);
-  assert.deepEqual(cs.signal_refs.exactly_one_of, ['aggregate_id', 'observation_id', 'relation_observation_id']);
-  assert.deepEqual(cs.signal_refs.reconstructs, ['candidate', 'snapshot', 'signal_aggregates', 'supporting_observations', 'original_source_provenance']);
+  assert.deepEqual(cs.signal_refs.exactly_one_of, ['aggregate_state_id', 'provenance_ref_id']);
+  assert.deepEqual(cs.signal_refs.reconstructs, ['candidate', 'snapshot', 'historical_aggregate_state', 'bounded_supporting_provenance', 'original_source_provenance']);
   assert.equal(cs.never_created_per_source_event, true);
   assert.deepEqual(cs.created_only_on, ['CANDIDATE_EVALUATION', 'MATERIAL_STATE_CHANGE']);
   assert.equal(V.candidate.class_lives_on_snapshot, true);
@@ -232,9 +232,9 @@ test('identity lifecycle: PROPOSED is not canonical; MERGED keeps history and po
   assert.deepEqual(d.resolveSurvivor('zz', nodes), { ok: false, error: 'unknown_identity' });
   // open-world resolution through aliases of every state
   const idx = new Map([
-    [d.normalizeLabel('alias of merged'), { conceptId: 'old', state: 'MERGED', resolvedToConceptId: 'c' }],
-    [d.normalizeLabel('alias of rejected'), { conceptId: 'rj', state: 'REJECTED' }],
-    [d.normalizeLabel('alias of proposed'), { conceptId: 'pp', state: 'PROPOSED' }],
+    [d.normalizeLabel('alias of merged'), [{ conceptId: 'old', state: 'MERGED', resolvedToConceptId: 'c' }]],
+    [d.normalizeLabel('alias of rejected'), [{ conceptId: 'rj', state: 'REJECTED' }]],
+    [d.normalizeLabel('alias of proposed'), [{ conceptId: 'pp', state: 'PROPOSED' }]],
   ]);
   assert.deepEqual(d.resolveConcept({ observation_id: 'o', unresolved_label: 'Alias of MERGED' }, idx), { outcome: 'MATCHED_EXISTING', conceptId: 'c', state: 'SURVIVOR' });
   assert.deepEqual(d.resolveConcept({ observation_id: 'o', unresolved_label: 'alias of rejected' }, idx), { outcome: 'MATCHED_EXISTING', conceptId: 'rj', state: 'REJECTED' });
@@ -259,7 +259,7 @@ test('actor (expert/institution) is not an acquisition source; origin items carr
   assert.equal(V.origin_item.hub_native_references_source_items_id_only, true);
   assert.equal(V.origin_item.hub_native_is_copied, false);
   assert.equal(V.origin_item.full_text_archive_default, false);
-  const item = { origin_item_id: 'oi1', acquisition_source_id: 's1', external_ref: 'x', url: 'https://example.org/p', content_hash: 'h', published_at: '2026-10-01', content_class: 'HEALTH_EDUCATIONAL', commercial_context: 'NONE', origin_cluster_id: 'k1', evidence_span: 'short span' };
+  const item = { origin_item_id: 'oi1', acquisition_source_id: 's1', identity_strategy: 'SOURCE_PLUS_EXTERNAL_ITEM_ID', identity_value: 'ext-1', external_ref: 'x', url: 'https://example.org/p', content_hash: 'h', published_at: '2026-10-01', content_class: 'HEALTH_EDUCATIONAL', commercial_context: 'NONE', origin_cluster_id: 'k1', evidence_span: 'short span' };
   assert.deepEqual(d.validateOriginItem(item), []);
   for (const f of ['full_text', 'article_body', 'transcript', 'comments', 'commenter_identity']) assert.ok(d.validateOriginItem({ ...item, [f]: 'x' }).includes(`forbidden_field:${f}`));
   assert.ok(d.validateOriginItem({ ...item, anything: 1 }).includes('field_not_allowed:anything'));
@@ -380,7 +380,9 @@ test('signal aggregate is DERIVED, targets a concept or relation, keeps lineage 
   assert.equal(sa.lineage.to_observations, 'RECOVERABLE');
   assert.equal(sa.lineage.cannot_erase_underlying_provenance, true);
   assert.equal(sa.lineage.raw_compaction_must_preserve_aggregate_lineage, true);
-  assert.equal(sa.lineage.membership, 'DETERMINISTIC_SELECTOR_PLUS_BOUNDED_REPRESENTATIVE_REFS');
+  assert.equal(sa.lineage.membership, 'DETERMINISTIC_SELECTOR_WHILE_RAW_OBSERVATIONS_EXIST');
+  assert.equal(sa.lineage.after_raw_compaction, 'HISTORICAL_EXPLAINABILITY_VIA_CANDIDATE_SNAPSHOT_AGGREGATE_STATE_NOT_RAW_RECONSTRUCTION');
+  assert.equal(sa.is_live_and_recomputable, true);
   assert.equal(sa.lineage.representative_refs_bound, 'POLICY_NOT_SET');
   for (const f of ['target_type', 'target_id', 'signal_family', 'geo_scope', 'window_kind', 'measurement_provenance', 'aggregation_version']) assert.ok(sa.lineage.selector_fields.includes(f), `selector includes ${f}`);
   for (const f of ['signal_subfamily', 'observation_count', 'independent_source_count', 'unique_actor_count', 'unique_platform_count', 'commercial_context_summary', 'persistence_inputs', 'momentum_inputs', 'value_status', 'generated_at']) assert.ok(sa.fields.includes(f), `aggregate carries ${f}`);
@@ -465,13 +467,13 @@ test('signal run is append-only provenance, not scheduler runtime state; schedul
 });
 
 test('final lineage: run -> observation -> aggregate -> evaluation -> snapshot, bounded and without raw-reference explosion', () => {
-  assert.deepEqual(V.lineage.chain, ['SOURCE_OR_EXTERNAL_REF', 'SIGNAL_RUN', 'OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_EVALUATION', 'CANDIDATE_SNAPSHOT']);
-  assert.deepEqual(V.lineage.relation_chain, ['RELATION', 'RELATION_OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_SNAPSHOT']);
-  assert.equal(V.lineage.snapshot_cites.aggregate_refs, 'PRIMARY_EVIDENCE_UNIT');
-  assert.equal(V.lineage.snapshot_cites.exhaustive_membership_recoverable_via, 'AGGREGATE_SELECTOR');
+  assert.deepEqual(V.lineage.chain, ['SOURCE_OR_EXTERNAL_REF', 'SIGNAL_RUN', 'OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_EVALUATION', 'CANDIDATE_SNAPSHOT_AGGREGATE_STATE', 'CANDIDATE_SNAPSHOT']);
+  assert.deepEqual(V.lineage.relation_chain, ['RELATION', 'RELATION_MEMBER', 'RELATION_OBSERVATION', 'SIGNAL_AGGREGATE', 'CANDIDATE_SNAPSHOT_AGGREGATE_STATE', 'CANDIDATE_SNAPSHOT']);
+  assert.equal(V.lineage.snapshot_cites.aggregate_state_refs, 'PRIMARY_EVIDENCE_UNIT');
+  assert.equal(V.lineage.snapshot_cites.exhaustive_membership_recoverable_via, 'AGGREGATE_SELECTOR_ONLY_WHILE_RAW_OBSERVATIONS_EXIST');
   assert.equal(V.lineage.snapshot_cites.raw_reference_explosion_allowed, false);
   assert.equal(V.lineage.snapshot_cites.raw_data_duplicated_into_snapshot, false);
-  assert.equal(V.candidate_snapshot.signal_refs.observation_refs_are_representative_not_exhaustive, true);
+  assert.equal(V.candidate_snapshot.signal_refs.provenance_refs_are_representative_not_exhaustive, true);
   const b = V.storage_bounds;
   assert.equal(b.signal_aggregates_prevent_recurring_whole_table_analytics, true);
   assert.equal(b.aggregate_generation, 'INCREMENTAL');
@@ -482,4 +484,183 @@ test('final lineage: run -> observation -> aggregate -> evaluation -> snapshot, 
   const nums = [];
   (function scan(o, p) { for (const [k, v] of Object.entries(o)) { if (typeof v === 'number') nums.push(p + k); else if (v && typeof v === 'object') scan(v, p + k + '.'); } })({ aggregate: V.signal_aggregate, run: V.signal_run, window: V.window, lineage: V.lineage }, '');
   assert.deepEqual(nums, [], 'no invented numeric policy in aggregate, run, window or lineage');
+});
+
+test('relation members are explicit rows; identity is relation type + order-normalized survivor members (A x B == B x A), no duplicates', () => {
+  const m = V.relation.member;
+  assert.equal(m.entity, 'RELATION_MEMBER');
+  assert.equal(m.normalized_rows, true);
+  assert.equal(m.opaque_json_blob_allowed, false);
+  assert.equal(m.membership_implies_causality, false);
+  assert.equal(m.count_equals_depth, true);
+  assert.equal(m.composite_depth_is_not_automatic, true);
+  assert.equal(m.identity.hash_algorithm, 'NOT_SET', 'no hash algorithm is invented yet');
+  assert.equal(m.identity.one_relation_per_identity_key, true);
+  for (const s of V.relation.allowed_semantics) assert.equal(V.relation.semantic_symmetry[s], 'SYMMETRIC');
+  // A x B == B x A for every symmetric semantic; different semantic or member set is a different identity
+  for (const s of V.relation.allowed_semantics) {
+    assert.equal(d.relationIdentityKey(s, ['a', 'b']), d.relationIdentityKey(s, ['b', 'a']));
+    assert.equal(d.relationIdentityKey(s, ['a', 'b', 'c']), d.relationIdentityKey(s, ['c', 'a', 'b']));
+  }
+  assert.notEqual(d.relationIdentityKey('CO_INTEREST', ['a', 'b']), d.relationIdentityKey('MENTIONED_WITH', ['a', 'b']));
+  assert.notEqual(d.relationIdentityKey('CO_INTEREST', ['a', 'b']), d.relationIdentityKey('CO_INTEREST', ['a', 'b', 'c']));
+  // a merged member resolves to its survivor, so the same relation is not recreated under the old identity
+  const survivor = (id) => (id === 'old' ? 'b' : id);
+  assert.equal(d.relationIdentityKey('CO_INTEREST', ['a', 'old'], survivor), d.relationIdentityKey('CO_INTEREST', ['b', 'a']));
+  // member validity
+  assert.deepEqual(d.validateRelationMembers({ depth: 2, member_ids: ['a', 'b'] }), []);
+  assert.deepEqual(d.validateRelationMembers({ depth: 3, member_ids: ['a', 'b', 'c'], automatic: true }), []);
+  assert.ok(d.validateRelationMembers({ depth: 3, member_ids: ['a', 'b'] }).includes('depth_must_equal_member_count'));
+  assert.ok(d.validateRelationMembers({ depth: 2, member_ids: ['a', 'a'] }).includes('members_must_be_distinct'));
+  assert.ok(d.validateRelationMembers({ depth: 2, member_ids: ['a', 'old'] }, (id) => (id === 'old' ? 'a' : id)).includes('members_must_be_distinct'), 'two ids that resolve to one survivor are one member');
+  assert.ok(d.validateRelationMembers({ depth: 4, member_ids: ['a', 'b', 'c', 'd'], automatic: true }).includes('automatic_relation_depth_must_be_2_or_3'));
+  assert.deepEqual(d.validateRelationMembers({ depth: 4, member_ids: ['a', 'b', 'c', 'd'] }), [], 'composite exists, it is just never automatic');
+  assert.ok(d.validateRelationMembers({ depth: 2, member_ids: ['a', 5] }).includes('members_must_be_concept_ids'));
+  // PROPOSED members may sit in a PROPOSED relation but cannot make an ACTIVE one
+  assert.deepEqual(d.validateRelationMembers({ depth: 2, member_ids: ['a', 'b'], state: 'PROPOSED', member_states: ['PROPOSED', 'ACTIVE'] }), []);
+  assert.ok(d.validateRelationMembers({ depth: 2, member_ids: ['a', 'b'], state: 'ACTIVE', member_states: ['PROPOSED', 'ACTIVE'] }).includes('relation_with_a_proposed_member_cannot_be_active'));
+  assert.equal(m.merge_and_rejection_history, 'APPEND_ONLY');
+});
+
+test('alias ambiguity: a normalized alias is not unique; ambiguous matches go to review, unknown ones become PROPOSED, nothing is auto-merged', () => {
+  const al = V.alias;
+  assert.equal(al.normalized_alias_globally_unique, false);
+  assert.deepEqual(al.same_surface_form_may_map_to, ['DIFFERENT_CONCEPTS', 'DIFFERENT_DOMAINS', 'DIFFERENT_LANGUAGES']);
+  for (const f of ['concept_id', 'alias_text', 'normalized_alias', 'language', 'alias_type', 'status']) assert.ok(al.fields.includes(f));
+  assert.equal(al.resolver.never_auto_merge_ambiguous, true);
+  assert.equal(al.resolver.ambiguous_match, 'REVIEW_REQUIRED');
+  assert.equal(al.resolver.review_required_keeps_observation_unresolved, true);
+  const key = d.normalizeLabel('Shared Surface');
+  const obs = (label) => ({ observation_id: 'o', unresolved_label: label });
+  const two = new Map([[key, [{ conceptId: 'c1', state: 'ACTIVE', domain: 'HEALTH', language: 'en' }, { conceptId: 'c2', state: 'ACTIVE', domain: 'SUPPLEMENT', language: 'tr' }]]]);
+  assert.deepEqual(d.resolveConcept(obs('shared surface'), two), { outcome: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_ALIAS', candidates: ['c1', 'c2'] });
+  assert.deepEqual(d.resolveConcept({ ...obs('shared surface'), domain_hint: 'HEALTH' }, two).outcome, 'REVIEW_REQUIRED', 'a domain hint does not silently resolve an ambiguity');
+  // the same concept listed twice (two aliases/languages) is NOT ambiguous
+  const same = new Map([[key, [{ conceptId: 'c1', state: 'ACTIVE', language: 'en' }, { conceptId: 'c1', state: 'ACTIVE', language: 'tr' }]]]);
+  assert.deepEqual(d.resolveConcept(obs('shared surface'), same), { outcome: 'MATCHED_EXISTING', conceptId: 'c1', state: 'ACTIVE' });
+  // a merged identity and its survivor collapse to one match (no false ambiguity, no recreation)
+  const merged = new Map([[key, [{ conceptId: 'old', state: 'MERGED', resolvedToConceptId: 'c1' }, { conceptId: 'c1', state: 'ACTIVE' }]]]);
+  assert.deepEqual(d.resolveConcept(obs('shared surface'), merged), { outcome: 'MATCHED_EXISTING', conceptId: 'c1', state: 'ACTIVE' });
+  // unknown still becomes a PROPOSED concept; an empty or whitespace label cannot match anything
+  const r = d.resolveConcept(obs('totally unseen thing'), two);
+  assert.equal(r.outcome, 'PROPOSED');
+  assert.equal(r.proposal.state, 'PROPOSED');
+  assert.equal(d.resolveConcept(obs('   '), two).outcome, 'PROPOSED');
+  assert.ok(!V.open_world.resolution_outcomes.includes('AUTO_MERGED') && V.open_world.forbidden_resolution_outcomes.includes('AUTO_MERGED'));
+  assert.equal(al.rejected_or_merged_aliases_still_match_so_the_identity_is_not_recreated, true);
+});
+
+test('candidate identity is one per target; evaluations append snapshots; a reject persists without a hard-coded never-reconsider rule', () => {
+  const ci = V.candidate.identity;
+  assert.deepEqual(ci.key, ['target_type', 'target_id']);
+  assert.deepEqual(ci.target_types, ['CONCEPT', 'RELATION']);
+  assert.equal(ci.one_candidate_per_target, true);
+  assert.equal(ci.new_candidate_per_evaluation_allowed, false);
+  assert.equal(ci.new_evaluation_creates, 'CANDIDATE_SNAPSHOT');
+  assert.equal(ci.reject_persists, true);
+  assert.equal(ci.never_reconsider_is_hard_coded, false);
+  assert.equal(ci.reconsideration_after_new_signal, 'POLICY_NOT_DECIDED');
+  assert.equal(ci.snooze_and_pause_resurfacing, 'POLICY_NOT_DECIDED');
+  assert.equal(ci.history_preserved_for_future_reconsideration, true);
+  assert.equal(d.candidateIdentityKey({ target_type: 'CONCEPT', target_id: 'c1' }), 'CONCEPT:c1');
+  assert.equal(d.candidateIdentityKey({ target_type: 'CANDIDATE', target_id: 'c1' }), null);
+  assert.equal(d.candidateIdentityKey({ target_type: 'CONCEPT' }), null);
+  assert.notEqual(d.candidateIdentityKey({ target_type: 'CONCEPT', target_id: 'x' }), d.candidateIdentityKey({ target_type: 'RELATION', target_id: 'x' }));
+  const target = { target_type: 'CONCEPT', target_id: 'c1' };
+  const none = new Map();
+  assert.deepEqual(d.planEvaluation(none, target), { candidate: { action: 'CREATE' }, snapshot: 'APPEND', surface: true });
+  // weekly runs reuse the same candidate and only append snapshots
+  const existing = new Map([['CONCEPT:c1', { candidateId: 'cand-1' }]]);
+  for (let i = 0; i < 5; i++) assert.deepEqual(d.planEvaluation(existing, target), { candidate: { action: 'REUSE', candidateId: 'cand-1' }, snapshot: 'APPEND', surface: true });
+  // a persisted reject is not resurfaced by another cycle, but history (a snapshot) is still appended
+  const rejected = new Map([['CONCEPT:c1', { candidateId: 'cand-1', lastDecision: 'REJECT' }]]);
+  assert.deepEqual(d.planEvaluation(rejected, target), { candidate: { action: 'REUSE', candidateId: 'cand-1' }, snapshot: 'APPEND', surface: false });
+  assert.equal(d.planEvaluation(new Map([['CONCEPT:c1', { candidateId: 'cand-1', lastDecision: 'SNOOZE' }]]), target).surface, 'POLICY_NOT_DECIDED');
+  assert.equal(d.planEvaluation(new Map([['CONCEPT:c1', { candidateId: 'cand-1', lastDecision: 'ACCEPT' }]]), target).surface, true);
+  assert.throws(() => d.planEvaluation(none, { target_type: 'CONCEPT' }), /invalid_candidate_target/);
+  // a relation target is its own candidate, independent of its member concepts
+  assert.equal(d.planEvaluation(rejected, { target_type: 'RELATION', target_id: 'r1' }).candidate.action, 'CREATE');
+});
+
+test('historical candidate snapshot state is immutable and self-describing; compaction can never invalidate it', () => {
+  const st = V.candidate_snapshot.aggregate_state;
+  assert.equal(st.immutable, true);
+  assert.equal(st.historical_snapshot_not_live_aggregate, true);
+  assert.equal(st.live_aggregate_ref_is_informational_only, true);
+  assert.equal(st.unchanged_by_later_raw_compaction, true);
+  assert.equal(st.duplicates_raw_payloads, false);
+  for (const f of ['aggregation_version', 'window_kind', 'geo_scope', 'signal_family', 'observation_count', 'independent_source_count', 'unique_actor_count', 'unique_platform_count', 'measurement_provenance', 'commercial_context_summary', 'generated_at']) assert.ok(st.fields.includes(f), `state keeps ${f}`);
+  const state = () => ({ aggregate_state_id: 'as1', snapshot_id: 's1', live_aggregate_id: 'a1', aggregation_version: 'v1', target_type: 'CONCEPT', target_id: 'c1', signal_family: 'TURKEY_PUBLIC_DEMAND', window_kind: 'FAST_30D', observation_count: 9, independent_source_count: 3, measurement_provenance: 'SEARCH', value: null, value_status: 'UNKNOWN', generated_at: 't' });
+  assert.deepEqual(d.validateAggregateState(state()), []);
+  for (const f of st.required_fields) assert.ok(d.validateAggregateState({ ...state(), [f]: undefined }).includes(`missing:${f}`));
+  assert.ok(d.validateAggregateState({ ...state(), value_status: 'UNKNOWN', value: 0 }).includes('value_must_be_null_unless_measured'));
+  assert.ok(d.validateAggregateState({ ...state(), signal_family: 'TURKEY_HEALTH_BURDEN', window_kind: 'FAST_7D' }).includes('window_kind_does_not_follow_signal_semantics'));
+  assert.ok(d.validateAggregateState({ ...state(), raw_payload: 'x' }).includes('field_not_allowed:raw_payload'));
+  // bounded, self-describing provenance: readable without the raw observation row, no raw payload
+  const pr = () => ({ provenance_ref_id: 'pr1', snapshot_id: 's1', ref_kind: 'OBSERVATION', observation_id: 'o1', acquisition_source_id: 'src1', run_id: 'r1', observed_at: 't', evidence_span: 'short' });
+  assert.deepEqual(d.validateProvenanceRef(pr()), []);
+  assert.ok(d.validateProvenanceRef({ ...pr(), acquisition_source_id: undefined }).includes('needs_exactly_one_source_identity'), 'a ref that names no source is not self-describing');
+  assert.ok(d.validateProvenanceRef({ ...pr(), source_item_id: 'si1' }).includes('needs_exactly_one_source_identity'));
+  assert.deepEqual(d.validateProvenanceRef({ ...pr(), acquisition_source_id: undefined, source_item_id: 'si1' }), []);
+  assert.ok(d.validateProvenanceRef({ ...pr(), full_text: 'x' }).includes('raw_payload_forbidden:full_text'));
+  assert.ok(d.validateProvenanceRef({ ...pr(), observed_at: undefined }).includes('missing:observed_at'));
+  assert.equal(V.candidate_snapshot.provenance_ref.bound, 'POLICY_NOT_SET');
+  // compaction: only raw rows no snapshot needs and superseded live aggregates; never historical provenance or reviews
+  assert.deepEqual(d.validateCompactionPlan({ targets: ['RAW_OBSERVATIONS_NOT_REQUIRED_BY_ANY_SNAPSHOT', 'SUPERSEDED_LIVE_AGGREGATES'] }), []);
+  for (const t of ['CANDIDATE_SNAPSHOT', 'CANDIDATE_SNAPSHOT_AGGREGATE_STATE', 'CANDIDATE_SNAPSHOT_PROVENANCE_REF', 'CANDIDATE_SNAPSHOT_SIGNAL_REF', 'HUMAN_REVIEW']) assert.ok(d.validateCompactionPlan({ targets: [t] }).includes(`compaction_may_never_invalidate:${t}`));
+  assert.ok(d.validateCompactionPlan({ targets: ['ALL_OBSERVATIONS'] }).includes('compaction_target_not_allowed:ALL_OBSERVATIONS'), 'unreferenced is the only raw class compaction may touch');
+  assert.equal(V.compaction.durations_and_thresholds, 'POLICY_NOT_SET');
+  assert.equal(V.storage_bounds.compaction_must_never_invalidate_historical_snapshot_provenance, true);
+  // honesty: no false reconstruction guarantee
+  assert.equal(V.candidate_snapshot.explainability_guarantee.explains_why_now_after_raw_compaction, true);
+  assert.equal(V.candidate_snapshot.explainability_guarantee.exact_raw_membership_reconstruction_after_compaction, 'NOT_GUARANTEED');
+  assert.equal(V.signal_aggregate.lineage.after_raw_compaction, 'HISTORICAL_EXPLAINABILITY_VIA_CANDIDATE_SNAPSHOT_AGGREGATE_STATE_NOT_RAW_RECONSTRUCTION');
+  assert.equal(V.signal_aggregate.is_live_and_recomputable, true);
+});
+
+test('external source-item identity is strategy-based (source + strategy + value), not URL-only; Hub items reuse source_items.id', () => {
+  const id = V.origin_item.identity;
+  assert.equal(id.url_only_rule, false);
+  assert.deepEqual(id.key, ['acquisition_source_id', 'identity_strategy', 'identity_value']);
+  assert.deepEqual(id.url_required_only_for, ['CANONICAL_URL']);
+  assert.equal(id.hub_native, 'REUSE_SOURCE_ITEMS_ID');
+  assert.equal(id.full_payload_archive, false);
+  assert.ok(id.strategies.length > 1 && id.strategies.includes('DATASET_RELEASE_KEY') && id.strategies.includes('MANUAL_SNAPSHOT_KEY') && id.strategies.includes('NORMALIZED_PROVIDER_KEY'));
+  const base = { origin_item_id: 'oi', acquisition_source_id: 's1', content_hash: 'h', published_at: '2026-10-01' };
+  // a dataset release, an API record and a manual snapshot have no URL and are still valid origin items
+  assert.deepEqual(d.validateOriginItem({ ...base, identity_strategy: 'DATASET_RELEASE_KEY', identity_value: 'release-2025' }), []);
+  assert.deepEqual(d.validateOriginItem({ ...base, identity_strategy: 'NORMALIZED_PROVIDER_KEY', identity_value: 'provider:123' }), []);
+  assert.deepEqual(d.validateOriginItem({ ...base, identity_strategy: 'MANUAL_SNAPSHOT_KEY', identity_value: 'snap-1' }), []);
+  assert.deepEqual(d.validateOriginItem({ ...base, identity_strategy: 'SOURCE_PLUS_EXTERNAL_ITEM_ID', identity_value: 'x-9' }), []);
+  // only the URL strategy needs a URL
+  assert.ok(d.validateOriginItem({ ...base, identity_strategy: 'CANONICAL_URL', identity_value: 'https://example.org/a' }).includes('canonical_url_strategy_requires_url'));
+  assert.deepEqual(d.validateOriginItem({ ...base, identity_strategy: 'CANONICAL_URL', identity_value: 'https://example.org/a', url: 'https://example.org/a' }), []);
+  assert.ok(d.validateOriginItem({ ...base, identity_strategy: 'URL_ONLY', identity_value: 'x' }).includes('identity_strategy_not_in_vocabulary'));
+  assert.ok(d.validateOriginItem({ ...base, identity_value: 'x' }).includes('identity_strategy_not_in_vocabulary'));
+  assert.ok(d.validateOriginItem({ ...base, identity_strategy: 'MANUAL_SNAPSHOT_KEY' }).includes('missing:identity_value'));
+  assert.ok(d.validateOriginItem({ ...base, acquisition_source_id: undefined, identity_strategy: 'MANUAL_SNAPSHOT_KEY', identity_value: 'v' }).includes('missing:acquisition_source_id'));
+});
+
+test('review side effects stay inside the reviewed object: candidate reject != concept reject, relation candidate reject != relation reject, actor accept != source activation', () => {
+  const inv = V.review.side_effect_invariants;
+  assert.equal(inv.candidate_reject_is_not_concept_reject, true);
+  assert.equal(inv.relation_candidate_reject_is_not_relation_identity_reject, true);
+  assert.equal(inv.actor_accept_is_not_source_activation, true);
+  assert.equal(inv.concept_accept_only_through_the_human_governed_proposal_lifecycle, true);
+  for (const m of ['weights', 'cadence', 'routing', 'source_activation', 'scheduler_configuration']) assert.ok(inv.never_autonomously_mutates.includes(m));
+  assert.deepEqual(V.review.effects_by_target_type, { CONCEPT_PROPOSAL: 'CONCEPT_IDENTITY_STATE_ONLY', EXPERT_PROPOSAL: 'ACTOR_IDENTITY_STATE_ONLY', RELATION_PROPOSAL: 'RELATION_IDENTITY_STATE_ONLY', DOSSIER_CANDIDATE: 'CANDIDATE_STATE_ONLY' });
+  const rv = (over = {}) => ({ target_type: 'DOSSIER_CANDIDATE', target_id: 'cand1', decision: 'REJECT', reason_code: 'NOISE', reviewer: 'hub-user', reviewed_at: 't', ...over });
+  assert.deepEqual(d.validateReview(rv({ effect: 'CANDIDATE_STATE_ONLY' })), []);
+  for (const wrong of ['CONCEPT_IDENTITY_STATE_ONLY', 'RELATION_IDENTITY_STATE_ONLY', 'ACTOR_IDENTITY_STATE_ONLY']) assert.ok(d.validateReview(rv({ effect: wrong })).includes('effect_must_be_limited_to_the_reviewed_object_type'), `a candidate review cannot carry ${wrong}`);
+  assert.ok(d.validateReview(rv({ target_type: 'RELATION_PROPOSAL', effect: 'CANDIDATE_STATE_ONLY' })).includes('effect_must_be_limited_to_the_reviewed_object_type'));
+  assert.deepEqual(d.validateReview(rv({ target_type: 'EXPERT_PROPOSAL', decision: 'ACCEPT', reason_code: undefined, effect: 'ACTOR_IDENTITY_STATE_ONLY' })), []);
+  for (const k of ['weights', 'cadence', 'routing', 'source_activation', 'scheduler_configuration']) assert.ok(d.validateReview(rv({ [k]: ['x'] })).includes(`review_may_not_mutate:${k}`));
+  assert.ok(V.review.review_may_never_mutate.includes('scheduler_configuration'));
+});
+
+test('candidate identity is the same whether the target is given as type+id or as concept_id / relation_id', () => {
+  assert.equal(d.candidateIdentityKey({ concept_id: 'c1' }), d.candidateIdentityKey({ target_type: 'CONCEPT', target_id: 'c1' }));
+  assert.equal(d.candidateIdentityKey({ relation_id: 'r1' }), d.candidateIdentityKey({ target_type: 'RELATION', target_id: 'r1' }));
+  assert.equal(d.candidateIdentityKey({ concept_id: 'c1', relation_id: 'r1' }), null);
+  assert.equal(d.candidateIdentityKey({}), null);
 });

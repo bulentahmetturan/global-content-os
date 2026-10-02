@@ -80,26 +80,36 @@ export function validateObservation(o: unknown): string[] {
 
 /** Runtime identity data (loaded from D1 later). The code never enumerates real concepts. */
 export type IdentityState = 'PROPOSED' | 'ACTIVE' | 'PAUSED' | 'REJECTED' | 'MERGED';
-export type ConceptIndex = ReadonlyMap<string, { conceptId: string; state: string; resolvedToConceptId?: string | null }>;
+export interface AliasEntry { conceptId: string; state: string; resolvedToConceptId?: string | null; domain?: string; language?: string }
+/** A normalized alias is NOT unique: one surface form may map to several concepts, domains or languages. */
+export type ConceptIndex = ReadonlyMap<string, readonly AliasEntry[]>;
 
 export const normalizeLabel = (s: string): string => s.normalize('NFKC').toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
 
 export type ConceptResolution =
   | { outcome: 'MATCHED_EXISTING'; conceptId: string; state?: string }
+  | { outcome: 'REVIEW_REQUIRED'; reason: 'AMBIGUOUS_ALIAS'; candidates: string[] }
   | { outcome: 'PROPOSED'; proposal: { family: string; label: string; domain: string | null; state: 'PROPOSED'; origin_observation_id: string } };
 
 /**
- * Open-world resolution: a known label matches whatever its state (PROPOSED attaches to the same provisional identity;
- * REJECTED stays rejected; MERGED follows resolved_to to the survivor), so a rejected/merged topic does not resurface as
- * a new proposal under an alias. Everything unknown becomes a PROPOSED identity. Never throws away input.
+ * Open-world resolution. Exact unambiguous match -> the existing concept (any state: PROPOSED attaches to the same
+ * provisional identity, REJECTED stays rejected, MERGED follows resolved_to to the survivor, so a rejected/merged topic
+ * is not recreated as a fresh proposal). More than one distinct survivor concept -> REVIEW_REQUIRED (never auto-merged,
+ * the observation stays unresolved). No match -> a PROPOSED identity. Never throws away input.
  */
 export function resolveConcept(o: Pick<Observation, 'observation_id' | 'concept_id' | 'unresolved_label' | 'domain_hint'>, index: ConceptIndex, familyHint?: string): ConceptResolution {
   if (o.concept_id) return { outcome: 'MATCHED_EXISTING', conceptId: o.concept_id };
   const label = normalizeLabel(o.unresolved_label ?? '');
-  const hit = label ? index.get(label) : undefined;
-  if (hit) {
-    if (hit.state === 'MERGED' && hit.resolvedToConceptId) return { outcome: 'MATCHED_EXISTING', conceptId: hit.resolvedToConceptId, state: 'SURVIVOR' };
-    return { outcome: 'MATCHED_EXISTING', conceptId: hit.conceptId, state: hit.state };
+  const hits = label ? index.get(label) ?? [] : [];
+  const survivors = new Map<string, string>();
+  for (const h of hits) {
+    if (h.state === 'MERGED' && h.resolvedToConceptId) survivors.set(h.resolvedToConceptId, 'SURVIVOR');
+    else survivors.set(h.conceptId, h.state);
+  }
+  if (survivors.size > 1) return { outcome: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_ALIAS', candidates: [...survivors.keys()].sort() };
+  if (survivors.size === 1) {
+    const [conceptId, state] = [...survivors.entries()][0];
+    return { outcome: 'MATCHED_EXISTING', conceptId, state };
   }
   const domain = typeof o.domain_hint === 'string' && o.domain_hint in vocab.domains ? o.domain_hint : null;
   const family = familyHint && vocab.open_world.proposal_families.includes(familyHint) ? familyHint : domain ? (vocab.domains as Record<string, { proposal_family: string }>)[domain].proposal_family : 'NEW_HEALTH_TOPIC';
@@ -232,7 +242,7 @@ export function validateCandidateSnapshot(s: unknown): string[] {
     refs.forEach((ref, i) => {
       const r = isObj(ref) ? ref : {};
       const present = vocab.candidate_snapshot.signal_refs.exactly_one_of.filter((k) => typeof r[k] === 'string' && r[k] !== '');
-      if (present.length !== 1) e.push(`signal_ref_${i}_needs_exactly_one_of_aggregate_id_observation_id_relation_observation_id`);
+      if (present.length !== 1) e.push(`signal_ref_${i}_needs_exactly_one_of_aggregate_state_id_provenance_ref_id`);
     });
   }
   return e;
@@ -296,6 +306,10 @@ export function validateOriginItem(o: unknown): string[] {
     if (vocab.origin_item.forbidden_fields.includes(k)) e.push(`forbidden_field:${k}`);
     else if (!vocab.origin_item.external_allowed_fields.includes(k)) e.push(`field_not_allowed:${k}`);
   }
+  if (!inList(vocab.origin_item.identity.strategies, o.identity_strategy)) e.push('identity_strategy_not_in_vocabulary');
+  if (typeof o.identity_value !== 'string' || o.identity_value === '') e.push('missing:identity_value');
+  if (typeof o.acquisition_source_id !== 'string' || o.acquisition_source_id === '') e.push('missing:acquisition_source_id');
+  if (o.identity_strategy === 'CANONICAL_URL' && (typeof o.url !== 'string' || o.url === '')) e.push('canonical_url_strategy_requires_url');
   const classes = [...vocab.source.content_classes.discovery_eligible, ...vocab.source.content_classes.non_discovery];
   if (o.content_class !== undefined && !inList(classes, o.content_class)) e.push('content_class_not_in_vocabulary');
   if (o.commercial_context !== undefined && !inList(vocab.source.commercial_context, o.commercial_context)) e.push('commercial_context_not_in_vocabulary');
@@ -311,7 +325,8 @@ export function validateReview(r: unknown): string[] {
   if (r.target_type !== undefined && !inList(vocab.review.target_types, r.target_type)) e.push('target_type_not_in_vocabulary');
   if (r.decision !== undefined && !inList(vocab.review.decisions, r.decision)) e.push('decision_not_in_vocabulary');
   if (r.decision === 'REJECT' && !inList(vocab.review.reject_reasons, r.reason_code)) e.push('reject_requires_reason_code');
-  for (const k of ['effects', 'mutations', 'weights', 'source_activation', 'cadence', 'registry', 'routing', 'cascade']) {
+  if (r.effect !== undefined && (typeof r.target_type !== 'string' || (vocab.review.effects_by_target_type as Record<string, string>)[r.target_type] !== r.effect)) e.push('effect_must_be_limited_to_the_reviewed_object_type');
+  for (const k of ['effects', 'mutations', 'weights', 'source_activation', 'cadence', 'registry', 'routing', 'cascade', 'scheduler_configuration']) {
     if (k in r && !(Array.isArray(r[k]) && (r[k] as unknown[]).length === 0)) e.push(`review_may_not_mutate:${k}`);
   }
   return e;
@@ -325,6 +340,101 @@ export function validateHandoff(h: unknown): string[] {
     else if (!vocab.handoff.allowed_fields.includes(k)) e.push(`field_not_allowed:${k}`);
   }
   if (h.auto_publish !== undefined) e.push('auto_publish_not_a_handoff_field');
+  return e;
+}
+
+/**
+ * Deterministic relation identity: relation type + order-normalized member identities (survivors of any merge).
+ * Symmetric semantics are order independent (A x B == B x A); a non-symmetric semantic would keep order. No hash
+ * algorithm is chosen here; the key is the canonical string. Membership never implies causality.
+ */
+export function relationIdentityKey(semantic: string, memberIds: readonly string[], survivorOf?: (id: string) => string): string {
+  const members = memberIds.map((m) => (survivorOf ? survivorOf(m) : m));
+  const symmetry = (vocab.relation.semantic_symmetry as Record<string, string>)[semantic];
+  const ordered = symmetry === 'SYMMETRIC' ? [...members].sort() : members;
+  return `${semantic}:${ordered.join('|')}`;
+}
+
+/** Explicit member rows: count equals depth, members distinct, only automatic depths 2-3 are generated automatically. */
+export function validateRelationMembers(r: unknown, survivorOf?: (id: string) => string): string[] {
+  const e: string[] = [];
+  if (!isObj(r)) return ['relation_not_object'];
+  const members = Array.isArray(r.member_ids) ? (r.member_ids as unknown[]).filter((m): m is string => typeof m === 'string' && m !== '') : [];
+  if (!Array.isArray(r.member_ids) || members.length !== (r.member_ids as unknown[]).length) e.push('members_must_be_concept_ids');
+  if (typeof r.depth !== 'number' || members.length !== r.depth) e.push('depth_must_equal_member_count');
+  const resolved = members.map((m) => (survivorOf ? survivorOf(m) : m));
+  if (new Set(resolved).size !== resolved.length) e.push('members_must_be_distinct');
+  if (r.automatic === true && !(vocab.relation.member.automatic_depths as number[]).includes(members.length)) e.push('automatic_relation_depth_must_be_2_or_3');
+  if (r.state === 'ACTIVE' && Array.isArray(r.member_states) && (r.member_states as unknown[]).includes('PROPOSED')) e.push('relation_with_a_proposed_member_cannot_be_active');
+  return e;
+}
+
+/** Stable candidate identity: exactly one target (type + id). A new evaluation adds a snapshot, never a new candidate. */
+export function candidateIdentityKey(c: { target_type?: unknown; target_id?: unknown; concept_id?: unknown; relation_id?: unknown }): string | null {
+  if (inList(vocab.candidate.identity.target_types, c.target_type) && typeof c.target_id === 'string' && c.target_id !== '') return `${c.target_type}:${c.target_id}`;
+  const hasC = typeof c.concept_id === 'string' && c.concept_id !== '';
+  const hasR = typeof c.relation_id === 'string' && c.relation_id !== '';
+  if (hasC !== hasR) return hasC ? `CONCEPT:${c.concept_id}` : `RELATION:${c.relation_id}`;
+  return null;
+}
+
+export interface ExistingCandidate { candidateId: string; lastDecision?: string | null }
+export type EvaluationPlan = { candidate: { action: 'REUSE'; candidateId: string } | { action: 'CREATE' }; snapshot: 'APPEND'; surface: boolean | 'POLICY_NOT_DECIDED' };
+
+/**
+ * An evaluation of a target appends a snapshot to its one candidate (creating the candidate only the first time).
+ * A persisted REJECT is not resurfaced just because a cycle ran; reconsideration after new signal (and snooze/pause
+ * resurfacing) is a future human-governed policy and is deliberately not decided here. History is always kept.
+ */
+export function planEvaluation(existing: ReadonlyMap<string, ExistingCandidate>, target: { target_type: string; target_id: string }): EvaluationPlan {
+  const key = candidateIdentityKey(target);
+  if (!key) throw new Error('invalid_candidate_target');
+  const found = existing.get(key);
+  if (!found) return { candidate: { action: 'CREATE' }, snapshot: 'APPEND', surface: true };
+  const d = found.lastDecision;
+  const surface = d === 'REJECT' ? false : d === 'SNOOZE' || d === 'PAUSE' ? 'POLICY_NOT_DECIDED' : true;
+  return { candidate: { action: 'REUSE', candidateId: found.candidateId }, snapshot: 'APPEND', surface };
+}
+
+/** Immutable aggregate state the evaluation actually used. Carries the metrics, not the raw payloads, and survives raw compaction. */
+export function validateAggregateState(s: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(s)) return ['aggregate_state_not_object'];
+  const spec = vocab.candidate_snapshot.aggregate_state;
+  for (const f of spec.required_fields) if (s[f] === undefined || s[f] === null || s[f] === '') e.push(`missing:${f}`);
+  for (const k of Object.keys(s)) if (!spec.fields.includes(k)) e.push(`field_not_allowed:${k}`);
+  if (s.target_type !== undefined && !inList(vocab.candidate.identity.target_types, s.target_type)) e.push('target_type_must_be_concept_or_relation');
+  if (typeof s.signal_family === 'string' && typeof s.window_kind === 'string' && !windowKindAllowedForFamily(s.signal_family, s.window_kind)) e.push('window_kind_does_not_follow_signal_semantics');
+  if (s.measurement_provenance !== undefined && !inList(vocab.signal.measurement_provenance, s.measurement_provenance)) e.push('measurement_provenance_not_in_vocabulary');
+  if (s.value_status === 'MEASURED' ? !(typeof s.value === 'number' && Number.isFinite(s.value)) : s.value !== undefined && s.value !== null) e.push('value_must_be_null_unless_measured');
+  return e;
+}
+
+/** Bounded, self-describing supporting provenance: readable without the raw observation row. */
+export function validateProvenanceRef(p: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(p)) return ['provenance_ref_not_object'];
+  const spec = vocab.candidate_snapshot.provenance_ref;
+  for (const f of spec.required_fields) if (p[f] === undefined || p[f] === null || p[f] === '') e.push(`missing:${f}`);
+  for (const k of Object.keys(p)) {
+    if (k === 'payload' || k === 'full_text' || k === 'raw') e.push(`raw_payload_forbidden:${k}`);
+    else if (!spec.fields.includes(k)) e.push(`field_not_allowed:${k}`);
+  }
+  if (p.ref_kind !== undefined && !inList(spec.ref_kinds, p.ref_kind)) e.push('ref_kind_not_in_vocabulary');
+  const ids = spec.exactly_one_of_source_identity.filter((k) => typeof p[k] === 'string' && p[k] !== '');
+  if (ids.length !== 1) e.push('needs_exactly_one_source_identity');
+  return e;
+}
+
+/** A compaction plan may touch raw observations and superseded live aggregates, never historical snapshot provenance or reviews. */
+export function validateCompactionPlan(plan: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(plan) || !Array.isArray(plan.targets)) return ['compaction_plan_needs_targets'];
+  for (const t of plan.targets) {
+    if (typeof t !== 'string') { e.push('target_must_be_string'); continue; }
+    if (vocab.compaction.may_never_invalidate.includes(t)) e.push(`compaction_may_never_invalidate:${t}`);
+    else if (!vocab.compaction.may_compact.includes(t)) e.push(`compaction_target_not_allowed:${t}`);
+  }
   return e;
 }
 

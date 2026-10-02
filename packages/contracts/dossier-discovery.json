@@ -22,8 +22,8 @@
     "classes_are_bounded": true,
     "concept_membership_is_open": true,
     "unknown_policy": "PROPOSAL",
-    "resolution_outcomes": ["MATCHED_EXISTING", "PROPOSED"],
-    "forbidden_resolution_outcomes": ["DROPPED", "AUTO_CANONICAL", "REJECTED_AS_UNKNOWN"],
+    "resolution_outcomes": ["MATCHED_EXISTING", "REVIEW_REQUIRED", "PROPOSED"],
+    "forbidden_resolution_outcomes": ["DROPPED", "AUTO_CANONICAL", "REJECTED_AS_UNKNOWN", "AUTO_MERGED"],
     "concept_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
     "proposal_families": ["NEW_HEALTH_TOPIC", "NEW_PROTOCOL", "NEW_SUPPLEMENT", "NEW_SUPPLEMENT_FORM", "NEW_LONGEVITY_TECH", "NEW_PUBLIC_HEALTH_TOPIC", "NEW_EXPERT", "NEW_RELATION"]
   },
@@ -144,7 +144,38 @@
     "identity_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
     "identity_is_not_observation": true,
     "observation_records_the_actual_joint_signal": true,
-    "observation_required_fields": ["relation_observation_id", "relation_id", "observation_id", "joint_signal_kind"]
+    "observation_required_fields": ["relation_observation_id", "relation_id", "observation_id", "joint_signal_kind"],
+    "semantic_symmetry": {
+      "CO_INTEREST": "SYMMETRIC",
+      "MENTIONED_WITH": "SYMMETRIC",
+      "PUBLIC_SEARCH_ASSOCIATION": "SYMMETRIC",
+      "CREATOR_ASSOCIATION": "SYMMETRIC",
+      "FRONTIER_ASSOCIATION": "SYMMETRIC",
+      "ENVIRONMENTAL_ASSOCIATION": "SYMMETRIC"
+    },
+    "member": {
+      "entity": "RELATION_MEMBER",
+      "normalized_rows": true,
+      "opaque_json_blob_allowed": false,
+      "fields": ["relation_id", "concept_id", "position"],
+      "position_used_only_for_non_symmetric_semantics": true,
+      "count_equals_depth": true,
+      "members_distinct": true,
+      "automatic_depths": [2, 3],
+      "composite_depth_is_not_automatic": true,
+      "proposed_concept_may_be_member_of_a_proposed_relation": true,
+      "relation_with_a_proposed_member_cannot_be_active": true,
+      "merged_member_resolves_to_survivor_without_losing_relation_history": true,
+      "membership_implies_causality": false,
+      "identity": {
+        "strategy": "RELATION_TYPE_PLUS_ORDER_NORMALIZED_SURVIVOR_MEMBER_IDENTITIES",
+        "symmetric_semantics_are_order_independent": true,
+        "hash_algorithm": "NOT_SET",
+        "one_relation_per_identity_key": true,
+        "duplicate_prevention": "IDENTITY_KEY"
+      },
+      "merge_and_rejection_history": "APPEND_ONLY"
+    }
   },
   "quality": {
     "is_signal_hygiene_not_medical_evidence_grading": true,
@@ -185,7 +216,21 @@
     "proposed_target_must_be_marked_provisional": true,
     "rejection_does_not_reject_concept": true,
     "rejection_does_not_reject_relation_members": true,
-    "class_lives_on_snapshot": true
+    "class_lives_on_snapshot": true,
+    "identity": {
+      "key": ["target_type", "target_id"],
+      "target_types": ["CONCEPT", "RELATION"],
+      "one_candidate_per_target": true,
+      "new_evaluation_creates": "CANDIDATE_SNAPSHOT",
+      "new_candidate_per_evaluation_allowed": false,
+      "reviews_attach_to": "CANDIDATE",
+      "reject_persists": true,
+      "evaluation_after_reject_does_not_resurface": true,
+      "snooze_and_pause_resurfacing": "POLICY_NOT_DECIDED",
+      "reconsideration_after_new_signal": "POLICY_NOT_DECIDED",
+      "never_reconsider_is_hard_coded": false,
+      "history_preserved_for_future_reconsideration": true
+    }
   },
   "review": {
     "decisions": ["ACCEPT", "REJECT", "SNOOZE", "PAUSE"],
@@ -193,7 +238,7 @@
     "rejections_persist": ["topic", "expert", "relation"],
     "decider": "HUMAN",
     "review_may_mutate": [],
-    "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing"],
+    "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing", "scheduler_configuration"],
     "target_types": ["CONCEPT_PROPOSAL", "EXPERT_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE"],
     "required_fields": ["target_type", "target_id", "decision", "reviewer", "reviewed_at"],
     "optional_fields": ["reason_code", "reason_note"],
@@ -202,7 +247,20 @@
     "effects_are_limited_to_the_reviewed_object": true,
     "cascades_forbidden": true,
     "accept_may_imply_a_later_lifecycle_action_which_stays_an_explicit_human_operator_step": true,
-    "expert_accept_effect": "ACTOR_IDENTITY_STATE_ONLY"
+    "expert_accept_effect": "ACTOR_IDENTITY_STATE_ONLY",
+    "effects_by_target_type": {
+      "CONCEPT_PROPOSAL": "CONCEPT_IDENTITY_STATE_ONLY",
+      "EXPERT_PROPOSAL": "ACTOR_IDENTITY_STATE_ONLY",
+      "RELATION_PROPOSAL": "RELATION_IDENTITY_STATE_ONLY",
+      "DOSSIER_CANDIDATE": "CANDIDATE_STATE_ONLY"
+    },
+    "side_effect_invariants": {
+      "candidate_reject_is_not_concept_reject": true,
+      "relation_candidate_reject_is_not_relation_identity_reject": true,
+      "actor_accept_is_not_source_activation": true,
+      "concept_accept_only_through_the_human_governed_proposal_lifecycle": true,
+      "never_autonomously_mutates": ["weights", "cadence", "routing", "source_activation", "scheduler_configuration"]
+    }
   },
   "handoff": {
     "starts_after": "ACCEPT",
@@ -239,10 +297,37 @@
     "signal_refs": {
       "separately_addressable": true,
       "entity": "CANDIDATE_SNAPSHOT_SIGNAL_REF",
-      "exactly_one_of": ["aggregate_id", "observation_id", "relation_observation_id"],
+      "exactly_one_of": ["aggregate_state_id", "provenance_ref_id"],
       "required_non_empty": true,
-      "observation_refs_are_representative_not_exhaustive": true,
-      "reconstructs": ["candidate", "snapshot", "signal_aggregates", "supporting_observations", "original_source_provenance"]
+      "provenance_refs_are_representative_not_exhaustive": true,
+      "reconstructs": ["candidate", "snapshot", "historical_aggregate_state", "bounded_supporting_provenance", "original_source_provenance"]
+    },
+    "aggregate_state": {
+      "entity": "CANDIDATE_SNAPSHOT_AGGREGATE_STATE",
+      "immutable": true,
+      "historical_snapshot_not_live_aggregate": true,
+      "fields": ["aggregate_state_id", "snapshot_id", "live_aggregate_id", "aggregation_version", "target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "observation_count", "independent_source_count", "unique_actor_count", "unique_platform_count", "commercial_context_summary", "measurement_provenance", "value", "value_unit", "value_status", "generated_at"],
+      "required_fields": ["aggregate_state_id", "snapshot_id", "aggregation_version", "target_type", "target_id", "signal_family", "window_kind", "observation_count", "measurement_provenance", "value_status", "generated_at"],
+      "live_aggregate_ref_is_informational_only": true,
+      "unchanged_by_later_raw_compaction": true,
+      "duplicates_raw_payloads": false
+    },
+    "provenance_ref": {
+      "entity": "CANDIDATE_SNAPSHOT_PROVENANCE_REF",
+      "bounded": true,
+      "bound": "POLICY_NOT_SET",
+      "self_describing": true,
+      "ref_kinds": ["OBSERVATION", "RELATION_OBSERVATION"],
+      "fields": ["provenance_ref_id", "snapshot_id", "aggregate_state_id", "ref_kind", "observation_id", "relation_observation_id", "acquisition_source_id", "source_item_id", "origin_item_id", "run_id", "observed_at", "evidence_span"],
+      "required_fields": ["provenance_ref_id", "snapshot_id", "ref_kind", "observed_at"],
+      "exactly_one_of_source_identity": ["acquisition_source_id", "source_item_id", "origin_item_id"],
+      "readable_without_the_raw_observation_row": true,
+      "raw_payload_stored": false
+    },
+    "explainability_guarantee": {
+      "explains_why_now_after_raw_compaction": true,
+      "exact_raw_membership_reconstruction_after_compaction": "NOT_GUARANTEED",
+      "honest_historical_explainability_over_false_reconstruction": true
     }
   },
   "identity": {
@@ -267,9 +352,17 @@
   "origin_item": {
     "hub_native_references_source_items_id_only": true,
     "hub_native_is_copied": false,
-    "external_allowed_fields": ["origin_item_id", "acquisition_source_id", "external_ref", "url", "content_hash", "published_at", "content_class", "commercial_context", "origin_cluster_id", "evidence_span"],
+    "external_allowed_fields": ["origin_item_id", "acquisition_source_id", "external_ref", "url", "content_hash", "published_at", "content_class", "commercial_context", "origin_cluster_id", "evidence_span", "identity_strategy", "identity_value"],
     "forbidden_fields": ["full_text", "article_body", "transcript", "comments", "commenter_identity"],
-    "full_text_archive_default": false
+    "full_text_archive_default": false,
+    "identity": {
+      "strategies": ["SOURCE_PLUS_EXTERNAL_ITEM_ID", "CANONICAL_URL", "NORMALIZED_PROVIDER_KEY", "DATASET_RELEASE_KEY", "MANUAL_SNAPSHOT_KEY"],
+      "key": ["acquisition_source_id", "identity_strategy", "identity_value"],
+      "url_only_rule": false,
+      "url_required_only_for": ["CANONICAL_URL"],
+      "hub_native": "REUSE_SOURCE_ITEMS_ID",
+      "full_payload_archive": false
+    }
   },
   "origin_cluster": {
     "purpose": ["CLUSTER_LIKELY_DUPLICATES_OR_DERIVATIVES", "EXPOSE_DEPENDENCE", "IMPROVE_INDEPENDENCE_CALCULATION"],
@@ -293,7 +386,8 @@
     "aggregate_generation": "INCREMENTAL",
     "normal_candidate_generation_requires_raw_whole_table_scan": false,
     "structural_data_not_discarded_for_fast_window_age": true,
-    "raw_observation_retention": "POLICY_NOT_SET"
+    "raw_observation_retention": "POLICY_NOT_SET",
+    "compaction_must_never_invalidate_historical_snapshot_provenance": true
   },
   "sql_design_rules": {
     "check_only_for_true_architectural_invariants": true,
@@ -362,12 +456,14 @@
     "prevents_recurring_whole_table_analytics": true,
     "lineage": {
       "to_observations": "RECOVERABLE",
-      "membership": "DETERMINISTIC_SELECTOR_PLUS_BOUNDED_REPRESENTATIVE_REFS",
+      "membership": "DETERMINISTIC_SELECTOR_WHILE_RAW_OBSERVATIONS_EXIST",
       "selector_fields": ["target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "measurement_provenance", "aggregation_version"],
       "representative_refs_bound": "POLICY_NOT_SET",
       "cannot_erase_underlying_provenance": true,
-      "raw_compaction_must_preserve_aggregate_lineage": true
-    }
+      "raw_compaction_must_preserve_aggregate_lineage": true,
+      "after_raw_compaction": "HISTORICAL_EXPLAINABILITY_VIA_CANDIDATE_SNAPSHOT_AGGREGATE_STATE_NOT_RAW_RECONSTRUCTION"
+    },
+    "is_live_and_recomputable": true
   },
   "signal_run": {
     "append_only": true,
@@ -381,15 +477,38 @@
     "observations_reference_run_id": true
   },
   "lineage": {
-    "chain": ["SOURCE_OR_EXTERNAL_REF", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_EVALUATION", "CANDIDATE_SNAPSHOT"],
-    "relation_chain": ["RELATION", "RELATION_OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_SNAPSHOT"],
+    "chain": ["SOURCE_OR_EXTERNAL_REF", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_EVALUATION", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT"],
+    "relation_chain": ["RELATION", "RELATION_MEMBER", "RELATION_OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT"],
     "snapshot_cites": {
-      "aggregate_refs": "PRIMARY_EVIDENCE_UNIT",
-      "observation_refs": "REPRESENTATIVE_OR_EXACT_SUPPORTING_NOT_EXHAUSTIVE",
-      "exhaustive_membership_recoverable_via": "AGGREGATE_SELECTOR",
+      "aggregate_state_refs": "PRIMARY_EVIDENCE_UNIT",
+      "provenance_refs": "BOUNDED_SELF_DESCRIBING_REPRESENTATIVE_NOT_EXHAUSTIVE",
+      "exhaustive_membership_recoverable_via": "AGGREGATE_SELECTOR_ONLY_WHILE_RAW_OBSERVATIONS_EXIST",
       "raw_reference_explosion_allowed": false,
       "raw_data_duplicated_into_snapshot": false
     },
     "answers": "WHY_DID_THIS_APPEAR_NOW"
+  },
+  "alias": {
+    "entity": "ALIAS",
+    "fields": ["alias_id", "concept_id", "alias_text", "normalized_alias", "language", "alias_type", "status"],
+    "alias_types": ["CANONICAL_NAME", "SYNONYM", "ABBREVIATION", "TRANSLATION", "FORM_OR_VARIANT", "MISSPELLING"],
+    "statuses": ["ACTIVE", "RETIRED"],
+    "normalized_alias_globally_unique": false,
+    "same_surface_form_may_map_to": ["DIFFERENT_CONCEPTS", "DIFFERENT_DOMAINS", "DIFFERENT_LANGUAGES"],
+    "ambiguity": "DERIVED_BY_RESOLVER_FROM_MORE_THAN_ONE_DISTINCT_SURVIVOR_CONCEPT",
+    "resolver": {
+      "exact_unambiguous_match": "MATCHED_EXISTING",
+      "ambiguous_match": "REVIEW_REQUIRED",
+      "no_match": "PROPOSED",
+      "never_auto_merge_ambiguous": true,
+      "review_required_keeps_observation_unresolved": true
+    },
+    "rejected_or_merged_aliases_still_match_so_the_identity_is_not_recreated": true
+  },
+  "compaction": {
+    "may_compact": ["RAW_OBSERVATIONS_NOT_REQUIRED_BY_ANY_SNAPSHOT", "SUPERSEDED_LIVE_AGGREGATES"],
+    "may_never_invalidate": ["CANDIDATE_SNAPSHOT", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT_PROVENANCE_REF", "CANDIDATE_SNAPSHOT_SIGNAL_REF", "HUMAN_REVIEW"],
+    "durations_and_thresholds": "POLICY_NOT_SET",
+    "structural_data_not_discarded_for_fast_window_age": true
   }
 }
