@@ -33,6 +33,7 @@ function speciesEpithets(source: string): Set<string> {
 
 const LETTERS = 'A-Za-zÇĞİÖŞÜçğıöşüâîûÂÎÛ';
 const WORD_RE = new RegExp(`[${LETTERS}]+`, 'g');
+const ASCII_WORD_RE = /[A-Za-z]+/g;
 const trLower = (s: string) => s.toLocaleLowerCase('tr-TR');
 const enLower = (s: string) => s.toLowerCase();
 
@@ -79,10 +80,11 @@ export function sourceCopyLeaks(target: string, source: string, reference = ''):
   const out: string[] = [];
   // Roots only: what follows an apostrophe is a Turkish suffix ("framework'ini" -> "framework").
   const words = (target || '').split(/[\s"“”()[\]]+/).flatMap((p) => p.split(/[’'`]/)[0].match(WORD_RE) || []);
-  // A run of capitalised words written verbatim in the sentence-case reference is a name ("Health Canada").
+  // A run of capitalised non-acronym words is a proper-name-shaped span ("Health Canada"). Surface validation allows it;
+  // source support is checked separately by grounding.
   const inNamePhrase = (i: number) => {
-    const cap = (x: string) => /^[A-ZÇĞİÖŞÜ]/.test(x);
-    return [[words[i - 1], words[i]], [words[i], words[i + 1]]].some(([a, b]) => a && b && cap(a) && cap(b) && (reference || '').includes(`${a} ${b}`));
+    const nameWord = (x: string) => /^[A-Z][a-z]+$/.test(x);
+    return [[words[i - 1], words[i]], [words[i], words[i + 1]]].some(([a, b]) => a && b && nameWord(a) && nameWord(b));
   };
   words.forEach((w, i) => {
     if (!w || w.length < 4 || /^[A-ZÇĞİÖŞÜ0-9]+$/.test(w)) return; // acronyms / codes are preserved by design
@@ -100,6 +102,22 @@ export function sourceCopyLeaks(target: string, source: string, reference = ''):
       if (titleCase ? ENGLISH_SHAPE.test(lw) : !/^[A-Z]/.test(asWritten)) out.push(lw);
     }
   });
+  return [...new Set(out)];
+}
+
+/**
+ * Foreign proper-name spans present in a Turkish output but absent from the source evidence.
+ * Surface checks deliberately do not reject these; the grounding layer owns support for inserted names/entities.
+ */
+export function unsupportedProperNameSpans(target: string, sourceEvidence: string): string[] {
+  const evidence = ` ${sourceEvidence || ''} `.toLowerCase();
+  const out: string[] = [];
+  for (const m of (target || '').matchAll(/\b[A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})+\b/g)) {
+    const phrase = m[0].trim();
+    const words = phrase.match(ASCII_WORD_RE) || [];
+    if (words.length < 2 || words.some((w) => SHARED.has(trLower(w)))) continue;
+    if (!evidence.includes(` ${phrase.toLowerCase()} `)) out.push(phrase);
+  }
   return [...new Set(out)];
 }
 

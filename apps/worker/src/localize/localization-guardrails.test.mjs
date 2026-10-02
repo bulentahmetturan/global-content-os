@@ -13,7 +13,7 @@ const FEEDBACK_SRC = read('apps/worker/src/localize/localization-feedback.ts');
 const INDEX_SRC = read('apps/worker/src/index.ts');
 
 const out = join(tmpdir(), `locguard-${process.pid}.mjs`);
-await build({ entryPoints: ['apps/worker/src/localize/localization-feedback.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+await build({ entryPoints: ['./apps/worker/src/localize/localization-feedback.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
 const fb = await import(pathToFileURL(out).href);
 
 const code = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');

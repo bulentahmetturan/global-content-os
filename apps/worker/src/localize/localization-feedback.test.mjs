@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const out = join(tmpdir(), `locfb-${process.pid}.mjs`);
-await build({ entryPoints: ['apps/worker/src/localize/localization-feedback.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+await build({ entryPoints: ['./apps/worker/src/localize/localization-feedback.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
 const fb = await import(pathToFileURL(out).href);
 
 const LOC = {

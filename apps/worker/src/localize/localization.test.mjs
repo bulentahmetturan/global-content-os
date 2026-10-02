@@ -9,7 +9,7 @@ import { pathToFileURL } from 'node:url';
 
 const bundle = async (entry, name) => {
   const out = join(tmpdir(), `${name}-${process.pid}.mjs`);
-  await build({ entryPoints: [entry], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+  await build({ entryPoints: [`./${entry}`], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
   return import(pathToFileURL(out).href);
 };
 const lang = await bundle('apps/worker/src/localize/language.ts', 'language');
@@ -181,6 +181,30 @@ test('canary measurement path returns the same contract result without touching 
   const h = makeEnv();
   const r = await pipe.localizeItem(h.env, { title: HC_TITLE, excerpt: HC_EXCERPT });
   assert.equal(r.outcome, 'READY');
+  assert.equal(h.updates.length, 0);
+});
+
+test('proper noun grounding: source-supported Health Canada passes the real pipeline', async () => {
+  const gist = 'Health Canada, aşırı sıcak dönemlerinde bol su içmeyi ve günün en sıcak saatlerinde sıcağa maruz kalmaktan kaçınmayı öneriyor.';
+  const h = makeEnv({ summary: [JSON.stringify({ gistTr: gist })] });
+  const r = await pipe.localizeItem(h.env, {
+    title: HC_TITLE,
+    excerpt: `Health Canada recommends staying hydrated during extreme heat events. ${HC_EXCERPT}`,
+  }, { fetchImpl: null });
+  assert.equal(r.outcome, 'READY');
+  assert.equal(r.summaryTr, gist);
+  assert.equal(h.updates.length, 0);
+});
+
+test('proper noun grounding: unsupported Health Canada is an entity reject before the judge', async () => {
+  const gist = 'Health Canada, aşırı sıcak dönemlerinde bol su içmeyi ve günün en sıcak saatlerinde sıcağa maruz kalmaktan kaçınmayı öneriyor.';
+  const g = JSON.stringify({ gistTr: gist });
+  const h = makeEnv({ summary: [g, g], judge: ['SUPPORTED', 'SUPPORTED'] });
+  const r = await pipe.localizeItem(h.env, { title: HC_TITLE, excerpt: HC_EXCERPT }, { fetchImpl: null });
+  assert.equal(r.outcome, 'TITLE_ONLY');
+  assert.equal(r.summaryTr, null);
+  assert.match(r.failure, /(?:UNSUPPORTED_ENTITY|ENTITY_INTRODUCED):Health Canada/);
+  assert.equal(h.calls.judge, 0);
   assert.equal(h.updates.length, 0);
 });
 

@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 
 const bundle = async (entry, name) => {
   const out = join(tmpdir(), `${name}-${process.pid}.mjs`);
-  await build({ entryPoints: [entry], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+  await build({ entryPoints: [`./${entry}`], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
   return import(pathToFileURL(out).href);
 };
 const term = await bundle('apps/worker/src/localize/terminology.ts', 'v2-term');
@@ -38,6 +38,15 @@ test('leak: names, acronyms, codes, drug names, species epithets and shared word
   assert.deepEqual(surf.sourceCopyLeaks('Health Canada, doğal sağlık ürünleri için rehberini güncelledi.', `Summary reports guidance ${ev}`, ev), []);
   assert.deepEqual(surf.sourceCopyLeaks('Sirolimus kaplı balon ve paclitaxel kaplı cihaz', 'Sirolimus balloon versus paclitaxel-coated device', 'The sirolimus balloon competes with a paclitaxel-coated device.'), []);
   assert.deepEqual(surf.sourceCopyLeaks('FDA Danışmanları Galleri Testini Önerdi', 'FDA Advisors Recommend Galleri Multi-Cancer Test'), []);
+});
+
+test('leak: unsupported proper nouns are not surface English-copy leaks; grounding owns support', () => {
+  const title = 'Extreme heat events: How to protect yourself from the health effects of extreme heat';
+  const evidence = 'Prepare for the heat and stay hydrated during extreme heat events.';
+  const gist = 'Health Canada, aşırı sıcak dönemlerinde bol su içmeyi öneriyor.';
+  assert.ok(!surf.surfaceIssues(gist, `${title} ${evidence}`, evidence).some((i) => i.startsWith('ENGLISH_COPY')));
+  assert.deepEqual(surf.unsupportedProperNameSpans(gist, `${title} ${evidence}`), ['Health Canada']);
+  assert.deepEqual(surf.unsupportedProperNameSpans(gist, `Health Canada recommends staying hydrated. ${evidence}`), []);
 });
 
 // ---- malformed / garbled Turkish ------------------------------------------------------------------------------------

@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 
 const bundle = async (entry, name) => {
   const out = join(tmpdir(), `${name}-${process.pid}.mjs`);
-  await build({ entryPoints: [entry], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+  await build({ entryPoints: [`./${entry}`], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
   return import(pathToFileURL(out).href);
 };
 const c = await bundle('apps/worker/src/localize/contract.ts', 'contract');
