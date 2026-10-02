@@ -7,7 +7,7 @@ import { englishLeaks, foreignScript } from './contract';
 import { ACRONYM_EQUIVALENTS } from './terminology';
 import type { EvidenceKind, EvidenceSource } from './acquire';
 
-export const LOCALIZATION_CONTRACT_VERSION = 'tr-loc/2026-10-02.2';
+export const LOCALIZATION_CONTRACT_VERSION = 'tr-loc/2026-10-02.3';
 
 export type EvidenceInsufficiency = 'NO_EXCERPT' | 'EXCERPT_IS_TITLE' | 'BOILERPLATE_ONLY' | 'TOO_SHORT' | 'OFF_TOPIC';
 

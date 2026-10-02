@@ -13,6 +13,7 @@ import { validateTitleTr } from './contract';
 import { garbleSignals, preservationIssues } from './evidence';
 import { decodeEntities } from './acquire';
 import { checkTerminology, glossaryHints, type TerminologyResult } from './terminology';
+import { surfaceIssues } from './surface';
 
 export type Runner = (env: Env, model: string, system: string, user: string) => Promise<string>;
 
@@ -118,12 +119,19 @@ async function judgeTitle(run: Runner, env: Env, model: string, titleOrig: strin
 }
 
 /** Deterministic checks for one candidate (full title against full source title). null = passes. */
-export function titleCandidateIssue(source: PreparedTitle, sourceTitle: string, full: string, candCore: string): { issue: string | null; terminology: TerminologyResult } {
+export function titleCandidateIssue(
+  source: PreparedTitle,
+  sourceTitle: string,
+  full: string,
+  candCore: string,
+  reference = ''
+): { issue: string | null; terminology: TerminologyResult } {
   const terminology = checkTerminology(source.core, candCore, 'title');
   const issue =
     validateTitleTr(full, sourceTitle) ||
     preservationIssues(sourceTitle, full)[0] ||
     garbleSignals(full)[0] ||
+    surfaceIssues(candCore, source.core, reference)[0] ||
     expansionIssues(source.core, candCore)[0] ||
     terminology.issues[0] ||
     null;
@@ -134,7 +142,9 @@ export async function translateTitle(
   run: Runner,
   env: Env,
   sourceTitle: string,
-  models: { title: string; title_fallback: string; judge: string }
+  models: { title: string; title_fallback: string; judge: string },
+  /** Sentence-case English text about the item (feed excerpt): tells names from ordinary words for the leak check. */
+  reference = ''
 ): Promise<TitleOutcome> {
   const prep = prepareTitle(sourceTitle);
   const out: TitleOutcome = { titleTr: null, failure: 'TITLE_EMPTY', path: null, candidates: [], terminology: null, judgeCalls: 0 };
@@ -156,7 +166,7 @@ export async function translateTitle(
       continue;
     }
     const full = `${prep.prefix}${candCore}${prep.suffix}`.trim();
-    const { issue, terminology } = candCore ? titleCandidateIssue(prep, sourceTitle, full, candCore) : { issue: 'TITLE_EMPTY', terminology: null };
+    const { issue, terminology } = candCore ? titleCandidateIssue(prep, sourceTitle, full, candCore, reference) : { issue: 'TITLE_EMPTY', terminology: null };
     out.terminology = terminology;
     if (issue) {
       lastReason = issue;

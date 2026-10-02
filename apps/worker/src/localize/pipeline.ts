@@ -16,6 +16,7 @@ import { acquireEvidence, type EvidenceKind } from './acquire';
 import { classifySourceType, type SourceType } from './source-type';
 import { summaryPolicy } from './summary-policy';
 import { checkTerminology } from './terminology';
+import { surfaceIssues } from './surface';
 import { translateTitle, type TitleCandidate } from './title';
 
 export interface Models {
@@ -198,7 +199,7 @@ export async function localizeItem(env: Env, input: LocalizeInput, opts: Localiz
   if (language === 'tr') return { ...base, outcome: 'NOT_REQUIRED', paths: { title: 'source:turkish', summary: 'source:turkish' } };
 
   // 2. Turkish title: translation path, independent of the summary.
-  const t = await translateTitle(runModel, env, title, models);
+  const t = await translateTitle(runModel, env, title, models, input.excerpt || '');
   base.title_candidates = t.candidates;
   base.attempts.title = t.candidates.length;
   base.validator.title = t.candidates.at(-1)?.rejected ?? null;
@@ -228,9 +229,10 @@ export async function localizeItem(env: Env, input: LocalizeInput, opts: Localiz
     const bad = validateSummaryTr(gist, { titleOrig: title, titleTr, excerpt: evidenceText });
     const invented = inventedNumbers(`${title} ${evidenceText}`, gist);
     const garble = garbleSignals(gist);
+    const surface = surfaceIssues(gist, `${title} ${evidenceText}`, evidenceText);
     const term = checkTerminology(`${title} ${evidenceText}`, gist, 'summary');
     base.validator.terminology.summary = term.verdict;
-    const reason = bad || invented[0] || garble[0] || term.issues[0] || null;
+    const reason = bad || invented[0] || garble[0] || surface[0] || term.issues[0] || null;
     base.validator.summary = reason;
     if (reason) {
       failure = reason;

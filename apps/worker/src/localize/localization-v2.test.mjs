@@ -17,6 +17,47 @@ const acq = await bundle('apps/worker/src/localize/acquire.ts', 'v2-acq');
 const ev = await bundle('apps/worker/src/localize/evidence.ts', 'v2-ev');
 const pol = await bundle('apps/worker/src/localize/summary-policy.ts', 'v2-pol');
 const ttl = await bundle('apps/worker/src/localize/title.ts', 'v2-title');
+const surf = await bundle('apps/worker/src/localize/surface.ts', 'v2-surface');
+
+// ---- token-level foreign-word leak (observed in the local-first batch and V1 canaries) ------------------------------
+test('leak: ordinary English words copied into Turkish output are caught, even inside a capitalised run', () => {
+  const t = 'New | phs004026.v1.p1 | SCORCH: Revealing the Single Cell Determinants of Brain Relevant to Persistent HIV Infection and Opioid Use Disorder';
+  assert.deepEqual(surf.sourceCopyLeaks('Yeni | phs004026.v1.p1 | SCORCH: Persistent HIV Enfeksiyonu ve Opioid Kullanım Bozukluğu ile İlgili Tek Hücre Belirleyicileri', t), ['persistent']);
+  const src = 'CDC and CSTE work on a definition for measles deaths. Measles cases rose this year.';
+  assert.deepEqual(surf.sourceCopyLeaks('CDC ve CSTE, measles ölümüne ilişkin bir tanım geliştiriyor.', src, src), ['measles']);
+  assert.ok(surf.surfaceIssues('Cordis, sirolimus-eluting balon için FDA onayını kazandı', 'Cordis wins FDA nod for sirolimus-eluting balloon').includes('ENGLISH_COPY:eluting'));
+  assert.ok(surf.surfaceIssues("Araştırmacılar yeni bir AI framework'ü geliştirdi.", 'Researchers built an AI framework for breast ultrasound.', 'Researchers built an AI framework for breast ultrasound.').includes('ENGLISH_COPY:framework'));
+  assert.ok(surf.sourceCopyLeaks('Ultrasound ve Dijital Meme Tomosentezini Birleştiren AI Modeli', 'AI Model Combining Ultrasound and Digital Breast Tomosynthesis Improves Specificity', 'An AI model combining breast ultrasound and tomosynthesis.').includes('ultrasound'));
+});
+
+test('leak: names, acronyms, codes, drug names, species epithets and shared words are not leaks', () => {
+  const src = 'FDA clears Myrava’s patient-specific bolus device for statin users';
+  assert.deepEqual(surf.sourceCopyLeaks("FDA, Myrava'nın hastaya özel bolus cihazını statin kullananlar için onayladı", src), []);
+  assert.deepEqual(surf.sourceCopyLeaks('Tekrarlayan C. difficile enfeksiyonu olan hastalarda FMT', 'FMT-Associated Changes in Patients With Recurrent C. difficile Infection'), []);
+  const ev = 'Health Canada updated its guidance on summary reports for natural health products.';
+  assert.deepEqual(surf.sourceCopyLeaks('Health Canada, doğal sağlık ürünleri için rehberini güncelledi.', `Summary reports guidance ${ev}`, ev), []);
+  assert.deepEqual(surf.sourceCopyLeaks('Sirolimus kaplı balon ve paclitaxel kaplı cihaz', 'Sirolimus balloon versus paclitaxel-coated device', 'The sirolimus balloon competes with a paclitaxel-coated device.'), []);
+  assert.deepEqual(surf.sourceCopyLeaks('FDA Danışmanları Galleri Testini Önerdi', 'FDA Advisors Recommend Galleri Multi-Cancer Test'), []);
+});
+
+// ---- malformed / garbled Turkish ------------------------------------------------------------------------------------
+test('malformed: clear generation corruption is caught (konsjenital, etklerinden, vowel-less, hybrids)', () => {
+  assert.deepEqual(surf.malformedTokens('Düşük Oranlı Konsjenital TORCH Enfeksiyonları', 'Low-rate congenital TORCH infections'), ['konsjenital']);
+  assert.deepEqual(surf.malformedTokens('Aşırı sıcağın sağlık etklerinden korunun.'), ['etklerinden']);
+  assert.deepEqual(surf.malformedTokens('Bu çalışma krtsl bulgular verdi.'), ['krtsl']);
+  assert.ok(surf.surfaceIssues('Cordis, sirolimus-elüyerek balon için onay aldı.', 'Cordis wins FDA nod for sirolimus-eluting balloon').some((i) => i.startsWith('HYBRID:sirolimus-')));
+  assert.ok(surf.surfaceIssues('Ultra-ispiyonlu gıdalar riski artırıyor.', 'Ultra-processed food raises disease risk', 'Each extra 100 grams of ultra-processed food raises risk.').some((i) => i.startsWith('HYBRID:ultra-')));
+});
+
+test('malformed: valid Turkish and medical loanwords are not flagged', () => {
+  const ok = [
+    "Türkçe kontrol elektrik enstitü transplantasyon sendrom kompleks ambulans pankreas ateroskleroz obstetrik ultrasonografi",
+    "yurtdışında üstlendi gençlerin çiftlik aşktan halktan renkli farklı kentsel anksiyete ekstrakorporeal spektrometri",
+    "şüphe ishal ithal hızsız adjuvan ebeveynlerin rezervler şarj teyp kalp film test Türk zevk metabolizm psikiyatri pnömoni",
+    "Üniversitesi'nden İngiltere'de Schmidt ve Wegovy hakkında anti-inflamatuvar Covid-19 sağlıklı değerlendirme",
+  ];
+  for (const s of ok) assert.deepEqual(surf.malformedTokens(s), [], s);
+});
 
 // ---- terminology guard --------------------------------------------------------------------------------------------
 test('terminology: observed V1 errors are unsupported substitutions (tomosynthesis -> tomografi, measles -> çiçek hastalığı)', () => {
