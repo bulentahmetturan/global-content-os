@@ -167,6 +167,38 @@ export function itemScope(opts: ItemScopeOptions, alias = 'i.'): { sql: string; 
   return { sql, binds };
 }
 
+const DOI_RE = /^10\.\d{4,9}\/\S+$/;
+
+/**
+ * Bare lower-case DOI behind a URL: doi.org links and nature.com/articles/<id> (Springer Nature DOI 10.1038/<id>).
+ * Same rule as the evergreen executor's doi_key, so a Nature RSS link and a Europe PMC DOI link meet as one work.
+ */
+export function doiFromUrl(url: string): string | null {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return null;
+  }
+  const host = u.hostname.toLowerCase().replace(/^www\./, '');
+  if (host === 'doi.org' || host === 'dx.doi.org') {
+    const d = decodeURIComponent(u.pathname.replace(/^\/+/, '')).trim().toLowerCase();
+    return DOI_RE.test(d) ? d : null;
+  }
+  if (host === 'nature.com') {
+    const m = /^\/articles\/((?:s\d{5}-\d{3}-\d{4,5}-[\dx]|d\d{5}-\d{3}-\d{4,5}-\d))\/?$/i.exec(u.pathname);
+    return m ? `10.1038/${m[1].toLowerCase()}` : null;
+  }
+  return null;
+}
+
+/** canonical_work_id: the proven DOI (explicit, evidence or URL-derived), else null (the URL dedupe key applies). */
+export function canonicalWorkIdFor(url: string, doi?: string | null): string | null {
+  const explicit = doi ? doi.trim().toLowerCase().replace(/^https?:\/\/(dx\.)?doi\.org\//, '') : null;
+  if (explicit && DOI_RE.test(explicit)) return explicit;
+  return doiFromUrl(url);
+}
+
 export interface SignalObservation {
   tier: SignalTier;
   type: string | null;
@@ -176,6 +208,11 @@ export interface SignalObservation {
   observed_at: string | null;
   /** 'none' (raw, not comparable across cohorts) or a named normalisation. */
   normalization: string;
+}
+
+function isoOrNow(v: unknown, now: Date): string {
+  const t = typeof v === 'string' ? Date.parse(v) : NaN;
+  return Number.isFinite(t) ? new Date(t).toISOString() : now.toISOString();
 }
 
 /** A value without a named type and source is unattributable, so UNKNOWN; T1 without a value falls back to T3. */
@@ -190,7 +227,7 @@ export function normalizeSignal(raw: unknown, now: Date = new Date()): SignalObs
     type: value === null ? null : type,
     value,
     source: value === null ? null : (o.source as string).slice(0, 60),
-    observed_at: value === null ? null : typeof o.observed_at === 'string' ? o.observed_at.slice(0, 30) : now.toISOString(),
+    observed_at: value === null ? null : isoOrNow(o.observed_at, now),
     normalization: typeof o.normalization === 'string' && o.normalization ? o.normalization.slice(0, 80) : 'none',
   };
 }

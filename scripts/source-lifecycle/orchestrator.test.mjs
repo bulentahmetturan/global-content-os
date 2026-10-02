@@ -773,6 +773,126 @@ test('exactly one guarded canonical write site across the lifecycle modules', ()
   assert.doesNotMatch(readFileSync(join(dir, '..', 'source-lifecycle.mjs'), 'utf8'), /writeFileSync/);
 });
 
+// ---------- temporal paths: lifecycle is the only owner of temporal + capacity config ------------------------------
+
+const TEMPORAL = 'packages/source-catalog/data/temporal-paths.json';
+const EVERGREEN_SMALL = {
+  enabled: true, activation: 'CANARY_ONLY', evergreen_view: 'health_reference', tier: 'SMALL', family: null, daily_target: 1,
+  max_items_evaluated_per_cycle: 10, rediscovery_cadence_hours: 72, deep_archive_cadence_hours: 720, cooldown_days: 180,
+  importance_signal_strategy: 'EDITORIAL_RELEVANCE', signal_providers: [],
+  archives: [{ id: 'feed', kind: 'wp_feed', url: 'https://www.tdb.org.tr/feed/', max_pages_per_run: 2 }],
+};
+const tpatch = (evergreen = EVERGREEN_SMALL) => ({ time_sensitive: { enabled: true }, evergreen });
+const snapshot = (root) => {
+  const out = {};
+  const walk = (d) => {
+    for (const f of readdirSync(join(root, d), { withFileTypes: true })) {
+      const rel = d ? `${d}/${f.name}` : f.name;
+      if (rel === '.logs') continue;
+      if (f.isDirectory()) walk(rel);
+      else out[rel] = readFileSync(join(root, rel), 'utf8');
+    }
+  };
+  walk('');
+  return out;
+};
+
+test('temporal: dry run by default; an authorized apply writes temporal-paths.json and nothing else', async () => {
+  const root = sandbox();
+  const before = snapshot(root);
+  const dry = await lc(root).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'owner decision' });
+  assert.equal(dry.outcome, 'TEMPORAL_DRY_RUN');
+  assert.deepEqual(snapshot(root), before, 'a dry run writes nothing');
+  const r = await lc(root).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'owner decision', apply: true });
+  assert.equal(r.outcome, 'TEMPORAL_APPLIED');
+  const after = snapshot(root);
+  const changed = Object.keys(after).filter((k) => after[k] !== before[k]);
+  assert.deepEqual(changed, [TEMPORAL]);
+  const doc = JSON.parse(after[TEMPORAL]);
+  assert.equal(doc.sources.length, 1);
+  const e = doc.sources[0];
+  assert.deepEqual([e.source_id, e.identity_store, e.semantic_lane, e.feed_id], ['tdb_dental', 'tip_toplulugu', 'Duyuru', undefined]);
+  assert.equal(e.history[0].basis, 'owner decision');
+  assert.equal((await lc(root).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'again', apply: true })).outcome, 'NO_CHANGE');
+  assert.equal(reg(root).sources.find((s) => s.source_id === 'tdb_dental').runtime_activation, 'AUTOMATION_READY', 'the source record itself is untouched');
+});
+
+test('temporal: identity and semantic lane are derived, never operator-set; a path class cannot be expressed (no HYBRID)', async () => {
+  const root = sandbox();
+  for (const patch of [{ ...tpatch(), semantic_lane: 'Research' }, { ...tpatch(), source_id: 'other' }, { ...tpatch(), temporal_path: 'HYBRID' }, { ...tpatch(), hybrid: true }]) {
+    const r = await lc(root).recalibrate('tdb_dental', { temporal: patch, basis: 'x', apply: true });
+    assert.equal(r.outcome, 'INVALID_TEMPORAL_CONFIG', JSON.stringify(Object.keys(patch)));
+    assert.ok(r.errors.some((x) => x.startsWith('not_operator_settable')));
+  }
+  const badTier = await lc(root).recalibrate('tdb_dental', { temporal: tpatch({ ...EVERGREEN_SMALL, tier: 'HYBRID' }), basis: 'x', apply: true });
+  assert.equal(badTier.outcome, 'INVALID_TEMPORAL_CONFIG');
+  const news = await lc(root).recalibrate('who-newsroom-whole', { temporal: tpatch(), basis: 'x', apply: true });
+  assert.equal(news.outcome, 'TEMPORAL_APPLIED');
+  const e = JSON.parse(readFileSync(join(root, TEMPORAL), 'utf8')).sources.find((s) => s.source_id === 'who-newsroom-whole');
+  assert.deepEqual([e.identity_store, e.feed_id, e.semantic_lane], ['kaduse-news', 'news-who-newsroom-whole', 'Haber']);
+  assert.ok(!existsSync(join(root, TEMPORAL)) || !/HYBRID|"temporal_path"/.test(readFileSync(join(root, TEMPORAL), 'utf8')));
+});
+
+test('temporal: basis required, feedback actors denied, retired identities refused, unknown targets never create an identity', async () => {
+  const root = sandbox();
+  assert.equal((await lc(root).recalibrate('tdb_dental', { temporal: tpatch(), apply: true })).outcome, 'BASIS_REQUIRED');
+  for (const kind of ['feedback', 'learning']) {
+    const r = await lc(root, { actor: { kind, id: 'x' }, authorize: yes }).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'x', apply: true });
+    assert.equal(r.outcome, 'DENIED', kind);
+  }
+  assert.equal((await lc(root, { authorize: undefined }).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'x', apply: true })).outcome, 'DENIED');
+  assert.equal((await lc(root).recalibrate('old_portal', { temporal: tpatch(), basis: 'x', apply: true })).outcome, 'NOT_APPLICABLE');
+  assert.equal((await lc(root).recalibrate('https://brand-new.example.org/', { temporal: tpatch(), basis: 'x', apply: true })).outcome, 'NOT_FOUND');
+  assert.ok(!existsSync(join(root, TEMPORAL)), 'nothing was written');
+});
+
+test('temporal: a D1-only Kaduse feed (0016 sitemap) resolves as an existing identity; inspect reports both paths', async () => {
+  const root = sandbox();
+  mkdirSync(join(root, 'migrations'), { recursive: true });
+  const m16 = '0016_sitemap_discovery_batch3.sql';
+  writeFileSync(join(root, 'migrations', m16), readFileSync(join(repoRoot, 'migrations', m16), 'utf8'));
+  const HEF = 'news-cleveland-clinic-health-essentials-sitemap';
+  const i0 = lc(root).inspect(HEF);
+  assert.equal(i0.outcome, 'FOUND');
+  assert.equal(i0.source.store, 'kaduse-d1-feed');
+  assert.equal(i0.source.declared_in, `migrations/${m16}`);
+  assert.deepEqual([i0.temporal.semantic_lane, i0.temporal.time_sensitive.effective, i0.temporal.evergreen.effective], ['Haber', true, 'DISABLED']);
+  const pool = { ...EVERGREEN_SMALL, tier: 'FAMILY_POOL', family: 'cleveland', daily_target: 4, max_items_evaluated_per_cycle: 60, archives: [{ id: 'posts', kind: 'sitemap', urls: ['https://health.clevelandclinic.org/post.xml'], path_filter: '/' }] };
+  const r = await lc(root).recalibrate(HEF, { temporal: tpatch(pool), basis: 'capacity audit', apply: true });
+  assert.equal(r.outcome, 'TEMPORAL_APPLIED');
+  assert.ok(r.warnings.includes('target_4_outside_FAMILY_POOL_band_10-20'), 'below-band target is reported, not clamped');
+  const i1 = lc(root).inspect(HEF);
+  assert.deepEqual([i1.temporal.time_sensitive.effective, i1.temporal.evergreen.effective], [true, 'CANARY_ONLY'], 'both paths on one source');
+  assert.equal(i1.temporal.config.evergreen.daily_target, 4);
+  assert.equal(lc(root).inspect('news-not-declared-anywhere').outcome, 'NOT_FOUND');
+});
+
+test('temporal: no duplicate identity can enter the registry, even by hand-editing then recalibrating', async () => {
+  const root = sandbox();
+  await lc(root).recalibrate('tdb_dental', { temporal: tpatch(), basis: 'x', apply: true });
+  const doc = JSON.parse(readFileSync(join(root, TEMPORAL), 'utf8'));
+  doc.sources.push({ ...doc.sources[0] });
+  writeJson(root, TEMPORAL, doc, { crlf: false });
+  const r = await lc(root).recalibrate('who-newsroom-whole', { temporal: tpatch(), basis: 'x', apply: true });
+  assert.equal(r.outcome, 'INVALID_TEMPORAL_CONFIG');
+  assert.ok(r.errors.some((x) => x.includes('duplicate_source_identity')));
+});
+
+test('temporal: config is owned by the lifecycle only (static: no other writer of temporal-paths.json)', () => {
+  const dirs = ['apps/worker/src', 'adapters/tip-toplulugu-radar/radar', 'adapters/tip-toplulugu-radar/scripts', 'scripts'];
+  const hits = [];
+  const walk = (d) => {
+    for (const f of readdirSync(join(repoRoot, d), { withFileTypes: true })) {
+      const rel = `${d}/${f.name}`;
+      if (f.isDirectory()) {
+        if (!['node_modules', '__pycache__'].includes(f.name)) walk(rel);
+      } else if (/\.(m?js|ts|py)$/.test(f.name) && !/\.test\.|test_/.test(f.name) && /temporal-paths\.json/.test(readFileSync(join(repoRoot, rel), 'utf8'))) hits.push(rel);
+    }
+  };
+  for (const d of dirs) walk(d);
+  assert.deepEqual(hits.sort(), ['apps/worker/src/temporal/registry.ts', 'scripts/source-lifecycle/temporal.mjs'].sort(), 'Worker reads (bundled import); lifecycle owns the path constant');
+});
+
 // ---------- real repo (read-only): the existing Python guards ------------------------------------------------------
 
 const py = pythonCmd();
@@ -799,4 +919,15 @@ test('real bridge: a profile produced by onboarding passes the runtime activatio
   const retiredRoot = sandbox();
   await lc(retiredRoot).retire('tdb_dental', { apply: true });
   assert.equal(pythonBridge(repoRoot).gates(rec(retiredRoot, 'tdb_dental')[0]).computed, 'BLOCKED');
+});
+
+test('temporal: a pubmed archive must be a bounded SRC:MED query proxied by Europe PMC', async () => {
+  const { validateTemporalEntry } = await import('./temporal.mjs');
+  const withArchive = (a) => ({ source_id: 'pm', identity_store: 'kaduse-d1-feed', feed_id: 'pm', semantic_lane: 'Research', ...tpatch({ ...EVERGREEN_SMALL, evergreen_view: 'research_rediscovery', archives: [a] }) });
+  const good = { id: 'pm', kind: 'pubmed', query: 'SRC:MED AND TITLE:"meta-analysis"', publisher: 'PubMed', discovery_proxy: 'europepmc' };
+  assert.deepEqual(validateTemporalEntry(withArchive(good)).errors, []);
+  const errs = (patch) => validateTemporalEntry(withArchive({ ...good, ...patch })).errors.join(' ');
+  assert.match(errs({ query: 'TITLE:"meta-analysis"' }), /query_must_restrict_to_SRC:MED/);
+  assert.match(errs({ discovery_proxy: 'pubmed' }), /discovery_proxy_must_be_europepmc/);
+  assert.match(errs({ publisher: '' }), /publisher_missing/);
 });
