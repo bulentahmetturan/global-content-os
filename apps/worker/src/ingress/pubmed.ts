@@ -1,5 +1,6 @@
 import { upsertSourceItem, type Env } from '../db/queries';
 import { pubmedPublishedAt } from './research-quality';
+import { timeSensitiveEnabledForFeed } from '../temporal/registry';
 
 /**
  * Journal-specific PubMed feeds (added 2026-09-24): these journals are indexed in PubMed, so
@@ -69,6 +70,10 @@ export async function ingestPubmed(
   opts?: { force?: boolean; feedId?: string }
 ): Promise<{ created: number; updated: number; total: number }> {
   const feedId = opts?.feedId ?? 'research-pubmed-eutilities';
+  // One canonical source, two path eligibilities: this topic batch is the TIME_SENSITIVE scan of the feed, so it runs
+  // only while the lifecycle registry keeps that path on (an EVERGREEN-only source keeps its feed row enabled as the
+  // write carrier without reviving this batch).
+  if (!timeSensitiveEnabledForFeed(feedId)) return { created: 0, updated: 0, total: 0 };
   const due = opts?.force
     ? ''
     : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;

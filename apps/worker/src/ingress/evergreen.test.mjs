@@ -356,3 +356,28 @@ test('a disabled production feed blocks writes and the runtime never re-enables 
   assert.equal(sqlite.prepare('SELECT enabled FROM source_feeds WHERE id = ?').get(researchFeed).enabled, 0, 'the runtime did not touch source_feeds');
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM evergreen_runtime_state').get().n, 0);
 });
+
+test('PubMed is one canonical source with split path eligibility: its legacy topic batch stays off, journal feeds are untouched', async () => {
+  const pm = await bundle('apps/worker/src/ingress/pubmed.ts', 'evergreen-unit-pubmed');
+  const entries = reg.temporalRegistry().entries.filter((e) => e.feed_id === 'research-pubmed-eutilities');
+  assert.equal(entries.length, 1, 'no duplicate PubMed identity');
+  assert.equal(entries[0].time_sensitive.enabled, false);
+  assert.equal(entries[0].evergreen.enabled, true);
+  assert.equal(reg.timeSensitiveEnabledForFeed('research-pubmed-eutilities'), false);
+  assert.equal(reg.timeSensitiveEnabledForFeed('research-pubmed-ajcn'), true, 'a feed without a registry entry keeps the legacy path');
+  const { sqlite, db } = openDb();
+  sqlite.prepare("UPDATE source_feeds SET enabled = 1 WHERE id = 'research-pubmed-eutilities'").run(); // the carrier row the seed already holds
+  const realFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls += 1; throw new Error('network must not be touched'); };
+  try {
+    assert.deepEqual(await pm.ingestPubmed({ DB: db }, { force: true }), { created: 0, updated: 0, total: 0 });
+    assert.deepEqual(await pm.ingestPubmed({ DB: db }), { created: 0, updated: 0, total: 0 });
+    assert.equal(calls, 0, 'an enabled carrier feed does not revive the time-sensitive topic batch');
+    await assert.rejects(pm.ingestPubmed({ DB: db }, { force: true, feedId: 'research-pubmed-ajcn' }), /network must not be touched/); // a journal feed is not gated: it reaches the fetch
+    assert.equal(calls, 1);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+  assert.equal(sqlite.prepare('SELECT fetch_attempts FROM source_feeds WHERE id = ?').get('research-pubmed-eutilities').fetch_attempts ?? 0, 0);
+});

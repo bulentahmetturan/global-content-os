@@ -149,7 +149,7 @@
       "feed_id": "research-pubmed-eutilities",
       "semantic_lane": "Research",
       "time_sensitive": {
-        "enabled": true
+        "enabled": false
       },
       "evergreen": {
         "evergreen_view": "research_rediscovery",
@@ -178,8 +178,8 @@
         "enabled": true,
         "importance_signal_strategy": "DIRECT_SIGNAL"
       },
-      "basis": "owner FAZ 3 canary 2026-10-02: bounded PubMed research rediscovery via Europe PMC SRC:MED, signal citedByCount + iCite; CANARY_ONLY",
-      "updated_at": "2026-10-02T12:22:09.880Z",
+      "basis": "owner 2026-10-02 state reconciliation: PubMed stays ONE canonical source; Evergreen rediscovery eligible, legacy time-sensitive topic batch (auscultation/stethoscope/AI) not eligible; D1 feed row is only the write carrier",
+      "updated_at": "2026-10-02T16:29:40.493Z",
       "history": [
         {
           "op": "recalibrate-temporal",
@@ -187,6 +187,13 @@
           "at": "2026-10-02T12:22:09.880Z",
           "by": "W11",
           "basis": "owner FAZ 3 canary 2026-10-02: bounded PubMed research rediscovery via Europe PMC SRC:MED, signal citedByCount + iCite; CANARY_ONLY"
+        },
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_46feafe1381ebe94",
+          "at": "2026-10-02T16:29:40.493Z",
+          "by": "W11",
+          "basis": "owner 2026-10-02 state reconciliation: PubMed stays ONE canonical source; Evergreen rediscovery eligible, legacy time-sensitive topic batch (auscultation/stethoscope/AI) not eligible; D1 feed row is only the write carrier"
         }
       ]
     }

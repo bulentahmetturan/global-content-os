@@ -62,3 +62,10 @@ Owner review before production:
 `evergreen-runner.yml` calls `POST /api/evergreen/plan`, which exists only in a Worker built with this change. If the workflow reaches the
 default branch before that Worker is deployed it fails hourly (the Worker answers 404). Order: remote migration 0029, deploy Worker,
 then merge the workflow. While every source is CANARY_ONLY the plan claims nothing and no item is written.
+
+## PubMed state reconciliation (2026-10-02)
+
+- Evidence (read-only): production `research-pubmed-eutilities` has `enabled = 0`, `poll_minutes = 1440` (seed/catalog: 360), last fetch 2026-09-24T11:33Z; no migration, `source_change_history` or `source_revalidation` row explains either value, and the low-yield pruner cannot have fired (it needs 100 decisions; there are 48). Verdict: state drift (no proven intentional disable).
+- One feed row carried two behaviors: the legacy time-sensitive topic batch (`ingestPubmed`) and the EVERGREEN write carrier. Separation without a second identity: lifecycle `recalibrate --temporal` set `time_sensitive.enabled = false` (Evergreen stays enabled, CANARY_ONLY); `ingestPubmed` now returns early when `timeSensitiveEnabledForFeed(feedId)` is false (the helper already existed, unused). Journal feeds are untouched.
+- Still required, through lifecycle `reactivate research-pubmed-eutilities` (generates the D1 migration with provenance): set the carrier row `enabled = 1` and align `poll_minutes`. Not run; remote apply needs explicit authorization. Until then Evergreen writes stay blocked (`SOURCE_FEED_DISABLED_OR_MISSING`).
+- Cadence of the Evergreen path is `rediscovery_cadence_hours` (72) in the registry; `poll_minutes` only describes the (now gated-off) time-sensitive scan.
