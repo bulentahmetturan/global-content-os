@@ -2,7 +2,6 @@
   "$comment": "CANONICAL vocabulary for EVERGREEN > DOSSIER_DISCOVERY (architecture foundation, non-production). Owner: global-content-os/packages/contracts. This file defines CLASSES and CONTRACT SHAPES only. It never lists real-world topics, supplements, protocols, technologies, conditions, experts or relations: concept membership is OPEN-WORLD runtime data that arrives as observations and becomes human-reviewed proposals. No migration, reader, scheduler or source activation exists for this contract yet. Doc: docs/DOSSIER-DISCOVERY.md.",
   "version": 1,
   "contract": "evergreen-dossier-discovery",
-
   "temporal": {
     "parent_path": "EVERGREEN",
     "subsystem": "DOSSIER_DISCOVERY",
@@ -18,28 +17,21 @@
       "repeated_or_structural_pattern": "EVERGREEN > DOSSIER_DISCOVERY",
       "global_emerging_issue_with_health_significance": "EVERGREEN > DOSSIER_DISCOVERY (FRONTIER)"
     },
-    "signal_windows": { "7D": "burst", "30D": "momentum", "90D": "baseline" }
+    "signal_windows": {
+      "7D": "burst",
+      "30D": "momentum",
+      "90D": "baseline"
+    }
   },
-
   "open_world": {
     "classes_are_bounded": true,
     "concept_membership_is_open": true,
     "unknown_policy": "PROPOSAL",
     "resolution_outcomes": ["MATCHED_EXISTING", "PROPOSED"],
     "forbidden_resolution_outcomes": ["DROPPED", "AUTO_CANONICAL", "REJECTED_AS_UNKNOWN"],
-    "concept_states": ["PROPOSED", "ACTIVE", "REJECTED", "PAUSED"],
-    "proposal_families": [
-      "NEW_HEALTH_TOPIC",
-      "NEW_PROTOCOL",
-      "NEW_SUPPLEMENT",
-      "NEW_SUPPLEMENT_FORM",
-      "NEW_LONGEVITY_TECH",
-      "NEW_PUBLIC_HEALTH_TOPIC",
-      "NEW_EXPERT",
-      "NEW_RELATION"
-    ]
+    "concept_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "proposal_families": ["NEW_HEALTH_TOPIC", "NEW_PROTOCOL", "NEW_SUPPLEMENT", "NEW_SUPPLEMENT_FORM", "NEW_LONGEVITY_TECH", "NEW_PUBLIC_HEALTH_TOPIC", "NEW_EXPERT", "NEW_RELATION"]
   },
-
   "domains": {
     "HEALTH": {
       "proposal_family": "NEW_HEALTH_TOPIC",
@@ -70,23 +62,8 @@
       "health_consequence_must_be_central": true
     }
   },
-
   "signal": {
-    "families": [
-      "TURKEY_PUBLIC_DEMAND",
-      "TURKEY_SOCIAL_MOMENTUM",
-      "TR_CLINICIAN_CREATOR_PULSE",
-      "TURKEY_HEALTH_BURDEN",
-      "TURKEY_PUBLIC_HEALTH_DATA",
-      "ENVIRONMENTAL_MEASUREMENT",
-      "GLOBAL_MEDICAL_FRONTIER",
-      "GLOBAL_RESEARCH_ACTIVITY",
-      "GLOBAL_INSTITUTIONAL_FRONTIER",
-      "GLOBAL_PUBLIC_HEALTH_DATA",
-      "GLOBAL_ENVIRONMENTAL_OBSERVATION",
-      "GLOBAL_CREATOR_SCOUT",
-      "RELATION_SIGNAL"
-    ],
+    "families": ["TURKEY_PUBLIC_DEMAND", "TURKEY_SOCIAL_MOMENTUM", "TR_CLINICIAN_CREATOR_PULSE", "TURKEY_HEALTH_BURDEN", "TURKEY_PUBLIC_HEALTH_DATA", "ENVIRONMENTAL_MEASUREMENT", "GLOBAL_MEDICAL_FRONTIER", "GLOBAL_RESEARCH_ACTIVITY", "GLOBAL_INSTITUTIONAL_FRONTIER", "GLOBAL_PUBLIC_HEALTH_DATA", "GLOBAL_ENVIRONMENTAL_OBSERVATION", "GLOBAL_CREATOR_SCOUT", "RELATION_SIGNAL"],
     "families_are_never_collapsed_into_one_score": true,
     "value_states": ["MEASURED", "UNKNOWN", "NOT_APPLICABLE"],
     "missing_value_state": "UNKNOWN",
@@ -97,30 +74,17 @@
     "measurement_provenance": ["MEASURED", "MODELED", "ADMINISTRATIVE", "SURVEY", "ESTIMATE", "ALERT", "CONTENT", "SEARCH", "SOCIAL"],
     "measured_equals_modeled": false
   },
-
   "observation": {
     "source_item_is_not_observation": true,
     "one_source_item_may_yield_many_observations": true,
-    "kinds": [
-      "CONTENT_MENTION",
-      "SEARCH_MAGNITUDE",
-      "SEARCH_VELOCITY",
-      "SOCIAL_MOMENTUM",
-      "BURDEN_UTILIZATION",
-      "ADMINISTRATIVE_STATISTIC",
-      "SURVEY_ESTIMATE",
-      "ENVIRONMENTAL_MEASURED",
-      "ENVIRONMENTAL_MODELED",
-      "SURVEILLANCE_CHANGE",
-      "RESEARCH_ACTIVITY_COUNT",
-      "INSTITUTIONAL_TOPIC_ACTIVITY"
-    ],
+    "kinds": ["CONTENT_MENTION", "SEARCH_MAGNITUDE", "SEARCH_VELOCITY", "SOCIAL_MOMENTUM", "BURDEN_UTILIZATION", "ADMINISTRATIVE_STATISTIC", "SURVEY_ESTIMATE", "ENVIRONMENTAL_MEASURED", "ENVIRONMENTAL_MODELED", "SURVEILLANCE_CHANGE", "RESEARCH_ACTIVITY_COUNT", "INSTITUTIONAL_TOPIC_ACTIVITY"],
     "required_fields": ["observation_id", "kind", "signal_family", "measurement_provenance", "observed_at", "origin"],
     "origin_kinds": ["EXISTING_SOURCE_ITEM", "SIGNAL_SNAPSHOT", "STATISTICAL_RELEASE"],
-    "concept_ref": { "exactly_one_of": ["concept_id", "unresolved_label"] },
+    "concept_ref": {
+      "exactly_one_of": ["concept_id", "unresolved_label"]
+    },
     "clinician_reported_public_question_is_not_prevalence": true
   },
-
   "source": {
     "roles": ["ACADEMIC_SCIENTIST", "CLINICIAN_RESEARCHER", "CLINICIAN_CREATOR", "HEALTH_CREATOR", "FUNCTIONAL_INTEGRATIVE_CREATOR", "PHARMACIST_CREATOR", "INSTITUTION"],
     "roles_must_stay_distinguishable": true,
@@ -133,13 +97,31 @@
     "access_states": ["APPROVED", "RESTRICTED", "MANUAL_ONLY", "UNRESOLVED", "REJECTED"],
     "only_approved_may_be_read_by_a_future_reader": true,
     "authority_scores_assigned_by_contract": false,
-    "credentials_invented_by_contract": false
+    "credentials_invented_by_contract": false,
+    "actor": {
+      "kinds": ["PERSON", "INSTITUTION"],
+      "is_acquisition_source": false,
+      "maps_to_many_acquisition_sources": true,
+      "forced_into_source_lifecycle": false,
+      "registry_owner": "UNDECIDED_FUTURE_CONTROLLED_ACTOR_REGISTRY",
+      "unknown_actor_policy": "PROPOSAL"
+    },
+    "acquisition_source": {
+      "kinds": ["RSS_FEED", "WEBSITE_ENDPOINT", "VIDEO_CHANNEL", "SOCIAL_PROVIDER_IDENTITY", "PODCAST", "NEWSLETTER", "PUBLIC_API", "OFFICIAL_DATASET"],
+      "owner": "EXISTING_SOURCE_TRUTH_WHERE_PRESENT",
+      "duplicated_in_d1": false,
+      "referenced_by_canonical_source_id": true
+    }
   },
-
   "relation": {
     "allowed_semantics": ["CO_INTEREST", "MENTIONED_WITH", "PUBLIC_SEARCH_ASSOCIATION", "CREATOR_ASSOCIATION", "FRONTIER_ASSOCIATION", "ENVIRONMENTAL_ASSOCIATION"],
     "forbidden_semantics": ["CAUSES", "CURES", "TREATS", "IMPROVES", "PREVENTS"],
-    "depth_labels": { "1": "SINGLE", "2": "DOUBLE", "3": "TRIPLE", "4+": "COMPOSITE" },
+    "depth_labels": {
+      "1": "SINGLE",
+      "2": "DOUBLE",
+      "3": "TRIPLE",
+      "4+": "COMPOSITE"
+    },
     "auto_generation_max_depth": 3,
     "pair": {
       "individual_popularity_implies_pair": false,
@@ -155,9 +137,12 @@
         "sufficiency_is_a_future_calibration_decision": true,
         "without_a_configured_policy": "FAIL_CLOSED"
       }
-    }
+    },
+    "identity_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "identity_is_not_observation": true,
+    "observation_records_the_actual_joint_signal": true,
+    "observation_required_fields": ["relation_observation_id", "relation_id", "observation_id", "joint_signal_kind"]
   },
-
   "quality": {
     "is_signal_hygiene_not_medical_evidence_grading": true,
     "never_reduced_to_one_opaque_score": true,
@@ -172,7 +157,6 @@
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
     "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY"]
   },
-
   "wow": {
     "wow_is_not_viral": true,
     "definition": ["SURPRISING", "IMPORTANT", "DATA_SUPPORTABLE", "RESEARCHABLE", "MEANINGFUL_TO_PEOPLE"],
@@ -181,7 +165,6 @@
     "applies_to_domain": "POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH",
     "data_surveillance_driven_social_is_context_only": true
   },
-
   "candidate": {
     "classes": ["STRONG", "EMERGING", "WATCH", "CORRECTIVE", "FRONTIER"],
     "classes_are_discovery_states_not_scientific_labels": true,
@@ -189,40 +172,126 @@
     "states": ["DISCOVERED", "WATCH", "CANDIDATE", "REVIEW", "ACCEPTED", "REJECTED", "SNOOZED", "RESEARCH_REQUESTED"],
     "terminal_state_of_discovery": "RESEARCH_REQUESTED",
     "topic_relevance_and_signal_freshness_are_separate": true,
-    "why_now_snapshot": { "required": true, "immutable_once_written": true, "fields": ["snapshot_at", "signal_windows", "signal_families", "origin_cluster_ids", "observation_ids"] }
+    "is_not_a_concept": true,
+    "is_an_editorial_opportunity_at_a_time": true,
+    "target": {
+      "exactly_one_of": ["concept_id", "relation_id"],
+      "target_identity_state_must_be_carried": true
+    },
+    "may_reference_proposed_identity": true,
+    "proposed_target_must_be_marked_provisional": true,
+    "rejection_does_not_reject_concept": true,
+    "rejection_does_not_reject_relation_members": true,
+    "class_lives_on_snapshot": true
   },
-
   "review": {
-    "decisions": ["ACCEPT", "REJECT", "SNOOZE"],
+    "decisions": ["ACCEPT", "REJECT", "SNOOZE", "PAUSE"],
     "reject_reasons": ["NOISE", "DUPLICATE", "TOO_BROAD", "TOO_NARROW", "COMMERCIAL_ARTIFACT", "NO_AUDIENCE_RELEVANCE", "NO_INDEPENDENT_SIGNAL", "RELATION_NOT_SUPPORTED", "OUT_OF_SCOPE"],
-    "reject_requires_reason": true,
     "rejections_persist": ["topic", "expert", "relation"],
     "decider": "HUMAN",
     "review_may_mutate": [],
-    "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing"]
+    "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing"],
+    "target_types": ["CONCEPT_PROPOSAL", "EXPERT_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE"],
+    "required_fields": ["target_type", "target_id", "decision", "reviewer", "reviewed_at"],
+    "optional_fields": ["reason_code", "reason_note"],
+    "append_only": true,
+    "reject_requires_reason_code": true,
+    "effects_are_limited_to_the_reviewed_object": true,
+    "cascades_forbidden": true,
+    "accept_may_imply_a_later_lifecycle_action_which_stays_an_explicit_human_operator_step": true
   },
-
   "handoff": {
     "starts_after": "ACCEPT",
     "allowed_fields": ["canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes"],
     "forbidden_fields": ["scientific_conclusion", "literature_synthesis", "treatment_advice", "dose", "dosage", "efficacy_verdict", "safety_verdict", "myth_verdict", "personal_attribution_as_subject"],
     "auto_publish": false
   },
-
   "boundary": {
     "chain": ["SIGNAL_SOURCE_ITEM", "OBSERVATION", "CONCEPT", "RELATION", "CANDIDATE", "REVIEW", "RESEARCH_HANDOFF"],
     "dossier_entities_live_in_source_items": false,
     "discovery_is_research": false
   },
-
   "privacy": {
     "forbidden_inference": ["patient_identity", "commenter_disease_status", "commenter_personal_location_for_health_inference", "individual_medical_status"],
     "public_professional_creators_may_be_source_entities": true
   },
-
   "reader_status": {
     "fields": ["source_id", "operational_state", "access_state", "last_fetch", "last_error", "cursor", "lease", "underfill", "next_due", "observations_total", "proposals_open"],
     "mirrors": "GET /api/evergreen/status per-source shape",
-    "live_readers": 0
+    "live_readers": 0,
+    "runtime_state_reuse": "UNDECIDED_DEFERRED",
+    "own_scheduler": false
+  },
+  "candidate_snapshot": {
+    "purpose": "WHY_NOW_AT_A_POINT_IN_TIME",
+    "append_only": true,
+    "created_only_on": ["CANDIDATE_EVALUATION", "MATERIAL_STATE_CHANGE"],
+    "never_created_per_source_event": true,
+    "fields": ["candidate_id", "generated_at", "algorithm_version", "candidate_class", "why_now", "quality_dimensions", "reason_codes", "summary_signal_metrics"],
+    "why_now_fields": ["signal_windows", "signal_families", "origin_cluster_ids"],
+    "quality_dimension_values_may_be_unknown": true,
+    "reason_codes_live_in_snapshot_structured_data": true,
+    "separate_reason_table": false,
+    "signal_refs": {
+      "separately_addressable": true,
+      "entity": "CANDIDATE_SNAPSHOT_SIGNAL_REF",
+      "exactly_one_of": ["observation_id", "relation_observation_id"],
+      "required_non_empty": true,
+      "reconstructs": ["candidate", "snapshot", "exact_supporting_observations", "original_source_provenance"]
+    }
+  },
+  "identity": {
+    "object_types": ["CONCEPT", "EXPERT", "RELATION"],
+    "states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "canonical_states": ["ACTIVE", "PAUSED"],
+    "provisional_states": ["PROPOSED"],
+    "proposed_is_not_canonical": true,
+    "autonomous_proposed_to_active": false,
+    "promotion_requires": "HUMAN_REVIEW",
+    "rejected_is_durable": true,
+    "merged": {
+      "requires_resolved_to": true,
+      "resolved_to_field_concept": "resolved_to_concept_id",
+      "history_preserved": true,
+      "survivor_must_not_be_merged_or_rejected": true
+    },
+    "rejected_or_merged_must_not_resurface_as_new_proposal_under_aliases": true,
+    "provisional_may_participate_in": ["OBSERVATION", "DOSSIER_CANDIDATE_FOR_REVIEW", "PROPOSED_RELATION"],
+    "provisional_must_stay_visibly_proposed": true
+  },
+  "origin_item": {
+    "hub_native_references_source_items_id_only": true,
+    "hub_native_is_copied": false,
+    "external_allowed_fields": ["origin_item_id", "acquisition_source_id", "external_ref", "url", "content_hash", "published_at", "content_class", "commercial_context", "origin_cluster_id", "evidence_span"],
+    "forbidden_fields": ["full_text", "article_body", "transcript", "comments", "commenter_identity"],
+    "full_text_archive_default": false
+  },
+  "origin_cluster": {
+    "purpose": ["CLUSTER_LIKELY_DUPLICATES_OR_DERIVATIVES", "EXPOSE_DEPENDENCE", "IMPROVE_INDEPENDENCE_CALCULATION"],
+    "not": ["ATTRIBUTION_SYSTEM", "CONTENT_ARCHIVE", "COPYRIGHT_TRACKING"],
+    "bounded_to_discovery_purpose": true
+  },
+  "storage_bounds": {
+    "full_text_archive_default": false,
+    "reader_backfill": "BOUNDED_BY_A_CONFIGURED_CAP_REQUIRED",
+    "per_run_fetch_and_item_caps_required": true,
+    "observations_are_compact": true,
+    "observation_dedupe_key_required": true,
+    "duplicate_observation_inflation_allowed": false,
+    "candidate_snapshots_only_on_evaluation_or_material_state_change": true,
+    "payload_storage": ["PROVENANCE", "EVIDENCE_SPAN", "REFERENCE"],
+    "evidence_span_length": "POLICY_NOT_SET",
+    "origin_clusters_bounded_to_discovery_purpose": true,
+    "retention_durations": "POLICY_NOT_SET",
+    "compaction_rules": "POLICY_NOT_SET"
+  },
+  "sql_design_rules": {
+    "check_only_for_true_architectural_invariants": true,
+    "open_world_topic_universe_in_check": false,
+    "evolving_vocabularies_validated_by_contract_not_check": true,
+    "invariant_checks": ["candidate temporal identity is EVERGREEN"],
+    "unknown_is_null_with_explicit_value_state": true,
+    "destructive_migration_patterns": false,
+    "source_items_rewrite_or_backfill": false
   }
 }

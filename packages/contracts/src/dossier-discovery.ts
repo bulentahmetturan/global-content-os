@@ -74,27 +74,61 @@ export function validateObservation(o: unknown): string[] {
   return e;
 }
 
-/** Runtime concept data (loaded from D1 later). The code never enumerates real concepts. */
-export type ConceptIndex = ReadonlyMap<string, { conceptId: string; state: string }>;
+/** Runtime identity data (loaded from D1 later). The code never enumerates real concepts. */
+export type IdentityState = 'PROPOSED' | 'ACTIVE' | 'PAUSED' | 'REJECTED' | 'MERGED';
+export type ConceptIndex = ReadonlyMap<string, { conceptId: string; state: string; resolvedToConceptId?: string | null }>;
 
 export const normalizeLabel = (s: string): string => s.normalize('NFKC').toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
 
 export type ConceptResolution =
-  | { outcome: 'MATCHED_EXISTING'; conceptId: string }
+  | { outcome: 'MATCHED_EXISTING'; conceptId: string; state?: string }
   | { outcome: 'PROPOSED'; proposal: { family: string; label: string; domain: string | null; state: 'PROPOSED'; origin_observation_id: string } };
 
 /**
- * Open-world resolution: a known label (ACTIVE or PAUSED concept) matches; everything else becomes a PROPOSED concept.
- * A REJECTED concept also matches so a rejected topic does not resurface as a new proposal. Never throws away input.
+ * Open-world resolution: a known label matches whatever its state (PROPOSED attaches to the same provisional identity;
+ * REJECTED stays rejected; MERGED follows resolved_to to the survivor), so a rejected/merged topic does not resurface as
+ * a new proposal under an alias. Everything unknown becomes a PROPOSED identity. Never throws away input.
  */
 export function resolveConcept(o: Pick<Observation, 'observation_id' | 'concept_id' | 'unresolved_label' | 'domain_hint'>, index: ConceptIndex, familyHint?: string): ConceptResolution {
   if (o.concept_id) return { outcome: 'MATCHED_EXISTING', conceptId: o.concept_id };
   const label = normalizeLabel(o.unresolved_label ?? '');
   const hit = label ? index.get(label) : undefined;
-  if (hit) return { outcome: 'MATCHED_EXISTING', conceptId: hit.conceptId };
-  const domain = o.domain_hint && o.domain_hint in vocab.domains ? o.domain_hint : null;
+  if (hit) {
+    if (hit.state === 'MERGED' && hit.resolvedToConceptId) return { outcome: 'MATCHED_EXISTING', conceptId: hit.resolvedToConceptId, state: 'SURVIVOR' };
+    return { outcome: 'MATCHED_EXISTING', conceptId: hit.conceptId, state: hit.state };
+  }
+  const domain = typeof o.domain_hint === 'string' && o.domain_hint in vocab.domains ? o.domain_hint : null;
   const family = familyHint && vocab.open_world.proposal_families.includes(familyHint) ? familyHint : domain ? (vocab.domains as Record<string, { proposal_family: string }>)[domain].proposal_family : 'NEW_HEALTH_TOPIC';
   return { outcome: 'PROPOSED', proposal: { family, label: o.unresolved_label ?? '', domain, state: 'PROPOSED', origin_observation_id: o.observation_id } };
+}
+
+/** Identity lifecycle shared by concepts, experts and relations: proposed is not canonical; merged points at a survivor. */
+export function validateIdentity(i: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(i)) return ['identity_not_object'];
+  if (!inList(vocab.identity.object_types, i.object_type)) e.push('object_type_not_in_vocabulary');
+  if (!inList(vocab.identity.states, i.state)) return [...e, 'state_not_in_vocabulary'];
+  const resolved = typeof i.resolved_to_id === 'string' && i.resolved_to_id !== '';
+  if (i.state === 'MERGED' && !resolved) e.push('merged_requires_resolved_to');
+  if (i.state !== 'MERGED' && i.resolved_to_id !== undefined && i.resolved_to_id !== null) e.push('resolved_to_only_for_merged');
+  if (resolved && i.resolved_to_id === i.id) e.push('merged_cannot_point_to_itself');
+  if (i.state === 'ACTIVE' && i.promoted_by !== 'HUMAN_REVIEW') e.push('active_requires_human_review');
+  return e;
+}
+
+/** Follows a MERGED chain to its survivor; refuses loops, dead ends and a rejected survivor. */
+export function resolveSurvivor(id: string, byId: ReadonlyMap<string, { state: string; resolved_to_id?: string | null }>): { ok: true; id: string } | { ok: false; error: string } {
+  const seen = new Set<string>();
+  let cur = id;
+  for (;;) {
+    if (seen.has(cur)) return { ok: false, error: 'merge_loop' };
+    seen.add(cur);
+    const n = byId.get(cur);
+    if (!n) return { ok: false, error: 'unknown_identity' };
+    if (n.state !== 'MERGED') return n.state === 'REJECTED' ? { ok: false, error: 'survivor_rejected' } : { ok: true, id: cur };
+    if (!n.resolved_to_id) return { ok: false, error: 'merged_without_survivor' };
+    cur = n.resolved_to_id;
+  }
 }
 
 export interface Relation {
@@ -155,40 +189,84 @@ function tripleNetworkErrors(r: Relation, policy?: RelationPolicy): string[] {
   return policy.tripleNetworkSufficient(r) ? [] : ['triple_network_not_sufficient_under_policy'];
 }
 
-export interface DossierCandidate {
-  temporal_identity: string;
-  domain: string;
-  candidate_class: string;
-  state: string;
-  why_now: { snapshot_at: string; signal_windows: Record<string, unknown>; signal_families: string[]; origin_cluster_ids: string[]; observation_ids: string[] };
-  [k: string]: unknown;
-}
-
+/** The candidate is an editorial opportunity at a time; its class and why-now live on append-only snapshots. */
 export function validateCandidate(c: unknown): string[] {
   const e: string[] = [];
   if (!isObj(c)) return ['candidate_not_object'];
   if (c.temporal_identity !== vocab.temporal.candidate_temporal_identity) e.push('temporal_identity_must_be_EVERGREEN');
   for (const forbidden of ['temporal_path', 'acquisition_path', 'evergreen_view']) if (forbidden in c) e.push(`own_path_field_forbidden:${forbidden}`);
   if (!(typeof c.domain === 'string' && c.domain in vocab.domains)) e.push('domain_not_in_vocabulary');
-  if (!inList(vocab.candidate.classes, c.candidate_class)) e.push('candidate_class_not_in_vocabulary');
   if (!inList(vocab.candidate.states, c.state)) e.push('state_not_in_vocabulary');
-  const w = c.why_now;
-  if (!isObj(w)) e.push('why_now_snapshot_required');
-  else {
-    for (const f of vocab.candidate.why_now_snapshot.fields) if (w[f] === undefined) e.push(`why_now_missing:${f}`);
-    const windows = isObj(w.signal_windows) ? Object.keys(w.signal_windows) : [];
+  if ('candidate_class' in c) e.push('class_belongs_on_the_snapshot');
+  const hasC = typeof c.concept_id === 'string' && c.concept_id !== '';
+  const hasR = typeof c.relation_id === 'string' && c.relation_id !== '';
+  if (hasC === hasR) e.push('target_needs_exactly_one_of_concept_id_or_relation_id');
+  if (!inList(vocab.identity.states, c.target_identity_state)) e.push('target_identity_state_required');
+  else if (c.target_identity_state === 'PROPOSED' && c.provisional !== true) e.push('proposed_target_must_be_marked_provisional');
+  else if (c.target_identity_state !== 'PROPOSED' && c.provisional === true) e.push('provisional_only_for_proposed_target');
+  return e;
+}
+
+/** One snapshot = WHY-NOW at generated_at. The supporting observations are separate, addressable refs, never an opaque blob. */
+export function validateCandidateSnapshot(s: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(s)) return ['snapshot_not_object'];
+  for (const f of vocab.candidate_snapshot.fields) if (s[f] === undefined || s[f] === null || s[f] === '') e.push(`missing:${f}`);
+  if (s.candidate_class !== undefined && !inList(vocab.candidate.classes, s.candidate_class)) e.push('candidate_class_not_in_vocabulary');
+  if (isObj(s.why_now)) {
+    for (const f of vocab.candidate_snapshot.why_now_fields) if (s.why_now[f] === undefined) e.push(`why_now_missing:${f}`);
+    const windows = isObj(s.why_now.signal_windows) ? Object.keys(s.why_now.signal_windows) : [];
     for (const k of windows) if (!(k in vocab.temporal.signal_windows)) e.push(`signal_window_not_in_vocabulary:${k}`);
+  }
+  if (isObj(s.quality_dimensions)) {
+    for (const [k, v] of Object.entries(s.quality_dimensions)) if (!isValidSignalValue(v)) e.push(`quality_dimension_needs_explicit_value_state:${k}`);
+  }
+  if (Array.isArray(s.reason_codes)) for (const rc of s.reason_codes) if (!inList(vocab.quality.reason_codes, rc)) e.push(`reason_code_not_in_vocabulary:${String(rc)}`);
+  const refs = s.signal_refs;
+  if (!Array.isArray(refs) || refs.length === 0) e.push('signal_refs_required_and_separately_addressable');
+  else {
+    refs.forEach((ref, i) => {
+      const r = isObj(ref) ? ref : {};
+      const a = typeof r.observation_id === 'string' && r.observation_id !== '';
+      const b = typeof r.relation_observation_id === 'string' && r.relation_observation_id !== '';
+      if (a === b) e.push(`signal_ref_${i}_needs_exactly_one_of_observation_id_or_relation_observation_id`);
+    });
   }
   return e;
 }
 
+export function validateRelationObservation(o: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(o)) return ['relation_observation_not_object'];
+  for (const f of vocab.relation.observation_required_fields) if (o[f] === undefined || o[f] === null || o[f] === '') e.push(`missing:${f}`);
+  if (o.joint_signal_kind !== undefined && !inList(vocab.relation.pair.joint_signal_kinds, o.joint_signal_kind)) e.push('joint_signal_kind_not_in_vocabulary');
+  return e;
+}
+
+/** External (non-Hub) origin reference: provenance and dedupe metadata only; no body, transcript or commenter data. */
+export function validateOriginItem(o: unknown): string[] {
+  const e: string[] = [];
+  if (!isObj(o)) return ['origin_item_not_object'];
+  for (const k of Object.keys(o)) {
+    if (vocab.origin_item.forbidden_fields.includes(k)) e.push(`forbidden_field:${k}`);
+    else if (!vocab.origin_item.external_allowed_fields.includes(k)) e.push(`field_not_allowed:${k}`);
+  }
+  const classes = [...vocab.source.content_classes.discovery_eligible, ...vocab.source.content_classes.non_discovery];
+  if (o.content_class !== undefined && !inList(classes, o.content_class)) e.push('content_class_not_in_vocabulary');
+  if (o.commercial_context !== undefined && !inList(vocab.source.commercial_context, o.commercial_context)) e.push('commercial_context_not_in_vocabulary');
+  return e;
+}
+
+/** Append-only human review of ONE object. Its effect is limited to that object; nothing cascades or mutates config. */
 export function validateReview(r: unknown): string[] {
   const e: string[] = [];
   if (!isObj(r)) return ['review_not_object'];
-  if (r.decider !== vocab.review.decider) e.push('decider_must_be_human');
-  if (!inList(vocab.review.decisions, r.decision)) e.push('decision_not_in_vocabulary');
-  if (r.decision === 'REJECT' && !inList(vocab.review.reject_reasons, r.reason)) e.push('reject_requires_reason_code');
-  for (const k of ['effects', 'mutations', 'weights', 'source_activation', 'cadence', 'registry', 'routing']) {
+  if (r.decider !== undefined && r.decider !== vocab.review.decider) e.push('decider_must_be_human');
+  for (const f of vocab.review.required_fields) if (r[f] === undefined || r[f] === null || r[f] === '') e.push(`missing:${f}`);
+  if (r.target_type !== undefined && !inList(vocab.review.target_types, r.target_type)) e.push('target_type_not_in_vocabulary');
+  if (r.decision !== undefined && !inList(vocab.review.decisions, r.decision)) e.push('decision_not_in_vocabulary');
+  if (r.decision === 'REJECT' && !inList(vocab.review.reject_reasons, r.reason_code)) e.push('reject_requires_reason_code');
+  for (const k of ['effects', 'mutations', 'weights', 'source_activation', 'cadence', 'registry', 'routing', 'cascade']) {
     if (k in r && !(Array.isArray(r[k]) && (r[k] as unknown[]).length === 0)) e.push(`review_may_not_mutate:${k}`);
   }
   return e;
