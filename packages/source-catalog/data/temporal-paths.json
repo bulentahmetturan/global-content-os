@@ -57,7 +57,7 @@
         "rediscovery_cadence_hours": 24,
         "tier": "FAMILY_POOL",
         "daily_target": 4,
-        "activation": "CANARY_ONLY",
+        "activation": "ACTIVE",
         "deep_archive_cadence_hours": 168,
         "family": "cleveland",
         "max_items_evaluated_per_cycle": 60,
@@ -83,8 +83,8 @@
         "enabled": true,
         "importance_signal_strategy": "EDITORIAL_RELEVANCE"
       },
-      "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (FAMILY_POOL 4/day proposal; Health Library = second archive of the same identity); CANARY_ONLY",
-      "updated_at": "2026-10-02T12:22:09.479Z",
+      "basis": "owner 2026-10-02 staged activation step 1: Cleveland Health Essentials; zero-write scheduler smoke PASS, local bounded canary 4 candidates, 0 blocked",
+      "updated_at": "2026-10-02T17:43:09.079Z",
       "history": [
         {
           "op": "recalibrate-temporal",
@@ -92,6 +92,13 @@
           "at": "2026-10-02T12:22:09.479Z",
           "by": "W11",
           "basis": "owner FAZ 3 canary 2026-10-02; capacity audit 2026-10-02 (FAMILY_POOL 4/day proposal; Health Library = second archive of the same identity); CANARY_ONLY"
+        },
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_dd52ac62f6e2a0fd",
+          "at": "2026-10-02T17:43:09.079Z",
+          "by": "W11",
+          "basis": "owner 2026-10-02 staged activation step 1: Cleveland Health Essentials; zero-write scheduler smoke PASS, local bounded canary 4 candidates, 0 blocked"
         }
       ]
     },

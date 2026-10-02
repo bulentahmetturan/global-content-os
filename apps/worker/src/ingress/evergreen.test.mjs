@@ -125,12 +125,15 @@ test('CANARY_ONLY sources cannot receive a production lease or persist cursor', 
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM evergreen_runtime_state').get().n, 0);
 });
 
-test('the committed lifecycle registry is valid: one entry per identity, CANARY_ONLY, lanes derived', () => {
+// Staged activation (owner 2026-10-02): this list is the ONLY set allowed to be ACTIVE; extend it one source per approved stage.
+const OWNER_ACTIVATED = new Set(['news-cleveland-clinic-health-essentials-sitemap']);
+
+test('the committed lifecycle registry is valid: one entry per identity, only the owner-activated set is ACTIVE, lanes derived', () => {
   const r = reg.temporalRegistry();
   assert.deepEqual(r.errors, []);
   const ids = r.entries.map((e) => e.source_id);
   assert.equal(new Set(ids).size, ids.length);
-  for (const e of r.entries) assert.equal(e.evergreen.activation, 'CANARY_ONLY', `${e.source_id} is not activated`);
+  for (const e of r.entries) assert.equal(e.evergreen.activation, OWNER_ACTIVATED.has(e.source_id) ? 'ACTIVE' : 'CANARY_ONLY', `${e.source_id} activation is not the owner-approved stage`);
   const lane = Object.fromEntries(r.entries.map((e) => [e.source_id, [e.semantic_lane, e.evergreen.evergreen_view]]));
   assert.deepEqual(lane['news-cleveland-clinic-health-essentials-sitemap'], ['Haber', 'health_reference']);
   assert.deepEqual(lane['research-cochrane-library'], ['Research', 'research_rediscovery']);
