@@ -29,6 +29,25 @@
       "change": "Hub static assets only (one file removed); Worker code, migrations, bindings unchanged",
       "deployed": { "commit": "a4f648b083e8c536fe3a2041ff1a1c2afee6e7b9", "workerVersion": "ae6e0e1a-90e8-4621-a029-b355918676af", "deployedAt": "2026-09-30T11:31:57Z", "releaseGate": "READY", "verify": "deploy-identity --live matchesLocalHead + identityStamped + schema 0024; /api/ready READY degraded []; /version 200; origin = a4f648b (REMOTE_SHA_MISMATCH=0); SMOKE_PASS; old v3 URL now serves the Hub SPA (200 text/html)" }
     },
+    "temporalV2Release": {
+      "decision": "Owner approval 2026-10-02: Temporal V2 remote migration + deploy (branch temporal-architecture; E90 canonical line)",
+      "rollbackTarget": { "workerVersion": "d69ef1f2-9fe6-4cee-9858-748d0ede54bc", "commit": "26f4a45", "recordedBeforeDeploy": "2026-10-02T14:25Z" },
+      "d1BookmarkBeforeMigration": { "gcos": "0000029b-0000000a-000050f8-db1b2cf446435d1a61bf8230533aaf5d" },
+      "migrations": { "gcos": ["0028_temporal_paths.sql"], "ccos": [] },
+      "expectedMigrationLevel": { "gcos": "0028_temporal_paths.sql" },
+      "change": "Temporal paths (TIME_SENSITIVE + EVERGREEN): additive 0028 (nullable source_items columns, item_path_membership, immutability triggers), path-aware list/count, grouped Hub nav, Evergreen views; all Evergreen sources CANARY_ONLY",
+      "deployed": {
+        "commit": "a013a8456664c1dad6605babf414802c357d9b53",
+        "workerVersion": "3f85ff95-6999-44cd-bfa7-25f804f66655",
+        "deployedAt": "2026-10-02T14:28:06.413Z",
+        "releaseGate": "READY (CI green on a013a84: Worker tests + Tip Toplulugu tests)",
+        "verify": "0028 applied (13 statements); row counts unchanged (source_items 3221, source_feeds 883, review_feedback 3); new columns nullable, no defaults; item_path_membership empty; deploy-identity --live matchesLocalHead + identityStamped + schema 0028; /api/ready READY degraded []; temporal nav live (/api/routes temporal block; Hub Time Sensitive Haber/Research/Duyuru/Burs/Egitim, Evergreen Saglik & Referans/Research Rediscovery); TIME_SENSITIVE flow PASS (path-aware and legacy /api/items 200); EVERGREEN views 200 and empty; SMOKE_PASS"
+      },
+      "sourceActivation": "none (temporal-paths.json: 4 entries, all CANARY_ONLY)",
+      "productionEvergreenWrites": "none (source_items acquisition_path=EVERGREEN 0; item_path_membership 0)",
+      "pillars": { "P1": "YES", "P2": "LOCAL_ONLY", "P3": "PARTIAL", "P4": "YES", "P5": "PARTIAL" },
+      "rollbackRef": "release/postfreeze-checkpoint.json temporalV2Release"
+    },
     "rollbackRef": "release/postfreeze-checkpoint.json (pre-closure Worker versions fcd168f4 / 790ca0df and D1 Time Travel bookmarks)",
     "deferredHistory": "Resolved: MCD workflows disabled, MCD secret deleted, local MCD dir retired (E15 CLOSED 2026-09-30). MCD GitHub repo archived 2026-09-30 on owner authorization, all 7 workflows disabled (E28 CLOSED)."
   },
