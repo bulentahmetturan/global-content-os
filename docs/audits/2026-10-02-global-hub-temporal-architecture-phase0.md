@@ -44,9 +44,9 @@ Membership read rule: TIME_SENSITIVE = `acquisition_path = TIME_SENSITIVE` (or l
 
 Legacy rows: no backfill write. Evergreen admission was never open before this work, so rows on `kaduse-news`, `kaduse-research` and `tip_toplulugu` read as TIME_SENSITIVE; other `tip-ogrencileri` rows read as `UNCLASSIFIED` and enter no temporal count. Rollback: code revert leaves the new columns unread; new tables can be dropped; no existing row changes.
 
-## Phase 2 as built (`migrations/0028_temporal_path_membership.sql`, local only)
+## Phase 2 as built (`migrations/0028_temporal_paths.sql`, local only)
 
-The donor snapshot `5bab576` on `evergreen-v1` carries a different `migrations/0028_temporal_paths.sql` (one overwritable `source_items.temporal_path`, `rediscovery_count`, no membership table). It contradicts decision 4 and is not canonical; the canonical file has a distinct name so the two can never be confused in `d1_migrations`.
+The donor snapshot `5bab576` on `evergreen-v1` carries a different `migrations/0028_temporal_paths.sql` (one overwritable `source_items.temporal_path`, `rediscovery_count`, no membership table). It contradicts decision 4 and is not canonical (owner decision 2026-10-02: never merged, cherry-picked, renumbered or carried forward). Both files share the name, and `d1_migrations` records names only, so the donor file must never be applied to any D1: a database that had it would record `0028_temporal_paths.sql` as applied without `item_path_membership`.
 
 - `source_items`: the seven columns above. Trigger `trg_source_items_acquisition_path_immutable` aborts any change of a non-NULL `acquisition_path` (`ACQUISITION_PATH_IMMUTABLE`).
 - `item_path_membership (source_item_id, temporal_path, evergreen_view, discovery_mode, discovery_reason, source_id, importance_signal_json, first_at, PK(source_item_id, temporal_path))`. Written with `INSERT … ON CONFLICT DO NOTHING`; trigger `trg_item_path_membership_immutable` aborts every UPDATE. No `last_at`: refreshing it would be a row write per re-sighting and would make the row mutable.
@@ -54,7 +54,7 @@ The donor snapshot `5bab576` on `evergreen-v1` carries a different `migrations/0
 - Indexes: `(route, acquisition_path, evergreen_view, triage_status)` and a partial `(route, canonical_work_id) WHERE canonical_work_id IS NOT NULL` (second dedupe key: the same work never gets a second row on a route).
 - Code: `apps/worker/src/db/temporal.ts` (`itemScope` = the one list/count predicate, `effectivePathSql` legacy inference, `semanticLane`, `normalizeSignal`), `upsertSourceItem` / `addPathMembership` / `temporalNavCounts` in `queries.ts`, path-aware stale/undated gate in `ingress/ingest-gate.ts` (future / impossible dates still rejected on every path), `/api/routes` `temporal` block and `/api/items?path=&evergreen_view=` in `index.ts`, grouped sidebar and evergreen card in `apps/hub/index.html`.
 - Tests: `apps/worker/src/db/temporal.test.mjs` (real 0001..0028 chain in `node:sqlite`), `apps/hub/temporal-nav.test.mjs`.
-- Deploy order when approved: apply 0028 remotely **before** the Worker deploy (readiness expects `0028_temporal_path_membership.sql`; code reads the new columns).
+- Deploy order when approved: apply 0028 remotely **before** the Worker deploy (readiness expects `0028_temporal_paths.sql`; code reads the new columns).
 
 ## Source / path matrix (draft; tier and target are owner values, not set here)
 
