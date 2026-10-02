@@ -242,6 +242,24 @@ Low-confidence merges are never automatic.
 
 Rejected experts and reasons remain durable so the system does not repeatedly resurface them.
 
+
+### 5.1 User-approved Turkish creator seed panel
+
+These are **seed candidates for the Turkish clinician/health creator pulse**, not scientific-authority rankings. Credentials, specialty and canonical platform identity must be verified before production activation.
+
+- Prof. Dr. Nazan Uysal Harzadın
+- Prof. Dr. Muhammed Keskin
+- Prof. Dr. Osman Müftüoğlu
+- Prof. Dr. Derya Uludüz
+- Dr. Ayça Kaya
+- Prof. Dr. Zeynep Tartan
+- Prof. Dr. Halit Yerebakan
+- Ecz. Mehmet Müderrisoğlu
+- Dt. Tuğba Duymaz
+- Dr. Mustafa Kalkan — Instagram seed: `@drmustafakalkan`
+
+User-approved here means "include in the discovery seed panel for identity/credential verification and later source wiring"; it does not by itself activate ingestion or assign evidence weight.
+
 ## 6. Reader architecture
 
 Each reader uses one runtime contract:
