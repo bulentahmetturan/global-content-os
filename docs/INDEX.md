@@ -59,6 +59,12 @@ OPTIONAL: `apps/worker/src/ingress/evergreen.ts`, `apps/worker/src/ingress/everg
 DO NOT LOAD: source registries in bulk, archived run history. Activation stays lifecycle-owned and requires owner approval
 SECOND REPO: NO
 
+### Evergreen dossier discovery (architecture foundation; contracts only, nothing live)
+READ: `docs/DOSSIER-DISCOVERY.md`, `packages/contracts/dossier-discovery.json`
+OPTIONAL: `packages/contracts/src/dossier-discovery.ts`, `packages/contracts/dossier-discovery.test.mjs`, `docs/EVERGREEN-RUNTIME.md`
+DO NOT LOAD: source registries in bulk. A source, reader or migration for this subsystem needs a separate owner-approved task
+SECOND REPO: NO
+
 ### Hub UI
 READ: `apps/hub/AGENTS.md`
 OPTIONAL: `apps/hub/route-counts.test.mjs`, `apps/hub/source-family.test.mjs`, `apps/hub/source-review-filter.test.mjs`
