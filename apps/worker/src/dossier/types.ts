@@ -30,7 +30,7 @@ export type DossierDomain = 'HEALTH' | 'NUTRITION_PROTOCOL' | 'SUPPLEMENT' | 'LO
 
 export class DossierError extends Error {
   constructor(readonly code: string, message?: string) {
-    super(message ?? code);
+    super(message ? `${code}: ${message}` : code);
   }
 }
 

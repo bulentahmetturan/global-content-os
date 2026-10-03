@@ -281,6 +281,13 @@ export class DossierRepo {
   getConcept(conceptId: string): Promise<Row | null> {
     return this.first(`SELECT * FROM dossier_concepts WHERE concept_id = ?`, conceptId);
   }
+  listAliasesForConcept(conceptId: string, limit: number): Promise<Row[]> {
+    return this.rows(`SELECT alias_text, normalized_alias, language, alias_type FROM dossier_aliases WHERE concept_id = ? AND status = 'ACTIVE' ORDER BY normalized_alias, language LIMIT ?`, conceptId, limit);
+  }
+  /** Relations a concept is a member of (via the member index), bounded. */
+  listRelationsForConcept(conceptId: string, limit: number): Promise<Row[]> {
+    return this.rows(`SELECT r.relation_id, r.semantic, r.depth, r.state FROM dossier_relation_members m JOIN dossier_relations r ON r.relation_id = m.relation_id WHERE m.concept_id = ? ORDER BY r.relation_id LIMIT ?`, conceptId, limit);
+  }
   async setConceptState(conceptId: string, state: string, resolvedToConceptId: string | null = null): Promise<void> {
     const n = await this.exec(`UPDATE dossier_concepts SET state = ?, resolved_to_concept_id = ?, updated_at = ? WHERE concept_id = ?`, state, resolvedToConceptId, this.ctx.now(), conceptId);
     if (n === 0) throw new DossierError('concept_not_found');
