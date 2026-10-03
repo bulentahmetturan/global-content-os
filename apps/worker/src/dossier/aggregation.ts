@@ -39,7 +39,7 @@ const FAST: { kind: string; days: number }[] = [
   { kind: 'BASELINE_90D', days: 90 },
 ];
 const STRUCTURAL = ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD'];
-const COUNT_KINDS = ['CONTENT_MENTION', 'ACTOR_MENTION', 'CLINICIAN_REPORTED_PUBLIC_QUESTION', 'SOCIAL_MOMENTUM'];
+const COUNT_KINDS = ['CONTENT_MENTION', 'ACTOR_MENTION', 'CLINICIAN_REPORTED_PUBLIC_QUESTION', 'SOCIAL_MOMENTUM', 'RESEARCH_ACTIVITY_COUNT', 'INSTITUTIONAL_TOPIC_ACTIVITY'];
 
 const dayOf = (iso: string): string => iso.slice(0, 10);
 const addDays = (day: string, n: number): string => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
