@@ -1,0 +1,307 @@
+/**
+ * MANUAL_ONE_SHOT_CANARY_RUNNER (production-wirable, disabled by default).
+ *
+ * One run = one explicit operator-started execution of ONE registered dossier reader under DOSSIER_CANARY_V1, executed in bounded
+ * invocations that share ONE implementation of the business logic (the same stage / observe / aggregate / evaluate functions every
+ * future scheduler would call; there is no parallel manual pipeline):
+ *
+ *   FETCH     one bounded source read; the normalized thin items are written to the run's work list (no second fetch on resume)
+ *   INGEST    per item: thin source reference + observations (open-world concepts, editorial eligibility, source granularity)
+ *   DERIVE    per concept: eligibility gate -> aggregates -> WATCH or (route + coherence + integrity) -> candidate + immutable snapshot
+ *   FINALIZE  signal-run provenance + attribution notice; the run is COMPLETED and stops
+ *
+ * Why bounded invocations: a real 100-study run needs thousands of D1 statements while one Worker invocation may issue only a limited
+ * number. Every invocation counts its statements, pauses at a unit boundary (PAUSED_BUDGET, progress and checkpoint persisted) and the
+ * operator resumes the same run. Every unit is idempotent, so a pause, a crash or a retry never duplicates anything.
+ *
+ * Controls: nothing runs unless the environment master switch AND the operator controls (canary, manual runs, the reader) are all ON
+ * (absent = OFF) and the reader's access/legal blockers are empty. One lease per run, one active run per reader, a quota of runs per
+ * reader (then STOP until the operator authorizes more), no auto-repeat, no scheduler, no execution on deploy.
+ */
+import { aggregateConcept } from './aggregation';
+import { buildAttributionNotice, type AttributionNotice } from './attribution';
+import { assignClusters } from './clusters';
+import { canaryPolicy, readerCaps, requireCanaryProfile, type DossierCanaryProfile } from './canary-profile';
+import {
+  controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, createBudgetedD1, DOSSIER_READER_REGISTRY, isOn,
+  loadControls, readerAccessBlockers, type Controls, type DossierReaderRegistration,
+} from './canary-control';
+import type { ContentClassifier, ConceptExtractor } from './classifier';
+import { executeConnector, type Connector, type SourceItem } from './connectors';
+import { deriveConceptEligibility } from './eligibility';
+import { evaluateTarget } from './candidates';
+import { newIngestAcc, observeSourceItem, stageSourceItem } from './ingest';
+import { DossierRepo } from './repo';
+import { defaultCtx, DossierError, type Ctx, type D1Like } from './types';
+
+export const CANARY_AGGREGATION_VERSION = 'canary-agg-1';
+export const CANARY_ALGORITHM_VERSION = 'canary-cand-1';
+const READER_VERSION = 'canary-1';
+/** Statements kept in reserve to persist progress at a pause (a unit never starts without it). */
+const TAIL_RESERVE = 12;
+/** Upper bound of statements one DERIVE unit (one concept) may issue; measured at ~25. */
+const DERIVE_UNIT_COST = 45;
+const itemCost = (item: SourceItem): number => 14 + 9 * (item.signals?.length ?? 0);
+
+export type RunPhase = 'FETCH' | 'INGEST' | 'DERIVE' | 'FINALIZE' | 'DONE';
+export type RunStatus = 'RUNNING' | 'PAUSED_BUDGET' | 'COMPLETED' | 'FAILED';
+
+export interface CanaryProgress {
+  startedAt: string;
+  retrievedAt: string | null;
+  itemsSeen: number;
+  workTotal: number;
+  itemsNew: number;
+  deriveAfter: string | null;
+  derived: number;
+  notEligible: number;
+  watch: number;
+  promoted: number;
+  noSignal: number;
+  attribution: AttributionNotice | null;
+}
+const newProgress = (now: string): CanaryProgress => ({ startedAt: now, retrievedAt: null, itemsSeen: 0, workTotal: 0, itemsNew: 0, deriveAfter: null, derived: 0, notEligible: 0, watch: 0, promoted: 0, noSignal: 0, attribution: null });
+
+export interface RunRow {
+  run_id: string;
+  runtime_key: string;
+  reader_id: string;
+  profile: string;
+  status: RunStatus;
+  phase: RunPhase;
+  progress_json: string;
+  checkpoint_json: string | null;
+  lease_holder: string | null;
+  lease_expires_at: string | null;
+  invocations: number;
+  statements_used: number;
+  error_summary: string | null;
+  started_by: string;
+  created_at: string;
+  updated_at: string;
+  finished_at: string | null;
+}
+
+export interface CanaryEnv {
+  DOSSIER_CANARY_ENABLED?: string;
+}
+export interface CanaryDeps {
+  db: D1Like;
+  env: CanaryEnv;
+  profile: DossierCanaryProfile;
+  /** Builds the reader for a registration. Production passes real network readers; tests pass replay readers. */
+  createReader: (reg: DossierReaderRegistration) => Connector;
+  classifier: ContentClassifier;
+  extractor: ConceptExtractor;
+  ctx?: Ctx;
+  registry?: readonly DossierReaderRegistration[];
+}
+export type CanaryOutcome =
+  | { status: 'REFUSED'; reasons: string[] }
+  | { status: RunStatus; runId: string; phase: RunPhase; progress: CanaryProgress; statementsThisInvocation: number; error: string | null };
+
+export const runtimeKey = (readerId: string): string => `dossier:${readerId}`;
+const json = (v: unknown): string => JSON.stringify(v);
+
+async function one<T>(db: D1Like, sql: string, ...v: unknown[]): Promise<T | null> {
+  return db.prepare(sql).bind(...v).first<T>();
+}
+async function many<T>(db: D1Like, sql: string, ...v: unknown[]): Promise<T[]> {
+  return (await db.prepare(sql).bind(...v).all<T>()).results;
+}
+async function exec(db: D1Like, sql: string, ...v: unknown[]): Promise<number> {
+  const r = await db.prepare(sql).bind(...v).run();
+  return r.meta?.changes ?? 0;
+}
+
+/** The pre-run gate: every reason a run may NOT start (empty = allowed). Pure over controls so it is shared with the readiness read model. */
+export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null }): string[] {
+  const r: string[] = [];
+  if (o.env.DOSSIER_CANARY_ENABLED !== 'true') r.push('ENV_CANARY_DISABLED');
+  if (!isOn(o.controls, CONTROL_CANARY)) r.push('CANARY_DISABLED_BY_OPERATOR');
+  if (!isOn(o.controls, CONTROL_MANUAL_RUNS)) r.push('MANUAL_RUNS_NOT_ALLOWED');
+  if (!o.reg) r.push('READER_NOT_REGISTERED');
+  else {
+    if (!isOn(o.controls, controlReaderEnabled(o.reg.dossier_reader_id))) r.push('READER_DISABLED');
+    for (const b of readerAccessBlockers(o.reg)) r.push(`READER_BLOCKED:${b}`);
+  }
+  return r;
+}
+
+export async function loadRun(db: D1Like, runId: string): Promise<RunRow | null> {
+  return one<RunRow>(db, `SELECT * FROM dossier_canary_runs WHERE run_id = ?`, runId);
+}
+async function activeRun(db: D1Like, key: string): Promise<RunRow | null> {
+  return one<RunRow>(db, `SELECT * FROM dossier_canary_runs WHERE runtime_key = ? AND status IN ('RUNNING','PAUSED_BUDGET')`, key);
+}
+
+/** Runs allowed per reader = the profile quota + any extra runs an operator explicitly authorized after review. */
+async function runQuota(db: D1Like, profile: DossierCanaryProfile, controls: Controls, readerId: string): Promise<{ allowed: number; completed: number }> {
+  const completed = (await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED'`, readerId, profile.profile_id))?.n ?? 0;
+  return { allowed: profile.max_runs_per_reader.value + Number(controls[controlReaderExtraRuns(readerId)] ?? 0), completed: Number(completed) };
+}
+
+export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; operator: string; runId?: string }): Promise<CanaryOutcome> {
+  const profile = requireCanaryProfile(deps.profile); // refuses to run with a missing/invalid profile: no silent fallback
+  const ctx = deps.ctx ?? defaultCtx;
+  const budget = createBudgetedD1(deps.db, profile.runtime.d1_statements_per_invocation.value);
+  const db = budget.db;
+  const now = (): string => ctx.now();
+
+  const reg = (deps.registry ?? DOSSIER_READER_REGISTRY).find((r) => r.dossier_reader_id === req.readerId) ?? null;
+  const controls = await loadControls(db);
+  const gate = runGate({ env: deps.env, controls, reg });
+  if (gate.length || !reg) return { status: 'REFUSED', reasons: gate.length ? gate : ['READER_NOT_REGISTERED'] };
+  if (!profile.sources.value.some((s) => s.canonical_source_id === reg.canonical_source_id)) return { status: 'REFUSED', reasons: ['SOURCE_NOT_IN_CANARY_PROFILE'] };
+
+  // ---- select or create the run
+  let run: RunRow | null = req.runId ? await loadRun(db, req.runId) : await activeRun(db, runtimeKey(reg.dossier_reader_id));
+  if (req.runId && (!run || run.reader_id !== reg.dossier_reader_id)) return { status: 'REFUSED', reasons: ['RUN_NOT_FOUND_FOR_READER'] };
+  if (run && !['RUNNING', 'PAUSED_BUDGET'].includes(run.status)) return { status: 'REFUSED', reasons: [`RUN_NOT_ACTIVE:${run.status}`] };
+  if (!run) {
+    const q = await runQuota(db, profile, controls, reg.dossier_reader_id);
+    if (q.completed >= q.allowed) return { status: 'REFUSED', reasons: ['RUN_QUOTA_EXHAUSTED_OPERATOR_REVIEW_REQUIRED'] };
+    const t = now();
+    const runId = ctx.id('crun');
+    try {
+      await exec(db, `INSERT INTO dossier_canary_runs (run_id, runtime_key, reader_id, profile, status, phase, progress_json, started_by, created_at, updated_at) VALUES (?,?,?,?, 'RUNNING', 'FETCH', ?, ?, ?, ?)`, runId, runtimeKey(reg.dossier_reader_id), reg.dossier_reader_id, profile.profile_id, json(newProgress(t)), req.operator, t, t);
+    } catch (e) {
+      if (/UNIQUE|constraint/i.test(String(e))) return { status: 'REFUSED', reasons: ['RUN_ALREADY_ACTIVE'] };
+      throw e;
+    }
+    run = await loadRun(db, runId);
+  }
+  const live = run!;
+
+  // ---- one lease per run
+  const t0 = now();
+  const holder = ctx.id('lease');
+  const leaseUntil = new Date(Date.parse(t0) + profile.runtime.lease_seconds.value * 1000).toISOString();
+  const got = await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?)`, holder, leaseUntil, t0, live.run_id, t0);
+  if (got === 0) return { status: 'REFUSED', reasons: ['RUN_LEASED'] };
+
+  const progress: CanaryProgress = { ...newProgress(t0), ...(JSON.parse(live.progress_json) as CanaryProgress) };
+  let phase: RunPhase = live.phase;
+  let status: RunStatus = 'RUNNING';
+  let error: string | null = null;
+  const reader = deps.createReader(reg);
+  const caps = readerCaps(profile, reg.canonical_source_id);
+  const policy = canaryPolicy(profile, { promotionEnabled: isOn(controls, CONTROL_PROMOTION), canonicalSourceId: reg.canonical_source_id });
+  const repo = new DossierRepo(db, ctx);
+
+  const save = async (patch: { status?: RunStatus; phase?: RunPhase; error?: string | null; finished?: boolean; checkpoint?: unknown }): Promise<void> => {
+    const t = now();
+    await exec(db, `UPDATE dossier_canary_runs SET status = ?, phase = ?, progress_json = ?, checkpoint_json = COALESCE(?, checkpoint_json), lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, updated_at = ?, finished_at = ? WHERE run_id = ?`,
+      patch.status ?? status, patch.phase ?? phase, json(progress), patch.checkpoint === undefined ? null : json(patch.checkpoint), budget.used() + 1, patch.error ?? error, t, patch.finished ? t : null, live.run_id);
+  };
+
+  try {
+    // ================= FETCH =================
+    if (phase === 'FETCH') {
+      const exec1 = await executeConnector(reader, { itemCap: caps.itemCap, fetchCap: caps.fetchCap, cursor: null }, now);
+      if (exec1.status === 'FAILED') throw new DossierError('source_fetch_failed', exec1.error ?? 'unknown');
+      progress.retrievedAt = exec1.startedAt;
+      progress.itemsSeen = exec1.itemsSeen;
+      progress.workTotal = exec1.items.length;
+      for (let i = 0; i < exec1.items.length; i += 20) {
+        const part = exec1.items.slice(i, i + 20);
+        await exec(db, `INSERT OR IGNORE INTO dossier_canary_work (run_id, seq, payload_json, status) VALUES ${part.map(() => '(?,?,?,\'PENDING\')').join(',')}`, ...part.flatMap((it, k) => [live.run_id, i + k, json(it)]));
+      }
+      phase = 'INGEST';
+      await persistCheckpoint(db, live.run_id, exec1.checkpoint);
+    }
+
+    // ================= INGEST =================
+    if (phase === 'INGEST') {
+      const actorIds = await repo.actorIdsForSource(reg.canonical_source_id);
+      const acc = newIngestAcc();
+      paused: for (;;) {
+        const rows = await many<{ seq: number; payload_json: string }>(db, `SELECT seq, payload_json FROM dossier_canary_work WHERE run_id = ? AND status = 'PENDING' ORDER BY seq LIMIT 3`, live.run_id);
+        if (!rows.length) { phase = 'DERIVE'; break; }
+        for (const row of rows) {
+          const item = JSON.parse(row.payload_json) as SourceItem;
+          if (budget.remaining() < itemCost(item) + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused; }
+          const st = await stageSourceItem(repo, deps.classifier, item);
+          if (st.created) progress.itemsNew += 1;
+          if (item.contentHash) await assignClusters(repo, [{ memberKind: 'EXTERNAL_ITEM', memberRef: st.originItemId, acquisitionSourceId: item.acquisitionSourceId, publishedAt: item.publishedAt ?? null, fingerprint: item.contentHash }], { lookupLimit: caps.itemCap * 4 });
+          await observeSourceItem(repo, { runId: live.run_id, startedAt: progress.startedAt, extractor: deps.extractor, policy, reader }, st, actorIds, acc);
+          await exec(db, `UPDATE dossier_canary_work SET status = 'DONE' WHERE run_id = ? AND seq = ?`, live.run_id, row.seq);
+        }
+      }
+    }
+
+    // ================= DERIVE =================
+    if (phase === 'DERIVE' && status === 'RUNNING') {
+      const aggCfg = { version: CANARY_AGGREGATION_VERSION, now: now(), observationLimit: caps.itemCap * 20, platformOf: () => reader.descriptor.platform };
+      paused2: for (;;) {
+        const concepts = await many<{ concept_id: string }>(db, `SELECT DISTINCT concept_id FROM dossier_observations WHERE run_id = ? AND concept_id IS NOT NULL AND concept_id > ? ORDER BY concept_id LIMIT 5`, live.run_id, progress.deriveAfter ?? '');
+        if (!concepts.length) { phase = 'FINALIZE'; break; }
+        for (const { concept_id: cid } of concepts) {
+          if (budget.remaining() < DERIVE_UNIT_COST + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused2; }
+          const ce = deriveConceptEligibility(await repo.conceptEligibilitySummary(cid));
+          if (ce.state !== 'ELIGIBLE') progress.notEligible += 1; // retained as observations/concept; never aggregated for candidates
+          else {
+            await aggregateConcept(repo, cid, aggCfg);
+            const out = await evaluateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
+            if (out.status === 'WATCH') progress.watch += 1;
+            else if (out.status === 'EVALUATED' && out.created) progress.promoted += 1;
+            else if (out.status === 'NO_SIGNAL') progress.noSignal += 1;
+          }
+          progress.derived += 1;
+          progress.deriveAfter = cid;
+          await exec(db, `UPDATE dossier_canary_runs SET progress_json = ?, updated_at = ? WHERE run_id = ?`, json(progress), now(), live.run_id);
+        }
+      }
+    }
+
+    // ================= FINALIZE =================
+    if (phase === 'FINALIZE' && status === 'RUNNING') {
+      if (budget.remaining() >= TAIL_RESERVE + 10) {
+        const finishedAt = now();
+        const obs = (await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_observations WHERE run_id = ?`, live.run_id))?.n ?? 0;
+        if (!(await repo.getSignalRun(live.run_id))) {
+          await repo.recordSignalRun({ run_id: live.run_id, reader_id: reg.dossier_reader_id, source_ref: reg.canonical_source_id, started_at: progress.startedAt, finished_at: finishedAt, status: 'SUCCEEDED', items_seen: progress.itemsSeen, items_new: progress.itemsNew, observations_written: Number(obs), reader_version: READER_VERSION, error_summary: null });
+        }
+        progress.attribution = reader.descriptor.attribution ? buildAttributionNotice(reg.canonical_source_id, reader.descriptor.attribution, { retrievedAt: progress.retrievedAt, processedAt: finishedAt }) : null;
+        phase = 'DONE';
+        status = 'COMPLETED';
+      } else status = 'PAUSED_BUDGET';
+    }
+    await save({ finished: status === 'COMPLETED' });
+  } catch (e) {
+    const code = e instanceof DossierError ? e.code : '';
+    if (code === 'd1_statement_budget_exceeded') {
+      // a unit was cut off by the hard guard: every unit is idempotent, so the run simply resumes from its persisted progress
+      status = 'PAUSED_BUDGET';
+      error = null;
+      try { await exec(deps.db, `UPDATE dossier_canary_runs SET status = 'PAUSED_BUDGET', phase = ?, lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, updated_at = ? WHERE run_id = ?`, phase, budget.used(), now(), live.run_id); } catch { /* the lease expires and the run resumes */ }
+    } else {
+      status = 'FAILED';
+      error = e instanceof Error ? e.message : String(e);
+      // failure isolation: this run is FAILED and recorded; other readers' runs and all existing GCOS behaviour are untouched
+      try {
+        const t = now();
+        if (!(await repo.getSignalRun(live.run_id))) await repo.recordSignalRun({ run_id: live.run_id, reader_id: reg.dossier_reader_id, source_ref: reg.canonical_source_id, started_at: progress.startedAt, finished_at: t, status: 'FAILED', items_seen: progress.itemsSeen, items_new: progress.itemsNew, observations_written: 0, reader_version: READER_VERSION, error_summary: error.slice(0, 400) });
+        await exec(deps.db, `UPDATE dossier_canary_runs SET status = 'FAILED', lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, progress_json = ?, updated_at = ?, finished_at = ? WHERE run_id = ?`, budget.used(), error.slice(0, 400), json(progress), t, t, live.run_id);
+      } catch { /* best effort: the lease expires; the failed state is re-derivable from the next invocation */ }
+    }
+  }
+  return { status, runId: live.run_id, phase, progress, statementsThisInvocation: budget.used(), error };
+}
+
+async function persistCheckpoint(db: D1Like, runId: string, checkpoint: unknown): Promise<void> {
+  await exec(db, `UPDATE dossier_canary_runs SET checkpoint_json = ? WHERE run_id = ?`, json(checkpoint), runId);
+}
+
+/** Convenience for tests, simulations and the operator CLI: invoke until the run is COMPLETED / FAILED / REFUSED (bounded by `maxInvocations`). */
+export async function runCanaryToCompletion(deps: CanaryDeps, req: { readerId: string; operator: string }, maxInvocations = 60): Promise<{ outcomes: CanaryOutcome[]; final: CanaryOutcome }> {
+  const outcomes: CanaryOutcome[] = [];
+  let runId: string | undefined;
+  for (let i = 0; i < maxInvocations; i++) {
+    const out = await invokeCanary(deps, { ...req, runId });
+    outcomes.push(out);
+    if (out.status === 'REFUSED' || out.status === 'COMPLETED' || out.status === 'FAILED') return { outcomes, final: out };
+    runId = out.runId;
+  }
+  return { outcomes, final: outcomes[outcomes.length - 1] };
+}

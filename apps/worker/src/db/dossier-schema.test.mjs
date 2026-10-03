@@ -31,6 +31,8 @@ const DOSSIER_TABLES = [
   'dossier_aliases', 'dossier_source_actors', 'dossier_actor_source_mappings', 'dossier_relations', 'dossier_relation_members', 'dossier_observations',
   'dossier_relation_observations', 'dossier_signal_aggregates', 'dossier_candidates', 'dossier_candidate_snapshots', 'dossier_candidate_aggregate_states',
   'dossier_snapshot_provenance_refs', 'dossier_reviews',
+  // operator controls + manual-canary runtime (namespace DOSSIER)
+  'dossier_control', 'dossier_canary_runs', 'dossier_canary_work',
 ];
 const run = (db, sql, ...a) => db.prepare(sql).run(...a);
 const all = (db, sql, ...a) => db.prepare(sql).all(...a);
@@ -52,7 +54,7 @@ const dumpExisting = (db) => {
   return JSON.stringify({ objs, data });
 };
 
-test('S fresh local DB: the whole chain applies, 18 empty dossier tables exist, nothing is seeded', () => {
+test('S fresh local DB: the whole chain applies, 21 empty dossier tables exist, nothing is seeded', () => {
   const db = openFresh();
   const names = all(db, `SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE 'dossier_%'`).map((r) => r.name).sort();
   assert.deepEqual(names, [...DOSSIER_TABLES].sort());
@@ -78,7 +80,7 @@ test('T upgrade: from the current pre-0031 schema, every existing object and row
   assert.equal(dumpExisting(db), before, 'existing DDL (tables, indexes, triggers) and every existing row are unchanged');
   const added = all(db, `SELECT type, name, tbl_name FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'`).filter((r) => !objsBefore.has(`${r.type}:${r.name}`));
   assert.ok(added.length > 0 && added.every((r) => /dossier/.test(r.name) && /^dossier_/.test(r.tbl_name)), 'only dossier_* tables, indexes and triggers are added; no trigger on an existing table');
-  assert.equal(added.filter((r) => r.type === 'table').length, 18);
+  assert.equal(added.filter((r) => r.type === 'table').length, 21);
   assert.equal(get(db, `SELECT COUNT(*) AS n FROM source_items`).n, 2);
   db.exec(sql0031); // IF NOT EXISTS: idempotent
   assert.equal(dumpExisting(db), before);
@@ -369,7 +371,11 @@ test('R snapshot provenance is self-describing and survives purge of the Hub sou
 test('scheduler/runtime state and numeric policy stay out of the schema; signal runs are provenance only', () => {
   const db = openFresh();
   const forbiddenCol = /lease|cursor|next_due|claim|lock|failure_count|retention|ttl|expire|max_|cap_|threshold|interval|days/i;
-  for (const t of DOSSIER_TABLES) for (const c of all(db, `PRAGMA table_info(${t})`)) assert.ok(!forbiddenCol.test(c.name), `${t}.${c.name} looks like scheduler state or an invented numeric policy`);
+  // the manual-canary runtime tables (namespace DOSSIER: lease / checkpoint of ONE bounded manual run, kill-switch controls) are the owner-decided runtime;
+  // every OTHER dossier table must still carry no scheduler state and no invented numeric policy
+  const CANARY_RUNTIME = ['dossier_control', 'dossier_canary_runs', 'dossier_canary_work'];
+  for (const t of DOSSIER_TABLES.filter((x) => !CANARY_RUNTIME.includes(x))) for (const c of all(db, `PRAGMA table_info(${t})`)) assert.ok(!forbiddenCol.test(c.name), `${t}.${c.name} looks like scheduler state or an invented numeric policy`);
+  assert.ok(!CANARY_RUNTIME.some((x) => /next_due|poll_minutes|interval|retention|ttl/i.test(all(db, `PRAGMA table_info(${x})`).map((c) => c.name).join(' '))), 'the canary runtime has no recurring-schedule or retention columns: MANUAL_ONE_SHOT only');
   for (const f of V.signal_run.excluded_scheduler_runtime_fields) assert.ok(!all(db, `PRAGMA table_info(dossier_signal_runs)`).some((c) => c.name === f));
   assert.deepEqual(all(db, `PRAGMA table_info(dossier_signal_runs)`).map((c) => c.name).sort(), [...V.signal_run.fields].sort(), 'run table = contract fields');
   assert.ok(!/DEFAULT\s+-?\d+(\.\d+)?\b/.test(stripComments(sql0031).replace(/DEFAULT 0\b/g, '').replace(/DEFAULT 1\b/g, '')) || /DEFAULT 0/.test(sql0031), 'no arbitrary numeric default');
@@ -391,7 +397,7 @@ test('contract <-> schema alignment and index design', () => {
   for (const f of V.relation.observation_required_fields) assert.ok(cols('dossier_relation_observations').has(f), `relation observation field ${f}`);
   for (const f of ['review_id', 'target_type', 'target_id', 'decision', 'reason_code', 'reason_note', 'reviewer', 'reviewed_at']) assert.ok(cols('dossier_reviews').has(f));
   const idx = all(db, `SELECT name, tbl_name FROM sqlite_master WHERE type = 'index' AND name LIKE 'idx_dossier_%' ORDER BY name`).map((r) => r.name);
-  assert.deepEqual(idx, ['idx_dossier_actor_map_source', 'idx_dossier_actors_norm', 'idx_dossier_actors_state', 'idx_dossier_agg_states_snapshot', 'idx_dossier_aliases_norm', 'idx_dossier_cluster_members_ref', 'idx_dossier_concepts_norm', 'idx_dossier_concepts_state', 'idx_dossier_ext_items_hash', 'idx_dossier_obs_run', 'idx_dossier_obs_target', 'idx_dossier_prov_refs_snapshot', 'idx_dossier_relation_members_concept', 'idx_dossier_reviews_target', 'idx_dossier_runs_source']);
+  assert.deepEqual(idx, ['idx_dossier_actor_map_source', 'idx_dossier_actors_norm', 'idx_dossier_actors_state', 'idx_dossier_agg_states_snapshot', 'idx_dossier_aliases_norm', 'idx_dossier_canary_runs_reader', 'idx_dossier_cluster_members_ref', 'idx_dossier_concepts_norm', 'idx_dossier_concepts_state', 'idx_dossier_ext_items_hash', 'idx_dossier_obs_run', 'idx_dossier_obs_target', 'idx_dossier_prov_refs_snapshot', 'idx_dossier_relation_members_concept', 'idx_dossier_reviews_target', 'idx_dossier_runs_source']);
   // the unique selector index doubles as the aggregate lookup (target + family + window); no redundant second index
   const uniq = all(db, `PRAGMA index_list(dossier_signal_aggregates)`).filter((i) => i.unique).map((i) => all(db, `PRAGMA index_info(${i.name})`).map((c) => c.name));
   assert.ok(uniq.some((c) => c.slice(0, 4).join() === 'target_type,target_id,signal_family,window_kind'));

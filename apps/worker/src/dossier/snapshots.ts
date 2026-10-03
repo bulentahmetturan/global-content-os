@@ -72,9 +72,11 @@ async function representativeProvenance(repo: DossierRepo, targetType: TargetTyp
   const clusterIds = [...new Set([...units.values()].filter((u) => u.startsWith('cluster:')).map((u) => u.slice(8)))].sort();
   const picked: Picked[] = [];
   const usedUnits = new Set<string>();
+  const perFamily = new Map<string, number>();
   let unexplainable = 0;
   for (const r of all) {
-    if (picked.length >= cap) break;
+    // the cap bounds the representatives PER SIGNAL FAMILY, so one busy family cannot crowd out another's provenance
+    if ((perFamily.get(s(r.signal_family)) ?? 0) >= cap) continue;
     const unit = units.get(s(r.observation_id)) ?? `obs:${s(r.observation_id)}`;
     if (usedUnits.has(unit)) continue;
     const e = extById.get(s(r.origin_item_id));
@@ -89,6 +91,7 @@ async function representativeProvenance(repo: DossierRepo, targetType: TargetTyp
       published = h?.published_at ?? null;
     }
     usedUnits.add(unit);
+    perFamily.set(s(r.signal_family), (perFamily.get(s(r.signal_family)) ?? 0) + 1);
     picked.push({
       unit,
       ref: {

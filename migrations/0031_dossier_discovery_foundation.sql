@@ -344,6 +344,50 @@ CREATE TABLE IF NOT EXISTS dossier_reviews (
 );
 CREATE INDEX IF NOT EXISTS idx_dossier_reviews_target ON dossier_reviews(target_type, target_id, reviewed_at);
 
+-- Operator controls (kill switches). An ABSENT key means OFF: nothing is enabled until an operator explicitly sets it.
+-- Keys: canary_enabled, manual_runs_allowed, promotion_enabled, reader:<dossier_reader_id>:enabled. Switching them never touches canonical sources,
+-- provenance, TIME_SENSITIVE or any Evergreen reader, and needs no schema change.
+CREATE TABLE IF NOT EXISTS dossier_control (
+  control_key TEXT PRIMARY KEY,
+  control_value TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  updated_by TEXT NOT NULL
+);
+
+-- Manual one-shot canary runs (namespace DOSSIER). Read and written ONLY by the dossier runner; the Evergreen runner never touches these tables, so a
+-- dossier job can never be claimed by it and neither can claim the other. runtime_key is 'dossier:<dossier_reader_id>' and cannot collide with a canonical
+-- Evergreen source id. A run is resumable in bounded steps (phase + progress), holds one lease at a time and records its own checkpoint.
+CREATE TABLE IF NOT EXISTS dossier_canary_runs (
+  run_id TEXT PRIMARY KEY,
+  runtime_key TEXT NOT NULL CHECK (runtime_key LIKE 'dossier:%'),
+  reader_id TEXT NOT NULL,
+  profile TEXT NOT NULL,
+  status TEXT NOT NULL,
+  phase TEXT NOT NULL,
+  progress_json TEXT NOT NULL,
+  checkpoint_json TEXT,
+  lease_holder TEXT,
+  lease_expires_at TEXT,
+  invocations INTEGER NOT NULL DEFAULT 0,
+  statements_used INTEGER NOT NULL DEFAULT 0,
+  error_summary TEXT,
+  started_by TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  finished_at TEXT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_dossier_canary_one_active_run ON dossier_canary_runs(runtime_key) WHERE status IN ('RUNNING', 'PAUSED_BUDGET');
+CREATE INDEX IF NOT EXISTS idx_dossier_canary_runs_reader ON dossier_canary_runs(reader_id, status);
+
+-- Bounded work list of one run (the normalized thin items of ONE fetch, at most the profile item cap): lets a run resume across invocations without a second fetch.
+CREATE TABLE IF NOT EXISTS dossier_canary_work (
+  run_id TEXT NOT NULL REFERENCES dossier_canary_runs(run_id),
+  seq INTEGER NOT NULL,
+  payload_json TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'PENDING',
+  PRIMARY KEY (run_id, seq)
+);
+
 -- =====================================================================================================================
 -- Triggers: only true architectural invariants.
 

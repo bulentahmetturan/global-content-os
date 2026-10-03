@@ -12,7 +12,7 @@
 import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
 import type { SourceAttribution } from './attribution';
 import type { SourceRole } from './eligibility';
-import { describeConnector, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
+import { describeConnector, type LegalState, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
 import { DossierError } from './types';
 
 export const CLINICALTRIALS_SOURCE_ID = 'clinicaltrials-gov-api-v2';
@@ -192,8 +192,9 @@ export function normalizeStudy(study: CtStudy, classifier?: TopicCoherenceClassi
 export const registryRecordClassifier: ContentClassifier = { method: 'REGISTRY_RECORD', classify: () => UNKNOWN_CLASSIFICATION };
 export const registryRecordExtractor = createFixtureExtractor();
 
-export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: string | null; topicClassifier?: TopicCoherenceClassifier | null }): Connector<CtStudy> {
-  const descriptor = describeConnector({ id: 'clinicaltrials-frontier', class: 'TRIAL_METADATA', acquisitionSourceId: CLINICALTRIALS_SOURCE_ID, legalStatus: 'UNRESOLVED', mock: false, attribution: CLINICALTRIALS_ATTRIBUTION });
+export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: string | null; topicClassifier?: TopicCoherenceClassifier | null; readerId?: string; legalStatus?: LegalState }): Connector<CtStudy> {
+  // legal status comes from the DOSSIER reader registration (APPROVED only once the official terms were verified); the default stays UNRESOLVED
+  const descriptor = describeConnector({ id: o.readerId ?? 'clinicaltrials-frontier', class: 'TRIAL_METADATA', acquisitionSourceId: CLINICALTRIALS_SOURCE_ID, legalStatus: o.legalStatus ?? 'UNRESOLVED', mock: false, attribution: CLINICALTRIALS_ATTRIBUTION });
   let nextToken: string | null = null;
   let requests = 0;
   return {

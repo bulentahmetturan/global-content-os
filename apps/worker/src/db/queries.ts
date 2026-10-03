@@ -43,6 +43,8 @@ export interface Env {
   BIBLE_VERSION?: string;
   /** OpenAlex API key (sent as a Bearer token); unset = the OpenAlex research feed records OPENALEX_API_KEY_NOT_CONFIGURED and makes no keyless call. */
   OPENALEX_API_KEY?: string;
+  /** Master switch of the DOSSIER canary. Anything other than the string "true" = disabled: no dossier run can start (default in wrangler.toml: "false"). */
+  DOSSIER_CANARY_ENABLED?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';

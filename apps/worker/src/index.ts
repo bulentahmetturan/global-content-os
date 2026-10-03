@@ -15,6 +15,7 @@ import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
+import { handleDossierCanary } from './dossier-canary-routes';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -107,15 +108,19 @@ export default {
       }
 
       if (path === '/api/ready') {
-        const { report, appliedMigration } = await gatherReadiness(env);
+        const { report, appliedMigration, dossier } = await gatherReadiness(env);
         return json(
-          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION },
+          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION, dossier },
           report.level === 'BLOCKED' ? 503 : 200,
         );
       }
 
       const routeAuth = authorizeRoute(env, request, path);
       if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
+
+      // DOSSIER canary operator surface (OPS_TOKEN; manual, never scheduled, never public; a run also needs DOSSIER_CANARY_ENABLED=true).
+      const dossierCanary = await handleDossierCanary(request, env, path);
+      if (dossierCanary) return dossierCanary;
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {

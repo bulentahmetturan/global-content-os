@@ -21,7 +21,7 @@
  * Not wired: not imported by the Worker, no scheduler, no activation. Legal status UNRESOLVED, so never eligible for activation.
  */
 import type { SourceAttribution } from './attribution';
-import { describeConnector, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
+import { describeConnector, type LegalState, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
 import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
 import type { SourceRole } from './eligibility';
 import { DossierError } from './types';
@@ -192,8 +192,8 @@ export function normalizeSdmxRelease(msg: SdmxDataMessage, o: { maxRows: number;
 export const statisticalRowClassifier: ContentClassifier = { method: 'STATISTICAL_RELEASE', classify: () => UNKNOWN_CLASSIFICATION };
 export const statisticalRowExtractor = createFixtureExtractor();
 
-export function createOecdHealthReader(o: { fetchImpl: FetchLike }): Connector<SdmxDataMessage> {
-  const descriptor = describeConnector({ id: 'oecd-health-turkiye-mortality', class: 'PUBLIC_DATA_API', acquisitionSourceId: OECD_SOURCE_ID, legalStatus: 'UNRESOLVED', mock: false, attribution: OECD_ATTRIBUTION });
+export function createOecdHealthReader(o: { fetchImpl: FetchLike; readerId?: string; legalStatus?: LegalState }): Connector<SdmxDataMessage> {
+  const descriptor = describeConnector({ id: o.readerId ?? 'oecd-health-turkiye-mortality', class: 'PUBLIC_DATA_API', acquisitionSourceId: OECD_SOURCE_ID, legalStatus: o.legalStatus ?? 'UNRESOLVED', mock: false, attribution: OECD_ATTRIBUTION });
   let requests = 0;
   let url = '';
   let maxRows = 0;

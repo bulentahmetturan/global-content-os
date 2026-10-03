@@ -157,20 +157,25 @@ export type EvaluateOutcome =
   | { status: 'EVALUATED'; candidateId: string; created: boolean; candidateClass: string; evaluationStatus: Evaluation['status']; snapshot: SnapshotResult; surface: boolean | 'POLICY_NOT_DECIDED'; candidateState: string; reasonCodes: string[] };
 
 const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
+export type TargetRef = { type: TargetType; id: string; domain?: string | null; whyWow?: unknown; humanPromotion?: boolean };
+
+export type GateResult =
+  | { kind: 'EARLY'; outcome: EvaluateOutcome }
+  | { kind: 'GATED'; aggs: Row[]; existing: Row | null; plan: ReturnType<typeof planEvaluation>; domain: string | null; ev: ClassVerdict; metrics: Metrics; decision: PromotionDecision; route: PromotionDecision; coherence: TopicCoherenceResult | null; humanOverride: boolean; watch: WatchState | null };
 
 /**
- * Evaluates one target: WATCH until a promotion route passes, then a stable candidate, a class (owner criteria, else the route default),
- * an immutable snapshot only on material change, and a review-ready state once the owner criteria classify it. Human-owned states (ACCEPTED, REJECTED, SNOOZED, ...) are never overwritten.
+ * The whole promotion gate (eligibility -> aggregates -> route -> topic coherence -> integrity) as READS ONLY. `evaluateTarget` writes after it;
+ * the operator read model calls it to reconstruct WATCH state from durable data with no write, so both can never disagree.
  */
-export async function evaluateTarget(repo: DossierRepo, target: { type: TargetType; id: string; domain?: string | null; whyWow?: unknown; humanPromotion?: boolean }, policy: DossierPolicy, cfg: EvaluateConfig): Promise<EvaluateOutcome> {
+export async function gateTarget(repo: DossierRepo, target: TargetRef, policy: DossierPolicy, cfg: EvaluateConfig): Promise<GateResult> {
   // candidate-eligibility gate: a concept that is not an editorial topic never becomes a candidate, whatever its aggregates say
   if (target.type === 'CONCEPT') {
     const summary = await repo.conceptEligibilitySummary(target.id);
     const ce = deriveConceptEligibility(summary);
-    if (summary.length > 0 && ce.state !== 'ELIGIBLE') return { status: 'NOT_ELIGIBLE', targetType: target.type, targetId: target.id, eligibility: ce.state, reasonCodes: ce.reasonCodes };
+    if (summary.length > 0 && ce.state !== 'ELIGIBLE') return { kind: 'EARLY', outcome: { status: 'NOT_ELIGIBLE', targetType: target.type, targetId: target.id, eligibility: ce.state, reasonCodes: ce.reasonCodes } };
   }
   const aggs = await repo.listAggregates(target.type, target.id);
-  if (!aggs.length) return { status: 'NO_SIGNAL', targetType: target.type, targetId: target.id };
+  if (!aggs.length) return { kind: 'EARLY', outcome: { status: 'NO_SIGNAL', targetType: target.type, targetId: target.id } };
   const existing = await repo.getCandidateByTarget(target.type, target.id);
   const lastReview = existing ? await repo.latestReview('DOSSIER_CANDIDATE', s(existing.candidate_id)) : null;
   const plan = planEvaluation(new Map(existing ? [[`${target.type}:${target.id}`, { candidateId: s(existing.candidate_id), lastDecision: lastReview ? s(lastReview.decision) : null }]] : []), { target_type: target.type, target_id: target.id });
@@ -193,8 +198,21 @@ export async function evaluateTarget(repo: DossierRepo, target: { type: TargetTy
   if (!existing && decision.promote && integrityRejects({ publicHealth: domain === PUBLIC_HEALTH, hasCredibleAnchor: metrics.anchors.length > 0 })) decision = INTEGRITY_NOT_SATISFIED;
   if (!existing && !decision.promote) {
     const summary = target.type === 'CONCEPT' ? deriveConceptEligibility(await repo.conceptEligibilitySummary(target.id)) : null;
-    return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, route, coherence, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
+    return { kind: 'GATED', aggs, existing, plan, domain, ev, metrics, decision, route, coherence, humanOverride, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, route, coherence, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
   }
+  return { kind: 'GATED', aggs, existing, plan, domain, ev, metrics, decision, route, coherence, humanOverride, watch: null };
+}
+
+/**
+ * Evaluates one target: WATCH until a promotion route passes, then a stable candidate, a class (owner criteria, else the route default),
+ * an immutable snapshot only on material change, and a review-ready state once the owner criteria classify it.
+ * Human-owned states (ACCEPTED, REJECTED, SNOOZED, ...) are never overwritten.
+ */
+export async function evaluateTarget(repo: DossierRepo, target: TargetRef, policy: DossierPolicy, cfg: EvaluateConfig): Promise<EvaluateOutcome> {
+  const g = await gateTarget(repo, target, policy, cfg);
+  if (g.kind === 'EARLY') return g.outcome;
+  const { existing, plan, domain, ev, decision, coherence, humanOverride } = g;
+  if (g.watch) return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: g.watch };
   // the route that promoted a candidate is part of every snapshot while it holds (an earlier route is carried forward from the latest snapshot)
   let path = decision.promote ? decision.path : null;
   if (decision.promote && !existing) ev.reasonCodes.push(...decision.reasonCodes);

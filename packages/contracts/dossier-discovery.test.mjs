@@ -35,23 +35,30 @@ test('temporal identity: DOSSIER_DISCOVERY sits under EVERGREEN and creates no t
   assert.equal(V.temporal.signal_freshness_is_not_candidate_identity, true);
 });
 
-test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations untouched); no runtime wiring', () => {
+test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations untouched); no cron wiring, one operator module', () => {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n));
   assert.deepEqual(files.filter((f) => /dossier/i.test(f)), ['0031_dossier_discovery_foundation.sql'], 'the dossier schema is exactly one migration');
   for (const f of files.filter((f) => f !== '0031_dossier_discovery_foundation.sql')) assert.ok(!/dossier/i.test(readFileSync(`migrations/${f}`, 'utf8')), `${f} must not mention dossier`);
   const m28 = readFileSync('migrations/0028_temporal_paths.sql', 'utf8');
   assert.ok(/evergreen_view IN \('health_reference', 'research_rediscovery'\)/.test(m28));
   assert.ok(/acquisition_path IN \('TIME_SENSITIVE', 'EVERGREEN'\)/.test(m28));
-  // The Worker does not import the contract: no reader, route or live behavior.
+  // The dossier runtime is wired into the Worker through EXACTLY ONE operator module (dossier-canary-routes.ts, OPS_TOKEN-gated, manual) plus the readiness block,
+  // the route dispatch line and the env switch type. It is never reachable from the scheduled (cron) handler and nothing else may mention it.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
-  // The local dossier runtime lives ONLY in apps/worker/src/dossier/ and nothing outside it may import it: it is not part of
-  // the deployed Worker bundle (no route, no cron, no reader, no scheduler hook).
+  const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'];
   for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test') && !p.includes('/dossier/'))) {
     const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
-    // the only allowed mention is the schema-level expectation in readiness.ts (the migration file name); no behavior
-    if (f.endsWith('readiness.ts')) assert.ok(hits.every((l) => /EXPECTED_SCHEMA_MIGRATION/.test(l)), 'readiness.ts mentions dossier only as the expected schema marker');
-    else assert.deepEqual(hits, [], `${f} must not reference dossier (the local runtime is not wired into the Worker)`);
+    if (!ALLOWED.includes(f)) assert.deepEqual(hits, [], `${f} must not reference dossier`);
   }
+  const routes = readFileSync('apps/worker/src/dossier-canary-routes.ts', 'utf8');
+  assert.ok(/authorizeToken\(env\.OPS_TOKEN/.test(routes), 'every canary route needs the OPS_TOKEN bearer');
+  assert.ok(!/ScheduledController|scheduled\(/.test(routes), 'no cron path to the canary');
+  const idx = readFileSync('apps/worker/src/index.ts', 'utf8');
+  const cut = idx.indexOf('async scheduled(');
+  assert.ok(cut > 0 && !/dossier/i.test(idx.slice(cut)), 'the scheduled (cron) handler never references dossier');
+  assert.ok(!/dossier/i.test(readFileSync('apps/worker/src/scheduled-jobs.ts', 'utf8')));
+  assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_CANARY_ENABLED = "false"'), 'the deployed default is OFF');
+  assert.ok(!/dossier/i.test(readFileSync('wrangler.toml', 'utf8').replace(/DOSSIER_CANARY_ENABLED[^\n]*/g, '').replace(/#[^\n]*/g, '')), 'no other dossier configuration (no cron trigger)');
   assert.equal(V.reader_status.live_readers, 0);
 });
 

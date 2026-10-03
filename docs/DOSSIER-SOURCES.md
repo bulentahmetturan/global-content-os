@@ -132,3 +132,18 @@ Slot C2 (GLOBAL_MEDICAL_FRONTIER). Scope of this record: what was inspected, wha
 **Honest limit:** with today's two sources, only concepts that carry source-exposed granularity (currently the OECD side) can pass the gate automatically; a convergence of two sources that expose no taxonomy stays WATCH until a human promotes it or the owner sets `topic_coherence.allowUnknownGranularity`. That is the intended fail-closed default, not a bug.
 
 **Schema:** two nullable columns on `dossier_observations` inside the still-local 0031 (never applied remotely); no 0032, 0028 untouched.
+
+### First controlled canary package (2026-10-03; prepared locally, NOT executed, nothing enabled)
+
+Package: `DOSSIER_CANARY_V1`, MANUAL_ONE_SHOT, two real sources, backfill disabled, ClinicalTrials 1 page / 100 items, OECD 100 rows, one run per reader then STOP, retention `CANARY_HOLD_UNTIL_REVIEW`, convergence-only promotion with the coherence gate, 5 provenance refs per signal family. Runner, controls, registry, read model, readiness and operator routes are described in `docs/DOSSIER-CANARY-RUNBOOK.md`.
+
+**Lifecycle audit (both readers `enabled = false`):**
+
+| Reader | Canonical source | Signal family | Technical access | Legal / access | Registration | Enabled | Canary profile | Blocker |
+|---|---|---|---|---|---|---|---|---|
+| `dossier-clinicaltrials-frontier` | `clinicaltrials-gov-api-v2` | GLOBAL_RESEARCH_ACTIVITY | VERIFIED | APPROVED (terms verified; no rate limit published) | CANARY_DISABLED | false | DOSSIER_CANARY_V1 | none (needs owner enable + approved 0031 + deploy) |
+| `dossier-oecd-turkiye-mortality` | `oecd-health` | TURKEY_HEALTH_BURDEN | VERIFIED (SDMX) | UNRESOLVED (usage terms and rate guidance unreadable: official OECD pages answered 403, not bypassed) | CANARY_DISABLED | false | DOSSIER_CANARY_V1 | OECD usage terms must be verified by an operator, then the registration edited in a reviewed commit |
+
+**Measured, not assumed:** the real 100-study run needed 9,615 D1 statements in the unmodified pipeline, so it cannot fit one Worker invocation. The runner therefore executes in resumable bounded invocations (default 800 statements): ClinicalTrials 14 invocations (largest 763), OECD 2 (745 and 207); an unchunked and a chunked run produce identical durable data. The Worker plan limit is an owner item to confirm.
+
+**Local production simulation (saved real responses):** both readers complete under the real profile; the real overlap ("Neoplasms") stays WATCH (TOO_BROAD), 0 candidates, 0 reviews, no GCOS table changed, one source request per run, quota then STOP, rollback preserves data.

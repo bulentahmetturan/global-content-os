@@ -5,17 +5,16 @@
  * ISOLATED from each other (a failing reader never silences another), and nothing runs at all unless the owner-configured
  * per-run fetch and item caps are set (fail closed). Review and research hand-off stay explicit human steps outside this run.
  */
-import { evidenceSpanIsBounded, producesObservations, type ConceptExtractor, type ContentClassifier } from './classifier';
-import { executeConnector, type Connector, type SourceItem, type SignalInput } from './connectors';
+import type { ConceptExtractor, ContentClassifier } from './classifier';
+import { executeConnector, type Connector } from './connectors';
+import { newIngestAcc, observeSourceItem, stageSourceItem, type StagedItem } from './ingest';
 import { assignClusters } from './clusters';
 import { aggregateDirtyTargets } from './aggregation';
 import { evaluateTarget, type EvaluateOutcome } from './candidates';
-import { deriveConceptEligibility, deriveSignalEligibility, type ConceptEligibility, type SourceRole } from './eligibility';
+import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
 import { policyValue, type DossierPolicy } from './policy';
 import type { WatchState } from './promotion';
 import { buildAttributionNotice, type AttributionNotice } from './attribution';
-import { resolveLabel } from './resolver';
-import { planJointGroup, recordRelationFromJointSignal } from './relations';
 import type { DossierRepo } from './repo';
 import type { TargetType } from './types';
 
@@ -59,15 +58,6 @@ export interface PipelineResult {
   reviewReady: { candidateId: string; targetType: TargetType; targetId: string; candidateClass: string }[];
 }
 
-const CONTENT_FAMILIES = ['TR_CLINICIAN_CREATOR_PULSE', 'TURKEY_SOCIAL_MOMENTUM', 'GLOBAL_CREATOR_SCOUT'];
-const key = (...p: (string | null | undefined)[]): string => p.map((x) => x ?? '').join('|');
-
-function contentFamily(c: Connector, item: SourceItem): string {
-  const declared = (item.fixture as { signalFamily?: string } | undefined)?.signalFamily;
-  if (declared && c.descriptor.allowed_signal_families.includes(declared)) return declared;
-  return c.descriptor.allowed_signal_families.find((f) => CONTENT_FAMILIES.includes(f)) ?? c.descriptor.allowed_signal_families[0];
-}
-
 export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): Promise<PipelineResult> {
   const now = () => repo.ctx.now();
   const result: PipelineResult = { status: 'OK', policyMissing: [], readers: [], conceptsProposed: [], relations: [], relationRefusals: [], evaluations: [], eligibility: [], watchTargets: [], promoted: [], reviewReady: [] };
@@ -78,10 +68,9 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
   if (cfg.extractor.method !== 'FIXTURE' && policyValue(cfg.policy.extractionMethod) !== cfg.extractor.method) result.policyMissing.push('extraction_method');
   if (result.policyMissing.length) return { ...result, status: 'POLICY_NOT_SET' };
 
-  const dirty: { type: TargetType; id: string }[] = [];
+  const acc = newIngestAcc();
+  const { dirty, proposed, touched } = acc;
   const platforms = new Map<string, string | null>();
-  const proposed = new Set<string>();
-  const touched = new Set<string>();
 
   for (const reader of cfg.readers) {
     const d = reader.descriptor;
@@ -90,6 +79,7 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
     const startedAt = now();
     let itemsNew = 0;
     let obsWritten = 0;
+    acc.obsWritten = 0;
     let status: ReaderReport['status'] = 'SUCCEEDED';
     let error: string | null = null;
     let nextCursor: string | null = cfg.cursors?.[d.id] ?? null;
@@ -103,79 +93,22 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
         itemsSeen = exec.itemsSeen;
         nextCursor = exec.checkpoint?.nextCursor ?? nextCursor;
         // 1. source item references, classified; observations only for the classes that produce them
-        const staged: { item: SourceItem; originItemId: string; classification: ReturnType<ContentClassifier['classify']> }[] = [];
+        const staged: StagedItem[] = [];
         const clusterBatch: Parameters<typeof assignClusters>[1][number][] = [];
         for (const item of exec.items) {
-          const classification = cfg.classifier.classify(item);
-          const ext = await repo.upsertExternalSourceItem({
-            acquisition_source_id: item.acquisitionSourceId,
-            identity_strategy: item.identity.strategy,
-            identity_value: item.identity.value,
-            external_ref: item.externalRef ?? null,
-            url: item.url ?? null,
-            content_hash: item.contentHash ?? null,
-            published_at: item.publishedAt ?? null,
-            content_class: classification.contentClass,
-            commercial_context: classification.commercialContext,
-          });
-          if (ext.created) itemsNew += 1;
-          staged.push({ item, originItemId: ext.originItemId, classification });
-          if (item.contentHash) clusterBatch.push({ memberKind: 'EXTERNAL_ITEM', memberRef: ext.originItemId, acquisitionSourceId: item.acquisitionSourceId, publishedAt: item.publishedAt ?? null, fingerprint: item.contentHash });
+          const st = await stageSourceItem(repo, cfg.classifier, item);
+          if (st.created) itemsNew += 1;
+          staged.push(st);
+          if (item.contentHash) clusterBatch.push({ memberKind: 'EXTERNAL_ITEM', memberRef: st.originItemId, acquisitionSourceId: item.acquisitionSourceId, publishedAt: item.publishedAt ?? null, fingerprint: item.contentHash });
         }
         if (clusterBatch.length) await assignClusters(repo, clusterBatch, { lookupLimit: itemCap! * 4 });
-        // 2. observations
+        // 2. observations (shared per-item step, identical to what a scheduler or the manual canary runner executes)
         const actorIds = await repo.actorIdsForSource(d.acquisition_source_id);
-        for (const { item, originItemId, classification } of staged) {
-          const actorId = (item.fixture as { actorId?: string } | undefined)?.actorId ?? (actorIds.length === 1 ? actorIds[0] : null);
-          const observedAt = item.publishedAt ? (item.publishedAt.length === 10 ? `${item.publishedAt}T00:00:00Z` : item.publishedAt) : startedAt;
-          const labelToConcept = new Map<string, string>();
-          const firstObs: string[] = [];
-          const write = async (label: string, over: { kind: string; family: string; sub?: string; geo?: string; windowKind?: string; windowStart?: string; windowEnd?: string; prov: string; value?: number | null; unit?: string | null; valueStatus?: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE'; at: string; span?: string | null; domainHint?: string; conceptClass?: string; role?: SourceRole; roleReason?: string; granularity?: string; granularityReason?: string }): Promise<string | null> => {
-            const r = await resolveLabel(repo, { label, domainHint: over.domainHint, conceptClass: over.conceptClass });
-            if (r.outcome === 'PROPOSED' && r.created) proposed.add(r.conceptId);
-            const elig = deriveSignalEligibility(over.role ?? null, over.roleReason ?? null);
-            const span = evidenceSpanIsBounded(over.span, item.text) ? over.span ?? null : null;
-            const base = { run_id: runId, acquisition_source_id: item.acquisitionSourceId, origin_item_id: originItemId, actor_id: actorId, observation_kind: over.kind, signal_family: over.family, signal_subfamily: over.sub ?? '', geo_scope: over.geo ?? '', window_kind: over.windowKind ?? null, window_start: over.windowStart ?? null, window_end: over.windowEnd ?? null, measurement_provenance: over.prov, value: over.value ?? null, value_unit: over.unit ?? null, value_status: over.valueStatus, evidence_span: span, source_role: elig.role, candidate_signal_eligible: elig.eligible, eligibility_reason: elig.reason, topic_granularity: over.granularity ?? null, granularity_reason: over.granularityReason ?? null, extractor_version: cfg.extractor.method, observed_at: over.at, origin_kind: over.windowKind && ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD'].includes(over.windowKind) ? 'STATISTICAL_RELEASE' : 'SIGNAL_SNAPSHOT' };
-            const dedupe = key(originItemId, r.outcome === 'REVIEW_REQUIRED' ? `label:${label}` : r.conceptId, over.kind, over.family, over.sub, over.geo, over.windowKind, over.windowStart, over.windowEnd, over.prov);
-            if (r.outcome === 'REVIEW_REQUIRED') {
-              const o = await repo.appendObservation({ ...base, unresolved_label: label.trim(), dedupe_key: dedupe });
-              if (o.created) obsWritten += 1;
-              return null; // ambiguous: stays unresolved, never merged
-            }
-            labelToConcept.set(label, r.conceptId);
-            const o = await repo.appendObservation({ ...base, concept_id: r.conceptId, dedupe_key: dedupe });
-            if (o.created) obsWritten += 1;
-            touched.add(r.conceptId);
-            dirty.push({ type: 'CONCEPT', id: r.conceptId });
-            return o.observationId;
-          };
-          // structured signals (statistics, search, geo, trials, ...)
-          for (const sgn of item.signals ?? ([] as SignalInput[])) {
-            await write(sgn.conceptLabel, { kind: sgn.observationKind, family: sgn.signalFamily, sub: sgn.signalSubfamily, geo: sgn.geoScope, windowKind: sgn.windowKind, windowStart: sgn.windowStart, windowEnd: sgn.windowEnd, prov: sgn.measurementProvenance, value: sgn.value, unit: sgn.valueUnit, valueStatus: sgn.valueStatus, at: sgn.observedAt, span: sgn.evidenceSpan, domainHint: sgn.domainHint, conceptClass: sgn.conceptClass, role: sgn.sourceRole, roleReason: sgn.roleReason, granularity: sgn.topicGranularity, granularityReason: sgn.granularityReason });
-          }
-          // content mentions: discovery-eligible AND commercial items (with their context); PERSONAL / UNKNOWN produce none
-          if (producesObservations(classification)) {
-            const ex = cfg.extractor.extract(item);
-            const family = contentFamily(reader, item);
-            for (const m of ex.mentions) {
-              const id = await write(m.label, { kind: 'CONTENT_MENTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass, role: 'TOPIC_BEARING' });
-              if (id) firstObs.push(id);
-              if (classification.clinicianReportedPublicQuestion) await write(m.label, { kind: 'CLINICIAN_REPORTED_PUBLIC_QUESTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass, role: 'TOPIC_BEARING' });
-            }
-            // 3. relations: only the joint groups the extractor DECLARED (never all pairs), once per item
-            for (const g of ex.jointGroups) {
-              const plan = planJointGroup(g, labelToConcept);
-              if (!plan.ok) { result.relationRefusals.push({ reason: plan.reason }); continue; }
-              const anchorObs = firstObs[0] ?? null;
-              const rel = await recordRelationFromJointSignal(repo, { ...plan.request, jointSignals: [{ kind: g.kind, observationId: anchorObs ? `${anchorObs}` : null, runId, observedAt }] }, cfg.policy);
-              if (!rel.ok) { result.relationRefusals.push({ reason: rel.reason }); continue; }
-              result.relations.push({ relationId: rel.relationId, created: rel.created, depth: rel.depth });
-              dirty.push({ type: 'RELATION', id: rel.relationId });
-            }
-          }
-        }
+        for (const st of staged) await observeSourceItem(repo, { runId, startedAt, extractor: cfg.extractor, policy: cfg.policy, reader }, st, actorIds, acc);
+        obsWritten = acc.obsWritten;
       }
     } catch (e) {
+      obsWritten = acc.obsWritten;
       status = obsWritten > 0 || itemsNew > 0 ? 'PARTIAL' : 'FAILED';
       error = e instanceof Error ? e.message : String(e);
     }
@@ -201,6 +134,8 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
   }
   const gated = dirty.filter((d) => d.type !== 'CONCEPT' || eligibleConcepts.has(d.id));
   const aggregated = await aggregateDirtyTargets(repo, gated, aggCfg);
+  result.relations.push(...acc.relations);
+  result.relationRefusals.push(...acc.relationRefusals);
   result.conceptsProposed = [...proposed];
   for (const a of aggregated) {
     if (!a.aggregateIds.length) continue;
