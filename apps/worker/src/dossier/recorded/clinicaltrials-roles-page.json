@@ -1,0 +1,490 @@
+{
+ "_provenance": {
+  "kind": "RECORDED_REAL_RESPONSE_NOT_LIVE",
+  "source": "https://clinicaltrials.gov/api/v2/studies",
+  "recorded_at": "2026-10-03T11:49:06.971Z",
+  "request": "pageSize=8&format=json&sort=StudyFirstPostDate:desc&fields=<role-bearing projection, see CLINICALTRIALS_FIELDS>",
+  "note": "8 public records with arm-group types, intervention-to-arm links, healthyVolunteers and browse modules (newest records have empty browse modules). Used only for offline role-derivation tests."
+ },
+ "response": {
+  "studies": [
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07855653",
+      "briefTitle": "Uric Acid to Albumin Ratio for Predicting Contrast Associated Acute Kidney Injury After Cardiac and Non Cardiac Procedures"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Assiut University"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Contrast-Induced Nephropathy",
+       "Acute Kidney Injury"
+      ]
+     },
+     "designModule": {
+      "studyType": "OBSERVATIONAL"
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {},
+       {}
+      ]
+     },
+     "eligibilityModule": {}
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {}
+    }
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07856251",
+      "briefTitle": "Lidocaine Infusions for Pain in Patients With Malignant Bowel Obstruction"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Fundación Santa Fe de Bogota"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Malignant Bowel Obstruction",
+       "Cancer Pain",
+       "Intestinal Obstruction"
+      ]
+     },
+     "designModule": {
+      "studyType": "OBSERVATIONAL"
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "interventionNames": [
+         "Drug: Lidocaine"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "DRUG",
+        "name": "Lidocaine"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {},
+     "interventionBrowseModule": {}
+    }
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07856173",
+      "briefTitle": "Comparative Effects of Niel Asher Technique and Bowen Technique on Pain, Range of Motion and Functional Disability in Patients With Adhesive Capsulitis."
+     },
+     "statusModule": {
+      "overallStatus": "RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Foundation University Islamabad"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Adhesive Capsulitis"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "NA"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Procedure: Niel asher technique"
+        ]
+       },
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Procedure: Bowen Technique"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "PROCEDURE",
+        "name": "Niel asher technique"
+       },
+       {
+        "type": "PROCEDURE",
+        "name": "Bowen Technique"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {}
+    }
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07856030",
+      "briefTitle": "Enhancing Patient Wellbeing Through Integration of Social Prescribing, Transitional Care, and Place-based Care in Community Hospitals Settings"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "SingHealth Community Hospitals"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Community Hospital Patients Discharging to the Community"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "NA"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "ACTIVE_COMPARATOR",
+        "interventionNames": [
+         "Other: SingHealth Community Hospitals Place-based Care"
+        ]
+       },
+       {
+        "type": "NO_INTERVENTION"
+       }
+      ],
+      "interventions": [
+       {
+        "type": "OTHER",
+        "name": "SingHealth Community Hospitals Place-based Care"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {}
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07856095",
+      "briefTitle": "A Study of a Device That Helps Place Dialysis Needles"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "X9, Inc."
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Dialysis",
+       "Cannulation",
+       "Vascular Access"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "NA"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "ACTIVE_COMPARATOR",
+        "interventionNames": [
+         "Other: Needle Placement with SOC"
+        ]
+       },
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Device: Needle placement with the Investigational Device"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "DEVICE",
+        "name": "Needle placement with the Investigational Device"
+       },
+       {
+        "type": "OTHER",
+        "name": "Needle Placement with SOC"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {}
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07855302",
+      "briefTitle": "CD19 CAR-T Therapy for Refractory Childhood-Onset Systemic Lupus Erythematosus"
+     },
+     "statusModule": {
+      "overallStatus": "RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Seoul National University Hospital"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Childhood-Onset Systemic Lupus Erythematosus",
+       "Refractory SLE",
+       "CD19 CAR-T Cell Therapy"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "PHASE1"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Biological: SNUH-CD19-CAR-T Cells",
+         "Drug: Lymphodepleting Chemotherapy"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "BIOLOGICAL",
+        "name": "SNUH-CD19-CAR-T Cells"
+       },
+       {
+        "type": "DRUG",
+        "name": "Lymphodepleting Chemotherapy"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {}
+    }
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07853846",
+      "briefTitle": "Comparison of Bacillus Clausii and Saccharomyces Boulardii for Acute Diarrhea at Day 3"
+     },
+     "statusModule": {
+      "overallStatus": "ACTIVE_NOT_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Syeda Sabeen Fatima Naqvi"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Acute Watery Diarrhea"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "NA"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "ACTIVE_COMPARATOR",
+        "interventionNames": [
+         "Dietary Supplement: Bacillus clausii"
+        ]
+       },
+       {
+        "type": "ACTIVE_COMPARATOR",
+        "interventionNames": [
+         "Dietary Supplement: Saccharomyces boulardii"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "DIETARY_SUPPLEMENT",
+        "name": "Bacillus clausii"
+       },
+       {
+        "type": "DIETARY_SUPPLEMENT",
+        "name": "Saccharomyces boulardii"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "interventionBrowseModule": {}
+    }
+   },
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07855770",
+      "briefTitle": "Use of Preoperative Gas in Eyes With Macula-off Rhegmatogenous Retinal Detachment (RRD)"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Wills Eye"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Retinal Detachment Rhegmatogenous"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "PHASE2",
+       "PHASE3"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Procedure: Intravitreal 100% C3F8 Injection",
+         "Procedure: Pars plana vitrectomy or pars plana vitrectomy with scleral buckle"
+        ]
+       },
+       {
+        "type": "ACTIVE_COMPARATOR",
+        "interventionNames": [
+         "Procedure: Pars plana vitrectomy or pars plana vitrectomy with scleral buckle"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "PROCEDURE",
+        "name": "Intravitreal 100% C3F8 Injection"
+       },
+       {
+        "type": "PROCEDURE",
+        "name": "Pars plana vitrectomy or pars plana vitrectomy with scleral buckle"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {},
+     "interventionBrowseModule": {}
+    }
+   }
+  ],
+  "nextPageToken": "ZVNj7o2Elu8o3lpwTcito62tmpOQJJxuYvil1P0Tnj6SuP08FCfCEfXS_tpD"
+ }
+}

@@ -10,22 +10,32 @@
  * approves it. The existing acquisition (`ingestClinicalTrials`) is untouched and keeps its own semantics.
  */
 import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
+import type { SourceRole } from './eligibility';
 import { describeConnector, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
 import { DossierError } from './types';
 
 export const CLINICALTRIALS_SOURCE_ID = 'clinicaltrials-gov-api-v2';
 export const CLINICALTRIALS_ENDPOINT = 'https://clinicaltrials.gov/api/v2/studies';
-export const CLINICALTRIALS_FIELDS = ['NCTId', 'BriefTitle', 'Condition', 'InterventionName', 'InterventionType', 'Phase', 'OverallStatus', 'StudyFirstPostDate', 'LastUpdatePostDate', 'LeadSponsorName', 'StudyType'];
+export const CLINICALTRIALS_FIELDS = ['NCTId', 'BriefTitle', 'Condition', 'InterventionName', 'InterventionType', 'Phase', 'OverallStatus', 'StudyFirstPostDate', 'LastUpdatePostDate', 'LeadSponsorName', 'StudyType', 'ArmGroupType', 'ArmGroupInterventionName', 'HealthyVolunteers', 'ConditionBrowseLeafAsFound', 'ConditionBrowseLeafRelevance', 'InterventionBrowseLeafAsFound', 'InterventionBrowseLeafRelevance'];
 
 export interface CtStudy {
   protocolSection?: {
     identificationModule?: { nctId?: string; briefTitle?: string };
     statusModule?: { overallStatus?: string; studyFirstPostDateStruct?: { date?: string }; lastUpdatePostDateStruct?: { date?: string } };
     conditionsModule?: { conditions?: string[] };
-    armsInterventionsModule?: { interventions?: { name?: string; type?: string }[] };
+    armsInterventionsModule?: { armGroups?: { type?: string; interventionNames?: string[] }[]; interventions?: { name?: string; type?: string }[] };
     designModule?: { studyType?: string; phases?: string[] };
     sponsorCollaboratorsModule?: { leadSponsor?: { name?: string } };
+    eligibilityModule?: { healthyVolunteers?: boolean };
   };
+  derivedSection?: {
+    conditionBrowseModule?: { browseLeaves?: CtBrowseLeaf[] };
+    interventionBrowseModule?: { browseLeaves?: CtBrowseLeaf[] };
+  };
+}
+export interface CtBrowseLeaf {
+  asFound?: string;
+  relevance?: string;
 }
 export interface CtPage {
   studies?: CtStudy[];
@@ -68,6 +78,55 @@ export function buildStudiesUrl(o: { pageSize: number; since?: string | null; pa
 const clean = (s: unknown): string => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim() : '');
 const dayToIso = (d: string): string => (d.length === 10 ? `${d}T00:00:00Z` : d.length === 7 ? `${d}-01T00:00:00Z` : d);
 
+
+/**
+ * What each ClinicalTrials.gov field MEANS for DOSSIER (source-semantic roles, NOT entity lists). Only TOPIC_BEARING fields yield
+ * concept observations; context/actor/operational fields stay as bounded context in the evidence span. None of these roles implies
+ * that anything works: status, phase and sponsor are metadata, never a scientific conclusion.
+ */
+export const CLINICALTRIALS_FIELD_ROLES: Record<string, { role: SourceRole; note: string }> = {
+  'conditionsModule.conditions': { role: 'TOPIC_BEARING', note: 'what the study is about; refined by structured metadata (browse match, healthy-volunteer flag)' },
+  'armsInterventionsModule.interventions': { role: 'TOPIC_BEARING', note: 'tested or active intervention; demoted to COMPARATOR_OR_CONTROL only when every arm that carries it is a placebo / sham / no-intervention arm' },
+  'armsInterventionsModule.armGroups.type': { role: 'COMPARATOR_OR_CONTROL', note: 'structured arm role used to decide whether an intervention is a control' },
+  'designModule.phases': { role: 'CONTEXT_ATTRIBUTE', note: 'regulatory phase label, context only' },
+  'statusModule.overallStatus': { role: 'CONTEXT_ATTRIBUTE', note: 'recruitment status, context only' },
+  'designModule.studyType': { role: 'CONTEXT_ATTRIBUTE', note: 'interventional / observational, context only' },
+  'sponsorCollaboratorsModule.leadSponsor': { role: 'SOURCE_ACTOR', note: 'registrant / provenance, not a health topic' },
+  'eligibilityModule.healthyVolunteers': { role: 'POPULATION_DESCRIPTOR', note: 'population flag; a co-signal that a condition entry may describe the population rather than a disease' },
+  'identificationModule.nctId': { role: 'OPERATIONAL_METADATA', note: 'record identity' },
+  'statusModule.studyFirstPostDate': { role: 'OPERATIONAL_METADATA', note: 'observation time' },
+};
+
+/** The official closed ArmGroupType enum values that are control arms (not an entity list; taken from the API specification). */
+const CONTROL_ARM_TYPES = new Set(['PLACEBO_COMPARATOR', 'SHAM_COMPARATOR', 'NO_INTERVENTION']);
+const norm = (s: unknown): string => clean(s).toLowerCase();
+const stripTypePrefix = (entry: string): string => {
+  const i = entry.indexOf(': ');
+  return i >= 0 ? entry.slice(i + 2) : entry;
+};
+const browseMatch = (leaves: CtBrowseLeaf[] | undefined, label: string): boolean => (leaves ?? []).some((l) => norm(l.asFound) === norm(label) && clean(l.relevance) === 'HIGH');
+
+export interface RoleDecision {
+  role: SourceRole;
+  reason?: string;
+}
+
+/** A condition entry is topic-bearing unless the record's own structure says otherwise; a source-curated browse match makes it coherent. */
+export function conditionRole(label: string, study: CtStudy): RoleDecision {
+  if (browseMatch(study.derivedSection?.conditionBrowseModule?.browseLeaves, label)) return { role: 'TOPIC_BEARING', reason: 'TOPIC_COHERENT' };
+  // healthy participants are accepted: the condition field may then describe the population, so the role is ambiguous (kept, human/policy resolves)
+  if (study.protocolSection?.eligibilityModule?.healthyVolunteers === true) return { role: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_TOPIC_ROLE' };
+  return { role: 'TOPIC_BEARING' };
+}
+
+/** An intervention is a control only when the record's own arm structure says every arm carrying it is a placebo / sham / no-intervention arm. */
+export function interventionRole(name: string, study: CtStudy): RoleDecision {
+  const arms = (study.protocolSection?.armsInterventionsModule?.armGroups ?? []).filter((a) => (a.interventionNames ?? []).some((n) => norm(stripTypePrefix(n)) === norm(name)));
+  if (arms.length > 0 && arms.every((a) => CONTROL_ARM_TYPES.has(clean(a.type)))) return { role: 'COMPARATOR_OR_CONTROL' };
+  if (browseMatch(study.derivedSection?.interventionBrowseModule?.browseLeaves, name)) return { role: 'TOPIC_BEARING', reason: 'TOPIC_COHERENT' };
+  return { role: 'TOPIC_BEARING' };
+}
+
 /** One study -> the shared normalized SourceItem; one observation-ready signal per condition and per intervention name. */
 export function normalizeStudy(study: CtStudy): SourceItem | null {
   const p = study.protocolSection;
@@ -82,16 +141,16 @@ export function normalizeStudy(study: CtStudy): SourceItem | null {
   const observedAt = dayToIso(first);
   const signals: SignalInput[] = [];
   const seen = new Set<string>();
-  const add = (label: string, role: 'CONDITION' | 'INTERVENTION', domain: string, conceptClass: string): void => {
+  const add = (label: string, role: 'CONDITION' | 'INTERVENTION', domain: string, conceptClass: string, decision: RoleDecision): void => {
     const key = `${role}|${label.toLowerCase()}`;
     if (!label || seen.has(key)) return;
     seen.add(key);
-    signals.push({ conceptLabel: label, domainHint: domain, conceptClass, observationKind: 'RESEARCH_ACTIVITY_COUNT', signalFamily: 'GLOBAL_RESEARCH_ACTIVITY', signalSubfamily: role, measurementProvenance: 'ADMINISTRATIVE', observedAt, valueStatus: 'NOT_APPLICABLE', evidenceSpan: span });
+    signals.push({ conceptLabel: label, domainHint: domain, conceptClass, observationKind: 'RESEARCH_ACTIVITY_COUNT', signalFamily: 'GLOBAL_RESEARCH_ACTIVITY', signalSubfamily: role, measurementProvenance: 'ADMINISTRATIVE', observedAt, valueStatus: 'NOT_APPLICABLE', evidenceSpan: span, sourceRole: decision.role, ...(decision.reason ? { roleReason: decision.reason } : {}) });
   };
-  for (const c of p?.conditionsModule?.conditions ?? []) add(clean(c), 'CONDITION', 'HEALTH', 'DISEASE_CONDITION');
+  for (const c of p?.conditionsModule?.conditions ?? []) add(clean(c), 'CONDITION', 'HEALTH', 'DISEASE_CONDITION', conditionRole(clean(c), study));
   for (const i of p?.armsInterventionsModule?.interventions ?? []) {
     const m = INTERVENTION_CLASS[clean(i.type)] ?? INTERVENTION_CLASS.OTHER;
-    add(clean(i.name), 'INTERVENTION', m.domain, m.conceptClass);
+    add(clean(i.name), 'INTERVENTION', m.domain, m.conceptClass, interventionRole(clean(i.name), study));
   }
   return {
     acquisitionSourceId: CLINICALTRIALS_SOURCE_ID,

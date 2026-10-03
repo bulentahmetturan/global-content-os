@@ -17,7 +17,9 @@ if (!process.argv.includes('--live')) {
   console.error('refusing to run: pass --live to allow ONE bounded request to clinicaltrials.gov (in-memory database only)');
   process.exit(2);
 }
-const pageSize = Number(arg('--page-size') ?? 25);
+// POC_ONLY bound for this local canary (NOT a production value: pageSize / backfill / lookback / cadence are OWNER_DECISION_REQUIRED).
+const POC_ONLY_DEFAULT_PAGE_SIZE = 100;
+const pageSize = Number(arg('--page-size') ?? POC_ONLY_DEFAULT_PAGE_SIZE);
 const since = arg('--since');
 if (!Number.isInteger(pageSize) || pageSize < 1 || pageSize > 100) {
   console.error('--page-size must be an integer between 1 and 100 for this POC');
@@ -52,13 +54,15 @@ const liveFetch = async (url, init) => {
   return { ok: res.ok, status: res.status, json: async () => body };
 };
 
+const POC_ONLY_TEST_MIN_ORIGINS = 2;
 const pocPolicy = {
   ...DEFAULT_POLICY,
   perRunItemCap: { status: 'SET', value: pageSize },
   perRunFetchCap: { status: 'SET', value: pageSize },
   provenanceRepresentativeCap: { status: 'SET', value: 3 },
-  // LOCAL POC criteria only (not a product default): a topic seen in at least two independent registry records is review-ready as FRONTIER
-  candidateClassCriteria: { status: 'SET', value: { FRONTIER: { frontierFamilies: ['GLOBAL_RESEARCH_ACTIVITY'], minIndependentOrigins: 2 } } },
+  // POC_ONLY TEST CRITERION, not product policy and not a success criterion of the canary: it only lets the review-ready path be exercised.
+  // Candidate eligibility is decided by editorial roles (eligibility.ts), never by this number.
+  candidateClassCriteria: { status: 'SET', value: { FRONTIER: { frontierFamilies: ['GLOBAL_RESEARCH_ACTIVITY'], minIndependentOrigins: POC_ONLY_TEST_MIN_ORIGINS } } },
 };
 const capsOnly = { ...DEFAULT_POLICY, perRunItemCap: pocPolicy.perRunItemCap, perRunFetchCap: pocPolicy.perRunFetchCap };
 
@@ -99,28 +103,58 @@ for (const c of cands.slice(0, 3)) {
   const ex = await SN.explainWhyNow(repoA, c.snapshot_id);
   sample.push({ topic: conceptLabel.get(c.target_id) ?? c.target_id, class: c.candidate_class, state: c.state, windowKinds: Object.keys(ex.windowKinds), aggregates: ex.aggregateStates.map((a) => `${a.family}/${a.subfamily}/${a.windowKind} obs=${a.observations} origins=${a.independentSources}`), provenance: ex.provenance.map((p) => `${p.source} ${p.locator} ${p.evidenceSpan}`), reasonCodes: ex.reasonCodes });
 }
+const cnt = (db, sql, ...a) => db.prepare(sql).get(...a).n;
+const states = {};
+for (const e of resA.eligibility) states[e.state] = (states[e.state] ?? 0) + 1;
+const conceptReasons = {};
+for (const e of resA.eligibility) for (const r of e.reasonCodes) conceptReasons[`${e.state}/${r}`] = (conceptReasons[`${e.state}/${r}`] ?? 0) + 1;
+const obsReasons = q(A.sqlite, `SELECT COALESCE(source_role,'(undeclared)') AS role, candidate_signal_eligible AS eligible, eligibility_reason AS reason, COUNT(*) AS n FROM dossier_observations GROUP BY 1,2,3 ORDER BY n DESC`);
+const candTargets = new Set(q(A.sqlite, `SELECT target_id FROM dossier_candidates`).map((r) => r.target_id));
+const stateOf = new Map(resA.eligibility.map((e) => [e.conceptId, e]));
+const retainedNotCandidates = resA.eligibility.filter((e) => e.state !== 'ELIGIBLE');
+const retainedSample = retainedNotCandidates.slice(0, 12).map((e) => ({ topic: conceptLabel.get(e.conceptId), state: e.state, reasons: e.reasonCodes, observations_retained: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations WHERE concept_id = ?`, e.conceptId), candidate_created: candTargets.has(e.conceptId) }));
+const signalTotal = studies.reduce((n, s) => n + CT.normalizeStudy(s).signals.length, 0);
+const evalStatuses = {};
+for (const e of resA.evaluations) { const k = e.status === 'EVALUATED' ? `EVALUATED:${e.candidateClass}/${e.evaluationStatus}` : e.status; evalStatuses[k] = (evalStatuses[k] ?? 0) + 1; }
+const classesNoCriteria = {};
+for (const e of resB.evaluations) { const k = e.status === 'EVALUATED' ? `${e.candidateClass}/${e.evaluationStatus}` : e.status; classesNoCriteria[k] = (classesNoCriteria[k] ?? 0) + 1; }
 const checks = {
+  label: 'POC_ONLY (page size and every criterion below are local test values, not production configuration)',
   one_request: requests === 1,
+  page_size_POC_ONLY: pageSize,
   studies_fetched: studies.length,
   total_in_registry: raw.body.totalCount,
-  items_new: resA.readers[0].itemsNew,
-  observations: q(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations`)[0].n,
-  concepts_proposed: concepts.length,
-  all_concepts_PROPOSED: concepts.every((c) => c.state === 'PROPOSED'),
-  concept_labels_not_from_response: notFromResponse.length,
-  candidates: cands.length,
-  all_candidates_EVERGREEN: cands.every((c) => c.temporal_identity === 'EVERGREEN'),
-  review_ready_with_local_poc_criteria: resA.reviewReady.length,
-  review_ready_without_owner_criteria: resB.reviewReady.length,
-  classes_without_owner_criteria: [...new Set(resB.evaluations.filter((e) => e.status === 'EVALUATED').map((e) => `${e.candidateClass}/${e.evaluationStatus}`))],
-  reviews_written: q(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_reviews`)[0].n,
-  hub_source_items_written: q(A.sqlite, `SELECT COUNT(*) AS n FROM source_items`)[0].n,
-  evergreen_runtime_rows: q(A.sqlite, `SELECT COUNT(*) AS n FROM evergreen_runtime_state`)[0].n,
-  active_identities: q(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_concepts WHERE state = 'ACTIVE'`)[0].n,
   next_page_token_present: Boolean(raw.body.nextPageToken),
+  items_new: resA.readers[0].itemsNew,
+  signals_in_response: signalTotal,
+  observations_written: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations`),
+  concepts_discovered: concepts.length,
+  all_concepts_PROPOSED: concepts.every((c) => c.state === 'PROPOSED'),
+  active_identities: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_concepts WHERE state = 'ACTIVE'`),
+  concept_labels_not_from_response: notFromResponse.length,
+  concepts_by_editorial_eligibility: states,
+  concept_eligibility_reasons: conceptReasons,
+  observation_eligibility_distribution: obsReasons,
+  candidates_created: cands.length,
+  candidate_evaluations: evalStatuses,
+  every_candidate_target_is_ELIGIBLE: [...candTargets].every((id) => stateOf.get(id)?.state === 'ELIGIBLE'),
+  no_candidate_for_non_eligible_concept: retainedNotCandidates.every((e) => !candTargets.has(e.conceptId)),
+  ineligible_observations_retained: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations WHERE candidate_signal_eligible <> 'TRUE'`),
+  observations_equal_signals_no_loss: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations`) === signalTotal,
+  all_candidates_EVERGREEN: cands.every((c) => c.temporal_identity === 'EVERGREEN'),
+  review_ready_with_POC_ONLY_test_criterion: resA.reviewReady.length,
+  review_ready_without_owner_criteria: resB.reviewReady.length,
+  classes_without_owner_criteria: classesNoCriteria,
+  eligibility_identical_with_caps_only_policy: JSON.stringify(resB.eligibility.map((e) => [e.state, e.reasonCodes]).sort()) === JSON.stringify(resA.eligibility.map((e) => [e.state, e.reasonCodes]).sort()),
+  reviews_written: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM dossier_reviews`),
+  hub_source_items_written: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM source_items`),
+  evergreen_runtime_rows: cnt(A.sqlite, `SELECT COUNT(*) AS n FROM evergreen_runtime_state`),
 };
-const REAL_E2E = checks.one_request && checks.items_new >= 1 && checks.all_concepts_PROPOSED && checks.concept_labels_not_from_response === 0 && checks.all_candidates_EVERGREEN && checks.review_ready_with_local_poc_criteria >= 1 && checks.review_ready_without_owner_criteria === 0 && checks.reviews_written === 0 && checks.active_identities === 0 ? 'PASS' : 'FAIL';
-const report = { REAL_E2E, ran_at: new Date().toISOString(), request: raw.url, checks, sample_candidates: sample, run_a_readers: resA.readers, relation_refusals: resA.relationRefusals };
+// Success = SEMANTIC SEPARATION works. No candidate count, no review-ready count and no page size is a success criterion.
+const REAL_E2E = checks.one_request && checks.items_new >= 1 && checks.all_concepts_PROPOSED && checks.active_identities === 0 && checks.concept_labels_not_from_response === 0
+  && checks.observations_equal_signals_no_loss && checks.every_candidate_target_is_ELIGIBLE && checks.no_candidate_for_non_eligible_concept && checks.all_candidates_EVERGREEN
+  && checks.review_ready_without_owner_criteria === 0 && checks.reviews_written === 0 && checks.hub_source_items_written === 0 ? 'PASS' : 'FAIL';
+const report = { REAL_E2E, ran_at: new Date().toISOString(), request: raw.url, checks, retained_non_candidate_sample: retainedSample, sample_candidates: sample, run_a_readers: resA.readers, relation_refusals: resA.relationRefusals };
 writeFileSync(`.logs/ct-poc/e2e-${stamp}.json`, JSON.stringify(report, null, 1));
 console.log(JSON.stringify(report, null, 1));
 process.exit(REAL_E2E === 'PASS' ? 0 : 1);

@@ -186,6 +186,11 @@ CREATE TABLE IF NOT EXISTS dossier_observations (
   value_unit TEXT,
   value_status TEXT NOT NULL DEFAULT 'UNKNOWN',
   evidence_span TEXT,
+  -- Editorial eligibility of THIS observation as a candidate-generating signal (derived from the source-semantic role; vocabulary lives in the contract).
+  -- An ineligible observation is retained (provenance, relation/actor/source context) but is excluded from candidate aggregates.
+  source_role TEXT,
+  candidate_signal_eligible TEXT NOT NULL DEFAULT 'TRUE' CHECK (candidate_signal_eligible IN ('TRUE', 'FALSE', 'REVIEW_REQUIRED')),
+  eligibility_reason TEXT,
   dedupe_key TEXT NOT NULL UNIQUE,
   extractor_version TEXT,
   observed_at TEXT NOT NULL,

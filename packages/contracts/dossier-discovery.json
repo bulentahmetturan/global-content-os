@@ -202,7 +202,7 @@
     "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
     "origin_cluster_required": true,
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
-    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET"]
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT"]
   },
   "wow": {
     "wow_is_not_viral": true,
@@ -561,6 +561,27 @@
     "modifies_production_time_sensitive_routing": false,
     "without_configured_policy": "WATCH_NOT_READY",
     "public_health_dossier_requires_credible_anchor": true
+  },
+  "editorial_eligibility": {
+    "$comment": "DISCOVERED CONCEPT != DOSSIER CANDIDATE. Observation != concept != candidate-eligible topic != candidate. Eligibility is DERIVED, explainable by reason codes, and is NOT canonical concept status (PROPOSED/ACTIVE/REJECTED/MERGED). No lexical lists: a role comes from the source field semantics and the source's own structured metadata.",
+    "source_roles": ["TOPIC_BEARING", "CONTEXT_ATTRIBUTE", "SOURCE_ACTOR", "POPULATION_DESCRIPTOR", "COMPARATOR_OR_CONTROL", "OPERATIONAL_METADATA", "REVIEW_REQUIRED"],
+    "signal_eligibility": ["TRUE", "FALSE", "REVIEW_REQUIRED"],
+    "signal_reasons": ["TOPIC_BEARING_SOURCE_ROLE", "TOPIC_COHERENT", "CONTEXT_ONLY", "SOURCE_ACTOR_CONTEXT", "POPULATION_CONTEXT", "CONTROL_OR_COMPARATOR_CONTEXT", "OPERATIONAL_METADATA", "AMBIGUOUS_TOPIC_ROLE", "SOURCE_ROLE_NOT_DECLARED"],
+    "role_to_eligibility": {
+      "TOPIC_BEARING": { "eligible": "TRUE", "reasons": ["TOPIC_BEARING_SOURCE_ROLE", "TOPIC_COHERENT"] },
+      "CONTEXT_ATTRIBUTE": { "eligible": "FALSE", "reasons": ["CONTEXT_ONLY"] },
+      "SOURCE_ACTOR": { "eligible": "FALSE", "reasons": ["SOURCE_ACTOR_CONTEXT"] },
+      "POPULATION_DESCRIPTOR": { "eligible": "FALSE", "reasons": ["POPULATION_CONTEXT"] },
+      "COMPARATOR_OR_CONTROL": { "eligible": "FALSE", "reasons": ["CONTROL_OR_COMPARATOR_CONTEXT"] },
+      "OPERATIONAL_METADATA": { "eligible": "FALSE", "reasons": ["OPERATIONAL_METADATA"] },
+      "REVIEW_REQUIRED": { "eligible": "REVIEW_REQUIRED", "reasons": ["AMBIGUOUS_TOPIC_ROLE"] }
+    },
+    "undeclared_role": { "eligible": "TRUE", "reason": "SOURCE_ROLE_NOT_DECLARED" },
+    "concept_states": ["ELIGIBLE", "WATCH_ONLY", "REVIEW_REQUIRED", "NOT_EDITORIAL_TOPIC"],
+    "context_roles_kept_as_watch_only": ["CONTEXT_ATTRIBUTE", "SOURCE_ACTOR", "POPULATION_DESCRIPTOR", "COMPARATOR_OR_CONTROL"],
+    "support_dimensions": { "SOURCE_LOCAL_REPETITION": "several independent records of ONE signal family", "MULTI_SIGNAL_FAMILY_SUPPORT": "two or more independent signal families (convergence)" },
+    "observations_and_concepts_are_never_deleted_for_ineligibility": true,
+    "ineligible_observations_are_excluded_from_candidate_aggregates": true
   },
   "policy": {
     "statuses": ["SET", "POLICY_NOT_SET", "CONFIG_REQUIRED", "OWNER_DECISION_REQUIRED"],

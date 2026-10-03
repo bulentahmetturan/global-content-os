@@ -10,6 +10,7 @@ import { executeConnector, type Connector, type SourceItem, type SignalInput } f
 import { assignClusters } from './clusters';
 import { aggregateDirtyTargets } from './aggregation';
 import { evaluateTarget, type EvaluateOutcome } from './candidates';
+import { deriveConceptEligibility, deriveSignalEligibility, type ConceptEligibility, type SourceRole } from './eligibility';
 import { policyValue, type DossierPolicy } from './policy';
 import { resolveLabel } from './resolver';
 import { planJointGroup, recordRelationFromJointSignal } from './relations';
@@ -46,6 +47,8 @@ export interface PipelineResult {
   relations: { relationId: string; created: boolean; depth: number }[];
   relationRefusals: { reason: string }[];
   evaluations: EvaluateOutcome[];
+  /** Editorial eligibility of every concept this run touched (derived, explainable, NOT canonical status). */
+  eligibility: { conceptId: string; state: ConceptEligibility; reasonCodes: string[] }[];
   reviewReady: { candidateId: string; targetType: TargetType; targetId: string; candidateClass: string }[];
 }
 
@@ -60,7 +63,7 @@ function contentFamily(c: Connector, item: SourceItem): string {
 
 export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): Promise<PipelineResult> {
   const now = () => repo.ctx.now();
-  const result: PipelineResult = { status: 'OK', policyMissing: [], readers: [], conceptsProposed: [], relations: [], relationRefusals: [], evaluations: [], reviewReady: [] };
+  const result: PipelineResult = { status: 'OK', policyMissing: [], readers: [], conceptsProposed: [], relations: [], relationRefusals: [], evaluations: [], eligibility: [], reviewReady: [] };
   const itemCap = policyValue(cfg.policy.perRunItemCap);
   const fetchCap = policyValue(cfg.policy.perRunFetchCap);
   if (itemCap === null) result.policyMissing.push('per_run_item_cap');
@@ -71,6 +74,7 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
   const dirty: { type: TargetType; id: string }[] = [];
   const platforms = new Map<string, string | null>();
   const proposed = new Set<string>();
+  const touched = new Set<string>();
 
   for (const reader of cfg.readers) {
     const d = reader.descriptor;
@@ -119,11 +123,12 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
           const observedAt = item.publishedAt ? (item.publishedAt.length === 10 ? `${item.publishedAt}T00:00:00Z` : item.publishedAt) : startedAt;
           const labelToConcept = new Map<string, string>();
           const firstObs: string[] = [];
-          const write = async (label: string, over: { kind: string; family: string; sub?: string; geo?: string; windowKind?: string; windowStart?: string; windowEnd?: string; prov: string; value?: number | null; unit?: string | null; valueStatus?: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE'; at: string; span?: string | null; domainHint?: string; conceptClass?: string }): Promise<string | null> => {
+          const write = async (label: string, over: { kind: string; family: string; sub?: string; geo?: string; windowKind?: string; windowStart?: string; windowEnd?: string; prov: string; value?: number | null; unit?: string | null; valueStatus?: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE'; at: string; span?: string | null; domainHint?: string; conceptClass?: string; role?: SourceRole; roleReason?: string }): Promise<string | null> => {
             const r = await resolveLabel(repo, { label, domainHint: over.domainHint, conceptClass: over.conceptClass });
             if (r.outcome === 'PROPOSED' && r.created) proposed.add(r.conceptId);
+            const elig = deriveSignalEligibility(over.role ?? null, over.roleReason ?? null);
             const span = evidenceSpanIsBounded(over.span, item.text) ? over.span ?? null : null;
-            const base = { run_id: runId, acquisition_source_id: item.acquisitionSourceId, origin_item_id: originItemId, actor_id: actorId, observation_kind: over.kind, signal_family: over.family, signal_subfamily: over.sub ?? '', geo_scope: over.geo ?? '', window_kind: over.windowKind ?? null, window_start: over.windowStart ?? null, window_end: over.windowEnd ?? null, measurement_provenance: over.prov, value: over.value ?? null, value_unit: over.unit ?? null, value_status: over.valueStatus, evidence_span: span, extractor_version: cfg.extractor.method, observed_at: over.at, origin_kind: 'SIGNAL_SNAPSHOT' };
+            const base = { run_id: runId, acquisition_source_id: item.acquisitionSourceId, origin_item_id: originItemId, actor_id: actorId, observation_kind: over.kind, signal_family: over.family, signal_subfamily: over.sub ?? '', geo_scope: over.geo ?? '', window_kind: over.windowKind ?? null, window_start: over.windowStart ?? null, window_end: over.windowEnd ?? null, measurement_provenance: over.prov, value: over.value ?? null, value_unit: over.unit ?? null, value_status: over.valueStatus, evidence_span: span, source_role: elig.role, candidate_signal_eligible: elig.eligible, eligibility_reason: elig.reason, extractor_version: cfg.extractor.method, observed_at: over.at, origin_kind: 'SIGNAL_SNAPSHOT' };
             const dedupe = key(originItemId, r.outcome === 'REVIEW_REQUIRED' ? `label:${label}` : r.conceptId, over.kind, over.family, over.sub, over.geo, over.windowKind, over.windowStart, over.windowEnd, over.prov);
             if (r.outcome === 'REVIEW_REQUIRED') {
               const o = await repo.appendObservation({ ...base, unresolved_label: label.trim(), dedupe_key: dedupe });
@@ -133,21 +138,22 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
             labelToConcept.set(label, r.conceptId);
             const o = await repo.appendObservation({ ...base, concept_id: r.conceptId, dedupe_key: dedupe });
             if (o.created) obsWritten += 1;
+            touched.add(r.conceptId);
             dirty.push({ type: 'CONCEPT', id: r.conceptId });
             return o.observationId;
           };
           // structured signals (statistics, search, geo, trials, ...)
           for (const sgn of item.signals ?? ([] as SignalInput[])) {
-            await write(sgn.conceptLabel, { kind: sgn.observationKind, family: sgn.signalFamily, sub: sgn.signalSubfamily, geo: sgn.geoScope, windowKind: sgn.windowKind, windowStart: sgn.windowStart, windowEnd: sgn.windowEnd, prov: sgn.measurementProvenance, value: sgn.value, unit: sgn.valueUnit, valueStatus: sgn.valueStatus, at: sgn.observedAt, span: sgn.evidenceSpan, domainHint: sgn.domainHint, conceptClass: sgn.conceptClass });
+            await write(sgn.conceptLabel, { kind: sgn.observationKind, family: sgn.signalFamily, sub: sgn.signalSubfamily, geo: sgn.geoScope, windowKind: sgn.windowKind, windowStart: sgn.windowStart, windowEnd: sgn.windowEnd, prov: sgn.measurementProvenance, value: sgn.value, unit: sgn.valueUnit, valueStatus: sgn.valueStatus, at: sgn.observedAt, span: sgn.evidenceSpan, domainHint: sgn.domainHint, conceptClass: sgn.conceptClass, role: sgn.sourceRole, roleReason: sgn.roleReason });
           }
           // content mentions: discovery-eligible AND commercial items (with their context); PERSONAL / UNKNOWN produce none
           if (producesObservations(classification)) {
             const ex = cfg.extractor.extract(item);
             const family = contentFamily(reader, item);
             for (const m of ex.mentions) {
-              const id = await write(m.label, { kind: 'CONTENT_MENTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass });
+              const id = await write(m.label, { kind: 'CONTENT_MENTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass, role: 'TOPIC_BEARING' });
               if (id) firstObs.push(id);
-              if (classification.clinicianReportedPublicQuestion) await write(m.label, { kind: 'CLINICIAN_REPORTED_PUBLIC_QUESTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass });
+              if (classification.clinicianReportedPublicQuestion) await write(m.label, { kind: 'CLINICIAN_REPORTED_PUBLIC_QUESTION', family, prov: 'CONTENT', at: observedAt, span: m.evidenceSpan ?? null, domainHint: m.domainHint, conceptClass: m.conceptClass, role: 'TOPIC_BEARING' });
             }
             // 3. relations: only the joint groups the extractor DECLARED (never all pairs), once per item
             for (const g of ex.jointGroups) {
@@ -178,7 +184,15 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
 
   // 4. incremental aggregation of ONLY the targets that received new evidence, then 5. candidate evaluation + snapshots
   const aggCfg = { version: cfg.aggregationVersion, now: now(), observationLimit: itemCap! * 20, platformOf: (src: string) => platforms.get(src) ?? null };
-  const aggregated = await aggregateDirtyTargets(repo, dirty, aggCfg);
+  // editorial gate: concept exists != candidate. Only ELIGIBLE concepts are aggregated for candidates; the rest are retained and reported.
+  const eligibleConcepts = new Set<string>();
+  for (const conceptId of touched) {
+    const ce = deriveConceptEligibility(await repo.conceptEligibilitySummary(conceptId));
+    result.eligibility.push({ conceptId, state: ce.state, reasonCodes: ce.reasonCodes });
+    if (ce.state === 'ELIGIBLE') eligibleConcepts.add(conceptId);
+  }
+  const gated = dirty.filter((d) => d.type !== 'CONCEPT' || eligibleConcepts.has(d.id));
+  const aggregated = await aggregateDirtyTargets(repo, gated, aggCfg);
   result.conceptsProposed = [...proposed];
   for (const a of aggregated) {
     if (!a.aggregateIds.length) continue;

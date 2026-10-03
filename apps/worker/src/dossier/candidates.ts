@@ -7,6 +7,7 @@
  * REJECT is not resurfaced by a later cycle, but history keeps accumulating.
  */
 import { planEvaluation } from '../../../../packages/contracts/src/dossier-discovery';
+import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
 import { policyValue, type Criteria, type DossierPolicy } from './policy';
 import { credibleAnchorsFromAggregates, type Anchor } from './wow';
 import { evaluationFingerprint, writeCandidateSnapshot, type Evaluation, type SnapshotResult } from './snapshots';
@@ -91,6 +92,9 @@ export function computeEvaluation(aggs: readonly Row[], ctx: EvaluationContext, 
   if (m.uniquePlatforms >= 2) reasons.push('MULTI_PLATFORM');
   if (m.uniqueActors >= 2) reasons.push('MULTI_CREATOR');
   if (m.independentOrigins === 1) reasons.push('SINGLE_SOURCE_DEPENDENCY');
+  // support dimensions are kept apart: repetition inside ONE signal family is not multi-family corroboration
+  if (m.independentSignalFamilies === 1 && m.independentOrigins >= 2) reasons.push('SOURCE_LOCAL_REPETITION');
+  if (m.independentSignalFamilies >= 2) reasons.push('MULTI_SIGNAL_FAMILY_SUPPORT');
   if (kinds.has('FAST_7D') && !kinds.has('FAST_30D') && !kinds.has('BASELINE_90D') && [...kinds].every((k) => k === 'FAST_7D')) reasons.push('BURST_ONLY');
   if (!m.families.some((f) => f.startsWith('TURKEY_') || f === 'TR_CLINICIAN_CREATOR_PULSE')) reasons.push('LOW_TURKEY_DATA');
   if (modeledOnly) reasons.push('MODELED_DATA_ONLY');
@@ -142,6 +146,7 @@ export interface EvaluateConfig {
 }
 export type EvaluateOutcome =
   | { status: 'NO_SIGNAL'; targetType: TargetType; targetId: string }
+  | { status: 'NOT_ELIGIBLE'; targetType: TargetType; targetId: string; eligibility: ConceptEligibility; reasonCodes: string[] }
   | { status: 'EVALUATED'; candidateId: string; created: boolean; candidateClass: string; evaluationStatus: Evaluation['status']; snapshot: SnapshotResult; surface: boolean | 'POLICY_NOT_DECIDED'; candidateState: string; reasonCodes: string[] };
 
 const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
@@ -151,6 +156,12 @@ const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
  * review-ready state for non-WATCH classes. Human-owned states (ACCEPTED, REJECTED, SNOOZED, ...) are never overwritten.
  */
 export async function evaluateTarget(repo: DossierRepo, target: { type: TargetType; id: string; domain?: string | null; whyWow?: unknown }, policy: DossierPolicy, cfg: EvaluateConfig): Promise<EvaluateOutcome> {
+  // candidate-eligibility gate: a concept that is not an editorial topic never becomes a candidate, whatever its aggregates say
+  if (target.type === 'CONCEPT') {
+    const summary = await repo.conceptEligibilitySummary(target.id);
+    const ce = deriveConceptEligibility(summary);
+    if (summary.length > 0 && ce.state !== 'ELIGIBLE') return { status: 'NOT_ELIGIBLE', targetType: target.type, targetId: target.id, eligibility: ce.state, reasonCodes: ce.reasonCodes };
+  }
   const aggs = await repo.listAggregates(target.type, target.id);
   if (!aggs.length) return { status: 'NO_SIGNAL', targetType: target.type, targetId: target.id };
   const existing = await repo.getCandidateByTarget(target.type, target.id);

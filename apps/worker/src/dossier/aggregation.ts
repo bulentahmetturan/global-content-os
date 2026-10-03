@@ -159,8 +159,9 @@ async function aggregateRows(repo: DossierRepo, targetType: TargetType, targetId
 export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg: AggregationConfig): Promise<AggregationResult> {
   if (!Number.isInteger(cfg.observationLimit) || cfg.observationLimit < 1) throw new DossierError('limit_required');
   const from = `${addDays(dayOf(cfg.now), -180)}T00:00:00Z`;
-  const recent = await repo.listObservationsForConcept(conceptId, { limit: cfg.observationLimit, observedFrom: from });
-  const structural = await repo.listStructuralObservationsForConcept(conceptId, cfg.observationLimit);
+  // candidate aggregates are built from candidate-eligible observations only; ineligible ones stay in the log (see eligibility.ts)
+  const recent = await repo.listObservationsForConcept(conceptId, { limit: cfg.observationLimit, observedFrom: from, candidateEligibleOnly: true });
+  const structural = await repo.listStructuralObservationsForConcept(conceptId, cfg.observationLimit, { candidateEligibleOnly: true });
   const byId = new Map<string, Obs>();
   for (const r of [...recent, ...structural]) byId.set(String(r.observation_id), r as Obs);
   const truncated = recent.length >= cfg.observationLimit || structural.length >= cfg.observationLimit;

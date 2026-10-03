@@ -5,6 +5,7 @@
  * eligible for activation. Real Instagram/TikTok access, providers and credentials are OWNER_DECISION_REQUIRED.
  */
 import vocab from '../../../../packages/contracts/dossier-discovery.json';
+import type { SourceRole } from './eligibility';
 import { DossierError } from './types';
 
 export type ConnectorClass = (typeof vocab.connector.classes)[number];
@@ -57,6 +58,10 @@ export interface SignalInput {
   valueStatus?: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE';
   observedAt: string;
   evidenceSpan?: string | null;
+  /** Source-semantic role of the field this label came from (declared by the connector; never inferred from the label's wording). */
+  sourceRole?: SourceRole;
+  /** Optional narrowing reason allowed for that role (e.g. TOPIC_COHERENT, AMBIGUOUS_TOPIC_ROLE). */
+  roleReason?: string;
 }
 
 /** Normalized source item / signal input contract shared by every connector. No full article, transcript or comment archive. */
