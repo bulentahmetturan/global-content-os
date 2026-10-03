@@ -167,7 +167,7 @@ CREATE INDEX IF NOT EXISTS idx_dossier_relation_members_concept ON dossier_relat
 -- (DELETE is allowed, UPDATE is not); nothing historical depends on them. observation_id references elsewhere are soft.
 CREATE TABLE IF NOT EXISTS dossier_observations (
   observation_id TEXT PRIMARY KEY,
-  run_id TEXT REFERENCES dossier_signal_runs(run_id),
+  run_id TEXT, -- soft reference: the append-only run row is written once, at the end of the run, after its observations
   acquisition_source_id TEXT,
   source_item_id TEXT,
   origin_item_id TEXT REFERENCES dossier_external_source_items(origin_item_id),

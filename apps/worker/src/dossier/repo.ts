@@ -356,6 +356,11 @@ export class DossierRepo {
   listActorSourceMappings(actorId: string): Promise<Row[]> {
     return this.rows(`SELECT * FROM dossier_actor_source_mappings WHERE actor_id = ? ORDER BY mapping_id LIMIT 200`, actorId);
   }
+  /** Actors mapped to an acquisition source (bounded). One distinct actor attributes an item to it; several do not. */
+  async actorIdsForSource(acquisitionSourceId: string): Promise<string[]> {
+    const rows = await this.rows<{ actor_id: string }>(`SELECT DISTINCT actor_id FROM dossier_actor_source_mappings WHERE acquisition_source_id = ? AND ended_at IS NULL ORDER BY actor_id LIMIT 5`, acquisitionSourceId);
+    return rows.map((r) => r.actor_id);
+  }
   /** Platform of an actor-owned acquisition source, when the mapping knows it. */
   async platformOfSource(acquisitionSourceId: string): Promise<string | null> {
     const r = await this.first<{ platform: string | null }>(`SELECT platform FROM dossier_actor_source_mappings WHERE acquisition_source_id = ? AND platform IS NOT NULL ORDER BY mapping_id LIMIT 1`, acquisitionSourceId);
