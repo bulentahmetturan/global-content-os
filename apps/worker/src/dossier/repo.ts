@@ -246,6 +246,21 @@ export class DossierRepo {
       conceptId, ...(opts.family ? [opts.family] : []), ...(opts.observedFrom ? [opts.observedFrom] : []), ...(opts.observedTo ? [opts.observedTo] : []), opts.limit,
     );
   }
+  /** Structural / release-driven observations carry their own period; they are read regardless of how old they are. */
+  listStructuralObservationsForConcept(conceptId: string, limit: number): Promise<Row[]> {
+    if (!Number.isInteger(limit) || limit < 1) throw new DossierError('limit_required');
+    return this.rows(`SELECT * FROM dossier_observations WHERE concept_id = ? AND window_kind IN ('SOURCE_PERIOD','RELEASE_PERIOD','STRUCTURAL_PERIOD') ORDER BY window_end DESC, observation_id LIMIT ?`, conceptId, limit);
+  }
+  async listObservationsByIds(ids: readonly string[]): Promise<Row[]> {
+    const out: Row[] = [];
+    for (const part of chunks([...new Set(ids)], 40)) out.push(...(await this.rows(`SELECT * FROM dossier_observations WHERE observation_id IN (${part.map(() => '?').join(',')})`, ...part)));
+    return out;
+  }
+  async getExternalSourceItems(ids: readonly string[]): Promise<Row[]> {
+    const out: Row[] = [];
+    for (const part of chunks([...new Set(ids)], 40)) out.push(...(await this.rows(`SELECT * FROM dossier_external_source_items WHERE origin_item_id IN (${part.map(() => '?').join(',')})`, ...part)));
+    return out;
+  }
   listObservationsByRun(runId: string, limit: number): Promise<Row[]> {
     return this.rows(`SELECT * FROM dossier_observations WHERE run_id = ? ORDER BY observed_at, observation_id LIMIT ?`, runId, limit);
   }
