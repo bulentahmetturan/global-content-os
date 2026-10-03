@@ -60,8 +60,8 @@ DO NOT LOAD: source registries in bulk, archived run history. Activation stays l
 SECOND REPO: NO
 
 ### Evergreen dossier discovery (architecture foundation; contracts only, nothing live)
-READ: `docs/DOSSIER-DISCOVERY.md`, `packages/contracts/dossier-discovery.json`
-OPTIONAL: `packages/contracts/src/dossier-discovery.ts`, `packages/contracts/dossier-discovery.test.mjs`, `docs/EVERGREEN-RUNTIME.md`
+READ: `docs/DOSSIER-DISCOVERY.md`, `packages/contracts/dossier-discovery.json`, `docs/DOSSIER-SOURCES.md`
+OPTIONAL: `packages/contracts/src/dossier-discovery.ts`, `packages/contracts/dossier-discovery.test.mjs`, `apps/worker/src/dossier/orchestrator.ts`, `apps/worker/src/dossier/e2e.test.mjs`, `docs/EVERGREEN-RUNTIME.md`
 DO NOT LOAD: source registries in bulk. A source, reader or migration for this subsystem needs a separate owner-approved task
 SECOND REPO: NO
 
