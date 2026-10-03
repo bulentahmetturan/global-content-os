@@ -466,8 +466,8 @@ export class DossierRepo {
     if (found) return { candidateId: found.candidate_id, created: false, state: found.state };
     const id = this.ctx.id('cand');
     const now = this.ctx.now();
-    await this.exec(`INSERT INTO dossier_candidates (candidate_id, target_type, target_id, domain, state, created_at, updated_at) VALUES (?,?,?,?, 'DISCOVERED', ?, ?)`, id, t.target_type, t.target_id, t.domain ?? null, now, now);
-    return { candidateId: id, created: true, state: 'DISCOVERED' };
+    await this.exec(`INSERT INTO dossier_candidates (candidate_id, target_type, target_id, domain, state, created_at, updated_at) VALUES (?,?,?,?, 'CANDIDATE', ?, ?)`, id, t.target_type, t.target_id, t.domain ?? null, now, now); // a durable candidate exists only after promotion; DISCOVERED and WATCH are pre-candidate
+    return { candidateId: id, created: true, state: 'CANDIDATE' };
   }
   getCandidateByTarget(targetType: TargetType, targetId: string): Promise<Row | null> {
     return this.first(`SELECT * FROM dossier_candidates WHERE target_type = ? AND target_id = ?`, targetType, targetId);

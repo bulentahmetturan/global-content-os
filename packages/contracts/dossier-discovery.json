@@ -202,7 +202,7 @@
     "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
     "origin_cluster_required": true,
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
-    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT"]
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "PROMOTION_POLICY_NOT_SET", "NOT_READY_FOR_CANDIDATE", "PROMOTED_BY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER"]
   },
   "wow": {
     "wow_is_not_viral": true,
@@ -285,7 +285,7 @@
   },
   "handoff": {
     "starts_after": "ACCEPT",
-    "allowed_fields": ["canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes", "canonical_terms", "public_health_lane", "why_wow", "turkey_signal_dimensions", "global_frontier_dimensions", "medical_claim_risk", "sensationalism_risk"],
+    "allowed_fields": ["source_attributions", "canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes", "canonical_terms", "public_health_lane", "why_wow", "turkey_signal_dimensions", "global_frontier_dimensions", "medical_claim_risk", "sensationalism_risk"],
     "forbidden_fields": ["scientific_conclusion", "literature_synthesis", "treatment_advice", "dose", "dosage", "efficacy_verdict", "safety_verdict", "myth_verdict", "personal_attribution_as_subject"],
     "auto_publish": false,
     "persisted_or_sent_externally": false
@@ -562,6 +562,25 @@
     "without_configured_policy": "WATCH_NOT_READY",
     "public_health_dossier_requires_credible_anchor": true
   },
+  "lifecycle_promotion": {
+    "$comment": "Canonical owner decision: DISCOVERED -> WATCH -> CANDIDATE -> REVIEW -> ACCEPT / REJECT / SNOOZE. WATCH != DOSSIER_CANDIDATE. WATCH is a DERIVED pre-candidate discovery state (eligibility + live aggregates + signal-family support + quality), with no candidate row and no immutable snapshot. A durable candidate exists only after a promotion gate passes.",
+    "pre_candidate_states": ["DISCOVERED", "WATCH"],
+    "durable_candidate_initial_state": "CANDIDATE",
+    "watch_requires_durable_candidate": false,
+    "snapshots_only_for_promoted_candidates": true,
+    "promotion_paths": ["CONVERGENCE", "SOURCE_SPECIFIC_FRONTIER"],
+    "convergence_means": "independent support from more than one signal family (the definition, not a tunable count)",
+    "source_specific_frontier_means": "one explicitly approved signal family may promote alone; no source has such a policy by default",
+    "default_without_promotion_policy": "WATCH_NOT_READY_FOR_CANDIDATE",
+    "repetition_inside_one_family_is_not_convergence": true,
+    "no_numeric_product_threshold": true
+  },
+  "attribution": {
+    "$comment": "Generic source-attribution capability: a connector declares what an official source terms require; the runtime adds retrieval/processing times. Available to handoff, export, editorial rendering and provenance display. No UI, no publishing.",
+    "static_fields": ["attribution_required", "source_display_name", "source_reference", "transformation_note", "attribution_requirements"],
+    "runtime_fields": ["source_id", "retrieved_at", "processed_at"],
+    "requirements": ["ATTRIBUTE_SOURCE", "DISPLAY_PROCESSED_DATE", "STATE_MODIFICATIONS", "KEEP_CURRENT", "NO_PROPRIETARY_CLAIM", "NO_CONTACT_EXTRACTION_FOR_MARKETING", "THIRD_PARTY_RIGHTS_MAY_APPLY"]
+  },
   "editorial_eligibility": {
     "$comment": "DISCOVERED CONCEPT != DOSSIER CANDIDATE. Observation != concept != candidate-eligible topic != candidate. Eligibility is DERIVED, explainable by reason codes, and is NOT canonical concept status (PROPOSED/ACTIVE/REJECTED/MERGED). No lexical lists: a role comes from the source field semantics and the source's own structured metadata.",
     "source_roles": ["TOPIC_BEARING", "CONTEXT_ATTRIBUTE", "SOURCE_ACTOR", "POPULATION_DESCRIPTOR", "COMPARATOR_OR_CONTROL", "OPERATIONAL_METADATA", "REVIEW_REQUIRED"],
@@ -585,7 +604,7 @@
   },
   "policy": {
     "statuses": ["SET", "POLICY_NOT_SET", "CONFIG_REQUIRED", "OWNER_DECISION_REQUIRED"],
-    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
+    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "candidate_promotion", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
     "defaults_are_unset": true,
     "unset_runtime_behavior": "FAIL_SAFE"
   }

@@ -54,6 +54,9 @@ export interface ActorMentionPolicy {
   minDistinctMentioners: number;
 }
 
+export type { CandidatePromotionPolicy } from './promotion';
+import type { CandidatePromotionPolicy } from './promotion';
+
 export interface DossierPolicy {
   retention: PolicyValue<unknown>;
   backfill: PolicyValue<unknown>;
@@ -61,6 +64,8 @@ export interface DossierPolicy {
   perRunItemCap: PolicyValue<number>;
   provenanceRepresentativeCap: PolicyValue<number>;
   candidateClassCriteria: PolicyValue<CandidateClassCriteria>;
+  /** Which promotion paths turn a WATCH target into a durable DOSSIER candidate. Unset = nothing is promoted (fail closed). */
+  candidatePromotion: PolicyValue<CandidatePromotionPolicy>;
   wowThresholds: PolicyValue<WowPolicy>;
   commercialConcentration: PolicyValue<{ minShare: number }>;
   tripleNetworkQualification: PolicyValue<(r: unknown) => boolean>;
@@ -80,6 +85,7 @@ export const POLICY_KEYS: Record<string, keyof DossierPolicy> = {
   per_run_item_cap: 'perRunItemCap',
   provenance_representative_cap: 'provenanceRepresentativeCap',
   candidate_class_criteria: 'candidateClassCriteria',
+  candidate_promotion: 'candidatePromotion',
   wow_thresholds: 'wowThresholds',
   commercial_concentration: 'commercialConcentration',
   triple_network_qualification: 'tripleNetworkQualification',
@@ -98,6 +104,7 @@ export const DEFAULT_POLICY: DossierPolicy = {
   perRunItemCap: unset('CONFIG_REQUIRED'),
   provenanceRepresentativeCap: unset('CONFIG_REQUIRED'),
   candidateClassCriteria: unset('OWNER_DECISION_REQUIRED'),
+  candidatePromotion: unset('OWNER_DECISION_REQUIRED'),
   wowThresholds: unset('OWNER_DECISION_REQUIRED'),
   commercialConcentration: unset('OWNER_DECISION_REQUIRED'),
   tripleNetworkQualification: unset('OWNER_DECISION_REQUIRED'),

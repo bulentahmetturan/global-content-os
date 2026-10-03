@@ -10,12 +10,22 @@
  * approves it. The existing acquisition (`ingestClinicalTrials`) is untouched and keeps its own semantics.
  */
 import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
+import type { SourceAttribution } from './attribution';
 import type { SourceRole } from './eligibility';
 import { describeConnector, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
 import { DossierError } from './types';
 
 export const CLINICALTRIALS_SOURCE_ID = 'clinicaltrials-gov-api-v2';
 export const CLINICALTRIALS_ENDPOINT = 'https://clinicaltrials.gov/api/v2/studies';
+/** ClinicalTrials.gov published Terms and Conditions (checked 2026-10-03), expressed in the generic attribution capability. */
+export const CLINICALTRIALS_ATTRIBUTION: SourceAttribution = {
+  attribution_required: true,
+  source_display_name: 'ClinicalTrials.gov',
+  source_reference: 'https://clinicaltrials.gov/about-site/terms-conditions',
+  transformation_note: 'Registry fields (conditions, interventions, status, phase, sponsor, first-post date) are normalized into dated discovery signals; no results, outcomes or conclusions are used or implied.',
+  attribution_requirements: ['ATTRIBUTE_SOURCE', 'DISPLAY_PROCESSED_DATE', 'STATE_MODIFICATIONS', 'KEEP_CURRENT', 'NO_PROPRIETARY_CLAIM', 'NO_CONTACT_EXTRACTION_FOR_MARKETING', 'THIRD_PARTY_RIGHTS_MAY_APPLY'],
+};
+
 export const CLINICALTRIALS_FIELDS = ['NCTId', 'BriefTitle', 'Condition', 'InterventionName', 'InterventionType', 'Phase', 'OverallStatus', 'StudyFirstPostDate', 'LastUpdatePostDate', 'LeadSponsorName', 'StudyType', 'ArmGroupType', 'ArmGroupInterventionName', 'HealthyVolunteers', 'ConditionBrowseLeafAsFound', 'ConditionBrowseLeafRelevance', 'InterventionBrowseLeafAsFound', 'InterventionBrowseLeafRelevance'];
 
 export interface CtStudy {
@@ -92,7 +102,7 @@ export const CLINICALTRIALS_FIELD_ROLES: Record<string, { role: SourceRole; note
   'statusModule.overallStatus': { role: 'CONTEXT_ATTRIBUTE', note: 'recruitment status, context only' },
   'designModule.studyType': { role: 'CONTEXT_ATTRIBUTE', note: 'interventional / observational, context only' },
   'sponsorCollaboratorsModule.leadSponsor': { role: 'SOURCE_ACTOR', note: 'registrant / provenance, not a health topic' },
-  'eligibilityModule.healthyVolunteers': { role: 'POPULATION_DESCRIPTOR', note: 'population flag; a co-signal that a condition entry may describe the population rather than a disease' },
+  'eligibilityModule.healthyVolunteers': { role: 'POPULATION_DESCRIPTOR', note: 'population / eligibility CONTEXT only; never by itself a negative topic signal' },
   'identificationModule.nctId': { role: 'OPERATIONAL_METADATA', note: 'record identity' },
   'statusModule.studyFirstPostDate': { role: 'OPERATIONAL_METADATA', note: 'observation time' },
 };
@@ -111,11 +121,24 @@ export interface RoleDecision {
   reason?: string;
 }
 
-/** A condition entry is topic-bearing unless the record's own structure says otherwise; a source-curated browse match makes it coherent. */
-export function conditionRole(label: string, study: CtStudy): RoleDecision {
+/**
+ * Optional, injected semantic topic-coherence classifier. None ships here: this phase has no approved NLP/LLM mechanism, and the
+ * architecture only reserves the slot so a reliable classifier can later mark a condition-field phrase as coherent, ambiguous or a
+ * population/context phrase. Returning null means "no opinion".
+ */
+export type TopicCoherenceClassifier = (label: string, study: CtStudy) => 'TOPIC_COHERENT' | 'REVIEW_REQUIRED' | 'POPULATION_CONTEXT' | null;
+
+/**
+ * A condition entry is POTENTIALLY TOPIC-BEARING. A source-curated browse match makes it coherent; the absence of a match is NEVER
+ * negative evidence (the newest records have empty browse modules) and neither is the healthy-volunteer flag (population/eligibility
+ * context only). Only an injected, reliable classifier may say otherwise; without one the concept is retained as topic-bearing.
+ */
+export function conditionRole(label: string, study: CtStudy, classifier?: TopicCoherenceClassifier | null): RoleDecision {
   if (browseMatch(study.derivedSection?.conditionBrowseModule?.browseLeaves, label)) return { role: 'TOPIC_BEARING', reason: 'TOPIC_COHERENT' };
-  // healthy participants are accepted: the condition field may then describe the population, so the role is ambiguous (kept, human/policy resolves)
-  if (study.protocolSection?.eligibilityModule?.healthyVolunteers === true) return { role: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_TOPIC_ROLE' };
+  const verdict = classifier ? classifier(label, study) : null;
+  if (verdict === 'TOPIC_COHERENT') return { role: 'TOPIC_BEARING', reason: 'TOPIC_COHERENT' };
+  if (verdict === 'REVIEW_REQUIRED') return { role: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_TOPIC_ROLE' };
+  if (verdict === 'POPULATION_CONTEXT') return { role: 'POPULATION_DESCRIPTOR', reason: 'POPULATION_CONTEXT' };
   return { role: 'TOPIC_BEARING' };
 }
 
@@ -128,7 +151,7 @@ export function interventionRole(name: string, study: CtStudy): RoleDecision {
 }
 
 /** One study -> the shared normalized SourceItem; one observation-ready signal per condition and per intervention name. */
-export function normalizeStudy(study: CtStudy): SourceItem | null {
+export function normalizeStudy(study: CtStudy, classifier?: TopicCoherenceClassifier | null): SourceItem | null {
   const p = study.protocolSection;
   const id = clean(p?.identificationModule?.nctId);
   const title = clean(p?.identificationModule?.briefTitle);
@@ -147,7 +170,7 @@ export function normalizeStudy(study: CtStudy): SourceItem | null {
     seen.add(key);
     signals.push({ conceptLabel: label, domainHint: domain, conceptClass, observationKind: 'RESEARCH_ACTIVITY_COUNT', signalFamily: 'GLOBAL_RESEARCH_ACTIVITY', signalSubfamily: role, measurementProvenance: 'ADMINISTRATIVE', observedAt, valueStatus: 'NOT_APPLICABLE', evidenceSpan: span, sourceRole: decision.role, ...(decision.reason ? { roleReason: decision.reason } : {}) });
   };
-  for (const c of p?.conditionsModule?.conditions ?? []) add(clean(c), 'CONDITION', 'HEALTH', 'DISEASE_CONDITION', conditionRole(clean(c), study));
+  for (const c of p?.conditionsModule?.conditions ?? []) add(clean(c), 'CONDITION', 'HEALTH', 'DISEASE_CONDITION', conditionRole(clean(c), study, classifier));
   for (const i of p?.armsInterventionsModule?.interventions ?? []) {
     const m = INTERVENTION_CLASS[clean(i.type)] ?? INTERVENTION_CLASS.OTHER;
     add(clean(i.name), 'INTERVENTION', m.domain, m.conceptClass, interventionRole(clean(i.name), study));
@@ -169,8 +192,8 @@ export function normalizeStudy(study: CtStudy): SourceItem | null {
 export const registryRecordClassifier: ContentClassifier = { method: 'REGISTRY_RECORD', classify: () => UNKNOWN_CLASSIFICATION };
 export const registryRecordExtractor = createFixtureExtractor();
 
-export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: string | null }): Connector<CtStudy> {
-  const descriptor = describeConnector({ id: 'clinicaltrials-frontier', class: 'TRIAL_METADATA', acquisitionSourceId: CLINICALTRIALS_SOURCE_ID, legalStatus: 'UNRESOLVED', mock: false });
+export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: string | null; topicClassifier?: TopicCoherenceClassifier | null }): Connector<CtStudy> {
+  const descriptor = describeConnector({ id: 'clinicaltrials-frontier', class: 'TRIAL_METADATA', acquisitionSourceId: CLINICALTRIALS_SOURCE_ID, legalStatus: 'UNRESOLVED', mock: false, attribution: CLINICALTRIALS_ATTRIBUTION });
   let nextToken: string | null = null;
   let requests = 0;
   return {
@@ -190,7 +213,7 @@ export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: st
       return (body.studies ?? []).slice(0, plan.itemCap);
     },
     normalize: (raw) => {
-      const item = normalizeStudy(raw);
+      const item = normalizeStudy(raw, o.topicClassifier ?? null);
       return item ? [item] : [];
     },
     checkpoint: (plan, items, nowIso) => ({ readerId: plan.readerId, sourceRef: plan.sourceRef, nextCursor: nextToken, lastSuccessAt: nowIso, itemsSeen: items.length, itemsNew: items.length }),

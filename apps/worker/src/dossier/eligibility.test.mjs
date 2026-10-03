@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx, testPolicy } from './test-support.mjs';
+import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING } from './test-support.mjs';
 
 const EL = await bundle('apps/worker/src/dossier/eligibility.ts', 'dossier-elig');
 const CT = await bundle('apps/worker/src/dossier/clinicaltrials.ts', 'dossier-ct-elig');
@@ -51,6 +51,8 @@ const syntheticPage = () => ({
   nextPageToken: 'tok',
 });
 const caps = (n) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: n }, perRunFetchCap: { status: 'SET', value: n } });
+// TEST_ONLY: promote everything that reaches evaluation, so the eligibility tests can still observe candidates and snapshots
+const promote = (n) => ({ ...caps(n), candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING });
 const q = (sqlite, sql, ...a) => sqlite.prepare(sql).all(...a);
 const conceptId = (sqlite, label) => q(sqlite, `SELECT concept_id FROM dossier_concepts WHERE label = ?`, label)[0]?.concept_id;
 const eligOf = (res, sqlite, label) => res.eligibility.find((e) => e.conceptId === conceptId(sqlite, label));
@@ -93,11 +95,11 @@ test('REAL recorded records: every signal carries a vocabulary role from the sou
   assert.deepEqual(Object.values(CT.CLINICALTRIALS_FIELD_ROLES).map((r) => r.role).filter((r, i, a) => a.indexOf(r) === i).sort(), ['COMPARATOR_OR_CONTROL', 'CONTEXT_ATTRIBUTE', 'OPERATIONAL_METADATA', 'POPULATION_DESCRIPTOR', 'SOURCE_ACTOR', 'TOPIC_BEARING']);
 });
 
-test('structured roles on synthetic records: placebo/sham-only intervention -> control; healthy-volunteer condition -> ambiguous; browse match -> coherent', () => {
+test('structured roles on synthetic records: placebo/sham-only intervention -> control; healthy-volunteer flag is context only; browse match -> coherent', () => {
   const [s1, , s3, s4] = syntheticPage().studies;
   assert.deepEqual(CT.interventionRole('Inertia Ctl', s1), { role: 'COMPARATOR_OR_CONTROL' });
   assert.deepEqual(CT.interventionRole('Quillamex', s1), { role: 'TOPIC_BEARING' });
-  assert.deepEqual(CT.conditionRole('Fictional Wellness Cohort', s3), { role: 'REVIEW_REQUIRED', reason: 'AMBIGUOUS_TOPIC_ROLE' });
+  assert.deepEqual(CT.conditionRole('Fictional Wellness Cohort', s3), { role: 'TOPIC_BEARING' }, 'healthyVolunteers is population context, not a negative topic signal');
   assert.deepEqual(CT.conditionRole('Vexonia', s4), { role: 'TOPIC_BEARING', reason: 'TOPIC_COHERENT' });
   // a control only when EVERY arm carrying it is a control arm
   const mixed = study('NCT90000009', { arms: [{ type: 'PLACEBO_COMPARATOR', interventionNames: ['Drug: Mixo'] }, { type: 'EXPERIMENTAL', interventionNames: ['Drug: Mixo'] }], interventions: [{ type: 'DRUG', name: 'Mixo' }] });
@@ -109,7 +111,7 @@ test('structured roles on synthetic records: placebo/sham-only intervention -> c
 test('through the pipeline: observations and concepts are RETAINED, but only eligible concepts become candidates (semantic separation, independent of any threshold)', async () => {
   const { sqlite, repo } = world();
   const page = syntheticPage();
-  const res = await O.runLocalPipeline(repo, cfg(page, caps(5)));
+  const res = await O.runLocalPipeline(repo, cfg(page, promote(5)));
   assert.equal(res.status, 'OK');
   const totalSignals = page.studies.map((s) => CT.normalizeStudy(s)).reduce((n, i) => n + i.signals.length, 0);
   assert.equal(q(sqlite, `SELECT COUNT(*) AS n FROM dossier_observations`)[0].n, totalSignals, 'nothing is dropped for being ineligible');
@@ -121,8 +123,8 @@ test('through the pipeline: observations and concepts are RETAINED, but only eli
   assert.equal(q(sqlite, `SELECT COUNT(*) AS n FROM dossier_observations WHERE concept_id = ?`, conceptId(sqlite, 'Inertia Ctl'))[0].n, 2);
   assert.equal(q(sqlite, `SELECT COUNT(*) AS n FROM dossier_candidates WHERE target_id = ?`, conceptId(sqlite, 'Inertia Ctl'))[0].n, 0);
   assert.equal(q(sqlite, `SELECT COUNT(*) AS n FROM dossier_signal_aggregates WHERE target_id = ?`, conceptId(sqlite, 'Inertia Ctl'))[0].n, 0);
-  // ambiguous population-like condition: retained, REVIEW_REQUIRED, not a candidate
-  assert.deepEqual([eligOf(res, sqlite, 'Fictional Wellness Cohort').state, q(sqlite, `SELECT COUNT(*) AS n FROM dossier_candidates WHERE target_id = ?`, conceptId(sqlite, 'Fictional Wellness Cohort'))[0].n], ['REVIEW_REQUIRED', 0]);
+  // a healthy-volunteer study condition is NOT downgraded: it stays an eligible topic
+  assert.equal(eligOf(res, sqlite, 'Fictional Wellness Cohort').state, 'ELIGIBLE');
   // browse-matched condition stays a topic even with healthy volunteers; reason is TOPIC_COHERENT
   assert.deepEqual([eligOf(res, sqlite, 'Vexonia').state, eligOf(res, sqlite, 'Vexonia').reasonCodes], ['ELIGIBLE', ['TOPIC_COHERENT']]);
   // same label, different role per record: the experimental use makes the concept eligible, and ONLY that use is counted
@@ -138,7 +140,7 @@ test('through the pipeline: observations and concepts are RETAINED, but only eli
 
 test('the candidate gate is a hard invariant, not an orchestration detail: a non-eligible concept returns NOT_ELIGIBLE and no candidate row appears', async () => {
   const { sqlite, repo } = world();
-  await O.runLocalPipeline(repo, cfg(syntheticPage(), caps(5)));
+  await O.runLocalPipeline(repo, cfg(syntheticPage(), promote(5)));
   const id = conceptId(sqlite, 'Inertia Ctl');
   const before = q(sqlite, `SELECT COUNT(*) AS n FROM dossier_candidates`)[0].n;
   const out = await CA.evaluateTarget(repo, { type: 'CONCEPT', id }, caps(5), { now: '2026-10-03T12:00:00.000Z', algorithmVersion: 'cand-el', observationLimit: 100 });
@@ -148,7 +150,7 @@ test('the candidate gate is a hard invariant, not an orchestration detail: a non
 
 test('only eligible observations feed a candidate aggregate: a comparator use does not inflate independent origins', async () => {
   const { sqlite, repo } = world();
-  await O.runLocalPipeline(repo, cfg(syntheticPage(), caps(5)));
+  await O.runLocalPipeline(repo, cfg(syntheticPage(), promote(5)));
   // Nebulon: experimental in NCT90000002, active comparator in NCT90000004 (an active intervention) -> 2 origins; Quillamex: experimental x2 -> 2 origins
   const aggs = q(sqlite, `SELECT independent_source_count AS o FROM dossier_signal_aggregates WHERE target_id = ?`, conceptId(sqlite, 'Quillamex'));
   assert.ok(aggs.length >= 1 && aggs.every((a) => a.o === 2));
@@ -158,7 +160,7 @@ test('only eligible observations feed a candidate aggregate: a comparator use do
 
 test('SOURCE_LOCAL_REPETITION is not MULTI_SIGNAL_FAMILY_SUPPORT: several records of one signal family are repetition, not convergence', async () => {
   const { sqlite, repo } = world();
-  const res = await O.runLocalPipeline(repo, cfg(syntheticPage(), caps(5)));
+  const res = await O.runLocalPipeline(repo, cfg(syntheticPage(), promote(5)));
   const z = res.evaluations.find((e) => e.status === 'EVALUATED' && e.candidateId && q(sqlite, `SELECT target_id FROM dossier_candidates WHERE candidate_id = ?`, e.candidateId)[0].target_id === conceptId(sqlite, 'Zorbitis'));
   assert.ok(z.reasonCodes.includes('SOURCE_LOCAL_REPETITION'));
   assert.ok(!z.reasonCodes.includes('MULTI_SIGNAL_FAMILY_SUPPORT'));
@@ -168,7 +170,7 @@ test('SOURCE_LOCAL_REPETITION is not MULTI_SIGNAL_FAMILY_SUPPORT: several record
 test('P4: the fetch bound and the editorial gate are INDEPENDENT controls', async () => {
   const run = async (n) => {
     const { sqlite, repo } = world();
-    const res = await O.runLocalPipeline(repo, cfg(syntheticPage(), caps(n)));
+    const res = await O.runLocalPipeline(repo, cfg(syntheticPage(), promote(n)));
     return { sqlite, res };
   };
   const small = await run(2);
@@ -192,7 +194,7 @@ test('P4: the fetch bound and the editorial gate are INDEPENDENT controls', asyn
 
 test('the REAL recorded page works through the gate with the same reader; observations stay rich', async () => {
   const { sqlite, repo } = world();
-  const res = await O.runLocalPipeline(repo, cfg(realPage, caps(8)));
+  const res = await O.runLocalPipeline(repo, cfg(realPage, promote(8)));
   assert.equal(res.readers[0].itemsNew, 8);
   const concepts = q(sqlite, `SELECT COUNT(*) AS n FROM dossier_concepts`)[0].n;
   assert.equal(res.eligibility.length, concepts, 'every touched concept is classified');
@@ -217,7 +219,7 @@ test('no hidden threshold or blacklist: product code has no numeric class criter
 
 test('storage: eligibility columns are vocabulary-validated, CHECK-constrained, append-only, and separate from concept state', async () => {
   const { sqlite, repo } = world();
-  await O.runLocalPipeline(repo, cfg(syntheticPage(), caps(5)));
+  await O.runLocalPipeline(repo, cfg(syntheticPage(), promote(5)));
   const row = q(sqlite, `SELECT observation_id, source_role, candidate_signal_eligible, eligibility_reason FROM dossier_observations WHERE candidate_signal_eligible = 'FALSE' LIMIT 1`)[0];
   assert.deepEqual([row.source_role, row.candidate_signal_eligible, row.eligibility_reason], ['COMPARATOR_OR_CONTROL', 'FALSE', 'CONTROL_OR_COMPARATOR_CONTEXT']);
   assert.throws(() => sqlite.prepare(`UPDATE dossier_observations SET candidate_signal_eligible = 'TRUE' WHERE observation_id = ?`).run(row.observation_id), /DOSSIER_APPEND_ONLY/);

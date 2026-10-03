@@ -5,6 +5,7 @@
  * eligible for activation. Real Instagram/TikTok access, providers and credentials are OWNER_DECISION_REQUIRED.
  */
 import vocab from '../../../../packages/contracts/dossier-discovery.json';
+import { validateAttribution, type SourceAttribution } from './attribution';
 import type { SourceRole } from './eligibility';
 import { DossierError } from './types';
 
@@ -38,6 +39,8 @@ export interface ConnectorDescriptor {
   signal_roles: SignalRole[];
   allowed_signal_families: string[];
   mock: boolean;
+  /** What the source terms require downstream (generic capability; absent = nothing declared). */
+  attribution?: SourceAttribution;
 }
 
 /** Observation-ready signal supplied by a connector for non-content / pre-structured data (statistics, search, geo, trials). */
@@ -161,7 +164,7 @@ export const MODE_BINDINGS: Record<PlatformMode, { class: ConnectorClass; legal:
   TIKTOK_CSI_SEMI_MANUAL: { class: 'TIKTOK_CSI_MANUAL', legal: 'MANUAL_ONLY', roles: ['PUBLIC_DEMAND_SEARCH'] },
 };
 
-export function describeConnector(o: { id: string; class?: ConnectorClass; platformMode?: PlatformMode; acquisitionSourceId?: string; legalStatus?: LegalState; mock?: boolean }): ConnectorDescriptor {
+export function describeConnector(o: { id: string; class?: ConnectorClass; platformMode?: PlatformMode; acquisitionSourceId?: string; legalStatus?: LegalState; mock?: boolean; attribution?: SourceAttribution }): ConnectorDescriptor {
   const bound = o.platformMode ? MODE_BINDINGS[o.platformMode] : undefined;
   if (o.platformMode && !bound) throw new DossierError('platform_mode_unknown');
   const cls = o.class ?? bound?.class;
@@ -180,6 +183,7 @@ export function describeConnector(o: { id: string; class?: ConnectorClass; platf
     signal_roles: bound ? [...bound.roles] : [...preset.signal_roles],
     allowed_signal_families: [...preset.allowed_signal_families],
     mock: o.mock !== false,
+    ...(o.attribution ? { attribution: o.attribution } : {}),
   };
   const errors = validateDescriptor(d);
   if (errors.length) throw new DossierError('connector_descriptor_invalid', errors.join(','));
@@ -201,6 +205,7 @@ export function validateDescriptor(d: ConnectorDescriptor): string[] {
   if (d.class === 'TIKTOK_PROVIDER' && tiktokDemand) e.push('creator_content_is_not_search_demand');
   if (tiktokDemand && d.allowed_signal_families.some((f) => CREATOR.includes(f)) && d.class.startsWith('TIKTOK')) e.push('csi_must_not_emit_social_families');
   for (const f of d.allowed_signal_families) if (!vocab.signal.families.includes(f)) e.push(`signal_family_not_in_vocabulary:${f}`);
+  if (d.attribution) e.push(...validateAttribution(d.attribution));
   return e;
 }
 

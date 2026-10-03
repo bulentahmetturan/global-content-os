@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx, testPolicy } from './test-support.mjs';
+import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING } from './test-support.mjs';
 
 const { DossierRepo } = await bundle('apps/worker/src/dossier/repo.ts', 'dossier-repo-cand');
 const A = await bundle('apps/worker/src/dossier/aggregation.ts', 'dossier-aggregation-cand');
@@ -45,10 +45,18 @@ const strongItems = async (repo) => {
 };
 
 test('L no configured policy -> WATCH / NOT_READY with explicit UNKNOWN dimensions (never an arbitrary class, never 0)', async () => {
-  const { repo } = await world();
+  const { repo, sqlite } = await world();
   const concept = await repo.createConcept({ label: 'Fictional Topic', domain: 'HEALTH' });
   await seed(repo, concept, await strongItems(repo));
-  const out = await run(repo, concept, DEFAULT_POLICY);
+  // default policy: WATCH is pre-candidate. No promotion policy -> NOT_READY_FOR_CANDIDATE, no candidate row, no snapshot (fail closed)
+  const watch = await run(repo, concept, DEFAULT_POLICY);
+  assert.equal(watch.status, 'WATCH');
+  assert.deepEqual([watch.watch.state, watch.watch.promotion.status, watch.watch.promotion.promote], ['WATCH', 'NOT_READY_FOR_CANDIDATE', false]);
+  assert.ok(watch.watch.reasonCodes.includes('PROMOTION_POLICY_NOT_SET') && watch.watch.reasonCodes.includes('POLICY_NOT_SET'));
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM dossier_candidates').get().n, 0);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM dossier_candidate_snapshots').get().n, 0);
+  // a TEST-ONLY promotion policy but still no class criteria: a promoted candidate whose class stays WATCH / NOT_READY
+  const out = await run(repo, concept, { ...DEFAULT_POLICY, candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING });
   assert.deepEqual([out.status, out.candidateClass, out.evaluationStatus], ['EVALUATED', 'WATCH', 'NOT_READY']);
   assert.ok(out.reasonCodes.includes('POLICY_NOT_SET'));
   assert.ok(out.reasonCodes.includes('PROVENANCE_CAP_NOT_SET'), 'no provenance cap configured: flagged, never unbounded');
@@ -61,7 +69,7 @@ test('L no configured policy -> WATCH / NOT_READY with explicit UNKNOWN dimensio
   assert.equal(snap.provenanceRefs.length, 0);
   assert.equal(ex.provenanceStatus, 'REPRESENTATIVE_CAP_NOT_SET');
   assert.ok(snap.aggregateStates.length > 0, 'the frozen aggregate state is still the primary evidence');
-  assert.equal(out.candidateState, 'WATCH');
+  assert.equal(out.candidateState, 'CANDIDATE', 'a durable candidate starts at CANDIDATE; WATCH is pre-candidate');
   const noSignal = await C.evaluateTarget(repo, { type: 'CONCEPT', id: (await repo.createConcept({ label: 'No Signal Fiction' })) }, DEFAULT_POLICY, ecfg());
   assert.equal(noSignal.status, 'NO_SIGNAL', 'no aggregate, no candidate');
 });

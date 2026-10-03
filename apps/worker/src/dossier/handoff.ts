@@ -6,6 +6,7 @@
  */
 import vocab from '../../../../packages/contracts/dossier-discovery.json';
 import { validateHandoff } from '../../../../packages/contracts/src/dossier-discovery';
+import type { AttributionNotice } from './attribution';
 import { DossierError } from './types';
 import { explainWhyNow } from './snapshots';
 import type { DossierRepo } from './repo';
@@ -34,6 +35,8 @@ export function findForbiddenKeys(value: unknown, path = ''): string[] {
 }
 
 export interface ResearchHandoff {
+  /** Attribution notices for the sources in this topic discovery provenance (only when the source terms require them). */
+  source_attributions: AttributionNotice[];
   canonical_topic: string;
   canonical_terms: string[];
   aliases: string[];
@@ -53,7 +56,7 @@ export interface ResearchHandoff {
   sensationalism_risk: unknown;
 }
 
-export async function buildResearchHandoff(repo: DossierRepo, candidateId: string): Promise<ResearchHandoff> {
+export async function buildResearchHandoff(repo: DossierRepo, candidateId: string, opts: { attributions?: Readonly<Record<string, AttributionNotice>> } = {}): Promise<ResearchHandoff> {
   const cand = await repo.getCandidate(candidateId);
   if (!cand) throw new DossierError('candidate_not_found');
   const last = await repo.latestReview('DOSSIER_CANDIDATE', candidateId);
@@ -95,7 +98,13 @@ export async function buildResearchHandoff(repo: DossierRepo, candidateId: strin
     cur.windows.push({ window_kind: a.windowKind, window: a.window, provenance: a.provenance, observations: a.observations, independent_sources: a.independentSources, actors: a.actors, platforms: a.platforms, value: a.value, value_status: a.valueStatus });
     summary[a.family] = cur;
   }
+  const provenanceSources = new Set(ex.provenance.map((p) => String(p.source)));
+  // notices the caller supplied for this run's sources; when the provenance representatives are unavailable (cap not set) the source of a signal cannot be told apart,
+  // so every supplied required notice is carried rather than risk dropping an attribution the terms require
+  const provenanceKnown = ex.provenance.length > 0;
+  const sourceAttributions = Object.values(opts.attributions ?? {}).filter((a) => a.attribution_required && (!provenanceKnown || provenanceSources.has(a.source_id)));
   const dto: ResearchHandoff = {
+    source_attributions: sourceAttributions,
     canonical_topic: topic,
     canonical_terms: [...new Set([topic, ...aliases].map((x) => x.trim()).filter(Boolean))],
     aliases,

@@ -25,6 +25,14 @@ export function makeCtx(start = '2026-10-03T00:00:00.000Z') {
 
 export const FAST_NOW = '2026-10-03T12:00:00.000Z';
 
+import vocab from '../../../../packages/contracts/dossier-discovery.json' with { type: 'json' };
+
+/**
+ * TEST_ONLY / POC_ONLY promotion policy: approves EVERY signal family to promote alone, so older tests can exercise classification and
+ * snapshots on promoted candidates. It is a fixture, never a default (DEFAULT_POLICY.candidatePromotion is unset; a test enforces that).
+ */
+export const TEST_ONLY_PROMOTE_EVERYTHING = { status: 'SET', value: { paths: ['CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER'], sourceSpecificFrontier: { families: [...vocab.signal.families] } } };
+
 /** Policy for TESTS ONLY. These numbers are arbitrary fixtures to exercise code paths; they are never product defaults. */
 export function testPolicy(over = {}) {
   const set = (value) => ({ status: 'SET', value });
@@ -34,6 +42,7 @@ export function testPolicy(over = {}) {
     perRunFetchCap: set(50),
     perRunItemCap: set(50),
     provenanceRepresentativeCap: set(3),
+    candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING,
     candidateClassCriteria: set({
       STRONG: { minIndependentOrigins: 3, minIndependentSignalFamilies: 2, minUniqueActors: 2 },
       EMERGING: { minIndependentOrigins: 2, minIndependentSignalFamilies: 1 },

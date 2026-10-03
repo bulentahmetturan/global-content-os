@@ -12,6 +12,8 @@ import { aggregateDirtyTargets } from './aggregation';
 import { evaluateTarget, type EvaluateOutcome } from './candidates';
 import { deriveConceptEligibility, deriveSignalEligibility, type ConceptEligibility, type SourceRole } from './eligibility';
 import { policyValue, type DossierPolicy } from './policy';
+import type { WatchState } from './promotion';
+import { buildAttributionNotice, type AttributionNotice } from './attribution';
 import { resolveLabel } from './resolver';
 import { planJointGroup, recordRelationFromJointSignal } from './relations';
 import type { DossierRepo } from './repo';
@@ -38,6 +40,8 @@ export interface ReaderReport {
   observationsWritten: number;
   error: string | null;
   nextCursor: string | null;
+  /** Attribution + processing context for this run when the source terms require it (carried to handoff / export / rendering). */
+  attribution: AttributionNotice | null;
 }
 export interface PipelineResult {
   status: 'OK' | 'POLICY_NOT_SET';
@@ -49,6 +53,9 @@ export interface PipelineResult {
   evaluations: EvaluateOutcome[];
   /** Editorial eligibility of every concept this run touched (derived, explainable, NOT canonical status). */
   eligibility: { conceptId: string; state: ConceptEligibility; reasonCodes: string[] }[];
+  /** Pre-candidate WATCH targets (derived; no candidate row, no snapshot) and the durable candidates a promotion gate let through. */
+  watchTargets: WatchState[];
+  promoted: { candidateId: string; targetId: string }[];
   reviewReady: { candidateId: string; targetType: TargetType; targetId: string; candidateClass: string }[];
 }
 
@@ -63,7 +70,7 @@ function contentFamily(c: Connector, item: SourceItem): string {
 
 export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): Promise<PipelineResult> {
   const now = () => repo.ctx.now();
-  const result: PipelineResult = { status: 'OK', policyMissing: [], readers: [], conceptsProposed: [], relations: [], relationRefusals: [], evaluations: [], eligibility: [], reviewReady: [] };
+  const result: PipelineResult = { status: 'OK', policyMissing: [], readers: [], conceptsProposed: [], relations: [], relationRefusals: [], evaluations: [], eligibility: [], watchTargets: [], promoted: [], reviewReady: [] };
   const itemCap = policyValue(cfg.policy.perRunItemCap);
   const fetchCap = policyValue(cfg.policy.perRunFetchCap);
   if (itemCap === null) result.policyMissing.push('per_run_item_cap');
@@ -179,7 +186,8 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
     } catch (e) {
       error = `${error ?? ''}${error ? '; ' : ''}run_record_failed:${e instanceof Error ? e.message : String(e)}`;
     }
-    result.readers.push({ readerId: d.id, sourceRef: d.acquisition_source_id, status, runId: writtenRun, itemsSeen, itemsNew, observationsWritten: obsWritten, error, nextCursor });
+    const attribution = d.attribution ? buildAttributionNotice(d.acquisition_source_id, d.attribution, { retrievedAt: startedAt, processedAt: finishedAt }) : null;
+    result.readers.push({ readerId: d.id, sourceRef: d.acquisition_source_id, status, runId: writtenRun, itemsSeen, itemsNew, observationsWritten: obsWritten, error, nextCursor, attribution });
   }
 
   // 4. incremental aggregation of ONLY the targets that received new evidence, then 5. candidate evaluation + snapshots
@@ -198,6 +206,8 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
     if (!a.aggregateIds.length) continue;
     const out = await evaluateTarget(repo, { type: a.targetType, id: a.targetId }, cfg.policy, { now: now(), algorithmVersion: cfg.algorithmVersion, observationLimit: itemCap! * 20 });
     result.evaluations.push(out);
+    if (out.status === 'WATCH') result.watchTargets.push(out.watch);
+    if (out.status === 'EVALUATED' && out.created) result.promoted.push({ candidateId: out.candidateId, targetId: a.targetId });
     if (out.status === 'EVALUATED' && out.candidateState === 'REVIEW') result.reviewReady.push({ candidateId: out.candidateId, targetType: a.targetType, targetId: a.targetId, candidateClass: out.candidateClass });
   }
   return result;

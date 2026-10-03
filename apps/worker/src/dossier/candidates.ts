@@ -8,6 +8,7 @@
  */
 import { planEvaluation } from '../../../../packages/contracts/src/dossier-discovery';
 import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
+import { decidePromotion, deriveWatchState, type WatchState } from './promotion';
 import { policyValue, type Criteria, type DossierPolicy } from './policy';
 import { credibleAnchorsFromAggregates, type Anchor } from './wow';
 import { evaluationFingerprint, writeCandidateSnapshot, type Evaluation, type SnapshotResult } from './snapshots';
@@ -147,6 +148,8 @@ export interface EvaluateConfig {
 export type EvaluateOutcome =
   | { status: 'NO_SIGNAL'; targetType: TargetType; targetId: string }
   | { status: 'NOT_ELIGIBLE'; targetType: TargetType; targetId: string; eligibility: ConceptEligibility; reasonCodes: string[] }
+  /** Pre-candidate: eligible, aggregated, but no promotion gate passed. No candidate row, no snapshot. */
+  | { status: 'WATCH'; targetType: TargetType; targetId: string; watch: WatchState }
   | { status: 'EVALUATED'; candidateId: string; created: boolean; candidateClass: string; evaluationStatus: Evaluation['status']; snapshot: SnapshotResult; surface: boolean | 'POLICY_NOT_DECIDED'; candidateState: string; reasonCodes: string[] };
 
 const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
@@ -173,12 +176,22 @@ export async function evaluateTarget(repo: DossierRepo, target: { type: TargetTy
   if (target.type === 'RELATION') directRelationSignal = (await repo.listRelationObservations(target.id, cfg.observationLimit)).some((r) => s(r.joint_signal_kind) === 'DIRECT_RELATION_OBSERVATION');
   const ev = computeEvaluation(aggs, { domain, targetType: target.type, directRelationSignal, whyWow: target.whyWow }, policy);
   if (policyValue(policy.provenanceRepresentativeCap) === null && !ev.reasonCodes.includes('PROVENANCE_CAP_NOT_SET')) ev.reasonCodes.push('PROVENANCE_CAP_NOT_SET');
+  // PROMOTION GATE: WATCH != candidate. A durable candidate (and its immutable snapshot) exists only once a promotion path passes;
+  // an already-promoted target keeps its stable identity and keeps accumulating snapshots.
+  const metrics = computeMetrics(aggs, policy);
+  const decision = decidePromotion(metrics, policy);
+  if (!existing && !decision.promote) {
+    const summary = target.type === 'CONCEPT' ? deriveConceptEligibility(await repo.conceptEligibilitySummary(target.id)) : null;
+    return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
+  }
+  // the promotion path is part of the evaluation, so it is recorded the same way on every snapshot while it holds
+  if (decision.promote) ev.reasonCodes.push(...decision.reasonCodes);
   const cand = await repo.ensureCandidate({ target_type: target.type, target_id: target.id, domain });
   const snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, ev, policy, cfg);
   const current = s((await repo.getCandidate(cand.candidateId))?.state);
   let state = current;
   if (REVIEWABLE_STATES.includes(current) && plan.surface !== false) {
-    state = ev.candidateClass === 'WATCH' ? 'WATCH' : 'REVIEW';
+    state = ev.candidateClass === 'WATCH' ? 'CANDIDATE' : 'REVIEW';
     if (state !== current) await repo.setCandidateState(cand.candidateId, state);
   }
   return { status: 'EVALUATED', candidateId: cand.candidateId, created: cand.created, candidateClass: ev.candidateClass, evaluationStatus: ev.status, snapshot, surface: plan.surface, candidateState: state, reasonCodes: ev.reasonCodes };

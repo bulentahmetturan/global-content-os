@@ -678,3 +678,26 @@ test('normalizeLabel folds Turkish casing (INSULIN == insulin == Insulin == İns
   assert.equal(n('  Kan   ŞEKERİ '), n('kan şekeri'));
   assert.notEqual(n('sağlık'), n('saglik'), 'spelling variants are aliases, not silently merged');
 });
+
+test('canonical lifecycle: WATCH is pre-candidate, promotion is an owner policy with a fail-closed default, snapshots exist only for promoted candidates', () => {
+  const L = V.lifecycle_promotion;
+  assert.deepEqual(L.pre_candidate_states, ['DISCOVERED', 'WATCH']);
+  assert.equal(L.durable_candidate_initial_state, 'CANDIDATE');
+  assert.equal(L.watch_requires_durable_candidate, false);
+  assert.equal(L.snapshots_only_for_promoted_candidates, true);
+  assert.deepEqual(L.promotion_paths, ['CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER']);
+  assert.equal(L.default_without_promotion_policy, 'WATCH_NOT_READY_FOR_CANDIDATE');
+  assert.equal(L.repetition_inside_one_family_is_not_convergence, true);
+  assert.equal(L.no_numeric_product_threshold, true);
+  assert.ok(V.policy.keys.includes('candidate_promotion'));
+  for (const c of ['PROMOTION_POLICY_NOT_SET', 'NOT_READY_FOR_CANDIDATE', 'PROMOTED_BY_CONVERGENCE', 'PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER', 'SOURCE_LOCAL_REPETITION', 'MULTI_SIGNAL_FAMILY_SUPPORT']) assert.ok(V.quality.reason_codes.includes(c), c);
+  for (const st of L.pre_candidate_states) assert.ok(V.candidate.states.includes(st));
+});
+
+test('generic source attribution capability is part of the contract and the handoff whitelist', () => {
+  assert.deepEqual(V.attribution.static_fields, ['attribution_required', 'source_display_name', 'source_reference', 'transformation_note', 'attribution_requirements']);
+  assert.deepEqual(V.attribution.runtime_fields, ['source_id', 'retrieved_at', 'processed_at']);
+  assert.ok(V.attribution.requirements.includes('ATTRIBUTE_SOURCE') && V.attribution.requirements.includes('DISPLAY_PROCESSED_DATE'));
+  assert.ok(V.handoff.allowed_fields.includes('source_attributions'));
+  assert.deepEqual(d.validateHandoff({ source_attributions: [] }), []);
+});
