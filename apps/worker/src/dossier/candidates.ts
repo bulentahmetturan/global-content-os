@@ -8,7 +8,7 @@
  */
 import { planEvaluation } from '../../../../packages/contracts/src/dossier-discovery';
 import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
-import { decidePromotion, deriveWatchState, type WatchState } from './promotion';
+import { decidePromotion, deriveWatchState, humanPromotionDecision, INTEGRITY_NOT_SATISFIED, integrityRejects, promotionPathFromReasons, routeDefaultClass, type PromotionDecision, type WatchState } from './promotion';
 import { policyValue, type Criteria, type DossierPolicy } from './policy';
 import { credibleAnchorsFromAggregates, type Anchor } from './wow';
 import { evaluationFingerprint, writeCandidateSnapshot, type Evaluation, type SnapshotResult } from './snapshots';
@@ -84,8 +84,11 @@ export interface EvaluationContext {
   whyWow?: unknown;
 }
 
+/** Result of the owner class criteria alone: `candidateClass` is null when they do not (or cannot yet) classify. WATCH is not a class. */
+export type ClassVerdict = Omit<Evaluation, 'candidateClass'> & { candidateClass: string | null };
+
 /** Pure evaluation of a target's live aggregates under the configured policy. */
-export function computeEvaluation(aggs: readonly Row[], ctx: EvaluationContext, policy: DossierPolicy): Evaluation {
+export function computeEvaluation(aggs: readonly Row[], ctx: EvaluationContext, policy: DossierPolicy): ClassVerdict {
   const m = computeMetrics(aggs, policy);
   const reasons: string[] = [];
   const kinds = new Set(aggs.map((a) => s(a.window_kind)));
@@ -125,9 +128,9 @@ export function computeEvaluation(aggs: readonly Row[], ctx: EvaluationContext, 
   const metrics = { independent_origins: m.independentOrigins, independent_signal_families: m.independentSignalFamilies, unique_actors: m.uniqueActors, unique_platforms: m.uniquePlatforms, commercial_share: m.commercialShare, credible_anchors: m.anchors.length, per_family_origins: m.perFamilyOrigins };
   const base = { qualityDimensions: quality, metrics, aggregates: [...aggs], whyWow: ctx.whyWow };
   const criteria = policyValue(policy.candidateClassCriteria);
-  if (!criteria) return { ...base, candidateClass: 'WATCH', status: 'NOT_READY', reasonCodes: [...new Set([...reasons, 'POLICY_NOT_SET'])] };
-  // public-health topics need a credible anchor before any non-WATCH class (fail closed)
-  if (ph && !hasAnchor) return { ...base, candidateClass: 'WATCH', status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
+  if (!criteria) return { ...base, candidateClass: null, status: 'NOT_READY', reasonCodes: [...new Set([...reasons, 'POLICY_NOT_SET'])] };
+  // public-health topics need a credible anchor before any owner-criteria class (fail closed)
+  if (ph && !hasAnchor) return { ...base, candidateClass: null, status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
   const share = m.commercialShare;
   if (criteria.CORRECTIVE && share !== null && share >= criteria.CORRECTIVE.minCommercialShare && meets(criteria.CORRECTIVE, m)) {
     return { ...base, candidateClass: 'CORRECTIVE', status: 'CLASSIFIED', reasonCodes: [...new Set([...reasons, 'HIGH_COMMERCIAL_CONCENTRATION'])] };
@@ -137,7 +140,7 @@ export function computeEvaluation(aggs: readonly Row[], ctx: EvaluationContext, 
   }
   if (meets(criteria.STRONG, m)) return { ...base, candidateClass: 'STRONG', status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
   if (meets(criteria.EMERGING, m)) return { ...base, candidateClass: 'EMERGING', status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
-  return { ...base, candidateClass: 'WATCH', status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
+  return { ...base, candidateClass: null, status: 'CLASSIFIED', reasonCodes: [...new Set(reasons)] };
 }
 
 export interface EvaluateConfig {
@@ -155,10 +158,10 @@ export type EvaluateOutcome =
 const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
 
 /**
- * Evaluates one target: stable candidate, class from policy, an immutable snapshot only on material change, and a
- * review-ready state for non-WATCH classes. Human-owned states (ACCEPTED, REJECTED, SNOOZED, ...) are never overwritten.
+ * Evaluates one target: WATCH until a promotion route passes, then a stable candidate, a class (owner criteria, else the route default),
+ * an immutable snapshot only on material change, and a review-ready state once the owner criteria classify it. Human-owned states (ACCEPTED, REJECTED, SNOOZED, ...) are never overwritten.
  */
-export async function evaluateTarget(repo: DossierRepo, target: { type: TargetType; id: string; domain?: string | null; whyWow?: unknown }, policy: DossierPolicy, cfg: EvaluateConfig): Promise<EvaluateOutcome> {
+export async function evaluateTarget(repo: DossierRepo, target: { type: TargetType; id: string; domain?: string | null; whyWow?: unknown; humanPromotion?: boolean }, policy: DossierPolicy, cfg: EvaluateConfig): Promise<EvaluateOutcome> {
   // candidate-eligibility gate: a concept that is not an editorial topic never becomes a candidate, whatever its aggregates say
   if (target.type === 'CONCEPT') {
     const summary = await repo.conceptEligibilitySummary(target.id);
@@ -176,25 +179,33 @@ export async function evaluateTarget(repo: DossierRepo, target: { type: TargetTy
   if (target.type === 'RELATION') directRelationSignal = (await repo.listRelationObservations(target.id, cfg.observationLimit)).some((r) => s(r.joint_signal_kind) === 'DIRECT_RELATION_OBSERVATION');
   const ev = computeEvaluation(aggs, { domain, targetType: target.type, directRelationSignal, whyWow: target.whyWow }, policy);
   if (policyValue(policy.provenanceRepresentativeCap) === null && !ev.reasonCodes.includes('PROVENANCE_CAP_NOT_SET')) ev.reasonCodes.push('PROVENANCE_CAP_NOT_SET');
-  // PROMOTION GATE: WATCH != candidate. A durable candidate (and its immutable snapshot) exists only once a promotion path passes;
-  // an already-promoted target keeps its stable identity and keeps accumulating snapshots.
+  // PROMOTION GATE: WATCH != candidate. A durable candidate (and its immutable snapshot) exists only once a valid promotion route passes
+  // (eligibility is checked above; integrity here). An already-promoted target keeps its stable identity and keeps accumulating snapshots.
   const metrics = computeMetrics(aggs, policy);
-  const decision = decidePromotion(metrics, policy);
+  let decision: PromotionDecision = target.humanPromotion && !existing ? humanPromotionDecision() : decidePromotion(metrics, policy);
+  if (!existing && decision.promote && integrityRejects({ publicHealth: domain === PUBLIC_HEALTH, hasCredibleAnchor: metrics.anchors.length > 0 })) decision = INTEGRITY_NOT_SATISFIED;
   if (!existing && !decision.promote) {
     const summary = target.type === 'CONCEPT' ? deriveConceptEligibility(await repo.conceptEligibilitySummary(target.id)) : null;
     return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
   }
-  // the promotion path is part of the evaluation, so it is recorded the same way on every snapshot while it holds
+  // the route that promoted a candidate is part of every snapshot while it holds (an earlier route is carried forward from the latest snapshot)
+  let path = decision.promote ? decision.path : null;
   if (decision.promote) ev.reasonCodes.push(...decision.reasonCodes);
+  else if (existing) {
+    const latest = (await repo.listSnapshots(s(existing.candidate_id), 1))[0];
+    const carried = latest ? promotionPathFromReasons(JSON.parse(s(latest.reason_codes_json) || '[]') as string[]) : null;
+    if (carried) { path = carried; ev.reasonCodes.push(...[...new Set(JSON.parse(s(latest.reason_codes_json) || '[]') as string[])].filter((c) => c.startsWith('PROMOTED_BY_'))); }
+  }
+  const classed: Evaluation = { ...ev, candidateClass: ev.candidateClass ?? routeDefaultClass(path) };
   const cand = await repo.ensureCandidate({ target_type: target.type, target_id: target.id, domain });
-  const snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, ev, policy, cfg);
+  const snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, classed, policy, cfg);
   const current = s((await repo.getCandidate(cand.candidateId))?.state);
   let state = current;
   if (REVIEWABLE_STATES.includes(current) && plan.surface !== false) {
-    state = ev.candidateClass === 'WATCH' ? 'CANDIDATE' : 'REVIEW';
+    state = ev.candidateClass === null ? 'CANDIDATE' : 'REVIEW';
     if (state !== current) await repo.setCandidateState(cand.candidateId, state);
   }
-  return { status: 'EVALUATED', candidateId: cand.candidateId, created: cand.created, candidateClass: ev.candidateClass, evaluationStatus: ev.status, snapshot, surface: plan.surface, candidateState: state, reasonCodes: ev.reasonCodes };
+  return { status: 'EVALUATED', candidateId: cand.candidateId, created: cand.created, candidateClass: classed.candidateClass, evaluationStatus: ev.status, snapshot, surface: plan.surface, candidateState: state, reasonCodes: ev.reasonCodes };
 }
 
 export { evaluationFingerprint };

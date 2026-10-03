@@ -33,7 +33,7 @@ const n = (sqlite, table) => q(sqlite, `SELECT COUNT(*) AS n FROM ${table}`)[0].
 
 // TEST_ONLY / POC_ONLY policies
 const ONLY_FRONTIER_FAMILY = { status: 'SET', value: { paths: ['SOURCE_SPECIFIC_FRONTIER'], sourceSpecificFrontier: { families: ['GLOBAL_RESEARCH_ACTIVITY'] } } };
-const ONLY_CONVERGENCE = { status: 'SET', value: { paths: ['CONVERGENCE'] } };
+const ONLY_CONVERGENCE = { status: 'SET', value: { paths: ['MULTI_SIGNAL_FAMILY_CONVERGENCE'] } };
 
 // SYNTHETIC records (fictional topics)
 const study = (id, { conditions = [], arms = [], interventions = [], hv, condLeaves, day = '2026-10-01' } = {}) => ({
@@ -78,7 +78,7 @@ test('1+2+4. an editorially eligible concept is only WATCH: no candidate row, no
   assert.deepEqual(w.support.families, ['GLOBAL_RESEARCH_ACTIVITY']);
   assert.equal(w.support.sourceLocalRepetition, true);
   assert.equal(w.support.multiSignalFamilySupport, false);
-  assert.ok(w.reasonCodes.includes('SOURCE_LOCAL_REPETITION') && w.reasonCodes.includes('PROMOTION_POLICY_NOT_SET') && w.reasonCodes.includes('NOT_READY_FOR_CANDIDATE'));
+  assert.ok(w.reasonCodes.includes('SOURCE_LOCAL_REPETITION') && w.reasonCodes.includes('NO_VALID_PROMOTION_ROUTE') && w.reasonCodes.includes('NOT_READY_FOR_CANDIDATE'));
   assert.ok(w.evaluatedAt && w.aggregateIds.length >= 1 && w.qualityDimensions.SIGNAL_DIVERSITY.state === 'MEASURED');
   // retained, non-candidate concepts (controls) are not even WATCH targets
   assert.ok(!res.watchTargets.some((x) => x.targetId === idOf(sqlite, 'Inertia Ctl')));
@@ -88,12 +88,12 @@ test('1+2+4. an editorially eligible concept is only WATCH: no candidate row, no
   assert.equal(n(sqlite, 'dossier_candidates'), 0);
 });
 
-test('3. default and partial promotion policy are fail closed: unset -> PROMOTION_POLICY_NOT_SET; set-but-unmet -> NOT_READY_FOR_CANDIDATE', async () => {
+test('3. default and partial promotion policy are fail closed: unset -> NO_VALID_PROMOTION_ROUTE; set-but-unmet -> NOT_READY_FOR_CANDIDATE', async () => {
   assert.equal(DEFAULT_POLICY.candidatePromotion.status, 'OWNER_DECISION_REQUIRED');
   const m = { families: ['GLOBAL_RESEARCH_ACTIVITY'], independentSignalFamilies: 1 };
-  assert.deepEqual(PR.decidePromotion(m, DEFAULT_POLICY), { promote: false, status: 'NOT_READY_FOR_CANDIDATE', path: null, reasonCodes: ['PROMOTION_POLICY_NOT_SET', 'NOT_READY_FOR_CANDIDATE'] });
+  assert.deepEqual(PR.decidePromotion(m, DEFAULT_POLICY), { promote: false, status: 'NOT_READY_FOR_CANDIDATE', path: null, reasonCodes: ['NO_VALID_PROMOTION_ROUTE', 'NOT_READY_FOR_CANDIDATE'] });
   const unmet = PR.decidePromotion(m, { ...DEFAULT_POLICY, candidatePromotion: ONLY_CONVERGENCE });
-  assert.deepEqual([unmet.promote, unmet.reasonCodes], [false, ['NOT_READY_FOR_CANDIDATE']]);
+  assert.deepEqual([unmet.promote, unmet.reasonCodes], [false, ['NO_VALID_PROMOTION_ROUTE', 'NOT_READY_FOR_CANDIDATE']]);
   // an unrelated approved family does not promote this one
   assert.equal(PR.decidePromotion(m, { ...DEFAULT_POLICY, candidatePromotion: { status: 'SET', value: { paths: ['SOURCE_SPECIFIC_FRONTIER'], sourceSpecificFrontier: { families: ['GLOBAL_MEDICAL_FRONTIER'] } } } }).promote, false);
   // the full ClinicalTrials-only real page with ONLY caps configured promotes nothing
@@ -129,10 +129,10 @@ test('5+7. a TEST_ONLY promotion path still turns WATCH into candidate + immutab
   await AG.aggregateConcept(w2.repo, concept, { version: 'agg-life', now: '2026-10-03T12:00:00.000Z', observationLimit: 100, platformOf: () => null });
   const ev = await CA.evaluateTarget(w2.repo, { type: 'CONCEPT', id: concept, domain: 'HEALTH' }, caps(4, { candidatePromotion: ONLY_CONVERGENCE }), { now: '2026-10-03T12:00:00.000Z', algorithmVersion: 'cand-life', observationLimit: 100 });
   assert.equal(ev.status, 'EVALUATED');
-  assert.ok(ev.reasonCodes.includes('PROMOTED_BY_CONVERGENCE') && ev.reasonCodes.includes('MULTI_SIGNAL_FAMILY_SUPPORT') && !ev.reasonCodes.includes('SOURCE_LOCAL_REPETITION'));
+  assert.ok(ev.reasonCodes.includes('PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE') && ev.reasonCodes.includes('MULTI_SIGNAL_FAMILY_SUPPORT') && !ev.reasonCodes.includes('SOURCE_LOCAL_REPETITION'));
   // an owner may only make convergence stricter, never weaker than "more than one"
-  assert.equal(PR.decidePromotion({ families: ['A', 'B'], independentSignalFamilies: 2 }, { ...DEFAULT_POLICY, candidatePromotion: { status: 'SET', value: { paths: ['CONVERGENCE'], convergence: { minSignalFamilies: 3 } } } }).promote, false);
-  assert.equal(PR.decidePromotion({ families: ['A'], independentSignalFamilies: 1 }, { ...DEFAULT_POLICY, candidatePromotion: { status: 'SET', value: { paths: ['CONVERGENCE'], convergence: { minSignalFamilies: 1 } } } }).promote, false);
+  assert.equal(PR.decidePromotion({ families: ['A', 'B'], independentSignalFamilies: 2 }, { ...DEFAULT_POLICY, candidatePromotion: { status: 'SET', value: { paths: ['MULTI_SIGNAL_FAMILY_CONVERGENCE'], convergence: { minSignalFamilies: 3 } } } }).promote, false);
+  assert.equal(PR.decidePromotion({ families: ['A'], independentSignalFamilies: 1 }, { ...DEFAULT_POLICY, candidatePromotion: { status: 'SET', value: { paths: ['MULTI_SIGNAL_FAMILY_CONVERGENCE'], convergence: { minSignalFamilies: 1 } } } }).promote, false);
 });
 
 test('6. the TEST_ONLY promotion policy cannot leak into default runtime', () => {

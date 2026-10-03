@@ -169,7 +169,7 @@ test('O handoff exists only after a human ACCEPT, carries discovery facts only, 
   assert.deepEqual(dto.aliases, ['Handoff Fiction Alt']);
   assert.equal(dto.domain, 'SUPPLEMENT');
   assert.equal(dto.relation_depth, 1);
-  assert.equal(dto.why_now.candidate_class, 'WATCH' === dto.why_now.candidate_class ? 'WATCH' : dto.why_now.candidate_class);
+  assert.equal(dto.why_now.candidate_class, 'EMERGING' === dto.why_now.candidate_class ? 'EMERGING' : dto.why_now.candidate_class);
   assert.ok(dto.turkey_signal_dimensions.length > 0);
   assert.deepEqual(dto.global_frontier_dimensions, []);
   assert.deepEqual(dto.medical_claim_risk, { state: 'UNKNOWN', value: null }, 'no classifier decides medical-claim risk: it stays UNKNOWN');
@@ -184,7 +184,7 @@ test('O forbidden scientific-result fields cannot be emitted even if upstream da
   const { repo } = setup();
   const { candidateId } = await candidateFor(repo, 'Poison Fiction');
   // an upstream snapshot whose why-now JSON was polluted with forbidden keys
-  await repo.appendSnapshot({ candidate_id: candidateId, generated_at: '2026-10-09T00:00:00Z', algorithm_version: 'poison', candidate_class: 'WATCH', why_now: { window_kinds: {}, signal_families: [], origin_cluster_ids: [], efficacy_verdict: 'works', nested: { dose: '500 mg', treatment_advice: 'take it' }, why_wow: { myth_verdict: 'false', ok: 1 } }, reason_codes: [] }, [], [{ ref_kind: 'OBSERVATION', acquisition_source_id: 'src-x', observed_at: 't' }]);
+  await repo.appendSnapshot({ candidate_id: candidateId, generated_at: '2026-10-09T00:00:00Z', algorithm_version: 'poison', candidate_class: 'EMERGING', why_now: { window_kinds: {}, signal_families: [], origin_cluster_ids: [], efficacy_verdict: 'works', nested: { dose: '500 mg', treatment_advice: 'take it' }, why_wow: { myth_verdict: 'false', ok: 1 } }, reason_codes: [] }, [], [{ ref_kind: 'OBSERVATION', acquisition_source_id: 'src-x', observed_at: 't' }]);
   await RV.submitReview(repo, { targetType: 'DOSSIER_CANDIDATE', targetId: candidateId, decision: 'ACCEPT', reviewer: human });
   const dto = await H.buildResearchHandoff(repo, candidateId);
   assert.deepEqual(H.findForbiddenKeys(dto), [], 'stripped on the way in');

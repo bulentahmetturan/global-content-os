@@ -189,7 +189,7 @@ test('P4: the fetch bound and the editorial gate are INDEPENDENT controls', asyn
   assert.ok(candidates > 0 && candidates < concepts);
   // and the gate works without any numeric policy at all: unset candidate criteria -> WATCH / NOT_READY, nothing review-ready
   assert.equal(large.res.reviewReady.length, 0);
-  assert.ok(large.res.evaluations.filter((e) => e.status === 'EVALUATED').every((e) => e.candidateClass === 'WATCH' && e.evaluationStatus === 'NOT_READY'));
+  assert.ok(large.res.evaluations.filter((e) => e.status === 'EVALUATED').every((e) => e.candidateClass === 'EMERGING' && e.evaluationStatus === 'NOT_READY'));
 });
 
 test('the REAL recorded page works through the gate with the same reader; observations stay rich', async () => {

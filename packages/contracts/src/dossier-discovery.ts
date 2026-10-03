@@ -330,6 +330,8 @@ export function validateReview(r: unknown): string[] {
   if (r.target_type !== undefined && !inList(vocab.review.target_types, r.target_type)) e.push('target_type_not_in_vocabulary');
   if (r.decision !== undefined && !inList(vocab.review.decisions, r.decision)) e.push('decision_not_in_vocabulary');
   if (r.decision === 'REJECT' && !inList(vocab.review.reject_reasons, r.reason_code)) e.push('reject_requires_reason_code');
+  // a human promotion is only ever PROMOTE on a WATCH target; it is never an ACCEPT / REJECT / SNOOZE / PAUSE of anything else
+  if ((r.decision === 'PROMOTE') !== (r.target_type === 'WATCH_TARGET') && r.decision !== undefined && r.target_type !== undefined) e.push('promote_applies_only_to_watch_targets');
   if (r.effect !== undefined && (typeof r.target_type !== 'string' || (vocab.review.effects_by_target_type as Record<string, string>)[r.target_type] !== r.effect)) e.push('effect_must_be_limited_to_the_reviewed_object_type');
   for (const k of ['effects', 'mutations', 'weights', 'source_activation', 'cadence', 'registry', 'routing', 'cascade', 'scheduler_configuration']) {
     if (k in r && !(Array.isArray(r[k]) && (r[k] as unknown[]).length === 0)) e.push(`review_may_not_mutate:${k}`);

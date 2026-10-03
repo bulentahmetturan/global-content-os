@@ -170,7 +170,8 @@ test('candidates are EVERGREEN editorial opportunities, separate from concepts; 
   assert.deepEqual(d.validateCandidate({ ...proposed, provisional: true }), []);
   assert.ok(d.validateCandidate({ ...ok, provisional: true }).includes('provisional_only_for_proposed_target'));
   assert.ok(d.validateCandidate({ ...ok, target_identity_state: undefined }).includes('target_identity_state_required'));
-  assert.deepEqual(V.candidate.classes, ['STRONG', 'EMERGING', 'WATCH', 'CORRECTIVE', 'FRONTIER']);
+  assert.deepEqual(V.candidate.classes, ['STRONG', 'EMERGING', 'CORRECTIVE', 'FRONTIER']);
+  assert.equal(V.candidate.watch_is_not_a_candidate_class, true, 'WATCH is a pre-candidate lifecycle state, never a durable class');
   assert.equal(V.candidate.terminal_state_of_discovery, 'RESEARCH_REQUESTED');
   assert.ok(!V.candidate.states.some((s) => /PUBLISH|TRUE|FALSE|MYTH|EFFECTIVE|SAFE/i.test(s)));
   assert.equal(V.candidate.is_not_a_concept, true);
@@ -286,9 +287,13 @@ test('relation identity is separate from relation observations; a relation obser
 
 test('governance: append-only human review of one object type; no cascade, no config mutation, accept does not act on registries', () => {
   const rv = (over = {}) => ({ target_type: 'DOSSIER_CANDIDATE', target_id: 't1', decision: 'ACCEPT', reviewer: 'hub-user', reviewed_at: '2026-10-03T00:00:00Z', ...over });
-  assert.deepEqual(V.review.decisions, ['ACCEPT', 'REJECT', 'SNOOZE', 'PAUSE']);
-  assert.deepEqual(V.review.target_types, ['CONCEPT_PROPOSAL', 'ACTOR_PROPOSAL', 'RELATION_PROPOSAL', 'DOSSIER_CANDIDATE']);
-  for (const t of V.review.target_types) for (const dec of ['ACCEPT', 'SNOOZE', 'PAUSE']) assert.deepEqual(d.validateReview(rv({ target_type: t, decision: dec })), []);
+  assert.deepEqual(V.review.decisions, ['ACCEPT', 'REJECT', 'SNOOZE', 'PAUSE', 'PROMOTE']);
+  assert.deepEqual(V.review.target_types, ['CONCEPT_PROPOSAL', 'ACTOR_PROPOSAL', 'RELATION_PROPOSAL', 'DOSSIER_CANDIDATE', 'WATCH_TARGET']);
+  for (const t of V.review.target_types.filter((x) => x !== 'WATCH_TARGET')) for (const dec of ['ACCEPT', 'SNOOZE', 'PAUSE']) assert.deepEqual(d.validateReview(rv({ target_type: t, decision: dec })), []);
+  // PROMOTE exists only for a WATCH target, and a WATCH target takes only PROMOTE
+  assert.deepEqual(d.validateReview(rv({ target_type: 'WATCH_TARGET', decision: 'PROMOTE' })), []);
+  assert.ok(d.validateReview(rv({ target_type: 'DOSSIER_CANDIDATE', decision: 'PROMOTE' })).includes('promote_applies_only_to_watch_targets'));
+  assert.ok(d.validateReview(rv({ target_type: 'WATCH_TARGET', decision: 'ACCEPT' })).includes('promote_applies_only_to_watch_targets'));
   assert.ok(d.validateReview(rv({ decision: 'REJECT' })).includes('reject_requires_reason_code'));
   assert.deepEqual(d.validateReview(rv({ decision: 'REJECT', reason_code: 'NOISE', reason_note: 'n' })), []);
   assert.ok(d.validateReview(rv({ decision: 'REJECT', reason_code: 'MADE_UP' })).includes('reject_requires_reason_code'));
@@ -654,7 +659,7 @@ test('review side effects stay inside the reviewed object: candidate reject != c
   assert.equal(inv.actor_accept_is_not_source_activation, true);
   assert.equal(inv.concept_accept_only_through_the_human_governed_proposal_lifecycle, true);
   for (const m of ['weights', 'cadence', 'routing', 'source_activation', 'scheduler_configuration']) assert.ok(inv.never_autonomously_mutates.includes(m));
-  assert.deepEqual(V.review.effects_by_target_type, { CONCEPT_PROPOSAL: 'CONCEPT_IDENTITY_STATE_ONLY', ACTOR_PROPOSAL: 'ACTOR_IDENTITY_STATE_ONLY', RELATION_PROPOSAL: 'RELATION_IDENTITY_STATE_ONLY', DOSSIER_CANDIDATE: 'CANDIDATE_STATE_ONLY' });
+  assert.deepEqual(V.review.effects_by_target_type, { CONCEPT_PROPOSAL: 'CONCEPT_IDENTITY_STATE_ONLY', ACTOR_PROPOSAL: 'ACTOR_IDENTITY_STATE_ONLY', RELATION_PROPOSAL: 'RELATION_IDENTITY_STATE_ONLY', DOSSIER_CANDIDATE: 'CANDIDATE_STATE_ONLY', WATCH_TARGET: 'CANDIDATE_CREATION_ONLY' });
   const rv = (over = {}) => ({ target_type: 'DOSSIER_CANDIDATE', target_id: 'cand1', decision: 'REJECT', reason_code: 'NOISE', reviewer: 'hub-user', reviewed_at: 't', ...over });
   assert.deepEqual(d.validateReview(rv({ effect: 'CANDIDATE_STATE_ONLY' })), []);
   for (const wrong of ['CONCEPT_IDENTITY_STATE_ONLY', 'RELATION_IDENTITY_STATE_ONLY', 'ACTOR_IDENTITY_STATE_ONLY']) assert.ok(d.validateReview(rv({ effect: wrong })).includes('effect_must_be_limited_to_the_reviewed_object_type'), `a candidate review cannot carry ${wrong}`);
@@ -685,12 +690,16 @@ test('canonical lifecycle: WATCH is pre-candidate, promotion is an owner policy 
   assert.equal(L.durable_candidate_initial_state, 'CANDIDATE');
   assert.equal(L.watch_requires_durable_candidate, false);
   assert.equal(L.snapshots_only_for_promoted_candidates, true);
-  assert.deepEqual(L.promotion_paths, ['CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER']);
-  assert.equal(L.default_without_promotion_policy, 'WATCH_NOT_READY_FOR_CANDIDATE');
+  assert.deepEqual(L.promotion_paths, ['MULTI_SIGNAL_FAMILY_CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER', 'HUMAN_PROMOTION']);
+  assert.deepEqual(L.default_enabled_paths, ['MULTI_SIGNAL_FAMILY_CONVERGENCE']);
+  assert.deepEqual(L.default_disabled_paths, ['SOURCE_SPECIFIC_FRONTIER']);
+  assert.deepEqual(L.gate_requires, ['EDITORIAL_ELIGIBILITY', 'VALID_PROMOTION_ROUTE', 'QUALITY_INTEGRITY_NOT_REJECTED']);
+  assert.deepEqual([L.human_promotion.decider, L.human_promotion.decision, L.human_promotion.auditable, L.human_promotion.is_not_accept, L.human_promotion.bypasses_p5, L.human_promotion.implies_scientific_truth], ['HUMAN', 'PROMOTE', true, true, false, false]);
+  assert.equal(L.default_without_valid_route, 'WATCH_NOT_READY_FOR_CANDIDATE');
   assert.equal(L.repetition_inside_one_family_is_not_convergence, true);
   assert.equal(L.no_numeric_product_threshold, true);
   assert.ok(V.policy.keys.includes('candidate_promotion'));
-  for (const c of ['PROMOTION_POLICY_NOT_SET', 'NOT_READY_FOR_CANDIDATE', 'PROMOTED_BY_CONVERGENCE', 'PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER', 'SOURCE_LOCAL_REPETITION', 'MULTI_SIGNAL_FAMILY_SUPPORT']) assert.ok(V.quality.reason_codes.includes(c), c);
+  for (const c of ['NO_VALID_PROMOTION_ROUTE', 'NOT_READY_FOR_CANDIDATE', 'PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE', 'PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER', 'PROMOTED_BY_HUMAN_PROMOTION', 'INTEGRITY_NOT_SATISFIED', 'SOURCE_LOCAL_REPETITION', 'MULTI_SIGNAL_FAMILY_SUPPORT']) assert.ok(V.quality.reason_codes.includes(c), c);
   for (const st of L.pre_candidate_states) assert.ok(V.candidate.states.includes(st));
 });
 

@@ -126,7 +126,7 @@ test('candidates + snapshots: one stable candidate per target; a snapshot is ato
   const live = await repo.upsertAggregate({ target_type: 'CONCEPT', target_id: concept, signal_family: 'TURKEY_PUBLIC_DEMAND', window_kind: 'FAST_30D', window_start: 't0', window_end: 't1', measurement_provenance: 'SEARCH', aggregation_version: 'v1', observation_count: 9, independent_source_count: 3, generated_at: 't1' });
   const state = { live_aggregate_id: live, target_type: 'CONCEPT', target_id: concept, signal_family: 'TURKEY_PUBLIC_DEMAND', window_kind: 'FAST_30D', window_start: 't0', window_end: 't1', measurement_provenance: 'SEARCH', aggregation_version: 'v1', observation_count: 9, independent_source_count: 3, generated_at: 't1' };
   const ref = { ref_kind: 'OBSERVATION', acquisition_source_id: feed, source_item_id: 'si-1', item_locator: 'https://example.org/p', observed_at: '2026-10-01T00:00:00Z', evidence_span: 'short span' };
-  const snap = await repo.appendSnapshot({ candidate_id: c1.candidateId, generated_at: '2026-10-03T00:00:00Z', algorithm_version: 'v-test', candidate_class: 'WATCH', why_now: { window_kinds: { FAST_30D: {} }, signal_families: ['TURKEY_PUBLIC_DEMAND'], origin_cluster_ids: [] }, quality_dimensions: { TURKEY_RELEVANCE: { state: 'UNKNOWN', value: null } }, reason_codes: ['POLICY_NOT_SET'], summary_signal_metrics: { aggregates: 1 } }, [state], [ref]);
+  const snap = await repo.appendSnapshot({ candidate_id: c1.candidateId, generated_at: '2026-10-03T00:00:00Z', algorithm_version: 'v-test', candidate_class: 'EMERGING', why_now: { window_kinds: { FAST_30D: {} }, signal_families: ['TURKEY_PUBLIC_DEMAND'], origin_cluster_ids: [] }, quality_dimensions: { TURKEY_RELEVANCE: { state: 'UNKNOWN', value: null } }, reason_codes: ['POLICY_NOT_SET'], summary_signal_metrics: { aggregates: 1 } }, [state], [ref]);
   // purge the Hub item and recompute the live aggregate: the explanation does not change
   const before = JSON.stringify(await repo.explainSnapshot(snap.snapshotId));
   sqlite.exec(`DELETE FROM source_items WHERE id = 'si-1'`);
@@ -137,7 +137,7 @@ test('candidates + snapshots: one stable candidate per target; a snapshot is ato
   assert.equal(ex.provenanceRefs[0].acquisition_source_id, feed);
   assert.equal(ex.candidate.temporal_identity, 'EVERGREEN');
   // atomicity: a duplicate aggregate_state_id in the middle of the batch rolls the whole snapshot back
-  await assert.rejects(repo.appendSnapshot({ candidate_id: c1.candidateId, generated_at: '2026-10-10T00:00:00Z', algorithm_version: 'v-test', candidate_class: 'WATCH', why_now: { window_kinds: {}, signal_families: [], origin_cluster_ids: [] }, reason_codes: [] }, [{ ...state, aggregate_state_id: 'dup' }, { ...state, aggregate_state_id: 'dup' }], []), /UNIQUE|PRIMARY/);
+  await assert.rejects(repo.appendSnapshot({ candidate_id: c1.candidateId, generated_at: '2026-10-10T00:00:00Z', algorithm_version: 'v-test', candidate_class: 'EMERGING', why_now: { window_kinds: {}, signal_families: [], origin_cluster_ids: [] }, reason_codes: [] }, [{ ...state, aggregate_state_id: 'dup' }, { ...state, aggregate_state_id: 'dup' }], []), /UNIQUE|PRIMARY/);
   assert.equal((await repo.listSnapshots(c1.candidateId)).length, 1, 'no partial snapshot survives a failed write');
   await assert.rejects(repo.appendSnapshot({ candidate_id: c1.candidateId, generated_at: 'x', algorithm_version: 'v', candidate_class: 'VERIFIED', why_now: {}, reason_codes: [] }, [], []), /candidate_class_not_in_vocabulary/);
 });

@@ -47,21 +47,24 @@ const strongItems = async (repo) => {
 test('L no configured policy -> WATCH / NOT_READY with explicit UNKNOWN dimensions (never an arbitrary class, never 0)', async () => {
   const { repo, sqlite } = await world();
   const concept = await repo.createConcept({ label: 'Fictional Topic', domain: 'HEALTH' });
-  await seed(repo, concept, await strongItems(repo));
-  // default policy: WATCH is pre-candidate. No promotion policy -> NOT_READY_FOR_CANDIDATE, no candidate row, no snapshot (fail closed)
-  const watch = await run(repo, concept, DEFAULT_POLICY);
+  // default policy: WATCH is pre-candidate. ONE signal family (however many origins) has no valid promotion route -> no candidate row, no snapshot
+  const single = await repo.createConcept({ label: 'Single Family Fiction', domain: 'HEALTH' });
+  await seed(repo, single, [{ src: 'src-yt' }, { src: 'src-pod' }, { src: 'src-ig' }]);
+  const watch = await run(repo, single, DEFAULT_POLICY);
   assert.equal(watch.status, 'WATCH');
   assert.deepEqual([watch.watch.state, watch.watch.promotion.status, watch.watch.promotion.promote], ['WATCH', 'NOT_READY_FOR_CANDIDATE', false]);
-  assert.ok(watch.watch.reasonCodes.includes('PROMOTION_POLICY_NOT_SET') && watch.watch.reasonCodes.includes('POLICY_NOT_SET'));
+  assert.ok(watch.watch.reasonCodes.includes('NO_VALID_PROMOTION_ROUTE') && watch.watch.reasonCodes.includes('POLICY_NOT_SET'));
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM dossier_candidates').get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM dossier_candidate_snapshots').get().n, 0);
-  // a TEST-ONLY promotion policy but still no class criteria: a promoted candidate whose class stays WATCH / NOT_READY
-  const out = await run(repo, concept, { ...DEFAULT_POLICY, candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING });
-  assert.deepEqual([out.status, out.candidateClass, out.evaluationStatus], ['EVALUATED', 'WATCH', 'NOT_READY']);
+  // two independent signal families converge under the DEFAULT policy; with no class criteria the candidate carries the neutral route class and NOT_READY
+  await seed(repo, concept, await strongItems(repo));
+  const out = await run(repo, concept, DEFAULT_POLICY);
+  assert.deepEqual([out.status, out.candidateClass, out.evaluationStatus], ['EVALUATED', 'EMERGING', 'NOT_READY']);
+  assert.ok(out.reasonCodes.includes('PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE') && out.reasonCodes.includes('MULTI_SIGNAL_FAMILY_SUPPORT'));
   assert.ok(out.reasonCodes.includes('POLICY_NOT_SET'));
   assert.ok(out.reasonCodes.includes('PROVENANCE_CAP_NOT_SET'), 'no provenance cap configured: flagged, never unbounded');
   const ex = await SN.explainWhyNow(repo, out.snapshot.snapshotId);
-  assert.equal(ex.candidateClass, 'WATCH');
+  assert.equal(ex.candidateClass, 'EMERGING');
   const snap = await repo.explainSnapshot(out.snapshot.snapshotId);
   const q = JSON.parse(snap.snapshot.quality_dimensions_json);
   assert.deepEqual(q.HYPE_RISK, { state: 'UNKNOWN', value: null });
@@ -74,7 +77,7 @@ test('L no configured policy -> WATCH / NOT_READY with explicit UNKNOWN dimensio
   assert.equal(noSignal.status, 'NO_SIGNAL', 'no aggregate, no candidate');
 });
 
-test('L configured classes: STRONG / EMERGING / WATCH come from declarative owner criteria; no universal score', async () => {
+test('L configured classes: STRONG / EMERGING come from declarative owner criteria (WATCH is not a class); no universal score', async () => {
   const { repo } = await world();
   const strong = await repo.createConcept({ label: 'Strong Fiction', domain: 'HEALTH' });
   await seed(repo, strong, await strongItems(repo));
@@ -88,7 +91,7 @@ test('L configured classes: STRONG / EMERGING / WATCH come from declarative owne
   const watch = await repo.createConcept({ label: 'Watch Fiction', domain: 'HEALTH' });
   await seed(repo, watch, [{ src: 'src-yt' }]);
   const w = await run(repo, watch, testPolicy());
-  assert.equal(w.candidateClass, 'WATCH');
+  assert.deepEqual([w.candidateClass, w.candidateState], ['EMERGING', 'CANDIDATE'], 'promoted by the TEST_ONLY policy but not classified by the criteria: neutral class, not review-ready');
   assert.ok(w.reasonCodes.includes('SINGLE_SOURCE_DEPENDENCY'));
   const snap = await repo.explainSnapshot(s1.snapshot.snapshotId);
   assert.ok(!Object.keys(snap.snapshot).some((k) => /score/i.test(k)), 'no score column');
@@ -122,7 +125,8 @@ test('L commercial concentration: 20 commercial derivatives are one origin (not 
   items.push({ src: 'src-pod', commercial: 'NONE' });
   await seed(repo, viral, items);
   const out = await run(repo, viral, testPolicy({ candidateClassCriteria: { status: 'SET', value: { STRONG: { minIndependentOrigins: 3 }, EMERGING: { minIndependentOrigins: 3 } } } }), 'SUPPLEMENT');
-  assert.equal(out.candidateClass, 'WATCH', '21 mentions = 2 independent origins: the repost count does not make it STRONG');
+  assert.notEqual(out.candidateClass, 'STRONG', '21 mentions = 2 independent origins: the repost count does not make it STRONG');
+  assert.equal(out.candidateState, 'CANDIDATE', 'the criteria did not classify it: not review-ready');
   const snap = await repo.explainSnapshot(out.snapshot.snapshotId);
   assert.equal(snap.aggregateStates.find((a) => a.window_kind === 'FAST_7D').observation_count, 21);
   assert.equal(snap.aggregateStates.find((a) => a.window_kind === 'FAST_7D').independent_source_count, 2);
@@ -146,8 +150,8 @@ test('L public health: social-only can never be a factual STRONG candidate; a cr
   const concept = await repo.createConcept({ label: 'Fictional Exposure Topic', domain: PH });
   await seed(repo, concept, [{ src: 'src-yt', family: 'TURKEY_SOCIAL_MOMENTUM', actor: await repo.createActor({ actor_kind: 'PERSON', display_name: 'PH Actor 1' }) }, { src: 'src-pod', family: 'TURKEY_SOCIAL_MOMENTUM', actor: await repo.createActor({ actor_kind: 'PERSON', display_name: 'PH Actor 2' }) }, { src: 'src-ig', family: 'TR_CLINICIAN_CREATOR_PULSE' }, { src: 'src-d', family: 'TURKEY_PUBLIC_DEMAND', kind: 'SEARCH_MAGNITUDE', prov: 'SEARCH' }]);
   const social = await run(repo, concept, testPolicy(), PH);
-  assert.equal(social.candidateClass, 'WATCH', 'strong social/search/creator evidence is still only WATCH for public health');
-  assert.ok(social.reasonCodes.includes('NO_CREDIBLE_ANCHOR'));
+  assert.equal(social.status, 'WATCH', 'strong social/search/creator evidence is still only WATCH for public health: no candidate without a credible anchor');
+  assert.ok(social.watch.promotion.reasonCodes.includes('INTEGRITY_NOT_SATISFIED') && social.watch.reasonCodes.includes('NO_CREDIBLE_ANCHOR'));
   // add an official administrative release (its own period; not a fast window)
   await seed(repo, concept, [{ src: 'src-official', family: 'TURKEY_PUBLIC_HEALTH_DATA', kind: 'ADMINISTRATIVE_STATISTIC', prov: 'ADMINISTRATIVE', window_kind: 'RELEASE_PERIOD', window_start: '2025-01-01', window_end: '2025-12-31', value: 12.5, at: '2026-03-01T00:00:00Z' }]);
   const anchored = await run(repo, concept, testPolicy(), PH);
@@ -157,10 +161,11 @@ test('L public health: social-only can never be a factual STRONG candidate; a cr
   const modeled = await repo.createConcept({ label: 'Modeled Only Fiction', domain: PH });
   await seed(repo, modeled, [{ src: 'src-yt', family: 'TURKEY_SOCIAL_MOMENTUM' }, { src: 'src-pod', family: 'TURKEY_SOCIAL_MOMENTUM' }, { src: 'src-env', family: 'GLOBAL_ENVIRONMENTAL_OBSERVATION', kind: 'ENVIRONMENTAL_MODELED', prov: 'MODELED', window_kind: 'SOURCE_PERIOD', window_start: '2025-01-01', window_end: '2025-12-31', value: 9, at: '2026-03-01T00:00:00Z' }]);
   const m = await run(repo, modeled, testPolicy(), PH);
-  assert.equal(m.candidateClass, 'WATCH');
+  assert.equal(m.status, 'WATCH', 'a modeled-only anchor does not satisfy the integrity gate');
   // and with the anchor qualification unset, public health stays WATCH even if the criteria demand nothing
   const unset = await run(repo, anchored.candidateId ? concept : concept, testPolicy({ publicHealthCredibleAnchor: { status: 'CONFIG_REQUIRED' } }), PH);
-  assert.equal(unset.candidateClass, 'WATCH', 'fail closed without a configured anchor qualification');
+  assert.notEqual(unset.candidateClass, 'STRONG', 'fail closed without a configured anchor qualification');
+  assert.equal(unset.candidateState, 'CANDIDATE', 'no longer review-ready: the anchor qualification is unset');
 });
 
 test('L frontier: a global frontier signal can be a FRONTIER candidate even when Turkish demand is absent (UNKNOWN, not 0)', async () => {

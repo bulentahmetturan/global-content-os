@@ -153,10 +153,10 @@ test('H/I candidate identity: temporal identity can only be EVERGREEN; one candi
   cand('k6', 'RELATION', 'r1');
   assert.throws(() => run(db, `UPDATE dossier_candidates SET target_id = 'c2' WHERE candidate_id = 'k1'`), /DOSSIER_CANDIDATE_IDENTITY_IMMUTABLE/);
   // weekly evaluations: same candidate, new snapshots
-  for (const t of ['2026-10-03T00:00:00Z', '2026-10-10T00:00:00Z', '2026-10-17T00:00:00Z']) run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES (?, 'k1', ?, 'v-test', 'WATCH', '{}')`, `s-${t}`, t);
+  for (const t of ['2026-10-03T00:00:00Z', '2026-10-10T00:00:00Z', '2026-10-17T00:00:00Z']) run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES (?, 'k1', ?, 'v-test', 'EMERGING', '{}')`, `s-${t}`, t);
   assert.equal(get(db, `SELECT COUNT(*) AS n FROM dossier_candidates WHERE target_id = 'c1'`).n, 1);
   assert.equal(get(db, `SELECT COUNT(*) AS n FROM dossier_candidate_snapshots WHERE candidate_id = 'k1'`).n, 3);
-  assert.throws(() => run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES ('dup', 'k1', '2026-10-03T00:00:00Z', 'v', 'WATCH', '{}')`), /UNIQUE/);
+  assert.throws(() => run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES ('dup', 'k1', '2026-10-03T00:00:00Z', 'v', 'EMERGING', '{}')`), /UNIQUE/);
   assert.equal(get(db, `SELECT COUNT(*) AS n FROM pragma_table_info('dossier_candidates') WHERE name IN ('target_identity_state', 'provisional')`).n, 0, 'target identity state is read from the target, not stored stale');
 });
 
@@ -234,7 +234,7 @@ test('O immutability: snapshots, frozen aggregate state, provenance refs, review
   const db = openFresh();
   concept(db, 'c1');
   run(db, `INSERT INTO dossier_candidates (candidate_id, target_type, target_id) VALUES ('k1', 'CONCEPT', 'c1')`);
-  run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES ('s1', 'k1', 't1', 'v', 'WATCH', '{}')`);
+  run(db, `INSERT INTO dossier_candidate_snapshots (snapshot_id, candidate_id, generated_at, algorithm_version, candidate_class, why_now_json) VALUES ('s1', 'k1', 't1', 'v', 'EMERGING', '{}')`);
   run(db, `INSERT INTO dossier_candidate_aggregate_states (aggregate_state_id, snapshot_id, aggregation_version, target_type, target_id, signal_family, window_kind, observation_count, measurement_provenance, generated_at) VALUES ('as1', 's1', 'v1', 'CONCEPT', 'c1', 'TURKEY_PUBLIC_DEMAND', 'FAST_30D', 9, 'SEARCH', 't1')`);
   run(db, `INSERT INTO dossier_snapshot_provenance_refs (provenance_ref_id, snapshot_id, aggregate_state_id, ref_kind, acquisition_source_id, observed_at) VALUES ('p1', 's1', 'as1', 'OBSERVATION', 'src1', 't0')`);
   review(db, 'DOSSIER_CANDIDATE', 'k1', 'SNOOZE');

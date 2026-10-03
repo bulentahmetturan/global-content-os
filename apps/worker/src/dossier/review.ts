@@ -6,7 +6,10 @@
  *   latest ACCEPT). A review never changes weights, cadence, routing, source activation, scheduler or any registry.
  */
 import vocab from '../../../../packages/contracts/dossier-discovery.json';
-import { DossierError } from './types';
+import { validateReview } from '../../../../packages/contracts/src/dossier-discovery';
+import { evaluateTarget, type EvaluateConfig } from './candidates';
+import type { DossierPolicy } from './policy';
+import { DossierError, type TargetType } from './types';
 import type { DossierRepo } from './repo';
 
 type Row = Record<string, unknown>;
@@ -52,6 +55,8 @@ async function setIdentityState(repo: DossierRepo, type: string, id: string, sta
 
 export async function submitReview(repo: DossierRepo, req: ReviewRequest): Promise<ReviewResult> {
   const reviewer = assertHuman(req.reviewer);
+  // a human promotion of a WATCH target has its own explicit, audited entry point
+  if (req.targetType === 'WATCH_TARGET' || req.decision === 'PROMOTE') return { ok: false, reason: 'use_promoteWatchTarget' };
   if (!(vocab.review.target_types as string[]).includes(req.targetType)) return { ok: false, reason: 'target_type_not_in_vocabulary' };
   if (!(vocab.review.decisions as string[]).includes(req.decision)) return { ok: false, reason: 'decision_not_in_vocabulary' };
   if (req.decision === 'REJECT' && !(vocab.review.reject_reasons as string[]).includes(String(req.reasonCode))) return { ok: false, reason: 'reject_requires_reason_code' };
@@ -89,4 +94,26 @@ export async function markResearchRequested(repo: DossierRepo, candidateId: stri
   if (cand.state !== 'ACCEPTED' || last?.decision !== 'ACCEPT') return { ok: false, reason: 'candidate_not_accepted' };
   await repo.setCandidateState(candidateId, 'RESEARCH_REQUESTED');
   return { ok: true, reviewId: String(last.review_id), applied: { object: 'DOSSIER_CANDIDATE', from: 'ACCEPTED', to: 'RESEARCH_REQUESTED' }, note: `requested by ${id}` };
+}
+
+export type PromoteResult =
+  | { ok: true; reviewId: string; candidateId: string; candidateState: string; candidateClass: string; note: string }
+  | { ok: false; reason: string; detail?: string };
+
+/**
+ * HUMAN_PROMOTION: an explicit, auditable editorial promotion of a WATCH target to a durable DOSSIER candidate.
+ * It is NOT an ACCEPT (the candidate still has to be reviewed), it implies no scientific truth, and it cannot bypass the gate:
+ * the target must be an editorially ELIGIBLE concept (or a relation) with live signal and must pass the integrity check.
+ * The promotion event is appended as a review (WATCH_TARGET / PROMOTE) only when a candidate was actually created.
+ */
+export async function promoteWatchTarget(repo: DossierRepo, req: { targetType: TargetType; targetId: string; reviewer: HumanReviewer; reasonNote?: string | null }, policy: DossierPolicy, cfg: EvaluateConfig): Promise<PromoteResult> {
+  const reviewer = assertHuman(req.reviewer);
+  if (await repo.getCandidateByTarget(req.targetType, req.targetId)) return { ok: false, reason: 'already_a_candidate' };
+  const review = { target_type: 'WATCH_TARGET', target_id: `${req.targetType}:${req.targetId}`, decision: 'PROMOTE', reason_note: req.reasonNote ?? null, effect: (vocab.review.effects_by_target_type as Record<string, string>).WATCH_TARGET, reviewer, reviewed_at: cfg.now };
+  const errs = validateReview(review);
+  if (errs.length) return { ok: false, reason: 'review_invalid', detail: errs.join(',') };
+  const out = await evaluateTarget(repo, { type: req.targetType, id: req.targetId, humanPromotion: true }, policy, cfg);
+  if (out.status !== 'EVALUATED') return { ok: false, reason: out.status === 'WATCH' ? 'gate_not_satisfied' : out.status === 'NOT_ELIGIBLE' ? 'not_editorially_eligible' : 'no_signal', detail: out.status === 'WATCH' ? out.watch.promotion.reasonCodes.join(',') : out.status === 'NOT_ELIGIBLE' ? out.reasonCodes.join(',') : undefined };
+  const reviewId = await repo.appendReview(review);
+  return { ok: true, reviewId, candidateId: out.candidateId, candidateState: out.candidateState, candidateClass: out.candidateClass, note: 'promoted to a durable candidate; still requires review (promotion is not ACCEPT)' };
 }

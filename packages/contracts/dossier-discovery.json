@@ -202,7 +202,7 @@
     "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
     "origin_cluster_required": true,
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
-    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "PROMOTION_POLICY_NOT_SET", "NOT_READY_FOR_CANDIDATE", "PROMOTED_BY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER"]
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "NO_VALID_PROMOTION_ROUTE", "NOT_READY_FOR_CANDIDATE", "INTEGRITY_NOT_SATISFIED", "PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER", "PROMOTED_BY_HUMAN_PROMOTION"]
   },
   "wow": {
     "wow_is_not_viral": true,
@@ -221,7 +221,8 @@
     }
   },
   "candidate": {
-    "classes": ["STRONG", "EMERGING", "WATCH", "CORRECTIVE", "FRONTIER"],
+    "classes": ["STRONG", "EMERGING", "CORRECTIVE", "FRONTIER"],
+    "watch_is_not_a_candidate_class": true,
     "classes_are_discovery_states_not_scientific_labels": true,
     "corrective_means_research_carefully_not_false": true,
     "states": ["DISCOVERED", "WATCH", "CANDIDATE", "REVIEW", "ACCEPTED", "REJECTED", "SNOOZED", "RESEARCH_REQUESTED"],
@@ -254,13 +255,14 @@
     }
   },
   "review": {
-    "decisions": ["ACCEPT", "REJECT", "SNOOZE", "PAUSE"],
+    "decisions": ["ACCEPT", "REJECT", "SNOOZE", "PAUSE", "PROMOTE"],
+    "promote_applies_only_to": "WATCH_TARGET",
     "reject_reasons": ["NOISE", "DUPLICATE", "TOO_BROAD", "TOO_NARROW", "COMMERCIAL_ARTIFACT", "NO_AUDIENCE_RELEVANCE", "NO_INDEPENDENT_SIGNAL", "RELATION_NOT_SUPPORTED", "OUT_OF_SCOPE"],
     "rejections_persist": ["topic", "expert", "relation"],
     "decider": "HUMAN",
     "review_may_mutate": [],
     "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing", "scheduler_configuration"],
-    "target_types": ["CONCEPT_PROPOSAL", "ACTOR_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE"],
+    "target_types": ["CONCEPT_PROPOSAL", "ACTOR_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE", "WATCH_TARGET"],
     "required_fields": ["target_type", "target_id", "decision", "reviewer", "reviewed_at"],
     "optional_fields": ["reason_code", "reason_note"],
     "append_only": true,
@@ -273,7 +275,7 @@
       "CONCEPT_PROPOSAL": "CONCEPT_IDENTITY_STATE_ONLY",
       "ACTOR_PROPOSAL": "ACTOR_IDENTITY_STATE_ONLY",
       "RELATION_PROPOSAL": "RELATION_IDENTITY_STATE_ONLY",
-      "DOSSIER_CANDIDATE": "CANDIDATE_STATE_ONLY"
+      "DOSSIER_CANDIDATE": "CANDIDATE_STATE_ONLY", "WATCH_TARGET": "CANDIDATE_CREATION_ONLY"
     },
     "side_effect_invariants": {
       "candidate_reject_is_not_concept_reject": true,
@@ -563,15 +565,21 @@
     "public_health_dossier_requires_credible_anchor": true
   },
   "lifecycle_promotion": {
-    "$comment": "Canonical owner decision: DISCOVERED -> WATCH -> CANDIDATE -> REVIEW -> ACCEPT / REJECT / SNOOZE. WATCH != DOSSIER_CANDIDATE. WATCH is a DERIVED pre-candidate discovery state (eligibility + live aggregates + signal-family support + quality), with no candidate row and no immutable snapshot. A durable candidate exists only after a promotion gate passes.",
+    "$comment": "Canonical owner decision: DISCOVERED -> WATCH -> CANDIDATE -> REVIEW -> ACCEPT / REJECT / SNOOZE. WATCH != DOSSIER_CANDIDATE and WATCH is not a candidate class. WATCH is a DERIVED pre-candidate discovery state, with no candidate row and no immutable snapshot. A durable candidate exists only after an explicit promotion. Gate = editorial eligibility + a valid promotion route + quality/integrity not rejected; never a scientific-evidence judgment.",
     "pre_candidate_states": ["DISCOVERED", "WATCH"],
     "durable_candidate_initial_state": "CANDIDATE",
     "watch_requires_durable_candidate": false,
     "snapshots_only_for_promoted_candidates": true,
-    "promotion_paths": ["CONVERGENCE", "SOURCE_SPECIFIC_FRONTIER"],
-    "convergence_means": "independent support from more than one signal family (the definition, not a tunable count)",
+    "promotion_paths": ["MULTI_SIGNAL_FAMILY_CONVERGENCE", "SOURCE_SPECIFIC_FRONTIER", "HUMAN_PROMOTION"],
+    "default_enabled_paths": ["MULTI_SIGNAL_FAMILY_CONVERGENCE"],
+    "default_disabled_paths": ["SOURCE_SPECIFIC_FRONTIER"],
+    "human_promotion": { "decider": "HUMAN", "review_target_type": "WATCH_TARGET", "decision": "PROMOTE", "effect": "CANDIDATE_CREATION_ONLY", "auditable": true, "is_not_accept": true, "implies_scientific_truth": false, "bypasses_p5": false },
+    "convergence_means": "eligible support from more than one independent signal family (the definition, not a tunable count)",
     "source_specific_frontier_means": "one explicitly approved signal family may promote alone; no source has such a policy by default",
-    "default_without_promotion_policy": "WATCH_NOT_READY_FOR_CANDIDATE",
+    "gate_requires": ["EDITORIAL_ELIGIBILITY", "VALID_PROMOTION_ROUTE", "QUALITY_INTEGRITY_NOT_REJECTED"],
+    "default_without_valid_route": "WATCH_NOT_READY_FOR_CANDIDATE",
+    "route_default_classes": { "MULTI_SIGNAL_FAMILY_CONVERGENCE": "EMERGING", "SOURCE_SPECIFIC_FRONTIER": "EMERGING", "HUMAN_PROMOTION": "EMERGING" },
+    "classes_beyond_the_default_come_only_from_owner_class_criteria": true,
     "repetition_inside_one_family_is_not_convergence": true,
     "no_numeric_product_threshold": true
   },

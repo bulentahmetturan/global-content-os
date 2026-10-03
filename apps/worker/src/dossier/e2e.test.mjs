@@ -71,9 +71,9 @@ test('P local multi-domain end-to-end: all five domains traverse signal -> obser
   assert.equal(await latestClass(w.repo, (await evalOf(w.repo, supplement.concept_id)).candidate_id), 'CORRECTIVE', 'SUPPLEMENT: commercially concentrated, researched carefully, not rejected');
   assert.equal(await latestClass(w.repo, (await evalOf(w.repo, tech.concept_id)).candidate_id), 'FRONTIER', 'LONGEVITY_TECHNOLOGY: frontier signal with no Turkish demand');
   assert.equal(await latestClass(w.repo, (await evalOf(w.repo, phA.concept_id)).candidate_id), 'STRONG', 'PUBLIC HEALTH: official/measured anchor present');
-  assert.equal(await latestClass(w.repo, (await evalOf(w.repo, phS.concept_id)).candidate_id), 'WATCH', 'PUBLIC HEALTH: social-only never grounds a factual candidate');
-  const socialOnly = await SN.explainWhyNow(w.repo, (await w.repo.listSnapshots((await evalOf(w.repo, phS.concept_id)).candidate_id, 1))[0].snapshot_id);
-  assert.ok(socialOnly.reasonCodes.includes('NO_CREDIBLE_ANCHOR'));
+  assert.equal(await evalOf(w.repo, phS.concept_id), null, 'PUBLIC HEALTH: social-only never becomes a candidate (integrity gate)');
+  const socialOnly = res.watchTargets.find((x) => x.targetId === phS.concept_id);
+  assert.ok(socialOnly && socialOnly.reasonCodes.includes('NO_CREDIBLE_ANCHOR') && socialOnly.promotion.reasonCodes.includes('INTEGRITY_NOT_SATISFIED'), 'it stays a WATCH target with the reason');
   // the supplement FORM is its own topic (its own proposal), with no inferred superiority
   assert.equal(form.domain, 'SUPPLEMENT');
   assert.notEqual(form.concept_id, supplement.concept_id);
@@ -144,7 +144,7 @@ test('P the run is idempotent: a second identical run adds no observation, no ca
   const after = ['dossier_observations', 'dossier_candidates', 'dossier_candidate_snapshots', 'dossier_concepts', 'dossier_relations', 'dossier_external_source_items', 'dossier_signal_aggregates'].map(count);
   assert.deepEqual(after, before);
   assert.ok(second.readers.every((r) => r.itemsNew === 0 && r.observationsWritten === 0), 'dedupe: every item and observation already existed');
-  assert.ok(second.evaluations.every((e) => e.status === 'NO_SIGNAL' || e.snapshot.reason === 'UNCHANGED'));
+  assert.ok(second.evaluations.every((e) => e.status === 'NO_SIGNAL' || e.status === 'WATCH' || e.status === 'NOT_ELIGIBLE' || e.snapshot.reason === 'UNCHANGED'));
   assert.equal(count('dossier_signal_runs'), 20, 'but each execution is attributed: one run row per reader per run');
 });
 
