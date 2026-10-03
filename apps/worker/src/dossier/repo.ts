@@ -205,6 +205,11 @@ export class DossierRepo {
   getExternalSourceItem(originItemId: string): Promise<Row | null> {
     return this.first(`SELECT * FROM dossier_external_source_items WHERE origin_item_id = ?`, originItemId);
   }
+  /** Earlier items sharing a near-duplicate fingerprint (content_hash); served by the partial index, bounded by `limit`. */
+  findExternalItemsByFingerprint(fingerprint: string, limit: number): Promise<Row[]> {
+    if (!Number.isInteger(limit) || limit < 1) throw new DossierError('limit_required');
+    return this.rows(`SELECT origin_item_id, acquisition_source_id, published_at FROM dossier_external_source_items WHERE content_hash = ? ORDER BY published_at, origin_item_id LIMIT ?`, fingerprint, limit);
+  }
 
   // ---- observations (append-only; dedupe key prevents inflation) ----
   async appendObservation(o: ObservationInput): Promise<{ observationId: string; created: boolean }> {

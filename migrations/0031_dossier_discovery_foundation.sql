@@ -52,6 +52,10 @@ CREATE TABLE IF NOT EXISTS dossier_external_source_items (
   UNIQUE (acquisition_source_id, identity_strategy, identity_value)
 );
 
+-- content_hash carries the near-duplicate FINGERPRINT the reader supplies (equal fingerprint = likely same original); the partial
+-- index lets a later repost find its earlier siblings without scanning the table.
+CREATE INDEX IF NOT EXISTS idx_dossier_ext_items_hash ON dossier_external_source_items(content_hash) WHERE content_hash IS NOT NULL;
+
 -- Origin clusters: likely original + duplicates/derivatives so reposts are not independent signals. Small, bounded purpose.
 CREATE TABLE IF NOT EXISTS dossier_origin_clusters (
   cluster_id TEXT PRIMARY KEY,
