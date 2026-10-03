@@ -445,6 +445,9 @@ export class DossierRepo {
     await this.exec(`INSERT INTO dossier_candidates (candidate_id, target_type, target_id, domain, state, created_at, updated_at) VALUES (?,?,?,?, 'DISCOVERED', ?, ?)`, id, t.target_type, t.target_id, t.domain ?? null, now, now);
     return { candidateId: id, created: true, state: 'DISCOVERED' };
   }
+  getCandidateByTarget(targetType: TargetType, targetId: string): Promise<Row | null> {
+    return this.first(`SELECT * FROM dossier_candidates WHERE target_type = ? AND target_id = ?`, targetType, targetId);
+  }
   getCandidate(candidateId: string): Promise<Row | null> {
     return this.first(`SELECT * FROM dossier_candidates WHERE candidate_id = ?`, candidateId);
   }
