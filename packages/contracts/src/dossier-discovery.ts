@@ -84,7 +84,12 @@ export interface AliasEntry { conceptId: string; state: string; resolvedToConcep
 /** A normalized alias is NOT unique: one surface form may map to several concepts, domains or languages. */
 export type ConceptIndex = ReadonlyMap<string, readonly AliasEntry[]>;
 
-export const normalizeLabel = (s: string): string => s.normalize('NFKC').toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
+/**
+ * Casing-insensitive identity form. Turkish lower-casing maps I -> dotless i, so INSULIN and insulin would differ; the
+ * dotless/dotted i pair is folded to i afterwards (casing equivalence only: no other diacritic is stripped, spelling
+ * variants are expressed as aliases).
+ */
+export const normalizeLabel = (s: string): string => s.normalize('NFKC').toLocaleLowerCase('tr').replace(/ı/g, 'i').replace(/\s+/g, ' ').trim();
 
 export type ConceptResolution =
   | { outcome: 'MATCHED_EXISTING'; conceptId: string; state?: string }

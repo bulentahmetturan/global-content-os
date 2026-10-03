@@ -670,3 +670,11 @@ test('candidate identity is the same whether the target is given as type+id or a
   assert.equal(d.candidateIdentityKey({ concept_id: 'c1', relation_id: 'r1' }), null);
   assert.equal(d.candidateIdentityKey({}), null);
 });
+
+test('normalizeLabel folds Turkish casing (INSULIN == insulin == Insulin == İnsulin) without stripping other diacritics', () => {
+  const n = d.normalizeLabel;
+  assert.equal(n('INSULIN'), n('insulin'));
+  assert.equal(n('İnsulin'), n('insulin'));
+  assert.equal(n('  Kan   ŞEKERİ '), n('kan şekeri'));
+  assert.notEqual(n('sağlık'), n('saglik'), 'spelling variants are aliases, not silently merged');
+});
