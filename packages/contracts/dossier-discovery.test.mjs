@@ -285,7 +285,7 @@ test('relation identity is separate from relation observations; a relation obser
 test('governance: append-only human review of one object type; no cascade, no config mutation, accept does not act on registries', () => {
   const rv = (over = {}) => ({ target_type: 'DOSSIER_CANDIDATE', target_id: 't1', decision: 'ACCEPT', reviewer: 'hub-user', reviewed_at: '2026-10-03T00:00:00Z', ...over });
   assert.deepEqual(V.review.decisions, ['ACCEPT', 'REJECT', 'SNOOZE', 'PAUSE']);
-  assert.deepEqual(V.review.target_types, ['CONCEPT_PROPOSAL', 'EXPERT_PROPOSAL', 'RELATION_PROPOSAL', 'DOSSIER_CANDIDATE']);
+  assert.deepEqual(V.review.target_types, ['CONCEPT_PROPOSAL', 'ACTOR_PROPOSAL', 'RELATION_PROPOSAL', 'DOSSIER_CANDIDATE']);
   for (const t of V.review.target_types) for (const dec of ['ACCEPT', 'SNOOZE', 'PAUSE']) assert.deepEqual(d.validateReview(rv({ target_type: t, decision: dec })), []);
   assert.ok(d.validateReview(rv({ decision: 'REJECT' })).includes('reject_requires_reason_code'));
   assert.deepEqual(d.validateReview(rv({ decision: 'REJECT', reason_code: 'NOISE', reason_note: 'n' })), []);
@@ -446,7 +446,7 @@ test('actor identity is owned by dossier discovery; accepting an actor changes o
   assert.equal(a.acquisition_source_activation_owner, 'SOURCE_LIFECYCLE');
   assert.equal(a.mapping_references_canonical_acquisition_source_id_when_one_exists, true);
   assert.equal(V.review.expert_accept_effect, 'ACTOR_IDENTITY_STATE_ONLY');
-  const accept = { target_type: 'EXPERT_PROPOSAL', target_id: 'p1', decision: 'ACCEPT', reviewer: 'hub-user', reviewed_at: 't' };
+  const accept = { target_type: 'ACTOR_PROPOSAL', target_id: 'p1', decision: 'ACCEPT', reviewer: 'hub-user', reviewed_at: 't' };
   assert.deepEqual(d.validateReview(accept), []);
   for (const k of ['source_activation', 'registry', 'cadence', 'routing']) assert.ok(d.validateReview({ ...accept, [k]: ['activate'] }).includes(`review_may_not_mutate:${k}`), `an actor ACCEPT cannot carry ${k}`);
 });
@@ -652,12 +652,12 @@ test('review side effects stay inside the reviewed object: candidate reject != c
   assert.equal(inv.actor_accept_is_not_source_activation, true);
   assert.equal(inv.concept_accept_only_through_the_human_governed_proposal_lifecycle, true);
   for (const m of ['weights', 'cadence', 'routing', 'source_activation', 'scheduler_configuration']) assert.ok(inv.never_autonomously_mutates.includes(m));
-  assert.deepEqual(V.review.effects_by_target_type, { CONCEPT_PROPOSAL: 'CONCEPT_IDENTITY_STATE_ONLY', EXPERT_PROPOSAL: 'ACTOR_IDENTITY_STATE_ONLY', RELATION_PROPOSAL: 'RELATION_IDENTITY_STATE_ONLY', DOSSIER_CANDIDATE: 'CANDIDATE_STATE_ONLY' });
+  assert.deepEqual(V.review.effects_by_target_type, { CONCEPT_PROPOSAL: 'CONCEPT_IDENTITY_STATE_ONLY', ACTOR_PROPOSAL: 'ACTOR_IDENTITY_STATE_ONLY', RELATION_PROPOSAL: 'RELATION_IDENTITY_STATE_ONLY', DOSSIER_CANDIDATE: 'CANDIDATE_STATE_ONLY' });
   const rv = (over = {}) => ({ target_type: 'DOSSIER_CANDIDATE', target_id: 'cand1', decision: 'REJECT', reason_code: 'NOISE', reviewer: 'hub-user', reviewed_at: 't', ...over });
   assert.deepEqual(d.validateReview(rv({ effect: 'CANDIDATE_STATE_ONLY' })), []);
   for (const wrong of ['CONCEPT_IDENTITY_STATE_ONLY', 'RELATION_IDENTITY_STATE_ONLY', 'ACTOR_IDENTITY_STATE_ONLY']) assert.ok(d.validateReview(rv({ effect: wrong })).includes('effect_must_be_limited_to_the_reviewed_object_type'), `a candidate review cannot carry ${wrong}`);
   assert.ok(d.validateReview(rv({ target_type: 'RELATION_PROPOSAL', effect: 'CANDIDATE_STATE_ONLY' })).includes('effect_must_be_limited_to_the_reviewed_object_type'));
-  assert.deepEqual(d.validateReview(rv({ target_type: 'EXPERT_PROPOSAL', decision: 'ACCEPT', reason_code: undefined, effect: 'ACTOR_IDENTITY_STATE_ONLY' })), []);
+  assert.deepEqual(d.validateReview(rv({ target_type: 'ACTOR_PROPOSAL', decision: 'ACCEPT', reason_code: undefined, effect: 'ACTOR_IDENTITY_STATE_ONLY' })), []);
   for (const k of ['weights', 'cadence', 'routing', 'source_activation', 'scheduler_configuration']) assert.ok(d.validateReview(rv({ [k]: ['x'] })).includes(`review_may_not_mutate:${k}`));
   assert.ok(V.review.review_may_never_mutate.includes('scheduler_configuration'));
 });

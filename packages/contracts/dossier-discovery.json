@@ -72,14 +72,22 @@
   "observation": {
     "source_item_is_not_observation": true,
     "one_source_item_may_yield_many_observations": true,
-    "kinds": ["CONTENT_MENTION", "SEARCH_MAGNITUDE", "SEARCH_VELOCITY", "SOCIAL_MOMENTUM", "BURDEN_UTILIZATION", "ADMINISTRATIVE_STATISTIC", "SURVEY_ESTIMATE", "ENVIRONMENTAL_MEASURED", "ENVIRONMENTAL_MODELED", "SURVEILLANCE_CHANGE", "RESEARCH_ACTIVITY_COUNT", "INSTITUTIONAL_TOPIC_ACTIVITY"],
+    "kinds": ["CONTENT_MENTION", "SEARCH_MAGNITUDE", "SEARCH_VELOCITY", "SOCIAL_MOMENTUM", "BURDEN_UTILIZATION", "ADMINISTRATIVE_STATISTIC", "SURVEY_ESTIMATE", "ENVIRONMENTAL_MEASURED", "ENVIRONMENTAL_MODELED", "SURVEILLANCE_CHANGE", "RESEARCH_ACTIVITY_COUNT", "INSTITUTIONAL_TOPIC_ACTIVITY", "CLINICIAN_REPORTED_PUBLIC_QUESTION", "ACTOR_MENTION"],
     "required_fields": ["observation_id", "kind", "signal_family", "measurement_provenance", "observed_at", "origin"],
     "origin_kinds": ["EXISTING_SOURCE_ITEM", "SIGNAL_SNAPSHOT", "STATISTICAL_RELEASE"],
     "concept_ref": {
       "exactly_one_of": ["concept_id", "unresolved_label"]
     },
     "clinician_reported_public_question_is_not_prevalence": true,
-    "optional_fields": ["run_id", "window_kind", "concept_id", "unresolved_label", "domain_hint", "signal", "actor_ref"]
+    "optional_fields": ["run_id", "window_kind", "concept_id", "unresolved_label", "domain_hint", "signal", "actor_ref"],
+    "actor_mention": {
+      "stores_mentioned_name_as": "unresolved_label",
+      "stores_mentioning_actor_as": "actor_id",
+      "resolution_marker_field": "signal_subfamily",
+      "repeated_unknown_actor_proposal_requires": "POLICY_CONFIG",
+      "never_automatic_active": true,
+      "low_confidence_person_resolution": "REVIEW_REQUIRED"
+    }
   },
   "source": {
     "roles": ["ACADEMIC_SCIENTIST", "CLINICIAN_RESEARCHER", "CLINICIAN_CREATOR", "HEALTH_CREATOR", "FUNCTIONAL_INTEGRATIVE_CREATOR", "PHARMACIST_CREATOR", "INSTITUTION"],
@@ -87,7 +95,12 @@
     "raw_mention_count_may_not_outweigh_academic_or_institutional_signal": true,
     "content_classes": {
       "discovery_eligible": ["HEALTH_EDUCATIONAL", "PATIENT_QUESTION", "CLINICAL_OBSERVATION", "RESEARCH_COMMENTARY"],
-      "non_discovery": ["PERSONAL", "PROMOTIONAL", "SPONSORED", "OWN_PRODUCT", "OWN_SERVICE", "AFFILIATE", "UNKNOWN"]
+      "non_discovery": ["PERSONAL", "PROMOTIONAL", "SPONSORED", "OWN_PRODUCT", "OWN_SERVICE", "AFFILIATE", "UNKNOWN", "BRAND_PARTNERSHIP"],
+      "commercial_context_classes": ["PROMOTIONAL", "SPONSORED", "AFFILIATE", "OWN_PRODUCT", "OWN_SERVICE", "BRAND_PARTNERSHIP"],
+      "excluded_from_observations": ["PERSONAL", "UNKNOWN"],
+      "commercial_items_still_produce_observations_with_context": true,
+      "production_extraction_method": "OWNER_DECISION_REQUIRED",
+      "clinician_reported_public_question_is_not_prevalence": true
     },
     "commercial_context": ["NONE", "SPONSORED", "AFFILIATE", "OWN_PRODUCT", "OWN_SERVICE", "BRAND_PARTNERSHIP", "UNKNOWN"],
     "access_states": ["APPROVED", "RESTRICTED", "MANUAL_ONLY", "UNRESOLVED", "REJECTED"],
@@ -189,15 +202,23 @@
     "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
     "origin_cluster_required": true,
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
-    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY"]
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET"]
   },
   "wow": {
     "wow_is_not_viral": true,
     "definition": ["SURPRISING", "IMPORTANT", "DATA_SUPPORTABLE", "RESEARCHABLE", "MEANINGFUL_TO_PEOPLE"],
-    "pattern_classes": ["SURPRISING_BASELINE", "CROSS_COUNTRY_GAP", "RAPID_CHANGE", "HIDDEN_EXPOSURE", "SPATIAL_INEQUALITY", "BEHAVIOR_SURPRISE", "SYSTEM_SURPRISE", "ONE_HEALTH_SIGNAL", "FRONTIER_IMPORT", "SCALE_SHOCK", "GLOBAL_SHIFT", "SCIENCE_TO_PUBLIC_HEALTH", "EVERYDAY_SYSTEM"],
-    "dimensions": ["SURPRISE", "PUBLIC_REACH", "TURKEY_RELEVANCE", "GLOBAL_SIGNIFICANCE", "AUDIENCE_RELEVANCE", "DATA_STRENGTH", "CONTRAST", "NOVELTY", "PERSONAL_PROXIMITY", "VISUALIZABILITY", "FRONTIER_VALUE", "SENSATIONALISM_RISK"],
+    "pattern_classes": ["SURPRISING_BASELINE", "CROSS_COUNTRY_GAP", "RAPID_CHANGE", "HIDDEN_EXPOSURE", "SPATIAL_INEQUALITY", "BEHAVIOR_SURPRISE", "SYSTEM_SURPRISE", "ONE_HEALTH_SIGNAL", "FRONTIER_IMPORT", "SCALE_SHOCK", "GLOBAL_SHIFT", "SCIENCE_TO_PUBLIC_HEALTH", "GEOGRAPHIC_PARADOX", "EVERYDAY_SYSTEM", "CORRECTIVE"],
+    "dimensions": ["SURPRISE", "PUBLIC_REACH", "TURKEY_RELEVANCE", "GLOBAL_SIGNIFICANCE", "AUDIENCE_RELEVANCE", "HIDDEN_EXPOSURE", "NOVELTY", "CHANGE_VELOCITY", "GEOGRAPHIC_SPREAD", "DATA_STRENGTH", "MULTI_SOURCE_SUPPORT", "VISUALIZABILITY", "PERSONAL_PROXIMITY", "FRONTIER_VALUE", "SENSATIONALISM_RISK"],
     "applies_to_domain": "POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH",
-    "data_surveillance_driven_social_is_context_only": true
+    "data_surveillance_driven_social_is_context_only": true,
+    "thresholds": "POLICY_NOT_SET",
+    "without_configured_policy": "NOT_READY",
+    "social_only_public_health_signal_is_factually_grounded": false,
+    "credible_anchor": {
+      "required_for_public_health_factual_grounding": true,
+      "qualification": "CONFIG_REQUIRED",
+      "without_configured_qualification": "FAIL_CLOSED"
+    }
   },
   "candidate": {
     "classes": ["STRONG", "EMERGING", "WATCH", "CORRECTIVE", "FRONTIER"],
@@ -239,7 +260,7 @@
     "decider": "HUMAN",
     "review_may_mutate": [],
     "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing", "scheduler_configuration"],
-    "target_types": ["CONCEPT_PROPOSAL", "EXPERT_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE"],
+    "target_types": ["CONCEPT_PROPOSAL", "ACTOR_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE"],
     "required_fields": ["target_type", "target_id", "decision", "reviewer", "reviewed_at"],
     "optional_fields": ["reason_code", "reason_note"],
     "append_only": true,
@@ -250,7 +271,7 @@
     "expert_accept_effect": "ACTOR_IDENTITY_STATE_ONLY",
     "effects_by_target_type": {
       "CONCEPT_PROPOSAL": "CONCEPT_IDENTITY_STATE_ONLY",
-      "EXPERT_PROPOSAL": "ACTOR_IDENTITY_STATE_ONLY",
+      "ACTOR_PROPOSAL": "ACTOR_IDENTITY_STATE_ONLY",
       "RELATION_PROPOSAL": "RELATION_IDENTITY_STATE_ONLY",
       "DOSSIER_CANDIDATE": "CANDIDATE_STATE_ONLY"
     },
@@ -264,9 +285,10 @@
   },
   "handoff": {
     "starts_after": "ACCEPT",
-    "allowed_fields": ["canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes"],
+    "allowed_fields": ["canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes", "canonical_terms", "public_health_lane", "why_wow", "turkey_signal_dimensions", "global_frontier_dimensions", "medical_claim_risk", "sensationalism_risk"],
     "forbidden_fields": ["scientific_conclusion", "literature_synthesis", "treatment_advice", "dose", "dosage", "efficacy_verdict", "safety_verdict", "myth_verdict", "personal_attribution_as_subject"],
-    "auto_publish": false
+    "auto_publish": false,
+    "persisted_or_sent_externally": false
   },
   "boundary": {
     "chain": ["SIGNAL_SOURCE_ITEM", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CONCEPT", "RELATION", "CANDIDATE", "CANDIDATE_SNAPSHOT", "REVIEW", "RESEARCH_HANDOFF"],
@@ -512,5 +534,38 @@
     "may_never_invalidate": ["CANDIDATE_SNAPSHOT", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT_PROVENANCE_REF", "CANDIDATE_SNAPSHOT_SIGNAL_REF", "HUMAN_REVIEW"],
     "durations_and_thresholds": "POLICY_NOT_SET",
     "structural_data_not_discarded_for_fast_window_age": true
+  },
+  "connector": {
+    "classes": ["RSS_WEB", "WEBSITE_BOUNDED", "YOUTUBE_CHANNEL", "PODCAST_RSS", "NEWSLETTER", "INSTAGRAM_PROVIDER", "INSTAGRAM_MANUAL", "TIKTOK_PROVIDER", "TIKTOK_CSI_MANUAL", "PUBLIC_DEMAND", "PUBLIC_DATA_API", "PUBLIC_TABLE", "PUBLICATION_METADATA", "TRIAL_METADATA", "GEO_OBSERVATION", "SURVEILLANCE_RELEASE", "MANUAL_SNAPSHOT"],
+    "platform_modes": ["INSTAGRAM_AUTHORIZED_PROVIDER", "INSTAGRAM_OFFICIAL_ACCESS", "INSTAGRAM_MANUAL_SNAPSHOT", "INSTAGRAM_SEMI_MANUAL", "TIKTOK_AUTHORIZED_PROVIDER", "TIKTOK_PUBLIC_ALLOWED", "TIKTOK_CSI_MANUAL", "TIKTOK_CSI_SEMI_MANUAL"],
+    "capability_flags": ["can_list_items", "can_increment", "can_backfill", "can_fetch_metadata", "can_fetch_text", "can_fetch_transcript", "can_geo_filter", "requires_auth", "manual_only"],
+    "legal_states": ["APPROVED", "RESTRICTED", "MANUAL_ONLY", "UNRESOLVED", "REJECTED"],
+    "required_declarations": ["class", "legal_status", "capabilities", "normalization_mode", "signal_roles", "mock"],
+    "normalization_modes": ["ITEM_TO_OBSERVATIONS", "STATISTICAL_RELEASE", "SNAPSHOT_ROW"],
+    "interface": ["plan", "fetch", "normalize", "checkpoint"],
+    "tiktok_signal_roles": {
+      "CREATOR_PUBLIC_CONTENT": "SOCIAL_CREATOR",
+      "CREATOR_SEARCH_INSIGHTS": "PUBLIC_DEMAND_SEARCH",
+      "roles_are_never_mixed": true
+    },
+    "real_scraping_implemented": false,
+    "anti_bot_or_waf_bypass": false,
+    "mock_connectors_never_touch_the_network": true,
+    "mock_connectors_are_never_eligible_for_activation": true,
+    "owner_decision_required": ["INSTAGRAM_PRODUCTION_ACCESS_METHOD", "TIKTOK_PRODUCTION_ACCESS_METHOD", "TIKTOK_CSI_AUTOMATION_AVAILABILITY", "PAID_PROVIDER_CHOICE", "API_CREDENTIALS", "PRODUCTION_EXTRACTION_METHOD"]
+  },
+  "router": {
+    "outcomes": ["TIME_SENSITIVE_CONTEXT", "EVERGREEN_DOSSIER", "FRONTIER_DOSSIER", "WATCH"],
+    "event_kinds": ["SINGLE_EVENT", "REPEATED_PATTERN", "STRUCTURAL_INDICATOR", "GLOBAL_EMERGING", "UNKNOWN"],
+    "a_source_event_may_feed_both_paths_without_duplicate_acquisition": true,
+    "modifies_production_time_sensitive_routing": false,
+    "without_configured_policy": "WATCH_NOT_READY",
+    "public_health_dossier_requires_credible_anchor": true
+  },
+  "policy": {
+    "statuses": ["SET", "POLICY_NOT_SET", "CONFIG_REQUIRED", "OWNER_DECISION_REQUIRED"],
+    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
+    "defaults_are_unset": true,
+    "unset_runtime_behavior": "FAIL_SAFE"
   }
 }
