@@ -34,10 +34,32 @@ Sources: exactly two (ClinicalTrials.gov `GLOBAL_RESEARCH_ACTIVITY`, OECD Turkiy
 
 The OECD reader stays `CANARY_DISABLED` and its live canary stays BLOCKED until an operator reads the official OECD terms and request guidance in a browser, then records the result by editing the registration (`legal_status APPROVED`, `usage_terms VERIFIED`, `rate_guidance` per what is published) in a reviewed commit. Until then the first canary is ClinicalTrials only; the real convergence step needs the OECD reader.
 
+## Verified external facts (2026-10-03; official sources only)
+
+**Cloudflare (developers.cloudflare.com, pages dated 2026-04-21):** D1 queries per Worker invocation **1000 on Workers Paid, 50 on Workers Free**; subrequests per invocation 10,000 Paid / 50 Free (D1, KV, R2 and fetch all count); CPU time per HTTP request 30 s default on Paid (waiting on D1 or fetch does not count) and **10 ms on Free**; no wall-clock limit for an HTTP-triggered Worker; at most 6 simultaneous open connections (the runner is sequential); D1 limits per query: 100 bound parameters, 100 KB SQL statement, 2 MB row, 30 s duration; each statement of a batch is subject to the per-query limits; Free D1 daily limits 5M rows read / 100,000 rows written (reset 00:00 UTC), Paid unmetered inside the monthly inclusion. Limits are per invocation, so the pause / resume model (state durable in D1, each operator call a fresh invocation) is compatible. How a batch counts against the per-invocation query limit is not stated, so the runner counts every statement individually (it can only over-estimate).
+
+**Active plan: NOT verified.** The official limits above differ 20x between plans, and the active account plan cannot be read with the available read-only tools (the wrangler token has no billing scope). Repository evidence points to **Workers Free** as of 2026-10-01: `docs/cron-capacity-report.md` ("Workers Free plan: ~10ms CPU per invocation, so one job per tick") and `docs/OPERATIONS.md` section 7 (the 2026-10-01 incident that hit the Free-tier 5M rows-read/day D1 limit, error 7500). Remote D1 today: 9.87 MB, about 3,000 rows written and 433,000 rows read per 24 h (`wrangler d1 info`).
+
+**Consequence for the 800-statement budget:** SAFE on Paid (800 < 1000, 20% margin, largest measured invocation 763); **not runnable on Free** (50 queries per invocation, 10 ms CPU, and one unit needs up to about 60 statements, one OECD item about 450). The runner now FAILS a run whose single unit cannot fit the whole budget (`budget_below_minimum_runnable_unit`) instead of pausing forever. Do not lower the budget to a Free-compatible value: it would stall.
+
+**Free-plan daily D1 quotas are not the constraint** (measured locally: a full ClinicalTrials run changes about 3,100 table rows, roughly 11,000 rows written including index entries; OECD about 250; against 100,000 per day with about 3,000 used by the live app). The per-invocation query limit and CPU are.
+
+**OECD (official sources only):** anonymous SDMX access works (HTTP 200, no key). The official terms, licence and API-guidance pages on `www.oecd.org` answer 403 to non-browser clients (Cloudflare challenge; not bypassed) and the in-app browser content tools were unavailable; the official SDMX structure endpoints carry no terms, licence or rate annotation. So usage permission, attribution duty, reuse licence, rate guidance and automated-access policy remain **UNREAD**, not "none". The dataflow description does name its underlying source (WHO Mortality Database), so the declared attribution stays conservative.
+
+## What blocks what
+
+| Step | Needs OECD approval? | Needs the D1 plan/limit confirmed? | Reason |
+|---|---|---|---|
+| R1 remote 0031 | no | no | schema only: additive objects applied by `wrangler d1 migrations apply`, not a Worker invocation; about 78 statements; storage trivial (9.87 MB used; Free cap 500 MB) |
+| R3 disabled deploy | no | no | `DOSSIER_CANARY_ENABLED="false"`, no cron path, no run; the bundle is about 144 KiB gzip (Free cap 3 MB compressed); OECD is registered CANARY_DISABLED and unreachable |
+| ClinicalTrials one-shot | no | **yes** | needs more than 50 queries and more than 10 ms CPU per invocation: only valid on Workers Paid |
+| OECD one-shot | **yes** | **yes** | usage terms unresolved AND the same per-invocation limits |
+| real live convergence test | **yes** | **yes** | needs the OECD reader |
+
 ## Owner items that must be true before R1
 
 1. Owner approval to apply `0031` remotely, matched to the pinned artifact below.
-2. Confirmation of the Worker D1 per-invocation query limit of the production plan (the profile assumes a limit above 800; lower `d1_statements_per_invocation` if not).
+2. Confirmation of the active Cloudflare plan (dashboard, Workers & Pages, Plans). **Not required for R1 or R3.** Required before R6/R7: the ClinicalTrials canary needs Workers Paid (1000 D1 queries per invocation); on Workers Free it is not runnable.
 3. `OPS_TOKEN` is set on the Worker (it already guards `/api/ops/summary`).
 4. A named operator for `--operator` (every control change and run start is attributed to that name).
 

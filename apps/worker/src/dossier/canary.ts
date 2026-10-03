@@ -220,6 +220,7 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
         if (!rows.length) { phase = 'DERIVE'; break; }
         for (const row of rows) {
           const item = JSON.parse(row.payload_json) as SourceItem;
+          if (itemCost(item) + TAIL_RESERVE > budget.budget) throw new DossierError('budget_below_minimum_runnable_unit', `one ingest unit needs up to ${itemCost(item) + TAIL_RESERVE} statements but the invocation budget is ${budget.budget}`);
           if (budget.remaining() < itemCost(item) + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused; }
           const st = await stageSourceItem(repo, deps.classifier, item);
           if (st.created) progress.itemsNew += 1;
@@ -237,6 +238,7 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
         const concepts = await many<{ concept_id: string }>(db, `SELECT DISTINCT concept_id FROM dossier_observations WHERE run_id = ? AND concept_id IS NOT NULL AND concept_id > ? ORDER BY concept_id LIMIT 5`, live.run_id, progress.deriveAfter ?? '');
         if (!concepts.length) { phase = 'FINALIZE'; break; }
         for (const { concept_id: cid } of concepts) {
+          if (DERIVE_UNIT_COST + TAIL_RESERVE > budget.budget) throw new DossierError('budget_below_minimum_runnable_unit', `one derive unit needs up to ${DERIVE_UNIT_COST + TAIL_RESERVE} statements but the invocation budget is ${budget.budget}`);
           if (budget.remaining() < DERIVE_UNIT_COST + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused2; }
           const ce = deriveConceptEligibility(await repo.conceptEligibilitySummary(cid));
           if (ce.state !== 'ELIGIBLE') progress.notEligible += 1; // retained as observations/concept; never aggregated for candidates

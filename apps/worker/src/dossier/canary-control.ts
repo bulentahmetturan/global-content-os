@@ -69,7 +69,7 @@ export const DOSSIER_READER_REGISTRY: readonly DossierReaderRegistration[] = [
     runtime_mode: 'MANUAL_ONE_SHOT',
     last_reviewed_at: '2026-10-03',
     blocker: 'OECD_USAGE_TERMS_UNRESOLVED: the official OECD terms and API-guidance pages answered 403 to this client (no bypass attempted); an operator must confirm the official terms and any request guidance, then set legal_status APPROVED and usage_terms VERIFIED',
-    evidence: 'SDMX data access proven (HTTP 200, structured data); official usage terms and request guidance could not be read by permitted means.',
+    evidence: 'SDMX data access proven (HTTP 200, anonymous, structured data). Re-checked 2026-10-03: www.oecd.org terms and API-guidance pages still answer 403 (Cloudflare challenge) to non-browser clients, the in-app browser content tools were unavailable, and the official SDMX structure/metadata endpoints expose no terms, licence or rate annotation (the generic reference-metadata structure is an empty external reference). Technical availability is not a permission conclusion; usage terms and request guidance remain unread.',
   },
 ];
 

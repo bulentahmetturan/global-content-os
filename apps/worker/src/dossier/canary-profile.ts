@@ -69,7 +69,7 @@ export const DOSSIER_CANARY_V1: DossierCanaryProfile = {
   candidate_class: field('ROUTE_DEFAULT', 'No score thresholds for STRONG / CORRECTIVE / FRONTIER exist; a promoted candidate carries the neutral route-default class (EMERGING). No scoring is invented.', true),
   provenance_refs_per_signal_family: field(5, 'CANARY_ONLY storage/display bound of representative provenance refs PER SIGNAL FAMILY; the immutable aggregate state still keeps the real summary counts. Not an evidence threshold.', true),
   runtime: {
-    d1_statements_per_invocation: field(800, 'A real 100-study run needs thousands of D1 statements while a Worker invocation may issue only a limited number (the owner must confirm the plan limit); the runner pauses at a unit boundary below this bound and resumes. Conservative operational bound.', true),
+    d1_statements_per_invocation: field(800, 'Official Cloudflare limit (developers.cloudflare.com/d1/platform/limits, checked 2026-10-03): 1000 D1 queries per Worker invocation on Workers Paid, 50 on Workers Free. 800 keeps a 20% margin on PAID and is NOT runnable on FREE (one unit needs up to ~60 statements and one OECD item ~450). The active account plan must be confirmed by the owner before any canary run. A real 100-study run needs thousands of statements, so the runner pauses at a unit boundary below this bound and resumes.', true),
     lease_seconds: field(120, 'One run holds one lease at a time; an abandoned lease expires so the run can be resumed.', true),
   },
 };
