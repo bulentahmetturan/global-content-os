@@ -693,7 +693,7 @@ test('canonical lifecycle: WATCH is pre-candidate, promotion is an owner policy 
   assert.deepEqual(L.promotion_paths, ['MULTI_SIGNAL_FAMILY_CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER', 'HUMAN_PROMOTION']);
   assert.deepEqual(L.default_enabled_paths, ['MULTI_SIGNAL_FAMILY_CONVERGENCE']);
   assert.deepEqual(L.default_disabled_paths, ['SOURCE_SPECIFIC_FRONTIER']);
-  assert.deepEqual(L.gate_requires, ['EDITORIAL_ELIGIBILITY', 'VALID_PROMOTION_ROUTE', 'QUALITY_INTEGRITY_NOT_REJECTED']);
+  assert.deepEqual(L.gate_requires, ['EDITORIAL_ELIGIBILITY', 'VALID_PROMOTION_ROUTE', 'TOPIC_COHERENCE', 'QUALITY_INTEGRITY_NOT_REJECTED']);
   assert.deepEqual([L.human_promotion.decider, L.human_promotion.decision, L.human_promotion.auditable, L.human_promotion.is_not_accept, L.human_promotion.bypasses_p5, L.human_promotion.implies_scientific_truth], ['HUMAN', 'PROMOTE', true, true, false, false]);
   assert.equal(L.default_without_valid_route, 'WATCH_NOT_READY_FOR_CANDIDATE');
   assert.equal(L.repetition_inside_one_family_is_not_convergence, true);

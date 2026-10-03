@@ -8,7 +8,8 @@
 // Safety: --live makes exactly ONE bounded GET to sdmx.oecd.org (no secret, no key, latest observation per series, Turkiye only);
 // the ClinicalTrials side is ALWAYS a replay of a saved real response (no request). Writes only to an in-memory SQLite database and
 // to .logs/tr-health/. Never touches D1, wrangler, a scheduler, a source registry or CCOS. Activates nothing.
-// DEFAULT policy only (per-run caps, no promotion policy): promotion can happen ONLY by the default multi-signal-family convergence route.
+// DEFAULT policy only (per-run caps, no promotion policy, no coherence policy): promotion can happen ONLY by the default multi-signal-family convergence route AND
+// only for an editorially coherent (source-scoped) topic. CONVERGENCE != CANDIDATE SUITABILITY.
 // Overlap is whatever the real data gives; nothing is forced, widened or hard-coded. NO_OVERLAP is a valid result.
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -124,7 +125,33 @@ const checks = {
   evergreen_runtime_rows: cnt(`SELECT COUNT(*) AS n FROM evergreen_runtime_state`),
   attribution_notice: notice ? { source: notice.source_id, line: AT.attributionLine(notice), retrieved_at: notice.retrieved_at, processed_at: notice.processed_at } : null,
 };
+const watchById = new Map(res.watchTargets.map((w) => [w.targetId, w]));
+const overlapReport = [];
+for (const id of overlap) {
+  const w = watchById.get(id);
+  const promotedRow = promotedTargets.find((c) => c.target_id === id);
+  let reasons = w ? w.promotion.reasonCodes : [];
+  if (promotedRow) { const snap = (await repo.listSnapshots(promotedRow.candidate_id, 1))[0]; reasons = JSON.parse(snap.reason_codes_json); }
+  overlapReport.push({
+    REAL_OVERLAP: label.get(id),
+    SIGNAL_FAMILY_1: 'GLOBAL_RESEARCH_ACTIVITY',
+    SIGNAL_FAMILY_2: 'TURKEY_HEALTH_BURDEN',
+    MULTI_SIGNAL_FAMILY_SUPPORT: w ? w.support.multiSignalFamilySupport : true,
+    ROUTE: w ? { valid: w.route.promote, path: w.route.path } : { valid: true, path: 'MULTI_SIGNAL_FAMILY_CONVERGENCE' },
+    GRANULARITY: w?.coherence?.granularity ?? null,
+    COHERENCE_DECISION: w?.coherence?.state ?? 'COHERENT',
+    WATCH: Boolean(w),
+    DURABLE_CANDIDATE_CREATED: Boolean(promotedRow),
+    REASON_CODES: reasons,
+  });
+}
+const coherenceAmongWatch = res.watchTargets.reduce((o, w) => { const k = w.coherence ? w.coherence.state : 'N/A'; o[k] = (o[k] ?? 0) + 1; return o; }, {});
+const coherenceTurkeyHealth = res.watchTargets.filter((w) => w.support.families.includes('TURKEY_HEALTH_BURDEN')).reduce((o, w) => { const k = w.coherence ? w.coherence.state : 'N/A'; o[k] = (o[k] ?? 0) + 1; return o; }, {});
 const convergence = {
+  REAL_OVERLAP_DETAIL: overlapReport,
+  coherence_among_watch_targets: coherenceAmongWatch,
+  coherence_among_turkey_health_watch_targets: coherenceTurkeyHealth,
+  watch_targets_with_valid_route_but_blocked_by_coherence: res.watchTargets.filter((w) => w.route.promote && !w.promotion.promote).length,
   clinicaltrials_eligible_concepts: ctConcepts.size,
   turkey_health_concepts: trConcepts.size,
   overlap_concepts_resolved_by_the_open_world_resolver: overlap.map((id) => label.get(id)),
@@ -132,7 +159,8 @@ const convergence = {
   near_miss_count: nearMisses.length,
   promoted_dossier_candidates: promotedTargets.length,
   every_promoted_candidate_is_an_overlap_concept: promotedTargets.every((c) => overlap.includes(c.target_id)),
-  every_overlap_concept_is_promoted_by_default_route: overlap.every((id) => promotedTargets.some((c) => c.target_id === id)),
+  every_overlap_concept_is_visible_with_two_family_support: overlapReport.every((o) => o.MULTI_SIGNAL_FAMILY_SUPPORT === true),
+  every_overlap_is_either_promoted_because_coherent_or_watch_with_a_coherence_reason: overlapReport.every((o) => (o.DURABLE_CANDIDATE_CREATED && o.COHERENCE_DECISION === 'COHERENT') || (o.WATCH && o.COHERENCE_DECISION !== 'COHERENT' && o.REASON_CODES.includes('TOPIC_COHERENCE_NOT_SATISFIED'))),
   candidate_snapshots: cnt(`SELECT COUNT(*) AS n FROM dossier_candidate_snapshots`),
   candidates_by_state: Object.fromEntries(q(`SELECT state, COUNT(*) AS n FROM dossier_candidates GROUP BY state`).map((r) => [r.state, r.n])),
   watch_targets_total: res.watchTargets.length,
@@ -140,7 +168,7 @@ const convergence = {
   watch_multi_family: res.watchTargets.filter((w) => w.support.multiSignalFamilySupport).length,
   watch_reason_distribution: res.watchTargets.flatMap((w) => w.reasonCodes).reduce((o, c) => { o[c] = (o[c] ?? 0) + 1; return o; }, {}),
 };
-const REAL_CONVERGENCE = !convergence.every_promoted_candidate_is_an_overlap_concept || !convergence.every_overlap_concept_is_promoted_by_default_route ? 'FAIL' : overlap.length === 0 ? 'NO_OVERLAP' : 'PASS';
+const REAL_CONVERGENCE = !convergence.every_promoted_candidate_is_an_overlap_concept || !convergence.every_overlap_concept_is_visible_with_two_family_support || !convergence.every_overlap_is_either_promoted_because_coherent_or_watch_with_a_coherence_reason ? 'FAIL' : overlap.length === 0 ? 'NO_OVERLAP' : 'PASS';
 const E2E = checks.oecd_one_request && trConcepts.size > 0 && checks.all_concepts_PROPOSED && checks.active_identities === 0 && checks.oecd_concept_labels_not_from_response === 0 && checks.structural_windows_only && checks.no_momentum_or_persistence_inputs && checks.all_values_measured_with_unit && checks.metadata_dimensions_never_topics && checks.reviews_written === 0 && checks.hub_source_items_written === 0 && checks.evergreen_runtime_rows === 0 && Boolean(notice) ? 'PASS' : 'FAIL';
 // ---------- PASS 2 (POC_ONLY): the SAME saved real responses with a provenance representative cap set, to show provenance from BOTH families ----------
 // The default policy leaves the cap unset (an owner decision), so the default run stores no provenance representatives. This pass only
@@ -159,7 +187,7 @@ for (const c of sqlite2.prepare('SELECT candidate_id, target_id FROM dossier_can
   const ex = await SN.explainWhyNow(repo2, snap.snapshot_id);
   prov2.push({ topic: label2.get(c.target_id), families: ex.signalFamilies, provenanceStatus: ex.provenanceStatus, provenance: ex.provenance.map((x) => ({ source: x.source, locator: x.locator, evidenceSpan: x.evidenceSpan })), rawMembershipReconstructable: ex.rawMembershipReconstructable });
 }
-const provenanceBothFamilies = prov2.length > 0 && prov2.every((x) => new Set(x.provenance.map((y) => y.source)).size >= 2);
+const provenanceBothFamilies = prov2.length === 0 ? 'NOT_APPLICABLE_NO_DURABLE_CANDIDATE' : prov2.every((x) => new Set(x.provenance.map((y) => y.source)).size >= 2);
 const report = { REAL_TURKEY_HEALTH_E2E: E2E, REAL_CONVERGENCE, ran_at: new Date().toISOString(), oecd_request: rawOecd.url, checks, oecd_eligibility: eligOf(trConcepts), clinicaltrials_eligibility: eligOf(ctConcepts), oecd_sample_observations: sampleTr, convergence, promoted_sample: promotedSample, poc_only_provenance_pass: { promoted: res2.promoted.length, provenance_from_both_families: provenanceBothFamilies, candidates: prov2 }, readers: res.readers.map((r) => ({ ...r, attribution: undefined })) };
 writeFileSync(`.logs/tr-health/e2e-${stamp}.json`, JSON.stringify(report, null, 1));
 console.log(JSON.stringify(report, null, 1));

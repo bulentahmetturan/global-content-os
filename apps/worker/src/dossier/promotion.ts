@@ -21,6 +21,7 @@
 import { policyValue, type DossierPolicy } from './policy';
 import type { ConceptEligibilityResult } from './eligibility';
 import type { Metrics } from './candidates';
+import type { TopicCoherenceResult } from './coherence';
 import type { TargetType } from './types';
 
 export type PolicyPromotionPath = 'MULTI_SIGNAL_FAMILY_CONVERGENCE' | 'SOURCE_SPECIFIC_FRONTIER';
@@ -102,7 +103,12 @@ export interface WatchState {
   targetType: TargetType;
   targetId: string;
   state: 'WATCH';
+  /** The FINAL gate outcome (route + coherence + integrity). */
   promotion: PromotionDecision;
+  /** The route verdict alone: real convergence stays visible even when the coherence gate keeps the target WATCH. */
+  route: PromotionDecision;
+  /** Editorial scope verdict (separate from the route). null for relations. */
+  coherence: { state: string; granularity: string; reasonCodes: string[] } | null;
   eligibility: { state: string; reasonCodes: string[] } | null;
   support: ReturnType<typeof supportDimensions>;
   reasonCodes: string[];
@@ -118,6 +124,8 @@ export function deriveWatchState(o: {
   metrics: Metrics;
   eligibility: ConceptEligibilityResult | null;
   promotion: PromotionDecision;
+  route?: PromotionDecision;
+  coherence?: TopicCoherenceResult | null;
   reasonCodes: string[];
   qualityDimensions: WatchState['qualityDimensions'];
   aggregates: readonly Record<string, unknown>[];
@@ -128,6 +136,8 @@ export function deriveWatchState(o: {
     targetId: o.targetId,
     state: 'WATCH',
     promotion: o.promotion,
+    route: o.route ?? o.promotion,
+    coherence: o.coherence ? { state: o.coherence.state, granularity: o.coherence.granularity, reasonCodes: o.coherence.reasonCodes } : null,
     eligibility: o.eligibility ? { state: o.eligibility.state, reasonCodes: o.eligibility.reasonCodes } : null,
     support: supportDimensions(o.metrics),
     reasonCodes: [...new Set([...o.reasonCodes, ...o.promotion.reasonCodes])],

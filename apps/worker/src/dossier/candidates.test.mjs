@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING } from './test-support.mjs';
+import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING, TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY } from './test-support.mjs';
 
 const { DossierRepo } = await bundle('apps/worker/src/dossier/repo.ts', 'dossier-repo-cand');
 const A = await bundle('apps/worker/src/dossier/aggregation.ts', 'dossier-aggregation-cand');
@@ -58,7 +58,7 @@ test('L no configured policy -> WATCH / NOT_READY with explicit UNKNOWN dimensio
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM dossier_candidate_snapshots').get().n, 0);
   // two independent signal families converge under the DEFAULT policy; with no class criteria the candidate carries the neutral route class and NOT_READY
   await seed(repo, concept, await strongItems(repo));
-  const out = await run(repo, concept, DEFAULT_POLICY);
+  const out = await run(repo, concept, { ...DEFAULT_POLICY, topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY });
   assert.deepEqual([out.status, out.candidateClass, out.evaluationStatus], ['EVALUATED', 'EMERGING', 'NOT_READY']);
   assert.ok(out.reasonCodes.includes('PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE') && out.reasonCodes.includes('MULTI_SIGNAL_FAMILY_SUPPORT'));
   assert.ok(out.reasonCodes.includes('POLICY_NOT_SET'));

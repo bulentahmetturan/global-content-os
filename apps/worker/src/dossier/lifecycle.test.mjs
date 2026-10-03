@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx, TEST_ONLY_PROMOTE_EVERYTHING } from './test-support.mjs';
+import { openDossierDb, makeCtx, TEST_ONLY_PROMOTE_EVERYTHING, TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY } from './test-support.mjs';
 
 const CT = await bundle('apps/worker/src/dossier/clinicaltrials.ts', 'dossier-ct-life');
 const { DossierRepo } = await bundle('apps/worker/src/dossier/repo.ts', 'dossier-repo-life');
@@ -26,7 +26,7 @@ const world = () => {
 };
 const replay = (page) => async () => ({ ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(page)) });
 const reader = (page, extra = {}) => CT.createClinicalTrialsReader({ fetchImpl: replay(page), ...extra });
-const caps = (n, over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: n }, perRunFetchCap: { status: 'SET', value: n }, ...over });
+const caps = (n, over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: n }, perRunFetchCap: { status: 'SET', value: n }, topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY, ...over });
 const cfg = (page, policy, extra = {}) => ({ policy, readers: [reader(page, extra.reader)], classifier: CT.registryRecordClassifier, extractor: CT.registryRecordExtractor, aggregationVersion: 'agg-life', algorithmVersion: 'cand-life' });
 const q = (sqlite, sql, ...a) => sqlite.prepare(sql).all(...a);
 const n = (sqlite, table) => q(sqlite, `SELECT COUNT(*) AS n FROM ${table}`)[0].n;

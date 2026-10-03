@@ -57,6 +57,11 @@ export interface ActorMentionPolicy {
 export type { CandidatePromotionPolicy } from './promotion';
 import type { CandidatePromotionPolicy } from './promotion';
 
+/** Owner policy for the topic-coherence gate. Unset = a topic with no structural granularity evidence stays WATCH (fail closed). */
+export interface TopicCoherencePolicy {
+  allowUnknownGranularity?: boolean;
+}
+
 export interface DossierPolicy {
   retention: PolicyValue<unknown>;
   backfill: PolicyValue<unknown>;
@@ -66,6 +71,7 @@ export interface DossierPolicy {
   candidateClassCriteria: PolicyValue<CandidateClassCriteria>;
   /** Which promotion paths turn a WATCH target into a durable DOSSIER candidate. Unset = nothing is promoted (fail closed). */
   candidatePromotion: PolicyValue<CandidatePromotionPolicy>;
+  topicCoherence: PolicyValue<TopicCoherencePolicy>;
   wowThresholds: PolicyValue<WowPolicy>;
   commercialConcentration: PolicyValue<{ minShare: number }>;
   tripleNetworkQualification: PolicyValue<(r: unknown) => boolean>;
@@ -86,6 +92,7 @@ export const POLICY_KEYS: Record<string, keyof DossierPolicy> = {
   provenance_representative_cap: 'provenanceRepresentativeCap',
   candidate_class_criteria: 'candidateClassCriteria',
   candidate_promotion: 'candidatePromotion',
+  topic_coherence: 'topicCoherence',
   wow_thresholds: 'wowThresholds',
   commercial_concentration: 'commercialConcentration',
   triple_network_qualification: 'tripleNetworkQualification',
@@ -105,6 +112,7 @@ export const DEFAULT_POLICY: DossierPolicy = {
   provenanceRepresentativeCap: unset('CONFIG_REQUIRED'),
   candidateClassCriteria: unset('OWNER_DECISION_REQUIRED'),
   candidatePromotion: unset('OWNER_DECISION_REQUIRED'),
+  topicCoherence: unset('OWNER_DECISION_REQUIRED'),
   wowThresholds: unset('OWNER_DECISION_REQUIRED'),
   commercialConcentration: unset('OWNER_DECISION_REQUIRED'),
   tripleNetworkQualification: unset('OWNER_DECISION_REQUIRED'),

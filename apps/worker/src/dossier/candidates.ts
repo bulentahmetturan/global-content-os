@@ -7,6 +7,7 @@
  * REJECT is not resurfaced by a later cycle, but history keeps accumulating.
  */
 import { planEvaluation } from '../../../../packages/contracts/src/dossier-discovery';
+import { deriveTopicCoherence, type TopicCoherenceResult } from './coherence';
 import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
 import { decidePromotion, deriveWatchState, humanPromotionDecision, INTEGRITY_NOT_SATISFIED, integrityRejects, promotionPathFromReasons, routeDefaultClass, type PromotionDecision, type WatchState } from './promotion';
 import { policyValue, type Criteria, type DossierPolicy } from './policy';
@@ -183,19 +184,34 @@ export async function evaluateTarget(repo: DossierRepo, target: { type: TargetTy
   // (eligibility is checked above; integrity here). An already-promoted target keeps its stable identity and keeps accumulating snapshots.
   const metrics = computeMetrics(aggs, policy);
   let decision: PromotionDecision = target.humanPromotion && !existing ? humanPromotionDecision() : decidePromotion(metrics, policy);
+  // TOPIC COHERENCE / GRANULARITY GATE: a valid route is not enough; the topic must also be editorially scoped. Visible separately from the route.
+  // Concept targets only (a relation has no source taxonomy of its own). A human promotion is a candidate-instance override, never an ontology change.
+  const coherence: TopicCoherenceResult | null = target.type === 'CONCEPT' ? deriveTopicCoherence(await repo.conceptGranularitySummary(target.id), { allowUnknownGranularity: policyValue(policy.topicCoherence)?.allowUnknownGranularity === true }) : null;
+  const route = decision;
+  const humanOverride = Boolean(target.humanPromotion) && !existing;
+  if (!existing && decision.promote && coherence && !coherence.candidateReady && !humanOverride) decision = { promote: false, status: 'NOT_READY_FOR_CANDIDATE', path: null, reasonCodes: ['TOPIC_COHERENCE_NOT_SATISFIED', 'NOT_READY_FOR_CANDIDATE', ...coherence.reasonCodes] };
   if (!existing && decision.promote && integrityRejects({ publicHealth: domain === PUBLIC_HEALTH, hasCredibleAnchor: metrics.anchors.length > 0 })) decision = INTEGRITY_NOT_SATISFIED;
   if (!existing && !decision.promote) {
     const summary = target.type === 'CONCEPT' ? deriveConceptEligibility(await repo.conceptEligibilitySummary(target.id)) : null;
-    return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
+    return { status: 'WATCH', targetType: target.type, targetId: target.id, watch: deriveWatchState({ targetType: target.type, targetId: target.id, metrics, eligibility: summary, promotion: decision, route, coherence, reasonCodes: ev.reasonCodes, qualityDimensions: ev.qualityDimensions, aggregates: aggs }) };
   }
   // the route that promoted a candidate is part of every snapshot while it holds (an earlier route is carried forward from the latest snapshot)
   let path = decision.promote ? decision.path : null;
-  if (decision.promote) ev.reasonCodes.push(...decision.reasonCodes);
-  else if (existing) {
+  if (decision.promote && !existing) ev.reasonCodes.push(...decision.reasonCodes);
+  // the coherence evidence is part of the evaluation; a human override is recorded explicitly and never changes the concept
+  if (coherence) ev.reasonCodes.push(...coherence.reasonCodes);
+  if (humanOverride && coherence && !coherence.candidateReady) ev.reasonCodes.push('COHERENCE_OVERRIDDEN_BY_HUMAN_PROMOTION');
+  if (existing) {
     const latest = (await repo.listSnapshots(s(existing.candidate_id), 1))[0];
-    const carried = latest ? promotionPathFromReasons(JSON.parse(s(latest.reason_codes_json) || '[]') as string[]) : null;
-    if (carried) { path = carried; ev.reasonCodes.push(...[...new Set(JSON.parse(s(latest.reason_codes_json) || '[]') as string[])].filter((c) => c.startsWith('PROMOTED_BY_'))); }
+    const carriedCodes = latest ? [...new Set(JSON.parse(s(latest.reason_codes_json) || '[]') as string[])] : [];
+    // an existing candidate keeps the route that promoted it (a later evaluation never rewrites how it got here)
+    const carriedPath = promotionPathFromReasons(carriedCodes);
+    path = carriedPath ?? (decision.promote ? decision.path : null);
+    if (carriedPath) ev.reasonCodes.push(...carriedCodes.filter((c) => c.startsWith('PROMOTED_BY_')));
+    else if (decision.promote) ev.reasonCodes.push(...decision.reasonCodes);
+    if (carriedCodes.includes('COHERENCE_OVERRIDDEN_BY_HUMAN_PROMOTION')) ev.reasonCodes.push('COHERENCE_OVERRIDDEN_BY_HUMAN_PROMOTION');
   }
+  ev.reasonCodes = [...new Set(ev.reasonCodes)];
   const classed: Evaluation = { ...ev, candidateClass: ev.candidateClass ?? routeDefaultClass(path) };
   const cand = await repo.ensureCandidate({ target_type: target.type, target_id: target.id, domain });
   const snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, classed, policy, cfg);

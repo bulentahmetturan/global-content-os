@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx } from './test-support.mjs';
+import { openDossierDb, makeCtx, TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY } from './test-support.mjs';
 
 const { DossierRepo } = await bundle('apps/worker/src/dossier/repo.ts', 'dossier-repo-routes');
 const CA = await bundle('apps/worker/src/dossier/candidates.ts', 'dossier-cand-routes');
@@ -16,7 +16,7 @@ const world = () => {
   const { sqlite, db } = openDossierDb();
   return { sqlite, repo: new DossierRepo(db, makeCtx()) };
 };
-const caps = (over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: 10 }, perRunFetchCap: { status: 'SET', value: 10 }, ...over });
+const caps = (over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: 10 }, perRunFetchCap: { status: 'SET', value: 10 }, topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY, ...over });
 const q = (sqlite, sql, ...a) => sqlite.prepare(sql).all(...a);
 const n = (sqlite, table) => q(sqlite, `SELECT COUNT(*) AS n FROM ${table}`)[0].n;
 const ecfg = (now = '2026-10-03T12:00:00.000Z') => ({ now, algorithmVersion: 'cand-routes', observationLimit: 100 });

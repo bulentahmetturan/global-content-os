@@ -191,6 +191,9 @@ CREATE TABLE IF NOT EXISTS dossier_observations (
   source_role TEXT,
   candidate_signal_eligible TEXT NOT NULL DEFAULT 'TRUE' CHECK (candidate_signal_eligible IN ('TRUE', 'FALSE', 'REVIEW_REQUIRED')),
   eligibility_reason TEXT,
+  -- Editorial granularity of the topic AS EXPOSED BY THE SOURCE structure (NULL = the source exposes nothing). Vocabulary lives in the contract.
+  topic_granularity TEXT,
+  granularity_reason TEXT,
   dedupe_key TEXT NOT NULL UNIQUE,
   extractor_version TEXT,
   observed_at TEXT NOT NULL,

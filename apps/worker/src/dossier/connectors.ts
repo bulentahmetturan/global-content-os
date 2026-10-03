@@ -65,6 +65,9 @@ export interface SignalInput {
   sourceRole?: SourceRole;
   /** Optional narrowing reason allowed for that role (e.g. TOPIC_COHERENT, AMBIGUOUS_TOPIC_ROLE). */
   roleReason?: string;
+  /** Granularity of the topic AS EXPOSED BY THE SOURCE structure (omit when the source exposes none; never guessed). */
+  topicGranularity?: string;
+  granularityReason?: string;
 }
 
 /** Normalized source item / signal input contract shared by every connector. No full article, transcript or comment archive. */

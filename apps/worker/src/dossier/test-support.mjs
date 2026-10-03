@@ -31,6 +31,12 @@ import vocab from '../../../../packages/contracts/dossier-discovery.json' with {
  * TEST_ONLY / POC_ONLY promotion policy: approves EVERY signal family to promote alone, so older tests can exercise classification and
  * snapshots on promoted candidates. It is a fixture, never a default (DEFAULT_POLICY.candidatePromotion is unset; a test enforces that).
  */
+/**
+ * TEST_ONLY: lets topics with NO structural granularity evidence pass the coherence gate, so older tests that predate the gate keep exercising
+ * classification and snapshots. The product default is fail closed (DEFAULT_POLICY.topicCoherence is unset; a test enforces that).
+ */
+export const TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY = { status: 'SET', value: { allowUnknownGranularity: true } };
+
 export const TEST_ONLY_PROMOTE_EVERYTHING = { status: 'SET', value: { paths: ['MULTI_SIGNAL_FAMILY_CONVERGENCE', 'SOURCE_SPECIFIC_FRONTIER'], sourceSpecificFrontier: { families: [...vocab.signal.families] } } };
 
 /** Policy for TESTS ONLY. These numbers are arbitrary fixtures to exercise code paths; they are never product defaults. */
@@ -43,6 +49,7 @@ export function testPolicy(over = {}) {
     perRunItemCap: set(50),
     provenanceRepresentativeCap: set(3),
     candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING,
+    topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY,
     candidateClassCriteria: set({
       STRONG: { minIndependentOrigins: 3, minIndependentSignalFamilies: 2, minUniqueActors: 2 },
       EMERGING: { minIndependentOrigins: 2, minIndependentSignalFamilies: 1 },

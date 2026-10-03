@@ -18,6 +18,7 @@ import {
   type AliasEntry,
   type ConceptIndex,
 } from '../../../../packages/contracts/src/dossier-discovery';
+import { validateGranularity, type GranularityCountRow } from './coherence';
 import { deriveSignalEligibility, validateSignalEligibility, type EligibilityCountRow, type SourceRole } from './eligibility';
 import { chunks, DossierError, defaultCtx, type Ctx, type D1Like, type D1Stmt, type TargetType } from './types';
 
@@ -75,6 +76,9 @@ export interface ObservationInput {
   source_role?: string | null;
   candidate_signal_eligible?: 'TRUE' | 'FALSE' | 'REVIEW_REQUIRED';
   eligibility_reason?: string | null;
+  /** Granularity exposed by the source structure (null/omitted = the source exposes none). */
+  topic_granularity?: string | null;
+  granularity_reason?: string | null;
   dedupe_key: string;
   extractor_version?: string | null;
   observed_at: string;
@@ -225,6 +229,8 @@ export class DossierRepo {
     const elig = o.candidate_signal_eligible ? { role: o.source_role ?? null, eligible: o.candidate_signal_eligible, reason: o.eligibility_reason ?? null } : { ...deriveSignalEligibility(o.source_role as SourceRole | null | undefined) };
     const eligErrs = validateSignalEligibility(elig.role, elig.eligible, elig.reason);
     if (eligErrs.length) throw new DossierError('observation_invalid', eligErrs.join(','));
+    const granErrs = validateGranularity(o.topic_granularity, o.granularity_reason);
+    if (granErrs.length) throw new DossierError('observation_invalid', granErrs.join(','));
     const originKind = o.origin_kind ?? (o.source_item_id ? 'EXISTING_SOURCE_ITEM' : 'SIGNAL_SNAPSHOT');
     need(
       validateObservation({
@@ -235,10 +241,10 @@ export class DossierRepo {
       'observation',
     );
     const changes = await this.exec(
-      `INSERT OR IGNORE INTO dossier_observations (observation_id, run_id, acquisition_source_id, source_item_id, origin_item_id, actor_id, concept_id, unresolved_label, observation_kind, signal_family, signal_subfamily, geo_scope, window_kind, window_start, window_end, measurement_provenance, value, value_unit, value_status, evidence_span, source_role, candidate_signal_eligible, eligibility_reason, dedupe_key, extractor_version, observed_at, fetched_at, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT OR IGNORE INTO dossier_observations (observation_id, run_id, acquisition_source_id, source_item_id, origin_item_id, actor_id, concept_id, unresolved_label, observation_kind, signal_family, signal_subfamily, geo_scope, window_kind, window_start, window_end, measurement_provenance, value, value_unit, value_status, evidence_span, source_role, candidate_signal_eligible, eligibility_reason, topic_granularity, granularity_reason, dedupe_key, extractor_version, observed_at, fetched_at, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       id, o.run_id ?? null, o.acquisition_source_id ?? null, o.source_item_id ?? null, o.origin_item_id ?? null, o.actor_id ?? null, o.concept_id ?? null, o.unresolved_label ?? null,
       o.observation_kind, o.signal_family, o.signal_subfamily ?? '', o.geo_scope ?? '', o.window_kind ?? null, o.window_start ?? null, o.window_end ?? null,
-      o.measurement_provenance, status === 'MEASURED' ? (o.value as number) : null, o.value_unit ?? null, status, o.evidence_span ?? null, elig.role, elig.eligible, elig.reason, o.dedupe_key, o.extractor_version ?? null,
+      o.measurement_provenance, status === 'MEASURED' ? (o.value as number) : null, o.value_unit ?? null, status, o.evidence_span ?? null, elig.role, elig.eligible, elig.reason, o.topic_granularity ?? null, o.granularity_reason ?? null, o.dedupe_key, o.extractor_version ?? null,
       o.observed_at, o.fetched_at ?? null, this.ctx.now(),
     );
     if (changes > 0) return { observationId: id, created: true };
@@ -258,6 +264,10 @@ export class DossierRepo {
   listStructuralObservationsForConcept(conceptId: string, limit: number, opts: { candidateEligibleOnly?: boolean } = {}): Promise<Row[]> {
     if (!Number.isInteger(limit) || limit < 1) throw new DossierError('limit_required');
     return this.rows(`SELECT * FROM dossier_observations WHERE concept_id = ?${opts.candidateEligibleOnly ? " AND candidate_signal_eligible = 'TRUE'" : ''} AND window_kind IN ('SOURCE_PERIOD','RELEASE_PERIOD','STRUCTURAL_PERIOD') ORDER BY window_end DESC, observation_id LIMIT ?`, conceptId, limit);
+  }
+  /** Grouped granularity evidence of a concept's candidate-eligible observations (a handful of rows, never the observations themselves). */
+  conceptGranularitySummary(conceptId: string): Promise<GranularityCountRow[]> {
+    return this.rows<GranularityCountRow>(`SELECT topic_granularity, granularity_reason, COUNT(*) AS n FROM dossier_observations WHERE concept_id = ? AND candidate_signal_eligible = 'TRUE' GROUP BY topic_granularity, granularity_reason`, conceptId);
   }
   /** Grouped eligibility summary of a concept's observations: at most (roles x eligibility x reasons) rows, never the observations themselves. */
   conceptEligibilitySummary(conceptId: string): Promise<EligibilityCountRow[]> {

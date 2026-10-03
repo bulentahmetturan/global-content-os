@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING } from './test-support.mjs';
+import { openDossierDb, makeCtx, testPolicy, TEST_ONLY_PROMOTE_EVERYTHING, TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY } from './test-support.mjs';
 
 const EL = await bundle('apps/worker/src/dossier/eligibility.ts', 'dossier-elig');
 const CT = await bundle('apps/worker/src/dossier/clinicaltrials.ts', 'dossier-ct-elig');
@@ -52,7 +52,7 @@ const syntheticPage = () => ({
 });
 const caps = (n) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: n }, perRunFetchCap: { status: 'SET', value: n } });
 // TEST_ONLY: promote everything that reaches evaluation, so the eligibility tests can still observe candidates and snapshots
-const promote = (n) => ({ ...caps(n), candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING });
+const promote = (n) => ({ ...caps(n), candidatePromotion: TEST_ONLY_PROMOTE_EVERYTHING, topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY });
 const q = (sqlite, sql, ...a) => sqlite.prepare(sql).all(...a);
 const conceptId = (sqlite, label) => q(sqlite, `SELECT concept_id FROM dossier_concepts WHERE label = ?`, label)[0]?.concept_id;
 const eligOf = (res, sqlite, label) => res.eligibility.find((e) => e.conceptId === conceptId(sqlite, label));

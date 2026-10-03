@@ -11,6 +11,11 @@
  * Structural data: observations use SOURCE_PERIOD windows (the source-defined annual period). Never FAST_7D / FAST_30D / BASELINE_90D,
  * no momentum. A missing value is UNKNOWN, never zero.
  *
+ * Granularity: the SDMX value carries its taxonomy `parent` code. A topic value that other values IN THE SAME RELEASE name as their parent is a
+ * BROAD_PARENT (a root-level one) or INTERMEDIATE_TOPIC (one with its own real parent); a childless value with a real parent is a SCOPED_TOPIC;
+ * a childless root-level value exposes nothing, so its granularity stays unknown. Nothing is inferred beyond the exposed parent codes: no
+ * depth, no child count, no label wording.
+ *
  * Bounded: exactly ONE request per run, an explicit series key (country, frequency, measure, unit, age, sex), only the LATEST
  * observation per series (`lastNObservations=1`), and a hard cap on accepted rows (fail closed, never silently truncated).
  * Not wired: not imported by the Worker, no scheduler, no activation. Legal status UNRESOLVED, so never eligible for activation.
@@ -60,6 +65,8 @@ export const OECD_ATTRIBUTION: SourceAttribution = {
 export interface SdmxValue {
   id: string;
   name?: string;
+  /** Taxonomy parent code exposed by the source (a reserved code such as _T means root level). */
+  parent?: string;
   start?: string;
   end?: string;
 }
@@ -81,6 +88,17 @@ export function buildDataUrl(o: { dataflow?: string; key?: string } = {}): strin
   u.searchParams.set('lastNObservations', '1');
   u.searchParams.set('dimensionAtObservation', 'AllDimensions');
   return u.toString();
+}
+
+/** Granularity exposed by the source taxonomy for one topic value, or null when the source exposes none. */
+export function granularityFromTaxonomy(dimValues: readonly SdmxValue[], v: SdmxValue): { granularity: string; reason: string } | null {
+  const parent = typeof v.parent === 'string' ? v.parent.trim() : '';
+  const realParent = parent !== '' && !SDMX_RESERVED_CODES.includes(parent);
+  const hasChildren = dimValues.some((x) => x.parent === v.id);
+  if (hasChildren && !realParent) return { granularity: 'BROAD_PARENT', reason: 'BROAD_PARENT_FROM_SOURCE_TAXONOMY' };
+  if (hasChildren && realParent) return { granularity: 'INTERMEDIATE_TOPIC', reason: 'INTERMEDIATE_IN_SOURCE_TAXONOMY' };
+  if (!hasChildren && realParent) return { granularity: 'SCOPED_TOPIC', reason: 'SCOPED_BY_SOURCE_TAXONOMY' };
+  return null;
 }
 
 const clean = (s: unknown): string => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim() : '');
@@ -123,13 +141,15 @@ export function normalizeSdmxRelease(msg: SdmxDataMessage, o: { maxRows: number;
     const hasValue = typeof raw === 'number' && Number.isFinite(raw);
     const topics = Object.entries(OECD_DIMENSION_ROLES)
       .filter(([, r]) => r.role === 'TOPIC_BEARING')
-      .map(([dim]) => at(idx, dim))
-      .filter((v): v is SdmxValue => v !== null && !SDMX_RESERVED_CODES.includes(v.id) && clean(v.name) !== '');
+      .map(([dim]) => ({ dim, v: at(idx, dim) }))
+      .filter((x): x is { dim: string; v: SdmxValue } => x.v !== null && !SDMX_RESERVED_CODES.includes(x.v.id) && clean(x.v.name) !== '');
     if (!topics.length) { rowsWithoutTopic += 1; continue; }
     periods.add(period.id);
     const span = [o.dataflow ?? OECD_DATAFLOW, clean(measure?.name), clean(unit?.name), clean(area?.name), period.id].filter(Boolean).join(' | ');
-    for (const t of topics) {
+    for (const { dim, v: t } of topics) {
+      const gran = granularityFromTaxonomy(dims[byId.get(dim) ?? 0]?.values ?? [], t);
       signals.push({
+        ...(gran ? { topicGranularity: gran.granularity, granularityReason: gran.reason } : {}),
         conceptLabel: clean(t.name),
         domainHint: 'HEALTH',
         conceptClass: 'DISEASE_CONDITION',

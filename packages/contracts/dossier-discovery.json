@@ -202,7 +202,7 @@
     "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
     "origin_cluster_required": true,
     "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
-    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "NO_VALID_PROMOTION_ROUTE", "NOT_READY_FOR_CANDIDATE", "INTEGRITY_NOT_SATISFIED", "PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER", "PROMOTED_BY_HUMAN_PROMOTION"]
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "NO_VALID_PROMOTION_ROUTE", "NOT_READY_FOR_CANDIDATE", "INTEGRITY_NOT_SATISFIED", "PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER", "PROMOTED_BY_HUMAN_PROMOTION", "TOPIC_COHERENCE_NOT_SATISFIED", "BROAD_PARENT_FROM_SOURCE_TAXONOMY", "TAXONOMY_CONTAINER_FROM_SOURCE", "INTERMEDIATE_IN_SOURCE_TAXONOMY", "INTERMEDIATE_GRANULARITY_NEEDS_REVIEW", "SCOPED_BY_SOURCE_TAXONOMY", "GRANULARITY_UNRESOLVED", "CONFLICTING_GRANULARITY", "COHERENCE_OVERRIDDEN_BY_HUMAN_PROMOTION"]
   },
   "wow": {
     "wow_is_not_viral": true,
@@ -576,12 +576,28 @@
     "human_promotion": { "decider": "HUMAN", "review_target_type": "WATCH_TARGET", "decision": "PROMOTE", "effect": "CANDIDATE_CREATION_ONLY", "auditable": true, "is_not_accept": true, "implies_scientific_truth": false, "bypasses_p5": false },
     "convergence_means": "eligible support from more than one independent signal family (the definition, not a tunable count)",
     "source_specific_frontier_means": "one explicitly approved signal family may promote alone; no source has such a policy by default",
-    "gate_requires": ["EDITORIAL_ELIGIBILITY", "VALID_PROMOTION_ROUTE", "QUALITY_INTEGRITY_NOT_REJECTED"],
+    "gate_requires": ["EDITORIAL_ELIGIBILITY", "VALID_PROMOTION_ROUTE", "TOPIC_COHERENCE", "QUALITY_INTEGRITY_NOT_REJECTED"],
+    "route_pass_does_not_imply_candidate_created": true,
     "default_without_valid_route": "WATCH_NOT_READY_FOR_CANDIDATE",
     "route_default_classes": { "MULTI_SIGNAL_FAMILY_CONVERGENCE": "EMERGING", "SOURCE_SPECIFIC_FRONTIER": "EMERGING", "HUMAN_PROMOTION": "EMERGING" },
     "classes_beyond_the_default_come_only_from_owner_class_criteria": true,
     "repetition_inside_one_family_is_not_convergence": true,
     "no_numeric_product_threshold": true
+  },
+  "topic_coherence": {
+    "$comment": "CONVERGENCE != CANDIDATE SUITABILITY. Editorial scope gate between a valid promotion route and durable candidate creation. Granularity is editorial metadata derived ONLY from structure a source exposes; it is not a quality judgment, not a score, and never mutates, rejects, merges or activates a concept.",
+    "outcomes": ["COHERENT", "TOO_BROAD", "TOO_NARROW", "REVIEW_REQUIRED", "NON_EDITORIAL_SCOPE", "UNKNOWN_GRANULARITY"],
+    "outcomes_produced_today": ["COHERENT", "TOO_BROAD", "REVIEW_REQUIRED", "UNKNOWN_GRANULARITY"],
+    "granularities": ["SCOPED_TOPIC", "INTERMEDIATE_TOPIC", "BROAD_PARENT", "TAXONOMY_CONTAINER", "UNKNOWN_GRANULARITY"],
+    "granularity_reasons": ["BROAD_PARENT_FROM_SOURCE_TAXONOMY", "TAXONOMY_CONTAINER_FROM_SOURCE", "INTERMEDIATE_IN_SOURCE_TAXONOMY", "SCOPED_BY_SOURCE_TAXONOMY", "GRANULARITY_UNRESOLVED"],
+    "observation_fields": ["topic_granularity", "granularity_reason"],
+    "unknown_granularity_default": "FAIL_CLOSED_STAY_WATCH",
+    "automatic_gate_may_only": ["CANDIDATE_READY", "STAY_WATCH_OR_REQUIRE_REVIEW"],
+    "automatic_gate_never": ["reject_concept", "merge_concepts", "activate_concept", "change_source", "change_weights", "change_cadence", "rewrite_taxonomy"],
+    "too_broad_is_not_rejected": true,
+    "human_promotion_override_is_candidate_instance_only": true,
+    "no_label_list_no_word_count_no_string_length_no_depth_no_child_count": true,
+    "no_synthetic_descendants": true
   },
   "attribution": {
     "$comment": "Generic source-attribution capability: a connector declares what an official source terms require; the runtime adds retrieval/processing times. Available to handoff, export, editorial rendering and provenance display. No UI, no publishing.",
@@ -612,7 +628,7 @@
   },
   "policy": {
     "statuses": ["SET", "POLICY_NOT_SET", "CONFIG_REQUIRED", "OWNER_DECISION_REQUIRED"],
-    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "candidate_promotion", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
+    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "candidate_promotion", "topic_coherence", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
     "defaults_are_unset": true,
     "unset_runtime_behavior": "FAIL_SAFE"
   }

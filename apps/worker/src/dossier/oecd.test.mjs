@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx } from './test-support.mjs';
+import { openDossierDb, makeCtx, TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY } from './test-support.mjs';
 
 const OE = await bundle('apps/worker/src/dossier/oecd.ts', 'dossier-oecd');
 const CT = await bundle('apps/worker/src/dossier/clinicaltrials.ts', 'dossier-ct-oecd');
@@ -26,7 +26,7 @@ const world = () => {
 const replay = (msg) => async () => ({ ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(msg)) });
 const q = (sqlite, sql, ...a) => sqlite.prepare(sql).all(...a);
 const n = (sqlite, t) => q(sqlite, `SELECT COUNT(*) AS n FROM ${t}`)[0].n;
-const caps = (item, fetch, over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: item }, perRunFetchCap: { status: 'SET', value: fetch }, ...over });
+const caps = (item, fetch, over = {}) => ({ ...DEFAULT_POLICY, perRunItemCap: { status: 'SET', value: item }, perRunFetchCap: { status: 'SET', value: fetch }, topicCoherence: TEST_ONLY_ALLOW_UNKNOWN_GRANULARITY, ...over });
 const cfg = (readers, policy) => ({ policy, readers, classifier: CT.registryRecordClassifier, extractor: CT.registryRecordExtractor, aggregationVersion: 'agg-tr', algorithmVersion: 'cand-tr' });
 
 // FICTIONAL SDMX-shaped message builder (no real topic)
