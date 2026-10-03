@@ -23,7 +23,20 @@ export function d1FromSqlite(db) {
     };
     return p;
   };
-  return { prepare: mk };
+  // D1 batch(): the statements run atomically (here: one transaction, rolled back on the first failure).
+  const batch = async (stmts) => {
+    db.exec('BEGIN');
+    try {
+      const out = [];
+      for (const s of stmts) out.push(await s.run());
+      db.exec('COMMIT');
+      return out;
+    } catch (e) {
+      db.exec('ROLLBACK');
+      throw e;
+    }
+  };
+  return { prepare: mk, batch };
 }
 
 export function unreachableD1() {

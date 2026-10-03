@@ -44,11 +44,13 @@ test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations un
   assert.ok(/acquisition_path IN \('TIME_SENSITIVE', 'EVERGREEN'\)/.test(m28));
   // The Worker does not import the contract: no reader, route or live behavior.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
-  for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test'))) {
+  // The local dossier runtime lives ONLY in apps/worker/src/dossier/ and nothing outside it may import it: it is not part of
+  // the deployed Worker bundle (no route, no cron, no reader, no scheduler hook).
+  for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test') && !p.includes('/dossier/'))) {
     const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
     // the only allowed mention is the schema-level expectation in readiness.ts (the migration file name); no behavior
     if (f.endsWith('readiness.ts')) assert.ok(hits.every((l) => /EXPECTED_SCHEMA_MIGRATION/.test(l)), 'readiness.ts mentions dossier only as the expected schema marker');
-    else assert.deepEqual(hits, [], `${f} must not reference dossier yet`);
+    else assert.deepEqual(hits, [], `${f} must not reference dossier (the local runtime is not wired into the Worker)`);
   }
   assert.equal(V.reader_status.live_readers, 0);
 });
