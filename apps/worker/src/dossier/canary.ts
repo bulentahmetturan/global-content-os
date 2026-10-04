@@ -206,6 +206,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
     if (phase === 'FETCH') {
       const exec1 = await executeConnector(reader, { itemCap: caps.itemCap, fetchCap: caps.fetchCap, cursor: null }, now);
       if (exec1.status === 'FAILED') throw new DossierError('source_fetch_failed', exec1.error ?? 'unknown');
+      // an empty (or entirely unusable) page is an anomaly, not a finished canary: the run FAILS with the reason so it does not consume the one-run quota
+      if (exec1.items.length === 0) throw new DossierError('source_returned_no_usable_items', `source items seen: ${exec1.itemsSeen}, usable: 0`);
       progress.retrievedAt = exec1.startedAt;
       progress.itemsSeen = exec1.itemsSeen;
       progress.workTotal = exec1.items.length;
@@ -242,7 +244,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
     if (phase === 'DERIVE' && status === 'RUNNING') {
       const aggCfg = { version: CANARY_AGGREGATION_VERSION, now: now(), observationLimit: caps.itemCap * 20, platformOf: () => reader.descriptor.platform };
       paused2: for (;;) {
-        const concepts = await many<{ concept_id: string }>(db, `SELECT DISTINCT concept_id FROM dossier_observations WHERE run_id = ? AND concept_id IS NOT NULL AND concept_id > ? ORDER BY concept_id LIMIT 5`, live.run_id, progress.deriveAfter ?? '');
+        // everything this reader ingested that no COMPLETED run has derived yet: this run's observations AND those a previous FAILED run of the same reader left behind (a fresh run after a failure must not strand them)
+        const concepts = await many<{ concept_id: string }>(db, `SELECT DISTINCT concept_id FROM dossier_observations WHERE run_id IN (SELECT run_id FROM dossier_canary_runs WHERE reader_id = ? AND status <> 'COMPLETED') AND concept_id IS NOT NULL AND concept_id > ? ORDER BY concept_id LIMIT 5`, reg.dossier_reader_id, progress.deriveAfter ?? '');
         if (!concepts.length) { phase = 'FINALIZE'; break; }
         for (const { concept_id: cid } of concepts) {
           if (DERIVE_UNIT_COST + TAIL_RESERVE > budget.budget) throw new DossierError('budget_below_minimum_runnable_unit', `one derive unit needs up to ${DERIVE_UNIT_COST + TAIL_RESERVE} statements but the invocation budget is ${budget.budget}`);
@@ -293,7 +296,10 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
       try {
         const t = now();
         if (!(await repo.getSignalRun(live.run_id))) await repo.recordSignalRun({ run_id: live.run_id, reader_id: reg.dossier_reader_id, source_ref: reg.canonical_source_id, started_at: progress.startedAt, finished_at: t, status: 'FAILED', items_seen: progress.itemsSeen, items_new: progress.itemsNew, observations_written: 0, reader_version: READER_VERSION, error_summary: error.slice(0, 400) });
-        await exec(deps.db, `UPDATE dossier_canary_runs SET status = 'FAILED', lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, progress_json = ?, updated_at = ?, finished_at = ? WHERE run_id = ?`, budget.used(), error.slice(0, 400), json(progress), t, t, live.run_id);
+        // the failure record must not depend on the progress being serializable: if it is not, the previously saved progress is kept and the lease is still released
+        let progressJson: string | null = null;
+        try { progressJson = json(progress); } catch { progressJson = null; }
+        await exec(deps.db, `UPDATE dossier_canary_runs SET status = 'FAILED', lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, progress_json = COALESCE(?, progress_json), updated_at = ?, finished_at = ? WHERE run_id = ?`, budget.used(), error.slice(0, 400), progressJson, t, t, live.run_id);
       } catch { /* best effort: the lease expires; the failed state is re-derivable from the next invocation */ }
     }
   }
