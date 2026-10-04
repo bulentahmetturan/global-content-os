@@ -27,9 +27,10 @@ export interface InspectDeps {
   ctx?: Ctx;
 }
 
-const runSummary = (r: RunRow) => {
+const parseJson = (s: string | null): unknown => { if (!s) return null; try { return JSON.parse(s); } catch { return null; } };
+const runSummary = (r: RunRow, observations?: number) => {
   const p = JSON.parse(r.progress_json) as Record<string, unknown>;
-  return { run_id: r.run_id, reader_id: r.reader_id, status: r.status, phase: r.phase, invocations: r.invocations, statements_used: r.statements_used, started_by: r.started_by, created_at: r.created_at, finished_at: r.finished_at, error: r.error_summary, progress: { items_seen: p.itemsSeen, items_total: p.workTotal, items_new: p.itemsNew, concepts_derived: p.derived, not_editorial_topic: p.notEligible, watch: p.watch, promoted: p.promoted } };
+  return { checkpoint: parseJson(r.checkpoint_json), lease_expires_at: r.lease_holder ? r.lease_expires_at : null, observations: observations ?? null, run_id: r.run_id, reader_id: r.reader_id, status: r.status, phase: r.phase, invocations: r.invocations, statements_used: r.statements_used, started_by: r.started_by, created_at: r.created_at, finished_at: r.finished_at, error: r.error_summary, progress: { items_seen: p.itemsSeen, items_total: p.workTotal, items_new: p.itemsNew, concepts_derived: p.derived, not_editorial_topic: p.notEligible, watch: p.watch, promoted: p.promoted } };
 };
 
 /** RUN HISTORY */
@@ -37,7 +38,10 @@ export async function runHistory(d: InspectDeps, o: { readerId?: string; limit?:
   const rows = o.readerId
     ? await many<RunRow>(d.db, `SELECT * FROM dossier_canary_runs WHERE reader_id = ? ORDER BY created_at DESC LIMIT ?`, o.readerId, lim(o.limit, 20))
     : await many<RunRow>(d.db, `SELECT * FROM dossier_canary_runs ORDER BY created_at DESC LIMIT ?`, lim(o.limit, 20));
-  return rows.map(runSummary);
+  const ids = rows.map((r) => r.run_id);
+  const counts = ids.length ? await many<{ run_id: string; n: number }>(d.db, `SELECT run_id, COUNT(*) AS n FROM dossier_observations WHERE run_id IN (${ids.map(() => '?').join(',')}) GROUP BY run_id`, ...ids) : [];
+  const byRun = new Map(counts.map((c) => [c.run_id, Number(c.n)]));
+  return rows.map((r) => runSummary(r, byRun.get(r.run_id) ?? 0));
 }
 
 /** ERROR SUMMARY: failed runs and failed signal runs (provenance). */
@@ -121,7 +125,7 @@ export async function candidateSummary(d: InspectDeps, o: { limit?: number } = {
 }
 
 /** STATUS: one bounded read of everything an operator needs before deciding the next step. */
-export async function canaryStatus(d: InspectDeps) {
+async function canaryStatusCore(d: InspectDeps) {
   const controls = await loadControls(d.db);
   const counts = await many<{ signal_family: string; n: number }>(d.db, `SELECT signal_family, COUNT(*) AS n FROM dossier_observations GROUP BY signal_family`);
   const scalar = async (sql: string): Promise<number> => Number((await one<{ n: number }>(d.db, sql))?.n ?? 0);
@@ -142,5 +146,57 @@ export async function canaryStatus(d: InspectDeps) {
       watch_targets: await scalar(`SELECT COUNT(DISTINCT target_id) AS n FROM dossier_signal_aggregates WHERE target_type = 'CONCEPT' AND target_id NOT IN (SELECT target_id FROM dossier_candidates WHERE target_type = 'CONCEPT')`),
     },
     recent_runs: await runHistory(d, { limit: 5 }),
+    last_error: await lastError(d),
   };
+}
+
+async function lastError(d: InspectDeps) {
+  const r = await one<RunRow>(d.db, `SELECT * FROM dossier_canary_runs WHERE status = 'FAILED' ORDER BY updated_at DESC LIMIT 1`);
+  return r ? { run_id: r.run_id, reader_id: r.reader_id, at: r.finished_at ?? r.updated_at, error: r.error_summary } : null;
+}
+
+type StatusCore = Awaited<ReturnType<typeof canaryStatusCore>>;
+/**
+ * ONE-GLANCE OPERATOR SUMMARY, derived purely from the status read model (it adds no query and no rule of its own): is DOSSIER enabled, which readers
+ * may run, which switch or contract blocks each, whether another run can start, and which decisions only the owner can make.
+ */
+export function operatorSummary(s: Pick<StatusCore, 'env_master_switch' | 'controls' | 'readers' | 'platform_capacity' | 'recent_runs' | 'last_error' | 'totals'>) {
+  const switches = new Set<string>();
+  const owner = new Map<string, string>();
+  const note = (code: string, why: string): void => { if (!owner.has(code)) owner.set(code, why); };
+  const perReader: Record<string, { may_run_now: boolean; blocked_by: string[] }> = {};
+  for (const r of s.readers) {
+    const blocked: string[] = [];
+    for (const reason of r.run_gate_reasons) {
+      if (reason === 'ENV_CANARY_DISABLED') { blocked.push('env DOSSIER_CANARY_ENABLED'); note('ENABLE_DOSSIER_BY_APPROVED_DEPLOY', 'the environment master switch is not "true" (only an owner-approved deploy changes it)'); }
+      else if (reason === 'CANARY_DISABLED_BY_OPERATOR') blocked.push('control canary_enabled');
+      else if (reason === 'MANUAL_RUNS_NOT_ALLOWED') blocked.push('control manual_runs_allowed');
+      else if (reason === 'READER_DISABLED') blocked.push(`control reader:${r.dossier_reader_id}:enabled`);
+      else if (reason.startsWith('PLATFORM_CAPACITY') || reason.startsWith('OPERATIONAL_BUDGET')) { blocked.push('platform capacity contract'); note('VERIFY_PLATFORM_CAPACITY', 'the owner must record and verify the real platform limits (D1 queries, subrequests, CPU) before any run'); }
+      else if (reason.startsWith('READER_BLOCKED:')) { blocked.push(`source access (${reason.slice('READER_BLOCKED:'.length)})`); note(`VERIFY_SOURCE_TERMS:${r.dossier_reader_id}`, `official usage terms for ${r.canonical_source_id} must be verified by a human and recorded in a reviewed commit (${r.blocker ?? 'registration blocker'})`); }
+      else if (reason === 'RUN_QUOTA_EXHAUSTED_OPERATOR_REVIEW_REQUIRED') { blocked.push('run quota'); note(`REVIEW_RESULTS_OR_AUTHORIZE_EXTRA_RUN:${r.dossier_reader_id}`, 'the one-shot run is complete; an operator reviews the result and may authorize one more run'); }
+      else blocked.push(reason);
+    }
+    for (const b of blocked) switches.add(b);
+    perReader[r.dossier_reader_id] = { may_run_now: r.may_run_now, blocked_by: blocked };
+  }
+  return {
+    dossier_enabled: s.env_master_switch && s.controls.canary_enabled,
+    enabled_readers: s.readers.filter((r) => r.runtime_enabled).map((r) => r.dossier_reader_id),
+    readers: perReader,
+    can_start_another_run: s.readers.some((r) => r.may_run_now || r.active_run !== null),
+    active_run: s.readers.map((r) => r.active_run).find((a) => a) ?? null,
+    last_run: s.recent_runs[0] ?? null,
+    last_error: s.last_error,
+    watch_targets: s.totals.watch_targets,
+    candidates: s.totals.candidates,
+    blocking_switches: [...switches].sort(),
+    owner_actions_required: [...owner.entries()].map(([code, reason]) => ({ code, reason })),
+  };
+}
+
+/** STATUS: the core read model plus the derived one-glance operator summary. */
+export async function canaryStatus(d: InspectDeps) {
+  const core = await canaryStatusCore(d);
+  return { ...core, operator_summary: operatorSummary(core) };
 }

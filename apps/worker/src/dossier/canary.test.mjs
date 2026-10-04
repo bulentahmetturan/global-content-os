@@ -380,7 +380,7 @@ test('operator read model: status, run history, WATCH, candidates, errors, reade
   const rows = () => tables.map((t) => n(w.sqlite, t)).join();
   const before = rows();
   const status = await CI.canaryStatus(d);
-  assert.deepEqual(Object.keys(status).sort(), ['controls', 'env_master_switch', 'platform_capacity', 'profile', 'readers', 'recent_runs', 'run_mode', 'totals']);
+  assert.deepEqual(Object.keys(status).sort(), ['controls', 'env_master_switch', 'last_error', 'operator_summary', 'platform_capacity', 'profile', 'readers', 'recent_runs', 'run_mode', 'totals']);
   assert.equal(status.totals.observations_by_family.TURKEY_HEALTH_BURDEN, 48);
   assert.equal(status.totals.concepts_active, 0);
   const rs = status.readers.find((r) => r.dossier_reader_id === OE_ID);
