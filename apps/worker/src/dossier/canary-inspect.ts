@@ -6,7 +6,7 @@
 import { canaryPolicy, type DossierCanaryProfile } from './canary-profile';
 import {
   controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, DOSSIER_READER_REGISTRY, isOn, loadControls,
-  readerAccessBlockers, type Controls, type DossierReaderRegistration,
+  platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, type Controls, type DossierReaderRegistration,
 } from './canary-control';
 import { CANARY_ALGORITHM_VERSION, runGate, type CanaryEnv, type RunRow } from './canary';
 import { gateTarget } from './candidates';
@@ -54,7 +54,7 @@ export async function readerStatus(d: InspectDeps, controls?: Controls) {
   for (const reg of d.registry ?? DOSSIER_READER_REGISTRY) {
     const completed = Number((await one<{ n: number }>(d.db, `SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED'`, reg.dossier_reader_id, d.profile.profile_id))?.n ?? 0);
     const active = await one<RunRow>(d.db, `SELECT * FROM dossier_canary_runs WHERE reader_id = ? AND status IN ('RUNNING','PAUSED_BUDGET')`, reg.dossier_reader_id);
-    const gate = runGate({ env: d.env, controls: c, reg });
+    const gate = runGate({ env: d.env, controls: c, reg, operationalBudget: d.profile.runtime.d1_statements_per_invocation.value });
     const allowed = d.profile.max_runs_per_reader.value + Number(c[controlReaderExtraRuns(reg.dossier_reader_id)] ?? 0);
     if (!active && completed >= allowed) gate.push('RUN_QUOTA_EXHAUSTED_OPERATOR_REVIEW_REQUIRED');
     out.push({
@@ -129,6 +129,7 @@ export async function canaryStatus(d: InspectDeps) {
     profile: d.profile.profile_id,
     run_mode: d.profile.run_mode.value,
     env_master_switch: d.env.DOSSIER_CANARY_ENABLED === 'true',
+    platform_capacity: { ...readPlatformCapacity(controls), operational_budget: d.profile.runtime.d1_statements_per_invocation.value, blockers: platformCapacityBlockers(readPlatformCapacity(controls), d.profile.runtime.d1_statements_per_invocation.value) },
     controls: { canary_enabled: isOn(controls, CONTROL_CANARY), manual_runs_allowed: isOn(controls, CONTROL_MANUAL_RUNS), promotion_enabled: isOn(controls, CONTROL_PROMOTION), raw: controls },
     readers: await readerStatus(d, controls),
     totals: {

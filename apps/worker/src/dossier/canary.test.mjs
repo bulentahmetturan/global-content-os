@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { bundle, d1FromSqlite, openGcosDb } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx } from './test-support.mjs';
+import { openDossierDb, makeCtx, setTestCapacity } from './test-support.mjs';
 
 const PF = await bundle('apps/worker/src/dossier/canary-profile.ts', 'can-profile');
 const CC = await bundle('apps/worker/src/dossier/canary-control.ts', 'can-control');
@@ -47,6 +47,7 @@ async function enable(w, { promotion = true, only } = {}) {
   const set = (key, value) => CC.setControl(w.db, { key, value, updatedBy: 'test-operator', now: '2026-10-03T00:00:00.000Z' });
   await set(CC.CONTROL_CANARY, '1');
   await set(CC.CONTROL_MANUAL_RUNS, '1');
+  await setTestCapacity(w.db);
   await set(CC.CONTROL_PROMOTION, promotion ? '1' : '0');
   for (const id of only ?? [CT_ID, OE_ID]) await set(CC.controlReaderEnabled(id), '1');
 }
@@ -117,7 +118,7 @@ test('reader registration: DOSSIER reader identity is separate from canonical so
 test('default is OFF and fail closed: env switch, operator controls, reader control and access blockers must ALL allow; a refused call creates nothing', async () => {
   const w = world();
   const call = async (env, registry) => CR.invokeCanary({ ...deps(w, { registry }), env }, { readerId: CT_ID, operator: 'op' });
-  assert.deepEqual((await call({})).reasons, ['ENV_CANARY_DISABLED', 'CANARY_DISABLED_BY_OPERATOR', 'MANUAL_RUNS_NOT_ALLOWED', 'READER_DISABLED']);
+  assert.deepEqual((await call({})).reasons, ['ENV_CANARY_DISABLED', 'PLATFORM_CAPACITY_NOT_VERIFIED', 'PLATFORM_CAPACITY_VALUES_MISSING', 'CANARY_DISABLED_BY_OPERATOR', 'MANUAL_RUNS_NOT_ALLOWED', 'READER_DISABLED']);
   assert.ok((await call({ DOSSIER_CANARY_ENABLED: 'yes' })).reasons.includes('ENV_CANARY_DISABLED'), 'only the exact string true enables');
   await enable(w);
   assert.deepEqual((await call({ DOSSIER_CANARY_ENABLED: 'false' })).reasons, ['ENV_CANARY_DISABLED']);
@@ -256,6 +257,7 @@ test('S6 idempotency, lease, quota and resumability: resume equals an unchunked 
   big.runtime.d1_statements_per_invocation.value = 100000;
   const w0 = world();
   await enable(w0, { only: [CT_ID] });
+  await setTestCapacity(w0.db, [['platform:d1_queries_per_invocation', '1000000'], ['platform:subrequest_limit', '9999999'], ['platform:cpu_budget_ms', '30000'], ['platform:capacity_verified', '1']]); // TEST_ONLY: a capacity that fits the TEST_ONLY huge budget
   const base = await run(w0, CT_ID, { profile: big });
   assert.equal(base.outcomes.length, 1);
   const w = world();
@@ -378,7 +380,7 @@ test('operator read model: status, run history, WATCH, candidates, errors, reade
   const rows = () => tables.map((t) => n(w.sqlite, t)).join();
   const before = rows();
   const status = await CI.canaryStatus(d);
-  assert.deepEqual(Object.keys(status).sort(), ['controls', 'env_master_switch', 'profile', 'readers', 'recent_runs', 'run_mode', 'totals']);
+  assert.deepEqual(Object.keys(status).sort(), ['controls', 'env_master_switch', 'platform_capacity', 'profile', 'readers', 'recent_runs', 'run_mode', 'totals']);
   assert.equal(status.totals.observations_by_family.TURKEY_HEALTH_BURDEN, 48);
   assert.equal(status.totals.concepts_active, 0);
   const rs = status.readers.find((r) => r.dossier_reader_id === OE_ID);
@@ -402,16 +404,16 @@ test('readiness: auditable components, top level DERIVED, environment separate; 
   assert.equal(off.environment, 'LIVE');
   assert.equal(off.components.SCHEMA_READY.ready, false, 'live schema not yet migrated is reported honestly');
   assert.match(off.components.SCHEMA_READY.reasons[0], /expected before the approved migration/);
-  assert.deepEqual(Object.keys(off.components).sort(), ['CANARY_POLICY_READY', 'KILL_SWITCH_READY', 'MANUAL_RUNNER_READY', 'P5_GOVERNANCE_READY', 'PROVENANCE_READY', 'RUNTIME_READY', 'SCHEMA_READY', 'SOURCE_ACCESS_READY', 'SOURCE_REGISTRATION_READY']);
-  const ready = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true, environment: 'LOCAL', registry: TEST_REGISTRY });
+  assert.deepEqual(Object.keys(off.components).sort(), ['CANARY_POLICY_READY', 'KILL_SWITCH_READY', 'MANUAL_RUNNER_READY', 'P5_GOVERNANCE_READY', 'PLATFORM_CAPACITY_READY', 'PROVENANCE_READY', 'RUNTIME_READY', 'SCHEMA_READY', 'SOURCE_ACCESS_READY', 'SOURCE_REGISTRATION_READY']);
+  const ready = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true, environment: 'LOCAL', registry: TEST_REGISTRY, capacity: { d1_queries_per_invocation: 1000, subrequest_limit: 10000, cpu_budget_ms: 30000, capacity_verified: true } });
   assert.deepEqual([ready.level, ready.not_ready], ['READY', []]);
-  const degraded = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true });
+  const degraded = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true, capacity: { d1_queries_per_invocation: 1000, subrequest_limit: 10000, cpu_budget_ms: 30000, capacity_verified: true } });
   assert.deepEqual([degraded.level, degraded.not_ready], ['DEGRADED', ['SOURCE_ACCESS_READY']], 'OECD terms unresolved degrades only the non-critical access component');
   assert.ok(degraded.components.SOURCE_ACCESS_READY.reasons.some((r) => r.includes('USAGE_TERMS_UNRESOLVED')));
   assert.equal(RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true }).level, 'BLOCKED', 'enabled but no schema');
   const brokenProfile = structuredClone(PROFILE);
   brokenProfile.promotion.auto_accept.value = true;
-  const bp = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true, profile: brokenProfile });
+  const bp = RD.evaluateDossierReadiness({ ...base, envMasterSwitch: true, schemaPresent: true, controlsReadable: true, profile: brokenProfile, capacity: { d1_queries_per_invocation: 1000, subrequest_limit: 10000, cpu_budget_ms: 30000, capacity_verified: true } });
   assert.equal(bp.level, 'BLOCKED');
   assert.ok(bp.not_ready.includes('CANARY_POLICY_READY') && bp.not_ready.includes('P5_GOVERNANCE_READY'));
   // Worker /api/ready: DISABLED never changes the global level; ENABLED + broken only DEGRADES
@@ -466,7 +468,7 @@ test('production wiring (Worker operator surface): OPS_TOKEN only, manual, disab
   assert.equal(n(w.sqlite, 'dossier_canary_runs'), 0);
   // enable (env + operator controls) and run ClinicalTrials through the real handler; the network is a stub that only serves the official host
   const env = { ...baseEnv, DOSSIER_CANARY_ENABLED: 'true' };
-  for (const [key, value] of [[CC.CONTROL_CANARY, '1'], [CC.CONTROL_MANUAL_RUNS, '1'], [CC.CONTROL_PROMOTION, '1'], [CC.controlReaderEnabled(CT_ID), '1']]) assert.equal((await call(env, 'POST', '/api/dossier/canary/control', { key, value, operator: 'op' })).status, 200);
+  for (const [key, value] of [[CC.CONTROL_CANARY, '1'], [CC.CONTROL_MANUAL_RUNS, '1'], [CC.CONTROL_PROMOTION, '1'], [CC.controlReaderEnabled(CT_ID), '1'], ['platform:d1_queries_per_invocation', '1000'], ['platform:subrequest_limit', '10000'], ['platform:cpu_budget_ms', '30000'], ['platform:capacity_verified', '1']]) assert.equal((await call(env, 'POST', '/api/dossier/canary/control', { key, value, operator: 'op' })).status, 200);
   assert.equal((await call(env, 'POST', '/api/dossier/canary/control', { key: 'bogus', value: '1', operator: 'op' })).status, 400);
   const hosts = [];
   const realFetch = globalThis.fetch;

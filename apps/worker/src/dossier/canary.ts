@@ -24,7 +24,7 @@ import { assignClusters } from './clusters';
 import { canaryPolicy, readerCaps, requireCanaryProfile, type DossierCanaryProfile } from './canary-profile';
 import {
   controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, createBudgetedD1, DOSSIER_READER_REGISTRY, isOn,
-  loadControls, readerAccessBlockers, type Controls, type DossierReaderRegistration,
+  loadControls, platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, type Controls, type DossierReaderRegistration,
 } from './canary-control';
 import type { ContentClassifier, ConceptExtractor } from './classifier';
 import { executeConnector, type Connector, type SourceItem } from './connectors';
@@ -42,6 +42,8 @@ const TAIL_RESERVE = 12;
 /** Upper bound of statements one DERIVE unit (one concept) may issue; measured at ~25. */
 const DERIVE_UNIT_COST = 45;
 const itemCost = (item: SourceItem): number => 14 + 9 * (item.signals?.length ?? 0);
+/** Smallest budget that can ever run one unit: the cheapest derive unit plus the tail reserve. Below it nothing can complete, so the run is refused up front (a larger unit is still caught mid-run). */
+export const MIN_RUNNABLE_BUDGET_FLOOR = DERIVE_UNIT_COST + TAIL_RESERVE;
 
 export type RunPhase = 'FETCH' | 'INGEST' | 'DERIVE' | 'FINALIZE' | 'DONE';
 export type RunStatus = 'RUNNING' | 'PAUSED_BUDGET' | 'COMPLETED' | 'FAILED';
@@ -115,9 +117,11 @@ async function exec(db: D1Like, sql: string, ...v: unknown[]): Promise<number> {
 }
 
 /** The pre-run gate: every reason a run may NOT start (empty = allowed). Pure over controls so it is shared with the readiness read model. */
-export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null }): string[] {
+export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null; operationalBudget: number }): string[] {
   const r: string[] = [];
   if (o.env.DOSSIER_CANARY_ENABLED !== 'true') r.push('ENV_CANARY_DISABLED');
+  // the platform capacity contract: unknown or too-small verified capacity means NO run (never inferred from a plan name, never clamped)
+  r.push(...platformCapacityBlockers(readPlatformCapacity(o.controls), o.operationalBudget));
   if (!isOn(o.controls, CONTROL_CANARY)) r.push('CANARY_DISABLED_BY_OPERATOR');
   if (!isOn(o.controls, CONTROL_MANUAL_RUNS)) r.push('MANUAL_RUNS_NOT_ALLOWED');
   if (!o.reg) r.push('READER_NOT_REGISTERED');
@@ -150,8 +154,10 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
 
   const reg = (deps.registry ?? DOSSIER_READER_REGISTRY).find((r) => r.dossier_reader_id === req.readerId) ?? null;
   const controls = await loadControls(db);
-  const gate = runGate({ env: deps.env, controls, reg });
+  const gate = runGate({ env: deps.env, controls, reg, operationalBudget: budget.budget });
   if (gate.length || !reg) return { status: 'REFUSED', reasons: gate.length ? gate : ['READER_NOT_REGISTERED'] };
+  // a budget that cannot hold even the smallest unit of work is refused BEFORE any run row exists and before any source request
+  if (budget.budget < MIN_RUNNABLE_BUDGET_FLOOR) return { status: 'REFUSED', reasons: [`BUDGET_BELOW_MINIMUM_RUNNABLE_UNIT:${budget.budget}<${MIN_RUNNABLE_BUDGET_FLOOR}`] };
   if (!profile.sources.value.some((s) => s.canonical_source_id === reg.canonical_source_id)) return { status: 'REFUSED', reasons: ['SOURCE_NOT_IN_CANARY_PROFILE'] };
 
   // ---- select or create the run

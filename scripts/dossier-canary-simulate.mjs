@@ -50,6 +50,9 @@ const report = { mode: 'LOCAL SIMULATION on saved real responses (no network, no
 report.default_off = (await CR.invokeCanary(deps(CC.DOSSIER_READER_REGISTRY), { readerId: 'dossier-clinicaltrials-frontier', operator: 'op' })).reasons;
 // 1. enable the canary for both readers; the checked-in registry still blocks OECD
 for (const [k, v] of [[CC.CONTROL_CANARY, '1'], [CC.CONTROL_MANUAL_RUNS, '1'], [CC.CONTROL_PROMOTION, '1'], [CC.controlReaderEnabled('dossier-clinicaltrials-frontier'), '1'], [CC.controlReaderEnabled('dossier-oecd-turkiye-mortality'), '1']]) await set(k, v);
+report.blocked_without_verified_platform_capacity = (await CR.invokeCanary(deps(TEST_REGISTRY), { readerId: 'dossier-clinicaltrials-frontier', operator: 'op' })).reasons;
+// SIMULATION ONLY: a verified Workers-Paid-like capacity (production has none until the owner records it)
+for (const [k, v] of [['platform:d1_queries_per_invocation', '1000'], ['platform:subrequest_limit', '10000'], ['platform:cpu_budget_ms', '30000'], ['platform:capacity_verified', '1']]) await set(k, v);
 report.oecd_blocked_with_checked_in_registry = (await CR.invokeCanary(deps(CC.DOSSIER_READER_REGISTRY), { readerId: 'dossier-oecd-turkiye-mortality', operator: 'op' })).reasons;
 // 2. ClinicalTrials, then OECD (TEST_ONLY approved registry): each ONE run, in bounded invocations
 report.S1_clinicaltrials = summarize(await CR.runCanaryToCompletion(deps(TEST_REGISTRY), { readerId: 'dossier-clinicaltrials-frontier', operator: 'simulation-operator' }));

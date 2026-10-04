@@ -9,13 +9,13 @@
  *   BLOCKED    the canary is enabled but a critical component is not ready (schema, policy, registration, runner, provenance, governance, kill switch).
  */
 import { validateCanaryProfile, type DossierCanaryProfile } from './canary-profile';
-import { DOSSIER_READER_REGISTRY, readerAccessBlockers, validateRegistration, type DossierReaderRegistration } from './canary-control';
+import { DOSSIER_READER_REGISTRY, loadControls, platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, validateRegistration, type DossierReaderRegistration, type PlatformCapacity } from './canary-control';
 import type { D1Like } from './types';
 
 export type ComponentName =
   | 'SCHEMA_READY' | 'RUNTIME_READY' | 'CANARY_POLICY_READY' | 'SOURCE_REGISTRATION_READY' | 'SOURCE_ACCESS_READY'
-  | 'MANUAL_RUNNER_READY' | 'PROVENANCE_READY' | 'P5_GOVERNANCE_READY' | 'KILL_SWITCH_READY';
-export const CRITICAL_COMPONENTS: readonly ComponentName[] = ['SCHEMA_READY', 'RUNTIME_READY', 'CANARY_POLICY_READY', 'SOURCE_REGISTRATION_READY', 'MANUAL_RUNNER_READY', 'PROVENANCE_READY', 'P5_GOVERNANCE_READY', 'KILL_SWITCH_READY'];
+  | 'MANUAL_RUNNER_READY' | 'PROVENANCE_READY' | 'P5_GOVERNANCE_READY' | 'KILL_SWITCH_READY' | 'PLATFORM_CAPACITY_READY';
+export const CRITICAL_COMPONENTS: readonly ComponentName[] = ['SCHEMA_READY', 'RUNTIME_READY', 'CANARY_POLICY_READY', 'SOURCE_REGISTRATION_READY', 'MANUAL_RUNNER_READY', 'PROVENANCE_READY', 'P5_GOVERNANCE_READY', 'KILL_SWITCH_READY', 'PLATFORM_CAPACITY_READY'];
 
 export interface ComponentReport {
   ready: boolean;
@@ -42,6 +42,8 @@ export interface DossierReadinessInputs {
   registry?: readonly DossierReaderRegistration[];
   /** The runner and operator surface are part of the deployed build. */
   runnerWired: boolean;
+  /** Owner-verified platform capacity (null = unreadable = unverified). */
+  capacity?: PlatformCapacity | null;
 }
 
 export function evaluateDossierReadiness(i: DossierReadinessInputs): DossierReadiness {
@@ -63,6 +65,8 @@ export function evaluateDossierReadiness(i: DossierReadinessInputs): DossierRead
     PROVENANCE_READY: c(true, [...(Number.isInteger(i.profile?.provenance_refs_per_signal_family?.value) ? [] : ['PROVENANCE_CAP_NOT_SET']), ...(i.profile?.retention?.value === 'CANARY_HOLD_UNTIL_REVIEW' ? [] : ['CANARY_RETENTION_NOT_HOLD_UNTIL_REVIEW']), ...(i.schemaPresent ? [] : ['PROVENANCE_TABLES_MISSING'])]),
     P5_GOVERNANCE_READY: c(true, [...(i.profile?.promotion?.auto_accept?.value === false ? [] : ['AUTO_ACCEPT_POSSIBLE']), ...(i.profile?.promotion?.auto_publish?.value === false ? [] : ['AUTO_PUBLISH_POSSIBLE']), ...(i.profile?.promotion?.source_specific_frontier?.value === 'DISABLED' ? [] : ['SOURCE_SPECIFIC_FRONTIER_ENABLED'])]),
     KILL_SWITCH_READY: c(true, [...(i.controlsReadable ? [] : ['CONTROL_TABLE_UNREADABLE'])]),
+    // unknown or insufficient verified capacity: the canary cannot run at all (BLOCKED_FOR_RUN) while the deploy itself stays safe (the master switch keeps it DISABLED)
+    PLATFORM_CAPACITY_READY: c(true, platformCapacityBlockers(i.capacity ?? { d1_queries_per_invocation: null, subrequest_limit: null, cpu_budget_ms: null, capacity_verified: false }, i.profile?.runtime?.d1_statements_per_invocation?.value ?? Number.MAX_SAFE_INTEGER)),
   };
   const notReady = (Object.keys(components) as ComponentName[]).filter((k) => !components[k].ready);
   const criticalDown = notReady.filter((k) => components[k].critical);
@@ -88,13 +92,15 @@ export function evaluateDossierReadiness(i: DossierReadinessInputs): DossierRead
 export async function gatherDossierReadiness(db: D1Like, o: { environment: 'LOCAL' | 'LIVE'; envMasterSwitch: boolean; profile: DossierCanaryProfile; runnerWired?: boolean }): Promise<DossierReadiness> {
   let schemaPresent = false;
   let controlsReadable = false;
+  let capacity: PlatformCapacity | null = null;
   try {
     await db.prepare(`SELECT 1 FROM dossier_canary_runs LIMIT 1`).first();
     await db.prepare(`SELECT 1 FROM dossier_control LIMIT 1`).first();
     schemaPresent = true;
     controlsReadable = true;
+    capacity = readPlatformCapacity(await loadControls(db));
   } catch {
     schemaPresent = false;
   }
-  return evaluateDossierReadiness({ environment: o.environment, envMasterSwitch: o.envMasterSwitch, schemaPresent, controlsReadable, profile: o.profile, runnerWired: o.runnerWired ?? true });
+  return evaluateDossierReadiness({ environment: o.environment, envMasterSwitch: o.envMasterSwitch, schemaPresent, controlsReadable, profile: o.profile, runnerWired: o.runnerWired ?? true, capacity });
 }

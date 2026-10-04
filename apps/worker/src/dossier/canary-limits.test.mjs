@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
-import { openDossierDb, makeCtx } from './test-support.mjs';
+import { openDossierDb, makeCtx, setTestCapacity } from './test-support.mjs';
 
 const PF = await bundle('apps/worker/src/dossier/canary-profile.ts', 'lim-profile');
 const CC = await bundle('apps/worker/src/dossier/canary-control.ts', 'lim-control');
@@ -26,6 +26,7 @@ async function world(profile) {
   const { sqlite, db } = openDossierDb();
   const ctx = makeCtx();
   for (const [key, value] of [[CC.CONTROL_CANARY, '1'], [CC.CONTROL_MANUAL_RUNS, '1'], [CC.CONTROL_PROMOTION, '1'], [CC.controlReaderEnabled(CT_ID), '1'], [CC.controlReaderEnabled(OE_ID), '1']]) await CC.setControl(db, { key, value, updatedBy: 'op', now: 't' });
+  await setTestCapacity(db);
   const createReader = (r) => (r.canonical_source_id === 'oecd-health' ? OE.createOecdHealthReader({ fetchImpl: body(oecd), readerId: r.dossier_reader_id, legalStatus: r.legal_status }) : CT.createClinicalTrialsReader({ fetchImpl: body(ct8), readerId: r.dossier_reader_id, legalStatus: r.legal_status }));
   return { sqlite, db, deps: { db, env: { DOSSIER_CANARY_ENABLED: 'true' }, profile, createReader, classifier: CT.registryRecordClassifier, extractor: CT.registryRecordExtractor, ctx, registry: REG } };
 }
@@ -58,8 +59,8 @@ test('SQL shape stays inside the official D1 per-query limits: bound parameters,
   assert.ok(seen.every((s) => (s.match(/\?/g) ?? []).length <= OFFICIAL.d1BoundParameters), 'no statement binds more than 100 parameters');
 });
 
-test('a budget that cannot hold even one unit (the Free-plan limit of 50) FAILS the run with a clear reason; it never pauses forever', async () => {
-  for (const [readerId, budget] of [[CT_ID, OFFICIAL.d1QueriesPerInvocation.free], [OE_ID, 400]]) {
+test('a budget that cannot hold one unit but passes the pre-run floor FAILS the run with a clear reason after the fetch; it never pauses forever (the Free-limit 50 is refused earlier, see capacity tests)', async () => {
+  for (const [readerId, budget] of [[CT_ID, 58], [OE_ID, 400]]) {
     const w = await world(withBudget(budget));
     const r = await CR.runCanaryToCompletion(w.deps, { readerId, operator: 'op' }, 10);
     assert.equal(r.final.status, 'FAILED', `${readerId} at budget ${budget}`);

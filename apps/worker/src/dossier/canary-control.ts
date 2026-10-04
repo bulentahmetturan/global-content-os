@@ -112,17 +112,62 @@ export async function loadControls(db: D1Like): Promise<Controls> {
 }
 export const isOn = (c: Controls, key: string): boolean => c[key] === '1';
 
-const KEY_OK = /^(canary_enabled|manual_runs_allowed|promotion_enabled|reader:dossier-[a-z0-9-]+:(enabled|extra_runs_authorized))$/;
-/** The only mutation the operator control surface performs. Values are '0' / '1', or a small non-negative integer for extra runs. */
+// ---------------------------------------------------------------- PLATFORM CAPACITY CONTRACT
+// The Worker platform limits are PER PLAN and the plan is not readable from inside the Worker. The runner therefore never infers a plan: the owner records the
+// verified numbers here (attributed operator controls; ABSENT = unverified = no run) and a run is allowed only when the configured operational budget FITS them.
+// No clamping, no plan names, no billing API. Changing any recorded number automatically withdraws the verification (it must be re-asserted).
+export const CONTROL_CAPACITY_VERIFIED = 'platform:capacity_verified';
+export const CONTROL_CAPACITY_D1 = 'platform:d1_queries_per_invocation';
+export const CONTROL_CAPACITY_SUBREQUESTS = 'platform:subrequest_limit';
+export const CONTROL_CAPACITY_CPU_MS = 'platform:cpu_budget_ms';
+const CAPACITY_NUMBER_KEYS = [CONTROL_CAPACITY_D1, CONTROL_CAPACITY_SUBREQUESTS, CONTROL_CAPACITY_CPU_MS] as const;
+
+export interface PlatformCapacity {
+  /** D1 queries one Worker invocation may issue (official per-plan limit as verified by the owner). */
+  d1_queries_per_invocation: number | null;
+  /** Subrequests (fetch + D1 + KV + R2) one invocation may issue. */
+  subrequest_limit: number | null;
+  /** CPU time budget per HTTP request in ms, as verified by the owner (waiting on D1 / fetch is not CPU time). Recorded for audit; not machine-compared. */
+  cpu_budget_ms: number | null;
+  /** True only when the owner explicitly asserted the three numbers above. */
+  capacity_verified: boolean;
+}
+const posInt = (v: string | undefined): number | null => (v !== undefined && /^[1-9]\d{0,6}$/.test(v) ? Number(v) : null);
+export function readPlatformCapacity(c: Controls): PlatformCapacity {
+  return { d1_queries_per_invocation: posInt(c[CONTROL_CAPACITY_D1]), subrequest_limit: posInt(c[CONTROL_CAPACITY_SUBREQUESTS]), cpu_budget_ms: posInt(c[CONTROL_CAPACITY_CPU_MS]), capacity_verified: isOn(c, CONTROL_CAPACITY_VERIFIED) };
+}
+/** Subrequests one run invocation needs at most: every D1 statement of the budget plus one source request (the official count includes D1). */
+export const SOURCE_REQUESTS_PER_INVOCATION = 1;
+/** Why the verified platform capacity does NOT cover the operational budget (empty = it does). No silent clamp: a larger budget is refused, never reduced. */
+export function platformCapacityBlockers(cap: PlatformCapacity, operationalBudget: number): string[] {
+  const r: string[] = [];
+  if (!cap.capacity_verified) r.push('PLATFORM_CAPACITY_NOT_VERIFIED');
+  if (cap.d1_queries_per_invocation === null || cap.subrequest_limit === null || cap.cpu_budget_ms === null) r.push('PLATFORM_CAPACITY_VALUES_MISSING');
+  if (!cap.capacity_verified || cap.d1_queries_per_invocation === null || cap.subrequest_limit === null) return r;
+  if (operationalBudget > cap.d1_queries_per_invocation) r.push(`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_D1_CAPACITY:${operationalBudget}>${cap.d1_queries_per_invocation}`);
+  if (operationalBudget + SOURCE_REQUESTS_PER_INVOCATION > cap.subrequest_limit) r.push(`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_SUBREQUEST_LIMIT:${operationalBudget + SOURCE_REQUESTS_PER_INVOCATION}>${cap.subrequest_limit}`);
+  return r;
+}
+
+const KEY_OK = /^(canary_enabled|manual_runs_allowed|promotion_enabled|platform:(capacity_verified|d1_queries_per_invocation|subrequest_limit|cpu_budget_ms)|reader:dossier-[a-z0-9-]+:(enabled|extra_runs_authorized))$/;
+const UPSERT = `INSERT INTO dossier_control (control_key, control_value, updated_at, updated_by) VALUES (?,?,?,?) ON CONFLICT (control_key) DO UPDATE SET control_value = excluded.control_value, updated_at = excluded.updated_at, updated_by = excluded.updated_by`;
+/** The only mutation the operator control surface performs. Values are '0' / '1', a small non-negative integer for extra runs, or a positive integer for a recorded platform number. */
 export async function setControl(db: D1Like, o: { key: string; value: string; updatedBy: string; now: string }): Promise<void> {
   if (!KEY_OK.test(o.key)) throw new DossierError('control_key_invalid', o.key);
   const extra = /:extra_runs_authorized$/.test(o.key);
-  if (extra ? !/^\d{1,2}$/.test(o.value) : !['0', '1'].includes(o.value)) throw new DossierError('control_value_invalid', `${o.key}=${o.value}`);
+  const capNumber = (CAPACITY_NUMBER_KEYS as readonly string[]).includes(o.key);
+  const bad = capNumber ? !/^[1-9]\d{0,6}$/.test(o.value) : extra ? !/^\d{1,2}$/.test(o.value) : !['0', '1'].includes(o.value);
+  if (bad) throw new DossierError('control_value_invalid', `${o.key}=${o.value}`);
   if (!o.updatedBy.trim()) throw new DossierError('control_updated_by_required');
-  await db
-    .prepare(`INSERT INTO dossier_control (control_key, control_value, updated_at, updated_by) VALUES (?,?,?,?) ON CONFLICT (control_key) DO UPDATE SET control_value = excluded.control_value, updated_at = excluded.updated_at, updated_by = excluded.updated_by`)
-    .bind(o.key, o.value, o.now, o.updatedBy.trim())
-    .run();
+  const by = o.updatedBy.trim();
+  if (o.key === CONTROL_CAPACITY_VERIFIED && o.value === '1') {
+    // asserting verification requires every number to be recorded first: "verified" without values would be an empty promise
+    const cap = readPlatformCapacity(await loadControls(db));
+    if (cap.d1_queries_per_invocation === null || cap.subrequest_limit === null || cap.cpu_budget_ms === null) throw new DossierError('capacity_values_required_before_verification');
+  }
+  await db.prepare(UPSERT).bind(o.key, o.value, o.now, by).run();
+  // a changed number invalidates any earlier verification: it must be re-asserted explicitly
+  if (capNumber) await db.prepare(UPSERT).bind(CONTROL_CAPACITY_VERIFIED, '0', o.now, by).run();
 }
 
 // ---------------------------------------------------------------- per-invocation D1 statement budget
