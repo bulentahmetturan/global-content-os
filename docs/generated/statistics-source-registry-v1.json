@@ -38,8 +38,10 @@
       "EUROSTAT_HEALTH",
       "UN_WORLD_POPULATION_PROSPECTS",
       "UK_ONS_HEALTH",
-      "IARC_GLOBAL_CANCER_OBSERVATORY",
       "ECDC_SURVEILLANCE"
+    ],
+    "terms_unverified": [
+      "IARC_GLOBAL_CANCER_OBSERVATORY"
     ],
     "terms_verified": [
       "CDC_NCHS_HEALTH_STATISTICS",
@@ -1677,7 +1679,7 @@
       ],
       "authentication": "NONE",
       "public_access": "PARTIAL",
-      "automation_allowed": "NO without written permission (IARC terms as quoted by a secondary summary: systematic retrieval to compile a database is prohibited; official page not opened → verify)",
+      "automation_allowed": "UNKNOWN",
       "commercial_reuse": "UNKNOWN",
       "attribution_required": "YES",
       "rate_limit": "UNKNOWN",
@@ -1718,7 +1720,7 @@
       "recommended_future_poll_strategy": "Edition-driven manual export",
       "recommended_future_bounds": "Edition × country × cancer site × sex",
       "future_pipeline_priority": "P2",
-      "legal_gate": "BLOCKED for automated/systematic ingestion unless IARC grants written permission (publications@iarc.fr per the quoted terms). Manual single-chart citation only.",
+      "legal_gate": "LEGAL_REVIEW_REQUIRED. terms_status = UNVERIFIED: the official IARC terms page was not verified; a secondary summary reports a restriction on systematic retrieval, so permission for automated ingestion is UNKNOWN. Verify the official terms before any activation.",
       "technical_gate": "No API; interactive UI; a guessed JSON path returned the HTML shell.",
       "data_quality_notes": "GLOBOCAN = MODELLED estimates, not registry counts; incidence ≠ prevalence; ASR (world) ≠ crude.",
       "provenance_notes": "Independent modelling from the registry network.",
@@ -1730,14 +1732,15 @@
       ],
       "merged_urls": [],
       "nested_dataset_groups": [],
+      "systematic_retrieval_permission": "UNKNOWN (a secondary summary quotes IARC terms restricting systematic retrieval; the official IARC terms page was not verified)",
       "machine_access_class": "MANUAL_ONLY",
-      "terms_status": "PARTIAL",
-      "activation_legal_gate": "BLOCKED",
+      "terms_status": "UNVERIFIED",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
       "source_activation_ready": "NO",
       "activation_blockers": [
         "owner authorization not given (P5)",
-        "terms PARTIAL",
-        "legal gate BLOCKED",
+        "terms UNVERIFIED",
+        "legal gate LEGAL_REVIEW_REQUIRED",
         "no canary run (read-only phase)"
       ],
       "revision_status": "KNOWN"

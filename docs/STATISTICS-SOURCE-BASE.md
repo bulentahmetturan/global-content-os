@@ -11,6 +11,8 @@ Three separate states (never one boolean):
 
 HEALTH_STATISTICS is a separate structured-data subsystem: not EVERGREEN, not TIME_SENSITIVE, no third temporal path, no semantic lane. A release may later emit an optional TIME_SENSITIVE signal; an observation never becomes a content item.
 
+Source-base freeze marker: `SOURCE_BASE_VERSION = V1`, `SOURCE_BASE_COMPLETE = YES`, `SOURCE_BASE_ARCHITECTURE_READY = YES`, `SOURCE_ACTIVATION_READY_ALL_SOURCES = NO`, `SOURCE_BASE_FROZEN_FOR_ARCHITECTURE = YES`. Frozen means architecture may rely on this registry; it does not mean sources can never be added (additions go through the same audit/governance). Branch: `statistics/source-base`.
+
 ## 1. LOOP
 
 | Loop | Result |
@@ -27,7 +29,7 @@ HEALTH_STATISTICS is a separate structured-data subsystem: not EVERGREEN, not TI
 
 5 Turkey + 27 Global = 32 families: 13 PRIMARY_CANONICAL, 7 CANONICAL_GATED, 3 SECONDARY_NORMALIZED, 4 DISCOVERY_CROSSCHECK, 5 REFERENCE_METHODOLOGY, 0 REJECTED. 90 inventory rows over 20 P0–P3 families.
 
-The v1 blocker was "no documented Turkish machine path". It was wrong for TÜİK: the portal documents an SDMX service (`nsiws.tuik.gov.tr`, agency `TR`) that needs a token from an SMS-verified account. That is an activation prerequisite (owner action), not an architecture unknown. All 12 P0/P1 sources now meet the eight exit conditions (`statistics-source-readiness-v1.json`). Terms remain unresolved for 10 families (UNKNOWN), partial for 7, verified for 3; that blocks activation, not architecture. OECD stays CANONICAL_GATED. IARC is legally BLOCKED for systematic retrieval.
+The v1 blocker was "no documented Turkish machine path". It was wrong for TÜİK: the portal documents an SDMX service (`nsiws.tuik.gov.tr`, agency `TR`) that needs a token from an SMS-verified account. That is an activation prerequisite (owner action), not an architecture unknown. All 12 P0/P1 sources now meet the eight exit conditions (`statistics-source-readiness-v1.json`). Terms remain unresolved for 10 families (UNKNOWN), partial for 6, unverified for 1, verified for 3; that blocks activation, not architecture. OECD stays CANONICAL_GATED. IARC terms are UNVERIFIED (legal review required; systematic-retrieval permission UNKNOWN).
 
 ## 3. Turkey gap-closure results
 
@@ -58,7 +60,7 @@ The v1 blocker was "no documented Turkish machine path". It was wrong for TÜİK
 
 **ILOSTAT (added, `ILOSTAT_OSH`, PRIMARY_CANONICAL, P2).** Provides authoritative comparable occupational-injury statistics: fatal and non-fatal injuries by economic activity/sex/migrant status, days lost, injury rates, SDG 8.8.1, labour inspection. Verified live: CSV API (`rplumber.ilo.org/data/indicator/?id=INJ_FATL_ECO_NB_A&ref_area=TUR&format=.csv`, Türkiye 1976–2024, 2024 total fatal = 1,905, national source id FA:1729), indicator TOC with per-indicator last-update timestamps (1,965 rows), SDMX service with 1,215 dataflows (`DF_INJ_*`). Bulk guidelines (official PDF) document automated downloads, weekly Sunday refresh. No occupational-disease indicator found. Terms page not retrievable (terms PDF 404, bulk page 403): terms UNKNOWN. Türkiye's value is a relay of the national source; SGK is the likely origin (UNVERIFIED).
 
-**Machine-access unknowns (5 → 0):** TÜİK → DOCUMENTED_API_AUTH; IHME → AUTH_EXPORT (account, emailed link; non-commercial agreement opened); IARC → MANUAL_ONLY, and legal BLOCKED for systematic retrieval (IARC terms as quoted by a secondary summary prohibit compiling a database without written permission; official page not opened); UNAIDS → MANUAL_ONLY (XLSX/CSV export; "Data list" CSV reportedly needs an EDMS account); ECDC → MANUAL_ONLY (Atlas CSV via the UI; no API found).
+**Machine-access unknowns (5 → 0):** TÜİK → DOCUMENTED_API_AUTH; IHME → AUTH_EXPORT (account, emailed link; non-commercial agreement opened); IARC → MANUAL_ONLY; terms UNVERIFIED (a secondary summary quotes a restriction on systematic retrieval; the official IARC terms page was not verified, so permission is UNKNOWN and the gate is LEGAL_REVIEW_REQUIRED, not BLOCKED); UNAIDS → MANUAL_ONLY (XLSX/CSV export; "Data list" CSV reportedly needs an EDMS account); ECDC → MANUAL_ONLY (Atlas CSV via the UI; no API found).
 
 **Revision unknowns (4 → 2):** TÜİK known (policy-governed), SGK known (policy PDF read), MoH and HSGM explicit UNKNOWN (checked; nothing stated; not inferred).
 
@@ -237,7 +239,7 @@ TERMS_STATUS = VERIFIED / PARTIAL / UNKNOWN. ACTIVATION_LEGAL_GATE = PASS / OWNE
 | UK_ONS_HEALTH | DOCUMENTED_API | NONE | PARTIAL | OWNER_REVIEW_REQUIRED | NO | Open Government Licence v3.0 (standard for ONS; UNVERIFIED in this phase) | UNKNOWN |
 | OECD_HEALTH_STATISTICS | DOCUMENTED_API | NONE | UNKNOWN | LEGAL_REVIEW_REQUIRED | NO | https://www.oecd.org/en/about/terms-conditions.html (returned 403 to automated fetch) | CONFLICTING in OECD docs: '20 queries/min & 20 downloads/hr' vs '60 downloads/hr' (search  |
 | IHME_GBD | AUTH_EXPORT | ACCOUNT | VERIFIED | LEGAL_REVIEW_REQUIRED | NO | IHME Free-of-Charge Non-Commercial User Agreement | UNKNOWN |
-| IARC_GLOBAL_CANCER_OBSERVATORY | MANUAL_ONLY | NONE | PARTIAL | BLOCKED | NO | Material may be used 'as is' with citation for non-commercial purposes (GLOBOCAN 2012 statement via search; current terms UNVERIFIED) | UNKNOWN |
+| IARC_GLOBAL_CANCER_OBSERVATORY | MANUAL_ONLY | NONE | UNVERIFIED | LEGAL_REVIEW_REQUIRED | NO | Material may be used 'as is' with citation for non-commercial purposes (GLOBOCAN 2012 statement via search; current terms UNVERIFIED) | UNKNOWN |
 | UNAIDS_DATA | MANUAL_ONLY | NONE | UNKNOWN | OWNER_REVIEW_REQUIRED | NO | CC BY-IGO variants reported for some UNAIDS datasets (UNVERIFIED) | UNKNOWN |
 | ECDC_SURVEILLANCE | MANUAL_ONLY | NONE | PARTIAL | OWNER_REVIEW_REQUIRED | NO | CC BY 4.0 (ECDC copyright page, via search) | UNKNOWN |
 | NCD_RISC | BULK_FILE | NONE | UNKNOWN | OWNER_REVIEW_REQUIRED | NO | CC BY 4.0 reported for outputs (secondary; UNVERIFIED) | UNKNOWN |
@@ -313,7 +315,7 @@ Common contract: checkpoint key = `source_id + dataset_id + release/edition + re
 | upstream lineage | PASS | n/a | n/a | n/a | PASS | PARTIAL | PASS for P0/P1 and aggregators; per-chart OWID rule | metadata.json, own source lists | StatBase, CHR detail |
 | legal-gate representation | PASS | n/a | n/a | n/a | PASS | 14 unknown (old predicate) | 10 UNKNOWN / 7 PARTIAL / 3 VERIFIED, gates typed | §8 | owner/legal |
 | Tier-1 gap convergence | PASS | n/a | n/a | n/a | PASS | 0 | 0 | §4 | – |
-| branch/scope hygiene | n/a | n/a | n/a | n/a | PARTIAL | UNKNOWN | SUBOPTIMAL | §15 | owner decision |
+| branch/scope hygiene | n/a | n/a | n/a | n/a | PASS | UNKNOWN | SUBOPTIMAL → resolved by `statistics/source-base` (cherry-picked from local main) | §15 | none |
 | architecture readiness | PASS | PARTIAL | PASS | PASS | PASS | NO | YES | `statistics-source-readiness-v1.json` | none |
 
 ## 12. P1–P5 matrix
@@ -328,7 +330,7 @@ Common contract: checkpoint key = `source_id + dataset_id + release/edition + re
 
 ## 13. Remaining non-blocking legal gates
 
-Block activation only: all Turkish sources (terms UNKNOWN); OECD (terms + conflicting rate limits, owner/legal); WHO (NC-SA, data licence PARTIAL); IHME (non-commercial agreement); **IARC (BLOCKED: systematic retrieval needs written permission)**; UNICEF, UNAIDS, NCD-RisC, ILOSTAT (terms UNKNOWN); WB/Eurostat/ONS/WPP/ECDC (PARTIAL, attribution). CDC and Census are the only PASS gates, and they still need owner authorization.
+Block activation only: all Turkish sources (terms UNKNOWN); OECD (terms + conflicting rate limits, owner/legal); WHO (NC-SA, data licence PARTIAL); IHME (non-commercial agreement); **IARC (terms UNVERIFIED; systematic-retrieval permission UNKNOWN; legal review required)**; UNICEF, UNAIDS, NCD-RisC, ILOSTAT (terms UNKNOWN); WB/Eurostat/ONS/WPP/ECDC (PARTIAL, attribution); IARC (UNVERIFIED). CDC and Census are the only PASS gates, and they still need owner authorization.
 
 ## 14. Remaining technical blockers (non-blocking for architecture)
 
@@ -336,7 +338,7 @@ TÜİK health dataflow IDs and live data check need a token. UN WPP API needs a 
 
 ## 15. Branch / scope hygiene
 
-`STATISTICS_WORK_BRANCH = SUBOPTIMAL`. The docs commit `4e6c71c` sits on `localization-v2` (tracks `origin/localization-v2`, 9 commits ahead of `main`, 1 behind). That branch is the localization V2 feature line; it is not the statistics work and, if pushed or merged, would carry statistics docs with localization code. The commit is local only (not pushed). Recommendation for the next phase (no action taken, no rebase/cherry-pick without owner approval): create `statistics/source-base` from `main`, cherry-pick `4e6c71c` and the commit from this phase there, and leave `localization-v2` untouched.
+`STATISTICS_WORK_BRANCH = SUBOPTIMAL` at the time of the audit; resolved in the isolation phase (below). The docs commit `4e6c71c` sits on `localization-v2` (tracks `origin/localization-v2`, 9 commits ahead of `main`, 1 behind). That branch is the localization V2 feature line; it is not the statistics work and, if pushed or merged, would carry statistics docs with localization code. The commit is local only (not pushed). Recommendation for the next phase (no action taken, no rebase/cherry-pick without owner approval): create `statistics/source-base` from `main`, cherry-pick `4e6c71c` and the commit from this phase there, and leave `localization-v2` untouched.
 
 ## 16. Local artifacts updated
 
@@ -471,7 +473,7 @@ P = primary/gated source lists the domain; s = secondary only; . = none.
 | UK_ONS_HEALTH | PRIMARY_CANONICAL | PASS | PASS | PASS | PASS | PARTIAL | Beta API stability | P1 |
 | OECD_HEALTH_STATISTICS | CANONICAL_GATED | BLOCKED | PASS | PARTIAL | PASS | PARTIAL | Terms/automation rights + conflicting rate limits | P1 |
 | IHME_GBD | CANONICAL_GATED | BLOCKED | PARTIAL | PARTIAL | PARTIAL | PARTIAL | NC licence + authenticated download | P2 |
-| IARC_GLOBAL_CANCER_OBSERVATORY | CANONICAL_GATED | BLOCKED | PARTIAL | PARTIAL | PARTIAL | PARTIAL | No API; terms unverified | P2 |
+| IARC_GLOBAL_CANCER_OBSERVATORY | CANONICAL_GATED | UNKNOWN | PARTIAL | PARTIAL | PARTIAL | PARTIAL | Terms UNVERIFIED; no API; manual export only | P2 |
 | UNAIDS_DATA | CANONICAL_GATED | PARTIAL | PARTIAL | PARTIAL | PARTIAL | PARTIAL | Terms/access UNKNOWN | P2 |
 | ECDC_SURVEILLANCE | CANONICAL_GATED | PARTIAL | PARTIAL | PARTIAL | PARTIAL | PARTIAL | No documented machine endpoint | P2 |
 | NCD_RISC | CANONICAL_GATED | PARTIAL | PARTIAL | PARTIAL | PARTIAL | PARTIAL | Licence unverified | P2 |

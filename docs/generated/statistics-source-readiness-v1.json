@@ -3,10 +3,14 @@
   "as_of": "2026-10-05",
   "mode": "READ_ONLY_RESEARCH",
   "note": "Research output. Not a production registry; no source is ACTIVE. Evidence = official URLs probed read-only on as_of; UNVERIFIED marks claims taken from secondary/search summaries.",
+  "source_base_version": "V1",
+  "frozen_for_architecture": "YES",
+  "freeze_meaning": "Architecture may rely on this registry. Future source additions still go through the same source audit/governance process.",
   "states": {
     "SOURCE_BASE_ARCHITECTURE_READY": "YES",
     "SOURCE_BASE_COMPLETE": "YES",
-    "SOURCE_ACTIVATION_READY_ALL_SOURCES": "NO"
+    "SOURCE_ACTIVATION_READY_ALL_SOURCES": "NO",
+    "SOURCE_BASE_FROZEN_FOR_ARCHITECTURE": "YES"
   },
   "p0_p1_sources": [
     "TURKSTAT_HEALTH_STATISTICS",
@@ -522,13 +526,13 @@
         "ACTIVATION_GATE_EXPLICIT": true
       },
       "architecture_ready": true,
-      "terms_status": "PARTIAL",
-      "activation_legal_gate": "BLOCKED",
+      "terms_status": "UNVERIFIED",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
       "source_activation_ready": "NO",
       "activation_blockers": [
         "owner authorization not given (P5)",
-        "terms PARTIAL",
-        "legal gate BLOCKED",
+        "terms UNVERIFIED",
+        "legal gate LEGAL_REVIEW_REQUIRED",
         "no canary run (read-only phase)"
       ],
       "revision_status": "KNOWN",
