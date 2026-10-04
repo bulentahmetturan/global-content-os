@@ -521,3 +521,22 @@ test('remote 0031 preflight is PASS and pins the exact migration checksum; the c
   assert.deepEqual(r.objects.tables, 21);
   assert.ok(r.checks.every((c) => c.ok), JSON.stringify(r.checks.filter((c) => !c.ok)));
 });
+
+test('operator CLI resume: --run-id starts from the given run id (never creates a run); an unknown run id is refused by the Worker and creates nothing', async () => {
+  const sent = [];
+  const fake = async (url, init) => { const b = JSON.parse(init.body); sent.push(b); return { status: 200, text: async () => JSON.stringify(sent.length < 3 ? { status: 'PAUSED_BUDGET', runId: b.run_id, phase: 'DERIVE', statementsThisInvocation: 700 } : { status: 'COMPLETED', runId: b.run_id, phase: 'DONE' }) }; };
+  const r = await CLI.runUntilDone({ base: 'https://worker.test', token: 't', reader: CT_ID, operator: 'op', runId: 'crun_00000000-0000-0000-0000-000000000001', fetchImpl: fake });
+  assert.equal(r.final, 'COMPLETED');
+  assert.ok(sent.every((b) => b.run_id === 'crun_00000000-0000-0000-0000-000000000001'), 'every invocation carries the SAME run id from the first call');
+  // non-JSON failure is reported with its first bytes, not swallowed
+  const bad = await CLI.callDossier({ base: 'https://worker.test', token: 't', method: 'POST', path: 'run', body: { operator: 'op', reader_id: CT_ID }, fetchImpl: async () => ({ status: 503, text: async () => '<html>Worker exceeded resource limits</html>' }) });
+  assert.equal(bad.httpStatus, 503);
+  assert.equal(bad.data.error, 'NON_JSON_RESPONSE');
+  assert.match(bad.data.body_head, /exceeded resource limits/);
+  // the real handler: an unknown run id never creates a run
+  const w = world();
+  await enable(w, { only: [CT_ID] });
+  const out = await CR.invokeCanary(deps(w), { readerId: CT_ID, operator: 'op', runId: 'crun_00000000-0000-0000-0000-000000000002' });
+  assert.deepEqual([out.status, out.reasons], ['REFUSED', ['RUN_NOT_FOUND_FOR_READER']]);
+  assert.equal(n(w.sqlite, 'dossier_canary_runs'), 0);
+});

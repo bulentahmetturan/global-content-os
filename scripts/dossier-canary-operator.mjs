@@ -33,8 +33,9 @@ export async function callDossier({ base, token, method = 'GET', path, body, fet
 }
 
 /** Executes ONE run: invokes until the run reports COMPLETED / FAILED, or the gate refuses. Never starts a second run. */
-export async function runUntilDone({ base, token, reader, operator, maxInvocations = 60, fetchImpl, onStep = () => {} }) {
-  let runId;
+/** `runId` resumes an EXISTING run: the Worker refuses an unknown or foreign run id and never creates a new run for it. */
+export async function runUntilDone({ base, token, reader, operator, maxInvocations = 60, fetchImpl, onStep = () => {}, runId: resumeRunId }) {
+  let runId = resumeRunId;
   const steps = [];
   for (let i = 0; i < maxInvocations; i++) {
     const { httpStatus, data } = await callDossier({ base, token, method: 'POST', path: 'run', body: { reader_id: reader, operator, ...(runId ? { run_id: runId } : {}) }, fetchImpl });
@@ -75,7 +76,7 @@ async function main() {
   }
   if (cmd === 'run') {
     if (!a.operator) throw new Error('--operator is required');
-    const r = await runUntilDone({ base, token, reader: x, operator: a.operator, maxInvocations: a['max-invocations'] ? Number(a['max-invocations']) : 60, onStep: (s) => console.error(`step: http=${s.httpStatus} ${s.status ?? '-'} ${s.phase ?? ''} statements=${s.statements ?? '-'} ${s.reasons ? s.reasons.join(',') : ''}${s.error ? ' error=' + s.error : ''}${s.body_head ? ' body=' + s.body_head : ''}`) });
+    const r = await runUntilDone({ base, token, reader: x, operator: a.operator, runId: a['run-id'], maxInvocations: a['max-invocations'] ? Number(a['max-invocations']) : 60, onStep: (s) => console.error(`step: http=${s.httpStatus} ${s.status ?? '-'} ${s.phase ?? ''} statements=${s.statements ?? '-'} ${s.reasons ? s.reasons.join(',') : ''}${s.error ? ' error=' + s.error : ''}${s.body_head ? ' body=' + s.body_head : ''}`) });
     print({ final: r.final, invocations: r.steps.length, runId: r.data?.runId ?? r.runId, progress: r.data?.progress, reasons: r.data?.reasons, error: r.data?.error });
     return r.final === 'COMPLETED' ? 0 : 1;
   }

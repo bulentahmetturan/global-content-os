@@ -11,47 +11,308 @@
     "<name>": "the named operator the change is attributed to",
     "<VERIFIED_D1_QUERIES_PER_INVOCATION>": "the owner-verified Cloudflare limit for the active plan (official docs: 1000 on Workers Paid)",
     "<VERIFIED_SUBREQUEST_LIMIT>": "the owner-verified subrequest limit (official docs: 10000 on Workers Paid)",
-    "<VERIFIED_CPU_BUDGET_MS>": "the owner-verified CPU time per request in ms (official docs: 30000 default on Workers Paid)"
+    "<VERIFIED_CPU_BUDGET_MS>": "the owner-verified CPU time per request in ms (official docs: 30000 default on Workers Paid)",
+    "<RUN_ID>": "the id of the EXISTING canary run to resume (never a new run)"
   },
   "commands": [
-    { "id": "R0.1", "step": "R0", "class": "LOCAL_ONLY", "run": "npm run production:check", "purpose": "full local gate (tests, router links, invariants)" },
-    { "id": "R0.2", "step": "R0", "class": "LOCAL_ONLY", "run": "node scripts/dossier-0031-preflight.mjs", "purpose": "static + local-apply preflight; prints the pinned sha256_lf_normalized" },
-    { "id": "R0.3", "step": "R0", "class": "LOCAL_ONLY", "run": "node scripts/dossier-0031-rehearsal.mjs", "purpose": "seeded pre-0031 -> 0031 rehearsal + Worker boot (docs/generated/dossier-0031-preflight.json with --write)" },
-    { "id": "R0.4", "step": "R0", "class": "LOCAL_ONLY", "run": "node scripts/dossier-release-manifest.mjs", "purpose": "prints the release manifest derived from the code" },
-    { "id": "R0.5", "step": "R0", "class": "LOCAL_ONLY", "run": "git rev-parse HEAD", "purpose": "pin the exact commit" },
-    { "id": "R0.6", "step": "R0", "class": "LOCAL_ONLY", "run": "npx wrangler deploy --dry-run", "purpose": "builds the Worker and lists its bindings; deploys nothing" },
-    { "id": "R1.1", "step": "R1", "class": "READ_ONLY", "run": "npx wrangler d1 migrations list global-content-os --remote", "purpose": "exactly one pending migration must be listed: 0031_dossier_discovery_foundation.sql" },
-    { "id": "R1.2", "step": "R1", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "npx wrangler d1 migrations apply global-content-os --remote", "purpose": "applies 0031 (additive, dossier-only, idempotent)", "do_not_run": true },
-    { "id": "R2.1", "step": "R2", "class": "READ_ONLY", "run": "npx wrangler d1 execute global-content-os --remote --command \"SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1\"", "purpose": "newest applied migration is 0031" },
-    { "id": "R2.2", "step": "R2", "class": "READ_ONLY", "run": "npx wrangler d1 execute global-content-os --remote --command \"SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'table' AND name LIKE 'dossier_%'\"", "purpose": "21 dossier tables exist" },
-    { "id": "R3.1", "step": "R3", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)", "purpose": "deploys the Worker with DOSSIER_CANARY_ENABLED=\"false\" (checked-in default); only after R1/R2", "do_not_run": true },
-    { "id": "R3.2", "step": "R3", "class": "READ_ONLY", "run": "node scripts/deploy-identity.mjs --live <worker-url>", "purpose": "compares the live commit/schema identity with the local one" },
-    { "id": "R4.1", "step": "R4", "class": "READ_ONLY", "run": "curl -sS <worker-url>/api/ready", "purpose": "GCOS readiness unchanged; dossier.level DISABLED" },
-    { "id": "R5.1", "step": "R5", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> readiness", "purpose": "DOSSIER readiness components" },
-    { "id": "R5.2", "step": "R5", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status", "purpose": "status, operator_summary, owner actions still required" },
-    { "id": "R6.1", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:d1_queries_per_invocation <VERIFIED_D1_QUERIES_PER_INVOCATION>", "purpose": "record the owner-verified D1 limit", "do_not_run": true },
-    { "id": "R6.2", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:subrequest_limit <VERIFIED_SUBREQUEST_LIMIT>", "purpose": "record the owner-verified subrequest limit", "do_not_run": true },
-    { "id": "R6.3", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:cpu_budget_ms <VERIFIED_CPU_BUDGET_MS>", "purpose": "record the owner-verified CPU budget", "do_not_run": true },
-    { "id": "R6.4", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:capacity_verified 1", "purpose": "assert the capacity verification (refused unless all three numbers are recorded)", "do_not_run": true },
-    { "id": "R6.5", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 1", "purpose": "global operator switch", "do_not_run": true },
-    { "id": "R6.6", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 1", "purpose": "allow manual runs", "do_not_run": true },
-    { "id": "R6.7", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control promotion_enabled 1", "purpose": "allow the convergence promotion route (still no ACCEPT, no publication)", "do_not_run": true },
-    { "id": "R6.8", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 1", "purpose": "enable the ClinicalTrials reader only", "do_not_run": true },
-    { "id": "R6.9", "step": "R6", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars) --var DOSSIER_CANARY_ENABLED:true", "purpose": "environment master switch ON (no code change)", "do_not_run": true },
-    { "id": "R7.1", "step": "R7", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-clinicaltrials-frontier", "purpose": "ONE ClinicalTrials run: one source request, ~14 bounded invocations", "do_not_run": true },
-    { "id": "R8.1", "step": "R8", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status", "purpose": "inspect totals and summary" },
-    { "id": "R8.2", "step": "R8", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> runs", "purpose": "run history, checkpoint, observations" },
-    { "id": "R8.3", "step": "R8", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> errors", "purpose": "failed runs and provenance failures" },
-    { "id": "R8.4", "step": "R8", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 25 watch", "purpose": "WATCH targets with reasons" },
-    { "id": "R8.5", "step": "R8", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates", "purpose": "durable candidates (expected: none)" },
-    { "id": "R9.1", "step": "R9", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-oecd-turkiye-mortality:enabled 1", "purpose": "ONLY after the human OECD terms verification and the reviewed registration commit are deployed", "do_not_run": true },
-    { "id": "R9.2", "step": "R9", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-oecd-turkiye-mortality", "purpose": "ONE OECD run (2 invocations); refused while the terms are unresolved", "do_not_run": true },
-    { "id": "R10.1", "step": "R10", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 100 watch", "purpose": "convergence: the real overlap is a WATCH target (TOO_BROAD)" },
-    { "id": "R10.2", "step": "R10", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status", "purpose": "owner actions and blockers after the runs" },
-    { "id": "R11.1", "step": "R11", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 0", "purpose": "kill switch: no manual run", "do_not_run": true },
-    { "id": "R11.2", "step": "R11", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 0", "purpose": "kill switch: canary off", "do_not_run": true },
-    { "id": "R11.3", "step": "R11", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 0", "purpose": "kill switch: reader off", "do_not_run": true },
-    { "id": "R12.1", "step": "R12", "class": "READ_ONLY", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates", "purpose": "evidence for the human review (no review endpoint exists yet; none is expected to be needed)" },
-    { "id": "R13.1", "step": "R13", "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED", "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:extra_runs_authorized 1", "purpose": "post-canary decision: authorize ONE extra run", "do_not_run": true }
+    {
+      "id": "R0.1",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "npm run production:check",
+      "purpose": "full local gate (tests, router links, invariants)"
+    },
+    {
+      "id": "R0.2",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "node scripts/dossier-0031-preflight.mjs",
+      "purpose": "static + local-apply preflight; prints the pinned sha256_lf_normalized"
+    },
+    {
+      "id": "R0.3",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "node scripts/dossier-0031-rehearsal.mjs",
+      "purpose": "seeded pre-0031 -> 0031 rehearsal + Worker boot (docs/generated/dossier-0031-preflight.json with --write)"
+    },
+    {
+      "id": "R0.4",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "node scripts/dossier-release-manifest.mjs",
+      "purpose": "prints the release manifest derived from the code"
+    },
+    {
+      "id": "R0.5",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "git rev-parse HEAD",
+      "purpose": "pin the exact commit"
+    },
+    {
+      "id": "R0.6",
+      "step": "R0",
+      "class": "LOCAL_ONLY",
+      "run": "npx wrangler deploy --dry-run",
+      "purpose": "builds the Worker and lists its bindings; deploys nothing"
+    },
+    {
+      "id": "R1.1",
+      "step": "R1",
+      "class": "READ_ONLY",
+      "run": "npx wrangler d1 migrations list global-content-os --remote",
+      "purpose": "exactly one pending migration must be listed: 0031_dossier_discovery_foundation.sql"
+    },
+    {
+      "id": "R1.2",
+      "step": "R1",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "npx wrangler d1 migrations apply global-content-os --remote",
+      "purpose": "applies 0031 (additive, dossier-only, idempotent)",
+      "do_not_run": true
+    },
+    {
+      "id": "R2.1",
+      "step": "R2",
+      "class": "READ_ONLY",
+      "run": "npx wrangler d1 execute global-content-os --remote --command \"SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1\"",
+      "purpose": "newest applied migration is 0031"
+    },
+    {
+      "id": "R2.2",
+      "step": "R2",
+      "class": "READ_ONLY",
+      "run": "npx wrangler d1 execute global-content-os --remote --command \"SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'table' AND name LIKE 'dossier_%'\"",
+      "purpose": "21 dossier tables exist"
+    },
+    {
+      "id": "R3.1",
+      "step": "R3",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)",
+      "purpose": "deploys the Worker with DOSSIER_CANARY_ENABLED=\"false\" (checked-in default); only after R1/R2",
+      "do_not_run": true
+    },
+    {
+      "id": "R3.2",
+      "step": "R3",
+      "class": "READ_ONLY",
+      "run": "node scripts/deploy-identity.mjs --live <worker-url>",
+      "purpose": "compares the live commit/schema identity with the local one"
+    },
+    {
+      "id": "R4.1",
+      "step": "R4",
+      "class": "READ_ONLY",
+      "run": "curl -sS <worker-url>/api/ready",
+      "purpose": "GCOS readiness unchanged; dossier.level DISABLED"
+    },
+    {
+      "id": "R5.1",
+      "step": "R5",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> readiness",
+      "purpose": "DOSSIER readiness components"
+    },
+    {
+      "id": "R5.2",
+      "step": "R5",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status",
+      "purpose": "status, operator_summary, owner actions still required"
+    },
+    {
+      "id": "R6.1",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:d1_queries_per_invocation <VERIFIED_D1_QUERIES_PER_INVOCATION>",
+      "purpose": "record the owner-verified D1 limit",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.2",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:subrequest_limit <VERIFIED_SUBREQUEST_LIMIT>",
+      "purpose": "record the owner-verified subrequest limit",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.3",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:cpu_budget_ms <VERIFIED_CPU_BUDGET_MS>",
+      "purpose": "record the owner-verified CPU budget",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.4",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:capacity_verified 1",
+      "purpose": "assert the capacity verification (refused unless all three numbers are recorded)",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.5",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 1",
+      "purpose": "global operator switch",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.6",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 1",
+      "purpose": "allow manual runs",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.7",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control promotion_enabled 1",
+      "purpose": "allow the convergence promotion route (still no ACCEPT, no publication)",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.8",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 1",
+      "purpose": "enable the ClinicalTrials reader only",
+      "do_not_run": true
+    },
+    {
+      "id": "R6.9",
+      "step": "R6",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars) --var DOSSIER_CANARY_ENABLED:true",
+      "purpose": "environment master switch ON (no code change)",
+      "do_not_run": true
+    },
+    {
+      "id": "R7.1",
+      "step": "R7",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-clinicaltrials-frontier",
+      "purpose": "ONE ClinicalTrials run: one source request, ~14 bounded invocations",
+      "do_not_run": true
+    },
+    {
+      "id": "R7.2",
+      "step": "R7",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-clinicaltrials-frontier --run-id <RUN_ID>",
+      "purpose": "resume ONE existing run from its durable checkpoint; the Worker refuses an unknown run id and never creates a run for it",
+      "do_not_run": true
+    },
+    {
+      "id": "R8.1",
+      "step": "R8",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status",
+      "purpose": "inspect totals and summary"
+    },
+    {
+      "id": "R8.2",
+      "step": "R8",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> runs",
+      "purpose": "run history, checkpoint, observations"
+    },
+    {
+      "id": "R8.3",
+      "step": "R8",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> errors",
+      "purpose": "failed runs and provenance failures"
+    },
+    {
+      "id": "R8.4",
+      "step": "R8",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 25 watch",
+      "purpose": "WATCH targets with reasons"
+    },
+    {
+      "id": "R8.5",
+      "step": "R8",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates",
+      "purpose": "durable candidates (expected: none)"
+    },
+    {
+      "id": "R9.1",
+      "step": "R9",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-oecd-turkiye-mortality:enabled 1",
+      "purpose": "ONLY after the human OECD terms verification and the reviewed registration commit are deployed",
+      "do_not_run": true
+    },
+    {
+      "id": "R9.2",
+      "step": "R9",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-oecd-turkiye-mortality",
+      "purpose": "ONE OECD run (2 invocations); refused while the terms are unresolved",
+      "do_not_run": true
+    },
+    {
+      "id": "R10.1",
+      "step": "R10",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 100 watch",
+      "purpose": "convergence: the real overlap is a WATCH target (TOO_BROAD)"
+    },
+    {
+      "id": "R10.2",
+      "step": "R10",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status",
+      "purpose": "owner actions and blockers after the runs"
+    },
+    {
+      "id": "R11.1",
+      "step": "R11",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 0",
+      "purpose": "kill switch: no manual run",
+      "do_not_run": true
+    },
+    {
+      "id": "R11.2",
+      "step": "R11",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 0",
+      "purpose": "kill switch: canary off",
+      "do_not_run": true
+    },
+    {
+      "id": "R11.3",
+      "step": "R11",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 0",
+      "purpose": "kill switch: reader off",
+      "do_not_run": true
+    },
+    {
+      "id": "R12.1",
+      "step": "R12",
+      "class": "READ_ONLY",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates",
+      "purpose": "evidence for the human review (no review endpoint exists yet; none is expected to be needed)"
+    },
+    {
+      "id": "R13.1",
+      "step": "R13",
+      "class": "REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED",
+      "run": "OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:extra_runs_authorized 1",
+      "purpose": "post-canary decision: authorize ONE extra run",
+      "do_not_run": true
+    }
   ]
 }
