@@ -1,0 +1,60 @@
+{
+  "record": "DOSSIER_R6_PLATFORM_CAPACITY_RECORDED",
+  "utc": "2026-10-04T19:47Z..19:49Z",
+  "ops_token_rotated": true,
+  "ops_token_value_exposed": false,
+  "rotation": {
+    "secret": "OPS_TOKEN",
+    "method": "wrangler secret put via stdin (256-bit random, generated locally, never printed/persisted)",
+    "result": "Success! Uploaded secret OPS_TOKEN",
+    "worker_version_after_secret_change": "4b121a92-d94a-4b2a-9b05-6318aed30dbd (Source: Secret Change; same code, d78a949)",
+    "previous_code_version": "eed750cc-7e6d-4b48-b26f-a3a039803f8d",
+    "old_token": "unrecoverable by design"
+  },
+  "operator_auth": "PASS: authenticated status 200 on the first attempt; unauthenticated probe still 401",
+  "capacity_controls_written": {
+    "platform:d1_queries_per_invocation": 1000,
+    "platform:subrequest_limit": 10000,
+    "platform:cpu_budget_ms": 30000,
+    "platform:capacity_verified": 1,
+    "updated_by": "owner-r6-capacity",
+    "order": "numbers first, verified flag last",
+    "verified_from": "OWNER_CONFIRMED_PLAN (PAID) + OFFICIAL_CLOUDFLARE_DOCS",
+    "operational_ceiling": 800
+  },
+  "readback": {
+    "operator_status": "platform_capacity {1000, 10000, 30000, capacity_verified true, blockers []}",
+    "d1_dossier_control": "exactly the four platform keys, no other control row"
+  },
+  "readiness": {
+    "platform_capacity_ready": true,
+    "dossier": "DISABLED (master switch OFF)",
+    "global_gcos": "READY, blocked [], degraded []",
+    "source_access_ready": "false (OECD terms unresolved, expected)",
+    "live_cpu_proof": "NOT_YET_OBSERVED (design and hard limits are compatible; the first canary provides the evidence)"
+  },
+  "inertness": {
+    "master": "OFF",
+    "clinicaltrials_reader": "disabled (no reader control row)",
+    "oecd_reader": "disabled",
+    "dossier_runs": 0,
+    "signal_runs": 0,
+    "other_dossier_tables": "0 rows (only dossier_control holds the 4 capacity rows)",
+    "external_source_requests": "none possible: no run row exists"
+  },
+  "secret_hygiene": "PASS: token never in arguments, output, files or repository; captured output files checked in-process (no token); transient variable cleared; shell has no OPS_TOKEN",
+  "p5": "PASS",
+  "not_performed": [
+    "master enable",
+    "reader enable",
+    "source run",
+    "deploy",
+    "migration",
+    "plan/billing change",
+    "other secret",
+    "push",
+    "merge"
+  ],
+  "next_step": "OWNER_AUTHORIZE_FIRST_CLINICALTRIALS_LIVE_CANARY",
+  "owner_note": "the new OPS_TOKEN exists only in Cloudflare; the owner must set a new one (wrangler secret put OPS_TOKEN) or rotate again to obtain a value they can use for the operator CLI"
+}

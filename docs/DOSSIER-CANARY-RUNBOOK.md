@@ -1,6 +1,6 @@
 # DOSSIER canary runbook (first controlled production canary)
 
-**Status: R1 + R2 + R3 + R4 + R5 DONE on 2026-10-04** (`docs/generated/dossier-0031-remote-apply.json`, `docs/generated/dossier-r3-disabled-deploy.json`): the 0031 schema is live and the DOSSIER-capable Worker `eed750cc` (commit `d78a949`) is deployed with the canary DISABLED; previous Worker `c617f33a` (`f684f10`) is the rollback reference. R6 onward NOT EXECUTED: no dossier source is enabled, no dossier runtime is executing, nothing is deployed from this branch. This page is the auditable path for the owner and operator; every remote step is an explicit owner action.
+**Status: R1 + R2 + R3 + R4 + R5 DONE on 2026-10-04** (`docs/generated/dossier-0031-remote-apply.json`, `docs/generated/dossier-r3-disabled-deploy.json`): the 0031 schema is live and the DOSSIER-capable Worker `eed750cc` (commit `d78a949`) is deployed with the canary DISABLED; previous Worker `c617f33a` (`f684f10`) is the rollback reference. platform capacity recorded and verified (1000 / 10000 / 30000, `docs/generated/dossier-r6-capacity-recorded.json`; OPS_TOKEN rotated by the owner, new value is not held by any agent). R6.5 onward (master switch, reader, run) NOT EXECUTED: no dossier source is enabled, no dossier runtime is executing, nothing is deployed from this branch. This page is the auditable path for the owner and operator; every remote step is an explicit owner action.
 
 ## What the package is
 
