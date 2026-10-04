@@ -23,7 +23,12 @@ export async function callDossier({ base, token, method = 'GET', path, body, fet
     headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
-  const data = await res.json().catch(() => ({}));
+  // a non-JSON answer (for example a platform error page) is reported, not swallowed: the first bytes explain a failed invocation
+  let data;
+  if (typeof res.text === 'function') {
+    const text = await res.text();
+    try { data = JSON.parse(text); } catch { data = { error: 'NON_JSON_RESPONSE', body_head: text.replace(/\s+/g, ' ').slice(0, 160) }; }
+  } else data = await res.json().catch(() => ({}));
   return { httpStatus: res.status, data };
 }
 
@@ -33,7 +38,7 @@ export async function runUntilDone({ base, token, reader, operator, maxInvocatio
   const steps = [];
   for (let i = 0; i < maxInvocations; i++) {
     const { httpStatus, data } = await callDossier({ base, token, method: 'POST', path: 'run', body: { reader_id: reader, operator, ...(runId ? { run_id: runId } : {}) }, fetchImpl });
-    steps.push({ httpStatus, status: data.status, phase: data.phase, statements: data.statementsThisInvocation, reasons: data.reasons });
+    steps.push({ httpStatus, status: data.status, phase: data.phase, statements: data.statementsThisInvocation, reasons: data.reasons, error: data.error, body_head: data.body_head });
     onStep(steps[steps.length - 1]);
     if (data.status === 'REFUSED' || httpStatus >= 400) return { final: 'REFUSED', steps, data };
     if (data.status === 'COMPLETED' || data.status === 'FAILED') return { final: data.status, steps, data };
@@ -70,7 +75,7 @@ async function main() {
   }
   if (cmd === 'run') {
     if (!a.operator) throw new Error('--operator is required');
-    const r = await runUntilDone({ base, token, reader: x, operator: a.operator, maxInvocations: a['max-invocations'] ? Number(a['max-invocations']) : 60, onStep: (s) => console.error(`step: ${s.status} ${s.phase ?? ''} statements=${s.statements ?? '-'} ${s.reasons ? s.reasons.join(',') : ''}`) });
+    const r = await runUntilDone({ base, token, reader: x, operator: a.operator, maxInvocations: a['max-invocations'] ? Number(a['max-invocations']) : 60, onStep: (s) => console.error(`step: http=${s.httpStatus} ${s.status ?? '-'} ${s.phase ?? ''} statements=${s.statements ?? '-'} ${s.reasons ? s.reasons.join(',') : ''}${s.error ? ' error=' + s.error : ''}${s.body_head ? ' body=' + s.body_head : ''}`) });
     print({ final: r.final, invocations: r.steps.length, runId: r.data?.runId ?? r.runId, progress: r.data?.progress, reasons: r.data?.reasons, error: r.data?.error });
     return r.final === 'COMPLETED' ? 0 : 1;
   }
