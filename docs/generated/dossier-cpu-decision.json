@@ -1,0 +1,72 @@
+{
+  "record": "DOSSIER_CPU_DECISION_AND_RESUME_2_PREPARATION",
+  "mode": "no production mutation; local analysis and local simulation only",
+  "authoritative_evidence": {
+    "script_settings": { "http": 200, "limits": null, "usage_model": null, "placement": null, "reading": "no explicit Worker CPU limit; usage_model null is not read as non-standard (version metadata already showed standard)" },
+    "attempt_1_analytics": [
+      { "minute": "2026-10-04T20:45Z", "status": "success", "version": "632f3711", "requests": 11, "cpuP99_ms": 464.4 },
+      { "minute": "2026-10-04T20:46Z", "status": "success", "version": "632f3711", "requests": 3, "cpuP50_ms": 428.1, "cpuP99_ms": 489.3 },
+      { "minute": "2026-10-04T20:46Z", "status": "exceededResources", "version": "632f3711", "requests": 1, "errors": 1, "cpu_ms": 237.1, "wall_ms": 10142 }
+    ],
+    "resume_1_analytics": [
+      { "minute": "2026-10-04T21:08Z", "status": "success", "version": "a7760133", "cpuP99_ms": 367.4, "wallP99_ms": 18191 },
+      { "minute": "2026-10-04T21:09Z", "status": "success", "version": "a7760133", "cpuP50_ms": 314.5, "cpuP99_ms": 319.7, "wallP99_ms": 17369 },
+      { "minute": "2026-10-04T21:10Z", "status": "success", "version": "a7760133", "cpuP99_ms": 320.2, "wallP99_ms": 17833 },
+      { "minute": "2026-10-04T21:10Z", "status": "exceededResources", "version": "a7760133", "requests": 1, "errors": 1, "cpu_ms": 119.8, "wall_ms": 6644, "tail": "outcome exceededCpu, exception: Worker exceeded CPU time limit (TAIL_EVENT_ASSOCIATION confirmed)" }
+    ],
+    "note": "analytics status is exceededResources for both failures (the broader resource-limit category, Error 1102); only the second failure has a tail event that names CPU; the first failure has no tail and is NOT retroactively called exceededCpu"
+  },
+  "hypotheses_closed": {
+    "STATIC_LOW_CPU_LIMIT_HYPOTHESIS": "REJECTED: successful requests on the same Worker and versions used 310-489 ms CPU, the failures only 237.1 and 119.8 ms",
+    "CONFIGURED_CPU_LIMIT_TOO_LOW": "REJECTED: no explicit limit anywhere (repo, version metadata, script settings)",
+    "CHAINED_WORKER_CPU_LIMIT": "REJECTED: single Worker, no service binding / DO / queue",
+    "APPLICATION_CPU_HOTSPOT": "NOT_SUPPORTED: homogeneous bounded per-concept work; the concept attempt 1 died on was later processed; failures used LESS CPU than successes",
+    "NORMAL_CPU_LIMIT_EXHAUSTION": "NOT_SUPPORTED: normal CPU is hundreds of ms against a 30 s default",
+    "TAIL_TELEMETRY_SEMANTICS_MISMATCH": "WEAKENED: the analytics API (237.1 and 119.8 ms) agrees with the tail value (119 ms)"
+  },
+  "root_cause": {
+    "ROOT_CAUSE": "UNRESOLVED_PLATFORM_ENFORCEMENT",
+    "ROOT_CAUSE_CONFIDENCE": "LOW",
+    "ROOT_CAUSE_FIX": "NONE_AVAILABLE (a platform bug is NOT claimed: the evidence shows an enforcement that no documented or configured limit explains, nothing more)",
+    "failure_rate_observed": "2 platform terminations in 12 invocations; both mid-DERIVE at 10.1 s and 6.6 s wall; about 1 per 70 s of DERIVE wall time"
+  },
+  "minimum_safe_production_package": {
+    "cpu_ms": "UNCHANGED",
+    "derive_work_budget": "d1_statements_per_invocation 800 -> 200",
+    "lease_seconds": "120 -> 45",
+    "tail": "keep the filtered runtime tail (outcome, cpuTime, wallTime, exceptions, status)",
+    "run": "ONLY crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d; refetch and new run forbidden; OECD off; frontier disabled; promotion policy unchanged",
+    "is_a_root_cause_fix": "NO. It does not prove or fix the unexplained enforcement. It reduces the work lost per termination, the wall-time exposure per invocation and the recovery granularity; it is a bounded mitigation",
+    "files_to_change_when_authorized": ["apps/worker/src/dossier/canary-profile.ts (two constants and their rationale)", "tests that pin 800 / 120 / 14 invocations / 763 / 11258 (canary-limits, platform-capacity, burnin, release-manifest, migration-rehearsal artifact)", "release/dossier-canary-release-manifest.json (regenerated)", "docs/DOSSIER-CANARY-RUNBOOK.md"],
+    "deploy_required": true,
+    "schema_change": false
+  },
+  "local_verification_of_the_mitigation": {
+    "method": "profile clone with budget 200 and lease 45 on the recorded real page, in-memory SQLite, no repository change",
+    "profile_validation": [],
+    "full_run": { "final": "COMPLETED", "invocations": 73, "max_statements_per_invocation": 168, "total_statements": 10589 },
+    "same_durable_result_as_800_run": true,
+    "derive_concepts_per_invocation": { "min": 7, "max": 8, "mean": 7.1 },
+    "kill_sweep": "kills at 10/30/50/70/90 % all resumed to the same durable state with exactly one source request",
+    "remaining_live_work": "108 concepts ~ 16 invocations of ~165 statements plus FINALIZE",
+    "expected_per_invocation_at_200": "~165 statements, ~70 ms CPU (0.42 ms per statement), ~4 s wall (about 23 ms per statement measured live: 17.5 s / 752)"
+  },
+  "lease_validation": {
+    "mechanism": "one lease per run taken at invocation start (UPDATE ... WHERE lease_holder IS NULL OR lease_expires_at <= now), cleared by the invocation's own final save, never refreshed in flight; units are idempotent",
+    "healthy_wall": "17-18 s at the 800 budget (measured); ~4-5 s expected at 200",
+    "margin_at_45_s": "about 9x at the 200 budget (2.5x at 800)",
+    "overlap_possibility": "a second invocation can take the lease only if the first died or ran longer than the lease; harm is bounded to duplicate idempotent work (kill and concurrency tests); the runner has no wall-clock guard, an optional guard (pause when elapsed > half the lease) would make overlap impossible",
+    "PROPOSED_LEASE_SECONDS": 45
+  },
+  "completion_odds_caveat": {
+    "finding": "under the stated rule 'first new exceeded* / 5xx = stop', a smaller slice does NOT raise the chance of finishing: with a hazard of about 1 termination per 70 s of DERIVE wall time, the remaining ~50 s of work gives about a 50% chance of no termination at any slice size (and if the hazard were per invocation, 16 small invocations would be worse than 3 large ones)",
+    "what_the_mitigation_does_buy": "each termination loses at most ~7 concepts / ~165 statements instead of ~37 / ~750, and the lease wait is 45 s instead of 120 s",
+    "owner_decision": "to make completion likely, the recovery rule could allow bounded recoveries (for example up to 3 platform terminations, each followed by waiting out the lease, then resume the SAME run; stop at the 4th or at any non-platform failure). A kill leaves a consistent durable state (proven by the kill sweeps), so this does not weaken P1 or P5. The prompt's strict first-failure-stop rule is kept in the package unless the owner changes it."
+  },
+  "decision": {
+    "SAFE_MITIGATION_PATH": "YES",
+    "RESUME_2_TECHNICALLY_READY": "YES: the package is defined and locally verified; the implementation (two constants plus pin updates) is part of the authorized package and is not yet done",
+    "readiness": "98%",
+    "next_step": "OWNER_AUTHORIZE_BOUNDED_SAME_RUN_RESUME_2"
+  }
+}
