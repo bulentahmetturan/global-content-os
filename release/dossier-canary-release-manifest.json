@@ -2,7 +2,7 @@
   "manifest": "DOSSIER_CANARY_RELEASE_MANIFEST",
   "manifest_version": 1,
   "branch": "dossier-discovery-foundation",
-  "generated_against_commit": "08cb25a30f9c6fb2fb1ce3c4b181f7065618bd4a",
+  "generated_against_commit": "40aa16531807d25e36002e7cd6233323a52828b7",
   "base_main_commit": "f684f10b360e8013638dc5dbf01ded06bc6936c6",
   "live_production_expected_schema_before_release": "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
   "commit_pinning": "the owner records `git rev-parse HEAD` at R0; the manifest body and the checksums below are what must match, not this file's own commit id",
