@@ -1,0 +1,196 @@
+{
+  "REMOTE_0031_REHEARSAL": "PASS",
+  "REMOTE_MUTATION": "NOT_APPLIED",
+  "migration_filename": "0031_dossier_discovery_foundation.sql",
+  "sha256_lf_normalized": "5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343",
+  "objects_created": 78,
+  "tables_created": 21,
+  "indexes_created": 17,
+  "triggers_created": 40,
+  "existing_objects_modified": 0,
+  "existing_rows_modified": 0,
+  "fresh_test": "PASS",
+  "upgrade_test": "PASS",
+  "worker_boot_test": "PASS",
+  "seeded_rows_total": 899,
+  "baseline_row_counts_nonzero": {
+    "approved_briefs": 1,
+    "decided_links": 1,
+    "editorial_decisions": 1,
+    "evergreen_runtime_state": 1,
+    "evidence_cards": 1,
+    "handoff_log": 1,
+    "item_path_membership": 3,
+    "production_status": 1,
+    "source_feeds": 883,
+    "source_items": 4,
+    "source_routes": 1,
+    "tip_toplulugu_source_telemetry": 1
+  },
+  "constraint_probes": {
+    "valid TIME_SENSITIVE": "ACCEPTED",
+    "valid EVERGREEN": "ACCEPTED",
+    "invalid acquisition_path": "CHECK constraint failed: acquisition_path IS NULL OR acquisition_path IN ('TIME_SENSITIVE', 'EVERGREEN')",
+    "invalid triage_status": "CHECK constraint failed: triage_status IN ('inbox', 'hold', 'production', 'trash')",
+    "invalid temporal_path": "CHECK constraint failed: temporal_path IN ('TIME_SENSITIVE', 'EVERGREEN')",
+    "invalid evergreen_view": "CHECK constraint failed: evergreen_view IS NULL OR evergreen_view IN ('health_reference', 'research_rediscovery')",
+    "duplicate primary key": "UNIQUE constraint failed: evergreen_runtime_state.source_id",
+    "invalid handoff_status": "CHECK constraint failed: handoff_status IN ('pending', 'stubbed', 'sent', 'failed')"
+  },
+  "worker_boot": {
+    "pre_0031": {
+      "label": "pre-0031 schema (0031 NOT applied)",
+      "liveness_http": 200,
+      "ready_http": 200,
+      "ready_level": "DEGRADED",
+      "ready_degraded_reasons": [
+        "SCHEMA_VERSION_UNKNOWN",
+        "CRON_HEARTBEAT_STALE",
+        "STATUS_CALLBACK_TOKEN_NOT_CONFIGURED",
+        "INGEST_TOKEN_NOT_CONFIGURED",
+        "OPENALEX_API_KEY_NOT_CONFIGURED"
+      ],
+      "ready_dossier_level": "DISABLED",
+      "dossier_surface_without_credentials_http": 401,
+      "status_http": 409,
+      "status_error": "DOSSIER_SCHEMA_NOT_APPLIED",
+      "status_env_master_switch": null,
+      "readiness_dossier_level": "DISABLED",
+      "run_http": 409,
+      "run_refused_reasons": "DOSSIER_SCHEMA_NOT_APPLIED",
+      "dossier_rows_created_by_boot": "TABLES_ABSENT"
+    },
+    "upgraded": {
+      "label": "upgraded schema (0031 applied)",
+      "liveness_http": 200,
+      "ready_http": 200,
+      "ready_level": "DEGRADED",
+      "ready_degraded_reasons": [
+        "SCHEMA_VERSION_UNKNOWN",
+        "CRON_HEARTBEAT_STALE",
+        "STATUS_CALLBACK_TOKEN_NOT_CONFIGURED",
+        "INGEST_TOKEN_NOT_CONFIGURED",
+        "OPENALEX_API_KEY_NOT_CONFIGURED"
+      ],
+      "ready_dossier_level": "DISABLED",
+      "dossier_surface_without_credentials_http": 401,
+      "status_http": 200,
+      "status_error": null,
+      "status_env_master_switch": false,
+      "readiness_dossier_level": "DISABLED",
+      "run_http": 409,
+      "run_refused_reasons": [
+        "ENV_CANARY_DISABLED",
+        "PLATFORM_CAPACITY_NOT_VERIFIED",
+        "PLATFORM_CAPACITY_VALUES_MISSING",
+        "CANARY_DISABLED_BY_OPERATOR",
+        "MANUAL_RUNS_NOT_ALLOWED",
+        "READER_DISABLED"
+      ],
+      "dossier_rows_created_by_boot": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "static preflight passes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "pre-0031 schema contains no dossier object",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "baseline seeded: both temporal paths and the Evergreen runtime state have rows",
+      "ok": true,
+      "detail": "{\"items\":4,\"membership\":3,\"feeds\":883}"
+    },
+    {
+      "name": "baseline integrity",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "all pre-existing row counts preserved",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "all pre-existing row values preserved (per-table content digest)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "every pre-existing schema object unchanged (tables, indexes, triggers, views: exact SQL)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "every pre-existing column definition unchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "existing CHECK / PK semantics unchanged (same accept/reject outcome for every probe)",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "integrity after upgrade",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "TIME_SENSITIVE path rows unchanged (items + membership)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "EVERGREEN path rows and Evergreen runtime state unchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "only the audited dossier objects were added (exact set)",
+      "ok": true,
+      "detail": "78 added vs 78 audited"
+    },
+    {
+      "name": "the upgrade seeds no dossier row",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "re-applying 0031 is safe (idempotent) and changes nothing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fresh migration (all files) applies",
+      "ok": true,
+      "detail": "30 files"
+    },
+    {
+      "name": "fresh schema equals the upgraded schema byte for byte (all objects)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fresh database integrity",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Worker boots on the pre-0031 schema: liveness 200, GCOS not blocked, DOSSIER feature disabled, no run possible",
+      "ok": true,
+      "detail": "{\"label\":\"pre-0031 schema (0031 NOT applied)\",\"liveness_http\":200,\"ready_http\":200,\"ready_level\":\"DEGRADED\",\"ready_degraded_reasons\":[\"SCHEMA_VERSION_UNKNOWN\",\"CRON_HEARTBEAT_STALE\",\"STATUS_CALLBACK_TOKEN_NOT_CONFIGURED\",\"INGEST_TOKEN_NOT_CONFIGURED\",\"OPENALEX_API_KEY_NOT_CONFIGURED\"],\"ready_dossier_level\":\"DISABLED\",\"dossier_surface_without_credentials_http\":401,\"status_http\":409,\"status_error\":\"DOSSIER_SCHEMA_NOT_APPLIED\",\"status_env_master_switch\":null,\"readiness_dossier_level\":\"DISABLED\",\"run_http\":409,\"run_refused_reasons\":\"DOSSIER_SCHEMA_NOT_APPLIED\",\"dossier_rows_created_by_boot\":\"TABLES_ABSENT\"}"
+    },
+    {
+      "name": "Worker boots on the upgraded schema: liveness 200, GCOS ready, DOSSIER disabled (master switch off), no run, no row created",
+      "ok": true,
+      "detail": "{\"label\":\"upgraded schema (0031 applied)\",\"liveness_http\":200,\"ready_http\":200,\"ready_level\":\"DEGRADED\",\"ready_degraded_reasons\":[\"SCHEMA_VERSION_UNKNOWN\",\"CRON_HEARTBEAT_STALE\",\"STATUS_CALLBACK_TOKEN_NOT_CONFIGURED\",\"INGEST_TOKEN_NOT_CONFIGURED\",\"OPENALEX_API_KEY_NOT_CONFIGURED\"],\"ready_dossier_level\":\"DISABLED\",\"dossier_surface_without_credentials_http\":401,\"status_http\":200,\"status_error\":null,\"status_env_master_switch\":false,\"readiness_dossier_level\":\"DISABLED\",\"run_http\":409,\"run_refused_reasons\":[\"ENV_CANARY_DISABLED\",\"PLATFORM_CAPACITY_NOT_VERIFIED\",\"PLATFORM_CAPACITY_VALUES_MISSING\",\"CANARY_DISABLED_BY_OPERATOR\",\"MANUAL_RUNS_NOT_ALLOWED\",\"READER_DISABLED\"],\"dossier_rows_created_by_boot\":0}"
+    }
+  ],
+  "timestamp": "2026-10-04T00:36:15.616Z"
+}

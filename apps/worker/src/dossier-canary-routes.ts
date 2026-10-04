@@ -98,6 +98,8 @@ export async function handleDossierCanary(request: Request, env: Env, path: stri
   } catch (e) {
     // only our own typed errors carry an operator-safe message; anything else (driver/SQL text) is not echoed
     if (e instanceof DossierError) return j({ error: 'DOSSIER_CANARY_ERROR', message: e.message.slice(0, 300) }, 400);
+    // migration 0031 not applied yet (expected before the approved migration): a clear refusal, never a 500 and never a mutation
+    if (/no such table: dossier_/i.test(String((e as { message?: unknown })?.message ?? ''))) return j({ error: 'DOSSIER_SCHEMA_NOT_APPLIED' }, 409);
     return j({ error: 'DOSSIER_CANARY_ERROR', message: 'internal_error' }, 500);
   }
 }
