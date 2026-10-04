@@ -106,7 +106,7 @@ OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> readi
 OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status
 ```
 
-R6 enable only the approved readers for CANARY_V1. Two independent switches must both be on: redeploy with the env master switch (`--var DOSSIER_CANARY_ENABLED:true`, no code change), and set the operator controls (each is attributed):
+R6 first record and verify the platform capacity (R6.1-R6.4: the owner-verified D1 query limit, subrequest limit and CPU budget, then `platform:capacity_verified 1`; without it no run is allowed and the DOSSIER readiness is BLOCKED_FOR_RUN), then enable only the approved readers for CANARY_V1. Two independent switches must both be on: redeploy with the env master switch (`--var DOSSIER_CANARY_ENABLED:true`, no code change), and set the operator controls (each is attributed):
 
 ```bash
 OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 1
@@ -134,6 +134,52 @@ R12 human review of the WATCH / candidate evidence. Note: the human review servi
 R13 decide: continue (authorize an extra run with `control reader:<id>:extra_runs_authorized 1`), operationally roll back (below), or recalibrate the profile in a reviewed commit.
 
 No recurring scheduler exists or is created.
+
+## Command catalog (audited)
+
+Source of truth: `release/dossier-canary-commands.json` (checked by `command-audit.test.mjs`: classification vs text, server-side acceptance of every control key/value, `--help` / `--dry-run` availability). Classes: **READ_ONLY** (changes nothing anywhere), **LOCAL_ONLY** (this machine only), **REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED** (DO NOT RUN without explicit owner authorization for that step). Before R6 the owner records the verified platform capacity (R6.1-R6.4); the environment switch (R6.9) comes only after that.
+
+| Id | Class | Command | Purpose |
+|---|---|---|---|
+| R0.1 | LOCAL_ONLY | `npm run production:check` | full local gate (tests, router links, invariants) |
+| R0.2 | LOCAL_ONLY | `node scripts/dossier-0031-preflight.mjs` | static + local-apply preflight; prints the pinned sha256_lf_normalized |
+| R0.3 | LOCAL_ONLY | `node scripts/dossier-0031-rehearsal.mjs` | seeded pre-0031 -> 0031 rehearsal + Worker boot (docs/generated/dossier-0031-preflight.json with --write) |
+| R0.4 | LOCAL_ONLY | `node scripts/dossier-release-manifest.mjs` | prints the release manifest derived from the code |
+| R0.5 | LOCAL_ONLY | `git rev-parse HEAD` | pin the exact commit |
+| R0.6 | LOCAL_ONLY | `npx wrangler deploy --dry-run` | builds the Worker and lists its bindings; deploys nothing |
+| R1.1 | READ_ONLY | `npx wrangler d1 migrations list global-content-os --remote` | exactly one pending migration must be listed: 0031_dossier_discovery_foundation.sql |
+| R1.2 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `npx wrangler d1 migrations apply global-content-os --remote` | applies 0031 (additive, dossier-only, idempotent) |
+| R2.1 | READ_ONLY | `npx wrangler d1 execute global-content-os --remote --command "SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1"` | newest applied migration is 0031 |
+| R2.2 | READ_ONLY | `npx wrangler d1 execute global-content-os --remote --command "SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'table' AND name LIKE 'dossier_%'"` | 21 dossier tables exist |
+| R3.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)` | deploys the Worker with DOSSIER_CANARY_ENABLED="false" (checked-in default); only after R1/R2 |
+| R3.2 | READ_ONLY | `node scripts/deploy-identity.mjs --live <worker-url>` | compares the live commit/schema identity with the local one |
+| R4.1 | READ_ONLY | `curl -sS <worker-url>/api/ready` | GCOS readiness unchanged; dossier.level DISABLED |
+| R5.1 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> readiness` | DOSSIER readiness components |
+| R5.2 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status` | status, operator_summary, owner actions still required |
+| R6.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:d1_queries_per_invocation <VERIFIED_D1_QUERIES_PER_INVOCATION>` | record the owner-verified D1 limit |
+| R6.2 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:subrequest_limit <VERIFIED_SUBREQUEST_LIMIT>` | record the owner-verified subrequest limit |
+| R6.3 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:cpu_budget_ms <VERIFIED_CPU_BUDGET_MS>` | record the owner-verified CPU budget |
+| R6.4 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control platform:capacity_verified 1` | assert the capacity verification (refused unless all three numbers are recorded) |
+| R6.5 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 1` | global operator switch |
+| R6.6 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 1` | allow manual runs |
+| R6.7 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control promotion_enabled 1` | allow the convergence promotion route (still no ACCEPT, no publication) |
+| R6.8 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 1` | enable the ClinicalTrials reader only |
+| R6.9 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars) --var DOSSIER_CANARY_ENABLED:true` | environment master switch ON (no code change) |
+| R7.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-clinicaltrials-frontier` | ONE ClinicalTrials run: one source request, ~14 bounded invocations |
+| R8.1 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status` | inspect totals and summary |
+| R8.2 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> runs` | run history, checkpoint, observations |
+| R8.3 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> errors` | failed runs and provenance failures |
+| R8.4 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 25 watch` | WATCH targets with reasons |
+| R8.5 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates` | durable candidates (expected: none) |
+| R9.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-oecd-turkiye-mortality:enabled 1` | ONLY after the human OECD terms verification and the reviewed registration commit are deployed |
+| R9.2 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-oecd-turkiye-mortality` | ONE OECD run (2 invocations); refused while the terms are unresolved |
+| R10.1 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --limit 100 watch` | convergence: the real overlap is a WATCH target (TOO_BROAD) |
+| R10.2 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> status` | owner actions and blockers after the runs |
+| R11.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control manual_runs_allowed 0` | kill switch: no manual run |
+| R11.2 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control canary_enabled 0` | kill switch: canary off |
+| R11.3 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 0` | kill switch: reader off |
+| R12.1 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates` | evidence for the human review (no review endpoint exists yet; none is expected to be needed) |
+| R13.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:extra_runs_authorized 1` | post-canary decision: authorize ONE extra run |
 
 ## Stop conditions (stop and inspect; do not continue)
 
