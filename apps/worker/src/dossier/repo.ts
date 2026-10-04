@@ -300,6 +300,26 @@ export class DossierRepo {
     );
     return id;
   }
+  /**
+   * A new PROPOSED concept together with its canonical-name alias in ONE atomic batch (D1 batch = one transaction): a process killed between the two
+   * writes can never leave a concept without its canonical alias. Same statements and same id/clock order as createConcept + addAlias.
+   */
+  async createConceptWithCanonicalAlias(c: { label: string; domain?: string | null; concept_class?: string | null; proposal_family?: string | null }, language = ''): Promise<string> {
+    const id = this.ctx.id('con');
+    const now = this.ctx.now();
+    const conceptStmt = this.db
+      .prepare(`INSERT INTO dossier_concepts (concept_id, label, normalized_label, domain, concept_class, proposal_family, parent_concept_id, state, created_at, updated_at) VALUES (?,?,?,?,?,?,?,'PROPOSED',?,?)`)
+      .bind(id, c.label, normalizeLabel(c.label), c.domain ?? null, c.concept_class ?? null, c.proposal_family ?? null, null, now, now);
+    const aliasStmt = this.db
+      .prepare(`INSERT OR IGNORE INTO dossier_aliases (alias_id, concept_id, alias_text, normalized_alias, language, alias_type, status, created_at) VALUES (?,?,?,?,?,?, 'ACTIVE', ?)`)
+      .bind(this.ctx.id('al'), id, c.label, normalizeLabel(c.label), language, 'CANONICAL_NAME', this.ctx.now());
+    if (this.db.batch) await this.db.batch([conceptStmt, aliasStmt]);
+    else {
+      await conceptStmt.run();
+      await aliasStmt.run();
+    }
+    return id;
+  }
   getConcept(conceptId: string): Promise<Row | null> {
     return this.first(`SELECT * FROM dossier_concepts WHERE concept_id = ?`, conceptId);
   }

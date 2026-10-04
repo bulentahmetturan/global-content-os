@@ -214,7 +214,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
         await exec(db, `INSERT OR IGNORE INTO dossier_canary_work (run_id, seq, payload_json, status) VALUES ${part.map(() => '(?,?,?,\'PENDING\')').join(',')}`, ...part.flatMap((it, k) => [live.run_id, i + k, json(it)]));
       }
       phase = 'INGEST';
-      await persistCheckpoint(db, live.run_id, exec1.checkpoint);
+      // the fetched work, the checkpoint AND the phase change are persisted by one statement: a process killed right after the fetch resumes in INGEST and never asks the source again
+      await persistFetched(db, live.run_id, exec1.checkpoint, progress);
     }
 
     // ================= INGEST =================
@@ -267,6 +268,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
       if (budget.remaining() >= TAIL_RESERVE + 10) {
         const finishedAt = now();
         const obs = (await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_observations WHERE run_id = ?`, live.run_id))?.n ?? 0;
+        // items_new is derived from durable state, not from in-memory counters: units finished by an invocation that was killed before it could save its progress are still counted
+        progress.itemsNew = Number((await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_external_source_items WHERE acquisition_source_id = ? AND first_seen_at >= ?`, reg.canonical_source_id, progress.startedAt))?.n ?? 0);
         if (!(await repo.getSignalRun(live.run_id))) {
           await repo.recordSignalRun({ run_id: live.run_id, reader_id: reg.dossier_reader_id, source_ref: reg.canonical_source_id, started_at: progress.startedAt, finished_at: finishedAt, status: 'SUCCEEDED', items_seen: progress.itemsSeen, items_new: progress.itemsNew, observations_written: Number(obs), reader_version: READER_VERSION, error_summary: null });
         }
@@ -297,8 +300,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   return { status, runId: live.run_id, phase, progress, statementsThisInvocation: budget.used(), error };
 }
 
-async function persistCheckpoint(db: D1Like, runId: string, checkpoint: unknown): Promise<void> {
-  await exec(db, `UPDATE dossier_canary_runs SET checkpoint_json = ? WHERE run_id = ?`, json(checkpoint), runId);
+async function persistFetched(db: D1Like, runId: string, checkpoint: unknown, progress: CanaryProgress): Promise<void> {
+  await exec(db, `UPDATE dossier_canary_runs SET checkpoint_json = ?, phase = 'INGEST', progress_json = ? WHERE run_id = ?`, json(checkpoint), json(progress), runId);
 }
 
 /** Convenience for tests, simulations and the operator CLI: invoke until the run is COMPLETED / FAILED / REFUSED (bounded by `maxInvocations`). */

@@ -32,13 +32,10 @@ export async function resolveLabel(repo: DossierRepo, input: LabelInput): Promis
     return { outcome: 'MATCHED_EXISTING', conceptId: r.conceptId, state: String(survivor?.state ?? r.state ?? 'UNKNOWN'), created: false };
   }
   // No match: a provisional, human-reviewable identity. PROPOSED is not canonical and never becomes ACTIVE here.
-  const conceptId = await repo.createConcept({
-    label: input.label.trim(),
-    domain: r.proposal.domain,
-    concept_class: input.conceptClass ?? null,
-    proposal_family: r.proposal.family,
-  });
-  await repo.addAlias({ concept_id: conceptId, alias_text: input.label.trim(), language: input.language ?? '', alias_type: 'CANONICAL_NAME' });
+  const conceptId = await repo.createConceptWithCanonicalAlias(
+    { label: input.label.trim(), domain: r.proposal.domain, concept_class: input.conceptClass ?? null, proposal_family: r.proposal.family },
+    input.language ?? '',
+  );
   return { outcome: 'PROPOSED', conceptId, created: true };
 }
 
