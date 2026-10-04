@@ -106,7 +106,7 @@
       "LIFE_EXPECTANCY": "NONE",
       "ALL_CAUSE_MORTALITY": "NONE",
       "CAUSE_SPECIFIC_MORTALITY": "NONE",
-      "MORBIDITY": "NONE",
+      "MORBIDITY": "PRIMARY",
       "DISEASE_BURDEN": "NONE",
       "COMMUNICABLE_DISEASE": "NONE",
       "CANCER": "NONE",
@@ -122,15 +122,15 @@
       "RISK_FACTORS": "NONE",
       "DISABILITY": "NONE",
       "HEALTH_INEQUALITY": "NONE",
-      "HEALTHCARE_UTILIZATION": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
       "HOSPITAL_CAPACITY": "NONE",
       "HEALTH_WORKFORCE": "NONE",
-      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "NONE",
       "HEALTH_FINANCING_INSURANCE": "PRIMARY",
       "PRIMARY_PREVENTIVE_CARE": "NONE",
       "SCREENING": "NONE",
       "ENVIRONMENTAL_HEALTH": "NONE",
-      "OCCUPATIONAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
       "OTHER_PUBLIC_HEALTH": "NONE"
     },
     "TR_HACETTEPE_HIPS_TNSA": {
@@ -708,6 +708,38 @@
       "ENVIRONMENTAL_HEALTH": "NONE",
       "OCCUPATIONAL_HEALTH": "NONE",
       "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "ILOSTAT_OSH": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
+      "OTHER_PUBLIC_HEALTH": "NONE"
     }
   },
   "domain_summary": {
@@ -806,7 +838,8 @@
     },
     "MORBIDITY": {
       "turkey_sources": [
-        "TURKSTAT_HEALTH_STATISTICS"
+        "TURKSTAT_HEALTH_STATISTICS",
+        "SGK_HEALTH_STATISTICS"
       ],
       "global_primary_sources_with_turkey": [
         "EUROSTAT_HEALTH",
@@ -821,7 +854,7 @@
       ],
       "turkey_gap": "NO",
       "unique_value": "NO",
-      "overlap_count": 6
+      "overlap_count": 7
     },
     "DISEASE_BURDEN": {
       "turkey_sources": [],
@@ -1134,8 +1167,7 @@
     },
     "HEALTHCARE_UTILIZATION": {
       "turkey_sources": [
-        "TR_MINISTRY_OF_HEALTH_STATISTICS",
-        "SGK_HEALTH_STATISTICS"
+        "TR_MINISTRY_OF_HEALTH_STATISTICS"
       ],
       "global_primary_sources_with_turkey": [
         "EUROSTAT_HEALTH",
@@ -1147,7 +1179,7 @@
       ],
       "turkey_gap": "NO",
       "unique_value": "NO",
-      "overlap_count": 4
+      "overlap_count": 3
     },
     "HOSPITAL_CAPACITY": {
       "turkey_sources": [
@@ -1191,8 +1223,7 @@
     },
     "HEALTH_EXPENDITURE": {
       "turkey_sources": [
-        "TURKSTAT_HEALTH_STATISTICS",
-        "SGK_HEALTH_STATISTICS"
+        "TURKSTAT_HEALTH_STATISTICS"
       ],
       "global_primary_sources_with_turkey": [
         "WHO_HEALTH_STATISTICS",
@@ -1210,7 +1241,7 @@
       ],
       "turkey_gap": "NO",
       "unique_value": "NO",
-      "overlap_count": 8
+      "overlap_count": 7
     },
     "HEALTH_FINANCING_INSURANCE": {
       "turkey_sources": [
@@ -1276,18 +1307,22 @@
       "overlap_count": 3
     },
     "OCCUPATIONAL_HEALTH": {
-      "turkey_sources": [],
+      "turkey_sources": [
+        "SGK_HEALTH_STATISTICS"
+      ],
       "global_primary_sources_with_turkey": [
         "WHO_HEALTH_STATISTICS",
-        "IHME_GBD"
+        "IHME_GBD",
+        "ILOSTAT_OSH"
       ],
       "global_primary_sources_any": [
         "WHO_HEALTH_STATISTICS",
-        "IHME_GBD"
+        "IHME_GBD",
+        "ILOSTAT_OSH"
       ],
-      "turkey_gap": "YES",
+      "turkey_gap": "NO",
       "unique_value": "NO",
-      "overlap_count": 2
+      "overlap_count": 4
     },
     "OTHER_PUBLIC_HEALTH": {
       "turkey_sources": [

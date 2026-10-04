@@ -9,48 +9,50 @@
   "third_temporal_path_created": false,
   "stats": {
     "turkey_families": 5,
-    "global_families": 26,
+    "global_families": 27,
     "by_disposition": {
       "CANONICAL_GATED": 7,
-      "PRIMARY_CANONICAL": 12,
+      "PRIMARY_CANONICAL": 13,
       "SECONDARY_NORMALIZED": 3,
       "DISCOVERY_CROSSCHECK": 4,
       "REFERENCE_METHODOLOGY": 5
     },
-    "dataset_rows": 75,
-    "dataset_families_inventoried": 19,
-    "legal_terms_unknown_count": 14,
+    "dataset_rows": 90,
+    "dataset_families_inventoried": 20,
+    "legal_terms_unknown_count": 10,
     "legal_terms_unknown": [
       "TURKSTAT_HEALTH_STATISTICS",
       "TR_MINISTRY_OF_HEALTH_STATISTICS",
       "HSGM_PUBLIC_HEALTH_STATISTICS",
       "SGK_HEALTH_STATISTICS",
       "TR_HACETTEPE_HIPS_TNSA",
-      "WHO_HEALTH_STATISTICS",
       "UNICEF_DATA",
-      "US_CENSUS_HEALTH",
       "OECD_HEALTH_STATISTICS",
-      "IHME_GBD",
-      "IARC_GLOBAL_CANCER_OBSERVATORY",
       "UNAIDS_DATA",
-      "ECDC_SURVEILLANCE",
-      "NCD_RISC"
+      "NCD_RISC",
+      "ILOSTAT_OSH"
     ],
-    "revision_unknown_count": 4,
-    "revision_unknown": [
-      "TURKSTAT_HEALTH_STATISTICS",
-      "TR_MINISTRY_OF_HEALTH_STATISTICS",
-      "HSGM_PUBLIC_HEALTH_STATISTICS",
-      "SGK_HEALTH_STATISTICS"
-    ],
-    "machine_access_unknown_count": 5,
-    "machine_access_unknown": [
-      "TURKSTAT_HEALTH_STATISTICS",
-      "IHME_GBD",
+    "terms_partial": [
+      "WHO_HEALTH_STATISTICS",
+      "WORLD_BANK_HEALTH",
+      "EUROSTAT_HEALTH",
+      "UN_WORLD_POPULATION_PROSPECTS",
+      "UK_ONS_HEALTH",
       "IARC_GLOBAL_CANCER_OBSERVATORY",
-      "UNAIDS_DATA",
       "ECDC_SURVEILLANCE"
-    ]
+    ],
+    "terms_verified": [
+      "CDC_NCHS_HEALTH_STATISTICS",
+      "US_CENSUS_HEALTH",
+      "IHME_GBD"
+    ],
+    "revision_unknown_count": 2,
+    "revision_unknown": [
+      "TR_MINISTRY_OF_HEALTH_STATISTICS",
+      "HSGM_PUBLIC_HEALTH_STATISTICS"
+    ],
+    "machine_access_unknown_count": 0,
+    "machine_access_unknown": []
   },
   "tree": {
     "HEALTH_STATISTICS": {
@@ -70,7 +72,8 @@
           "UNICEF_DATA",
           "CDC_NCHS_HEALTH_STATISTICS",
           "US_CENSUS_HEALTH",
-          "UK_ONS_HEALTH"
+          "UK_ONS_HEALTH",
+          "ILOSTAT_OSH"
         ],
         "CANONICAL_GATED": [
           "OECD_HEALTH_STATISTICS",
@@ -111,35 +114,32 @@
       "disposition": "CANONICAL_GATED",
       "authority_level": "1_NATIONAL_STATISTICAL_AUTHORITY",
       "official_homepage": "https://www.tuik.gov.tr/",
-      "official_data_portal": "https://veriportali.tuik.gov.tr/ (data.tuik.gov.tr 301-redirects here); legacy query tool https://biruni.tuik.gov.tr/medas/?kn=93&locale=tr",
-      "official_api_docs": "UNKNOWN (veriportali.tuik.gov.tr/api/ answers with a 'Veri Portalı v1.0.1094' banner, so an API exists, but no public documentation was found)",
+      "official_data_portal": "https://veriportali.tuik.gov.tr/ (SPA); SDMX 2.1 REST service https://nsiws.tuik.gov.tr/rest/ (agency TR); token service https://giris.tuik.gov.tr/realms/web/protocol/openid-connect/token; release calendar https://www.tuik.gov.tr/Kurumsal/Veri_Takvimi; revision policy https://www.tuik.gov.tr/Kurumsal/Revizyon_Politikasi",
+      "official_api_docs": "https://veriportali.tuik.gov.tr/tr/sdmx-web-service-documentation (documentation page inside the portal; text read from the public JS bundle)",
       "official_terms_url": "UNKNOWN",
       "official_license_url": "UNKNOWN",
       "machine_access": [
-        "OTHER",
-        "XLSX",
-        "PDF",
-        "MANUAL"
+        "SDMX"
       ],
-      "authentication": "UNKNOWN",
-      "public_access": "YES",
-      "automation_allowed": "UNKNOWN",
+      "authentication": "API_KEY (SMS-verified portal account → API key → OAuth access token with client_id nsi-ws-consumer; or TÜİK-issued client credentials; unauthenticated call returned HTTP 401)",
+      "public_access": "PARTIAL (portal UI public; SDMX service requires token)",
+      "automation_allowed": "YES (documented machine service; terms of use UNKNOWN)",
       "commercial_reuse": "UNKNOWN",
       "attribution_required": "UNKNOWN",
-      "rate_limit": "UNKNOWN",
+      "rate_limit": "UNKNOWN (none stated in the service documentation read)",
       "geographic_coverage": "Türkiye; NUTS-style regions/provinces for some series",
       "includes_turkey": "YES",
       "historical_depth": "Varies by bulletin (death & cause-of-death statistics annual, long history)",
-      "update_cadence": "Annual bulletins; death statistics: 2024 edition ~2025-06, 2025 edition ~2026-06 (per secondary reports, UNVERIFIED on TÜİK site); health expenditure: 2024 edition ~2025-12",
-      "release_model": "Dated bulletin per statistical product (Bülten) + tables",
+      "update_cadence": "Per statistical product; national release calendar page; bulletins numbered/dated",
+      "release_model": "Dated bulletin (press release) + SDMX dataflow with versioned DF/DSD/codelists",
       "reference_period_model": "Calendar year (reference year != publication date)",
-      "revision_model": "UNKNOWN (TÜİK publishes revision policy per product; not checked)",
-      "revision_history_available": "UNKNOWN",
+      "revision_model": "Policy-governed: published revision policy, current-year revision plan and past-year revisions page; SDMX returns current values; per-observation revision history not documented",
+      "revision_history_available": "PARTIAL (past-year revisions page; not in SDMX)",
       "local_revision_snapshot_required": "YES",
-      "stable_dataset_ids": "UNKNOWN",
-      "stable_indicator_ids": "UNKNOWN",
-      "stable_geography_ids": "PARTIAL (province/NUTS codes in tables)",
-      "pagination_or_bounded_query": "UNKNOWN",
+      "stable_dataset_ids": "YES (SDMX dataflow ids, agency TR, versioned; health flow ids not enumerated — listing needs a token)",
+      "stable_indicator_ids": "YES (CL_GOSTERGE codelist v7.2 in the documented example)",
+      "stable_geography_ids": "YES (CL_IBBS codelist = NUTS/IBBS, v1.1 in the documented example)",
+      "pagination_or_bounded_query": "YES (series key in DSD dimension order, startPeriod/endPeriod, format=JSON|SDMX-CSV|SDMX_2.1_STRUCTURED, default SDMX-ML Generic)",
       "health_domains": [
         "POPULATION_DEMOGRAPHY",
         "LIFE_EXPECTANCY",
@@ -170,27 +170,42 @@
         "WHO Mortality Database & GHO (downstream copy of TR death data)",
         "UN WPP (modelled, independent)"
       ],
-      "recommended_future_reader_type": "RELEASE_FILE_READER",
-      "recommended_future_poll_strategy": "Poll the bulletin calendar/category page for new dated bulletins; fetch only the new bulletin's table files",
-      "recommended_future_bounds": "One bulletin/product per run; no portal crawl",
+      "recommended_future_reader_type": "SDMX_READER",
+      "recommended_future_poll_strategy": "Daily/weekly: read national release calendar for health products, then fetch dataflow structure version + bounded data slice after a bulletin date; never list/crawl all flows each run",
+      "recommended_future_bounds": "Dataflow whitelist × series key × startPeriod (since last checkpoint)",
       "future_pipeline_priority": "P0",
-      "legal_gate": "Reuse/automation terms for veriportali NOT found in this phase (UNKNOWN != allowed). robots.txt checked: User-agent list incl. Claude/GPT bots has 'Allow: /' (not disallowed).",
-      "technical_gate": "veriportali is a JS single-page app (3.7 KB shell); public API undocumented; MEDAS is a ZK session UI (manual). Verify the real data endpoints from the owner's browser/TR network before any reader design.",
-      "data_quality_notes": "Cause-of-death is ICD-10 coded; mortality count != rate; population denominators are ADNKS year-end.",
+      "legal_gate": "Terms of use / licence not located (search found none). SDMX access requires a SMS-verified personal API key or TÜİK-issued credentials: an owner action (no account was created in this phase).",
+      "technical_gate": "Health dataflow ids unknown until authenticated listing (https://nsiws.tuik.gov.tr/rest/dataflow/TR/all/latest). Portal-internal /api/{lang}/... paths are not public (404/405) and were NOT pursued.",
+      "data_quality_notes": "Cause-of-death is ICD-10 coded; mortality count != rate; ADNKS population denominators; OBS_FLAG attribute optional.",
       "provenance_notes": "Primary national authority for mortality/cause-of-death/denominators in Türkiye; WHO, OECD, WB and OWID copies derive from it.",
       "final_decision": "ACCEPT_AS_CANONICAL_GATED",
-      "decision_reason": "Mandatory national authority and the unique Turkish mortality source, but machine access and terms are unresolved.",
+      "decision_reason": "Documented authenticated SDMX 2.1 service with versioned structures, bounded queries, release calendar and revision policy. Class: DOCUMENTED_API_AUTH (not PUBLIC_UNDOCUMENTED_ENDPOINT).",
       "evidence": [
         "https://veriportali.tuik.gov.tr/robots.txt",
         "https://veriportali.tuik.gov.tr/api/",
-        "https://biruni.tuik.gov.tr/medas/?kn=93&locale=tr"
+        "https://biruni.tuik.gov.tr/medas/?kn=93&locale=tr",
+        "https://nsiws.tuik.gov.tr/rest/dataflow/TR/all/latest?detail=allstubs (HTTP 401)",
+        "https://veriportali.tuik.gov.tr/assets/main-DqKRJY-Z.js (documentation text)",
+        "https://www.tuik.gov.tr/Kurumsal/Revizyon_Politikasi",
+        "https://www.tuik.gov.tr/Kurumsal/Veri_Takvimi"
       ],
       "merged_urls": [
         "https://data.tuik.gov.tr/ (redirects)",
         "https://veriportali.tuik.gov.tr/",
         "https://biruni.tuik.gov.tr/medas/"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API_AUTH",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN_POLICY"
     },
     {
       "source_id": "TR_MINISTRY_OF_HEALTH_STATISTICS",
@@ -215,17 +230,17 @@
       "rate_limit": "UNKNOWN",
       "geographic_coverage": "Türkiye, provinces",
       "includes_turkey": "YES",
-      "historical_depth": "Yearbook series (earlier editions listed on the yearbook page; depth not enumerated)",
-      "update_cadence": "Annual (2024 yearbook published; a '2025 Haber Bülteni' news-bulletin link is present on the site)",
-      "release_model": "Annual yearbook PDF (TR + EN) and a news-bulletin summary",
-      "reference_period_model": "Calendar year (yearbook for year N published late N+1)",
-      "revision_model": "UNKNOWN; yearbooks are replaced by the next edition, corrections not documented",
+      "historical_depth": "Yearbook editions through 2024 (2023 and 2024 PDFs verified)",
+      "update_cadence": "Annual; numbered news bulletin first (2025 bulletin 'Sayı: 14' published 2026-09-30 17:00), full yearbook later (2024 yearbook PDF Last-Modified 2025-12-31; 2023 yearbook PDF 2025-03-07) — irregular",
+      "release_model": "Numbered Haber Bülteni (official statistics programme) + full yearbook PDF (TR/EN) on dosyamerkez.saglik.gov.tr/Eklenti/{id}/0/{file}.pdf (id not predictable; discover via sbsgm release page)",
+      "reference_period_model": "Calendar year (2025 bulletin covers reference year 2025; bulletin 2026-09-30)",
+      "revision_model": "UNKNOWN (no correction/revision notice or policy found on the release pages; editions simply replace)",
       "revision_history_available": "PARTIAL",
       "local_revision_snapshot_required": "YES",
-      "stable_dataset_ids": "NO",
+      "stable_dataset_ids": "PARTIAL (edition year + table numbers like 'Tablo 2.1' within an edition)",
       "stable_indicator_ids": "NO",
       "stable_geography_ids": "PARTIAL",
-      "pagination_or_bounded_query": "NO",
+      "pagination_or_bounded_query": "PARTIAL (one PDF per edition; bounded by table list)",
       "health_domains": [
         "HOSPITAL_CAPACITY",
         "HEALTH_WORKFORCE",
@@ -250,22 +265,36 @@
         "OECD/WHO/Eurostat (downstream copies of selected capacity indicators)"
       ],
       "recommended_future_reader_type": "PDF_RELEASE_READER",
-      "recommended_future_poll_strategy": "Poll yearbook index page weekly-to-monthly for a new edition link; checksum the PDF",
-      "recommended_future_bounds": "One yearbook PDF per edition; table-level extraction bounded to a whitelisted table list",
+      "recommended_future_poll_strategy": "Poll sbsgm yearbook index + 'Haber Bültenleri' page weekly around Sept–Jan; on new link: HEAD (Last-Modified, Content-Length) then fetch once; checksum",
+      "recommended_future_bounds": "One bulletin/yearbook PDF per edition; whitelisted tables (Tablo list is in the PDF front matter)",
       "future_pipeline_priority": "P0",
       "legal_gate": "Terms UNKNOWN (no open licence found); owner decision before republishing derived tables.",
       "technical_gate": "PDF-only: table extraction fidelity must be validated per edition.",
-      "data_quality_notes": "PDF tables, definitions change between editions; do not merge definitions silently. Press reports allege reporting omissions in some editions (secondary; not evidence).",
+      "data_quality_notes": "PDF only: no XLSX/CSV attachment found on the release pages. Table numbering is per edition; definitions change between editions.",
       "provenance_notes": "Consolidated ministry statistics; distinct from HSGM specialised surveillance (HSGM stays one separate family).",
       "final_decision": "ACCEPT",
-      "decision_reason": "Official, stable yearbook release with verified 2024 PDF links (dosyamerkez.saglik.gov.tr/Eklenti/52859 TR, /52862 EN).",
+      "decision_reason": "PDF_RELEASE_READER is the only reliable form (accepted for architecture). Class: PDF_RELEASE.",
       "evidence": [
         "https://sbsgm.saglik.gov.tr/TR-93445/saglik-istatistikleri-yilligi.html",
         "https://sbsgm.saglik.gov.tr/TR-114956/saglik-istatistikleri-yilligi-2024-yayimlanmistir.html",
-        "https://dosyamerkez.saglik.gov.tr/Eklenti/52859/0/siy2024tr31122025pdf.pdf"
+        "https://dosyamerkez.saglik.gov.tr/Eklenti/52859/0/siy2024tr31122025pdf.pdf",
+        "https://sbsgm.saglik.gov.tr/TR-121059/saglik-istatistikleri-yilligi-2025-haber-bulteni-yayimlanmistir.html",
+        "https://dosyamerkez.saglik.gov.tr/Eklenti/56342/0/haber-bulteni-2025-trpdf.pdf",
+        "https://dosyasb.saglik.gov.tr/Eklenti/50500/0/siy202307032025pdf.pdf"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "PDF_RELEASE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "HSGM_PUBLIC_HEALTH_STATISTICS",
@@ -275,7 +304,7 @@
       "disposition": "PRIMARY_CANONICAL",
       "authority_level": "2_PUBLIC_HEALTH_AGENCY",
       "official_homepage": "https://hsgm.saglik.gov.tr/",
-      "official_data_portal": "https://hsgm.saglik.gov.tr/tr/kanser-istatistikleri (cancer); HIV/AIDS and TB reports under /depo/",
+      "official_data_portal": "https://hsgm.saglik.gov.tr/ (cancer page); https://grip.saglik.gov.tr/tr/hir (weekly respiratory-virus PDFs); /depo/ unit folders",
       "official_api_docs": "NONE_FOUND",
       "official_terms_url": "UNKNOWN",
       "official_license_url": "UNKNOWN",
@@ -291,16 +320,16 @@
       "geographic_coverage": "Türkiye (some provincial breakdowns)",
       "includes_turkey": "YES",
       "historical_depth": "Cancer annual reports 2009–2022 (14 reports listed); HIV-TB 2009–2023",
-      "update_cadence": "Irregular per dataset group (cancer: annual PDF, recent gap between report year and publication)",
-      "release_model": "Per-programme PDF report on a stable /depo/ path",
+      "update_cadence": "Weekly (respiratory virus surveillance); annual/irregular (cancer, HIV/TB); survey waves (risk factors, TBSA)",
+      "release_model": "Per-group PDF report with a predictable URL family; weekly reports on grip.saglik.gov.tr",
       "reference_period_model": "Calendar/report year",
-      "revision_model": "UNKNOWN; reports are not versioned",
+      "revision_model": "UNKNOWN (reports unversioned; some files replaced in place; no correction policy found)",
       "revision_history_available": "NO",
       "local_revision_snapshot_required": "YES",
       "stable_dataset_ids": "NO",
       "stable_indicator_ids": "NO",
       "stable_geography_ids": "NO",
-      "pagination_or_bounded_query": "NO",
+      "pagination_or_bounded_query": "PARTIAL (bounded by report/week)",
       "health_domains": [
         "CANCER",
         "COMMUNICABLE_DISEASE",
@@ -330,20 +359,23 @@
         "ECDC (n/a, Türkiye not EU)"
       ],
       "recommended_future_reader_type": "PDF_RELEASE_READER",
-      "recommended_future_poll_strategy": "Poll each nested group's index page (cancer list verified); detect new /depo/ PDF links; checksum",
-      "recommended_future_bounds": "One group index per run; PDF whitelist per group",
+      "recommended_future_poll_strategy": "Per nested group: weekly poll of grip.saglik.gov.tr/tr/hir; monthly poll of cancer/HIV/TB/survey index pages; HEAD + checksum before download",
+      "recommended_future_bounds": "One group index per run; PDF whitelist; weekly flu report = latest week only",
       "future_pipeline_priority": "P1",
       "legal_gate": "Terms UNKNOWN.",
-      "technical_gate": "WAF/geo-variability: /tr/istatistikler returned an access-denied page while /tr/kanser-istatistikleri and /depo/ PDFs returned 200 from this probe; repo already documents HSGM as blocked outside Türkiye (adapters/tip-toplulugu-radar/scripts/tip_toplulugu_tr_runner_setup.md). Poll from the TR runner.",
+      "technical_gate": "Network sensitivity: /tr/istatistikler returned access-denied from this network while other HSGM pages and PDFs returned 200 (not bypassed). Run pollers from the Türkiye runner (existing repo pattern).",
       "data_quality_notes": "PDF reports; surveillance counts != incidence rates; cancer registry coverage/definition changes by year.",
       "provenance_notes": "HARD RULE: one family. Cancer/HIV/TB/influenza/immunization/nutrition/screening are nested dataset groups, never separate sources.",
       "final_decision": "ACCEPT",
-      "decision_reason": "Unique Turkish disease-specific surveillance/registry outputs; 14 cancer PDFs + HIV/TB PDFs verified reachable.",
+      "decision_reason": "Six groups verified (cancer, HIV, TB, influenza, risk factors, nutrition); adapter pattern is clear. NETWORK_ACCESS_REQUIRED = UNKNOWN for the 3 unverified groups.",
       "evidence": [
         "https://hsgm.saglik.gov.tr/tr/kanser-istatistikleri",
         "https://hsgm.saglik.gov.tr/depo/birimler/kanser-db/Dokumanlar/Istatistikler/2022_Turkiye_Kanser_Istatistikleri.pdf",
         "https://hsgm.saglik.gov.tr/depo/birimler/bulasici-hastaliklar-ve-erken-uyari-db/Dokumanlar/Istatistikler/HIV_AIDS_Istatistikleri.pdf",
-        "https://hsgm.saglik.gov.tr/depo/tuberkuloz/6-HIVTB_Birlikteligi_2009-2023.pdf"
+        "https://hsgm.saglik.gov.tr/depo/tuberkuloz/6-HIVTB_Birlikteligi_2009-2023.pdf",
+        "https://grip.saglik.gov.tr/tr/hir",
+        "https://hsgm.saglik.gov.tr/media/attachments/2025/05/13/web-tr-dso-sonuc-rap-130525.pdf",
+        "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Kitaplar/TBSA_2017_Ozet_Bulgular.pdf"
       ],
       "merged_urls": [],
       "nested_dataset_groups": [
@@ -351,67 +383,138 @@
           "group": "CANCER (Türkiye Kanser İstatistikleri)",
           "status": "VERIFIED",
           "url": "https://hsgm.saglik.gov.tr/tr/kanser-istatistikleri",
-          "note": "report years 2009–2022 listed"
+          "pattern": "/depo/birimler/kanser-db/Dokumanlar/Istatistikler/{irregular filename}.pdf",
+          "format": "PDF",
+          "cadence": "annual report, irregular lag",
+          "reference_period": "report year 2009–2022",
+          "revision": "UNKNOWN",
+          "reader": "PDF_RELEASE_READER",
+          "note": "14 reports listed; 2022 PDF 200 (2.25 MB)"
         },
         {
           "group": "HIV/AIDS",
-          "status": "VERIFIED_PDF",
+          "status": "VERIFIED",
           "url": "https://hsgm.saglik.gov.tr/depo/birimler/bulasici-hastaliklar-ve-erken-uyari-db/Dokumanlar/Istatistikler/HIV_AIDS_Istatistikleri.pdf",
+          "pattern": "single replaceable PDF (same URL)",
+          "format": "PDF",
+          "cadence": "irregular",
+          "reference_period": "cumulative/yearly (inside PDF)",
+          "revision": "UNKNOWN (file replaced in place → local snapshot required)",
+          "reader": "PDF_RELEASE_READER",
           "note": ""
         },
         {
-          "group": "TUBERCULOSIS (incl. HIV-TB co-infection 2009–2023)",
-          "status": "VERIFIED_PDF",
+          "group": "TUBERCULOSIS (HIV-TB co-infection 2009–2023)",
+          "status": "VERIFIED",
           "url": "https://hsgm.saglik.gov.tr/depo/tuberkuloz/6-HIVTB_Birlikteligi_2009-2023.pdf",
-          "note": "2023: 9,527 TB patients, 7,945 HIV-tested (83.4%), 105 positive (1.1%) per secondary summary; verify in PDF"
-        },
-        {
-          "group": "INFLUENZA / RESPIRATORY SURVEILLANCE",
-          "status": "UNVERIFIED",
-          "url": "UNKNOWN",
-          "note": "expected group; page URL not found in this phase"
-        },
-        {
-          "group": "COMMUNICABLE-DISEASE SURVEILLANCE (notifiable)",
-          "status": "UNVERIFIED",
-          "url": "UNKNOWN",
-          "note": "unit path bulasici-hastaliklar-ve-erken-uyari-db exists in /depo/"
-        },
-        {
-          "group": "IMMUNIZATION (Genişletilmiş Bağışıklama)",
-          "status": "UNVERIFIED",
-          "url": "UNKNOWN",
+          "pattern": "/depo/tuberkuloz/{n}-{title}.pdf",
+          "format": "PDF",
+          "cadence": "annual-ish",
+          "reference_period": "2009–2023",
+          "revision": "UNKNOWN",
+          "reader": "PDF_RELEASE_READER",
           "note": ""
         },
         {
-          "group": "NUTRITION / OBESITY (e.g., TBSA)",
-          "status": "UNVERIFIED",
-          "url": "UNKNOWN",
-          "note": ""
+          "group": "INFLUENZA / RESPIRATORY VIRUS SURVEILLANCE",
+          "status": "VERIFIED",
+          "url": "https://grip.saglik.gov.tr/tr/hir",
+          "pattern": "https://grip.saglik.gov.tr/depo/influenza-raporu/{year}/Haftalik_Solunum_Yolu_Virusleri_Surveyans_Raporu_{year}_{week}._Hafta.pdf (weblink redirect 301 → PDF 200 verified for 2026/37)",
+          "format": "PDF (weekly)",
+          "cadence": "weekly; 390 report links across seasons 2015-16…2025-26; latest seen 2026/37",
+          "reference_period": "ISO-style epidemiological week",
+          "revision": "UNKNOWN",
+          "reader": "PDF_RELEASE_READER",
+          "note": "best-structured HSGM group: predictable pattern, weekly checkpoint"
         },
         {
-          "group": "CHRONIC DISEASE / RISK FACTORS (e.g., tobacco, KHRFA)",
-          "status": "UNVERIFIED",
-          "url": "UNKNOWN",
-          "note": ""
+          "group": "CHRONIC DISEASE / RISK FACTORS",
+          "status": "VERIFIED",
+          "url": "https://hsgm.saglik.gov.tr/media/attachments/2025/05/13/web-tr-dso-sonuc-rap-130525.pdf",
+          "pattern": "/media/attachments/{yyyy}/{mm}/{dd}/{file}.pdf",
+          "format": "PDF",
+          "cadence": "survey wave (report 'Türkiye Hanehalkı Sağlık Araştırması: Bulaşıcı Olmayan Hastalıkların Risk Faktörleri Prevalansı 2023', Ankara 2025, compares 2017–2023)",
+          "reference_period": "survey year 2023 (2017 comparator)",
+          "revision": "wave-based; none expected",
+          "reader": "PDF_RELEASE_READER",
+          "note": "PDF 200, 2.36 MB"
         },
         {
-          "group": "SCREENING (cancer screening programmes)",
+          "group": "NUTRITION / OBESITY (TBSA)",
+          "status": "VERIFIED",
+          "url": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Kitaplar/TBSA_2017_Ozet_Bulgular.pdf",
+          "pattern": "/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/...",
+          "format": "PDF",
+          "cadence": "survey wave (TBSA 2017)",
+          "reference_period": "2017 fieldwork",
+          "revision": "wave-based",
+          "reader": "PDF_RELEASE_READER",
+          "note": "English full report also on HSGM; PDF 200, 1.2 MB"
+        },
+        {
+          "group": "COMMUNICABLE-DISEASE SURVEILLANCE (other notifiable)",
           "status": "UNVERIFIED",
           "url": "UNKNOWN",
-          "note": ""
+          "pattern": "UNKNOWN",
+          "format": "UNKNOWN",
+          "cadence": "UNKNOWN",
+          "reference_period": "UNKNOWN",
+          "revision": "UNKNOWN",
+          "reader": "PDF_RELEASE_READER (expected)",
+          "note": "no consolidated public release found beyond HIV/TB/influenza; HSGM page /tr/istatistikler returned access-denied from this network (NETWORK_ACCESS_REQUIRED = UNKNOWN)"
+        },
+        {
+          "group": "IMMUNIZATION",
+          "status": "UNVERIFIED",
+          "url": "https://asi.saglik.gov.tr",
+          "pattern": "UNKNOWN",
+          "format": "UNKNOWN",
+          "cadence": "UNKNOWN",
+          "reference_period": "UNKNOWN",
+          "revision": "UNKNOWN",
+          "reader": "UNKNOWN",
+          "note": "asi.saglik.gov.tr is an information/tracking portal (ASILA); no statistical coverage release found; coverage likely appears in the MoH yearbook"
+        },
+        {
+          "group": "SCREENING",
+          "status": "UNVERIFIED",
+          "url": "https://hsys.saglik.gov.tr/TaramaBilgilendirme/TaramaBilgilendirme",
+          "pattern": "UNKNOWN",
+          "format": "UNKNOWN",
+          "cadence": "UNKNOWN",
+          "reference_period": "UNKNOWN",
+          "revision": "UNKNOWN",
+          "reader": "UNKNOWN",
+          "note": "information app, no statistics found"
         },
         {
           "group": "OTHER HSGM RELEASES",
           "status": "OPEN",
           "url": "UNKNOWN",
-          "note": "list is illustrative, not closed"
+          "pattern": "UNKNOWN",
+          "format": "UNKNOWN",
+          "cadence": "UNKNOWN",
+          "reference_period": "UNKNOWN",
+          "revision": "UNKNOWN",
+          "reader": "PDF_RELEASE_READER",
+          "note": "open-ended by design; new groups join the same family"
         }
-      ]
+      ],
+      "machine_access_class": "PDF_RELEASE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "SGK_HEALTH_STATISTICS",
-      "display_name": "SGK — Sosyal Güvenlik Kurumu statistics (health benefits & expenditure)",
+      "display_name": "SGK — Sosyal Güvenlik Kurumu statistics (occupational accidents/diseases, sickness, insured population)",
       "organization": "Sosyal Güvenlik Kurumu",
       "area": "TURKEY_HEALTH_STATISTICS",
       "disposition": "PRIMARY_CANONICAL",
@@ -423,8 +526,8 @@
       "official_license_url": "UNKNOWN",
       "machine_access": [
         "BULK_ZIP",
-        "PDF",
-        "XLSX"
+        "XLSX",
+        "PDF"
       ],
       "authentication": "NONE",
       "public_access": "YES",
@@ -436,24 +539,26 @@
       "includes_turkey": "YES",
       "historical_depth": "Annual yearbooks as ZIP per year (2020–2025 links verified; earlier years on page)",
       "update_cadence": "Yearbook annual; monthly statistical bulletins",
-      "release_model": "Yearbook ZIP per year; monthly bulletin with published metadata and revision/error policy PDFs",
-      "reference_period_model": "Calendar year / month",
-      "revision_model": "Published 'Revizyon ve Hata Politikası' PDF exists for monthly bulletins (content not yet read)",
-      "revision_history_available": "UNKNOWN",
+      "release_model": "One ZIP per year (GUID filename) containing 5 XLSX blocks; file names 'YILLIK BLM n … .xlsx' (the 2024 ZIP adds the suffix _2024; the 2022 ZIP does not); bilingual TR/EN table titles",
+      "reference_period_model": "Calendar year (2020–2025 ZIP links verified); monthly bulletins not enumerated",
+      "revision_model": "Published 'Revizyon ve Hata Politikası' (read): major revisions (definition/scope/classification/method) and post-publication errors may be corrected, with public notice on the official statistics web page; no revision history in files",
+      "revision_history_available": "NO",
       "local_revision_snapshot_required": "YES",
-      "stable_dataset_ids": "NO",
-      "stable_indicator_ids": "NO",
-      "stable_geography_ids": "PARTIAL",
-      "pagination_or_bounded_query": "PARTIAL (one year-ZIP per release)",
+      "stable_dataset_ids": "PARTIAL (workbook block + table number 'Tablo 3.1.1' stable across 2022/2024 structure)",
+      "stable_indicator_ids": "PARTIAL (NACE Rev. codes, province codes in tables)",
+      "stable_geography_ids": "YES (province codes)",
+      "pagination_or_bounded_query": "YES (one yearbook ZIP/year; one workbook/sheet)",
       "health_domains": [
-        "HEALTH_FINANCING_INSURANCE",
-        "HEALTH_EXPENDITURE",
-        "HEALTHCARE_UTILIZATION"
+        "OCCUPATIONAL_HEALTH",
+        "MORBIDITY",
+        "HEALTH_FINANCING_INSURANCE"
       ],
       "primary_dataset_examples": [
-        "SGK İstatistik Yıllıkları (ZIP/year)",
-        "Aylık İstatistik Bültenleri (+ Metaveri PDF, Revizyon ve Hata Politikası PDF)",
-        "SGK Veri Uygulaması"
+        "Yearbook BLM 3-1 Kaza ve Meslek Hastalığı İstatistikleri (4/1-a): 49 sheets incl. 'Metaveri İK', 'Metaveri MH', Tablo 3.1.1…",
+        "Yearbook BLM 3-2 (4/1-b)",
+        "Yearbook BLM 4 Hastalık İstatistikleri: TABLO-4.1…4.4 (temporary incapacity for sickness; by NACE, province, age/sex)",
+        "Yearbook BLM 1 insured & workplace; BLM 2 pensioners/income",
+        "Monthly bulletin metadata + revision policy PDFs"
       ],
       "upstream_sources": [],
       "downstream_mirrors": [],
@@ -461,21 +566,34 @@
         "TÜİK Sağlık Harcamaları (system-level expenditure; SGK is the payer-side source)"
       ],
       "recommended_future_reader_type": "BULK_FILE_READER",
-      "recommended_future_poll_strategy": "Poll yearbook/bulletin pages for new file links; checksum ZIP; read the revision policy before modelling revisions",
-      "recommended_future_bounds": "One year-ZIP or one monthly bulletin per release; health tables only",
+      "recommended_future_poll_strategy": "Poll the Yıllıklar page for a new year ZIP link (GUID); HEAD + checksum; parse only whitelisted workbooks/sheets",
+      "recommended_future_bounds": "One ZIP/year × whitelisted sheets (BLM 3-1, 3-2, 4)",
       "future_pipeline_priority": "P1",
       "legal_gate": "Terms UNKNOWN.",
-      "technical_gate": "Some SGK URLs return HTTP 500 for bare paths (/Istatistik/Aylik/Index); use the GUID-suffixed pages. ZIP content layout not inspected.",
-      "data_quality_notes": "Insured-population based, not whole-population; payments != utilisation; do not mix with TÜİK expenditure definitions.",
-      "provenance_notes": "Only SGK health sub-set is in scope (pension/labour tables out of scope).",
+      "technical_gate": "Monthly bulletin files are not enumerated by the page (only metadata + revision policy links); health-benefit payment statistics location UNVERIFIED (see veri.sgk.gov.tr SPA, 'Devredilen Kurum İstatistikleri' legacy pages).",
+      "data_quality_notes": "CORRECTION to v1: the yearbook ZIP has NO health-expenditure or healthcare-utilization block; its health relevance is occupational accidents/diseases, sickness (temporary incapacity) and insured-population coverage. Insured population only (not whole population); SGK-registered cases.",
+      "provenance_notes": "Primary Turkish occupational-injury/disease statistics; ILOSTAT's Türkiye injury series is a downstream relay (national source id FA:1729; relation to SGK UNVERIFIED).",
       "final_decision": "ACCEPT",
-      "decision_reason": "Official bulk/yearbook releases with metadata and revision-policy documents published; health tables to be whitelisted.",
+      "decision_reason": "2024 ZIP downloaded and inspected (5 xlsx; 4.4 MB); metadata and revision-policy PDFs read. BULK_FILE_READER (ZIP→XLSX) chosen. Closes Türkiye OCCUPATIONAL_HEALTH.",
       "evidence": [
         "https://www.sgk.gov.tr/Istatistik/Yillik/fcd5e59b-6af9-4d90-a451-ee7500eb1cb4/",
-        "https://www.sgk.gov.tr/Istatistik/Aylik/42919466-593f-4600-937d-1f95c9e252e6/"
+        "https://www.sgk.gov.tr/Istatistik/Aylik/42919466-593f-4600-937d-1f95c9e252e6/",
+        "https://www.sgk.gov.tr/download/downloadfile?f=c3ebc2d5-76f2-4f9f-ba03-4ddc2e7ecfe5.zip&d=b449b3c3-1c9f-4c33-bc21-d317d29e97a4",
+        "https://www.sgk.gov.tr/Download/DownloadFile?f=b24b67b3-8a10-428e-9d86-61900ceeebcd.pdf&d=052fa159-65a5-4117-9dfc-8235b7dca01a"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "BULK_FILE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN_POLICY"
     },
     {
       "source_id": "TR_HACETTEPE_HIPS_TNSA",
@@ -485,27 +603,26 @@
       "disposition": "PRIMARY_CANONICAL",
       "authority_level": "5_ACADEMIC_OFFICIAL_SURVEY_PRODUCER",
       "official_homepage": "https://hips.hacettepe.edu.tr/",
-      "official_data_portal": "https://hips.hacettepe.edu.tr/tr/tnsa-2018",
+      "official_data_portal": "https://hips.hacettepe.edu.tr/tr/menu/raporlar-62 (report list); PDFs at https://fs.hacettepe.edu.tr/hips/dosyalar/yayinlar/",
       "official_api_docs": "NONE_FOUND",
       "official_terms_url": "UNKNOWN",
       "official_license_url": "UNKNOWN",
       "machine_access": [
-        "PDF",
-        "MANUAL"
+        "PDF"
       ],
-      "authentication": "UNKNOWN",
-      "public_access": "PARTIAL",
+      "authentication": "NONE for reports; ACCOUNT for microdata",
+      "public_access": "PARTIAL (reports public; microdata registered/restricted)",
       "automation_allowed": "UNKNOWN",
       "commercial_reuse": "UNKNOWN",
       "attribution_required": "UNKNOWN",
       "rate_limit": "UNKNOWN",
       "geographic_coverage": "Türkiye (regions)",
       "includes_turkey": "YES",
-      "historical_depth": "Survey waves since 1968; 2018 wave current. A '2024 TNSA' cooperation protocol (SBB, TÜBİTAK, Hacettepe, Marmara) was announced; results not found",
+      "historical_depth": "Main reports 1993, 1998, 2003, 2008, 2013, 2018 (+ 2018 Syrian-migrant sample, advanced-analysis volumes 2010/2015/2021)",
       "update_cadence": "~5-year survey waves",
-      "release_model": "Wave report (PDF) + tables; microdata on request (UNVERIFIED)",
-      "reference_period_model": "Fieldwork year",
-      "revision_model": "Wave-based; no revisions expected",
+      "release_model": "Wave main report PDF with stable URL (e.g., …/yayinlar/2019_tnsa_anarapor_compressed.pdf); microdata via World Bank Microdata Library / DHS catalogue (TUR_2008_DHS page verified; login-gated)",
+      "reference_period_model": "Fieldwork wave (2018: Oct 2018–Feb 2019 per search)",
+      "revision_model": "Wave-based; no revisions documented (explicit UNKNOWN for corrections)",
       "revision_history_available": "NO",
       "local_revision_snapshot_required": "NO",
       "stable_dataset_ids": "NO",
@@ -531,21 +648,34 @@
         "UNICEF/UN WPP (modelled demographic indicators partly derived from TNSA-type surveys)"
       ],
       "recommended_future_reader_type": "PDF_RELEASE_READER",
-      "recommended_future_poll_strategy": "Low-frequency manual-assisted check of the TNSA page for the 2024 wave report",
-      "recommended_future_bounds": "One wave report",
+      "recommended_future_poll_strategy": "Quarterly low-frequency check of the Raporlar page for 'TNSA-2024' (protocol: SBB/TÜBİTAK/Hacettepe/Marmara, ~20,000 households; no results found)",
+      "recommended_future_bounds": "One wave report PDF; aggregate tables only. Restricted microdata is NOT ingestible.",
       "future_pipeline_priority": "P2",
-      "legal_gate": "Terms UNKNOWN; microdata access conditions UNKNOWN.",
-      "technical_gate": "Wave results page for 2023/2024 not located.",
+      "legal_gate": "Terms UNKNOWN; microdata requires registration/permission (out of scope).",
+      "technical_gate": "None for aggregate PDF reports.",
       "data_quality_notes": "Survey estimates carry sampling error; not registry counts.",
       "provenance_notes": "Added by Turkey gap search: unique national demographic-health survey not covered by TÜİK/MoH/HSGM/SGK.",
       "final_decision": "ACCEPT_ADDED_BY_GAP_SEARCH",
-      "decision_reason": "Only national DHS-type survey; fills maternal/child/fertility survey gap.",
+      "decision_reason": "Public aggregate output = report PDFs; microdata = restricted. PDF_RELEASE_READER; priority P2 (low frequency).",
       "evidence": [
         "https://hips.hacettepe.edu.tr/tr/tnsa-2018",
-        "https://tubitak.gov.tr/en/node/16909"
+        "https://tubitak.gov.tr/en/node/16909",
+        "https://hips.hacettepe.edu.tr/tr/menu/raporlar-62",
+        "https://microdata.worldbank.org/catalog/3452"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "PDF_RELEASE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "WHO_HEALTH_STATISTICS",
@@ -557,8 +687,8 @@
       "official_homepage": "https://www.who.int/data",
       "official_data_portal": "https://www.who.int/data/gho",
       "official_api_docs": "https://www.who.int/data/gho/info/gho-odata-api",
-      "official_terms_url": "https://www.who.int/about/policies/publishing/data-policy",
-      "official_license_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/",
+      "official_terms_url": "https://www.who.int/about/policies/publishing/copyright",
+      "official_license_url": "CC BY-NC-SA 3.0 IGO is stated by WHO's official copyright page for WHO publications; the opened WHO pages do NOT explicitly state it for the GHO/data platform (PARTIAL, not VERIFIED for data)",
       "machine_access": [
         "ODATA",
         "JSON",
@@ -632,7 +762,7 @@
       "recommended_future_poll_strategy": "Per-indicator: query $filter=Date gt <checkpoint> (Date field present) or re-pull the bounded slice and diff; daily/weekly",
       "recommended_future_bounds": "IndicatorCode whitelist × SpatialDim in {TUR, regions, selected peers} × TimeDim range; never full /api/Indicator crawl",
       "future_pipeline_priority": "P0",
-      "legal_gate": "Licence CC BY-NC-SA 3.0 IGO (per WHO data policy, via search summary): non-commercial + share-alike. Owner must confirm channel use qualifies before republishing derived statistics. Official terms page could not be rendered here (JS).",
+      "legal_gate": "WHO_TERMS_STATUS = PARTIAL. Publications: CC BY-NC-SA 3.0 IGO (official page). Data policy page opened: speaks of non-commercial public-health use, no explicit data licence. Owner review before republishing derived data.",
       "technical_gate": "NONE (API verified live: Indicator, Dimension, indicator data with $filter).",
       "data_quality_notes": "Many values are MODELLED estimates (Value contains CI '74.4 [73.7-75.1]'; NumericValue/Low/High given). Estimate != measured observation. Sex/age in Dim1..Dim3 (dimension types vary per indicator).",
       "provenance_notes": "DataSourceDim may identify the underlying source; capture it.",
@@ -648,7 +778,18 @@
         "https://www.who.int/data/gho/publications/world-health-statistics",
         "https://www.who.int/health-statistics"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "WORLD_BANK_HEALTH",
@@ -738,7 +879,18 @@
         "https://data.worldbank.org/",
         "https://data.worldbank.org/topic/health"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "EUROSTAT_HEALTH",
@@ -834,7 +986,18 @@
       "merged_urls": [
         "https://ec.europa.eu/eurostat/web/health"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "UN_WORLD_POPULATION_PROSPECTS",
@@ -849,10 +1012,7 @@
       "official_terms_url": "https://population.un.org/wpp/ (cite/terms)",
       "official_license_url": "CC BY 3.0 IGO (WPP 2024 publication per search; confirm for data files)",
       "machine_access": [
-        "REST",
-        "CSV",
-        "XLSX",
-        "BULK_ZIP"
+        "REST"
       ],
       "authentication": "API_KEY (free token by email request; API returned HTTP 401 without it; bulk files at /wpp/downloads need none)",
       "public_access": "PARTIAL",
@@ -903,12 +1063,12 @@
       "duplicate_with": [
         "WB source 40 Population estimates and projections (derived)"
       ],
-      "recommended_future_reader_type": "BULK_FILE_READER",
-      "recommended_future_poll_strategy": "Edition-driven: check downloads page for new edition; ingest whole edition files only on new edition (biennial); API for bounded lookups once token exists",
+      "recommended_future_reader_type": "REST_READER",
+      "recommended_future_poll_strategy": "Edition-driven: watch population.un.org/wpp/ for a new edition, then bounded API pulls (indicator × location × years) with a token; bulk-file location UNVERIFIED (/wpp/downloads returned 404 on 2026-10-05)",
       "recommended_future_bounds": "Edition × indicator whitelist × locations",
       "future_pipeline_priority": "P0",
       "legal_gate": "API token request is an owner/UN contact action; licence for data files to confirm.",
-      "technical_gate": "API requires token (401 verified). /wpp/Download/Standard/CSV path 404 (old path) — use the current /wpp/downloads page.",
+      "technical_gate": "API requires a free token (HTTP 401 verified; token procedure from search summary). Bulk-download URL could not be verified this phase.",
       "data_quality_notes": "Modelled estimates & PROJECTIONS ≠ observations; variants (medium/high/low) must be separate dimension; Türkiye population here != TÜİK ADNKS.",
       "provenance_notes": "Denominator for rates; independent of TÜİK in method.",
       "final_decision": "ACCEPT",
@@ -921,7 +1081,18 @@
       "merged_urls": [
         "https://population.un.org/wpp/"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API_AUTH",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "UNICEF_DATA",
@@ -1007,7 +1178,18 @@
         "https://sdmx.data.unicef.org/ws/public/sdmxapi/rest/dataflow/UNICEF"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "PUBLIC_SDMX_ENDPOINT",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "CDC_NCHS_HEALTH_STATISTICS",
@@ -1093,7 +1275,16 @@
         "https://data.cdc.gov/resource/jx6g-fdh6.json?$limit=1"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "PASS",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "US_CENSUS_HEALTH",
@@ -1164,7 +1355,16 @@
       "merged_urls": [
         "https://www.census.gov/topics/health.html"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "PASS",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "UK_ONS_HEALTH",
@@ -1241,7 +1441,18 @@
       "merged_urls": [
         "https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare (duplicate in input collapsed)"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "OECD_HEALTH_STATISTICS",
@@ -1328,7 +1539,7 @@
       "recommended_future_poll_strategy": "Dataflow version/last-updated poll at ≪ rate limit; weekly",
       "recommended_future_bounds": "Flow whitelist × REF_AREA={TUR,OECD avg} × recent periods; hard cap on downloads/hour",
       "future_pipeline_priority": "P1",
-      "legal_gate": "UNRESOLVED (project context already flags OECD automated-access/reuse uncertainty). Terms page not retrievable by automation; rate-limit statements conflict. Owner must read & resolve. UNKNOWN != allowed.",
+      "legal_gate": "UNRESOLVED and kept CANONICAL_GATED: terms page 403 to automation; two conflicting rate limits in OECD documentation (20 queries/min + 20 downloads/hr vs 60 downloads/hr). Owner/legal review required; not reclassified.",
       "technical_gate": "SDMX verified live: 1,548 dataflows (118 health-related).",
       "data_quality_notes": "OECD often republishes national data with harmonised definitions; do not merge with TÜİK/MoH definitions silently.",
       "provenance_notes": "Record OECD flow version; upstream is the national authority.",
@@ -1342,7 +1553,18 @@
         "https://data-explorer.oecd.org/",
         "https://www.oecd.org/en/data/datasets/oecd-health-statistics.html"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "IHME_GBD",
@@ -1413,7 +1635,7 @@
       "recommended_future_bounds": "Round × measure × cause list × location={TUR,peers}",
       "future_pipeline_priority": "P2",
       "legal_gate": "Non-commercial agreement; account required; redistribution/derivative terms need owner & counsel review.",
-      "technical_gate": "Download via login + email link; automation permission UNKNOWN.",
+      "technical_gate": "Account login + emailed download link; agreement is free-of-charge NON-COMMERCIAL (official page opened). AUTH_EXPORT, GATED.",
       "data_quality_notes": "MODELLED burden estimates; never merged with registry counts; round-to-round values differ.",
       "provenance_notes": "Independent modelling effort (but consumes WHO/national inputs).",
       "final_decision": "ACCEPT_AS_CANONICAL_GATED",
@@ -1426,7 +1648,17 @@
         "https://www.healthdata.org/",
         "https://ghdx.healthdata.org/"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "AUTH_EXPORT",
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "IARC_GLOBAL_CANCER_OBSERVATORY",
@@ -1441,12 +1673,11 @@
       "official_terms_url": "UNKNOWN",
       "official_license_url": "Material may be used 'as is' with citation for non-commercial purposes (GLOBOCAN 2012 statement via search; current terms UNVERIFIED)",
       "machine_access": [
-        "MANUAL",
-        "CSV"
+        "MANUAL"
       ],
       "authentication": "NONE",
       "public_access": "PARTIAL",
-      "automation_allowed": "UNKNOWN",
+      "automation_allowed": "NO without written permission (IARC terms as quoted by a secondary summary: systematic retrieval to compile a database is prohibited; official page not opened → verify)",
       "commercial_reuse": "UNKNOWN",
       "attribution_required": "YES",
       "rate_limit": "UNKNOWN",
@@ -1487,8 +1718,8 @@
       "recommended_future_poll_strategy": "Edition-driven manual export",
       "recommended_future_bounds": "Edition × country × cancer site × sex",
       "future_pipeline_priority": "P2",
-      "legal_gate": "Current terms UNVERIFIED; historical wording is non-commercial w/ citation.",
-      "technical_gate": "No stable API found; interactive/download UI.",
+      "legal_gate": "BLOCKED for automated/systematic ingestion unless IARC grants written permission (publications@iarc.fr per the quoted terms). Manual single-chart citation only.",
+      "technical_gate": "No API; interactive UI; a guessed JSON path returned the HTML shell.",
       "data_quality_notes": "GLOBOCAN = MODELLED estimates, not registry counts; incidence ≠ prevalence; ASR (world) ≠ crude.",
       "provenance_notes": "Independent modelling from the registry network.",
       "final_decision": "ACCEPT_AS_CANONICAL_GATED",
@@ -1498,7 +1729,18 @@
         "https://www.uicc.org/resources/cancer-today-info"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "MANUAL_ONLY",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "BLOCKED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate BLOCKED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "UNAIDS_DATA",
@@ -1561,7 +1803,7 @@
       "recommended_future_bounds": "Release × country subset",
       "future_pipeline_priority": "P2",
       "legal_gate": "Terms UNKNOWN.",
-      "technical_gate": "No API verified; export format unverified.",
+      "technical_gate": "AIDSinfo exposes XLSX/CSV exports; the 'Data list' CSV is reported to need an EDMS account (secondary summary). MANUAL_ONLY/GATED; no API found.",
       "data_quality_notes": "MODELLED estimates ≠ reported case notifications.",
       "provenance_notes": "Primary for HIV modelled estimates.",
       "final_decision": "ACCEPT_AS_CANONICAL_GATED",
@@ -1571,7 +1813,18 @@
         "https://www.unaids.org/en/resources/documents/2024/2024_unaids_data"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "MANUAL_ONLY",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "ECDC_SURVEILLANCE",
@@ -1631,7 +1884,7 @@
       "recommended_future_bounds": "Disease × year",
       "future_pipeline_priority": "P2",
       "legal_gate": "Licence clear (CC BY 4.0); TESSy third-party access requires request — not needed for public Atlas.",
-      "technical_gate": "Stable machine endpoint not located.",
+      "technical_gate": "Surveillance Atlas CSV download via the interactive UI (secondary summary); no API found (AtlasService/rest 404). MANUAL_ONLY/GATED.",
       "data_quality_notes": "EU/EEA only (no Türkiye); case definitions vary.",
       "provenance_notes": "Peer/regional benchmark.",
       "final_decision": "ACCEPT_AS_CANONICAL_GATED",
@@ -1641,7 +1894,18 @@
         "https://atlas.ecdc.europa.eu/public/disclaimer.htm"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "MANUAL_ONLY",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "NCD_RISC",
@@ -1713,7 +1977,18 @@
         "https://zenodo.org/records/13987398"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "BULK_FILE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
@@ -1763,14 +2038,10 @@
         "grapher/life-expectancy.csv + .metadata.json (verified)"
       ],
       "upstream_sources": [
-        "WHO",
-        "World Bank",
-        "UN WPP",
-        "IHME",
-        "UNICEF",
-        "UNAIDS",
-        "IARC",
-        "national offices"
+        "UN WPP 2024 (life expectancy from 1950; child mortality 'UN WPP')",
+        "Human Mortality Database 2025 + Zijdeman et al. 2015 + Riley 2005 (pre-1950 life expectancy)",
+        "WHO 2025 (TB mortality)",
+        "UNAIDS 2026 (HIV prevalence)"
       ],
       "downstream_mirrors": [],
       "duplicate_with": [
@@ -1786,7 +2057,7 @@
       "legal_gate": "Inherits upstream licences.",
       "technical_gate": "NONE.",
       "data_quality_notes": "Derived calculations/country normalisation applied; may combine sources.",
-      "provenance_notes": "NEVER independent evidence; must carry upstream lineage from metadata.json (origins).",
+      "provenance_notes": "metadata.json citationShort/descriptionProcessing give per-chart upstreams (4 charts read).",
       "final_decision": "ACCEPT_SECONDARY_QA",
       "decision_reason": "Useful normalised cross-check with explicit provenance metadata.",
       "evidence": [
@@ -1797,7 +2068,18 @@
         "https://ourworldindata.org/",
         "https://ourworldindata.org/global-health"
       ],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "PUBLIC_DOCUMENTED_DOWNLOAD",
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "COUNTY_HEALTH_RANKINGS",
@@ -1868,7 +2150,18 @@
         "https://www.countyhealthrankings.org/health-data/methodology-and-sources/data-documentation"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "BULK_FILE",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "UN_SDG_GLOBAL_DATABASE",
@@ -1946,7 +2239,18 @@
         "https://unstats.un.org/SDGAPI/swagger/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     },
     {
       "source_id": "WORLDOMETER",
@@ -1988,15 +2292,12 @@
       ],
       "primary_dataset_examples": [],
       "upstream_sources": [
-        "UN WPP (claimed in site text? UNVERIFIED)",
-        "WHO",
-        "national offices (UNVERIFIED)"
+        "United Nations population data ('Worldometer's elaboration of the latest United Nations data' — own page text)",
+        "UN Population Division life expectancy estimates (own page text)"
       ],
       "downstream_mirrors": [],
       "duplicate_with": [
-        "UN WPP (claimed in site text? UNVERIFIED)",
-        "WHO",
-        "national offices (UNVERIFIED)"
+        "UN_WORLD_POPULATION_PROSPECTS"
       ],
       "recommended_future_reader_type": "NONE (discovery/QA only)",
       "recommended_future_poll_strategy": "UNKNOWN",
@@ -2005,14 +2306,20 @@
       "legal_gate": "Terms not reviewed; no ingestion planned.",
       "technical_gate": "No API verified.",
       "data_quality_notes": "Live counters are 'a real-time estimate using our proprietary algorithm' (about page); modelled, undocumented lineage; robots.txt allows all.",
-      "provenance_notes": "Never canonical; cross-check/discovery only.",
+      "provenance_notes": "Own pages state UN as the upstream; live counters are Worldometer's algorithm. Never canonical.",
       "final_decision": "DOWNGRADED_TO_DISCOVERY",
       "decision_reason": "Live counters are 'a real-time estimate using our proprietary algorithm' (about page); modelled, undocumented lineage; robots.txt allows all.",
       "evidence": [
         "https://www.worldometers.info/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "NOT_APPLICABLE_DISCOVERY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "WORLD_POPULATION_REVIEW",
@@ -2054,15 +2361,17 @@
       ],
       "primary_dataset_examples": [],
       "upstream_sources": [
-        "UN WPP (UNVERIFIED)",
-        "US Census (UNVERIFIED)",
-        "World Bank (UNVERIFIED)"
+        "World Bank",
+        "United Nations",
+        "WHO (World Health Organization life expectancy, HALE)",
+        "US NCHS National Vital Statistics Reports (per its life-expectancy page source list)"
       ],
       "downstream_mirrors": [],
       "duplicate_with": [
-        "UN WPP (UNVERIFIED)",
-        "US Census (UNVERIFIED)",
-        "World Bank (UNVERIFIED)"
+        "WORLD_BANK_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "WHO_HEALTH_STATISTICS",
+        "CDC_NCHS_HEALTH_STATISTICS"
       ],
       "recommended_future_reader_type": "NONE (discovery/QA only)",
       "recommended_future_poll_strategy": "UNKNOWN",
@@ -2071,14 +2380,20 @@
       "legal_gate": "Terms not reviewed; no ingestion planned.",
       "technical_gate": "No API verified.",
       "data_quality_notes": "Commercial aggregator; update cadence/methodology not verified; upstream lineage UNKNOWN.",
-      "provenance_notes": "Never canonical; cross-check/discovery only.",
+      "provenance_notes": "Source list visible on its life-expectancy page. Never canonical.",
       "final_decision": "DOWNGRADED_TO_DISCOVERY",
       "decision_reason": "Commercial aggregator; update cadence/methodology not verified; upstream lineage UNKNOWN.",
       "evidence": [
         "https://worldpopulationreview.com/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "NOT_APPLICABLE_DISCOVERY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "WORLDSTATS_IO",
@@ -2120,11 +2435,12 @@
       ],
       "primary_dataset_examples": [],
       "upstream_sources": [
-        "UNKNOWN"
+        "REST Countries API",
+        "World Bank (footer: 'Data from REST Countries API & World Bank')"
       ],
       "downstream_mirrors": [],
       "duplicate_with": [
-        "UNKNOWN"
+        "WORLD_BANK_HEALTH"
       ],
       "recommended_future_reader_type": "NONE (discovery/QA only)",
       "recommended_future_poll_strategy": "UNKNOWN",
@@ -2133,14 +2449,20 @@
       "legal_gate": "Terms not reviewed; no ingestion planned.",
       "technical_gate": "No API verified.",
       "data_quality_notes": "Real-time population-counter style site (page description); no API/terms verified.",
-      "provenance_notes": "Never canonical; cross-check/discovery only.",
+      "provenance_notes": "Footer states upstreams. Never canonical.",
       "final_decision": "DOWNGRADED_TO_DISCOVERY",
       "decision_reason": "Real-time population-counter style site (page description); no API/terms verified.",
       "evidence": [
         "https://worldstats.io/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "NOT_APPLICABLE_DISCOVERY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "STATBASE",
@@ -2195,14 +2517,20 @@
       "legal_gate": "Terms not reviewed; no ingestion planned.",
       "technical_gate": "No API verified.",
       "data_quality_notes": "Homepage timed out (HTTP 000) in this phase; robots.txt has 'Content-signal: ai-train=no, use=reference'; content/lineage UNVERIFIED.",
-      "provenance_notes": "Never canonical; cross-check/discovery only.",
+      "provenance_notes": "UNVERIFIED: homepage unreachable; robots.txt content-signal ai-train=no. Non-canonical; does NOT block architecture.",
       "final_decision": "DOWNGRADED_TO_DISCOVERY",
       "decision_reason": "Homepage timed out (HTTP 000) in this phase; robots.txt has 'Content-signal: ai-train=no, use=reference'; content/lineage UNVERIFIED.",
       "evidence": [
         "https://statbase.org/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "NOT_APPLICABLE_DISCOVERY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "WORLD_OF_STATISTICS",
@@ -2257,7 +2585,13 @@
         "https://www.worldofstatistics.org/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "REFERENCE_ONLY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "STLCC_WORLD_STATISTICS_GUIDE",
@@ -2312,7 +2646,13 @@
         "https://guides.stlcc.edu/statistics/world"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "REFERENCE_ONLY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "NCBI_HEALTH_STATISTICS_REFERENCE",
@@ -2367,7 +2707,13 @@
         "https://www.ncbi.nlm.nih.gov/books/NBK223602/"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "REFERENCE_ONLY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "SCIENCEDIRECT_HEALTH_STATISTICS_REFERENCE",
@@ -2422,7 +2768,13 @@
         "https://www.sciencedirect.com/topics/social-sciences/health-statistics"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "REFERENCE_ONLY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
     },
     {
       "source_id": "UN_DIGITAL_LIBRARY_HEALTH_STATISTICS_REFERENCE",
@@ -2470,14 +2822,105 @@
       "legal_gate": "NONE_IDENTIFIED",
       "technical_gate": "NONE_IDENTIFIED",
       "data_quality_notes": "IDENTITY UNRESOLVED: the record page returned HTTP 202 (bot challenge) with no body, and a search for the record ID returned nothing. It is a UN Digital Library bibliographic record (PDF view); document type (dataset vs report vs methodology) NOT verified. No production source is created from one PDF.",
-      "provenance_notes": "Methodology/source-directory only; no observation ingestion.",
+      "provenance_notes": "Record 4085690 identity unresolved (bot challenge). Non-canonical; does NOT block architecture.",
       "final_decision": "REFERENCE_ONLY",
       "decision_reason": "IDENTITY UNRESOLVED: the record page returned HTTP 202 (bot challenge) with no body, and a search for the record ID returned nothing. It is a UN Digital Library bibliographic record (PDF view); document type (dataset vs report vs methodology) NOT verified. No production source is created from one PDF.",
       "evidence": [
         "https://digitallibrary.un.org/record/4085690"
       ],
       "merged_urls": [],
-      "nested_dataset_groups": []
+      "nested_dataset_groups": [],
+      "machine_access_class": "REFERENCE_ONLY",
+      "terms_status": "NOT_APPLICABLE",
+      "activation_legal_gate": "NOT_APPLICABLE",
+      "source_activation_ready": "NOT_APPLICABLE",
+      "activation_blockers": [],
+      "revision_status": "EXPLICIT_UNKNOWN"
+    },
+    {
+      "source_id": "ILOSTAT_OSH",
+      "display_name": "ILOSTAT — Occupational Safety and Health statistics (occupational injuries, labour inspection)",
+      "organization": "International Labour Organization",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "authority_level": "3_INTERGOVERNMENTAL",
+      "official_homepage": "https://ilostat.ilo.org/",
+      "official_data_portal": "https://ilostat.ilo.org/data/bulk/",
+      "official_api_docs": "https://webapps.ilo.org/ilostat-files/Documents/ILOSTAT_BulkDownload_Guidelines.pdf (bulk, weekly Sunday update); SDMX https://sdmx.ilo.org/rest/ ; CSV API https://rplumber.ilo.org/data/indicator/?id=…&ref_area=…&format=.csv; metadata TOC https://rplumber.ilo.org/metadata/toc/indicator/?lang=en&format=.csv",
+      "official_terms_url": "UNKNOWN",
+      "official_license_url": "UNKNOWN",
+      "machine_access": [
+        "SDMX",
+        "CSV",
+        "BULK_ZIP"
+      ],
+      "authentication": "NONE",
+      "public_access": "YES",
+      "automation_allowed": "YES (bulk guidelines document automated downloading)",
+      "commercial_reuse": "UNKNOWN",
+      "attribution_required": "UNKNOWN",
+      "rate_limit": "UNKNOWN",
+      "geographic_coverage": "Global; Türkiye included (INJ_FATL_ECO_NB 1976–2024; 2024 total 1,905 fatal injuries, national source 'FA:1729')",
+      "includes_turkey": "YES",
+      "historical_depth": "Per indicator (injuries from 1969/1970)",
+      "update_cadence": "Weekly bulk refresh (Sundays); per-indicator last-update timestamps in the TOC",
+      "release_model": "Indicator table (e.g., INJ_FATL_ECO_NB_A) with per-indicator 'data.end'/last-update timestamp; SDMX dataflows DF_INJ_* (1,215 flows total)",
+      "reference_period_model": "Calendar year (annual)",
+      "revision_model": "Latest values; per-indicator last-update timestamp; no per-observation history documented",
+      "revision_history_available": "NO",
+      "local_revision_snapshot_required": "YES",
+      "stable_dataset_ids": "YES (indicator ids, DF_ ids)",
+      "stable_indicator_ids": "YES",
+      "stable_geography_ids": "YES (ISO3 ref_area)",
+      "pagination_or_bounded_query": "YES (indicator × ref_area; SDMX keys; TOC for change detection)",
+      "health_domains": [
+        "OCCUPATIONAL_HEALTH"
+      ],
+      "primary_dataset_examples": [
+        "INJ_FATL_ECO_NB_A (fatal occupational injuries by economic activity)",
+        "INJ_NFTL_ECO_NB_A / _RT_A (non-fatal)",
+        "INJ_DAYS_ECO_NB_A (days lost)",
+        "SDG_F881_SEX_MIG_RT_A (SDG 8.8.1 fatal injury rate)",
+        "LAI_* labour inspection"
+      ],
+      "upstream_sources": [
+        "National administrative/inspection sources (Türkiye: source id FA:1729; relation to SGK UNVERIFIED)"
+      ],
+      "downstream_mirrors": [
+        "UN SDG database (8.8.1)"
+      ],
+      "duplicate_with": [
+        "SGK_HEALTH_STATISTICS (Türkiye national upstream, UNVERIFIED)"
+      ],
+      "recommended_future_reader_type": "REST_READER",
+      "recommended_future_poll_strategy": "Weekly: read TOC last-update for whitelisted indicators; re-pull changed indicator for ref_area slice",
+      "recommended_future_bounds": "Indicator whitelist (INJ_*) × ref_area={TUR, peers} × time range",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Licence/terms page not accessible (terms PDF 404, bulk page 403 to automation) → UNKNOWN.",
+      "technical_gate": "NONE (CSV API and SDMX flow list verified live).",
+      "data_quality_notes": "Injury counts depend on national reporting systems (insured workers only in many countries); counts != rates; no occupational-DISEASE indicator found in the 1,965-row TOC.",
+      "provenance_notes": "Added by gap audit: unique cross-country comparable occupational-injury statistics; Türkiye is a relay of the national source.",
+      "final_decision": "ACCEPT_ADDED_BY_GAP_AUDIT",
+      "decision_reason": "Uniquely covers OCCUPATIONAL_HEALTH comparably across countries with documented automation; injuries only (no disease indicator).",
+      "evidence": [
+        "https://rplumber.ilo.org/metadata/toc/indicator/?lang=en&format=.csv",
+        "https://rplumber.ilo.org/data/indicator/?id=INJ_FATL_ECO_NB_A&ref_area=TUR&format=.csv",
+        "https://sdmx.ilo.org/rest/dataflow/ILO",
+        "https://webapps.ilo.org/ilostat-files/Documents/ILOSTAT_BulkDownload_Guidelines.pdf"
+      ],
+      "merged_urls": [],
+      "nested_dataset_groups": [],
+      "machine_access_class": "DOCUMENTED_API",
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN"
     }
   ]
 }

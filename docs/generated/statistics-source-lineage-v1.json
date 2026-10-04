@@ -8,30 +8,37 @@
     {
       "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
       "indicator_family": "life expectancy (grapher/life-expectancy)",
-      "upstream": "UN WPP / WHO / others — read .metadata.json 'origins' per chart",
+      "upstream": "UN WPP 2024 (from 1950); Human Mortality Database 2025, Zijdeman et al. 2015, Riley 2005 (before 1950)",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "PARTIAL (metadata endpoint verified; per-chart origin not extracted)"
+      "evidence_status": "VERIFIED (metadata.json read)"
     },
     {
       "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
-      "indicator_family": "cause-of-death, TB, HIV, immunisation",
-      "upstream": "WHO / IHME / UNAIDS / UNICEF",
+      "indicator_family": "child mortality rate (grapher/child-mortality-rate-per-1000-live-births)",
+      "upstream": "UN WPP 2024 (not UN IGME/UNICEF CME)",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "UNKNOWN per chart (OWID FAQ states most data is from third parties such as WHO, UN, World Bank)"
+      "evidence_status": "VERIFIED (metadata.json read)"
     },
     {
       "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
-      "indicator_family": "health expenditure",
-      "upstream": "WHO GHED / World Bank",
+      "indicator_family": "TB mortality (grapher/tuberculosis-death-rate)",
+      "upstream": "WHO 2025; population from various sources",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "UNKNOWN per chart"
+      "evidence_status": "VERIFIED (metadata.json read)"
     },
     {
       "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
-      "indicator_family": "population",
-      "upstream": "UN WPP / WB",
+      "indicator_family": "HIV prevalence (grapher/share-of-the-population-infected-with-hiv)",
+      "upstream": "UNAIDS 2026",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "UNKNOWN per chart"
+      "evidence_status": "VERIFIED (metadata.json read)"
+    },
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "health expenditure; cancer / disease burden",
+      "upstream": "WHO GHED / World Bank; IARC / IHME GBD (typical)",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "UNKNOWN per chart — rule: read each chart's metadata.json before use"
     },
     {
       "secondary": "WORLD_BANK_HEALTH",
@@ -56,52 +63,52 @@
     },
     {
       "secondary": "WORLD_POPULATION_REVIEW",
-      "indicator_family": "population & demographics",
-      "upstream": "UN WPP / US Census / World Bank",
+      "indicator_family": "life expectancy / population",
+      "upstream": "World Bank, United Nations, WHO, US NCHS NVSR (its own source list)",
       "role": "DISCOVERY_CROSSCHECK",
-      "evidence_status": "UNKNOWN (not evidenced this phase)"
+      "evidence_status": "VERIFIED (source list on its life-expectancy page)"
     },
     {
       "secondary": "WORLDOMETER",
-      "indicator_family": "population/live counters",
-      "upstream": "UN (claimed) / WHO / national offices",
+      "indicator_family": "population, life expectancy",
+      "upstream": "United Nations (Population Division) estimates; counters = Worldometer algorithm",
       "role": "DISCOVERY_CROSSCHECK",
-      "evidence_status": "UNKNOWN; counters are 'proprietary algorithm' estimates"
+      "evidence_status": "VERIFIED (own page text)"
     },
     {
       "secondary": "WORLDSTATS_IO",
       "indicator_family": "population counters",
-      "upstream": "World Bank / other",
+      "upstream": "REST Countries API; World Bank",
       "role": "DISCOVERY_CROSSCHECK",
-      "evidence_status": "UNKNOWN"
+      "evidence_status": "VERIFIED (own footer)"
     },
     {
       "secondary": "STATBASE",
       "indicator_family": "unknown",
       "upstream": "UNKNOWN",
       "role": "DISCOVERY_CROSSCHECK",
-      "evidence_status": "UNKNOWN (homepage unreachable)"
+      "evidence_status": "UNKNOWN (homepage unreachable; non-blocking)"
     },
     {
       "secondary": "COUNTY_HEALTH_RANKINGS",
       "indicator_family": "US county measures",
-      "upstream": "CDC/NCHS, US Census, BRFSS (per CHR data-documentation page)",
+      "upstream": "CDC/NCHS, US Census, others (per CHR data-documentation page; list not parsed)",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "PARTIAL (documentation page listed, not parsed)"
+      "evidence_status": "PARTIAL"
     },
     {
       "secondary": "UN_SDG_GLOBAL_DATABASE",
-      "indicator_family": "SDG 3 series",
-      "upstream": "WHO / UNICEF / UN WPP / UNAIDS / WB custodians",
+      "indicator_family": "SDG 3 and 8.8.1 series",
+      "upstream": "WHO / UNICEF / UN WPP / UNAIDS / ILO / WB custodians",
       "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "PARTIAL (custodian model per SDG framework)"
+      "evidence_status": "PARTIAL (custodian model)"
     },
     {
       "secondary": "WHO_HEALTH_STATISTICS",
       "indicator_family": "Türkiye mortality",
       "upstream": "TÜİK / MoH Death Notification System",
       "role": "CANONICAL_DERIVED_DOWNSTREAM",
-      "evidence_status": "PARTIAL — TÜİK remains upstream truth for Türkiye"
+      "evidence_status": "PARTIAL — TÜİK remains upstream truth"
     },
     {
       "secondary": "OECD_HEALTH_STATISTICS",
@@ -127,7 +134,7 @@
     {
       "secondary": "WHO_HEALTH_STATISTICS",
       "indicator_family": "diabetes/obesity/BMI series",
-      "upstream": "NCD-RisC (inputs) — WHO relays",
+      "upstream": "NCD-RisC inputs — WHO relays",
       "role": "CANONICAL_DERIVED_DOWNSTREAM",
       "evidence_status": "UNKNOWN per indicator"
     },
@@ -139,11 +146,18 @@
       "evidence_status": "UNKNOWN"
     },
     {
-      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
-      "indicator_family": "cancer / disease burden",
-      "upstream": "IHME GBD / IARC",
-      "role": "SECONDARY_NORMALIZED_QA",
-      "evidence_status": "UNKNOWN per chart"
+      "secondary": "ILOSTAT_OSH",
+      "indicator_family": "Türkiye occupational injuries",
+      "upstream": "national source id FA:1729 (SGK administrative data is the likely origin — UNVERIFIED)",
+      "role": "CANONICAL_RELAY_OF_NATIONAL_SOURCE",
+      "evidence_status": "PARTIAL"
+    },
+    {
+      "secondary": "TURKSTAT_HEALTH_STATISTICS",
+      "indicator_family": "Türkiye cause-of-death",
+      "upstream": "MoH Death Notification System + MERNİS/ADNKS",
+      "role": "NATIONAL_CANONICAL",
+      "evidence_status": "VERIFIED (bulletin methodology via press summary; UNVERIFIED on TÜİK page)"
     }
   ],
   "input_url_dedup": {

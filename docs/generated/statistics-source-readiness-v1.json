@@ -1,0 +1,672 @@
+{
+  "phase": "CLOSE_REMAINING_SOURCE_BASE_GAPS",
+  "as_of": "2026-10-05",
+  "mode": "READ_ONLY_RESEARCH",
+  "note": "Research output. Not a production registry; no source is ACTIVE. Evidence = official URLs probed read-only on as_of; UNVERIFIED marks claims taken from secondary/search summaries.",
+  "states": {
+    "SOURCE_BASE_ARCHITECTURE_READY": "YES",
+    "SOURCE_BASE_COMPLETE": "YES",
+    "SOURCE_ACTIVATION_READY_ALL_SOURCES": "NO"
+  },
+  "p0_p1_sources": [
+    "TURKSTAT_HEALTH_STATISTICS",
+    "TR_MINISTRY_OF_HEALTH_STATISTICS",
+    "HSGM_PUBLIC_HEALTH_STATISTICS",
+    "SGK_HEALTH_STATISTICS",
+    "WHO_HEALTH_STATISTICS",
+    "WORLD_BANK_HEALTH",
+    "EUROSTAT_HEALTH",
+    "UN_WORLD_POPULATION_PROSPECTS",
+    "UNICEF_DATA",
+    "CDC_NCHS_HEALTH_STATISTICS",
+    "UK_ONS_HEALTH",
+    "OECD_HEALTH_STATISTICS"
+  ],
+  "p0_p1_all_architecture_ready": true,
+  "sources": [
+    {
+      "source_id": "TURKSTAT_HEALTH_STATISTICS",
+      "area": "TURKEY_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P0",
+      "machine_access_class": "DOCUMENTED_API_AUTH",
+      "adapter": "SDMX_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN_POLICY",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "TR_MINISTRY_OF_HEALTH_STATISTICS",
+      "area": "TURKEY_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P0",
+      "machine_access_class": "PDF_RELEASE",
+      "adapter": "PDF_RELEASE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "EXPLICIT_UNKNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "HSGM_PUBLIC_HEALTH_STATISTICS",
+      "area": "TURKEY_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P1",
+      "machine_access_class": "PDF_RELEASE",
+      "adapter": "PDF_RELEASE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "EXPLICIT_UNKNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "SGK_HEALTH_STATISTICS",
+      "area": "TURKEY_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P1",
+      "machine_access_class": "BULK_FILE",
+      "adapter": "BULK_FILE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN_POLICY",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "TR_HACETTEPE_HIPS_TNSA",
+      "area": "TURKEY_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P2",
+      "machine_access_class": "PDF_RELEASE",
+      "adapter": "PDF_RELEASE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "WHO_HEALTH_STATISTICS",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P0",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "WORLD_BANK_HEALTH",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P0",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "EUROSTAT_HEALTH",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P0",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "SDMX_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "UN_WORLD_POPULATION_PROSPECTS",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P0",
+      "machine_access_class": "DOCUMENTED_API_AUTH",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "UNICEF_DATA",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P1",
+      "machine_access_class": "PUBLIC_SDMX_ENDPOINT",
+      "adapter": "SDMX_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "CDC_NCHS_HEALTH_STATISTICS",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P1",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "PASS",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "US_CENSUS_HEALTH",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P2",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "PASS",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "UK_ONS_HEALTH",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P1",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "OECD_HEALTH_STATISTICS",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P1",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "SDMX_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": []
+    },
+    {
+      "source_id": "IHME_GBD",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P2",
+      "machine_access_class": "AUTH_EXPORT",
+      "adapter": "AUTHENTICATED_EXPORT_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "VERIFIED",
+      "activation_legal_gate": "LEGAL_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "legal gate LEGAL_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "IARC_GLOBAL_CANCER_OBSERVATORY",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P2",
+      "machine_access_class": "MANUAL_ONLY",
+      "adapter": "AUTHENTICATED_EXPORT_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "BLOCKED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate BLOCKED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "UNAIDS_DATA",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P2",
+      "machine_access_class": "MANUAL_ONLY",
+      "adapter": "BULK_FILE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "ECDC_SURVEILLANCE",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P2",
+      "machine_access_class": "MANUAL_ONLY",
+      "adapter": "BULK_FILE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "PARTIAL",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms PARTIAL",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "NCD_RISC",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "priority": "P2",
+      "machine_access_class": "BULK_FILE",
+      "adapter": "BULK_FILE_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    },
+    {
+      "source_id": "ILOSTAT_OSH",
+      "area": "GLOBAL_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "priority": "P2",
+      "machine_access_class": "DOCUMENTED_API",
+      "adapter": "REST_READER",
+      "exit_conditions": {
+        "SOURCE_IDENTITY_KNOWN": true,
+        "DATASET_OR_RELEASE_MODEL_KNOWN": true,
+        "MACHINE_ACCESS_CLASS_KNOWN": true,
+        "BOUNDED_INGEST_STRATEGY_KNOWN": true,
+        "REVISION_MODEL_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "PROVENANCE_ROLE_KNOWN": true,
+        "TERMS_STATUS_KNOWN_OR_EXPLICIT_UNKNOWN": true,
+        "ACTIVATION_GATE_EXPLICIT": true
+      },
+      "architecture_ready": true,
+      "terms_status": "UNKNOWN",
+      "activation_legal_gate": "OWNER_REVIEW_REQUIRED",
+      "source_activation_ready": "NO",
+      "activation_blockers": [
+        "owner authorization not given (P5)",
+        "terms UNKNOWN",
+        "legal gate OWNER_REVIEW_REQUIRED",
+        "no canary run (read-only phase)"
+      ],
+      "revision_status": "KNOWN",
+      "residual_unknowns": [
+        "official_terms_url",
+        "rate_limit"
+      ]
+    }
+  ]
+}
