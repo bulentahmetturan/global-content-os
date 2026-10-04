@@ -1,6 +1,6 @@
 # DOSSIER canary runbook (first controlled production canary)
 
-**Status: PREPARED, NOT EXECUTED.** Nothing below has run against production. Remote D1 is pre-0031, no dossier source is enabled, no dossier runtime is executing, nothing is deployed from this branch. This page is the auditable path for the owner and operator; every remote step is an explicit owner action.
+**Status: R1 + R2 DONE on 2026-10-04 (remote D1 now has the 0031 schema, verified, `docs/generated/dossier-0031-remote-apply.json`); R3 onward NOT EXECUTED.** The live Worker is still the pre-DOSSIER `f684f10`, no dossier source is enabled, no dossier runtime is executing, nothing is deployed from this branch. This page is the auditable path for the owner and operator; every remote step is an explicit owner action.
 
 ## What the package is
 
