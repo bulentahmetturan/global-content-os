@@ -68,3 +68,10 @@ export function testPolicy(over = {}) {
     ...over,
   };
 }
+
+/** TEST_ONLY: a verified Workers-Paid-like platform capacity (1000 D1 queries, 10000 subrequests, 30 s CPU). Production never has this unless the owner records it. */
+export const TEST_ONLY_PAID_CAPACITY = [['platform:d1_queries_per_invocation', '1000'], ['platform:subrequest_limit', '10000'], ['platform:cpu_budget_ms', '30000'], ['platform:capacity_verified', '1']];
+export async function setTestCapacity(db, capacity = TEST_ONLY_PAID_CAPACITY) {
+  const { setControl } = await import('./test-capacity-bridge.mjs');
+  for (const [key, value] of capacity) await setControl(db, { key, value, updatedBy: 'test-operator', now: '2026-10-03T00:00:00.000Z' });
+}

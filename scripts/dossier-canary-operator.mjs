@@ -15,6 +15,8 @@ const READ = ['status', 'runs', 'watch', 'candidates', 'errors', 'readiness'];
 
 export async function callDossier({ base, token, method = 'GET', path, body, fetchImpl = fetch }) {
   if (!base || !/^https?:\/\//.test(base)) throw new Error('--base <worker url> is required');
+  // the bearer token must never cross the network in clear text: plain http is only accepted for a local development host
+  if (!/^https:\/\//.test(base) && !/^http:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?(\/|$)/.test(base)) throw new Error('--base must be https (http only for localhost)');
   if (!token) throw new Error('OPS_TOKEN is required in the environment');
   const res = await fetchImpl(`${base.replace(/\/+$/, '')}/api/dossier/canary/${path}`, {
     method,
@@ -55,7 +57,7 @@ async function main() {
   const base = a.base;
   const print = (v) => console.log(JSON.stringify(v, null, 2));
   if (READ.includes(cmd)) {
-    const qs = [a.reader && `reader=${a.reader}`, a.limit && `limit=${a.limit}`, a.after && `after=${a.after}`].filter(Boolean).join('&');
+    const qs = [a.reader && `reader=${encodeURIComponent(a.reader)}`, a.limit && `limit=${encodeURIComponent(a.limit)}`, a.after && `after=${encodeURIComponent(a.after)}`].filter(Boolean).join('&');
     const { httpStatus, data } = await callDossier({ base, token, path: `${cmd}${qs ? `?${qs}` : ''}` });
     print({ httpStatus, ...data });
     return httpStatus < 400 ? 0 : 1;

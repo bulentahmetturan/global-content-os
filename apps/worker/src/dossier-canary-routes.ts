@@ -33,15 +33,36 @@ export function createProductionReader(reg: DossierReaderRegistration): Connecto
   throw new DossierError('reader_not_available_in_canary', reg.canonical_source_id);
 }
 
+/** Operator bodies are tiny (a reader id, an operator name, a control key/value): anything larger is refused before parsing. */
+export const MAX_OPERATOR_BODY_BYTES = 2048;
+const RUN_ID_OK = /^crun_[0-9a-f-]{36}$/;
+const MAX_QUERY_VALUE = 120;
+
+async function readOperatorBody(request: Request): Promise<{ ok: true; body: Record<string, unknown> | null } | { ok: false; res: Response }> {
+  const declared = Number(request.headers.get('content-length') ?? '0');
+  if (Number.isFinite(declared) && declared > MAX_OPERATOR_BODY_BYTES) return { ok: false, res: j({ error: 'BODY_TOO_LARGE' }, 413) };
+  const text = await request.text();
+  if (new TextEncoder().encode(text).length > MAX_OPERATOR_BODY_BYTES) return { ok: false, res: j({ error: 'BODY_TOO_LARGE' }, 413) };
+  try {
+    const v = JSON.parse(text) as unknown;
+    return { ok: true, body: v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : null };
+  } catch {
+    return { ok: true, body: null };
+  }
+}
+
 const num = (v: string | null): number | undefined => (v && /^\d{1,3}$/.test(v) ? Number(v) : undefined);
 
 /** Returns a Response for /api/dossier/canary/* or null when the path is not ours. */
 export async function handleDossierCanary(request: Request, env: Env, path: string, opts: { profile?: DossierCanaryProfile } = {}): Promise<Response | null> {
   const profile = opts.profile ?? DOSSIER_CANARY_V1;
   if (!path.startsWith('/api/dossier/canary/')) return null;
+  // authentication comes FIRST: nothing below (body parsing, validation, D1) runs for an unauthenticated caller. Header only: a token in the URL is never read.
   const auth = authorizeToken(env.OPS_TOKEN, bearerToken(request.headers.get('Authorization')), 'OPS_TOKEN_NOT_CONFIGURED');
   if (!auth.ok) return j({ error: auth.error }, auth.status);
+  if (request.method !== 'GET' && request.method !== 'POST') return new Response(JSON.stringify({ error: 'METHOD_NOT_ALLOWED' }), { status: 405, headers: { allow: 'GET, POST', 'content-type': 'application/json; charset=utf-8' } });
   const url = new URL(request.url);
+  for (const v of url.searchParams.values()) if (v.length > MAX_QUERY_VALUE) return j({ error: 'QUERY_VALUE_TOO_LONG' }, 400);
   const deps = { db: env.DB as never, profile, env: { DOSSIER_CANARY_ENABLED: env.DOSSIER_CANARY_ENABLED } };
   // read-only inspection is bounded by the same per-invocation D1 statement budget as a run (a refused statement is an error, never an overrun)
   const readDeps = { ...deps, db: createBudgetedD1(env.DB as never, profile.runtime.d1_statements_per_invocation.value).db };
@@ -56,7 +77,9 @@ export async function handleDossierCanary(request: Request, env: Env, path: stri
       if (sub === 'readiness') return j({ ok: true, readiness: await gatherDossierReadiness(env.DB as never, { environment: env.ENVIRONMENT === 'production' ? 'LIVE' : 'LOCAL', envMasterSwitch: env.DOSSIER_CANARY_ENABLED === 'true', profile }), profile_errors: validateCanaryProfile(profile) });
     }
     if (request.method === 'POST') {
-      const body = (await request.json().catch(() => null)) as { reader_id?: unknown; run_id?: unknown; key?: unknown; value?: unknown; operator?: unknown } | null;
+      const parsed = await readOperatorBody(request);
+      if (!parsed.ok) return parsed.res;
+      const body = parsed.body as { reader_id?: unknown; run_id?: unknown; key?: unknown; value?: unknown; operator?: unknown } | null;
       const operator = typeof body?.operator === 'string' ? body.operator.trim() : '';
       if (!operator || operator.length > 80) return j({ error: 'OPERATOR_REQUIRED' }, 400);
       if (sub === 'control') {
@@ -66,12 +89,15 @@ export async function handleDossierCanary(request: Request, env: Env, path: stri
       }
       if (sub === 'run') {
         if (typeof body?.reader_id !== 'string' || !DOSSIER_READER_REGISTRY.some((r) => r.dossier_reader_id === body.reader_id)) return j({ error: 'READER_NOT_REGISTERED' }, 400);
-        const out = await invokeCanary({ ...deps, createReader: createProductionReader, classifier: registryRecordClassifier, extractor: registryRecordExtractor }, { readerId: body.reader_id, operator, runId: typeof body.run_id === 'string' ? body.run_id : undefined });
+        if (body.run_id !== undefined && (typeof body.run_id !== 'string' || !RUN_ID_OK.test(body.run_id))) return j({ error: 'INVALID_RUN_ID' }, 400);
+        const out = await invokeCanary({ ...deps, createReader: createProductionReader, classifier: registryRecordClassifier, extractor: registryRecordExtractor }, { readerId: body.reader_id, operator, runId: body.run_id === undefined ? undefined : (body.run_id as string) });
         return j({ ok: out.status !== 'REFUSED', ...out }, out.status === 'REFUSED' ? 409 : 200);
       }
     }
     return j({ error: 'NOT_FOUND' }, 404);
   } catch (e) {
-    return j({ error: 'DOSSIER_CANARY_ERROR', message: e instanceof Error ? e.message.slice(0, 300) : 'unknown' }, e instanceof DossierError ? 400 : 500);
+    // only our own typed errors carry an operator-safe message; anything else (driver/SQL text) is not echoed
+    if (e instanceof DossierError) return j({ error: 'DOSSIER_CANARY_ERROR', message: e.message.slice(0, 300) }, 400);
+    return j({ error: 'DOSSIER_CANARY_ERROR', message: 'internal_error' }, 500);
   }
 }
