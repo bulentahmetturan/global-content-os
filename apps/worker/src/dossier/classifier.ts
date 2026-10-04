@@ -83,6 +83,19 @@ export function createFixtureExtractor(): ConceptExtractor {
   };
 }
 
+/**
+ * Extractor of structured sources (registry records, statistical rows): the reader already produced typed signals, there is no free text to analyse, so no mention is
+ * extracted. It never reads `item.fixture`: production data can never be stamped as, or fed by, fixture data.
+ */
+export function createStructuredSignalExtractor(): ConceptExtractor {
+  return {
+    method: 'SOURCE_STRUCTURED_SIGNALS',
+    extract() {
+      return { mentions: [], jointGroups: [] };
+    },
+  };
+}
+
 /** An evidence span must be a bounded excerpt, never the whole text (no transcript/article archive). */
 export function evidenceSpanIsBounded(span: string | null | undefined, text: string | null | undefined): boolean {
   if (!span) return true;

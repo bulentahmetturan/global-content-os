@@ -65,7 +65,7 @@ export async function runLocalPipeline(repo: DossierRepo, cfg: PipelineConfig): 
   const fetchCap = policyValue(cfg.policy.perRunFetchCap);
   if (itemCap === null) result.policyMissing.push('per_run_item_cap');
   if (fetchCap === null) result.policyMissing.push('per_run_fetch_cap');
-  if (cfg.extractor.method !== 'FIXTURE' && policyValue(cfg.policy.extractionMethod) !== cfg.extractor.method) result.policyMissing.push('extraction_method');
+  if (!['FIXTURE', 'SOURCE_STRUCTURED_SIGNALS'].includes(cfg.extractor.method) && policyValue(cfg.policy.extractionMethod) !== cfg.extractor.method) result.policyMissing.push('extraction_method');
   if (result.policyMissing.length) return { ...result, status: 'POLICY_NOT_SET' };
 
   const acc = newIngestAcc();

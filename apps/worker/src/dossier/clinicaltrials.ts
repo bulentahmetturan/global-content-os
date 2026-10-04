@@ -9,7 +9,7 @@
  * UNRESOLVED, so even though it is a real (non-mock) reader it is never eligible for activation until the source lifecycle
  * approves it. The existing acquisition (`ingestClinicalTrials`) is untouched and keeps its own semantics.
  */
-import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
+import { createStructuredSignalExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
 import type { SourceAttribution } from './attribution';
 import type { SourceRole } from './eligibility';
 import { describeConnector, type LegalState, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
@@ -190,7 +190,7 @@ export function normalizeStudy(study: CtStudy, classifier?: TopicCoherenceClassi
 
 /** Registry records carry no creator-content classification; they are signals, so the classifier answers UNKNOWN. */
 export const registryRecordClassifier: ContentClassifier = { method: 'REGISTRY_RECORD', classify: () => UNKNOWN_CLASSIFICATION };
-export const registryRecordExtractor = createFixtureExtractor();
+export const registryRecordExtractor = createStructuredSignalExtractor();
 
 export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: string | null; topicClassifier?: TopicCoherenceClassifier | null; readerId?: string; legalStatus?: LegalState }): Connector<CtStudy> {
   // legal status comes from the DOSSIER reader registration (APPROVED only once the official terms were verified); the default stays UNRESOLVED

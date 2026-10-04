@@ -4,7 +4,7 @@
 //   D2  schema 0031 present, DOSSIER_CANARY_ENABLED=true, reader controls OFF, platform capacity unverified -> nothing runs, the exact blocker is explained
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { bundle } from '../sqlite-d1.test-helper.mjs';
 import { openDossierDb, setTestCapacity } from './test-support.mjs';
 
@@ -91,6 +91,49 @@ test('D2: schema 0031 present + master switch ON + reader controls OFF + capacit
     assert.equal((await call(env, '/api/health')).status, 200);
     assert.equal(net.calls.length, 0);
     assert.equal(dossierRows(sqlite), 0);
+  } finally { net.restore(); }
+});
+
+/** A production-shaped, HEALTHY base: migrations recorded in d1_migrations, a fresh cron heartbeat, every optional secret present, handoff in stub mode. */
+function healthyBase(upTo) {
+  const { sqlite, db } = openDossierDb();
+  sqlite.exec(`CREATE TABLE IF NOT EXISTS d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
+  const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort().filter((n) => n <= upTo);
+  for (const f of files) sqlite.prepare(`INSERT INTO d1_migrations (name) VALUES (?)`).run(f);
+  sqlite.prepare(`UPDATE source_feeds SET last_fetched_at = ? WHERE id = (SELECT id FROM source_feeds LIMIT 1)`).run(new Date().toISOString());
+  return { sqlite, db, secrets: { STATUS_CALLBACK_TOKEN: 's', TIP_RADAR_INGEST_TOKEN: 'i', OPENALEX_API_KEY: 'o', CCOS_HANDOFF_STUB: 'true' } };
+}
+
+test('DEPLOY ORDER and global readiness semantics on a healthy base: Worker deployed BEFORE 0031 is BLOCKED (503, loud); after 0031 READY with DOSSIER disabled; enabling DOSSIER before capacity is verified only DEGRADES (200) with the one named reason; verified capacity restores READY', async () => {
+  const net = networkGuard();
+  try {
+    // R3 before R1 (wrong order): the new code expects 0031, the database is at 0030 -> BLOCKED, readable reason, and still no DOSSIER activity
+    const early = healthyBase('0030_source_lifecycle_pubmed_carrier_reconcile.sql');
+    const e = await call(envOf(early.db, early.secrets), '/api/ready');
+    const eb = await e.json();
+    assert.equal(e.status, 503);
+    assert.ok(eb.blocked.some((b) => b.startsWith('SCHEMA_BEHIND:0030')), eb.blocked.join());
+    // correct order: 0031 applied, master switch off -> READY, DOSSIER DISABLED
+    const ok = healthyBase('0031_dossier_discovery_foundation.sql');
+    const r1 = await (await call(envOf(ok.db, ok.secrets), '/api/ready')).json();
+    assert.equal(r1.level, 'READY');
+    assert.equal(r1.dossier.level, 'DISABLED');
+    assert.deepEqual([r1.blocked, r1.degraded], [[], []]);
+    // master switch ON but capacity not yet verified: GCOS still serves (200), level DEGRADED with exactly one DOSSIER reason, DOSSIER itself BLOCKED_FOR_RUN
+    const r2res = await call(envOf(ok.db, { ...ok.secrets, DOSSIER_CANARY_ENABLED: 'true' }), '/api/ready');
+    const r2 = await r2res.json();
+    assert.equal(r2res.status, 200);
+    assert.deepEqual([r2.level, r2.blocked, r2.degraded], ['DEGRADED', [], ['DOSSIER_CANARY_NOT_READY']]);
+    assert.equal(r2.dossier.level, 'BLOCKED');
+    assert.ok(r2.dossier.components.PLATFORM_CAPACITY_READY.reasons.includes('PLATFORM_CAPACITY_NOT_VERIFIED'));
+    assert.equal((await call(envOf(ok.db, { ...ok.secrets, DOSSIER_CANARY_ENABLED: 'true' }), '/api/health')).status, 200);
+    // capacity recorded and verified by the owner: the DOSSIER component is ready again and the global level returns to READY
+    await setTestCapacity(ok.db);
+    const r3 = await (await call(envOf(ok.db, { ...ok.secrets, DOSSIER_CANARY_ENABLED: 'true' }), '/api/ready')).json();
+    assert.equal(r3.dossier.components.PLATFORM_CAPACITY_READY.ready, true);
+    assert.deepEqual([r3.level, r3.degraded], r3.dossier.level === 'BLOCKED' ? ['DEGRADED', ['DOSSIER_CANARY_NOT_READY']] : ['READY', []]);
+    assert.equal(net.calls.length, 0);
+    for (const w of [early, ok]) assert.equal(dossierRows(w.sqlite), 0);
   } finally { net.restore(); }
 });
 

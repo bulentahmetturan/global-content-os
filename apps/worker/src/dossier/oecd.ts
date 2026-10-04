@@ -22,7 +22,7 @@
  */
 import type { SourceAttribution } from './attribution';
 import { describeConnector, type LegalState, type Connector, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
-import { createFixtureExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
+import { createStructuredSignalExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
 import type { SourceRole } from './eligibility';
 import { DossierError } from './types';
 
@@ -190,7 +190,7 @@ export function normalizeSdmxRelease(msg: SdmxDataMessage, o: { maxRows: number;
 
 /** Statistical rows carry no creator-content classification; they are signals, so the classifier answers UNKNOWN. */
 export const statisticalRowClassifier: ContentClassifier = { method: 'STATISTICAL_RELEASE', classify: () => UNKNOWN_CLASSIFICATION };
-export const statisticalRowExtractor = createFixtureExtractor();
+export const statisticalRowExtractor = createStructuredSignalExtractor();
 
 export function createOecdHealthReader(o: { fetchImpl: FetchLike; readerId?: string; legalStatus?: LegalState }): Connector<SdmxDataMessage> {
   const descriptor = describeConnector({ id: o.readerId ?? 'oecd-health-turkiye-mortality', class: 'PUBLIC_DATA_API', acquisitionSourceId: OECD_SOURCE_ID, legalStatus: o.legalStatus ?? 'UNRESOLVED', mock: false, attribution: OECD_ATTRIBUTION });
