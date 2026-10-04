@@ -181,6 +181,16 @@ Source of truth: `release/dossier-canary-commands.json` (checked by `command-aud
 | R12.1 | READ_ONLY | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> candidates` | evidence for the human review (no review endpoint exists yet; none is expected to be needed) |
 | R13.1 | REMOTE_MUTATING_OWNER_APPROVAL_REQUIRED **[DO NOT RUN]** | `OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:extra_runs_authorized 1` | post-canary decision: authorize ONE extra run |
 
+## Operating contract added by the overnight hardening (2026-10-04, all local)
+
+- **Platform capacity contract.** No run is allowed until the owner records the verified platform limits (`platform:d1_queries_per_invocation`, `platform:subrequest_limit`, `platform:cpu_budget_ms`) and asserts `platform:capacity_verified 1` (refused unless all three exist; changing any number withdraws the verification). The runner never infers a plan and never clamps: a budget above the verified capacity is refused (`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_D1_CAPACITY`), a budget below the smallest runnable unit (57) is refused before any source request. Workers Free canary: `NOT_PRACTICAL_WITH_CURRENT_ARCHITECTURE` (a 100-study run would need roughly 280 operator calls at 50 queries).
+- **Deploy order is enforced by readiness.** A Worker deployed before 0031 is `BLOCKED` (`SCHEMA_BEHIND`, 503). With the master switch on but capacity unverified, GCOS stays up (200) and reports `DEGRADED` with the single reason `DOSSIER_CANARY_NOT_READY`; verified capacity restores `READY`.
+- **Recovery contract (proven by a 20-point kill sweep).** A killed invocation leaves the run `RUNNING` with a held lease; after the lease (120 s) the operator repeats the same request and the run resumes from its checkpoint to the same durable state, with no second source request. A `FAILED` run does not consume the one-run quota and is not resumable by id; a fresh run reuses the failed run's observations. An empty or unusable source page FAILS the run (it does not consume the quota).
+- **Operator summary.** `status` now carries `operator_summary`: enabled state, per-reader blockers, active run, last run (checkpoint, observations), last error, WATCH / candidate counts, blocking switches and the owner actions still required.
+- **Operator surface.** OPS_TOKEN first, GET/POST only, body limit 2 KB, run ids validated, internal errors never echoed, the CLI refuses clear-text http (except localhost). A request without valid OPS auth reaches no D1 statement.
+- **Production data is labelled honestly.** Observations carry `extractor_version = SOURCE_STRUCTURED_SIGNALS`, never `FIXTURE`.
+- **Evidence artifacts:** `docs/generated/dossier-0031-preflight.json` (local rehearsal), `release/dossier-canary-release-manifest.json`, `release/dossier-canary-commands.json`, `docs/DOSSIER-OECD-VERIFICATION-CHECKLIST.md`.
+
 ## Stop conditions (stop and inspect; do not continue)
 
 A refused invocation (read its `reasons`); a `FAILED` run (`errors`); statements per invocation approaching the budget; any candidate that appears unexpectedly; any concept not `PROPOSED`; any change in the existing GCOS health level; any request to a host other than `clinicaltrials.gov` / `sdmx.oecd.org`.
