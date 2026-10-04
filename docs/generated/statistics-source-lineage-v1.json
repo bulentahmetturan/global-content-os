@@ -1,0 +1,174 @@
+{
+  "phase": "SOURCE_DISCOVERY_AND_DATASET_AUDIT",
+  "as_of": "2026-10-05",
+  "mode": "READ_ONLY_RESEARCH",
+  "note": "Research output. Not a production registry; no source is ACTIVE. Evidence = official URLs probed read-only on as_of; UNVERIFIED marks claims taken from secondary/search summaries.",
+  "rule": "Secondary/mirror rows are never independent evidence; UNKNOWN where lineage is not evidenced.",
+  "rows": [
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "life expectancy (grapher/life-expectancy)",
+      "upstream": "UN WPP / WHO / others — read .metadata.json 'origins' per chart",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "PARTIAL (metadata endpoint verified; per-chart origin not extracted)"
+    },
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "cause-of-death, TB, HIV, immunisation",
+      "upstream": "WHO / IHME / UNAIDS / UNICEF",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "UNKNOWN per chart (OWID FAQ states most data is from third parties such as WHO, UN, World Bank)"
+    },
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "health expenditure",
+      "upstream": "WHO GHED / World Bank",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "UNKNOWN per chart"
+    },
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "population",
+      "upstream": "UN WPP / WB",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "UNKNOWN per chart"
+    },
+    {
+      "secondary": "WORLD_BANK_HEALTH",
+      "indicator_family": "life expectancy, mortality, immunisation",
+      "upstream": "WHO / UNICEF / UN WPP (HNP source 16; sourceNote per indicator)",
+      "role": "MIRROR_WITH_LINEAGE (not independent)",
+      "evidence_status": "PARTIAL (indicator sourceNote carries upstream)"
+    },
+    {
+      "secondary": "WORLD_BANK_HEALTH",
+      "indicator_family": "current health expenditure (SH.XPD.CHEX.*)",
+      "upstream": "WHO GHED",
+      "role": "MIRROR_WITH_LINEAGE",
+      "evidence_status": "PARTIAL"
+    },
+    {
+      "secondary": "WORLD_BANK_HEALTH",
+      "indicator_family": "population (source 40)",
+      "upstream": "UN WPP",
+      "role": "MIRROR_WITH_LINEAGE",
+      "evidence_status": "PARTIAL"
+    },
+    {
+      "secondary": "WORLD_POPULATION_REVIEW",
+      "indicator_family": "population & demographics",
+      "upstream": "UN WPP / US Census / World Bank",
+      "role": "DISCOVERY_CROSSCHECK",
+      "evidence_status": "UNKNOWN (not evidenced this phase)"
+    },
+    {
+      "secondary": "WORLDOMETER",
+      "indicator_family": "population/live counters",
+      "upstream": "UN (claimed) / WHO / national offices",
+      "role": "DISCOVERY_CROSSCHECK",
+      "evidence_status": "UNKNOWN; counters are 'proprietary algorithm' estimates"
+    },
+    {
+      "secondary": "WORLDSTATS_IO",
+      "indicator_family": "population counters",
+      "upstream": "World Bank / other",
+      "role": "DISCOVERY_CROSSCHECK",
+      "evidence_status": "UNKNOWN"
+    },
+    {
+      "secondary": "STATBASE",
+      "indicator_family": "unknown",
+      "upstream": "UNKNOWN",
+      "role": "DISCOVERY_CROSSCHECK",
+      "evidence_status": "UNKNOWN (homepage unreachable)"
+    },
+    {
+      "secondary": "COUNTY_HEALTH_RANKINGS",
+      "indicator_family": "US county measures",
+      "upstream": "CDC/NCHS, US Census, BRFSS (per CHR data-documentation page)",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "PARTIAL (documentation page listed, not parsed)"
+    },
+    {
+      "secondary": "UN_SDG_GLOBAL_DATABASE",
+      "indicator_family": "SDG 3 series",
+      "upstream": "WHO / UNICEF / UN WPP / UNAIDS / WB custodians",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "PARTIAL (custodian model per SDG framework)"
+    },
+    {
+      "secondary": "WHO_HEALTH_STATISTICS",
+      "indicator_family": "Türkiye mortality",
+      "upstream": "TÜİK / MoH Death Notification System",
+      "role": "CANONICAL_DERIVED_DOWNSTREAM",
+      "evidence_status": "PARTIAL — TÜİK remains upstream truth for Türkiye"
+    },
+    {
+      "secondary": "OECD_HEALTH_STATISTICS",
+      "indicator_family": "Türkiye health statistics",
+      "upstream": "TÜİK / MoH",
+      "role": "CANONICAL_GATED_DERIVED",
+      "evidence_status": "PARTIAL"
+    },
+    {
+      "secondary": "EUROSTAT_HEALTH",
+      "indicator_family": "Türkiye (geo=TR) health",
+      "upstream": "TÜİK",
+      "role": "CANONICAL_DERIVED_DOWNSTREAM",
+      "evidence_status": "PARTIAL"
+    },
+    {
+      "secondary": "UNICEF_DATA",
+      "indicator_family": "child mortality (CME)",
+      "upstream": "UN IGME (UNICEF/WHO/WB/UN DESA)",
+      "role": "CANONICAL_CO_OWNED",
+      "evidence_status": "PARTIAL — avoid double counting with WHO GHO"
+    },
+    {
+      "secondary": "WHO_HEALTH_STATISTICS",
+      "indicator_family": "diabetes/obesity/BMI series",
+      "upstream": "NCD-RisC (inputs) — WHO relays",
+      "role": "CANONICAL_DERIVED_DOWNSTREAM",
+      "evidence_status": "UNKNOWN per indicator"
+    },
+    {
+      "secondary": "IARC_GLOBAL_CANCER_OBSERVATORY",
+      "indicator_family": "Türkiye cancer",
+      "upstream": "Turkish Cancer Registry (HSGM) as one input among models",
+      "role": "INDEPENDENT_MODEL_VS_NATIONAL_REGISTRY",
+      "evidence_status": "UNKNOWN"
+    },
+    {
+      "secondary": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "indicator_family": "cancer / disease burden",
+      "upstream": "IHME GBD / IARC",
+      "role": "SECONDARY_NORMALIZED_QA",
+      "evidence_status": "UNKNOWN per chart"
+    }
+  ],
+  "input_url_dedup": {
+    "https://www.worldometers.info/": "WORLDOMETER",
+    "https://ourworldindata.org/": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+    "https://ourworldindata.org/global-health": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+    "https://data.worldbank.org/": "WORLD_BANK_HEALTH",
+    "https://data.worldbank.org/topic/health": "WORLD_BANK_HEALTH",
+    "https://population.un.org/wpp/": "UN_WORLD_POPULATION_PROSPECTS",
+    "https://data-explorer.oecd.org/": "OECD_HEALTH_STATISTICS",
+    "https://www.oecd.org/en/data/datasets/oecd-health-statistics.html": "OECD_HEALTH_STATISTICS",
+    "https://guides.stlcc.edu/statistics/world": "STLCC_WORLD_STATISTICS_GUIDE",
+    "https://statbase.org/": "STATBASE",
+    "https://worldstats.io/": "WORLDSTATS_IO",
+    "https://worldpopulationreview.com/": "WORLD_POPULATION_REVIEW",
+    "https://www.worldofstatistics.org/": "WORLD_OF_STATISTICS",
+    "https://www.census.gov/topics/health.html": "US_CENSUS_HEALTH",
+    "https://www.who.int/data/gho/publications/world-health-statistics": "WHO_HEALTH_STATISTICS",
+    "https://www.who.int/health-statistics": "WHO_HEALTH_STATISTICS",
+    "https://www.healthdata.org/": "IHME_GBD",
+    "https://digitallibrary.un.org/record/4085690?v=pdf": "UN_DIGITAL_LIBRARY_HEALTH_STATISTICS_REFERENCE",
+    "https://www.ncbi.nlm.nih.gov/books/NBK223602/": "NCBI_HEALTH_STATISTICS_REFERENCE",
+    "https://www.countyhealthrankings.org/health-data": "COUNTY_HEALTH_RANKINGS",
+    "https://ec.europa.eu/eurostat/web/health": "EUROSTAT_HEALTH",
+    "https://www.sciencedirect.com/topics/social-sciences/health-statistics": "SCIENCEDIRECT_HEALTH_STATISTICS_REFERENCE",
+    "https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare (x2, deduplicated)": "UK_ONS_HEALTH"
+  }
+}
