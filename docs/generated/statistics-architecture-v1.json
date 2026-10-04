@@ -1,0 +1,122 @@
+{
+  "phase": "DESIGN_HEALTH_STATISTICS_PIPELINE_ARCHITECTURE",
+  "as_of": "2026-10-05",
+  "source_base_version": "V1",
+  "mode": "ARCHITECTURE_ONLY",
+  "note": "Design record. No schema, migration, route, cron, binding or code exists for it.",
+  "final": {
+    "STATISTICS_TEMPORAL_MODEL": "SEPARATE_STRUCTURED_SUBSYSTEM",
+    "THIRD_TEMPORAL_PATH_CREATED": "NO",
+    "MAIN_COMPATIBILITY_AUDIT": "PARTIAL",
+    "PIPELINE_ARCHITECTURE_READY": "YES",
+    "SCHEMA_DESIGN_READY": "YES",
+    "UNRESOLVED_ARCHITECTURAL_BLOCKERS": 0,
+    "P0_P1_SOURCES_MAPPED_TO_ADAPTERS": "12/12"
+  },
+  "decisions": {
+    "STRUCTURED_STORE": "Dedicated D1 database (future binding STATS_DB, own migrations dir); fallback = statistics_* tables in the existing DB. Owner decision at the schema gate.",
+    "RAW_ARTIFACT_STORE": "ArtifactStore abstraction; durable implementation R2 (not bound anywhere today); metadata-only mode until then",
+    "RAW_ARTIFACT_STORE_IMPLEMENTATION_STATUS": "FUTURE",
+    "SERIES_DIMENSION_MODEL": "HYBRID: typed core dimension columns on the series row + indexed extension table (series_id, dim_code, value_code) + lossless source_key_json never queried",
+    "OBSERVATION_HISTORY_MODEL": "Immutable observation versions keyed (series, period, release); write only on digest change; revision_class + supersedes pointer",
+    "CURRENT_PROJECTION_MODEL": "Materialized statistics_current_observations (series_id, period_key) → current_version_id with denormalized value; same atomic batch; rebuildable",
+    "PROVENANCE_MODEL": "Structural: every version carries release_id + run_id + source_locator (+artifact_id for files); runs carry adapter/parser/mapping versions; releases carry URL/terms; artifacts carry checksums; lineage graph at source level",
+    "INGESTION_RUN_MODEL": "Worker plans/leases/admits; executors fetch→normalize and POST bounded batches; run status PLANNED→RUNNING→COMPLETED|PARTIAL|FAILED|CANCELLED with stage markers",
+    "CHECKPOINT_MODEL": "Per bounded unit (source, dataset, scope_key); advances only on success; idempotency by deterministic ids + UNIQUE keys",
+    "SOURCE_ACTIVATION_MODEL": "Runtime policy separate from registry: DISABLED(default)/CANARY_ONLY/ACTIVE/PAUSED/RETIRED; only owner-authorized moves up; machine may only pause",
+    "TIME_SENSITIVE_BRIDGE": "One-way outbox (statistics_release_events) → optional bounded candidate into existing TIME_SENSITIVE triage; values suppressed unless republication gate PASS"
+  },
+  "boundary": {
+    "temporal_paths": [
+      "TIME_SENSITIVE",
+      "EVERGREEN"
+    ],
+    "statistics_is_evergreen": false,
+    "statistics_is_time_sensitive": false,
+    "bridge": "one-way outbox"
+  },
+  "platform_facts": {
+    "local_main": "26f4a45",
+    "origin_main": "f684f10 (21 commits ahead)",
+    "bindings": [
+      "DB (D1)",
+      "ASSETS",
+      "AI"
+    ],
+    "no_r2_kv_queues": true,
+    "cron": "single * * * * * rotating one job per tick; Workers Free 10 ms CPU",
+    "d1_quota_note": "5M rows read/day shared with live Worker (docs/OPERATIONS.md §7)",
+    "migrations": "0001–0026 local; 0028–0030 on origin/main; 0027 reserved for localization-v2",
+    "runtime_precedent": "evergreen_runtime_state: Worker-owned lease/cursor, hourly GitHub runner, bounded plan/complete"
+  },
+  "run_state_machine": {
+    "statuses": [
+      "PLANNED",
+      "RUNNING",
+      "COMPLETED",
+      "PARTIAL",
+      "FAILED",
+      "CANCELLED"
+    ],
+    "stages": [
+      "DISCOVER",
+      "FETCH",
+      "CAPTURE",
+      "PARSE",
+      "NORMALIZE",
+      "VALIDATE",
+      "WRITE",
+      "RECONCILE",
+      "FINALIZE"
+    ],
+    "source_runtime_states": [
+      "DISABLED",
+      "CANARY_ONLY",
+      "ACTIVE",
+      "PAUSED",
+      "RETIRED"
+    ]
+  },
+  "failure_classes": [
+    "TRANSIENT_SOURCE_FAILURE",
+    "AUTH_FAILURE",
+    "TERMS_GATE",
+    "SCHEMA_DRIFT",
+    "PARSER_FAILURE",
+    "VALIDATION_FAILURE",
+    "REVISION_CONFLICT",
+    "PLATFORM_FAILURE",
+    "UNKNOWN"
+  ],
+  "quality_states": [
+    "VALID",
+    "SUSPECT",
+    "QUARANTINED"
+  ],
+  "mapping_states": [
+    "EXACT",
+    "COMPATIBLE",
+    "NON_EQUIVALENT",
+    "REVIEW_REQUIRED"
+  ],
+  "lineage_edge_types": [
+    "DERIVED_FROM",
+    "MIRROR_OF",
+    "CO_OWNED_WITH",
+    "SUPERSEDES"
+  ],
+  "revision_classes": [
+    "NEW_RELEASE",
+    "SOURCE_REVISION",
+    "CORRECTION",
+    "METHODOLOGY_CHANGE",
+    "BACKFILL",
+    "UNKNOWN_REVISION"
+  ],
+  "retention_classes": [
+    "R0_TRANSIENT",
+    "R1_EVIDENCE",
+    "R2_FAILED_QUARANTINE",
+    "R3_CANARY"
+  ]
+}

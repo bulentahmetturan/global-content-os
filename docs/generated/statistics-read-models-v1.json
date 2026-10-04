@@ -1,0 +1,143 @@
+{
+  "phase": "DESIGN_HEALTH_STATISTICS_PIPELINE_ARCHITECTURE",
+  "as_of": "2026-10-05",
+  "source_base_version": "V1",
+  "mode": "ARCHITECTURE_ONLY",
+  "note": "Design record. No schema, migration, route, cron, binding or code exists for it.",
+  "read_models": [
+    {
+      "id": "RM-01",
+      "name": "Latest value by series",
+      "query": "current row for (series_id) with greatest period_start",
+      "indexes": [
+        "statistics_current_observations(series_id, period_start DESC)"
+      ],
+      "bounds": "1 row per series; series list ≤ 100",
+      "avoids": "history scan"
+    },
+    {
+      "id": "RM-02",
+      "name": "Historical series",
+      "query": "current rows for (series_id, period range)",
+      "indexes": [
+        "PK (series_id, period_key)"
+      ],
+      "bounds": "period range required",
+      "avoids": "full history"
+    },
+    {
+      "id": "RM-03",
+      "name": "Release comparison",
+      "query": "versions of release A vs release B for a bounded series list",
+      "indexes": [
+        "statistics_observation_versions(release_id, series_id) partial"
+      ],
+      "bounds": "release pair + series list ≤ 500",
+      "avoids": "whole-table diff"
+    },
+    {
+      "id": "RM-04",
+      "name": "Revision history",
+      "query": "all versions for (series_id, period_key)",
+      "indexes": [
+        "UNIQUE(series_id, period_key, release_id)"
+      ],
+      "bounds": "one series-period",
+      "avoids": "n/a"
+    },
+    {
+      "id": "RM-05",
+      "name": "Source provenance",
+      "query": "version → release → run → artifact by primary keys",
+      "indexes": [
+        "PKs"
+      ],
+      "bounds": "one version",
+      "avoids": "n/a"
+    },
+    {
+      "id": "RM-06",
+      "name": "Türkiye-only (subject geography)",
+      "query": "series where geo_id in Türkiye subtree (ISO3:TUR + TUIK_IBBS/NUTS children) then current rows",
+      "indexes": [
+        "statistics_series(geo_id, concept_id)",
+        "statistics_geographies(parent_geo_id)"
+      ],
+      "bounds": "concept list required",
+      "avoids": "join to source area; Türkiye-source ≠ Türkiye-subject"
+    },
+    {
+      "id": "RM-07",
+      "name": "Global comparison",
+      "query": "series by (concept_id, geo list) then current rows for one period",
+      "indexes": [
+        "statistics_series(concept_id, geo_id)"
+      ],
+      "bounds": "geo list ≤ 50, one period or short range",
+      "avoids": "all-country scans"
+    },
+    {
+      "id": "RM-08",
+      "name": "Indicator + country + time",
+      "query": "series by (dataset/indicator, geo) then period range",
+      "indexes": [
+        "statistics_series(dataset_id, indicator_id)",
+        "statistics_series(geo_id, concept_id)"
+      ],
+      "bounds": "all three required",
+      "avoids": "n/a"
+    },
+    {
+      "id": "RM-09",
+      "name": "Data-quality flags",
+      "query": "versions/current rows with quality_state<>'VALID' for a source",
+      "indexes": [
+        "partial index WHERE quality_state<>'VALID'"
+      ],
+      "bounds": "source or release filter",
+      "avoids": "table scan"
+    },
+    {
+      "id": "RM-10",
+      "name": "Release feed",
+      "query": "latest releases per source/dataset",
+      "indexes": [
+        "statistics_releases(source_id, published_at DESC)"
+      ],
+      "bounds": "LIMIT N",
+      "avoids": "n/a"
+    },
+    {
+      "id": "RM-11",
+      "name": "Recent material revisions",
+      "query": "versions with revision_class<>'NEW_RELEASE' ordered by created_at, joined by version PK to the current projection",
+      "indexes": [
+        "partial (revision_class, created_at) WHERE revision_class<>'NEW_RELEASE'"
+      ],
+      "bounds": "time window ≤ 30 days + LIMIT",
+      "avoids": "history scan"
+    },
+    {
+      "id": "RM-12",
+      "name": "Source health",
+      "query": "runtime policy + latest run + checkpoints per source (precomputed summary columns)",
+      "indexes": [
+        "PK (source_id, dataset_id)"
+      ],
+      "bounds": "≤ ~40 sources",
+      "avoids": "aggregation over runs"
+    },
+    {
+      "id": "RM-13",
+      "name": "Same-concept cross-source view",
+      "query": "series with the same concept_id and mapping state EXACT/COMPATIBLE for one geo+period, with lineage independence flag",
+      "indexes": [
+        "statistics_series(concept_id, geo_id)",
+        "statistics_lineage_edges(from_node)"
+      ],
+      "bounds": "one concept × one geo × one period",
+      "avoids": "truth voting; shows all alternatives"
+    }
+  ],
+  "rule": "no routine whole-table analytics; every query names its bound"
+}
