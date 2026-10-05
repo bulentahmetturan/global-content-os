@@ -10,14 +10,16 @@
  *   CANONICAL_OBSERVATION_UNIT one (cause code, reference year) cell = ONE source item = one observation (about 23 D1 statements to ingest)
  * The request stays bounded; the work is divided per cell so a Worker invocation can pause at a cell boundary (no 460-statement indivisible unit).
  *
- * Identity is source-native (dataset, geo, sex, age, unit, cause code, reference year, and the cell's value + status flag as the revision
- * discriminator); labels never enter the identity, so a display-label change creates no duplicate. An unchanged cell re-read later is the same
- * origin (a no-op); a revised cell is a NEW origin that sits beside the old one (append-only history, nothing is overwritten).
+ * Identity is source-native: dataset, geo, sex, age, unit, cause code, reference year (the canonical CELL), plus the RELEASE instant (the dataset `updated`
+ * marker) and the cell's value + status flag. Labels never enter the identity. The same release and content is the same origin (a no-op); every other
+ * release or value is a NEW origin beside the old ones (append-only history, nothing is overwritten). Which release is CURRENT is decided deterministically
+ * by the aggregate (aggregation.ts `selectEffectiveRelease`): the greatest valid release instant; see EUROSTAT_CURRENT_VALUE_PRECEDENCE.
  *
  * Structure, not wording: only the `icd10` dimension creates topics. All-cause aggregates (`TOTAL`, `A-R_V-Y`) are context; Eurostat's own
  * residual categories (code suffix `_OTH`, labelled "remainder of ...") are ambiguous topics (REVIEW_REQUIRED). Nothing else is inferred:
  * Eurostat exposes no taxonomy parent here, so granularity stays UNKNOWN (GRANULARITY_PARENTAGE = UNKNOWN) and fails closed at the gate.
- * A cell with no value is UNKNOWN and is reported, never written as an observation (an UNKNOWN row must not count as family support) and never zero.
+ * A cell with no value is UNKNOWN: it is written as an UNKNOWN-valued tombstone for its release (so a release that stops carrying a value supersedes the older value)
+ * and the effective-release selection removes the cell from burden support; it is never zero and never counts as family support.
  *
  * Not wired: not imported by the Worker, no scheduler, no activation. Checked-in registration is disabled (see canary-v2.ts).
  */
@@ -25,6 +27,7 @@ import type { SourceAttribution } from './attribution';
 import { describeConnector, type Connector, type LegalState, type ReaderPlan, type SignalInput, type SourceItem } from './connectors';
 import { createStructuredSignalExtractor, UNKNOWN_CLASSIFICATION, type ContentClassifier } from './classifier';
 import type { SourceRole } from './eligibility';
+import { selectEffectiveRelease, type EffectiveReason } from './aggregation';
 import { DossierError, type D1Like } from './types';
 
 export const EUROSTAT_SOURCE_ID = 'eurostat-hlth-cd-asdr2';
@@ -43,6 +46,11 @@ export const EUROSTAT_DIMENSIONS = ['freq', 'unit', 'sex', 'age', 'icd10', 'geo'
 export const EUROSTAT_ALL_CAUSES_CODES: readonly string[] = ['TOTAL', 'A-R_V-Y'];
 /** Eurostat's standard residual-category suffix ("Other ... (remainder of X)"): a source-defined leftover, not a named topic. */
 export const EUROSTAT_RESIDUAL_SUFFIX = '_OTH';
+/** The exact rule by which the CURRENT value of one canonical Eurostat cell is chosen (implemented in aggregation.ts selectEffectiveRelease; history is never modified). */
+export const EUROSTAT_CURRENT_VALUE_PRECEDENCE =
+  'per canonical cell (dataset, geo, sex, age, unit, icd10, reference year): the origin with the greatest VALID release instant (`rel` = Eurostat dataset `updated`, normalized to UTC) is current; ' +
+  'equal greatest instants with different (value, flag) are ambiguous and stay effective together (aggregate UNKNOWN, fail closed); an unparsable `rel` never wins and with no valid `rel` all rows stay effective; ' +
+  'a current origin whose value is UNKNOWN (newest release has no value) removes the cell from support (never zero, never the stale value); insertion time and row ids are never used.';
 export const EUROSTAT_MAX_REQUESTS_PER_RUN = 2; // the data request and at most one retry of a transient failure
 export const EUROSTAT_DEFAULT_TIMEOUT_MS = 10_000;
 export const EUROSTAT_MAX_RETRY_AFTER_MS = 5_000;
@@ -211,7 +219,7 @@ export function parseEurostatSlice(raw: unknown, o: { maxCells: number }): Parse
     if (v !== undefined && v !== null) {
       if (typeof v !== 'number' || !Number.isFinite(v) || v < 0) return fail(EUROSTAT_ERRORS.PARSE, `malformed value at ${code}: ${JSON.stringify(v)}`);
       value = v;
-      withValue += 1;
+      if (cellKind(code) !== 'ALL_CAUSES_CONTEXT') withValue += 1; // an all-cause aggregate alone is not a usable topic response
     }
     const label = clean(labelOf[code]);
     if (!label) return fail(EUROSTAT_ERRORS.PARSE, `cause ${code} has no label`);
@@ -224,16 +232,16 @@ export function parseEurostatSlice(raw: unknown, o: { maxCells: number }): Parse
 
 // ------------------------------------------------------------------------------------------------ identity / normalization
 const numText = (v: number | null): string => (v === null ? 'NA' : String(v));
-/** Source-native, label-free identity of one cell. The value and status flag are the revision discriminator: same cell + same value = same origin. */
-export function eurostatIdentity(c: { code: string; year: string; value: number | null; flag: string }): string {
-  return `${EUROSTAT_DATASET_ID}|geo=${EUROSTAT_GEO_TURKIYE}|sex=${EUROSTAT_SLICE.sex}|age=${EUROSTAT_SLICE.age}|unit=${EUROSTAT_SLICE.unit}|icd10=${c.code}|time=${c.year}|v=${numText(c.value)}|f=${c.flag}`;
+/** Source-native, label-free identity of one cell AT ONE RELEASE. The same release with the same value and flag is the same origin (replay = no-op). */
+export function eurostatIdentity(c: { code: string; year: string; release: string; value: number | null; flag: string }): string {
+  return `${EUROSTAT_DATASET_ID}|geo=${EUROSTAT_GEO_TURKIYE}|sex=${EUROSTAT_SLICE.sex}|age=${EUROSTAT_SLICE.age}|unit=${EUROSTAT_SLICE.unit}|icd10=${c.code}|time=${c.year}|rel=${c.release}|v=${numText(c.value)}|f=${c.flag}`;
 }
-export interface IdentityParts { code: string; year: string; value: number | null; flag: string }
+export interface IdentityParts { code: string; year: string; release: string; value: number | null; flag: string }
 export function parseEurostatIdentity(identity: string): IdentityParts | null {
-  const m = identity.match(/^HLTH_CD_ASDR2\|geo=([^|]+)\|sex=[^|]+\|age=[^|]+\|unit=[^|]+\|icd10=([^|]+)\|time=(\d{4})\|v=([^|]+)\|f=(.*)$/);
+  const m = identity.match(/^HLTH_CD_ASDR2\|geo=([^|]+)\|sex=[^|]+\|age=[^|]+\|unit=[^|]+\|icd10=([^|]+)\|time=(\d{4})\|rel=([^|]*)\|v=([^|]+)\|f=(.*)$/);
   if (!m || m[1] !== EUROSTAT_GEO_TURKIYE) return null;
-  const value = m[4] === 'NA' ? null : Number(m[4]);
-  return Number.isFinite(value as number) || value === null ? { code: m[2], year: m[3], value, flag: m[5] } : null;
+  const value = m[5] === 'NA' ? null : Number(m[5]);
+  return Number.isFinite(value as number) || value === null ? { code: m[2], year: m[3], release: m[4], value, flag: m[6] } : null;
 }
 
 export type CellKind = 'TOPIC' | 'RESIDUAL_REVIEW_REQUIRED' | 'ALL_CAUSES_CONTEXT';
@@ -243,13 +251,13 @@ export interface NormalizedSlice {
   items: SourceItem[];
   /** All-cause aggregate rows: context, never a concept. */
   contextRows: string[];
-  /** Cells present in the dataset structure without a value: UNKNOWN, reported and never written (and never zero). */
+  /** Cells present in the dataset structure without a value: UNKNOWN. Written only as UNKNOWN tombstones for their release (never zero, never support). */
   unknownRows: string[];
   residualRows: string[];
   cells: number;
 }
 
-/** One parsed slice -> ONE source item per value-bearing topic cell (the canonical observation unit). Deterministic order = source position. */
+/** One parsed slice -> ONE source item per topic cell (the canonical observation unit; a no-value cell is an UNKNOWN tombstone). Deterministic order = source position. */
 export function normalizeEurostatSlice(slice: ParsedSlice): NormalizedSlice {
   const out: NormalizedSlice = { items: [], contextRows: [], unknownRows: [], residualRows: [], cells: slice.cells.length };
   const start = `${slice.year}-01-01`;
@@ -257,7 +265,7 @@ export function normalizeEurostatSlice(slice: ParsedSlice): NormalizedSlice {
   for (const c of slice.cells) {
     const kind = cellKind(c.code);
     if (kind === 'ALL_CAUSES_CONTEXT') { out.contextRows.push(c.code); continue; }
-    if (c.value === null) { out.unknownRows.push(c.code); continue; }
+    if (c.value === null) out.unknownRows.push(c.code);
     const role: SourceRole = kind === 'RESIDUAL_REVIEW_REQUIRED' ? 'REVIEW_REQUIRED' : 'TOPIC_BEARING';
     if (kind === 'RESIDUAL_REVIEW_REQUIRED') out.residualRows.push(c.code);
     const url = buildEurostatUrl({ year: slice.year, icd10: c.code });
@@ -274,8 +282,8 @@ export function normalizeEurostatSlice(slice: ParsedSlice): NormalizedSlice {
       windowEnd: end,
       measurementProvenance: 'ADMINISTRATIVE',
       value: c.value,
-      valueUnit: EUROSTAT_SLICE.unit,
-      valueStatus: 'MEASURED',
+      valueUnit: c.value === null ? null : EUROSTAT_SLICE.unit,
+      valueStatus: c.value === null ? 'UNKNOWN' : 'MEASURED',
       observedAt: `${end}T00:00:00Z`,
       evidenceSpan: `${EUROSTAT_DATASET_ID} | ${slice.geo} | ${slice.year} | icd10=${c.code} | unit ${EUROSTAT_SLICE.unit} (age-standardised rate) | flag ${c.flag || 'none'} | ${EUROSTAT_READER_VERSION}`,
       sourceRole: role,
@@ -285,7 +293,7 @@ export function normalizeEurostatSlice(slice: ParsedSlice): NormalizedSlice {
     out.items.push({
       acquisitionSourceId: EUROSTAT_SOURCE_ID,
       platform: 'DATASET',
-      identity: { strategy: 'DATASET_RELEASE_KEY', value: eurostatIdentity({ code: c.code, year: slice.year, value: c.value, flag: c.flag }) },
+      identity: { strategy: 'DATASET_RELEASE_KEY', value: eurostatIdentity({ code: c.code, year: slice.year, release: slice.release, value: c.value, flag: c.flag }) },
       url,
       externalRef: EUROSTAT_DATASET_ID,
       title: `Eurostat ${EUROSTAT_DATASET_ID} | ${slice.geo} | ${slice.year} | ${c.code}`,
@@ -298,21 +306,29 @@ export function normalizeEurostatSlice(slice: ParsedSlice): NormalizedSlice {
 }
 
 // ------------------------------------------------------------------------------------------------ revision / change detection
-export type RevisionClass = 'NEW_YEAR' | 'NEW_CAUSE' | 'UNCHANGED' | 'REVISED' | 'MISSING_IN_RELEASE';
+export type RevisionClass = 'NEW_YEAR' | 'NEW_CAUSE' | 'UNCHANGED' | 'CONFIRMED_BY_NEWER_RELEASE' | 'REVISED' | 'LATE_OLDER_RELEASE' | 'CONFLICT_SAME_RELEASE' | 'MISSING_IN_RELEASE';
 export interface RevisionReport {
   NEW_YEAR: string[];
   NEW_CAUSE: string[];
+  /** Exact replay: the same release, value and flag already ingested. */
   UNCHANGED: string[];
+  /** A NEWER release with the same value and flag: the latest release becomes the confirmed current one (history gains a row; the effective value is unchanged). */
+  CONFIRMED_BY_NEWER_RELEASE: string[];
+  /** A NEWER release with a different value or flag: it becomes current; the old value stays in history. */
   REVISED: { code: string; year: string; from: { value: number | null; flag: string }; to: { value: number | null; flag: string } }[];
-  /** Previously seen (cause, year) that the new release of the SAME year no longer carries a value for: reported, never turned into a zero or a deletion. */
+  /** An OLDER release than one already stored: history only; it never displaces the newer current value. */
+  LATE_OLDER_RELEASE: string[];
+  /** The SAME release as a stored one but a different value or flag: ambiguous, fails closed to UNKNOWN in the aggregate. */
+  CONFLICT_SAME_RELEASE: string[];
+  /** A previously known value that this release no longer carries: reported, never turned into a zero or a deletion; the UNKNOWN tombstone supersedes it. */
   MISSING_IN_RELEASE: string[];
 }
 /**
- * Pure classification of a fresh slice against what was ingested before (identities read from the origin-item table). Retrieval time plays no
- * role; the discriminators are the source-native keys, the value and the status flag. History is never rewritten: this only reports.
+ * Pure classification of a fresh slice against what was ingested before (identities read from the origin-item table). Retrieval time plays no role; the discriminators
+ * are the source-native keys, the release instant, the value and the status flag. History is never rewritten: this only reports.
  */
 export function classifyEurostatRelease(previous: readonly IdentityParts[], slice: ParsedSlice): RevisionReport {
-  const rep: RevisionReport = { NEW_YEAR: [], NEW_CAUSE: [], UNCHANGED: [], REVISED: [], MISSING_IN_RELEASE: [] };
+  const rep: RevisionReport = { NEW_YEAR: [], NEW_CAUSE: [], UNCHANGED: [], CONFIRMED_BY_NEWER_RELEASE: [], REVISED: [], LATE_OLDER_RELEASE: [], CONFLICT_SAME_RELEASE: [], MISSING_IN_RELEASE: [] };
   const prevByKey = new Map<string, IdentityParts[]>();
   const yearsSeen = new Set<string>();
   for (const p of previous) {
@@ -320,17 +336,19 @@ export function classifyEurostatRelease(previous: readonly IdentityParts[], slic
     const k = `${p.code}|${p.year}`;
     prevByKey.set(k, [...(prevByKey.get(k) ?? []), p]);
   }
+  const ms = (r: string): number => Date.parse(r);
+  const relNow = ms(slice.release);
   for (const c of slice.cells) {
     if (cellKind(c.code) === 'ALL_CAUSES_CONTEXT') continue;
-    const k = `${c.code}|${slice.year}`;
-    if (c.value === null) continue; // unknown now: nothing to classify as a value (a prior value that vanished is reported below)
-    const prior = prevByKey.get(k);
+    const prior = prevByKey.get(`${c.code}|${slice.year}`);
+    if (c.value === null) continue;
     if (!prior) { (yearsSeen.has(slice.year) ? rep.NEW_CAUSE : rep.NEW_YEAR).push(c.code); continue; }
-    if (prior.some((p) => p.value === c.value && p.flag === c.flag)) rep.UNCHANGED.push(c.code);
-    else {
-      const last = prior[prior.length - 1];
-      rep.REVISED.push({ code: c.code, year: slice.year, from: { value: last.value, flag: last.flag }, to: { value: c.value, flag: c.flag } });
-    }
+    if (prior.some((p) => ms(p.release) === relNow && p.value === c.value && p.flag === c.flag)) { rep.UNCHANGED.push(c.code); continue; }
+    if (prior.some((p) => ms(p.release) === relNow)) { rep.CONFLICT_SAME_RELEASE.push(c.code); continue; }
+    const latest = [...prior].filter((p) => Number.isFinite(ms(p.release))).sort((a, b) => ms(a.release) - ms(b.release)).at(-1);
+    if (latest && relNow < ms(latest.release)) { rep.LATE_OLDER_RELEASE.push(c.code); continue; }
+    if (latest && latest.value === c.value && latest.flag === c.flag) rep.CONFIRMED_BY_NEWER_RELEASE.push(c.code);
+    else rep.REVISED.push({ code: c.code, year: slice.year, from: { value: latest?.value ?? null, flag: latest?.flag ?? '' }, to: { value: c.value, flag: c.flag } });
   }
   const nowByCode = new Map(slice.cells.map((c) => [c.code, c.value]));
   for (const [k, ps] of prevByKey) {
@@ -340,6 +358,17 @@ export function classifyEurostatRelease(previous: readonly IdentityParts[], slic
   }
   rep.MISSING_IN_RELEASE = [...new Set(rep.MISSING_IN_RELEASE)].sort();
   return rep;
+}
+
+export interface CellExplanation { code: string; year: string; reason: EffectiveReason | 'NO_HISTORY'; current: IdentityParts | null; history: IdentityParts[] }
+/** Why one canonical cell has the value it has NOW: the winner (or none) and the full release history, from the origin table. Read-only. */
+export async function explainEurostatCell(db: D1Like, o: { code: string; year: string }): Promise<CellExplanation> {
+  const { results } = await db.prepare(`SELECT identity_value FROM dossier_external_source_items WHERE acquisition_source_id = ? AND identity_strategy = 'DATASET_RELEASE_KEY' AND identity_value LIKE ? LIMIT 200`).bind(EUROSTAT_SOURCE_ID, `%|icd10=${o.code}|time=${o.year}|%`).all<{ identity_value: string }>();
+  const parts = results.map((r) => ({ identity: r.identity_value, p: parseEurostatIdentity(r.identity_value) })).filter((x): x is { identity: string; p: IdentityParts } => x.p !== null && x.p.code === o.code && x.p.year === o.year);
+  const history = parts.map((x) => x.p).sort((a, b) => Date.parse(a.release) - Date.parse(b.release));
+  if (!parts.length) return { code: o.code, year: o.year, reason: 'NO_HISTORY', current: null, history };
+  const sel = selectEffectiveRelease(`${o.code}|${o.year}`, parts.map((x) => ({ row: x.p, identity: x.identity, valueStatus: x.p.value === null ? 'UNKNOWN' : 'MEASURED' })));
+  return { code: o.code, year: o.year, reason: sel.reason, current: sel.effective.length === 1 ? sel.effective[0] : null, history };
 }
 
 /** Bounded read of the identities this reader ingested before (operator / change-check use; never part of a Worker invocation's hot path). */

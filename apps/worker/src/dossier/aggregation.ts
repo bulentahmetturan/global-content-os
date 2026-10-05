@@ -156,6 +156,65 @@ async function aggregateRows(repo: DossierRepo, targetType: TargetType, targetId
   return result;
 }
 
+// ------------------------------------------------------------------------------------------------ current effective value of a statistical cell
+/**
+ * Sources whose origins are STATISTICAL RELEASES with identities `<cell key>|rel=<release instant, UTC ISO>|v=<value>|f=<flag>` (identity strategy
+ * DATASET_RELEASE_KEY). Only their rows go through the effective-release selection below; every other source is aggregated exactly as before.
+ */
+export const STATISTICAL_RELEASE_SOURCES: readonly string[] = ['eurostat-hlth-cd-asdr2'];
+const REL_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
+export interface ReleaseIdentityParts { cell: string; rel: string; releaseMs: number | null; value: string; flag: string }
+export function parseReleaseIdentity(identity: string): ReleaseIdentityParts | null {
+  const m = identity.match(/^(.*)\|rel=([^|]*)\|v=([^|]*)\|f=(.*)$/);
+  if (!m) return null;
+  const ms = REL_ISO.test(m[2]) ? Date.parse(m[2]) : NaN;
+  return { cell: m[1], rel: m[2], releaseMs: Number.isFinite(ms) ? ms : null, value: m[3], flag: m[4] };
+}
+export type EffectiveReason = 'CURRENT_BY_LATEST_RELEASE' | 'AMBIGUOUS_SAME_RELEASE_CONFLICT' | 'NO_VALID_RELEASE_ORDER' | 'NEWEST_RELEASE_HAS_NO_VALUE';
+export interface EffectiveCell<T> { cell: string; reason: EffectiveReason; effective: T[]; superseded: T[] }
+export interface ReleaseEntry<T> { row: T; identity: string; valueStatus: string }
+/**
+ * Deterministic CURRENT value of one canonical statistical cell from its release history (history is never touched: this only chooses which rows count NOW).
+ * PRECEDENCE: the greatest VALID release instant (`rel`, the source's own dataset `updated` marker, UTC) wins. Insertion time and row ids are never used.
+ * - an equal greatest instant carrying more than one distinct (value, flag) is ambiguous: every tied row stays effective, so the aggregate reads UNKNOWN (fail closed);
+ * - an unparsable release instant can never win; with no valid instant at all every row stays effective (UNKNOWN when values differ);
+ * - a winner whose value is UNKNOWN (the newest release has no value) removes the cell from effective support: never a zero, never the stale older value.
+ */
+export function selectEffectiveRelease<T>(cell: string, entries: readonly ReleaseEntry<T>[]): EffectiveCell<T> {
+  const valid = entries.map((e) => ({ e, p: parseReleaseIdentity(e.identity) })).filter((x): x is { e: ReleaseEntry<T>; p: ReleaseIdentityParts } => x.p !== null && x.p.releaseMs !== null);
+  if (valid.length === 0) return { cell, reason: 'NO_VALID_RELEASE_ORDER', effective: entries.map((e) => e.row), superseded: [] };
+  const max = Math.max(...valid.map((x) => x.p.releaseMs as number));
+  const top = valid.filter((x) => x.p.releaseMs === max);
+  const topRows = top.map((x) => x.e.row);
+  const superseded = entries.filter((e) => !topRows.includes(e.row)).map((e) => e.row);
+  const distinct = new Set(top.map((x) => `${x.p.value}|${x.p.flag}`));
+  if (distinct.size > 1) return { cell, reason: 'AMBIGUOUS_SAME_RELEASE_CONFLICT', effective: topRows, superseded };
+  if (top[0].e.valueStatus !== 'MEASURED') return { cell, reason: 'NEWEST_RELEASE_HAS_NO_VALUE', effective: [], superseded: entries.map((e) => e.row) };
+  return { cell, reason: 'CURRENT_BY_LATEST_RELEASE', effective: [topRows[0]], superseded };
+}
+
+async function effectiveRows(repo: DossierRepo, rows: Obs[]): Promise<{ rows: Obs[]; withdrawn: Obs[] }> {
+  const stat = rows.filter((r) => typeof r.acquisition_source_id === 'string' && STATISTICAL_RELEASE_SOURCES.includes(r.acquisition_source_id) && typeof r.origin_item_id === 'string');
+  if (!stat.length) return { rows, withdrawn: [] }; // no extra statement for any other source
+  const origins = new Map((await repo.getExternalSourceItems(stat.map((r) => String(r.origin_item_id)))).map((o) => [String(o.origin_item_id), s(o.identity_value)]));
+  const byCell = new Map<string, ReleaseEntry<Obs>[]>();
+  const passthrough: Obs[] = [];
+  for (const r of rows) {
+    const identity = stat.includes(r) ? origins.get(String(r.origin_item_id)) : undefined;
+    const p = identity ? parseReleaseIdentity(identity) : null;
+    if (!p) { passthrough.push(r); continue; }
+    byCell.set(p.cell, [...(byCell.get(p.cell) ?? []), { row: r, identity: identity as string, valueStatus: s(r.value_status) }]);
+  }
+  const keep = new Set<Obs>(passthrough);
+  const withdrawn: Obs[] = [];
+  for (const [cell, entries] of byCell) {
+    const sel = selectEffectiveRelease(cell, entries);
+    for (const r of sel.effective) keep.add(r);
+    if (sel.reason === 'NEWEST_RELEASE_HAS_NO_VALUE') withdrawn.push(...entries.map((e) => e.row));
+  }
+  return { rows: rows.filter((r) => keep.has(r)), withdrawn };
+}
+
 export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg: AggregationConfig): Promise<AggregationResult> {
   if (!Number.isInteger(cfg.observationLimit) || cfg.observationLimit < 1) throw new DossierError('limit_required');
   const from = `${addDays(dayOf(cfg.now), -180)}T00:00:00Z`;
@@ -165,7 +224,13 @@ export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg
   const byId = new Map<string, Obs>();
   for (const r of [...recent, ...structural]) byId.set(String(r.observation_id), r as Obs);
   const truncated = recent.length >= cfg.observationLimit || structural.length >= cfg.observationLimit;
-  return aggregateRows(repo, 'CONCEPT', conceptId, [...byId.values()], cfg, truncated);
+  const eff = await effectiveRows(repo, [...byId.values()]);
+  const result = await aggregateRows(repo, 'CONCEPT', conceptId, eff.rows, cfg, truncated);
+  // a cell whose newest release carries no value is no longer supported: a derived aggregate that only that cell produced earlier is removed (derived, recomputable; the observations stay)
+  for (const w of eff.withdrawn) {
+    await repo.deleteAggregateExcept({ target_type: 'CONCEPT', target_id: conceptId, signal_family: w.signal_family, signal_subfamily: s(w.signal_subfamily), geo_scope: s(w.geo_scope), window_kind: s(w.window_kind), window_start: s(w.window_start), window_end: s(w.window_end), measurement_provenance: w.measurement_provenance, aggregation_version: cfg.version }, result.aggregateIds);
+  }
+  return result;
 }
 
 /** Relation aggregates summarize the JOINT signals (RELATION_SIGNAL family; the joint-signal kind is the subfamily). */

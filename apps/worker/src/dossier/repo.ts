@@ -486,6 +486,12 @@ export class DossierRepo {
     );
     return row!.aggregate_id;
   }
+  /** Removes ONE derived aggregate (by its selector) unless it was regenerated in the current pass. Aggregates are recomputable; observations are never touched. */
+  async deleteAggregateExcept(sel: { target_type: string; target_id: string; signal_family: string; signal_subfamily: string; geo_scope: string; window_kind: string; window_start: string; window_end: string; measurement_provenance: string; aggregation_version: string }, keepIds: readonly string[]): Promise<void> {
+    const keep = keepIds.length ? ` AND aggregate_id NOT IN (${keepIds.map(() => '?').join(',')})` : '';
+    await this.exec(`DELETE FROM dossier_signal_aggregates WHERE target_type = ? AND target_id = ? AND signal_family = ? AND signal_subfamily = ? AND geo_scope = ? AND window_kind = ? AND window_start = ? AND window_end = ? AND measurement_provenance = ? AND aggregation_version = ?${keep}`,
+      sel.target_type, sel.target_id, sel.signal_family, sel.signal_subfamily, sel.geo_scope, sel.window_kind, sel.window_start, sel.window_end, sel.measurement_provenance, sel.aggregation_version, ...keepIds);
+  }
   listAggregates(targetType: TargetType, targetId: string, limit = 200): Promise<Row[]> {
     return this.rows(`SELECT * FROM dossier_signal_aggregates WHERE target_type = ? AND target_id = ? ORDER BY signal_family, window_kind, window_end DESC LIMIT ?`, targetType, targetId, limit);
   }

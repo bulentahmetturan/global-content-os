@@ -1,0 +1,55 @@
+{
+  "phase": "CLOSE_MATERIAL_EUROSTAT_READER_GAPS_AND_FREEZE_CANARY_READINESS",
+  "as_of": "2026-10-05",
+  "status": "PREPARED_NOT_EXECUTED",
+  "note": "Initial bounds for a SEPARATELY AUTHORIZED bounded production canary of the Eurostat TURKEY_HEALTH_BURDEN reader (DOSSIER_CANARY_V2). Nothing here was executed, enabled or deployed. Lease and CPU are initial contracts, not measured optima.",
+  "limits": {
+    "D1_BUDGET": 240,
+    "D1_HARD_CEILING": 800,
+    "SOURCE_REQUESTS_PER_RUN": 1,
+    "SOURCE_REQUESTS_HARD_MAX": 2,
+    "SOURCE_REQUESTS_NOTE": "one data request; a second request exists only as the single retry of a transient failure inside the run",
+    "INITIAL_CANARY_LEASE_SECONDS": 45,
+    "NO_CT_REFETCH": true,
+    "EUROSTAT_ONLY_NEW_FETCH": true,
+    "MAX_CONCURRENT_V2_RUNS": 1,
+    "MAX_CONCURRENT_CONCEPT_PROPOSERS": 1,
+    "OECD": "OFF",
+    "SOURCE_SPECIFIC_FRONTIER": "DISABLED",
+    "PROMOTION_ROUTES": ["MULTI_SIGNAL_FAMILY_CONVERGENCE"],
+    "UNKNOWN_GRANULARITY": "FAIL_CLOSED_TO_WATCH",
+    "AUTO_ACCEPT": false,
+    "AUTO_PUBLISH": false,
+    "ITEMS_CAP": 100,
+    "RUNS_PER_READER": 1
+  },
+  "enforced_mechanically_by": {
+    "MAX_CONCURRENT_CONCEPT_PROPOSERS": "canary.ts V2 lease statement: a lease is granted only if no other canary run holds an unexpired lease (single atomic UPDATE); plus the V2 lease-deadline stop",
+    "D1_BUDGET": "createBudgetedD1 hard statement guard + pause at unit boundaries",
+    "SOURCE_REQUESTS": "reader fetch loop (EUROSTAT_MAX_REQUESTS_PER_RUN)",
+    "NO_CT_REFETCH": "profile validation (clinicaltrials is not a reader of V2) + SOURCE_NOT_IN_CANARY_PROFILE refusal",
+    "OECD": "profile validation (oecd must be OFF) + V2 registry contains only the Eurostat reader"
+  },
+  "production_cpu_measured": "NO",
+  "production_lease_measured": "NO",
+  "must_capture_during_canary": ["cpu_time", "wall_time", "d1_statements", "subrequests", "progress", "checkpoint", "lease_timing", "outcome_per_invocation", "platform_exceptions"],
+  "hard_stop_criteria": [
+    "any invocation records more than 400 D1 statements (half of the 800 ceiling) or hits the statement guard",
+    "any platform termination or exceededCpu / exceededResources outcome",
+    "an invocation runs longer than 30 s of wall time (two thirds of the 45 s lease)",
+    "more than one source request is observed outside a recorded transient retry",
+    "any source error class other than a single retried SOURCE_HTTP_ERROR / SOURCE_RATE_LIMIT",
+    "observations written exceed the 100 item cap or any non-Turkiye geography appears",
+    "any ClinicalTrials request, any ClinicalTrials row change, or OECD activity",
+    "a concept appears twice for one normalized label, or any concept becomes ACTIVE",
+    "a candidate, snapshot or review is created without an explicit human action (0 candidates is the expected outcome)",
+    "a lease is observed held by two runs at once, or a resume refetches the source",
+    "run still not COMPLETED after 12 operator invocations",
+    "any control, policy, registry or source-activation state changes during the run"
+  ],
+  "activation": {
+    "CANARY_READY": "see docs/DOSSIER-EUROSTAT-READER-IMPLEMENTATION.md",
+    "PRODUCTION_ACTIVATION_READY": "NO",
+    "SOURCE_ACTIVATED": "NO"
+  }
+}

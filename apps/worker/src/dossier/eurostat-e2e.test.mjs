@@ -46,7 +46,7 @@ test('REAL E2E (P2): recorded Eurostat response -> reader -> 91 observations -> 
   for (const o of obs) assert.deepEqual([o.value_status, o.value_unit, o.window_kind, o.window_start, o.window_end, o.geo_scope, o.signal_subfamily, o.topic_granularity], ['MEASURED', 'RT', 'SOURCE_PERIOD', '2023-01-01', '2023-12-31', 'TR', 'MORTALITY_ASDR', null]);
   assert.equal(obs.find((o) => o.label === 'Malignant neoplasm of stomach').value, 12.18);
   // provenance on every observation: dataset, per-cell re-fetchable locator, release marker, source-native keys
-  for (const o of obs) { assert.match(o.url, /^https:\/\/ec\.europa\.eu\/eurostat\/api\/dissemination\/statistics\/1\.0\/data\/hlth_cd_asdr2\?geo=TR&/); assert.match(o.identity_value, /^HLTH_CD_ASDR2\|geo=TR\|sex=T\|age=TOTAL\|unit=RT\|icd10=.+\|time=2023\|v=.+\|f=/); }
+  for (const o of obs) { assert.match(o.url, /^https:\/\/ec\.europa\.eu\/eurostat\/api\/dissemination\/statistics\/1\.0\/data\/hlth_cd_asdr2\?geo=TR&/); assert.match(o.identity_value, /^HLTH_CD_ASDR2\|geo=TR\|sex=T\|age=TOTAL\|unit=RT\|icd10=.+\|time=2023\|rel=2026-06-08T21:00:00\.000Z\|v=.+\|f=/); }
   assert.equal(n(ref.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations o WHERE o.signal_family = 'TURKEY_HEALTH_BURDEN' AND o.origin_item_id IS NULL`), 0, 'no canonical observation without provenance');
   // signal-run provenance + attribution notice
   const sr = q(ref.sqlite, `SELECT * FROM dossier_signal_runs WHERE reader_id = ?`, EU_ID);
@@ -152,13 +152,17 @@ test('IDEMPOTENCY / REVISION: an identical release replayed (even with renamed l
   const revisedBody = fx((r) => { r.value[String(r.dimension.icd10.category.index.C16)] = 12.5; r.updated = '2026-07-01T10:00:00+0200'; });
   const cls = EU.classifyEurostatRelease(prev, EU.parseEurostatSlice(clone(revisedBody), { maxCells: 100 }));
   assert.deepEqual(cls.REVISED.map((x) => x.code), ['C16']);
-  assert.equal(cls.UNCHANGED.length, 90);
+  assert.equal(cls.CONFIRMED_BY_NEWER_RELEASE.length, 90);
   w.setBody(revisedBody);
   assert.equal((await w.run()).final.status, 'COMPLETED');
   const s1 = snap();
-  assert.deepEqual([s1.obs, s1.origins, s1.concepts], [s0.obs + 1, s0.origins + 1, s0.concepts], 'only the revised cell appended; the concept is reused');
+  // a NEWER release is a new origin per cell (history of every release), the concepts are reused
+  assert.deepEqual([s1.obs, s1.origins, s1.concepts], [s0.obs + 91, s0.origins + 91, s0.concepts]);
   const c16 = q(w.sqlite, `SELECT e.identity_value, o.value FROM dossier_observations o JOIN dossier_external_source_items e ON e.origin_item_id = o.origin_item_id WHERE e.identity_value LIKE '%icd10=C16|%' ORDER BY o.value`);
   assert.deepEqual(c16.map((r) => r.value), [12.18, 12.5], 'the earlier value stays explainable (append-only)');
+  // the CURRENT value is the newer release, and a normal revision does not make the aggregate UNKNOWN
+  const agg = q(w.sqlite, `SELECT a.value, a.value_status, a.observation_count FROM dossier_signal_aggregates a JOIN dossier_concepts c ON c.concept_id = a.target_id WHERE c.normalized_label = 'malignant neoplasm of stomach'`);
+  assert.deepEqual(JSON.parse(JSON.stringify(agg)), [{ value: 12.5, value_status: 'MEASURED', observation_count: 1 }]);
 });
 
 test('CHECKPOINT / KILL / RESUME: a process killed at 10-90% of the run (including between a durable observation and its checkpoint mark) resumes the SAME run to the same durable state with exactly one source request', async () => {
@@ -219,7 +223,7 @@ test('FAILURE INJECTION: HTTP failure, schema drift, malformed row, unexpected d
     ['malformed row', { body: fx((r) => { r.value['5'] = 'x'; }) }, 'SOURCE_PARSE_ERROR'],
     ['unexpected dimension', { body: fx((r) => { r.dimension.geo.category = { index: { DE: 0 }, label: { DE: 'Germany' } }; }) }, 'SOURCE_UNEXPECTED_DIMENSION'],
     ['source returns no rows', { body: fx((r) => { r.value = {}; }) }, 'SOURCE_EMPTY_RESPONSE'],
-    ['only an all-cause aggregate', { body: fx((r) => { r.value = { 0: 1206.13 }; }) }, 'source_returned_no_usable_items'],
+    ['only an all-cause aggregate', { body: fx((r) => { r.value = { 0: 1206.13 }; }) }, 'SOURCE_EMPTY_RESPONSE'],
   ];
   for (const [name, o, cls] of cases) {
     const w = await euWorld(o);

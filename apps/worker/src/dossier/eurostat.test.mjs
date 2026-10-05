@@ -165,7 +165,7 @@ test('normalization: the recorded real response becomes one source item per valu
   assert.match(s.evidenceSpan, /HLTH_CD_ASDR2 \| TR \| 2023 \| icd10=C16 \| unit RT \(age-standardised rate\) \| flag d \| eurostat-1/);
   // provenance on the source item: dataset, release marker, a re-fetchable per-cell locator, source-native keys
   assert.deepEqual([c16.acquisitionSourceId, c16.platform, c16.externalRef, c16.identity.strategy, c16.publishedAt], ['eurostat-hlth-cd-asdr2', 'DATASET', 'HLTH_CD_ASDR2', 'DATASET_RELEASE_KEY', '2026-06-08T21:00:00.000Z']);
-  assert.equal(c16.identity.value, 'HLTH_CD_ASDR2|geo=TR|sex=T|age=TOTAL|unit=RT|icd10=C16|time=2023|v=12.18|f=d');
+  assert.equal(c16.identity.value, 'HLTH_CD_ASDR2|geo=TR|sex=T|age=TOTAL|unit=RT|icd10=C16|time=2023|rel=2026-06-08T21:00:00.000Z|v=12.18|f=d');
   assert.equal(c16.url, 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_asdr2?geo=TR&sex=T&age=TOTAL&unit=RT&icd10=C16&time=2023&format=JSON&lang=EN');
   // a rate of zero that the SOURCE reports is a measured zero (never invented, never dropped)
   const u072 = item('U072').signals[0];
@@ -180,17 +180,21 @@ test('normalization: the recorded real response becomes one source item per valu
   assert.deepEqual(r.items.map((i) => i.identity.value.match(/icd10=([^|]+)/)[1]).slice(0, 3), ['A_B', 'A15-A19_B90', 'B15-B19_B942']);
 });
 
-test('missing data is UNKNOWN and reported, never zero and never an observation (an UNKNOWN row must not count as family support)', () => {
+test('missing data is UNKNOWN: reported, written only as an UNKNOWN tombstone for its release (never zero, never a value), and never counted as support', () => {
   const slice = parse(fx((r) => { delete r.value[String(r.dimension.icd10.category.index.C16)]; }));
   assert.equal(cellOf(slice, 'C16').value, null);
   const r = EU.normalizeEurostatSlice(slice);
   assert.deepEqual(r.unknownRows, ['C16']);
-  assert.ok(!r.items.some((i) => i.identity.value.includes('|icd10=C16|')));
-  assert.equal(r.items.length, 90);
-  assert.ok(r.items.every((i) => i.signals[0].value !== null && i.signals[0].valueStatus === 'MEASURED'));
+  const c16 = r.items.find((i) => i.identity.value.includes('|icd10=C16|'));
+  assert.deepEqual([c16.signals[0].value, c16.signals[0].valueStatus, c16.signals[0].valueUnit], [null, 'UNKNOWN', null]);
+  assert.match(c16.identity.value, /\|v=NA\|/);
+  assert.equal(r.items.length, 91);
+  assert.equal(r.items.filter((i) => i.signals[0].valueStatus === 'MEASURED').length, 90);
+  assert.equal(c16.signals[0].value === 0, false, 'a missing value is never turned into 0');
+  assert.ok(r.items.filter((i) => i.signals[0].value === 0).every((i) => /\|v=0\|/.test(i.identity.value)), 'only a source-reported zero is a zero');
   // a response whose only value is an all-cause aggregate has nothing usable
   const only = fx((x) => { const keep = String(x.dimension.icd10.category.index.TOTAL); x.value = { [keep]: 1206.13 }; });
-  assert.equal(EU.normalizeEurostatSlice(parse(only)).items.length, 0);
+  assert.throws(() => parse(only), (e) => e.cls === 'SOURCE_EMPTY_RESPONSE');
 });
 
 test('source identity is label-free and revision-aware: a display-label change keeps the identity; a changed value or flag is a different origin; the keys are source-native', () => {
@@ -204,32 +208,37 @@ test('source identity is label-free and revision-aware: a display-label change k
   const flagged = EU.normalizeEurostatSlice(parse(fx((r) => { r.status[String(r.dimension.icd10.category.index.C16)] = 'p'; }))).items;
   assert.notEqual(id(flagged), id(a));
   const parts = EU.parseEurostatIdentity(id(a));
-  assert.deepEqual(parts, { code: 'C16', year: '2023', value: 12.18, flag: 'd' });
-  assert.equal(EU.parseEurostatIdentity('HLTH_CD_ASDR2|geo=DE|sex=T|age=TOTAL|unit=RT|icd10=C16|time=2023|v=1|f='), null, 'only Turkiye identities parse');
+  assert.deepEqual(parts, { code: 'C16', year: '2023', release: '2026-06-08T21:00:00.000Z', value: 12.18, flag: 'd' });
+  assert.equal(EU.parseEurostatIdentity('HLTH_CD_ASDR2|geo=DE|sex=T|age=TOTAL|unit=RT|icd10=C16|time=2023|rel=2026-06-08T21:00:00.000Z|v=1|f='), null, 'only Turkiye identities parse');
   assert.equal(new Set(a.map((i) => i.identity.value)).size, a.length, 'unique per cell');
 });
 
 // ---------------------------------------------------------------------------------------------------------------------------- revision / change detection
-test('release classification distinguishes new year, new cause, unchanged, revised and missing-in-release from source-native keys (retrieval time plays no role)', () => {
+test('release classification: new year, new cause, exact replay, confirmed by a newer release, revised, late older release, same-release conflict and missing-in-release; retrieval time plays no role', () => {
   const base = parse(fx());
   const prev = EU.normalizeEurostatSlice(base).items.map((i) => EU.parseEurostatIdentity(i.identity.value));
+  const C16 = (r, v) => { r.value[String(r.dimension.icd10.category.index.C16)] = v; };
+  const total = (c) => Object.values(c).flat().reduce((a, x) => a + (Array.isArray(x) ? x.length : 0), 0);
   const same = EU.classifyEurostatRelease(prev, base);
-  assert.deepEqual([same.NEW_YEAR.length, same.NEW_CAUSE.length, same.UNCHANGED.length, same.REVISED.length, same.MISSING_IN_RELEASE.length], [0, 0, 91, 0, 0]);
-  const revised = parse(fx((r) => { r.value[String(r.dimension.icd10.category.index.C16)] = 12.5; r.updated = '2026-07-01T10:00:00+0200'; }));
-  const rv = EU.classifyEurostatRelease(prev, revised);
-  assert.deepEqual(rv.REVISED, [{ code: 'C16', year: '2023', from: { value: 12.18, flag: 'd' }, to: { value: 12.5, flag: 'd' } }]);
-  assert.equal(rv.UNCHANGED.length, 90);
-  const newYear = parse(fx((r) => { r.dimension.time.category = { index: { 2024: 0 }, label: { 2024: '2024' } }; }));
-  const ny = EU.classifyEurostatRelease(prev, newYear);
-  assert.equal(ny.NEW_YEAR.length, 91);
-  assert.equal(ny.UNCHANGED.length, 0);
-  const prevSmaller = prev.filter((p) => p.code !== 'C16');
-  assert.deepEqual(EU.classifyEurostatRelease(prevSmaller, base).NEW_CAUSE, ['C16']);
-  const withdrawn = parse(fx((r) => { delete r.value[String(r.dimension.icd10.category.index.C16)]; }));
+  assert.deepEqual([same.UNCHANGED.length, total({ a: same.NEW_YEAR, b: same.NEW_CAUSE, c: same.CONFIRMED_BY_NEWER_RELEASE, d: same.LATE_OLDER_RELEASE, e: same.CONFLICT_SAME_RELEASE, f: same.MISSING_IN_RELEASE }), same.REVISED.length], [91, 0, 0], 'exact replay');
+  const newerSame = EU.classifyEurostatRelease(prev, parse(fx((r) => { r.updated = '2026-07-01T10:00:00+0200'; })));
+  assert.equal(newerSame.CONFIRMED_BY_NEWER_RELEASE.length, 91, 'a newer release with the same values confirms them');
+  assert.equal(newerSame.UNCHANGED.length, 0);
+  const revised = EU.classifyEurostatRelease(prev, parse(fx((r) => { C16(r, 12.5); r.updated = '2026-07-01T10:00:00+0200'; })));
+  assert.deepEqual(revised.REVISED, [{ code: 'C16', year: '2023', from: { value: 12.18, flag: 'd' }, to: { value: 12.5, flag: 'd' } }]);
+  assert.equal(revised.CONFIRMED_BY_NEWER_RELEASE.length, 90);
+  const late = EU.classifyEurostatRelease(prev, parse(fx((r) => { C16(r, 11); r.updated = '2026-01-01T10:00:00+0200'; })));
+  assert.equal(late.LATE_OLDER_RELEASE.length, 91);
+  assert.deepEqual(EU.classifyEurostatRelease(prev, parse(fx((r) => { C16(r, 12.5); }))).CONFLICT_SAME_RELEASE, ['C16'], 'same release, different value');
+  const newYear = EU.classifyEurostatRelease(prev, parse(fx((r) => { r.dimension.time.category = { index: { 2024: 0 }, label: { 2024: '2024' } }; })));
+  assert.equal(newYear.NEW_YEAR.length, 91);
+  assert.deepEqual(EU.classifyEurostatRelease(prev.filter((p) => p.code !== 'C16'), base).NEW_CAUSE, ['C16']);
+  const withdrawn = parse(fx((r) => { delete r.value[String(r.dimension.icd10.category.index.C16)]; r.updated = '2026-07-01T10:00:00+0200'; }));
   assert.deepEqual(EU.classifyEurostatRelease(prev, withdrawn).MISSING_IN_RELEASE, ['C16'], 'a vanished value is reported, not zeroed or deleted');
   assert.equal(EU.releaseToIso('2026-06-08T23:00:00+0200'), '2026-06-08T21:00:00.000Z');
   assert.equal(EU.releaseToIso('2026-06-08T21:00:00Z'), '2026-06-08T21:00:00.000Z');
   assert.equal(EU.releaseToIso('2026-06-08'), null);
+  assert.match(EU.EUROSTAT_CURRENT_VALUE_PRECEDENCE, /greatest VALID release instant/);
 });
 
 // ---------------------------------------------------------------------------------------------------------------------------- DOSSIER_CANARY_V2 / registration

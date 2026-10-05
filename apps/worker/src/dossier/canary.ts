@@ -97,6 +97,8 @@ export interface CanaryDeps {
   extractor: ConceptExtractor;
   ctx?: Ctx;
   registry?: readonly DossierReaderRegistration[];
+  /** Wall clock in ms used ONLY for the V2 lease-deadline stop (never for business logic); injectable for tests. Defaults to Date.now. */
+  wallClock?: () => number;
 }
 export type CanaryOutcome =
   | { status: 'REFUSED'; reasons: string[] }
@@ -183,8 +185,22 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   const t0 = now();
   const holder = ctx.id('lease');
   const leaseUntil = new Date(Date.parse(t0) + profile.runtime.lease_seconds.value * 1000).toISOString();
-  const got = await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?)`, holder, leaseUntil, t0, live.run_id, t0);
-  if (got === 0) return { status: 'REFUSED', reasons: ['RUN_LEASED'] };
+  const isV2 = profile.profile_id === 'DOSSIER_CANARY_V2';
+  // V2 invariant MAX_CONCURRENT_CONCEPT_PROPOSERS = 1: the lease of THIS run is acquired only if no OTHER canary run (any reader, any profile) holds an unexpired lease.
+  // The check and the acquisition are ONE statement, so two invocations cannot both pass it (the resolver's concept creation is check-then-insert and has no uniqueness
+  // constraint to rely on; schema changes are not part of this phase). V1 keeps its original statement and behaviour unchanged.
+  const got = isV2
+    ? await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?) AND NOT EXISTS (SELECT 1 FROM dossier_canary_runs o WHERE o.run_id <> ? AND o.lease_holder IS NOT NULL AND o.lease_expires_at > ?)`, holder, leaseUntil, t0, live.run_id, t0, live.run_id, t0)
+    : await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?)`, holder, leaseUntil, t0, live.run_id, t0);
+  if (got === 0) {
+    if (isV2 && (await one<{ n: number }>(db, `SELECT 1 AS n FROM dossier_canary_runs WHERE run_id <> ? AND lease_holder IS NOT NULL AND lease_expires_at > ? LIMIT 1`, live.run_id, t0)) !== null) return { status: 'REFUSED', reasons: ['CONCEPT_PROPOSER_BUSY'] };
+    return { status: 'REFUSED', reasons: ['RUN_LEASED'] };
+  }
+  // V2 lease-deadline stop: no new unit starts when less than a safety margin of the lease remains, so a slow invocation cannot still be writing when another one takes the lease over.
+  const wall = deps.wallClock ?? Date.now;
+  const wallStart = wall();
+  const leaseMarginMs = Math.min(10_000, Math.floor(profile.runtime.lease_seconds.value * 200));
+  const leaseNearlyOver = (): boolean => isV2 && wall() - wallStart >= profile.runtime.lease_seconds.value * 1000 - leaseMarginMs;
 
   const progress: CanaryProgress = { ...newProgress(t0), ...(JSON.parse(live.progress_json) as CanaryProgress) };
   let phase: RunPhase = live.phase;
@@ -230,7 +246,7 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
         for (const row of rows) {
           const item = JSON.parse(row.payload_json) as SourceItem;
           if (itemCost(item) + TAIL_RESERVE > budget.budget) throw new DossierError('budget_below_minimum_runnable_unit', `one ingest unit needs up to ${itemCost(item) + TAIL_RESERVE} statements but the invocation budget is ${budget.budget}`);
-          if (budget.remaining() < itemCost(item) + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused; }
+          if (budget.remaining() < itemCost(item) + TAIL_RESERVE || leaseNearlyOver()) { status = 'PAUSED_BUDGET'; break paused; }
           const st = await stageSourceItem(repo, deps.classifier, item);
           if (st.created) progress.itemsNew += 1;
           if (item.contentHash) await assignClusters(repo, [{ memberKind: 'EXTERNAL_ITEM', memberRef: st.originItemId, acquisitionSourceId: item.acquisitionSourceId, publishedAt: item.publishedAt ?? null, fingerprint: item.contentHash }], { lookupLimit: caps.itemCap * 4 });
@@ -253,7 +269,7 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
         if (!concepts.length) { phase = 'FINALIZE'; break; }
         for (const { concept_id: cid } of concepts) {
           if (DERIVE_UNIT_COST + TAIL_RESERVE > budget.budget) throw new DossierError('budget_below_minimum_runnable_unit', `one derive unit needs up to ${DERIVE_UNIT_COST + TAIL_RESERVE} statements but the invocation budget is ${budget.budget}`);
-          if (budget.remaining() < DERIVE_UNIT_COST + TAIL_RESERVE) { status = 'PAUSED_BUDGET'; break paused2; }
+          if (budget.remaining() < DERIVE_UNIT_COST + TAIL_RESERVE || leaseNearlyOver()) { status = 'PAUSED_BUDGET'; break paused2; }
           const ce = deriveConceptEligibility(await repo.conceptEligibilitySummary(cid));
           if (ce.state !== 'ELIGIBLE') progress.notEligible += 1; // retained as observations/concept; never aggregated for candidates
           else {
