@@ -122,3 +122,13 @@ export async function loadStatistics() {
   bundled = await import(pathToFileURL(out).href);
   return bundled;
 }
+
+let readerBundled;
+/** Compiles the Eurostat reader module (reader + runner + local fixtures) once per process. */
+export async function loadReader() {
+  if (readerBundled) return readerBundled;
+  const out = join(tmpdir(), `statistics-reader-bundle-${process.pid}-${Date.now()}.mjs`);
+  await build({ entryPoints: ['apps/worker/src/statistics/readers/index.ts'], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
+  readerBundled = await import(pathToFileURL(out).href);
+  return readerBundled;
+}

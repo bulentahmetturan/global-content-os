@@ -104,6 +104,7 @@ WITH w AS (
 k AS (
   SELECT w.rid AS rid, w.fp AS fp,
          CASE WHEN w.rid IS NULL THEN 0
+              WHEN w.rid = ?3 THEN -1
               WHEN ((SELECT release_rank FROM statistics_releases WHERE release_id = ?3), ?26, ?3) > (w.rk, w.ra, w.rid) THEN 1
               ELSE -1 END AS rel
     FROM (SELECT 1) LEFT JOIN w)
@@ -122,7 +123,7 @@ RETURNING revision_class`;
 /** Newer release, same value as the current version → only the informational confirmation advances (never a new version). ?20 fp, ?26 retrieved_at. */
 const CONFIRM_SQL = `
 UPDATE statistics_current_observations SET last_confirmed_release_id = ?3, last_confirmed_at = ?26
- WHERE series_id = ?1 AND period_key = ?2 AND ?29 = 0
+ WHERE series_id = ?1 AND period_key = ?2 AND ?29 = 0 AND current_release_id <> ?3
    AND EXISTS (SELECT 1 FROM statistics_observation_versions v JOIN statistics_releases r ON r.release_id = v.release_id
                 WHERE v.series_id = ?1 AND v.period_key = ?2 AND v.release_id = statistics_current_observations.current_release_id AND v.value_fingerprint = ?20
                   AND ((SELECT release_rank FROM statistics_releases WHERE release_id = ?3), ?26, ?3) > (r.release_rank, v.retrieved_at, v.release_id))

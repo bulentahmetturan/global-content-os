@@ -23,7 +23,15 @@ export function faultyD1(inner) {
       return log;
     },
     async batch(stmts) {
-      const idx = faults.findIndex((f) => !f.when || stmts.some((s) => f.when.test(s.sql)));
+      // `skip: n` lets the first n matching batches through (to hit the 2nd/3rd batch of a unit)
+      const idx = faults.findIndex((f) => {
+        if (f.when && !stmts.some((s) => f.when.test(s.sql))) return false;
+        if ((f.skip ?? 0) > 0) {
+          f.skip--;
+          return false;
+        }
+        return true;
+      });
       const fault = idx >= 0 ? faults[idx] : null;
       if (fault && --fault.times <= 0) faults.splice(idx, 1);
       const real = stmts.map((s) => inner.prepare(s.sql).bind(...s.args));

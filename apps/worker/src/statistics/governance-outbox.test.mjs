@@ -145,7 +145,7 @@ describe('P5 governance (I36)', () => {
     const walk = (d) => readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? e.name !== 'test-support' && walk(`${d}/${e.name}`) : e.name.endsWith('.ts') && scan(`${d}/${e.name}`)));
     const scan = (f) => {
       const src = readFileSync(f, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
-      if (!f.endsWith('runtime-policy.ts') && !f.endsWith('local-smoke.ts') && /['"`]ACTIVE['"`]|ACTIVATION_GATED/.test(src.replace(/WHERE[^;`]*runtime_state[^;`]*/g, '').replace(/status = 'ACTIVE'/g, ''))) {
+      if (!f.endsWith('runtime-policy.ts') && !f.endsWith('local-smoke.ts') && !f.endsWith('local-entry.ts') && /['"`]ACTIVE['"`]|ACTIVATION_GATED/.test(src.replace(/WHERE[^;`]*runtime_state[^;`]*/g, '').replace(/status = 'ACTIVE'/g, ''))) {
         // allowed: type unions in rules/types and SQL predicates that READ policy state
         if (/runtimeState\s*[:=]|runtime_state\s*=\s*['"]/.test(src)) offenders.push(f);
       }
@@ -162,6 +162,14 @@ describe('P5 governance (I36)', () => {
     assert.match(smoke, /const SYNTHETIC = 'LOCAL_SMOKE_SYNTHETIC'/);
     for (const f of ['index.ts', 'runtime.ts', 'bootstrap.ts']) assert.doesNotMatch(readFileSync('apps/worker/src/statistics/' + f, 'utf8'), /local-smoke/);
     assert.doesNotMatch(readFileSync('apps/worker/src/index.ts', 'utf8'), /local-smoke|local-entry/);
+  });
+
+  it('the Eurostat owner-simulation route (local-entry.ts) is flag-guarded and targets EUROSTAT_HEALTH only; no reader module touches runtime policy', () => {
+    const entry = readFileSync('apps/worker/src/statistics/local-entry.ts', 'utf8');
+    assert.match(entry, /STATISTICS_LOCAL_SMOKE !== '1'/);
+    for (const m of entry.matchAll(/repos\.policy\.(ensureDefault|update)\(([^,)]*)/g)) assert.equal(m[2].trim(), "'EUROSTAT_HEALTH'");
+    for (const f of ['eurostat-demo-mlexpec.ts', 'eurostat-demo-mlexpec-runner.ts', 'local-fixtures.ts']) assert.doesNotMatch(readFileSync('apps/worker/src/statistics/readers/' + f, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, ''), /repos\.policy|runtime_state|runtimeState/, f + ' must not touch runtime policy');
+    assert.doesNotMatch(readFileSync('apps/worker/src/index.ts', 'utf8'), /readers|eurostat/i);
   });
 
   it('migration seeds no policy rows and no statistics data (schema only)', () => {

@@ -142,6 +142,23 @@ describe('revision / idempotency matrix on the real write path (I14)', () => {
   });
 });
 
+describe('same-release writes are never classified as a newer release (hardening, found by the Eurostat reader)', () => {
+  it('replaying a release with a LATER retrieval time is an idempotent no-op (UNCHANGED, no confirmation churn); a changed value under the same release is REVISION_CONFLICT (not a CHECK error)', async () => {
+    const spec = { ...ctxBy.spec, extensionDimensions: { FINANCING_SCHEME: 'LATE' } };
+    const sidL = (await S.seriesIdentity(spec)).seriesId;
+    const L = await lane('LATE', { published: '2026-11-01' });
+    c.clock.advance(60_000);
+    await L.write({ seriesId: sidL, period: Y(2022), numericValue: 5, textValue: '5', retrievedAt: c.clock.now() }, { series: [spec] });
+    c.clock.advance(3_600_000);
+    const replay = await L.write({ seriesId: sidL, period: Y(2022), numericValue: 5, textValue: '5', retrievedAt: c.clock.now() });
+    assert.deepEqual([replay.observations[0].outcome, replay.currentRowsChanged], ['UNCHANGED', 0]);
+    const cu = await c.repos.read.getCurrentObservation(sidL, 'Y2022');
+    assert.equal(cu.last_confirmed_release_id, L.rel.release_id);
+    await rejectsWith(assert, L.write({ seriesId: sidL, period: Y(2022), numericValue: 6, textValue: '6', retrievedAt: c.clock.now() }), 'STATISTICS_REVISION_CONFLICT', 'STAT_OBSERVATION_VERSION_IMMUTABLE');
+    assert.equal((await c.repos.read.revisionHistory(sidL, 'Y2022', 5)).length, 1);
+  });
+});
+
 describe('provenance (I16)', () => {
   it('no canonical observation without run, release, locator, artifact (where required) — no partial writes', async () => {
     const L = await lane('PV', { published: '2026-02-02' });

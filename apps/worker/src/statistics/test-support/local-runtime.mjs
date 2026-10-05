@@ -54,6 +54,23 @@ export function makeLocalWorld(variant = 'both', { smokeFlag = true } = {}) {
       }
       return out;
     },
+    /** Read-only SQL against the local statistics (or content) sqlite file; only while no dev server holds it. */
+    query(kind, sql, ...args) {
+      for (const f of this.sqliteFiles()) {
+        const db = new DatabaseSync(f, { readOnly: true });
+        const names = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map((r) => r.name);
+        const k = names.includes('source_items') ? 'content' : names.some((n) => n.startsWith('statistics_')) ? 'stats' : 'other';
+        if (k === kind) {
+          try {
+            return db.prepare(sql).all(...args).map((r) => JSON.parse(JSON.stringify(r, (_, v) => (typeof v === 'bigint' ? Number(v) : v))));
+          } finally {
+            db.close();
+          }
+        }
+        db.close();
+      }
+      throw new Error('no local database of kind ' + kind);
+    },
     async serve() {
       const port = await freePort();
       const child = spawn(process.execPath, [WRANGLER, 'dev', '--local', '--config', toml, '--persist-to', persist, '--ip', '127.0.0.1', '--port', String(port)], { cwd: dir, env: ENV, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });

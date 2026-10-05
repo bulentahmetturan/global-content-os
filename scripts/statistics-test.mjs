@@ -29,10 +29,14 @@ export const SUITES = {
   'property.test.mjs': { gates: ['P1'], proves: 'seeded property tests: identity, value states vs oracle, period keys, release-order permutations vs model' },
   'query-plans.test.mjs': { gates: ['P1', 'P4'], proves: 'implementation SQL on a proof-scale fixture never full-scans a scale-sensitive table' },
   'local-runtime.test.mjs': { gates: ['P1', 'P2', 'P3', 'P4', 'P5'], proves: 'real local Worker (wrangler dev --local, workerd) with dedicated STATS_DB: migration from zero, fail-closed binding, content-DB isolation fingerprints, bootstrap governance, synthetic smoke through the runtime' },
+  'readers/eurostat-reader.test.mjs': { gates: ['P1', 'P3', 'P4'], proves: 'Eurostat DEMO_MLEXPEC reader (pure): explicit period bounding (never lastTimePeriod), unbounded requests inexpressible, HTTP 400 out-of-range classification, bounded retry only for transient errors, strict JSON-stat parse, flags/missing mapping, release identity' },
+  'readers/eurostat-runner.test.mjs': { gates: ['P1', 'P2', 'P3', 'P4', 'P5'], proves: 'Eurostat reader through the real storage foundation: source/dataset/release/series/version/projection/provenance/checkpoint/run, idempotency, revision matrix, classified errors, lease guard, batching, concurrency' },
+  'readers/eurostat-crash.test.mjs': { gates: ['P1', 'P3'], proves: 'Eurostat reader crash/resume: 7 fault points x 2 recovery modes, multi-batch cursor resume, stolen lease during a unit' },
+  'readers/eurostat-worker-e2e.test.mjs': { gates: ['P1', 'P2', 'P3', 'P5'], proves: 'Eurostat reader through the REAL local Worker (workerd) + STATS_DB: policy refusal, ingestion, replay, confirmation, revision, error classification, content isolation' },
   'parity.test.mjs': { gates: ['P1'], proves: 'identical transcript on node:sqlite and the real local D1 runtime (success and failure paths)' },
 };
 
-const files = readdirSync(DIR).filter((f) => f.endsWith('.test.mjs')).sort();
+const files = [...readdirSync(DIR).filter((f) => f.endsWith('.test.mjs')), ...readdirSync(`${DIR}/readers`).filter((f) => f.endsWith('.test.mjs')).map((f) => `readers/${f}`)].sort();
 const unknown = files.filter((f) => !SUITES[f]);
 if (unknown.length) {
   console.error('suites without a gate mapping:', unknown.join(', '));
@@ -48,7 +52,7 @@ const results = [];
 let failed = false;
 for (const engine of engines) {
   for (const f of files) {
-    if ((f === 'parity.test.mjs' || f === 'local-runtime.test.mjs') && engine !== 'sqlite') continue; // these run real workerd / both engines internally; run once
+    if ((f === 'parity.test.mjs' || f === 'local-runtime.test.mjs' || f === 'readers/eurostat-worker-e2e.test.mjs') && engine !== 'sqlite') continue; // these run real workerd / both engines internally; run once
     const t0 = Date.now();
     const r = spawnSync(process.execPath, ['--test', `${DIR}/${f}`], { encoding: 'utf8', env: { ...process.env, STATS_ENGINE: engine }, maxBuffer: 64 * 1024 * 1024 });
     const c = counts(r.stdout + r.stderr);
