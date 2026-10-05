@@ -44,25 +44,30 @@
   },
   "tests": {
     "command": "node scripts/statistics-test.mjs (plain mode; the frozen foundation audit JSON is not regenerated)",
+    "full_regression_code_state": "final production code (the only later change is one added test in observation.test.mjs; the observation suite was re-run on both engines after adding it)",
     "sqlite": {
-      "tests": 269,
-      "pass": 268,
+      "tests": 270,
+      "pass": 269,
       "skipped": 1,
       "fail": 0,
-      "note": "the skip is the D1-only rows_read test, which runs in the d1 pass"
+      "note": "full regression 269 tests + 1 added observation test; the skip is the D1-only rows_read test, which runs in the d1 pass"
     },
     "d1_local": {
-      "tests": 245,
-      "pass": 245,
+      "tests": 246,
+      "pass": 246,
       "skipped": 0,
       "fail": 0
     },
     "total": {
-      "tests": 514,
-      "pass": 513,
+      "tests": 516,
+      "pass": 515,
       "skipped": 1,
       "fail": 0
     },
+    "parity": "PASS (sqlite vs real local D1 transcript identical)",
+    "d1_plan_regression": "PASS (36,000-version fixture on real local D1)",
+    "scale_sensitive_full_scans": 0,
+    "crash_resume_local_d1": "PASS 18/18 (included in the d1 pass of the full regression)",
     "reader_suites": {
       "eurostat-reader (pure)": {
         "sqlite": 20,
@@ -72,15 +77,17 @@
         "sqlite": 31,
         "d1": 31
       },
-      "eurostat-crash (7 fault points x 2 recoveries + multi-batch + stolen lease)": {
+      "eurostat-crash": {
         "sqlite": 18,
         "d1": 18
       },
-      "eurostat-worker-e2e (real workerd)": {
+      "eurostat-worker-e2e (always real workerd)": {
         "sqlite_pass_only": 10
+      },
+      "local-runtime (always real workerd)": {
+        "sqlite_pass_only": 13
       }
-    },
-    "d1_plan_regression": "PASS (36,000-version fixture on real local D1); parity PASS; local-runtime 13/13"
+    }
   },
   "states": {
     "READER_IMPLEMENTED": "YES",
@@ -484,6 +491,23 @@
           "LOCAL_WALL_MS": 813
         }
       ]
+    },
+    "frozen_figures": {
+      "LOCAL_PROFILE_ONLY": true,
+      "SOURCE_REQUESTS": 1,
+      "SOURCE_BYTES": 3347,
+      "SOURCE_ROWS": 27,
+      "OBSERVATIONS_WRITTEN": 27,
+      "D1_STATEMENTS_INITIAL": 145,
+      "D1_CALLS_INITIAL": 36,
+      "D1_PER_OBSERVATION_INITIAL": 5.37,
+      "NO_CHANGE_D1_CALLS": 17,
+      "NO_CHANGE_D1_STATEMENTS": 18,
+      "MAX_D1_STATEMENTS_PER_UNIT": 155,
+      "MAX_D1_CALLS_PER_UNIT": 45,
+      "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+      "LOCAL_WALL_PROXY_MS_INITIAL_D1": 786,
+      "NO_CHANGE_OPTIMIZATION": "DEFERRED_NON_BLOCKING (bounded, safe: 17 calls / 18 statements; no hard P4 failure)"
     }
   },
   "live_source_smoke": {
@@ -573,5 +597,66 @@
       }
     ],
     "bytes": 3576
+  },
+  "frozen_contract": {
+    "EUROSTAT_DEMO_MLEXPEC_READER_LOCAL": "FROZEN_V1",
+    "source_contract": {
+      "LAST_TIME_PERIOD_USED": "NO",
+      "EXPLICIT_PERIOD_BOUNDING": "YES",
+      "OUT_OF_RANGE_HTTP_400": "SOURCE_PERIOD_OUT_OF_RANGE",
+      "OUT_OF_RANGE_RETRY": "NO",
+      "MISSING_OR_DROPPED_REQUESTED_GEOGRAPHY": "FAIL_CLOSED",
+      "UNEXPECTED_DIMENSIONS": "FAIL_CLOSED",
+      "INVALID_UPDATED_MARKER": "FAIL_CLOSED",
+      "RETRIES": "TRANSIENT_ONLY",
+      "R2_REQUIRED": "NO"
+    },
+    "release_revision_contract": {
+      "RELEASE_IDENTITY": "Eurostat response updated marker (UTC-normalized)",
+      "SAME_UPDATED_SAME_VALUE": "IDEMPOTENT_REPLAY",
+      "SAME_UPDATED_CHANGED_VALUE": "REVISION_CONFLICT",
+      "NEW_UPDATED_SAME_VALUE": "CONFIRMATION",
+      "NEW_UPDATED_CHANGED_VALUE": "IMMUTABLE_REVISION",
+      "OLD_RELEASE_LATE": "DOES_NOT_REPLACE_CURRENT (BACKFILL)",
+      "CURRENT_PROJECTION_REBUILD": "MUST_EQUAL_INCREMENTAL"
+    },
+    "precedence_note": "Release precedence is the frozen winner order (release_rank, then retrieved_at, then release_id). Retrieval time is only the tie-break between two DIFFERENT releases of EQUAL rank; it can never make a lower-rank release newer, and a write for the winner's own release is never \"newer\" than itself (explicit foundation test).",
+    "checkpoint_lease": {
+      "CHECKPOINT": "PASS",
+      "LEASE": "PASS",
+      "NORMAL_READER_INGESTION_USES_LEASE_GUARD": "YES",
+      "LEASE_GUARD_NONE_USED_FOR_NORMAL_READER": "NO",
+      "STOLEN_LEASE": "REFUSED",
+      "EXPIRED_LEASE": "RECOVERABLE"
+    },
+    "isolation": {
+      "CONTENT_DB_MUTATION_FROM_STATISTICS": 0,
+      "STATS_DB_BINDING_ISOLATION": "PASS",
+      "MISSING_STATS_DB_FAIL_CLOSED": "PASS",
+      "wrangler_toml": "unchanged",
+      "repo_wrangler_state": "untouched"
+    },
+    "governance": {
+      "TEST_ONLY_OWNER_SIMULATION": "YES",
+      "REAL_SOURCE_ACTIVATION": "NO",
+      "real_source_policy": "DISABLED by default (no row); ends PAUSED in the Worker E2E; production policy untouched",
+      "P5": "PASS"
+    },
+    "readiness": {
+      "LEGAL_READY": "NO",
+      "CAPACITY_READY": "NO",
+      "PRODUCTION_CANARY_READY": "NO",
+      "PRODUCTION_ACTIVATION_READY": "NO",
+      "LOCAL_READER_READY": "YES"
+    },
+    "gates": {
+      "P1_SYSTEM_SAFETY": "PASS",
+      "P1_EUROSTAT_READER_READINESS": "PASS",
+      "P1_OVERALL": "PASS",
+      "P2": "PASS_LOCAL_READER",
+      "P3": "PASS_LOCAL",
+      "P4": "PASS_LOCAL",
+      "P5": "PASS"
+    }
   }
 }

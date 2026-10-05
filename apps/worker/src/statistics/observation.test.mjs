@@ -159,6 +159,34 @@ describe('same-release writes are never classified as a newer release (hardening
   });
 });
 
+describe('release precedence contract (reader-hardening freeze)', () => {
+  it('same release+same value → no-op; same release+changed value → REVISION_CONFLICT; newer release+same value → confirmation; newer release+changed value → revision; retrieval time alone NEVER changes precedence', async () => {
+    const spec = { ...ctxBy.spec, extensionDimensions: { FINANCING_SCHEME: 'PREC' } };
+    const sidP = (await S.seriesIdentity(spec)).seriesId;
+    const DAY = 86_400_000;
+    const base = Date.parse('2026-12-01T00:00:00.000Z');
+    const iso = (d) => new Date(base + d * DAY).toISOString();
+    const rNew = await lane('PREC-NEW', { published: '2026-12-10' });
+    const rOld = await lane('PREC-OLD', { published: '2026-12-05' });
+    const rNewer = await lane('PREC-NEWER', { published: '2026-12-20' });
+    const rNewest = await lane('PREC-NEWEST', { published: '2026-12-25' });
+    const w = (L, v, day) => L.write({ seriesId: sidP, period: Y(2021), numericValue: v, textValue: String(v), retrievedAt: iso(day) }, v === 1 && day === 0 ? { series: [spec] } : {});
+    assert.equal((await w(rNew, 1, 0)).observations[0].outcome, 'INSERTED');
+    // the OLDER release retrieved 30 days LATER: still older → BACKFILL, never current
+    assert.equal((await w(rOld, 9, 30)).observations[0].outcome, 'BACKFILLED');
+    assert.equal((await c.repos.read.getCurrentObservation(sidP, 'Y2021')).current_release_id, rNew.rel.release_id);
+    // same release, same value, much later retrieval → no-op (not a "newer release")
+    assert.equal((await w(rNew, 1, 60)).observations[0].outcome, 'UNCHANGED');
+    // same release, changed value, later retrieval → conflict (immutable history), nothing changes
+    await rejectsWith(assert, w(rNew, 2, 90), 'STATISTICS_REVISION_CONFLICT', 'STAT_OBSERVATION_VERSION_IMMUTABLE');
+    // newer release + same value → confirmation only
+    assert.equal((await w(rNewer, 1, 1)).observations[0].outcome, 'CONFIRMED_NO_VERSION');
+    // newer release + changed value → immutable revision
+    assert.deepEqual([(await w(rNewest, 3, 2)).observations[0].outcome, (await c.repos.read.getCurrentObservation(sidP, 'Y2021')).numeric_value], ['REVISED', 3]);
+    assert.equal((await c.repos.read.revisionHistory(sidP, 'Y2021', 10)).length, 3, 'initial, backfill, revision — no confirmation or replay version');
+  });
+});
+
 describe('provenance (I16)', () => {
   it('no canonical observation without run, release, locator, artifact (where required) — no partial writes', async () => {
     const L = await lane('PV', { published: '2026-02-02' });

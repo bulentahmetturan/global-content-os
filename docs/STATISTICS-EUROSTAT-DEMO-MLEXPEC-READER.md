@@ -34,7 +34,7 @@ Explicit `startPeriod`/`endPeriod` only; `lastTimePeriod` is never sent (the fix
 | reader on storage (idempotency, revision matrix, errors, lease, batching, concurrency, security) | 31/31 | 31/31 |
 | crash/resume (7 fault points × resume-same-run and reap+new-run, multi-batch cursor, stolen lease) | 18/18 | 18/18 |
 | **real Worker E2E** (workerd, HTTP → runtime → STATS_DB) | 10/10 | n/a (always workerd) |
-| full regression of every foundation/runtime suite | 269 tests, 268 pass, 1 skip | 245/245 |
+| full regression of every foundation/runtime suite (+1 explicit precedence test, re-run on both engines) | 270 tests, 269 pass, 1 skip | 246/246 |
 
 Worker E2E: the DISABLED source is refused (403 `STAT_RUN_REQUIRES_ACTIVE_POLICY`); after a **test-only** owner simulation inside the disposable DB: first ingestion 27 observations / 9 series, replay `NO_CHANGE`, newer same-value update 27 confirmations, changed value 1 revision, out-of-range → `FAILED/VALIDATION` after 1 request, transient → 3 requests + 2 retries, drift → `SCHEMA_DRIFT`, invalid request → 422 before any run; the policy is then PAUSED and further runs are refused. Independent read of the local sqlite file: 28 versions (27 + 1 revision), 27 current rows, 3 releases (2 SUPERSEDED, 1 CURRENT), no run RUNNING, no lease held, provenance joined to run/artifact. **Content DB fingerprint unchanged** (`CONTENT_DB_MUTATION_FROM_STATISTICS = 0`).
 
@@ -50,3 +50,14 @@ Per bounded unit on recorded fixtures (27 positions, 9 series): source requests 
 The real Eurostat source stays **DISABLED** (no policy row by default); production-mode paths use the already-approved **test-only owner simulation inside throw-away databases** (`TEST_ONLY_OWNER_SIMULATION = YES`, `REAL_SOURCE_ACTIVATION = NO`); the canary tests use `ACTIVATION_GATED` only. A governance test asserts no reader module touches runtime policy and the simulation route is flag-guarded and Eurostat-only. Registry encoding damage is not rewritten; identity never depends on display spelling.
 
 `LEGAL_READY = NO` (terms PARTIAL, owner review pending — `LEGAL_REVIEW_REQUIRED_BEFORE_PRODUCTION_CANARY = YES`), `CAPACITY_READY = NO`, `PRODUCTION_CANARY_READY = NO`, `PRODUCTION_ACTIVATION_READY = NO`; `LOCAL_READER_READY = YES`.
+
+## 9. FROZEN_V1 (local)
+
+`EUROSTAT_DEMO_MLEXPEC_READER_LOCAL = FROZEN_V1`. Final totals: **516 tests, 515 pass, 1 skip (D1-only rows_read test), 0 fail** (sqlite 270 / real local D1 246); full regression ran on the final production code, plus the one added test (observation suite re-run on both engines). Crash/resume on real local D1 18/18 is part of the d1 pass; parity PASS; D1 plan regression PASS with **0 scale-sensitive full scans**.
+
+Frozen source contract: `lastTimePeriod` never used; explicit period bounding; out-of-range HTTP 400 → `SOURCE_PERIOD_OUT_OF_RANGE` without retry; missing/dropped requested geography, unexpected dimensions and invalid `updated` marker fail closed; retries transient-only; R2 not required.
+Frozen release/revision contract: release identity = response `updated` marker; same marker + same value = idempotent replay; same marker + changed value = `REVISION_CONFLICT`; new marker + same value = confirmation; new marker + changed value = immutable revision; a late old release never replaces current; rebuilt projection equals incremental. Release precedence is the frozen winner order (rank, then retrieved_at, then release_id): retrieval time is only the tie-break between two different releases of equal rank and can never make a lower-rank release newer; a write for the winner's own release is never "newer" than itself (explicit foundation test, both engines).
+
+Idle-machine profile (local only): 1 request, 3,347 B, 27 rows, 27 observations written; initial write 36 D1 calls / 145 statements (5.4 / observation); no-change poll 17 calls / 18 statements (**DEFERRED_NON_BLOCKING** optimization: bounded and safe); maximum 45 calls / 155 statements per unit; local wall proxy ≈ 0.8 s on real local D1. Not a production budget.
+
+Nothing here changes `LEGAL_READY = NO`, `CAPACITY_READY = NO`, `PRODUCTION_CANARY_READY = NO`, `PRODUCTION_ACTIVATION_READY = NO`.
