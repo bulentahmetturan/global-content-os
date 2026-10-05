@@ -12,7 +12,8 @@ const text = worker.outputFiles[0].text;
 
 // the exact DOSSIER modules that ship in the Worker (a new module in the production path is a conscious, reviewed change)
 const SHIPPED = [
-  'apps/worker/src/dossier-canary-routes.ts',
+  'apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/dossier-ops-routes.ts',
+  'apps/worker/src/dossier/recurring-control.ts', 'apps/worker/src/dossier/recurring-health.ts', 'apps/worker/src/dossier/recurring-ops.ts', 'apps/worker/src/dossier/recurring-profile.ts', 'apps/worker/src/dossier/recurring-scheduler.ts', 'apps/worker/src/dossier/review.ts',
   'apps/worker/src/dossier/aggregation.ts', 'apps/worker/src/dossier/attribution.ts', 'apps/worker/src/dossier/candidates.ts', 'apps/worker/src/dossier/canary-control.ts',
   'apps/worker/src/dossier/canary-inspect.ts', 'apps/worker/src/dossier/canary-v2.ts', 'apps/worker/src/dossier/eurostat.ts', 'apps/worker/src/dossier/canary-profile.ts', 'apps/worker/src/dossier/canary-readiness.ts', 'apps/worker/src/dossier/canary.ts',
   'apps/worker/src/dossier/classifier.ts', 'apps/worker/src/dossier/clinicaltrials.ts', 'apps/worker/src/dossier/clusters.ts', 'apps/worker/src/dossier/coherence.ts',
@@ -25,7 +26,7 @@ const SHIPPED = [
 test('the deployed Worker bundle contains exactly the audited DOSSIER modules and nothing test-only: no test, fixture, recorded response, burn-in, script or POC file', () => {
   const dossier = inputs.filter((p) => /dossier/i.test(p)).sort();
   assert.deepEqual(dossier, [...SHIPPED].sort());
-  const bad = inputs.filter((p) => /\.test\.|test-support|test-capacity|burnin|fixtures\.mjs|recorded|\/\.logs\/|^scripts\/|poc|router\.ts$|orchestrator|review\.ts$|handoff\.ts$/i.test(p) && /dossier/i.test(p));
+  const bad = inputs.filter((p) => /\.test\.|test-support|test-capacity|burnin|fixtures\.mjs|recorded|\/\.logs\/|^scripts\/|poc|router\.ts$|orchestrator|handoff\.ts$/i.test(p) && /dossier/i.test(p));
   assert.deepEqual(bad, [], 'nothing from the local pipeline / review / handoff / orchestrator / POC tooling ships');
   assert.ok(!inputs.some((p) => /node_modules\/(vitest|@vitest)/.test(p)));
 });

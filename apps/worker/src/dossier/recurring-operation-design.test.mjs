@@ -71,7 +71,7 @@ test('this is design only: nothing activated, the frozen canary evidence is refe
   for (const w of ['DESIGN ONLY', 'R01-R18_FROZEN', 'SCHEMA_CHANGE_REQUIRED', 'STALE_FAST_WINDOW', 'validateSnapshotProvenance', 'CONCEPT_PROPOSER_BUSY']) assert.ok(doc.includes(w), w);
 });
 
-test('the design rests on code facts that still hold: CT reader supports since/pageToken, the lease claim statement exists, snapshots do not yet apply the effective-release selection, one cron trigger exists', () => {
+test('the design rests on code facts that still hold: CT reader supports since/pageToken, the lease claim statement exists, snapshots do not yet apply the effective-release selection, the GCOS cron exists (the dedicated */5 trigger was added by the implementation)', () => {
   const ct = readFileSync('apps/worker/src/dossier/clinicaltrials.ts', 'utf8');
   assert.match(ct, /AREA\[StudyFirstPostDate\]RANGE\[\$\{o\.since\},MAX\]/);
   assert.match(ct, /pageToken/);
@@ -79,7 +79,7 @@ test('the design rests on code facts that still hold: CT reader supports since/p
   assert.match(run, /NOT EXISTS \(SELECT 1 FROM dossier_canary_runs o/);
   const snap = readFileSync('apps/worker/src/dossier/snapshots.ts', 'utf8');
   assert.ok(!/selectEffectiveRelease|effectiveRows/.test(snap), 'R11 gap is real until implemented (this test must be updated by the R11 implementation)');
-  assert.match(readFileSync('wrangler.toml', 'utf8'), /crons = \["\* \* \* \* \*"\]/);
+  assert.match(readFileSync('wrangler.toml', 'utf8'), /crons = \["\* \* \* \* \*", "\*\/5 \* \* \* \*"\]/);
   const mig = readFileSync('migrations/0031_dossier_discovery_foundation.sql', 'utf8');
   assert.match(mig, /CREATE TABLE IF NOT EXISTS dossier_control/);
   assert.ok(!/UNIQUE[^;]*normalized_label/.test(mig), 'no uniqueness on the normalized label (why serialization is mechanical, not schema-based)');

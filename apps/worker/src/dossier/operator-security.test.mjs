@@ -230,16 +230,19 @@ test('no CORS surface: no Access-Control headers on any response; preflight is n
 test('cron / background code cannot invoke the operator surface or the runner; deploy does not start anything; DOSSIER code is reachable only from the fetch handler route', () => {
   const index = readFileSync('apps/worker/src/index.ts', 'utf8');
   const scheduled = index.slice(index.indexOf('async scheduled('));
-  assert.ok(!/dossier/i.test(scheduled), 'the scheduled() handler never mentions DOSSIER');
+  // recurring operation (R03): the ONLY dossier code the scheduled() handler may reach is the dedicated recurring tick, through the isolated-job runner; never the canary operator surface or runner
+  assert.ok(!/handleDossierCanary|invokeCanary|runCanaryToCompletion|dossier-canary-routes|OPS_TOKEN/.test(scheduled), 'the scheduled() handler never reaches the canary surface');
+  assert.deepEqual([...new Set(scheduled.match(/\w*dossier\w*/gi) ?? [])].sort(), ['DOSSIER_RECURRING_CRON', 'dossier', 'runDossierRecurringTick']);
   const importers = [];
   const walk = (dir) => { for (const e of readdirSync(dir, { withFileTypes: true })) { const p = `${dir}/${e.name}`; if (e.isDirectory()) walk(p); else if (/\.ts$/.test(e.name) && !p.includes('/dossier/')) { const t = readFileSync(p, 'utf8'); if (/from '\.\/dossier-canary-routes'|from '\.\/dossier\/|from '\.\.\/dossier\//.test(t)) importers.push(p.replace('apps/worker/src/', '')); } } };
   walk('apps/worker/src');
-  assert.deepEqual(importers.sort(), ['dossier-canary-routes.ts', 'index.ts', 'readiness.ts'].filter((f) => importers.includes(f)).sort());
+  assert.deepEqual(importers.sort(), ['dossier-canary-routes.ts', 'dossier-ops-routes.ts', 'index.ts', 'readiness.ts'].filter((f) => importers.includes(f)).sort());
   assert.ok(!importers.some((f) => /scheduled|cron|evergreen|temporal|triage|ingest/i.test(f)), importers.join(','));
   const sched = readFileSync('apps/worker/src/scheduled-jobs.ts', 'utf8');
   assert.ok(!/dossier/i.test(sched));
   const crons = (readFileSync('wrangler.toml', 'utf8').match(/crons\s*=\s*\[[^\]]*\]/g) ?? []).join(' ');
   assert.ok(crons.length > 0 && !/dossier/i.test(crons), 'cron triggers carry no DOSSIER entry');
+  assert.deepEqual(crons.match(/"[^"]+"/g), ['"* * * * *"', '"*/5 * * * *"'], 'exactly the GCOS cron and the dedicated recurring trigger');
 });
 
 test('normal GCOS routes do not inherit OPS_TOKEN: liveness is public, the dossier surface alone demands the token, and the existing route-gate table is unchanged', async () => {

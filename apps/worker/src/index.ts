@@ -16,6 +16,7 @@ import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { handleDossierCanary } from './dossier-canary-routes';
+import { DOSSIER_RECURRING_CRON, handleDossierOps, runDossierRecurringTick } from './dossier-ops-routes';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -121,6 +122,9 @@ export default {
       // DOSSIER canary operator surface (OPS_TOKEN; manual, never scheduled, never public; a run also needs DOSSIER_CANARY_ENABLED=true).
       const dossierCanary = await handleDossierCanary(request, env, path);
       if (dossierCanary) return dossierCanary;
+      // DOSSIER recurring operation read model + owner controls (own read / write tokens, distinct from OPS_TOKEN).
+      const dossierOps = await handleDossierOps(request, env, path);
+      if (dossierOps) return dossierOps;
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {
@@ -764,6 +768,15 @@ export default {
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    // DOSSIER recurring tick: its own five-minute cron. It never runs the GCOS slot rotation below, and a disabled deployment (DOSSIER_RECURRING_ENABLED != "true") reads nothing.
+    if (controller.cron === DOSSIER_RECURRING_CRON) {
+      ctx.waitUntil(
+        runIsolatedScheduledJobs([{ id: 'dossier-recurring', run: () => runDossierRecurringTick(env) }], {
+          onError: (r) => console.error(JSON.stringify({ event: 'scheduled_job_failed', job_id: r.id, error_name: r.error?.name, error_message: r.error?.message })),
+        }),
+      );
+      return;
+    }
     // Continuous coverage: every cron tick advances a sliding window across ALL feeds.
     const minute = new Date(controller.scheduledTime).getUTCMinutes();
     const hour = new Date(controller.scheduledTime).getUTCHours();

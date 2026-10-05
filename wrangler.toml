@@ -20,7 +20,8 @@ not_found_handling = "single-page-application"
 # Production: wrangler secret put CCOS_HANDOFF_URL / CCOS_HANDOFF_TOKEN / STATUS_CALLBACK_TOKEN / TIP_RADAR_INGEST_TOKEN / HUB_OPERATOR_TOKEN / OPENALEX_API_KEY
 
 [triggers]
-crons = ["* * * * *"]
+# The second trigger is the DOSSIER recurring tick: a no-op unless DOSSIER_RECURRING_ENABLED="true" AND the owner switched recurring on (docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md R03).
+crons = ["* * * * *", "*/5 * * * *"]
 
 [vars]
 ENVIRONMENT = "production"
@@ -30,6 +31,8 @@ TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED = "true"
 BIBLE_VERSION = "4.0"
 # DOSSIER canary master switch: OFF. Nothing in DOSSIER runs unless this is "true" AND an operator enables it (see docs/DOSSIER-CANARY-RUNBOOK.md).
 DOSSIER_CANARY_ENABLED = "false"
+# DOSSIER recurring operation master switch: OFF. The */5 cron tick reads nothing unless this is "true" AND the owner enabled recurring and a source state.
+DOSSIER_RECURRING_ENABLED = "false"
 
 [ai]
 binding = "AI"

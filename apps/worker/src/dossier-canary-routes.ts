@@ -20,7 +20,7 @@ import { DossierError } from './dossier/types';
 const j = (body: unknown, status = 200): Response => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8' } });
 
 /** Network access of a production reader is limited to its one official endpoint. */
-function guardedFetch(host: string, pathPrefix: string): (url: string, init: { headers: Record<string, string> }) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }> {
+export function guardedFetch(host: string, pathPrefix: string): (url: string, init: { headers: Record<string, string> }) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }> {
   return async (url, init) => {
     const u = new URL(url);
     if (u.host !== host || !u.pathname.startsWith(pathPrefix)) throw new Error(`blocked request to ${u.host}${u.pathname}`);

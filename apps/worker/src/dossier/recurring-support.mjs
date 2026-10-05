@@ -71,9 +71,10 @@ export const euRelease = (iso) => { const b = clone(EU_FIXTURE); b.updated = iso
  * A fresh recurring world. Both sources are BURN_IN by default (set by the OWNER, as in production); `start` is the clock origin; the invocation ledger and the
  * capacity are the owner's. `statements` counts every prepared statement of the tick (to prove a disabled deployment reads nothing).
  */
-export async function recWorld({ ct = ctServer(studiesDated(40, '2026-10-09')), eu = euServer(), states = { [CT_ID]: 'BURN_IN', [EU_ID]: 'BURN_IN' }, enabled = true, envOn = true, capacity = true, start = '2026-10-10T00:00:00.000Z' } = {}) {
+export async function recWorld({ ct = ctServer(studiesDated(40, '2026-10-09')), eu = euServer(), states = { [CT_ID]: 'BURN_IN', [EU_ID]: 'BURN_IN' }, enabled = true, envOn = true, capacity = true, start = '2026-10-10T00:00:00.000Z', uuidIds = false } = {}) {
   const { sqlite, db } = openDossierDb();
   const ctx = makeCtx(start);
+  if (uuidIds) { let k = 0; ctx.id = (prefix) => `${prefix}_${String(++k).padStart(8, '0')}-0000-4000-8000-${String(k).padStart(12, '0')}`; } // production-shaped ids (crun_<uuid>)
   let statements = 0;
   const counted = { prepare: (sql) => { statements += 1; return db.prepare(sql); }, batch: db.batch };
   const w = { sqlite, db, ctx, ct, eu, logs: [], counted, statements: () => statements, resetStatements: () => { statements = 0; } };

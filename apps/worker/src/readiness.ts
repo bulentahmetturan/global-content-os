@@ -9,6 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 import { DOSSIER_CANARY_V1 } from './dossier/canary-profile';
 import { gatherDossierReadiness, type DossierReadiness } from './dossier/canary-readiness';
+import { recurringReadiness } from './dossier/recurring-ops';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
 export const EXPECTED_SCHEMA_MIGRATION = '0031_dossier_discovery_foundation.sql';
@@ -50,7 +51,7 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
 }
 
 /** Gathers the /api/ready inputs (shared by /api/ready and /api/ops/summary). */
-export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null; dossier: DossierReadiness }> {
+export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null; dossier: DossierReadiness & { recurring: Awaited<ReturnType<typeof recurringReadiness>> } }> {
   let dbReachable = false;
   let appliedMigration: string | null = null;
   let cronAge: number | null = null;
@@ -80,5 +81,7 @@ export async function gatherReadiness(env: Env): Promise<{ report: ReadinessRepo
     report.degraded.push('DOSSIER_CANARY_NOT_READY');
     report.level = report.blocked.length ? 'BLOCKED' : 'DEGRADED';
   }
-  return { report, appliedMigration, dossier };
+  // Recurring operation: reported only. It NEVER changes the top-level GCOS level (a source failure must not disable GCOS).
+  const recurring = await recurringReadiness(env.DB as never, { env, nowIso: new Date().toISOString() });
+  return { report, appliedMigration, dossier: { ...dossier, recurring } };
 }
