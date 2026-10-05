@@ -21,7 +21,7 @@
 import { aggregateConcept } from './aggregation';
 import { buildAttributionNotice, type AttributionNotice } from './attribution';
 import { assignClusters } from './clusters';
-import { canaryPolicy, readerCaps, requireCanaryProfile, type DossierCanaryProfile } from './canary-profile';
+import { canaryPolicy, readerCaps, requireCanaryProfile, type CanaryProfile } from './canary-profile';
 import {
   controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, createBudgetedD1, DOSSIER_READER_REGISTRY, isOn,
   loadControls, platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, type Controls, type DossierReaderRegistration,
@@ -90,7 +90,7 @@ export interface CanaryEnv {
 export interface CanaryDeps {
   db: D1Like;
   env: CanaryEnv;
-  profile: DossierCanaryProfile;
+  profile: CanaryProfile;
   /** Builds the reader for a registration. Production passes real network readers; tests pass replay readers. */
   createReader: (reg: DossierReaderRegistration) => Connector;
   classifier: ContentClassifier;
@@ -140,7 +140,7 @@ async function activeRun(db: D1Like, key: string): Promise<RunRow | null> {
 }
 
 /** Runs allowed per reader = the profile quota + any extra runs an operator explicitly authorized after review. */
-async function runQuota(db: D1Like, profile: DossierCanaryProfile, controls: Controls, readerId: string): Promise<{ allowed: number; completed: number }> {
+async function runQuota(db: D1Like, profile: CanaryProfile, controls: Controls, readerId: string): Promise<{ allowed: number; completed: number }> {
   const completed = (await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED'`, readerId, profile.profile_id))?.n ?? 0;
   return { allowed: profile.max_runs_per_reader.value + Number(controls[controlReaderExtraRuns(readerId)] ?? 0), completed: Number(completed) };
 }
@@ -234,7 +234,11 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
           const st = await stageSourceItem(repo, deps.classifier, item);
           if (st.created) progress.itemsNew += 1;
           if (item.contentHash) await assignClusters(repo, [{ memberKind: 'EXTERNAL_ITEM', memberRef: st.originItemId, acquisitionSourceId: item.acquisitionSourceId, publishedAt: item.publishedAt ?? null, fingerprint: item.contentHash }], { lookupLimit: caps.itemCap * 4 });
-          await observeSourceItem(repo, { runId: live.run_id, startedAt: progress.startedAt, extractor: deps.extractor, policy, reader }, st, actorIds, acc);
+          // A statistical-release origin (DATASET_RELEASE_KEY) carries its complete content in its identity (value + flag): the same origin seen again is the same
+          // data, so a display-label change must not attach it to a new concept or write a second observation. Existence of an observation (not `st.created`) decides,
+          // so a unit killed after staging but before its observation is still completed on resume.
+          const alreadyObserved = item.identity.strategy === 'DATASET_RELEASE_KEY' && !st.created && (await one<{ n: number }>(db, `SELECT 1 AS n FROM dossier_observations WHERE origin_item_id = ? LIMIT 1`, st.originItemId)) !== null;
+          if (!alreadyObserved) await observeSourceItem(repo, { runId: live.run_id, startedAt: progress.startedAt, extractor: deps.extractor, policy, reader }, st, actorIds, acc);
           await exec(db, `UPDATE dossier_canary_work SET status = 'DONE' WHERE run_id = ? AND seq = ?`, live.run_id, row.seq);
         }
       }

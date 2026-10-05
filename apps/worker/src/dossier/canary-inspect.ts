@@ -3,7 +3,7 @@
  * No function here writes. WATCH state is RECONSTRUCTED from durable observations / aggregates through the SAME gate evaluateTarget uses
  * (`gateTarget`), so what an operator reads can never disagree with what a run decides. Every list is bounded by a limit.
  */
-import { canaryPolicy, type DossierCanaryProfile } from './canary-profile';
+import { canaryPolicy, type CanaryProfile } from './canary-profile';
 import {
   controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, DOSSIER_READER_REGISTRY, isOn, loadControls,
   platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, type Controls, type DossierReaderRegistration,
@@ -21,7 +21,7 @@ const one = async <T = Row>(db: D1Like, sql: string, ...v: unknown[]): Promise<T
 
 export interface InspectDeps {
   db: D1Like;
-  profile: DossierCanaryProfile;
+  profile: CanaryProfile;
   env: CanaryEnv;
   registry?: readonly DossierReaderRegistration[];
   ctx?: Ctx;
@@ -87,7 +87,7 @@ export async function watchSummary(d: InspectDeps, o: { limit?: number; after?: 
   const ctx = d.ctx ?? defaultCtx;
   const controls = await loadControls(d.db);
   const repo = new DossierRepo(d.db, ctx);
-  const policy = canaryPolicy(d.profile, { promotionEnabled: isOn(controls, CONTROL_PROMOTION), canonicalSourceId: 'clinicaltrials-gov-api-v2' });
+  const policy = canaryPolicy(d.profile, { promotionEnabled: isOn(controls, CONTROL_PROMOTION), canonicalSourceId: d.profile.profile_id === 'DOSSIER_CANARY_V2' ? d.profile.sources.value[0].canonical_source_id : 'clinicaltrials-gov-api-v2' });
   const total = Number((await one<{ n: number }>(d.db, `SELECT COUNT(DISTINCT target_id) AS n FROM dossier_signal_aggregates WHERE target_type = 'CONCEPT' AND target_id NOT IN (SELECT target_id FROM dossier_candidates WHERE target_type = 'CONCEPT')`))?.n ?? 0);
   const ids = await many<{ target_id: string }>(d.db, `SELECT DISTINCT target_id FROM dossier_signal_aggregates WHERE target_type = 'CONCEPT' AND target_id > ? AND target_id NOT IN (SELECT target_id FROM dossier_candidates WHERE target_type = 'CONCEPT') ORDER BY target_id LIMIT ?`, o.after ?? '', lim(o.limit, 25));
   const targets = [];

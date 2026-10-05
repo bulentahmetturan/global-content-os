@@ -19,13 +19,13 @@ export interface DossierReaderRegistration {
   /** Static registration state. The checked-in value is always false: enabling is a runtime operator control, never a code change. */
   enabled: boolean;
   state: 'CANARY_DISABLED';
-  canary_profile: 'DOSSIER_CANARY_V1';
+  canary_profile: 'DOSSIER_CANARY_V1' | 'DOSSIER_CANARY_V2';
   legal_status: LegalState;
   technical_access: TechnicalAccess;
   usage_terms: UsageTerms;
   rate_guidance: RateGuidance;
   access_status: string;
-  attribution_profile: 'CLINICALTRIALS_GOV' | 'OECD_HEALTH';
+  attribution_profile: 'CLINICALTRIALS_GOV' | 'OECD_HEALTH' | 'EUROSTAT';
   runtime_mode: 'MANUAL_ONE_SHOT';
   last_reviewed_at: string;
   blocker: string | null;
