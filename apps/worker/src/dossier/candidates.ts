@@ -12,9 +12,9 @@ import { deriveConceptEligibility, type ConceptEligibility } from './eligibility
 import { decidePromotion, deriveWatchState, humanPromotionDecision, INTEGRITY_NOT_SATISFIED, integrityRejects, promotionPathFromReasons, routeDefaultClass, type PromotionDecision, type WatchState } from './promotion';
 import { policyValue, type Criteria, type DossierPolicy } from './policy';
 import { credibleAnchorsFromAggregates, type Anchor } from './wow';
-import { evaluationFingerprint, writeCandidateSnapshot, type Evaluation, type SnapshotResult } from './snapshots';
+import { evaluationFingerprint, prepareSnapshotProvenance, validateSnapshotProvenance, writeCandidateSnapshot, type Evaluation, type PreparedProvenance, type SnapshotResult } from './snapshots';
 import type { DossierRepo } from './repo';
-import type { TargetType } from './types';
+import { DossierError, type TargetType } from './types';
 
 type Row = Record<string, unknown>;
 type Dim = { state: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE'; value: number | null };
@@ -154,6 +154,8 @@ export type EvaluateOutcome =
   | { status: 'NOT_ELIGIBLE'; targetType: TargetType; targetId: string; eligibility: ConceptEligibility; reasonCodes: string[] }
   /** Pre-candidate: eligible, aggregated, but no promotion gate passed. No candidate row, no snapshot. */
   | { status: 'WATCH'; targetType: TargetType; targetId: string; watch: WatchState }
+  /** R11: the snapshot would cite evidence that is not current and effective (or a counted family has none). Nothing is written for a NEW candidate; an existing candidate keeps its history and gets no new snapshot. An integrity failure. */
+  | { status: 'PROVENANCE_BLOCKED'; targetType: TargetType; targetId: string; candidateId: string | null; violations: string[] }
   | { status: 'EVALUATED'; candidateId: string; created: boolean; candidateClass: string; evaluationStatus: Evaluation['status']; snapshot: SnapshotResult; surface: boolean | 'POLICY_NOT_DECIDED'; candidateState: string; reasonCodes: string[] };
 
 const REVIEWABLE_STATES = ['DISCOVERED', 'WATCH', 'CANDIDATE', 'REVIEW'];
@@ -231,8 +233,21 @@ export async function evaluateTarget(repo: DossierRepo, target: TargetRef, polic
   }
   ev.reasonCodes = [...new Set(ev.reasonCodes)];
   const classed: Evaluation = { ...ev, candidateClass: ev.candidateClass ?? routeDefaultClass(path) };
+  // R11: a NEW candidate's provenance is validated BEFORE its row exists, so a blocked evaluation leaves nothing behind
+  let prepared: PreparedProvenance | null | undefined;
+  if (!existing) {
+    prepared = await prepareSnapshotProvenance(repo, target, policy, cfg);
+    const violations = validateSnapshotProvenance(target, classed, prepared);
+    if (violations.length) return { status: 'PROVENANCE_BLOCKED', targetType: target.type, targetId: target.id, candidateId: null, violations };
+  }
   const cand = await repo.ensureCandidate({ target_type: target.type, target_id: target.id, domain });
-  const snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, classed, policy, cfg);
+  let snapshot: SnapshotResult;
+  try {
+    snapshot = await writeCandidateSnapshot(repo, cand.candidateId, target, classed, policy, cfg, prepared);
+  } catch (e) {
+    if (e instanceof DossierError && e.code === 'snapshot_provenance_invalid') return { status: 'PROVENANCE_BLOCKED', targetType: target.type, targetId: target.id, candidateId: cand.candidateId, violations: e.message.replace(/^snapshot_provenance_invalid: ?/, '').split(',') };
+    throw e;
+  }
   const current = s((await repo.getCandidate(cand.candidateId))?.state);
   let state = current;
   if (REVIEWABLE_STATES.includes(current) && plan.surface !== false) {

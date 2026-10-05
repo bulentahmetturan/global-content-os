@@ -113,7 +113,7 @@ export async function promoteWatchTarget(repo: DossierRepo, req: { targetType: T
   const errs = validateReview(review);
   if (errs.length) return { ok: false, reason: 'review_invalid', detail: errs.join(',') };
   const out = await evaluateTarget(repo, { type: req.targetType, id: req.targetId, humanPromotion: true }, policy, cfg);
-  if (out.status !== 'EVALUATED') return { ok: false, reason: out.status === 'WATCH' ? 'gate_not_satisfied' : out.status === 'NOT_ELIGIBLE' ? 'not_editorially_eligible' : 'no_signal', detail: out.status === 'WATCH' ? out.watch.promotion.reasonCodes.join(',') : out.status === 'NOT_ELIGIBLE' ? out.reasonCodes.join(',') : undefined };
+  if (out.status !== 'EVALUATED') return { ok: false, reason: out.status === 'WATCH' ? 'gate_not_satisfied' : out.status === 'NOT_ELIGIBLE' ? 'not_editorially_eligible' : out.status === 'PROVENANCE_BLOCKED' ? 'snapshot_provenance_invalid' : 'no_signal', detail: out.status === 'WATCH' ? out.watch.promotion.reasonCodes.join(',') : out.status === 'NOT_ELIGIBLE' ? out.reasonCodes.join(',') : out.status === 'PROVENANCE_BLOCKED' ? out.violations.join(',') : undefined };
   const reviewId = await repo.appendReview(review);
   return { ok: true, reviewId, candidateId: out.candidateId, candidateState: out.candidateState, candidateClass: out.candidateClass, note: 'promoted to a durable candidate; still requires review (promotion is not ACCEPT)' };
 }

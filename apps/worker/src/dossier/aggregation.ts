@@ -193,9 +193,14 @@ export function selectEffectiveRelease<T>(cell: string, entries: readonly Releas
   return { cell, reason: 'CURRENT_BY_LATEST_RELEASE', effective: [topRows[0]], superseded };
 }
 
-async function effectiveRows(repo: DossierRepo, rows: Obs[]): Promise<{ rows: Obs[]; withdrawn: Obs[] }> {
+/**
+ * The observations that count NOW. `rows` = effective rows (an ambiguous same-release cell keeps every tied row so its aggregate reads UNKNOWN);
+ * `withdrawn` = rows of cells whose newest release has no value; `ambiguous` = the tied rows of ambiguous cells (counted as support-unknown, never citable evidence).
+ * Shared by the aggregate and by the candidate snapshot (R11), so the evidence a snapshot cites is exactly the evidence the aggregate used.
+ */
+export async function effectiveObservationRows(repo: DossierRepo, rows: Obs[]): Promise<{ rows: Obs[]; withdrawn: Obs[]; ambiguous: Obs[] }> {
   const stat = rows.filter((r) => typeof r.acquisition_source_id === 'string' && STATISTICAL_RELEASE_SOURCES.includes(r.acquisition_source_id) && typeof r.origin_item_id === 'string');
-  if (!stat.length) return { rows, withdrawn: [] }; // no extra statement for any other source
+  if (!stat.length) return { rows, withdrawn: [], ambiguous: [] }; // no extra statement for any other source
   const origins = new Map((await repo.getExternalSourceItems(stat.map((r) => String(r.origin_item_id)))).map((o) => [String(o.origin_item_id), s(o.identity_value)]));
   const byCell = new Map<string, ReleaseEntry<Obs>[]>();
   const passthrough: Obs[] = [];
@@ -207,12 +212,14 @@ async function effectiveRows(repo: DossierRepo, rows: Obs[]): Promise<{ rows: Ob
   }
   const keep = new Set<Obs>(passthrough);
   const withdrawn: Obs[] = [];
+  const ambiguous: Obs[] = [];
   for (const [cell, entries] of byCell) {
     const sel = selectEffectiveRelease(cell, entries);
     for (const r of sel.effective) keep.add(r);
     if (sel.reason === 'NEWEST_RELEASE_HAS_NO_VALUE') withdrawn.push(...entries.map((e) => e.row));
+    if (sel.reason === 'AMBIGUOUS_SAME_RELEASE_CONFLICT') ambiguous.push(...sel.effective);
   }
-  return { rows: rows.filter((r) => keep.has(r)), withdrawn };
+  return { rows: rows.filter((r) => keep.has(r)), withdrawn, ambiguous };
 }
 
 export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg: AggregationConfig): Promise<AggregationResult> {
@@ -224,7 +231,7 @@ export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg
   const byId = new Map<string, Obs>();
   for (const r of [...recent, ...structural]) byId.set(String(r.observation_id), r as Obs);
   const truncated = recent.length >= cfg.observationLimit || structural.length >= cfg.observationLimit;
-  const eff = await effectiveRows(repo, [...byId.values()]);
+  const eff = await effectiveObservationRows(repo, [...byId.values()]);
   const result = await aggregateRows(repo, 'CONCEPT', conceptId, eff.rows, cfg, truncated);
   // a cell whose newest release carries no value is no longer supported: a derived aggregate that only that cell produced earlier is removed (derived, recomputable; the observations stay)
   for (const w of eff.withdrawn) {

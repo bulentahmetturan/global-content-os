@@ -359,6 +359,8 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
               }
             } else {
               const out = await evaluateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
+              // R11: a snapshot that would cite non-current evidence is an INTEGRITY failure (the run FAILS; recurring operation blocks the source and clears the global switch)
+              if (out.status === 'PROVENANCE_BLOCKED') throw new DossierError('SNAPSHOT_PROVENANCE_INVALID', `concept ${cid}: ${out.violations.join(',')}`);
               if (out.status === 'WATCH') progress.watch += 1;
               else if (out.status === 'EVALUATED' && out.created) progress.promoted += 1;
               else if (out.status === 'NO_SIGNAL') progress.noSignal += 1;

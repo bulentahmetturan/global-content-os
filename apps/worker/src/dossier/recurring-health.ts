@@ -17,7 +17,7 @@ export interface Alert { severity: Severity; source: string; code: string; since
 /** R06: classifies a FAILED run from its recorded error text. Unknown text is treated as transient (bounded by the circuit breaker), never as success. */
 export function classifyFailure(error: string | null | undefined): FailureClass {
   const e = error ?? '';
-  if (/V2_HARD_STOP|CHECKPOINT_ERROR|PROVENANCE_ERROR|CONCEPT_LINKAGE_UNRESOLVED|DOSSIER_APPEND_ONLY|DOSSIER_SNAPSHOT_IMMUTABLE|integrity|duplicate/i.test(e)) return 'INTEGRITY';
+  if (/V2_HARD_STOP|SNAPSHOT_PROVENANCE_INVALID|CHECKPOINT_ERROR|PROVENANCE_ERROR|CONCEPT_LINKAGE_UNRESOLVED|DOSSIER_APPEND_ONLY|DOSSIER_SNAPSHOT_IMMUTABLE|integrity|duplicate/i.test(e)) return 'INTEGRITY';
   if (/READER_BLOCKED|request failed: 40[13]\b|HTTP 40[13]\b/.test(e)) return 'ACCESS_BLOCKED';
   if (/SOURCE_SCHEMA_DRIFT|SOURCE_PARSE_ERROR|SOURCE_UNEXPECTED_DIMENSION|SOURCE_EMPTY_RESPONSE|source_item_invalid|source_returned_no_usable_items/.test(e)) return 'SCHEMA_DRIFT';
   if (/SOURCE_RATE_LIMIT|request failed: (429|503)\b|HTTP (429|503)\b/.test(e)) return 'RATE_LIMIT';
