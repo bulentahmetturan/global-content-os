@@ -1,0 +1,237 @@
+{
+  "phase": "CORRECT_AND_FREEZE_SECOND_SIGNAL_FAMILY_DESIGN",
+  "as_of": "2026-10-05",
+  "mode": "READ_ONLY_DESIGN",
+  "doc": "docs/DOSSIER-SECOND-SIGNAL-FAMILY.md",
+  "first_canary_milestone": "FROZEN_V1",
+  "first_canary_readiness": "100%",
+  "weights": {
+    "p1": 0.25,
+    "indep": 0.2,
+    "product": 0.2,
+    "legal": 0.15,
+    "p3": 0.1,
+    "p4": 0.1
+  },
+  "scale": {
+    "STRONG": 3,
+    "MEDIUM": 2,
+    "WEAK/PARTIAL": 1,
+    "BLOCKED": 0
+  },
+  "unknown_policy": "never scored; lowers rating to verified evidence",
+  "independence_hard_gate": true,
+  "options": [
+    {
+      "option": "eurostat-hlth-cd-asdr2",
+      "family": "TURKEY_HEALTH_BURDEN",
+      "ordinal": {
+        "p1": 3,
+        "indep": 3,
+        "product": 2,
+        "legal": 3,
+        "p3": 3,
+        "p4": 3
+      },
+      "weighted_of_3": 2.8,
+      "decision": "PRIMARY"
+    },
+    {
+      "option": "oecd-health-df-com",
+      "family": "TURKEY_HEALTH_BURDEN",
+      "ordinal": {
+        "p1": 2,
+        "indep": 3,
+        "product": 2,
+        "legal": 0,
+        "p3": 2,
+        "p4": 2
+      },
+      "weighted_of_3": 1.9,
+      "decision": "FALLBACK"
+    },
+    {
+      "option": "google-trends-api-alpha-or-tiktok-csi",
+      "family": "TURKEY_PUBLIC_DEMAND",
+      "ordinal": {
+        "p1": 1,
+        "indep": 3,
+        "product": 3,
+        "legal": 0,
+        "p3": 1,
+        "p4": 2
+      },
+      "weighted_of_3": 1.75,
+      "decision": "STRATEGIC_NEXT_NOT_NOW"
+    },
+    {
+      "option": "who-gho-odata",
+      "family": "GLOBAL_PUBLIC_HEALTH_DATA",
+      "ordinal": {
+        "p1": 2,
+        "indep": 3,
+        "product": 1,
+        "legal": 1,
+        "p3": 2,
+        "p4": 2
+      },
+      "weighted_of_3": 1.85,
+      "decision": "NOT_SELECTED"
+    },
+    {
+      "option": "institutional-news-reuse",
+      "family": "GLOBAL_INSTITUTIONAL_FRONTIER",
+      "ordinal": {
+        "p1": 3,
+        "indep": 1,
+        "product": 1,
+        "legal": 2,
+        "p3": 3,
+        "p4": 3
+      },
+      "weighted_of_3": 2.05,
+      "decision": "EXCLUDED_BY_INDEPENDENCE_HARD_GATE"
+    }
+  ],
+  "selection": {
+    "primary_family": "TURKEY_HEALTH_BURDEN",
+    "primary_source": "Eurostat",
+    "primary_dataset": "hlth_cd_asdr2",
+    "proposed_canonical_id": "eurostat-hlth-cd-asdr2",
+    "proposed_reader_id": "dossier-eurostat-tr-causes-of-death",
+    "fallback_family": "TURKEY_HEALTH_BURDEN",
+    "fallback_source": "OECD Health Statistics DF_COM (oecd-health)",
+    "independence_from_global_research_activity": "PASS",
+    "lineage_group": "TUIK_CAUSE_OF_DEATH",
+    "product_value": "MEDIUM",
+    "turkey_relevance": "STRONG",
+    "source_authority": "OFFICIAL_STATISTICAL_OFFICE_DERIVED_FROM_TUIK",
+    "legal_ready": "YES",
+    "access_ready": "YES",
+    "rate_guidance": "NOT_PUBLISHED",
+    "lineage_double_count_protection": "PARTIAL",
+    "double_count_rule": "Eurostat + OECD burden is one family: INDEPENDENT_FAMILY_COUNT does not rise; a second source with the same TUIK upstream is corroboration/lineage evidence only (P2/P5 hard gate)"
+  },
+  "verified_2026_10_05": {
+    "eurostat_tr_rows_latest": 92,
+    "eurostat_tr_years": "2011-2023",
+    "eurostat_updated": "2026-06-08T23:00:00+0200",
+    "latest_slice_bytes": 11084,
+    "hlth_cd_aro_tr_latest": "EMPTY",
+    "icd10_codelist_parent_elements": 0,
+    "eurostat_terms": "candidate-country data reusable commercially with attribution; modifications stated; disclaimer",
+    "exact_label_overlap_with_ct_100": 1,
+    "exact_overlap_labels": [
+      "Neoplasms"
+    ],
+    "plausible_alias_neighbours_approx": 8,
+    "oecd_terms": "UNREAD (official pages 403; in-app browser read failed on policy check; not bypassed)",
+    "google_trends_api": "application-based alpha (search evidence, UNVERIFIED on official page)"
+  },
+  "reader": {
+    "class": "PUBLIC_DATA_API",
+    "normalization_mode": "STATISTICAL_RELEASE",
+    "bounded_unit": "one (cause code, reference year) row",
+    "window": "SOURCE_PERIOD",
+    "kind": "BURDEN_UTILIZATION",
+    "provenance": "ADMINISTRATIVE",
+    "subfamily": "MORTALITY_ASDR",
+    "canary_slice": {
+      "dataset": "hlth_cd_asdr2",
+      "geo": "TR",
+      "sex": "T",
+      "age": "TOTAL",
+      "unit": "RT",
+      "lastTimePeriod": 1,
+      "rows": 92,
+      "cap": 100
+    },
+    "checkpoint_key": "reader,dataset,geo,sex,age,unit,reference_year,release_token,next_row_index",
+    "change_detection": "dataset updated + latest time via tiny request"
+  },
+  "profile_estimate": {
+    "basis": "OECD ~460 stmts / 48 obs; unit ~10 stmts/row",
+    "items_per_invocation": 20,
+    "d1_statement_budget": 240,
+    "d1_range": [
+      200,
+      300
+    ],
+    "lease_seconds": 45,
+    "max_wall_s": 10,
+    "max_cpu": "UNSET (platform cause unresolved)",
+    "max_subrequests": 3,
+    "checkpoint": "per unit",
+    "canary_rows": 92,
+    "canary_statements_estimate": 920,
+    "status": "ESTIMATE_MUST_BE_MEASURED_LOCALLY",
+    "PROFILE_MEASURED": "NO",
+    "PROFILE_STATUS": "ESTIMATE_REQUIRES_LOCAL_IMPLEMENTATION_PROOF",
+    "not_a_production_constant": true
+  },
+  "convergence": {
+    "independent_family_count": "distinct families with eligible support, deduped by lineage group",
+    "family_support_states": [
+      "PRESENT_MEASURED",
+      "PRESENT_NOT_APPLICABLE",
+      "UNKNOWN",
+      "NOT_OBSERVED",
+      "NOT_COVERED_BY_SOURCE"
+    ],
+    "universal_score": false,
+    "promotion_gates_unchanged": true,
+    "granularity": "UNKNOWN fails closed to WATCH"
+  },
+  "readiness": {
+    "ARCHITECTURE_READY": "YES",
+    "READER_DESIGN_READY": "YES",
+    "LEGAL_READY": "YES",
+    "ACCESS_READY": "YES",
+    "BOUNDED_PROFILE_READY": "NO",
+    "CANARY_READY": "NO",
+    "PRODUCTION_ACTIVATION_READY": "NO",
+    "SECOND_SIGNAL_FAMILY_DESIGN_READY": "YES",
+    "canary_not_ready_because": [
+      "reader not implemented",
+      "profile not measured locally",
+      "concept linkage governance incomplete",
+      "DOSSIER_CANARY_V2 contract not implemented/tested"
+    ]
+  },
+  "pillars": {
+    "P1_SYSTEM_SAFETY": "PASS",
+    "P1_SECOND_FAMILY_DESIGN_READINESS": "PASS",
+    "P1_OVERALL": "PASS_FOR_DESIGN_ONLY",
+    "P2": "DESIGNED_NOT_PROVEN",
+    "P3": "DESIGNED_NOT_PROVEN",
+    "P4": "DESIGNED_NOT_MEASURED",
+    "P5": "PASS"
+  },
+  "not_performed": {
+    "production_mutation": true,
+    "source_activation": true,
+    "new_canary": true,
+    "push": true,
+    "merge": true,
+    "deploy": true,
+    "code": true,
+    "schema": true,
+    "contract_rename": true
+  },
+  "next_single_step": "IMPLEMENT_EUROSTAT_TURKEY_HEALTH_BURDEN_READER_LOCAL_FIRST (needs owner code-implementation approval)",
+  "family_id_note": "The phase brief used 'TURKEY_BURDEN' conceptually; the existing canonical contract/runtime identifier is TURKEY_HEALTH_BURDEN and is preserved to avoid duplicate family identity.",
+  "family_invariant": {
+    "signal_family_id": "TURKEY_HEALTH_BURDEN",
+    "meaning": "measured health burden affecting Turkiye",
+    "primary_measure_in_v1": "age-standardised mortality rate by cause",
+    "all_observations_must_be_mortality": false,
+    "eurostat_owns_family_permanently": false
+  },
+  "concept_linkage": {
+    "CONCEPT_LINKAGE_READY_FOR_IMPLEMENTATION": "PARTIAL",
+    "ALIAS_GOVERNANCE_REQUIRED": "YES",
+    "AUTO_ALIAS_CREATION": "FORBIDDEN",
+    "GRANULARITY_PARENTAGE": "UNKNOWN",
+    "unknown_granularity": "FAIL_CLOSED_TO_WATCH"
+  }
+}
