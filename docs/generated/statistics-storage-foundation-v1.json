@@ -1,0 +1,414 @@
+{
+  "phase": "IMPLEMENT_HEALTH_STATISTICS_STORAGE_FOUNDATION_LOCAL_FIRST",
+  "as_of": "2026-10-05",
+  "branch": "statistics/storage-foundation",
+  "inputs": {
+    "architecture_commit": "df521e4",
+    "schema_commit": "d3c1558",
+    "reference_ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+    "migration": "migrations/statistics/0001_statistics_schema_v1.sql",
+    "migration_sha256": "c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339"
+  },
+  "engines": {
+    "sqlite": "node:sqlite in-memory (foreign_keys=ON, batch = transaction)",
+    "d1": "wrangler getPlatformProxy local D1 (workerd) with throw-away persist dir"
+  },
+  "totals": {
+    "sqlite": {
+      "tests": 174,
+      "pass": 173,
+      "fail": 0,
+      "skipped": 1
+    },
+    "d1": {
+      "tests": 173,
+      "pass": 173,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "suites": [
+    {
+      "engine": "sqlite",
+      "suite": "concurrency.test.mjs",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 730,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "crash-replay.test.mjs",
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 627,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "flows.test.mjs",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 386,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "governance-outbox.test.mjs",
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 337,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "identity.test.mjs",
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 322,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "migration-drift.test.mjs",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 12486,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "observation.test.mjs",
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 368,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "parity.test.mjs",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 4508,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "property.test.mjs",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 1760,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "query-plans.test.mjs",
+      "tests": 5,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 1,
+      "ms": 41763,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "registry.test.mjs",
+      "tests": 34,
+      "pass": 34,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 652,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "runs-leases.test.mjs",
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 755,
+      "exit": 0
+    },
+    {
+      "engine": "sqlite",
+      "suite": "storage-boundary.test.mjs",
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 601,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "concurrency.test.mjs",
+      "tests": 9,
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 19692,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "crash-replay.test.mjs",
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 32376,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "flows.test.mjs",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 16513,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "governance-outbox.test.mjs",
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 6989,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "identity.test.mjs",
+      "tests": 15,
+      "pass": 15,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 257,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "migration-drift.test.mjs",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 10472,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "observation.test.mjs",
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 6667,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "property.test.mjs",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 8539,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "query-plans.test.mjs",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 434990,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "registry.test.mjs",
+      "tests": 34,
+      "pass": 34,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 4725,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "runs-leases.test.mjs",
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 8647,
+      "exit": 0
+    },
+    {
+      "engine": "d1",
+      "suite": "storage-boundary.test.mjs",
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 0,
+      "ms": 3034,
+      "exit": 0
+    }
+  ],
+  "suite_gate_map": {
+    "identity.test.mjs": {
+      "gates": [
+        "P1"
+      ],
+      "proves": "deterministic identity: golden vectors, order/label/time independence, collision safety"
+    },
+    "migration-drift.test.mjs": {
+      "gates": [
+        "P1",
+        "P5"
+      ],
+      "proves": "real migration == frozen DDL (drift detected), applies from zero (sqlite, local D1, wrangler), content DB cannot pick it up"
+    },
+    "storage-boundary.test.mjs": {
+      "gates": [
+        "P1",
+        "P5"
+      ],
+      "proves": "STATS_DB boundary, no content-DB routing, no Free/Paid constants, error taxonomy, no secrets stored"
+    },
+    "registry.test.mjs": {
+      "gates": [
+        "P1",
+        "P4",
+        "P5"
+      ],
+      "proves": "source/policy/dataset/release/artifact/geography/indicator-mapping/series repositories; source insert never activates; mapping governance"
+    },
+    "observation.test.mjs": {
+      "gates": [
+        "P1",
+        "P3",
+        "P5"
+      ],
+      "proves": "observation write contract, revision/idempotency matrix, projection==rebuild, provenance, validation-driven quality"
+    },
+    "runs-leases.test.mjs": {
+      "gates": [
+        "P1",
+        "P3",
+        "P4"
+      ],
+      "proves": "run lifecycle, leases, checkpoints, atomic batch ordering, configurable budgets"
+    },
+    "governance-outbox.test.mjs": {
+      "gates": [
+        "P1",
+        "P4",
+        "P5"
+      ],
+      "proves": "lineage + independence, storage-only outbox, P5 governance, bounded read models"
+    },
+    "flows.test.mjs": {
+      "gates": [
+        "P2",
+        "P3",
+        "P5"
+      ],
+      "proves": "three real storage flows: API/SDMX, SGK-like ZIP/XLSX, MoH-like PDF (+ canary flow with ACTIVATION_GATED only)"
+    },
+    "crash-replay.test.mjs": {
+      "gates": [
+        "P1",
+        "P3"
+      ],
+      "proves": "fault injection at 6 points × 2 recovery modes; final state equals clean run"
+    },
+    "concurrency.test.mjs": {
+      "gates": [
+        "P1",
+        "P3"
+      ],
+      "proves": "races: same/conflicting observation, release ordering (20 interleavings), lease contenders, outbox duplicates"
+    },
+    "property.test.mjs": {
+      "gates": [
+        "P1"
+      ],
+      "proves": "seeded property tests: identity, value states vs oracle, period keys, release-order permutations vs model"
+    },
+    "query-plans.test.mjs": {
+      "gates": [
+        "P1",
+        "P4"
+      ],
+      "proves": "implementation SQL on a proof-scale fixture never full-scans a scale-sensitive table"
+    },
+    "parity.test.mjs": {
+      "gates": [
+        "P1"
+      ],
+      "proves": "identical transcript on node:sqlite and the real local D1 runtime (success and failure paths)"
+    }
+  },
+  "safety": {
+    "production_mutation": "NOT_PERFORMED",
+    "remote_write": "NOT_PERFORMED",
+    "push": "NOT_PERFORMED",
+    "deploy": "NOT_PERFORMED",
+    "d1_created": false,
+    "r2_created": false,
+    "binding_changed": false,
+    "source_activated": false,
+    "wrangler_toml_changed": false
+  },
+  "note": "PRODUCTION-mode proofs use a TEST-ONLY owner activation simulation inside throw-away databases (frozen DB gate otherwise forbids production runs); no real source is ever activated.",
+  "final_totals": {
+    "tests": 347,
+    "pass": 346,
+    "skipped": 1,
+    "fail": 0,
+    "note": "sqlite pass (parity suite runs both engines inside it) + d1 pass; the 1 skip is the D1-only rows_read test, which runs in the d1 pass"
+  },
+  "dispositions": {
+    "test_only_owner_simulation": "YES (throw-away databases only, via test-support simulateOwnerActivation)",
+    "real_source_activation": "NO",
+    "bootstrap_default_policy": "DISABLED (no policy row = DISABLED; bootstrap creates none)",
+    "run_counter_crash_accuracy": "LIMITED_NON_BLOCKING (counters written at terminal run update; deferred observability hardening)",
+    "schema_observations": {
+      "dataset_scope_policy_other_source": "CODE_ENFORCED_INVARIANT (policy.ensureDefault)",
+      "run_mode_vs_release_class": "CODE_ENFORCED_INVARIANT (transaction preflight)",
+      "revised_pdf_value_suspect_and_current": "KNOWN_CONTRACT_BEHAVIOR (frozen winner order ignores quality; read-policy decision for the read layer)",
+      "identical_bytes_two_releases": "KNOWN_CONTRACT_BEHAVIOR (content-addressed global artifact PK -> IDEMPOTENCY_CONFLICT)"
+    },
+    "lease_guard": "checkpoint required by default; leaseGuard NONE must be passed explicitly; stolen/never-acquired lease aborts the whole batch",
+    "d1_insert_read_cost": "rows_read asserted <50 at 36k versions on real local D1; measured 4 rows at 1k versions on the earlier probe",
+    "scale_sensitive_full_scans": 0,
+    "account_tier_for_stats": "UNKNOWN",
+    "capacity_blocks_storage_foundation": "NO",
+    "capacity_blocks_production_canary": "YES"
+  }
+}
