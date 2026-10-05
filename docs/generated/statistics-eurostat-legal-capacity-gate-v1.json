@@ -1,0 +1,505 @@
+{
+  "phase": "CLOSE_EUROSTAT_LEGAL_AND_CAPACITY_GATES_FOR_FIRST_STATS_CANARY",
+  "as_of": "2026-10-05",
+  "branch": "statistics/eurostat-legal-capacity-gate",
+  "baseline": {
+    "reader_commit": "d5e86c3",
+    "reader_implementation_commit": "d196e20",
+    "EUROSTAT_DEMO_MLEXPEC_READER_LOCAL": "FROZEN_V1"
+  },
+  "evidence": {
+    "eurostat_copyright_notice": {
+      "url": "https://ec.europa.eu/eurostat/web/main/help/copyright-notice",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "763d3df88b396cd1",
+      "note": "Copyright notice and free re-use of data"
+    },
+    "commission_decision_2011_833_eu": {
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32011D0833",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "0a1c204dbe6fced6",
+      "note": "Commission Decision of 12 December 2011 on the reuse of Commission documents"
+    },
+    "ec_legal_notice": {
+      "url": "https://commission.europa.eu/legal-notice_en",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "fd6687f313b4b016",
+      "note": "Copyright notice (CC BY 4.0 for EU-owned content unless otherwise indicated)"
+    },
+    "eurostat_web_services": {
+      "url": "https://ec.europa.eu/eurostat/web/main/data/web-services",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "b331bbc10eb1b875",
+      "note": "SDMX 2.1 web services; datasets updated twice daily (11:00 and 23:00 CET); latest version only, no versioning"
+    },
+    "eurostat_esms_demo_mor": {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_mor_esms.htm",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "39dd0cc048b11b1d",
+      "note": "Reference metadata for Mortality (national level) — names demo_mlexpec among its tables; also the ESMS_HTML annotation target of the DEMO_MLEXPEC response"
+    },
+    "ec_robots": {
+      "url": "https://ec.europa.eu/robots.txt",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "c85ef7fce6dde5af",
+      "note": "no Disallow for /eurostat/api/ (only a legacy /eurostat/SDMX/diss-web/rest/ path and portal search paths)"
+    },
+    "turkiye_candidate_status": {
+      "url": "https://enlargement.ec.europa.eu/countries/turkiye_en",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "780086de0d8f82ff",
+      "note": "Türkiye recognised as EU candidate country (Helsinki European Council, December 1999); accession negotiations started 2005"
+    },
+    "recorded_dataset_response": {
+      "file": "apps/worker/src/statistics/readers/fixtures/demo_mlexpec_Y_LT1_TR-DE-EU27_2022-2024.json",
+      "note": "14 annotation types (CREATED, DISSEMINATION_DOI_XML, ESMS_HTML, ESMS_SDMX, OBS_COUNT, SOURCE_INSTITUTIONS = Eurostat, UPDATE_DATA, …): none is a licence, copyright or restriction notice; DOI 10.2908/DEMO_MLEXPEC resolves to the Eurostat data browser product page"
+    },
+    "cloudflare_d1_limits": {
+      "url": "https://developers.cloudflare.com/d1/platform/limits/",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "64b6e4b5bb2a0f52",
+      "note": "page \"Last updated Apr 21, 2026\""
+    },
+    "cloudflare_d1_pricing": {
+      "url": "https://developers.cloudflare.com/d1/platform/pricing/",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "ab06e38349130d15",
+      "note": "page \"Last updated Apr 21, 2026\""
+    },
+    "cloudflare_workers_limits": {
+      "url": "https://developers.cloudflare.com/workers/platform/limits/",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "3d97cb19d068b8a5",
+      "note": "page \"Last updated Sep 5, 2026\""
+    },
+    "cloudflare_changelog_subrequests": {
+      "url": "https://developers.cloudflare.com/changelog/post/2026-02-11-subrequests-limit/",
+      "retrieved": "2026-10-05",
+      "sha256_prefix": "8ef408548ba3c82d",
+      "note": "Free: 50 external subrequests and 1000 subrequests to Cloudflare services per invocation"
+    }
+  },
+  "legal": {
+    "nature": "Evidence review of primary EU sources; NOT legal advice; the owner accepts or rejects this disposition.",
+    "matrix": [
+      {
+        "question": "general reuse",
+        "status": "CLEAR",
+        "evidence": "Eurostat notice: \"Reuse of statistical data, metadata, publications, and other dissemination tools published on this website for commercial or non-commercial purposes is authorised provided the source is acknowledged\"; implemented by Commission Decision 2011/833/EU (documents available for reuse without charge, without individual application, subject only to acknowledgement / no distortion / non-liability).",
+        "requirement": "acknowledge the source",
+        "blocker": "none"
+      },
+      {
+        "question": "commercial reuse",
+        "status": "YES",
+        "evidence": "same sentence names commercial purposes explicitly; notice: \"How to re-use Eurostat material for commercial purposes: there is no special procedure or requirement for a written licence\"; ESS policy: statistics free \"irrespective of subsequent commercial or non-commercial use\". Not inferred from public accessibility.",
+        "requirement": "only the conditions below; the commercial-use exclusions do not cover this dataset (see Türkiye / third-party rows)",
+        "blocker": "none"
+      },
+      {
+        "question": "automated API access",
+        "status": "YES",
+        "evidence": "Eurostat publishes SDMX 2.1 web services for programmatic access to its datasets (web-services page); no registration, key or contractual term found; robots.txt does not disallow /eurostat/api/.",
+        "requirement": "use the documented API; honour HTTP 429/5xx",
+        "blocker": "none"
+      },
+      {
+        "question": "systematic retrieval",
+        "status": "YES (no prohibition found; no published quota)",
+        "evidence": "Reuse is authorised without restriction other than acknowledgement; the official page documents a fixed update schedule (twice daily, 11:00 and 23:00 CET) and that only the latest version is kept; no rate limit, fair-use clause or ban on periodic retrieval was found in the notice, the Decision, the web-services page or robots.txt. \"API exists\" was NOT treated as sufficient: permission rests on the reuse authorisation + the absence of any contrary term.",
+        "requirement": "polite use: ≤ 1 request/second, daily cadence, bounded unit, stop on 429; no published quota exists (UNKNOWN, treated conservatively)",
+        "blocker": "none"
+      },
+      {
+        "question": "attribution",
+        "status": "CLEAR (actionable)",
+        "evidence": "notice \"How to cite\": datasets \"Source: [DOI], [access date]\"; customised versions \"Source: [Eurostat dataset datacode link], [access date]\"; Decision art. 6(2)(a).",
+        "requirement": "store and display the canonical attribution below",
+        "blocker": "none"
+      },
+      {
+        "question": "modification notice",
+        "status": "CLEAR (actionable)",
+        "evidence": "notice: \"When reuse involves … modifications to the data or text, this must be stated clearly to the end user… A disclaimer regarding the non-responsibility of Eurostat shall be included.\" Decision art. 6(2)(b)-(c): do not distort the original meaning; non-liability.",
+        "requirement": "values are stored as published (no recalculation); selection/restructuring/derived products must say so and carry the non-responsibility disclaimer; never present a derived figure as Eurostat's",
+        "blocker": "none"
+      },
+      {
+        "question": "third-party rights",
+        "status": "NO DATASET-SPECIFIC THIRD-PARTY RESTRICTION IDENTIFIED",
+        "evidence": "notice: all data on the Eurostat website is regarded as Eurostat's unless explicitly stated otherwise; the response annotations name SOURCE_INSTITUTIONS = Eurostat; the ESMS says data are collected by Eurostat from national statistical institutes and carries no third-party/copyright restriction text. This is absence of evidence of a restriction, not proof none exists.",
+        "requirement": "stop and re-review if a response or metadata ever carries a third-party/copyright notice",
+        "blocker": "none"
+      },
+      {
+        "question": "Türkiye data",
+        "status": "CLEAR",
+        "evidence": "The notice's non-commercial-only exception covers \"Data for countries other than: Member States of the EU, Member States of EFTA, official EU acceding and candidate countries\". Türkiye has been an official EU candidate country since the December 1999 Helsinki European Council (enlargement.ec.europa.eu, retrieved 2026-10-05) and the demo_mor ESMS lists \"EU candidate countries\" in its reference area. The old exception text was re-read from the current notice, not carried forward.",
+        "requirement": "keep the reader's geography catalog inside EU/EFTA/candidate countries and EU aggregates (TR, DE, EU27_2020). \"Other countries\" (e.g. US, JP, CN, UK, Russia, Armenia…) are NON-COMMERCIAL ONLY: never add them without a new review",
+        "blocker": "none"
+      },
+      {
+        "question": "DEMO_MLEXPEC-specific restriction",
+        "status": "NO (none identified)",
+        "evidence": "the dataset response carries 14 annotation types and none is a licence/restriction; its ESMS (demo_mor) contains no licence, reuse, restriction or third-party text; the general notice says individual notices may narrow the terms and none was found.",
+        "requirement": "none beyond the general terms",
+        "blocker": "none"
+      }
+    ],
+    "answers": {
+      "COMMERCIAL_REUSE_ALLOWED": "YES",
+      "AUTOMATED_API_RETRIEVAL_ALLOWED": "YES",
+      "SYSTEMATIC_PERIODIC_RETRIEVAL_ALLOWED": "YES",
+      "DATASET_SPECIFIC_RESTRICTION": "NO (none identified)",
+      "TURKIYE_DATA_REUSE_STATUS": "CLEAR"
+    },
+    "attribution": {
+      "stored_provenance_string": "Source: Eurostat, online data code demo_mlexpec (https://doi.org/10.2908/DEMO_MLEXPEC), accessed {YYYY-MM-DD}; dataset updated {updated_utc}. © European Union. Reuse authorised under the European Commission reuse policy (Decision 2011/833/EU) with acknowledgement of the source.",
+      "required_when_modified": "Changes: {none | description}. Selection and storage by KADUSE; values as published by Eurostat. Eurostat is not responsible for any modification, derivation or interpretation made by KADUSE.",
+      "fields": {
+        "source_name": "Eurostat",
+        "dataset_code": "demo_mlexpec",
+        "doi": "10.2908/DEMO_MLEXPEC",
+        "access_date": "retrieval date (UTC date of the request)",
+        "version_marker": "response `updated` marker (already stored as the release key)",
+        "licence_notice": "Commission Decision 2011/833/EU; Eurostat copyright notice",
+        "modification_notice": "mandatory whenever data or text is modified or derived"
+      },
+      "implemented_in_production": false
+    },
+    "LEGAL_READY": "YES",
+    "LEGAL_REMAINING_BLOCKER": "none",
+    "conditions_attached": [
+      "attribution + modification/disclaimer strings stored with provenance and shown wherever Eurostat values are displayed",
+      "geography catalog stays within MS/EFTA/candidate countries and EU aggregates",
+      "no use of Eurostat logos/trademarks",
+      "stop and re-review on any third-party or dataset-specific notice",
+      "owner reviews and accepts this evidence before authorizing any canary (P5)"
+    ],
+    "contradiction_with_frozen_reader": "none: the frozen reader already uses only TR/DE/EU27_2020, explicit bounded requests, daily-compatible change detection and provenance with the DOI-addressable dataset; no official term contradicts the frozen source contract"
+  },
+  "capacity": {
+    "account_tier": {
+      "ACCOUNT_TIER_FOR_STATS": "UNKNOWN",
+      "evidence_source": "wrangler whoami (OAuth, account read; billing/subscription scope absent), wrangler d1 list, wrangler d1 info global-content-os — all read-only",
+      "observed": "one account, 3 D1 databases (global-content-os 12.9 MB, channel_content_os 2.4 MB, channel_content_os_preview 0.6 MB); content DB last 24 h: 13,585 read queries, 2,578 write queries, 823,400 rows read, 7,900 rows written. The Worker plan (Free vs Paid) is not exposed by these read-only calls. Repository evidence (docs/cron-capacity-report.md \"Workers Free plan ~10 ms CPU\", D1 \"free tier daily\" write-quota handling in apps/worker/src/index.ts) shows the content system was DESIGNED for Free, which is a design assumption, not account verification.",
+      "note": "no billing or plan change attempted; no secret read"
+    },
+    "official_limits": [
+      {
+        "constraint": "D1 queries per Worker invocation",
+        "free": "50",
+        "paid": "1000",
+        "kind": "hard per-invocation",
+        "class": "GLOBAL-DOCUMENTED (D1 limits page, Apr 21 2026). CONFLICT: the newer Workers limits page (Sep 5 2026) and the Feb 11 2026 changelog say Free = 50 EXTERNAL subrequests and 1000 subrequests to Cloudflare services per invocation. Conservative bound used: 50. Whether db.batch() counts as one query/subrequest or one per statement is NOT documented → UNKNOWN."
+      },
+      {
+        "constraint": "bound parameters per query",
+        "free": "100",
+        "paid": "100",
+        "kind": "hard per-statement",
+        "class": "GLOBAL-DOCUMENTED"
+      },
+      {
+        "constraint": "SQL statement length / row size / columns per table",
+        "free": "100 KB / 2 MB / 100",
+        "paid": "same",
+        "kind": "hard",
+        "class": "GLOBAL-DOCUMENTED"
+      },
+      {
+        "constraint": "rows read",
+        "free": "5,000,000 / day (account, resets 00:00 UTC)",
+        "paid": "25 billion / month included, then $0.001 per million",
+        "kind": "daily quota (Free) / billing metric (Paid)",
+        "class": "PLAN-DOCUMENTED"
+      },
+      {
+        "constraint": "rows written",
+        "free": "100,000 / day",
+        "paid": "50 million / month included, then $1.00 per million",
+        "kind": "daily quota (Free) / billing metric (Paid)",
+        "class": "PLAN-DOCUMENTED"
+      },
+      {
+        "constraint": "database size / storage per account",
+        "free": "500 MB / 5 GB",
+        "paid": "10 GB / 1 TB (adjustable by request)",
+        "kind": "hard",
+        "class": "PLAN-DOCUMENTED"
+      },
+      {
+        "constraint": "databases per account",
+        "free": "10",
+        "paid": "50,000",
+        "kind": "hard",
+        "class": "PLAN-DOCUMENTED; ACCOUNT_VERIFIED count = 3 (a dedicated STATS_DB fits either plan)"
+      },
+      {
+        "constraint": "maximum SQL query duration / whole batch call",
+        "free": "30 s",
+        "paid": "30 s",
+        "kind": "hard",
+        "class": "GLOBAL-DOCUMENTED"
+      },
+      {
+        "constraint": "Worker CPU time per HTTP request / cron",
+        "free": "10 ms",
+        "paid": "30 s default (up to 5 min)",
+        "kind": "hard per-invocation (CPU only; waiting on D1/fetch is not CPU)",
+        "class": "PLAN-DOCUMENTED (Sep 5 2026)"
+      },
+      {
+        "constraint": "Worker duration",
+        "free": "no limit for HTTP; cron 15 min",
+        "paid": "same",
+        "kind": "hard",
+        "class": "GLOBAL-DOCUMENTED"
+      },
+      {
+        "constraint": "external (source) subrequests per invocation",
+        "free": "50",
+        "paid": "10,000",
+        "kind": "hard per-invocation",
+        "class": "PLAN-DOCUMENTED"
+      },
+      {
+        "constraint": "D1 database throughput",
+        "free": "single-threaded per database; ~1000 qps at 1 ms/query; queue then \"overloaded\"",
+        "paid": "same",
+        "kind": "soft/behavioural",
+        "class": "GLOBAL-DOCUMENTED"
+      },
+      {
+        "constraint": "Free daily request limit",
+        "free": "100,000 Worker requests / day",
+        "paid": "none",
+        "kind": "daily quota",
+        "class": "PLAN-DOCUMENTED"
+      }
+    ],
+    "measured_local_profile_input": {
+      "SOURCE_REQUESTS": 1,
+      "SOURCE_BYTES": 3347,
+      "SOURCE_ROWS": 27,
+      "OBSERVATIONS_WRITTEN": 27,
+      "D1_CALLS_INITIAL": 36,
+      "D1_STATEMENTS_INITIAL": 145,
+      "MAX_D1_CALLS_PER_UNIT": 45,
+      "MAX_D1_STATEMENTS_PER_UNIT": 155,
+      "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+      "NO_CHANGE_POLL": "17 calls / 18 statements",
+      "LOCAL_WALL_PROXY_MS": 786,
+      "note": "LOCAL measurement; not automatically the production budget"
+    },
+    "conservative_bound": "Free-plan limits are used as the lowest-common-denominator because the account tier is UNKNOWN. A dedicated STATS_DB (≤ 10 databases, ≤ 500 MB) fits either plan.",
+    "proposals": {
+      "PROPOSED_PRODUCTION_D1_BUDGET": "40 D1 calls and 160 statements per invocation (expected 36 / 145)",
+      "PROPOSED_D1_HARD_STOP": "44 D1 calls per invocation: abort BEFORE issuing the next call (the checkpoint-guarded batch is atomic, so an abort leaves no partial state); statements hard stop 175",
+      "PROPOSED_SOURCE_REQUEST_LIMIT": "3 per invocation (1 expected + the reader's 2 transient retries); 1 per canary unit when no retry occurs",
+      "PROPOSED_OBSERVATION_LIMIT": "27 expected, hard cap 30 (maxObservationsPerBatch = 30 so the unit is one batch of 109 statements, ≤ 120)",
+      "PROPOSED_LEASE_SECONDS": 120,
+      "PROPOSED_OPERATOR_INVOCATION_LIMIT": "3 total (initial ingestion, a replay/NO_CHANGE verification, one later poll); at most ONE invocation may write the initial unit; no scheduler",
+      "PROPOSED_RUNTIME_LIMITS_CONFIG": {
+        "maxListLimit": 100,
+        "maxObservationsPerBatch": 30,
+        "maxStatementsPerBatch": 120,
+        "leaseTtlMs": 120000
+      },
+      "stop_rules": [
+        "any platform limit error (subrequest/query count, CPU 1102, daily quota) → STOP, no retry, no second attempt in the same window",
+        "D1 calls exceed 44 → abort",
+        "source request count exceeds 3 → abort",
+        "any non-transient reader error → STOP (fail closed)",
+        "run left RUNNING → recover only by reap/resume after lease expiry"
+      ],
+      "measurement_requirements": [
+        "record run id, D1 calls/statements, rows_read/rows_written from D1 meta, source requests/bytes",
+        "record Worker CPU time and wall time from Workers observability / wrangler tail for the canary invocation",
+        "record whether db.batch() counted as one or N against the per-invocation limit (resolves the undocumented point)",
+        "confirm account plan from the dashboard before relying on any plan-specific number"
+      ]
+    },
+    "matrix": [
+      {
+        "constraint": "D1 statements/queries",
+        "tier_status": "UNKNOWN tier; Free bound used",
+        "official_limit": "50 per invocation (D1 page, Free) | 1000 (Paid; Free→1000 internal per Workers page)",
+        "canary_estimate": "36 calls (hard stop 44); 145 statements",
+        "headroom": "28% at expected, 12% at hard stop (call semantics); per-statement counting UNKNOWN",
+        "gate": "PASS (conservative, call semantics) with residual UNKNOWN: batch counting"
+      },
+      {
+        "constraint": "bound parameters",
+        "tier_status": "GLOBAL-DOCUMENTED",
+        "official_limit": "100 per query",
+        "canary_estimate": "max 29 (observation insert)",
+        "headroom": "71%",
+        "gate": "PASS"
+      },
+      {
+        "constraint": "rows written",
+        "tier_status": "PLAN-DOCUMENTED",
+        "official_limit": "Free 100,000/day; Paid 50 M/month included",
+        "canary_estimate": "236 initial; ≈ 310 for all 3 invocations",
+        "headroom": "99.7% of the Free daily quota",
+        "gate": "PASS"
+      },
+      {
+        "constraint": "rows read",
+        "tier_status": "PLAN-DOCUMENTED",
+        "official_limit": "Free 5,000,000/day",
+        "canary_estimate": "792 initial; ≈ 1,600 for all 3 invocations",
+        "headroom": "99.97%",
+        "gate": "PASS"
+      },
+      {
+        "constraint": "source subrequests",
+        "tier_status": "PLAN-DOCUMENTED",
+        "official_limit": "50 external per invocation (Free)",
+        "canary_estimate": "1 (max 3)",
+        "headroom": "94%",
+        "gate": "PASS"
+      },
+      {
+        "constraint": "Worker CPU",
+        "tier_status": "UNKNOWN tier; Free 10 ms / Paid 30 s",
+        "official_limit": "10 ms (Free)",
+        "canary_estimate": "UNMEASURED in production; node proxy ≈ 31 ms for the whole unit (upper bound: includes the SQLite engine work D1 performs remotely)",
+        "headroom": "UNKNOWN; HIGH risk on Free, none on Paid",
+        "gate": "MEASUREMENT REQUIRED (accepted: the canary measures it; a CPU kill is a safe, recoverable failure)"
+      },
+      {
+        "constraint": "Worker duration",
+        "tier_status": "GLOBAL-DOCUMENTED",
+        "official_limit": "no hard limit (HTTP); batch call ≤ 30 s",
+        "canary_estimate": "≈ 0.8 s local wall; remote D1 latency adds ~36 round trips",
+        "headroom": "large",
+        "gate": "PASS"
+      },
+      {
+        "constraint": "daily/account D1 quota",
+        "tier_status": "PLAN-DOCUMENTED; account shares the Free daily budget with the content system",
+        "official_limit": "Free 100,000 writes / 5 M reads per day",
+        "canary_estimate": "content DB currently ≈ 7,900 writes (7.9%) and 823,400 reads (16.5%) per 24 h; canary adds ≈ 0.3% / 0.03%",
+        "headroom": "ample",
+        "gate": "PASS (DAILY_CAPACITY_RISK = LOW; check `wrangler d1 info` before the canary because Free quotas are account-wide)"
+      },
+      {
+        "constraint": "DB size",
+        "tier_status": "PLAN-DOCUMENTED",
+        "official_limit": "Free 500 MB per DB / 5 GB per account",
+        "canary_estimate": "< 1 MB (account today ≈ 16 MB)",
+        "headroom": "> 99%",
+        "gate": "PASS"
+      }
+    ],
+    "answers": {
+      "MEASURED_LOCAL_MAX_D1": 155,
+      "CANARY_HEADROOM": "PASS (D1 calls, conservative Free bound, call semantics)",
+      "DAILY_CAPACITY_RISK": "LOW",
+      "PRODUCTION_CPU_PRE_CANARY": "UNMEASURED",
+      "FIRST_CANARY_CAPACITY_READY": "YES (YES_WITH_CONSERVATIVE_BOUND)",
+      "RECURRING_PRODUCTION_CAPACITY_READY": "NOT_ASSESSED",
+      "CAPACITY_READY": "YES (YES_WITH_CONSERVATIVE_BOUND)"
+    },
+    "residual_items_the_canary_resolves": [
+      "Worker CPU for the unit (Free 10 ms is at risk; Paid is not)",
+      "whether db.batch() counts as one or N toward the per-invocation limit",
+      "the actual account plan (dashboard); billing/plan was not touched"
+    ],
+    "recurring_note": "One bounded canary fitting says nothing about recurring ingestion; the 17-call no-change poll, CPU and the content system's shared Free daily budget must be re-assessed before any schedule."
+  },
+  "states": {
+    "LEGAL_READY": "YES",
+    "CAPACITY_READY": "YES (conservative bound)",
+    "PRODUCTION_CANARY_READY": "YES (readiness only; does NOT authorize execution)",
+    "PRODUCTION_ACTIVATION_READY": "NO",
+    "production_stats_db": "NOT_CREATED",
+    "production_binding": "NOT_CREATED",
+    "source_activated": "NO",
+    "deploy": "NOT_PERFORMED",
+    "production_canary": "NOT_PERFORMED",
+    "owner_authorization_required_for_canary": "YES"
+  },
+  "gates": {
+    "P1_SYSTEM_SAFETY": "PASS",
+    "P1_LEGAL_GATE": "PASS",
+    "P1_CAPACITY_GATE": "PASS (with named measurement items)",
+    "P1_OVERALL": "PASS",
+    "P2": "PASS_LOCAL_READER (no finding contradicts the frozen reader contract)",
+    "P3": "PASS_PRE_CANARY",
+    "P4": "PASS_PRE_CANARY",
+    "P5": "PASS"
+  },
+  "local_measurements": {
+    "measured_at": "2026-10-05T20:43:09.350Z",
+    "engine_for_rows": "real local D1 (workerd) — meta.rows_read / meta.rows_written as reported by the runtime",
+    "canary_budgets_used": {
+      "maxListLimit": 100,
+      "maxObservationsPerBatch": 30,
+      "maxStatementsPerBatch": 120,
+      "leaseTtlMs": 120000
+    },
+    "d1_local": [
+      {
+        "scenario": "initial 27 observations / 9 series (canary budgets: 1 batch)",
+        "status": "COMPLETED",
+        "d1_calls": 36,
+        "d1_statements": 145,
+        "rows_read": 792,
+        "rows_written": 236,
+        "write_batches": 1,
+        "wall_ms": 751
+      },
+      {
+        "scenario": "exact replay (NO_CHANGE)",
+        "status": "NO_CHANGE",
+        "d1_calls": 17,
+        "d1_statements": 18,
+        "rows_read": 40,
+        "rows_written": 13,
+        "write_batches": 0,
+        "wall_ms": 154
+      },
+      {
+        "scenario": "newer update, same values (27 confirmations)",
+        "status": "COMPLETED",
+        "d1_calls": 37,
+        "d1_statements": 147,
+        "rows_read": 760,
+        "rows_written": 54,
+        "write_batches": 1,
+        "wall_ms": 800
+      },
+      {
+        "scenario": "newer update, 1 changed value",
+        "status": "COMPLETED",
+        "d1_calls": 37,
+        "d1_statements": 147,
+        "rows_read": 782,
+        "rows_written": 58,
+        "write_batches": 1,
+        "wall_ms": 771
+      }
+    ],
+    "cpu_proxy_node_sqlite": [
+      {
+        "status": "COMPLETED",
+        "cpu_ms_user_plus_system": 47
+      },
+      {
+        "status": "NO_CHANGE",
+        "cpu_ms_user_plus_system": 0
+      },
+      {
+        "status": "COMPLETED",
+        "cpu_ms_user_plus_system": 31
+      },
+      {
+        "status": "COMPLETED",
+        "cpu_ms_user_plus_system": 32
+      }
+    ]
+  }
+}
