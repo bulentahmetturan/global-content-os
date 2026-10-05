@@ -232,7 +232,7 @@ test('cron / background code cannot invoke the operator surface or the runner; d
   const scheduled = index.slice(index.indexOf('async scheduled('));
   // recurring operation (R03): the ONLY dossier code the scheduled() handler may reach is the dedicated recurring tick, through the isolated-job runner; never the canary operator surface or runner
   assert.ok(!/handleDossierCanary|invokeCanary|runCanaryToCompletion|dossier-canary-routes|OPS_TOKEN/.test(scheduled), 'the scheduled() handler never reaches the canary surface');
-  assert.deepEqual([...new Set(scheduled.match(/\w*dossier\w*/gi) ?? [])].sort(), ['DOSSIER_RECURRING_CRON', 'dossier', 'runDossierRecurringTick']);
+  assert.deepEqual([...new Set(scheduled.replace(/\/\/.*$/gm, '').match(/\w*dossier\w*/gi) ?? [])].sort(), ['DOSSIER_RECURRING_CRON', 'dossier', 'runDossierRecurringTick']);
   const importers = [];
   const walk = (dir) => { for (const e of readdirSync(dir, { withFileTypes: true })) { const p = `${dir}/${e.name}`; if (e.isDirectory()) walk(p); else if (/\.ts$/.test(e.name) && !p.includes('/dossier/')) { const t = readFileSync(p, 'utf8'); if (/from '\.\/dossier-canary-routes'|from '\.\/dossier\/|from '\.\.\/dossier\//.test(t)) importers.push(p.replace('apps/worker/src/', '')); } } };
   walk('apps/worker/src');
