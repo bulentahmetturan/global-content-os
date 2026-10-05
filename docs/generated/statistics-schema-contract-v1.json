@@ -1,0 +1,2589 @@
+{
+  "phase": "DESIGN_AND_FREEZE_HEALTH_STATISTICS_SCHEMA",
+  "as_of": "2026-10-05",
+  "schema_version": "V1",
+  "ddl": "docs/generated/statistics-schema-v1.sql",
+  "ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+  "mode": "REFERENCE_DDL_NOT_A_MIGRATION",
+  "namespace": "migrations/statistics/",
+  "storage": {
+    "structured_store": "DEDICATED_D1",
+    "future_binding": "STATS_DB"
+  },
+  "conventions": {
+    "timestamps": "TEXT UTC ISO-8601 'YYYY-MM-DDTHH:MM:SS.sssZ' (repo convention strftime('%Y-%m-%dT%H:%M:%fZ','now')); period boundaries 'YYYY-MM-DD'; published_at may be date-only",
+    "booleans": "none (state vocabularies instead)",
+    "numeric": "REAL = IEEE-754 double; ±2^53 CHECK bound; verbatim text_value preserves fidelity; NULL numeric unless value_state=PRESENT",
+    "fk_policy": "RESTRICT everywhere",
+    "d1_limits_design_inputs": {
+      "bound_params_per_query": 100,
+      "columns_per_table_max": 100,
+      "row_size_max_bytes": 2000000
+    }
+  },
+  "ids": [
+    {
+      "id": "source_id",
+      "mode": "frozen slug",
+      "native_component": "none",
+      "canonicalization": "^[A-Z][A-Z0-9_]{2,63}$",
+      "collision": "PK",
+      "max_len": 64,
+      "may_change": false
+    },
+    {
+      "id": "dataset_id",
+      "mode": "deterministic",
+      "native_component": "source_native_dataset_id verbatim",
+      "canonicalization": "'<source_id>:<native>'; native NFC, trimmed, no ':' or '|'",
+      "collision": "PK + UNIQUE(source_id, native) + CHECK equality",
+      "max_len": 200,
+      "may_change": false
+    },
+    {
+      "id": "release_id",
+      "mode": "deterministic",
+      "native_component": "release_key = edition label | source version stamp | content digest (source_native_release_id kept separately)",
+      "canonicalization": "'rel_' + first 24 hex of sha256(dataset_id|release_kind|release_key); components NFC, '%'→%25, '|'→%7C, controls→%XX",
+      "collision": "PK + UNIQUE(dataset_id, release_kind, release_key); PK clash with a different triple is a hard failure",
+      "max_len": 28,
+      "may_change": false
+    },
+    {
+      "id": "raw_artifact_id",
+      "mode": "deterministic (content-addressed)",
+      "native_component": "source_checksum kept separately",
+      "canonicalization": "'art_' + sha256(bytes) hex; API captures 'req_' + hex sha256(request descriptor ‖ response digest)",
+      "collision": "PK + UNIQUE(release_id, local_sha256)",
+      "max_len": 68,
+      "may_change": false
+    },
+    {
+      "id": "geography_id",
+      "mode": "deterministic",
+      "native_component": "scheme+code",
+      "canonicalization": "'<scheme>:<code>' or '<scheme>:<code>@<scheme_version>'",
+      "collision": "PK + UNIQUE(scheme, code, scheme_version)",
+      "max_len": 80,
+      "may_change": false
+    },
+    {
+      "id": "indicator_id",
+      "mode": "deterministic",
+      "native_component": "source_native_indicator_id verbatim",
+      "canonicalization": "'<dataset_id>#<native>'; native has no '#'",
+      "collision": "PK + UNIQUE(dataset_id, native) + CHECK equality",
+      "max_len": 400,
+      "may_change": false
+    },
+    {
+      "id": "series_id",
+      "mode": "deterministic",
+      "native_component": "source_native_key stored separately (never part of the hash input except via dimset)",
+      "canonicalization": "'ser_' + lowercase base32(first 20 bytes of sha256(canonical_series_key)); key = 'v1|dataset_id|indicator_native|geography_id|unit|sex|age|standardization|estimate_type|scenario|dimset_hash'; components percent-encoded as for release_id; dimset_hash = first 16 hex of sha256 of sorted 'KEY=VALUE' lines joined by \\n over extension dimensions",
+      "collision": "PK + UNIQUE(canonical_series_key) in clear; CHECK key prefix = 'v1|'+dataset_id+'|'",
+      "max_len": 36,
+      "may_change": false
+    },
+    {
+      "id": "observation_version_id",
+      "mode": "deterministic natural key (no stored surrogate)",
+      "native_component": "source_period_key kept separately",
+      "canonicalization": "external text form '<series_id>~<period_key>~<release_id>'; period_key per granularity: Y2024, Q2024-2, M2024-03, W2026-37, D2026-03-01, R:<start>/<end>, X:<native>",
+      "collision": "composite PK (series_id, period_key, release_id)",
+      "max_len": 160,
+      "may_change": false
+    },
+    {
+      "id": "ingestion_run_id",
+      "mode": "generated",
+      "native_component": "none",
+      "canonicalization": "'run_' + 26-char Crockford ULID issued by the Worker",
+      "collision": "PK; idempotency never depends on it",
+      "max_len": 30,
+      "may_change": false
+    },
+    {
+      "id": "checkpoint_id",
+      "mode": "deterministic",
+      "native_component": "scope_key (bounded-unit descriptor)",
+      "canonicalization": "'ckp_' + first 24 hex of sha256(dataset_id|scope_key)",
+      "collision": "PK + UNIQUE(dataset_id, scope_key)",
+      "max_len": 28,
+      "may_change": false
+    },
+    {
+      "id": "validation_event_id",
+      "mode": "generated",
+      "native_component": "none",
+      "canonicalization": "'val_' + ULID",
+      "collision": "PK",
+      "max_len": 30,
+      "may_change": false
+    },
+    {
+      "id": "release_event_id",
+      "mode": "deterministic",
+      "native_component": "official_url as canonical_url_key",
+      "canonicalization": "dedupe_key = sha256(event_type|canonical_url_key|release_id); id = 'sev_' + first 24 hex of dedupe_key",
+      "collision": "PK + UNIQUE(dedupe_key)",
+      "max_len": 28,
+      "may_change": false
+    },
+    {
+      "id": "lineage edge_id",
+      "mode": "deterministic",
+      "native_component": "none",
+      "canonicalization": "'lin_' + first 24 hex of sha256(edge_type|from_ref|to_ref)",
+      "collision": "PK + UNIQUE(edge_type, from_ref, to_ref)",
+      "max_len": 28,
+      "may_change": false
+    }
+  ],
+  "observation_semantics": {
+    "value_states": [
+      "PRESENT",
+      "MISSING",
+      "NOT_AVAILABLE",
+      "NOT_APPLICABLE",
+      "SUPPRESSED",
+      "UNKNOWN"
+    ],
+    "idempotency": {
+      "same_release_same_value": "no-op (UPSERT WHERE fingerprint differs matches nothing)",
+      "same_release_different_value": "ABORT STAT_OBSERVATION_VERSION_IMMUTABLE (integrity conflict)",
+      "newer_release_same_value": "no version; projection last_confirmed_* advances",
+      "newer_release_changed_value": "new immutable version, previous_release_id set, class SOURCE_REVISION|CORRECTION|METHODOLOGY_CHANGE|UNKNOWN_REVISION",
+      "older_release_arriving_late": "BACKFILL version, previous NULL; never displaces a newer current value"
+    },
+    "current_winner_order": [
+      "release_rank DESC",
+      "retrieved_at DESC",
+      "release_id DESC"
+    ],
+    "current_exclusions": [
+      "quality_state = QUARANTINED",
+      "release.status = WITHDRAWN",
+      "release.release_class = CANARY"
+    ]
+  },
+  "tables": [
+    {
+      "table": "statistics_checkpoints",
+      "purpose": "Per bounded-unit resume state; advances only while leased by the advancing run.",
+      "mutability_class": "CONTROLLED_MUTABLE",
+      "primary_key": [
+        "checkpoint_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "lease_run_id",
+          "parent": "statistics_ingestion_runs",
+          "parent_cols": "run_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "last_run_id",
+          "parent": "statistics_ingestion_runs",
+          "parent_cols": "run_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "last_release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "checkpoint_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "scope_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "unit_kind",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "cursor_text",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_source_stamp",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_content_fingerprint",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "parser_version",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_run_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_success_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lease_run_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lease_owner",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lease_expires_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "cursor_text": "NULL before first success",
+        "last_release_id": "same",
+        "last_source_stamp": "APIs only",
+        "last_content_fingerprint": "files/PDF/API digest",
+        "parser_version": "files only",
+        "last_run_id": "NULL before first success",
+        "lease_*": "NULL when no run holds the lease"
+      },
+      "canonical_timestamps": "last_success_at, lease_expires_at, updated_at",
+      "source_native_identity_fields": "last_source_stamp (source's own stamp)",
+      "retention_class": "durable (small)",
+      "indexes": [
+        "idx_stat_ckpt_lease",
+        "idx_stat_ckpt_last_run"
+      ],
+      "expected_write_path": "Worker admission at unit completion, atomic with the durable writes in one D1 batch",
+      "expected_read_path": "plan(): resume point; run → checkpoint",
+      "rebuildable": "derivable from last successful run per unit but kept durable"
+    },
+    {
+      "table": "statistics_concepts",
+      "purpose": "Human-approved canonical concepts; a mapping may only target APPROVED concepts as EXACT/COMPATIBLE.",
+      "mutability_class": "CONTROLLED_MUTABLE (status/approval; identity immutable)",
+      "primary_key": [
+        "concept_code"
+      ],
+      "foreign_keys": [],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "concept_code",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "domain",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "definition_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "approved_by",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "approved_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "definition_ref": "optional",
+        "approved_by": "NULL while PROPOSED"
+      },
+      "canonical_timestamps": "created_at, approved_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "durable",
+      "indexes": [],
+      "expected_write_path": "reviewed change only",
+      "expected_read_path": "concept → indicators",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_current_observations",
+      "purpose": "Materialized current projection: one row per (series, period) pointing at the winning version; composite FK pins same series+period.",
+      "mutability_class": "MATERIALIZED_PROJECTION",
+      "primary_key": [
+        "series_id",
+        "period_key"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "series_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "period_key",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "period_key",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "current_release_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "last_confirmed_release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "series_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 1
+        },
+        {
+          "name": "period_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 2
+        },
+        {
+          "name": "current_release_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "period_granularity",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "period_start",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "period_end",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "value_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "numeric_value",
+          "type": "REAL",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "text_value",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "finality",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "quality_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "revision_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "last_changed_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "last_confirmed_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "last_confirmed_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "period_start/end": "NULL for OTHER_SOURCE_PERIOD",
+        "numeric_value/text_value": "as in the version",
+        "last_confirmed_*": "NULL until a later release confirms"
+      },
+      "canonical_timestamps": "last_changed_at, last_confirmed_at, period_start/end",
+      "source_native_identity_fields": "none",
+      "retention_class": "rebuildable (disposable)",
+      "indexes": [
+        "idx_stat_current_latest"
+      ],
+      "expected_write_path": "Worker, same atomic batch as the version insert/confirmation",
+      "expected_read_path": "latest by series; range by series; value reads",
+      "rebuildable": "YES from versions (core columns); last_confirmed_* is informational and resets to the winner on rebuild"
+    },
+    {
+      "table": "statistics_datasets",
+      "purpose": "Immutable identity of a dataset/dataflow/group/workbook block, with reader and access classes.",
+      "mutability_class": "IMMUTABLE",
+      "primary_key": [
+        "dataset_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_native_dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "display_name",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "dataset_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reader_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "access_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_model",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reference_period_model",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "bounded_query_capability",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "architecture_readiness",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {},
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "source_native_dataset_id (verbatim)",
+      "retention_class": "durable",
+      "indexes": [],
+      "expected_write_path": "bootstrap from frozen dataset inventory; additive",
+      "expected_read_path": "source → datasets; reader planning",
+      "rebuildable": "re-seedable from the frozen inventory"
+    },
+    {
+      "table": "statistics_geographies",
+      "purpose": "Canonical geography registry with scheme/code, ISO3 only where valid, parent and validity window.",
+      "mutability_class": "IMMUTABLE identity (labels/validity additive)",
+      "primary_key": [
+        "geography_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "parent_geography_id",
+          "parent": "statistics_geographies",
+          "parent_cols": "geography_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "geography_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "scheme",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "scheme_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "label_en",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "label_tr",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "kind",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "iso3",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "parent_geography_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "valid_from",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "valid_to",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "iso3": "not every geography is a country",
+        "parent_geography_id": "top-level geographies",
+        "valid_from": "unbounded validity"
+      },
+      "canonical_timestamps": "valid_from/valid_to (dates)",
+      "source_native_identity_fields": "scheme+code",
+      "retention_class": "durable",
+      "indexes": [
+        "idx_stat_geo_parent"
+      ],
+      "expected_write_path": "seeded by reviewed geography files",
+      "expected_read_path": "series filter; Türkiye subtree (parent links)",
+      "rebuildable": "re-seedable"
+    },
+    {
+      "table": "statistics_indicator_mappings",
+      "purpose": "Append-only reviewed mapping indicator → concept (EXACT/COMPATIBLE/NON_EQUIVALENT need a named review; proposals are REVIEW_REQUIRED). UNMAPPED = no row.",
+      "mutability_class": "APPEND_ONLY",
+      "primary_key": [
+        "indicator_id",
+        "concept_code",
+        "mapping_version"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "concept_code",
+          "parent": "statistics_concepts",
+          "parent_cols": "concept_code",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "indicator_id",
+          "parent": "statistics_indicators",
+          "parent_cols": "indicator_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "indicator_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 1
+        },
+        {
+          "name": "concept_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 2
+        },
+        {
+          "name": "mapping_version",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 3
+        },
+        {
+          "name": "state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "origin",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reviewed_by",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "reviewed_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "evidence_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "reviewed_by": "NULL for unreviewed REVIEW_REQUIRED proposals",
+        "reviewed_at": "same",
+        "evidence_ref": "optional pointer"
+      },
+      "canonical_timestamps": "reviewed_at, created_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "durable",
+      "indexes": [
+        "idx_stat_mappings_concept"
+      ],
+      "expected_write_path": "applied from reviewed repo mapping files by an owner-authorized job",
+      "expected_read_path": "concept → indicators; mapping-state view",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_indicators",
+      "purpose": "Source-native indicator/measure preserved verbatim (label, definition, measure metadata).",
+      "mutability_class": "IMMUTABLE identity; label/definition additive",
+      "primary_key": [
+        "indicator_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "indicator_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_native_indicator_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "definition",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "definition_digest",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "methodology_locator",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "measure_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "rate_basis",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "native_unit",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "definition": "many sources give none",
+        "methodology_locator": "optional URL/section",
+        "rate_basis": "only for rates",
+        "native_unit": "not always stated",
+        "definition_digest": "for drift detection when a definition exists"
+      },
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "source_native_indicator_id (verbatim)",
+      "retention_class": "durable",
+      "indexes": [],
+      "expected_write_path": "reader discovery at plan time (idempotent on UNIQUE(dataset_id, native id))",
+      "expected_read_path": "dataset → indicators; series lookup",
+      "rebuildable": "re-discoverable from source"
+    },
+    {
+      "table": "statistics_ingestion_runs",
+      "purpose": "One bounded leased execution: scope, versions, counters, failure class; terminal rows immutable. No logs.",
+      "mutability_class": "CONTROLLED_MUTABLE until terminal, then IMMUTABLE",
+      "primary_key": [
+        "run_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "run_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reader_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reader_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "parser_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "normalizer_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "mapping_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "transform_fingerprint",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "run_mode",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "stage",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "planned_unit_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "bounds_spec",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "planned_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "started_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "finished_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lease_owner",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lease_expires_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "checkpoint_summary",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "fetched_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "parsed_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "normalized_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "inserted_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "unchanged_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "revised_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "quarantined_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "failed_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "failure_class",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "failure_summary",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "finalization_status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "stage": "NULL before RUNNING",
+        "release_id": "unknown until DISCOVER",
+        "started_at": "NULL while PLANNED",
+        "finished_at": "NULL until terminal",
+        "lease_*": "NULL when not RUNNING",
+        "checkpoint_summary": "short text",
+        "failure_class": "NULL unless failed",
+        "failure_summary": "bounded text"
+      },
+      "canonical_timestamps": "planned_at, started_at, finished_at, lease_expires_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "detail 90 days, summary 400 days (compaction job), canary 30 days",
+      "indexes": [
+        "idx_stat_runs_lease_expiry",
+        "uq_stat_runs_open_unit",
+        "idx_stat_runs_source_latest"
+      ],
+      "expected_write_path": "Worker plan/lease; executor progress; Worker finalize",
+      "expected_read_path": "latest run per source; lease expiry sweep",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_lineage_edges",
+      "purpose": "Source/dataset lineage (UPSTREAM_SOURCE, MIRROR_OF, DERIVED_FROM, NORMALIZED_FROM, REPLACES, SUPERSEDES) with evidence status.",
+      "mutability_class": "APPEND_ONLY (evidence fields revisable)",
+      "primary_key": [
+        "edge_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "to_dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "to_source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "from_dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "from_source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "edge_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "edge_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "from_source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "from_dataset_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "to_source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "to_dataset_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "from_ref",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "to_ref",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "evidence_status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "evidence_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "from_*/to_*": "exactly one of source/dataset per side",
+        "evidence_ref": "optional pointer"
+      },
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "durable",
+      "indexes": [
+        "idx_stat_lineage_to",
+        "idx_stat_lineage_from"
+      ],
+      "expected_write_path": "seeded from the frozen lineage artifact; reviewed additions",
+      "expected_read_path": "independence/upstream traversal",
+      "rebuildable": "re-seedable from the frozen lineage JSON"
+    },
+    {
+      "table": "statistics_observation_versions",
+      "purpose": "Immutable value assertion per series+period+release with provenance inside the row; revision links by previous_release_id.",
+      "mutability_class": "IMMUTABLE (only quality_state/quality_updated_at advance via a validation event)",
+      "primary_key": [
+        "series_id",
+        "period_key",
+        "release_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "series_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "period_key",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "period_key",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "previous_release_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "artifact_id",
+          "parent": "statistics_raw_artifacts",
+          "parent_cols": "artifact_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "run_id",
+          "parent": "statistics_ingestion_runs",
+          "parent_cols": "run_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "series_id",
+          "parent": "statistics_series",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "series_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 1
+        },
+        {
+          "name": "period_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 2
+        },
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 3
+        },
+        {
+          "name": "period_granularity",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "period_start",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "period_end",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "source_period_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "value_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "numeric_value",
+          "type": "REAL",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "text_value",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "lower_bound",
+          "type": "REAL",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "upper_bound",
+          "type": "REAL",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "interval_type",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "unit_override_code",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "status_flag_native",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "finality",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "revision_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "previous_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "revision_reason_origin",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "revision_reason_source",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "value_fingerprint",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "run_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "provenance_kind",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_locator",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "extraction_method",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "artifact_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "retrieved_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "quality_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "quality_updated_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "period_start/period_end": "NULL only for OTHER_SOURCE_PERIOD",
+        "numeric_value": "NULL unless PRESENT with a representable number",
+        "text_value": "verbatim published value; optional",
+        "lower_bound/upper_bound/interval_type": "only when the source gives an interval",
+        "unit_override_code": "NULL = unit inherited from the series",
+        "status_flag_native": "only when flagged",
+        "previous_release_id": "NULL for NEW_RELEASE/BACKFILL",
+        "revision_reason_source": "only when the source states a reason",
+        "artifact_id": "NULL only for API provenance",
+        "quality_updated_at": "NULL until a verdict"
+      },
+      "canonical_timestamps": "retrieved_at (data fetch), created_at (row), quality_updated_at, period_start/end (reference)",
+      "source_native_identity_fields": "source_period_key, status_flag_native, text_value (verbatim)",
+      "retention_class": "durable; only canary-release rows purgeable",
+      "indexes": [
+        "idx_stat_obsver_revisions",
+        "idx_stat_obsver_quality",
+        "idx_stat_obsver_release"
+      ],
+      "expected_write_path": "Worker batch INSERT … ON CONFLICT DO UPDATE WHERE fingerprint differs (conflict aborts)",
+      "expected_read_path": "history by PK; release → changed observations; provenance by PK",
+      "rebuildable": "no (source of truth)"
+    },
+    {
+      "table": "statistics_raw_artifacts",
+      "purpose": "Backend-independent metadata of evidence files and API capture descriptors (R2 not required).",
+      "mutability_class": "CONTROLLED_MUTABLE (parse_status, retention, backend fields; identity immutable)",
+      "primary_key": [
+        "artifact_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "artifact_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_url",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "backend_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "backend_locator",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "reproducibility_locator",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "filename",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "content_type",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "byte_size",
+          "type": "INTEGER",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "source_checksum",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "local_sha256",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "retrieved_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "parser_version",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "parse_status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "retention_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "expires_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "extraction_summary",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "backend_locator": "NULL when backend_type=NONE",
+        "reproducibility_locator": "API request descriptor / URL+checksum contract",
+        "filename": "APIs have none",
+        "byte_size": "unknown for streamed API reads",
+        "parser_version": "NULL before parsing",
+        "expires_at": "NULL for durable classes",
+        "extraction_summary": "bounded description of regions parsed"
+      },
+      "canonical_timestamps": "retrieved_at, expires_at",
+      "source_native_identity_fields": "source_checksum (if offered)",
+      "retention_class": "by retention_class R0–R3",
+      "indexes": [
+        "idx_stat_artifacts_retention"
+      ],
+      "expected_write_path": "executor registers at CAPTURE; Worker admits",
+      "expected_read_path": "release → artifacts; retention sweep",
+      "rebuildable": "no (evidence); bytes live in the backend"
+    },
+    {
+      "table": "statistics_release_events",
+      "purpose": "One-way outbox of release-level events toward TIME_SENSITIVE; bounded JSON summary; never emitted unless governed.",
+      "mutability_class": "CONTROLLED_MUTABLE (state only; payload immutable); EMITTED/REJECTED final",
+      "primary_key": [
+        "event_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "dedupe_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "event_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "official_url",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "canonical_url_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "republication_gate",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "eligibility_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "eligibility_reason",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "payload_summary",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "emitted_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "emitted_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "eligibility_reason": "optional",
+        "emitted_at/emitted_ref": "only when EMITTED"
+      },
+      "canonical_timestamps": "created_at, emitted_at",
+      "source_native_identity_fields": "official_url (as published)",
+      "retention_class": "400 days",
+      "indexes": [
+        "idx_stat_events_url",
+        "idx_stat_events_state"
+      ],
+      "expected_write_path": "Worker at FINALIZE (PENDING); policy marks ELIGIBLE/SUPPRESSED; downstream receipt marks EMITTED",
+      "expected_read_path": "feed by eligibility; dedupe by canonical_url_key",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_releases",
+      "purpose": "First-class publication/version context of a dataset (edition, publication, file version, API snapshot).",
+      "mutability_class": "CONTROLLED_MUTABLE (status and supersession only; identity immutable)",
+      "primary_key": [
+        "release_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "supersedes_release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_kind",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_native_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "edition_label",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "published_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "retrieved_first_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "reference_coverage_start",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "reference_coverage_end",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "release_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "supersedes_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "release_rank",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_url",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "release_fingerprint",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "terms_status_at_retrieval",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "terms_snapshot_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "published_at": "many sources do not state a publication time",
+        "source_native_release_id": "most sources have none",
+        "edition_label": "only edition-based sources",
+        "supersedes_release_id": "only when a replacement is known",
+        "source_url": "API snapshots may have no stable URL",
+        "terms_snapshot_ref": "optional pointer"
+      },
+      "canonical_timestamps": "published_at (source), retrieved_first_at, reference_coverage_start/end",
+      "source_native_identity_fields": "source_native_release_id, edition_label",
+      "retention_class": "durable; canary rows are tombstones after purge",
+      "indexes": [
+        "idx_stat_releases_feed",
+        "idx_stat_releases_ds_rank"
+      ],
+      "expected_write_path": "Worker at DISCOVER/FINALIZE, idempotent on UNIQUE(dataset_id, release_kind, release_key)",
+      "expected_read_path": "dataset → latest release; release feed; winner ordering",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_series",
+      "purpose": "Immutable stable statistical identity: dataset+indicator+subject geography+typed dimensions+extension hash. No time/release/value.",
+      "mutability_class": "IMMUTABLE",
+      "primary_key": [
+        "series_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "geography_id",
+          "parent": "statistics_geographies",
+          "parent_cols": "geography_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "indicator_id",
+          "parent": "statistics_indicators",
+          "parent_cols": "indicator_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "series_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "canonical_series_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "indicator_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "geography_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "unit_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "sex_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "age_group_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "standardization_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "estimate_type_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "scenario_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "dimset_hash",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_native_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {},
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "source_native_key (lossless, never queried)",
+      "retention_class": "durable",
+      "indexes": [
+        "idx_stat_series_geo_ind",
+        "idx_stat_series_ind_geo"
+      ],
+      "expected_write_path": "Worker admits series candidates idempotently on UNIQUE(canonical_series_key)",
+      "expected_read_path": "indicator+geography → series; geography → series; concept join",
+      "rebuildable": "re-derivable from versions' provenance only with source access; treat as durable"
+    },
+    {
+      "table": "statistics_series_dimensions",
+      "purpose": "Extension dimensions, one value per key per series, with native and optional canonical codes.",
+      "mutability_class": "IMMUTABLE",
+      "primary_key": [
+        "series_id",
+        "dimension_key"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "series_id",
+          "parent": "statistics_series",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "series_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 1
+        },
+        {
+          "name": "dimension_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 2
+        },
+        {
+          "name": "source_value_code",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "canonical_value_code",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "source_value_label",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "value_order",
+          "type": "INTEGER",
+          "notnull": false,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "canonical_value_code": "NULL until a reviewed mapping exists",
+        "source_value_label": "optional",
+        "value_order": "only when the source defines an order"
+      },
+      "canonical_timestamps": "none",
+      "source_native_identity_fields": "source_value_code/label",
+      "retention_class": "durable",
+      "indexes": [
+        "idx_stat_sdim_canonical",
+        "idx_stat_sdim_source"
+      ],
+      "expected_write_path": "inserted with the series in the same batch",
+      "expected_read_path": "dimension filter → series ids",
+      "rebuildable": "no"
+    },
+    {
+      "table": "statistics_source_runtime_policy",
+      "purpose": "Controlled-mutable governance per source or dataset: runtime state and the explicit legal/auth/rate/canary gates; no row = DISABLED.",
+      "mutability_class": "CONTROLLED_MUTABLE",
+      "primary_key": [
+        "source_id",
+        "scope_key"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "dataset_id",
+          "parent": "statistics_datasets",
+          "parent_cols": "dataset_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "source_id",
+          "parent": "statistics_sources",
+          "parent_cols": "source_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 1
+        },
+        {
+          "name": "scope_key",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 2
+        },
+        {
+          "name": "dataset_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "runtime_state",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "terms_status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "legal_gate",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "legal_override_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "auth_gate",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "auth_secret_name",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "rate_limit_gate",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "canary_gate",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "owner_activation_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "owner_activated_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "poll_cadence_class",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "poll_strategy_ref",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "next_due_at",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "rows_per_invocation_cap",
+          "type": "INTEGER",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "daily_row_write_budget",
+          "type": "INTEGER",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "failure_count",
+          "type": "INTEGER",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "last_policy_change_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "policy_change_reason",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "changed_by",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "dataset_id": "NULL for whole-source rows (scope_key='*')",
+        "legal_override_ref": "set only when an owner overrides an open legal gate",
+        "owner_activation_ref": "NULL until the owner approves",
+        "auth_secret_name": "NULL when no auth; stores a NAME, never a value",
+        "poll_strategy_ref": "pointer to the adapter-matrix row"
+      },
+      "canonical_timestamps": "last_policy_change_at, owner_activated_at, next_due_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "durable (changes mirrored as validation events by the operator tooling)",
+      "indexes": [
+        "idx_stat_policy_planner"
+      ],
+      "expected_write_path": "owner-authorized operator action only; machine may only move toward PAUSED",
+      "expected_read_path": "planner: due sources; run admission trigger",
+      "rebuildable": "no (governance state)"
+    },
+    {
+      "table": "statistics_sources",
+      "purpose": "Immutable identity of a source family (area, disposition, authority). Holds NO activation state.",
+      "mutability_class": "IMMUTABLE",
+      "primary_key": [
+        "source_id"
+      ],
+      "foreign_keys": [],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "display_name",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "organization",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "source_area",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "disposition",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "authority_level",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "upstream_role",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "official_homepage",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "architecture_status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "registry_version",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "official_homepage": "some sources have none verified"
+      },
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "source_id is the frozen registry slug",
+      "retention_class": "durable",
+      "indexes": [],
+      "expected_write_path": "bootstrap from frozen registry JSON at version bump",
+      "expected_read_path": "source → datasets; area filter",
+      "rebuildable": "re-seedable from docs/generated/statistics-source-registry-v1.json"
+    },
+    {
+      "table": "statistics_validation_events",
+      "purpose": "Append-only audit of validation outcomes on release/series/version/run/artifact; verdicts on versions drive quality_state.",
+      "mutability_class": "APPEND_ONLY",
+      "primary_key": [
+        "event_id"
+      ],
+      "foreign_keys": [
+        {
+          "cols": "series_id",
+          "parent": "statistics_series",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "series_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "period_key",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "period_key",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "obs_release_id",
+          "parent": "statistics_observation_versions",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "compared_series_id",
+          "parent": "statistics_series",
+          "parent_cols": "series_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "artifact_id",
+          "parent": "statistics_raw_artifacts",
+          "parent_cols": "artifact_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "run_id",
+          "parent": "statistics_ingestion_runs",
+          "parent_cols": "run_id",
+          "on_delete": "RESTRICT"
+        },
+        {
+          "cols": "release_id",
+          "parent": "statistics_releases",
+          "parent_cols": "release_id",
+          "on_delete": "RESTRICT"
+        }
+      ],
+      "on_delete_behavior": "RESTRICT/NO ACTION on every FK (no cascades); history deletion blocked by triggers except canary versions",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 1
+        },
+        {
+          "name": "layer",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "status",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "target_type",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "series_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "period_key",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "obs_release_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "run_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "artifact_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "compared_series_id",
+          "type": "TEXT",
+          "notnull": false,
+          "pk": 0
+        },
+        {
+          "name": "detail_summary",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        },
+        {
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": true,
+          "pk": 0
+        }
+      ],
+      "nullable_columns_and_why": {
+        "target columns": "exactly the target_type's columns are set",
+        "compared_series_id": "CROSS_SOURCE_QA only"
+      },
+      "canonical_timestamps": "created_at",
+      "source_native_identity_fields": "none",
+      "retention_class": "180 days for VALID/info; durable for QUARANTINED, SCHEMA_DRIFT, SOURCE_CONFLICT",
+      "indexes": [
+        "idx_stat_val_nonvalid",
+        "idx_stat_val_run",
+        "idx_stat_val_version",
+        "idx_stat_val_release"
+      ],
+      "expected_write_path": "Worker at VALIDATE/RECONCILE; reviewers",
+      "expected_read_path": "by release, by version, by run, non-VALID feed",
+      "rebuildable": "no"
+    }
+  ]
+}

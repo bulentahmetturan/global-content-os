@@ -1,0 +1,136 @@
+{
+  "phase": "DESIGN_AND_FREEZE_HEALTH_STATISTICS_SCHEMA",
+  "as_of": "2026-10-05",
+  "schema_version": "V1",
+  "ddl": "docs/generated/statistics-schema-v1.sql",
+  "ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+  "mode": "REFERENCE_DDL_NOT_A_MIGRATION",
+  "invariants": [
+    {
+      "id": "INV-STAT-001",
+      "statement": "observation history immutable",
+      "enforced_by": "trg_stat_obsver_immutable; trg_stat_obsver_nodelete (production); UPSERT WHERE fingerprint differs",
+      "proven_by": "R-11, N-01, N-02",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-002",
+      "statement": "current projection references a real observation version",
+      "enforced_by": "composite FK (series_id, period_key, current_release_id) → versions",
+      "proven_by": "P-02",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-003",
+      "statement": "current row belongs to the same series and period as its version",
+      "enforced_by": "same composite FK shape (series/period columns shared)",
+      "proven_by": "P-02, P-01",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-004",
+      "statement": "no canonical observation without release/run provenance",
+      "enforced_by": "NOT NULL + FK release_id/run_id; source_locator CHECK; FILE/PDF/EXPORT require artifact_id; coherence trigger",
+      "proven_by": "R-12a, R-12b, R-12c, R-12d",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-005",
+      "statement": "no duplicate series identity",
+      "enforced_by": "UNIQUE(canonical_series_key) + deterministic series_id PK",
+      "proven_by": "R-13",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-006",
+      "statement": "source-native identity preserved",
+      "enforced_by": "verbatim native columns (dataset, indicator, release, period, key); identity columns immutable by trigger; CHECK id = parts",
+      "proven_by": "N-13, N-14, F1-12",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-007",
+      "statement": "runtime activation separate from source identity",
+      "enforced_by": "no activation columns on statistics_sources; run admission triggers read the policy table; ACTIVE needs complete gates (CHECK)",
+      "proven_by": "G-01..G-13",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-008",
+      "statement": "Turkey/global source area independent from observation geography",
+      "enforced_by": "area only on sources; series carries subject geography only",
+      "proven_by": "F1-13",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-009",
+      "statement": "revisions never destroy prior values",
+      "enforced_by": "versions immutable; new value = new row with previous_release_id; no UPDATE/DELETE path",
+      "proven_by": "R-04b, R-09b, R-10c",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-010",
+      "statement": "same bounded replay idempotent",
+      "enforced_by": "deterministic ids + UNIQUE keys + UPSERT WHERE differs; open-unit unique index",
+      "proven_by": "F1-08, F1-09, F2-03, F2-06",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-011",
+      "statement": "secondary lineage representable and distinguishable",
+      "enforced_by": "statistics_lineage_edges (DERIVED_FROM etc.), independence traversal",
+      "proven_by": "G-27, G-28, G-29",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-012",
+      "statement": "release event dedupe deterministic and un-emitted by default",
+      "enforced_by": "UNIQUE(dedupe_key); emit guard trigger requires ELIGIBLE + ACTIVE source + PRODUCTION release",
+      "proven_by": "G-21..G-26",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-013",
+      "statement": "missing/unknown/N-A never encoded as numeric zero",
+      "enforced_by": "CHECK numeric_value IS NULL OR value_state='PRESENT'; PRESENT needs a representation",
+      "proven_by": "N-05, N-06, R-08",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-014",
+      "statement": "no autonomous ontology activation",
+      "enforced_by": "mappings append-only; EXACT/COMPATIBLE/NON_EQUIVALENT require MANUAL_REVIEW + reviewer; PROPOSAL only REVIEW_REQUIRED; target concept must be APPROVED",
+      "proven_by": "G-14..G-19",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-015",
+      "statement": "PDF/export-derived values start SUSPECT until reviewed",
+      "enforced_by": "trigger trg_stat_obsver_pdf_unreviewed; verdict via append-only validation event",
+      "proven_by": "F3-02, F3-05",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-016",
+      "statement": "a withdrawn or canary release never feeds current; withdrawn accepts no new data",
+      "enforced_by": "projection winner rule; trg_stat_obsver_release_open",
+      "proven_by": "R-10, R-10b, C-01",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-017",
+      "statement": "a run exists only for sources/datasets whose policy permits its mode",
+      "enforced_by": "trg_stat_runs_policy_prod / _canary / _governed",
+      "proven_by": "F1-00, F1-00b, G-02, G-09, G-10, G-30",
+      "enforcement_kind": "DB"
+    },
+    {
+      "id": "INV-STAT-018",
+      "statement": "checkpoint progress only by the lease-holding run",
+      "enforced_by": "trg_stat_ckpt_leased",
+      "proven_by": "F1-04, F1-05",
+      "enforcement_kind": "DB"
+    }
+  ]
+}
