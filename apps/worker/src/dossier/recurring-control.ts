@@ -88,7 +88,8 @@ export async function setRecurringState(db: D1Like, o: { readerId: string; to: R
   const pausedFrom = pausedRaw === 'BURN_IN' || pausedRaw === 'ACTIVE' ? pausedRaw : null;
   const refusal = checkTransition({ from, to: o.to, by: o.by, pausedFrom, autoResumeAllowed: o.autoResumeAllowed });
   if (refusal) throw new DossierError('recurring_transition_refused', refusal);
-  if (o.to === 'PAUSED' && (from === 'BURN_IN' || from === 'ACTIVE')) await put(db, controlRecurringPausedFrom(o.readerId), from, o.now, actor);
+  // the state a source returns to after a pause OR after the owner acknowledges a block (BLOCKED -> PAUSED -> previous): remembered whenever a runnable state is left
+  if ((o.to === 'PAUSED' || o.to === 'BLOCKED') && (from === 'BURN_IN' || from === 'ACTIVE')) await put(db, controlRecurringPausedFrom(o.readerId), from, o.now, actor);
   await put(db, controlRecurringState(o.readerId), o.to, o.now, actor);
   await put(db, controlRecurringReason(o.readerId), cleanReason(o.reason) || `${o.by}:${o.to}`, o.now, actor);
   return { from, to: o.to };

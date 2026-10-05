@@ -35,17 +35,18 @@ test('temporal identity: DOSSIER_DISCOVERY sits under EVERGREEN and creates no t
   assert.equal(V.temporal.signal_freshness_is_not_candidate_identity, true);
 });
 
-test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations untouched); no cron wiring, one operator module', () => {
+test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations untouched); the only cron wiring is the dedicated recurring tick, two operator modules', () => {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n));
   assert.deepEqual(files.filter((f) => /dossier/i.test(f)), ['0031_dossier_discovery_foundation.sql'], 'the dossier schema is exactly one migration');
   for (const f of files.filter((f) => f !== '0031_dossier_discovery_foundation.sql')) assert.ok(!/dossier/i.test(readFileSync(`migrations/${f}`, 'utf8')), `${f} must not mention dossier`);
   const m28 = readFileSync('migrations/0028_temporal_paths.sql', 'utf8');
   assert.ok(/evergreen_view IN \('health_reference', 'research_rediscovery'\)/.test(m28));
   assert.ok(/acquisition_path IN \('TIME_SENSITIVE', 'EVERGREEN'\)/.test(m28));
-  // The dossier runtime is wired into the Worker through EXACTLY ONE operator module (dossier-canary-routes.ts, OPS_TOKEN-gated, manual) plus the readiness block,
-  // the route dispatch line and the env switch type. It is never reachable from the scheduled (cron) handler and nothing else may mention it.
+  // The dossier runtime is wired into the Worker through EXACTLY TWO operator modules (dossier-canary-routes.ts: OPS_TOKEN-gated, manual, frozen canary surface; and
+  // dossier-ops-routes.ts: the recurring operation, its own read / write tokens, plus the dedicated five-minute cron entry) plus the readiness block, the route dispatch
+  // lines and the env switch types. The canary surface is never reachable from the scheduled (cron) handler and nothing else may mention dossier.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
-  const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'];
+  const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/dossier-ops-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'];
   for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test') && !p.includes('/dossier/'))) {
     const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
     if (!ALLOWED.includes(f)) assert.deepEqual(hits, [], `${f} must not reference dossier`);
@@ -55,10 +56,13 @@ test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations un
   assert.ok(!/ScheduledController|scheduled\(/.test(routes), 'no cron path to the canary');
   const idx = readFileSync('apps/worker/src/index.ts', 'utf8');
   const cut = idx.indexOf('async scheduled(');
-  assert.ok(cut > 0 && !/dossier/i.test(idx.slice(cut)), 'the scheduled (cron) handler never references dossier');
+  // the scheduled handler reaches dossier ONLY through the dedicated recurring branch (isolated job); never the canary surface
+  assert.ok(cut > 0 && !/handleDossierCanary|dossier-canary-routes|invokeCanary/.test(idx.slice(cut)), 'the scheduled (cron) handler never reaches the canary surface');
+  assert.deepEqual([...new Set((idx.slice(cut).replace(/\/\/.*$/gm, '').match(/\w*dossier\w*/gi)) ?? [])].sort(), ['DOSSIER_RECURRING_CRON', 'dossier', 'runDossierRecurringTick']);
   assert.ok(!/dossier/i.test(readFileSync('apps/worker/src/scheduled-jobs.ts', 'utf8')));
   assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_CANARY_ENABLED = "false"'), 'the deployed default is OFF');
-  assert.ok(!/dossier/i.test(readFileSync('wrangler.toml', 'utf8').replace(/DOSSIER_CANARY_ENABLED[^\n]*/g, '').replace(/#[^\n]*/g, '')), 'no other dossier configuration (no cron trigger)');
+  assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_RECURRING_ENABLED = "false"'), 'the recurring master switch also ships OFF');
+  assert.ok(!/dossier/i.test(readFileSync('wrangler.toml', 'utf8').replace(/DOSSIER_(CANARY|RECURRING)_ENABLED[^\n]*/g, '').replace(/#[^\n]*/g, '')), 'no other dossier configuration (the cron trigger itself carries no dossier name)');
   assert.equal(V.reader_status.live_readers, 0);
 });
 
