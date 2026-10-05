@@ -239,8 +239,11 @@ test('CANARY CONCEPT-WRITER SERIALIZATION: while any canary run holds an unexpir
   assert.equal(done.status, 'COMPLETED');
   assert.equal(n(w3.sqlite, `SELECT COUNT(*) AS n FROM dossier_observations WHERE signal_family = 'TURKEY_HEALTH_BURDEN'`), 91);
   noDuplicateConcepts(w3);
-  // V1 keeps its original lease statement: it never consults other runs (frozen behaviour)
-  assert.ok(!/NOT EXISTS/.test(readFileSync('apps/worker/src/dossier/canary.ts', 'utf8').split('const got = isV2')[0]));
+  // R04 (recurring design): ONE guarded lease statement is the only claim path for EVERY profile (V1 included); no profile-specific variant remains
+  const runner = readFileSync('apps/worker/src/dossier/canary.ts', 'utf8');
+  assert.equal((runner.match(/SET lease_holder = \?/g) ?? []).length, 1, 'exactly one lease-claim statement');
+  assert.ok(/const globalLease = true/.test(runner) && !/isV2/.test(runner));
+  assert.ok(/NOT EXISTS \(SELECT 1 FROM dossier_canary_runs o WHERE o\.run_id <> \?/.test(runner));
 });
 
 test('concept proposal: sequential duplicate proposals and a different display form of the same normalized label end in ONE canonical concept; true parallel database contention is NOT reproduced locally', async () => {

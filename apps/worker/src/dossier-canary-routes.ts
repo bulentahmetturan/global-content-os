@@ -102,7 +102,7 @@ export async function handleDossierCanary(request: Request, env: Env, path: stri
         return j(await eurostatCanaryReport({ ...readDeps, profile: DOSSIER_CANARY_V2 }, { runId: rid }));
       }
       if (sub === 'readiness') {
-        if (profile.profile_id === 'DOSSIER_CANARY_V2') return j({ ok: true, profile: profile.profile_id, profile_errors: validateCanaryProfileV2(profile), note: 'V2 readiness is the status read model plus the Eurostat report; the V1 readiness level is not defined for V2' });
+        if (profile.profile_id !== 'DOSSIER_CANARY_V1') return j({ ok: true, profile: profile.profile_id, profile_errors: profile.profile_id === 'DOSSIER_CANARY_V2' ? validateCanaryProfileV2(profile) : [], note: 'V2 readiness is the status read model plus the Eurostat report; the V1 readiness level is not defined for V2' });
         return j({ ok: true, readiness: await gatherDossierReadiness(env.DB as never, { environment: env.ENVIRONMENT === 'production' ? 'LIVE' : 'LOCAL', envMasterSwitch: env.DOSSIER_CANARY_ENABLED === 'true', profile }), profile_errors: validateCanaryProfile(profile) });
       }
     }

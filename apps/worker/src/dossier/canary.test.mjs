@@ -88,7 +88,7 @@ test('DOSSIER_CANARY_V1: one typed location, every field CANARY_ONLY with owner 
   assert.equal(PF.readerCaps(PROFILE, 'oecd-health').fetchCap, 100);
   assert.throws(() => PF.readerCaps(PROFILE, 'some-third-source'), /source_not_in_canary_profile/);
   // not scattered: the numbers live only in the profile file
-  for (const f of readdirSync('apps/worker/src/dossier').filter((x) => x.endsWith('.ts') && x !== 'canary-profile.ts')) assert.ok(!/max_items_per_run|max_rows_per_run|max_pages_per_run/.test(readFileSync(`apps/worker/src/dossier/${f}`, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')) || f.startsWith('canary'), `${f}: no scattered canary constants`);
+  for (const f of readdirSync('apps/worker/src/dossier').filter((x) => x.endsWith('.ts') && x !== 'canary-profile.ts')) assert.ok(!/max_items_per_run|max_rows_per_run|max_pages_per_run/.test(readFileSync(`apps/worker/src/dossier/${f}`, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '')) || f.startsWith('canary') || f === 'recurring-profile.ts', `${f}: no scattered canary constants`);
 });
 
 test('reader registration: DOSSIER reader identity is separate from canonical source identity; checked-in state is disabled; no canonical source is created, changed or activated', () => {

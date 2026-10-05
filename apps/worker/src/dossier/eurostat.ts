@@ -495,6 +495,56 @@ export function createEurostatReader(o: { fetchImpl: EurostatFetch; readerId?: s
   };
 }
 
+// ------------------------------------------------------------------------------------------------ release change check (recurring operation, R02)
+export interface EurostatReleaseMarker { release: string; period: string }
+/**
+ * The weekly change check: ONE tiny request (`icd10=TOTAL`, latest period, about 1 KB) that reads only the dataset `updated` release instant and the latest
+ * reference period. A full ingest run is started only when either differs from the last ingested slice. Same shape guards as the reader (JSON-stat 2.x, ESTAT,
+ * this dataset id), same transient classification and ONE bounded retry; a malformed answer is a typed error, never "unchanged".
+ */
+export async function checkEurostatRelease(o: { fetchImpl: EurostatFetch; timeoutMs?: number; sleep?: (ms: number) => Promise<void> }): Promise<EurostatReleaseMarker & { requests: number }> {
+  const sleep = o.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  const url = buildEurostatUrl({ icd10: 'TOTAL' });
+  let requests = 0;
+  const once = async (): Promise<unknown> => {
+    requests += 1;
+    const ac = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timer = ac ? setTimeout(() => ac.abort(), o.timeoutMs ?? EUROSTAT_DEFAULT_TIMEOUT_MS) : null;
+    try {
+      const res = await o.fetchImpl(url, { headers: { Accept: 'application/json', 'User-Agent': 'global-content-os-dossier/0.4 (bounded; release check)' }, ...(ac ? { signal: ac.signal } : {}) });
+      if (res.status === 429 || res.status === 503) {
+        const ra = Number(res.headers?.get('retry-after') ?? '');
+        throw Object.assign(new EurostatError(EUROSTAT_ERRORS.RATE_LIMIT, `HTTP ${res.status}`, true, res.status), { retryAfterMs: Number.isFinite(ra) && ra > 0 ? ra * 1000 : 1000 });
+      }
+      if (!res.ok) throw new EurostatError(EUROSTAT_ERRORS.HTTP, `HTTP ${res.status}`, res.status >= 500, res.status);
+      try { return await res.json(); } catch { return fail(EUROSTAT_ERRORS.PARSE, 'response body is not JSON'); }
+    } catch (e) {
+      if (e instanceof EurostatError) throw e;
+      const aborted = e instanceof Error && e.name === 'AbortError';
+      throw new EurostatError(EUROSTAT_ERRORS.HTTP, aborted ? 'request timed out' : `network error: ${e instanceof Error ? e.message : String(e)}`, true);
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  };
+  let body: unknown;
+  for (let attempt = 1; ; attempt++) {
+    try { body = await once(); break; } catch (e) {
+      if (!isRetryableEurostatError(e) || attempt >= EUROSTAT_MAX_REQUESTS_PER_RUN) throw e;
+      await sleep(Math.min((e as { retryAfterMs?: number }).retryAfterMs ?? 500, EUROSTAT_MAX_RETRY_AFTER_MS));
+    }
+  }
+  if (!isObj(body)) return fail(EUROSTAT_ERRORS.PARSE, 'response is not a JSON object');
+  const d = body as JsonStatDataset;
+  if (d.class !== 'dataset' || typeof d.version !== 'string' || !d.version.startsWith('2.') || d.source !== 'ESTAT') return fail(EUROSTAT_ERRORS.SCHEMA_DRIFT, 'not a JSON-stat 2.x ESTAT dataset');
+  if (!isObj(d.extension) || d.extension.id !== EUROSTAT_DATASET_ID) return fail(EUROSTAT_ERRORS.SCHEMA_DRIFT, `unexpected dataset id ${String(d.extension?.id)}`);
+  const release = releaseToIso(d.updated);
+  if (!release) return fail(EUROSTAT_ERRORS.SCHEMA_DRIFT, 'dataset `updated` release marker missing or not a timestamp');
+  const time = d.dimension?.time?.category?.index;
+  const periods = Array.isArray(time) ? time.map(String) : isObj(time) ? Object.keys(time) : [];
+  if (periods.length !== 1 || !/^\d{4}$/.test(periods[0])) return fail(EUROSTAT_ERRORS.UNEXPECTED_DIMENSION, `the change check must see exactly one four-digit period, got ${periods.join(',') || 'none'}`);
+  return { release, period: periods[0], requests };
+}
+
 // ------------------------------------------------------------------------------------------------ local inspect (read-only; no network, no D1, no activation)
 export function inspectEurostatReader(): Record<string, unknown> {
   const d = describeConnector({ id: 'dossier-eurostat-tr-causes-of-death', class: 'PUBLIC_DATA_API', acquisitionSourceId: EUROSTAT_SOURCE_ID, legalStatus: 'APPROVED', mock: false, attribution: EUROSTAT_ATTRIBUTION });

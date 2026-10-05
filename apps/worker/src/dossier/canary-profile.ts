@@ -8,6 +8,7 @@
  */
 import type { DossierPolicy } from './policy';
 import { DEFAULT_POLICY, set } from './policy';
+import { RECURRING_PROFILE_ID, recurringSpec, validateRecurringProfile, type DossierRecurringProfileV1 } from './recurring-profile';
 
 export interface CanaryField<T> {
   value: T;
@@ -142,7 +143,7 @@ export interface DossierCanaryProfileV2 {
   provenance_refs_per_signal_family: CanaryField<number>;
   runtime: { d1_statements_per_invocation: CanaryField<number>; lease_seconds: CanaryField<number> };
 }
-export type CanaryProfile = DossierCanaryProfile | DossierCanaryProfileV2;
+export type CanaryProfile = DossierCanaryProfile | DossierCanaryProfileV2 | DossierRecurringProfileV1;
 /** The operational D1 ceiling per invocation. A V2 budget above it is invalid; headroom is reported by the measurement. */
 export const D1_OPERATIONAL_CEILING = 800;
 const v2field = <T>(value: T, rationale: string, recalibration_expected: boolean): CanaryField<T> => ({ value, scope: 'CANARY_ONLY', owner_decision: 'OWNER_DECISION_2026-10-05_SECOND_FAMILY_LOCAL_IMPLEMENTATION', rationale, recalibration_expected });
@@ -233,13 +234,18 @@ export class CanaryProfileError extends Error {
 }
 export function requireCanaryProfile<T extends CanaryProfile>(p: T | null | undefined): T {
   // V1 keeps its own validation path unchanged; V2 has its own. Any other id fails closed through the V1 path ("profile_missing_or_wrong_id").
-  const errors = p?.profile_id === 'DOSSIER_CANARY_V2' ? validateCanaryProfileV2(p as DossierCanaryProfileV2) : validateCanaryProfile(p as DossierCanaryProfile | null | undefined);
+  const errors = p?.profile_id === RECURRING_PROFILE_ID ? validateRecurringProfile(p as unknown as DossierRecurringProfileV1) : p?.profile_id === 'DOSSIER_CANARY_V2' ? validateCanaryProfileV2(p as unknown as DossierCanaryProfileV2) : validateCanaryProfile(p as unknown as DossierCanaryProfile | null | undefined);
   if (errors.length) throw new CanaryProfileError(errors);
   return p as T;
 }
 
 /** Per-reader operational caps. ClinicalTrials pages is 1 (the connector issues exactly one request per run); OECD rows bound the accepted series rows. */
 export function readerCaps(p: CanaryProfile, canonicalSourceId: string): { itemCap: number; fetchCap: number } {
+  if (p.profile_id === RECURRING_PROFILE_ID) {
+    const spec = recurringSpec(p, canonicalSourceId);
+    if (!spec) throw new CanaryProfileError([`source_not_in_canary_profile:${canonicalSourceId}`]);
+    return { itemCap: spec.item_cap, fetchCap: spec.item_cap };
+  }
   if (p.profile_id === 'DOSSIER_CANARY_V2') {
     if (canonicalSourceId === 'eurostat-hlth-cd-asdr2') return { itemCap: p.eurostat.max_items_per_run.value, fetchCap: p.eurostat.max_items_per_run.value };
     throw new CanaryProfileError([`source_not_in_canary_profile:${canonicalSourceId}`]);
@@ -247,6 +253,12 @@ export function readerCaps(p: CanaryProfile, canonicalSourceId: string): { itemC
   if (canonicalSourceId === 'clinicaltrials-gov-api-v2') return { itemCap: p.clinicaltrials.max_items_per_run.value, fetchCap: p.clinicaltrials.max_items_per_run.value };
   if (canonicalSourceId === 'oecd-health') return { itemCap: p.clinicaltrials.max_items_per_run.value, fetchCap: p.oecd.max_rows_per_run.value };
   throw new CanaryProfileError([`source_not_in_canary_profile:${canonicalSourceId}`]);
+}
+
+/** The D1 statement budget of ONE invocation: the per-source target under the recurring profile, the profile-wide value otherwise (frozen canary behaviour). */
+export function invocationBudget(p: CanaryProfile, canonicalSourceId: string): number {
+  if (p.profile_id === RECURRING_PROFILE_ID) return recurringSpec(p, canonicalSourceId)?.d1_target ?? p.runtime.d1_statements_per_invocation.value;
+  return p.runtime.d1_statements_per_invocation.value;
 }
 
 /** The DossierPolicy the runner evaluates under. Anything the profile does not decide stays unset (fail closed). */

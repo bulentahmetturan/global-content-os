@@ -21,7 +21,9 @@
 import { aggregateConcept } from './aggregation';
 import { buildAttributionNotice, type AttributionNotice } from './attribution';
 import { assignClusters } from './clusters';
-import { canaryPolicy, readerCaps, requireCanaryProfile, type CanaryProfile } from './canary-profile';
+import { canaryPolicy, invocationBudget, readerCaps, requireCanaryProfile, type CanaryProfile } from './canary-profile';
+import { RECURRING_PROFILE_ID, recurringSpecByReader, type DossierRecurringProfileV1 } from './recurring-profile';
+import { CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_PERSISTENCE, controlRecurringState, recurringSourceRunnable, type RecurringState } from './recurring-control';
 import {
   controlReaderEnabled, controlReaderExtraRuns, CONTROL_CANARY, CONTROL_MANUAL_RUNS, CONTROL_PROMOTION, createBudgetedD1, DOSSIER_READER_REGISTRY, isOn,
   loadControls, platformCapacityBlockers, readPlatformCapacity, readerAccessBlockers, type Controls, type DossierReaderRegistration,
@@ -61,9 +63,35 @@ export interface CanaryProgress {
   promoted: number;
   noSignal: number;
   attribution: AttributionNotice | null;
-  /** V2 only: concepts that reached the promotion boundary (the run hard-stops before persisting anything for them). */
+  /** V2 only: concepts that reached the promotion boundary (the run hard-stops before persisting anything for them). Recurring: RECORDED, never a stop. */
   promotionEligibilityReached?: number;
+  /** Recurring only (bounded to MAX_ELIGIBLE_IDS): the concepts that crossed the promotion boundary while persistence was OFF. */
+  promotionEligibleIds?: string[];
+  /** Recurring only: how often the platform killed an invocation of this run (lease expired with a holder still set). */
+  platformTerminations?: number;
+  /** Recurring only: terminations / invocations the owner or the scheduler already accounted for when pausing the source (resuming grants a fresh allowance). */
+  terminationsAcknowledged?: number;
+  invocationsAcknowledged?: number;
+  /** Recurring only: the source cursor this run read from and the one it leaves for the next run. */
+  sourceCursor?: SourceCursor;
+  /** Recurring only: the last invocations (bounded), the measured data behind the health / budget read model. */
+  invocationLog?: InvocationLogEntry[];
+  /** Recurring only: what kind of run this is. A CHECK run is the Eurostat release check that found nothing new (no work, no observations). */
+  kind?: 'INGEST' | 'CHECK';
+  checkResult?: { release: string | null; period: string | null; changed: boolean };
 }
+export interface SourceCursor {
+  /** Lower bound of StudyFirstPostDate (ClinicalTrials): the stored checkpoint date. */
+  since: string | null;
+  /** The page token this run started from (a backlog continuing) and the one it leaves. */
+  pageTokenIn: string | null;
+  pageTokenOut: string | null;
+  /** Newest first-post date seen along the chain this run belongs to. */
+  maxSeen: string | null;
+}
+export interface InvocationLogEntry { at: string; phase: RunPhase; status: RunStatus; d1: number; wallMs: number }
+export const MAX_ELIGIBLE_IDS = 20;
+const MAX_INVOCATION_LOG = 20;
 const newProgress = (now: string): CanaryProgress => ({ startedAt: now, retrievedAt: null, itemsSeen: 0, workTotal: 0, itemsNew: 0, deriveAfter: null, derived: 0, notEligible: 0, watch: 0, promoted: 0, noSignal: 0, attribution: null });
 
 export interface RunRow {
@@ -88,13 +116,18 @@ export interface RunRow {
 
 export interface CanaryEnv {
   DOSSIER_CANARY_ENABLED?: string;
+  DOSSIER_RECURRING_ENABLED?: string;
+}
+export interface ReaderOptions {
+  /** ClinicalTrials: lower bound of the first-post date for an incremental read. */
+  since?: string | null;
 }
 export interface CanaryDeps {
   db: D1Like;
   env: CanaryEnv;
   profile: CanaryProfile;
   /** Builds the reader for a registration. Production passes real network readers; tests pass replay readers. */
-  createReader: (reg: DossierReaderRegistration) => Connector;
+  createReader: (reg: DossierReaderRegistration, opts?: ReaderOptions) => Connector;
   classifier: ContentClassifier;
   extractor: ConceptExtractor;
   ctx?: Ctx;
@@ -121,8 +154,11 @@ async function exec(db: D1Like, sql: string, ...v: unknown[]): Promise<number> {
 }
 
 /** The pre-run gate: every reason a run may NOT start (empty = allowed). Pure over controls so it is shared with the readiness read model. */
-export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null; operationalBudget: number }): string[] {
+export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null; operationalBudget: number; profileId?: string }): string[] {
   const r: string[] = [];
+  if (o.profileId === RECURRING_PROFILE_ID) return recurringRunGate(o);
+  // the manual canaries and the recurring operation never run side by side: a manual run is refused while recurring is on (one writer, one lease path)
+  if (isOn(o.controls, CONTROL_RECURRING_ENABLED)) r.push('RECURRING_ENABLED_MANUAL_RUN_REFUSED');
   if (o.env.DOSSIER_CANARY_ENABLED !== 'true') r.push('ENV_CANARY_DISABLED');
   // the platform capacity contract: unknown or too-small verified capacity means NO run (never inferred from a plan name, never clamped)
   r.push(...platformCapacityBlockers(readPlatformCapacity(o.controls), o.operationalBudget));
@@ -131,6 +167,21 @@ export function runGate(o: { env: CanaryEnv; controls: Controls; reg: DossierRea
   if (!o.reg) r.push('READER_NOT_REGISTERED');
   else {
     if (!isOn(o.controls, controlReaderEnabled(o.reg.dossier_reader_id))) r.push('READER_DISABLED');
+    for (const b of readerAccessBlockers(o.reg)) r.push(`READER_BLOCKED:${b}`);
+  }
+  return r;
+}
+
+/** The recurring pre-run gate: environment switch, global control, verified capacity, an owner-set source state and the reader's access blockers. Pure over controls. */
+function recurringRunGate(o: { env: CanaryEnv; controls: Controls; reg: DossierReaderRegistration | null; operationalBudget: number }): string[] {
+  const r: string[] = [];
+  if (o.env.DOSSIER_RECURRING_ENABLED !== 'true') r.push('ENV_RECURRING_DISABLED');
+  if (!isOn(o.controls, CONTROL_RECURRING_ENABLED)) r.push('RECURRING_DISABLED_BY_OPERATOR');
+  r.push(...platformCapacityBlockers(readPlatformCapacity(o.controls), o.operationalBudget));
+  if (!o.reg) r.push('READER_NOT_REGISTERED');
+  else {
+    const state = (o.controls[controlRecurringState(o.reg.dossier_reader_id)] ?? 'DISABLED') as RecurringState;
+    if (!recurringSourceRunnable(state)) r.push(`SOURCE_STATE_${state}`);
     for (const b of readerAccessBlockers(o.reg)) r.push(`READER_BLOCKED:${b}`);
   }
   return r;
@@ -145,24 +196,27 @@ async function activeRun(db: D1Like, key: string): Promise<RunRow | null> {
 
 /** Runs allowed per reader = the profile quota + any extra runs an operator explicitly authorized after review. */
 async function runQuota(db: D1Like, profile: CanaryProfile, controls: Controls, readerId: string): Promise<{ allowed: number; completed: number }> {
+  if (profile.profile_id === RECURRING_PROFILE_ID) return { allowed: Number.MAX_SAFE_INTEGER, completed: 0 }; // recurring has no one-run quota: cadence and the invocation rate bound it
   const completed = (await one<{ n: number }>(db, `SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED'`, readerId, profile.profile_id))?.n ?? 0;
-  return { allowed: profile.max_runs_per_reader.value + Number(controls[controlReaderExtraRuns(readerId)] ?? 0), completed: Number(completed) };
+  return { allowed: ('max_runs_per_reader' in profile ? profile.max_runs_per_reader.value : 0) + Number(controls[controlReaderExtraRuns(readerId)] ?? 0), completed: Number(completed) };
 }
 
 export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; operator: string; runId?: string }): Promise<CanaryOutcome> {
   const profile = requireCanaryProfile(deps.profile); // refuses to run with a missing/invalid profile: no silent fallback
   const ctx = deps.ctx ?? defaultCtx;
-  const budget = createBudgetedD1(deps.db, profile.runtime.d1_statements_per_invocation.value);
+  const reg = (deps.registry ?? DOSSIER_READER_REGISTRY).find((r) => r.dossier_reader_id === req.readerId) ?? null;
+  const budget = createBudgetedD1(deps.db, invocationBudget(profile, reg?.canonical_source_id ?? ''));
   const db = budget.db;
   const now = (): string => ctx.now();
+  const recurring = profile.profile_id === RECURRING_PROFILE_ID;
 
-  const reg = (deps.registry ?? DOSSIER_READER_REGISTRY).find((r) => r.dossier_reader_id === req.readerId) ?? null;
   const controls = await loadControls(db);
-  const gate = runGate({ env: deps.env, controls, reg, operationalBudget: budget.budget });
+  const gate = runGate({ env: deps.env, controls, reg, operationalBudget: budget.budget, profileId: profile.profile_id });
   if (gate.length || !reg) return { status: 'REFUSED', reasons: gate.length ? gate : ['READER_NOT_REGISTERED'] };
   // a budget that cannot hold even the smallest unit of work is refused BEFORE any run row exists and before any source request
   if (budget.budget < MIN_RUNNABLE_BUDGET_FLOOR) return { status: 'REFUSED', reasons: [`BUDGET_BELOW_MINIMUM_RUNNABLE_UNIT:${budget.budget}<${MIN_RUNNABLE_BUDGET_FLOOR}`] };
   if (!profile.sources.value.some((s) => s.canonical_source_id === reg.canonical_source_id)) return { status: 'REFUSED', reasons: ['SOURCE_NOT_IN_CANARY_PROFILE'] };
+  const persistenceOn = recurring && isOn(controls, CONTROL_RECURRING_PERSISTENCE);
 
   // ---- select or create the run
   let run: RunRow | null = req.runId ? await loadRun(db, req.runId) : await activeRun(db, runtimeKey(reg.dossier_reader_id));
@@ -187,34 +241,39 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   const t0 = now();
   const holder = ctx.id('lease');
   const leaseUntil = new Date(Date.parse(t0) + profile.runtime.lease_seconds.value * 1000).toISOString();
-  const isV2 = profile.profile_id === 'DOSSIER_CANARY_V2';
-  // V2 invariant MAX_CONCURRENT_CONCEPT_PROPOSERS = 1: the lease of THIS run is acquired only if no OTHER canary run (any reader, any profile) holds an unexpired lease.
-  // The check and the acquisition are ONE statement, so two invocations cannot both pass it (the resolver's concept creation is check-then-insert and has no uniqueness
-  // constraint to rely on; schema changes are not part of this phase). V1 keeps its original statement and behaviour unchanged.
-  const got = isV2
-    ? await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?) AND NOT EXISTS (SELECT 1 FROM dossier_canary_runs o WHERE o.run_id <> ? AND o.lease_holder IS NOT NULL AND o.lease_expires_at > ?)`, holder, leaseUntil, t0, live.run_id, t0, live.run_id, t0)
-    : await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?)`, holder, leaseUntil, t0, live.run_id, t0);
+  // R04 / MAX_CONCURRENT_CONCEPT_PROPOSERS = 1: ONE guarded lease statement is the only claim path of EVERY execution path and profile (scheduler tick, operator run, V1, V2,
+  // recurring). The lease of THIS run is granted only if no OTHER run (any reader, any profile) holds an unexpired one. The check and the acquisition are ONE statement, so
+  // two invocations cannot both pass it (the resolver's concept creation is check-then-insert and has no uniqueness constraint to rely on; no schema change is approved).
+  const globalLease = true;
+  const got = await exec(db, `UPDATE dossier_canary_runs SET lease_holder = ?, lease_expires_at = ?, status = 'RUNNING', updated_at = ? WHERE run_id = ? AND status IN ('RUNNING','PAUSED_BUDGET') AND (lease_holder IS NULL OR lease_expires_at <= ?) AND NOT EXISTS (SELECT 1 FROM dossier_canary_runs o WHERE o.run_id <> ? AND o.lease_holder IS NOT NULL AND o.lease_expires_at > ?)`, holder, leaseUntil, t0, live.run_id, t0, live.run_id, t0)
   if (got === 0) {
-    if (isV2 && (await one<{ n: number }>(db, `SELECT 1 AS n FROM dossier_canary_runs WHERE run_id <> ? AND lease_holder IS NOT NULL AND lease_expires_at > ? LIMIT 1`, live.run_id, t0)) !== null) return { status: 'REFUSED', reasons: ['CONCEPT_PROPOSER_BUSY'] };
+    if (globalLease && (await one<{ n: number }>(db, `SELECT 1 AS n FROM dossier_canary_runs WHERE run_id <> ? AND lease_holder IS NOT NULL AND lease_expires_at > ? LIMIT 1`, live.run_id, t0)) !== null) return { status: 'REFUSED', reasons: ['CONCEPT_PROPOSER_BUSY'] };
     return { status: 'REFUSED', reasons: ['RUN_LEASED'] };
   }
   // V2 lease-deadline stop: no new unit starts when less than a safety margin of the lease remains, so a slow invocation cannot still be writing when another one takes the lease over.
   const wall = deps.wallClock ?? Date.now;
   const wallStart = wall();
   const leaseMarginMs = Math.min(10_000, Math.floor(profile.runtime.lease_seconds.value * 200));
-  const leaseNearlyOver = (): boolean => isV2 && wall() - wallStart >= profile.runtime.lease_seconds.value * 1000 - leaseMarginMs;
+  // a platform termination is an invocation that never released its lease: the lease still names a holder although it expired
+  const terminated = Boolean(live.lease_holder && live.lease_expires_at && live.lease_expires_at <= t0);
+  const leaseNearlyOver = (): boolean => profile.profile_id !== 'DOSSIER_CANARY_V1' && wall() - wallStart >= profile.runtime.lease_seconds.value * 1000 - leaseMarginMs;
 
   const progress: CanaryProgress = { ...newProgress(t0), ...(JSON.parse(live.progress_json) as CanaryProgress) };
+  if (recurring && terminated) progress.platformTerminations = (progress.platformTerminations ?? 0) + 1;
   let phase: RunPhase = live.phase;
   let status: RunStatus = 'RUNNING';
   let error: string | null = null;
-  const reader = deps.createReader(reg);
+  // recurring ClinicalTrials: the reader is built with the incremental lower bound this run reads from (stored in the run's cursor, decided once at FETCH)
+  const fetchCursor = recurring && phase === 'FETCH' ? await recurringCursor(db, reg.dossier_reader_id, profile as DossierRecurringProfileV1, t0) : null;
+  const cursorSince = fetchCursor?.since ?? progress.sourceCursor?.since ?? null;
+  const reader = deps.createReader(reg, cursorSince ? { since: cursorSince } : undefined);
   const caps = readerCaps(profile, reg.canonical_source_id);
   const policy = canaryPolicy(profile, { promotionEnabled: isOn(controls, CONTROL_PROMOTION), canonicalSourceId: reg.canonical_source_id });
   const repo = new DossierRepo(db, ctx);
 
   const save = async (patch: { status?: RunStatus; phase?: RunPhase; error?: string | null; finished?: boolean; checkpoint?: unknown }): Promise<void> => {
     const t = now();
+    if (recurring) progress.invocationLog = [...(progress.invocationLog ?? []), { at: t, phase: patch.phase ?? phase, status: patch.status ?? status, d1: budget.used() + 1, wallMs: wall() - wallStart }].slice(-MAX_INVOCATION_LOG);
     await exec(db, `UPDATE dossier_canary_runs SET status = ?, phase = ?, progress_json = ?, checkpoint_json = COALESCE(?, checkpoint_json), lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, updated_at = ?, finished_at = ? WHERE run_id = ?`,
       patch.status ?? status, patch.phase ?? phase, json(progress), patch.checkpoint === undefined ? null : json(patch.checkpoint), budget.used() + 1, patch.error ?? error, t, patch.finished ? t : null, live.run_id);
   };
@@ -222,10 +281,18 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   try {
     // ================= FETCH =================
     if (phase === 'FETCH') {
-      const exec1 = await executeConnector(reader, { itemCap: caps.itemCap, fetchCap: caps.fetchCap, cursor: null }, now);
+      const cur = fetchCursor;
+      const exec1 = await executeConnector(reader, { itemCap: caps.itemCap, fetchCap: caps.fetchCap, cursor: cur?.pageToken ?? null }, now);
       if (exec1.status === 'FAILED') throw new DossierError('source_fetch_failed', exec1.error ?? 'unknown');
-      // an empty (or entirely unusable) page is an anomaly, not a finished canary: the run FAILS with the reason so it does not consume the one-run quota
-      if (exec1.items.length === 0) throw new DossierError('source_returned_no_usable_items', `source items seen: ${exec1.itemsSeen}, usable: 0`);
+      // an empty (or entirely unusable) page is an anomaly, not a finished canary: the run FAILS with the reason so it does not consume the one-run quota.
+      // A recurring INCREMENTAL read that sees NO record at all is the normal quiet day: the run completes with no work.
+      const quietDay = recurring && cur !== null && exec1.itemsSeen === 0 && !cur.pageToken;
+      if (exec1.items.length === 0 && !quietDay) throw new DossierError('source_returned_no_usable_items', `source items seen: ${exec1.itemsSeen}, usable: 0`);
+      if (recurring && cur) {
+        const newest = exec1.items.map((i) => i.publishedAt ?? '').filter(Boolean).sort().pop() ?? null;
+        progress.sourceCursor = { since: cur.since, pageTokenIn: cur.pageToken, pageTokenOut: exec1.checkpoint?.nextCursor ?? null, maxSeen: [cur.maxSeen, newest].filter((x): x is string => Boolean(x)).sort().pop() ?? null };
+        progress.kind = 'INGEST';
+      }
       progress.retrievedAt = exec1.startedAt;
       progress.itemsSeen = exec1.itemsSeen;
       progress.workTotal = exec1.items.length;
@@ -276,14 +343,19 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
           if (ce.state !== 'ELIGIBLE') progress.notEligible += 1; // retained as observations/concept; never aggregated for candidates
           else {
             await aggregateConcept(repo, cid, aggCfg);
-            if (profile.profile_id === 'DOSSIER_CANARY_V2' && profile.candidate_persistence.value === 'FORBIDDEN') {
+            if ((profile.profile_id === 'DOSSIER_CANARY_V2' && profile.candidate_persistence.value === 'FORBIDDEN') || (recurring && !persistenceOn)) {
               // DRY-RUN promotion gate: the same gate evaluateTarget uses, WITHOUT its writes. A concept that passes it would create a candidate and a snapshot, which this canary forbids.
               const g = await gateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
               if (g.kind === 'EARLY') { if (g.outcome.status === 'NO_SIGNAL') progress.noSignal += 1; }
               else if (g.watch) progress.watch += 1;
               else {
                 progress.promotionEligibilityReached = (progress.promotionEligibilityReached ?? 0) + 1;
-                throw new DossierError('V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED', `concept ${cid} crossed the promotion boundary; no candidate or snapshot was persisted (PROMOTION_ELIGIBILITY_REACHED=YES)`);
+                // recurring operation RECORDS the eligibility (counter + bounded id list) and goes on; the frozen V2 canary hard-stops here
+                if (recurring) {
+                  const ids = progress.promotionEligibleIds ?? [];
+                  if (ids.length < MAX_ELIGIBLE_IDS && !ids.includes(cid)) ids.push(cid);
+                  progress.promotionEligibleIds = ids;
+                } else throw new DossierError('V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED', `concept ${cid} crossed the promotion boundary; no candidate or snapshot was persisted (PROMOTION_ELIGIBILITY_REACHED=YES)`);
               }
             } else {
               const out = await evaluateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
@@ -337,6 +409,27 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
     }
   }
   return { status, runId: live.run_id, phase, progress, statementsThisInvocation: budget.used(), error };
+}
+
+const dayOnly = (d: string | null | undefined): string | null => (!d ? null : /^\d{4}-\d{2}-\d{2}/.test(d) ? d.slice(0, 10) : /^\d{4}-\d{2}$/.test(d) ? `${d}-01` : null);
+
+/**
+ * The lower bound / page token of a recurring INCREMENTAL read (ClinicalTrials), decided once at FETCH from the last COMPLETED recurring run of the reader:
+ *   a backlog token left by that run   -> continue the SAME chain (same bound, the token, the newest date carried);
+ *   otherwise the newest first-post date it saw, INCLUSIVE (one day of overlap; origin identity = study id makes the overlap idempotent);
+ *   no run yet                         -> the initial lookback (a few days, never the whole registry).
+ * Returns null for a source that is not incremental (the Eurostat change-check has no cursor).
+ */
+export async function recurringCursor(db: D1Like, readerId: string, profile: DossierRecurringProfileV1, nowIso: string): Promise<{ since: string | null; pageToken: string | null; maxSeen: string | null } | null> {
+  const spec = recurringSpecByReader(profile, readerId);
+  if (!spec || spec.mode !== 'INCREMENTAL') return null;
+  const prev = await one<{ progress_json: string }>(db, `SELECT progress_json FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED' ORDER BY finished_at DESC LIMIT 1`, readerId, RECURRING_PROFILE_ID);
+  const pc = prev ? (JSON.parse(prev.progress_json) as CanaryProgress).sourceCursor : undefined;
+  if (pc?.pageTokenOut) return { since: dayOnly(pc.since), pageToken: pc.pageTokenOut, maxSeen: dayOnly(pc.maxSeen) };
+  const bound = dayOnly(pc?.maxSeen) ?? dayOnly(pc?.since);
+  if (bound) return { since: bound, pageToken: null, maxSeen: null };
+  const d = new Date(Date.parse(nowIso) - profile.clinicaltrials.initial_lookback_days.value * 86_400_000).toISOString().slice(0, 10);
+  return { since: d, pageToken: null, maxSeen: null };
 }
 
 async function persistFetched(db: D1Like, runId: string, checkpoint: unknown, progress: CanaryProgress): Promise<void> {
