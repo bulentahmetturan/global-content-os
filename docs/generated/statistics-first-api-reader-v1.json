@@ -1,0 +1,91 @@
+{
+  "phase": "INTEGRATE_LOCAL_STATS_DB_RUNTIME_AND_SELECT_FIRST_API_READER",
+  "as_of": "2026-10-05",
+  "part": "B — first API reader selection (decision + contract; NOT implemented)",
+  "inputs": {
+    "source_registry": "docs/generated/statistics-source-registry-v1.json (frozen)",
+    "dataset_inventory": "docs/generated/statistics-dataset-inventory-v1.json (frozen)",
+    "minimal_read_only_verification": "2026-10-05 Eurostat SDMX 2.1 live GETs for DEMO_MLEXPEC (structure, bounded data slices, error behavior). No credentials, no writes, no database."
+  },
+  "selection": {
+    "FIRST_API_READER_SOURCE": "EUROSTAT_HEALTH",
+    "FIRST_API_READER_DATASET": "EUROSTAT_HEALTH:DEMO_MLEXPEC",
+    "FIRST_API_READER_CLASS": "SDMX_READER",
+    "FALLBACK_API_READER_SOURCE": "WHO_HEALTH_STATISTICS",
+    "FALLBACK_DATASET": "WHO_HEALTH_STATISTICS:WHOSIS_000001",
+    "FALLBACK_READER_CLASS": "REST_READER (GHO OData)",
+    "BEST_EVENTUAL_TURKEY_SOURCE": "TURKSTAT_HEALTH_STATISTICS (CANONICAL_GATED: token auth + unresolved terms) — later, not first",
+    "why": "The only shortlisted source that is simultaneously public (no auth), documented for automation, commercially reusable with attribution, machine-readable with bounded dimension-keyed queries, free of R2 needs, and carries Türkiye plus EU/peer comparators for a clinically meaningful annual indicator that exercises series/release/revision/provenance semantics."
+  },
+  "shortlist_policy": "At most 5 serious candidates; sources needing PDF-only parsing, ZIP/XLSX+R2, manual authenticated export, unresolved mandatory login or unresolved legal permission were excluded unless no API alternative existed (one gated source, TÜİK, is evaluated explicitly per B9). Scale: STRONG / MEDIUM / WEAK / BLOCKED / UNKNOWN (UNKNOWN is never converted to PASS or zero).",
+  "decision_matrix": [
+    { "source": "EUROSTAT_HEALTH", "product_value": "STRONG", "turkey_value": "MEDIUM", "authority": "STRONG (PRIMARY_CANONICAL; relays national statistical institutes incl. TÜİK — lineage kept explicit)", "legal_access": "MEDIUM (terms PARTIAL: copyright notice permits reuse with acknowledgement, CC BY 4.0 per search; owner review still required)", "api_readiness": "STRONG (verified live, no auth, documented dissemination API)", "revision_model": "MEDIUM (latest values + per-observation flags + dataset updated timestamp; no upstream history → local snapshot required)", "boundedness": "STRONG", "r2": "NO", "P1": "PASS", "P2": "PASS", "P3": "PARTIAL", "P4": "PASS", "P5": "PASS", "decision": "FIRST READER" },
+    { "source": "WHO_HEALTH_STATISTICS", "product_value": "STRONG", "turkey_value": "STRONG", "authority": "STRONG (PRIMARY_CANONICAL)", "legal_access": "MEDIUM-WEAK (terms PARTIAL: publications CC BY-NC-SA 3.0 IGO; data licence not explicit; republication of derived values needs owner review; automation policy UNKNOWN)", "api_readiness": "STRONG (GHO OData verified live in source audit)", "revision_model": "WEAK (latest-value-only, re-estimated back-series replace values; no editions)", "boundedness": "STRONG ($filter/$top/$skip)", "r2": "NO", "P1": "PARTIAL", "P2": "PASS", "P3": "PARTIAL", "P4": "PASS", "P5": "PASS", "decision": "FALLBACK" },
+    { "source": "WORLD_BANK_HEALTH", "product_value": "MEDIUM", "turkey_value": "MEDIUM", "authority": "MEDIUM (PRIMARY_CANONICAL redistributor of WHO/UNICEF/UN WPP/NSO series — duplicates upstream; lineage required)", "legal_access": "MEDIUM (terms PARTIAL; CC BY 4.0 per dataset not rendered in source audit)", "api_readiness": "STRONG", "revision_model": "MEDIUM (lastupdated per source + WDI Archives source 57 retains older editions)", "boundedness": "STRONG", "r2": "NO", "P1": "PARTIAL", "P2": "PASS", "P3": "PASS", "P4": "PASS", "P5": "PASS", "decision": "NOT FIRST (redistributor overlap; legal PARTIAL; strong later revision-history candidate via archive)" },
+    { "source": "UNICEF_DATA", "product_value": "MEDIUM", "turkey_value": "MEDIUM", "authority": "STRONG (PRIMARY_CANONICAL for child indicators; UN IGME relay)", "legal_access": "WEAK (terms UNKNOWN; automation UNKNOWN; data endpoint not exercised in source audit)", "api_readiness": "UNKNOWN (dataflow list verified, data query not exercised)", "revision_model": "WEAK (latest values)", "boundedness": "STRONG", "r2": "NO", "P1": "UNKNOWN", "P2": "UNKNOWN", "P3": "PARTIAL", "P4": "PASS", "P5": "PASS", "decision": "NOT FIRST (UNKNOWN legal/access must not be converted to PASS)" },
+    { "source": "TURKSTAT_HEALTH_STATISTICS", "product_value": "STRONG", "turkey_value": "STRONG", "authority": "STRONG (national statistical authority)", "legal_access": "BLOCKED (SDMX 2.1 needs an OAuth token from an SMS-verified portal account; unauthenticated call returns 401; health dataflows not listable without token; terms/licence URL UNKNOWN)", "api_readiness": "PARTIAL (documented SDMX 2.1; unusable without credentials, none created)", "revision_model": "MEDIUM (published revision policy; SDMX returns current values; local snapshot required)", "boundedness": "UNKNOWN (dataflow ids not enumerable without token)", "r2": "NO", "P1": "BLOCKED", "P2": "UNKNOWN", "P3": "PARTIAL", "P4": "UNKNOWN", "P5": "PASS (as a gated source)", "decision": "BEST EVENTUAL Turkey source; PRODUCTION_ACTIVATION_READY = NO; not first" }
+  ],
+  "excluded_with_reason": {
+    "OECD_HEALTH_STATISTICS": "CANONICAL_GATED: terms page 403 to automation; two conflicting rate limits; legal review required",
+    "ILOSTAT_OSH": "terms UNKNOWN; P2 priority; occupational scope only",
+    "UN_SDG_GLOBAL_DATABASE": "SECONDARY_NORMALIZED; API not exercised; terms UNKNOWN",
+    "UN_WORLD_POPULATION_PROSPECTS": "API key required (free token by email request)",
+    "TR_MINISTRY_OF_HEALTH_STATISTICS / HSGM / SGK / TNSA": "PDF or ZIP/XLSX flows (R2-dependent for production)",
+    "IHME_GBD / IARC / UNAIDS / ECDC / NCD_RISC": "authenticated or manual export, or unresolved legal gate",
+    "OUR_WORLD_IN_DATA_GLOBAL_HEALTH": "secondary normalized mirror; primary source usable, no specific reason to prefer the mirror"
+  },
+  "score_weights_note": "Weights from the phase brief (P1 25%, product 20%, Turkey 15%, legal/access 15%, P2 10%, P3 5%, P4 10%; P5 is a hard gate, passed by every candidate). The ordering EUROSTAT > WHO > WORLD_BANK > UNICEF > TURKSTAT(first-reader eligibility) is ordinal and does not depend on fake numeric precision: Eurostat is the only candidate with no weak/unknown/blocked criterion that matters for a first activation.",
+  "reader_contract": {
+    "reader_class": "SDMX_READER",
+    "official_endpoint_shape": {
+      "data": "GET https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_MLEXPEC/{freq}.{unit}.{sex}.{age}.{geo}?startPeriod={YYYY}&endPeriod={YYYY}&format=JSON",
+      "representation": "format=JSON returns JSON-stat 2.0 (class dataset): cheap to parse in a Worker (3.3 KB for 9 series × 3 years vs a 143 KB structure XML), carries `updated`, per-observation `status` flags, dimension category indexes and extension.datastructure/version",
+      "structure_optional": "GET …/sdmx/2.1/dataflow/ESTAT/DEMO_MLEXPEC/latest?references=descendants&detail=referencepartial (XML, 143 KB; annotations UPDATE_DATA, UPDATE_STRUCTURE, DISSEMINATION_TIMESTAMP_DATA, OBS_PERIOD_OVERALL_OLDEST/LATEST). Fetch only when the DSD version changes."
+    },
+    "dataset_identity": {
+      "source_id": "EUROSTAT_HEALTH",
+      "source_native_dataset_id": "DEMO_MLEXPEC",
+      "dataset_id": "EUROSTAT_HEALTH:DEMO_MLEXPEC",
+      "agency_dataflow_version": "ESTAT / DEMO_MLEXPEC / 1.0 (DSD version 53.0 seen 2026-10-05; isFinal=false)",
+      "dataset_type": "SDMX_DATAFLOW",
+      "access_class": "DOCUMENTED_API",
+      "release_model": "API_SNAPSHOT",
+      "reference_period_model": "YEAR"
+    },
+    "source_native_ids": {
+      "indicator": "indicator_id = EUROSTAT_HEALTH:DEMO_MLEXPEC#LIFE_EXPECTANCY (one native measure; the series are distinguished by the age/sex/geo/unit dimensions, not by separate indicators)",
+      "series_dimensions": "typed core: unit_code = unit (YR), sex_code = sex (T|M|F), age_group_code = age (Y_LT1 = under 1 year = life expectancy at birth; others later), geography_id = geo; standardization/estimate type UNKNOWN until reviewed; freq is fixed 'A' (annual) and recorded as the extension dimension FREQ",
+      "geography": "ISO3 for TR; Eurostat geo codes TR, DE, EU27_2020 are SOURCE_NATIVE geographies (EU27_2020 = AGG) unless mapped; ISO3:TUR is the subject geography, source area stays GLOBAL_HEALTH_STATISTICS",
+      "source_native_key": "the SDMX key string, e.g. A.YR.T.Y_LT1.TR"
+    },
+    "bounded_unit": "one dataflow × (sex ∈ {T,M,F}) × age = Y_LT1 × geo ∈ {TR + a fixed peer list} × a time window of ≤ 10 years. Normal first canary slice (verified 2026-10-05): A.YR.T+M+F.Y_LT1.TR+DE+EU27_2020, 2022–2024 → 9 series, 27 observations, 3.3 KB.",
+    "pagination_windowing": "no cursor pagination: windowing by startPeriod/endPeriod only; an unbounded whole-flow request (65 years × all dimensions) is never made. Window end is clamped to the dataset's OBS_PERIOD_OVERALL_LATEST (or the JSON `time` category) because a period beyond the available range returns HTTP 400 INVALID_QUERY_DIMENSION_VALUE instead of an empty set (verified for startPeriod=2026). `lastTimePeriod` is NOT used (the JSON path ignores it).",
+    "release_change_detection": "Compare the response `updated` timestamp (JSON) / UPDATE_DATA annotation (XML) with the checkpoint's last_source_stamp. Same stamp ⇒ skip with no database writes beyond the run row. New stamp ⇒ register a new API_SNAPSHOT release (release_key = 'updated:<ISO timestamp>', source_native_release_id = same, release_fingerprint = sha256 of the canonical request descriptor + the stamp + DSD version), then re-pull the bounded window and diff via the frozen value fingerprints (unchanged ⇒ confirmation only, changed ⇒ revision version).",
+    "checkpoint_key": "dataset_id | unit_kind=API_STAMP | scope_key = 'DEMO_MLEXPEC|age=Y_LT1|sex=T+M+F|geo=<sorted codes>|window=<start>-<end>' ; cursor_text = last period reached; last_source_stamp = `updated`; last_content_fingerprint = sha256 of the normalized slice; parser_version = reader version. One run per scope (frozen uq_stat_runs_open_unit).",
+    "reference_period_mapping": "TIME_PERIOD 'YYYY' → period key Y<year>, granularity YEAR, 01-01..12-31; source_period_key = the verbatim year string",
+    "value_mapping": "present numeric → PRESENT with numeric_value and verbatim text_value; JSON-stat null/absent position → MISSING (never 0); status flags verbatim into status_flag_native (b = break in time series, e = estimated, p = provisional; combinations such as 'bep' preserved); finality: flag p ⇒ PROVISIONAL, else UNKNOWN until Eurostat's flag documentation is mapped (do not infer FINAL)",
+    "revision_handling": "Upstream keeps latest values only, so history exists only from the first local snapshot onward: each new `updated` stamp that changes a value creates an immutable version (SOURCE_REVISION; reason stored only if Eurostat states one — it does not, so reason_origin NOT_STATED); unchanged values are confirmations; older stamps never displace newer ones (BACKFILL). Flag-only changes (e.g. p → final) are real value-fingerprint changes and become versions.",
+    "provenance_locator": "sdmx:DEMO_MLEXPEC/{key}@{TIME_PERIOD} (e.g. sdmx:DEMO_MLEXPEC/A.YR.T.Y_LT1.TR@2024); API capture artifact req_<sha256> of the canonical request descriptor (URL without credentials — none exist) + response digest, backend EXTERNAL_REPRODUCIBLE, no bytes stored; retention R1_EVIDENCE",
+    "rate_limit_behavior": "No limit headers and no documented limit (UNKNOWN). Conservative reader policy: sequential requests, one bounded slice per unit, ≤ 1 request/second, honour HTTP 429/503 Retry-After, exponential backoff with a bounded retry count, never parallel fan-out. The budget lives in rows_per_invocation_cap / daily_row_write_budget policy fields, not in code constants.",
+    "error_taxonomy": "HTTP 400 INVALID_QUERY_DIMENSION_VALUE with a time-range fault ⇒ clamp window and retry once (not a failure); HTTP 400 for an unknown key value ⇒ SCHEMA_DRIFT; 401/403 ⇒ AUTH_FAILURE (never expected); 429/5xx/network ⇒ TRANSIENT_SOURCE_FAILURE; non-JSON/changed JSON-stat shape/unknown dimension order ⇒ PARSER_FAILURE or SCHEMA_DRIFT; inconsistent size/value positions ⇒ VALIDATION_FAILURE; maps to the frozen run failure_class values.",
+    "first_local_fixture": "Recorded real response of A.YR.T+M+F.Y_LT1.TR+DE+EU27_2020 for 2022–2024 (3,347 bytes, 27 positions, flags bep/ep/b) committed as a test fixture, plus a second hand-edited copy with a later `updated` stamp and one changed value for the revision path, plus the HTTP 400 range-fault body, plus a null-position variant for MISSING.",
+    "first_local_e2e_slice": "fixture → SDMX_READER (parse JSON-stat, map dimensions via category.index, never via key order) → local STATS_DB through createStatisticsRuntime → release (updated stamp) → run → checkpoint lease → ONE commitBoundedBatch of 27 observations (+9 series) → current projection → provenance trace; then the second fixture proves confirmation vs revision; replay and crash/replay reuse the foundation harness. All local, ephemeral DB, source policy simulated ACTIVE only inside the throw-away test DB."
+  },
+  "estimated_d1_shape": {
+    "canary_slice": "9 series + 9 dimension rows(FREQ) + 27 versions + 27 projection rows + 1 release + 1 run + 1 checkpoint + 1 request artifact ≈ 76 rows written (plus index entries) per first pull; a no-change poll writes the run row and checkpoint only",
+    "full_first_whitelist": "illustrative: sex {T,M,F} × 2 age classes (Y_LT1 verified; the second to be confirmed against the DSD) × geo {TR, EU27_2020, ~5 peers} × 10 years ≈ 3 × 2 × 7 × 10 = 420 observations ⇒ ~9 batches of ≤ 50 observations; conservative caps remain configuration (account tier UNKNOWN)"
+  },
+  "activation_states": {
+    "ARCHITECTURE_READY": "YES",
+    "READER_IMPLEMENTATION_READY": "YES (contract above is sufficient for the next phase)",
+    "LEGAL_READY": "NO — Eurostat terms PARTIAL / OWNER_REVIEW_REQUIRED (reuse with acknowledgement; owner decision needed). Not UNKNOWN: the copyright notice is quoted in the source audit; the owner review has not been done.",
+    "ACCESS_READY": "YES — public, no auth, documented dissemination API, verified live 2026-10-05",
+    "R2_READY": "NOT_REQUIRED (R2_REQUIRED = NO; no R2 exists)",
+    "CAPACITY_READY": "NO — ACCOUNT_TIER_FOR_STATS = UNKNOWN",
+    "LOCAL_CANARY_READY": "NO — reader not implemented",
+    "PRODUCTION_CANARY_READY": "NO — needs production STATS_DB, binding, capacity decision, legal review, owner approval",
+    "PRODUCTION_ACTIVATION_READY": "NO"
+  },
+  "tuik_disposition": { "PRODUCTION_ACTIVATION_READY": "NO", "reason": "frozen audit: token-gated SDMX, OAuth/SMS portal, health dataflows not listable without token, terms UNKNOWN. No credentials created. Remains the best eventual Turkey primary; Eurostat's TR series are an interim, lineage-explicit relay (upstream NSIs incl. TÜİK), never treated as independent confirmation of TÜİK." },
+  "safety": { "reader_implemented": false, "source_activated": false, "production_stats_db": "NOT_CREATED", "production_binding": "NOT_CREATED", "r2": "NOT_CREATED", "deploy": "NOT_PERFORMED", "push": "NOT_PERFORMED", "network_calls_made": "read-only GETs to the public Eurostat dissemination API only, for verification" }
+}

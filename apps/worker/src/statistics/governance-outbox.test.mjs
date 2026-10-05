@@ -145,13 +145,23 @@ describe('P5 governance (I36)', () => {
     const walk = (d) => readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? e.name !== 'test-support' && walk(`${d}/${e.name}`) : e.name.endsWith('.ts') && scan(`${d}/${e.name}`)));
     const scan = (f) => {
       const src = readFileSync(f, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
-      if (!f.endsWith('runtime-policy.ts') && /['"`]ACTIVE['"`]|ACTIVATION_GATED/.test(src.replace(/WHERE[^;`]*runtime_state[^;`]*/g, '').replace(/status = 'ACTIVE'/g, ''))) {
+      if (!f.endsWith('runtime-policy.ts') && !f.endsWith('local-smoke.ts') && /['"`]ACTIVE['"`]|ACTIVATION_GATED/.test(src.replace(/WHERE[^;`]*runtime_state[^;`]*/g, '').replace(/status = 'ACTIVE'/g, ''))) {
         // allowed: type unions in rules/types and SQL predicates that READ policy state
         if (/runtimeState\s*[:=]|runtime_state\s*=\s*['"]/.test(src)) offenders.push(f);
       }
     };
     walk(dir);
     assert.deepEqual(offenders, []);
+  });
+
+  it('the single allowed activation site (local-smoke.ts) is local-only, flag-guarded and synthetic-source-only', () => {
+    const smoke = readFileSync('apps/worker/src/statistics/local-smoke.ts', 'utf8');
+    const entry = readFileSync('apps/worker/src/statistics/local-entry.ts', 'utf8');
+    assert.match(entry, /STATISTICS_LOCAL_SMOKE !== '1'/, 'smoke route refused unless the local config sets the flag');
+    for (const m of smoke.matchAll(/repos\.policy\.(ensureDefault|update)\(([^,)]*)/g)) assert.equal(m[2].trim(), 'SYNTHETIC', 'policy changes only ever target the synthetic source');
+    assert.match(smoke, /const SYNTHETIC = 'LOCAL_SMOKE_SYNTHETIC'/);
+    for (const f of ['index.ts', 'runtime.ts', 'bootstrap.ts']) assert.doesNotMatch(readFileSync('apps/worker/src/statistics/' + f, 'utf8'), /local-smoke/);
+    assert.doesNotMatch(readFileSync('apps/worker/src/index.ts', 'utf8'), /local-smoke|local-entry/);
   });
 
   it('migration seeds no policy rows and no statistics data (schema only)', () => {

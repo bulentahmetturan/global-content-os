@@ -67,7 +67,8 @@ describe('STATS_DB storage boundary', () => {
     assert.ok(files.length >= 15);
     for (const f of files) {
       const src = readFileSync(f, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
-      if (!f.endsWith('/storage.ts')) assert.doesNotMatch(src, /env\.DB\b/, `${f} must not touch env.DB (only the aliasing guard in storage.ts may name it)`);
+      // env.DB may be named only by the aliasing guards (storage.ts, runtime.ts) and by the local entry's content-only /health route
+      if (!/[\\/](storage|runtime|local-entry)\.ts$/.test(f)) assert.doesNotMatch(src, /env\.DB\b/, `${f} must not touch env.DB`);
       if (!f.endsWith('/storage.ts')) assert.doesNotMatch(src, /\b(source_items|approved_briefs|source_feeds|handoff_log)\b/, `${f} must not reference content tables (only the boundary guard in storage.ts lists them, to refuse them)`);
       assert.doesNotMatch(src, /100[_,]?000|5[_,]?000[_,]?000|10 ?ms/i, `${f} must not hardcode Free-tier quotas`);
       assert.doesNotMatch(src, /from ['"]\.\.\/(db|triage|ingress|localize)|from ['"]\.\.\/\.\.\/(db|triage)/, `${f} must not import content/triage code`);

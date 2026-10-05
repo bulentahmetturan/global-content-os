@@ -28,6 +28,7 @@ export const SUITES = {
   'concurrency.test.mjs': { gates: ['P1', 'P3'], proves: 'races: same/conflicting observation, release ordering (20 interleavings), lease contenders, outbox duplicates' },
   'property.test.mjs': { gates: ['P1'], proves: 'seeded property tests: identity, value states vs oracle, period keys, release-order permutations vs model' },
   'query-plans.test.mjs': { gates: ['P1', 'P4'], proves: 'implementation SQL on a proof-scale fixture never full-scans a scale-sensitive table' },
+  'local-runtime.test.mjs': { gates: ['P1', 'P2', 'P3', 'P4', 'P5'], proves: 'real local Worker (wrangler dev --local, workerd) with dedicated STATS_DB: migration from zero, fail-closed binding, content-DB isolation fingerprints, bootstrap governance, synthetic smoke through the runtime' },
   'parity.test.mjs': { gates: ['P1'], proves: 'identical transcript on node:sqlite and the real local D1 runtime (success and failure paths)' },
 };
 
@@ -47,7 +48,7 @@ const results = [];
 let failed = false;
 for (const engine of engines) {
   for (const f of files) {
-    if (f === 'parity.test.mjs' && engine !== 'sqlite') continue; // parity runs both engines internally; run it once
+    if ((f === 'parity.test.mjs' || f === 'local-runtime.test.mjs') && engine !== 'sqlite') continue; // these run real workerd / both engines internally; run once
     const t0 = Date.now();
     const r = spawnSync(process.execPath, ['--test', `${DIR}/${f}`], { encoding: 'utf8', env: { ...process.env, STATS_ENGINE: engine }, maxBuffer: 64 * 1024 * 1024 });
     const c = counts(r.stdout + r.stderr);

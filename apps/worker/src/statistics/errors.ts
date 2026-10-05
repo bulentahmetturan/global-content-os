@@ -12,6 +12,7 @@ export type StatisticsErrorCode =
   | 'STATISTICS_REVISION_CONFLICT'
   | 'STATISTICS_SCHEMA_ERROR'
   | 'STATISTICS_BOUNDS_ERROR'
+  | 'STATISTICS_CONFIG_ERROR'
   | 'STATISTICS_DB_ERROR';
 
 export class StatisticsError extends Error {

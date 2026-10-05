@@ -30,7 +30,8 @@
     "statistics:schema-proof": "node scripts/statistics-schema-proof.mjs",
     "test:statistics": "node scripts/statistics-test.mjs --engine sqlite",
     "test:statistics:d1": "node scripts/statistics-test.mjs --engine d1",
-    "test:statistics:all": "node scripts/statistics-test.mjs"
+    "test:statistics:all": "node scripts/statistics-test.mjs",
+    "statistics:local-runtime": "node --test apps/worker/src/statistics/local-runtime.test.mjs"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20261001.1",
