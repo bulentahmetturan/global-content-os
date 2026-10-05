@@ -1,0 +1,468 @@
+{
+  "phase": "DESIGN_RECURRING_MULTI_FAMILY_DOSSIER_OPERATION",
+  "as_of": "2026-10-06",
+  "status": "DESIGN_ONLY_NOT_ACTIVATED",
+  "doc": "docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md",
+  "gate_set": "R01-R18_FROZEN",
+  "no_new_top_level_gates": true,
+  "baseline": {
+    "first_canary": "FROZEN_V1",
+    "second_canary": "FROZEN_V1",
+    "second_canary_run": "crun_b5267b4d-2f98-4487-979c-ecc4c4f2cf88",
+    "live_read_only_state_2026_10_06": {
+      "gcos": "READY",
+      "dossier": "DISABLED",
+      "build": "279f3357",
+      "controls_execution": "all 0",
+      "runs": 2,
+      "concepts": 486,
+      "active_concepts": 0,
+      "aliases": 486,
+      "observations": 505,
+      "origins": 191,
+      "aggregates": 1265,
+      "work_rows": 191,
+      "candidates": 0,
+      "snapshots": 0,
+      "reviews": 0,
+      "d1_total_size_bytes": 12976128
+    }
+  },
+  "decisions": {
+    "CLINICALTRIALS_PROPOSED_CADENCE": "every 24 h, incremental (since + pageToken), <= 100 studies per run, backlog continues next run",
+    "EUROSTAT_PROPOSED_CADENCE": "weekly tiny change check; full ingest only when dataset updated or latest period changes",
+    "SCHEDULER_TOPOLOGY": "A: one dedicated cron */5 dispatching ONE bounded invocation of the shared runner for the due source, with a global lease guard (B's invariant); no new table",
+    "GLOBAL_SERIALIZATION_DESIGN": "single guarded lease statement (NOT EXISTS any other unexpired lease) as the only claim path for scheduler, operator route and every profile; MAX_ACTIVE_RUNS 1; one invocation per tick; lease-deadline stop; V1/OECD controls 0 while recurring is on; post-run duplicate-label invariant",
+    "SCHEMA_CHANGE_REQUIRED_FOR_SERIALIZATION": "NO",
+    "SCHEMA_CHANGE_REQUIRED_FOR_BURN_IN": "NO",
+    "SCHEMA_CHANGE_REQUIRED_FOR_STEADY_STATE": "YES (one additive audit-events migration; a window index only if measured necessary)",
+    "INCREMENTAL_DERIVE": "affected concepts only, both families per concept, per-run supportChanges (<= 20 ids), stale fast windows marked STALE_FAST_WINDOW and refreshed by a bounded aging sweep (<= 20 concepts per tick)",
+    "SNAPSHOT_PROVENANCE_HARDENING_REQUIRED": "YES",
+    "CANDIDATE_PERSISTENCE_DURING_INITIAL_BURN_IN": "NO",
+    "OPS_TOKEN_RESET_REQUIRED_BEFORE_OPERATOR_USE": "YES",
+    "RETENTION_POLICY_READY": "YES (frozen; compaction not needed before first activation)",
+    "OBSERVABILITY_CONTRACT_READY": "YES",
+    "BURN_IN_PLAN_READY": "YES"
+  },
+  "source_states": [
+    "DISABLED",
+    "BURN_IN",
+    "ACTIVE",
+    "PAUSED",
+    "BLOCKED"
+  ],
+  "allowed_transitions": [
+    {
+      "from": "DISABLED",
+      "to": "BURN_IN",
+      "by": "owner"
+    },
+    {
+      "from": "BURN_IN",
+      "to": "ACTIVE",
+      "by": "owner after R17 stage gates"
+    },
+    {
+      "from": "BURN_IN|ACTIVE",
+      "to": "PAUSED",
+      "by": "owner or scheduler circuit breaker (source-local)"
+    },
+    {
+      "from": "PAUSED",
+      "to": "previous",
+      "by": "owner; scheduler only for a transient-circuit pause after a successful cooldown probe"
+    },
+    {
+      "from": "any",
+      "to": "BLOCKED",
+      "by": "scheduler on legal/access, schema drift, integrity, governance"
+    },
+    {
+      "from": "BLOCKED",
+      "to": "PAUSED|DISABLED",
+      "by": "owner only"
+    },
+    {
+      "from": "any",
+      "to": "DISABLED",
+      "by": "owner"
+    }
+  ],
+  "never_activation_triggers": [
+    "successful run",
+    "candidate appeared",
+    "review ACCEPT",
+    "feedback event",
+    "metric"
+  ],
+  "envelopes": {
+    "clinicaltrials": {
+      "d1_target": 200,
+      "d1_hard_stop": 400,
+      "lease_seconds": 45,
+      "units_per_run": 100,
+      "source_requests_per_logical_run": 3,
+      "platform_recoveries_per_run": 3,
+      "invocations_per_run": 60,
+      "expected_d1_per_run": 9700,
+      "basis": "LIVE V1 canary 9730 statements / 100 studies; ESTIMATE until burn-in"
+    },
+    "eurostat": {
+      "d1_target": 240,
+      "d1_hard_stop": 400,
+      "lease_seconds": 45,
+      "units_per_run": 100,
+      "source_requests_per_ingest_run": 3,
+      "platform_recoveries_per_run": 3,
+      "invocations_per_run": 12,
+      "expected_d1_per_run": 1943,
+      "basis": "LIVE canary max 212, CPU max 264 ms, wall max 7342 ms, 0 terminations"
+    },
+    "global": {
+      "d1_absolute_ceiling": 800,
+      "wall_warning_ms": 15000,
+      "wall_hard_stop_ms": 30000,
+      "cpu_alert_ms": 1000,
+      "cpu_hard_stop_ms": 5000,
+      "cpu_thresholds_status": "UNVERIFIED, 4x the observed max, recalibrate from burn-in",
+      "max_active_runs": 1,
+      "invocations_per_hour": 12,
+      "invocations_per_day": 120
+    }
+  },
+  "retry_classes": [
+    "TRANSIENT_SOURCE",
+    "RATE_LIMIT",
+    "PLATFORM_TERMINATION",
+    "SCHEMA_DRIFT",
+    "LEGAL_ACCESS_BLOCK",
+    "INTEGRITY",
+    "GOVERNANCE"
+  ],
+  "backoff_ladder_minutes": [
+    15,
+    60,
+    240,
+    720,
+    1440
+  ],
+  "circuit_open_after_consecutive_failed_runs": 5,
+  "alert_severities": [
+    "INFO",
+    "WARNING",
+    "ACTION_REQUIRED",
+    "HARD_STOP"
+  ],
+  "stages": [
+    {
+      "id": "STAGE_0",
+      "name": "all disabled",
+      "minimum": "n/a",
+      "owner_approval": "implementation"
+    },
+    {
+      "id": "STAGE_1",
+      "name": "BURN_IN: both sources, incremental multi-family derive, promotion eligibility recorded, candidates/snapshots/reviews OFF",
+      "minimum": ">= 14 consecutive days, >= 10 CT runs, >= 2 Eurostat checks",
+      "owner_approval": "enable stage 1; review burn-in report"
+    },
+    {
+      "id": "STAGE_2",
+      "name": "candidate persistence ON for human review (after R11 + R12)",
+      "minimum": ">= 14 days and >= 1 review cycle",
+      "owner_approval": "enable persistence"
+    },
+    {
+      "id": "STAGE_3",
+      "name": "steady recurring production (ACTIVE)",
+      "minimum": "continuous",
+      "owner_approval": "set ACTIVE"
+    }
+  ],
+  "gates": [
+    {
+      "id": "R01",
+      "title": "Source activation policy",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": false,
+      "P5": true,
+      "current": "canary controls and per-reader enable only",
+      "required_design": "per-source states DISABLED/BURN_IN/ACTIVE/PAUSED/BLOCKED + global switch + env switch; owner-only activation",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN",
+      "evidence": "REPO canary controls; LIVE two manual canaries"
+    },
+    {
+      "id": "R02",
+      "title": "Source-specific cadence",
+      "P1": true,
+      "P2": true,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "none (manual)",
+      "required_design": "CT 24 h incremental; Eurostat weekly change check",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN (CT cursor checkpointing, Eurostat change-check)",
+      "evidence": "REPO buildStudiesUrl since/pageToken; LIVE costs; volume UNVERIFIED"
+    },
+    {
+      "id": "R03",
+      "title": "Scheduler topology",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "no DOSSIER scheduler; GCOS per-minute cron with slot rotation",
+      "required_design": "dedicated */5 cron, one bounded invocation per tick, state derived from run tables",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN",
+      "evidence": "REPO scheduled handler, scheduled-jobs.ts, OPERATIONS.md"
+    },
+    {
+      "id": "R04",
+      "title": "Cross-family/global run serialization",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "V2 lease excludes other leases; V1 path independent",
+      "required_design": "one guarded claim statement for every path; one active run; deadline stop; post-run invariant; no schema change",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN",
+      "evidence": "LOCAL concurrency tests; D1 serial writes documented, drill in burn-in"
+    },
+    {
+      "id": "R05",
+      "title": "Lease/checkpoint/resume",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": true,
+      "P5": false,
+      "current": "proven per canary",
+      "required_design": "unified per-source contract; FAILED_NO_STATE retry vs FAILED_PARTIAL blocked",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN (classification)",
+      "evidence": "LOCAL kill/resume; LIVE 10 invocations, 0 terminations"
+    },
+    {
+      "id": "R06",
+      "title": "Retry/backoff/circuit breaker",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "one in-run retry",
+      "required_design": "7 retry classes, backoff ladder, circuit at 5 failures, BLOCKED on integrity/governance",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN",
+      "evidence": "REPO reader error taxonomy"
+    },
+    {
+      "id": "R07",
+      "title": "Source health / alerting",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": false,
+      "P5": false,
+      "current": "run status and error summaries",
+      "required_design": "derived per-source health, 4 severities, structured events, readiness block",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN (minimal); thresholds recalibrated before steady state",
+      "evidence": "REPO canary-inspect, readiness"
+    },
+    {
+      "id": "R08",
+      "title": "Capacity / per-source budgets",
+      "P1": true,
+      "P2": false,
+      "P3": false,
+      "P4": true,
+      "P5": false,
+      "current": "canary profiles",
+      "required_design": "separate envelopes with hard stops",
+      "activation_blocker": "none beyond burn-in measurement",
+      "evidence": "LIVE canaries; ESTIMATE"
+    },
+    {
+      "id": "R09",
+      "title": "Incremental aggregation / convergence",
+      "P1": true,
+      "P2": true,
+      "P3": false,
+      "P4": true,
+      "P5": false,
+      "current": "touched-concepts derive proven",
+      "required_design": "supportChanges, stale fast-window handling, aging sweep",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_CANDIDATE_PERSISTENCE (stale windows)",
+      "evidence": "LIVE derive of 91 of 486 concepts; aggregate windows dated by derive day"
+    },
+    {
+      "id": "R10",
+      "title": "Revision + current-provenance correctness",
+      "P1": true,
+      "P2": true,
+      "P3": false,
+      "P4": false,
+      "P5": false,
+      "current": "Eurostat winner implemented",
+      "required_design": "derive and read paths use only effective observations",
+      "activation_blocker": "DEFERRED_NON_BLOCKING (production proof of a natural revision)",
+      "evidence": "LOCAL revision matrix"
+    },
+    {
+      "id": "R11",
+      "title": "Candidate snapshot provenance",
+      "P1": true,
+      "P2": true,
+      "P3": false,
+      "P4": false,
+      "P5": true,
+      "current": "may cite a superseded observation",
+      "required_design": "effective-evidence selection, family_support_state, validateSnapshotProvenance, immutability tests",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_CANDIDATE_PERSISTENCE",
+      "evidence": "REPO snapshots.ts representativeProvenance"
+    },
+    {
+      "id": "R12",
+      "title": "Human review / promotion governance",
+      "P1": false,
+      "P2": true,
+      "P3": false,
+      "P4": false,
+      "P5": true,
+      "current": "review.ts local only, no endpoint",
+      "required_design": "OPS review endpoint, append-only, no config mutation, record-only eligibility in burn-in",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_CANDIDATE_PERSISTENCE",
+      "evidence": "REPO review.ts; runbook"
+    },
+    {
+      "id": "R13",
+      "title": "Retention / storage-growth policy",
+      "P1": false,
+      "P2": false,
+      "P3": false,
+      "P4": true,
+      "P5": true,
+      "current": "hold until review",
+      "required_design": "per-table policy and thresholds frozen; compaction in bounded batches",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_STEADY_STATE",
+      "evidence": "REPO triggers (immutable tables), D1 size 12.98 MB; row sizes UNVERIFIED"
+    },
+    {
+      "id": "R14",
+      "title": "Operational observability",
+      "P1": false,
+      "P2": false,
+      "P3": true,
+      "P4": true,
+      "P5": false,
+      "current": "manual tooling",
+      "required_design": "bounded ops read model: summary, runs, source health, changes, alerts",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN (minimal)",
+      "evidence": "REPO canaryStatus, runHistory, eurostatCanaryReport"
+    },
+    {
+      "id": "R15",
+      "title": "Secret/operator security",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": false,
+      "P5": true,
+      "current": "OPS_TOKEN holds an unknown value",
+      "required_design": "owner reset, read/write token split, redaction, audit table, rotation policy",
+      "activation_blocker": "token reset and split MUST_IMPLEMENT_BEFORE_BURN_IN; audit table MUST_IMPLEMENT_BEFORE_STEADY_STATE",
+      "evidence": "LIVE canary hygiene; REPO routes use one OPS_TOKEN"
+    },
+    {
+      "id": "R16",
+      "title": "Rollback / shutdown",
+      "P1": true,
+      "P2": false,
+      "P3": true,
+      "P4": false,
+      "P5": true,
+      "current": "manual shutdown proven twice",
+      "required_design": "source-local pause and global disable semantics",
+      "activation_blocker": "MUST_IMPLEMENT_BEFORE_BURN_IN (controls and refusal paths)",
+      "evidence": "LIVE ee60d69b, c9c97279"
+    },
+    {
+      "id": "R17",
+      "title": "Activation sequence / burn-in",
+      "P1": true,
+      "P2": true,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "none",
+      "required_design": "stages 0-3 with minimums, gates, rollback, owner approvals",
+      "activation_blocker": "needs the burn-in blockers implemented",
+      "evidence": "this design"
+    },
+    {
+      "id": "R18",
+      "title": "Recurring-production freeze",
+      "P1": true,
+      "P2": true,
+      "P3": true,
+      "P4": true,
+      "P5": true,
+      "current": "not started",
+      "required_design": "criteria frozen in the doc",
+      "activation_blocker": "needs stages 1-3",
+      "evidence": "this design"
+    }
+  ],
+  "blocker_classes": {
+    "MUST_IMPLEMENT_BEFORE_BURN_IN": [
+      "scheduler tick + dedicated cron + per-source due/backoff/circuit",
+      "shared global lease path; V1-profile refusal while recurring is on",
+      "recurring profile + source states",
+      "CT cursor checkpointing; Eurostat change-check",
+      "record-only promotion eligibility",
+      "minimal ops read model, structured events, readiness block",
+      "read/write token split and owner token reset"
+    ],
+    "MUST_IMPLEMENT_BEFORE_CANDIDATE_PERSISTENCE": [
+      "snapshot provenance hardening (R11)",
+      "human review endpoint (R12)",
+      "stale fast-window handling and aging sweep (R09)"
+    ],
+    "MUST_IMPLEMENT_BEFORE_STEADY_STATE": [
+      "retention jobs (R13)",
+      "append-only audit table (additive migration)",
+      "alert thresholds recalibrated from burn-in"
+    ],
+    "DEFERRED_NON_BLOCKING": [
+      "DB-enforced concept-writer constraint",
+      "richer lineage hook",
+      "production proof of a natural Eurostat revision",
+      "OECD activation (terms unresolved)",
+      "Hub UI for operations",
+      "additional families"
+    ]
+  },
+  "readiness": {
+    "P1_SYSTEM_SAFETY": "PASS",
+    "P1_RECURRING_OPERATION_DESIGN_READINESS": "PASS",
+    "P1_OVERALL": "PASS",
+    "P2": "PASS_DESIGN",
+    "P3": "PASS_DESIGN",
+    "P4": "PASS_DESIGN",
+    "P5": "PASS",
+    "RECURRING_OPERATION_DESIGN_READY": "YES",
+    "RECURRING_PRODUCTION_READY": "NO"
+  },
+  "not_performed": {
+    "production_mutation": "NOT_PERFORMED",
+    "source_activation": "NOT_PERFORMED",
+    "deploy": "NOT_PERFORMED",
+    "secret_change": "NOT_PERFORMED",
+    "code_implementation": "NOT_PERFORMED",
+    "schema_change": "NOT_PERFORMED",
+    "push": "NOT_PERFORMED"
+  },
+  "scheduler_enabled": "NO"
+}
