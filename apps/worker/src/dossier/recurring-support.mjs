@@ -23,11 +23,11 @@ export const n = (sqlite, sql, ...a) => sqlite.prepare(sql).get(...a).n;
 
 export const firstPost = (s) => s.protocolSection.statusModule.studyFirstPostDateStruct.date;
 /** Re-dates the recorded studies so a test controls exactly which are "new" (the study content, conditions and interventions stay the recorded real ones). */
-export function studiesDated(count, startDate, { idPrefix = 'NCT9' } = {}) {
+export function studiesDated(count, startDate, { idPrefix = 'NCT9', perDay = 10 } = {}) {
   const base = CT100.studies.slice(0, count);
   return base.map((s, i) => {
     const c = clone(s);
-    const d = new Date(Date.parse(`${startDate}T00:00:00Z`) + Math.floor(i / 10) * 86_400_000).toISOString().slice(0, 10);
+    const d = new Date(Date.parse(`${startDate}T00:00:00Z`) + Math.floor(i / perDay) * 86_400_000).toISOString().slice(0, 10);
     c.protocolSection.statusModule.studyFirstPostDateStruct = { date: d };
     c.protocolSection.identificationModule.nctId = `${idPrefix}${String(i).padStart(7, '0')}`;
     return c;

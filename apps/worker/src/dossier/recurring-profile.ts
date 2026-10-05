@@ -74,9 +74,9 @@ export const DOSSIER_RECURRING_V1: DossierRecurringProfileV1 = {
   run_mode: rf('RECURRING_SCHEDULED', 'One dedicated */5 tick runs at most ONE bounded invocation of the shared runner; nothing runs unless the environment switch, the global control and a per-source state are all on.', true),
   sources: rf([{ canonical_source_id: CT_SOURCE, signal_family: 'GLOBAL_RESEARCH_ACTIVITY' }, { canonical_source_id: EU_SOURCE, signal_family: 'TURKEY_HEALTH_BURDEN' }] as const, 'The two sources proven by the first and second production canaries.', true),
   source_specs: rf([
-    { reader_id: RECURRING_CT_READER_ID, canonical_source_id: CT_SOURCE, signal_family: 'GLOBAL_RESEARCH_ACTIVITY', mode: 'INCREMENTAL', cadence_hours: 24, item_cap: 100, d1_target: 200, d1_hard_stop: 400, max_invocations_per_run: 60 },
-    { reader_id: RECURRING_EU_READER_ID, canonical_source_id: EU_SOURCE, signal_family: 'TURKEY_HEALTH_BURDEN', mode: 'CHANGE_CHECK', cadence_hours: 168, item_cap: 100, d1_target: 240, d1_hard_stop: 400, max_invocations_per_run: 12 },
-  ] as const, 'CT 200 statements is the proven slice (LIVE; 240 is not proven safe for its heavier unit); Eurostat 240 is the measured profile (LIVE max 212). Cadences are proposals: new-studies-per-day volume is UNVERIFIED, burn-in measures it.', true),
+    { reader_id: RECURRING_CT_READER_ID, canonical_source_id: CT_SOURCE, signal_family: 'GLOBAL_RESEARCH_ACTIVITY', mode: 'INCREMENTAL', cadence_hours: 24, item_cap: 100, d1_target: 200, d1_hard_stop: 400, max_invocations_per_run: 100 },
+    { reader_id: RECURRING_EU_READER_ID, canonical_source_id: EU_SOURCE, signal_family: 'TURKEY_HEALTH_BURDEN', mode: 'CHANGE_CHECK', cadence_hours: 168, item_cap: 100, d1_target: 240, d1_hard_stop: 400, max_invocations_per_run: 16 },
+  ] as const, 'CT 200 statements is the proven slice (LIVE; 240 is not proven safe for its heavier unit); Eurostat 240 is the measured profile (LIVE max 212). Invocation caps come from a local replay of the recorded pages (100 studies = 73 invocations / 10.6k statements, max 163 statements per invocation; Eurostat = 10 invocations LIVE) plus margin; the earlier design figures of 60 and 12 under-counted the CT derive. Cadences are proposals: new-studies-per-day volume is UNVERIFIED, burn-in measures it.', true),
   backfill: rf('DISABLED', 'Recurring reads only new records (CT) or the latest period (Eurostat): no historical crawl.', true),
   clinicaltrials: {
     max_items_per_run: rf(100, 'One page of at most 100 studies per run (about 97 statements per study LIVE).', true),
