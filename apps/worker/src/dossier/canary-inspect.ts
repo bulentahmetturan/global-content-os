@@ -200,3 +200,62 @@ export async function canaryStatus(d: InspectDeps) {
   const core = await canaryStatusCore(d);
   return { ...core, operator_summary: operatorSummary(core) };
 }
+
+/**
+ * READ-ONLY Eurostat canary report for ONE run (bounded reads only, no write): the counters the canary success criteria need, derived from durable state.
+ * Linkage classes: a concept CREATED during the run is a new proposal; an older concept whose normalized label equals the Eurostat label is an EXACT link; an older concept
+ * whose label differs was reached through an approved alias. Nothing here creates or merges anything.
+ */
+export async function eurostatCanaryReport(d: InspectDeps, o: { runId: string }) {
+  const run = await one<RunRow>(d.db, `SELECT * FROM dossier_canary_runs WHERE run_id = ?`, o.runId);
+  if (!run) return { ok: false as const, error: 'RUN_NOT_FOUND' };
+  const progress = JSON.parse(run.progress_json) as Record<string, unknown>;
+  const startedAt = String(progress.startedAt ?? run.created_at);
+  const norm = (x: string): string => x.normalize('NFKC').toLocaleLowerCase('tr').replace(/ı/g, 'i').replace(/\s+/g, ' ').trim();
+  const work = await many<{ payload_json: string }>(d.db, `SELECT payload_json FROM dossier_canary_work WHERE run_id = ? ORDER BY seq LIMIT 200`, o.runId);
+  const labelByIdentity = new Map<string, string>();
+  for (const w of work) { const it = JSON.parse(w.payload_json) as { identity?: { value?: string }; signals?: { conceptLabel?: string }[] }; if (it.identity?.value && it.signals?.[0]?.conceptLabel) labelByIdentity.set(it.identity.value, it.signals[0].conceptLabel); }
+  const obs = await many<{ observation_id: string; concept_id: string | null; candidate_signal_eligible: string; value_status: string; identity_value: string }>(d.db, `SELECT o.observation_id, o.concept_id, o.candidate_signal_eligible, o.value_status, e.identity_value FROM dossier_observations o JOIN dossier_external_source_items e ON e.origin_item_id = o.origin_item_id WHERE o.run_id = ? LIMIT 300`, o.runId);
+  const ids = [...new Set(obs.map((x) => x.concept_id).filter((v): v is string => typeof v === 'string'))];
+  const concepts = new Map<string, { normalized_label: string; created_at: string; state: string }>();
+  for (let i = 0; i < ids.length; i += 40) for (const c of await many<{ concept_id: string; normalized_label: string; created_at: string; state: string }>(d.db, `SELECT concept_id, normalized_label, created_at, state FROM dossier_concepts WHERE concept_id IN (${ids.slice(i, i + 40).map(() => '?').join(',')})`, ...ids.slice(i, i + 40))) concepts.set(c.concept_id, c);
+  const count = { eurostat_observations: obs.length, exact_concept_links: 0, approved_alias_links: 0, unresolved_links: 0, new_concept_proposals: 0, ineligible_or_review_required: 0, unknown_value_tombstones: 0 };
+  for (const x of obs) {
+    if (x.value_status !== 'MEASURED') count.unknown_value_tombstones += 1;
+    if (!x.concept_id) { count.unresolved_links += 1; continue; }
+    if (x.candidate_signal_eligible !== 'TRUE') count.ineligible_or_review_required += 1;
+    const c = concepts.get(x.concept_id);
+    if (!c) continue;
+    if (c.created_at >= startedAt) count.new_concept_proposals += 1;
+    else if (labelByIdentity.has(x.identity_value) && norm(labelByIdentity.get(x.identity_value) as string) === c.normalized_label) count.exact_concept_links += 1;
+    else count.approved_alias_links += 1;
+  }
+  let twoFamily: string[] = [];
+  for (let i = 0; i < ids.length; i += 40) twoFamily = twoFamily.concat((await many<{ target_id: string }>(d.db, `SELECT target_id FROM dossier_signal_aggregates WHERE target_type = 'CONCEPT' AND target_id IN (${ids.slice(i, i + 40).map(() => '?').join(',')}) GROUP BY target_id HAVING COUNT(DISTINCT signal_family) > 1`, ...ids.slice(i, i + 40))).map((r) => r.target_id));
+  const labels = [...new Set([...concepts.values()].map((c) => c.normalized_label))];
+  let duplicateLabels = 0;
+  for (let i = 0; i < labels.length; i += 40) duplicateLabels += (await many(d.db, `SELECT normalized_label FROM dossier_concepts WHERE normalized_label IN (${labels.slice(i, i + 40).map(() => '?').join(',')}) GROUP BY normalized_label HAVING COUNT(*) > 1`, ...labels.slice(i, i + 40))).length;
+  const scalar = async (sql: string, ...v: unknown[]): Promise<number> => Number((await one<{ n: number }>(d.db, sql, ...v))?.n ?? 0);
+  return {
+    ok: true as const,
+    run_id: run.run_id, reader_id: run.reader_id, status: run.status, phase: run.phase, invocations: run.invocations, statements_used: run.statements_used,
+    counters: {
+      ...count,
+      two_family_concepts: twoFamily.length,
+      two_family_concept_ids: twoFamily.slice(0, 20),
+      promotion_eligible_concepts: Number(progress.promotionEligibilityReached ?? 0),
+      watch_targets_this_run: Number(progress.watch ?? 0),
+      duplicate_normalized_labels: duplicateLabels,
+      work_items: work.length,
+    },
+    invariants: {
+      candidates: await scalar(`SELECT COUNT(*) AS n FROM dossier_candidates`),
+      snapshots: await scalar(`SELECT COUNT(*) AS n FROM dossier_candidate_snapshots`),
+      reviews: await scalar(`SELECT COUNT(*) AS n FROM dossier_reviews`),
+      concepts_active: await scalar(`SELECT COUNT(*) AS n FROM dossier_concepts WHERE state = 'ACTIVE'`),
+      canary_runs_for_reader: await scalar(`SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id = ?`, run.reader_id),
+      non_eurostat_runs_since_start: await scalar(`SELECT COUNT(*) AS n FROM dossier_canary_runs WHERE reader_id <> ? AND created_at >= ?`, run.reader_id, startedAt),
+      research_activity_observations_total: await scalar(`SELECT COUNT(*) AS n FROM dossier_observations WHERE signal_family = 'GLOBAL_RESEARCH_ACTIVITY'`),
+    },
+  };
+}

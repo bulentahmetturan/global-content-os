@@ -132,6 +132,9 @@ export interface DossierCanaryProfileV2 {
   concurrency: CanaryField<{ max_concurrent_v2_runs: 1; max_concurrent_concept_proposers: 1 }>;
   /** OECD stays OFF: it is the same canonical family and is neither implemented nor enabled in this canary. */
   oecd: CanaryField<'OFF'>;
+  /** Mechanically enforced by the runner: a concept that would cross the promotion boundary HARD-STOPS the run before any candidate or snapshot is written (candidate snapshots can cite a superseded statistical observation). */
+  candidate_persistence: CanaryField<'FORBIDDEN'>;
+  snapshot_persistence: CanaryField<'FORBIDDEN'>;
   max_runs_per_reader: CanaryField<number>;
   retention: CanaryField<'CANARY_HOLD_UNTIL_REVIEW'>;
   promotion: DossierCanaryProfile['promotion'];
@@ -160,6 +163,8 @@ export const DOSSIER_CANARY_V2: DossierCanaryProfileV2 = {
   },
   concurrency: v2field({ max_concurrent_v2_runs: 1, max_concurrent_concept_proposers: 1 } as const, 'The concept resolver is check-then-insert with no uniqueness constraint (no schema change is approved), so the canary serializes concept proposal: the runner grants a lease only when no other canary run holds an unexpired one.', false),
   oecd: v2field('OFF', 'OECD is the same canonical family, unimplemented here and terms-gated; it is not part of this canary.', false),
+  candidate_persistence: v2field('FORBIDDEN', 'Known limitation: a candidate snapshot selects representative observation provenance and could cite a superseded statistical observation. This canary proves ingestion and convergence only; reaching the promotion boundary is a recorded hard stop, never a persisted candidate.', false),
+  snapshot_persistence: v2field('FORBIDDEN', 'See candidate_persistence: no immutable snapshot is written by this canary.', false),
   max_runs_per_reader: v2field(1, 'One manual run, then STOP until an operator reviews.', true),
   retention: v2field('CANARY_HOLD_UNTIL_REVIEW', 'Canary data is held until review; no compaction or deletion.', true),
   promotion: {
@@ -181,7 +186,7 @@ export const DOSSIER_CANARY_V2: DossierCanaryProfileV2 = {
 const V2_REQUIRED: [string, (p: DossierCanaryProfileV2) => CanaryField<unknown> | undefined][] = [
   ['run_mode', (p) => p.run_mode], ['sources', (p) => p.sources], ['baseline', (p) => p.baseline], ['backfill', (p) => p.backfill],
   ['eurostat.max_items_per_run', (p) => p.eurostat?.max_items_per_run], ['eurostat.max_requests_per_run', (p) => p.eurostat?.max_requests_per_run],
-  ['concurrency', (p) => p.concurrency], ['oecd', (p) => p.oecd],
+  ['concurrency', (p) => p.concurrency], ['oecd', (p) => p.oecd], ['candidate_persistence', (p) => p.candidate_persistence], ['snapshot_persistence', (p) => p.snapshot_persistence],
   ['max_runs_per_reader', (p) => p.max_runs_per_reader], ['retention', (p) => p.retention],
   ['promotion.routes', (p) => p.promotion?.routes], ['promotion.source_specific_frontier', (p) => p.promotion?.source_specific_frontier],
   ['promotion.unknown_granularity', (p) => p.promotion?.unknown_granularity], ['promotion.auto_accept', (p) => p.promotion?.auto_accept], ['promotion.auto_publish', (p) => p.promotion?.auto_publish],
@@ -215,6 +220,7 @@ export function validateCanaryProfileV2(p: DossierCanaryProfileV2 | null | undef
   if ((p.sources?.value ?? []).length !== 1) e.push('exactly_one_reader_required');
   if (p.concurrency?.value?.max_concurrent_v2_runs !== 1 || p.concurrency?.value?.max_concurrent_concept_proposers !== 1) e.push('concurrency_must_be_one_run_one_concept_proposer');
   if (p.oecd?.value !== 'OFF') e.push('oecd_must_be_off');
+  if (p.candidate_persistence?.value !== 'FORBIDDEN' || p.snapshot_persistence?.value !== 'FORBIDDEN') e.push('candidate_and_snapshot_persistence_must_be_forbidden');
   if (p.baseline?.value?.refetch !== 'FORBIDDEN' || p.baseline?.value?.mode !== 'READ_ONLY_REFERENCE') e.push('baseline_must_be_read_only_without_refetch');
   if ((p.sources?.value ?? []).some((s) => s.canonical_source_id === 'clinicaltrials-gov-api-v2')) e.push('clinicaltrials_must_not_be_a_reader_of_v2');
   return e;

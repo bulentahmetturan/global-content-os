@@ -29,7 +29,7 @@ import {
 import type { ContentClassifier, ConceptExtractor } from './classifier';
 import { executeConnector, type Connector, type SourceItem } from './connectors';
 import { deriveConceptEligibility } from './eligibility';
-import { evaluateTarget } from './candidates';
+import { evaluateTarget, gateTarget } from './candidates';
 import { newIngestAcc, observeSourceItem, stageSourceItem } from './ingest';
 import { DossierRepo } from './repo';
 import { defaultCtx, DossierError, type Ctx, type D1Like } from './types';
@@ -61,6 +61,8 @@ export interface CanaryProgress {
   promoted: number;
   noSignal: number;
   attribution: AttributionNotice | null;
+  /** V2 only: concepts that reached the promotion boundary (the run hard-stops before persisting anything for them). */
+  promotionEligibilityReached?: number;
 }
 const newProgress = (now: string): CanaryProgress => ({ startedAt: now, retrievedAt: null, itemsSeen: 0, workTotal: 0, itemsNew: 0, deriveAfter: null, derived: 0, notEligible: 0, watch: 0, promoted: 0, noSignal: 0, attribution: null });
 
@@ -274,10 +276,21 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
           if (ce.state !== 'ELIGIBLE') progress.notEligible += 1; // retained as observations/concept; never aggregated for candidates
           else {
             await aggregateConcept(repo, cid, aggCfg);
-            const out = await evaluateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
-            if (out.status === 'WATCH') progress.watch += 1;
-            else if (out.status === 'EVALUATED' && out.created) progress.promoted += 1;
-            else if (out.status === 'NO_SIGNAL') progress.noSignal += 1;
+            if (profile.profile_id === 'DOSSIER_CANARY_V2' && profile.candidate_persistence.value === 'FORBIDDEN') {
+              // DRY-RUN promotion gate: the same gate evaluateTarget uses, WITHOUT its writes. A concept that passes it would create a candidate and a snapshot, which this canary forbids.
+              const g = await gateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
+              if (g.kind === 'EARLY') { if (g.outcome.status === 'NO_SIGNAL') progress.noSignal += 1; }
+              else if (g.watch) progress.watch += 1;
+              else {
+                progress.promotionEligibilityReached = (progress.promotionEligibilityReached ?? 0) + 1;
+                throw new DossierError('V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED', `concept ${cid} crossed the promotion boundary; no candidate or snapshot was persisted (PROMOTION_ELIGIBILITY_REACHED=YES)`);
+              }
+            } else {
+              const out = await evaluateTarget(repo, { type: 'CONCEPT', id: cid }, policy, { now: now(), algorithmVersion: CANARY_ALGORITHM_VERSION, observationLimit: caps.itemCap * 20 });
+              if (out.status === 'WATCH') progress.watch += 1;
+              else if (out.status === 'EVALUATED' && out.created) progress.promoted += 1;
+              else if (out.status === 'NO_SIGNAL') progress.noSignal += 1;
+            }
           }
           progress.derived += 1;
           progress.deriveAfter = cid;

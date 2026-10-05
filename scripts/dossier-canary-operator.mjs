@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // OPERATOR CLI for the DOSSIER manual one-shot canary. A thin, explicit HTTP client for the OPS_TOKEN-gated routes of the Worker:
 //
-//   read-only :  status | runs | watch | candidates | errors | readiness
-//   mutating  :  control <key> <0|1|n>   (kill switches)       run <reader-id>   (executes ONE canary run to completion)
+//   read-only :  status | runs | watch | candidates | errors | readiness | eurostat-report (--run-id, V2)   [--profile v2 selects the second-family read model]
+//   mutating  :  control <key> <0|1|n>   (kill switches)       run <reader-id>   (executes ONE canary run to completion; --once = exactly ONE invocation, then stop and print the run id)
 //
 //   OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base https://<worker> --operator <name> status
 //
@@ -11,7 +11,7 @@
 // never starts a second run, never runs on a timer. The token comes from the environment and is never printed.
 import { pathToFileURL } from 'node:url';
 
-const READ = ['status', 'runs', 'watch', 'candidates', 'errors', 'readiness'];
+const READ = ['status', 'runs', 'watch', 'candidates', 'errors', 'readiness', 'eurostat-report'];
 
 export async function callDossier({ base, token, method = 'GET', path, body, fetchImpl = fetch }) {
   if (!base || !/^https?:\/\//.test(base)) throw new Error('--base <worker url> is required');
@@ -63,7 +63,8 @@ async function main() {
   const base = a.base;
   const print = (v) => console.log(JSON.stringify(v, null, 2));
   if (READ.includes(cmd)) {
-    const qs = [a.reader && `reader=${encodeURIComponent(a.reader)}`, a.limit && `limit=${encodeURIComponent(a.limit)}`, a.after && `after=${encodeURIComponent(a.after)}`].filter(Boolean).join('&');
+    if (a.profile !== undefined && a.profile !== 'v2') throw new Error('--profile accepts only v2');
+    const qs = [a.reader && `reader=${encodeURIComponent(a.reader)}`, a.limit && `limit=${encodeURIComponent(a.limit)}`, a.after && `after=${encodeURIComponent(a.after)}`, a.profile && `profile=${encodeURIComponent(a.profile)}`, a['run-id'] && `run_id=${encodeURIComponent(a['run-id'])}`].filter(Boolean).join('&');
     const { httpStatus, data } = await callDossier({ base, token, path: `${cmd}${qs ? `?${qs}` : ''}` });
     print({ httpStatus, ...data });
     return httpStatus < 400 ? 0 : 1;
@@ -76,11 +77,17 @@ async function main() {
   }
   if (cmd === 'run') {
     if (!a.operator) throw new Error('--operator is required');
+    if (a.once) {
+      // ONE invocation only (the V2 canary is driven step by step so evidence is captured between invocations); the run id is pinned by the operator via --run-id afterwards
+      const { httpStatus, data } = await callDossier({ base, token, method: 'POST', path: 'run', body: { reader_id: x, operator: a.operator, ...(a['run-id'] ? { run_id: a['run-id'] } : {}) } });
+      print({ httpStatus, status: data.status, phase: data.phase, runId: data.runId, statements: data.statementsThisInvocation, reasons: data.reasons, error: data.error, progress: data.progress });
+      return httpStatus < 400 ? 0 : 1;
+    }
     const r = await runUntilDone({ base, token, reader: x, operator: a.operator, runId: a['run-id'], maxInvocations: a['max-invocations'] ? Number(a['max-invocations']) : 60, onStep: (s) => console.error(`step: http=${s.httpStatus} ${s.status ?? '-'} ${s.phase ?? ''} statements=${s.statements ?? '-'} ${s.reasons ? s.reasons.join(',') : ''}${s.error ? ' error=' + s.error : ''}${s.body_head ? ' body=' + s.body_head : ''}`) });
     print({ final: r.final, invocations: r.steps.length, runId: r.data?.runId ?? r.runId, progress: r.data?.progress, reasons: r.data?.reasons, error: r.data?.error });
     return r.final === 'COMPLETED' ? 0 : 1;
   }
-  console.error('usage: status|runs|watch|candidates|errors|readiness | control <key> <value> | run <reader-id>   (--base <url> [--operator <name>])');
+  console.error('usage: status|runs|watch|candidates|errors|readiness|eurostat-report | control <key> <value> | run <reader-id>   (--base <url> [--operator <name>])');
   return 2;
 }
 
