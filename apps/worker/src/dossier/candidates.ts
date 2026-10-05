@@ -7,6 +7,7 @@
  * REJECT is not resurfaced by a later cycle, but history keeps accumulating.
  */
 import { planEvaluation } from '../../../../packages/contracts/src/dossier-discovery';
+import { splitStaleFastWindows } from './aggregation';
 import { deriveTopicCoherence, type TopicCoherenceResult } from './coherence';
 import { deriveConceptEligibility, type ConceptEligibility } from './eligibility';
 import { decidePromotion, deriveWatchState, humanPromotionDecision, INTEGRITY_NOT_SATISFIED, integrityRejects, promotionPathFromReasons, routeDefaultClass, type PromotionDecision, type WatchState } from './promotion';
@@ -150,7 +151,8 @@ export interface EvaluateConfig {
   observationLimit: number;
 }
 export type EvaluateOutcome =
-  | { status: 'NO_SIGNAL'; targetType: TargetType; targetId: string }
+  /** `staleFastWindows` > 0: the only support left was a fast window that has expired (R09 STALE_FAST_WINDOW): support unknown, history kept. */
+  | { status: 'NO_SIGNAL'; targetType: TargetType; targetId: string; staleFastWindows?: number }
   | { status: 'NOT_ELIGIBLE'; targetType: TargetType; targetId: string; eligibility: ConceptEligibility; reasonCodes: string[] }
   /** Pre-candidate: eligible, aggregated, but no promotion gate passed. No candidate row, no snapshot. */
   | { status: 'WATCH'; targetType: TargetType; targetId: string; watch: WatchState }
@@ -176,8 +178,9 @@ export async function gateTarget(repo: DossierRepo, target: TargetRef, policy: D
     const ce = deriveConceptEligibility(summary);
     if (summary.length > 0 && ce.state !== 'ELIGIBLE') return { kind: 'EARLY', outcome: { status: 'NOT_ELIGIBLE', targetType: target.type, targetId: target.id, eligibility: ce.state, reasonCodes: ce.reasonCodes } };
   }
-  const aggs = await repo.listAggregates(target.type, target.id);
-  if (!aggs.length) return { kind: 'EARLY', outcome: { status: 'NO_SIGNAL', targetType: target.type, targetId: target.id } };
+  // R09: an expired fast window is not support (it is kept as history, never counted); only current aggregates feed the gate, the evaluation and any snapshot
+  const { fresh: aggs, stale } = splitStaleFastWindows(await repo.listAggregates(target.type, target.id), cfg.now);
+  if (!aggs.length) return { kind: 'EARLY', outcome: { status: 'NO_SIGNAL', targetType: target.type, targetId: target.id, ...(stale.length ? { staleFastWindows: stale.length } : {}) } };
   const existing = await repo.getCandidateByTarget(target.type, target.id);
   const lastReview = existing ? await repo.latestReview('DOSSIER_CANDIDATE', s(existing.candidate_id)) : null;
   const plan = planEvaluation(new Map(existing ? [[`${target.type}:${target.id}`, { candidateId: s(existing.candidate_id), lastDecision: lastReview ? s(lastReview.decision) : null }]] : []), { target_type: target.type, target_id: target.id });

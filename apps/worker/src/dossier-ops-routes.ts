@@ -9,7 +9,7 @@ import { guardedEurostatFetch, guardedFetch } from './dossier-canary-routes';
 import { setControl } from './dossier/canary-control';
 import { canaryPolicy } from './dossier/canary-profile';
 import { DOSSIER_RECURRING_V1 } from './dossier/recurring-profile';
-import { CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_PERSISTENCE, RECURRING_STATES, setRecurringFlag, setRecurringState, type RecurringState } from './dossier/recurring-control';
+import { CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_PERSISTENCE, CONTROL_RECURRING_RETENTION, CONTROL_RECURRING_SWEEP, RECURRING_STATES, setRecurringFlag, setRecurringState, type RecurringState } from './dossier/recurring-control';
 import { opsAlerts, opsCandidates, opsChanges, opsRuns, opsSourceHealth, opsSummary } from './dossier/recurring-ops';
 import { runRecurringTick, type TickReport } from './dossier/recurring-scheduler';
 import { CANARY_ALGORITHM_VERSION } from './dossier/canary';
@@ -108,7 +108,7 @@ export async function handleDossierOps(request: Request, env: OpsEnv, path: stri
       const key = str(b?.key), value = str(b?.value, 10);
       if (!operator) return j({ error: 'OPERATOR_REQUIRED' }, 400);
       if (!key || !value) return j({ error: 'INVALID_BODY' }, 400);
-      if (key === CONTROL_RECURRING_ENABLED || key === CONTROL_RECURRING_PERSISTENCE) {
+      if (key === CONTROL_RECURRING_ENABLED || key === CONTROL_RECURRING_PERSISTENCE || key === CONTROL_RECURRING_SWEEP || key === CONTROL_RECURRING_RETENTION) {
         if (value !== '0' && value !== '1') return j({ error: 'INVALID_BODY' }, 400);
         await setRecurringFlag(db, { key, value, by: 'owner', actor: operator, now: nowIso });
         return j({ ok: true, key, value, updated_by: operator });

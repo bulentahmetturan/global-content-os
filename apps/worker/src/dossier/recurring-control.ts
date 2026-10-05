@@ -19,6 +19,12 @@ export type RecurringActor = 'owner' | 'scheduler';
 export const CONTROL_RECURRING_ENABLED = 'recurring_enabled';
 export const CONTROL_RECURRING_PERSISTENCE = 'recurring:candidate_persistence';
 export const CONTROL_RECURRING_LEDGER = 'recurring:ledger';
+/** Owner switch of the aging sweep (R09). Default OFF: it belongs to the stage-2 gates (before candidate persistence). */
+export const CONTROL_RECURRING_SWEEP = 'recurring:aging_sweep';
+export const CONTROL_RECURRING_SWEEP_CURSOR = 'recurring:aging_sweep_cursor';
+/** Owner switch of the bounded retention jobs (R13). Default OFF: compaction is a policy decision (the profile holds provenance until the owner says otherwise). */
+export const CONTROL_RECURRING_RETENTION = 'recurring:retention';
+export const CONTROL_RECURRING_RETENTION_DAY = 'recurring:retention_day';
 export const controlRecurringState = (readerId: string): string => `recurring:${readerId}:state`;
 export const controlRecurringReason = (readerId: string): string => `recurring:${readerId}:state_reason`;
 export const controlRecurringPausedFrom = (readerId: string): string => `recurring:${readerId}:paused_from`;
@@ -92,8 +98,8 @@ export async function setRecurringState(db: D1Like, o: { readerId: string; to: R
  * The global switch and the stage-2 persistence switch. The owner may set either; the scheduler may only CLEAR the global switch (HARD_STOP), which also forces
  * candidate persistence OFF. Persistence ON additionally requires the global switch ON (nothing persists while recurring is off).
  */
-export async function setRecurringFlag(db: D1Like, o: { key: typeof CONTROL_RECURRING_ENABLED | typeof CONTROL_RECURRING_PERSISTENCE; value: '0' | '1'; by: RecurringActor; actor: string; now: string }): Promise<void> {
-  if (o.key !== CONTROL_RECURRING_ENABLED && o.key !== CONTROL_RECURRING_PERSISTENCE) throw new DossierError('control_key_invalid', o.key);
+export async function setRecurringFlag(db: D1Like, o: { key: typeof CONTROL_RECURRING_ENABLED | typeof CONTROL_RECURRING_PERSISTENCE | typeof CONTROL_RECURRING_SWEEP | typeof CONTROL_RECURRING_RETENTION; value: '0' | '1'; by: RecurringActor; actor: string; now: string }): Promise<void> {
+  if (o.key !== CONTROL_RECURRING_ENABLED && o.key !== CONTROL_RECURRING_PERSISTENCE && o.key !== CONTROL_RECURRING_SWEEP && o.key !== CONTROL_RECURRING_RETENTION) throw new DossierError('control_key_invalid', o.key);
   if (o.value !== '0' && o.value !== '1') throw new DossierError('control_value_invalid', `${o.key}=${o.value}`);
   const actor = cleanBy(o.actor);
   if (o.by === 'scheduler' && o.value === '1') throw new DossierError('scheduler_may_only_clear_recurring_switches');

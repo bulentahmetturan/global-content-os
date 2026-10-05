@@ -39,6 +39,7 @@ const FAST: { kind: string; days: number }[] = [
   { kind: 'BASELINE_90D', days: 90 },
 ];
 const STRUCTURAL = ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD'];
+const FAST_WINDOW_DAYS: Record<string, number> = Object.fromEntries(FAST.map((f) => [f.kind, f.days]));
 const COUNT_KINDS = ['CONTENT_MENTION', 'ACTOR_MENTION', 'CLINICIAN_REPORTED_PUBLIC_QUESTION', 'SOCIAL_MOMENTUM', 'RESEARCH_ACTIVITY_COUNT', 'INSTITUTIONAL_TOPIC_ACTIVITY'];
 
 const dayOf = (iso: string): string => iso.slice(0, 10);
@@ -54,6 +55,26 @@ interface Obs extends Row {
   observation_kind: string;
   observed_at: string;
 }
+
+/**
+ * R09 STALE_FAST_WINDOW. A fast aggregate (7D / 30D / 90D) is dated by the day it was DERIVED (window_end = that day). Once its whole window lies in the past (the window
+ * ended more than its own length ago) it no longer describes the present: its support is UNKNOWN, never carried forward. History is kept (nothing is deleted or rewritten);
+ * the gate, the watch read model and the snapshot simply do not count it. Structural / release-period aggregates never go stale.
+ */
+export function isStaleFastWindow(a: { window_kind?: unknown; window_end?: unknown }, nowIso: string): boolean {
+  const days = FAST_WINDOW_DAYS[s(a.window_kind)];
+  const end = s(a.window_end);
+  if (!days || !/^\d{4}-\d{2}-\d{2}/.test(end)) return false;
+  return addDays(dayOf(end), days) < dayOf(nowIso);
+}
+export function splitStaleFastWindows<T extends { window_kind?: unknown; window_end?: unknown }>(aggs: readonly T[], nowIso: string): { fresh: T[]; stale: T[] } {
+  const fresh: T[] = [];
+  const stale: T[] = [];
+  for (const a of aggs) (isStaleFastWindow(a, nowIso) ? stale : fresh).push(a);
+  return { fresh, stale };
+}
+export const FAST_WINDOW_KINDS: readonly string[] = FAST.map((f) => f.kind);
+export const maxFastWindowDays = (): number => Math.max(...FAST.map((f) => f.days));
 
 function valueOf(group: Obs[]): { value: number | null; unit: string | null; status: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE' } {
   const measured = group.filter((o) => o.value_status === 'MEASURED' && typeof o.value === 'number');

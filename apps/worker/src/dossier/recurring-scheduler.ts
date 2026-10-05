@@ -13,9 +13,11 @@ import { DOSSIER_READER_REGISTRY_V2 } from './canary-v2';
 import { createClinicalTrialsReader, registryRecordClassifier, registryRecordExtractor, type FetchLike } from './clinicaltrials';
 import { checkEurostatRelease, createEurostatReader, eurostatRowClassifier, eurostatRowExtractor, type EurostatFetch } from './eurostat';
 import {
-  appendLedger, CONTROL_RECURRING_ENABLED, controlRecurringPausedFrom, controlRecurringReason, controlRecurringState, ledgerAllows, loadControlRows, parseLedger, recurringSourceRunnable,
+  appendLedger, CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_RETENTION, CONTROL_RECURRING_RETENTION_DAY, CONTROL_RECURRING_SWEEP, CONTROL_RECURRING_SWEEP_CURSOR, controlRecurringPausedFrom, controlRecurringReason, controlRecurringState, ledgerAllows, loadControlRows, parseLedger, recurringSourceRunnable,
   recurringStateOf, setRecurringFlag, setRecurringReason, setRecurringState, type RecurringState,
 } from './recurring-control';
+import { runRetention } from './recurring-retention';
+import { runAgingSweep } from './recurring-sweep';
 import { classifyFailure, deriveSourceHealth, failureIsHardStop, failureNeedsBlock, PROBE_REASON, toRunLite, type FailureClass, type SourceHealth } from './recurring-health';
 import { DOSSIER_RECURRING_V1, RECURRING_PROFILE_ID, type DossierRecurringProfileV1, type RecurringSourceSpec } from './recurring-profile';
 import { defaultCtx, type Ctx, type D1Like } from './types';
@@ -25,7 +27,7 @@ const RECENT_RUNS = 25;
 
 export type TickAction =
   | 'NOOP_ENV_DISABLED' | 'NOOP_GLOBAL_OFF' | 'NOOP_CAPACITY' | 'NOOP_RATE_CAP' | 'NOOP_NOTHING_DUE'
-  | 'INVOKED' | 'CHECK_UNCHANGED' | 'CHECK_FAILED' | 'BUSY' | 'REFUSED';
+  | 'INVOKED' | 'CHECK_UNCHANGED' | 'CHECK_FAILED' | 'BUSY' | 'REFUSED' | 'SWEPT' | 'COMPACTED';
 export interface TickReport {
   action: TickAction;
   reader_id: string | null;
@@ -211,7 +213,32 @@ export async function runRecurringTick(d: RecurringDeps): Promise<TickReport> {
       .sort((a, b) => Date.parse(a.health.next_due_at ?? '') - Date.parse(b.health.next_due_at ?? '') || a.spec.reader_id.localeCompare(b.spec.reader_id));
     if (due.length) pick = { view: due[0], resume: false };
   }
-  if (!pick) return emit(d, report('NOOP_NOTHING_DUE', { transitions, alerts: views.flatMap((v) => v.health.alerts).map((a) => ({ severity: a.severity, code: a.code, source: a.source })) }));
+  if (!pick) {
+    const alerts = views.flatMap((v) => v.health.alerts).map((a) => ({ severity: a.severity, code: a.code, source: a.source }));
+    // idle tick: with the owner's sweep switch ON, keep still-live concepts' fast windows current (R09); a sweep that finds nothing to do costs no ledger entry
+    if (controls[CONTROL_RECURRING_SWEEP] === '1') {
+      const lease = await d.db.prepare(`SELECT 1 AS n FROM dossier_canary_runs WHERE lease_holder IS NOT NULL AND lease_expires_at > ? LIMIT 1`).bind(ctx.now()).first();
+      if (!lease) {
+        const sw = await runAgingSweep(d.db, { nowIso: ctx.now(), cursorRaw: controls[CONTROL_RECURRING_SWEEP_CURSOR], ctx });
+        if (sw.examined > 0) {
+          await appendLedger(d.db, times, ctx.now());
+          return emit(d, report('SWEPT', { transitions, alerts, d1_statements: sw.statements, reasons: [`examined=${sw.examined} refreshed=${sw.refreshed} skipped=${sw.skipped} done=${sw.done}`] }));
+        }
+      }
+    }
+    // then the owner's bounded retention job (R13): at most one pass a day, derived or expired rows only
+    if (controls[CONTROL_RECURRING_RETENTION] === '1') {
+      const lease = await d.db.prepare(`SELECT 1 AS n FROM dossier_canary_runs WHERE lease_holder IS NOT NULL AND lease_expires_at > ? LIMIT 1`).bind(ctx.now()).first();
+      if (!lease) {
+        const rt = await runRetention(d.db, { nowIso: ctx.now(), dayMarker: controls[CONTROL_RECURRING_RETENTION_DAY] });
+        if (rt.statements > 0) {
+          await appendLedger(d.db, times, ctx.now());
+          return emit(d, report('COMPACTED', { transitions, alerts, d1_statements: rt.statements, reasons: [`work_deleted=${rt.workDeleted} aggregates_deleted=${rt.aggregatesDeleted} done=${rt.done}`] }));
+        }
+      }
+    }
+    return emit(d, report('NOOP_NOTHING_DUE', { transitions, alerts }));
+  }
 
   const { view } = pick;
   const spec = view.spec;
