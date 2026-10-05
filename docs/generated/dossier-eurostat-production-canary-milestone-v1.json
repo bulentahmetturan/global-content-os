@@ -1,0 +1,481 @@
+{
+  "milestone": "SECOND_FAMILY_PRODUCTION_CANARY",
+  "marker": "FROZEN_V1",
+  "scope_statement": "SECOND FAMILY CONTROLLED PRODUCTION CANARY = 100% (this milestone only). DOSSIER PRODUCT MATURITY = NOT YET 100%. No recurring Eurostat ingestion, scheduler or production activation exists.",
+  "readiness": "100%",
+  "frozen_at_commit_parent": "279f335",
+  "run": {
+    "run_id": "crun_b5267b4d-2f98-4487-979c-ecc4c4f2cf88",
+    "status": "COMPLETED",
+    "phase": "DONE",
+    "source": "Eurostat",
+    "dataset": "hlth_cd_asdr2",
+    "signal_family": "TURKEY_HEALTH_BURDEN",
+    "reader": "dossier-eurostat-tr-causes-of-death",
+    "profile": "DOSSIER_CANARY_V2",
+    "slice": "geo=TR sex=T age=TOTAL unit=RT lastTimePeriod=1 (2023, release 2026-06-08T21:00:00Z)",
+    "source_cells": 93,
+    "eurostat_observations": 91,
+    "eligible_observations": 77,
+    "residual_review_rows": 14,
+    "watch_targets_this_run": 77,
+    "concepts_before": 396,
+    "concepts_after": 486,
+    "new_concepts": 90,
+    "exact_concept_links": 1,
+    "approved_alias_links": 0,
+    "unresolved_links": 0,
+    "two_family_concepts": 1,
+    "promotion_eligible_concepts": 0,
+    "promotion_eligibility_reached": false,
+    "durable_candidates": 0,
+    "candidate_snapshots": 0,
+    "reviews": 0,
+    "active_concepts": 0,
+    "noncanonical_aliases": 0,
+    "duplicate_normalized_labels": 0,
+    "research_activity_observations": 414,
+    "research_activity_origins": 100,
+    "other_family_observations": 0,
+    "other_source_origins": 0,
+    "statements_used_total": 1942,
+    "invocations": 10,
+    "signal_run": {
+      "run_id": "crun_b5267b4d-2f98-4487-979c-ecc4c4f2cf88",
+      "reader_id": "dossier-eurostat-tr-causes-of-death",
+      "source_ref": "eurostat-hlth-cd-asdr2",
+      "status": "SUCCEEDED",
+      "items_seen": 1,
+      "items_new": 91,
+      "observations_written": 91
+    },
+    "started_utc": "2026-10-05T20:35:10Z",
+    "finished_utc": "2026-10-05T20:41:21.106Z",
+    "checkpoint_after": {
+      "dataset": "hlth_cd_asdr2",
+      "geo": "TR",
+      "year": "2023",
+      "release": "2026-06-08T21:00:00.000Z",
+      "cells": 93,
+      "signature": "1c949e31"
+    }
+  },
+  "invocations": [
+    {
+      "n": 1,
+      "phase_before": "FETCH",
+      "phase_after": "INGEST",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 212,
+      "cpu_ms": 115,
+      "wall_ms": 7342,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 2,
+      "phase_before": "INGEST",
+      "phase_after": "INGEST",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 211,
+      "cpu_ms": 132,
+      "wall_ms": 6118,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 3,
+      "phase_before": "INGEST",
+      "phase_after": "INGEST",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 211,
+      "cpu_ms": 111,
+      "wall_ms": 5875,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 4,
+      "phase_before": "INGEST",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 196,
+      "cpu_ms": 117,
+      "wall_ms": 4933,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 5,
+      "phase_before": "DERIVE",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 194,
+      "cpu_ms": 121,
+      "wall_ms": 4733,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 6,
+      "phase_before": "DERIVE",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 185,
+      "cpu_ms": 264,
+      "wall_ms": 6930,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 7,
+      "phase_before": "DERIVE",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 189,
+      "cpu_ms": 96,
+      "wall_ms": 4827,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 8,
+      "phase_before": "DERIVE",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 187,
+      "cpu_ms": 157,
+      "wall_ms": 4633,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 9,
+      "phase_before": "DERIVE",
+      "phase_after": "DERIVE",
+      "status": "PAUSED_BUDGET",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 189,
+      "cpu_ms": 168,
+      "wall_ms": 5121,
+      "tail_captured": true,
+      "worker_version": "5591edee-f231-44dd-b42a-c9c9541a784c",
+      "error": null
+    },
+    {
+      "n": 10,
+      "phase_before": "DERIVE",
+      "phase_after": "DONE",
+      "status": "COMPLETED",
+      "http": 200,
+      "run_id_same": true,
+      "d1_statements": 168,
+      "cpu_ms": null,
+      "wall_ms": null,
+      "tail_captured": false,
+      "worker_version": null,
+      "error": null
+    }
+  ],
+  "measurements": {
+    "d1_max_per_invocation": 212,
+    "d1_target": 240,
+    "d1_hard_ceiling": 800,
+    "d1_headroom_to_ceiling": 588,
+    "cpu_max_ms": 264,
+    "cpu_p50_ms": 121,
+    "wall_max_ms": 7342,
+    "wall_p50_ms": 5121,
+    "samples_captured": 9,
+    "samples_missing": 1,
+    "samples_missing_note": "the tail event of invocation 10 was not captured (the correlation window matched none); its D1 (168) and HTTP 200 are recorded by the client",
+    "lease_seconds": 45,
+    "lease_margin_vs_wall_max": 6.1,
+    "source": "wrangler tail (filtered fields only) matched to each POST /run; local proxy figures from the earlier measurement are NOT used",
+    "non_run_observations": {
+      "read_only_watch_call": {
+        "cpu_ms": 447,
+        "wall_ms": 16511,
+        "note": "a read-only inspection (limit 100) with its own 800-statement budget; not a run invocation and not subject to the 45 s run lease"
+      },
+      "concurrent_gcos_cron_max_wall_ms": 29874,
+      "cron_note": "the existing GCOS cron kept running during the canary and is unrelated to DOSSIER"
+    },
+    "source_requests": {
+      "invocations_started_in_FETCH_phase": 1,
+      "note": "one invocation fetched; transient retries inside it are not observable from the Worker log; no refetch (phase never returned to FETCH)"
+    }
+  },
+  "platform": {
+    "recoverable_terminations": 0,
+    "platform_terminations_observed": 0,
+    "every_invocation_http": 200,
+    "every_tail_outcome": "ok",
+    "exceptions": 0,
+    "kills_or_resumes_required": 0
+  },
+  "worker_versions": {
+    "pre_run_disabled": "ee60d69b-78e0-4519-804f-ec971291f67a",
+    "intermediate_after_secret_creation": "1ce8cf25 (version id prefix seen in tail)",
+    "intermediate_after_secret_rotation": "fdd34918 (version id prefix seen in tail; it carried the enabled env switch and served the in-run post-check read)",
+    "artifact_deployed_disabled": "22e272b3-1569-4ba7-b5b6-97725e5a0a90",
+    "v2_enable": "5591edee-f231-44dd-b42a-c9c9541a784c",
+    "post_canary_disabled": "c9c97279-5f3a-4fad-a5c4-04bbc8d7695f"
+  },
+  "artifact": {
+    "sha256": "ca5dbee063b9659455901a21f02ae39c7627193580199cdaa35829a50d9a6a62",
+    "commit": "279f33578058fc9d7d3a25bcebdc92fd3b8c4c5d",
+    "verified_before_deploy": true
+  },
+  "governance": {
+    "v1_execution_occurred": false,
+    "ct_refetch_occurred": false,
+    "oecd_request_occurred": false,
+    "only_new_source": "Eurostat",
+    "v1_oecd_refusals": [
+      "dossier-clinicaltrials-frontier: 409 READER_DISABLED",
+      "dossier-oecd-turkiye-mortality: 409 READER_DISABLED + READER_BLOCKED:USAGE_TERMS_UNRESOLVED + READER_BLOCKED:LEGAL_STATUS_UNRESOLVED"
+    ],
+    "new_logical_runs": 1,
+    "runs_after": [
+      "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d (V1, COMPLETED, unchanged)",
+      "crun_b5267b4d-2f98-4487-979c-ecc4c4f2cf88 (V2, COMPLETED)"
+    ],
+    "source_specific_frontier": "UNCHANGED/DISABLED",
+    "promotion_policy": "UNCHANGED"
+  },
+  "invariant_checks_during_run": {
+    "checks_run": 10,
+    "failures": 0,
+    "checked_each_invocation": [
+      "P5 0/0/0/0",
+      "research-activity observations 414 and origins 100",
+      "no other source rows",
+      "exactly one V2 run and one other run",
+      "no non-canonical alias",
+      "no duplicate normalized label",
+      "no Eurostat observation without provenance",
+      "Eurostat observations <= 100",
+      "D1 < 800",
+      "run id unchanged"
+    ]
+  },
+  "shutdown": {
+    "controls_after": {
+      "platform:d1_queries_per_invocation": "1000",
+      "platform:capacity_verified": "1",
+      "platform:subrequest_limit": "10000",
+      "platform:cpu_budget_ms": "30000",
+      "canary_enabled": "0",
+      "manual_runs_allowed": "0",
+      "promotion_enabled": "0",
+      "reader:dossier-clinicaltrials-frontier:enabled": "0",
+      "reader:dossier-eurostat-tr-causes-of-death:enabled": "0"
+    },
+    "all_canary_controls_off": true,
+    "v1_reader_control": "0",
+    "oecd_control_rows": "absent",
+    "disabled_worker_redeployed": true,
+    "post_shutdown_state_stable_over_90s": true,
+    "active_leases_after": 0
+  },
+  "post_canary_health": {
+    "recorded_in_run_evidence": {
+      "level": "READY",
+      "commit": "279f33578058fc9d7d3a25bcebdc92fd3b8c4c5d",
+      "dossier": "DEGRADED",
+      "blocked": [],
+      "degraded": []
+    },
+    "recorded_note": "read 5 s after the final deploy (the tail shows that read was served by the intermediate rotation version fdd34918, not yet by c9c97279): GCOS READY; dossier DEGRADED. The same DEGRADED value was recorded after the enable deploy while all controls were still 0, so it reflects the env master switch being true on the version then serving (non-critical SOURCE_ACCESS_READY = OECD terms unresolved), not a canary failure.",
+    "independent_read_only_check_after_run": {
+      "gcos": "READY",
+      "dossier": "DISABLED",
+      "deployed_commit": "279f3357",
+      "serving_version_at_check": "c9c97279-5f3a-4fad-a5c4-04bbc8d7695f",
+      "critical_components_ready": true,
+      "non_critical_not_ready": [
+        "SOURCE_ACCESS_READY (dossier-oecd-turkiye-mortality: USAGE_TERMS_UNRESOLVED, LEGAL_STATUS_UNRESOLVED)"
+      ]
+    },
+    "gcos": "READY",
+    "dossier": "DISABLED"
+  },
+  "secret_hygiene": {
+    "token_lifecycle": "a transient OPS_TOKEN was generated in memory, uploaded with `wrangler secret put` via stdin, used only inside the orchestration process, and at shutdown replaced by a fresh random value that was never stored (secret put status 0); the in-process token variable was cleared",
+    "TRANSIENT_TOKEN_CLEARED_OR_ROTATED": "YES",
+    "SECRET_VALUE_PERSISTED": "NO (no 64-hex string in the log, filtered tail, evidence or run-id files; the filtered tail drops headers)",
+    "limits": "the owner terminal scrollback and shell history are outside the evidence and were not inspected; the OPS_TOKEN Worker secret now holds a value nobody knows (as after the first canary): the owner must set a new one to use the operator CLI again",
+    "SECRET_HYGIENE": "PASS"
+  },
+  "pillars": {
+    "P1_SYSTEM_SAFETY": "PASS",
+    "P1_SECOND_FAMILY_CANARY": "PASS",
+    "P1_OVERALL": "PASS",
+    "P2": "PASS_LIVE",
+    "P3": "PASS_LIVE",
+    "P4": "PASS_LIVE",
+    "P5": "PASS"
+  },
+  "evidence_files": {
+    "location": "session scratchpad (not committed): cx/canary_exec.log, cx/tail_filtered.log, cx/evidence.json, cx/run_id.txt",
+    "sha256": {
+      "canary_exec.log": "4584ccc6a5680c08972355d64ebd669ac571cc7c53a3e9f9ff45a60983290dc1",
+      "tail_filtered.log": "46e5a24a79de1ce7c448b899913aedcbd2fdaa54cdbf481bf4b5bee737d225bd",
+      "evidence.json": "94962c44ac74a1e36fb5917a565f6ceed181e689bc09df155f5b64a315150bd7"
+    },
+    "note": "the figures above are copied from those files; the committed record is this JSON"
+  },
+  "invariants": [
+    {
+      "id": "CANARY-M2-001",
+      "statement": "one logical V2 run only",
+      "check": "exactly one dossier_canary_runs row for the Eurostat reader; total runs = 2 (V1 + V2)"
+    },
+    {
+      "id": "CANARY-M2-002",
+      "statement": "run COMPLETED/DONE",
+      "check": "final run status COMPLETED, phase DONE, 10 invocations"
+    },
+    {
+      "id": "CANARY-M2-003",
+      "statement": "Eurostat observations = 91",
+      "check": "finalState.eu_obs = 91 (77 eligible + 14 review-required)"
+    },
+    {
+      "id": "CANARY-M2-004",
+      "statement": "no ClinicalTrials refetch",
+      "check": "research-activity observations 414 and origins 100 unchanged; no CT run; reader control 0"
+    },
+    {
+      "id": "CANARY-M2-005",
+      "statement": "no OECD request",
+      "check": "no non-Eurostat, non-ClinicalTrials origins or observations; OECD run refused"
+    },
+    {
+      "id": "CANARY-M2-006",
+      "statement": "V1 did not execute",
+      "check": "only one non-V2 run (the frozen V1 run, unchanged); V1 reader control 0 throughout"
+    },
+    {
+      "id": "CANARY-M2-007",
+      "statement": "max D1 = 212",
+      "check": "maximum statements of any invocation"
+    },
+    {
+      "id": "CANARY-M2-008",
+      "statement": "D1 hard ceiling not breached",
+      "check": "max 212 < 800 and <= 240 target in every invocation"
+    },
+    {
+      "id": "CANARY-M2-009",
+      "statement": "platform terminations = 0",
+      "check": "every invocation HTTP 200, tail outcome ok, no exception"
+    },
+    {
+      "id": "CANARY-M2-010",
+      "statement": "all runtime invariant checks clean",
+      "check": "10 per-invocation checks, 0 failures"
+    },
+    {
+      "id": "CANARY-M2-011",
+      "statement": "candidate persistence = 0",
+      "check": "dossier_candidates = 0"
+    },
+    {
+      "id": "CANARY-M2-012",
+      "statement": "snapshot persistence = 0",
+      "check": "dossier_candidate_snapshots = 0"
+    },
+    {
+      "id": "CANARY-M2-013",
+      "statement": "reviews = 0",
+      "check": "dossier_reviews = 0"
+    },
+    {
+      "id": "CANARY-M2-014",
+      "statement": "ACTIVE concepts = 0",
+      "check": "no concept state ACTIVE (486 PROPOSED)"
+    },
+    {
+      "id": "CANARY-M2-015",
+      "statement": "controls shut down",
+      "check": "canary_enabled, manual_runs_allowed, promotion_enabled, Eurostat reader control = 0 after the run"
+    },
+    {
+      "id": "CANARY-M2-016",
+      "statement": "disabled Worker redeployed",
+      "check": "post-canary version c9c97279 with DOSSIER_CANARY_ENABLED=false; independent check: dossier DISABLED"
+    },
+    {
+      "id": "CANARY-M2-017",
+      "statement": "P1-P5 PASS",
+      "check": "P1 PASS, P2 PASS_LIVE, P3 PASS_LIVE, P4 PASS_LIVE, P5 PASS"
+    },
+    {
+      "id": "CANARY-M2-018",
+      "statement": "first frozen canary unchanged",
+      "check": "run crun_52632d2d... COMPLETED, 414 observations, 100 origins, 396 baseline concepts untouched (the 90 added concepts are new Eurostat proposals)"
+    }
+  ],
+  "deferred_non_blocking": [
+    "global concept-writer concurrency hardening (no unique constraint on normalized label; closed for the canary only by lease serialization)",
+    "explicit richer source-lineage hook",
+    "candidate snapshot current-provenance hardening (snapshots may cite a superseded statistical observation)",
+    "recurring scheduler",
+    "retention / compaction",
+    "source-specific ongoing monitoring",
+    "full production activation decision",
+    "platform CPU enforcement root cause (UNRESOLVED_PLATFORM_ENFORCEMENT, unchanged)"
+  ],
+  "not_implied_by_freeze": [
+    "recurring Eurostat ingestion is active",
+    "a scheduler exists",
+    "global concept-writer concurrency is solved",
+    "candidate snapshot provenance hardening is complete",
+    "DOSSIER overall product maturity is 100%",
+    "the 45 s lease is optimal (observed wall max 7.342 s)",
+    "two-family convergence produces candidates (it produced 1 two-family concept, 0 promotion-eligible)"
+  ],
+  "known_limitations": [
+    "CPU / wall for invocation 10 was not captured by the tail",
+    "source requests are counted by FETCH-phase invocations; a transient retry inside the single fetch would not be visible",
+    "the watch read at limit 100 showed 467 targets but its first page contained no two-family target; the two-family concept is counted by the Eurostat report (1)",
+    "the in-run post-deploy health read said DEGRADED (see post_canary_health)"
+  ],
+  "references": [
+    "docs/DOSSIER-EUROSTAT-CANARY-PLAN.md",
+    "docs/generated/dossier-eurostat-canary-plan-v1.json",
+    "docs/generated/dossier-eurostat-canary-hard-limits-v1.json",
+    "docs/generated/dossier-eurostat-reader-profile-measured-v1.json",
+    "docs/DOSSIER-EUROSTAT-READER-IMPLEMENTATION.md",
+    "docs/DOSSIER-SECOND-SIGNAL-FAMILY.md",
+    "docs/DOSSIER-FIRST-CANARY-MILESTONE.md",
+    "docs/generated/dossier-first-canary-milestone-v1.json"
+  ]
+}
