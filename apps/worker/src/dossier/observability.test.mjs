@@ -20,7 +20,7 @@ test('Q1-Q4, Q13-Q15 on a freshly deployed, unconfigured canary: not enabled, no
   assert.ok(o.readers[CT_ID].blocked_by.length > 0 && o.readers[OE_ID].blocked_by.length > 0, 'Q3 each reader says why');
   assert.ok(o.readers[OE_ID].blocked_by.some((b) => /source access/.test(b)));
   assert.equal(s.platform_capacity.capacity_verified, false, 'Q4');
-  assert.equal(s.platform_capacity.operational_budget, 800);
+  assert.equal(s.platform_capacity.operational_budget, PF.DOSSIER_CANARY_V1.runtime.d1_statements_per_invocation.value);
   assert.ok(s.platform_capacity.blockers.includes('PLATFORM_CAPACITY_NOT_VERIFIED'));
   assert.equal(o.can_start_another_run, false, 'Q13');
   assert.ok(o.blocking_switches.includes('env DOSSIER_CANARY_ENABLED') && o.blocking_switches.includes('control canary_enabled') && o.blocking_switches.includes('platform capacity contract'), `Q14: ${o.blocking_switches.join()}`);

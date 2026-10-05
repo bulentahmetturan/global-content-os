@@ -2,7 +2,7 @@
   "manifest": "DOSSIER_CANARY_RELEASE_MANIFEST",
   "manifest_version": 1,
   "branch": "dossier-discovery-foundation",
-  "generated_against_commit": "40aa16531807d25e36002e7cd6233323a52828b7",
+  "generated_against_commit": "bdd2fdba6eb96f30c0d76b93f0e6de8643f4eeae",
   "base_main_commit": "f684f10b360e8013638dc5dbf01ded06bc6936c6",
   "live_production_expected_schema_before_release": "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
   "commit_pinning": "the owner records `git rev-parse HEAD` at R0; the manifest body and the checksums below are what must match, not this file's own commit id",
@@ -54,8 +54,8 @@
     "candidate_class": "ROUTE_DEFAULT",
     "provenance_refs_per_signal_family": 5,
     "runtime": {
-      "d1_statements_per_invocation": 800,
-      "lease_seconds": 120
+      "d1_statements_per_invocation": 200,
+      "lease_seconds": 45
     },
     "profile_errors": []
   },
@@ -110,7 +110,7 @@
       "capacity_verified"
     ],
     "rule": "a run is allowed only when capacity_verified is asserted by the owner AND the operational budget fits: budget <= d1_queries_per_invocation AND budget + 1 <= subrequest_limit; never inferred from a plan name, never clamped",
-    "operational_budget_d1_statements_per_invocation": 800,
+    "operational_budget_d1_statements_per_invocation": 200,
     "minimum_runnable_budget_floor": 57,
     "official_limits_checked_2026_10_03": {
       "workers_paid": {
@@ -295,6 +295,6 @@
     "no source lifecycle or canonical GCOS mutation"
   ],
   "integrity": {
-    "manifest_body_sha256_excluding_commit_fields": "b98c08b10b6985c87c0ffda94a1c8c8abf74e347251d7172b8a4fce3b4f43c98"
+    "manifest_body_sha256_excluding_commit_fields": "dc580c45d842e0f1a2427941cb0c9cd4ddd2e5be37a3ac75f10003253b3cceea"
   }
 }

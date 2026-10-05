@@ -27,7 +27,8 @@ test('manifest content: frozen migration checksum, profile, env keys (names only
   assert.equal(m.canary_profile.profile_id, 'DOSSIER_CANARY_V1');
   assert.equal(m.canary_profile.run_mode, 'MANUAL_ONE_SHOT');
   assert.deepEqual(m.canary_profile.profile_errors, []);
-  assert.equal(m.canary_profile.runtime.d1_statements_per_invocation, 800);
+  assert.equal(m.canary_profile.runtime.d1_statements_per_invocation, 200);
+  assert.equal(m.canary_profile.runtime.lease_seconds, 45);
   assert.deepEqual([m.canary_profile.promotion.auto_accept, m.canary_profile.promotion.auto_publish, m.canary_profile.promotion.source_specific_frontier], [false, false, 'DISABLED']);
   assert.deepEqual(m.required_env_config_keys.wrangler_vars, [{ name: 'DOSSIER_CANARY_ENABLED', checked_in_default: 'false', only_exact_value_that_enables: 'true' }]);
   assert.deepEqual(m.required_env_config_keys.secrets_names_only, ['OPS_TOKEN']);

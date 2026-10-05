@@ -192,5 +192,5 @@
       "detail": "{\"label\":\"upgraded schema (0031 applied)\",\"liveness_http\":200,\"ready_http\":200,\"ready_level\":\"DEGRADED\",\"ready_degraded_reasons\":[\"SCHEMA_VERSION_UNKNOWN\",\"CRON_HEARTBEAT_STALE\",\"STATUS_CALLBACK_TOKEN_NOT_CONFIGURED\",\"INGEST_TOKEN_NOT_CONFIGURED\",\"OPENALEX_API_KEY_NOT_CONFIGURED\"],\"ready_dossier_level\":\"DISABLED\",\"dossier_surface_without_credentials_http\":401,\"status_http\":200,\"status_error\":null,\"status_env_master_switch\":false,\"readiness_dossier_level\":\"DISABLED\",\"run_http\":409,\"run_refused_reasons\":[\"ENV_CANARY_DISABLED\",\"PLATFORM_CAPACITY_NOT_VERIFIED\",\"PLATFORM_CAPACITY_VALUES_MISSING\",\"CANARY_DISABLED_BY_OPERATOR\",\"MANUAL_RUNS_NOT_ALLOWED\",\"READER_DISABLED\"],\"dossier_rows_created_by_boot\":0}"
     }
   ],
-  "timestamp": "2026-10-04T11:04:10.290Z"
+  "timestamp": "2026-10-05T09:54:09.974Z"
 }

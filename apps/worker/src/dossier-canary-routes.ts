@@ -54,7 +54,13 @@ async function readOperatorBody(request: Request): Promise<{ ok: true; body: Rec
 const num = (v: string | null): number | undefined => (v && /^\d{1,3}$/.test(v) ? Number(v) : undefined);
 
 /** Returns a Response for /api/dossier/canary/* or null when the path is not ours. */
-export async function handleDossierCanary(request: Request, env: Env, path: string, opts: { profile?: DossierCanaryProfile } = {}): Promise<Response | null> {
+/**
+ * Statement budget of ONE read-only inspection request. It is deliberately independent of the run slice (`d1_statements_per_invocation`, 200): an operator read such as
+ * `watch --limit 25` needs several hundred statements, and the platform limit it protects (1000 per invocation on Workers Paid) is the same for every request.
+ */
+export const INSPECTION_D1_STATEMENT_BUDGET = 800;
+
+export async function handleDossierCanary(request: Request, env: Env, path: string, opts: { profile?: DossierCanaryProfile; inspectionBudget?: number } = {}): Promise<Response | null> {
   const profile = opts.profile ?? DOSSIER_CANARY_V1;
   if (!path.startsWith('/api/dossier/canary/')) return null;
   // authentication comes FIRST: nothing below (body parsing, validation, D1) runs for an unauthenticated caller. Header only: a token in the URL is never read.
@@ -64,8 +70,8 @@ export async function handleDossierCanary(request: Request, env: Env, path: stri
   const url = new URL(request.url);
   for (const v of url.searchParams.values()) if (v.length > MAX_QUERY_VALUE) return j({ error: 'QUERY_VALUE_TOO_LONG' }, 400);
   const deps = { db: env.DB as never, profile, env: { DOSSIER_CANARY_ENABLED: env.DOSSIER_CANARY_ENABLED } };
-  // read-only inspection is bounded by the same per-invocation D1 statement budget as a run (a refused statement is an error, never an overrun)
-  const readDeps = { ...deps, db: createBudgetedD1(env.DB as never, profile.runtime.d1_statements_per_invocation.value).db };
+  // read-only inspection is bounded by its own per-request D1 statement budget (a refused statement is an error, never an overrun of the platform limit)
+  const readDeps = { ...deps, db: createBudgetedD1(env.DB as never, opts.inspectionBudget ?? INSPECTION_D1_STATEMENT_BUDGET).db };
   const sub = path.slice('/api/dossier/canary/'.length);
   try {
     if (request.method === 'GET') {

@@ -2,7 +2,7 @@
 // Neoplasms overlap). Fresh databases every time; interruption by simulated process kill at 25 / 50 / 75 % of a multi-invocation run; lease / concurrency cases.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CC, CR, CI, CT_ID, OE_ID, FIXTURES, PF, canonicalState, freshWorld, killableDb, rawDigest, runMetrics } from './burnin-support.mjs';
+import { CC, CR, CI, CT_ID, OE_ID, FIXTURES, PF, P800, canonicalState, freshWorld, killableDb, rawDigest, runMetrics } from './burnin-support.mjs';
 
 const both = async (opts) => { const w = await freshWorld(opts); const ct = await w.run(CT_ID); const oe = await w.run(OE_ID); return { w, metrics: runMetrics(w, { [CT_ID]: ct, [OE_ID]: oe }) }; };
 
@@ -67,7 +67,7 @@ async function interruptionSuite(points) {
     let killed = false;
     const log = [];
     for (let i = 0; i < 80 && !killed; i++) {
-      const budget = PF.DOSSIER_CANARY_V1.runtime.d1_statements_per_invocation.value;
+      const budget = P800.runtime.d1_statements_per_invocation.value;
       if (cumulative + budget > target) k.arm(Math.max(1, target - cumulative));
       const out = await CR.invokeCanary(w.deps({ db: k.db }), { readerId: CT_ID, operator: 'burnin-operator', runId });
       log.push(out.status);

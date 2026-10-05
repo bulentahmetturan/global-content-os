@@ -21,6 +21,7 @@ const ct8 = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/clinicaltr
 const oecd = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/oecd-health-mortality-tur.json', 'utf8')).response;
 const REG = CC.DOSSIER_READER_REGISTRY.map((r) => (r.canonical_source_id === 'oecd-health' ? { ...r, legal_status: 'APPROVED', usage_terms: 'VERIFIED', blocker: null } : r)); // TEST_ONLY
 const body = (b) => async () => ({ ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(b)) });
+const P800 = (() => { const p = structuredClone(PF.DOSSIER_CANARY_V1); p.runtime.d1_statements_per_invocation.value = 800; p.runtime.lease_seconds.value = 120; return p; })(); // TEST_ONLY legacy envelope
 const withBudget = (n) => { const p = structuredClone(PF.DOSSIER_CANARY_V1); p.runtime.d1_statements_per_invocation.value = n; return p; };
 async function world(profile) {
   const { sqlite, db } = openDossierDb();
@@ -34,7 +35,7 @@ async function world(profile) {
 test('the configured 800-statement ceiling keeps a 20% margin under the official PAID limit of 1000 and the profile cites the verified limits', () => {
   const budget = PF.DOSSIER_CANARY_V1.runtime.d1_statements_per_invocation;
   assert.ok(budget.value < OFFICIAL.d1QueriesPerInvocation.paid);
-  assert.ok(budget.value <= OFFICIAL.d1QueriesPerInvocation.paid * 0.8, 'at least a 20% safety margin below the hard limit');
+  assert.ok(budget.value <= OFFICIAL.d1QueriesPerInvocation.paid * 0.8, 'at least a 20% safety margin below the hard limit (production slice: 200)');
   assert.ok(budget.value > OFFICIAL.d1QueriesPerInvocation.free, 'this budget is NOT runnable on the Free plan');
   assert.match(budget.rationale, /1000 D1 queries per Worker invocation on Workers Paid, 50 on Workers Free/);
   assert.match(budget.rationale, /active account plan must be confirmed by the owner/);
@@ -69,21 +70,21 @@ test('a budget that cannot hold one unit but passes the pre-run floor FAILS the 
     assert.equal(w.sqlite.prepare(`SELECT status FROM dossier_signal_runs`).get().status, 'FAILED', 'recorded as a failed run with provenance');
   }
   // the configured budget runs both readers
-  const ok = await world(PF.DOSSIER_CANARY_V1);
+  const ok = await world(P800);
   assert.equal((await CR.runCanaryToCompletion(ok.deps, { readerId: OE_ID, operator: 'op' })).final.status, 'COMPLETED');
 });
 
 test('read-only inspection routes are bounded by the same statement budget: an overrun is an error, not an overrun of the platform limit', async () => {
   const { sqlite, db } = openDossierDb();
   const ctx = makeCtx();
-  const w = await world(PF.DOSSIER_CANARY_V1);
+  const w = await world(P800);
   assert.equal((await CR.runCanaryToCompletion(w.deps, { readerId: OE_ID, operator: 'op' })).final.status, 'COMPLETED'); // gives the DB WATCH targets
   const env = { DB: w.db, OPS_TOKEN: 't', ENVIRONMENT: 'test', DOSSIER_CANARY_ENABLED: 'false' };
-  const get = (path, profile) => RT.handleDossierCanary(new Request(`https://w.test${path}`, { headers: { authorization: 'Bearer t' } }), env, path.split('?')[0], { profile });
-  const tiny = await get('/api/dossier/canary/watch?limit=50', withBudget(20));
+  const get = (path, profile, inspectionBudget) => RT.handleDossierCanary(new Request(`https://w.test${path}`, { headers: { authorization: 'Bearer t' } }), env, path.split('?')[0], { profile, inspectionBudget });
+  const tiny = await get('/api/dossier/canary/watch?limit=50', P800, 20);
   assert.equal(tiny.status, 400);
   assert.match((await tiny.json()).message, /d1_statement_budget_exceeded/);
-  const okRes = await get('/api/dossier/canary/watch?limit=25', PF.DOSSIER_CANARY_V1);
+  const okRes = await get('/api/dossier/canary/watch?limit=25', P800);
   assert.equal(okRes.status, 200);
   void sqlite; void db; void ctx;
 });

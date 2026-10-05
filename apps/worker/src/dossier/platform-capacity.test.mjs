@@ -18,6 +18,7 @@ const RT = await bundle('apps/worker/src/dossier-canary-routes.ts', 'cap-routes'
 const CT_ID = 'dossier-clinicaltrials-frontier';
 const ct8 = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/clinicaltrials-roles-page.json', 'utf8')).response;
 const oecd = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/oecd-health-mortality-tur.json', 'utf8')).response;
+const B = PF.DOSSIER_CANARY_V1.runtime.d1_statements_per_invocation.value; // production slice (200)
 const withBudget = (n) => { const p = structuredClone(PF.DOSSIER_CANARY_V1); p.runtime.d1_statements_per_invocation.value = n; return p; };
 const cap = (d1, sub = 10000, cpu = 30000, verified = '1') => [['platform:d1_queries_per_invocation', String(d1)], ['platform:subrequest_limit', String(sub)], ['platform:cpu_budget_ms', String(cpu)], ['platform:capacity_verified', verified]];
 
@@ -49,8 +50,8 @@ test('capacity UNKNOWN -> no canary run: no run row, no provenance, no source re
   assert.equal(w2.fetches.length, 0);
 });
 
-test('capacity 1000 + operational ceiling 800 -> allowed and completes (and 800 against exactly 800 also fits)', async () => {
-  for (const d1 of [1000, 800]) {
+test('capacity 1000 + the production operational ceiling (200) -> allowed and completes (and 200 against exactly 200 also fits)', async () => {
+  for (const d1 of [1000, B]) {
     const w = await world(PF.DOSSIER_CANARY_V1, cap(d1));
     const r = await CR.runCanaryToCompletion(w.deps, { readerId: CT_ID, operator: 'op' });
     assert.equal(r.final.status, 'COMPLETED', `capacity ${d1}`);
@@ -60,22 +61,22 @@ test('capacity 1000 + operational ceiling 800 -> allowed and completes (and 800 
 
 test('operational ceiling > verified capacity -> refused; NO silent clamp (the budget is never reduced to fit; the profile stays what it is)', async () => {
   const profile = PF.DOSSIER_CANARY_V1;
-  for (const d1 of [799, 500, 100, 50]) {
+  for (const d1 of [B - 1, 100, 50]) {
     const w = await world(profile, cap(d1));
     const out = await invoke(w);
     assert.equal(out.status, 'REFUSED', `capacity ${d1}`);
-    assert.ok(out.reasons.some((r) => r.startsWith('OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_D1_CAPACITY:800>')), out.reasons.join());
+    assert.ok(out.reasons.some((r) => r.startsWith(`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_D1_CAPACITY:${B}>`)), out.reasons.join());
     assert.equal(w.fetches.length, 0, 'refused before any source request');
     assert.equal(w.runs(), 0);
   }
-  assert.equal(profile.runtime.d1_statements_per_invocation.value, 800, 'the configured ceiling is untouched');
+  assert.equal(profile.runtime.d1_statements_per_invocation.value, B, 'the configured ceiling is untouched');
   // there is no code path that derives a budget from the capacity
   const run = readFileSync('apps/worker/src/dossier/canary.ts', 'utf8');
   assert.ok(!/Math\.min\([^)]*capacity|clamp/i.test(run.replace(/\/\/.*$/gm, '')));
   // subrequest limit: every D1 statement of the budget plus the source request must fit the verified subrequest limit
-  const w = await world(profile, cap(1000, 800));
-  assert.ok((await invoke(w)).reasons.some((r) => r.startsWith('OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_SUBREQUEST_LIMIT:801>800')));
-  const fit = await world(profile, cap(1000, 801));
+  const w = await world(profile, cap(1000, B));
+  assert.ok((await invoke(w)).reasons.some((r) => r.startsWith(`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_SUBREQUEST_LIMIT:${B + 1}>${B}`)));
+  const fit = await world(profile, cap(1000, B + 1));
   assert.equal((await CR.runCanaryToCompletion(fit.deps, { readerId: CT_ID, operator: 'op' })).final.status, 'COMPLETED', 'a subrequest limit that covers the budget plus the source request is enough')
 });
 
@@ -129,7 +130,7 @@ test('readiness and operator inspection: unknown capacity is BLOCKED_FOR_RUN whe
   const ok = await RD.gatherDossierReadiness(db, { environment: 'LOCAL', envMasterSwitch: true, profile: PF.DOSSIER_CANARY_V1 });
   assert.equal(ok.components.PLATFORM_CAPACITY_READY.ready, true);
   const st = await CI.canaryStatus({ db, profile: PF.DOSSIER_CANARY_V1, env: { DOSSIER_CANARY_ENABLED: 'true' } });
-  assert.deepEqual(st.platform_capacity, { d1_queries_per_invocation: 1000, subrequest_limit: 10000, cpu_budget_ms: 30000, capacity_verified: true, operational_budget: 800, blockers: [] });
+  assert.deepEqual(st.platform_capacity, { d1_queries_per_invocation: 1000, subrequest_limit: 10000, cpu_budget_ms: 30000, capacity_verified: true, operational_budget: B, blockers: [] });
   assert.ok(st.readers.every((r) => !r.run_gate_reasons.some((x) => /PLATFORM_CAPACITY/.test(x))));
 });
 

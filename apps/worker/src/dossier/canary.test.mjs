@@ -22,7 +22,8 @@ const PRE = await import('../../../../scripts/dossier-0031-preflight.mjs');
 const oecdReal = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/oecd-health-mortality-tur.json', 'utf8')).response;
 const ctPage8 = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/clinicaltrials-roles-page.json', 'utf8')).response;
 const ctOverlap = JSON.parse(readFileSync('apps/worker/src/dossier/recorded/clinicaltrials-neoplasms-overlap.json', 'utf8')).response;
-const PROFILE = PF.DOSSIER_CANARY_V1;
+// TEST_ONLY legacy envelope (800 / 120): this file tests runner mechanics incl. OECD (one item ~460 statements); the production profile (200 / 45) is covered by mitigation-200.test.mjs
+const PROFILE = (() => { const p = structuredClone(PF.DOSSIER_CANARY_V1); p.runtime.d1_statements_per_invocation.value = 800; p.runtime.lease_seconds.value = 120; return p; })();
 const CT_ID = 'dossier-clinicaltrials-frontier';
 const OE_ID = 'dossier-oecd-turkiye-mortality';
 // TEST_ONLY: as if an operator had verified the OECD terms (the checked-in registry keeps OECD blocked)

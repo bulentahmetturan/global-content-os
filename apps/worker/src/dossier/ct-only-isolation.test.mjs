@@ -27,7 +27,7 @@ test('production-intended runtime: OECD disabled, ClinicalTrials enabled, verifi
     const steps = [];
     let runId;
     let final;
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 200; i++) {
       const res = await call('POST', '/api/dossier/canary/run', { reader_id: CT_ID, operator: 'op', ...(runId ? { run_id: runId } : {}) });
       const body = await res.json();
       steps.push(body.status);

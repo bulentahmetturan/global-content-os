@@ -12,6 +12,8 @@ export const CI = await bundle('apps/worker/src/dossier/canary-inspect.ts', 'bur
 export const CT = await bundle('apps/worker/src/dossier/clinicaltrials.ts', 'burn-ct');
 export const OE = await bundle('apps/worker/src/dossier/oecd.ts', 'burn-oecd');
 
+/** TEST_ONLY legacy envelope (800 statements, 120 s lease): runner-mechanics tests (and every OECD scenario: one OECD item needs ~460 statements) keep it; the production profile is DOSSIER_CANARY_V1 (200 / 45). */
+export const P800 = (() => { const p = structuredClone(PF.DOSSIER_CANARY_V1); p.runtime.d1_statements_per_invocation.value = 800; p.runtime.lease_seconds.value = 120; return p; })();
 export const CT_ID = 'dossier-clinicaltrials-frontier';
 export const OE_ID = 'dossier-oecd-turkiye-mortality';
 const rec = (f) => JSON.parse(readFileSync(`apps/worker/src/dossier/recorded/${f}`, 'utf8')).response;
@@ -27,7 +29,7 @@ export const TEST_REGISTRY = CC.DOSSIER_READER_REGISTRY.map((r) => (r.canonical_
 const ok = (b) => async () => ({ ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(b)) });
 
 /** A fresh deterministic world. `fail` maps a reader to a fetch implementation that fails (failure injection). */
-export async function freshWorld({ ct = FIXTURES.ct100, oecd = FIXTURES.oecd48, readers = [CT_ID, OE_ID], profile = PF.DOSSIER_CANARY_V1, capacity = true, promotion = true, fetchOverride = {}, registry = TEST_REGISTRY } = {}) {
+export async function freshWorld({ ct = FIXTURES.ct100, oecd = FIXTURES.oecd48, readers = [CT_ID, OE_ID], profile = P800, capacity = true, promotion = true, fetchOverride = {}, registry = TEST_REGISTRY } = {}) {
   const { sqlite, db } = openDossierDb();
   const ctx = makeCtx();
   const calls = { ct: 0, oecd: 0 };
@@ -43,7 +45,7 @@ export async function freshWorld({ ct = FIXTURES.ct100, oecd = FIXTURES.oecd48, 
     : CT.createClinicalTrialsReader({ fetchImpl: wrap('ct', fetchOverride.ct ?? ok(ct)), readerId: r.dossier_reader_id, legalStatus: r.legal_status }));
   const w = { sqlite, db, ctx, calls, set, registry };
   w.deps = (over = {}) => ({ db: over.db ?? db, env: { DOSSIER_CANARY_ENABLED: 'true' }, profile, createReader, classifier: CT.registryRecordClassifier, extractor: CT.registryRecordExtractor, ctx, registry, ...over });
-  w.run = (readerId, o = {}) => CR.runCanaryToCompletion(w.deps(o.deps), { readerId, operator: 'burnin-operator' }, o.max ?? 120);
+  w.run = (readerId, o = {}) => CR.runCanaryToCompletion(w.deps(o.deps), { readerId, operator: 'burnin-operator' }, o.max ?? 400);
   return w;
 }
 

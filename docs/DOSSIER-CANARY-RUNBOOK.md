@@ -21,7 +21,7 @@ A disabled-by-default, two-source, **MANUAL_ONE_SHOT** canary (profile `DOSSIER_
 
 ## The canary profile (owner decisions, 2026-10-03)
 
-Sources: exactly two (ClinicalTrials.gov `GLOBAL_RESEARCH_ACTIVITY`, OECD Turkiye mortality `TURKEY_HEALTH_BURDEN`). Backfill disabled. ClinicalTrials: 1 page, 100 items per run. OECD: 100 rows per run. One manual run per reader, then STOP until an operator authorizes more (`reader:<id>:extra_runs_authorized`). Retention: `CANARY_HOLD_UNTIL_REVIEW`. Promotion: multi-signal-family convergence only, plus eligibility, topic coherence (unknown granularity fails closed to WATCH, TOO_BROAD stays WATCH) and integrity; `SOURCE_SPECIFIC_FRONTIER` disabled; no automatic accept or publish. Candidate class: the neutral route default (EMERGING), no scoring invented. Provenance: 5 representative refs per signal family (CANARY_ONLY). Runtime: 800 D1 statements per invocation, 120 s lease.
+Sources: exactly two (ClinicalTrials.gov `GLOBAL_RESEARCH_ACTIVITY`, OECD Turkiye mortality `TURKEY_HEALTH_BURDEN`). Backfill disabled. ClinicalTrials: 1 page, 100 items per run. OECD: 100 rows per run. One manual run per reader, then STOP until an operator authorizes more (`reader:<id>:extra_runs_authorized`). Retention: `CANARY_HOLD_UNTIL_REVIEW`. Promotion: multi-signal-family convergence only, plus eligibility, topic coherence (unknown granularity fails closed to WATCH, TOO_BROAD stays WATCH) and integrity; `SOURCE_SPECIFIC_FRONTIER` disabled; no automatic accept or publish. Candidate class: the neutral route default (EMERGING), no scoring invented. Provenance: 5 representative refs per signal family (CANARY_ONLY). Runtime: 200 D1 statements per invocation (was 800; bounded mitigation after two unexplained platform terminations, see `docs/generated/dossier-cpu-decision.json`), 45 s lease (was 120), `cpu_ms` unchanged.
 
 **Why bounded invocations.** A real 100-study run needs several thousand D1 statements (measured 9,615 before any change). One Worker invocation may issue only a limited number (the owner must confirm the plan limit). The runner counts statements, pauses at a unit boundary (`PAUSED_BUDGET`), persists progress and its checkpoint, and the operator resumes the same run. Measured locally on the saved real data: ClinicalTrials 14 invocations (largest 763 statements), OECD 2 invocations (745 and 207). Every unit is idempotent, so a pause or retry never duplicates anything. One source request per run, however many invocations.
 
@@ -115,7 +115,7 @@ OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --ope
 OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> control reader:dossier-clinicaltrials-frontier:enabled 1
 ```
 
-R7 run ClinicalTrials once (one source request, about 14 explicit bounded invocations of the same run; the command stops at COMPLETED / FAILED / refusal):
+R7 run ClinicalTrials once (one source request, about 70 small explicit bounded invocations of the same run at the 200-statement slice; the command stops at COMPLETED / FAILED / refusal):
 
 ```bash
 OPS_TOKEN=... node scripts/dossier-canary-operator.mjs --base <worker-url> --operator <name> run dossier-clinicaltrials-frontier
@@ -186,11 +186,15 @@ Source of truth: `release/dossier-canary-commands.json` (checked by `command-aud
 
 - **Platform capacity contract.** No run is allowed until the owner records the verified platform limits (`platform:d1_queries_per_invocation`, `platform:subrequest_limit`, `platform:cpu_budget_ms`) and asserts `platform:capacity_verified 1` (refused unless all three exist; changing any number withdraws the verification). The runner never infers a plan and never clamps: a budget above the verified capacity is refused (`OPERATIONAL_BUDGET_EXCEEDS_VERIFIED_D1_CAPACITY`), a budget below the smallest runnable unit (57) is refused before any source request. Workers Free canary: `NOT_PRACTICAL_WITH_CURRENT_ARCHITECTURE` (a 100-study run would need roughly 280 operator calls at 50 queries).
 - **Deploy order is enforced by readiness.** A Worker deployed before 0031 is `BLOCKED` (`SCHEMA_BEHIND`, 503). With the master switch on but capacity unverified, GCOS stays up (200) and reports `DEGRADED` with the single reason `DOSSIER_CANARY_NOT_READY`; verified capacity restores `READY`.
-- **Recovery contract (proven by a 20-point kill sweep).** A killed invocation leaves the run `RUNNING` with a held lease; after the lease (120 s) the operator repeats the same request and the run resumes from its checkpoint to the same durable state, with no second source request. A `FAILED` run does not consume the one-run quota and is not resumable by id; a fresh run reuses the failed run's observations. An empty or unusable source page FAILS the run (it does not consume the quota).
+- **Recovery contract (proven by a 20-point kill sweep).** A killed invocation leaves the run `RUNNING` with a held lease; after the lease (45 s since the mitigation, 120 s before) the operator repeats the same request and the run resumes from its checkpoint to the same durable state, with no second source request. A `FAILED` run does not consume the one-run quota and is not resumable by id; a fresh run reuses the failed run's observations. An empty or unusable source page FAILS the run (it does not consume the quota).
 - **Operator summary.** `status` now carries `operator_summary`: enabled state, per-reader blockers, active run, last run (checkpoint, observations), last error, WATCH / candidate counts, blocking switches and the owner actions still required.
 - **Operator surface.** OPS_TOKEN first, GET/POST only, body limit 2 KB, run ids validated, internal errors never echoed, the CLI refuses clear-text http (except localhost). A request without valid OPS auth reaches no D1 statement.
 - **Production data is labelled honestly.** Observations carry `extractor_version = SOURCE_STRUCTURED_SIGNALS`, never `FIXTURE`.
 - **Evidence artifacts:** `docs/generated/dossier-0031-preflight.json` (local rehearsal), `release/dossier-canary-release-manifest.json`, `release/dossier-canary-commands.json`, `docs/DOSSIER-OECD-VERIFICATION-CHECKLIST.md`.
+
+## Known consequence of the 200-statement production slice
+
+One OECD item needs about 460 statements, so with the 200-statement slice the OECD reader cannot run (controlled `budget_below_minimum_runnable_unit` failure after the fetch); OECD is blocked by its unresolved terms anyway. Before any OECD canary the slice must be raised or made reader-specific (a reviewed change). Read-only operator inspection has its own 800-statement budget and is not affected.
 
 ## Stop conditions (stop and inspect; do not continue)
 
