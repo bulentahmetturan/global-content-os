@@ -3,6 +3,12 @@
 Entry: `AGENTS.md` → `docs/CORE.md` → `docs/CURRENT.md` → your task below. One task = one repo. Cross-repo reading is exceptional (contracts, migration, integration deploy). Routine source work never loads `channel-content-os`. Files are read whole unless a `:start-end` line range is given.
 Shorthand: `@ccos/` = sibling `channel-content-os` (owns channels, brand, design, dashboard, production, render, QA; absorbed `multi_channel_design`, ADR-0005).
 
+### HEALTH_STATISTICS (statistics subsystem: reader, canary package, operations)
+READ: `docs/STATISTICS-MASTER-READINESS.md` (84-item status), then the one record you need: `docs/STATISTICS-FIRST-CANARY-PACKAGE.md`, `docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md`, `docs/STATISTICS-RECURRING-OPERATION.md`, `docs/STATISTICS-LATER-SOURCES-READINESS.md`
+OPTIONAL: `docs/generated/statistics-*-v1.json` (machine twins), `release/statistics-*` (owner SQL, command lists, patch), `apps/worker/src/statistics/`
+DO NOT LOAD: the frozen schema/registry/inventory JSON unless the task names them; no production step runs without the owner approval keys in the command lists
+SECOND REPO: NO
+
 ### Add / retire / reactivate a source (lifecycle, any route)
 READ: `docs/SOURCE-LIFECYCLE.md`
 OPTIONAL: `scripts/source-lifecycle/orchestrator.mjs`, `scripts/source-lifecycle/cadence.mjs`

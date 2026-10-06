@@ -1,0 +1,98 @@
+{
+  "phase": "HEALTH_STATISTICS_LOCAL_READINESS_SPRINT_TO_75 - workstreams 5 and 6 (second-source maturity and file/PDF preparation; contracts only)",
+  "as_of": "2026-10-06",
+  "status": "DESIGN / TEST-CONTRACT ONLY: no reader, adapter, bucket, credential or production resource was created; nothing here delays the first production path",
+  "read_only_research_2026_10_06": {
+    "who_gho_info_page": "https://www.who.int/data/gho/info/gho-odata-api: documents the OData endpoint and $filter; no rate limit, no licence text and no statement about automated or periodic retrieval or attribution on that page; $top/$skip are not documented there (the earlier source audit recorded them as verified: to be re-proven by a live read-only smoke before any implementation)",
+    "tuik": "a read-only search found no official TUIK API terms or token-registration documentation; nothing changed, nothing was attempted (no login, no credential, no account)"
+  },
+  "items": {
+    "75": {
+      "name": "SECOND STATISTICS API READER",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "selection": "WHO_HEALTH_STATISTICS / WHOSIS_000001 (life expectancy at birth) through the GHO OData REST_READER: the frozen first-reader selection already named it the fallback; it is public, official, machine-readable, bounded by $filter and needs no R2",
+      "why_not_others": "TURKSTAT: token auth and unresolved terms (BLOCKED). WORLD_BANK_HEALTH: redistributor overlap with WHO. UNICEF_DATA: terms and access UNKNOWN.",
+      "same_indicator_as_first_reader": "life expectancy at birth for Turkiye makes it the natural first cross-source pair with EUROSTAT_HEALTH / DEMO_MLEXPEC (item 79)",
+      "contract": {
+        "reader_class": "REST_READER",
+        "endpoint_shape": "GET https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=SpatialDim eq 'TUR' and TimeDim ge 2022 and TimeDim le 2024",
+        "bounds": { "geographies": ["TUR", "DEU"], "window_years": "<= 10 (frozen reader convention), canary 2022-2024", "source_requests_per_unit": 1, "max_response_bytes": 262144, "never": ["a call without $filter", "an unbounded time window", "an unlisted geography"] },
+        "identity": "series from native dimensions (SpatialDim, Dim1 sex, indicator code), never from labels; value as published (NumericValue plus Value text), flags preserved; release identity from the observed content fingerprint because GHO publishes no per-dataset update marker (WEAK revision model: latest values only)",
+        "provenance": "PROVENANCE_KIND API, locator `gho:WHOSIS_000001/<record id>`",
+        "run_class_identity": "must follow the O2 class-aware identities (checkpoint scope, internal release key, artifact request) from the first reader",
+        "must_be_proven_before_implementation": ["$top/$skip support and paging order by a live read-only smoke", "exact field names and sex dimension codes", "attribution wording and licence for derived values (legal terms PARTIAL, gate OWNER_REVIEW_REQUIRED)"],
+        "activation": "DISABLED by default; owner review of the terms is required before any canary; the same owner-SQL policy flow as the first source"
+      },
+      "legal_status": "PARTIAL: publications are CC BY-NC-SA 3.0 IGO, the data licence is not explicit, automation policy and rate limit UNKNOWN; unchanged by the 2026-10-06 read-only check",
+      "implemented": false
+    },
+    "76": {
+      "name": "TUIK AUTH / LEGAL RESOLUTION",
+      "status": "BLOCKED",
+      "state": "unchanged: SDMX 2.1 needs an OAuth token from an SMS-verified portal account; terms UNKNOWN; legal gate LEGAL_REVIEW_REQUIRED; no credential was created and none will be created by the agent",
+      "owner_actions_needed": ["decide whether to open the portal account and accept the terms", "state the licence/terms URL once known"],
+      "evidence_2026_10_06": "read-only search found no new official documentation"
+    },
+    "77": { "name": "TUIK READER", "status": "BLOCKED", "state": "BLOCKED_BY_EXTERNAL_GATE: not implemented while auth and legal are unresolved" },
+    "78": {
+      "name": "WHO READER",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "state": "the contract under item 75 is the WHO reader contract; implementation is deliberately deferred so it cannot delay the first production path",
+      "implemented": false
+    },
+    "79": {
+      "name": "CROSS-SOURCE VALIDATION",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "framework": "apps/worker/src/statistics/ops/cross-source.ts + ops-retention-crosssource.test.mjs: same indicator/geography/period/unit and different authority; AGREE / SOURCE_CONFLICT / NOT_INDEPENDENT / NOT_COMPARABLE / ONE_SIDE_MISSING; disagreement is never collapsed; only conflicts are logged (layer CROSS_SOURCE_QA); both values preserved",
+      "first_real_pair": "EUROSTAT_HEALTH DEMO_MLEXPEC (TUR, age Y_LT1, sex T) vs WHO WHOSIS_000001 (TUR, both sexes): needs a per-indicator tolerance and a comparability review (definitions, rounding, estimation vintage) before any real comparison",
+      "synthetic_only_today": true
+    },
+    "80": {
+      "name": "LINEAGE / MIRROR DEDUPE",
+      "status": "READY_LOCAL",
+      "evidence": "the frozen schema already models lineage (statistics_lineage_edges: MIRROR_OF, UPSTREAM_SOURCE, DERIVED_FROM, NORMALIZED_FROM) and independence groups; no migration needed; governance-outbox and ops-retention-crosssource tests prove mirrors are one evidence group and release-event mirrors fold onto the canonical bulletin",
+      "migration_required": false
+    },
+    "81": {
+      "name": "ARTIFACTSTORE PRODUCTION",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "contract": {
+        "interface": "ArtifactStore { kind, put(key, bytes) -> {locator, sha256, byteSize}, get(locator) -> bytes | null } (apps/worker/src/statistics/artifact-store.ts)",
+        "preferred_backend": "R2 (not created); the in-memory adapter is test-only",
+        "adapter_must": ["address objects by content sha256 so put is idempotent", "return the sha256 and byteSize it stored", "never put bytes in D1 (metadata only: statistics_raw_artifacts.backend_type R2 + backend_locator)", "refuse an over-cap object (the cap is set by the owner at binding time)", "stay behind the interface: statistics code never imports an R2 type"],
+        "expiry": "artifact bytes follow retention_class and expires_at (R3_CANARY, R2_FAILED_QUARANTINE, R1_EVIDENCE, R0_TRANSIENT); metadata rows are retained"
+      },
+      "production_instance": "none",
+      "r2_not_implemented_marker": "r2ArtifactStoreNotImplemented() throws until an owner-approved adapter exists"
+    },
+    "82": {
+      "name": "R2 PRODUCTION BINDING",
+      "status": "READY_LOCAL",
+      "scope": "deployment package for a FUTURE binding; nothing is created",
+      "runbook": [
+        { "step": "R0", "mutates": false, "what": "read-only: wrangler r2 bucket list; confirm no bucket named global-content-os-stats-artifacts exists", "hard_stop": "bucket already exists" },
+        { "step": "R1", "mutates": true, "approval_key": "OWNER_APPROVAL_CREATE_R2_BUCKET", "command": "npx wrangler r2 bucket create global-content-os-stats-artifacts", "verify": "wrangler r2 bucket list shows exactly this bucket; empty", "rollback": "leave unbound and empty; deletion only with OWNER_APPROVAL_DELETE_EMPTY_R2_BUCKET" },
+        { "step": "R2", "mutates": true, "approval_key": "OWNER_APPROVAL_R2_LIFECYCLE", "command": "an object-lifecycle rule expiring R3_CANARY and R0_TRANSIENT prefixes (prefix layout art/<class>/<sha256-prefix>/<sha256>)", "verify": "lifecycle rule listed", "rollback": "remove the rule" },
+        { "step": "R3", "mutates": true, "approval_key": "OWNER_APPROVAL_R2_BINDING_DEPLOY", "binding": "[[r2_buckets]] binding = \"STATS_ARTIFACTS\" bucket_name = \"global-content-os-stats-artifacts\" (a reviewed wrangler.toml patch plus the owner-approved R2 ArtifactStore adapter)", "verify": "deployed bindings include STATS_ARTIFACTS; the first file canary stores one artifact and its sha256 equals the metadata row", "rollback": "redeploy the previous Worker version" }
+      ],
+      "not_created": ["bucket", "binding", "adapter"]
+    },
+    "83": {
+      "name": "ZIP/XLSX SOURCE CANARY",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "contract": "one bounded file (SGK-like): content-addressed artifact in R2 (REQUIRED), one sheet range, observation cap 30, locator xlsx:sheet!range, artifact sha256 recorded, quality VALID only when structurally validated, one logical run, owner-SQL policy flow, one canary then an owner-triggered production hand-off (O2 identities)",
+      "local_proof_today": "flows.test.mjs flow 2 (SGK-like ZIP/XLSX) proves the storage path with the in-memory ArtifactStore",
+      "open": ["an XLSX parser for the Worker runtime has not been chosen or measured (CPU)", "R2 does not exist", "the real SGK file layout is source-specific"],
+      "r2_required": true
+    },
+    "84": {
+      "name": "PDF SOURCE CANARY",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "contract": "one bounded PDF (MoH-like): R2 artifact REQUIRED, one table region, every PDF observation starts SUSPECT (frozen rule, trigger STAT_PDF_EXPORT_OBSERVATION_MUST_START_SUSPECT), manual review lifts quality, locator pdf:page/table/row, observation cap 30",
+      "local_proof_today": "flows.test.mjs flow 3 (MoH-like PDF) proves the storage path and the SUSPECT-start rule",
+      "open": ["a PDF table parser for the Worker runtime has not been chosen or measured", "R2 does not exist"],
+      "r2_required": true
+    }
+  },
+  "p_gates": { "P1": "PASS (nothing here changes the first production path)", "P2": "PASS_LOCAL (storage flows proven)", "P3": "PARTIAL (no second live reader)", "P4": "PASS_LOCAL (every contract is bounded)", "P5": "PASS (no activation, no credential, no resource)" }
+}
