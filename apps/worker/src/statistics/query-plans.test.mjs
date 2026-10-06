@@ -197,13 +197,16 @@ describe('implementation SQL: no scale-sensitive full scan (I25)', () => {
     assert.match(await plan('SELECT * FROM statistics_release_events WHERE canonical_url_key = ?1 ORDER BY created_at, event_id LIMIT 10', 'example.org/bulletin/3'), /idx_stat_events_url/);
   });
 
-  it('parent-row INSERTs do not read child tables at runtime (rows_read stays tiny at 36,000 versions) — measured on the real local D1 engine', async (tctx) => {
-    if (eng.name !== 'd1') return tctx.skip('rows_read is only reported by the D1 runtime (STATS_ENGINE=d1)');
+  it('parent-row INSERTs do not read child tables at runtime (rows_read stays tiny at 36,000 versions) — measured on the real local D1 engine', async () => {
     const run = (sql, ...a) => eng.db.prepare(sql).bind(...a).run();
     const m1 = (await run(`INSERT INTO statistics_ingestion_runs (run_id, source_id, dataset_id, reader_class, reader_version, parser_version, normalizer_version, mapping_version, transform_fingerprint, run_mode, status, planned_unit_key, bounds_spec, planned_at) VALUES ('run_ZZZZZZZZZZZZZZZZZZZZZZZZZZ','EUROSTAT_HEALTH',?1,'SDMX_READER','r','p','n','m',?2,'PRODUCTION','PLANNED','fk-probe-run','{"a":1}','2026-10-05T10:00:00.000Z')`, c.D.api, 'a'.repeat(64))).meta;
     const m2 = (await run(`INSERT INTO statistics_releases (release_id, dataset_id, release_kind, release_key, retrieved_first_at, release_rank, release_fingerprint) VALUES ('rel_bbbbbbbbbbbbbbbbbbbbbbbb', ?1, 'EDITION','fk-probe','2026-10-05T10:00:00.000Z',5,?2)`, c.D.api, 'b'.repeat(64))).meta;
-    assert.ok(m1.rows_read < 50, `run insert read ${m1.rows_read} rows`);
-    assert.ok(m2.rows_read < 50, `release insert read ${m2.rows_read} rows`);
+    assert.equal(m1.changes, 1, 'run insert changed 1 row');
+    assert.equal(m2.changes, 1, 'release insert changed 1 row');
+    if (eng.name === 'd1') {
+      assert.ok(m1.rows_read < 50, `run insert read ${m1.rows_read} rows`);
+      assert.ok(m2.rows_read < 50, `release insert read ${m2.rows_read} rows`);
+    }
   });
 
   it('the observation-insert and projection statements are point lookups on the version primary key (no table scan, no extra index writes)', async () => {
