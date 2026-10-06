@@ -141,9 +141,24 @@ export function buildRequestUrl(input: SliceInput): { url: string; slice: Slice 
   return { url, slice };
 }
 
-/** Deterministic checkpoint scope for a bounded unit. */
-export function checkpointScopeKey(s: Slice): string {
-  return `${NATIVE_DATASET_ID}|age=${s.ages.join('+')}|sex=${s.sexes.join('+')}|geo=${s.geos.join('+')}|window=${s.startYear}-${s.endYear}`;
+export type RunClass = 'CANARY' | 'PRODUCTION';
+
+/**
+ * Deterministic checkpoint scope for a bounded unit. CANARY and PRODUCTION ingestion of the same slice are independently addressable: the
+ * PRODUCTION scope is the original key (unchanged), a CANARY scope carries `|class=CANARY`, so a canary checkpoint can never mask a production run.
+ */
+export function checkpointScopeKey(s: Slice, runClass: RunClass = 'PRODUCTION'): string {
+  const base = `${NATIVE_DATASET_ID}|age=${s.ages.join('+')}|sex=${s.sexes.join('+')}|geo=${s.geos.join('+')}|window=${s.startYear}-${s.endYear}`;
+  return runClass === 'CANARY' ? `${base}|class=CANARY` : base;
+}
+
+/**
+ * UPSTREAM_RELEASE_IDENTITY  = the Eurostat `updated` marker (`updated:<utc>`): preserved identically in source_native_release_id / published_at / release_rank.
+ * INTERNAL_OPERATIONAL_RELEASE_IDENTITY = the release_key the frozen schema keys on. PRODUCTION uses the upstream key as is; a CANARY release gets the
+ * `#CANARY` suffix so the same upstream marker can exist once per run class without touching the immutable CANARY row. Never a different timestamp.
+ */
+export function operationalReleaseKey(upstreamReleaseKey: string, runClass: RunClass = 'PRODUCTION'): string {
+  return runClass === 'CANARY' ? `${upstreamReleaseKey}#CANARY` : upstreamReleaseKey;
 }
 
 /** Window-by-window planning for future larger history; each window is its own bounded unit. */

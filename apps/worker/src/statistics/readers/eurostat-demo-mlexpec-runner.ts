@@ -13,7 +13,7 @@ import { period } from '../rules';
 import type { ObservationInput } from '../transactions';
 import {
   DATASET_ID, ENDPOINT, GEO_CATALOG, NATIVE_DATASET_ID, NATIVE_INDICATOR_ID, READER_VERSION, SOURCE_ID,
-  SourceReaderError, boundedFetch, buildRequestUrl, checkpointScopeKey, contentFingerprint, parseJsonStat, releaseIdentity,
+  SourceReaderError, boundedFetch, buildRequestUrl, checkpointScopeKey, contentFingerprint, operationalReleaseKey, parseJsonStat, releaseIdentity,
   type FetchStats, type Fetcher, type ParsedDataset, type ParsedObservation, type SliceInput,
 } from './eurostat-demo-mlexpec';
 
@@ -73,7 +73,7 @@ export async function runDemoMlexpecUnit(rt: StatisticsRuntime, opts: UnitOption
   const { url, slice } = buildRequestUrl(opts.slice); // refuses unbounded/unknown requests before any side effect
   const mode = opts.runMode ?? 'PRODUCTION';
   const owner = opts.owner ?? 'eurostat-reader';
-  const unitKey = checkpointScopeKey(slice);
+  const unitKey = checkpointScopeKey(slice, mode);
   const { datasetId, indicatorId } = await ensureDatasetRegistered(rt);
 
   // ---- run + lease (policy gate is the frozen run-admission trigger: DISABLED sources cannot get a run)
@@ -153,13 +153,14 @@ export async function runDemoMlexpecUnit(rt: StatisticsRuntime, opts: UnitOption
     const retrievedAt = storage.now();
     const known = await repos.releases.latestByDataset(datasetId, 10);
     const newRank = Number(rid.publishedAt.replace(/\D/g, '').slice(0, 14));
-    const prior = known.find((r) => r.release_class === mode && r.release_key !== rid.releaseKey && r.release_rank < newRank && r.status !== 'WITHDRAWN');
-    const rel = (await repos.releases.register({ datasetId, releaseKind: 'API_SNAPSHOT', releaseKey: rid.releaseKey, sourceNativeReleaseId: parsed.updatedRaw, publishedAt: rid.publishedAt, retrievedFirstAt: retrievedAt, releaseClass: mode, supersedesReleaseId: prior?.release_id ?? null, sourceUrl: `${ENDPOINT}/${NATIVE_DATASET_ID}`, releaseFingerprint: rid.fingerprint, termsStatusAtRetrieval: 'PARTIAL' })).release;
+    const relKey = operationalReleaseKey(rid.releaseKey, mode); // internal key per run class; upstream marker preserved below
+    const prior = known.find((r) => r.release_class === mode && r.release_key !== relKey && r.release_rank < newRank && r.status !== 'WITHDRAWN');
+    const rel = (await repos.releases.register({ datasetId, releaseKind: 'API_SNAPSHOT', releaseKey: relKey, sourceNativeReleaseId: parsed.updatedRaw, publishedAt: rid.publishedAt, retrievedFirstAt: retrievedAt, releaseClass: mode, supersedesReleaseId: prior?.release_id ?? null, sourceUrl: `${ENDPOINT}/${NATIVE_DATASET_ID}`, releaseFingerprint: rid.fingerprint, termsStatusAtRetrieval: 'PARTIAL' })).release;
     res.releaseId = rel.release_id;
     await repos.runs.bindRelease(runId, owner, rel.release_id);
 
     // ---- raw request identity (API capture; no payload in D1)
-    const art = (await repos.artifacts.register({ releaseId: rel.release_id, contentSha256: await sha256Hex(fetched.body), apiCapture: { requestDescriptor: `GET ${url}`, responseDigest: await sha256Hex(fetched.body) }, sourceUrl: url, backendType: 'EXTERNAL_REPRODUCIBLE', reproducibilityLocator: `GET ${url}`, contentType: 'application/json', byteSize: fetched.bytes, retrievedAt, parserVersion: READER_VERSION, parseStatus: 'PARSED', retentionClass: 'R1_EVIDENCE', extractionSummary: `${parsed.observations.length} positions; dsd ${parsed.datastructureVersion ?? '?'}` })).artifact;
+    const art = (await repos.artifacts.register({ releaseId: rel.release_id, contentSha256: await sha256Hex(fetched.body), apiCapture: { requestDescriptor: mode === 'CANARY' ? `GET ${url} [run_class=CANARY]` : `GET ${url}`, responseDigest: await sha256Hex(fetched.body) }, sourceUrl: url, backendType: 'EXTERNAL_REPRODUCIBLE', reproducibilityLocator: `GET ${url}`, contentType: 'application/json', byteSize: fetched.bytes, retrievedAt, parserVersion: READER_VERSION, parseStatus: 'PARSED', retentionClass: 'R1_EVIDENCE', extractionSummary: `${parsed.observations.length} positions; dsd ${parsed.datastructureVersion ?? '?'}` })).artifact;
 
     // ---- geographies + series specs (identity from native dimensions, never from labels)
     for (const g of slice.geos) {
