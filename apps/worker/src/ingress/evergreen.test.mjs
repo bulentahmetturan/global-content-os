@@ -161,8 +161,18 @@ test('Harvard (Tıp identity, Duyuru lane) and Cleveland write health_reference 
   const plan = await ev.evergreenPlan({ DB: db }, NOW, { entries: canary });
   assert.deepEqual(plan.sources[0].write_blockers, ['EVERGREEN_PATH_NOT_ACTIVE:CANARY_ONLY'], 'only activation blocks: no lane/Duyuru blocker');
   const feedsBefore = sqlite.prepare(`SELECT COUNT(*) AS n FROM source_feeds`).get().n;
-  const ts = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Time-sensitive Haber item from this week', summary: 's', canonicalUrl: 'https://news.example.org/ts-1', publisher: 'News', publishedAt: daysAgo(1) });
-  const tsBefore = row(sqlite, ts.id);
+  // TIME_SENSITIVE inbox fixtures are written directly (db/temporal.test.mjs precedent): their
+  // published_at stays frozen relative to the test clock NOW, so the ingest gate's wall-clock
+  // freshness window can never reject them as real time advances. fetched_at/updated_at keep
+  // their run-time defaults, so the 14-day Hub list window below always contains them.
+  const insertTs = (id, title, url, publishedAt) => {
+    sqlite.prepare(`INSERT INTO source_items (id, feed_id, route, channel_id, title, canonical_url, publisher, triage_status, dedupe_key, published_at, acquisition_path)
+      VALUES (?, ?, 'kaduse-news', 'kaduse-medikal', ?, ?, 'News', 'inbox', ?, ?, 'TIME_SENSITIVE')`)
+      .run(id, newsFeed, title, url, url, publishedAt);
+    return id;
+  };
+  const tsId = insertTs('ts-fresh', 'Time-sensitive Haber item from this week', 'https://news.example.org/ts-1', daysAgo(1));
+  const tsBefore = row(sqlite, tsId);
   const r = await ev.ingestEvergreenItems({ DB: db }, 'harvard_nutrition_source', { items: [item(1, { url: 'https://nutritionsource.hsph.harvard.edu/vitamin-d/' })] }, NOW, { entries: registry(entry(harvard)) });
   assert.equal(r.created, 1);
   const s = row(sqlite, r.decisions[0].itemId);
@@ -174,17 +184,28 @@ test('Harvard (Tıp identity, Duyuru lane) and Cleveland write health_reference 
   const c = await ev.ingestEvergreenItems({ DB: db }, 'news-cleveland-clinic-health-essentials-sitemap', { items: [item(2, { url: 'https://health.clevelandclinic.org/10-second-balance-test', publishedAt: '2025-02-13' })] }, NOW, { entries: cleveland });
   const cid = c.decisions[0].itemId;
   assert.deepEqual([row(sqlite, cid).route, row(sqlite, cid).acquisition_path, row(sqlite, cid).evergreen_view], ['kaduse-news', 'EVERGREEN', 'health_reference']);
-  for (const [filter, want] of [[{ path: 'TIME_SENSITIVE' }, [ts.id]], [{ path: 'EVERGREEN', view: 'health_reference' }, [s.id, cid].sort()]]) {
+  for (const [filter, want] of [[{ path: 'TIME_SENSITIVE' }, [tsId]], [{ path: 'EVERGREEN', view: 'health_reference' }, [s.id, cid].sort()]]) {
     const list = await q.listItems(db, 'kaduse-news', 'inbox', { sinceDays: 14, ...filter });
     const counts = await q.countByStatus(db, 'kaduse-news', undefined, undefined, { sinceDays: 14, ...filter });
     assert.deepEqual(list.map((x) => x.id).sort(), want, JSON.stringify(filter));
     assert.equal(counts.inbox, list.length, 'path-aware count == list predicate');
   }
-  assert.deepEqual(row(sqlite, ts.id), tsBefore, 'existing TIME_SENSITIVE item unaffected');
-  const stale = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Old time-sensitive Haber item', summary: 's', canonicalUrl: 'https://news.example.org/ts-old', publisher: 'News', publishedAt: daysAgo(5) });
-  assert.ok(stale.id);
-  const exp = await actions.expireStaleInboxItems({ DB: db }, 'kaduse-news', 3);
-  assert.deepEqual(exp.ids, [stale.id], 'only the stale TIME_SENSITIVE item expires');
+  assert.deepEqual(row(sqlite, tsId), tsBefore, 'existing TIME_SENSITIVE item unaffected');
+  const staleId = insertTs('ts-stale', 'Old time-sensitive Haber item', 'https://news.example.org/ts-old', daysAgo(5));
+  assert.ok(row(sqlite, staleId));
+  const boundaryId = insertTs('ts-boundary', 'Boundary time-sensitive Haber item exactly at the freshness limit', 'https://news.example.org/ts-boundary', daysAgo(3));
+  const boundaryBefore = row(sqlite, boundaryId);
+  // Frozen clock: ages are evaluated as of NOW (2026-10-02), so the 1-day item (inside the
+  // window) and the 3-day item (exact boundary: strict `>` in expireStaleInboxItems, the same
+  // contract as ingestGate) are retained and only the 5-day item expires.
+  const exp = await actions.expireStaleInboxItems({ DB: db }, 'kaduse-news', 3, 500, NOW);
+  assert.deepEqual(exp.ids, [staleId], 'only the stale TIME_SENSITIVE item expires');
+  assert.equal(exp.expired, 1);
+  assert.equal(row(sqlite, staleId).triage_status, 'hold', 'stale TIME_SENSITIVE item moves to hold');
+  assert.equal(row(sqlite, tsId).triage_status, 'inbox', 'TIME_SENSITIVE item inside the window is retained');
+  assert.equal(row(sqlite, boundaryId).triage_status, 'inbox', 'TIME_SENSITIVE item exactly at the window edge is retained (age == maxAgeDays)');
+  assert.deepEqual(row(sqlite, tsId), tsBefore, 'retained TIME_SENSITIVE item is untouched');
+  assert.deepEqual(row(sqlite, boundaryId), boundaryBefore, 'boundary TIME_SENSITIVE item is untouched');
   for (const id of [s.id, cid]) assert.equal(row(sqlite, id).triage_status, 'inbox', `${id} (published years ago) is not expired`);
 });
 

@@ -19,3 +19,6 @@ __pycache__/
 
 # local test logs
 .logs/
+
+# local stats migration config carrying the real production database id (never commit)
+release/wrangler.stats-migrate.toml

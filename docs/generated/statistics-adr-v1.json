@@ -1,0 +1,238 @@
+{
+  "phase": "DESIGN_HEALTH_STATISTICS_PIPELINE_ARCHITECTURE",
+  "as_of": "2026-10-05",
+  "source_base_version": "V1",
+  "mode": "ARCHITECTURE_ONLY",
+  "note": "Design record. No schema, migration, route, cron, binding or code exists for it.",
+  "adrs": [
+    {
+      "id": "ADR-STAT-001",
+      "title": "Subsystem boundary",
+      "decision": "HEALTH_STATISTICS is a separate structured-data subsystem with its own tables, runtime policy and read models. It is not EVERGREEN, not TIME_SENSITIVE, not a third path, not a lane. No foreign key, column or trigger on source_items/item_path_membership. A one-way outbox (statistics_release_events) may feed existing TIME_SENSITIVE intake.",
+      "alternatives": [
+        "Store observations as source_items rows with a new path",
+        "Add STATISTICS to temporal_path/evergreen_view",
+        "Shared tables with a discriminator column"
+      ],
+      "why_rejected": "Content rows are editorial objects (dedupe by URL/title, triage lifecycle); observations are versioned structured facts. Adding a path violates the owner decision (two canonical paths) and migration 0028 CHECK constraints.",
+      "impact": {
+        "P1": "isolation of blast radius",
+        "P2": "n/a",
+        "P3": "independent history",
+        "P4": "no scans of source_items",
+        "P5": "no editorial auto-write"
+      },
+      "consequence": "Schema phase creates statistics_* tables only; zero ALTERs on content tables."
+    },
+    {
+      "id": "ADR-STAT-002",
+      "title": "Storage split",
+      "decision": "STRUCTURED_STORE = a dedicated D1 database (future binding STATS_DB, own migrations directory) with a documented fallback of `statistics_*` tables in the existing DB. RAW_ARTIFACT_STORE = an ArtifactStore abstraction whose durable implementation is R2 (FUTURE: no R2 binding exists on local main or origin/main); until then metadata-only mode. KV not used. Runtime state (policy, leases, checkpoints) lives in D1, following Evergreen's Worker-owned runtime-state pattern.",
+      "alternatives": [
+        "Same D1 database with prefixed tables",
+        "Observations as JSON blobs in R2",
+        "KV for current values",
+        "Store PDFs/XLSX as D1 blobs"
+      ],
+      "why_rejected": "Same-DB: shares the 500 MB database size, the migration number space (0027 reserved for localization, 0028–0030 on main) and the production quota blast radius; kept only as fallback. R2-only observations: no relational bounded queries. KV: eventual consistency conflicts with idempotent writes. D1 blobs: row size limits and read-quota burn (43 MB yearbook).",
+      "impact": {
+        "P1": "quota and size isolation",
+        "P2": "files not in D1",
+        "P3": "durable evidence",
+        "P4": "bounded relational reads",
+        "P5": "creating a database or bucket = owner-approved platform change"
+      },
+      "consequence": "Schema phase decides STATS_DB vs fallback with the owner; R2 needs a wrangler binding change (separate approval). Free-tier facts to verify at that gate: D1 row-read quota 5M/day shared (documented in docs/OPERATIONS.md §7), rows-written and size limits per Cloudflare docs (not verified in repo), Workers Free 10 ms CPU per invocation (documented in scheduled-jobs.ts)."
+    },
+    {
+      "id": "ADR-STAT-003",
+      "title": "Canonical identity",
+      "decision": "Deterministic, content-independent ids: source_id (frozen slug); dataset_id '<source>:<native key>'; release_id hash of (dataset, kind, release_key); series_id hash of canonical_series_key (stored in clear); observation_version_id hash of (series, period_key, release); artifact_id = content sha256; geography '<scheme>:<code>'; run_id ULID (non-deterministic by design). Source-native ids are stored verbatim in separate columns and never overwritten. Ids never use row order, display names or URLs.",
+      "alternatives": [
+        "Autoincrement ids",
+        "UUIDv4 everywhere",
+        "URL as source identity",
+        "Hash of value"
+      ],
+      "why_rejected": "Autoincrement/UUID break re-run idempotency; URL changes (dosyasb→dosyamerkez host, sgk path casing) would orphan history; value hashes make revisions look like new series.",
+      "impact": {
+        "P1": "stable identity",
+        "P2": "re-runs converge",
+        "P3": "explainable",
+        "P4": "point lookups",
+        "P5": "n/a"
+      },
+      "consequence": "Schema phase fixes the exact canonicalization function (field order, case, NFC, separators) and a test vector set."
+    },
+    {
+      "id": "ADR-STAT-004",
+      "title": "Series and dimension model",
+      "decision": "HYBRID: typed core dimensions as columns on statistics_series + an indexed extension table statistics_series_dimensions for extra source dimensions + a lossless source_key_json that is never queried. Series carry no time, release or value. Observations carry only series_id + period.",
+      "alternatives": [
+        "Fully normalized dimension tables per dimension",
+        "JSON dimension payload only",
+        "Observation-level dimension columns"
+      ],
+      "why_rejected": "Normalized-per-dimension forces schema change per source; JSON-only forces scans (violates P4 and the 2026-10-01 D1 read incident rule); observation-level dims multiply rows and indexes.",
+      "impact": {
+        "P1": "no per-source schema churn",
+        "P2": "all readers map into the same shape",
+        "P3": "n/a",
+        "P4": "filters hit the small series table first",
+        "P5": "canonical dimension vocabulary reviewed"
+      },
+      "consequence": "Schema phase fixes the core column set and the controlled vocabularies (measure_type, estimate_type, standardization, sex, age_group)."
+    },
+    {
+      "id": "ADR-STAT-005",
+      "title": "Immutable observation revision model",
+      "decision": "Observation versions are immutable. A new version is written only when the value digest (value_status+numeric_value+bounds+flags) differs from the current version or no version exists for that (series, period). A re-delivery with an identical digest writes no version; it only advances last_confirmed_* on the projection. Each version records supersedes_version_id, revision_class (NEW_RELEASE|SOURCE_REVISION|CORRECTION|METHODOLOGY_CHANGE|BACKFILL|UNKNOWN_REVISION) and the source's own reason text only if stated. Edition-wide restatements (e.g., UN WPP edition) are NEW_RELEASE + METHODOLOGY_CHANGE at release level, not per-value inference.",
+      "alternatives": [
+        "Overwrite in place with an audit log",
+        "Write a version on every run",
+        "Bitemporal full-row copies"
+      ],
+      "why_rejected": "Overwrite destroys explainability (P3). Version-per-run multiplies D1 writes (free-tier write budget) and fills history with no-ops. Bitemporal copies double storage.",
+      "impact": {
+        "P1": "history integrity",
+        "P2": "n/a",
+        "P3": "full revision explainability",
+        "P4": "bounded write volume",
+        "P5": "n/a"
+      },
+      "consequence": "Schema phase adds immutability triggers (repo precedent: 0028 ACQUISITION_PATH_IMMUTABLE) except the quality_state column."
+    },
+    {
+      "id": "ADR-STAT-006",
+      "title": "Current projection",
+      "decision": "Materialized statistics_current_observations keyed (series_id, period_key), written in the same atomic D1 batch as the version insert, holding a pointer plus denormalized value. Deterministic selection: highest release_ordinal, then retrieved_at, then version id; versions with quality_state QUARANTINED are excluded; an older release can never displace a newer one (backfill rule). Projection is rebuildable from history.",
+      "alternatives": [
+        "SQL view with window functions over history",
+        "Pointer on history row (is_current flag)",
+        "No projection"
+      ],
+      "why_rejected": "Views/windows read whole histories (quota). An is_current flag on the history row needs an UPDATE of an immutable table. No projection fails P4.",
+      "impact": {
+        "P1": "consistent reads",
+        "P2": "n/a",
+        "P3": "rebuild proves history",
+        "P4": "normal reads are PK/range lookups",
+        "P5": "n/a"
+      },
+      "consequence": "Schema phase defines the exact batch and a rebuild job; reads never touch versions unless asked for history."
+    },
+    {
+      "id": "ADR-STAT-007",
+      "title": "Provenance and lineage",
+      "decision": "Provenance is structural, not a per-observation table: every version carries release_id, run_id, source_locator and (file sources) artifact_id; runs carry adapter/parser/mapping versions; releases carry URL/terms context; artifacts carry checksums. A version without these cannot be inserted (NOT NULL + Worker admission check). Lineage is a small source-level graph (DERIVED_FROM, MIRROR_OF, CO_OWNED_WITH, SUPERSEDES) seeded from the frozen lineage artifact; two observations are independent only if no lineage path connects their source nodes.",
+      "alternatives": [
+        "Provenance row per observation",
+        "Free-text provenance JSON",
+        "Per-observation lineage"
+      ],
+      "why_rejected": "A provenance row per observation doubles D1 writes; free text is not queryable; per-observation lineage is unnecessary because lineage is a property of source/dataset/concept.",
+      "impact": {
+        "P1": "no value without provenance",
+        "P2": "traceable end to end",
+        "P3": "explainable",
+        "P4": "low write cost",
+        "P5": "secondary never becomes independent evidence"
+      },
+      "consequence": "Secondary readers write validation events only. PDF-derived versions require extraction_method and a reviewable locator."
+    },
+    {
+      "id": "ADR-STAT-008",
+      "title": "Ingestion run and checkpoint model",
+      "decision": "Worker-owned authority (precedent: Evergreen runtime): the Worker plans, leases and admits; executors (GitHub Actions runner, or the Türkiye runner for Turkish-network sources) fetch/parse/normalize and POST bounded batches. Run status: PLANNED → RUNNING → COMPLETED|PARTIAL|FAILED|CANCELLED; stages (DISCOVER, FETCH, CAPTURE, PARSE, NORMALIZE, VALIDATE, WRITE, RECONCILE, FINALIZE) are markers on a RUNNING run, not states. PAUSED is a source runtime state, not a run state. Checkpoints are per bounded unit and advance only on success; idempotency comes from deterministic ids and UNIQUE keys, so the same release re-run produces zero new rows.",
+      "alternatives": [
+        "Executor writes to D1 directly",
+        "State machine with 12 states",
+        "Queue-driven (Queues binding)"
+      ],
+      "why_rejected": "Direct writes bypass scope/activation checks; a long state list adds no operational value; Queues are not bound and not needed at this volume.",
+      "impact": {
+        "P1": "central admission",
+        "P2": "same flow for all readers",
+        "P3": "resume/recover",
+        "P4": "per-unit bounds",
+        "P5": "activation enforced at admission"
+      },
+      "consequence": "Batch POST contract (stat-batch/1) is frozen in the schema/contract phase. Batch size must respect Workers Free 10 ms CPU."
+    },
+    {
+      "id": "ADR-STAT-009",
+      "title": "Source activation governance",
+      "decision": "Registry identity ≠ runtime activation. Runtime states: DISABLED (default for every source), CANARY_ONLY, ACTIVE, PAUSED, RETIRED. Only an owner-authorized action (operator token + recorded approval reference + prerequisite checklist) can move DISABLED→CANARY_ONLY→ACTIVE. Prerequisites are explicit: terms_status acceptable or recorded owner override, activation_legal_gate PASS, auth secret present (by name), rate/write budgets set, bounded canary passed. Ingestion code and the scheduler can only move a source toward PAUSED. CANONICAL_GATED sources get adapter designs but stay DISABLED.",
+      "alternatives": [
+        "Auto-activate after a passing canary",
+        "Activation flag in the frozen registry",
+        "Per-reader activation logic"
+      ],
+      "why_rejected": "Violates P5 and the owner's governance rule; registry is frozen documentation; per-reader logic duplicates and drifts.",
+      "impact": {
+        "P1": "fail-closed",
+        "P2": "n/a",
+        "P3": "auditable state changes",
+        "P4": "n/a",
+        "P5": "human governed"
+      },
+      "consequence": "Runtime policy table + operator route are implementation-phase items; no route exists now."
+    },
+    {
+      "id": "ADR-STAT-010",
+      "title": "TIME_SENSITIVE bridge",
+      "decision": "One-way outbox: statistics_release_events (NEW_RELEASE, NEW_EDITION, MATERIAL_REVISION, IMPORTANT_SERIES_CHANGE) with an owner-curated materiality policy. An ELIGIBLE event may be delivered to the existing TIME_SENSITIVE intake as a bounded candidate (official URL + ≤5 headline facts + caveats) that enters normal human triage. Never copies observations into content, never writes articles, never publishes, never reads content back as data. Values are suppressed when the republication gate for that source is not PASS.",
+      "alternatives": [
+        "Auto-create content for every release",
+        "Content rows as the source of truth",
+        "Pull model from the editorial system into stats tables"
+      ],
+      "why_rejected": "Floods triage, breaks the separation, and makes content the data store.",
+      "impact": {
+        "P1": "no coupling",
+        "P2": "n/a",
+        "P3": "idempotent event ids",
+        "P4": "bounded payload",
+        "P5": "humans decide content"
+      },
+      "consequence": "Dedupe against existing TÜİK press-release news feed (news-registry id tuik-saglik-sosyal-koruma, WEB_ONLY) must use the official bulletin URL. Implementation needs a TIME_SENSITIVE-side adapter: separate gate after latest-main integration."
+    },
+    {
+      "id": "ADR-STAT-011",
+      "title": "Bounded execution",
+      "decision": "Every reader run requires explicit bounds (dataset × geography/series key × indicator × time window × release/file/edition × page) and a write budget; unbounded plans are refused at the Worker. Every reader must support a bounded canary slice before activation. The planner never schedules full-history pulls; history backfill is an explicit, owner-triggered, chunked job. Budget envelope (planning): ≤ ~200 observation rows per admitted batch (Worker CPU), ≤ a per-source daily write budget set in runtime policy, reads only via indexed lookups.",
+      "alternatives": [
+        "Fetch everything and filter",
+        "Source-level cadence only"
+      ],
+      "why_rejected": "Violates P4 and the D1 quota incident rule; whole-world/full-history is not normal runtime.",
+      "impact": {
+        "P1": "quota safety",
+        "P2": "n/a",
+        "P3": "resumable chunks",
+        "P4": "core requirement",
+        "P5": "backfill needs owner action"
+      },
+      "consequence": "Per-source bounds and canary slices are in the adapter matrix; numeric budgets are fixed in the schema/contract phase against the verified Cloudflare limits."
+    },
+    {
+      "id": "ADR-STAT-012",
+      "title": "Raw artifact retention",
+      "decision": "Four classes: R0 TRANSIENT (fetch temp and API payloads, ≤7 days, digest + request descriptor kept), R1 EVIDENCE (release files PDF/XLSX/ZIP that are the only evidence: durable, content-addressed, stored only if terms permit), R2 FAILED/QUARANTINE (90 days), R3 CANARY (30 days). API readers are reproducible from request descriptor + response digest + the immutable versions; full payloads are not retained by default. No bytes are stored for sources whose terms status blocks retention. Until R2 exists: metadata-only (checksum, size, URL, parser version) and the runner's ephemeral workspace; PDF sources therefore cannot be ACTIVE without a durable store or an explicit owner waiver.",
+      "alternatives": [
+        "Keep everything forever",
+        "Keep nothing",
+        "Store in git"
+      ],
+      "why_rejected": "Forever = cost and licence risk; nothing = no explainability for PDF values; git bloats and publishes data.",
+      "impact": {
+        "P1": "evidence for PDF values",
+        "P2": "reproducible",
+        "P3": "explainable",
+        "P4": "bounded storage",
+        "P5": "retention subject to terms gate"
+      },
+      "consequence": "R2 binding is a prerequisite for ACTIVE PDF/ZIP readers (MoH, HSGM, SGK, TNSA); API readers can be activated without it."
+    }
+  ]
+}

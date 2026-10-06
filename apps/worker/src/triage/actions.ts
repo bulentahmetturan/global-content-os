@@ -342,12 +342,15 @@ export async function purgeExpiredTrash(
  * 'hold' keeps them visible/reversible in the Hub ("Beklemede" tab, undo action) instead of
  * silently vanishing or being hard-deleted.
  * Age is a TIME_SENSITIVE notion: an item acquired on, or also a member of, the EVERGREEN path is never expired here.
+ * `now` is injectable (same whole-calendar-day convention as ingestGate) so tests run on a
+ * frozen clock; production callers omit it and keep wall-clock behavior.
  */
 export async function expireStaleInboxItems(
   env: Env,
   route: RouteId,
   maxAgeDays: number,
-  limit = 500
+  limit = 500,
+  now: Date = new Date()
 ): Promise<{ expired: number; ids: string[] }> {
   // published_at is a free-text string (ISO for items ingested after the 2026-09-22 ingest-gate
   // rollout, but older rows can still carry raw RFC822 -- "Fri, 11 Sep 2026 ..."), so filtering
@@ -363,7 +366,7 @@ export async function expireStaleInboxItems(
     .bind(route, limit)
     .all<{ id: string; published_at: string }>();
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = now.toISOString().slice(0, 10);
   const ids = (results ?? [])
     .filter((r) => {
       const date = normalizeDate(r.published_at);

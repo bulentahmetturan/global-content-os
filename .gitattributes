@@ -1,0 +1,6 @@
+# Byte-stability for hashed/parsed artifacts: these files are checksummed
+# (migration sha256 pin) or parsed line-wise by tests, so they must check
+# out with LF on every platform regardless of core.autocrlf.
+migrations/statistics/*.sql text eol=lf
+docs/generated/statistics-schema-v1.sql text eol=lf
+docs/DOSSIER-SOURCES.md text eol=lf

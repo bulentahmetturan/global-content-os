@@ -17,6 +17,7 @@ import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { handleDossierCanary } from './dossier-canary-routes';
 import { DOSSIER_RECURRING_CRON, handleDossierOps, runDossierRecurringTick } from './dossier-ops-routes';
+import { handleStatisticsRoutes } from './statistics/statistics-routes';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -125,6 +126,10 @@ export default {
       // DOSSIER recurring operation read model + owner controls (own read / write tokens, distinct from OPS_TOKEN).
       const dossierOps = await handleDossierOps(request, env, path);
       if (dossierOps) return dossierOps;
+      // HEALTH_STATISTICS operator surface (canary package + read-only operations): OPS_TOKEN-gated inside the handlers, answers /api/statistics/* only,
+      // and fails closed (503) unless the STATS_DB binding exists. It never reads or writes the content database.
+      const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
+      if (statisticsResponse) return statisticsResponse;
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {

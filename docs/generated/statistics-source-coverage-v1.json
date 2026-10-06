@@ -1,0 +1,1339 @@
+{
+  "phase": "SOURCE_DISCOVERY_AND_DATASET_AUDIT",
+  "as_of": "2026-10-05",
+  "mode": "READ_ONLY_RESEARCH",
+  "note": "Research output. Not a production registry; no source is ACTIVE. Evidence = official URLs probed read-only on as_of; UNVERIFIED marks claims taken from secondary/search summaries.",
+  "values": "PRIMARY|SECONDARY|NONE (a primary mark = source lists the domain; depth varies)",
+  "matrix": {
+    "TURKSTAT_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "TR_MINISTRY_OF_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "PRIMARY",
+      "HOSPITAL_CAPACITY": "PRIMARY",
+      "HEALTH_WORKFORCE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "PRIMARY",
+      "SCREENING": "PRIMARY",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "PRIMARY"
+    },
+    "HSGM_PUBLIC_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "PRIMARY",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "PRIMARY",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "PRIMARY",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "PRIMARY",
+      "SCREENING": "PRIMARY",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "PRIMARY"
+    },
+    "SGK_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "PRIMARY",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "TR_HACETTEPE_HIPS_TNSA": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "WHO_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "PRIMARY",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "PRIMARY",
+      "CARDIOVASCULAR": "PRIMARY",
+      "DIABETES_METABOLIC": "PRIMARY",
+      "RESPIRATORY": "PRIMARY",
+      "MENTAL_HEALTH": "PRIMARY",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "PRIMARY",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "PRIMARY",
+      "HEALTH_WORKFORCE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "PRIMARY",
+      "ENVIRONMENTAL_HEALTH": "PRIMARY",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "WORLD_BANK_HEALTH": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "PRIMARY",
+      "HEALTH_WORKFORCE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "PRIMARY",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "EUROSTAT_HEALTH": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "PRIMARY",
+      "HOSPITAL_CAPACITY": "PRIMARY",
+      "HEALTH_WORKFORCE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "PRIMARY",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "UN_WORLD_POPULATION_PROSPECTS": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "UNICEF_DATA": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "PRIMARY",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "CDC_NCHS_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "PRIMARY",
+      "DIABETES_METABOLIC": "PRIMARY",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "US_CENSUS_HEALTH": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "PRIMARY",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "UK_ONS_HEALTH": {
+      "POPULATION_DEMOGRAPHY": "PRIMARY",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "PRIMARY",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "OECD_HEALTH_STATISTICS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "PRIMARY",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "PRIMARY",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "PRIMARY",
+      "MATERNAL_REPRODUCTIVE": "PRIMARY",
+      "CHILD_NEWBORN": "PRIMARY",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "NONE",
+      "OBESITY": "PRIMARY",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "PRIMARY",
+      "HOSPITAL_CAPACITY": "PRIMARY",
+      "HEALTH_WORKFORCE": "PRIMARY",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "PRIMARY",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "PRIMARY",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "IHME_GBD": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "PRIMARY",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "PRIMARY",
+      "CARDIOVASCULAR": "PRIMARY",
+      "DIABETES_METABOLIC": "PRIMARY",
+      "RESPIRATORY": "PRIMARY",
+      "MENTAL_HEALTH": "PRIMARY",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "PRIMARY",
+      "OBESITY": "PRIMARY",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "PRIMARY",
+      "HEALTH_INEQUALITY": "PRIMARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "PRIMARY",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "IARC_GLOBAL_CANCER_OBSERVATORY": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "PRIMARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "PRIMARY",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "PRIMARY",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "UNAIDS_DATA": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "PRIMARY",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "PRIMARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "ECDC_SURVEILLANCE": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "PRIMARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "PRIMARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "PRIMARY",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "NCD_RISC": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "PRIMARY",
+      "DIABETES_METABOLIC": "PRIMARY",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "PRIMARY",
+      "RISK_FACTORS": "PRIMARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "OUR_WORLD_IN_DATA_GLOBAL_HEALTH": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "SECONDARY",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "SECONDARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "SECONDARY",
+      "COMMUNICABLE_DISEASE": "SECONDARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "SECONDARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "SECONDARY",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "SECONDARY",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "COUNTY_HEALTH_RANKINGS": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "SECONDARY",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "SECONDARY",
+      "RISK_FACTORS": "SECONDARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "SECONDARY",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "UN_SDG_GLOBAL_DATABASE": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "SECONDARY",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "SECONDARY",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "SECONDARY",
+      "CHILD_NEWBORN": "SECONDARY",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "SECONDARY",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "SECONDARY",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "SECONDARY",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "NONE",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    },
+    "ILOSTAT_OSH": {
+      "POPULATION_DEMOGRAPHY": "NONE",
+      "LIFE_EXPECTANCY": "NONE",
+      "ALL_CAUSE_MORTALITY": "NONE",
+      "CAUSE_SPECIFIC_MORTALITY": "NONE",
+      "MORBIDITY": "NONE",
+      "DISEASE_BURDEN": "NONE",
+      "COMMUNICABLE_DISEASE": "NONE",
+      "CANCER": "NONE",
+      "CARDIOVASCULAR": "NONE",
+      "DIABETES_METABOLIC": "NONE",
+      "RESPIRATORY": "NONE",
+      "MENTAL_HEALTH": "NONE",
+      "MATERNAL_REPRODUCTIVE": "NONE",
+      "CHILD_NEWBORN": "NONE",
+      "IMMUNIZATION": "NONE",
+      "NUTRITION": "NONE",
+      "OBESITY": "NONE",
+      "RISK_FACTORS": "NONE",
+      "DISABILITY": "NONE",
+      "HEALTH_INEQUALITY": "NONE",
+      "HEALTHCARE_UTILIZATION": "NONE",
+      "HOSPITAL_CAPACITY": "NONE",
+      "HEALTH_WORKFORCE": "NONE",
+      "HEALTH_EXPENDITURE": "NONE",
+      "HEALTH_FINANCING_INSURANCE": "NONE",
+      "PRIMARY_PREVENTIVE_CARE": "NONE",
+      "SCREENING": "NONE",
+      "ENVIRONMENTAL_HEALTH": "NONE",
+      "OCCUPATIONAL_HEALTH": "PRIMARY",
+      "OTHER_PUBLIC_HEALTH": "NONE"
+    }
+  },
+  "domain_summary": {
+    "POPULATION_DEMOGRAPHY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA"
+      ],
+      "global_primary_sources_any": [
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA",
+        "US_CENSUS_HEALTH",
+        "UK_ONS_HEALTH"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 8
+    },
+    "LIFE_EXPECTANCY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "UK_ONS_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 8
+    },
+    "ALL_CAUSE_MORTALITY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "UK_ONS_HEALTH"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 6
+    },
+    "CAUSE_SPECIFIC_MORTALITY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "TR_MINISTRY_OF_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "UNICEF_DATA",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 9
+    },
+    "MORBIDITY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "SGK_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "EUROSTAT_HEALTH",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "EUROSTAT_HEALTH",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "UK_ONS_HEALTH",
+        "IHME_GBD",
+        "ECDC_SURVEILLANCE"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 7
+    },
+    "DISEASE_BURDEN": {
+      "turkey_sources": [],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY",
+        "UNAIDS_DATA"
+      ],
+      "turkey_gap": "YES",
+      "unique_value": "NO",
+      "overlap_count": 4
+    },
+    "COMMUNICABLE_DISEASE": {
+      "turkey_sources": [
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "UNAIDS_DATA",
+        "ECDC_SURVEILLANCE"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 8
+    },
+    "CANCER": {
+      "turkey_sources": [
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "IARC_GLOBAL_CANCER_OBSERVATORY"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 5
+    },
+    "CARDIOVASCULAR": {
+      "turkey_sources": [],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "turkey_gap": "YES",
+      "unique_value": "NO",
+      "overlap_count": 4
+    },
+    "DIABETES_METABOLIC": {
+      "turkey_sources": [],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "turkey_gap": "YES",
+      "unique_value": "NO",
+      "overlap_count": 4
+    },
+    "RESPIRATORY": {
+      "turkey_sources": [
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 3
+    },
+    "MENTAL_HEALTH": {
+      "turkey_sources": [],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "YES",
+      "unique_value": "NO",
+      "overlap_count": 3
+    },
+    "MATERNAL_REPRODUCTIVE": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 9
+    },
+    "CHILD_NEWBORN": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UN_WORLD_POPULATION_PROSPECTS",
+        "UNICEF_DATA",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 10
+    },
+    "IMMUNIZATION": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "HSGM_PUBLIC_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "OECD_HEALTH_STATISTICS",
+        "ECDC_SURVEILLANCE"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 8
+    },
+    "NUTRITION": {
+      "turkey_sources": [
+        "HSGM_PUBLIC_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "UNICEF_DATA",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 6
+    },
+    "OBESITY": {
+      "turkey_sources": [
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 5
+    },
+    "RISK_FACTORS": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "HSGM_PUBLIC_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "OECD_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "NCD_RISC"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 10
+    },
+    "DISABILITY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "EUROSTAT_HEALTH",
+        "UNICEF_DATA",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "EUROSTAT_HEALTH",
+        "UNICEF_DATA",
+        "US_CENSUS_HEALTH",
+        "UK_ONS_HEALTH",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 6
+    },
+    "HEALTH_INEQUALITY": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS",
+        "TR_HACETTEPE_HIPS_TNSA"
+      ],
+      "global_primary_sources_with_turkey": [
+        "EUROSTAT_HEALTH",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "EUROSTAT_HEALTH",
+        "CDC_NCHS_HEALTH_STATISTICS",
+        "US_CENSUS_HEALTH",
+        "UK_ONS_HEALTH",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 7
+    },
+    "HEALTHCARE_UTILIZATION": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 3
+    },
+    "HOSPITAL_CAPACITY": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 5
+    },
+    "HEALTH_WORKFORCE": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 5
+    },
+    "HEALTH_EXPENDITURE": {
+      "turkey_sources": [
+        "TURKSTAT_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "WORLD_BANK_HEALTH",
+        "EUROSTAT_HEALTH",
+        "UK_ONS_HEALTH",
+        "OECD_HEALTH_STATISTICS",
+        "UNAIDS_DATA"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 7
+    },
+    "HEALTH_FINANCING_INSURANCE": {
+      "turkey_sources": [
+        "SGK_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WORLD_BANK_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WORLD_BANK_HEALTH",
+        "US_CENSUS_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 4
+    },
+    "PRIMARY_PREVENTIVE_CARE": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [],
+      "global_primary_sources_any": [],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 2
+    },
+    "SCREENING": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "EUROSTAT_HEALTH",
+        "OECD_HEALTH_STATISTICS"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 5
+    },
+    "ENVIRONMENTAL_HEALTH": {
+      "turkey_sources": [],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "UNICEF_DATA",
+        "IHME_GBD"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "UNICEF_DATA",
+        "IHME_GBD"
+      ],
+      "turkey_gap": "YES",
+      "unique_value": "NO",
+      "overlap_count": 3
+    },
+    "OCCUPATIONAL_HEALTH": {
+      "turkey_sources": [
+        "SGK_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "ILOSTAT_OSH"
+      ],
+      "global_primary_sources_any": [
+        "WHO_HEALTH_STATISTICS",
+        "IHME_GBD",
+        "ILOSTAT_OSH"
+      ],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 4
+    },
+    "OTHER_PUBLIC_HEALTH": {
+      "turkey_sources": [
+        "TR_MINISTRY_OF_HEALTH_STATISTICS",
+        "HSGM_PUBLIC_HEALTH_STATISTICS"
+      ],
+      "global_primary_sources_with_turkey": [],
+      "global_primary_sources_any": [],
+      "turkey_gap": "NO",
+      "unique_value": "NO",
+      "overlap_count": 2
+    }
+  }
+}
