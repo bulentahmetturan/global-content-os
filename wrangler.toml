@@ -39,7 +39,7 @@ BIBLE_VERSION = "4.0"
 # DOSSIER canary master switch: OFF. Nothing in DOSSIER runs unless this is "true" AND an operator enables it (see docs/DOSSIER-CANARY-RUNBOOK.md).
 DOSSIER_CANARY_ENABLED = "false"
 # DOSSIER recurring operation master switch: OFF. The */5 cron tick reads nothing unless this is "true" AND the owner enabled recurring and a source state.
-DOSSIER_RECURRING_ENABLED = "true"
+DOSSIER_RECURRING_ENABLED = "false"
 # HEALTH_STATISTICS canary master switch: ON for the owner-authorized first canary (S6); redeployed false at shutdown (S10).
 STATISTICS_CANARY_ENABLED = "true"
 
