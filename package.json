@@ -34,7 +34,9 @@
     "statistics:local-runtime": "node --test apps/worker/src/statistics/local-runtime.test.mjs",
     "statistics:eurostat-profile": "node scripts/statistics-eurostat-profile.mjs",
     "statistics:eurostat-live-smoke": "node scripts/statistics-eurostat-live-smoke.mjs",
-    "statistics:capacity-probe": "node scripts/statistics-capacity-probe.mjs"
+    "statistics:capacity-probe": "node scripts/statistics-capacity-probe.mjs",
+    "statistics:bootstrap-sql": "node scripts/statistics-build-bootstrap-sql.mjs",
+    "statistics:bootstrap-sql:check": "node scripts/statistics-build-bootstrap-sql.mjs --check"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20261001.1",

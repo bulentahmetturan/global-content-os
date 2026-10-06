@@ -1,0 +1,144 @@
+{
+  "$comment": "HEALTH_STATISTICS production infrastructure sequence (items 38-44). NONE of these has been run. Every mutating step needs its own explicit owner approval; approval for one step never covers the next.",
+  "stop_rules": [
+    "first failure or unexpected output stops the sequence; no blind retry",
+    "never print, persist or commit a token or a database id outside the git-ignored local config",
+    "never push or merge from this sequence",
+    "the content database is only ever READ (fingerprint, absence queries)"
+  ],
+  "commands": [
+    {
+      "id": "I0",
+      "items": [
+        38,
+        42
+      ],
+      "purpose": "read-only preflight: account, existing databases, content DB baseline",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler whoami; npx wrangler d1 list --json; npx wrangler d1 execute global-content-os --remote --json --command \"SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name <> 'd1_migrations' ORDER BY type, name\" | node scripts/statistics-schema-fingerprint.mjs",
+      "expected": "the expected account; exactly the known databases and NO database named global-content-os-stats; the content DB fingerprint is recorded as the BEFORE baseline",
+      "rollback": "none"
+    },
+    {
+      "id": "I1",
+      "items": [
+        38
+      ],
+      "purpose": "create the dedicated production STATS_DB (empty)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
+      "command": "npx wrangler d1 create global-content-os-stats   (no --location: automatic placement; the owner may add one explicit location hint, it does not change the contract)",
+      "expected": "prints a new database_id (a UUID that differs from the content database id c0ce92dc-9842-4dd9-9d05-a8d09e798b34); the database is empty; it is created in the same account as the Worker",
+      "rollback": "leave it UNBOUND and EMPTY (nothing references it). Deleting it needs a separate explicit approval OWNER_APPROVAL_DELETE_EMPTY_STATS_DB; it is never deleted automatically"
+    },
+    {
+      "id": "I2",
+      "items": [
+        39
+      ],
+      "purpose": "write the local stats-only migration config (never committed) and record the Time Travel baseline",
+      "class": "LOCAL_AND_READ_ONLY",
+      "mutates": false,
+      "approval_key": null,
+      "command": "copy release/wrangler.stats-migrate.template.toml to release/wrangler.stats-migrate.toml and replace the database_id with the value printed by I1; npx wrangler d1 time-travel info STATS_DB --config release/wrangler.stats-migrate.toml",
+      "expected": "the config names ONLY STATS_DB with migrations_dir migrations/statistics; no content database entry; the real id exists only in the git-ignored copy",
+      "rollback": "delete the local copy"
+    },
+    {
+      "id": "I3",
+      "items": [
+        39
+      ],
+      "purpose": "apply statistics migration 0001 to the new STATS_DB only",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
+      "command": "npx wrangler d1 migrations apply STATS_DB --remote --config release/wrangler.stats-migrate.toml   (pinned: migrations/statistics/0001_statistics_schema_v1.sql sha256 c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339)",
+      "expected": "one migration applied: 0001_statistics_schema_v1.sql",
+      "rollback": "the database holds no data yet: record the Time Travel bookmark before; if a later gate fails, leave the database unbound; a reset (delete + create) needs separate explicit approvals"
+    },
+    {
+      "id": "I4",
+      "items": [
+        39,
+        42
+      ],
+      "purpose": "post-migration verification: schema fingerprint equals the frozen one and the content database is unchanged",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --json --command \"<FINGERPRINT_QUERY>\" | node scripts/statistics-schema-fingerprint.mjs ; the same fingerprint script against the content DB (as in I0)",
+      "expected": "STATS_DB fingerprint sha256 3497b347f506ba0db08c2bd43ffa2181e2d41563a42ad559666c3f48f6d2ffe4 with counts {index 27, table 18, trigger 49, view 1}; the content DB fingerprint equals the I0 baseline; no statistics object in the content DB",
+      "rollback": "none"
+    },
+    {
+      "id": "I5",
+      "items": [
+        43
+      ],
+      "purpose": "registry bootstrap: 32 source IDENTITY rows, no policy rows, all DISABLED",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_BOOTSTRAP_STATS_REGISTRY",
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --file release/statistics-registry-bootstrap.sql   (generated; check with node scripts/statistics-build-bootstrap-sql.mjs --check)",
+      "expected": "32 inserts; idempotent (INSERT OR IGNORE); no ACTIVE or ACTIVATION_GATED value anywhere in the file",
+      "rollback": "identity rows are retire-only (no delete); nothing is active, so nothing needs undoing"
+    },
+    {
+      "id": "I6",
+      "items": [
+        44
+      ],
+      "purpose": "verify the source default is DISABLED everywhere and nothing has run",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --json --command \"<Q_ALL_SOURCES_DEFAULT_DISABLED; Q_NOT_DISABLED; Q_NO_RUNS_NO_DATA>\"",
+      "expected": "every source has no policy row (DISABLED by the frozen default); 0 ACTIVE/ACTIVATION_GATED/PAUSED; 0 runs, 0 versions, 0 current rows, 0 releases",
+      "rollback": "none"
+    },
+    {
+      "id": "I7",
+      "items": [
+        40
+      ],
+      "purpose": "STATS_DB binding + disabled canary switch + dormant routes: apply the reviewed patch with the real id and deploy",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
+      "command": "git apply release/statistics-binding.patch; replace REPLACE_WITH_DATABASE_ID_FROM_CREATE with the I1 id in wrangler.toml; then the repository release flow (npm run release:preflight, npm run release:gate, deploy) with STATISTICS_CANARY_ENABLED = \"false\"",
+      "expected": "the deployed Worker has bindings DB, AI, ASSETS, STATS_DB; STATISTICS_CANARY_ENABLED is \"false\"; content routes unchanged; /api/ready READY",
+      "rollback": "redeploy the previous Worker version recorded at preflight (read live, not assumed); STATS_DB stays empty and unreferenced"
+    },
+    {
+      "id": "I8",
+      "items": [
+        41
+      ],
+      "purpose": "production runtime validation after the binding (no run starts)",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "node scripts/statistics-canary-operator.mjs --url <worker> status   (OPS_TOKEN from the environment only; this sequence neither creates nor rotates it) ; GET /api/statistics/ops/summary ; GET /api/statistics/ops/contract",
+      "expected": "STATS_DB visible and schema applied; policy DISABLED; sources 32; runs 0; active policies 0; enabled false; the contract route lists the nine owner gates and scheduler default OFF",
+      "rollback": "none"
+    },
+    {
+      "id": "I9",
+      "items": [
+        42,
+        44
+      ],
+      "purpose": "final isolation and default re-verification before any canary step",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "repeat the I4 content-database fingerprint and Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB; repeat I6",
+      "expected": "content DB fingerprint equals the I0 baseline; 0 statistics objects in the content DB; every source DISABLED; 0 runs",
+      "rollback": "none"
+    }
+  ]
+}

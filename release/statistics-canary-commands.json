@@ -34,52 +34,52 @@
     },
     {
       "id": "S2",
-      "purpose": "create the dedicated production STATS_DB",
+      "purpose": "moved to the infrastructure sequence: create the dedicated production STATS_DB (item 38)",
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
-      "command": "npx wrangler d1 create global-statistics",
+      "command": "see release/statistics-prod-infra-commands.json step I1",
       "expected": "new empty database; database_id recorded in a local-only note until S4",
       "rollback": "leave unbound (isolated, empty); deletion only on a separate explicit owner approval"
     },
     {
       "id": "S3",
-      "purpose": "apply statistics migration 0001 to the new database only",
+      "purpose": "moved to the infrastructure sequence: apply statistics migration 0001 to the new database only (item 39)",
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
-      "command": "npx wrangler d1 migrations apply global-statistics --remote (config pinned to migrations/statistics, sha256 c8fd565f...6339)",
+      "command": "see release/statistics-prod-infra-commands.json steps I2-I4",
       "expected": "migration ledger shows 0001 only; statistics tables present; content tables absent",
       "rollback": "D1 Time Travel bookmark recorded before; database is new, so rollback = leave unbound"
     },
     {
       "id": "S4",
-      "purpose": "commit the STATS_DB binding with STATISTICS_CANARY_ENABLED=false and deploy the disabled build",
+      "purpose": "moved to the infrastructure sequence: STATS_DB binding with the canary switch false, deploy the dormant routes (item 40)",
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
-      "command": "local wrangler.toml diff (package.exact_deployment_diff) then the repository release flow (release:preflight, release:gate, deploy)",
+      "command": "see release/statistics-prod-infra-commands.json step I7",
       "expected": "/api/ready READY; status route 403/503-safe; content routes unchanged",
       "rollback": "redeploy the previous Worker version recorded at preflight (read live, not assumed)"
     },
     {
       "id": "S5",
-      "purpose": "rotate or reuse OPS_TOKEN via stdin only and verify the status route",
+      "purpose": "OPS_TOKEN for the operator CLI: the owner supplies the existing production token through the environment; creating or rotating a token is a separate mutation that this package does not perform",
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_OPS_TOKEN_FOR_STATS_CANARY",
-      "command": "token generated in-process, piped to wrangler secret put, exported to the operator CLI env only; captured files leak-checked",
+      "command": "export OPS_TOKEN from the owner secret store; if a rotation is wanted: OWNER_APPROVAL_OPS_TOKEN_FOR_STATS_CANARY, token via stdin only to wrangler secret put",
       "expected": "status returns STATS_DB bound, schema applied, policy DISABLED, 0 active policies",
       "rollback": "delete nothing; rotate again if exposed"
     },
     {
       "id": "S6",
-      "purpose": "enable the canary master switch (var true) and bootstrap the registry in chunks",
+      "purpose": "enable the canary master switch (var true) with a reviewed redeploy; the registry is already bootstrapped by owner SQL (infra step I5), so no bootstrap call is needed",
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_ENABLE_STATS_CANARY_SWITCH",
-      "command": "redeploy with STATISTICS_CANARY_ENABLED=true; node scripts/statistics-canary-operator.mjs --url <worker> bootstrap-all",
-      "expected": "32 sources registered over 4 chunks, each <= 44 D1 calls, 0 policy rows, 0 ACTIVE",
+      "command": "redeploy with STATISTICS_CANARY_ENABLED=true",
+      "expected": "switch true; routes answer; 0 policy rows, 0 ACTIVE",
       "rollback": "redeploy with the switch false"
     },
     {
@@ -88,7 +88,7 @@
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_ARM_STATS_CANARY",
-      "command": "npx wrangler d1 execute global-statistics --remote --file <arm.sql with {{OWNER_REF}} and {{UTC_NOW}} substituted> (file: release/statistics-canary-policy-arm.sql)",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <arm.sql with {{OWNER_REF}} and {{UTC_NOW}} substituted> (file: release/statistics-canary-policy-arm.sql)",
       "expected": "policy ACTIVATION_GATED; active policies 0",
       "rollback": "run release/statistics-canary-policy-disarm.sql"
     },
@@ -118,7 +118,7 @@
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_STATS_CANARY_ACTIVATE",
-      "command": "npx wrangler d1 execute global-statistics --remote --file <activate.sql substituted> (release/statistics-canary-policy-activate.sql)",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <activate.sql substituted> (release/statistics-canary-policy-activate.sql)",
       "expected": "policy ACTIVE, canary_gate PASSED; no run, no refetch",
       "rollback": "release/statistics-canary-policy-pause.sql"
     },
@@ -148,7 +148,7 @@
       "class": "REMOTE_MUTATION",
       "mutates": true,
       "approval_key": "OWNER_APPROVAL_STATS_CANARY_SHUTDOWN",
-      "command": "npx wrangler d1 execute global-statistics --remote --file <pause.sql or disarm.sql> (release/statistics-canary-policy-{pause,disarm}.sql); redeploy with STATISTICS_CANARY_ENABLED=false",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <pause.sql or disarm.sql> (release/statistics-canary-policy-{pause,disarm}.sql); redeploy with STATISTICS_CANARY_ENABLED=false",
       "expected": "policy DISABLED; switch false; GCOS READY",
       "rollback": "previous disabled Worker version"
     }

@@ -19,3 +19,6 @@ __pycache__/
 
 # local test logs
 .logs/
+
+# owner-local statistics migration config (carries the real STATS_DB id; never committed)
+release/wrangler.stats-migrate.toml

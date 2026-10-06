@@ -142,7 +142,7 @@
   },
   "item_51_exact_deployment_diff": {
     "wrangler_toml_add": [
-      "[[d1_databases]]\nbinding = \"STATS_DB\"\ndatabase_name = \"global-statistics\"\ndatabase_id = \"<from S2>\"\nmigrations_dir = \"migrations/statistics\"",
+      "[[d1_databases]]\nbinding = \"STATS_DB\"\ndatabase_name = \"global-content-os-stats\"\ndatabase_id = \"<from S2>\"\nmigrations_dir = \"migrations/statistics\"",
       "[vars] STATISTICS_CANARY_ENABLED = \"false\""
     ],
     "code": [
