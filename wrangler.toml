@@ -40,8 +40,8 @@ BIBLE_VERSION = "4.0"
 DOSSIER_CANARY_ENABLED = "false"
 # DOSSIER recurring operation master switch: OFF. The */5 cron tick reads nothing unless this is "true" AND the owner enabled recurring and a source state.
 DOSSIER_RECURRING_ENABLED = "false"
-# HEALTH_STATISTICS canary master switch: ON for the owner-authorized first canary (S6); redeployed false at shutdown (S10).
-STATISTICS_CANARY_ENABLED = "true"
+# HEALTH_STATISTICS canary master switch: OFF (post-canary shutdown S10; was true only for the authorized first canary).
+STATISTICS_CANARY_ENABLED = "false"
 
 [ai]
 binding = "AI"
