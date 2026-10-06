@@ -1,0 +1,175 @@
+{
+  "marker": "RECURRING_BURNIN_PLAN_V1",
+  "date": "2026-10-06",
+  "base_implementation_commit": "a316750",
+  "scope": "predeploy gate and Stage-1 plan; NOTHING executed: no deploy, secret change, source activation, recurring enable, migration, production mutation or push",
+  "document": "docs/DOSSIER-RECURRING-BURNIN-PLAN.md",
+  "measurements": "docs/generated/dossier-recurring-measurements-v1.json",
+  "metric_10591": {
+    "category": "statements_used: statements PREPARED through the runner's guarded database, summed over ONE logical run (runner-only; excludes the tick's own reads)",
+    "scope": "PER_RUN"
+  },
+  "metric_73": {
+    "category": "Worker invocations of one logical run (final code: 76); not D1 calls",
+    "scope": "PER_RUN"
+  },
+  "metric_212": {
+    "category": "max statements prepared through the runner guard in ONE invocation of the V2 canary (LIVE)",
+    "scope": "PER_INVOCATION"
+  },
+  "defect_fixed": "the per-invocation budget guarded only the runner; the tick's own statements are now counted and reserved so the target bounds the whole Worker invocation",
+  "profile": {
+    "scheduler_tick": "*/5 * * * *",
+    "clinicaltrials": {
+      "eligibility": "24 h after the last completed run",
+      "target_budget_d1_sql_statements": 200,
+      "hard_stop_d1_sql_statements": 400,
+      "max_items_per_invocation_measured": 8,
+      "max_source_requests": "1 per logical run",
+      "lease_seconds": 45,
+      "max_d1_sql_statements_per_invocation_measured": 160,
+      "invocations_per_run_measured": 76,
+      "invocations_per_run_cap": 100
+    },
+    "eurostat": {
+      "eligibility": "168 h after the last completed check or ingest; ingest only on a changed release or period",
+      "target_budget_d1_sql_statements": 240,
+      "hard_stop_d1_sql_statements": 400,
+      "max_items_per_invocation_measured": 30,
+      "max_source_requests": "1 per check; at most 3 per ingest run",
+      "lease_seconds": 45,
+      "max_d1_sql_statements_per_invocation_measured": 202,
+      "invocations_per_run_measured": 11,
+      "invocations_per_run_cap": 16
+    }
+  },
+  "stage1_lock": {
+    "candidate_persistence": "OFF",
+    "review_write": "OFF",
+    "promotion": "OFF",
+    "aging_sweep": "OFF",
+    "retention": "OFF"
+  },
+  "audit": {
+    "append_only_owner_audit_table": "DEFERRED_BEFORE_R18",
+    "migration_required_before_burnin": "NO",
+    "mechanism": "never-updated recurring:audit:* rows in the existing dossier_control table + GET /api/dossier/ops/audit",
+    "deferred": "database-enforced immutability (trigger) needs the migration"
+  },
+  "stage1": {
+    "min_duration": "8 days (192 h)",
+    "required_ct_runs": 7,
+    "required_eurostat_checks": 2,
+    "pause_resume_exercise": "day 3-4, mid-run, same run resumes",
+    "rollback": "day 8",
+    "success_gates": [
+      "0 HARD_STOP and no BLOCKED source",
+      "daily 0 candidates / snapshots / reviews, 0 ACTIVE concepts, no duplicate normalized label",
+      "at most one unexpired lease at every sampled summary",
+      "D1 per invocation under target (CT 200, Eurostat 240), hard stop 400 never reached",
+      "wall under 15 s warning; CPU from tail within the UNVERIFIED 1 s alert threshold",
+      "7 CT runs and 2 Eurostat checks completed; ineligible ticks made no source request",
+      "pause/resume resumed the same run",
+      "audit shows every owner action",
+      "rollback leaves no source request, lease null, checkpoint intact, GCOS READY"
+    ],
+    "live_concurrent_claim_drill": "not possible by hand (manual runs are refused while recurring is on): observational evidence only"
+  },
+  "owner_actions": [
+    "reset OPS_TOKEN and create the read/write tokens",
+    "deploy recurring code with the switch OFF",
+    "verify disabled cron zero-work in production",
+    "enable Stage-1 burn-in",
+    "keep candidate/review/promotion persistence OFF",
+    "observe required cycles",
+    "controlled pause/resume",
+    "disable recurring",
+    "verify shutdown",
+    "preserve evidence"
+  ],
+  "matrix": {
+    "R01": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R02": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R03": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R04": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R05": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R06": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R07": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R08": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R09": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R10": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R11": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R12": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "BEFORE_R18_REQUIRED"
+    ],
+    "R13": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "BEFORE_R18_REQUIRED"
+    ],
+    "R14": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS"
+    ],
+    "R15": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "BEFORE_R18_REQUIRED"
+    ],
+    "R16": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R17": [
+      "LOCAL_IMPLEMENTED",
+      "PREDEPLOY_PASS",
+      "LIVE_BURNIN_REQUIRED"
+    ],
+    "R18": [
+      "NOT_READY"
+    ]
+  },
+  "r18": "NOT_READY"
+}

@@ -71,3 +71,28 @@ test('every ops write route is owner-only and every state change is attributed; 
   assert.ok(impl.not_done.some((s) => /audit table/.test(s)), 'the missing append-only audit table is listed as not done');
   for (const f of readdirSync('migrations')) assert.ok(!/recurring/i.test(f), 'no recurring migration was written');
 });
+
+test('the burn-in plan twin agrees with the profile, the measurements and the design: whole-invocation targets hold, R18 is NOT_READY, the matrix covers exactly R01-R18, Stage-1 stays locked', () => {
+  const plan = JSON.parse(readFileSync('docs/generated/dossier-recurring-burnin-plan-v1.json', 'utf8'));
+  const meas = JSON.parse(readFileSync('docs/generated/dossier-recurring-measurements-v1.json', 'utf8'));
+  const spec = (id) => RP.DOSSIER_RECURRING_V1.source_specs.value.find((s) => s.reader_id === id);
+  assert.equal(plan.r18, 'NOT_READY');
+  assert.deepEqual(Object.keys(plan.matrix), design.gates.map((g) => g.id));
+  assert.deepEqual(plan.matrix.R18, ['NOT_READY']);
+  for (const [id, st] of Object.entries(plan.matrix)) for (const x of st) assert.ok(['LOCAL_IMPLEMENTED', 'PREDEPLOY_PASS', 'LIVE_BURNIN_REQUIRED', 'BEFORE_R18_REQUIRED', 'BLOCKED', 'NOT_READY'].includes(x), `${id}:${x}`);
+  assert.deepEqual([plan.profile.clinicaltrials.target_budget_d1_sql_statements, plan.profile.eurostat.target_budget_d1_sql_statements], [spec(RP.RECURRING_CT_READER_ID).d1_target, spec(RP.RECURRING_EU_READER_ID).d1_target]);
+  assert.deepEqual([plan.profile.clinicaltrials.hard_stop_d1_sql_statements, plan.profile.eurostat.hard_stop_d1_sql_statements], [spec(RP.RECURRING_CT_READER_ID).d1_hard_stop, spec(RP.RECURRING_EU_READER_ID).d1_hard_stop]);
+  assert.deepEqual([plan.profile.clinicaltrials.invocations_per_run_cap, plan.profile.eurostat.invocations_per_run_cap], [spec(RP.RECURRING_CT_READER_ID).max_invocations_per_run, spec(RP.RECURRING_EU_READER_ID).max_invocations_per_run]);
+  assert.ok(plan.profile.clinicaltrials.max_d1_sql_statements_per_invocation_measured <= plan.profile.clinicaltrials.target_budget_d1_sql_statements);
+  assert.ok(plan.profile.eurostat.max_d1_sql_statements_per_invocation_measured <= plan.profile.eurostat.target_budget_d1_sql_statements);
+  assert.equal(plan.profile.clinicaltrials.invocations_per_run_measured, meas.scenarios.CT_FIRST_RUN_100_STUDIES.invocations);
+  assert.equal(RP.DOSSIER_RECURRING_V1.runtime.lease_seconds.value, plan.profile.clinicaltrials.lease_seconds);
+  assert.deepEqual(plan.stage1_lock, { candidate_persistence: 'OFF', review_write: 'OFF', promotion: 'OFF', aging_sweep: 'OFF', retention: 'OFF' });
+  assert.deepEqual([plan.stage1.required_ct_runs, plan.stage1.required_eurostat_checks, plan.audit.migration_required_before_burnin], [7, 2, 'NO']);
+  assert.ok(plan.stage1.required_eurostat_checks >= 2 && /8 days/.test(plan.stage1.min_duration), 'the window contains the 168 h Eurostat eligibility boundary');
+  assert.equal(design.predeploy_addendum.r18, 'NOT_READY');
+  assert.equal(design.envelopes.clinicaltrials.invocations_per_run, 60, 'the frozen design value is history and unchanged');
+  const doc = readFileSync('docs/DOSSIER-RECURRING-BURNIN-PLAN.md', 'utf8');
+  assert.match(doc, /NOTHING HERE HAS BEEN EXECUTED/);
+  for (const k of ['PER_RUN', 'PER_INVOCATION', 'D1_SQL_STATEMENTS', 'D1_API_CALLS']) assert.ok(doc.includes(k), k);
+});

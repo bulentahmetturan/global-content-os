@@ -66,10 +66,19 @@ export function recurringRegistry(): readonly DossierReaderRegistration[] {
   ];
 }
 
-function runnerDeps(d: RecurringDeps, spec: RecurringSourceSpec, profile: DossierRecurringProfileV1): CanaryDeps {
+/** Counts every statement the tick itself prepares (the same unit as the runner's budget guard), so the per-source D1 target bounds the WHOLE Worker invocation. */
+export function countingDb(inner: D1Like): { db: D1Like; used(): number } {
+  let n = 0;
+  return { db: { prepare: (sql: string) => { n += 1; return inner.prepare(sql); }, ...(inner.batch ? { batch: (stmts: Parameters<NonNullable<D1Like['batch']>>[0]) => { n += stmts.length; return inner.batch!(stmts); } } : {}) }, used: () => n };
+}
+/** Statements the tick may still spend AFTER the runner returns (ledger append, state change, failure classification). */
+export const TICK_POST_RUNNER_RESERVE = 12;
+
+function runnerDeps(d: RecurringDeps, spec: RecurringSourceSpec, profile: DossierRecurringProfileV1, statementReserve: number): CanaryDeps {
   const isCt = spec.mode === 'INCREMENTAL';
   return {
     db: d.db,
+    statementReserve,
     env: { DOSSIER_RECURRING_ENABLED: d.env.DOSSIER_RECURRING_ENABLED },
     profile,
     createReader: (reg, opts) => (isCt
@@ -171,7 +180,11 @@ async function maybeAutoResume(d: RecurringDeps, view: SourceView, transitions: 
 
 const emit = (d: RecurringDeps, r: TickReport): TickReport => { try { d.log?.({ event: 'dossier_recurring_tick', ...r }); } catch { /* logging never fails a tick */ } return r; };
 
-export async function runRecurringTick(d: RecurringDeps): Promise<TickReport> {
+export async function runRecurringTick(d0: RecurringDeps): Promise<TickReport> {
+  // ZERO WORK while disabled: not even a property of the database binding is touched before the environment switch is checked
+  if (d0.env.DOSSIER_RECURRING_ENABLED !== 'true') return report('NOOP_ENV_DISABLED');
+  const tick = countingDb(d0.db);
+  const d: RecurringDeps = { ...d0, db: tick.db };
   // (1) the environment master switch is the only thing checked before any database access: a disabled deployment never reads D1 on this cron
   if (d.env.DOSSIER_RECURRING_ENABLED !== 'true') return report('NOOP_ENV_DISABLED');
   const ctx = d.ctx ?? defaultCtx;
@@ -266,7 +279,7 @@ export async function runRecurringTick(d: RecurringDeps): Promise<TickReport> {
   }
 
   // (4b) ONE bounded invocation of the shared runner under the global lease
-  outcome = await invokeCanary(runnerDeps(d, spec, profile), { readerId: spec.reader_id, operator: SCHEDULER, ...(pick.resume ? { runId: view.health.active_run!.run_id } : {}) });
+  outcome = await invokeCanary(runnerDeps(d, spec, profile, tick.used() + TICK_POST_RUNNER_RESERVE), { readerId: spec.reader_id, operator: SCHEDULER, ...(pick.resume ? { runId: view.health.active_run!.run_id } : {}) });
   const wallMs = (d.wallClock ?? Date.now)() - tickStart;
   if (outcome.status === 'REFUSED') {
     const busy = outcome.reasons.some((r) => r === 'CONCEPT_PROPOSER_BUSY' || r === 'RUN_LEASED');

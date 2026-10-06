@@ -107,7 +107,7 @@ export const controlReaderExtraRuns = (readerId: string): string => `reader:${re
 export type Controls = Readonly<Record<string, string>>;
 
 export async function loadControls(db: D1Like): Promise<Controls> {
-  const { results } = await db.prepare(`SELECT control_key, control_value FROM dossier_control`).all<{ control_key: string; control_value: string }>();
+  const { results } = await db.prepare(`SELECT control_key, control_value FROM dossier_control WHERE control_key NOT LIKE 'recurring:audit:%'`).all<{ control_key: string; control_value: string }>();
   return Object.fromEntries(results.map((r) => [r.control_key, r.control_value]));
 }
 export const isOn = (c: Controls, key: string): boolean => c[key] === '1';

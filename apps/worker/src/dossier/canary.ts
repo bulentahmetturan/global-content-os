@@ -132,6 +132,8 @@ export interface CanaryDeps {
   extractor: ConceptExtractor;
   ctx?: Ctx;
   registry?: readonly DossierReaderRegistration[];
+  /** Statements the CALLER already used or will still use inside the SAME Worker invocation (the recurring tick's gate / health / ledger reads): subtracted from the per-invocation budget so the budget bounds the WHOLE invocation, not only the runner. */
+  statementReserve?: number;
   /** Wall clock in ms used ONLY for the V2 lease-deadline stop (never for business logic); injectable for tests. Defaults to Date.now. */
   wallClock?: () => number;
 }
@@ -205,7 +207,7 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   const profile = requireCanaryProfile(deps.profile); // refuses to run with a missing/invalid profile: no silent fallback
   const ctx = deps.ctx ?? defaultCtx;
   const reg = (deps.registry ?? DOSSIER_READER_REGISTRY).find((r) => r.dossier_reader_id === req.readerId) ?? null;
-  const budget = createBudgetedD1(deps.db, invocationBudget(profile, reg?.canonical_source_id ?? ''));
+  const budget = createBudgetedD1(deps.db, invocationBudget(profile, reg?.canonical_source_id ?? '') - Math.max(0, deps.statementReserve ?? 0));
   const db = budget.db;
   const now = (): string => ctx.now();
   const recurring = profile.profile_id === RECURRING_PROFILE_ID;
@@ -274,8 +276,10 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
   const save = async (patch: { status?: RunStatus; phase?: RunPhase; error?: string | null; finished?: boolean; checkpoint?: unknown }): Promise<void> => {
     const t = now();
     if (recurring) progress.invocationLog = [...(progress.invocationLog ?? []), { at: t, phase: patch.phase ?? phase, status: patch.status ?? status, d1: budget.used() + 1, wallMs: wall() - wallStart }].slice(-MAX_INVOCATION_LOG);
-    await exec(db, `UPDATE dossier_canary_runs SET status = ?, phase = ?, progress_json = ?, checkpoint_json = COALESCE(?, checkpoint_json), lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, updated_at = ?, finished_at = ? WHERE run_id = ?`,
-      patch.status ?? status, patch.phase ?? phase, json(progress), patch.checkpoint === undefined ? null : json(patch.checkpoint), budget.used() + 1, patch.error ?? error, t, patch.finished ? t : null, live.run_id);
+    const written = await exec(db, `UPDATE dossier_canary_runs SET status = ?, phase = ?, progress_json = ?, checkpoint_json = COALESCE(?, checkpoint_json), lease_holder = NULL, lease_expires_at = NULL, invocations = invocations + 1, statements_used = statements_used + ?, error_summary = ?, updated_at = ?, finished_at = ? WHERE run_id = ? AND lease_holder = ?`,
+      patch.status ?? status, patch.phase ?? phase, json(progress), patch.checkpoint === undefined ? null : json(patch.checkpoint), budget.used() + 1, patch.error ?? error, t, patch.finished ? t : null, live.run_id, holder);
+    // R04 stolen lease: this invocation's lease expired and another invocation took the run over; it must not overwrite the new holder's progress
+    if (written === 0) throw new DossierError('lease_lost', live.run_id);
   };
 
   try {
@@ -391,6 +395,10 @@ export async function invokeCanary(deps: CanaryDeps, req: { readerId: string; op
     await save({ finished: status === 'COMPLETED' });
   } catch (e) {
     const code = e instanceof DossierError ? e.code : '';
+    // an invocation that no longer holds the lease writes NOTHING more (no FAILED record, no provenance, no release of the new holder's lease)
+    let stillHolds = code !== 'lease_lost';
+    if (stillHolds) { try { stillHolds = (await one<{ n: number }>(deps.db, `SELECT 1 AS n FROM dossier_canary_runs WHERE run_id = ? AND lease_holder = ?`, live.run_id, holder)) !== null; } catch { stillHolds = true; } }
+    if (!stillHolds) return { status: 'REFUSED', reasons: ['LEASE_LOST'] };
     if (code === 'd1_statement_budget_exceeded') {
       // a unit was cut off by the hard guard: every unit is idempotent, so the run simply resumes from its persisted progress
       status = 'PAUSED_BUDGET';

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // OPERATOR CLI for the DOSSIER RECURRING operation (R14/R15). A thin, explicit HTTP client for /api/dossier/ops/* (docs/DOSSIER-RECURRING-RUNBOOK.md).
 //
-//   read  (DOSSIER_OPS_READ_TOKEN)  : summary | alerts | runs [--reader --limit] | health <reader-id> | changes --run-id <id> | candidates [--state --limit] | snapshot <id>
+//   read  (DOSSIER_OPS_READ_TOKEN)  : summary | alerts | audit [--limit] | runs [--reader --limit] | health <reader-id> | changes --run-id <id> | candidates [--state --limit] | snapshot <id>
 //   write (DOSSIER_OPS_WRITE_TOKEN) : recurring on|off | persistence on|off | sweep on|off | retention on|off | capacity <d1|subrequests|cpu-ms|verify> <value>
 //                                     source-state <reader-id> <DISABLED|BURN_IN|ACTIVE|PAUSED|BLOCKED> [--reason ...]
 //                                     review <candidate-id> <ACCEPT|REJECT|SNOOZE> [--reason-code ...] [--note ...] | promote <concept-id> [--note ...]
@@ -14,7 +14,7 @@
 // sent only in the Authorization header and are never printed or put in a URL. Nothing here loops, polls or runs on a timer; one invocation = one request.
 import { pathToFileURL } from 'node:url';
 
-export const READ_COMMANDS = ['summary', 'alerts', 'runs', 'health', 'changes', 'candidates', 'snapshot'];
+export const READ_COMMANDS = ['summary', 'alerts', 'audit', 'runs', 'health', 'changes', 'candidates', 'snapshot'];
 export const SWITCHES = { recurring: 'recurring_enabled', persistence: 'recurring:candidate_persistence', sweep: 'recurring:aging_sweep', retention: 'recurring:retention' };
 export const CAPACITY_KEYS = { d1: 'platform:d1_queries_per_invocation', subrequests: 'platform:subrequest_limit', 'cpu-ms': 'platform:cpu_budget_ms' };
 
@@ -49,6 +49,7 @@ export function buildRequest(cmd, x, y, a, env = process.env) {
     const read = { token: env.DOSSIER_OPS_READ_TOKEN, tokenName: 'DOSSIER_OPS_READ_TOKEN', method: 'GET' };
     const qs = (pairs) => pairs.filter(([, v]) => v !== undefined).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
     if (cmd === 'summary' || cmd === 'alerts') return { ...read, path: cmd };
+    if (cmd === 'audit') return { ...read, path: `audit?${qs([['limit', a.limit]])}` };
     if (cmd === 'runs') return { ...read, path: `runs?${qs([['reader', a.reader], ['limit', a.limit]])}` };
     if (cmd === 'health') { if (!x) throw new Error('health <reader-id>'); return { ...read, path: `source/${encodeURIComponent(x)}/health` }; }
     if (cmd === 'changes') { if (!a['run-id']) throw new Error('--run-id is required'); return { ...read, path: `changes?${qs([['run_id', a['run-id']]])}` }; }

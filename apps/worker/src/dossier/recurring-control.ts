@@ -55,9 +55,21 @@ export function checkTransition(o: { from: RecurringState; to: RecurringState; b
   return `scheduler_transition_not_allowed:${from}->${to}`;
 }
 
+export const AUDIT_PREFIX = 'recurring:audit:';
+/**
+ * Durable owner/scheduler audit trail WITHOUT a migration: one NEVER-UPDATED row per transition in the existing `dossier_control` table (key `recurring:audit:<ISO time>:<id>`),
+ * so the history of switches and source states survives the latest-value-only control rows. Application-append-only (no code path updates or deletes an audit row); database-enforced
+ * immutability (a trigger) would need the migration that is deferred before R18. Audit rows are excluded from every control load, so they never cost a tick anything.
+ */
+export async function appendAudit(db: D1Like, o: { event: string; key: string; from: string | null; to: string; by: string; actor: string; reason?: string | null; now: string }): Promise<void> {
+  const id = crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+  const value = JSON.stringify({ event: o.event, key: o.key, from: o.from, to: o.to, by: o.by, actor: o.actor, reason: (o.reason ?? '').slice(0, 200), at: o.now });
+  await db.prepare(`INSERT INTO dossier_control (control_key, control_value, updated_at, updated_by) VALUES (?,?,?,?)`).bind(`${AUDIT_PREFIX}${o.now}:${id}`, value, o.now, o.actor).run();
+}
+
 /** Every control row with its change time (a few dozen rows): the state machine needs `updated_at` to know when a state began. */
 export async function loadControlRows(db: D1Like): Promise<{ controls: Controls; updatedAt: Readonly<Record<string, string>>; updatedBy: Readonly<Record<string, string>> }> {
-  const rows = (await db.prepare(`SELECT control_key, control_value, updated_at, updated_by FROM dossier_control`).all<{ control_key: string; control_value: string; updated_at: string; updated_by: string }>()).results;
+  const rows = (await db.prepare(`SELECT control_key, control_value, updated_at, updated_by FROM dossier_control WHERE control_key NOT LIKE 'recurring:audit:%'`).all<{ control_key: string; control_value: string; updated_at: string; updated_by: string }>()).results;
   return { controls: Object.fromEntries(rows.map((r) => [r.control_key, r.control_value])), updatedAt: Object.fromEntries(rows.map((r) => [r.control_key, r.updated_at])), updatedBy: Object.fromEntries(rows.map((r) => [r.control_key, r.updated_by])) };
 }
 
@@ -91,6 +103,7 @@ export async function setRecurringState(db: D1Like, o: { readerId: string; to: R
   // the state a source returns to after a pause OR after the owner acknowledges a block (BLOCKED -> PAUSED -> previous): remembered whenever a runnable state is left
   if ((o.to === 'PAUSED' || o.to === 'BLOCKED') && (from === 'BURN_IN' || from === 'ACTIVE')) await put(db, controlRecurringPausedFrom(o.readerId), from, o.now, actor);
   await put(db, controlRecurringState(o.readerId), o.to, o.now, actor);
+  await appendAudit(db, { event: 'SOURCE_STATE', key: controlRecurringState(o.readerId), from, to: o.to, by: o.by, actor, reason: o.reason ?? null, now: o.now });
   await put(db, controlRecurringReason(o.readerId), cleanReason(o.reason) || `${o.by}:${o.to}`, o.now, actor);
   return { from, to: o.to };
 }
@@ -108,8 +121,10 @@ export async function setRecurringFlag(db: D1Like, o: { key: typeof CONTROL_RECU
     const on = await db.prepare(`SELECT control_value AS v FROM dossier_control WHERE control_key = ?`).bind(CONTROL_RECURRING_ENABLED).first<{ v: string }>();
     if (on?.v !== '1') throw new DossierError('persistence_requires_recurring_enabled');
   }
+  const prev = await db.prepare(`SELECT control_value AS v FROM dossier_control WHERE control_key = ?`).bind(o.key).first<{ v: string }>();
   await put(db, o.key, o.value, o.now, actor);
-  if (o.key === CONTROL_RECURRING_ENABLED && o.value === '0') await put(db, CONTROL_RECURRING_PERSISTENCE, '0', o.now, actor);
+  await appendAudit(db, { event: 'SWITCH', key: o.key, from: prev?.v ?? null, to: o.value, by: o.by, actor, now: o.now });
+  if (o.key === CONTROL_RECURRING_ENABLED && o.value === '0') { await put(db, CONTROL_RECURRING_PERSISTENCE, '0', o.now, actor); await appendAudit(db, { event: 'SWITCH', key: CONTROL_RECURRING_PERSISTENCE, from: null, to: '0', by: o.by, actor, reason: 'forced OFF with the global switch', now: o.now }); }
 }
 
 // ------------------------------------------------------------------ invocation ledger (R03: at most 12 invocations/hour and 120/day)

@@ -79,3 +79,29 @@ Needs the append-only audit table (an additive migration that is not approved or
 | Candidate persistence only | `persistence off` |
 
 The scheduler may only pause (circuit), block (fail closed), probe a transient-circuit pause after 24 h and clear the global switch on a HARD_STOP; it can never enable anything.
+
+## 5. Secret contract for Stage 1 (R15; prepared, NOT executed)
+
+| Secret | Purpose | Rule |
+|---|---|---|
+| `OPS_TOKEN` (legacy) | GCOS operator surface and the frozen canary routes | Value currently unknown on purpose. Reset BEFORE any operator use: 256 random bits generated locally, `wrangler secret put OPS_TOKEN` through stdin, stored in the password manager. |
+| `DOSSIER_OPS_READ_TOKEN` | `GET /api/dossier/ops/*` only | 256 random bits, distinct from the other two. |
+| `DOSSIER_OPS_WRITE_TOKEN` | every state change under `/api/dossier/ops/*` (switches, source states, reviews, promotion) | 256 random bits, distinct from the other two. |
+
+Required relations: `read != write`, `read != legacy`, `write != legacy` (a violation makes the whole ops surface answer 503 `DOSSIER_OPS_TOKENS_NOT_DISTINCT`; proven by `recurring-ops.test.mjs`). The scheduler uses no token. Redaction is proven by `recurring-predeploy.test.mjs` (no token, Authorization header or environment value in any log line, event or response body; tokens are header-only; the CLI never prints them). Owner secret actions, in order: (1) reset `OPS_TOKEN`; (2) create the two new tokens; (3) verify each: correct token 200, wrong token 401, an unset token 503, read token on a write route 401; (4) export them only in the shell that runs the CLI; (5) rotate both at the end of burn-in and on any suspected exposure. The old OPS_TOKEN is never used by the recurring tooling.
+
+## 6. Stage-1 rollback sequence (R16; prepared, NOT executed)
+
+1. `recurring off` (the global control; also forces candidate persistence OFF). Effect: the next `*/5` tick reads one control row and does nothing else.
+2. `source-state <reader> PAUSED --reason "rollback"` for both sources (the run keeps its checkpoint; resuming continues the SAME run).
+3. Wait at most one lease (45 s) for an in-flight bounded invocation to finish or expire; nothing renews the lease, so it expires by itself.
+4. Verify with the read token: `summary` shows `global.recurring_enabled=false`, `global.lease=null`, no new run, the active run still at its phase with an unchanged checkpoint; `runs` shows no new invocation after step 1.
+5. Verify no source request: `wrangler tail` for several ticks shows no ClinicalTrials / Eurostat request (a tick after OFF only reads one control row).
+6. Verify GCOS: `/api/ready` is READY and the dossier recurring block is `DISABLED` (it never changes the GCOS level).
+7. For a full rollback also set `DOSSIER_RECURRING_ENABLED = "false"` and redeploy; the cron then reads nothing at all.
+8. A source-local fault does NOT need a GCOS shutdown: pause only that source; the other source keeps running (proven).
+9. Keep the `audit`, `runs` and `summary` outputs as evidence.
+
+## 7. Disabled-cron zero-work check in production (before enabling)
+
+After the deploy with `DOSSIER_RECURRING_ENABLED = "false"`, watch `wrangler tail` across several `*/5` minutes: there must be NO dossier D1 or source activity (the tick returns before touching the database; proven locally by `recurring-predeploy.test.mjs` with a database that throws on any access). `/api/ready` must be READY with `dossier.recurring.level = DISABLED`. The Stage-1 plan, gates and duration are in `docs/DOSSIER-RECURRING-BURNIN-PLAN.md` (8 days, 7 CT runs, 2 Eurostat checks).

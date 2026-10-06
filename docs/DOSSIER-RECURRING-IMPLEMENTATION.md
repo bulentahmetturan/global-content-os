@@ -2,7 +2,7 @@
 
 Scope: the work listed under `MUST_IMPLEMENT_BEFORE_BURN_IN`, `MUST_IMPLEMENT_BEFORE_CANDIDATE_PERSISTENCE` and the code part of `MUST_IMPLEMENT_BEFORE_STEADY_STATE` in `docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md` (frozen design, R01-R18). **Everything is local. Nothing is activated, deployed, migrated or pushed; production state is unchanged** (GCOS READY, dossier DISABLED, build `279f3357`, all controls 0). The checked-in defaults keep it that way: `DOSSIER_RECURRING_ENABLED = "false"`, every source state absent = `DISABLED`, `recurring_enabled` absent = OFF, candidate persistence OFF, aging sweep OFF, retention OFF.
 
-Machine-readable twin: `docs/generated/dossier-recurring-implementation-v1.json`; guard test: `apps/worker/src/dossier/recurring-implementation.test.mjs`. Owner procedure: `docs/DOSSIER-RECURRING-RUNBOOK.md`.
+Machine-readable twin: `docs/generated/dossier-recurring-implementation-v1.json`; guard test: `apps/worker/src/dossier/recurring-implementation.test.mjs`. Owner procedure: `docs/DOSSIER-RECURRING-RUNBOOK.md`. Final predeploy gate, metric reconciliation and the Stage-1 plan: `docs/DOSSIER-RECURRING-BURNIN-PLAN.md` (`recurring-predeploy.test.mjs`, `scripts/dossier-recurring-measure.mjs`).
 
 ## 1. What was built (module map)
 
@@ -21,6 +21,7 @@ Machine-readable twin: `docs/generated/dossier-recurring-implementation-v1.json`
 | R13 retention jobs | `dossier/recurring-retention.ts` | `recurring-retention.test.mjs` |
 | Operator CLI (read/write tokens, no fallback) | `scripts/dossier-ops-operator.mjs` | `recurring-operator-cli.test.mjs` |
 | Stage-0 gate: 21 simulated days with drills | (all of the above) | `recurring-simulation.test.mjs` |
+| Final predeploy gate: disabled-cron zero work, GCOS cron isolation, per-invocation measurement, global serialization matrix, change-set derive, Stage-1 lock, audit trail, redaction, rollback | `scripts/dossier-recurring-measure.mjs`, `canary.ts` (lease-lost guard), `recurring-scheduler.ts` (whole-invocation budget) | `recurring-predeploy.test.mjs` |
 
 ## 2. Gate status
 
@@ -49,7 +50,7 @@ Machine-readable twin: `docs/generated/dossier-recurring-implementation-v1.json`
 
 ## 3. Deviations from the frozen design (all deliberate, all evidenced)
 
-1. **CT invocations per run: 60 -> 100; Eurostat 12 -> 16.** The design estimated 26-35 invocations for a 100-study run. A local replay of the recorded 100-study page measures **73 invocations, 10,591 statements, max 163 statements per invocation** (the derive of about 307 concepts dominates). 60 would have paused the source with `RUN_INVOCATION_CAP_REACHED` on the first full run. The frozen design document and its JSON twin keep the original figure; this profile is authoritative (`ESTIMATE`, burn-in remeasures; daily cap 120 still bounds a run).
+1. **CT invocations per run: 60 -> 100; Eurostat 12 -> 16.** The design estimated 26-35 invocations for a 100-study run. A local replay of the recorded 100-study page measures **76 Worker invocations (PER_RUN) and 10,912 D1 SQL statements in total (PER_RUN), max 157 SQL statements in ONE invocation (PER_INVOCATION)** (the derive of about 396 concepts dominates). The earlier "73 calls / 10,591 statements" meant 73 invocations and 10,591 runner-prepared statements; exact units are in `docs/DOSSIER-RECURRING-BURNIN-PLAN.md` section 1. 60 would have paused the source with `RUN_INVOCATION_CAP_REACHED` on the first full run. The frozen design document and its JSON twin keep the original figure; this profile is authoritative (`ESTIMATE`, burn-in remeasures; daily cap 120 still bounds a run).
 2. **`ref_kind`**: kept as `OBSERVATION` (see R11 above); the design suggested `EFFECTIVE_AT_SNAPSHOT`.
 3. **Sweep and retention are owner switches, default OFF.** The design put the sweep before candidate persistence and retention before steady state; both are bounded, idempotent and need an owner decision, so they ship as controls, not as defaults.
 4. **Check runs**: the Eurostat check is recorded as a `COMPLETED`/`FAILED` run row (`kind = CHECK`) in the existing table, so health and cadence come from one source. No new table.

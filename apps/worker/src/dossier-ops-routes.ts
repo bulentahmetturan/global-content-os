@@ -9,8 +9,8 @@ import { guardedEurostatFetch, guardedFetch } from './dossier-canary-routes';
 import { setControl } from './dossier/canary-control';
 import { canaryPolicy } from './dossier/canary-profile';
 import { DOSSIER_RECURRING_V1 } from './dossier/recurring-profile';
-import { CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_PERSISTENCE, CONTROL_RECURRING_RETENTION, CONTROL_RECURRING_SWEEP, RECURRING_STATES, setRecurringFlag, setRecurringState, type RecurringState } from './dossier/recurring-control';
-import { opsAlerts, opsCandidates, opsChanges, opsRuns, opsSourceHealth, opsSummary } from './dossier/recurring-ops';
+import { appendAudit, CONTROL_RECURRING_ENABLED, CONTROL_RECURRING_PERSISTENCE, CONTROL_RECURRING_RETENTION, CONTROL_RECURRING_SWEEP, RECURRING_STATES, setRecurringFlag, setRecurringState, type RecurringState } from './dossier/recurring-control';
+import { opsAlerts, opsAudit, opsCandidates, opsChanges, opsRuns, opsSourceHealth, opsSummary } from './dossier/recurring-ops';
 import { runRecurringTick, type TickReport } from './dossier/recurring-scheduler';
 import { CANARY_ALGORITHM_VERSION } from './dossier/canary';
 import { DossierRepo } from './dossier/repo';
@@ -74,6 +74,7 @@ export async function handleDossierOps(request: Request, env: OpsEnv, path: stri
     if (request.method === 'GET') {
       if (sub === 'summary') return j({ ok: true, ...(await opsSummary(db, { env, nowIso })) });
       if (sub === 'alerts') return j({ ok: true, ...(await opsAlerts(db, { env, nowIso })) });
+      if (sub === 'audit') return j({ ok: true, audit: await opsAudit(db, { limit: num(url.searchParams.get('limit')) }) });
       if (sub === 'runs') {
         const reader = url.searchParams.get('reader') ?? undefined;
         if (reader !== undefined && !READER_OK.test(reader)) return j({ error: 'INVALID_READER' }, 400);
@@ -113,7 +114,7 @@ export async function handleDossierOps(request: Request, env: OpsEnv, path: stri
         await setRecurringFlag(db, { key, value, by: 'owner', actor: operator, now: nowIso });
         return j({ ok: true, key, value, updated_by: operator });
       }
-      if (key.startsWith('platform:')) { await setControl(db, { key, value, updatedBy: operator, now: nowIso }); return j({ ok: true, key, value, updated_by: operator }); }
+      if (key.startsWith('platform:')) { await setControl(db, { key, value, updatedBy: operator, now: nowIso }); await appendAudit(db, { event: 'PLATFORM_CONTROL', key, from: null, to: value, by: 'owner', actor: operator, now: nowIso }); return j({ ok: true, key, value, updated_by: operator }); }
       return j({ error: 'CONTROL_KEY_NOT_ALLOWED_HERE' }, 400);
     }
     if (sub === 'source-state') {
@@ -126,6 +127,9 @@ export async function handleDossierOps(request: Request, env: OpsEnv, path: stri
     if (sub === 'review' || sub === 'promote') {
       const reviewerId = str(b?.reviewer_id, 80);
       if (!reviewerId) return j({ error: 'REVIEWER_REQUIRED' }, 400);
+      // STAGE LOCK (P5): during Stage-1 burn-in review and promotion writes are unavailable; only the owner's stage-2 persistence control opens them
+      const stage2 = await db.prepare(`SELECT control_value AS v FROM dossier_control WHERE control_key = ?`).bind(CONTROL_RECURRING_PERSISTENCE).first<{ v: string }>();
+      if (stage2?.v !== '1') return j({ error: 'STAGE_LOCKED_PERSISTENCE_OFF' }, 409);
       const repo = new DossierRepo(db);
       const reviewer = { kind: 'HUMAN' as const, id: reviewerId };
       if (sub === 'review') {

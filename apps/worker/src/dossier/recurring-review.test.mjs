@@ -33,7 +33,7 @@ test('burn-in records promotion eligibility only; human promotion needs the stag
   const body = { reviewer_id: 'dr.owner', target_id: concept.id };
   assert.equal((await call(w, 'POST', '/api/dossier/ops/promote', R, body)).status, 401, 'the read token cannot promote');
   const off = await json(await call(w, 'POST', '/api/dossier/ops/promote', W, body));
-  assert.deepEqual([off.status, off.error], [409, 'CANDIDATE_PERSISTENCE_OFF']);
+  assert.deepEqual([off.status, off.error], [409, 'STAGE_LOCKED_PERSISTENCE_OFF']);
   assert.equal(n(w.sqlite, 'SELECT COUNT(*) AS n FROM dossier_candidates'), 0);
   assert.equal((await json(await call(w, 'POST', '/api/dossier/ops/promote', W, { target_id: concept.id }))).error, 'REVIEWER_REQUIRED');
 });

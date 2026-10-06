@@ -129,6 +129,12 @@ export async function opsCandidates(db: D1Like, o: { limit?: number; state?: str
   return rows;
 }
 
+/** GET /api/dossier/ops/audit: the durable, attributed transition trail (newest first, bounded). */
+export async function opsAudit(db: D1Like, o: { limit?: number }) {
+  const rows = await many<{ control_key: string; control_value: string }>(db, `SELECT control_key, control_value FROM dossier_control WHERE control_key LIKE 'recurring:audit:%' ORDER BY control_key DESC LIMIT ?`, lim(o.limit, 50));
+  return rows.map((r) => { try { return JSON.parse(r.control_value) as Record<string, unknown>; } catch { return { event: 'UNREADABLE', key: r.control_key }; } });
+}
+
 /** The dossier block of /api/ready for recurring operation. It NEVER changes the top-level GCOS level: a source failure must not disable GCOS. */
 export async function recurringReadiness(db: D1Like, o: { env: { DOSSIER_RECURRING_ENABLED?: string }; nowIso: string }): Promise<{ level: 'DISABLED' | 'READY' | 'DEGRADED' | 'BLOCKED'; worst_severity: Severity | null; alerts: number; note: string }> {
   if (o.env.DOSSIER_RECURRING_ENABLED !== 'true') return { level: 'DISABLED', worst_severity: null, alerts: 0, note: 'recurring operation is off by the environment switch (not a failure)' };

@@ -1,0 +1,169 @@
+{
+  "marker": "RECURRING_MEASUREMENTS_V1",
+  "date": "2026-10-06",
+  "harness": "local node:sqlite behind the D1 surface, recorded real responses; WALL is a local proxy",
+  "units": "see the header of scripts/dossier-recurring-measure.mjs",
+  "scenarios": {
+    "CT_FIRST_RUN_100_STUDIES": {
+      "description": "first run: lookback window, the 100-study cap (the recorded real page)",
+      "invocations": 76,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 10516,
+        "D1_SQL_STATEMENTS": 10912,
+        "D1_ROWS_RETURNED": 8078,
+        "D1_ROWS_WRITTEN": 2523,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 100,
+        "CHECKPOINT_WRITES": 473
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 152,
+        "D1_SQL_STATEMENTS": 157,
+        "D1_ROWS_RETURNED": 153,
+        "D1_ROWS_WRITTEN": 142,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 8,
+        "CHECKPOINT_WRITES": 9,
+        "WALL_LOCAL_PROXY_MS": 68
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 150,
+      "concepts_derived": 396
+    },
+    "CT_DAILY_8_NEW_STUDIES": {
+      "description": "next day: 8 new studies plus the one-day overlap re-read",
+      "invocations": 14,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 1994,
+        "D1_SQL_STATEMENTS": 1994,
+        "D1_ROWS_RETURNED": 1923,
+        "D1_ROWS_WRITTEN": 304,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 58,
+        "CHECKPOINT_WRITES": 42
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 160,
+        "D1_SQL_STATEMENTS": 160,
+        "D1_ROWS_RETURNED": 187,
+        "D1_ROWS_WRITTEN": 106,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 8,
+        "CHECKPOINT_WRITES": 8,
+        "WALL_LOCAL_PROXY_MS": 26
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 150,
+      "items_in_run": 58,
+      "concepts_derived": 27,
+      "total_concepts": 396
+    },
+    "CT_NO_NEW_STUDIES_POLL": {
+      "description": "the next run finds nothing new (only the one-day overlap)",
+      "invocations": 2,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 192,
+        "D1_SQL_STATEMENTS": 192,
+        "D1_ROWS_RETURNED": 168,
+        "D1_ROWS_WRITTEN": 25,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 8,
+        "CHECKPOINT_WRITES": 3
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 140,
+        "D1_SQL_STATEMENTS": 140,
+        "D1_ROWS_RETURNED": 118,
+        "D1_ROWS_WRITTEN": 19,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 6,
+        "CHECKPOINT_WRITES": 2,
+        "WALL_LOCAL_PROXY_MS": 14
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 140,
+      "items_in_run": 8,
+      "concepts_derived": 0
+    },
+    "EUROSTAT_FIRST_INGEST_91_CELLS": {
+      "description": "check + full ingest of the recorded slice (one data request)",
+      "invocations": 11,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 1889,
+        "D1_SQL_STATEMENTS": 1980,
+        "D1_ROWS_RETURNED": 1180,
+        "D1_ROWS_WRITTEN": 568,
+        "SOURCE_SUBREQUESTS": 2,
+        "ITEMS_PROCESSED": 91,
+        "CHECKPOINT_WRITES": 103
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 182,
+        "D1_SQL_STATEMENTS": 202,
+        "D1_ROWS_RETURNED": 146,
+        "D1_ROWS_WRITTEN": 171,
+        "SOURCE_SUBREQUESTS": 2,
+        "ITEMS_PROCESSED": 26,
+        "CHECKPOINT_WRITES": 15,
+        "WALL_LOCAL_PROXY_MS": 33
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 182,
+      "items_in_run": 91,
+      "concepts_derived": 91
+    },
+    "EUROSTAT_WEEKLY_CHECK_UNCHANGED": {
+      "description": "the weekly one-request release check finds nothing new",
+      "invocations": 1,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 6,
+        "D1_SQL_STATEMENTS": 6,
+        "D1_ROWS_RETURNED": 10,
+        "D1_ROWS_WRITTEN": 2,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 0,
+        "CHECKPOINT_WRITES": 0
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 6,
+        "D1_SQL_STATEMENTS": 6,
+        "D1_ROWS_RETURNED": 10,
+        "D1_ROWS_WRITTEN": 2,
+        "SOURCE_SUBREQUESTS": 1,
+        "ITEMS_PROCESSED": 0,
+        "CHECKPOINT_WRITES": 0,
+        "WALL_LOCAL_PROXY_MS": 2
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 6
+    },
+    "EUROSTAT_NEW_RELEASE_REVISION": {
+      "description": "a newer dataset release: every cell is a new origin of the new release",
+      "invocations": 11,
+      "PER_RUN_TOTAL": {
+        "D1_API_CALLS": 1891,
+        "D1_SQL_STATEMENTS": 1891,
+        "D1_ROWS_RETURNED": 1639,
+        "D1_ROWS_WRITTEN": 568,
+        "SOURCE_SUBREQUESTS": 2,
+        "ITEMS_PROCESSED": 91,
+        "CHECKPOINT_WRITES": 103
+      },
+      "PER_INVOCATION_MAX": {
+        "D1_API_CALLS": 200,
+        "D1_SQL_STATEMENTS": 200,
+        "D1_ROWS_RETURNED": 170,
+        "D1_ROWS_WRITTEN": 180,
+        "SOURCE_SUBREQUESTS": 2,
+        "ITEMS_PROCESSED": 30,
+        "CHECKPOINT_WRITES": 15,
+        "WALL_LOCAL_PROXY_MS": 35
+      },
+      "PER_INVOCATION_MEDIAN_D1_SQL_STATEMENTS": 182,
+      "items_in_run": 91,
+      "concepts_derived": 91
+    },
+    "INELIGIBLE_TICKS": {
+      "description": "consecutive ticks while neither source is eligible",
+      "ticks": 100,
+      "SOURCE_SUBREQUESTS": 0,
+      "D1_SQL_STATEMENTS_PER_TICK": 3,
+      "D1_ROWS_WRITTEN": 0
+    }
+  }
+}
