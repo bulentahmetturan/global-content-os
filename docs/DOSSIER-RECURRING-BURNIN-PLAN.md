@@ -1,6 +1,6 @@
-# DOSSIER recurring: predeploy gate result and Stage-1 burn-in plan (2026-10-06; NOTHING HERE HAS BEEN EXECUTED)
+# DOSSIER recurring: predeploy gate result and Stage-1 burn-in plan (2026-10-06)
 
-Base implementation commit `a316750`; this document closes only the remaining production-safety uncertainties. No deploy, secret change, source activation, recurring enable, migration or push was performed. Machine-readable twin: `docs/generated/dossier-recurring-burnin-plan-v1.json`; measurements: `docs/generated/dossier-recurring-measurements-v1.json` (regenerated and compared by `recurring-predeploy.test.mjs`).
+Base implementation commit `a316750`; this document records the frozen safety contract and burn-in gates. Current live deployment and runtime state are tracked in `docs/CURRENT.md` and the Stage-1 evidence. Machine-readable twin: `docs/generated/dossier-recurring-burnin-plan-v1.json`; measurements: `docs/generated/dossier-recurring-measurements-v1.json` (regenerated and compared by `recurring-predeploy.test.mjs`).
 
 ## 1. Metric reconciliation (R08)
 

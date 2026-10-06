@@ -42,12 +42,13 @@ test('the deviations from the frozen design are real: the profile carries the im
   assert.deepEqual(RP.validateRecurringProfile(RP.DOSSIER_RECURRING_V1), []);
 });
 
-test('nothing is activated: the shipped defaults are OFF, no registration is enabled, no code path lets the scheduler enable or activate anything, OECD is not a recurring source', () => {
+test('the environment gate permits the owner-controlled recurring switch, but no source or stage-2 capability is activated by default and the scheduler cannot activate anything', () => {
   const toml = readFileSync('wrangler.toml', 'utf8');
-  assert.match(toml, /DOSSIER_RECURRING_ENABLED = "false"/);
+  assert.match(toml, /DOSSIER_RECURRING_ENABLED = "true"/);
   assert.match(toml, /DOSSIER_CANARY_ENABLED = "false"/);
   assert.ok(![...CC.DOSSIER_READER_REGISTRY, ...V2.DOSSIER_READER_REGISTRY_V2].some((r) => r.enabled !== false || r.state !== 'CANARY_DISABLED'));
-  for (const k of Object.keys(impl.defaults_shipped_off)) assert.ok(/OFF|DISABLED|false|absent/.test(impl.defaults_shipped_off[k]), k);
+  assert.ok(/OFF|DISABLED|false|absent/.test(impl.defaults_shipped_off.global_control), 'owner control starts OFF');
+  for (const k of Object.keys(impl.defaults_shipped_off).filter((x) => x !== 'env_switch')) assert.ok(/OFF|DISABLED|false|absent/.test(impl.defaults_shipped_off[k]), k);
   const src = (f) => readFileSync(`apps/worker/src/dossier/${f}`, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
   // the scheduler / sweep / retention / health never SET a switch to 1 or move a source to a runnable state; they only pause, block, probe and clear
   for (const f of ['recurring-scheduler.ts', 'recurring-sweep.ts', 'recurring-retention.ts', 'recurring-health.ts']) {
@@ -59,7 +60,7 @@ test('nothing is activated: the shipped defaults are OFF, no registration is ena
   assert.ok(sched.includes('PROBE_REASON') && /const to = view\.pausedFrom === 'ACTIVE' \? 'ACTIVE' : 'BURN_IN'/.test(sched), 'the only way up is the probe of a transient circuit, back to the previous state');
   assert.ok(!RP.DOSSIER_RECURRING_V1.sources.value.some((s) => s.canonical_source_id === 'oecd-health'));
   // the runbook is a procedure, not an executed log, and carries no secret value
-  assert.match(runbook, /NOTHING HERE HAS BEEN EXECUTED/);
+  assert.match(runbook, /Everything below is an \*\*owner procedure\*\*; it is not a log of completed actions/);
   assert.ok(!/[0-9a-f]{40,}/i.test(runbook) && !/[0-9a-f]{40,}/i.test(statusDoc), 'no token-like value in the documents');
   assert.match(statusDoc, /Nothing is activated, deployed, migrated or pushed/);
 });
@@ -93,6 +94,6 @@ test('the burn-in plan twin agrees with the profile, the measurements and the de
   assert.equal(design.predeploy_addendum.r18, 'NOT_READY');
   assert.equal(design.envelopes.clinicaltrials.invocations_per_run, 60, 'the frozen design value is history and unchanged');
   const doc = readFileSync('docs/DOSSIER-RECURRING-BURNIN-PLAN.md', 'utf8');
-  assert.match(doc, /NOTHING HERE HAS BEEN EXECUTED/);
+  assert.match(doc, /Current live deployment and runtime state are tracked in `docs\/CURRENT\.md`/);
   for (const k of ['PER_RUN', 'PER_INVOCATION', 'D1_SQL_STATEMENTS', 'D1_API_CALLS']) assert.ok(doc.includes(k), k);
 });

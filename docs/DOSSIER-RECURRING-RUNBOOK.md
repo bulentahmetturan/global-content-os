@@ -1,6 +1,6 @@
-# DOSSIER recurring operation: owner runbook (2026-10-06; NOTHING HERE HAS BEEN EXECUTED)
+# DOSSIER recurring operation: owner runbook (2026-10-06)
 
-Everything below is an **owner procedure** for a later phase. This repo state is local only: nothing is deployed, no secret is set, no source is enabled. Read `docs/DOSSIER-RECURRING-IMPLEMENTATION.md` first (what exists, what is pending) and `docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md` (design, stages, rollback criteria).
+Everything below is an **owner procedure**; it is not a log of completed actions. See `docs/CURRENT.md` and the current Stage-1 evidence for live deployment and runtime state. Read `docs/DOSSIER-RECURRING-IMPLEMENTATION.md` first (what exists, what is pending) and `docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md` (design, stages, rollback criteria).
 
 Rules that hold for every step: tokens only in your process environment (never in files, arguments, URLs, logs or chat); every change names `--operator`; one command is one request (the CLI never loops or polls); always keep the previous disabled Worker version id for rollback (`ee60d69b`, `c9c97279` proven twice).
 
@@ -16,7 +16,7 @@ node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))
 ```
 
    Store both in the password manager; export them only in the shell that runs the CLI. Rotate at every shutdown that used them and on any suspected exposure.
-3. **Deploy review**: the deploy that carries this code changes `wrangler.toml` (a second cron trigger `*/5 * * * *`, `DOSSIER_RECURRING_ENABLED = "false"`). With the switch `"false"` the tick is a no-op that reads nothing. Follow `docs/ops/RELEASE-RUNBOOK.md`; take the D1 bookmark first; no migration is part of this deploy.
+3. **Deploy review**: the Stage-1 integrated deploy carries the second cron trigger `*/5 * * * *` and sets `DOSSIER_RECURRING_ENABLED = "true"` to permit the owner-controlled start. The runtime control `recurring_enabled` still defaults OFF; the tick remains a no-op until the owner turns that control on. With the environment switch `"false"` it returns before any D1 access. Follow `docs/ops/RELEASE-RUNBOOK.md`; take the D1 bookmark first; no migration is part of this deploy.
 
 ## 1. Stage 1: burn-in (all candidates / snapshots / reviews stay OFF)
 

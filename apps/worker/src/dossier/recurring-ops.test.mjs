@@ -119,10 +119,10 @@ test('owner controls through the HTTP handler: global switch, stage-2 persistenc
   assert.deepEqual(RP.validateRecurringProfile(RP.DOSSIER_RECURRING_V1), []);
 });
 
-test('cron wiring: the dedicated */5 trigger exists beside the GCOS cron, the master switch ships as "false", the tick of a disabled deployment reads nothing, and the Worker routes it before the GCOS slot rotation', async () => {
+test('cron wiring: the dedicated */5 trigger exists beside the GCOS cron, the owner control remains OFF until switched on, disabled deployments read nothing, and the Worker routes the tick before GCOS slot rotation', async () => {
   const toml = readFileSync('wrangler.toml', 'utf8');
   assert.match(toml, /crons = \["\* \* \* \* \*", "\*\/5 \* \* \* \*"\]/);
-  assert.match(toml, /DOSSIER_RECURRING_ENABLED = "false"/);
+  assert.match(toml, /DOSSIER_RECURRING_ENABLED = "true"/);
   assert.equal(OPS.DOSSIER_RECURRING_CRON, '*/5 * * * *');
   const boom = { prepare: () => { throw new Error('a disabled tick must not touch D1'); } };
   const r = await OPS.runDossierRecurringTick({ DB: boom, DOSSIER_RECURRING_ENABLED: 'false' });

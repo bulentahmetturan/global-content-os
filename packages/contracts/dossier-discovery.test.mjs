@@ -61,7 +61,7 @@ test('only migration 0031 carries DOSSIER (0028 CHECKs and earlier migrations un
   assert.deepEqual([...new Set((idx.slice(cut).replace(/\/\/.*$/gm, '').match(/\w*dossier\w*/gi)) ?? [])].sort(), ['DOSSIER_RECURRING_CRON', 'dossier', 'runDossierRecurringTick']);
   assert.ok(!/dossier/i.test(readFileSync('apps/worker/src/scheduled-jobs.ts', 'utf8')));
   assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_CANARY_ENABLED = "false"'), 'the deployed default is OFF');
-  assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_RECURRING_ENABLED = "false"'), 'the recurring master switch also ships OFF');
+  assert.ok(readFileSync('wrangler.toml', 'utf8').includes('DOSSIER_RECURRING_ENABLED = "true"'), 'the recurring environment gate is enabled for the owner-controlled Stage-1 start');
   assert.ok(!/dossier/i.test(readFileSync('wrangler.toml', 'utf8').replace(/DOSSIER_(CANARY|RECURRING)_ENABLED[^\n]*/g, '').replace(/#[^\n]*/g, '')), 'no other dossier configuration (the cron trigger itself carries no dossier name)');
   assert.equal(V.reader_status.live_readers, 0);
 });
