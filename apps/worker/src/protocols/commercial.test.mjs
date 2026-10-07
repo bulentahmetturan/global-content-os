@@ -127,7 +127,8 @@ test('counterparty via existing Actor works; invalid counterparty fails; roles d
     ['cmr_cp'],
   );
   await assert.rejects(() => edge(db, 'cmr_cp_bad', 'actor_subject', 'mediterranean-diet', 'SPONSORED_BY', { counterparty_actor_id: 'actor_no_such' }));
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM actors').get().n, 2);
+  // Edge created no duplicate actor identity (Wave-1 seeded institution excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM actors WHERE actor_id IN ('actor_subject', 'actor_org')`).get().n, 2);
 });
 
 // ---- DUPLICATE TESTS ----
@@ -192,7 +193,7 @@ test('commercial edges and P4 edges never synchronize', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
   await edge(db, 'cmr_sep', 'actor_test_one', 'mediterranean-diet', 'CONSULTANT');
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM actor_protocol_relationships').get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM actor_protocol_relationships WHERE actor_id = 'actor_test_one'`).get().n, 0);
   await rels.createActorProtocolRelationship(db, {
     relationship_id: 'apr_sep', actor_id: 'actor_test_one',
     protocol_id: 'mediterranean-diet', relationship_type: 'RESEARCHER',
@@ -206,8 +207,9 @@ test('commercial work creates no claim/evidence and alters no stance', async () 
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
   await edge(db, 'cmr_sep2', 'actor_test_one', 'mediterranean-diet', 'AFFILIATE');
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_claims').get().n, 0);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_evidence').get().n, 0);
+  // No claim/evidence beyond Wave-1 seeds (non-wave rows must stay zero).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_claims WHERE claim_id NOT LIKE 'clm_dash_%'`).get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_evidence WHERE evidence_id NOT LIKE 'ev_dash_%'`).get().n, 0);
 });
 
 test('commercial↔claim linkage works; invalid FK and duplicates fail; P5 untouched', async () => {
@@ -266,7 +268,8 @@ test('no source/scheduler/brief/triage side effects; no ecommerce columns', asyn
   insertActor(sqlite, 'actor_test_one');
   await edge(db, 'cmr_src', 'actor_test_one', 'mediterranean-diet', 'COMMERCIAL_PROVIDER');
   assert.deepEqual(sqlite.prepare('SELECT id, enabled FROM source_feeds ORDER BY id').all(), feedsBefore);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+  // Commercial work creates no source items of its own (Wave-1 controlled-import rows excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue|cart|checkout|payment|price/i.test(t)));

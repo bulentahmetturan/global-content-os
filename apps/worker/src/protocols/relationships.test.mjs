@@ -284,7 +284,8 @@ test('relationship work touches no source, scheduler, brief, or triage state', a
   await version(db, 'med-v1', 'mediterranean-diet', 1);
   await edge(db, 'apr_scope', 'actor_test_one', 'mediterranean-diet', 'RESEARCHER', 'med-v1');
   assert.deepEqual(sqlite.prepare('SELECT id, enabled FROM source_feeds ORDER BY id').all(), feedsBefore);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+  // Relationship work creates no source items of its own (Wave-1 controlled-import rows excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue/i.test(t)));

@@ -189,7 +189,8 @@ test('attribution creates no P4 edge and requires none', async () => {
   await claims.createClaimAttribution(db, {
     attribution_id: 'cattr_2', claim_id: 'clm_attr2', actor_id: 'actor_test_one', attribution_role: 'SPEAKER',
   });
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM actor_protocol_relationships').get().n, 0);
+  // Attribution creates no edge for its own actor (Wave-1 seeded edges excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM actor_protocol_relationships WHERE actor_id = 'actor_test_one'`).get().n, 0);
 });
 
 test('exact duplicate attribution fails; different roles coexist deterministically', async () => {
@@ -348,7 +349,7 @@ test('P0 seed count stays 6; P2/P3 behavior unchanged', async () => {
   assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v1');
   const r = await protocols.resolveProtocol(db, 'DASH');
   assert.equal(r.outcome, 'EXACT_ALIAS');
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM actor_protocol_relationships').get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM actor_protocol_relationships WHERE actor_id = 'actor_test_one'`).get().n, 0);
 });
 
 test('claim/evidence work introduces no scores, safety, commercial, scheduler, or brief state', async () => {
@@ -366,7 +367,7 @@ test('claim/evidence work introduces no scores, safety, commercial, scheduler, o
   for (const forbidden of ['score', 'safety', 'price', 'product', 'verdict', 'truth']) {
     assert.ok(!allCols.some((c) => c.toLowerCase().includes(forbidden)), `forbidden column fragment: ${forbidden}`);
   }
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id = ?`).get(item).n, 1);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue/i.test(t)));
 });

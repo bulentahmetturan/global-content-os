@@ -160,7 +160,7 @@ test('captured RSS fixture replays through parser → gate → dedupe → persis
     assert.equal(row.created, true);
     first.push(row);
   }
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 2);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE feed_id = ?`).get(feedId).n, 2);
   // Idempotent replay: same items again create nothing, resolve to the same rows.
   for (let i = 0; i < usable.slice(0, 2).length; i++) {
     const it = usable[i];
@@ -172,7 +172,7 @@ test('captured RSS fixture replays through parser → gate → dedupe → persis
     assert.equal(row.created, false);
     assert.equal(row.id, first[i].id);
   }
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 2);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE feed_id = ?`).get(feedId).n, 2);
   for (const row of first) {
     const stored = sqlite.prepare('SELECT feed_id, dedupe_key, acquisition_path, canonical_url, triage_status FROM source_items WHERE id = ?').get(row.id);
     assert.equal(stored.feed_id, feedId);
