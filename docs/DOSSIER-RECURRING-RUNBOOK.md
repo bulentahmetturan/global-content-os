@@ -51,6 +51,8 @@ node scripts/dossier-ops-operator.mjs --base https://<worker> changes --run-id <
 
 Burn-in gates (design R17): at least 14 consecutive days, at least 10 CT runs completed and 2 Eurostat checks, 0 `HARD_STOP`, invariants clean every day (0 candidates / snapshots / reviews, no ACTIVE concept, no duplicate normalized label), D1 under target, wall and CPU recorded (CPU from `wrangler tail` / analytics, never from the Worker), one pause-and-resume drill, one concurrent-claim drill (a manual call during a scheduled run must be refused `CONCEPT_PROPOSER_BUSY`), one injected failure recovery, backlog and volume measured. The local 21-day simulation (`recurring-simulation.test.mjs`) is the rehearsal of exactly these drills.
 
+R18 freeze execution (only when every frozen requirement holds): collect the bounded live evidence (run counts by reader/status, live leases, Stage-2 counts, max per-invocation statements, global concurrency, provenance flags, rollback version) into one evidence JSON, then evaluate it with `node scripts/dossier-recurring-freeze.mjs --evidence <evidence.json>`; it refuses by requirement name unless the freeze is genuinely due, and `--emit <record.json>` writes the immutable freeze record. Never freeze from synthetic evidence.
+
 ## 2. Stage 2: candidate persistence (only after burn-in and your review of its report)
 
 Prerequisites already in code: snapshot provenance hardening (R11) and the review endpoint (R12). Optional but recommended with it: the aging sweep (R09).
