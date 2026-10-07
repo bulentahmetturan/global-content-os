@@ -1,12 +1,17 @@
-# medicalNEWS — activation manifest (PROPOSED, not applied)
+# medicalNEWS — activation manifest (APPLIED, production-active)
 
-> Status: all pre-activation gates PASS. Production activation is
-> NOT authorized by the source-wave brief and has NOT been performed.
-> This manifest is the exact artifact an owner `--apply` would execute.
+> Workstream ownership: NEWS / EDITORIAL. This source is NOT a Protocols
+> workstream milestone, dependency, or deliverable. Protocols P0–P7 remain an
+> independent protocol-domain workstream; shared registry/scheduler/ingestion
+> runtime is infrastructure, not domain ownership.
+>
+> Status: all pre-activation gates PASSed; owner authorization was granted and
+> executed 2026-10-07 (record below). Instagram automation was never requested
+> and remains NO.
 
 ## Source
 
-- SOURCE_ID = `www-medikalnews` (lifecycle dry-run identity; no registry row exists yet)
+- SOURCE_ID = `www-medikalnews` (lifecycle identity; registry row created at activation)
 - Name: Medikal News — Turkish medical-industry news (pharma, devices, congresses, appointments; Istanbul, est. 2014)
 - Channel: `kaduse-news` / HABER (`kaduse-medikal`); TIER=PROFESSIONAL_BODY per lifecycle dry-run
 - PRIMARY mode: website RSS. INSTAGRAM_MODE = MANUAL_INTAKE-if-discovered (no IG presence found; no adapter, no record, automation stays NO)
@@ -17,7 +22,7 @@
 - Type: RSS 2.0 (AIOSEO); ~49 items; fresh (latest 2026-10-07)
 - Native identity: guid == link (stable WordPress slugs); title + RFC-2822 pubDate; no author/summary in sitemap items
 - Reader: existing generic `parseRssOrAtom` (no source-specific adapter needed)
-- Lifecycle dry-run: `ADD www-medikalnews -> CHANGE_DRY_RUN`, all gates PASS, canary 49 candidates / 0 published, cadence 60min, proposed migration `migrations/0041_source_lifecycle_add_www_medikalnews_whole.sql` (NOT created — dry run only)
+- Lifecycle dry-run: `ADD www-medikalnews -> CHANGE_DRY_RUN`, all gates PASS, canary 49 candidates / 0 published, cadence 60min; activation used `add --apply`, creating migration `migrations/0041_source_lifecycle_add_www_medikalnews_whole.sql`
 - Fixture: `apps/worker/src/ingress/test-fixtures/medikalnews-sitemap-2026-10-07.rss` (byte capture); replay proven in `medikalnews.test.mjs` 7/7
 
 ## Activation state
@@ -38,9 +43,11 @@
 - Pre-activation: nothing to roll back (no rows, no migration, no deploy).
 - Post-activation (if ever): lifecycle `retire` (status retired, flags false, tombstone kept — never destructive delete) + optional resend/observe via existing telemetry. No protocol state affected (proven by test).
 
-## Authorization required (exact)
+## Authorization record (exact)
 
-- SOURCE_ACTIVATION_AUTHORIZATION_REQUIRED for `www-medikalnews` website RSS only (`add --apply` + 0041 migration + remote apply + deploy are separate subsequent authorizations, none granted).
+- Authorization was granted for `www-medikalnews` website RSS only (lifecycle
+  `add --apply`, 0041 migration, remote apply, deploy, bounded first-run
+  verification) and fully executed — see execution record below.
 - Instagram automation: NO (not requested, not authorized, no adapter to authorize).
 
 ## Production execution record (authorized window 2026-10-07)

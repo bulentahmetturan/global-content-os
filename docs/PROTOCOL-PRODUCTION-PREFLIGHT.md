@@ -2,6 +2,14 @@
 
 > Prepared during the Maximum Safe Sprint (P8 continuation). Local-only evidence.
 > Nothing below authorizes or performs production execution.
+>
+> WORKSTREAM BOUNDARY (frozen correction): P8 validated SHARED source-registry /
+> activation / scheduler infrastructure — it is not a Protocols-domain content
+> milestone. medicalNEWS (`news-www-medikalnews-whole`, migration 0041) is a
+> NEWS / EDITORIAL source wave that exercised that shared infrastructure; it is
+> NOT a Protocols dependency and does NOT populate the protocol domain (see
+> `docs/SOURCE-MEDIKALNEWS-MANIFEST.md`). P0–P7 protocol-domain state below is
+> unaffected. SHARED_RUNTIME_INFRASTRUCTURE ≠ SHARED_DOMAIN_OWNERSHIP.
 
 ## Scope proposed for a future authorized window
 
@@ -33,8 +41,10 @@
 
 ## Activation manifest
 
-- Empty. P0–P8 canonicalize exactly 6 protocols and activate zero sources.
+- Empty within P0–P8 scope. P0–P8 canonicalize exactly 6 protocols and activate zero sources.
   No MANUAL_INTAKE → AUTOMATED conversion exists anywhere in this work.
+  (The later medicalNEWS News-wave activation is owned by
+  `docs/SOURCE-MEDIKALNEWS-MANIFEST.md`, not by this protocol preflight.)
 
 ## Scheduler
 
