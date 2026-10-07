@@ -30,6 +30,8 @@ export interface ExtractedItem {
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 const FETCH_MS = 12_000;
+/** Hard cap on a single fetched body (A3): larger bodies abort as OVERSIZE_BODY. */
+export const MAX_BODY_BYTES = 5 * 1024 * 1024;
 const ERROR_BACKOFF_HOURS = 12;
 
 /** Known endpoint corrections (dead paths → live listing/RSS). */
@@ -465,7 +467,7 @@ async function extractFromSitemap(
   return items;
 }
 
-async function fetchText(
+export async function fetchText(
   url: string
 ): Promise<{ ok: boolean; status: number; text: string; contentType: string; error?: string }> {
   const ctrl = new AbortController();
@@ -481,7 +483,41 @@ async function fetchText(
       signal: ctrl.signal,
     });
     const contentType = res.headers.get('content-type') || '';
-    const text = await res.text();
+    // 5 MB hard cap (A3): unbounded bodies are a memory/quota hazard.
+    // Content-Length precheck first (cheap reject), then a bounded stream
+    // read; oversize aborts as a classified failure and persists nothing.
+    const declared = Number(res.headers.get('content-length') || 'NaN');
+    if (Number.isFinite(declared) && declared > MAX_BODY_BYTES) {
+      try { await res.body?.cancel(); } catch { /* already closed */ }
+      return { ok: false, status: res.status, text: '', contentType, error: 'OVERSIZE_BODY' };
+    }
+    const reader = res.body?.getReader();
+    if (!reader) {
+      const text = await res.text();
+      if (text.length > MAX_BODY_BYTES) return { ok: false, status: res.status, text: '', contentType, error: 'OVERSIZE_BODY' };
+      return { ok: res.ok, status: res.status, text, contentType };
+    }
+    const chunks: Uint8Array[] = [];
+    let received = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      received += value.byteLength;
+      if (received > MAX_BODY_BYTES) {
+        try { await reader.cancel(); } catch { /* already closed */ }
+        return { ok: false, status: res.status, text: '', contentType, error: 'OVERSIZE_BODY' };
+      }
+      chunks.push(value);
+    }
+    let total = 0;
+    for (const chunk of chunks) total += chunk.byteLength;
+    const joined = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) {
+      joined.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    const text = new TextDecoder().decode(joined);
     return { ok: res.ok, status: res.status, text, contentType };
   } catch (err) {
     return {
