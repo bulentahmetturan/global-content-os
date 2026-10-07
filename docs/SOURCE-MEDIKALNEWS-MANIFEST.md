@@ -42,3 +42,27 @@
 
 - SOURCE_ACTIVATION_AUTHORIZATION_REQUIRED for `www-medikalnews` website RSS only (`add --apply` + 0041 migration + remote apply + deploy are separate subsequent authorizations, none granted).
 - Instagram automation: NO (not requested, not authorized, no adapter to authorize).
+
+## Production execution record (authorized window 2026-10-07)
+
+- Lifecycle `add --apply` executed exactly per this manifest → CHANGE_PREPARED:
+  catalog entries (`medikalnews` publisher, `www-medikalnews` source,
+  `www-medikalnews-whole` target, +1 subscription → pins 56/61/51 per
+  precedent 3910d93), regenerated `config/feeds.json` (+1 feed only),
+  migration `migrations/0041_source_lifecycle_add_www_medikalnews_whole.sql`
+  (single INSERT..ON CONFLICT, catalog-owned columns only).
+- Remote apply: 0041 ✅ (exactly 1 migration; ledger newest 0041).
+- Feed drift: exactly +1 row (`news-www-medikalnews-whole`, enabled=1, 60min,
+  kaduse-news); 0 changed, 0 missing; enabled 141→142 (+1 authorized).
+- Deploy: Worker build at activation commit → health commit match,
+  `/api/ready` READY with appliedMigration == expectedSchema == 0041.
+- First production run (natural per-minute cron, no manual trigger, no
+  backfill): `last_fetched_at` set, `last_error` null, `last_ok_items`=21;
+  16 rows persisted, all `triage_status=inbox`, publisher `Medikal News`,
+  stable medikalnews.com canonical URLs (5 gated out as stale — bounded gate
+  behavior, matching local fixture expectations).
+- Protocol domain untouched: 6/6 CANONICAL_READY, zero non-ready; no claim,
+  evidence, safety, commercial, or brief writes from this source.
+- Rollback refs: pre-apply Worker version + deploy timestamps recorded in
+  `docs/PROTOCOL-PRODUCTION-PREFLIGHT.md`; deactivation path is lifecycle
+  `retire` (never destructive).
