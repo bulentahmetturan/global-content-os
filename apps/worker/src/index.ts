@@ -16,6 +16,7 @@ import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
+import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -136,6 +137,14 @@ export default {
 
       if (path === '/api/ops/doctor-audit' && request.method === 'GET') {
         const result = await handleDoctorAuditGet(env, url.searchParams.get('associationId') ?? '');
+        return json(result.body, result.status);
+      }
+
+      // R1 Phase C bootstrap: allowlist-keyed creation of exactly one Doctor
+      // identity bundle (actor + endpoint + association). No activation.
+      if (path === '/api/ops/doctor-bootstrap' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const result = await handleDoctorBootstrapOp(env, body);
         return json(result.body, result.status);
       }
 

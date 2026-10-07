@@ -5,26 +5,23 @@ authorization that names the association. No fetch, no parser, no items.
 
 ## Precondition: production row existence (fixtures ≠ production)
 
-D1–D4 fixtures prove the MODEL, not production rows. Before step 1, confirm
-in production that all three exist, or stop:
+D1–D4 fixtures prove the MODEL, not production rows. The bootstrap route
+(`POST /api/ops/doctor-bootstrap`, R1 Phase C, undeployed at the time of
+writing) is the only approved seeding mechanism: allowlist key
+`ahmet-ekmekci-official-website` → one actor + endpoint + association, no
+activation. Invoking it in production needs its own explicit authorization;
+until then production holds ZERO doctor rows:
 
-- actor: the explicitly approved person (e.g. Ahmet Ekmekçi)
-- endpoint: the explicitly approved source endpoint (e.g. OFFICIAL_WEBSITE
-  `https://ahmetekmekci.com`)
-- association: the explicitly approved OFFICIAL_PERSONAL link between them
-
-If creating the actor/source/association rows in production itself requires
-a governance operation beyond this runbook, that operation must be
-authorized and executed first — this runbook does not seed silently.
-Expected: production currently holds ZERO doctor rows, so a seeding
-decision is required before any canary:
-
-- PRODUCTION_CANARY_REQUIRES_ACTOR_SEED = YES
-- PRODUCTION_CANARY_REQUIRES_SOURCE_SEED = YES
-- PRODUCTION_CANARY_REQUIRES_ASSOCIATION_SEED = YES
+- PRODUCTION_CANARY_REQUIRES_ACTOR_SEED = YES (via bootstrap route only)
+- PRODUCTION_CANARY_REQUIRES_SOURCE_SEED = YES (via bootstrap route only)
+- PRODUCTION_CANARY_REQUIRES_ASSOCIATION_SEED = YES (via bootstrap route only)
 
 ## Canary sequence (one approved association only)
 
+0. Authorized bootstrap first: `POST /api/ops/doctor-bootstrap`
+   `{"identityKey": "ahmet-ekmekci-official-website", "reason": "<why>"}`
+   (expect 200 with actor/endpoint/association all `created`; a repeat must
+   return `existing` with identical ids). Abort on anything else.
 1. Resolve the association: `GET /api/ops/doctor-audit?associationId=…`
    (expect 200; record `latestIngestability`, expected null/UNKNOWN).
 2. `POST /api/ops/doctor-activation` action `activate` with technical
