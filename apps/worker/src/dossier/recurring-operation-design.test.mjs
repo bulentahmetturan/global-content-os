@@ -79,7 +79,9 @@ test('the design rests on code facts that still hold: CT reader supports since/p
   assert.match(run, /NOT EXISTS \(SELECT 1 FROM dossier_canary_runs o/);
   const snap = readFileSync('apps/worker/src/dossier/snapshots.ts', 'utf8');
   assert.ok(/effectiveObservationRows/.test(snap), 'R11 is implemented: snapshots apply the shared effective-release selection (docs/DOSSIER-RECURRING-IMPLEMENTATION-STATUS.md; hardening tests in snapshot-provenance.test.mjs)');
-  assert.match(readFileSync('wrangler.toml', 'utf8'), /crons = \["\* \* \* \* \*", "\*\/5 \* \* \* \*"\]/);
+  const cronLine = readFileSync('wrangler.toml', 'utf8').match(/crons\s*=\s*\[[^\]]*\]/)?.[0] ?? '';
+  assert.match(cronLine, /"\* \* \* \* \*"/);
+  assert.match(cronLine, /"\*\/5 \* \* \* \*"/);
   const mig = readFileSync('migrations/0031_dossier_discovery_foundation.sql', 'utf8');
   assert.match(mig, /CREATE TABLE IF NOT EXISTS dossier_control/);
   assert.ok(!/UNIQUE[^;]*normalized_label/.test(mig), 'no uniqueness on the normalized label (why serialization is mechanical, not schema-based)');

@@ -34,6 +34,10 @@ export interface SchedulePlan {
   skipped: Array<{ sourceId: string | null; code: SkipCode; detail: string }>;
 }
 
+export function disabledSchedulePlan(): SchedulePlan {
+  return { enabled: false, jobs: [], skipped: [{ sourceId: null, code: 'SCHEDULER_DISABLED', detail: 'the scheduler is OFF by default; nothing was read' }] };
+}
+
 interface PolicyRow {
   source_id: string;
   runtime_state: string;
@@ -49,7 +53,7 @@ const toView = (r: PolicyRow): PolicyView => ({ state: r.runtime_state as Policy
 
 /** `limit` bounds the number of policy rows examined (idx_stat_policy_planner), independently of the per-tick job limit. */
 export async function planScheduledJobs(storage: StatisticsStorage, nowIso: string, cfg: SchedulerConfig, opts: { limit?: number } = {}): Promise<SchedulePlan> {
-  if (!cfg.enabled) return { enabled: false, jobs: [], skipped: [{ sourceId: null, code: 'SCHEDULER_DISABLED', detail: 'the scheduler is OFF by default; nothing was read' }] };
+  if (!cfg.enabled) return disabledSchedulePlan();
   const limit = storage.requireLimit(opts.limit ?? 20);
   const nowMs = Date.parse(nowIso);
   // the exact predicate of the partial index idx_stat_policy_planner: only gated or active policy rows are candidates

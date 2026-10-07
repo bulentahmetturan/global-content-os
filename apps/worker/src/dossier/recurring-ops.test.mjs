@@ -121,7 +121,10 @@ test('owner controls through the HTTP handler: global switch, stage-2 persistenc
 
 test('cron wiring: the dedicated */5 trigger exists beside the GCOS cron, the owner control remains OFF until switched on, disabled deployments read nothing, and the Worker routes the tick before GCOS slot rotation', async () => {
   const toml = readFileSync('wrangler.toml', 'utf8');
-  assert.match(toml, /crons = \["\* \* \* \* \*", "\*\/5 \* \* \* \*"\]/);
+  const cronLine = toml.match(/crons\s*=\s*\[[^\]]*\]/)?.[0] ?? '';
+  assert.match(cronLine, /"\* \* \* \* \*"/);
+  assert.match(cronLine, /"\*\/5 \* \* \* \*"/);
+  assert.match(cronLine, /"0 3 \* \* \*"/);
   assert.match(toml, /DOSSIER_RECURRING_ENABLED = "true"/);
   assert.equal(OPS.DOSSIER_RECURRING_CRON, '*/5 * * * *');
   const boom = { prepare: () => { throw new Error('a disabled tick must not touch D1'); } };

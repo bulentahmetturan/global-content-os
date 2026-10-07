@@ -6,13 +6,15 @@
  * Engine-independent (always real workerd). Run: node --test apps/worker/src/statistics/local-runtime.test.mjs
  */
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { after, before, describe, it } from 'node:test';
 import { createSqliteEngine } from './test-support/engines.mjs';
 import { makeLocalWorld } from './test-support/local-runtime.mjs';
 
 const worlds = [];
+const sourceWiringSnapshot = Object.fromEntries(
+  ['apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'].map((path) => [path, readFileSync(path, 'utf8')]),
+);
 after(() => worlds.forEach((w) => w.teardown()));
 
 function world(variant, opts) {
@@ -219,7 +221,9 @@ describe('A3: production binding present but dormant, content Worker entry wires
     assert.match(toml, /binding = "STATS_DB"/);
     assert.match(toml, /database_name = "global-content-os-stats"/);
     assert.match(toml, /STATISTICS_CANARY_ENABLED = "false"/);
-    assert.equal(execFileSync('git', ['diff', '--stat', 'HEAD', '--', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'], { encoding: 'utf8' }).trim(), '');
+    for (const [path, source] of Object.entries(sourceWiringSnapshot)) {
+      assert.equal(readFileSync(path, 'utf8'), source, `the local runtime did not modify shared Worker source wiring: ${path}`);
+    }
     const entry = readFileSync('apps/worker/src/index.ts', 'utf8');
     assert.match(entry, /from '\.\/statistics\/statistics-routes'/);
     assert.match(entry, /await handleStatisticsRoutes\(request/);

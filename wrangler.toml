@@ -27,8 +27,8 @@ not_found_handling = "single-page-application"
 # Production: wrangler secret put CCOS_HANDOFF_URL / CCOS_HANDOFF_TOKEN / STATUS_CALLBACK_TOKEN / TIP_RADAR_INGEST_TOKEN / HUB_OPERATOR_TOKEN / OPENALEX_API_KEY
 
 [triggers]
-# The second trigger is the DOSSIER recurring tick: a no-op unless DOSSIER_RECURRING_ENABLED="true" AND the owner switched recurring on (docs/DOSSIER-RECURRING-MULTI-FAMILY-OPERATION.md R03).
-crons = ["* * * * *", "*/5 * * * *"]
+# The second trigger is DOSSIER recurring; the third is the reviewed HEALTH_STATISTICS daily poll. Each has an isolated handler.
+crons = ["* * * * *", "*/5 * * * *", "0 3 * * *"]
 
 [vars]
 ENVIRONMENT = "production"
@@ -42,7 +42,7 @@ DOSSIER_CANARY_ENABLED = "false"
 DOSSIER_RECURRING_ENABLED = "true"
 # HEALTH_STATISTICS canary master switch: OFF (post-canary shutdown S10; was true only for the authorized first canary).
 STATISTICS_CANARY_ENABLED = "false"
-# HEALTH_STATISTICS recurring planner: ON (owner-authorized recurring). The planner only PLANS bounded jobs served by the read-only schedule-plan route; the frozen tree contains no autonomous executor and no statistics cron, so nothing runs by itself. Owner-invoked runs remain policy-gated as before.
+# HEALTH_STATISTICS recurring scheduler: ON by owner review. The daily 03:00 UTC cron executes at most one ACTIVE, canary-passed source admitted by the bounded planner; only EUROSTAT_HEALTH has a production cadence/reader.
 STATISTICS_SCHEDULER_ENABLED = "true"
 
 [ai]

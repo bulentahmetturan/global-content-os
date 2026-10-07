@@ -14,6 +14,7 @@ export async function loadOps() {
     stdin: {
       contents: [
         `export * from '${dir}/ops/policy-contract'`, `export * from '${dir}/ops/cadence'`, `export * from '${dir}/ops/scheduler'`, `export * from '${dir}/ops/serialization'`,
+        `export * from '${dir}/ops/worker-scheduler'`,
         `export * from '${dir}/ops/retry-policy'`, `export * from '${dir}/ops/health'`, `export * from '${dir}/ops/ops-read-model'`, `export * from '${dir}/ops/retention'`,
         `export * from '${dir}/ops/revision-events'`, `export * from '${dir}/ops/cross-source'`, `export * from '${dir}/ops/ops-routes'`,
         `export * from '${dir}/statistics-routes'`, `export * from '${dir}/canary-routes'`, `export * from '${dir}/canary-budget'`,

@@ -18,6 +18,7 @@ import { collectOpsSummary } from './ops-summary';
 import { handleDossierCanary } from './dossier-canary-routes';
 import { DOSSIER_RECURRING_CRON, handleDossierOps, runDossierRecurringTick } from './dossier-ops-routes';
 import { handleStatisticsRoutes } from './statistics/statistics-routes';
+import { runStatisticsScheduledTick, STATISTICS_RECURRING_CRON } from './statistics/ops/worker-scheduler';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -773,6 +774,28 @@ export default {
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    if (controller.cron === STATISTICS_RECURRING_CRON) {
+      ctx.waitUntil(
+        runIsolatedScheduledJobs([{ id: 'statistics-recurring', run: async () => {
+          const result = await runStatisticsScheduledTick(env);
+          if (!result.plan.enabled) return;
+          const event = {
+            event: result.run?.status === 'FAILED' ? 'statistics_scheduled_run_failed' : 'statistics_scheduler_tick',
+            source_id: result.plan.jobs[0]?.sourceId ?? null,
+            plan: result.plan,
+            run_id: result.run?.runId ?? null,
+            run_status: result.run?.status ?? null,
+            release_id: result.run?.releaseId ?? null,
+            reader_error: result.run?.readerError ?? null,
+            d1_budget: result.usage,
+          };
+          (result.run?.status === 'FAILED' ? console.error : console.log)(JSON.stringify(event));
+        } }], {
+          onError: (r) => console.error(JSON.stringify({ event: 'scheduled_job_failed', job_id: r.id, error_name: r.error?.name, error_message: r.error?.message })),
+        }),
+      );
+      return;
+    }
     // DOSSIER recurring tick: its own five-minute cron. It never runs the GCOS slot rotation below, and a disabled deployment (DOSSIER_RECURRING_ENABLED != "true") reads nothing.
     if (controller.cron === DOSSIER_RECURRING_CRON) {
       ctx.waitUntil(

@@ -1,6 +1,6 @@
 # HEALTH_STATISTICS recurring operation, local-first (items 63-74)
 
-> Local only. Implemented and tested on node:sqlite and the real local D1 runtime. The scheduler is OFF, no source is active, nothing is deployed. Machine twin: `docs/generated/statistics-recurring-operation-v1.json`.
+> The scheduler implementation is tested on node:sqlite and the real local D1 runtime. Production recurring execution is owner-enabled by `STATISTICS_SCHEDULER_ENABLED=true` and the dedicated `0 3 * * *` UTC cron; the scheduler remains policy-gated and only `EUROSTAT_HEALTH` has a recurring reader. Machine twin: `docs/generated/statistics-recurring-operation-v1.json`.
 
 ## Principles
 - The Worker may **inspect** and **enforce** policy; it never **changes** it. Every sensitive transition is an owner action (owner SQL, an owner-invoked route, or an owner review). The frozen governance scan and `ops-governance.test.mjs` enforce this.
@@ -27,4 +27,4 @@
 - `d1Budget` per invocation is returned in route responses; the frozen schema has no column to store it.
 - CPU and wall time are read from `wrangler tail` or analytics, never inside the Worker.
 - Compaction of run rows needs a schema decision (runs cannot be deleted); it is not assumed.
-- The scheduler is a planner. Enabling it (`STATISTICS_SCHEDULER_ENABLED=true`) and wiring a cron is a separate reviewed owner deployment, after the first production canary is frozen.
+- The planner and production executor share the same admission, cadence, serialization and circuit rules. A dedicated daily 03:00 UTC cron is separate from the existing one-minute and DOSSIER five-minute triggers. The executor does no work unless `STATISTICS_SCHEDULER_ENABLED` is exactly `true`; it uses only `STATS_DB`, a 44-call/160-statement hard budget, the frozen bounded Eurostat slice and `PRODUCTION` mode. Source policy remains owner-controlled and is never changed by the Worker.

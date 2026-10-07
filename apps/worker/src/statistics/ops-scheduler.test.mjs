@@ -97,6 +97,26 @@ describe('64 scheduler: OFF by default, source-specific cadence, bounded plan', 
     await O.planScheduledJobs(c.storage, NOW_DUE, cfg, { limit: 20 });
     assert.ok(n.all + n.first <= 8, JSON.stringify(n));
   });
+  it('the production tick stays read-free while OFF and executes one admitted job within the reviewed D1 budget when enabled', async () => {
+    const off = await O.runStatisticsScheduledTick({});
+    assert.deepEqual([off.plan.enabled, off.plan.jobs.length, off.run, off.usage], [false, 0, null, null]);
+
+    const c = await world();
+    const result = await O.runStatisticsScheduledTick(
+      { STATS_DB: c.eng.db, STATISTICS_SCHEDULER_ENABLED: 'true' },
+      { now: NOW_DUE, fetcher: R.fixtureFetcher('v1') },
+    );
+    assert.deepEqual([result.plan.jobs.length, result.run?.status], [1, 'COMPLETED']);
+    assert.equal(result.usage?.stopped, false);
+    assert.ok(result.usage.calls <= 44, JSON.stringify(result.usage));
+    assert.equal((await c.storage.first(`SELECT COUNT(*) AS c FROM statistics_ingestion_runs WHERE run_mode = 'PRODUCTION'`)).c, 1);
+
+    const notDue = await O.runStatisticsScheduledTick(
+      { STATS_DB: c.eng.db, STATISTICS_SCHEDULER_ENABLED: 'true' },
+      { now: NOW_DUE, fetcher: R.fixtureFetcher('v1') },
+    );
+    assert.deepEqual([notDue.plan.jobs.length, notDue.plan.skipped[0]?.code, notDue.run], [0, 'NOT_DUE', null]);
+  });
 });
 
 describe('65 run serialization is mechanical', () => {

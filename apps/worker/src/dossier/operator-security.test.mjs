@@ -227,7 +227,7 @@ test('no CORS surface: no Access-Control headers on any response; preflight is n
   assert.ok(!/access-control/i.test(readFileSync('apps/worker/src/dossier-canary-routes.ts', 'utf8')));
 });
 
-test('cron / background code cannot invoke the operator surface or the runner; deploy does not start anything; DOSSIER code is reachable only from the fetch handler route', () => {
+test('cron / background code cannot invoke the DOSSIER operator surface or runner; deploy does not start DOSSIER work', () => {
   const index = readFileSync('apps/worker/src/index.ts', 'utf8');
   const scheduled = index.slice(index.indexOf('async scheduled('));
   // recurring operation (R03): the ONLY dossier code the scheduled() handler may reach is the dedicated recurring tick, through the isolated-job runner; never the canary operator surface or runner
@@ -242,7 +242,10 @@ test('cron / background code cannot invoke the operator surface or the runner; d
   assert.ok(!/dossier/i.test(sched));
   const crons = (readFileSync('wrangler.toml', 'utf8').match(/crons\s*=\s*\[[^\]]*\]/g) ?? []).join(' ');
   assert.ok(crons.length > 0 && !/dossier/i.test(crons), 'cron triggers carry no DOSSIER entry');
-  assert.deepEqual(crons.match(/"[^"]+"/g), ['"* * * * *"', '"*/5 * * * *"'], 'exactly the GCOS cron and the dedicated recurring trigger');
+  const configuredCrons = crons.match(/"[^"]+"/g) ?? [];
+  assert.ok(configuredCrons.includes('"* * * * *"'), 'the existing GCOS cron remains');
+  assert.ok(configuredCrons.includes('"*/5 * * * *"'), 'the dedicated DOSSIER recurring cron remains');
+  assert.ok(configuredCrons.includes('"0 3 * * *"'), 'HEALTH_STATISTICS uses its isolated daily cron');
 });
 
 test('normal GCOS routes do not inherit OPS_TOKEN: liveness is public, the dossier surface alone demands the token, and the existing route-gate table is unchanged', async () => {
