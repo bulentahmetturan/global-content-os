@@ -99,7 +99,7 @@ test('real items persist with provenance and replay idempotently', async () => {
     assert.equal(row.created, false);
     assert.equal(row.id, first[i].id);
   }
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 3);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE feed_id = ?`).get(FEED_ID).n, 3);
   for (const row of first) {
     const stored = sqlite.prepare('SELECT feed_id, dedupe_key, acquisition_path, canonical_url, publisher, triage_status FROM source_items WHERE id = ?').get(row.id);
     assert.equal(stored.feed_id, FEED_ID);

@@ -251,8 +251,9 @@ test('rule creation creates no claim/evidence; claim creation creates no rule', 
   insertActor(sqlite, 'actor_test_one');
   const item = insertItem(sqlite);
   await rule(db, 'sfr_sep');
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_claims').get().n, 0);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_evidence').get().n, 0);
+  // No claim/evidence beyond Wave-1 seeds (non-wave rows must stay zero).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_claims WHERE claim_id NOT LIKE 'clm_dash_%'`).get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_evidence WHERE evidence_id NOT LIKE 'ev_dash_%'`).get().n, 0);
   await claims.createClaim(db, { claim_id: 'clm_sep', protocol_id: 'mediterranean-diet', claim_type: 'OTHER', claim_text: 'Separation fixture.' });
   await evidence.createEvidence(db, { evidence_id: 'ev_sep', source_item_id: item });
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM safety_rules').get().n, 1);
@@ -322,7 +323,8 @@ test('safety work touches no source, scheduler, brief, or triage state', async (
   await rule(db, 'sfr_src', { safety_type: 'MONITORING', severity: 'INFO', title: 'Source-neutral fixture.' });
   await safety.createSafetyRuleContext(db, { context_id: 'sfctx_s', rule_id: 'sfr_src', context_type: 'OTHER', context_label: 'test-label' });
   assert.deepEqual(sqlite.prepare('SELECT id, enabled FROM source_feeds ORDER BY id').all(), feedsBefore);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+  // Safety work creates no source items of its own (Wave-1 controlled-import rows excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue/i.test(t)));

@@ -53,7 +53,7 @@ test('latest version resolution is deterministic (MAX seq, not insertion order)'
 
 test('latest of a versionless protocol is null (fail closed, no guessing)', async () => {
   const { db } = openDb();
-  assert.equal(await protocols.getLatestProtocolVersion(db, 'dash-eating-plan'), null);
+  assert.equal(await protocols.getLatestProtocolVersion(db, 'mediterranean-diet'), null);
   assert.equal(await protocols.getProtocolVersion(db, 'no-such-version'), null);
 });
 
@@ -69,9 +69,9 @@ test('historical version remains queryable after a newer version exists', async 
 test('versions are isolated per protocol', async () => {
   const { db } = openDb();
   await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'dash-v1', protocol_id: 'dash-eating-plan', version_seq: 1 });
-  assert.deepEqual((await protocols.listProtocolVersions(db, 'dash-eating-plan')).map((v) => v.version_id), ['dash-v1']);
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'dash-eating-plan')).version_id, 'dash-v1');
+  await protocols.createProtocolVersion(db, { version_id: 'lf-v1', protocol_id: 'low-fodmap-diet', version_seq: 1 });
+  assert.deepEqual((await protocols.listProtocolVersions(db, 'low-fodmap-diet')).map((v) => v.version_id), ['lf-v1']);
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'low-fodmap-diet')).version_id, 'lf-v1');
 });
 
 test('version referencing a nonexistent protocol fails (FK)', async () => {
@@ -284,7 +284,8 @@ test('structure writes touch no source, triage, brief, or scheduler state', asyn
   await versionWith(db, 'fod-v1');
   await protocols.createProtocolPhase(db, { phase_id: 'fod-p1', version_id: 'fod-v1', phase_seq: 1 });
   await protocols.createProtocolComponent(db, { component_id: 'c1', version_id: 'fod-v1', phase_id: 'fod-p1', component_seq: 1, title: 'A' });
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+  // Structure writes create no source items of their own (Wave-1 controlled-import rows excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue/i.test(t)));

@@ -79,7 +79,8 @@ test('a second path is added as a membership; the TIME_SENSITIVE first path is n
   assert.equal(m[0].evergreen_view, 'health_reference');
   assert.equal(m[0].discovery_mode, 'EVERGREEN_REDISCOVERY');
   assert.equal(m[0].discovery_reason, 'reference_importance');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, 1);
+  // Fixture isolation: Wave-1 controlled-import seeds live in the same tables by design.
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE route = 'kaduse-news'`).get().c, 1);
 
   // A repeat sighting with different details neither duplicates nor rewrites the membership.
   const third = await q.upsertSourceItem(db, { ...base, acquisitionPath: 'EVERGREEN', evergreenView: 'health_reference', discoveryReason: 'source_popular' });
@@ -129,9 +130,12 @@ test('the same canonical work (canonical_work_id) never gets a second row or a s
     discoveryReason: 'citation_signal',
   }));
   assert.equal(b.id, a.id);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE route = ?`).get(route).c, 1);
+  // Same canonical work occupies exactly one row (scoped by work identity; other seeded works excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE canonical_work_id = '10.1000/xyz.1'`).get().c, 1);
   for (const list of [await tsList(db, route), await evList(db, route, 'research_rediscovery')]) {
-    assert.deepEqual(list.map((r) => r.id), [a.id]);
+    const ids = list.map((r) => r.id);
+    assert.ok(ids.includes(a.id), 'the work under test appears in the view');
+    assert.equal(ids.filter((id) => id === a.id).length, 1, 'the same work never gets a second entry in a view');
   }
 });
 
@@ -299,6 +303,10 @@ test('legacy rows: NULL acquisition_path is inferred (no backfill write); unknow
 
 test('every sidebar count equals the length of the list it labels (same predicate, same window)', async () => {
   const { sqlite, db, feedId } = openDb();
+  // Baseline first: Wave-1 controlled-import seeds legitimately occupy the
+  // research_rediscovery view, so the fixture's net contribution is asserted
+  // against a captured baseline instead of an absolute zero.
+  const baseline = (await q.temporalNavCounts(db, 14)).EVERGREEN.research_rediscovery.inbox;
   const ids = [];
   const add = async (input) => {
     const r = await q.upsertSourceItem(db, input);
@@ -340,7 +348,7 @@ test('every sidebar count equals the length of the list it labels (same predicat
   assert.equal(nav.TIME_SENSITIVE.haber.hold, 1);
   assert.equal(nav.TIME_SENSITIVE.research.inbox, 0, 'out-of-window row is excluded from both list and count');
   assert.equal(nav.EVERGREEN.health_reference.inbox, 2);
-  assert.equal(nav.EVERGREEN.research_rediscovery.inbox, 1);
+  assert.equal(nav.EVERGREEN.research_rediscovery.inbox, 1 + baseline);
   assert.equal(nav.TIME_SENSITIVE.burs.inbox, 1);
   assert.equal(nav.TIME_SENSITIVE.egitim.inbox, 1);
   assert.equal(nav.TIME_SENSITIVE.duyuru.inbox, 1);
@@ -388,7 +396,7 @@ test('0030 reconciles exactly the PubMed carrier row (enabled, poll_minutes) and
   const sqlite = new DatabaseSync(':memory:');
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
   const f0030 = '0030_source_lifecycle_pubmed_carrier_reconcile.sql';
-  assert.equal(files.at(-1), f0030, '0030 is the newest migration');
+  assert.ok(files.includes(f0030), '0030 migration present');
   for (const f of files.filter((f) => f < f0030)) sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
   // Reproduce the production drift (read-only evidence 2026-10-02) plus runtime telemetry the migration must not touch.
   sqlite.prepare(`UPDATE source_feeds SET enabled = 0, poll_minutes = 1440, last_fetched_at = '2026-09-24T11:33:41.145Z', last_ok_items = 15, fetch_attempts = 39 WHERE id = 'research-pubmed-eutilities'`).run();
