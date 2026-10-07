@@ -83,3 +83,28 @@
 
 - PROTOCOL_DASH_PRODUCTION_POPULATION_AUTHORIZATION_REQUIRED (exact delta above).
 - Then DEPLOY_AUTHORIZATION_REQUIRED for the 0042-pointer build.
+
+## Production execution record (authorized window 2026-10-07)
+
+- Pre-apply: ledger newest 0041; 0042 absent; DASH rows 0/0/0/0; local HEAD
+  contains 71b8928; 0042 sha256
+  84EBA203968B6AEBAC5ACE0EAC62D574C92B0520FB1283C1542F3184112CEBB3;
+  time-travel reference timestamp 2026-10-07T14:52:20Z.
+- Exact-delta gate: data-only (no DDL in file), 1+9+1+1+3+4+1+3+4 = 27 rows /
+  9 tables; safety/commercial/phase 0; canonical reuse. ALL MATCH.
+- Rollback: ID-scoped deletes tested locally (27 → 0 → 27 re-apply);
+  plan in `docs/PROTOCOL-DASH-WAVE1-ROLLBACK.md`. Not needed (all green).
+- Apply: `wrangler d1 migrations apply` → 0042 ✅ only (bounded, single file).
+- Post-apply (read-only): versions 1, components 9, claims 4, evidence 3,
+  safety 0, commercial 0, protocols 6; provenance chain intact
+  (evidence → PubMed/NHLBI URLs → europe-pmc-batch feed).
+- Deploy: 0042-pointer build (da9dc6a) → Version cd3d644b. Mid-propagation one
+  concurrent in-flight version sighted (6a837a27, EXPECTED 0041); converged —
+  both endpoints serve da9dc6a.
+- Post-deploy: `/api/health` commit + expectedSchema 0042; `/api/ready` READY,
+  appliedMigration 0042 = expectedSchema 0042, zero blocked/degraded.
+  No protocol HTTP surface exists by design — DASH live data verified via D1
+  readback (see counts above).
+- medicalNEWS unchanged (enabled=1, kaduse-news, 60min, 16 items, no drift).
+- Rollback: NOT required. Forward path: `wrangler rollback cd3d644b…` +
+  D1 time-travel to 2026-10-07T14:52:20Z per RELEASE-RUNBOOK §7.
