@@ -139,7 +139,7 @@ test('conflicting personal ownership fails without cross-actor mutation', async 
   const reg = await bundle('apps/worker/src/actors/registry.ts', 'doctor-actors-conflict');
   const src = await bundle('apps/worker/src/actors/sources.ts', 'doctor-sources-conflict');
   const holder = await reg.createActor(db, { canonicalName: 'Zeynep Tartan', panel: 'TURKEY_EXPERT_PANEL' }, { by: 'test', reason: 'conflict fixture' });
-  const ep = await src.createEndpoint(db, { channelType: 'OFFICIAL_WEBSITE', platform: 'web', canonicalLocator: 'https://ahmetekmekci.com' }, { by: 'test', reason: 'conflict fixture' });
+  const ep = await src.createEndpoint(db, { channelType: 'OFFICIAL_WEBSITE', platform: 'web', canonicalLocator: 'https://www.drahmetekmekci.com' }, { by: 'test', reason: 'conflict fixture' });
   const holderAssoc = await src.linkActorToSource(db, { actorId: holder.actor_id, endpointId: ep.endpoint_id, associationType: 'OFFICIAL_PERSONAL' }, { by: 'test', reason: 'conflict fixture' });
   const holderActivityBefore = sqlite.prepare(`SELECT COUNT(*) AS c FROM actor_source_activity WHERE association_id = ?`).get(holderAssoc.association_id).c;
 

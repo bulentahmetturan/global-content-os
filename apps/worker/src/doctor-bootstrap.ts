@@ -45,7 +45,7 @@ export const APPROVED_BOOTSTRAP_IDENTITIES: readonly ApprovedBootstrapIdentity[]
     countryCode: null,
     channelType: 'OFFICIAL_WEBSITE',
     platform: 'web',
-    canonicalLocator: 'https://ahmetekmekci.com',
+    canonicalLocator: 'https://www.drahmetekmekci.com',
     displayLabel: 'Ahmet Ekmekçi resmî sitesi',
     associationType: 'OFFICIAL_PERSONAL',
   },
