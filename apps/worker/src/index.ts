@@ -17,6 +17,7 @@ import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
+import { handleDoctorFetchOp } from './doctor-fetch';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -145,6 +146,14 @@ export default {
       if (path === '/api/ops/doctor-bootstrap' && request.method === 'POST') {
         const body = await request.json().catch(() => null);
         const result = await handleDoctorBootstrapOp(env, body);
+        return json(result.body, result.status);
+      }
+
+      // RUN-TO-100 Phase 2 fetch vehicle: one-shot bounded fetch gated by
+      // explicit activation. Audit-recorded, no polling, no scheduler.
+      if (path === '/api/ops/doctor-fetch' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const result = await handleDoctorFetchOp(env, body);
         return json(result.body, result.status);
       }
 

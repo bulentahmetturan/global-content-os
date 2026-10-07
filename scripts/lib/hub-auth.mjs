@@ -21,6 +21,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/ops/doctor-activation': 'OPS_TOKEN',
   '/api/ops/doctor-audit': 'OPS_TOKEN',
   '/api/ops/doctor-bootstrap': 'OPS_TOKEN',
+  '/api/ops/doctor-fetch': 'OPS_TOKEN',
 });
 
 const warned = new Set();
