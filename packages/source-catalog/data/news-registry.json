@@ -292,6 +292,11 @@
       "id": "gov",
       "canonicalName": "Sağlık",
       "officialUrl": "https://bilimgenc.tubitak.gov.tr"
+    },
+    {
+      "id": "medikalnews",
+      "canonicalName": "Medikal News",
+      "officialUrl": "https://www.medikalnews.com"
     }
   ],
   "sources": [
@@ -740,6 +745,15 @@
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
       "verificationNote": "Added by source-lifecycle 2026-10-01T14:21:46.022Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed."
+    },
+    {
+      "id": "www-medikalnews",
+      "publisherId": "medikalnews",
+      "canonicalName": "Medikal News",
+      "officialUrl": "https://www.medikalnews.com/sitemap.rss",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-10-07T13:39:25.659Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.medikalnews.com/sitemap.rss."
     }
   ],
   "targets": [
@@ -1341,6 +1355,17 @@
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 720
+    },
+    {
+      "id": "www-medikalnews-whole",
+      "sourceId": "www-medikalnews",
+      "label": "Medikal News",
+      "officialUrl": "https://www.medikalnews.com/sitemap.rss",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-10-07T13:39:25.659Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.medikalnews.com/sitemap.rss.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
     }
   ],
   "referenceResources": [

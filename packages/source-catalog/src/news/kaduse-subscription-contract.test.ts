@@ -40,11 +40,11 @@ describe('Kaduse subscription contract (canonical local data)', () => {
     }
   });
 
-  it("Kaduse has exactly 60 subscriptions, matching the registry's 60 monitored targets, each once", () => {
-    expect(kaduseNews.subscriptions.length).toBe(60);
+  it("Kaduse has exactly 61 subscriptions, matching the registry's 61 monitored targets, each once", () => {
+    expect(kaduseNews.subscriptions.length).toBe(61);
     expect(kaduseNews.subscriptionCount).toBe(kaduseNews.subscriptions.length);
     expect(kaduseNews.subscriptions.length).toBe(globalNewsSourceRegistry.targets.length);
-    expect(new Set(kaduseNews.subscriptions.map((s) => s.targetId)).size).toBe(60);
+    expect(new Set(kaduseNews.subscriptions.map((s) => s.targetId)).size).toBe(61);
     for (const sub of kaduseNews.subscriptions) expect(sub.channelId).toBe('kaduse-medikal');
   });
 

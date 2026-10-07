@@ -25,11 +25,15 @@ function openDb() {
   for (const f of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) {
     sqlite.exec(readFileSync(`migrations/${f}`, 'utf8'));
   }
-  // Planned (NOT active) feed identity mirrors the lifecycle dry-run proposal.
+  // Planned feed identity mirrors the lifecycle proposal. Migration 0041 seeds
+  // it enabled; tests pin it back to inactive to prove the boundary (the
+  // production row's real state is governed by lifecycle, not by this file).
   sqlite.prepare(
     `INSERT INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled)
-     VALUES (?, 'Medikal News', 'kaduse-news', 'kaduse-medikal', 'RSS', 'https://www.medikalnews.com/sitemap.rss', 60, 0)`,
+     VALUES (?, 'Medikal News', 'kaduse-news', 'kaduse-medikal', 'RSS', 'https://www.medikalnews.com/sitemap.rss', 60, 0)
+     ON CONFLICT(id) DO NOTHING`,
   ).run(FEED_ID);
+  sqlite.prepare(`UPDATE source_feeds SET enabled = 0 WHERE id = ?`).run(FEED_ID);
   return { sqlite, db: d1FromSqlite(sqlite) };
 }
 

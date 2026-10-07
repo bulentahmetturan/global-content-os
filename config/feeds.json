@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "fe4f1f26ef8d041e885205993c3b3b17e661ad3919093b7c5277a7620280deb9"
+        "sha256": "55c2d7fa4f2ac69653865d47884217bb56dbe462a615a5c382a6027e4b452342"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "54deec3753d68bf5820380a920f761923e10723fa57f4e9549e742c8eb9206ee"
+        "sha256": "e06c9468fb49be5f727f2a5ed8c84a6924a324750a224ccb567f8ec2b44a43f3"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 61,
+    "news": 62,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 839,
-    "registryTargetsParsed": 60
+    "total": 840,
+    "registryTargetsParsed": 61
   },
   "feeds": [
     {
@@ -1680,6 +1680,26 @@
       "enabled": true,
       "externalRef": "bilimgenc-tubitak-saglik-whole",
       "registrySourceId": "bilimgenc-tubitak-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-www-medikalnews-whole",
+      "label": "Medikal News",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.medikalnews.com/sitemap.rss",
+      "pollMinutes": 60,
+      "enabled": true,
+      "externalRef": "www-medikalnews-whole",
+      "registrySourceId": "www-medikalnews",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {
