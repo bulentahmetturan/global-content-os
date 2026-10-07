@@ -83,6 +83,36 @@
 3. SOURCE_ACTIVATION_AUTHORIZATION_REQUIRED — none pending; any future
    activation needs its own lifecycle `--apply` + owner decision per source.
 
+## Production execution record (authorized window 2026-10-07)
+
+- Pre-apply remote ledger newest: `0037_actor_protocol_relationship_model.sql`
+  (0031–0037 already applied by prior concurrent work; pending set was exactly
+  0038/0039/0040 — inside the authorized 0033–0040 range).
+- Pre-apply snapshots: protocols 6/6 CANONICAL_READY; source_feeds 883 rows,
+  141 enabled.
+- Rollback refs recorded before deploy: Worker version
+  `12162593-1129-4e8b-96b7-7b8c7b096874` (2026-10-06); deploy timestamp governs
+  D1 time-travel recovery if ever needed.
+- Apply: `wrangler d1 migrations apply global-content-os --remote` →
+  0038 ✅, 0039 ✅, 0040 ✅ (one retry display on 0040, final all ✅).
+- Post-apply (read-only): ledger newest 0040; new tables present
+  (protocol_claims, protocol_evidence, claim_evidence_links, safety_rules,
+  safety_rule_contexts, commercial_relationships); row counts protocols=6,
+  claims=0, evidence=0, safety=0, commercial=0, nonready=0; source_feeds
+  byte-identical (883 rows, 141 enabled) → zero activation drift.
+- Deploy: `wrangler deploy` with BUILD_COMMIT
+  `e773398738d59e2873f815e32f2427c30381c203` → Version ID
+  `16175c72-a344-4a37-bfbb-ef549c191732`,
+  `https://global-content-os.channel-content-os-mcp.workers.dev`
+  (cron `* * * * *` unchanged; no secret/config changes).
+- Post-deploy: `/api/health` commit e773398 + expectedSchema 0040;
+  `/api/ready` READY (no blocked, no degraded), appliedMigration 0040;
+  `/api/handoff/status` unauthenticated → UNAUTHORIZED (fail-closed);
+  `/api/system-health` live (cron fresh, ingestion normal).
+- Rollback: NOT required (all gates green). Forward path on any future
+  failure: `wrangler rollback 16175c72…` (or prior `12162593…`) + D1
+  time-travel to deploy timestamp, per `docs/ops/RELEASE-RUNBOOK.md` §7.
+
 ## Known unrelated items (not blockers, not owned here)
 
 - `apps/worker/src/db/temporal.test.mjs` carries a pre-existing worktree
