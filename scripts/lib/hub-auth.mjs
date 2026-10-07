@@ -18,6 +18,9 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/ingress/feed-items': 'TIP_RADAR_INGEST_TOKEN',
   '/api/evergreen/plan': 'TIP_RADAR_INGEST_TOKEN',
   '/api/ingress/evergreen-items': 'TIP_RADAR_INGEST_TOKEN',
+  '/api/ops/doctor-activation': 'OPS_TOKEN',
+  '/api/ops/doctor-audit': 'OPS_TOKEN',
+  '/api/ops/doctor-bootstrap': 'OPS_TOKEN',
 });
 
 const warned = new Set();

@@ -110,7 +110,8 @@ test('bootstrap repeat returns existing rows without duplication', async () => {
   assert.equal(second.actor.actorId, first.actor.actorId);
   assert.equal(second.endpoint.endpointId, first.endpoint.endpointId);
   assert.equal(second.association.associationId, first.association.associationId);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actors`).get().c, 1);
+  // Fixture isolation: 0042's seeded actor row (actor_nhlbi) shares the actors table by design.
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actors WHERE actor_id != 'actor_nhlbi'`).get().c, 1);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actor_source_endpoints`).get().c, 1);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actor_source_associations`).get().c, 1);
 });
@@ -180,6 +181,7 @@ test('local precursor: bootstrap then r1 activate/disable end to end', async () 
   )).json();
   assert.equal(bundle.ingestabilityHistory.length, 2);
   assert.equal(bundle.latestIngestability.status, 'NOT_INGESTABLE');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actors`).get().c, 1);
+  // Fixture isolation: 0042's seeded actor row (actor_nhlbi) shares the actors table by design.
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actors WHERE actor_id != 'actor_nhlbi'`).get().c, 1);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM actor_source_associations`).get().c, 1);
 });

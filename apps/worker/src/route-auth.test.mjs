@@ -59,7 +59,12 @@ function wrongHeaders(secret) {
   return secret === 'TIP_RADAR_INGEST_TOKEN' ? { 'x-ingest-token': 'nope' } : { authorization: 'Bearer nope' };
 }
 const req = (method, path, headers = {}, body = {}) =>
-  new Request(`https://gcos.test${path}`, { method, headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) });
+  new Request(`https://gcos.test${path}`, {
+    method,
+    headers: { 'content-type': 'application/json', ...headers },
+    // GET/HEAD requests cannot carry a body (Request constructor throws).
+    ...(method === 'GET' || method === 'HEAD' ? {} : { body: JSON.stringify(body) }),
+  });
 
 async function withStubbedFetch(fn) {
   const real = globalThis.fetch;

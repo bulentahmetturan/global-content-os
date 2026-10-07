@@ -246,7 +246,8 @@ test('rhonda patrick and foundmyfitness remain person and brand source', async (
   assert.equal(bundle.length, 1);
   assert.equal(bundle[0].association_type, 'OFFICIAL_BRAND');
   // No second actor was created for the brand.
-  const allActors = await db.prepare(`SELECT * FROM actors`).all();
+  // Fixture isolation: 0042's seeded actor (actor_nhlbi) shares the actors table by design.
+  const allActors = await db.prepare(`SELECT * FROM actors WHERE actor_id != 'actor_nhlbi'`).all();
   assert.equal(allActors.results.length, 1);
 });
 

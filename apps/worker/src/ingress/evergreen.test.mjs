@@ -1,5 +1,7 @@
 // EVERGREEN admission on the canonical 0028 model (real migration chain in node:sqlite). Config comes from validated
 // registry entries; NEW = one row through upsertSourceItem, REDISCOVERY = one membership, never a row update.
+// Fixture isolation: 0042 DASH Wave-1 seeds ('dash-item-%', route='kaduse-research') share these tables by design;
+// item-count assertions scope with `WHERE id NOT LIKE 'dash-item-%'`.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -69,7 +71,7 @@ test('Worker leases persist cursor, cache replay, enforce due cadence, and expos
   const r = await ev.completeEvergreenRun(env, 'cc', body, NOW, entries);
   assert.equal(r.created, 1);
   assert.deepEqual(await ev.completeEvergreenRun(env, 'cc', body, NOW, entries), r);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 1);
+  assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'").get().n, 1);
   const status = (await ev.evergreenStatus(env, NOW, entries)).sources[0];
   assert.deepEqual(status.cursor, { a1: { cursor: 5 } });
   assert.equal(status.lastSuccessfulFetch, NOW.toISOString());
@@ -114,7 +116,7 @@ test('expired lease is recoverable; invalid cursor, source URL, and excessive ev
   await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, cursor: { evil: { cursor: 1 } } }, later, entries), /invalid_cursor/);
   await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, runStats: { evaluated: 100 } }, later, entries), /invalid_stats/);
   await assert.rejects(ev.completeEvergreenRun(env, 'cc', { ...body, items: [item(1, { archiveId: 'a1', url: 'https://evil.example/x' })], runStats: { evaluated: 1 } }, later, entries), /invalid_source_url/);
-  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM source_items').get().n, 0);
+  assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'").get().n, 0);
 });
 
 test('CANARY_ONLY sources cannot receive a production lease or persist cursor', async () => {
@@ -149,7 +151,7 @@ test('CANARY_ONLY never writes; dry run computes verdicts and writes nothing', a
   const dry = await ev.ingestEvergreenItems({ DB: db }, 'cc', { items: [item(1), item(2)], dryRun: true }, NOW, { entries });
   assert.equal(dry.created, 2);
   assert.deepEqual(dry.writeBlockers, ['EVERGREEN_PATH_NOT_ACTIVE:CANARY_ONLY']);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 0);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 0);
 });
 
@@ -244,7 +246,7 @@ test('REDISCOVERY of a time-sensitive item adds one membership; the row (publish
   const sig = JSON.parse(m[0].importance_signal_json);
   assert.equal(sig.source, 'icite');
   assert.equal(sig.observed_at, '2026-10-02T12:24:10.672Z', 'provider timestamp normalised to ISO, never truncated');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 1);
   const again = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, NOW, { entries });
   assert.equal(again.decisions[0].outcome, 'cooldown');
   const later = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, new Date(NOW.getTime() + 60 * 86400000), { entries });
@@ -267,7 +269,7 @@ test('Nature DOI groundwork: TIME_SENSITIVE rows are unchanged; rediscovery find
   const r = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Nature article rediscovered by citations', url: 'https://doi.org/10.1038/s41586-024-07051-0', discoveryReason: 'citation_signal' }] }, NOW, { entries });
   assert.equal(r.decisions[0].outcome, 'rediscovered');
   assert.equal(r.decisions[0].itemId, ts.id, 'the earliest canonical row carries the membership');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 2, 'rediscovery creates no row');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 2, 'rediscovery creates no row');
   assert.deepEqual(row(sqlite, ts.id), before, 'rediscovery changes no stored row');
   const fresh = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Another Nature article found by citations', url: 'https://www.nature.com/articles/s41586-023-00002-2', discoveryReason: 'citation_signal' }] }, NOW, { entries });
   const nr = row(sqlite, fresh.decisions[0].itemId);
@@ -300,7 +302,7 @@ test('a production-shaped PubMed row (DOI dedupe_key, no canonical_work_id) is r
   assert.equal(r.decisions[0].outcome, 'rediscovered');
   assert.equal(r.decisions[0].itemId, ts.id);
   assert.deepEqual(row(sqlite, ts.id), before, 'published_at, publisher, dedupe_key unchanged');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 1);
   // A NEW Cochrane work is keyed like the research ingress (bare DOI), so a later PubMed sighting dedupes onto it.
   const fresh = await ev.ingestEvergreenItems({ DB: db }, 'research-cochrane-library', { items: [{ ...cand, url: 'https://doi.org/10.1002/14651858.CD000001.pub2', evidence: { doi: '10.1002/14651858.CD000001.pub2' } }] }, NOW, { entries });
   const nr = row(sqlite, fresh.decisions[0].itemId);
@@ -317,7 +319,7 @@ test('a work known on another route is reported, never duplicated and never give
   const entries = registry(entry({ id: 'nat', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery' }));
   const r = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Same work as a research rediscovery', url: 'https://doi.org/10.1038/d41586-024-00001-1' }] }, NOW, { entries });
   assert.equal(r.decisions[0].outcome, 'known_on_other_route');
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 1);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 0);
 });
 
@@ -336,7 +338,7 @@ test('daily target is soft: budget caps admissions, underfill is flagged, qualit
   const plan = await ev.evergreenPlan({ DB: db }, NOW, { entries });
   assert.equal(plan.sources[0].budget_remaining_today, 0, 'works surfaced today consume the next plan budget');
   assert.equal(plan.sources[0].seen_keys.length, 2);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, 2);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE id NOT LIKE 'dash-item-%'`).get().n, 2);
 });
 
 test('lease and retry state are observable: IDLE, LEASED, COMPLETED, retry after failure, and recoverable after expiry', async () => {

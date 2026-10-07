@@ -1,4 +1,4 @@
-// Local E2E for the four temporal views: ingress write (upsertSourceItem) -> real schema (0001..0028 in node:sqlite)
+// Local E2E for the four temporal views: ingress write (upsertSourceItem) -> real schema (0001..0042 in node:sqlite)
 // -> Worker HTTP (/api/items, /api/routes) with the query strings the Hub builds. No network, no remote D1.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -58,7 +58,12 @@ test('E2E: each of the four views lists exactly its items, and the sidebar count
   for (const [view, exp] of Object.entries(expected)) {
     const r = await get(env, HUB[view]);
     assert.equal(r.status, 200, view);
-    assert.deepEqual(r.body.items.map((i) => i.id).sort(), exp.ids, `${view} items`);
+    // Fixture isolation: 0042 Wave-1 DASH controlled-import seeds share the
+    // same tables by design; scope exact membership to this fixture's own
+    // items, while the count-consistency checks below stay global.
+    const fixtureIds = new Set(Object.values(ids));
+    const present = r.body.items.map((i) => i.id).filter((id) => fixtureIds.has(id)).sort();
+    assert.deepEqual(present, exp.ids, `${view} items`);
     assert.equal(exp.count, r.body.items.length, `${view}: sidebar count = list length`);
     assert.equal(r.body.counts.inbox, r.body.items.length, `${view}: list header count = list length`);
     for (const it of r.body.items) assert.equal(it.semanticLane, exp.lane, `${view}: lane unchanged`);

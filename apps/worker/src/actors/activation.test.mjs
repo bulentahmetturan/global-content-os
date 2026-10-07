@@ -166,7 +166,8 @@ test('verification alone cannot authorize ingestion', async () => {
   const { assoc } = await seedControlledAssociation(db);
   await sources.updateVerificationStatus(db, assoc.association_id, 'VERIFIED', AUDIT);
   await assert.rejects(activity.ingestOneItem(db, ingestInput(assoc), AUDIT), /INGESTION_NOT_AUTHORIZED/);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, 0);
+  // Fixture isolation: 0042 DASH Wave-1 seeds (route='kaduse-research') share the tables by design.
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE route = 'tip-ogrencileri'`).get().c, 0);
 });
 
 // D4.6: actor active status alone cannot authorize ingestion.
@@ -199,7 +200,8 @@ test('ingestion without a valid association is impossible', async () => {
     activity.ingestOneItem(db, { ...ingestInput({ association_id: 'assoc_does_not_exist' }), associationId: 'assoc_does_not_exist' }, AUDIT),
     /unknown association/,
   );
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, 0);
+  // Fixture isolation: 0042 DASH Wave-1 seeds (route='kaduse-research') share the tables by design.
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE route = 'tip-ogrencileri'`).get().c, 0);
 });
 
 // D4.6: disabling prevents the next ingestion; history stays observable.

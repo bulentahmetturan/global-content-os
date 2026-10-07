@@ -124,9 +124,11 @@ test('turkey/global/other panels are distinct and hekimler_radar is rejected', a
   const tr = await actors.createActor(db, { canonicalName: 'Ayça Kaya', panel: 'TURKEY_EXPERT_PANEL' }, AUDIT);
   const gl = await actors.createActor(db, { canonicalName: 'Peter Attia', panel: 'GLOBAL_EXPERT_PANEL' }, AUDIT);
   const ot = await actors.createActor(db, { canonicalName: 'Anthony William', panel: 'OTHER_HEALTH_ACTORS' }, AUDIT);
-  assert.deepEqual((await actors.listActorsByPanel(db, 'TURKEY_EXPERT_PANEL')).map((a) => a.actor_id), [tr.actor_id]);
-  assert.deepEqual((await actors.listActorsByPanel(db, 'GLOBAL_EXPERT_PANEL')).map((a) => a.actor_id), [gl.actor_id]);
-  assert.deepEqual((await actors.listActorsByPanel(db, 'OTHER_HEALTH_ACTORS')).map((a) => a.actor_id), [ot.actor_id]);
+  // Fixture isolation: 0042's seeded actor (actor_nhlbi, GLOBAL_EXPERT_PANEL) shares the panel tables by design.
+  const ours = async (panel) => (await actors.listActorsByPanel(db, panel)).map((a) => a.actor_id).filter((id) => id !== 'actor_nhlbi');
+  assert.deepEqual(await ours('TURKEY_EXPERT_PANEL'), [tr.actor_id]);
+  assert.deepEqual(await ours('GLOBAL_EXPERT_PANEL'), [gl.actor_id]);
+  assert.deepEqual(await ours('OTHER_HEALTH_ACTORS'), [ot.actor_id]);
   await assert.rejects(
     actors.createActor(db, { canonicalName: 'X', panel: 'HEKIMLER_RADAR' }, AUDIT),
     /ACTOR_VALIDATION_ERROR/,
