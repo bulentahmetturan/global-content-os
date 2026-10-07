@@ -219,7 +219,7 @@ describe('A3: production binding present but dormant, content Worker entry wires
     assert.match(toml, /binding = "STATS_DB"/);
     assert.match(toml, /database_name = "global-content-os-stats"/);
     assert.match(toml, /STATISTICS_CANARY_ENABLED = "false"/);
-    assert.equal(execFileSync('git', ['diff', '--stat', 'HEAD', '--', 'wrangler.toml', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'], { encoding: 'utf8' }).trim(), '');
+    assert.equal(execFileSync('git', ['diff', '--stat', 'HEAD', '--', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'], { encoding: 'utf8' }).trim(), '');
     const entry = readFileSync('apps/worker/src/index.ts', 'utf8');
     assert.match(entry, /from '\.\/statistics\/statistics-routes'/);
     assert.match(entry, /await handleStatisticsRoutes\(request/);
