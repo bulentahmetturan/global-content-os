@@ -15,7 +15,8 @@
 
 import { assertIngestibleForIngestion, ingestOneItem, recordActivity } from './actors/activity';
 import { getEndpoint } from './actors/sources';
-import { fetchText, parseRssOrAtom } from './ingress/generic-web';
+import { fetchText } from './ingress/generic-web';
+import { parseDoctorFeed, DOCTOR_PARSER_CONTRACT } from './doctor-parser';
 import type { Env } from './db/queries';
 
 export const FETCH_MAX_ITEMS = 5;
@@ -136,7 +137,8 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
     return { status: 422, body: { error: 'NO_PARSER_FOR_CONTENT' } };
   }
 
-  const items = parseRssOrAtom(fetched.text, target).slice(0, maxItems);
+  const parsed = parseDoctorFeed(fetched.text);
+  const items = parsed.items.slice(0, maxItems);
   // Carrier feed: the endpoint's shared_source_ref must name an
   // existing source_feeds row. Absent carrier fails closed —
   // assigning one is a future explicit governance act (Phase 7).
@@ -165,17 +167,17 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
       route: 'tip-ogrencileri',
       channelId: 'tip_toplulugu',
       title: item.title,
-      summary: item.summary ?? item.title,
-      canonicalUrl: item.url,
+      summary: item.excerpt ? item.excerpt.slice(0, 500) : item.title,
+      canonicalUrl: item.link,
       publisher: endpoint.display_label ?? assoc.actor_id,
       publishedAt: item.publishedAt,
     }, audit);
-    results.push({ itemId: written.itemId, created: written.created, deduped: written.deduped });
+    results.push({ itemId: written.itemId, created: written.created, deduped: written.deduped, author: item.author, categories: item.categories });
   }
   const activity = await recordActivity(env.DB, {
     associationId, observedAt: new Date().toISOString(), activityKind: 'CHECKED',
     outcome: 'CONFIRMED', reasonCode: 'NONE',
-    techMetadata: { fetch: true, status: fetched.status, bytes: fetched.text.length, items: results.length },
+    techMetadata: { fetch: true, status: fetched.status, bytes: fetched.text.length, items: results.length, parser: DOCTOR_PARSER_CONTRACT },
   }, audit);
   console.log(JSON.stringify({
     event: 'doctor_fetch', associationId, status: fetched.status,
