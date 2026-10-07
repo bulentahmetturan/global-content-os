@@ -9,7 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0039_safety_model.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0040_commercial_model.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 
