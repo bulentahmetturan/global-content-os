@@ -61,8 +61,8 @@ async function seedAssoc(db, locator, assocType = 'OFFICIAL_PERSONAL') {
   return { actor, endpoint, assoc };
 }
 
-function seedCarrier(sqlite, id = 'vehicle_carrier_feed') {
-  sqlite.prepare(`INSERT INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled) VALUES (?, 'vehicle carrier (fixture)', 'tip-ogrencileri', 'tip_toplulugu', 'D4_PROOF', ?, 0, 0)`).run(id, `${ORIGIN}/feed.xml`);
+function seedCarrier(sqlite, id = 'vehicle_carrier_feed', endpointUrl = `${ORIGIN}/feed.xml`) {
+  sqlite.prepare(`INSERT INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled) VALUES (?, 'vehicle carrier (fixture)', 'tip-ogrencileri', 'tip_toplulugu', 'D4_PROOF', ?, 0, 0)`).run(id, endpointUrl);
   return id;
 }
 
@@ -132,9 +132,12 @@ test('vehicle validation and gating refuse without writes', async () => {
 test('robots denial aborts with audit and no items', async () => {
   const { sqlite, db } = openDb();
   const before = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
+  const feedUrl = `${ORIGIN}/site`;
+  const feedId = seedCarrier(sqlite, 'veh_robots_feed', feedUrl);
   robotsBody = 'User-agent: *\nDisallow: /site\n';
   try {
-    const { assoc } = await seedAssoc(db, `${ORIGIN}/site`);
+    const { assoc, endpoint } = await seedAssoc(db, `${ORIGIN}/site`);
+    await setCarrier(db, endpoint.endpoint_id, feedId);
     await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
     const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'robots deny proof' }), envFor(db), ctx);
     assert.equal(res.status, 422);
@@ -149,8 +152,10 @@ test('robots denial aborts with audit and no items', async () => {
 
 // Declared oversize aborts via precheck without reading the body.
 test('declared oversize aborts before body read', async () => {
-  const { db } = openDb();
-  const { assoc } = await seedAssoc(db, `${ORIGIN}/oversize.xml`);
+  const { sqlite, db } = openDb();
+  const feedId = seedCarrier(sqlite, 'veh_oversize_feed', `${ORIGIN}/oversize.xml`);
+  const { assoc, endpoint } = await seedAssoc(db, `${ORIGIN}/oversize.xml`);
+  await setCarrier(db, endpoint.endpoint_id, feedId);
   await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
   const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'oversize proof check' }), envFor(db), ctx);
   assert.equal(res.status, 422);
@@ -161,7 +166,9 @@ test('declared oversize aborts before body read', async () => {
 test('html content has no parser and persists nothing', async () => {
   const { sqlite, db } = openDb();
   const before = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
-  const { assoc } = await seedAssoc(db, `${ORIGIN}/page.html`);
+  const feedId = seedCarrier(sqlite, 'veh_html_feed', `${ORIGIN}/page.html`);
+  const { assoc, endpoint } = await seedAssoc(db, `${ORIGIN}/page.html`);
+  await setCarrier(db, endpoint.endpoint_id, feedId);
   await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
   const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'parser routing proof' }), envFor(db), ctx);
   assert.equal(res.status, 422);

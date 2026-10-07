@@ -89,10 +89,31 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
     return { status: 422, body: { error: 'INGESTION_NOT_AUTHORIZED' } };
   }
 
-  const target = endpoint.canonical_locator;
+  // Carrier feed is authoritative for the fetch target. canonical_locator
+  // is the human-verified site root; the feed URL lives on the carrier
+  // source_feeds row. Fetching the root would deliver HTML, not a feed.
+  const carrierFeedId = endpoint.shared_source_ref;
+  if (!carrierFeedId) {
+    return { status: 422, body: { error: 'NO_CARRIER_FEED' } };
+  }
+  const carrierFeed = await env.DB.prepare(`SELECT id, route, channel_id, transport, endpoint_url, enabled FROM source_feeds WHERE id = ?`)
+    .bind(carrierFeedId)
+    .first<{ id: string; route: string; channel_id: string; transport: string; endpoint_url: string | null; enabled: number } | null>();
+  if (!carrierFeed) {
+    return { status: 422, body: { error: 'NO_CARRIER_FEED' } };
+  }
+  const target = carrierFeed.endpoint_url;
+  if (!target || !/^https?:\/\//i.test(target)) {
+    await recordActivity(env.DB, {
+      associationId, observedAt: new Date().toISOString(), activityKind: 'CHECKED',
+      outcome: 'INCONCLUSIVE', reasonCode: 'POLICY_UNKNOWN',
+      techMetadata: { fetch: true, carrier: carrierFeedId, endpointUrl: null },
+    }, audit);
+    return { status: 422, body: { error: 'NO_CARRIER_FEED', detail: 'endpoint_url missing' } };
+  }
   let origin: string;
   try {
-    origin = new URL(target.startsWith('http') ? target : `https://${target}`).origin;
+    origin = new URL(target).origin;
   } catch {
     return { status: 400, body: { error: 'INVALID_BODY' } };
   }
@@ -139,33 +160,14 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
 
   const parsed = parseDoctorFeed(fetched.text);
   const items = parsed.items.slice(0, maxItems);
-  // Carrier feed: the endpoint's shared_source_ref must name an
-  // existing source_feeds row. Absent carrier fails closed —
-  // assigning one is a future explicit governance act (Phase 7).
-  const carrierFeedId = endpoint.shared_source_ref;
-  if (!carrierFeedId) {
-    await recordActivity(env.DB, {
-      associationId, observedAt: new Date().toISOString(), activityKind: 'CHECKED',
-      outcome: 'INCONCLUSIVE', reasonCode: 'POLICY_UNKNOWN',
-      techMetadata: { fetch: true, parsed: items.length, carrier: null },
-    }, audit);
-    return {
-      status: 422,
-      body: { error: 'NO_CARRIER_FEED', parsed: items.length, bytes: fetched.text.length },
-    };
-  }
-  const carrier = await env.DB.prepare(`SELECT id FROM source_feeds WHERE id = ?`).bind(carrierFeedId).first();
-  if (!carrier) {
-    return { status: 422, body: { error: 'NO_CARRIER_FEED' } };
-  }
 
   const results = [];
   for (const item of items) {
     const written = await ingestOneItem(env.DB, {
       associationId,
       feedId: carrierFeedId,
-      route: 'tip-ogrencileri',
-      channelId: 'tip_toplulugu',
+      route: carrierFeed.route as 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri',
+      channelId: carrierFeed.channel_id,
       title: item.title,
       summary: item.excerpt ? item.excerpt.slice(0, 500) : item.title,
       canonicalUrl: item.link,
