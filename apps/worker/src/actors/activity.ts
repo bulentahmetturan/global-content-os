@@ -21,7 +21,7 @@
  *   polling, never persists SOURCE_ITEM / candidate / brief content.
  */
 
-import { newId } from '../db/queries';
+import { newId, upsertSourceItem } from '../db/queries';
 
 export const ACTIVITY_KINDS = [
   'DISCOVERED',
@@ -325,4 +325,232 @@ export async function getAssociationAuditBundle(
   const ingestabilityHistory = await listIngestabilityHistory(db, associationId);
   const latestIngestability = await getLatestIngestability(db, associationId);
   return { association, endpoint, actor, activities, ingestabilityHistory, latestIngestability };
+}
+
+// ---------------------------------------------------------------------------
+// D4 — Controlled source activation + first real ingestion (sprint D4).
+//
+// Activation policy (D4.1): the ONLY canonical state that authorizes
+// ingestion is the latest actor_source_ingestability row for the association
+// with status INGESTABLE/CONDITIONALLY_INGESTABLE AND an evaluated_reason
+// carrying the CONTROLLED_ACTIVATION prefix (an explicit, owner-attributed
+// activation act). Verification alone, actor active_status alone, or a plain
+// D3 evidence evaluation never authorizes ingestion. Deactivation is a new
+// NOT_INGESTABLE evaluation (CONTROLLED_DEACTIVATION prefix): current state
+// flips, history is preserved, prior ingestions stay attributable.
+// ---------------------------------------------------------------------------
+
+/** Prefix marking the explicit owner activation act. */
+export const ACTIVATION_REASON_PREFIX = 'CONTROLLED_ACTIVATION:';
+/** Prefix marking the explicit owner deactivation act. */
+export const DEACTIVATION_REASON_PREFIX = 'CONTROLLED_DEACTIVATION:';
+
+export interface ActivationRecord {
+  evaluation: IngestabilityRow;
+  activity: ActivityRow;
+}
+
+/**
+ * Explicit, source-specific, owner-attributed activation. Requires technical
+ * evidence that derives INGESTABLE/CONDITIONALLY_INGESTABLE (fail closed:
+ * AMBIGUOUS/REJECTED associations and evidence gaps can never activate).
+ * Records the authorizing evaluation + the activation audit event.
+ */
+export async function activateAssociationForIngestion(
+  db: D1Database,
+  associationId: string,
+  evidence: IngestabilityEvidence,
+  audit: ActorAudit,
+  opts: { sourceRef?: string | null } = {},
+): Promise<ActivationRecord> {
+  const assoc = await associationOf(db, associationId);
+  const derived = deriveIngestability(evidence, assoc.verification_status);
+  if (derived.status !== 'INGESTABLE' && derived.status !== 'CONDITIONALLY_INGESTABLE') {
+    throw new Error(
+      `ACTIVATION_REFUSED: association '${associationId}' derives ${derived.status}/${derived.reasonCode}; explicit activation requires ingestable evidence`,
+    );
+  }
+  const evaluationId = newId('eval');
+  const evaluatedAt = evidence.observedAt ?? new Date().toISOString();
+  await db
+    .prepare(
+      `INSERT INTO actor_source_ingestability
+        (evaluation_id, association_id, endpoint_id, status, reason_code,
+         evidence_json, source_ref, evaluated_by, evaluated_reason, evaluated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      evaluationId,
+      assoc.association_id,
+      assoc.endpoint_id,
+      derived.status,
+      derived.reasonCode,
+      JSON.stringify(evidence),
+      opts.sourceRef ?? null,
+      audit.by,
+      `${ACTIVATION_REASON_PREFIX}${audit.reason}`,
+      evaluatedAt,
+    )
+    .run();
+  const evaluation =
+    (await db.prepare(`SELECT * FROM actor_source_ingestability WHERE evaluation_id = ?`).bind(evaluationId).first<IngestabilityRow>()) ?? null;
+  if (!evaluation) throw new Error('ACTIVITY_INTERNAL_ERROR: activation evaluation vanished after insert');
+  const activity = await recordActivity(
+    db,
+    {
+      associationId,
+      observedAt: evaluatedAt,
+      activityKind: 'CHECKED',
+      outcome: 'CONFIRMED',
+      reasonCode: 'NONE',
+      sourceRef: opts.sourceRef ?? null,
+      techMetadata: { controlled_activation: true, evaluation_id: evaluationId, status: derived.status },
+    },
+    audit,
+  );
+  return { evaluation, activity };
+}
+
+/**
+ * Explicit deactivation. Current-state reversible (latest projection flips),
+ * historically observable (prior rows untouched).
+ */
+export async function deactivateAssociation(
+  db: D1Database,
+  associationId: string,
+  audit: ActorAudit,
+  opts: { observedAt?: string | null } = {},
+): Promise<ActivationRecord> {
+  const assoc = await associationOf(db, associationId);
+  const evaluationId = newId('eval');
+  const evaluatedAt = opts.observedAt ?? new Date().toISOString();
+  await db
+    .prepare(
+      `INSERT INTO actor_source_ingestability
+        (evaluation_id, association_id, endpoint_id, status, reason_code,
+         evidence_json, source_ref, evaluated_by, evaluated_reason, evaluated_at)
+       VALUES (?, ?, ?, 'NOT_INGESTABLE', 'POLICY_UNKNOWN', ?, NULL, ?, ?, ?)`,
+    )
+    .bind(
+      evaluationId,
+      assoc.association_id,
+      assoc.endpoint_id,
+      JSON.stringify({ controlledDeactivation: true }),
+      audit.by,
+      `${DEACTIVATION_REASON_PREFIX}${audit.reason}`,
+      evaluatedAt,
+    )
+    .run();
+  const evaluation =
+    (await db.prepare(`SELECT * FROM actor_source_ingestability WHERE evaluation_id = ?`).bind(evaluationId).first<IngestabilityRow>()) ?? null;
+  if (!evaluation) throw new Error('ACTIVITY_INTERNAL_ERROR: deactivation evaluation vanished after insert');
+  const activity = await recordActivity(
+    db,
+    {
+      associationId,
+      observedAt: evaluatedAt,
+      activityKind: 'CHECKED',
+      outcome: 'BLOCKED',
+      reasonCode: 'POLICY_UNKNOWN',
+      techMetadata: { controlled_deactivation: true, evaluation_id: evaluationId },
+    },
+    audit,
+  );
+  return { evaluation, activity };
+}
+
+/** The current-state gate: only an explicit activation authorizes ingestion. */
+export async function assertIngestibleForIngestion(
+  db: D1Database,
+  associationId: string,
+): Promise<IngestabilityRow> {
+  const latest = await getLatestIngestability(db, associationId);
+  if (
+    !latest ||
+    (latest.status !== 'INGESTABLE' && latest.status !== 'CONDITIONALLY_INGESTABLE') ||
+    !latest.evaluated_reason.startsWith(ACTIVATION_REASON_PREFIX)
+  ) {
+    throw new Error(`INGESTION_NOT_AUTHORIZED: association '${associationId}' has no explicit controlled activation`);
+  }
+  return latest;
+}
+
+export interface IngestOneItemInput {
+  associationId: string;
+  feedId: string;
+  route: 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
+  channelId: string;
+  title: string;
+  summary: string;
+  canonicalUrl: string;
+  publisher: string;
+  publishedAt?: string | null;
+}
+
+export interface IngestOneItemResult {
+  itemId: string;
+  created: boolean;
+  deduped: boolean;
+  activation: IngestabilityRow;
+  activity: ActivityRow;
+}
+
+/**
+ * One bounded, explicit ingestion through the REAL intake write path
+ * (upsertSourceItem: admission gate, canonicalization, dedupe, temporal
+ * membership). No polling, no scheduler, no fetch. The created row is a RAW
+ * source item (triage inbox) — never editorial content. Provenance is bound
+ * by a post-ingestion activity row keyed to the association.
+ */
+export async function ingestOneItem(
+  db: D1Database,
+  input: IngestOneItemInput,
+  audit: ActorAudit,
+): Promise<IngestOneItemResult> {
+  const assoc = await associationOf(db, input.associationId);
+  const activation = await assertIngestibleForIngestion(db, input.associationId);
+  const endpoint = await db
+    .prepare(`SELECT * FROM actor_source_endpoints WHERE endpoint_id = ?`)
+    .bind(assoc.endpoint_id)
+    .first<{ endpoint_id: string }>();
+  if (!endpoint) throw new Error(`ACTIVITY_VALIDATION_ERROR: endpoint for association '${input.associationId}' vanished`);
+  const written = await upsertSourceItem(db, {
+    feedId: input.feedId,
+    route: input.route,
+    channelId: input.channelId,
+    title: input.title,
+    summary: input.summary,
+    canonicalUrl: input.canonicalUrl,
+    publisher: input.publisher,
+    publishedAt: input.publishedAt ?? null,
+    sourceId: assoc.endpoint_id,
+    intakeMetaJson: JSON.stringify({
+      doctor_actor_id: assoc.actor_id,
+      doctor_association_id: assoc.association_id,
+      doctor_endpoint_id: assoc.endpoint_id,
+      doctor_activation_evaluation_id: activation.evaluation_id,
+    }),
+  });
+  if (!written.id) {
+    throw new Error(`INGESTION_REJECTED: intake refused the item (${written.rejected ?? 'unknown'})`);
+  }
+  const activity = await recordActivity(
+    db,
+    {
+      associationId: assoc.association_id,
+      observedAt: new Date().toISOString(),
+      activityKind: 'CHECKED',
+      outcome: 'CONFIRMED',
+      reasonCode: 'NONE',
+      techMetadata: {
+        ingestion: true,
+        source_item_id: written.id,
+        created: written.created,
+        deduped: !written.created,
+        activation_evaluation_id: activation.evaluation_id,
+      },
+    },
+    audit,
+  );
+  return { itemId: written.id, created: written.created, deduped: !written.created, activation, activity };
 }
