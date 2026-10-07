@@ -31,6 +31,42 @@ test('qualifying burn-in evidence freezes with the exact record schema', () => {
   assert.ok(r.not_implied_by_freeze.includes('OECD readiness (fallback-only, unresolved terms)'));
 });
 
+test('valid string numerics and whitespace-trimmed rollback IDs are accepted as valid representation', () => {
+  const ev = {
+    nowUtc: '2026-10-15T00:17:31Z',
+    ctCompletedRuns: '7',
+    eurostatCompletedChecks: '2',
+    invariants: { hardStops: '0', duplicateLabels: '0', maxPerInvocationStatements: '143', globalConcurrencyMax: '1', leaseOverlaps: '0' },
+    unresolvedHardFailure: false,
+    stage2: { candidates: '0', snapshots: '0', reviews: '0', activePromotions: '0' },
+    provenanceIntact: true,
+    rollback: { previousDisabledVersionId: '  ee60d69b  ', pausePathVerified: true },
+  };
+  assert.deepEqual(evaluateBurnIn(ev), { frozen: true, missing: [] });
+  assert.equal(renderFreezeRecord(ev).ct_completed_runs, 7);
+  assert.equal(renderFreezeRecord(ev).rollback.previousDisabledVersionId, '  ee60d69b  ');
+});
+
+test('malformed numeric strings and blank rollback IDs fail closed', () => {
+  const malformed = [
+    [{ ctCompletedRuns: '7x' }, 'CT_COMPLETED_RUNS_GTE_7'],
+    [{ eurostatCompletedChecks: '7.1' }, 'EUROSTAT_CHECKS_GTE_2'],
+    [{ invariants: { hardStops: '0', duplicateLabels: '0', maxPerInvocationStatements: '7x', globalConcurrencyMax: '1', leaseOverlaps: '0' } }, 'PER_INVOCATION_STATEMENTS_WITHIN_HARD_STOP'],
+    [{ invariants: { hardStops: '0', duplicateLabels: '0', maxPerInvocationStatements: '143', globalConcurrencyMax: 'Infinity', leaseOverlaps: '0' } }, 'GLOBAL_CONCURRENCY_MAX_1'],
+    [{ rollback: { previousDisabledVersionId: '   ', pausePathVerified: true } }, 'ROLLBACK_VERSION_KNOWN'],
+    [{ rollback: { previousDisabledVersionId: '', pausePathVerified: true } }, 'ROLLBACK_VERSION_KNOWN'],
+  ];
+  for (const [patch, name] of malformed) {
+    const ev = { ...qualifying(), ...patch };
+    if (patch.invariants) ev.invariants = patch.invariants;
+    if (patch.rollback) ev.rollback = patch.rollback;
+    const v = evaluateBurnIn(ev);
+    assert.equal(v.frozen, false);
+    assert.ok(v.missing.includes(name), `${name}: got ${v.missing.join(',')}`);
+    assert.throws(() => renderFreezeRecord(ev), /R18_REFUSED/);
+  }
+});
+
 test('every single missing requirement refuses by name; the record is never rendered early', () => {
   const cases = [
     [{ nowUtc: '2026-10-14T00:17:31Z' }, 'BURNIN_WINDOW_192H'],

@@ -36,26 +36,50 @@ const ms = (h) => h * 3600_000;
  *   rollback: { previousDisabledVersionId: string|null, pausePathVerified: bool }
  * }
  */
+const asFiniteInteger = (value, { min = 0 } = {}) => {
+  if (typeof value === 'number') {
+    if (!Number.isInteger(value) || !Number.isFinite(value)) return Number.NaN;
+    return value >= min ? value : Number.NaN;
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!/^(?:\d+)$/.test(trimmed)) return Number.NaN;
+    const n = Number(trimmed);
+    if (!Number.isInteger(n) || !Number.isFinite(n) || n < min) return Number.NaN;
+    return n;
+  }
+  return Number.NaN;
+};
+
 export function evaluateBurnIn(ev) {
   const missing = [];
   const ok = (cond, name) => { if (!cond) missing.push(name); };
   const nowMs = Date.parse(ev?.nowUtc);
   const startMs = Date.parse(BURNIN_START_UTC);
+  const ctRuns = asFiniteInteger(ev?.ctCompletedRuns, { min: 0 });
+  const eurostatChecks = asFiniteInteger(ev?.eurostatCompletedChecks, { min: 0 });
+  const inv = ev?.invariants ?? {};
+  const maxPerInvocationStatements = asFiniteInteger(inv.maxPerInvocationStatements, { min: 0 });
+  const globalConcurrencyMax = asFiniteInteger(inv.globalConcurrencyMax, { min: 0 });
+  const stage2 = ev?.stage2 ?? {};
+  const stageCandidates = asFiniteInteger(stage2.candidates, { min: 0 });
+  const stageSnapshots = asFiniteInteger(stage2.snapshots, { min: 0 });
+  const stageReviews = asFiniteInteger(stage2.reviews, { min: 0 });
+  const stageActivePromotions = asFiniteInteger(stage2.activePromotions, { min: 0 });
+  const rollbackPrevious = typeof ev?.rollback?.previousDisabledVersionId === 'string' ? ev.rollback.previousDisabledVersionId.trim() : ev?.rollback?.previousDisabledVersionId;
   ok(Number.isFinite(nowMs), 'CURRENT_UTC_PARSEABLE');
   ok(nowMs >= startMs + ms(BURNIN_WINDOW_HOURS), 'BURNIN_WINDOW_192H');
-  ok((ev?.ctCompletedRuns ?? -1) >= REQUIRED_CT_COMPLETED_RUNS, 'CT_COMPLETED_RUNS_GTE_7');
-  ok((ev?.eurostatCompletedChecks ?? -1) >= REQUIRED_EUROSTAT_CHECKS, 'EUROSTAT_CHECKS_GTE_2');
-  const inv = ev?.invariants ?? {};
-  ok(inv.hardStops === 0, 'ZERO_HARD_STOP');
-  ok(inv.duplicateLabels === 0, 'ZERO_DUPLICATE_LABEL');
-  ok(Number.isFinite(inv.maxPerInvocationStatements) && inv.maxPerInvocationStatements <= MAX_PER_INVOCATION_STATEMENTS, 'PER_INVOCATION_STATEMENTS_WITHIN_HARD_STOP');
-  ok(inv.globalConcurrencyMax <= MAX_GLOBAL_CONCURRENCY, 'GLOBAL_CONCURRENCY_MAX_1');
-  ok(inv.leaseOverlaps === 0, 'ZERO_LEASE_OVERLAP');
+  ok(ctRuns >= REQUIRED_CT_COMPLETED_RUNS, 'CT_COMPLETED_RUNS_GTE_7');
+  ok(eurostatChecks >= REQUIRED_EUROSTAT_CHECKS, 'EUROSTAT_CHECKS_GTE_2');
+  ok(asFiniteInteger(inv.hardStops, { min: 0 }) === 0, 'ZERO_HARD_STOP');
+  ok(asFiniteInteger(inv.duplicateLabels, { min: 0 }) === 0, 'ZERO_DUPLICATE_LABEL');
+  ok(Number.isFinite(maxPerInvocationStatements) && maxPerInvocationStatements <= MAX_PER_INVOCATION_STATEMENTS, 'PER_INVOCATION_STATEMENTS_WITHIN_HARD_STOP');
+  ok(Number.isFinite(globalConcurrencyMax) && globalConcurrencyMax <= MAX_GLOBAL_CONCURRENCY, 'GLOBAL_CONCURRENCY_MAX_1');
+  ok(asFiniteInteger(inv.leaseOverlaps, { min: 0 }) === 0, 'ZERO_LEASE_OVERLAP');
   ok(ev?.unresolvedHardFailure === false, 'NO_UNRESOLVED_HARD_FAILURE');
-  const s2 = ev?.stage2 ?? {};
-  ok(s2.candidates === 0 && s2.snapshots === 0 && s2.reviews === 0 && s2.activePromotions === 0, 'STAGE2_REMAINED_LOCKED');
+  ok(stageCandidates === 0 && stageSnapshots === 0 && stageReviews === 0 && stageActivePromotions === 0, 'STAGE2_REMAINED_LOCKED');
   ok(ev?.provenanceIntact === true, 'PROVENANCE_INTACT');
-  ok(typeof ev?.rollback?.previousDisabledVersionId === 'string' && ev.rollback.previousDisabledVersionId.length > 0, 'ROLLBACK_VERSION_KNOWN');
+  ok(typeof rollbackPrevious === 'string' && rollbackPrevious.length > 0, 'ROLLBACK_VERSION_KNOWN');
   ok(ev?.rollback?.pausePathVerified === true, 'PAUSE_PATH_VERIFIED');
   return { frozen: missing.length === 0, missing };
 }
@@ -63,16 +87,28 @@ export function evaluateBurnIn(ev) {
 export function renderFreezeRecord(ev) {
   const v = evaluateBurnIn(ev);
   if (!v.frozen) throw new Error(`R18_REFUSED:${v.missing.join(',')}`);
+  const inv = ev.invariants ?? {};
   return {
     marker: 'FROZEN_V1',
     scope: 'DOSSIER recurring production (Stage-1 burn-in evidence)',
     burnin_start_utc: BURNIN_START_UTC,
     frozen_at_utc: ev.nowUtc,
     window_hours: BURNIN_WINDOW_HOURS,
-    ct_completed_runs: ev.ctCompletedRuns,
-    eurostat_completed_checks: ev.eurostatCompletedChecks,
-    invariants: ev.invariants,
-    stage2: ev.stage2,
+    ct_completed_runs: asFiniteInteger(ev.ctCompletedRuns, { min: 0 }),
+    eurostat_completed_checks: asFiniteInteger(ev.eurostatCompletedChecks, { min: 0 }),
+    invariants: {
+      hardStops: asFiniteInteger(inv.hardStops, { min: 0 }),
+      duplicateLabels: asFiniteInteger(inv.duplicateLabels, { min: 0 }),
+      maxPerInvocationStatements: asFiniteInteger(inv.maxPerInvocationStatements, { min: 0 }),
+      globalConcurrencyMax: asFiniteInteger(inv.globalConcurrencyMax, { min: 0 }),
+      leaseOverlaps: asFiniteInteger(inv.leaseOverlaps, { min: 0 }),
+    },
+    stage2: {
+      candidates: asFiniteInteger((ev.stage2 ?? {}).candidates, { min: 0 }),
+      snapshots: asFiniteInteger((ev.stage2 ?? {}).snapshots, { min: 0 }),
+      reviews: asFiniteInteger((ev.stage2 ?? {}).reviews, { min: 0 }),
+      activePromotions: asFiniteInteger((ev.stage2 ?? {}).activePromotions, { min: 0 }),
+    },
     provenance_intact: true,
     rollback: ev.rollback,
     not_implied_by_freeze: [
