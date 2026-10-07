@@ -9,7 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0035_doctor_source_activity_audit.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0036_protocol_version_phase_component_model.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

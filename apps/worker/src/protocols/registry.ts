@@ -380,3 +380,164 @@ export async function resolveProtocol(db: Env['DB'], input: string): Promise<Res
   }
   return wrapMatch(db, targets[0], 'EXACT_ALIAS', `Alias '${trimmed}'`);
 }
+
+// ---------------------------------------------------------------------------
+// P3 — version / phase / component structure over time.
+// Identity keys + ordering keys immutable (triggers); labels/titles editable.
+// Latest = MAX(version_seq) per protocol: explicit, deterministic, never
+// insertion order. All list functions define ORDER BY. No version is ever
+// rewritten into another definition: new structure = new row with a new key.
+// ---------------------------------------------------------------------------
+
+export interface ProtocolVersion {
+  version_id: string;
+  protocol_id: string;
+  version_seq: number;
+  version_label: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProtocolPhase {
+  phase_id: string;
+  version_id: string;
+  phase_seq: number;
+  phase_label: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProtocolComponent {
+  component_id: string;
+  version_id: string;
+  phase_id: string | null;
+  component_seq: number;
+  title: string;
+  detail: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function createProtocolVersion(
+  db: Env['DB'],
+  input: { version_id: string; protocol_id: string; version_seq: number; version_label?: string },
+): Promise<ProtocolVersion> {
+  await db
+    .prepare(
+      `INSERT INTO protocol_versions (version_id, protocol_id, version_seq, version_label)
+       VALUES (?, ?, ?, ?)`,
+    )
+    .bind(input.version_id, input.protocol_id, input.version_seq, input.version_label ?? '')
+    .run();
+  const created = await getProtocolVersion(db, input.version_id);
+  if (!created) throw new Error('PROTOCOL_VERSION_CREATE_FAILED');
+  return created;
+}
+
+export async function getProtocolVersion(db: Env['DB'], versionId: string): Promise<ProtocolVersion | null> {
+  return db
+    .prepare('SELECT * FROM protocol_versions WHERE version_id = ?')
+    .bind(versionId)
+    .first<ProtocolVersion>();
+}
+
+export async function listProtocolVersions(db: Env['DB'], protocolId: string): Promise<ProtocolVersion[]> {
+  return db
+    .prepare('SELECT * FROM protocol_versions WHERE protocol_id = ? ORDER BY version_seq')
+    .bind(protocolId)
+    .all<ProtocolVersion>()
+    .then((r) => r.results);
+}
+
+/** Deterministic latest: greatest version_seq. Null when the protocol has no versions (fail closed, no guessing). */
+export async function getLatestProtocolVersion(db: Env['DB'], protocolId: string): Promise<ProtocolVersion | null> {
+  return db
+    .prepare('SELECT * FROM protocol_versions WHERE protocol_id = ? ORDER BY version_seq DESC LIMIT 1')
+    .bind(protocolId)
+    .all<ProtocolVersion>()
+    .then((r) => r.results[0] ?? null);
+}
+
+export async function createProtocolPhase(
+  db: Env['DB'],
+  input: { phase_id: string; version_id: string; phase_seq: number; phase_label?: string },
+): Promise<ProtocolPhase> {
+  await db
+    .prepare(
+      `INSERT INTO protocol_phases (phase_id, version_id, phase_seq, phase_label)
+       VALUES (?, ?, ?, ?)`,
+    )
+    .bind(input.phase_id, input.version_id, input.phase_seq, input.phase_label ?? '')
+    .run();
+  const created = await getProtocolPhase(db, input.phase_id);
+  if (!created) throw new Error('PROTOCOL_PHASE_CREATE_FAILED');
+  return created;
+}
+
+export async function getProtocolPhase(db: Env['DB'], phaseId: string): Promise<ProtocolPhase | null> {
+  return db
+    .prepare('SELECT * FROM protocol_phases WHERE phase_id = ?')
+    .bind(phaseId)
+    .first<ProtocolPhase>();
+}
+
+export async function listProtocolPhases(db: Env['DB'], versionId: string): Promise<ProtocolPhase[]> {
+  return db
+    .prepare('SELECT * FROM protocol_phases WHERE version_id = ? ORDER BY phase_seq')
+    .bind(versionId)
+    .all<ProtocolPhase>()
+    .then((r) => r.results);
+}
+
+export async function createProtocolComponent(
+  db: Env['DB'],
+  input: {
+    component_id: string;
+    version_id: string;
+    phase_id?: string | null;
+    component_seq: number;
+    title: string;
+    detail?: string;
+  },
+): Promise<ProtocolComponent> {
+  // Application-level topology check (fail fast with a clear error); the
+  // trg_component_phase_version_match_* triggers backstop it in SQL.
+  if (input.phase_id != null) {
+    const phase = await getProtocolPhase(db, input.phase_id);
+    if (!phase) throw new Error('COMPONENT_PHASE_NOT_FOUND');
+    if (phase.version_id !== input.version_id) throw new Error('COMPONENT_PHASE_VERSION_MISMATCH');
+  }
+  await db
+    .prepare(
+      `INSERT INTO protocol_components (component_id, version_id, phase_id, component_seq, title, detail)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(input.component_id, input.version_id, input.phase_id ?? null, input.component_seq, input.title, input.detail ?? '')
+    .run();
+  const created = await getProtocolComponent(db, input.component_id);
+  if (!created) throw new Error('PROTOCOL_COMPONENT_CREATE_FAILED');
+  return created;
+}
+
+export async function getProtocolComponent(db: Env['DB'], componentId: string): Promise<ProtocolComponent | null> {
+  return db
+    .prepare('SELECT * FROM protocol_components WHERE component_id = ?')
+    .bind(componentId)
+    .first<ProtocolComponent>();
+}
+
+export async function listProtocolComponents(db: Env['DB'], versionId: string): Promise<ProtocolComponent[]> {
+  return db
+    .prepare('SELECT * FROM protocol_components WHERE version_id = ? ORDER BY component_seq')
+    .bind(versionId)
+    .all<ProtocolComponent>()
+    .then((r) => r.results);
+}
+
+export async function listPhaseComponents(db: Env['DB'], phaseId: string): Promise<ProtocolComponent[]> {
+  return db
+    .prepare('SELECT * FROM protocol_components WHERE phase_id = ? ORDER BY component_seq')
+    .bind(phaseId)
+    .all<ProtocolComponent>()
+    .then((r) => r.results);
+}
