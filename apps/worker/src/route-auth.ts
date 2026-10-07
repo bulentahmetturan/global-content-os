@@ -32,6 +32,8 @@ export const ROUTE_GATES: Readonly<Record<string, GateSpec>> = {
   'POST /api/ingress/feed-items': INGEST,
   'POST /api/evergreen/plan': INGEST,
   'POST /api/ingress/evergreen-items': INGEST,
+  'POST /api/ops/doctor-activation': OPS,
+  'GET /api/ops/doctor-audit': OPS,
 };
 
 /** null = route is not gated here (either read-only or gated inline). */
