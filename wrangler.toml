@@ -42,6 +42,8 @@ DOSSIER_CANARY_ENABLED = "false"
 DOSSIER_RECURRING_ENABLED = "true"
 # HEALTH_STATISTICS canary master switch: OFF (post-canary shutdown S10; was true only for the authorized first canary).
 STATISTICS_CANARY_ENABLED = "false"
+# HEALTH_STATISTICS recurring planner: ON (owner-authorized recurring). The planner only PLANS bounded jobs served by the read-only schedule-plan route; the frozen tree contains no autonomous executor and no statistics cron, so nothing runs by itself. Owner-invoked runs remain policy-gated as before.
+STATISTICS_SCHEDULER_ENABLED = "true"
 
 [ai]
 binding = "AI"
