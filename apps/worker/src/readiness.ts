@@ -9,7 +9,7 @@ import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0042_protocol_dash_wave1.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0043_protocol_mediterranean_wave2.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

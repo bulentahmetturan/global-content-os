@@ -26,50 +26,51 @@ const tableColumns = (sqlite, table) =>
 test('a protocol can have one version (create/read roundtrip)', async () => {
   const { db } = openDb();
   const v = await protocols.createProtocolVersion(db, {
-    version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1, version_label: 'baseline',
+    version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901, version_label: 'baseline',
   });
   assert.equal(v.protocol_id, 'mediterranean-diet');
-  assert.equal(v.version_seq, 1);
-  const got = await protocols.getProtocolVersion(db, 'med-v1');
+  assert.equal(v.version_seq, 901);
+  const got = await protocols.getProtocolVersion(db, 'tfx-med-v1');
   assert.equal(got.version_label, 'baseline');
 });
 
 test('a protocol can have multiple versions, listed deterministically', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2 });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   const list = await protocols.listProtocolVersions(db, 'mediterranean-diet');
-  assert.deepEqual(list.map((v) => v.version_id), ['med-v1', 'med-v2']);
+  // Fixture versions only (governed seed versions excluded by design).
+  assert.deepEqual(list.map((v) => v.version_id).filter((id) => id.startsWith('tfx-')), ['tfx-med-v1', 'tfx-med-v2']);
 });
 
 test('latest version resolution is deterministic (MAX seq, not insertion order)', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2 });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v2');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v3', protocol_id: 'mediterranean-diet', version_seq: 3 });
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v3');
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'tfx-med-v2');
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v3', protocol_id: 'mediterranean-diet', version_seq: 903 });
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'tfx-med-v3');
 });
 
 test('latest of a versionless protocol is null (fail closed, no guessing)', async () => {
   const { db } = openDb();
-  assert.equal(await protocols.getLatestProtocolVersion(db, 'mediterranean-diet'), null);
+  assert.equal(await protocols.getLatestProtocolVersion(db, 'low-fodmap-diet'), null);
   assert.equal(await protocols.getProtocolVersion(db, 'no-such-version'), null);
 });
 
 test('historical version remains queryable after a newer version exists', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1, version_label: 'baseline' });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2, version_label: 'revised' });
-  const old = await protocols.getProtocolVersion(db, 'med-v1');
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901, version_label: 'baseline' });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902, version_label: 'revised' });
+  const old = await protocols.getProtocolVersion(db, 'tfx-med-v1');
   assert.equal(old.version_label, 'baseline');
-  assert.equal(old.version_seq, 1);
+  assert.equal(old.version_seq, 901);
 });
 
 test('versions are isolated per protocol', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'lf-v1', protocol_id: 'low-fodmap-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'lf-v1', protocol_id: 'low-fodmap-diet', version_seq: 901 });
   assert.deepEqual((await protocols.listProtocolVersions(db, 'low-fodmap-diet')).map((v) => v.version_id), ['lf-v1']);
   assert.equal((await protocols.getLatestProtocolVersion(db, 'low-fodmap-diet')).version_id, 'lf-v1');
 });
@@ -77,14 +78,14 @@ test('versions are isolated per protocol', async () => {
 test('version referencing a nonexistent protocol fails (FK)', async () => {
   const { db } = openDb();
   await assert.rejects(
-    () => protocols.createProtocolVersion(db, { version_id: 'ghost-v1', protocol_id: 'no-such-protocol', version_seq: 1 }),
+    () => protocols.createProtocolVersion(db, { version_id: 'ghost-v1', protocol_id: 'no-such-protocol', version_seq: 901 }),
   );
 });
 
 test('adding versions never changes the canonical protocol ID or creates protocols', async () => {
   const { sqlite, db } = openDb();
   const before = await protocols.getProtocol(db, 'mediterranean-diet');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   const after = await protocols.getProtocol(db, 'mediterranean-diet');
   assert.deepEqual(after, before);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocols').get().n, 6);
@@ -92,24 +93,24 @@ test('adding versions never changes the canonical protocol ID or creates protoco
 
 test('version identity keys immutable; label editable', async () => {
   const { sqlite, db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1, version_label: 'a' });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901, version_label: 'a' });
   assert.throws(
-    () => sqlite.prepare(`UPDATE protocol_versions SET version_id = 'x' WHERE version_id = 'med-v1'`).run(),
+    () => sqlite.prepare(`UPDATE protocol_versions SET version_id = 'x' WHERE version_id = 'tfx-med-v1'`).run(),
     /VERSION_KEYS_IMMUTABLE/,
   );
   assert.throws(
-    () => sqlite.prepare(`UPDATE protocol_versions SET version_seq = 9 WHERE version_id = 'med-v1'`).run(),
+    () => sqlite.prepare(`UPDATE protocol_versions SET version_seq = 9 WHERE version_id = 'tfx-med-v1'`).run(),
     /VERSION_KEYS_IMMUTABLE/,
   );
-  sqlite.prepare(`UPDATE protocol_versions SET version_label = 'b' WHERE version_id = 'med-v1'`).run();
-  assert.equal((await protocols.getProtocolVersion(db, 'med-v1')).version_label, 'b');
+  sqlite.prepare(`UPDATE protocol_versions SET version_label = 'b' WHERE version_id = 'tfx-med-v1'`).run();
+  assert.equal((await protocols.getProtocolVersion(db, 'tfx-med-v1')).version_label, 'b');
 });
 
 test('duplicate version ordering rejected', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   await assert.rejects(
-    () => protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 1 }),
+    () => protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 901 }),
     /UNIQUE/,
   );
 });
@@ -284,8 +285,9 @@ test('structure writes touch no source, triage, brief, or scheduler state', asyn
   await versionWith(db, 'fod-v1');
   await protocols.createProtocolPhase(db, { phase_id: 'fod-p1', version_id: 'fod-v1', phase_seq: 1 });
   await protocols.createProtocolComponent(db, { component_id: 'c1', version_id: 'fod-v1', phase_id: 'fod-p1', component_seq: 1, title: 'A' });
-  // Structure writes create no source items of their own (Wave-1 controlled-import rows excluded by design).
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
+  // Structure writes create no source items of their own (controlled-import
+  // seed rows, which always carry a discovery_reason, excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE discovery_reason IS NULL`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue/i.test(t)));

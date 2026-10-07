@@ -62,41 +62,41 @@ test('protocol-wide claim can be created with immutable ID', async () => {
 
 test('version-specific claim can be created; invalid protocol fails', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  const c = await claim(db, 'clm_ver', { protocol_version_id: 'med-v1' });
-  assert.equal(c.protocol_version_id, 'med-v1');
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  const c = await claim(db, 'clm_ver', { protocol_version_id: 'tfx-med-v1' });
+  assert.equal(c.protocol_version_id, 'tfx-med-v1');
   await assert.rejects(() => claim(db, 'clm_bad', { protocol_id: 'no-such-protocol' }));
 });
 
 test('version/protocol mismatch fails closed', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   await assert.rejects(
-    () => claim(db, 'clm_mm', { protocol_id: 'dash-eating-plan', protocol_version_id: 'med-v1' }),
+    () => claim(db, 'clm_mm', { protocol_id: 'dash-eating-plan', protocol_version_id: 'tfx-med-v1' }),
     /CLAIM_LINEAGE_MISMATCH/,
   );
 });
 
 test('version/protocol mismatch fails at SQL level bypassing the API', async () => {
   const { sqlite, db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   assert.throws(
     () => sqlite.prepare(
       `INSERT INTO protocol_claims (claim_id, protocol_id, protocol_version_id, claim_type, claim_text)
-       VALUES ('clm_mm_sql', 'dash-eating-plan', 'med-v1', 'OUTCOME', 'Mismatch.')`,
+       VALUES ('clm_mm_sql', 'dash-eating-plan', 'tfx-med-v1', 'OUTCOME', 'Mismatch.')`,
     ).run(),
   );
 });
 
 test('historical version may receive a claim without affecting latest', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2 });
-  await claim(db, 'clm_hist', { protocol_version_id: 'med-v1' });
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v2');
-  assert.deepEqual((await claims.listProtocolVersionClaims(db, 'med-v1')).map((c) => c.claim_id), ['clm_hist']);
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902 });
+  await claim(db, 'clm_hist', { protocol_version_id: 'tfx-med-v1' });
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'tfx-med-v2');
+  assert.deepEqual((await claims.listProtocolVersionClaims(db, 'tfx-med-v1')).map((c) => c.claim_id), ['clm_hist']);
   assert.deepEqual(
-    (await claims.listProtocolClaims(db, 'mediterranean-diet')).map((c) => c.claim_id).sort(),
+    (await claims.listProtocolClaims(db, 'mediterranean-diet')).map((c) => c.claim_id).filter((id) => id === 'clm_hist'),
     ['clm_hist'],
   );
 });
@@ -124,13 +124,17 @@ test('exact duplicate claim (scope+type+text) fails; different text coexists', a
     /CLAIM_DUPLICATE/,
   );
   await claim(db, 'clm_dup3', { claim_text: 'Different proposition.' });
-  assert.equal((await claims.listProtocolClaims(db, 'mediterranean-diet')).length, 2);
+  // Both fixture claims coexist (governed seed claims excluded by design).
+  assert.deepEqual(
+    (await claims.listProtocolClaims(db, 'mediterranean-diet')).map((c) => c.claim_id).filter((id) => id.startsWith('clm_dup')).sort(),
+    ['clm_dup1', 'clm_dup3'],
+  );
 });
 
 test('phase-scoped claim passes when lineage valid; cross-version phase fails', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'fod-v2', protocol_id: 'low-fodmap-diet', version_seq: 2 });
+  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'fod-v2', protocol_id: 'low-fodmap-diet', version_seq: 902 });
   await protocols.createProtocolPhase(db, { phase_id: 'fod-p1', version_id: 'fod-v1', phase_seq: 1 });
   const c = await claim(db, 'clm_phase', { protocol_id: 'low-fodmap-diet', protocol_version_id: 'fod-v1', phase_id: 'fod-p1' });
   assert.equal(c.phase_id, 'fod-p1');
@@ -143,8 +147,8 @@ test('phase-scoped claim passes when lineage valid; cross-version phase fails', 
 
 test('component-scoped claim passes when lineage valid; cross-version component fails', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'fod-v2', protocol_id: 'low-fodmap-diet', version_seq: 2 });
+  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'fod-v2', protocol_id: 'low-fodmap-diet', version_seq: 902 });
   await protocols.createProtocolPhase(db, { phase_id: 'fod-p1', version_id: 'fod-v1', phase_seq: 1 });
   await protocols.createProtocolComponent(db, { component_id: 'fod-c1', version_id: 'fod-v1', phase_id: 'fod-p1', component_seq: 1, title: 'C' });
   const c = await claim(db, 'clm_comp', { protocol_id: 'low-fodmap-diet', protocol_version_id: 'fod-v1', phase_id: 'fod-p1', component_id: 'fod-c1' });
@@ -158,7 +162,7 @@ test('component-scoped claim passes when lineage valid; cross-version component 
 
 test('phase scope without version fails closed', async () => {
   const { db } = openDb();
-  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'fod-v1', protocol_id: 'low-fodmap-diet', version_seq: 901 });
   await protocols.createProtocolPhase(db, { phase_id: 'fod-p1', version_id: 'fod-v1', phase_seq: 1 });
   await assert.rejects(
     () => claim(db, 'clm_nov', { protocol_id: 'low-fodmap-diet', phase_id: 'fod-p1' }),
@@ -335,8 +339,8 @@ test('P0 seed count stays 6; P2/P3 behavior unchanged', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one', 'Test Actor One', 'test actor one');
   const item = insertItem(sqlite);
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await claim(db, 'clm_reg', { protocol_version_id: 'med-v1' });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  await claim(db, 'clm_reg', { protocol_version_id: 'tfx-med-v1' });
   await claims.createClaimAttribution(db, {
     attribution_id: 'cattr_r', claim_id: 'clm_reg', actor_id: 'actor_test_one', attribution_role: 'AUTHOR',
   });
@@ -346,7 +350,7 @@ test('P0 seed count stays 6; P2/P3 behavior unchanged', async () => {
   assert.equal((await protocols.listProtocolsByRegistryState(db, 'PROPOSED')).length, 0);
   assert.equal((await protocols.listProtocolsByRegistryState(db, 'WATCH')).length, 0);
   assert.equal((await protocols.listProtocolsByRegistryState(db, 'REJECT_NOT_A_PROTOCOL')).length, 0);
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v1');
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'tfx-med-v1');
   const r = await protocols.resolveProtocol(db, 'DASH');
   assert.equal(r.outcome, 'EXACT_ALIAS');
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM actor_protocol_relationships WHERE actor_id = 'actor_test_one'`).get().n, 0);

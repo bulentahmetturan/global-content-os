@@ -92,25 +92,25 @@ test('invalid subject/protocol FK fails; type constrained', async () => {
 test('version-scoped edge; mismatch fails (API + SQL); historical version keeps latest', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2 });
-  const r = await edge(db, 'cmr_scoped', 'actor_test_one', 'mediterranean-diet', 'FUNDED_BY', { protocol_version_id: 'med-v1' });
-  assert.equal(r.protocol_version_id, 'med-v1');
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902 });
+  const r = await edge(db, 'cmr_scoped', 'actor_test_one', 'mediterranean-diet', 'FUNDED_BY', { protocol_version_id: 'tfx-med-v1' });
+  assert.equal(r.protocol_version_id, 'tfx-med-v1');
   assert.deepEqual(
-    (await cmr.listProtocolVersionCommercialRelationships(db, 'med-v1')).map((x) => x.relationship_id),
+    (await cmr.listProtocolVersionCommercialRelationships(db, 'tfx-med-v1')).map((x) => x.relationship_id),
     ['cmr_scoped'],
   );
   await assert.rejects(
-    () => edge(db, 'cmr_cross', 'actor_test_one', 'dash-eating-plan', 'FUNDED_BY', { protocol_version_id: 'med-v1' }),
+    () => edge(db, 'cmr_cross', 'actor_test_one', 'dash-eating-plan', 'FUNDED_BY', { protocol_version_id: 'tfx-med-v1' }),
     /COMMERCIAL_VERSION_PROTOCOL_MISMATCH/,
   );
   assert.throws(
     () => sqlite.prepare(
       `INSERT INTO commercial_relationships (relationship_id, subject_actor_id, protocol_id, protocol_version_id, relationship_type)
-       VALUES ('cmr_cross_sql', 'actor_test_one', 'dash-eating-plan', 'med-v1', 'FUNDED_BY')`,
+       VALUES ('cmr_cross_sql', 'actor_test_one', 'dash-eating-plan', 'tfx-med-v1', 'FUNDED_BY')`,
     ).run(),
   );
-  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'med-v2');
+  assert.equal((await protocols.getLatestProtocolVersion(db, 'mediterranean-diet')).version_id, 'tfx-med-v2');
 });
 
 // ---- COUNTERPARTY TESTS ----
@@ -137,7 +137,7 @@ test('exact duplicates fail in all four nullable quadrants', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
   insertActor(sqlite, 'actor_org');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   // wide + no counterparty
   await edge(db, 'cmr_d1a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR');
   await assert.rejects(() => edge(db, 'cmr_d1b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR'));
@@ -145,11 +145,11 @@ test('exact duplicates fail in all four nullable quadrants', async () => {
   await edge(db, 'cmr_d2a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { counterparty_actor_id: 'actor_org' });
   await assert.rejects(() => edge(db, 'cmr_d2b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { counterparty_actor_id: 'actor_org' }));
   // scoped + no counterparty
-  await edge(db, 'cmr_d3a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1' });
-  await assert.rejects(() => edge(db, 'cmr_d3b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1' }));
+  await edge(db, 'cmr_d3a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1' });
+  await assert.rejects(() => edge(db, 'cmr_d3b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1' }));
   // scoped + counterparty
-  await edge(db, 'cmr_d4a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1', counterparty_actor_id: 'actor_org' });
-  await assert.rejects(() => edge(db, 'cmr_d4b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1', counterparty_actor_id: 'actor_org' }));
+  await edge(db, 'cmr_d4a', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1', counterparty_actor_id: 'actor_org' });
+  await assert.rejects(() => edge(db, 'cmr_d4b', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1', counterparty_actor_id: 'actor_org' }));
 });
 
 test('distinct dimensions coexist: type, version, counterparty, scope', async () => {
@@ -157,12 +157,12 @@ test('distinct dimensions coexist: type, version, counterparty, scope', async ()
   insertActor(sqlite, 'actor_test_one');
   insertActor(sqlite, 'actor_org_a');
   insertActor(sqlite, 'actor_org_b');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
-  await protocols.createProtocolVersion(db, { version_id: 'med-v2', protocol_id: 'mediterranean-diet', version_seq: 2 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v2', protocol_id: 'mediterranean-diet', version_seq: 902 });
   await edge(db, 'cmr_c1', 'actor_test_one', 'mediterranean-diet', 'ADVISOR');
   await edge(db, 'cmr_c2', 'actor_test_one', 'mediterranean-diet', 'CONSULTANT');
-  await edge(db, 'cmr_c3', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1' });
-  await edge(db, 'cmr_c4', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v2' });
+  await edge(db, 'cmr_c3', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1' });
+  await edge(db, 'cmr_c4', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v2' });
   await edge(db, 'cmr_c5', 'actor_test_one', 'mediterranean-diet', 'SPONSORED_BY', { counterparty_actor_id: 'actor_org_a' });
   await edge(db, 'cmr_c6', 'actor_test_one', 'mediterranean-diet', 'SPONSORED_BY', { counterparty_actor_id: 'actor_org_b' });
   await edge(db, 'cmr_c7', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { counterparty_actor_id: 'actor_org_a' });
@@ -174,10 +174,10 @@ test('distinct dimensions coexist: type, version, counterparty, scope', async ()
 test('actor/protocol listings deterministic across repeats; no leakage', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
-  await protocols.createProtocolVersion(db, { version_id: 'med-v1', protocol_id: 'mediterranean-diet', version_seq: 1 });
+  await protocols.createProtocolVersion(db, { version_id: 'tfx-med-v1', protocol_id: 'mediterranean-diet', version_seq: 901 });
   await edge(db, 'cmr_q3', 'actor_test_one', 'dash-eating-plan', 'OWNER');
   await edge(db, 'cmr_q1', 'actor_test_one', 'mediterranean-diet', 'ADVISOR');
-  await edge(db, 'cmr_q2', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'med-v1' });
+  await edge(db, 'cmr_q2', 'actor_test_one', 'mediterranean-diet', 'ADVISOR', { protocol_version_id: 'tfx-med-v1' });
   const first = await cmr.listActorCommercialRelationships(db, 'actor_test_one');
   assert.deepEqual(first.map((r) => r.relationship_id), (await cmr.listActorCommercialRelationships(db, 'actor_test_one')).map((r) => r.relationship_id));
   assert.deepEqual(first.map((r) => r.relationship_id), ['cmr_q3', 'cmr_q1', 'cmr_q2']);
@@ -206,10 +206,12 @@ test('commercial edges and P4 edges never synchronize', async () => {
 test('commercial work creates no claim/evidence and alters no stance', async () => {
   const { sqlite, db } = openDb();
   insertActor(sqlite, 'actor_test_one');
+  const claimsBefore = sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_claims').get().n;
+  const evidenceBefore = sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_evidence').get().n;
   await edge(db, 'cmr_sep2', 'actor_test_one', 'mediterranean-diet', 'AFFILIATE');
-  // No claim/evidence beyond Wave-1 seeds (non-wave rows must stay zero).
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_claims WHERE claim_id NOT LIKE 'clm_dash_%'`).get().n, 0);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM protocol_evidence WHERE evidence_id NOT LIKE 'ev_dash_%'`).get().n, 0);
+  // No claim/evidence beyond pre-existing governed seeds (counts unchanged).
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_claims').get().n, claimsBefore);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM protocol_evidence').get().n, evidenceBefore);
 });
 
 test('commercial↔claim linkage works; invalid FK and duplicates fail; P5 untouched', async () => {
@@ -268,8 +270,9 @@ test('no source/scheduler/brief/triage side effects; no ecommerce columns', asyn
   insertActor(sqlite, 'actor_test_one');
   await edge(db, 'cmr_src', 'actor_test_one', 'mediterranean-diet', 'COMMERCIAL_PROVIDER');
   assert.deepEqual(sqlite.prepare('SELECT id, enabled FROM source_feeds ORDER BY id').all(), feedsBefore);
-  // Commercial work creates no source items of its own (Wave-1 controlled-import rows excluded by design).
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE COALESCE(discovery_reason, '') != 'protocol-wave-1-dash-controlled-import'`).get().n, 0);
+  // Commercial work creates no source items of its own (controlled-import seed
+  // rows, which always carry a discovery_reason, excluded by design).
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE discovery_reason IS NULL`).get().n, 0);
   assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM approved_briefs').get().n, 0);
   const tables = sqlite.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all().map((r) => r.name);
   assert.ok(!tables.some((t) => /cron|scheduler|job_queue|cart|checkout|payment|price/i.test(t)));
