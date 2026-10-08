@@ -23,7 +23,21 @@ export function d1FromSqlite(db) {
     };
     return p;
   };
-  return { prepare: mk };
+  return {
+    prepare: mk,
+    batch: async (statements) => {
+      db.exec('BEGIN');
+      try {
+        const results = [];
+        for (const statement of statements) results.push(await statement.run());
+        db.exec('COMMIT');
+        return results;
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+    },
+  };
 }
 
 export function unreachableD1() {

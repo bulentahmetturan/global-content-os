@@ -13,6 +13,20 @@ import { EVERGREEN_VIEW_ROUTE, isEvergreenView, isTemporalPath, type TemporalFil
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
+import {
+  compileCandidateAdmission,
+  createCandidate,
+  createCrossFeedSignal,
+  createDiscoveryRun,
+  decideCandidate,
+  listOwnerCandidates,
+  claimNextOnboardingIntent,
+  recordOnboardingSourceResult,
+  recordWaveMetrics,
+  type AdmissionInput,
+  type DiscoveryDomain,
+} from './discovery/kernel';
+import { finalizeOnboardingIntent } from './discovery/onboarding';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { ingestWhoNews } from './ingress/who-news';
@@ -116,6 +130,195 @@ export default {
 
       const routeAuth = authorizeRoute(env, request, path);
       if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
+
+      if (path.startsWith('/api/discovery/')) {
+        const executorRoute = path === '/api/discovery/executor/claim' ||
+          path === '/api/discovery/executor/results' ||
+          path === '/api/discovery/executor/finalize';
+        const discoveryAuth = authorizeToken(
+          executorRoute ? env.DISCOVERY_EXECUTOR_TOKEN : env.HUB_OPERATOR_TOKEN,
+          bearerToken(request.headers.get('Authorization')),
+          executorRoute ? 'DISCOVERY_EXECUTOR_TOKEN_NOT_CONFIGURED' : 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED',
+        );
+        if (!discoveryAuth.ok) return json({ error: discoveryAuth.error }, discoveryAuth.status);
+      }
+
+      if (path === '/api/discovery/owner' && request.method === 'GET') {
+        return json({ ok: true, candidates: await listOwnerCandidates(env.DB) });
+      }
+
+      if (path === '/api/discovery/waves' && request.method === 'GET') {
+        const waves = await env.DB.prepare(
+          `SELECT r.run_id, r.domain, r.wave_number, r.mode, r.status, r.created_at, r.closed_at,
+                  m.candidates_discovered, m.candidates_reviewed, m.approved_quality_new,
+                  m.new_canonical_protocols, m.yield, m.readiness_gate_pass_rate
+             FROM discovery_runs r LEFT JOIN wave_metrics m ON m.run_id = r.run_id
+            ORDER BY r.domain, r.wave_number DESC`,
+        ).all();
+        return json({ ok: true, waves: waves.results });
+      }
+
+      if (path === '/api/discovery/waves' && request.method === 'POST') {
+        const body = await request.json() as { domain?: unknown; searchSpace?: unknown };
+        if (
+          (body.domain !== 'DOCTOR' && body.domain !== 'PROTOCOL') ||
+          !Array.isArray(body.searchSpace) ||
+          body.searchSpace.some((space) => typeof space !== 'string')
+        ) return json({ error: 'DISCOVERY_INVALID_WAVE' }, 400);
+        try {
+          return json({ ok: true, run: await createDiscoveryRun(env.DB, body.domain as DiscoveryDomain, body.searchSpace as string[]) }, 201);
+        } catch (error) {
+          if (error instanceof Error && error.message.startsWith('DISCOVERY_VALIDATION_ERROR')) return json({ error: error.message }, 400);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/candidates' && request.method === 'POST') {
+        const body = await request.json() as {
+          runId?: unknown; domain?: unknown; canonicalName?: unknown; aliases?: unknown; rediscoveryReason?: unknown;
+        };
+        if (
+          typeof body.runId !== 'string' ||
+          (body.domain !== 'DOCTOR' && body.domain !== 'PROTOCOL') ||
+          typeof body.canonicalName !== 'string' ||
+          !Array.isArray(body.aliases) ||
+          body.aliases.some((alias) => !alias || typeof alias !== 'object' ||
+            typeof (alias as { value?: unknown }).value !== 'string' ||
+            typeof (alias as { kind?: unknown }).kind !== 'string')
+        ) return json({ error: 'DISCOVERY_INVALID_CANDIDATE' }, 400);
+        try {
+          const result = await createCandidate(env.DB, {
+            runId: body.runId,
+            domain: body.domain,
+            canonicalName: body.canonicalName,
+            aliases: body.aliases as Array<{ value: string; kind: string }>,
+            rediscoveryReason: body.rediscoveryReason as never,
+          });
+          return json({ ok: true, ...result }, 201);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'REDISCOVERY_REASON_REQUIRED' || message === 'DISCOVERY_RUN_NOT_OPEN') return json({ error: message }, 409);
+          if (message.startsWith('DISCOVERY_VALIDATION_ERROR')) return json({ error: message }, 400);
+          throw error;
+        }
+      }
+
+      const compileCandidate = path.match(/^\/api\/discovery\/candidates\/([^/]+)\/compile$/);
+      if (compileCandidate && request.method === 'POST') {
+        const input = await request.json() as AdmissionInput;
+        try {
+          return json({ ok: true, ...(await compileCandidateAdmission(env.DB, decodeURIComponent(compileCandidate[1]), input)) });
+        } catch (error) {
+          if (error instanceof Error && ['CANDIDATE_NOT_COMPILABLE'].includes(error.message)) return json({ error: error.message }, 409);
+          throw error;
+        }
+      }
+
+      const candidateDecision = path.match(/^\/api\/discovery\/candidates\/([^/]+)\/decision$/);
+      if (candidateDecision && request.method === 'POST') {
+        const body = await request.json() as { decision?: unknown };
+        if (typeof body.decision !== 'string') return json({ error: 'DISCOVERY_INVALID_DECISION' }, 400);
+        try {
+          return json({
+            ok: true,
+            ...(await decideCandidate(env.DB, decodeURIComponent(candidateDecision[1]), body.decision, 'hub-operator')),
+          });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'DISCOVERY_CANDIDATE_NOT_FOUND') return json({ error: message }, 404);
+          if (message.startsWith('DISCOVERY_') || message === 'ADMISSION_PACKAGE_MISSING') return json({ error: message }, 409);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/executor/claim' && request.method === 'POST') {
+        return json({ ok: true, intent: await claimNextOnboardingIntent(env.DB) });
+      }
+
+      if (path === '/api/discovery/executor/results' && request.method === 'POST') {
+        const body = await request.json() as {
+          intentId?: unknown; sourceId?: unknown; outcome?: unknown; lifecycleResult?: unknown; evidenceRef?: unknown;
+        };
+        if (
+          typeof body.intentId !== 'string' || typeof body.sourceId !== 'string' ||
+          !['ACTIVE', 'MANUAL_INTAKE', 'RESTRICTED', 'FAILED', 'REVALIDATED'].includes(String(body.outcome))
+        ) return json({ error: 'ONBOARDING_RESULT_INVALID' }, 400);
+        try {
+          const eventId = await recordOnboardingSourceResult(
+            env.DB,
+            body.intentId,
+            body.sourceId,
+            body.outcome as 'ACTIVE' | 'MANUAL_INTAKE' | 'RESTRICTED' | 'FAILED' | 'REVALIDATED',
+            body.lifecycleResult,
+            typeof body.evidenceRef === 'string' ? body.evidenceRef : null,
+          );
+          return json({ ok: true, eventId });
+        } catch (error) {
+          if (error instanceof Error && error.message === 'ONBOARDING_SOURCE_NOT_FOUND') return json({ error: error.message }, 404);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/executor/finalize' && request.method === 'POST') {
+        const body = await request.json() as { intentId?: unknown };
+        if (typeof body.intentId !== 'string') return json({ error: 'ONBOARDING_INTENT_ID_REQUIRED' }, 400);
+        try {
+          return json({ ok: true, ...(await finalizeOnboardingIntent(env.DB, body.intentId)) });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'ONBOARDING_INTENT_NOT_FOUND') return json({ error: message }, 404);
+          if (message.startsWith('ONBOARDING_') || message.startsWith('DOCTOR_') ||
+              message.startsWith('PROTOCOL_') || message.startsWith('DISCOVERY_')) {
+            return json({ error: message }, 409);
+          }
+          throw error;
+        }
+      }
+
+      const waveMetrics = path.match(/^\/api\/discovery\/waves\/([^/]+)\/metrics$/);
+      if (waveMetrics && request.method === 'POST') {
+        const body = await request.json() as {
+          reviewed?: unknown; approvedQualityNew?: unknown; readinessEvaluated?: unknown; readinessPassed?: unknown;
+          newCanonicalProtocols?: unknown;
+        };
+        if (![body.reviewed, body.approvedQualityNew, body.readinessEvaluated, body.readinessPassed]
+          .every(Number.isInteger)) return json({ error: 'DISCOVERY_METRICS_INVALID' }, 400);
+        try {
+          return json({
+            ok: true,
+            metrics: await recordWaveMetrics(
+              env.DB,
+              decodeURIComponent(waveMetrics[1]),
+              body.reviewed as number,
+              body.approvedQualityNew as number,
+              body.readinessEvaluated as number,
+              body.readinessPassed as number,
+              Number.isInteger(body.newCanonicalProtocols) ? body.newCanonicalProtocols as number : undefined,
+            ),
+          });
+        } catch (error) {
+          if (error instanceof Error && error.message === 'DISCOVERY_METRICS_INVALID') return json({ error: error.message }, 400);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/signals' && request.method === 'POST') {
+        const body = await request.json() as {
+          signalType?: unknown; rawMention?: unknown; sourceItemId?: unknown; provenance?: unknown;
+        };
+        if (
+          !['UNKNOWN_PROTOCOL_SIGNAL', 'UNKNOWN_ACTOR_SIGNAL'].includes(String(body.signalType)) ||
+          typeof body.rawMention !== 'string' || !body.rawMention.trim()
+        ) return json({ error: 'DISCOVERY_SIGNAL_INVALID' }, 400);
+        const signalId = await createCrossFeedSignal(
+          env.DB,
+          body.signalType as 'UNKNOWN_PROTOCOL_SIGNAL' | 'UNKNOWN_ACTOR_SIGNAL',
+          body.rawMention,
+          typeof body.sourceItemId === 'string' ? body.sourceItemId : null,
+          body.provenance,
+        );
+        return json({ ok: true, created: signalId !== null, signalId }, signalId ? 201 : 200);
+      }
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {

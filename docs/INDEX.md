@@ -53,6 +53,12 @@ OPTIONAL: `adapters/tip-toplulugu-radar/tests/test_tip_toplulugu_scheduler_fairn
 DO NOT LOAD: source registries, Bible, run history
 SECOND REPO: NO
 
+### Doctor / Protocol discovery kernel
+READ: `apps/worker/src/discovery/kernel.ts`, `apps/worker/src/discovery/onboarding.ts`, `apps/worker/src/discovery/progress.ts`, `migrations/0044_shared_discovery_kernel.sql`, `scripts/discovery/compile-admission.mjs`, `scripts/discovery/onboarding-executor.mjs`
+OPTIONAL: `apps/worker/src/discovery/kernel.test.mjs`, `apps/worker/src/discovery/owner-api.test.mjs`, `apps/worker/src/discovery/onboarding-e2e.test.mjs`
+DO NOT LOAD: `.logs/discovery-admission/` (local D4 evidence artifacts; inspect only the candidate-specific package as needed). Waves are manual one-shots; periodic discovery is not enabled.
+SECOND REPO: NO
+
 ### Evergreen runtime / cursor / runner / source telemetry
 READ: `docs/EVERGREEN-RUNTIME.md`, `docs/SOURCE-LIFECYCLE.md`
 OPTIONAL: `apps/worker/src/ingress/evergreen.ts`, `apps/worker/src/ingress/evergreen-state.ts`, `adapters/tip-toplulugu-radar/radar/evergreen_runner.py`

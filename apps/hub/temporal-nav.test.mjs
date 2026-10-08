@@ -77,7 +77,7 @@ test('sidebar counts come from /api/routes temporal[path][key]; missing data sho
     EVERGREEN: { health_reference: { inbox: 4 }, research_rediscovery: { inbox: 5 } },
   };
   const counts = Object.fromEntries(hub.NAV.map((n) => [n.navId, hub.navTemporalCount(n, temporal)]));
-  assert.deepEqual(counts, { haber: 7, research: 3, duyuru: 0, burs: 2, egitim: 1, ev_health: 4, ev_research: 5, bible: null });
+  assert.deepEqual(counts, { haber: 7, research: 3, duyuru: 0, burs: 2, egitim: 1, ev_health: 4, ev_research: 5, discovery: null, bible: null });
   for (const n of hub.NAV) assert.equal(hub.navTemporalCount(n, null), null);
   assert.equal(hub.navTemporalCount(hub.NAV[0], { EVERGREEN: {} }), null);
 });

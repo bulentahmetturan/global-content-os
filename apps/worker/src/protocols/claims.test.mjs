@@ -223,10 +223,36 @@ test('exact duplicate attribution fails; different roles coexist deterministical
 test('evidence has stable ID and references valid provenance', async () => {
   const { sqlite, db } = openDb();
   const item = insertItem(sqlite);
-  const e = await evidence.createEvidence(db, { evidence_id: 'ev_1', source_item_id: item, locator: 'p.42' });
+  const e = await evidence.createEvidence(db, {
+    evidence_id: 'ev_1',
+    source_item_id: item,
+    locator: 'p.42',
+    unknownActorMentions: ['Novel clinician researcher'],
+  });
   assert.equal(e.locator, 'p.42');
   assert.deepEqual(await evidence.getEvidence(db, 'ev_1'), e);
+  const signal = sqlite.prepare(`SELECT * FROM discovery_cross_feed_signals WHERE source_item_id = ?`).get(item);
+  assert.equal(signal.signal_type, 'UNKNOWN_ACTOR_SIGNAL');
+  assert.equal(signal.proposed_domain, 'DOCTOR');
   await assert.rejects(() => evidence.createEvidence(db, { evidence_id: 'ev_x', source_item_id: 'no-such-item' }));
+});
+
+test('cross-feed signal write failure never aborts evidence creation', async () => {
+  const { sqlite, db } = openDb();
+  const item = insertItem(sqlite);
+  sqlite.exec(`CREATE TRIGGER fail_discovery_signal BEFORE INSERT ON discovery_cross_feed_signals
+    BEGIN SELECT RAISE(ABORT, 'signal storage unavailable'); END;`);
+
+  const created = await evidence.createEvidence(db, {
+    evidence_id: 'ev_signal_failure',
+    source_item_id: item,
+    locator: 'p.1',
+    unknownActorMentions: ['Novel clinician researcher'],
+  });
+
+  assert.equal(created.evidence_id, 'ev_signal_failure');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM protocol_evidence WHERE evidence_id = ?`).get(created.evidence_id).c, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM discovery_cross_feed_signals`).get().c, 0);
 });
 
 test('evidence keys immutable; locator editable', async () => {

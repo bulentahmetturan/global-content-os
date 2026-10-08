@@ -22,6 +22,7 @@
  */
 
 import { newId, upsertSourceItem } from '../db/queries';
+import { emitCrossFeedSignalsBestEffort } from '../discovery/kernel';
 
 export const ACTIVITY_KINDS = [
   'DISCOVERED',
@@ -485,6 +486,7 @@ export interface IngestOneItemInput {
   canonicalUrl: string;
   publisher: string;
   publishedAt?: string | null;
+  unknownProtocolMentions?: string[];
 }
 
 export interface IngestOneItemResult {
@@ -534,6 +536,12 @@ export async function ingestOneItem(
   if (!written.id) {
     throw new Error(`INGESTION_REJECTED: intake refused the item (${written.rejected ?? 'unknown'})`);
   }
+  await emitCrossFeedSignalsBestEffort(db, 'UNKNOWN_PROTOCOL_SIGNAL', input.unknownProtocolMentions, written.id, {
+      actorId: assoc.actor_id,
+      associationId: assoc.association_id,
+      sourceItemUrl: input.canonicalUrl,
+      observedAt: new Date().toISOString(),
+  });
   const activity = await recordActivity(
     db,
     {

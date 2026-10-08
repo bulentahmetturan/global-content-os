@@ -164,9 +164,10 @@ test('verification alone cannot authorize ingestion', async () => {
   const { sqlite, db } = openDb();
   seedProofFeed(sqlite);
   const { assoc } = await seedControlledAssociation(db);
+  const itemsBefore = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
   await sources.updateVerificationStatus(db, assoc.association_id, 'VERIFIED', AUDIT);
   await assert.rejects(activity.ingestOneItem(db, ingestInput(assoc), AUDIT), /INGESTION_NOT_AUTHORIZED/);
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, itemsBefore);
 });
 
 // D4.6: actor active status alone cannot authorize ingestion.
@@ -195,11 +196,12 @@ test('ingestion without a valid association is impossible', async () => {
   const { sqlite, db } = openDb();
   seedProofFeed(sqlite);
   await seedControlledAssociation(db);
+  const itemsBefore = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
   await assert.rejects(
     activity.ingestOneItem(db, { ...ingestInput({ association_id: 'assoc_does_not_exist' }), associationId: 'assoc_does_not_exist' }, AUDIT),
     /unknown association/,
   );
-  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, itemsBefore);
 });
 
 // D4.6: disabling prevents the next ingestion; history stays observable.
@@ -242,6 +244,24 @@ test('repeated ingestion deduplicates to the same item', async () => {
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items WHERE dedupe_key = ?`).get(key).c, 1);
 });
 
+test('cross-feed signal write failure never aborts a successful ingestion', async () => {
+  const { sqlite, db } = openDb();
+  seedProofFeed(sqlite);
+  const { assoc } = await seedControlledAssociation(db);
+  await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD_EVIDENCE, AUDIT);
+  sqlite.exec(`CREATE TRIGGER fail_discovery_signal BEFORE INSERT ON discovery_cross_feed_signals
+    BEGIN SELECT RAISE(ABORT, 'signal storage unavailable'); END;`);
+
+  const result = await activity.ingestOneItem(db, {
+    ...ingestInput(assoc),
+    unknownProtocolMentions: ['Novel protocol concept'],
+  }, AUDIT);
+
+  assert.ok(result.itemId);
+  assert.ok(sqlite.prepare(`SELECT id FROM source_items WHERE id = ?`).get(result.itemId));
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM discovery_cross_feed_signals`).get().c, 0);
+});
+
 // D4.6: shared source never becomes globally owned by one association.
 test('shared endpoint ingestion attributes to one association only', async () => {
   const { sqlite, db } = openDb();
@@ -258,10 +278,19 @@ test('shared endpoint ingestion attributes to one association only', async () =>
   await activity.activateAssociationForIngestion(db, s1.association_id, GOOD_EVIDENCE, AUDIT);
   const result = await activity.ingestOneItem(
     db,
-    { ...ingestInput(s1), canonicalUrl: 'https://hospital.example.com/team/d4-proof', title: 'D4 kanıtı: kurum ekip sayfası duyurusu', publisher: 'Örnek Hastane' },
+    {
+      ...ingestInput(s1),
+      canonicalUrl: 'https://hospital.example.com/team/d4-proof',
+      title: 'D4 kanıtı: kurum ekip sayfası duyurusu',
+      publisher: 'Örnek Hastane',
+      unknownProtocolMentions: ['Novel protocol concept'],
+    },
     AUDIT,
   );
   assert.equal(JSON.parse(sqlite.prepare(`SELECT intake_meta_json AS m FROM source_items WHERE id = ?`).get(result.itemId).m).doctor_association_id, s1.association_id);
+  const signal = sqlite.prepare(`SELECT * FROM discovery_cross_feed_signals WHERE source_item_id = ?`).get(result.itemId);
+  assert.equal(signal.signal_type, 'UNKNOWN_PROTOCOL_SIGNAL');
+  assert.equal(signal.proposed_domain, 'PROTOCOL');
   assert.equal((await activity.listActivityForAssociation(db, s2.association_id)).length, 0);
   assert.equal(await activity.getLatestIngestability(db, s2.association_id), null);
 });

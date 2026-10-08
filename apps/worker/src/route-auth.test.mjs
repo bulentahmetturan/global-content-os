@@ -90,6 +90,10 @@ test('every POST handler in index.ts is gated (table or inline) -- a new write r
   const inline = new Set([
     'POST /api/triage', 'POST /api/handoff/resend', 'POST /api/handoff/status', 'POST /api/ingress/tip',
     'POST /api/ingress/tip-toplulugu-telemetry', 'POST /api/ingress/tip-toplulugu-continuous',
+    'POST /api/discovery/waves', 'POST /api/discovery/candidates',
+    'POST /api/discovery/executor/claim', 'POST /api/discovery/executor/results',
+    'POST /api/discovery/executor/finalize',
+    'POST /api/discovery/signals',
   ]);
   assert.ok(posts.length >= 19, `found ${posts.length}`);
   for (const k of posts) assert.ok(inline.has(k) || gates.ROUTE_GATES[k], `ungated write route: ${k}`);

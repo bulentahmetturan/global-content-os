@@ -40,6 +40,33 @@
       --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.35);
     }
   }
+
+  async function renderDiscovery() {
+    var root = document.getElementById('discoveryView');
+    try {
+      var data = await api('/api/discovery/owner', { method: 'GET' });
+      var candidates = data.candidates || [];
+      root.innerHTML = candidates.length ? candidates.map(function (candidate) {
+        var progress = candidate.intent_status
+          ? '<span class="status-pill">' + escapeHtml(candidate.intent_status) +
+            (candidate.pipeline_stage ? ' · ' + escapeHtml(candidate.pipeline_stage) : '') + '</span>'
+          : candidate.state !== 'READY_FOR_OWNER'
+            ? '<span class="status-pill">' + escapeHtml(candidate.state) + '</span>'
+            : '';
+        var actions = candidate.state === 'READY_FOR_OWNER'
+          ? '<div class="actions">' +
+            '<button class="btn btn-promote" data-discovery-decision="APPROVE" data-id="' + escapeHtml(candidate.candidate_id) + '">APPROVE</button>' +
+            '<button class="btn btn-hold" data-discovery-decision="WATCH" data-id="' + escapeHtml(candidate.candidate_id) + '">WATCH</button>' +
+            '<button class="btn btn-delete" data-discovery-decision="REJECT" data-id="' + escapeHtml(candidate.candidate_id) + '">REJECT</button>' +
+            '</div>'
+          : '';
+        return '<div class="card"><p class="card-title">' + escapeHtml(candidate.canonical_name) + '</p>' +
+          progress + actions + '</div>';
+      }).join('') : '<div class="empty">No discovery candidates ready for owner review.</div>';
+    } catch (error) {
+      root.innerHTML = '<div class="empty">Discovery unavailable: ' + escapeHtml(error.message) + '</div>';
+    }
+  }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body {
@@ -286,6 +313,7 @@
       <article class="bible-doc" id="bibleDoc">Yükleniyor…</article>
       <p class="bible-raw"><a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham Markdown indir</a></p>
     </div>
+    <section id="discoveryView" hidden aria-live="polite"></section>
     <div class="footnote" id="footnote"></div>
   </main>
 </div>
@@ -335,6 +363,7 @@
     { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
     { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: '🌿' },
     { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: '♻️' },
+    { navId: 'discovery', path: null, route: 'discovery', lane: null, label: 'Discovery', icon: '🧭', doc: true },
     { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
   ];
   /** Sidebar count for a nav entry from /api/routes `temporal`; null (shown as "–") when the block is missing — never a fake 0. */
@@ -930,7 +959,7 @@
 
   async function api(path, opts) {
     // Every Hub write (triage, source sync) is gated server-side on the operator token.
-    var needsOperator = !!(opts && opts.method && opts.method !== 'GET');
+    var needsOperator = (!!(opts && opts.method && opts.method !== 'GET')) || path.indexOf('/api/discovery/') === 0;
     for (var attempt = 0; attempt < 2; attempt++) {
       var headers = { 'Content-Type': 'application/json' };
       var token = needsOperator ? localStorage.getItem(OPERATOR_TOKEN_KEY) : null;
@@ -1038,6 +1067,7 @@
   function renderChrome() {
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
     function navActive(n) {
+      if (n.route === 'discovery') return state.route === 'discovery';
       if (n.route === 'bible') return state.route === 'bible';
       if (n.path !== state.temporal) return false;
       if (n.path === 'EVERGREEN') return n.evView === state.evView;
@@ -1081,12 +1111,15 @@
     var toolbarEl = document.getElementById('toolbar');
     var listViewEl = document.getElementById('listView');
     var bibleViewEl = document.getElementById('bibleView');
+    var discoveryViewEl = document.getElementById('discoveryView');
     var isBible = state.route === 'bible';
+    var isDiscovery = state.route === 'discovery';
     document.querySelector('.main').classList.toggle('bible-mode', isBible);
-    if (toolbarEl) toolbarEl.hidden = isBible;
-    if (listViewEl) listViewEl.hidden = isBible;
+    if (toolbarEl) toolbarEl.hidden = isBible || isDiscovery;
+    if (listViewEl) listViewEl.hidden = isBible || isDiscovery;
     if (bibleViewEl) bibleViewEl.hidden = !isBible;
-    if (isBible) {
+    if (discoveryViewEl) discoveryViewEl.hidden = !isDiscovery;
+    if (isBible || isDiscovery) {
       kindbar.hidden = true;
       kindbar.innerHTML = '';
       pillbarEl.hidden = true;
@@ -1100,6 +1133,7 @@
       kindbar.innerHTML = '';
     }
     var title = meta.icon + ' ' + meta.label;
+    if (isDiscovery) title = '🧭 Discovery';
     if (state.route === 'kaduse' && state.kind === 'news') title = '📰 Haber';
     if (state.route === 'kaduse' && state.kind === 'research') title = '🔬 Research';
     if (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
@@ -1111,6 +1145,12 @@
       mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
       laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Türk Tıp İçerik OS.</b> ' + escapeHtml(routeNote()) + '</div>';
       footnoteEl.innerHTML = 'Anayasa v4. Haber/Research = ENGAGEMENT. Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY. Soft skor FAIL üretmez. Beş kategori işletim MD’si henüz yazılmadı.';
+      return;
+    }
+    if (isDiscovery) {
+      mainSubEl.textContent = 'Doctor / Protocol · MANUAL_ONE_SHOT · Owner decisions only';
+      laneNoteEl.textContent = 'Approval queues the prevalidated onboarding intent. Source activation remains under source-lifecycle and D4; publication remains under editorial review.';
+      footnoteEl.textContent = 'Wave metrics and readiness-gate pass rate are recorded before any periodic discovery scheduling is enabled.';
       return;
     }
     var feedN = computeActiveSourceCount(state, bursCatalog, egitimCatalog);
@@ -1660,6 +1700,23 @@
     }
   });
   document.addEventListener('click', function (e) {
+    var discoveryDecision = e.target.closest('[data-discovery-decision]');
+    if (discoveryDecision) {
+      var candidateId = discoveryDecision.getAttribute('data-id');
+      var decision = discoveryDecision.getAttribute('data-discovery-decision');
+      discoveryDecision.disabled = true;
+      api('/api/discovery/candidates/' + encodeURIComponent(candidateId) + '/decision', {
+        method: 'POST',
+        body: JSON.stringify({ decision: decision })
+      }).then(function () {
+        showToast(decision + ' recorded');
+        return renderDiscovery();
+      }).catch(function (error) {
+        discoveryDecision.disabled = false;
+        showToast(error.message);
+      });
+      return;
+    }
     var sel = window.getSelection();
     if (sel && String(sel).length > 0 && e.target.closest('#srcPanel')) { return; }
     if (e.target.closest('[data-srcpanel]')) {
@@ -1708,6 +1765,14 @@
       var navId = navBtn.getAttribute('data-nav');
       var n = NAV.filter(function (x) { return x.navId === navId; })[0];
       if (!n) return;
+      if (n.route === 'discovery') {
+        state.route = 'discovery';
+        state.sourceFilter = '';
+        history.replaceState(null, '', '/?view=discovery');
+        renderChrome();
+        renderDiscovery();
+        return;
+      }
       state.route = n.route;
       if (n.kind) state.kind = n.kind;
       state.hekLane = n.lane || (n.route === 'tip_toplulugu' ? 'duyuru' : state.hekLane);

@@ -139,6 +139,33 @@ export async function createCanonicalProtocol(db: Env['DB'], input: CreateProtoc
   return created;
 }
 
+export async function addProtocolAlias(
+  db: Env['DB'],
+  input: { protocol_id: string; alias_value: string; alias_type: AliasType },
+): Promise<ProtocolAlias> {
+  const aliasValue = input.alias_value.trim();
+  const normalizedAlias = normalizeAlias(aliasValue);
+  if (!aliasValue || !normalizedAlias) throw new Error('PROTOCOL_ALIAS_EMPTY');
+  const existing = await db
+    .prepare('SELECT * FROM protocol_aliases WHERE protocol_id = ? AND normalized_alias = ?')
+    .bind(input.protocol_id, normalizedAlias)
+    .first<ProtocolAlias>();
+  if (existing) return existing;
+  await db
+    .prepare(
+      `INSERT INTO protocol_aliases (protocol_id, alias_value, normalized_alias, alias_type)
+       VALUES (?, ?, ?, ?)`,
+    )
+    .bind(input.protocol_id, aliasValue, normalizedAlias, input.alias_type)
+    .run();
+  const created = await db
+    .prepare('SELECT * FROM protocol_aliases WHERE protocol_id = ? AND normalized_alias = ?')
+    .bind(input.protocol_id, normalizedAlias)
+    .first<ProtocolAlias>();
+  if (!created) throw new Error('PROTOCOL_ALIAS_CREATE_FAILED');
+  return created;
+}
+
 export async function renameCanonicalProtocol(
   db: Env['DB'],
   protocolId: string,
@@ -235,6 +262,49 @@ export async function getFamily(db: Env['DB'], familyId: string): Promise<Protoc
     .prepare('SELECT * FROM protocol_families WHERE family_id = ?')
     .bind(familyId)
     .first<ProtocolFamily>();
+}
+
+export async function createProtocolFamily(
+  db: Env['DB'],
+  input: { family_id: string; canonical_name: string; description?: string },
+): Promise<ProtocolFamily> {
+  const name = input.canonical_name.trim();
+  if (!input.family_id.trim() || !name) throw new Error('PROTOCOL_FAMILY_INVALID');
+  const existing = await getFamily(db, input.family_id);
+  if (existing) return existing;
+  await db
+    .prepare('INSERT INTO protocol_families (family_id, canonical_name, description) VALUES (?, ?, ?)')
+    .bind(input.family_id, name, input.description ?? '')
+    .run();
+  const created = await getFamily(db, input.family_id);
+  if (!created) throw new Error('PROTOCOL_FAMILY_CREATE_FAILED');
+  return created;
+}
+
+export async function addProtocolFamilyMember(
+  db: Env['DB'],
+  input: { family_id: string; protocol_id: string; member_role: MemberRole },
+): Promise<FamilyMember> {
+  const existing = await db
+    .prepare('SELECT * FROM protocol_family_members WHERE protocol_id = ?')
+    .bind(input.protocol_id)
+    .first<FamilyMember>();
+  if (existing) {
+    if (existing.family_id !== input.family_id || existing.member_role !== input.member_role) {
+      throw new Error('PROTOCOL_FAMILY_MEMBERSHIP_CONFLICT');
+    }
+    return existing;
+  }
+  await db
+    .prepare('INSERT INTO protocol_family_members (family_id, protocol_id, member_role) VALUES (?, ?, ?)')
+    .bind(input.family_id, input.protocol_id, input.member_role)
+    .run();
+  const created = await db
+    .prepare('SELECT * FROM protocol_family_members WHERE protocol_id = ?')
+    .bind(input.protocol_id)
+    .first<FamilyMember>();
+  if (!created) throw new Error('PROTOCOL_FAMILY_MEMBER_CREATE_FAILED');
+  return created;
 }
 
 export async function listFamilies(db: Env['DB']): Promise<ProtocolFamily[]> {

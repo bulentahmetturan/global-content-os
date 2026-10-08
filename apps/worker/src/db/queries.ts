@@ -1,5 +1,6 @@
 import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
 import { orderByRelevance } from '../triage/relevance-order';
+import { recordDiscoveryHubItemBestEffort } from '../discovery/progress';
 import {
   defaultAcquisitionPath,
   effectiveAcquisitionPath,
@@ -33,6 +34,8 @@ export interface Env {
   STATUS_CALLBACK_TOKEN?: string;
   /** Bearer the Hub operator presents on POST /api/triage; unset = triage disabled (503). */
   HUB_OPERATOR_TOKEN?: string;
+  /** Local discovery executor credential; distinct from owner decision authority. */
+  DISCOVERY_EXECUTOR_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
   /** Bearer for the operator surface (/api/ops/summary, /api/handoff/resend); unset = those endpoints answer 503. */
   OPS_TOKEN?: string;
@@ -327,9 +330,12 @@ export async function upsertSourceItem(
       });
     }
     const result = await updateExistingItem(db, existing, input, enrichmentStatus);
+    await recordDiscoveryHubItemBestEffort(db, input.sourceId, result.id, input.route);
     return membership ? { ...result, membership } : result;
   }
-  return insertNewItem(db, input, { dedupeKey, enrichmentStatus, rawPublishedAt, canonicalWorkId });
+  const result = await insertNewItem(db, input, { dedupeKey, enrichmentStatus, rawPublishedAt, canonicalWorkId });
+  if (result.id) await recordDiscoveryHubItemBestEffort(db, input.sourceId, result.id, input.route);
+  return result;
 }
 
 async function updateExistingItem(
