@@ -1,0 +1,107 @@
+{
+  "releaseId": "discovery-stage1-migrations-20261009",
+  "sourceCommit": "083fd96",
+  "sourceBranch": "release/discovery-stage1-migrations",
+  "baseCommit": "1788294",
+  "canonicalCommits": {
+    "0043_protocol_mediterranean_wave2.sql": "4a174b6",
+    "0044_shared_discovery_kernel.sql": "f65e789"
+  },
+  "targetDatabase": {
+    "binding": "DB",
+    "databaseName": "global-content-os",
+    "databaseId": "c0ce92dc-9842-4dd9-9d05-a8d09e798b34"
+  },
+  "authoritativeRemotePredecessor": "0043_dossier_discovery_foundation.sql",
+  "migrations": [
+    {
+      "file": "migrations/0043_protocol_mediterranean_wave2.sql",
+      "type": "data-only",
+      "description": "Protocol Mediterranean wave-2 data (DGA 2015-2020 Appendix 4 + PREDIMED RCT)",
+      "sha256": "85ee1c23ff3f1f73f315aa6f6aa68951bb6aec0aa6e71e09bb4c9553745bbc9e",
+      "blob": "681290b5d4dd5c0b4c16ee1b69e16e6d1ec161d8",
+      "preconditions": [
+        "tables from 0033-0040 present",
+        "med identities absent"
+      ],
+      "verification": {
+        "med_v": 1,
+        "med_comp": 9,
+        "med_items": 2,
+        "med_claims": 3
+      }
+    },
+    {
+      "file": "migrations/0044_shared_discovery_kernel.sql",
+      "type": "DDL-only",
+      "description": "Shared discovery kernel for Doctor and Protocol discovery",
+      "sha256": "c08b21f8ce4de816fa7ca131bd44b291d90b210d1f19262be03d49689c3706d5",
+      "blob": "c4c2d1a3202d160b14e485caeeeeb40f739f47ad",
+      "tables": [
+        "discovery_runs",
+        "candidate_ledger",
+        "evidence_ledger",
+        "discovery_alias_dedupe",
+        "decision_ledger",
+        "wave_metrics",
+        "onboarding_intents",
+        "onboarding_intent_sources",
+        "onboarding_source_events",
+        "discovery_cross_feed_signals"
+      ],
+      "indexes": 6,
+      "triggers": 9,
+      "preconditions": [
+        "0043 applied (clm_med_definition exists)",
+        "actors/protocols tables present"
+      ],
+      "verification": {
+        "tables": 10,
+        "indexes": 6,
+        "triggers": 9,
+        "readiness_max_name": "migrations/0044_shared_discovery_kernel.sql"
+      }
+    }
+  ],
+  "order": [
+    "migrations/0043_protocol_mediterranean_wave2.sql",
+    "migrations/0044_shared_discovery_kernel.sql"
+  ],
+  "excluded": [
+    "migrations/0045_discovery_signal_linkage.sql",
+    "migrations/0046_doctor_knowledge.sql"
+  ],
+  "excludedReason": "Follow-on stages (stage-2: 0045->0046, stage-3: 0047-0050 sibling rebases)",
+  "abortConditions": [
+    "Remote ledger max != 0043_dossier_discovery_foundation.sql",
+    "Local file SHA256 mismatch vs manifest",
+    "med_v/med_items non-zero before apply",
+    "Any discovery_tables non-zero before apply",
+    "Unexpected table/column in apply dry output",
+    "Backup/export failure before apply",
+    "Non-zero unexpected row delta after apply",
+    "Integrity or readiness failure after apply",
+    "Concurrent deploy/write detected",
+    "Missing owner authorization",
+    "Wrangler pending set differs from assumed shape"
+  ],
+  "verificationQueries": [
+    "SELECT COUNT(*) FROM protocol_versions WHERE version_id='med-v1'",
+    "SELECT COUNT(*) FROM source_items WHERE id IN ('med-item-dga-2015','med-item-predimed-2018')",
+    "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND (name LIKE 'discovery_%' OR name IN ('candidate_ledger','decision_ledger','evidence_ledger','wave_metrics','onboarding_intents','onboarding_intent_sources','onboarding_source_events'))",
+    "PRAGMA integrity_check"
+  ],
+  "recovery": {
+    "0043Partial": "forward-fix by remaining section identities; full re-run safe (all guarded)",
+    "0044Partial": "re-run safe (all guarded); never DROP",
+    "Escalation": "any abort -> stop, preserve ledger/schema/count snapshots, notify owner; no forward-fix without second explicit authorization"
+  },
+  "excludedMigrations": {
+    "0045": "migrations/0045_discovery_signal_linkage.sql (follow-on stage-2)",
+    "0046": "migrations/0046_doctor_knowledge.sql (follow-on stage-2; current EXPECTED)"
+  },
+  "deployAuthorized": false,
+  "sourceActivationAuthorized": false,
+  "schedulerAuthorized": false,
+  "canonicalReadiness": "EXPECTED=0043_dossier for production Worker; Discovery Worker requires 0044; full stack requires 0046 (staged rollout)"
+}
