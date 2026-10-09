@@ -1,0 +1,40 @@
+{
+  "record": "DOSSIER_R3_DISABLED_DEPLOY",
+  "step": "R3 + R4 + R5 (owner-authorized disabled deploy; no activation)",
+  "deployed_utc": "2026-10-04T14:14:28Z..14:14:47Z",
+  "command": "npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars)  (no activation flag; DOSSIER_CANARY_ENABLED comes from wrangler.toml = \"false\")",
+  "deployed_worker_version_id": "eed750cc-7e6d-4b48-b26f-a3a039803f8d",
+  "deployed_commit": "d78a949ef9815329825f62e2debd3d870180f804",
+  "branch": "dossier-discovery-foundation",
+  "worker_url": "https://global-content-os.channel-content-os-mcp.workers.dev",
+  "previous_worker_version_id": "c617f33a-39bb-4e82-9185-549f68427a01",
+  "previous_worker_commit": "f684f10b360e8013638dc5dbf01ded06bc6936c6",
+  "rollback_reference_captured_utc": "2026-10-04T14:14:28Z",
+  "rollback_performed": false,
+  "schema": "0031_dossier_discovery_foundation.sql (applied earlier, R1)",
+  "dossier_canary_enabled": "false",
+  "r4": {
+    "health": "200",
+    "ready": "READY, blocked [], degraded [], appliedMigration == expectedSchema == 0031",
+    "cron": "source_feeds heartbeat advanced after the deploy (14:12:16Z -> 14:18:19Z); ingestion continued (source_items 3440 -> 3442, ordinary live activity)",
+    "regression": "none"
+  },
+  "r5": {
+    "dossier_readiness": "DISABLED (canary_enabled_by_config false); components SCHEMA, RUNTIME, CANARY_POLICY, SOURCE_REGISTRATION, MANUAL_RUNNER, PROVENANCE, P5_GOVERNANCE, KILL_SWITCH all ready; SOURCE_ACCESS_READY false (OECD terms unresolved, expected); PLATFORM_CAPACITY_READY false (unverified, expected); global GCOS level unaffected (READY)",
+    "controls": "dossier_control has 0 rows: absent = OFF for master, manual runs and every reader",
+    "inertness": "all 21 dossier tables hold 0 rows after the deploy and across at least four cron minutes (runs, work, observations, candidates, snapshots, reviews, controls)",
+    "operator_security": "unauthenticated, wrong-token and token-in-query requests: 401; POST run and POST control without valid auth: 401 with no D1 change; PUT: 401 (auth first)",
+    "invariants": "source_feeds 883, evergreen_runtime_state 2, approved_briefs 70, handoff_log 73, source_pass_fail_decisions 59 unchanged; 78 dossier objects, 30 migrations recorded; TIME_SENSITIVE / EVERGREEN vocabularies untouched (no schema or data statement in this step)",
+    "p5": "PASS: no activation, review, acceptance, publication, weight or cadence change"
+  },
+  "not_performed": [
+    "DOSSIER enablement",
+    "reader enablement",
+    "live canary",
+    "capacity verification",
+    "plan or secret change",
+    "push",
+    "merge"
+  ],
+  "next_step": "verify the active Cloudflare plan and record platform capacity (R6.1-R6.4), then ClinicalTrials canary authorization"
+}

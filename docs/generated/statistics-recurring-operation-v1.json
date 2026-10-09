@@ -1,0 +1,36 @@
+{
+  "phase": "HEALTH_STATISTICS_LOCAL_READINESS_SPRINT_TO_75 - workstream 4 (recurring operation, local-first)",
+  "as_of": "2026-10-06",
+  "status": "LOCAL_ONLY: implemented and tested locally; scheduler OFF; nothing deployed, enabled, activated or run in production",
+  "boundary": ["no scheduler or cron enabled", "no source activated", "no production data", "no policy write by the Worker", "all operator routes are read-only and dormant until the reviewed deployment patch"],
+  "modules": {
+    "apps/worker/src/statistics/ops/policy-contract.ts": "63, 74: admission by state x kind, gate blocking, owner-gate matrix",
+    "apps/worker/src/statistics/ops/cadence.ts": "64: source-specific cadence (no universal default)",
+    "apps/worker/src/statistics/ops/scheduler.ts": "64: OFF-by-default planner (plans only, starts nothing, 0 DB calls while OFF)",
+    "apps/worker/src/statistics/ops/serialization.ts": "65: read side of the mechanical run serialization, owner acknowledgement of terminal failures",
+    "apps/worker/src/statistics/ops/retry-policy.ts": "66: transient-only bounded retry, deterministic backoff, circuit state, owner recommendations",
+    "apps/worker/src/statistics/ops/health.ts": "67: bounded health model and INFO/WARNING/ACTION_REQUIRED/HARD_STOP alerts",
+    "apps/worker/src/statistics/ops/ops-read-model.ts": "68, 69: operations summary and keyset run history",
+    "apps/worker/src/statistics/ops/ops-routes.ts": "68, 69: GET /api/statistics/ops/{summary,runs,schedule-plan,contract}",
+    "apps/worker/src/statistics/ops/retention.ts": "70: retention classes and growth estimate (no deletion code)",
+    "apps/worker/src/statistics/ops/revision-events.ts": "71, 72, 73: revision classification, one-way outbox plan, bulletin dedupe",
+    "apps/worker/src/statistics/ops/cross-source.ts": "79: cross-source comparison framework (design + test contract)",
+    "apps/worker/src/statistics/statistics-routes.ts": "single dormant dispatcher for /api/statistics/* (canary + ops)"
+  },
+  "items": {
+    "63": { "name": "SOURCE ACTIVATION POLICY", "status": "READY_LOCAL", "evidence": "ops-governance.test.mjs: 11-row admission matrix, gate blocking, DB agreement; frozen governance scan", "live_proof_needed": "owner SQL on the production STATS_DB" },
+    "64": { "name": "SCHEDULER / CADENCE", "status": "READY_LOCAL", "evidence": "ops-scheduler.test.mjs: OFF by default with zero DB calls, source-specific cadence (Eurostat: daily after the 23:00 CET refresh, one job per tick), disabled/gated source schedules nothing, bounded plan", "live_proof_needed": "owner enables STATISTICS_SCHEDULER_ENABLED and wires a cron in a later reviewed deploy (not part of the first canary)" },
+    "65": { "name": "RUN SERIALIZATION", "status": "READY_LOCAL", "evidence": "ops-scheduler.test.mjs: concurrent contender yields LEASE_BUSY, uq_stat_runs_open_unit refuses a second open run, lease expiry recovery resumes the same run, terminal FAILED never replaced (owner policy change after the failure is the acknowledgement)", "live_proof_needed": "none beyond the first production canary" },
+    "66": { "name": "RETRY / BACKOFF", "status": "READY_LOCAL", "evidence": "ops-health.test.mjs: only network/timeout/429/5xx transient, backoff 500..8000 ms, circuit closed/open/half-open, permanent failures open at once with RECOMMEND_BLOCK or RECOMMEND_PAUSE (owner executes)", "live_proof_needed": "none" },
+    "67": { "name": "ALERTING / SOURCE HEALTH", "status": "READY_LOCAL", "evidence": "ops-health.test.mjs: last success/fetch/source update, consecutive failures, checkpoint age, run duration, observations, revision count, schema drift, staleness; alert classes; bounded queries with query-plan check; D1 budget, CPU and wall are honest placeholders", "live_proof_needed": "CPU/wall come from wrangler tail or analytics during the production canary" },
+    "68": { "name": "OPERATIONAL DASHBOARD / READ MODEL", "status": "READY_LOCAL", "evidence": "ops-readmodel.test.mjs: what ran/changed/failed/stopped, checkpoint, source state, budget, last release, current count, revision count; summary costs 13 D1 calls (measured), no unbounded scans", "live_proof_needed": "first production read" },
+    "69": { "name": "LONG-TERM RUN HISTORY", "status": "READY_LOCAL", "evidence": "ops-readmodel.test.mjs: keyset pagination (<= 50), every run once, status/duration/unit/checkpoint/failure/release/rows; history is never rewritten", "live_proof_needed": "none; per-invocation D1 budget is not durable (no schema column), returned per invocation instead" },
+    "70": { "name": "RETENTION / COMPACTION POLICY", "status": "READY_LOCAL", "evidence": "ops-retention-crosssource.test.mjs: every table classed once, retention matches the frozen BEFORE DELETE protection, real refusals on real rows, growth estimate; compaction of run rows is a declared schema decision (COMPACTION_REQUIRES_SCHEMA_DECISION), not assumed", "live_proof_needed": "owner decision on compaction only if growth ever demands it" },
+    "71": { "name": "REVISION ALERTING", "status": "READY_LOCAL", "evidence": "ops-events.test.mjs: new release, confirmation, revision, flag change, missing, late backfill, schema drift; bounded samples (5) and examined versions (200)", "live_proof_needed": "none" },
+    "72": { "name": "RELEASE-EVENT OUTBOX -> TIME_SENSITIVE", "status": "READY_LOCAL", "evidence": "ops-events.test.mjs: PRODUCTION release plans one bounded event, CANARY none, event stays PENDING, emit governed by the DB (ELIGIBLE + ACTIVE + PRODUCTION), no content/triage/ingress import, no network", "live_proof_needed": "the TIME_SENSITIVE consumer is a separate owner-approved integration; statistics stays separate from TIME_SENSITIVE and EVERGREEN" },
+    "73": { "name": "DUPLICATE BULLETIN DEDUPE", "status": "READY_LOCAL", "evidence": "ops-events.test.mjs: URL variants and mirror hosts fold onto the canonical bulletin (one event), distinct releases stay distinct with the collision reported", "live_proof_needed": "dedupe against the existing news sub-feed is reported (urlCollisions), merging stays an owner decision" },
+    "74": { "name": "HUMAN GOVERNANCE OPERATION", "status": "READY_LOCAL", "evidence": "ops-governance.test.mjs: nine owner gates (arm, activate, pause, disarm, legal override, mapping review, canary authorization, production hand-off, scheduler enable), none performable by the Worker, static scan, read-only surface leaves every table identical", "live_proof_needed": "the first real owner decisions in production" }
+  },
+  "p_gates": { "P1": "PASS (local)", "P2": "PASS_LOCAL", "P3": "PASS_LOCAL", "P4": "PASS_LOCAL", "P5": "PASS" },
+  "measured_d1": { "ops_summary_calls": 13, "ops_summary_statements": 13, "per_invocation_target": 40, "hard_stop": 44, "scheduler_off_calls": 0 }
+}

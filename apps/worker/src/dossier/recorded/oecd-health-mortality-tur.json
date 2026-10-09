@@ -1,0 +1,1761 @@
+{
+ "_provenance": {
+  "kind": "RECORDED_REAL_RESPONSE_NOT_LIVE",
+  "source": "https://sdmx.oecd.org/public/rest/data/OECD.ELS.HD,DSD_HEALTH_STAT@DF_COM,1.0/TUR.A.CSEM.DT._T._T._Z......?lastNObservations=1&dimensionAtObservation=AllDimensions",
+  "recorded_at": "2026-10-03T16:22:13.605Z",
+  "accept": "application/vnd.sdmx.data+json;version=2.0.0",
+  "note": "One bounded official SDMX request (Turkiye, annual, mortality, number of deaths, all ages, both sexes, latest observation per cause). Used only for offline normalization tests."
+ },
+ "response": {
+  "meta": {
+   "schema": "https://raw.githubusercontent.com/sdmx-twg/sdmx-json/master/data-message/tools/schemas/2.0.0/sdmx-json-data-schema.json",
+   "id": "IREF015063",
+   "prepared": "2026-10-03T16:21:14Z",
+   "test": false,
+   "contentLanguages": [
+    "en",
+    "en-US"
+   ],
+   "sender": {
+    "id": "Disseminate_Final_DMZ",
+    "name": "unknown",
+    "names": {
+     "en-US": "unknown"
+    }
+   }
+  },
+  "data": {
+   "dataSets": [
+    {
+     "structure": 0,
+     "action": "Information",
+     "links": [
+      {
+       "rel": "datastructure",
+       "urn": "urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=OECD.ELS.HD:DSD_HEALTH_STAT(1.0)"
+      }
+     ],
+     "annotations": [
+      9,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "attributes": [],
+     "dimensionGroupAttributes": {
+      "~:~:0:~:~:~:~:~:~:~:~:~:~:~": [
+       10
+      ],
+      "~:~:~:~:~:~:~:~:~:~:~:~:~:~": [
+       10
+      ]
+     },
+     "observations": {
+      "0:0:0:0:0:0:0:0:0:0:0:0:0:0": [
+       37363
+      ],
+      "0:0:0:0:0:0:0:1:0:0:0:0:0:0": [
+       79076
+      ],
+      "0:0:0:0:0:0:0:2:0:0:0:0:0:0": [
+       15977
+      ],
+      "0:0:0:0:0:0:0:3:0:0:0:0:0:0": [
+       21020
+      ],
+      "0:0:0:0:0:0:0:4:0:0:0:0:0:0": [
+       365
+      ],
+      "0:0:0:0:0:0:0:5:0:0:0:0:0:0": [
+       11640
+      ],
+      "0:0:0:0:0:0:0:6:0:0:0:0:0:0": [
+       172
+      ],
+      "0:0:0:0:0:0:0:7:0:0:0:0:0:0": [
+       2439
+      ],
+      "0:0:0:0:0:0:0:8:0:0:0:0:0:0": [
+       77067
+      ],
+      "0:0:0:0:0:0:0:9:0:0:0:0:0:0": [
+       311
+      ],
+      "0:0:0:0:0:0:0:10:0:0:0:0:0:0": [
+       1151
+      ],
+      "0:0:0:0:0:0:0:11:0:0:0:0:0:0": [
+       525
+      ],
+      "0:0:0:0:0:0:0:12:0:0:0:0:0:0": [
+       4061
+      ],
+      "0:0:0:0:0:0:0:13:0:0:0:0:0:0": [
+       2666
+      ],
+      "0:0:0:0:0:0:0:14:0:0:0:0:0:0": [
+       289
+      ],
+      "0:0:0:0:0:0:0:15:0:0:0:0:0:0": [
+       32583
+      ],
+      "0:0:0:0:0:0:0:16:0:0:0:0:0:0": [
+       7672
+      ],
+      "0:0:0:0:0:0:0:17:0:0:0:0:0:0": [
+       1409
+      ],
+      "0:0:0:0:0:0:0:18:0:0:0:0:0:0": [
+       134
+      ],
+      "0:0:0:0:0:0:0:19:0:0:0:0:0:0": [
+       124
+      ],
+      "0:0:0:0:0:0:0:20:0:0:0:0:0:0": [
+       966
+      ],
+      "0:0:0:0:0:0:0:21:0:0:0:0:0:0": [
+       59460
+      ],
+      "0:0:0:0:0:0:0:22:0:0:0:0:0:0": [
+       19592
+      ],
+      "0:0:0:0:0:0:0:23:0:0:0:0:0:0": [
+       51346
+      ],
+      "0:0:0:0:0:0:0:24:0:0:0:0:0:0": [
+       2612
+      ],
+      "0:0:0:0:0:0:0:25:0:0:0:0:0:0": [
+       5943
+      ],
+      "0:0:0:0:0:0:0:26:0:0:0:0:0:0": [
+       2869
+      ],
+      "0:0:0:0:0:0:0:27:0:0:0:0:0:0": [
+       173944
+      ],
+      "0:0:0:0:0:0:0:28:0:0:0:0:0:0": [
+       1316
+      ],
+      "0:0:0:0:0:0:0:29:0:0:0:0:0:0": [
+       39978
+      ],
+      "0:0:0:0:0:0:0:30:0:0:0:0:0:0": [
+       17615
+      ],
+      "0:0:0:0:0:0:0:31:0:0:0:0:0:0": [
+       5500
+      ],
+      "0:0:0:0:0:0:0:32:0:0:0:0:0:0": [
+       69309
+      ],
+      "0:0:0:0:0:0:0:33:0:0:0:0:0:0": [
+       5321
+      ],
+      "0:0:0:0:0:0:0:34:0:0:0:0:0:0": [
+       52
+      ],
+      "0:0:0:0:0:0:0:35:0:0:0:0:0:0": [
+       64540
+      ],
+      "0:0:0:0:0:0:0:36:0:0:0:0:0:0": [
+       707
+      ],
+      "0:0:0:0:0:0:0:37:0:0:0:0:0:0": [
+       74477
+      ],
+      "0:0:0:0:0:0:0:38:0:0:0:0:0:0": [
+       18910
+      ],
+      "0:0:0:0:0:0:0:39:0:0:0:0:0:0": [
+       3277
+      ],
+      "0:0:0:0:0:0:0:40:0:0:0:0:0:0": [
+       22111
+      ],
+      "0:0:0:0:0:0:0:41:0:0:0:0:0:0": [
+       827
+      ],
+      "0:0:0:0:0:0:0:42:0:0:0:0:0:0": [
+       2711
+      ],
+      "0:0:0:0:0:0:0:43:0:0:0:0:0:0": [
+       4756
+      ],
+      "0:0:0:0:0:0:0:44:0:0:0:0:0:0": [
+       22176
+      ],
+      "0:0:0:0:0:0:0:45:0:0:0:0:0:0": [
+       11276
+      ],
+      "0:0:0:0:0:0:0:46:0:0:0:0:0:0": [
+       525814
+      ],
+      "0:0:0:0:0:0:0:47:0:0:0:0:0:0": [
+       572
+      ],
+      "0:0:0:0:0:0:0:48:0:0:0:0:0:0": [
+       1717
+      ]
+     }
+    }
+   ],
+   "structures": [
+    {
+     "name": "Causes of mortality",
+     "names": {
+      "en": "Causes of mortality"
+     },
+     "description": "This dataset presents the number of deaths and age-standardised death rates by causes of deaths. The number of deaths according to sex and selected causes are extracted from the <b>World Health Organization Mortality Database</b> available at <a href=\"https://www.who.int/data/data-collection-tools/who-mortality-database\"></a>. Detailed information on the coverage and reliability of the cause-of-death data is regularly published in World Health Statistics Annuals.\n\n<p />The selected <b>causes of death</b> presented in the OECD Health Statistics database are detailed in an Excel file <a href=\"https://stats.oecd.org/wbos/fileview2.aspx?IDFile=9506bbe9-c549-4951-8410-757676477e2c\" target=\"_blank\">available for download</a>, with codes according to the <b>Tenth revision of the International Classification of Diseases (ICD) along with codes from other ICD revisions used in the WHO Mortality Database.</b>\n\n<p />Please refer to the <a  target=\"_blank\" href=\"https://stats.oecd.org/wbos/fileview2.aspx?IDFile=9070932a-1129-450f-8170-65fc13edcd62\">Sources and Methods</a> for detailed country-specific information.",
+     "descriptions": {
+      "en": "This dataset presents the number of deaths and age-standardised death rates by causes of deaths. The number of deaths according to sex and selected causes are extracted from the <b>World Health Organization Mortality Database</b> available at <a href=\"https://www.who.int/data/data-collection-tools/who-mortality-database\"></a>. Detailed information on the coverage and reliability of the cause-of-death data is regularly published in World Health Statistics Annuals.\n\n<p />The selected <b>causes of death</b> presented in the OECD Health Statistics database are detailed in an Excel file <a href=\"https://stats.oecd.org/wbos/fileview2.aspx?IDFile=9506bbe9-c549-4951-8410-757676477e2c\" target=\"_blank\">available for download</a>, with codes according to the <b>Tenth revision of the International Classification of Diseases (ICD) along with codes from other ICD revisions used in the WHO Mortality Database.</b>\n\n<p />Please refer to the <a  target=\"_blank\" href=\"https://stats.oecd.org/wbos/fileview2.aspx?IDFile=9070932a-1129-450f-8170-65fc13edcd62\">Sources and Methods</a> for detailed country-specific information."
+     },
+     "links": [
+      {
+       "rel": "datastructure",
+       "urn": "urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=OECD.ELS.HD:DSD_HEALTH_STAT@DF_COM(1.0)"
+      }
+     ],
+     "dimensions": {
+      "dataSet": [],
+      "series": [],
+      "observation": [
+       {
+        "id": "REF_AREA",
+        "name": "Reference area",
+        "names": {
+         "en": "Reference area"
+        },
+        "keyPosition": 0,
+        "roles": [
+         "REF_AREA"
+        ],
+        "values": [
+         {
+          "id": "TUR",
+          "order": 35,
+          "name": "Türkiye",
+          "names": {
+           "en": "Türkiye"
+          },
+          "annotations": [
+           11
+          ]
+         }
+        ]
+       },
+       {
+        "id": "FREQ",
+        "name": "Frequency of observation",
+        "names": {
+         "en": "Frequency of observation"
+        },
+        "keyPosition": 1,
+        "roles": [
+         "FREQ"
+        ],
+        "values": [
+         {
+          "id": "A",
+          "order": 0,
+          "name": "Annual",
+          "names": {
+           "en": "Annual"
+          }
+         }
+        ]
+       },
+       {
+        "id": "MEASURE",
+        "name": "Measure",
+        "names": {
+         "en": "Measure"
+        },
+        "keyPosition": 2,
+        "roles": [
+         "MEASURE"
+        ],
+        "values": [
+         {
+          "id": "CSEM",
+          "order": 1,
+          "name": "Mortality",
+          "names": {
+           "en": "Mortality"
+          }
+         }
+        ]
+       },
+       {
+        "id": "UNIT_MEASURE",
+        "name": "Unit of measure",
+        "names": {
+         "en": "Unit of measure"
+        },
+        "keyPosition": 3,
+        "roles": [
+         "UNIT_MEASURE"
+        ],
+        "values": [
+         {
+          "id": "DT",
+          "order": 48,
+          "name": "Deaths",
+          "names": {
+           "en": "Deaths"
+          },
+          "annotations": [
+           12
+          ]
+         }
+        ]
+       },
+       {
+        "id": "AGE",
+        "name": "Age",
+        "names": {
+         "en": "Age"
+        },
+        "keyPosition": 4,
+        "roles": [
+         "AGE"
+        ],
+        "values": [
+         {
+          "id": "_T",
+          "order": 0,
+          "name": "Total",
+          "names": {
+           "en": "Total"
+          },
+          "annotations": [
+           13
+          ]
+         }
+        ]
+       },
+       {
+        "id": "SEX",
+        "name": "Sex",
+        "names": {
+         "en": "Sex"
+        },
+        "keyPosition": 5,
+        "roles": [
+         "SEX"
+        ],
+        "values": [
+         {
+          "id": "_T",
+          "order": 4,
+          "name": "Total",
+          "names": {
+           "en": "Total"
+          }
+         }
+        ]
+       },
+       {
+        "id": "SOCIO_ECON_STATUS",
+        "name": "Socio-economic status",
+        "names": {
+         "en": "Socio-economic status"
+        },
+        "keyPosition": 6,
+        "roles": [
+         "SOCIO_ECON_STATUS"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 6,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          }
+         }
+        ]
+       },
+       {
+        "id": "DEATH_CAUSE",
+        "name": "Cause of death",
+        "names": {
+         "en": "Cause of death"
+        },
+        "keyPosition": 7,
+        "roles": [
+         "DEATH_CAUSE"
+        ],
+        "values": [
+         {
+          "id": "CICDSYMP",
+          "order": 53,
+          "name": "Symptoms, signs, ill-defined causes",
+          "names": {
+           "en": "Symptoms, signs, ill-defined causes"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           14
+          ]
+         },
+         {
+          "id": "CICDNEOP",
+          "order": 33,
+          "name": "Neoplasms",
+          "names": {
+           "en": "Neoplasms"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           15
+          ]
+         },
+         {
+          "id": "CICDDBTM",
+          "order": 20,
+          "name": "Diabetes mellitus",
+          "names": {
+           "en": "Diabetes mellitus"
+          },
+          "parent": "CICDENDO",
+          "parents": [
+           "CICDENDO"
+          ],
+          "annotations": [
+           16
+          ]
+         },
+         {
+          "id": "CICDBAEM",
+          "order": 17,
+          "name": "Chronic obstructive pulmonary diseases",
+          "names": {
+           "en": "Chronic obstructive pulmonary diseases"
+          },
+          "parent": "CICDREPS",
+          "parents": [
+           "CICDREPS"
+          ],
+          "annotations": [
+           17
+          ]
+         },
+         {
+          "id": "CICDPEAU",
+          "order": 18,
+          "name": "Diseases of the skin and subcutaneous tissue",
+          "names": {
+           "en": "Diseases of the skin and subcutaneous tissue"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           18
+          ]
+         },
+         {
+          "id": "CICDALZH",
+          "order": 14,
+          "name": "Alzheimer's disease",
+          "names": {
+           "en": "Alzheimer's disease"
+          },
+          "parent": "CICDNERV",
+          "parents": [
+           "CICDNERV"
+          ],
+          "annotations": [
+           19
+          ]
+         },
+         {
+          "id": "CICDHODG",
+          "order": 35,
+          "name": "Hodgkin’s disease",
+          "names": {
+           "en": "Hodgkin’s disease"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           20
+          ]
+         },
+         {
+          "id": "CICDBLAD",
+          "order": 38,
+          "name": "Malignant neoplasms of bladder",
+          "names": {
+           "en": "Malignant neoplasms of bladder"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           21
+          ]
+         },
+         {
+          "id": "CICDTUME",
+          "order": 34,
+          "name": "Malignant neoplasms",
+          "names": {
+           "en": "Malignant neoplasms"
+          },
+          "parent": "CICDNEOP",
+          "parents": [
+           "CICDNEOP"
+          ],
+          "annotations": [
+           22
+          ]
+         },
+         {
+          "id": "CICDTBLS",
+          "order": 55,
+          "name": "Tuberculosis",
+          "names": {
+           "en": "Tuberculosis"
+          },
+          "parent": "CICDINFE",
+          "parents": [
+           "CICDINFE"
+          ],
+          "annotations": [
+           23
+          ]
+         },
+         {
+          "id": "CICDSANG",
+          "order": 6,
+          "name": "Diseases of the blood and blood-forming organs",
+          "names": {
+           "en": "Diseases of the blood and blood-forming organs"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           24
+          ]
+         },
+         {
+          "id": "CICDSKIN",
+          "order": 37,
+          "name": "Malignant melanoma of skin",
+          "names": {
+           "en": "Malignant melanoma of skin"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           25
+          ]
+         },
+         {
+          "id": "CICDHARM",
+          "order": 28,
+          "name": "Intentional self-harm",
+          "names": {
+           "en": "Intentional self-harm"
+          },
+          "parent": "CICDEXTC",
+          "parents": [
+           "CICDEXTC"
+          ],
+          "annotations": [
+           26
+          ]
+         },
+         {
+          "id": "CICDCONG",
+          "order": 4,
+          "name": "Congenital malformations, deformations and chromosomal abnormalities",
+          "names": {
+           "en": "Congenital malformations, deformations and chromosomal abnormalities"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           27
+          ]
+         },
+         {
+          "id": "CICDTROU",
+          "order": 31,
+          "name": "Mental and behavioural disorders",
+          "names": {
+           "en": "Mental and behavioural disorders"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           28
+          ]
+         },
+         {
+          "id": "CICDCERV",
+          "order": 8,
+          "name": "Cerebrovascular diseases",
+          "names": {
+           "en": "Cerebrovascular diseases"
+          },
+          "parent": "CICDCIRC",
+          "parents": [
+           "CICDCIRC"
+          ],
+          "annotations": [
+           29
+          ]
+         },
+         {
+          "id": "CICDNCRA",
+          "order": 40,
+          "name": "Malignant neoplasms of colon, rectum and anus",
+          "names": {
+           "en": "Malignant neoplasms of colon, rectum and anus"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           30
+          ]
+         },
+         {
+          "id": "CICDASMA",
+          "order": 16,
+          "name": "Asthma",
+          "names": {
+           "en": "Asthma"
+          },
+          "parent": "CICDREPS",
+          "parents": [
+           "CICDREPS"
+          ],
+          "annotations": [
+           31
+          ]
+         },
+         {
+          "id": "CICDHIVD",
+          "order": 26,
+          "name": "HIV-AIDS",
+          "names": {
+           "en": "HIV-AIDS"
+          },
+          "parent": "CICDINFE",
+          "parents": [
+           "CICDINFE"
+          ],
+          "annotations": [
+           32
+          ]
+         },
+         {
+          "id": "CICDDMTA",
+          "order": 32,
+          "name": "Dementia",
+          "names": {
+           "en": "Dementia"
+          },
+          "parent": "CICDTROU",
+          "parents": [
+           "CICDTROU"
+          ],
+          "annotations": [
+           33
+          ]
+         },
+         {
+          "id": "CICDOSTE",
+          "order": 12,
+          "name": "Diseases of the musculoskeletal system and connective tissue",
+          "names": {
+           "en": "Diseases of the musculoskeletal system and connective tissue"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           34
+          ]
+         },
+         {
+          "id": "CICDACCD",
+          "order": 22,
+          "name": "Accidents",
+          "names": {
+           "en": "Accidents"
+          },
+          "parent": "CICDEXTC",
+          "parents": [
+           "CICDEXTC"
+          ],
+          "annotations": [
+           35
+          ]
+         },
+         {
+          "id": "CICDINFE",
+          "order": 2,
+          "name": "Certain infectious and parasitic diseases",
+          "names": {
+           "en": "Certain infectious and parasitic diseases"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           36
+          ]
+         },
+         {
+          "id": "CICDMYOC",
+          "order": 30,
+          "name": "Acute myocardial infarction",
+          "names": {
+           "en": "Acute myocardial infarction"
+          },
+          "parent": "CICDISCH",
+          "parents": [
+           "CICDISCH"
+          ],
+          "annotations": [
+           37
+          ]
+         },
+         {
+          "id": "CICDCIRR",
+          "order": 10,
+          "name": "Chronic liver diseases and cirrhosis",
+          "names": {
+           "en": "Chronic liver diseases and cirrhosis"
+          },
+          "parent": "CICDDIGE",
+          "parents": [
+           "CICDDIGE"
+          ],
+          "annotations": [
+           38
+          ]
+         },
+         {
+          "id": "CICDSTOM",
+          "order": 46,
+          "name": "Malignant neoplasms of stomach",
+          "names": {
+           "en": "Malignant neoplasms of stomach"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           39
+          ]
+         },
+         {
+          "id": "CICDLEUK",
+          "order": 36,
+          "name": "Leukemia",
+          "names": {
+           "en": "Leukemia"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           40
+          ]
+         },
+         {
+          "id": "CICDCIRC",
+          "order": 7,
+          "name": "Diseases of the circulatory system",
+          "names": {
+           "en": "Diseases of the circulatory system"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           41
+          ]
+         },
+         {
+          "id": "CICDPARK",
+          "order": 48,
+          "name": "Parkinson's disease",
+          "names": {
+           "en": "Parkinson's disease"
+          },
+          "parent": "CICDNERV",
+          "parents": [
+           "CICDNERV"
+          ],
+          "annotations": [
+           42
+          ]
+         },
+         {
+          "id": "CICDPNEU",
+          "order": 50,
+          "name": "Pneumonia",
+          "names": {
+           "en": "Pneumonia"
+          },
+          "parent": "CICDREPS",
+          "parents": [
+           "CICDREPS"
+          ],
+          "annotations": [
+           43
+          ]
+         },
+         {
+          "id": "CICDNERV",
+          "order": 13,
+          "name": "Diseases of the nervous system",
+          "names": {
+           "en": "Diseases of the nervous system"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           44
+          ]
+         },
+         {
+          "id": "CICDTRAC",
+          "order": 54,
+          "name": "Transport accidents",
+          "names": {
+           "en": "Transport accidents"
+          },
+          "parent": "CICDACCD",
+          "parents": [
+           "CICDACCD"
+          ],
+          "annotations": [
+           45
+          ]
+         },
+         {
+          "id": "CICDREPS",
+          "order": 15,
+          "name": "Diseases of the respiratory system",
+          "names": {
+           "en": "Diseases of the respiratory system"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           46
+          ]
+         },
+         {
+          "id": "CICDPANC",
+          "order": 44,
+          "name": "Malignant neoplasms of pancreas",
+          "names": {
+           "en": "Malignant neoplasms of pancreas"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           47
+          ]
+         },
+         {
+          "id": "CICDINPN",
+          "order": 27,
+          "name": "Influenza",
+          "names": {
+           "en": "Influenza"
+          },
+          "parent": "CICDREPS",
+          "parents": [
+           "CICDREPS"
+          ],
+          "annotations": [
+           48
+          ]
+         },
+         {
+          "id": "CICDEXTC",
+          "order": 21,
+          "name": "External causes of mortality",
+          "names": {
+           "en": "External causes of mortality"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           49
+          ]
+         },
+         {
+          "id": "CICDPOSN",
+          "order": 24,
+          "name": "Accidental poisoning",
+          "names": {
+           "en": "Accidental poisoning"
+          },
+          "parent": "CICDACCD",
+          "parents": [
+           "CICDACCD"
+          ],
+          "annotations": [
+           50
+          ]
+         },
+         {
+          "id": "CICDISCH",
+          "order": 29,
+          "name": "Ischaemic heart diseases",
+          "names": {
+           "en": "Ischaemic heart diseases"
+          },
+          "parent": "CICDCIRC",
+          "parents": [
+           "CICDCIRC"
+          ],
+          "annotations": [
+           51
+          ]
+         },
+         {
+          "id": "CICDGENI",
+          "order": 11,
+          "name": "Diseases of the genitourinary system",
+          "names": {
+           "en": "Diseases of the genitourinary system"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           52
+          ]
+         },
+         {
+          "id": "CICDCHUT",
+          "order": 23,
+          "name": "Accidental falls",
+          "names": {
+           "en": "Accidental falls"
+          },
+          "parent": "CICDACCD",
+          "parents": [
+           "CICDACCD"
+          ],
+          "annotations": [
+           53
+          ]
+         },
+         {
+          "id": "CICDCANC",
+          "order": 47,
+          "name": "Malignant neoplasms of trachea, bronchus, lung",
+          "names": {
+           "en": "Malignant neoplasms of trachea, bronchus, lung"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           54
+          ]
+         },
+         {
+          "id": "CICDHOCD",
+          "order": 25,
+          "name": "Assault",
+          "names": {
+           "en": "Assault"
+          },
+          "parent": "CICDEXTC",
+          "parents": [
+           "CICDEXTC"
+          ],
+          "annotations": [
+           55
+          ]
+         },
+         {
+          "id": "CICDLIVR",
+          "order": 42,
+          "name": "Malignant neoplasms of liver",
+          "names": {
+           "en": "Malignant neoplasms of liver"
+          },
+          "parent": "CICDTUME",
+          "parents": [
+           "CICDTUME"
+          ],
+          "annotations": [
+           56
+          ]
+         },
+         {
+          "id": "CICDAFFE",
+          "order": 1,
+          "name": "Certain conditions originating in the perinatal period",
+          "names": {
+           "en": "Certain conditions originating in the perinatal period"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           57
+          ]
+         },
+         {
+          "id": "CICDENDO",
+          "order": 19,
+          "name": "Endocrine, nutritional and metabolic diseases",
+          "names": {
+           "en": "Endocrine, nutritional and metabolic diseases"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           58
+          ]
+         },
+         {
+          "id": "CICDDIGE",
+          "order": 9,
+          "name": "Diseases of the digestive system",
+          "names": {
+           "en": "Diseases of the digestive system"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           59
+          ]
+         },
+         {
+          "id": "_T",
+          "order": 0,
+          "name": "Total",
+          "names": {
+           "en": "Total"
+          },
+          "annotations": [
+           13
+          ]
+         },
+         {
+          "id": "CICDPEPT",
+          "order": 49,
+          "name": "Peptic ulcer",
+          "names": {
+           "en": "Peptic ulcer"
+          },
+          "parent": "CICDDIGE",
+          "parents": [
+           "CICDDIGE"
+          ],
+          "annotations": [
+           60
+          ]
+         },
+         {
+          "id": "CICDCVID",
+          "order": 3,
+          "name": "Codes for special purposes: COVID-19",
+          "names": {
+           "en": "Codes for special purposes: COVID-19"
+          },
+          "parent": "_T",
+          "parents": [
+           "_T"
+          ],
+          "annotations": [
+           55
+          ]
+         }
+        ]
+       },
+       {
+        "id": "CALC_METHODOLOGY",
+        "name": "Calculation methodology",
+        "names": {
+         "en": "Calculation methodology"
+        },
+        "keyPosition": 8,
+        "roles": [
+         "CALC_METHODOLOGY"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 2,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          }
+         }
+        ]
+       },
+       {
+        "id": "GESTATION_THRESHOLD",
+        "name": "Gestation period threshold",
+        "names": {
+         "en": "Gestation period threshold"
+        },
+        "keyPosition": 9,
+        "roles": [
+         "GESTATION_THRESHOLD"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 2,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          }
+         }
+        ]
+       },
+       {
+        "id": "HEALTH_STATUS",
+        "name": "Health status",
+        "names": {
+         "en": "Health status"
+        },
+        "keyPosition": 10,
+        "roles": [
+         "HEALTH_STATUS"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 4,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          }
+         }
+        ]
+       },
+       {
+        "id": "DISEASE",
+        "name": "Disease",
+        "names": {
+         "en": "Disease"
+        },
+        "keyPosition": 11,
+        "roles": [
+         "DISEASE"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 10,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          },
+          "annotations": [
+           61
+          ]
+         }
+        ]
+       },
+       {
+        "id": "CANCER_SITE",
+        "name": "Cancer site",
+        "names": {
+         "en": "Cancer site"
+        },
+        "keyPosition": 12,
+        "roles": [
+         "CANCER_SITE"
+        ],
+        "values": [
+         {
+          "id": "_Z",
+          "order": 12,
+          "name": "Not applicable",
+          "names": {
+           "en": "Not applicable"
+          },
+          "annotations": [
+           61
+          ]
+         }
+        ]
+       },
+       {
+        "id": "TIME_PERIOD",
+        "name": "Time period",
+        "names": {
+         "en": "Time period"
+        },
+        "keyPosition": 13,
+        "roles": [
+         "TIME_PERIOD"
+        ],
+        "values": [
+         {
+          "start": "2023-01-01T00:00:00",
+          "end": "2023-12-31T23:59:59",
+          "id": "2023",
+          "name": "2023",
+          "names": {
+           "en-US": "2023"
+          }
+         }
+        ]
+       }
+      ]
+     },
+     "attributes": {
+      "dataSet": [],
+      "dimensionGroup": [],
+      "series": [],
+      "observation": []
+     },
+     "annotations": [
+      {
+       "type": "NonProductionDataflow",
+       "text": "true",
+       "texts": {
+        "en": "true"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "title": "REF_AREA",
+       "type": "LAYOUT_ROW"
+      },
+      {
+       "id": "@SDMX",
+       "title": "TIME_PERIOD",
+       "type": "LAYOUT_COLUMN"
+      },
+      {
+       "id": "@SDMX",
+       "title": "DEATH_CAUSE,SEX,AGE,CALC_METHODOLOGY",
+       "type": "LAYOUT_ROW_SECTION"
+      },
+      {
+       "title": "OBS_STATUS,OBS_STATUS2,OBS_STATUS3",
+       "type": "LAYOUT_FLAG"
+      },
+      {
+       "id": "@SDMX",
+       "title": "OBS_STATUS=A,OBS_STATUS2=A,OBS_STATUS3=A,UNIT_MULT=0",
+       "type": "NOT_DISPLAYED"
+      },
+      {
+       "id": "@SDMX",
+       "title": "TIME_PERIOD_START=2015,DEATH_CAUSE=_T,CALC_METHODOLOGY=STANDARD",
+       "type": "DEFAULT"
+      },
+      {
+       "title": "COMBINED_UNIT_MEASURE:UNIT_MEASURE",
+       "type": "COMBINED_CONCEPTS",
+       "text": "COMBINED_UNIT_MEASURE:Unit of measure",
+       "texts": {
+        "en": "COMBINED_UNIT_MEASURE:Unit of measure"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "title": "SEX:OECD.ELS.HD:HCL_SEX_HEALTH(1.0).H",
+       "type": "HIER_CONTEXT"
+      },
+      {
+       "title": "urn:sdmx:org.sdmx.infomodel.metadatastructure.MetadataStructure=OECD:MSD_REF_METADATA(1.0)",
+       "type": "METADATA"
+      },
+      {
+       "type": "HAS_METADATA"
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "360",
+       "texts": {
+        "en": "360"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "490",
+       "texts": {
+        "en": "490"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "10",
+       "texts": {
+        "en": "10"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "460",
+       "texts": {
+        "en": "460"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "50",
+       "texts": {
+        "en": "50"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "220",
+       "texts": {
+        "en": "220"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "310",
+       "texts": {
+        "en": "310"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "400",
+       "texts": {
+        "en": "400"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "270",
+       "texts": {
+        "en": "270"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "160",
+       "texts": {
+        "en": "160"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "180",
+       "texts": {
+        "en": "180"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "60",
+       "texts": {
+        "en": "60"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "30",
+       "texts": {
+        "en": "30"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "200",
+       "texts": {
+        "en": "200"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "190",
+       "texts": {
+        "en": "190"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "510",
+       "texts": {
+        "en": "510"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "450",
+       "texts": {
+        "en": "450"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "230",
+       "texts": {
+        "en": "230"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "360",
+       "texts": {
+        "en": "360"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "80",
+       "texts": {
+        "en": "80"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "320",
+       "texts": {
+        "en": "320"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "40",
+       "texts": {
+        "en": "40"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "240",
+       "texts": {
+        "en": "240"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "410",
+       "texts": {
+        "en": "410"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "475",
+       "texts": {
+        "en": "475"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "20",
+       "texts": {
+        "en": "20"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "350",
+       "texts": {
+        "en": "350"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "390",
+       "texts": {
+        "en": "390"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "100",
+       "texts": {
+        "en": "100"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "170",
+       "texts": {
+        "en": "170"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "330",
+       "texts": {
+        "en": "330"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "260",
+       "texts": {
+        "en": "260"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "300",
+       "texts": {
+        "en": "300"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "250",
+       "texts": {
+        "en": "250"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "480",
+       "texts": {
+        "en": "480"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "280",
+       "texts": {
+        "en": "280"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "110",
+       "texts": {
+        "en": "110"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "290",
+       "texts": {
+        "en": "290"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "470",
+       "texts": {
+        "en": "470"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "500",
+       "texts": {
+        "en": "500"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "340",
+       "texts": {
+        "en": "340"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "420",
+       "texts": {
+        "en": "420"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "490",
+       "texts": {
+        "en": "490"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "70",
+       "texts": {
+        "en": "70"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "520",
+       "texts": {
+        "en": "520"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "130",
+       "texts": {
+        "en": "130"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "440",
+       "texts": {
+        "en": "440"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "210",
+       "texts": {
+        "en": "210"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "370",
+       "texts": {
+        "en": "370"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "380",
+       "texts": {
+        "en": "380"
+       }
+      },
+      {
+       "id": "@SDMX",
+       "type": "ORDER",
+       "text": "1000",
+       "texts": {
+        "en": "1000"
+       }
+      }
+     ],
+     "measures": {
+      "observation": [
+       {
+        "id": "OBS_VALUE",
+        "name": "Observation value",
+        "names": {
+         "en": "Observation value"
+        },
+        "isMandatory": false,
+        "roles": [
+         "OBS_VALUE"
+        ],
+        "values": null
+       }
+      ]
+     },
+     "dataSets": [
+      0
+     ]
+    }
+   ]
+  },
+  "errors": []
+ }
+}

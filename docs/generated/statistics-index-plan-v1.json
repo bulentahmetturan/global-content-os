@@ -1,0 +1,341 @@
+{
+  "phase": "DESIGN_AND_FREEZE_HEALTH_STATISTICS_SCHEMA",
+  "as_of": "2026-10-05",
+  "schema_version": "V1",
+  "ddl": "docs/generated/statistics-schema-v1.sql",
+  "ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+  "mode": "REFERENCE_DDL_NOT_A_MIGRATION",
+  "explicit_index_count": 27,
+  "autoindex_count": 22,
+  "principle": "indexes only for real reads; the history table carries its clustered PK + 3 small/partial indexes; FK columns run_id/artifact_id on versions are deliberately unindexed because parent deletes are blocked (no FK scans) and each index multiplies D1 rows written",
+  "indexes": [
+    {
+      "name": "idx_stat_artifacts_retention",
+      "table": "statistics_raw_artifacts",
+      "query_served": "retention sweep of expiring artifacts",
+      "write_cost": "only artifacts with expires_at",
+      "why": "avoid scanning artifacts for expiry",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_artifacts_retention ON statistics_raw_artifacts(retention_class, expires_at) WHERE expires_at IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_ckpt_last_run",
+      "table": "statistics_checkpoints",
+      "query_served": "run → checkpoint",
+      "write_cost": "per checkpoint advance (partial)",
+      "why": "run explainability",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_ckpt_last_run       ON statistics_checkpoints(last_run_id) WHERE last_run_id IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_ckpt_lease",
+      "table": "statistics_checkpoints",
+      "query_served": "expired checkpoint leases",
+      "write_cost": "partial (leased only)",
+      "why": "recovery",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_ckpt_lease          ON statistics_checkpoints(lease_expires_at) WHERE lease_run_id IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_current_latest",
+      "table": "statistics_current_observations",
+      "query_served": "latest observation by series",
+      "write_cost": "1 per current insert, 0–1 per update",
+      "why": "latest-by-series without scanning periods",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_current_latest      ON statistics_current_observations(series_id, period_start DESC);"
+    },
+    {
+      "name": "idx_stat_events_state",
+      "table": "statistics_release_events",
+      "query_served": "outbox by eligibility state",
+      "write_cost": "per state change",
+      "why": "release event feed",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_events_state        ON statistics_release_events(eligibility_state, created_at);"
+    },
+    {
+      "name": "idx_stat_events_url",
+      "table": "statistics_release_events",
+      "query_served": "dedupe against the existing news sub-feed by canonical URL",
+      "write_cost": "1 per event",
+      "why": "TÜİK bulletin dedupe",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_events_url          ON statistics_release_events(canonical_url_key);"
+    },
+    {
+      "name": "idx_stat_geo_parent",
+      "table": "statistics_geographies",
+      "query_served": "Türkiye subtree (children of a geography)",
+      "write_cost": "tiny table",
+      "why": "subnational expansion",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_geo_parent          ON statistics_geographies(parent_geography_id) WHERE parent_geography_id IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_lineage_from",
+      "table": "statistics_lineage_edges",
+      "query_served": "traverse upstream from a node",
+      "write_cost": "append-only, tiny",
+      "why": "independence checks",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_lineage_from        ON statistics_lineage_edges(from_ref);"
+    },
+    {
+      "name": "idx_stat_lineage_to",
+      "table": "statistics_lineage_edges",
+      "query_served": "traverse downstream/mirrors",
+      "write_cost": "append-only, tiny",
+      "why": "duplicate detection",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_lineage_to          ON statistics_lineage_edges(to_ref);"
+    },
+    {
+      "name": "idx_stat_mappings_concept",
+      "table": "statistics_indicator_mappings",
+      "query_served": "concept → mapped indicators by state",
+      "write_cost": "append-only, rare",
+      "why": "cross-source same-concept view",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_mappings_concept    ON statistics_indicator_mappings(concept_code, state);"
+    },
+    {
+      "name": "idx_stat_obsver_quality",
+      "table": "statistics_observation_versions",
+      "query_served": "non-VALID observation lookup",
+      "write_cost": "only SUSPECT/QUARANTINED rows (partial)",
+      "why": "review queues without scanning history",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_obsver_quality      ON statistics_observation_versions(quality_state, created_at) WHERE quality_state <> 'VALID';"
+    },
+    {
+      "name": "idx_stat_obsver_release",
+      "table": "statistics_observation_versions",
+      "query_served": "release → changed observations",
+      "write_cost": "1 per version insert",
+      "why": "release comparison / release rollback inspection",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_obsver_release      ON statistics_observation_versions(release_id, series_id);"
+    },
+    {
+      "name": "idx_stat_obsver_revisions",
+      "table": "statistics_observation_versions",
+      "query_served": "recent material revisions feed",
+      "write_cost": "only revision-class rows (partial)",
+      "why": "revision feed without scanning history",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_obsver_revisions    ON statistics_observation_versions(created_at) WHERE revision_class NOT IN ('NEW_RELEASE','BACKFILL');"
+    },
+    {
+      "name": "idx_stat_policy_planner",
+      "table": "statistics_source_runtime_policy",
+      "query_served": "planner: due ACTIVE/ACTIVATION_GATED sources",
+      "write_cost": "tiny table; partial",
+      "why": "keeps the due-source scan off disabled rows",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_policy_planner      ON statistics_source_runtime_policy(runtime_state, next_due_at) WHERE runtime_state IN ('ACTIVE','ACTIVATION_GATED');"
+    },
+    {
+      "name": "idx_stat_releases_ds_rank",
+      "table": "statistics_releases",
+      "query_served": "dataset → latest release; winner ordering",
+      "write_cost": "1 row per release insert",
+      "why": "latest-release lookups without sorting releases",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_releases_ds_rank    ON statistics_releases(dataset_id, release_rank DESC);"
+    },
+    {
+      "name": "idx_stat_releases_feed",
+      "table": "statistics_releases",
+      "query_served": "release feed by published_at",
+      "write_cost": "1 per production release",
+      "why": "feed without scanning canary rows",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_releases_feed       ON statistics_releases(published_at DESC) WHERE release_class = 'PRODUCTION';"
+    },
+    {
+      "name": "idx_stat_runs_lease_expiry",
+      "table": "statistics_ingestion_runs",
+      "query_served": "lease expiry sweep of RUNNING runs",
+      "write_cost": "partial (RUNNING only)",
+      "why": "recovery of abandoned runs",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_runs_lease_expiry   ON statistics_ingestion_runs(lease_expires_at) WHERE status = 'RUNNING';"
+    },
+    {
+      "name": "idx_stat_runs_source_latest",
+      "table": "statistics_ingestion_runs",
+      "query_served": "latest run per source",
+      "write_cost": "1 per run insert (+ on planned_at change: never)",
+      "why": "source health read model",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_runs_source_latest  ON statistics_ingestion_runs(source_id, planned_at DESC);"
+    },
+    {
+      "name": "idx_stat_sdim_canonical",
+      "table": "statistics_series_dimensions",
+      "query_served": "extension dimension filter by canonical code",
+      "write_cost": "only mapped rows (partial)",
+      "why": "reviewed-code filtering",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_sdim_canonical      ON statistics_series_dimensions(dimension_key, canonical_value_code, series_id) WHERE canonical_value_code IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_sdim_source",
+      "table": "statistics_series_dimensions",
+      "query_served": "extension dimension filter by source code",
+      "write_cost": "1 per extension row",
+      "why": "bounded filtering without JSON scans",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_sdim_source         ON statistics_series_dimensions(dimension_key, source_value_code, series_id);"
+    },
+    {
+      "name": "idx_stat_series_geo_ind",
+      "table": "statistics_series",
+      "query_served": "geography → series; Türkiye-only subject query",
+      "write_cost": "1 per new series",
+      "why": "subject-geography reads without scanning indicators",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_series_geo_ind      ON statistics_series(geography_id, indicator_id);"
+    },
+    {
+      "name": "idx_stat_series_ind_geo",
+      "table": "statistics_series",
+      "query_served": "indicator + geography (+sex, age) → series",
+      "write_cost": "1 per new series",
+      "why": "primary bounded lookup for readers",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_series_ind_geo      ON statistics_series(indicator_id, geography_id, sex_code, age_group_code);"
+    },
+    {
+      "name": "idx_stat_val_nonvalid",
+      "table": "statistics_validation_events",
+      "query_served": "non-VALID validation feed",
+      "write_cost": "partial",
+      "why": "operations triage",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_val_nonvalid        ON statistics_validation_events(status, created_at) WHERE status <> 'VALID';"
+    },
+    {
+      "name": "idx_stat_val_release",
+      "table": "statistics_validation_events",
+      "query_served": "validation by release",
+      "write_cost": "partial per event",
+      "why": "release QA",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_val_release         ON statistics_validation_events(release_id, created_at) WHERE release_id IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_val_run",
+      "table": "statistics_validation_events",
+      "query_served": "validation by run",
+      "write_cost": "partial per event",
+      "why": "run QA",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_val_run             ON statistics_validation_events(run_id) WHERE run_id IS NOT NULL;"
+    },
+    {
+      "name": "idx_stat_val_version",
+      "table": "statistics_validation_events",
+      "query_served": "validation by series/version",
+      "write_cost": "partial per event",
+      "why": "observation QA",
+      "ddl": "CREATE INDEX IF NOT EXISTS idx_stat_val_version         ON statistics_validation_events(series_id, period_key, created_at) WHERE series_id IS NOT NULL;"
+    },
+    {
+      "name": "uq_stat_runs_open_unit",
+      "table": "statistics_ingestion_runs",
+      "query_served": "at most one open run per bounded unit (idempotency/lease)",
+      "write_cost": "1 per run insert/terminal transition (partial)",
+      "why": "prevents double execution of the same unit",
+      "ddl": "CREATE UNIQUE INDEX IF NOT EXISTS uq_stat_runs_open_unit ON statistics_ingestion_runs(dataset_id, planned_unit_key) WHERE status IN ('PLANNED','RUNNING');"
+    }
+  ],
+  "implicit_unique_indexes": [
+    {
+      "name": "sqlite_autoindex_statistics_checkpoints_1",
+      "table": "statistics_checkpoints"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_checkpoints_2",
+      "table": "statistics_checkpoints"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_concepts_1",
+      "table": "statistics_concepts"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_datasets_1",
+      "table": "statistics_datasets"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_datasets_2",
+      "table": "statistics_datasets"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_geographies_1",
+      "table": "statistics_geographies"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_geographies_2",
+      "table": "statistics_geographies"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_indicators_1",
+      "table": "statistics_indicators"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_indicators_2",
+      "table": "statistics_indicators"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_ingestion_runs_1",
+      "table": "statistics_ingestion_runs"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_lineage_edges_1",
+      "table": "statistics_lineage_edges"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_lineage_edges_2",
+      "table": "statistics_lineage_edges"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_raw_artifacts_1",
+      "table": "statistics_raw_artifacts"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_raw_artifacts_2",
+      "table": "statistics_raw_artifacts"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_release_events_1",
+      "table": "statistics_release_events"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_release_events_2",
+      "table": "statistics_release_events"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_releases_1",
+      "table": "statistics_releases"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_releases_2",
+      "table": "statistics_releases"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_series_1",
+      "table": "statistics_series"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_series_2",
+      "table": "statistics_series"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_sources_1",
+      "table": "statistics_sources"
+    },
+    {
+      "name": "sqlite_autoindex_statistics_validation_events_1",
+      "table": "statistics_validation_events"
+    }
+  ],
+  "audited_bounded_patterns": [
+    "source → datasets",
+    "dataset → releases",
+    "indicator+geography → series",
+    "series+period → current value",
+    "series → historical observations",
+    "release → changed observations",
+    "observation → provenance",
+    "source → latest run",
+    "run → checkpoint",
+    "release event feed",
+    "quality/validation lookup"
+  ],
+  "proof": "docs/generated/statistics-schema-validation-v1.json (query_plans, 19 plans, fixture 1,500 series / 36,000 versions / 400 releases / 800 runs)",
+  "write_amplification_rows_per_operation": {
+    "first_observation": "4 (version 1 + release idx 1; current 1 + latest idx 1)",
+    "revised_observation": "4–6 (version 1 + release idx 1 + revision idx 1 [+ quality idx]; current update 1)",
+    "confirmation_only": "1 (current update, no indexed column changes)",
+    "new_series": "4 + 3 per extension dimension",
+    "run_lifecycle": "~12 over its states",
+    "release": "4"
+  }
+}

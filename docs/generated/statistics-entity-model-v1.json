@@ -1,0 +1,216 @@
+{
+  "phase": "DESIGN_HEALTH_STATISTICS_PIPELINE_ARCHITECTURE",
+  "as_of": "2026-10-05",
+  "source_base_version": "V1",
+  "mode": "ARCHITECTURE_ONLY",
+  "note": "Design record. No schema, migration, route, cron, binding or code exists for it.",
+  "note2": "Conceptual only; not executable SQL.",
+  "entities": [
+    {
+      "entity": "statistics_sources",
+      "purpose": "Registry mirror of the frozen source families (area, disposition, authority level, registry version). Identity only; never runtime activation.",
+      "canonical_identity": "source_id (frozen slug, e.g. WHO_HEALTH_STATISTICS)",
+      "mutability": "immutable per SOURCE_BASE_VERSION; changes only by a source-base version bump",
+      "parents": "none",
+      "critical_uniqueness": "PK source_id",
+      "retention": "durable",
+      "high_value_indexes": "PK only (tiny table, <40 rows)",
+      "notes": "Seeded from docs/generated/statistics-source-registry-v1.json. `area` = TURKEY|GLOBAL is a property of the SOURCE FAMILY, never of an observation."
+    },
+    {
+      "entity": "statistics_source_runtime_policy",
+      "purpose": "Separate runtime governance per source (and optionally per dataset): state, gates, cadence class, budgets, approvals.",
+      "canonical_identity": "(source_id, dataset_id NULLable) ; dataset_id NULL = source-wide row",
+      "mutability": "mutable; transitions to CANARY_ONLY/ACTIVE only through an owner-authorized action (approval ref recorded); machine may only move toward PAUSED",
+      "parents": "statistics_sources",
+      "critical_uniqueness": "PK (source_id, COALESCE(dataset_id,''))",
+      "retention": "durable (policy history in validation_events kind POLICY_CHANGE)",
+      "high_value_indexes": "PK; (state, next_due) for the planner",
+      "notes": "States: DISABLED (default), CANARY_ONLY, ACTIVE, PAUSED, RETIRED. DISCOVERED/ARCHITECTURE_READY are registry attributes, not runtime states. Holds terms_status, activation_legal_gate, auth_secret_name (name only), rate-limit/write budgets, failure_count, lease (Worker-owned, Evergreen precedent)."
+    },
+    {
+      "entity": "statistics_datasets",
+      "purpose": "One DATASET / DATAFLOW (or nested HSGM group, SGK workbook block) inside a source family.",
+      "canonical_identity": "dataset_id = '<source_id>:<native_dataset_key>' (no version inside)",
+      "mutability": "immutable identity; descriptive columns additive",
+      "parents": "statistics_sources",
+      "critical_uniqueness": "UNIQUE(source_id, native_dataset_key)",
+      "retention": "durable",
+      "high_value_indexes": "(source_id); (reader_class)",
+      "notes": "Native key examples: ESTAT:HLTH_SHA11_HF, GHO:WHOSIS_000001, WB:2/SH.XPD.CHEX.GD.ZS, SGK:YILLIK_BLM_4, HSGM:grip_weekly_respiratory."
+    },
+    {
+      "entity": "statistics_releases",
+      "purpose": "First-class RELEASE: the publication/version context of a dataset (edition, bulletin, file, API snapshot).",
+      "canonical_identity": "release_id = 'rel_' + sha256(dataset_id|release_kind|release_key)[:20]; release_key = edition label or source version stamp or content digest (see ADR-003)",
+      "mutability": "immutable after FINALIZE (status and counters mutable only until then); canary releases deletable",
+      "parents": "statistics_datasets",
+      "critical_uniqueness": "UNIQUE(dataset_id, release_kind, release_key)",
+      "retention": "durable (canary class 30 days)",
+      "high_value_indexes": "(dataset_id, release_ordinal DESC); (source_id, published_at DESC); (status)",
+      "notes": "Fields: release_kind EDITION|PUBLICATION|FILE_VERSION|API_SNAPSHOT; edition label; published_at (source), retrieved_at, reference coverage (period_from/to), source_url, upstream_version, status {CANARY, PENDING_REVIEW, FINAL, REPLACED, WITHDRAWN}, replaces_release_id, release_ordinal (deterministic rank, see §9), terms/access context (terms_status + gate at retrieval time)."
+    },
+    {
+      "entity": "statistics_raw_artifacts",
+      "purpose": "Evidence files and capture descriptors (PDF, XLSX, ZIP, large CSV/JSON/XML, or an API request/response descriptor).",
+      "canonical_identity": "artifact_id = 'art_' + sha256(content) (content-addressed); API descriptors: 'req_' + sha256(request_descriptor|response_digest)",
+      "mutability": "immutable; retention state mutable",
+      "parents": "statistics_releases (and run)",
+      "critical_uniqueness": "UNIQUE(release_id, artifact_id)",
+      "retention": "by retention class R0–R3 (§11, §24)",
+      "high_value_indexes": "(release_id); (retention_class, expires_at)",
+      "notes": "Fields: url, filename, content_type, byte_size, source_checksum (if offered), local_sha256, retrieved_at, parser_version, parse_status, store_ref (R2 key or NULL = metadata-only), extraction_json (page/table regions), retention_class."
+    },
+    {
+      "entity": "statistics_geographies",
+      "purpose": "Canonical geography registry preserving source-native geography.",
+      "canonical_identity": "canonical_geo_id = '<scheme>:<code>' e.g. ISO3:TUR, M49:792, NUTS:TR10, TUIK_IBBS:TR100, WHO_REGION:EUR, AGG:EU27_2020",
+      "mutability": "immutable identity; validity window and labels additive",
+      "parents": "self (parent_geo_id)",
+      "critical_uniqueness": "PK canonical_geo_id; UNIQUE(scheme, code, scheme_version)",
+      "retention": "durable",
+      "high_value_indexes": "(kind); (parent_geo_id)",
+      "notes": "kind COUNTRY|TERRITORY|PROVINCE|NUTS_REGION|SUPRANATIONAL|AGGREGATE|HISTORICAL; valid_from/valid_to for changing definitions; label variants (Turkiye/Türkiye) are labels, not identities."
+    },
+    {
+      "entity": "statistics_concepts",
+      "purpose": "Canonical statistical concepts (human-curated), e.g. LIFE_EXPECTANCY_AT_BIRTH.",
+      "canonical_identity": "concept_id (slug, never derived from a label)",
+      "mutability": "append-only; definition changes create a new concept_id",
+      "parents": "none",
+      "critical_uniqueness": "PK concept_id",
+      "retention": "durable",
+      "high_value_indexes": "PK; (domain)",
+      "notes": "Carries domain (frozen 30-domain taxonomy), canonical measure_type, unit class and a definition reference. No autonomous creation: only reviewed changes."
+    },
+    {
+      "entity": "statistics_indicators",
+      "purpose": "Source-native indicator/measure per dataset (the native id is preserved verbatim).",
+      "canonical_identity": "indicator_id = '<dataset_id>#<native_indicator_code>'",
+      "mutability": "immutable identity; definition digest additive (drift detection)",
+      "parents": "statistics_datasets",
+      "critical_uniqueness": "UNIQUE(dataset_id, native_indicator_code)",
+      "retention": "durable",
+      "high_value_indexes": "(dataset_id)",
+      "notes": "Stores native label (any language), native unit, definition text digest. Mapping to a concept lives in statistics_mappings."
+    },
+    {
+      "entity": "statistics_mappings",
+      "purpose": "Reviewed, auditable mappings: indicator→concept, native dimension value→canonical value, native geography→canonical geography.",
+      "canonical_identity": "(kind, from_ref, to_ref, mapping_version)",
+      "mutability": "append-only; a changed mapping is a new row; state transitions logged",
+      "parents": "statistics_indicators / geographies / concepts",
+      "critical_uniqueness": "UNIQUE(kind, from_ref, to_ref, mapping_version)",
+      "retention": "durable",
+      "high_value_indexes": "(kind, from_ref); (to_ref, state)",
+      "notes": "state EXACT|COMPATIBLE|NON_EQUIVALENT|REVIEW_REQUIRED (absence = UNMAPPED). reviewed_by, reviewed_at, evidence_ref. Written only by reviewed repo mapping files applied by an owner-authorized job; no autonomous ontology mutation."
+    },
+    {
+      "entity": "statistics_series",
+      "purpose": "STABLE statistical identity: everything except time, release and value.",
+      "canonical_identity": "series_id = 'ser_' + base32(sha256(canonical_series_key))[:26]; canonical_series_key stored in clear (collision check)",
+      "mutability": "immutable identity columns; counters/first_seen mutable",
+      "parents": "statistics_datasets, statistics_indicators, statistics_geographies",
+      "critical_uniqueness": "UNIQUE(canonical_series_key)",
+      "retention": "durable",
+      "high_value_indexes": "(geo_id, concept_id); (concept_id, geo_id); (dataset_id, indicator_id); (dimset_hash)",
+      "notes": "Typed core columns: geo_id, indicator_id, concept_id (NULL until mapped), sex, age_group, unit, measure_type, rate_basis, standardization, estimate_type, scenario_variant, plus dimset_hash and lossless source_key_json (never queried). Extras go to statistics_series_dimensions."
+    },
+    {
+      "entity": "statistics_series_dimensions",
+      "purpose": "Extensible, queryable extra source dimensions (cause/ICD group, NACE activity, economic sector, sex-migrant status, province when not the main geo, …).",
+      "canonical_identity": "(series_id, dim_code)",
+      "mutability": "immutable",
+      "parents": "statistics_series",
+      "critical_uniqueness": "PK (series_id, dim_code)",
+      "retention": "durable",
+      "high_value_indexes": "(dim_code, value_code, series_id) — covering lookup for bounded filters",
+      "notes": "Chosen over JSON-only so extra dimensions stay filterable without JSON scans."
+    },
+    {
+      "entity": "statistics_observation_versions",
+      "purpose": "Immutable VALUE ASSERTION for series + reference period + release.",
+      "canonical_identity": "observation_version_id = 'obv_' + sha256(series_id|period_key|release_id)[:24]",
+      "mutability": "immutable (value fields); only quality_state may advance via a validation event (trigger-limited column)",
+      "parents": "statistics_series, statistics_releases, statistics_ingestion_runs",
+      "critical_uniqueness": "UNIQUE(series_id, period_key, release_id)",
+      "retention": "durable (history normally never deleted; canary releases excepted)",
+      "high_value_indexes": "PK; UNIQUE(series_id, period_key, release_id) serves history reads; (release_id, series_id) partial for release comparison; (revision_class, created_at) partial WHERE revision_class<>'NEW_RELEASE'",
+      "notes": "Fields: period_native, period_granularity, period_start/end, period_key; value_status VALUE|MISSING|NOT_APPLICABLE|SUPPRESSED|UNKNOWN; numeric_value (NULL unless VALUE); value_text (verbatim); lower/upper + interval_type; native flags; is_provisional; value_digest; supersedes_version_id; revision_class; revision_reason_source (verbatim, only if source states); quality_state VALID|SUSPECT|QUARANTINED; run_id; source_locator (SDMX key+period | GHO Id | xlsx sheet!range | pdf page/table/row); extraction_method; artifact_id (file sources)."
+    },
+    {
+      "entity": "statistics_current_observations",
+      "purpose": "CURRENT PROJECTION: the latest valid version per (series, period), denormalized for reads.",
+      "canonical_identity": "PK (series_id, period_key)",
+      "mutability": "mutable by design — only written in the same atomic batch as the version insert/confirmation; rebuildable from versions",
+      "parents": "statistics_series",
+      "critical_uniqueness": "PK (series_id, period_key)",
+      "retention": "rebuildable (durable but disposable)",
+      "high_value_indexes": "PK; (series_id, period_start DESC) for latest-by-series",
+      "notes": "Copies value, value_status, unit via series, current_version_id, previous_version_id, revision_count, last_changed_at, last_confirmed_release_id/at, quality_state."
+    },
+    {
+      "entity": "statistics_ingestion_runs",
+      "purpose": "One bounded execution of one reader against one dataset scope.",
+      "canonical_identity": "run_id = 'run_' + ULID (Worker-issued)",
+      "mutability": "status/counters mutable until terminal; terminal rows immutable",
+      "parents": "statistics_datasets (source)",
+      "critical_uniqueness": "PK run_id; at most one non-terminal run per (source_id, dataset_id, scope_key) via lease",
+      "retention": "summary durable 400 days then compacted; detail 90 days",
+      "high_value_indexes": "(source_id, started_at DESC); (status)",
+      "notes": "Holds reader_class, adapter_version, parser_version, mapping_version, run_mode CANARY|PRODUCTION, stage, bounds_json, counters (fetched, series_touched, inserted, revised, unchanged, rejected), failure_class, error digest, activation attestation ref."
+    },
+    {
+      "entity": "statistics_checkpoints",
+      "purpose": "Per-bounded-unit resume/idempotency state.",
+      "canonical_identity": "(source_id, dataset_id, scope_key); scope_key = deterministic bounded-unit descriptor",
+      "mutability": "mutable; advances only on successful completion of that unit",
+      "parents": "statistics_datasets",
+      "critical_uniqueness": "PK (source_id, dataset_id, scope_key)",
+      "retention": "durable (small)",
+      "high_value_indexes": "PK",
+      "notes": "cursor_json, last_release_id, last_source_stamp, last_content_digest, last_success_at, parser_version. Cursor never advances on failure (Evergreen precedent)."
+    },
+    {
+      "entity": "statistics_lineage_edges",
+      "purpose": "Source-level lineage graph (source/dataset/concept nodes).",
+      "canonical_identity": "(from_node, to_node, edge_type)",
+      "mutability": "append-only; evidence/state revisable by a new row",
+      "parents": "statistics_sources/datasets",
+      "critical_uniqueness": "UNIQUE(from_node, to_node, edge_type)",
+      "retention": "durable",
+      "high_value_indexes": "(from_node); (to_node)",
+      "notes": "Edge types: DERIVED_FROM, MIRROR_OF, CO_OWNED_WITH, SUPERSEDES. Seeded from statistics-source-lineage-v1.json (evidence_status VERIFIED|PARTIAL|UNKNOWN). Defines independence for QA and editorial interpretation."
+    },
+    {
+      "entity": "statistics_validation_events",
+      "purpose": "Append-only log of validation outcomes: structural, semantic, revision, provenance, cross-source QA, schema drift, quality transitions, policy changes.",
+      "canonical_identity": "event_id = 'val_' + ULID",
+      "mutability": "append-only",
+      "parents": "run / release / series (optional)",
+      "critical_uniqueness": "PK event_id",
+      "retention": "180 days for passed/info; durable for QUARANTINE/POLICY_CHANGE/CROSS_SOURCE_CONFLICT",
+      "high_value_indexes": "(release_id, kind); (series_id, created_at); (kind, created_at)",
+      "notes": "Secondary readers (OWID, CHR, UN SDG) write ONLY here (CROSS_SOURCE_QA payloads), never canonical observations."
+    },
+    {
+      "entity": "statistics_release_events",
+      "purpose": "Outbox for the one-way TIME_SENSITIVE bridge.",
+      "canonical_identity": "event_id = 'sev_' + sha256(release_id|event_type|materiality_digest)[:20]",
+      "mutability": "status mutable (PENDING→ELIGIBLE|SUPPRESSED→DELIVERED|REJECTED); payload immutable",
+      "parents": "statistics_releases",
+      "critical_uniqueness": "UNIQUE(event_id)",
+      "retention": "durable 400 days",
+      "high_value_indexes": "(status, created_at)",
+      "notes": "See §21 for the payload contract. Never contains observations as content."
+    }
+  ],
+  "rejected_entities": [
+    {
+      "statistics_provenance": "merged into versions/runs/releases/artifacts (a row per observation would double D1 writes)"
+    },
+    {
+      "statistics_checkpoints_per_series": "checkpoints are per bounded unit"
+    }
+  ]
+}

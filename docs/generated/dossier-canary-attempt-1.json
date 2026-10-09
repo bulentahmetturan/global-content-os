@@ -1,0 +1,92 @@
+{
+  "record": "DOSSIER_FIRST_CLINICALTRIALS_CANARY_ATTEMPT_1",
+  "result": "INCOMPLETE: invocation 5 of the single logical run returned an HTTP error; the run was left RUNNING in DERIVE (lease expired); shutdown and disabled redeploy completed cleanly",
+  "utc": "2026-10-04T20:44:14Z..20:50Z",
+  "owner_gate": "package YES, emergency rollback YES (rollback not needed, not performed)",
+  "versions": {
+    "before_rotation": "4b121a92-d94a-4b2a-9b05-6318aed30dbd",
+    "precanary_disabled_with_new_token (rollback target)": "d290149d-3b7c-4515-8ea6-40fff4f85269",
+    "canary_enabled": "632f3711-5365-4e6c-9a02-8216e54f36ef",
+    "post_canary_disabled": "9b714c8d-875e-474b-9570-5735a931aa58",
+    "code_commit": "a987c1a (worker code d78a949)"
+  },
+  "ops_token": {
+    "rotated_for_session": true,
+    "value_exposed": false,
+    "transient_token_cleared": true,
+    "leak_check_of_captured_files": "no token found"
+  },
+  "controls_enabled_during_run": [
+    "canary_enabled",
+    "manual_runs_allowed",
+    "promotion_enabled",
+    "reader:dossier-clinicaltrials-frontier:enabled"
+  ],
+  "controls_after_shutdown": "all four back to 0; platform capacity keys unchanged; OECD never enabled",
+  "run": {
+    "run_id": "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d",
+    "logical_runs_created": 1,
+    "second_run_created": false,
+    "source": "ClinicalTrials.gov API v2 (host-guarded production reader)",
+    "source_items_fetched": 100,
+    "source_request_count": 1,
+    "invocation_statements": [
+      733,
+      751,
+      729,
+      752,
+      "5th: no response body (HTTP error)"
+    ],
+    "max_d1_statements_per_invocation_observed": 752,
+    "ceiling": 800,
+    "persisted_state": {
+      "status": "RUNNING",
+      "phase": "DERIVE",
+      "invocations_recorded": 4,
+      "statements_used_recorded": 2965,
+      "lease": "expired 20:48:52Z",
+      "work_rows_done": 100,
+      "progress_derived": 52,
+      "progress_watch": 50,
+      "progress_not_editorial_topic": 2
+    },
+    "local_deterministic_replay_for_comparison": "invocations 1-4 are statement-for-statement identical to the live run (733/751/729/752); after invocation 4 the replay has derived=32, the live run has derived=52, so invocation 5 processed about 20 concepts (~10 s) and then terminated without saving (statements_used and invocations were not updated, lease still held, no FAILED record)"
+  },
+  "data_after": {
+    "external_source_items": 100,
+    "observations": 414,
+    "observations_eligible": 406,
+    "observations_comparator_or_control_not_eligible": 8,
+    "concepts_proposed": 396,
+    "concepts_active": 0,
+    "aliases": 396,
+    "signal_aggregates": 150,
+    "aggregated_concepts": 50,
+    "durable_candidates": 0,
+    "candidate_snapshots": 0,
+    "reviews": 0,
+    "signal_runs_provenance_row": 0,
+    "provenance_refs": 0,
+    "note": "signal-run provenance is written at FINALIZE, which was not reached"
+  },
+  "live_source_vs_recorded": "the 100 NCT ids equal the recorded fixture exactly (all first-posted 2026-10-02): the API returned the same page",
+  "policy_integrity": "PASS so far: 0 candidates, 0 snapshots, 0 reviews, 0 ACTIVE concepts, one signal family only",
+  "failure_classification": "CAUSE UNRESOLVED. Observed: HTTP error on invocation 5 (the CLI printed no status; a non-JSON platform error page or a JSON error both read as 'no status'); no FAILED record, so the runner's own error handler did not complete: consistent with the invocation being terminated by the platform mid-DERIVE rather than a handled application error. Not proven: CPU limit, memory limit, subrequest/D1 limit, transient platform error. No limit was exceeded by the runner's own accounting (invocation 5 was far below 800 statements).",
+  "instrumentation_gaps": [
+    "operator CLI did not print the HTTP status / body of a failed step (fixed locally in this commit: status, error code and the first 160 bytes of a non-JSON body are now printed)",
+    "the filtered wrangler tail captured no usable fields (events arrived but the selected keys were null), so no per-request CPU/wall data exists",
+    "no Workers Logs / observability retention"
+  ],
+  "live_cpu_proof": "UNAVAILABLE",
+  "total_d1_accounting_difference": "NOT_APPLICABLE (run incomplete; first four invocations match the local replay exactly)",
+  "resume_path": "the designed recovery is to resume the SAME run id (lease already expired); it needs a new owner authorization for an enable cycle (it is not covered by the shutdown that already ran)",
+  "shutdown": {
+    "controls_off": true,
+    "disabled_redeploy": "PASS (DOSSIER_CANARY_ENABLED false)",
+    "gcos": "READY, blocked [], degraded []",
+    "dossier": "DISABLED",
+    "retention": "CANARY_HOLD_UNTIL_REVIEW (nothing deleted)"
+  },
+  "p5": "PASS",
+  "readiness": "98% (100% not awarded: the run did not complete)"
+}

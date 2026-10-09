@@ -11,6 +11,13 @@ database_name = "global-content-os"
 database_id = "c0ce92dc-9842-4dd9-9d05-a8d09e798b34"
 migrations_dir = "migrations"
 
+# HEALTH_STATISTICS (dormant): the dedicated statistics database. Added only by the reviewed owner deployment (release/statistics-binding.patch).
+[[d1_databases]]
+binding = "STATS_DB"
+database_name = "global-content-os-stats"
+database_id = "c67cfa1e-e508-4933-8a42-7684e32b5ec5"
+migrations_dir = "migrations/statistics"
+
 [assets]
 directory = "apps/hub"
 binding = "ASSETS"
@@ -20,7 +27,8 @@ not_found_handling = "single-page-application"
 # Production: wrangler secret put CCOS_HANDOFF_URL / CCOS_HANDOFF_TOKEN / STATUS_CALLBACK_TOKEN / TIP_RADAR_INGEST_TOKEN / HUB_OPERATOR_TOKEN / OPENALEX_API_KEY
 
 [triggers]
-crons = ["* * * * *"]
+# The second trigger is DOSSIER recurring; the third is the reviewed HEALTH_STATISTICS daily poll. Each has an isolated handler.
+crons = ["* * * * *", "*/5 * * * *", "0 3 * * *"]
 
 [vars]
 ENVIRONMENT = "production"
@@ -28,6 +36,14 @@ CCOS_HANDOFF_STUB = "false"
 # Tıp Topluluğu continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
 TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED = "true"
 BIBLE_VERSION = "4.0"
+# DOSSIER canary master switch: OFF. Nothing in DOSSIER runs unless this is "true" AND an operator enables it (see docs/DOSSIER-CANARY-RUNBOOK.md).
+DOSSIER_CANARY_ENABLED = "false"
+# DOSSIER recurring operation master switch: OFF. The */5 cron tick reads nothing unless this is "true" AND the owner enabled recurring and a source state.
+DOSSIER_RECURRING_ENABLED = "true"
+# HEALTH_STATISTICS canary master switch: OFF (post-canary shutdown S10; was true only for the authorized first canary).
+STATISTICS_CANARY_ENABLED = "false"
+# HEALTH_STATISTICS recurring scheduler: ON by owner review. The daily 03:00 UTC cron executes at most one ACTIVE, canary-passed source admitted by the bounded planner; only EUROSTAT_HEALTH has a production cadence/reader.
+STATISTICS_SCHEDULER_ENABLED = "true"
 
 [ai]
 binding = "AI"

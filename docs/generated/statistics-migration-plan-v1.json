@@ -1,0 +1,83 @@
+{
+  "phase": "DESIGN_AND_FREEZE_HEALTH_STATISTICS_SCHEMA",
+  "as_of": "2026-10-05",
+  "schema_version": "V1",
+  "ddl": "docs/generated/statistics-schema-v1.sql",
+  "ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+  "mode": "REFERENCE_DDL_NOT_A_MIGRATION",
+  "executed": false,
+  "namespace": "migrations/statistics/",
+  "initial_migration": "0001_statistics_schema_v1.sql",
+  "binding": "STATS_DB (future)",
+  "isolation_evidence": {
+    "wrangler_default_pattern": "migrations/*.sql (non-recursive; minimatch) — wrangler 4.145.0 getD1MigrationFiles; a subdirectory is not seen by the content DB",
+    "existing_tests": "scripts read readdirSync('migrations') filtered by /^\\d{4}_.*\\.sql$/, so migrations/statistics/ is invisible to them"
+  },
+  "steps": [
+    {
+      "n": 1,
+      "step": "owner approval + latest-main integration check",
+      "executes": "none",
+      "rollback": "n/a"
+    },
+    {
+      "n": 2,
+      "step": "create dedicated D1 database (global-content-os-statistics)",
+      "executes": "wrangler d1 create (owner-authorized)",
+      "rollback": "delete the empty database (no content DB impact)"
+    },
+    {
+      "n": 3,
+      "step": "add [[d1_databases]] STATS_DB with migrations_dir = migrations/statistics",
+      "executes": "edit wrangler.toml (separate reviewed commit)",
+      "rollback": "revert the binding commit; Worker without the binding must keep running (statistics code is dormant)"
+    },
+    {
+      "n": 4,
+      "step": "migrations/statistics/0001_statistics_schema_v1.sql = the frozen reference DDL (IF NOT EXISTS, no DROP)",
+      "executes": "wrangler d1 migrations apply STATS_DB --local first, then --remote with authorization",
+      "rollback": "restore from D1 time travel bookmark taken before apply, or drop the dedicated database (empty); content DB untouched"
+    },
+    {
+      "n": 5,
+      "step": "schema integrity smoke test (scripts/statistics-schema-proof.mjs against the migrated local DB)",
+      "executes": "local",
+      "rollback": "n/a"
+    },
+    {
+      "n": 6,
+      "step": "registry bootstrap: seed statistics_sources, statistics_datasets, geographies, lineage edges from the frozen JSON artifacts",
+      "executes": "bootstrap job (idempotent INSERT OR IGNORE)",
+      "rollback": "seed rows are re-seedable; no history exists yet"
+    },
+    {
+      "n": 7,
+      "step": "source policies: ensure NO policy row or DISABLED for every source",
+      "executes": "bootstrap job",
+      "rollback": "n/a"
+    },
+    {
+      "n": 8,
+      "step": "local/dev canary of one API reader against a disposable database",
+      "executes": "local only",
+      "rollback": "discard database"
+    },
+    {
+      "n": 9,
+      "step": "first owner-authorized production canary (ACTIVATION_GATED, CANARY run, canary release)",
+      "executes": "owner action",
+      "rollback": "canary versions purgeable; release row remains as tombstone; policy back to DISABLED/PAUSED"
+    }
+  ],
+  "rollback_boundaries": [
+    "Everything lives in the dedicated database; no step reads or writes the content DB.",
+    "Before data exists, rollback = drop the dedicated database.",
+    "After data exists, schema rollback is forbidden (canonical history); only forward additive migrations; data recovery by D1 time travel.",
+    "Worker code must tolerate a missing STATS_DB binding (dormant)."
+  ],
+  "forward_migration_rules": [
+    "additive only: new tables/columns/indexes; never alter immutable columns",
+    "any breaking change = new schema_version + data migration plan reviewed by the owner",
+    "number space is private to migrations/statistics/ (independent of 0027–0030 in the content DB)"
+  ]
+}

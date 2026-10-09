@@ -1,0 +1,657 @@
+{
+  "phase": "HEALTH_STATISTICS_LOCAL_READINESS_SPRINT_TO_75",
+  "as_of": "2026-10-06",
+  "master_denominator": "84_FROZEN",
+  "scoring_model": {
+    "STRICT_COMPLETION": "COMPLETE_PROVEN = 100, anything else = 0",
+    "LOCAL_READY_SCORE": {
+      "COMPLETE_PROVEN": 100,
+      "READY_LOCAL": 80,
+      "DESIGNED_AND_TEST_CONTRACT_READY": 60,
+      "PARTIAL": 30,
+      "BLOCKED": 0
+    },
+    "rules": [
+      "production-only items are READY_LOCAL at most before live production proof",
+      "items needing live production evidence are never COMPLETE_PROVEN locally",
+      "no intermediate percentages",
+      "no new top-level master items"
+    ]
+  },
+  "live_evidence_only_items": [
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+  ],
+  "items": [
+    {
+      "item": "01",
+      "name": "SOURCE BASE / INVENTORY",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "02",
+      "name": "SOURCE AUTHORITY / LINEAGE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "03",
+      "name": "PIPELINE ARCHITECTURE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "04",
+      "name": "SCHEMA V1",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "05",
+      "name": "MIGRATION NAMESPACE / MIGRATION V1",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "06",
+      "name": "STORAGE FOUNDATION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "07",
+      "name": "SQLITE <-> LOCAL D1 PARITY",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "08",
+      "name": "CRASH / REPLAY / LEASE / CONCURRENCY",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "09",
+      "name": "QUERY-PLAN / BOUNDEDNESS",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "10",
+      "name": "LOCAL STATS_DB RUNTIME",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "11",
+      "name": "STATS_DB BINDING ISOLATION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "12",
+      "name": "CONTENT-DB ISOLATION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "13",
+      "name": "FAIL-CLOSED WITHOUT STATS_DB",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "14",
+      "name": "SAFE SOURCE BOOTSTRAP / P5",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "15",
+      "name": "FIRST API SOURCE SELECTION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "16",
+      "name": "EUROSTAT DEMO_MLEXPEC CONTRACT",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "17",
+      "name": "READER IMPLEMENTATION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "18",
+      "name": "BOUNDED FETCH / PERIOD WINDOWS",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "19",
+      "name": "SOURCE / SERIES IDENTITY",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "20",
+      "name": "RELEASE / REVISION MODEL",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "21",
+      "name": "CURRENT PROJECTION",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "22",
+      "name": "PROVENANCE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "23",
+      "name": "CHECKPOINT / RESUME",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "24",
+      "name": "READER CRASH / REPLAY",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "25",
+      "name": "REAL WORKER LOCAL E2E",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "26",
+      "name": "LIVE READ-ONLY SOURCE SMOKE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "27",
+      "name": "LOCAL READER PROFILE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "28",
+      "name": "READER LOCAL FREEZE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "29",
+      "name": "EUROSTAT COMMERCIAL REUSE",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "30",
+      "name": "AUTOMATED / PERIODIC RETRIEVAL",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "31",
+      "name": "TURKIYE REUSE STATUS",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "32",
+      "name": "ATTRIBUTION CONTRACT",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "33",
+      "name": "DATASET-SPECIFIC LEGAL CHECK",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "34",
+      "name": "CLOUDFLARE CAPACITY MODEL",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "35",
+      "name": "CONSERVATIVE D1 HEADROOM",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "36",
+      "name": "DAILY CAPACITY RISK",
+      "status": "COMPLETE_PROVEN",
+      "percent": 100,
+      "basis": "declared complete and frozen by the owner baseline (reader FROZEN_V1 d5e86c3, legal/capacity gate 64934d8, storage/schema/runtime freezes); taken as given, not re-audited in this sprint"
+    },
+    {
+      "item": "37",
+      "name": "ACCOUNT TIER EXACTLY KNOWN",
+      "status": "BLOCKED",
+      "percent": 0,
+      "basis": "ACCOUNT_TIER_FOR_STATS = UNKNOWN: only the owner can state the plan; the Free-plan conservative bound is used meanwhile (non-blocking for the first canary)"
+    },
+    {
+      "item": "38",
+      "name": "CREATE PRODUCTION STATS_DB",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "39",
+      "name": "APPLY STATISTICS MIGRATION",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "40",
+      "name": "CREATE PRODUCTION STATS_DB BINDING",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "41",
+      "name": "PROD RUNTIME BINDING VALIDATION",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "42",
+      "name": "PROD CONTENT-DB ISOLATION CHECK",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "43",
+      "name": "PROD SOURCE REGISTRY BOOTSTRAP",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "44",
+      "name": "PROD SOURCE DEFAULT = DISABLED",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "prepared offline and rehearsed on throw-away databases: docs/STATISTICS-PRODUCTION-INFRASTRUCTURE.md, release/statistics-prod-infra-commands.json, prod-infra.test.mjs; production execution needs the owner approval keys"
+    },
+    {
+      "item": "45",
+      "name": "CANARY EXECUTION PLAN",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "46",
+      "name": "EXACT CANARY SLICE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "47",
+      "name": "PROD D1 BUDGET / HARD STOP",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "48",
+      "name": "PROD LEASE / RUN PROFILE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "49",
+      "name": "OBSERVABILITY / CPU / WALL CAPTURE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "50",
+      "name": "ROLLBACK / SHUTDOWN PLAN",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "51",
+      "name": "EXACT DEPLOYMENT DIFF",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "52",
+      "name": "OWNER CANARY AUTHORIZATION PACKAGE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "first canary package FROZEN_V1: docs/STATISTICS-FIRST-CANARY-PACKAGE.md, release/statistics-canary-commands.json, canary-routes / canary-package tests; item 52: package prepared, owner authorization stays UNSIGNED"
+    },
+    {
+      "item": "53",
+      "name": "PRODUCTION DEPLOY",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "deploy prepared: release/statistics-binding.patch applied in I7 with the real id, release preflight/gate; not executed"
+    },
+    {
+      "item": "54",
+      "name": "ONE LOGICAL CANARY RUN",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "one logical canary run proven locally through the real routes (canary-routes, ops-lifecycle); the production run is not performed"
+    },
+    {
+      "item": "55",
+      "name": "REAL PROD D1 MEASUREMENT",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "measurement procedure and limits defined (target 40, hard stop 44, local baseline canary 38/147, hand-off 38/147, ops summary 13); the production measurement is the item"
+    },
+    {
+      "item": "56",
+      "name": "REAL PROD CPU / WALL MEASUREMENT",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "capture plan defined (wrangler tail cpuTime/wallTime, read-only analytics); production CPU is UNMEASURED; local proxy is an upper bound only"
+    },
+    {
+      "item": "57",
+      "name": "CHECKPOINT / RESUME LIVE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "same-run resume proven locally for both run classes (7 fault points each) and through the routes; live proof pending"
+    },
+    {
+      "item": "58",
+      "name": "PROVENANCE LIVE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "provenance trace to the PRODUCTION version proven locally (O2 hand-off tests); live proof pending"
+    },
+    {
+      "item": "59",
+      "name": "CURRENT PROJECTION LIVE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "O2 closed locally: gated canary 0 current, owner-triggered production hand-off 27 current, rebuild parity, canary history byte-identical; live projection needs items 53-58"
+    },
+    {
+      "item": "60",
+      "name": "P1-P5 LIVE PASS",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "P1-P5 gates and their evidence are defined; local PASS; a LIVE pass needs the production canary"
+    },
+    {
+      "item": "61",
+      "name": "SAFE SHUTDOWN / SOURCE OFF",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "owner pause/disarm SQL, switch false redeploy and rollback proven locally; live shutdown pending"
+    },
+    {
+      "item": "62",
+      "name": "FIRST STATS CANARY FREEZE",
+      "status": "PARTIAL",
+      "percent": 30,
+      "basis": "the package is frozen (FROZEN_V1) but the canary freeze needs live evidence; no freeze record template exists yet"
+    },
+    {
+      "item": "63",
+      "name": "SOURCE ACTIVATION POLICY",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "64",
+      "name": "SCHEDULER / CADENCE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "65",
+      "name": "RUN SERIALIZATION",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "66",
+      "name": "RETRY / BACKOFF",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "67",
+      "name": "ALERTING / SOURCE HEALTH",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "68",
+      "name": "OPERATIONAL DASHBOARD",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "69",
+      "name": "LONG-TERM RUN HISTORY",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "70",
+      "name": "RETENTION / COMPACTION POLICY",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "71",
+      "name": "REVISION ALERTING",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "72",
+      "name": "RELEASE-EVENT OUTBOX -> TIME_SENSITIVE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "73",
+      "name": "DUPLICATE BULLETIN DEDUPE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "74",
+      "name": "HUMAN GOVERNANCE OPERATION",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "implemented and tested locally (scheduler OFF, nothing enabled): docs/STATISTICS-RECURRING-OPERATION.md, ops-* tests on sqlite and real local D1"
+    },
+    {
+      "item": "75",
+      "name": "SECOND STATISTICS API READER",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "WHO GHO / WHOSIS_000001 selected and contracted; not implemented (docs/STATISTICS-LATER-SOURCES-READINESS.md)"
+    },
+    {
+      "item": "76",
+      "name": "TUIK AUTH / LEGAL RESOLUTION",
+      "status": "BLOCKED",
+      "percent": 0,
+      "basis": "unresolved: token from an SMS-verified portal account, terms UNKNOWN; read-only check 2026-10-06 found nothing new; no credential created"
+    },
+    {
+      "item": "77",
+      "name": "TUIK READER",
+      "status": "BLOCKED",
+      "percent": 0,
+      "basis": "BLOCKED_BY_EXTERNAL_GATE: not implemented while auth and legal are unresolved"
+    },
+    {
+      "item": "78",
+      "name": "WHO READER",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "the item 75 contract is the WHO reader contract; implementation deferred"
+    },
+    {
+      "item": "79",
+      "name": "CROSS-SOURCE VALIDATION",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "framework implemented (ops/cross-source.ts) and tested on synthetic fixtures; no real second source yet"
+    },
+    {
+      "item": "80",
+      "name": "LINEAGE / MIRROR DEDUPE",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "lineage model exists in the frozen schema; mirror/independence and bulletin dedupe proven; no migration needed"
+    },
+    {
+      "item": "81",
+      "name": "ARTIFACTSTORE PRODUCTION",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "ArtifactStore interface and an executable adapter contract; R2 adapter NOT_IMPLEMENTED"
+    },
+    {
+      "item": "82",
+      "name": "R2 PRODUCTION BINDING",
+      "status": "READY_LOCAL",
+      "percent": 80,
+      "basis": "R2 binding runbook prepared (bucket, lifecycle, binding, approval keys); nothing created"
+    },
+    {
+      "item": "83",
+      "name": "ZIP / XLSX SOURCE CANARY",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "bounded local canary contract on the existing SGK-like flow proof; R2 required; no Worker XLSX parser chosen"
+    },
+    {
+      "item": "84",
+      "name": "PDF SOURCE CANARY",
+      "status": "DESIGNED_AND_TEST_CONTRACT_READY",
+      "percent": 60,
+      "basis": "bounded local canary contract on the existing MoH-like flow proof; R2 required; no Worker PDF parser chosen"
+    }
+  ],
+  "totals": {
+    "points": 6970,
+    "items": 84,
+    "STRICT_COMPLETION_PERCENT": 42.86,
+    "LOCAL_READY_SCORE": 82.98,
+    "TARGET_75_REACHED": true,
+    "counts": {
+      "COMPLETE_PROVEN": 36,
+      "READY_LOCAL": 35,
+      "DESIGNED_AND_TEST_CONTRACT_READY": 9,
+      "PARTIAL": 1,
+      "BLOCKED": 3
+    }
+  },
+  "sensitivity": {
+    "items_53_62_all_PARTIAL": 78.33,
+    "items_63_74_all_DESIGNED": 80.12,
+    "note": "each pessimistic reading, checked on its own, still exceeds 75; the baseline 01-36 is taken as declared by the owner and is not re-audited here"
+  },
+  "groups": {
+    "A-D baseline 01-37": "items 01-36 declared complete; 37 BLOCKED (owner input)",
+    "38-44 production infrastructure package": "READY_LOCAL",
+    "45-52 canary prep": "READY_LOCAL",
+    "53-62 live canary": "live evidence only; at most READY_LOCAL / DESIGNED / PARTIAL",
+    "63-74 recurring operation": "READY_LOCAL (12/12)",
+    "75-80 multi-source": "3 DESIGNED, 1 READY_LOCAL, 2 BLOCKED",
+    "81-84 file/PDF": "3 DESIGNED, 1 READY_LOCAL"
+  },
+  "references": [
+    "docs/generated/statistics-first-canary-package-v1.json",
+    "docs/generated/statistics-production-infra-package-v1.json",
+    "docs/generated/statistics-recurring-operation-v1.json",
+    "docs/generated/statistics-later-sources-readiness-v1.json"
+  ]
+}

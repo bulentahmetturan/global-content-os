@@ -1,0 +1,662 @@
+{
+  "phase": "IMPLEMENT_SELECTED_FIRST_STATISTICS_API_READER_LOCAL_FIRST",
+  "as_of": "2026-10-05",
+  "branch": "statistics/eurostat-demo-mlexpec-reader",
+  "base_runtime_commit": "5988564",
+  "source": "EUROSTAT_HEALTH",
+  "dataset": "EUROSTAT_HEALTH:DEMO_MLEXPEC",
+  "reader_class": "SDMX_READER",
+  "reader_version": "eurostat-demo-mlexpec-1.0.0",
+  "implementation": {
+    "files": [
+      "apps/worker/src/statistics/readers/eurostat-demo-mlexpec.ts (pure: bounded request, fetch, classification, retry, strict JSON-stat parse)",
+      "apps/worker/src/statistics/readers/eurostat-demo-mlexpec-runner.ts (one bounded unit through the statistics runtime)",
+      "apps/worker/src/statistics/readers/local-fixtures.ts (+ fixtures/*.json: recorded real response and the real 400 body)",
+      "apps/worker/src/statistics/local-entry.ts (local-only reader routes, flag-guarded)"
+    ],
+    "api_format": "SDMX 2.1 REST with format=JSON → JSON-stat 2.0 (3,347 bytes for 9 series x 3 years); XML not used. Nothing required by the contract was missing from the JSON path (dimensions, values, per-observation flags, updated marker, datastructure version).",
+    "bounding": {
+      "period": "explicit startPeriod/endPeriod only; lastTimePeriod never sent (asserted by the fixture server on every call)",
+      "window": "max 10 years; window-by-window planning helper",
+      "dimensions": "sex in {T,M,F}, age in {Y_LT1}, geo in fixed catalog {TR, DE, EU27_2020} (max 8); no wildcard",
+      "response": "timeout 8 s, max 262144 bytes, <=10,000 positions",
+      "retry": "max 2 retries, exponential backoff 500/1000 ms, only network/timeout/429/5xx"
+    },
+    "http400": "HTTP 400 INVALID_QUERY_DIMENSION_VALUE on TIME_PERIOD (JSON error body or SOAP-style fault) → SOURCE_PERIOD_OUT_OF_RANGE, run failure_class VALIDATION_FAILURE, never retried, never an empty success; other 400 → SOURCE_BAD_REQUEST (SCHEMA_DRIFT class)",
+    "identity": {
+      "source": "EUROSTAT_HEALTH (frozen id)",
+      "dataset": "EUROSTAT_HEALTH:DEMO_MLEXPEC",
+      "indicator": "EUROSTAT_HEALTH:DEMO_MLEXPEC#LIFE_EXPECTANCY",
+      "series": "frozen deterministic identity from native dimensions: geography, unit YR, sex, age, extension FREQ and GEO_NATIVE (labels, period, value, release never enter identity)",
+      "geography": "native TR/DE/EU27_2020 → ISO3:TUR / ISO3:DEU / AGG:EU27_2020; native code, canonical code and source label persisted as the GEO_NATIVE extension dimension"
+    },
+    "release_model": "release_key = updated:<UTC-normalized source marker>; raw marker kept as source_native_release_id; same marker → same release (never a new one per retrieval); new marker → new immutable release superseding the previous; invalid/implausible marker → SOURCE_INVALID_UPDATE_MARKER",
+    "value_mapping": "number → PRESENT with numeric and verbatim text (JSON loses trailing zeros, e.g. 79.0 arrives as 79: documented limitation); absent position → MISSING with NULL numeric (never 0); status flag preserved verbatim (b, e, p, combinations); p ⇒ PROVISIONAL, otherwise finality stays UNKNOWN (never inferred FINAL)",
+    "checkpoint": "unit_kind API_STAMP; scope DEMO_MLEXPEC|age|sex|geo|window; last_source_stamp = raw updated; last_content_fingerprint; cursor after=<year|geo|sex|age> then complete:year=<end>; advanced only inside the lease-guarded write batch",
+    "provenance": "locator sdmx:DEMO_MLEXPEC/<key>@<year>; artifact req_<sha256(request descriptor | response digest)>, EXTERNAL_REPRODUCIBLE, reproducibility locator = the exact bounded GET URL, no response bytes in D1; reader/parser version on the run",
+    "lease_guard": "every write batch carries the checkpoint advance; leaseGuard NONE appears nowhere in reader code (asserted)"
+  },
+  "foundation_change": {
+    "what": "transactions.ts INSERT/CONFIRM SQL: a write for the SAME release as the current winner is never classified as a newer release (rel = -1) and confirmation requires a DIFFERENT release",
+    "why": "found by the reader: a replay with a later retrieval time was counted as a confirmation, and a changed value under the same marker failed with a CHECK error instead of REVISION_CONFLICT (safe rollback, wrong code)",
+    "schema_changed": false,
+    "validation": "full both-engine regression re-run (below) + new foundation test in observation.test.mjs"
+  },
+  "tests": {
+    "command": "node scripts/statistics-test.mjs (plain mode; the frozen foundation audit JSON is not regenerated)",
+    "full_regression_code_state": "final production code (the only later change is one added test in observation.test.mjs; the observation suite was re-run on both engines after adding it)",
+    "sqlite": {
+      "tests": 270,
+      "pass": 269,
+      "skipped": 1,
+      "fail": 0,
+      "note": "full regression 269 tests + 1 added observation test; the skip is the D1-only rows_read test, which runs in the d1 pass"
+    },
+    "d1_local": {
+      "tests": 246,
+      "pass": 246,
+      "skipped": 0,
+      "fail": 0
+    },
+    "total": {
+      "tests": 516,
+      "pass": 515,
+      "skipped": 1,
+      "fail": 0
+    },
+    "parity": "PASS (sqlite vs real local D1 transcript identical)",
+    "d1_plan_regression": "PASS (36,000-version fixture on real local D1)",
+    "scale_sensitive_full_scans": 0,
+    "crash_resume_local_d1": "PASS 18/18 (included in the d1 pass of the full regression)",
+    "reader_suites": {
+      "eurostat-reader (pure)": {
+        "sqlite": 20,
+        "d1": 20
+      },
+      "eurostat-runner (storage integration)": {
+        "sqlite": 31,
+        "d1": 31
+      },
+      "eurostat-crash": {
+        "sqlite": 18,
+        "d1": 18
+      },
+      "eurostat-worker-e2e (always real workerd)": {
+        "sqlite_pass_only": 10
+      },
+      "local-runtime (always real workerd)": {
+        "sqlite_pass_only": 13
+      }
+    }
+  },
+  "states": {
+    "READER_IMPLEMENTED": "YES",
+    "LOCAL_READER_READY": "YES",
+    "LOCAL_CANARY_READY": "YES (local only; owner simulation inside disposable DBs)",
+    "LEGAL_READY": "NO",
+    "LEGAL_REVIEW_REQUIRED_BEFORE_PRODUCTION_CANARY": "YES",
+    "ACCESS_READY": "YES",
+    "R2_REQUIRED": "NO",
+    "CAPACITY_READY": "NO",
+    "ACCOUNT_TIER_FOR_STATS": "UNKNOWN",
+    "PRODUCTION_CANARY_READY": "NO",
+    "PRODUCTION_ACTIVATION_READY": "NO",
+    "REAL_SOURCE_ACTIVATION": "NO",
+    "TEST_ONLY_OWNER_SIMULATION": "YES (throw-away databases only; the real Eurostat source is DISABLED by default and ends PAUSED in the Worker E2E)"
+  },
+  "known_limitations": [
+    "JSON numbers lose trailing zeros (79.0 → 79); the verbatim text of the source cell is not available on the JSON path.",
+    "A no-change poll costs 17 D1 calls (registry/run bookkeeping dominate); caching dataset/indicator registration within an invocation is an optimization candidate, not a blocker.",
+    "The source states no revision reason, so revisions are SOURCE_REVISION with reason NOT_STATED; history starts at the first local snapshot (upstream keeps only latest values).",
+    "Revisions are visible only when the `updated` marker advances; a same-marker content change is rejected as REVISION_CONFLICT (source-contract violation) rather than absorbed.",
+    "Eurostat terms remain PARTIAL / owner review required; availability of the API is not legal clearance."
+  ],
+  "local_profile": {
+    "note": "LOCAL proxy on recorded fixtures (no network); NOT a production canary budget. ACCOUNT_TIER_FOR_STATS = UNKNOWN; no Cloudflare quota is assumed.",
+    "measured_with": "recording wrapper around the D1 handle: a call is one D1 round trip, a batch is one call carrying n statements",
+    "summary": {
+      "MAX_D1_STATEMENTS_PER_UNIT": 155,
+      "MAX_D1_CALLS_PER_UNIT": 45,
+      "MAX_D1_STATEMENTS_IN_ONE_BATCH": 109,
+      "D1_STATEMENTS_PER_OBSERVATION_INITIAL_RANGE": [
+        5.37,
+        5.67
+      ],
+      "D1_STATEMENTS_PER_OBSERVATION_ALL_RANGE": [
+        0.67,
+        5.74
+      ],
+      "NO_CHANGE_UNIT_D1_STATEMENTS": 18,
+      "LOCAL_WALL_PROXY_MS_INITIAL_D1": 786,
+      "SOURCE_BYTES_PER_UNIT": 3347
+    },
+    "scenarios": {
+      "sqlite_default_budgets": [
+        {
+          "scenario": "initial 27 observations / 9 series",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 27,
+          "VERSIONS_CREATED": 27,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 9,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 36,
+          "D1_STATEMENTS": 145,
+          "D1_READ_STATEMENTS": 18,
+          "D1_WRITE_STATEMENTS": 127,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.37,
+          "LOCAL_WALL_MS": 50
+        },
+        {
+          "scenario": "exact replay (same updated)",
+          "status": "NO_CHANGE",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 0,
+          "CHECKPOINT_WRITES": 0,
+          "WRITE_BATCHES": 0,
+          "D1_CALLS": 17,
+          "D1_STATEMENTS": 18,
+          "D1_READ_STATEMENTS": 8,
+          "D1_WRITE_STATEMENTS": 10,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 2,
+          "D1_STATEMENTS_PER_OBSERVATION": 0.67,
+          "LOCAL_WALL_MS": 2
+        },
+        {
+          "scenario": "newer update, same values (27 confirmations)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 27,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 37,
+          "D1_STATEMENTS": 147,
+          "D1_READ_STATEMENTS": 19,
+          "D1_WRITE_STATEMENTS": 128,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.44,
+          "LOCAL_WALL_MS": 33
+        },
+        {
+          "scenario": "newer update, 1 changed value (1 revision)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3347,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 1,
+          "VERSIONS_CREATED": 1,
+          "VERSIONS_CONFIRMED": 26,
+          "VERSIONS_REVISED": 1,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 37,
+          "D1_STATEMENTS": 147,
+          "D1_READ_STATEMENTS": 19,
+          "D1_WRITE_STATEMENTS": 128,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.44,
+          "LOCAL_WALL_MS": 35
+        }
+      ],
+      "sqlite_conservative_budgets": [
+        {
+          "scenario": "initial 27 observations / 9 series",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 27,
+          "VERSIONS_CREATED": 27,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 9,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 44,
+          "D1_STATEMENTS": 153,
+          "D1_READ_STATEMENTS": 24,
+          "D1_WRITE_STATEMENTS": 129,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.67,
+          "LOCAL_WALL_MS": 43
+        },
+        {
+          "scenario": "exact replay (same updated)",
+          "status": "NO_CHANGE",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 0,
+          "CHECKPOINT_WRITES": 0,
+          "WRITE_BATCHES": 0,
+          "D1_CALLS": 17,
+          "D1_STATEMENTS": 18,
+          "D1_READ_STATEMENTS": 8,
+          "D1_WRITE_STATEMENTS": 10,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 2,
+          "D1_STATEMENTS_PER_OBSERVATION": 0.67,
+          "LOCAL_WALL_MS": 3
+        },
+        {
+          "scenario": "newer update, same values (27 confirmations)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 27,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 45,
+          "D1_STATEMENTS": 155,
+          "D1_READ_STATEMENTS": 25,
+          "D1_WRITE_STATEMENTS": 130,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.74,
+          "LOCAL_WALL_MS": 32
+        },
+        {
+          "scenario": "newer update, 1 changed value (1 revision)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3347,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 1,
+          "VERSIONS_CREATED": 1,
+          "VERSIONS_CONFIRMED": 26,
+          "VERSIONS_REVISED": 1,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 45,
+          "D1_STATEMENTS": 155,
+          "D1_READ_STATEMENTS": 25,
+          "D1_WRITE_STATEMENTS": 130,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.74,
+          "LOCAL_WALL_MS": 46
+        }
+      ],
+      "d1_local_default_budgets": [
+        {
+          "scenario": "initial 27 observations / 9 series",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 27,
+          "VERSIONS_CREATED": 27,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 9,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 36,
+          "D1_STATEMENTS": 145,
+          "D1_READ_STATEMENTS": 18,
+          "D1_WRITE_STATEMENTS": 127,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.37,
+          "LOCAL_WALL_MS": 786
+        },
+        {
+          "scenario": "exact replay (same updated)",
+          "status": "NO_CHANGE",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 0,
+          "CHECKPOINT_WRITES": 0,
+          "WRITE_BATCHES": 0,
+          "D1_CALLS": 17,
+          "D1_STATEMENTS": 18,
+          "D1_READ_STATEMENTS": 8,
+          "D1_WRITE_STATEMENTS": 10,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 2,
+          "D1_STATEMENTS_PER_OBSERVATION": 0.67,
+          "LOCAL_WALL_MS": 165
+        },
+        {
+          "scenario": "newer update, same values (27 confirmations)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 27,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 37,
+          "D1_STATEMENTS": 147,
+          "D1_READ_STATEMENTS": 19,
+          "D1_WRITE_STATEMENTS": 128,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.44,
+          "LOCAL_WALL_MS": 731
+        },
+        {
+          "scenario": "newer update, 1 changed value (1 revision)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3347,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 1,
+          "VERSIONS_CREATED": 1,
+          "VERSIONS_CONFIRMED": 26,
+          "VERSIONS_REVISED": 1,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 1,
+          "WRITE_BATCHES": 1,
+          "D1_CALLS": 37,
+          "D1_STATEMENTS": 147,
+          "D1_READ_STATEMENTS": 19,
+          "D1_WRITE_STATEMENTS": 128,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.44,
+          "LOCAL_WALL_MS": 772
+        }
+      ],
+      "d1_local_conservative_budgets": [
+        {
+          "scenario": "initial 27 observations / 9 series",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 27,
+          "VERSIONS_CREATED": 27,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 9,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 44,
+          "D1_STATEMENTS": 153,
+          "D1_READ_STATEMENTS": 24,
+          "D1_WRITE_STATEMENTS": 129,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.67,
+          "LOCAL_WALL_MS": 817
+        },
+        {
+          "scenario": "exact replay (same updated)",
+          "status": "NO_CHANGE",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 0,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 0,
+          "CHECKPOINT_WRITES": 0,
+          "WRITE_BATCHES": 0,
+          "D1_CALLS": 17,
+          "D1_STATEMENTS": 18,
+          "D1_READ_STATEMENTS": 8,
+          "D1_WRITE_STATEMENTS": 10,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 2,
+          "D1_STATEMENTS_PER_OBSERVATION": 0.67,
+          "LOCAL_WALL_MS": 157
+        },
+        {
+          "scenario": "newer update, same values (27 confirmations)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3345,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 0,
+          "VERSIONS_CREATED": 0,
+          "VERSIONS_CONFIRMED": 27,
+          "VERSIONS_REVISED": 0,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 45,
+          "D1_STATEMENTS": 155,
+          "D1_READ_STATEMENTS": 25,
+          "D1_WRITE_STATEMENTS": 130,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.74,
+          "LOCAL_WALL_MS": 817
+        },
+        {
+          "scenario": "newer update, 1 changed value (1 revision)",
+          "status": "COMPLETED",
+          "SOURCE_REQUESTS": 1,
+          "SOURCE_BYTES": 3347,
+          "SOURCE_ROWS": 27,
+          "OBSERVATIONS_WRITTEN": 1,
+          "VERSIONS_CREATED": 1,
+          "VERSIONS_CONFIRMED": 26,
+          "VERSIONS_REVISED": 1,
+          "SERIES_CREATED": 0,
+          "RELEASE_WRITES": 1,
+          "CHECKPOINT_WRITES": 3,
+          "WRITE_BATCHES": 3,
+          "D1_CALLS": 45,
+          "D1_STATEMENTS": 155,
+          "D1_READ_STATEMENTS": 25,
+          "D1_WRITE_STATEMENTS": 130,
+          "MAX_STATEMENTS_IN_ONE_BATCH": 49,
+          "D1_STATEMENTS_PER_OBSERVATION": 5.74,
+          "LOCAL_WALL_MS": 813
+        }
+      ]
+    },
+    "frozen_figures": {
+      "LOCAL_PROFILE_ONLY": true,
+      "SOURCE_REQUESTS": 1,
+      "SOURCE_BYTES": 3347,
+      "SOURCE_ROWS": 27,
+      "OBSERVATIONS_WRITTEN": 27,
+      "D1_STATEMENTS_INITIAL": 145,
+      "D1_CALLS_INITIAL": 36,
+      "D1_PER_OBSERVATION_INITIAL": 5.37,
+      "NO_CHANGE_D1_CALLS": 17,
+      "NO_CHANGE_D1_STATEMENTS": 18,
+      "MAX_D1_STATEMENTS_PER_UNIT": 155,
+      "MAX_D1_CALLS_PER_UNIT": 45,
+      "MAX_STATEMENTS_IN_ONE_BATCH": 109,
+      "LOCAL_WALL_PROXY_MS_INITIAL_D1": 786,
+      "NO_CHANGE_OPTIMIZATION": "DEFERRED_NON_BLOCKING (bounded, safe: 17 calls / 18 statements; no hard P4 failure)"
+    }
+  },
+  "live_source_smoke": {
+    "as_of": "2026-10-05T20:10:39.907Z",
+    "requests": 2,
+    "checks": {
+      "endpoint_reachable": {
+        "ok": true,
+        "detail": {
+          "url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_MLEXPEC/A.YR.F+M+T.Y_LT1.DE+EU27_2020+TR?startPeriod=2022&endPeriod=2024&format=JSON",
+          "bytes": 3347,
+          "ms": 384
+        }
+      },
+      "explicit_period_window_works": {
+        "ok": true,
+        "detail": "startPeriod=2022&endPeriod=2024; lastTimePeriod not sent"
+      },
+      "reader_parser_accepts_real_response": {
+        "ok": true,
+        "detail": {
+          "observations": 27
+        }
+      },
+      "turkiye_available": {
+        "ok": true,
+        "detail": {
+          "label": "Türkiye"
+        }
+      },
+      "dimensions_unchanged": {
+        "ok": true,
+        "detail": "id order freq,unit,sex,age,geo,time; categories within the requested allow-lists (parser enforces)"
+      },
+      "updated_marker_parseable": {
+        "ok": true,
+        "detail": {
+          "updatedRaw": "2026-09-25T23:00:00+0200",
+          "updatedUtc": "2026-09-25T21:00:00.000Z",
+          "datastructureVersion": "53.0"
+        }
+      },
+      "structure_matches_recorded_fixture": {
+        "ok": true,
+        "detail": {
+          "fixtureObs": 27,
+          "liveObs": 27,
+          "fixtureDsd": "53.0",
+          "liveDsd": "53.0",
+          "fixtureUpdated": "2026-09-25T23:00:00+0200"
+        }
+      },
+      "flags_present": {
+        "ok": true,
+        "detail": {
+          "flags": [
+            "bep",
+            "ep",
+            "b"
+          ]
+        }
+      },
+      "out_of_range_is_400_classified": {
+        "ok": true,
+        "detail": {
+          "readerCode": "SOURCE_PERIOD_OUT_OF_RANGE",
+          "failureClass": "VALIDATION_FAILURE"
+        }
+      }
+    },
+    "verdict": "PASS",
+    "sample": [
+      {
+        "year": 2022,
+        "value": 76.3,
+        "flag": null
+      },
+      {
+        "year": 2023,
+        "value": 77.3,
+        "flag": null
+      },
+      {
+        "year": 2024,
+        "value": 79,
+        "flag": "b"
+      }
+    ],
+    "bytes": 3576
+  },
+  "frozen_contract": {
+    "EUROSTAT_DEMO_MLEXPEC_READER_LOCAL": "FROZEN_V1",
+    "source_contract": {
+      "LAST_TIME_PERIOD_USED": "NO",
+      "EXPLICIT_PERIOD_BOUNDING": "YES",
+      "OUT_OF_RANGE_HTTP_400": "SOURCE_PERIOD_OUT_OF_RANGE",
+      "OUT_OF_RANGE_RETRY": "NO",
+      "MISSING_OR_DROPPED_REQUESTED_GEOGRAPHY": "FAIL_CLOSED",
+      "UNEXPECTED_DIMENSIONS": "FAIL_CLOSED",
+      "INVALID_UPDATED_MARKER": "FAIL_CLOSED",
+      "RETRIES": "TRANSIENT_ONLY",
+      "R2_REQUIRED": "NO"
+    },
+    "release_revision_contract": {
+      "RELEASE_IDENTITY": "Eurostat response updated marker (UTC-normalized)",
+      "SAME_UPDATED_SAME_VALUE": "IDEMPOTENT_REPLAY",
+      "SAME_UPDATED_CHANGED_VALUE": "REVISION_CONFLICT",
+      "NEW_UPDATED_SAME_VALUE": "CONFIRMATION",
+      "NEW_UPDATED_CHANGED_VALUE": "IMMUTABLE_REVISION",
+      "OLD_RELEASE_LATE": "DOES_NOT_REPLACE_CURRENT (BACKFILL)",
+      "CURRENT_PROJECTION_REBUILD": "MUST_EQUAL_INCREMENTAL"
+    },
+    "precedence_note": "Release precedence is the frozen winner order (release_rank, then retrieved_at, then release_id). Retrieval time is only the tie-break between two DIFFERENT releases of EQUAL rank; it can never make a lower-rank release newer, and a write for the winner's own release is never \"newer\" than itself (explicit foundation test).",
+    "checkpoint_lease": {
+      "CHECKPOINT": "PASS",
+      "LEASE": "PASS",
+      "NORMAL_READER_INGESTION_USES_LEASE_GUARD": "YES",
+      "LEASE_GUARD_NONE_USED_FOR_NORMAL_READER": "NO",
+      "STOLEN_LEASE": "REFUSED",
+      "EXPIRED_LEASE": "RECOVERABLE"
+    },
+    "isolation": {
+      "CONTENT_DB_MUTATION_FROM_STATISTICS": 0,
+      "STATS_DB_BINDING_ISOLATION": "PASS",
+      "MISSING_STATS_DB_FAIL_CLOSED": "PASS",
+      "wrangler_toml": "unchanged",
+      "repo_wrangler_state": "untouched"
+    },
+    "governance": {
+      "TEST_ONLY_OWNER_SIMULATION": "YES",
+      "REAL_SOURCE_ACTIVATION": "NO",
+      "real_source_policy": "DISABLED by default (no row); ends PAUSED in the Worker E2E; production policy untouched",
+      "P5": "PASS"
+    },
+    "readiness": {
+      "LEGAL_READY": "NO",
+      "CAPACITY_READY": "NO",
+      "PRODUCTION_CANARY_READY": "NO",
+      "PRODUCTION_ACTIVATION_READY": "NO",
+      "LOCAL_READER_READY": "YES"
+    },
+    "gates": {
+      "P1_SYSTEM_SAFETY": "PASS",
+      "P1_EUROSTAT_READER_READINESS": "PASS",
+      "P1_OVERALL": "PASS",
+      "P2": "PASS_LOCAL_READER",
+      "P3": "PASS_LOCAL",
+      "P4": "PASS_LOCAL",
+      "P5": "PASS"
+    }
+  }
+}

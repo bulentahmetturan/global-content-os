@@ -1,0 +1,156 @@
+{
+  "$comment": "HEALTH_STATISTICS first canary command list. NONE of these has been run. Every mutating step needs its own explicit owner approval; approval for one step never covers the next.",
+  "stop_rules": [
+    "first non-2xx from the canary surface stops the sequence",
+    "any platform termination (exceededCpu / exceededResources) stops the sequence, no retry",
+    "more than 44 D1 calls, more than 3 source requests, more than 30 observations or a non-transient reader error stops the sequence",
+    "never print, persist or commit a token; OPS_TOKEN only through stdin / env",
+    "never push or merge from this sequence",
+    "a COMPLETED or terminal logical run is never replayed or replaced; a terminal non-completed run needs a new owner decision",
+    "D1_PROFILE_STALE=YES after any change to the canary execution path: remeasure before authorization",
+    "the post-canary hand-off is owner-triggered only and is never a second canary run; a terminal hand-off run needs a new owner decision",
+    "per-invocation limits apply independently to the canary run and to the hand-off (never add the two invocations together)"
+  ],
+  "commands": [
+    {
+      "id": "S0",
+      "purpose": "local gate",
+      "class": "LOCAL",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npm run test:statistics:all && node scripts/check-router-links.mjs",
+      "expected": "green; BROKEN_ROUTER_LINKS=0",
+      "rollback": "none"
+    },
+    {
+      "id": "S1",
+      "purpose": "read-only account and capacity check (plan stays as the owner states it; never inferred)",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler d1 list && npx wrangler d1 info global-content-os",
+      "expected": "readable; daily row quotas well below limits",
+      "rollback": "none"
+    },
+    {
+      "id": "S2",
+      "purpose": "moved to the infrastructure sequence: create the dedicated production STATS_DB (item 38)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
+      "command": "see release/statistics-prod-infra-commands.json step I1",
+      "expected": "new empty database; database_id recorded in a local-only note until S4",
+      "rollback": "leave unbound (isolated, empty); deletion only on a separate explicit owner approval"
+    },
+    {
+      "id": "S3",
+      "purpose": "moved to the infrastructure sequence: apply statistics migration 0001 to the new database only (item 39)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
+      "command": "see release/statistics-prod-infra-commands.json steps I2-I4",
+      "expected": "migration ledger shows 0001 only; statistics tables present; content tables absent",
+      "rollback": "D1 Time Travel bookmark recorded before; database is new, so rollback = leave unbound"
+    },
+    {
+      "id": "S4",
+      "purpose": "moved to the infrastructure sequence: STATS_DB binding with the canary switch false, deploy the dormant routes (item 40)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
+      "command": "see release/statistics-prod-infra-commands.json step I7",
+      "expected": "/api/ready READY; status route 403/503-safe; content routes unchanged",
+      "rollback": "redeploy the previous Worker version recorded at preflight (read live, not assumed)"
+    },
+    {
+      "id": "S5",
+      "purpose": "OPS_TOKEN for the operator CLI: the owner supplies the existing production token through the environment; creating or rotating a token is a separate mutation that this package does not perform",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_OPS_TOKEN_FOR_STATS_CANARY",
+      "command": "export OPS_TOKEN from the owner secret store; if a rotation is wanted: OWNER_APPROVAL_OPS_TOKEN_FOR_STATS_CANARY, token via stdin only to wrangler secret put",
+      "expected": "status returns STATS_DB bound, schema applied, policy DISABLED, 0 active policies",
+      "rollback": "delete nothing; rotate again if exposed"
+    },
+    {
+      "id": "S6",
+      "purpose": "enable the canary master switch (var true) with a reviewed redeploy; the registry is already bootstrapped by owner SQL (infra step I5), so no bootstrap call is needed",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_ENABLE_STATS_CANARY_SWITCH",
+      "command": "redeploy with STATISTICS_CANARY_ENABLED=true",
+      "expected": "switch true; routes answer; 0 policy rows, 0 ACTIVE",
+      "rollback": "redeploy with the switch false"
+    },
+    {
+      "id": "S7",
+      "purpose": "owner-run SQL arming (DISABLED -> ACTIVATION_GATED, never ACTIVE); NOT a Worker route",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_ARM_STATS_CANARY",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <arm.sql with {{OWNER_REF}} and {{UTC_NOW}} substituted> (file: release/statistics-canary-policy-arm.sql)",
+      "expected": "policy ACTIVATION_GATED; active policies 0",
+      "rollback": "run release/statistics-canary-policy-disarm.sql"
+    },
+    {
+      "id": "S8",
+      "purpose": "the ONE logical canary run: invocation 1 creates it; invocations 2-3 may only resume that same RUNNING run (cap 3 enforced by the CLI counter)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_RUN_FIRST_STATS_CANARY",
+      "command": "node scripts/statistics-canary-operator.mjs --url <worker> run (with wrangler tail --format json capture)",
+      "expected": "27 observation versions, 9 series, 1 release, 1 source request, <= 40 D1 calls target / 44 hard stop (measured 38 on fixtures); STAGED not projected (current_observations stays 0); a COMPLETED or terminal run is refused, never replayed or replaced; first non-2xx or platform termination = STOP, no retry",
+      "rollback": "owner disarm SQL then S10"
+    },
+    {
+      "id": "S9",
+      "purpose": "read back: counts, rows, tail, analytics",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "operator status + read-only wrangler d1 execute counts + wrangler tail capture + read-only analytics query (CF_API_TOKEN env only)",
+      "expected": "counts equal the run result; CPU and wall recorded",
+      "rollback": "none"
+    },
+    {
+      "id": "S9b",
+      "purpose": "owner reviews the S9 evidence, records the PASSED canary and moves ACTIVATION_GATED -> ACTIVE (owner SQL). Starts no ingestion; production projection comes only from the owner-triggered hand-off S9c",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_STATS_CANARY_ACTIVATE",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <activate.sql substituted> (release/statistics-canary-policy-activate.sql)",
+      "expected": "policy ACTIVE, canary_gate PASSED; no run, no refetch",
+      "rollback": "release/statistics-canary-policy-pause.sql"
+    },
+    {
+      "id": "S9c",
+      "purpose": "POST_CANARY_PRODUCTION_HANDOFF_RUN: owner-triggered, PRODUCTION class, exactly ONE bounded Eurostat request for the same frozen slice (not a second canary run)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_RUN_STATS_PRODUCTION_HANDOFF",
+      "command": "node scripts/statistics-canary-operator.mjs --url <worker> handoff (with wrangler tail --format json capture)",
+      "expected": "27 production observation versions, current_observations 27, <= 40 D1 calls target / 44 hard stop (measured 38 on fixtures), 1 source request; CANARY history unchanged; a COMPLETED or terminal hand-off is refused, never replayed or replaced; first non-2xx or platform termination = STOP, no retry",
+      "rollback": "owner pause SQL (release/statistics-canary-policy-pause.sql); data is retained"
+    },
+    {
+      "id": "S9d",
+      "purpose": "read back the projection and the identities (read-only): current rows = 27, one per cell, PRODUCTION-only; canary rows unchanged",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "operator status + read-only wrangler d1 execute counts (versions by release class, current_observations by release class, runs by mode)",
+      "expected": "versions 54 (27 per class), current 27 all from the PRODUCTION release, runs: 1 CANARY + 1 PRODUCTION",
+      "rollback": "none"
+    },
+    {
+      "id": "S10",
+      "purpose": "shutdown: owner pause (or disarm) SQL, then redeploy the switch false",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_STATS_CANARY_SHUTDOWN",
+      "command": "npx wrangler d1 execute global-content-os-stats --remote --file <pause.sql or disarm.sql> (release/statistics-canary-policy-{pause,disarm}.sql); redeploy with STATISTICS_CANARY_ENABLED=false",
+      "expected": "policy DISABLED; switch false; GCOS READY",
+      "rollback": "previous disabled Worker version"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "phase": "CLOSE_MATERIAL_EUROSTAT_READER_GAPS_AND_FREEZE_CANARY_READINESS",
+  "as_of": "2026-10-05",
+  "status": "PREPARED_NOT_EXECUTED",
+  "note": "Initial bounds for a SEPARATELY AUTHORIZED bounded production canary of the Eurostat TURKEY_HEALTH_BURDEN reader (DOSSIER_CANARY_V2). Nothing here was executed, enabled or deployed. Lease and CPU are initial contracts, not measured optima.",
+  "limits": {
+    "D1_BUDGET": 240,
+    "D1_HARD_CEILING": 800,
+    "SOURCE_REQUESTS_PER_RUN": 1,
+    "SOURCE_REQUESTS_HARD_MAX": 2,
+    "SOURCE_REQUESTS_NOTE": "one data request; a second request exists only as the single retry of a transient failure inside the run",
+    "INITIAL_CANARY_LEASE_SECONDS": 45,
+    "NO_CT_REFETCH": true,
+    "EUROSTAT_ONLY_NEW_FETCH": true,
+    "MAX_CONCURRENT_V2_RUNS": 1,
+    "MAX_CONCURRENT_CONCEPT_PROPOSERS": 1,
+    "OECD": "OFF",
+    "SOURCE_SPECIFIC_FRONTIER": "DISABLED",
+    "PROMOTION_ROUTES": [
+      "MULTI_SIGNAL_FAMILY_CONVERGENCE"
+    ],
+    "UNKNOWN_GRANULARITY": "FAIL_CLOSED_TO_WATCH",
+    "AUTO_ACCEPT": false,
+    "AUTO_PUBLISH": false,
+    "ITEMS_CAP": 100,
+    "RUNS_PER_READER": 1,
+    "SOURCE_REQUESTS_LOGICAL_RUN_HARD_MAX": 3,
+    "SOURCE_REQUESTS_LOGICAL_RUN_NOTE": "expected 1; at most 3 across the whole logical run (initial request, one transient retry, and ONE refetch if the platform kills the very first invocation between the HTTP response and the work-list persist, when nothing has been ingested yet). After the phase flips to INGEST a resume never refetches.",
+    "CANDIDATE_PERSISTENCE": "FORBIDDEN",
+    "SNAPSHOT_PERSISTENCE": "FORBIDDEN",
+    "MAX_RECOVERABLE_PLATFORM_TERMINATIONS": 3,
+    "MAX_OPERATOR_INVOCATIONS": 12
+  },
+  "enforced_mechanically_by": {
+    "MAX_CONCURRENT_CONCEPT_PROPOSERS": "canary.ts V2 lease statement: a lease is granted only if no other canary run holds an unexpired lease (single atomic UPDATE); plus the V2 lease-deadline stop",
+    "D1_BUDGET": "createBudgetedD1 hard statement guard + pause at unit boundaries",
+    "SOURCE_REQUESTS": "reader fetch loop (EUROSTAT_MAX_REQUESTS_PER_RUN)",
+    "NO_CT_REFETCH": "profile validation (clinicaltrials is not a reader of V2) + SOURCE_NOT_IN_CANARY_PROFILE refusal",
+    "OECD": "profile validation (oecd must be OFF) + V2 registry contains only the Eurostat reader",
+    "CANDIDATE_AND_SNAPSHOT_PERSISTENCE": "V2 runner derive phase uses the dry-run promotion gate (gateTarget) instead of evaluateTarget; reaching the boundary throws V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED before any write; profile validation refuses a V2 profile that allows persistence"
+  },
+  "production_cpu_measured": "NO",
+  "production_lease_measured": "NO",
+  "must_capture_during_canary": [
+    "cpu_time",
+    "wall_time",
+    "d1_statements",
+    "subrequests",
+    "progress",
+    "checkpoint",
+    "lease_timing",
+    "outcome_per_invocation",
+    "platform_exceptions"
+  ],
+  "hard_stop_criteria": [
+    "any invocation records more than 400 D1 statements (half of the 800 ceiling) or hits the statement guard",
+    "any platform termination or exceededCpu / exceededResources outcome: STOP and capture evidence; resume the SAME run only under the recoverable-termination policy (at most 3, all invariants intact)",
+    "an invocation runs longer than 30 s of wall time (two thirds of the 45 s lease)",
+    "more than 2 source requests in one invocation, or more than 3 across the whole logical run",
+    "any source error class other than a single retried SOURCE_HTTP_ERROR / SOURCE_RATE_LIMIT",
+    "observations written exceed the 100 item cap or any non-Turkiye geography appears",
+    "any ClinicalTrials request, any ClinicalTrials row change, or OECD activity",
+    "a concept appears twice for one normalized label, or any concept becomes ACTIVE",
+    "a candidate, snapshot or review is created without an explicit human action (0 candidates is the expected outcome)",
+    "run still not COMPLETED after 12 operator invocations",
+    "any control, policy, registry or source-activation state changes during the run",
+    "a lease is observed held by two runs at once, or a resume refetches the source AFTER the work list was persisted (phase INGEST or later)",
+    "V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED (record PROMOTION_ELIGIBILITY_REACHED=YES; never persist a candidate or snapshot; never change a threshold)",
+    "a fourth platform termination, or any non-platform integrity failure on its first occurrence",
+    "a second logical V2 run, a run id mismatch after creation, or any V1 / OECD reader activity"
+  ],
+  "activation": {
+    "CANARY_READY": "see docs/DOSSIER-EUROSTAT-READER-IMPLEMENTATION.md",
+    "PRODUCTION_ACTIVATION_READY": "NO",
+    "SOURCE_ACTIVATED": "NO"
+  }
+}

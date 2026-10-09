@@ -1,0 +1,248 @@
+{
+  "phase": "PREPARE_EUROSTAT_SECOND_FAMILY_PRODUCTION_CANARY",
+  "as_of": "2026-10-05",
+  "status": "PREPARED_NOT_EXECUTED",
+  "doc": "docs/DOSSIER-EUROSTAT-CANARY-PLAN.md",
+  "hard_limits_ref": "docs/generated/dossier-eurostat-canary-hard-limits-v1.json",
+  "source": {
+    "name": "Eurostat",
+    "dataset": "hlth_cd_asdr2",
+    "signal_family": "TURKEY_HEALTH_BURDEN",
+    "reader_id": "dossier-eurostat-tr-causes-of-death",
+    "canonical_source_id": "eurostat-hlth-cd-asdr2"
+  },
+  "commits": {
+    "reader_base": "2c8d1e2",
+    "reader_gap_closure": "89ded00",
+    "first_canary_run": "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d",
+    "deployed_production_build": "f76fc449f0a3cc196c91e11e61b2c9de146f0793",
+    "deployed_disabled_worker_version": "ee60d69b-78e0-4519-804f-ec971291f67a"
+  },
+  "live_preflight": {
+    "read_only": true,
+    "method": "public /api/health + /api/ready and SELECT-only wrangler d1 execute --remote under the existing OAuth session; no token created or used",
+    "gcos_ready": true,
+    "dossier_level": "DISABLED",
+    "schema": "0031_dossier_discovery_foundation.sql",
+    "deployed_commit": "f76fc449",
+    "controls": {
+      "canary_enabled": "0",
+      "manual_runs_allowed": "0",
+      "promotion_enabled": "0",
+      "reader:dossier-clinicaltrials-frontier:enabled": "0",
+      "eurostat_or_oecd_control_rows": 0,
+      "platform_capacity_verified": "1"
+    },
+    "active_runs": 0,
+    "active_leases": 0,
+    "baseline": {
+      "runs": [
+        "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d V1 COMPLETED 26 invocations 9730 statements"
+      ],
+      "concepts": 396,
+      "concepts_active": 0,
+      "observations": 414,
+      "observation_families": [
+        "GLOBAL_RESEARCH_ACTIVITY"
+      ],
+      "origins": 100,
+      "aggregates": 1185,
+      "aliases": 396,
+      "signal_runs": 1,
+      "candidates": 0,
+      "snapshots": 0,
+      "reviews": 0,
+      "non_clinicaltrials_origins": 0,
+      "duplicate_normalized_labels": 0,
+      "aggregates_note": "1185 = research-activity FAST_7D/FAST_30D/BASELINE_90D windows x 395 concepts, dated by the derive day across two UTC dates (288 on 2026-10-04, 107 on 2026-10-05); clock-dependent derived rows (a local replay yields 1182). Expected effect of the canary: the research-activity aggregate rows of the concepts the Eurostat run touches are re-derived from the unchanged observations and gain rows dated at the execution day; observations never change."
+    },
+    "result": "PASS"
+  },
+  "eurostat_preflight": {
+    "request": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_asdr2?geo=TR&sex=T&age=TOTAL&unit=RT&icd10=C16&lastTimePeriod=1&format=JSON&lang=EN",
+    "http": 200,
+    "auth_required": false,
+    "geo_label": "Türkiye",
+    "year": "2023",
+    "release": "2026-06-08T21:00:00.000Z",
+    "release_unchanged_vs_recording": true,
+    "dimensions": [
+      "freq",
+      "unit",
+      "sex",
+      "age",
+      "icd10",
+      "geo",
+      "time"
+    ],
+    "schema_drift": false,
+    "terms": "reuse authorised with acknowledgement; candidate-country exception present; modifications must be stated",
+    "full_slice_fetched": false,
+    "result": "PASS"
+  },
+  "slice": {
+    "request": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_cd_asdr2?geo=TR&sex=T&age=TOTAL&unit=RT&lastTimePeriod=1&format=JSON&lang=EN",
+    "geography": "TR (Türkiye)",
+    "frequency": "A",
+    "sex": "T",
+    "age": "TOTAL",
+    "unit": "RT (age-standardised death rate per 100,000)",
+    "reference_year": "single latest period (2023 at preflight)",
+    "cause_scope": "every icd10 category in the response (93 at 2023: 91 topic cells + 2 all-cause context)",
+    "source_requests_expected": 1,
+    "expected_max_source_cells": 93,
+    "cell_cap": 100,
+    "expected_canonical_observations": 91,
+    "observation_cap": 100,
+    "expected_eligible_targets": 77,
+    "expected_review_required_residuals": 14
+  },
+  "profile": {
+    "id": "DOSSIER_CANARY_V2",
+    "d1_budget": 240,
+    "d1_hard_ceiling": 800,
+    "lease_seconds_initial": 45,
+    "max_concurrent_v2_runs": 1,
+    "max_concurrent_concept_proposers": 1,
+    "ct_refetch": "FORBIDDEN",
+    "oecd": "OFF",
+    "v1_execution": "OFF",
+    "candidate_persistence": "FORBIDDEN",
+    "snapshot_persistence": "FORBIDDEN",
+    "measured_local": {
+      "max_d1": 212,
+      "d1_per_item": 21.35,
+      "total_statements": 1943,
+      "invocations": 10
+    },
+    "production_cpu_measured": "NO",
+    "production_lease_measured": "NO"
+  },
+  "run_id_contract": {
+    "created_by": "first POST /run without run_id (Worker generates crun_<uuid>)",
+    "pinned_by": "operator records the id from the --once response (or `runs --reader ... --profile v2`) and passes --run-id afterwards",
+    "refusals": [
+      "RUN_NOT_FOUND_FOR_READER",
+      "RUN_ALREADY_ACTIVE",
+      "RUN_QUOTA_EXHAUSTED_OPERATOR_REVIEW_REQUIRED"
+    ],
+    "after_failed": "set the reader control to 0 immediately; never call run again without a new owner decision"
+  },
+  "resume_contract": {
+    "after_work_list_persisted": "never refetches",
+    "only_refetch_window": "platform kill inside the first FETCH invocation between the HTTP response and the phase flip (<= 8 statements, nothing ingested)",
+    "bounded_by": "3 source requests per logical run",
+    "blocker": false
+  },
+  "platform_recovery": {
+    "max_recoverable_terminations": 3,
+    "fourth": "HARD STOP",
+    "non_platform_integrity_failure": "HARD STOP on first occurrence",
+    "cpu_root_cause": "UNRESOLVED_PLATFORM_ENFORCEMENT (not claimed solved)"
+  },
+  "family_counting": {
+    "ct_only": 1,
+    "eurostat_only": 1,
+    "oecd_plus_eurostat": 1,
+    "ct_plus_eurostat": 2,
+    "ct_plus_eurostat_plus_oecd": 2
+  },
+  "operator_surface": {
+    "cli": "scripts/dossier-canary-operator.mjs",
+    "new": [
+      "--once",
+      "--profile v2",
+      "eurostat-report --run-id"
+    ],
+    "routes": [
+      "POST /api/dossier/canary/run (V2 reader id)",
+      "GET /api/dossier/canary/eurostat-report?run_id=",
+      "GET .../status|runs|watch?profile=v2"
+    ],
+    "observability": [
+      "CLI step output",
+      "wrangler tail --format json (filtered fields)",
+      "scripts/cf-worker-cpu-readback.mjs",
+      "eurostat-report counters"
+    ],
+    "never_captured": [
+      "OPS token",
+      "Authorization header",
+      "cookies",
+      "secrets"
+    ]
+  },
+  "deployment_diff": {
+    "base": "f76fc449 (deployed production build)",
+    "worker_files_included": [
+      "apps/worker/src/dossier-canary-routes.ts",
+      "apps/worker/src/dossier/aggregation.ts",
+      "apps/worker/src/dossier/canary-control.ts",
+      "apps/worker/src/dossier/canary-inspect.ts",
+      "apps/worker/src/dossier/canary-profile.ts",
+      "apps/worker/src/dossier/canary-v2.ts",
+      "apps/worker/src/dossier/canary.ts",
+      "apps/worker/src/dossier/eurostat.ts",
+      "apps/worker/src/dossier/repo.ts"
+    ],
+    "schema_migration": "NONE",
+    "contract_change": "NONE (dossier-discovery.json sha256 fe39d2e0258a51ec6acd77cf7575a9fe2cae366f2ba5d0471232a145840a7c3a)",
+    "migration_0031": "UNCHANGED (sha256 5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343)",
+    "wrangler_toml": "UNCHANGED",
+    "v1_profile_constant": "UNCHANGED",
+    "v1_registry_entries": "UNCHANGED",
+    "unrelated_worker_changes": "NONE (git diff f76fc449 over apps, packages, config, adapters, migrations excluding the dossier files is empty)",
+    "release_hygiene_shipped_list": "deliberately extended by canary-v2.ts and eurostat.ts"
+  },
+  "artifact": {
+    "method": "wrangler deploy --dry-run --outdir (local, deploys nothing), built twice",
+    "script": "scripts/dossier-eurostat-canary-artifact.mjs --check",
+    "bundle_sha256": "ca5dbee063b9659455901a21f02ae39c7627193580199cdaa35829a50d9a6a62",
+    "bundle_bytes": 624145,
+    "deterministic": true,
+    "markers": [
+      "DOSSIER_CANARY_V2",
+      "selectEffectiveRelease",
+      "NEWEST_RELEASE_HAS_NO_VALUE",
+      "AMBIGUOUS_SAME_RELEASE_CONFLICT",
+      "DATASET_RELEASE_KEY",
+      "CONCEPT_PROPOSER_BUSY",
+      "leaseNearlyOver",
+      "V2_HARD_STOP_PROMOTION_ELIGIBILITY_REACHED",
+      "dossier-eurostat-tr-causes-of-death",
+      "hlth_cd_asdr2",
+      "eurostat-report"
+    ],
+    "forbidden_markers_present": []
+  },
+  "sequence": [
+    "record rollback version ee60d69b / f76fc449",
+    "re-run live + Eurostat preflight",
+    "verify artifact sha256",
+    "deploy disabled; verify READY / DISABLED",
+    "redeploy with DOSSIER_CANARY_ENABLED=true",
+    "controls: canary_enabled, manual_runs_allowed, promotion_enabled, reader enabled (nothing else)",
+    "run --once, pin id, resume with --run-id (<= 12 invocations)",
+    "eurostat-report + status/watch/candidates/errors",
+    "controls to 0, redeploy disabled, verify READY / DISABLED / no run / no lease"
+  ],
+  "ops_token_plan": "transient OPS_TOKEN procedure reused at execution only with explicit owner approval; never printed or persisted; Worker secret removed and environment cleared afterwards; hygiene verified. Not created or rotated in this phase.",
+  "prep_gates": {
+    "P1": "PASS_PREP",
+    "P2": "PASS_PREP",
+    "P3": "PASS_PREP",
+    "P4": "PASS_PREP",
+    "P5": "PASS_PREP"
+  },
+  "canary_execution_ready": "YES",
+  "production_activation_ready": "NO",
+  "not_performed": {
+    "production_mutation": true,
+    "deploy": true,
+    "source_activation": true,
+    "production_canary": true,
+    "new_run": true,
+    "token_created_or_rotated": true,
+    "push": true
+  }
+}

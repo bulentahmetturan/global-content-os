@@ -1,0 +1,1417 @@
+{
+  "phase": "DESIGN_AND_FREEZE_HEALTH_STATISTICS_SCHEMA",
+  "as_of": "2026-10-05",
+  "engine": "node:sqlite (SQLite 3.53.0) in-memory, foreign_keys=ON",
+  "ddl": "docs/generated/statistics-schema-v1.sql",
+  "ddl_sha256": "fdeec02c7e83b9a219f849a8329233e8db57e9441a2f2ae01c1c684bca156443",
+  "summary": {
+    "total": 143,
+    "passed": 143,
+    "failed": 0,
+    "bySection": {
+      "ddl": {
+        "total": 8,
+        "passed": 8
+      },
+      "flow1-api": {
+        "total": 16,
+        "passed": 16
+      },
+      "revision-matrix": {
+        "total": 19,
+        "passed": 19
+      },
+      "negative-integrity": {
+        "total": 30,
+        "passed": 30
+      },
+      "flow2-file": {
+        "total": 11,
+        "passed": 11
+      },
+      "flow3-pdf": {
+        "total": 7,
+        "passed": 7
+      },
+      "p5-governance": {
+        "total": 30,
+        "passed": 30
+      },
+      "canary": {
+        "total": 2,
+        "passed": 2
+      },
+      "query-plans": {
+        "total": 20,
+        "passed": 20
+      }
+    }
+  },
+  "schema": {
+    "tables": [
+      "statistics_checkpoints",
+      "statistics_concepts",
+      "statistics_current_observations",
+      "statistics_datasets",
+      "statistics_geographies",
+      "statistics_indicator_mappings",
+      "statistics_indicators",
+      "statistics_ingestion_runs",
+      "statistics_lineage_edges",
+      "statistics_observation_versions",
+      "statistics_raw_artifacts",
+      "statistics_release_events",
+      "statistics_releases",
+      "statistics_series",
+      "statistics_series_dimensions",
+      "statistics_source_runtime_policy",
+      "statistics_sources",
+      "statistics_validation_events"
+    ],
+    "explicitIndexes": 27,
+    "autoIndexes": 22,
+    "triggers": 49
+  },
+  "query_plans": [
+    {
+      "id": "Q-01",
+      "name": "latest observation by series",
+      "plan": [
+        "SEARCH statistics_current_observations USING INDEX idx_stat_current_latest (series_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-02",
+      "name": "historical series (period range)",
+      "plan": [
+        "SEARCH statistics_current_observations USING INDEX idx_stat_current_latest (series_id=? AND period_start>?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-03",
+      "name": "indicator + geography → series",
+      "plan": [
+        "SEARCH statistics_series USING INDEX idx_stat_series_geo_ind (geography_id=? AND indicator_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-04",
+      "name": "geography → series (Türkiye-only subject query)",
+      "plan": [
+        "SEARCH statistics_series USING INDEX idx_stat_series_geo_ind (geography_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-05",
+      "name": "revision history for one series+period",
+      "plan": [
+        "SEARCH statistics_observation_versions USING PRIMARY KEY (series_id=? AND period_key=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-06",
+      "name": "release → changed observations",
+      "plan": [
+        "SEARCH statistics_observation_versions USING COVERING INDEX idx_stat_obsver_release (release_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-07",
+      "name": "provenance trace (version → release/run)",
+      "plan": [
+        "SEARCH v USING PRIMARY KEY (series_id=? AND period_key=? AND release_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_statistics_releases_1 (release_id=?)",
+        "SEARCH u USING INDEX sqlite_autoindex_statistics_ingestion_runs_1 (run_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-08",
+      "name": "latest run for a source",
+      "plan": [
+        "SEARCH statistics_ingestion_runs USING INDEX idx_stat_runs_source_latest (source_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-09",
+      "name": "dataset → latest release",
+      "plan": [
+        "SEARCH statistics_releases USING INDEX idx_stat_releases_ds_rank (dataset_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-10",
+      "name": "release feed",
+      "plan": [
+        "SCAN statistics_releases USING INDEX idx_stat_releases_feed"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-11",
+      "name": "extension-dimension filter",
+      "plan": [
+        "SEARCH statistics_series_dimensions USING COVERING INDEX idx_stat_sdim_source (dimension_key=? AND source_value_code=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-12",
+      "name": "quality lookup (non-VALID)",
+      "plan": [
+        "SCAN statistics_observation_versions USING INDEX idx_stat_obsver_quality",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-13",
+      "name": "run → checkpoint",
+      "plan": [
+        "SEARCH statistics_checkpoints USING INDEX idx_stat_ckpt_last_run (last_run_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-14",
+      "name": "checkpoint by dataset+scope",
+      "plan": [
+        "SEARCH statistics_checkpoints USING INDEX sqlite_autoindex_statistics_checkpoints_2 (dataset_id=? AND scope_key=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-15",
+      "name": "release outbox (eligible)",
+      "plan": [
+        "SEARCH statistics_release_events USING INDEX idx_stat_events_state (eligibility_state=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-16",
+      "name": "validation events for a version",
+      "plan": [
+        "SEARCH statistics_validation_events USING INDEX idx_stat_val_version (series_id=? AND period_key=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-17",
+      "name": "planner: due sources",
+      "plan": [
+        "SCAN statistics_source_runtime_policy"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": [
+        "SCAN statistics_source_runtime_policy"
+      ]
+    },
+    {
+      "id": "Q-18",
+      "name": "source → datasets",
+      "plan": [
+        "SEARCH statistics_datasets USING INDEX sqlite_autoindex_statistics_datasets_2 (source_id=?)"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    },
+    {
+      "id": "Q-19",
+      "name": "recent material revisions",
+      "plan": [
+        "SCAN statistics_observation_versions USING INDEX idx_stat_obsver_revisions"
+      ],
+      "scale_sensitive_full_scan": false,
+      "small_table_scans": []
+    }
+  ],
+  "results": [
+    {
+      "section": "ddl",
+      "id": "DDL-01",
+      "name": "reference DDL applies to an empty database",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-02",
+      "name": "DDL is re-applicable (IF NOT EXISTS everywhere)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-03",
+      "name": "DDL contains no DROP/ALTER/PRAGMA statements",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-04",
+      "name": "final table count",
+      "expected": "18",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-05",
+      "name": "explicit index count / implicit autoindex count / trigger count",
+      "expected": "informational",
+      "passed": true,
+      "detail": "27 explicit, 22 autoindex, 49 triggers"
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-06",
+      "name": "foreign_key_check clean on empty schema",
+      "expected": "0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-07",
+      "name": "all FKs are RESTRICT/NO ACTION (no CASCADE in DDL)",
+      "expected": "false",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "ddl",
+      "id": "DDL-08",
+      "name": "foreign keys enforced when enabled",
+      "expected": "1",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-00",
+      "name": "run for a source with no runtime policy row is refused (default DISABLED)",
+      "expected": "fail(STAT_RUN_REQUIRES_ACTIVE_POLICY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-00b",
+      "name": "CANARY run refused while DISABLED",
+      "expected": "fail(STAT_RUN_REQUIRES_CANARY_POLICY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-01",
+      "name": "checkpoint created with a lease held by the run",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-02",
+      "name": "first observation version inserted",
+      "expected": "\"INSERTED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-03",
+      "name": "second period inserted",
+      "expected": "\"INSERTED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-04",
+      "name": "checkpoint advances while leased by the same run",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-05",
+      "name": "checkpoint cannot advance without a lease",
+      "expected": "fail(STAT_CHECKPOINT_NOT_LEASED)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-06",
+      "name": "run finalized (terminal)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-07",
+      "name": "terminal run is immutable",
+      "expected": "fail(STAT_RUN_TERMINAL_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-08",
+      "name": "exact replay of the same release is a no-op (no duplicate version)",
+      "expected": "\"REPLAY_NOOP\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-09",
+      "name": "version count after replay",
+      "expected": "2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-10",
+      "name": "bounded latest read (current, one series)",
+      "expected": "{\"period_key\":\"Y2023\",\"numeric_value\":77.2}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-11",
+      "name": "historical read (range)",
+      "expected": "[\"Y2022\",\"Y2023\"]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-12",
+      "name": "provenance trace resolves source, dataset, release, run versions and locator",
+      "expected": "[\"EUROSTAT_HEALTH\",\"API_SNAPSHOT\",\"r1\",\"p1\",\"n1\",true]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-13",
+      "name": "INV-008: global source family + Türkiye subject geography are independent",
+      "expected": "[\"GLOBAL_HEALTH_STATISTICS\",\"ISO3:TUR\"]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow1-api",
+      "id": "F1-14",
+      "name": "version for a nonexistent series is rejected (FK)",
+      "expected": "fail(FOREIGN KEY|STAT_OBSERVATION_RELEASE_SERIES_RUN_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-03",
+      "name": "new release / same value → no new version, confirmation only",
+      "expected": "\"CONFIRMED_NO_VERSION\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-03b",
+      "name": "confirmation recorded on projection",
+      "expected": "\"rel_4fe64f05bf357e337bc04fe9\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-04",
+      "name": "new release / changed value → new immutable version",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-04b",
+      "name": "old version still queryable",
+      "expected": "77.2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-04c",
+      "name": "new version links to previous and current switches",
+      "expected": "[{\"p\":\"rel_5398adbba951407f6ba87a54\",\"c\":\"SOURCE_REVISION\"},{\"v\":77.9,\"n\":1}]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-05",
+      "name": "correction with a source-stated reason (class CORRECTION, reason verbatim)",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-05b",
+      "name": "reason stored only as SOURCE_STATED",
+      "expected": "{\"c\":\"CORRECTION\",\"o\":\"SOURCE_STATED\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-06",
+      "name": "backfill of an older release stored as BACKFILL history",
+      "expected": "\"BACKFILL\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-06b",
+      "name": "backfill never displaces the newer current value",
+      "expected": "{\"v\":78,\"r\":\"rel_4591943c1b33dd84ac6c7e78\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-06c",
+      "name": "backfill has no previous pointer",
+      "expected": "{\"p\":null,\"c\":\"BACKFILL\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-07",
+      "name": "provisional → final (same number, finality differs) is a new version",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-07b",
+      "name": "current is FINAL",
+      "expected": "\"FINAL\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-08",
+      "name": "missing stored as MISSING with NULL number (never 0)",
+      "expected": "{\"s\":\"MISSING\",\"n\":null}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-08b",
+      "name": "missing → present in a later release",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-09",
+      "name": "present → suppressed when the source legitimately revises",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-09b",
+      "name": "current reflects SUPPRESSED, history retains the number",
+      "expected": "[\"SUPPRESSED\",12.5]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-10",
+      "name": "withdrawn release is excluded; current falls back to the previous release deterministically",
+      "expected": "{\"v\":77.9,\"r\":\"rel_4fe64f05bf357e337bc04fe9\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-10b",
+      "name": "new observations into a withdrawn release are refused",
+      "expected": "fail(STAT_OBSERVATION_INTO_WITHDRAWN_RELEASE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "revision-matrix",
+      "id": "R-10c",
+      "name": "withdrawn release history is retained",
+      "expected": "3",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-11",
+      "name": "same-release conflicting write fails (immutable history)",
+      "expected": "fail(STAT_OBSERVATION_VERSION_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-12a",
+      "name": "orphan provenance: unknown run_id rejected",
+      "expected": "fail(FOREIGN KEY|STAT_OBSERVATION_RELEASE_SERIES_RUN_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-12b",
+      "name": "orphan provenance: missing run_id rejected (NOT NULL)",
+      "expected": "fail(NOT NULL|STAT_OBSERVATION_RELEASE_SERIES_RUN_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-12c",
+      "name": "orphan provenance: empty source locator rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-12d",
+      "name": "FILE provenance without artifact rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-13",
+      "name": "duplicate canonical series identity rejected",
+      "expected": "fail(UNIQUE constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "R-14",
+      "name": "extension-dimension collision (same key twice on a series) rejected",
+      "expected": "fail(UNIQUE constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-01",
+      "name": "update of an observation value rejected",
+      "expected": "fail(STAT_OBSERVATION_VERSION_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-02",
+      "name": "delete of a production observation version rejected",
+      "expected": "fail(STAT_OBSERVATION_VERSION_NO_DELETE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-03",
+      "name": "delete of a release rejected",
+      "expected": "fail(STAT_NO_DELETE_WITHDRAW_INSTEAD)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-04",
+      "name": "delete of a source rejected (retire instead)",
+      "expected": "fail(STAT_NO_DELETE_RETIRE_INSTEAD)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-05",
+      "name": "zero masquerading: numeric value on a MISSING state rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-06",
+      "name": "PRESENT without any value representation rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-07",
+      "name": "period key inconsistent with granularity rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-08",
+      "name": "revision class SOURCE_REVISION without a previous release rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-09",
+      "name": "revision reason without SOURCE_STATED origin rejected (no inferred reasons)",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-10",
+      "name": "release/series dataset mismatch rejected",
+      "expected": "fail(STAT_OBSERVATION_RELEASE_SERIES_RUN_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-11",
+      "name": "series with an indicator from another dataset rejected",
+      "expected": "fail(STAT_SERIES_INDICATOR_DATASET_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-12",
+      "name": "series key must start with its dataset id",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-13",
+      "name": "series identity columns are immutable",
+      "expected": "fail(STAT_SERIES_IDENTITY_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-14",
+      "name": "dataset id must equal source_id:native id",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-15",
+      "name": "source_area outside the two top-level areas rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-16",
+      "name": "self lineage edge rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-17",
+      "name": "validation event with inconsistent target rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-18",
+      "name": "CROSS_SOURCE_QA cannot carry a quarantining verdict (no truth voting)",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-19",
+      "name": "validation events are append-only",
+      "expected": "fail(STAT_VALIDATION_EVENT_APPEND_ONLY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "N-20",
+      "name": "release_id format enforced",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "V-01",
+      "name": "validation event drives quality_state; quarantined version is excluded from current",
+      "expected": "[\"VALID\",\"QUARANTINED\",\"rel_4fe64f05bf357e337bc04fe9\"]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "P-01",
+      "name": "current projection fully rebuilt from immutable history equals the incrementally maintained projection (core columns)",
+      "expected": "[{\"series_id\":\"ser_2z45zf55py6xleyun64l3nbqmgnblrtw\",\"period_key\":\"Y2024\",\"current_release_id\":\"rel_4fe64f05bf357e337bc04fe9\",\"numeric_value\":50,\"value_state\":\"PRESENT\",\"finality\":\"PROVISIONAL\",\"revision_count\":0},{\"series_id\":\"ser_uuhni4ke5ugdivfuhhwwdma5d4caukle\",\"period_key\":\"Y2022\",\"current_release_id\":\"rel_5398adbba951407f6ba87a54\",\"numeric_value\":76.1,\"value_state\":\"PRESENT\",\"finality\":\"FINAL\",\"revision_count\":0},{\"series_id\":\"ser_uuhni4ke5ugdivfuhhwwdma5d4caukle\",\"period_key\":\"Y2023\",\"current_release_id\":\"rel_4591943c1b33dd84ac6c7e78\",\"numeric_value\":78,\"value_state\":\"PRESENT\",\"finality\":\"FINAL\",\"revision_count\":3},{\"series_id\":\"ser_xz4jvcv35hfe4x4qtmob53cylyaovvzq\",\"period_key\":\"Y2021\",\"current_release_id\":\"rel_4591943c1b33dd84ac6c7e78\",\"numeric_value\":null,\"value_state\":\"SUPPRESSED\",\"finality\":\"FINAL\",\"revision_count\":2}]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "negative-integrity",
+      "id": "P-02",
+      "name": "projection row cannot reference a version of another series/period (composite FK)",
+      "expected": "fail(FOREIGN KEY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-01",
+      "name": "raw artifact metadata with R2 absent (backend NONE, source URL as locator)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-02",
+      "name": "R2 backend without a locator rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-03",
+      "name": "same checksum replay does not duplicate the artifact",
+      "expected": "1",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-04",
+      "name": "spreadsheet observation with cell locator",
+      "expected": "\"INSERTED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-05",
+      "name": "FILE provenance starts VALID only when extraction is deterministic (SPREADSHEET_CELL)",
+      "expected": "\"VALID\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-06",
+      "name": "same checksum, same release replay does not duplicate observations",
+      "expected": "\"REPLAY_NOOP\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-07",
+      "name": "corrected file (new checksum) revises the value as a new immutable version",
+      "expected": "\"REVISED\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-08",
+      "name": "old version remains queryable",
+      "expected": "123456",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-09",
+      "name": "release status transition (controlled mutable) SUPERSEDED/CORRECTED allowed",
+      "expected": "1",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-10",
+      "name": "release identity immutable",
+      "expected": "fail(STAT_RELEASE_IDENTITY_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow2-file",
+      "id": "F2-11",
+      "name": "file-release current value and provenance chain to the artifact",
+      "expected": "{\"v\":123999,\"s\":\"effc2e43e0c99a8aba67b2b4b1077400014ee1af1baadc89856c27db24ea6dea\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-01",
+      "name": "PDF-derived observation lands SUSPECT with page/table locator",
+      "expected": "[\"INSERTED\",{\"q\":\"SUSPECT\",\"m\":\"PDF_TABLE_PARSE\"}]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-02",
+      "name": "PDF-derived observation cannot be inserted as VALID (review required)",
+      "expected": "fail(STAT_PDF_EXPORT_OBSERVATION_MUST_START_SUSPECT)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-03",
+      "name": "PDF provenance requires PDF_TABLE_PARSE",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-04",
+      "name": "default read excludes SUSPECT (quality filter on projection)",
+      "expected": "0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-05",
+      "name": "review verdict promotes the version and the projection",
+      "expected": "\"VALID\"",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-06",
+      "name": "revised PDF edition produces a new version, previous remains",
+      "expected": "[\"REVISED\",2]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "flow3-pdf",
+      "id": "F3-07",
+      "name": "new revised PDF version stays SUSPECT until reviewed; current follows deterministic winner rule",
+      "expected": "{\"q\":\"SUSPECT\",\"v\":7.9}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-01",
+      "name": "source identity present while no runtime policy exists (effective state DISABLED)",
+      "expected": "[1,0]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-02",
+      "name": "inserting a source never activates ingestion: production run refused",
+      "expected": "fail(STAT_RUN_REQUIRES_ACTIVE_POLICY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-03",
+      "name": "DISABLED/ACTIVATION_GATED policy rows can be created without gates",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-04",
+      "name": "ACTIVE without owner approval and gates is impossible (CHECK)",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-05",
+      "name": "ACTIVE with approval but unsatisfied auth gate impossible",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-06",
+      "name": "ACTIVE with open legal gate and no recorded override impossible",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-07",
+      "name": "a DISCOVERY source can never be ACTIVATION_GATED/ACTIVE",
+      "expected": "fail(STAT_POLICY_DISPOSITION_NOT_INGESTIBLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-08",
+      "name": "canary run allowed once policy is ACTIVATION_GATED (owner-triggered canary)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-09",
+      "name": "production run still refused in ACTIVATION_GATED",
+      "expected": "fail(STAT_RUN_REQUIRES_ACTIVE_POLICY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-10",
+      "name": "PAUSED blocks canary and production runs",
+      "expected": "fail(STAT_RUN_REQUIRES_CANARY_POLICY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-11",
+      "name": "RETIRED is final",
+      "expected": "fail(STAT_POLICY_RETIRED_IS_FINAL)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-12",
+      "name": "policy identity immutable",
+      "expected": "fail(STAT_POLICY_IDENTITY_IMMUTABLE)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-13",
+      "name": "secret reference must be a NAME (no value-like content)",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-14",
+      "name": "EXACT mapping without a named human review rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-15",
+      "name": "an automated PROPOSAL can only be REVIEW_REQUIRED",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-16",
+      "name": "EXACT mapping onto an unapproved (PROPOSED) concept rejected",
+      "expected": "fail(STAT_MAPPING_CONCEPT_NOT_APPROVED)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-17",
+      "name": "reviewed EXACT mapping to an approved concept accepted",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-18",
+      "name": "REVIEW_REQUIRED proposal accepted without review",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-19",
+      "name": "mappings are append-only (no in-place edit)",
+      "expected": "fail(STAT_MAPPING_APPEND_ONLY)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-20",
+      "name": "mapping state view reports UNMAPPED / EXACT / REVIEW_REQUIRED (no label-based merge)",
+      "expected": "{\"HLTH_SHA11_HF\":\"UNMAPPED\",\"SIY_BULLETIN\":\"UNMAPPED\",\"WHOSIS_000001\":\"EXACT\",\"YILLIK_BLM_4\":\"UNMAPPED\",\"life-expectancy\":\"REVIEW_REQUIRED\"}",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-21",
+      "name": "release event queued PENDING (un-emitted by default)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-22",
+      "name": "event dedupe is deterministic (same key rejected)",
+      "expected": "fail(UNIQUE constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-23",
+      "name": "EMITTED requires prior ELIGIBLE",
+      "expected": "fail(STAT_EVENT_EMIT_NOT_GOVERNED)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-24",
+      "name": "ELIGIBLE event cannot be emitted while the source runtime state is not ACTIVE",
+      "expected": "fail(STAT_EVENT_EMIT_NOT_GOVERNED)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-25",
+      "name": "http (non-https) official URL rejected",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-26",
+      "name": "payload must be bounded valid JSON",
+      "expected": "fail(CHECK constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-27",
+      "name": "secondary lineage representable (OWID DERIVED_FROM WHO)",
+      "expected": "success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-28",
+      "name": "independence query: OWID has an upstream path to WHO",
+      "expected": "[\"WHO_HEALTH_STATISTICS\"]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-29",
+      "name": "duplicate lineage edge rejected",
+      "expected": "fail(UNIQUE constraint)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "p5-governance",
+      "id": "G-30",
+      "name": "run for a dataset not belonging to the stated source rejected",
+      "expected": "fail(STAT_RUN_DATASET_SOURCE_MISMATCH)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "canary",
+      "id": "C-01",
+      "name": "canary release data is never projected to current",
+      "expected": "0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "canary",
+      "id": "C-02",
+      "name": "canary observation versions are deletable (purge) while the release row stays",
+      "expected": "[1,1]",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-00",
+      "name": "plan fixture size",
+      "expected": "informational",
+      "passed": true,
+      "detail": "{\"series\":1500,\"versions\":36000,\"current\":36000}"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-01",
+      "name": "query plan: latest observation by series",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_current_observations USING INDEX idx_stat_current_latest (series_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-02",
+      "name": "query plan: historical series (period range)",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_current_observations USING INDEX idx_stat_current_latest (series_id=? AND period_start>?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-03",
+      "name": "query plan: indicator + geography → series",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_series USING INDEX idx_stat_series_geo_ind (geography_id=? AND indicator_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-04",
+      "name": "query plan: geography → series (Türkiye-only subject query)",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_series USING INDEX idx_stat_series_geo_ind (geography_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-05",
+      "name": "query plan: revision history for one series+period",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_observation_versions USING PRIMARY KEY (series_id=? AND period_key=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-06",
+      "name": "query plan: release → changed observations",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_observation_versions USING COVERING INDEX idx_stat_obsver_release (release_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-07",
+      "name": "query plan: provenance trace (version → release/run)",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH v USING PRIMARY KEY (series_id=? AND period_key=? AND release_id=?) ; SEARCH r USING INDEX sqlite_autoindex_statistics_releases_1 (release_id=?) ; SEARCH u USING INDEX sqlite_autoindex_statistics_ingestion_runs_1 (run_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-08",
+      "name": "query plan: latest run for a source",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_ingestion_runs USING INDEX idx_stat_runs_source_latest (source_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-09",
+      "name": "query plan: dataset → latest release",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_releases USING INDEX idx_stat_releases_ds_rank (dataset_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-10",
+      "name": "query plan: release feed",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SCAN statistics_releases USING INDEX idx_stat_releases_feed"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-11",
+      "name": "query plan: extension-dimension filter",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_series_dimensions USING COVERING INDEX idx_stat_sdim_source (dimension_key=? AND source_value_code=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-12",
+      "name": "query plan: quality lookup (non-VALID)",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SCAN statistics_observation_versions USING INDEX idx_stat_obsver_quality ; USE TEMP B-TREE FOR ORDER BY"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-13",
+      "name": "query plan: run → checkpoint",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_checkpoints USING INDEX idx_stat_ckpt_last_run (last_run_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-14",
+      "name": "query plan: checkpoint by dataset+scope",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_checkpoints USING INDEX sqlite_autoindex_statistics_checkpoints_2 (dataset_id=? AND scope_key=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-15",
+      "name": "query plan: release outbox (eligible)",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_release_events USING INDEX idx_stat_events_state (eligibility_state=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-16",
+      "name": "query plan: validation events for a version",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_validation_events USING INDEX idx_stat_val_version (series_id=? AND period_key=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-17",
+      "name": "query plan: planner: due sources",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SCAN statistics_source_runtime_policy"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-18",
+      "name": "query plan: source → datasets",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SEARCH statistics_datasets USING INDEX sqlite_autoindex_statistics_datasets_2 (source_id=?)"
+    },
+    {
+      "section": "query-plans",
+      "id": "Q-19",
+      "name": "query plan: recent material revisions",
+      "expected": "no full scan of a scale-sensitive table",
+      "passed": true,
+      "detail": "SCAN statistics_observation_versions USING INDEX idx_stat_obsver_revisions"
+    }
+  ],
+  "d1_local_runtime_check": {
+    "engine": "wrangler 4.145.0 d1 execute --local (workerd), --persist-to a throw-away scratchpad dir, --config a temp wrangler.toml with a dummy STATS_DB binding; repo .wrangler state untouched",
+    "ddl_applied": true,
+    "tables": 18,
+    "explicit_indexes": 27,
+    "triggers": 49,
+    "negative_checks": [
+      {
+        "sql": "DELETE FROM statistics_sources",
+        "error": "STAT_NO_DELETE_RETIRE_INSTEAD"
+      },
+      {
+        "sql": "INSERT INTO statistics_ingestion_runs (PRODUCTION, no policy row)",
+        "error": "STAT_RUN_REQUIRES_ACTIVE_POLICY"
+      }
+    ],
+    "production_d1_touched": false
+  }
+}

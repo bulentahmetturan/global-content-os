@@ -7,9 +7,12 @@
 //   BLOCKED   /api/ready   503  a critical dependency is missing: DB unreachable or schema behind the code.
 import type { Env } from './db/queries';
 import { resolveOutbound } from './handoff-security';
+import { DOSSIER_CANARY_V1 } from './dossier/canary-profile';
+import { gatherDossierReadiness, type DossierReadiness } from './dossier/canary-readiness';
+import { recurringReadiness } from './dossier/recurring-ops';
 
 /** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0042_protocol_dash_wave1.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0043_dossier_discovery_foundation.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 
@@ -48,7 +51,7 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
 }
 
 /** Gathers the /api/ready inputs (shared by /api/ready and /api/ops/summary). */
-export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null }> {
+export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null; dossier: DossierReadiness & { recurring: Awaited<ReturnType<typeof recurringReadiness>> } }> {
   let dbReachable = false;
   let appliedMigration: string | null = null;
   let cronAge: number | null = null;
@@ -71,5 +74,14 @@ export async function gatherReadiness(env: Env): Promise<{ report: ReadinessRepo
     openAlexKeyConfigured: !!(env.OPENALEX_API_KEY || '').trim(),
     handoffMode: resolveOutbound(env).mode,
   });
-  return { report, appliedMigration };
+  // DOSSIER canary: reported with its own components and environment. An intentionally DISABLED canary is not a failure and changes nothing here;
+  // an ENABLED canary that is not ready only DEGRADES (never blocks) the rest of GCOS.
+  const dossier = await gatherDossierReadiness(env.DB as never, { environment: env.ENVIRONMENT === 'production' ? 'LIVE' : 'LOCAL', envMasterSwitch: env.DOSSIER_CANARY_ENABLED === 'true', profile: DOSSIER_CANARY_V1 });
+  if (dossier.level === 'BLOCKED') {
+    report.degraded.push('DOSSIER_CANARY_NOT_READY');
+    report.level = report.blocked.length ? 'BLOCKED' : 'DEGRADED';
+  }
+  // Recurring operation: reported only. It NEVER changes the top-level GCOS level (a source failure must not disable GCOS).
+  const recurring = await recurringReadiness(env.DB as never, { env, nowIso: new Date().toISOString() });
+  return { report, appliedMigration, dossier: { ...dossier, recurring } };
 }

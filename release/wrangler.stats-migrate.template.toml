@@ -1,0 +1,11 @@
+# TEMPLATE for the owner-run STATS_DB migration (item 39). NEVER commit a real database id.
+# Copy to release/wrangler.stats-migrate.toml (git-ignored), replace the id with the value printed by `wrangler d1 create global-content-os-stats`.
+# This config names ONLY the statistics database: wrangler cannot touch the content database through it.
+name = "global-content-os-stats-migrate"
+compatibility_date = "2025-07-18"
+
+[[d1_databases]]
+binding = "STATS_DB"
+database_name = "global-content-os-stats"
+database_id = "REPLACE_WITH_DATABASE_ID_FROM_CREATE"
+migrations_dir = "migrations/statistics"

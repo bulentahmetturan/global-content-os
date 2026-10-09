@@ -1,0 +1,71 @@
+{
+ "_provenance": {
+  "kind": "RECORDED_REAL_RESPONSE_NOT_LIVE",
+  "source": "https://clinicaltrials.gov/api/v2/studies",
+  "recorded_at": "2026-10-03T16:38:28.156Z",
+  "note": "The single real study from the 100-record canary response whose condition field resolved to the same concept as an OECD Turkiye cause-of-death group. Kept to reproduce the real convergence offline."
+ },
+ "response": {
+  "studies": [
+   {
+    "protocolSection": {
+     "identificationModule": {
+      "nctId": "NCT07855666",
+      "briefTitle": "Safety and Efficacy of Ultrasound-Guided Percutaneous Nephrostomy in Oncology Patients"
+     },
+     "statusModule": {
+      "overallStatus": "NOT_YET_RECRUITING",
+      "studyFirstPostDateStruct": {
+       "date": "2026-10-02"
+      },
+      "lastUpdatePostDateStruct": {
+       "date": "2026-10-02"
+      }
+     },
+     "sponsorCollaboratorsModule": {
+      "leadSponsor": {
+       "name": "Assiut University"
+      }
+     },
+     "conditionsModule": {
+      "conditions": [
+       "Obstructive Uropathy",
+       "Hydronephrosis",
+       "Ureteral Obstruction",
+       "Acute Kidney Injury",
+       "Neoplasms"
+      ]
+     },
+     "designModule": {
+      "studyType": "INTERVENTIONAL",
+      "phases": [
+       "NA"
+      ]
+     },
+     "armsInterventionsModule": {
+      "armGroups": [
+       {
+        "type": "EXPERIMENTAL",
+        "interventionNames": [
+         "Procedure: Ultrasound-guided percutaneous nephrostomy"
+        ]
+       }
+      ],
+      "interventions": [
+       {
+        "type": "PROCEDURE",
+        "name": "Ultrasound-guided percutaneous nephrostomy"
+       }
+      ]
+     },
+     "eligibilityModule": {
+      "healthyVolunteers": false
+     }
+    },
+    "derivedSection": {
+     "conditionBrowseModule": {}
+    }
+   }
+  ]
+ }
+}

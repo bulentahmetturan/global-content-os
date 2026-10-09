@@ -1,0 +1,635 @@
+{
+  "$comment": "CANONICAL vocabulary for EVERGREEN > DOSSIER_DISCOVERY (architecture foundation, non-production). Owner: global-content-os/packages/contracts. This file defines CLASSES and CONTRACT SHAPES only. It never lists real-world topics, supplements, protocols, technologies, conditions, experts or relations: concept membership is OPEN-WORLD runtime data that arrives as observations and becomes human-reviewed proposals. No migration, reader, scheduler or source activation exists for this contract yet. Doc: docs/DOSSIER-DISCOVERY.md.",
+  "version": 1,
+  "contract": "evergreen-dossier-discovery",
+  "temporal": {
+    "parent_path": "EVERGREEN",
+    "subsystem": "DOSSIER_DISCOVERY",
+    "candidate_temporal_identity": "EVERGREEN",
+    "own_temporal_path": false,
+    "own_acquisition_path": false,
+    "is_evergreen_view": false,
+    "writes_source_items": false,
+    "signal_freshness_is_not_candidate_identity": true,
+    "reuses_existing_items_as_sensors": true,
+    "routing": {
+      "single_acute_event": "TIME_SENSITIVE (existing path, unchanged)",
+      "repeated_or_structural_pattern": "EVERGREEN > DOSSIER_DISCOVERY",
+      "global_emerging_issue_with_health_significance": "EVERGREEN > DOSSIER_DISCOVERY (FRONTIER)"
+    }
+  },
+  "open_world": {
+    "classes_are_bounded": true,
+    "concept_membership_is_open": true,
+    "unknown_policy": "PROPOSAL",
+    "resolution_outcomes": ["MATCHED_EXISTING", "REVIEW_REQUIRED", "PROPOSED"],
+    "forbidden_resolution_outcomes": ["DROPPED", "AUTO_CANONICAL", "REJECTED_AS_UNKNOWN", "AUTO_MERGED"],
+    "concept_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "proposal_families": ["NEW_HEALTH_TOPIC", "NEW_PROTOCOL", "NEW_SUPPLEMENT", "NEW_SUPPLEMENT_FORM", "NEW_LONGEVITY_TECH", "NEW_PUBLIC_HEALTH_TOPIC", "NEW_EXPERT", "NEW_RELATION"]
+  },
+  "domains": {
+    "HEALTH": {
+      "proposal_family": "NEW_HEALTH_TOPIC",
+      "concept_classes": ["DISEASE_CONDITION", "SYMPTOM", "PHYSIOLOGY", "DIAGNOSTIC", "TREATMENT", "MEDICATION", "EXPOSURE", "RISK_FACTOR", "BEHAVIOR_LIFESTYLE", "BIOMARKER", "INTERVENTION"]
+    },
+    "NUTRITION_PROTOCOL": {
+      "proposal_family": "NEW_PROTOCOL",
+      "concept_classes": ["FASTING", "MEAL_TIMING", "CARBOHYDRATE_RESTRICTION", "ELIMINATION", "GI_PROTOCOL", "DIETARY_PATTERN", "NAMED_PROTOCOL", "OTHER"],
+      "is_health_alias": false
+    },
+    "SUPPLEMENT": {
+      "proposal_family": "NEW_SUPPLEMENT",
+      "child_proposal_family": "NEW_SUPPLEMENT_FORM",
+      "concept_classes": ["SUPPLEMENT", "SUPPLEMENT_FORM"],
+      "is_knowledge_engine": false,
+      "form_claims_forbidden": ["BETTER", "SAFER", "MORE_BIOAVAILABLE", "CONDITION_SPECIFIC_USEFULNESS"]
+    },
+    "LONGEVITY_TECHNOLOGY": {
+      "proposal_family": "NEW_LONGEVITY_TECH",
+      "concept_classes": ["MEASUREMENT", "DIAGNOSTIC", "DIGITAL_MONITORING", "THERAPEUTIC_PLATFORM", "DRUG_PLATFORM", "REGENERATIVE", "GENE_TECH", "CELLULAR_TECH", "OMICS", "DEVICE", "CONSUMER_TECH"]
+    },
+    "POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH": {
+      "proposal_family": "NEW_PUBLIC_HEALTH_TOPIC",
+      "discovery_lanes": ["TURKEY_REALITY", "GLOBAL_PUBLIC_HEALTH_FRONTIER", "TRANSNATIONAL_HEALTH"],
+      "concept_classes": ["AIR_QUALITY", "WATER", "CLIMATE_HEALTH", "FOOD_SAFETY", "ENVIRONMENTAL_EXPOSURE", "PUBLIC_HEALTH_SURVEILLANCE", "ANTIMICROBIAL_RESISTANCE", "VECTOR_ONE_HEALTH", "POPULATION_RISK_BEHAVIOR"],
+      "water_facets": ["DRINKING_WATER_ACCESS", "DRINKING_WATER_QUALITY", "WATER_TREATMENT", "WATER_SECURITY_SCARCITY", "WASTEWATER", "BATHING_WATER", "WATER_CONTAMINANTS"],
+      "turkey_specific_data_may_be_unknown": true,
+      "health_consequence_must_be_central": true
+    }
+  },
+  "signal": {
+    "families": ["TURKEY_PUBLIC_DEMAND", "TURKEY_SOCIAL_MOMENTUM", "TR_CLINICIAN_CREATOR_PULSE", "TURKEY_HEALTH_BURDEN", "TURKEY_PUBLIC_HEALTH_DATA", "ENVIRONMENTAL_MEASUREMENT", "GLOBAL_MEDICAL_FRONTIER", "GLOBAL_RESEARCH_ACTIVITY", "GLOBAL_INSTITUTIONAL_FRONTIER", "GLOBAL_PUBLIC_HEALTH_DATA", "GLOBAL_ENVIRONMENTAL_OBSERVATION", "GLOBAL_CREATOR_SCOUT", "RELATION_SIGNAL"],
+    "families_are_never_collapsed_into_one_score": true,
+    "value_states": ["MEASURED", "UNKNOWN", "NOT_APPLICABLE"],
+    "missing_value_state": "UNKNOWN",
+    "unknown_is_never_zero": true,
+    "frontier_is_not_a_person_list": true,
+    "frontier_derives_from": ["research_activity", "trial_activity", "major_institutions", "researcher_topic_activity", "guideline_consensus_activity"],
+    "persons_are_provenance_not_editorial_subject": true,
+    "measurement_provenance": ["MEASURED", "MODELED", "ADMINISTRATIVE", "SURVEY", "ESTIMATE", "ALERT", "CONTENT", "SEARCH", "SOCIAL"],
+    "measured_equals_modeled": false
+  },
+  "observation": {
+    "source_item_is_not_observation": true,
+    "one_source_item_may_yield_many_observations": true,
+    "kinds": ["CONTENT_MENTION", "SEARCH_MAGNITUDE", "SEARCH_VELOCITY", "SOCIAL_MOMENTUM", "BURDEN_UTILIZATION", "ADMINISTRATIVE_STATISTIC", "SURVEY_ESTIMATE", "ENVIRONMENTAL_MEASURED", "ENVIRONMENTAL_MODELED", "SURVEILLANCE_CHANGE", "RESEARCH_ACTIVITY_COUNT", "INSTITUTIONAL_TOPIC_ACTIVITY", "CLINICIAN_REPORTED_PUBLIC_QUESTION", "ACTOR_MENTION"],
+    "required_fields": ["observation_id", "kind", "signal_family", "measurement_provenance", "observed_at", "origin"],
+    "origin_kinds": ["EXISTING_SOURCE_ITEM", "SIGNAL_SNAPSHOT", "STATISTICAL_RELEASE"],
+    "concept_ref": {
+      "exactly_one_of": ["concept_id", "unresolved_label"]
+    },
+    "clinician_reported_public_question_is_not_prevalence": true,
+    "optional_fields": ["run_id", "window_kind", "concept_id", "unresolved_label", "domain_hint", "signal", "actor_ref"],
+    "actor_mention": {
+      "stores_mentioned_name_as": "unresolved_label",
+      "stores_mentioning_actor_as": "actor_id",
+      "resolution_marker_field": "signal_subfamily",
+      "repeated_unknown_actor_proposal_requires": "POLICY_CONFIG",
+      "never_automatic_active": true,
+      "low_confidence_person_resolution": "REVIEW_REQUIRED"
+    }
+  },
+  "source": {
+    "roles": ["ACADEMIC_SCIENTIST", "CLINICIAN_RESEARCHER", "CLINICIAN_CREATOR", "HEALTH_CREATOR", "FUNCTIONAL_INTEGRATIVE_CREATOR", "PHARMACIST_CREATOR", "INSTITUTION"],
+    "roles_must_stay_distinguishable": true,
+    "raw_mention_count_may_not_outweigh_academic_or_institutional_signal": true,
+    "content_classes": {
+      "discovery_eligible": ["HEALTH_EDUCATIONAL", "PATIENT_QUESTION", "CLINICAL_OBSERVATION", "RESEARCH_COMMENTARY"],
+      "non_discovery": ["PERSONAL", "PROMOTIONAL", "SPONSORED", "OWN_PRODUCT", "OWN_SERVICE", "AFFILIATE", "UNKNOWN", "BRAND_PARTNERSHIP"],
+      "commercial_context_classes": ["PROMOTIONAL", "SPONSORED", "AFFILIATE", "OWN_PRODUCT", "OWN_SERVICE", "BRAND_PARTNERSHIP"],
+      "excluded_from_observations": ["PERSONAL", "UNKNOWN"],
+      "commercial_items_still_produce_observations_with_context": true,
+      "production_extraction_method": "OWNER_DECISION_REQUIRED",
+      "clinician_reported_public_question_is_not_prevalence": true
+    },
+    "commercial_context": ["NONE", "SPONSORED", "AFFILIATE", "OWN_PRODUCT", "OWN_SERVICE", "BRAND_PARTNERSHIP", "UNKNOWN"],
+    "access_states": ["APPROVED", "RESTRICTED", "MANUAL_ONLY", "UNRESOLVED", "REJECTED"],
+    "only_approved_may_be_read_by_a_future_reader": true,
+    "authority_scores_assigned_by_contract": false,
+    "credentials_invented_by_contract": false,
+    "actor": {
+      "kinds": ["PERSON", "INSTITUTION"],
+      "owner": "DOSSIER_DISCOVERY",
+      "identity_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+      "identity_store": "FUTURE_DOSSIER_DURABLE_STORE",
+      "separate_json_registry_required": false,
+      "is_acquisition_source": false,
+      "maps_to_many_acquisition_sources": true,
+      "mapping_references_canonical_acquisition_source_id_when_one_exists": true,
+      "forced_into_source_lifecycle": false,
+      "unknown_actor_policy": "PROPOSAL",
+      "accept_changes_only_actor_identity_state": true,
+      "accept_activates_acquisition_source": false,
+      "acquisition_source_activation_owner": "SOURCE_LIFECYCLE"
+    },
+    "acquisition_source": {
+      "kinds": ["RSS_FEED", "WEBSITE_ENDPOINT", "VIDEO_CHANNEL", "SOCIAL_PROVIDER_IDENTITY", "PODCAST", "NEWSLETTER", "PUBLIC_API", "OFFICIAL_DATASET"],
+      "owner": "EXISTING_SOURCE_TRUTH_WHERE_PRESENT",
+      "duplicated_in_d1": false,
+      "referenced_by_canonical_source_id": true
+    }
+  },
+  "relation": {
+    "allowed_semantics": ["CO_INTEREST", "MENTIONED_WITH", "PUBLIC_SEARCH_ASSOCIATION", "CREATOR_ASSOCIATION", "FRONTIER_ASSOCIATION", "ENVIRONMENTAL_ASSOCIATION"],
+    "forbidden_semantics": ["CAUSES", "CURES", "TREATS", "IMPROVES", "PREVENTS"],
+    "depth_labels": {
+      "1": "SINGLE",
+      "2": "DOUBLE",
+      "3": "TRIPLE",
+      "4+": "COMPOSITE"
+    },
+    "auto_generation_max_depth": 3,
+    "pair": {
+      "individual_popularity_implies_pair": false,
+      "requires_joint_signal": true,
+      "joint_signal_kinds": ["JOINT_SEARCH", "JOINT_SOURCE_MENTION", "TITLE_OR_CAPTION_CO_OCCURRENCE", "RELATED_QUERY_RELATIONSHIP", "DIRECT_RELATION_OBSERVATION"]
+    },
+    "triple": {
+      "arbitrary_combination_allowed": false,
+      "requires_one_of": ["DIRECT_TRIPLE_SIGNAL", "SUPPORTED_PAIR_NETWORK"],
+      "supported_pair_network": {
+        "structural_requirements": ["COMPLETE_PAIR_TRIANGLE", "EACH_PAIR_HAS_JOINT_SIGNAL", "INDEPENDENT_SIGNAL_SUPPORT"],
+        "sufficiency": "POLICY_NOT_SET",
+        "sufficiency_is_a_future_calibration_decision": true,
+        "without_a_configured_policy": "FAIL_CLOSED"
+      }
+    },
+    "identity_states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "identity_is_not_observation": true,
+    "observation_records_the_actual_joint_signal": true,
+    "observation_required_fields": ["relation_observation_id", "relation_id", "observation_id", "joint_signal_kind"],
+    "semantic_symmetry": {
+      "CO_INTEREST": "SYMMETRIC",
+      "MENTIONED_WITH": "SYMMETRIC",
+      "PUBLIC_SEARCH_ASSOCIATION": "SYMMETRIC",
+      "CREATOR_ASSOCIATION": "SYMMETRIC",
+      "FRONTIER_ASSOCIATION": "SYMMETRIC",
+      "ENVIRONMENTAL_ASSOCIATION": "SYMMETRIC"
+    },
+    "member": {
+      "entity": "RELATION_MEMBER",
+      "normalized_rows": true,
+      "opaque_json_blob_allowed": false,
+      "fields": ["relation_id", "concept_id", "position"],
+      "position_used_only_for_non_symmetric_semantics": true,
+      "count_equals_depth": true,
+      "members_distinct": true,
+      "automatic_depths": [2, 3],
+      "composite_depth_is_not_automatic": true,
+      "proposed_concept_may_be_member_of_a_proposed_relation": true,
+      "relation_with_a_proposed_member_cannot_be_active": true,
+      "merged_member_resolves_to_survivor_without_losing_relation_history": true,
+      "membership_implies_causality": false,
+      "identity": {
+        "strategy": "RELATION_TYPE_PLUS_ORDER_NORMALIZED_SURVIVOR_MEMBER_IDENTITIES",
+        "symmetric_semantics_are_order_independent": true,
+        "hash_algorithm": "NOT_SET",
+        "one_relation_per_identity_key": true,
+        "duplicate_prevention": "IDENTITY_KEY"
+      },
+      "merge_and_rejection_history": "APPEND_ONLY"
+    }
+  },
+  "quality": {
+    "is_signal_hygiene_not_medical_evidence_grading": true,
+    "never_reduced_to_one_opaque_score": true,
+    "dimensions": {
+      "independence": ["SIGNAL_DIVERSITY", "SOURCE_QUALITY", "CREATOR_DIVERSITY", "PLATFORM_DIVERSITY", "PERSISTENCE"],
+      "integrity": ["COMMERCIAL_PRESSURE", "HYPE_RISK", "TOPIC_COHERENCE", "RELATION_INTEGRITY", "SENSATIONALISM_RISK"],
+      "relevance": ["TURKEY_RELEVANCE", "GLOBAL_SIGNIFICANCE", "AUDIENCE_RELEVANCE"],
+      "data": ["DATA_STRENGTH", "GEOGRAPHIC_SPREAD"]
+    },
+    "independence_counters": ["mention_count", "unique_creator_count", "unique_platform_count", "independent_signal_family_count"],
+    "origin_cluster_required": true,
+    "commercial_pressure_may_downgrade_but_not_suppress_corrective": true,
+    "reason_codes": ["NO_INDEPENDENT_SIGNAL", "SINGLE_ORIGIN_CLUSTER", "COMMERCIAL_CONTEXT", "HYPE_PATTERN", "LOW_TOPIC_COHERENCE", "UNSUPPORTED_RELATION", "TURKEY_DATA_UNKNOWN", "LOW_PERSISTENCE", "INSUFFICIENT_SIGNAL_DIVERSITY", "MULTI_PLATFORM", "MULTI_CREATOR", "STRONG_TR_SEARCH", "GLOBAL_FRONTIER_RISING", "HIGH_COMMERCIAL_CONCENTRATION", "SINGLE_SOURCE_DEPENDENCY", "BURST_ONLY", "DIRECT_RELATION_SIGNAL", "LOW_TURKEY_DATA", "STRONG_OFFICIAL_DATA", "MODELED_DATA_ONLY", "POLICY_NOT_SET", "NO_CREDIBLE_ANCHOR", "PROVENANCE_CAP_NOT_SET", "SOURCE_LOCAL_REPETITION", "MULTI_SIGNAL_FAMILY_SUPPORT", "NO_VALID_PROMOTION_ROUTE", "NOT_READY_FOR_CANDIDATE", "INTEGRITY_NOT_SATISFIED", "PROMOTED_BY_MULTI_SIGNAL_FAMILY_CONVERGENCE", "PROMOTED_BY_SOURCE_SPECIFIC_FRONTIER", "PROMOTED_BY_HUMAN_PROMOTION", "TOPIC_COHERENCE_NOT_SATISFIED", "BROAD_PARENT_FROM_SOURCE_TAXONOMY", "TAXONOMY_CONTAINER_FROM_SOURCE", "INTERMEDIATE_IN_SOURCE_TAXONOMY", "INTERMEDIATE_GRANULARITY_NEEDS_REVIEW", "SCOPED_BY_SOURCE_TAXONOMY", "GRANULARITY_UNRESOLVED", "CONFLICTING_GRANULARITY", "COHERENCE_OVERRIDDEN_BY_HUMAN_PROMOTION"]
+  },
+  "wow": {
+    "wow_is_not_viral": true,
+    "definition": ["SURPRISING", "IMPORTANT", "DATA_SUPPORTABLE", "RESEARCHABLE", "MEANINGFUL_TO_PEOPLE"],
+    "pattern_classes": ["SURPRISING_BASELINE", "CROSS_COUNTRY_GAP", "RAPID_CHANGE", "HIDDEN_EXPOSURE", "SPATIAL_INEQUALITY", "BEHAVIOR_SURPRISE", "SYSTEM_SURPRISE", "ONE_HEALTH_SIGNAL", "FRONTIER_IMPORT", "SCALE_SHOCK", "GLOBAL_SHIFT", "SCIENCE_TO_PUBLIC_HEALTH", "GEOGRAPHIC_PARADOX", "EVERYDAY_SYSTEM", "CORRECTIVE"],
+    "dimensions": ["SURPRISE", "PUBLIC_REACH", "TURKEY_RELEVANCE", "GLOBAL_SIGNIFICANCE", "AUDIENCE_RELEVANCE", "HIDDEN_EXPOSURE", "NOVELTY", "CHANGE_VELOCITY", "GEOGRAPHIC_SPREAD", "DATA_STRENGTH", "MULTI_SOURCE_SUPPORT", "VISUALIZABILITY", "PERSONAL_PROXIMITY", "FRONTIER_VALUE", "SENSATIONALISM_RISK"],
+    "applies_to_domain": "POPULATION_ENVIRONMENTAL_PUBLIC_HEALTH",
+    "data_surveillance_driven_social_is_context_only": true,
+    "thresholds": "POLICY_NOT_SET",
+    "without_configured_policy": "NOT_READY",
+    "social_only_public_health_signal_is_factually_grounded": false,
+    "credible_anchor": {
+      "required_for_public_health_factual_grounding": true,
+      "qualification": "CONFIG_REQUIRED",
+      "without_configured_qualification": "FAIL_CLOSED"
+    }
+  },
+  "candidate": {
+    "classes": ["STRONG", "EMERGING", "CORRECTIVE", "FRONTIER"],
+    "watch_is_not_a_candidate_class": true,
+    "classes_are_discovery_states_not_scientific_labels": true,
+    "corrective_means_research_carefully_not_false": true,
+    "states": ["DISCOVERED", "WATCH", "CANDIDATE", "REVIEW", "ACCEPTED", "REJECTED", "SNOOZED", "RESEARCH_REQUESTED"],
+    "terminal_state_of_discovery": "RESEARCH_REQUESTED",
+    "topic_relevance_and_signal_freshness_are_separate": true,
+    "is_not_a_concept": true,
+    "is_an_editorial_opportunity_at_a_time": true,
+    "target": {
+      "exactly_one_of": ["concept_id", "relation_id"],
+      "target_identity_state_must_be_carried": true
+    },
+    "may_reference_proposed_identity": true,
+    "proposed_target_must_be_marked_provisional": true,
+    "rejection_does_not_reject_concept": true,
+    "rejection_does_not_reject_relation_members": true,
+    "class_lives_on_snapshot": true,
+    "identity": {
+      "key": ["target_type", "target_id"],
+      "target_types": ["CONCEPT", "RELATION"],
+      "one_candidate_per_target": true,
+      "new_evaluation_creates": "CANDIDATE_SNAPSHOT",
+      "new_candidate_per_evaluation_allowed": false,
+      "reviews_attach_to": "CANDIDATE",
+      "reject_persists": true,
+      "evaluation_after_reject_does_not_resurface": true,
+      "snooze_and_pause_resurfacing": "POLICY_NOT_DECIDED",
+      "reconsideration_after_new_signal": "POLICY_NOT_DECIDED",
+      "never_reconsider_is_hard_coded": false,
+      "history_preserved_for_future_reconsideration": true
+    }
+  },
+  "review": {
+    "decisions": ["ACCEPT", "REJECT", "SNOOZE", "PAUSE", "PROMOTE"],
+    "promote_applies_only_to": "WATCH_TARGET",
+    "reject_reasons": ["NOISE", "DUPLICATE", "TOO_BROAD", "TOO_NARROW", "COMMERCIAL_ARTIFACT", "NO_AUDIENCE_RELEVANCE", "NO_INDEPENDENT_SIGNAL", "RELATION_NOT_SUPPORTED", "OUT_OF_SCOPE"],
+    "rejections_persist": ["topic", "expert", "relation"],
+    "decider": "HUMAN",
+    "review_may_mutate": [],
+    "review_may_never_mutate": ["signal_weights", "source_activation", "source_cadence", "canonical_registry", "routing", "scheduler_configuration"],
+    "target_types": ["CONCEPT_PROPOSAL", "ACTOR_PROPOSAL", "RELATION_PROPOSAL", "DOSSIER_CANDIDATE", "WATCH_TARGET"],
+    "required_fields": ["target_type", "target_id", "decision", "reviewer", "reviewed_at"],
+    "optional_fields": ["reason_code", "reason_note"],
+    "append_only": true,
+    "reject_requires_reason_code": true,
+    "effects_are_limited_to_the_reviewed_object": true,
+    "cascades_forbidden": true,
+    "accept_may_imply_a_later_lifecycle_action_which_stays_an_explicit_human_operator_step": true,
+    "expert_accept_effect": "ACTOR_IDENTITY_STATE_ONLY",
+    "effects_by_target_type": {
+      "CONCEPT_PROPOSAL": "CONCEPT_IDENTITY_STATE_ONLY",
+      "ACTOR_PROPOSAL": "ACTOR_IDENTITY_STATE_ONLY",
+      "RELATION_PROPOSAL": "RELATION_IDENTITY_STATE_ONLY",
+      "DOSSIER_CANDIDATE": "CANDIDATE_STATE_ONLY", "WATCH_TARGET": "CANDIDATE_CREATION_ONLY"
+    },
+    "side_effect_invariants": {
+      "candidate_reject_is_not_concept_reject": true,
+      "relation_candidate_reject_is_not_relation_identity_reject": true,
+      "actor_accept_is_not_source_activation": true,
+      "concept_accept_only_through_the_human_governed_proposal_lifecycle": true,
+      "never_autonomously_mutates": ["weights", "cadence", "routing", "source_activation", "scheduler_configuration"]
+    }
+  },
+  "handoff": {
+    "starts_after": "ACCEPT",
+    "allowed_fields": ["source_attributions", "canonical_topic", "domain", "aliases", "relation_depth", "why_now", "signal_family_summary", "public_questions", "related_concepts", "discovery_provenance", "quality_reason_codes", "canonical_terms", "public_health_lane", "why_wow", "turkey_signal_dimensions", "global_frontier_dimensions", "medical_claim_risk", "sensationalism_risk"],
+    "forbidden_fields": ["scientific_conclusion", "literature_synthesis", "treatment_advice", "dose", "dosage", "efficacy_verdict", "safety_verdict", "myth_verdict", "personal_attribution_as_subject"],
+    "auto_publish": false,
+    "persisted_or_sent_externally": false
+  },
+  "boundary": {
+    "chain": ["SIGNAL_SOURCE_ITEM", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CONCEPT", "RELATION", "CANDIDATE", "CANDIDATE_SNAPSHOT", "REVIEW", "RESEARCH_HANDOFF"],
+    "dossier_entities_live_in_source_items": false,
+    "discovery_is_research": false
+  },
+  "privacy": {
+    "forbidden_inference": ["patient_identity", "commenter_disease_status", "commenter_personal_location_for_health_inference", "individual_medical_status"],
+    "public_professional_creators_may_be_source_entities": true
+  },
+  "reader_status": {
+    "fields": ["source_id", "operational_state", "access_state", "last_fetch", "last_error", "cursor", "lease", "underfill", "next_due", "observations_total", "proposals_open"],
+    "mirrors": "GET /api/evergreen/status per-source shape",
+    "live_readers": 0,
+    "runtime_state_reuse": "UNDECIDED_DEFERRED",
+    "own_scheduler": false
+  },
+  "candidate_snapshot": {
+    "purpose": "WHY_NOW_AT_A_POINT_IN_TIME",
+    "append_only": true,
+    "created_only_on": ["CANDIDATE_EVALUATION", "MATERIAL_STATE_CHANGE"],
+    "never_created_per_source_event": true,
+    "fields": ["candidate_id", "generated_at", "algorithm_version", "candidate_class", "why_now", "quality_dimensions", "reason_codes", "summary_signal_metrics"],
+    "why_now_fields": ["window_kinds", "signal_families", "origin_cluster_ids"],
+    "quality_dimension_values_may_be_unknown": true,
+    "reason_codes_live_in_snapshot_structured_data": true,
+    "separate_reason_table": false,
+    "signal_refs": {
+      "separately_addressable": true,
+      "entity": "CANDIDATE_SNAPSHOT_SIGNAL_REF",
+      "exactly_one_of": ["aggregate_state_id", "provenance_ref_id"],
+      "required_non_empty": true,
+      "provenance_refs_are_representative_not_exhaustive": true,
+      "reconstructs": ["candidate", "snapshot", "historical_aggregate_state", "bounded_supporting_provenance", "original_source_provenance"]
+    },
+    "aggregate_state": {
+      "entity": "CANDIDATE_SNAPSHOT_AGGREGATE_STATE",
+      "immutable": true,
+      "historical_snapshot_not_live_aggregate": true,
+      "fields": ["aggregate_state_id", "snapshot_id", "live_aggregate_id", "aggregation_version", "target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "observation_count", "independent_source_count", "unique_actor_count", "unique_platform_count", "commercial_context_summary", "measurement_provenance", "value", "value_unit", "value_status", "generated_at"],
+      "required_fields": ["aggregate_state_id", "snapshot_id", "aggregation_version", "target_type", "target_id", "signal_family", "window_kind", "observation_count", "measurement_provenance", "value_status", "generated_at"],
+      "live_aggregate_ref_is_informational_only": true,
+      "unchanged_by_later_raw_compaction": true,
+      "duplicates_raw_payloads": false
+    },
+    "provenance_ref": {
+      "entity": "CANDIDATE_SNAPSHOT_PROVENANCE_REF",
+      "bounded": true,
+      "bound": "POLICY_NOT_SET",
+      "self_describing": true,
+      "ref_kinds": ["OBSERVATION", "RELATION_OBSERVATION"],
+      "fields": ["provenance_ref_id", "snapshot_id", "aggregate_state_id", "ref_kind", "acquisition_source_id", "observation_id", "relation_observation_id", "source_item_id", "origin_item_id", "item_locator", "run_id", "published_at", "observed_at", "evidence_span"],
+      "required_fields": ["provenance_ref_id", "snapshot_id", "ref_kind", "acquisition_source_id", "observed_at"],
+      "readable_without_the_raw_observation_row": true,
+      "raw_payload_stored": false,
+      "at_most_one_of_item_refs": ["source_item_id", "origin_item_id"],
+      "survives_purge_of_the_referenced_source_item": true,
+      "item_and_observation_refs_are_soft": true
+    },
+    "explainability_guarantee": {
+      "explains_why_now_after_raw_compaction": true,
+      "exact_raw_membership_reconstruction_after_compaction": "NOT_GUARANTEED",
+      "honest_historical_explainability_over_false_reconstruction": true
+    }
+  },
+  "identity": {
+    "object_types": ["CONCEPT", "EXPERT", "RELATION"],
+    "states": ["PROPOSED", "ACTIVE", "PAUSED", "REJECTED", "MERGED"],
+    "canonical_states": ["ACTIVE", "PAUSED"],
+    "provisional_states": ["PROPOSED"],
+    "proposed_is_not_canonical": true,
+    "autonomous_proposed_to_active": false,
+    "promotion_requires": "HUMAN_REVIEW",
+    "rejected_is_durable": true,
+    "merged": {
+      "requires_resolved_to": true,
+      "resolved_to_field_concept": "resolved_to_concept_id",
+      "history_preserved": true,
+      "survivor_must_not_be_merged_or_rejected": true
+    },
+    "rejected_or_merged_must_not_resurface_as_new_proposal_under_aliases": true,
+    "provisional_may_participate_in": ["OBSERVATION", "DOSSIER_CANDIDATE_FOR_REVIEW", "PROPOSED_RELATION"],
+    "provisional_must_stay_visibly_proposed": true
+  },
+  "origin_item": {
+    "hub_native_references_source_items_id_only": true,
+    "hub_native_is_copied": false,
+    "external_allowed_fields": ["origin_item_id", "acquisition_source_id", "external_ref", "url", "content_hash", "published_at", "content_class", "commercial_context", "origin_cluster_id", "evidence_span", "identity_strategy", "identity_value"],
+    "forbidden_fields": ["full_text", "article_body", "transcript", "comments", "commenter_identity"],
+    "full_text_archive_default": false,
+    "identity": {
+      "strategies": ["SOURCE_PLUS_EXTERNAL_ITEM_ID", "CANONICAL_URL", "NORMALIZED_PROVIDER_KEY", "DATASET_RELEASE_KEY", "MANUAL_SNAPSHOT_KEY"],
+      "key": ["acquisition_source_id", "identity_strategy", "identity_value"],
+      "url_only_rule": false,
+      "url_required_only_for": ["CANONICAL_URL"],
+      "hub_native": "REUSE_SOURCE_ITEMS_ID",
+      "full_payload_archive": false
+    }
+  },
+  "origin_cluster": {
+    "purpose": ["CLUSTER_LIKELY_DUPLICATES_OR_DERIVATIVES", "EXPOSE_DEPENDENCE", "IMPROVE_INDEPENDENCE_CALCULATION"],
+    "not": ["ATTRIBUTION_SYSTEM", "CONTENT_ARCHIVE", "COPYRIGHT_TRACKING"],
+    "bounded_to_discovery_purpose": true
+  },
+  "storage_bounds": {
+    "full_text_archive_default": false,
+    "reader_backfill": "BOUNDED_BY_A_CONFIGURED_CAP_REQUIRED",
+    "per_run_fetch_and_item_caps_required": true,
+    "observations_are_compact": true,
+    "observation_dedupe_key_required": true,
+    "duplicate_observation_inflation_allowed": false,
+    "candidate_snapshots_only_on_evaluation_or_material_state_change": true,
+    "payload_storage": ["PROVENANCE", "EVIDENCE_SPAN", "REFERENCE"],
+    "evidence_span_length": "POLICY_NOT_SET",
+    "origin_clusters_bounded_to_discovery_purpose": true,
+    "retention_durations": "POLICY_NOT_SET",
+    "compaction_rules": "POLICY_NOT_SET",
+    "signal_aggregates_prevent_recurring_whole_table_analytics": true,
+    "aggregate_generation": "INCREMENTAL",
+    "normal_candidate_generation_requires_raw_whole_table_scan": false,
+    "structural_data_not_discarded_for_fast_window_age": true,
+    "raw_observation_retention": "POLICY_NOT_SET",
+    "compaction_must_never_invalidate_historical_snapshot_provenance": true
+  },
+  "sql_design_rules": {
+    "check_only_for_true_architectural_invariants": true,
+    "open_world_topic_universe_in_check": false,
+    "evolving_vocabularies_validated_by_contract_not_check": true,
+    "invariant_checks": ["candidate temporal identity is EVERGREEN"],
+    "unknown_is_null_with_explicit_value_state": true,
+    "destructive_migration_patterns": false,
+    "source_items_rewrite_or_backfill": false
+  },
+  "window": {
+    "rule": "SIGNAL_WINDOW_MUST_FOLLOW_SIGNAL_SEMANTICS",
+    "kinds": {
+      "FAST_7D": {
+        "role": "burst",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "FAST_30D": {
+        "role": "momentum",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "BASELINE_90D": {
+        "role": "baseline",
+        "momentum_applicable": true,
+        "fast": true
+      },
+      "SOURCE_PERIOD": {
+        "role": "period defined by the source",
+        "momentum_applicable": false,
+        "fast": false
+      },
+      "RELEASE_PERIOD": {
+        "role": "period defined by a periodic release",
+        "momentum_applicable": false,
+        "fast": false
+      },
+      "STRUCTURAL_PERIOD": {
+        "role": "long-period structural summary",
+        "momentum_applicable": false,
+        "fast": false
+      }
+    },
+    "family_classes": {
+      "FAST": ["TURKEY_PUBLIC_DEMAND", "TURKEY_SOCIAL_MOMENTUM", "TR_CLINICIAN_CREATOR_PULSE", "GLOBAL_CREATOR_SCOUT"],
+      "STRUCTURAL_OR_RELEASE_DRIVEN": ["TURKEY_HEALTH_BURDEN", "TURKEY_PUBLIC_HEALTH_DATA", "GLOBAL_PUBLIC_HEALTH_DATA"],
+      "SOURCE_DEFINED": ["ENVIRONMENTAL_MEASUREMENT", "GLOBAL_ENVIRONMENTAL_OBSERVATION", "GLOBAL_MEDICAL_FRONTIER", "GLOBAL_RESEARCH_ACTIVITY", "GLOBAL_INSTITUTIONAL_FRONTIER", "RELATION_SIGNAL"]
+    },
+    "fast_kinds_forbidden_for_structural_or_release_driven_families": true,
+    "momentum_inputs_only_for_momentum_applicable_kinds": true,
+    "why_now_may_combine_kinds_but_keeps_them_separate": true,
+    "older_structural_data_is_not_discarded_for_fast_window_age": true
+  },
+  "signal_aggregate": {
+    "derived": true,
+    "canonical_evidence": false,
+    "universal_scalar_score": false,
+    "target_types": ["CONCEPT", "RELATION"],
+    "fields": ["aggregate_id", "target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "observation_count", "independent_source_count", "unique_actor_count", "unique_platform_count", "commercial_context_summary", "persistence_inputs", "momentum_inputs", "value", "value_unit", "value_status", "measurement_provenance", "aggregation_version", "generated_at"],
+    "required_fields": ["aggregate_id", "target_type", "target_id", "signal_family", "window_kind", "observation_count", "value_status", "measurement_provenance", "aggregation_version", "generated_at"],
+    "value_states_follow_signal_value": true,
+    "groups_by_measurement_provenance": true,
+    "measured_and_modeled_never_merged": true,
+    "generation": "INCREMENTAL",
+    "prevents_recurring_whole_table_analytics": true,
+    "lineage": {
+      "to_observations": "RECOVERABLE",
+      "membership": "DETERMINISTIC_SELECTOR_WHILE_RAW_OBSERVATIONS_EXIST",
+      "selector_fields": ["target_type", "target_id", "signal_family", "signal_subfamily", "geo_scope", "window_kind", "window_start", "window_end", "measurement_provenance", "aggregation_version"],
+      "representative_refs_bound": "POLICY_NOT_SET",
+      "cannot_erase_underlying_provenance": true,
+      "raw_compaction_must_preserve_aggregate_lineage": true,
+      "after_raw_compaction": "HISTORICAL_EXPLAINABILITY_VIA_CANDIDATE_SNAPSHOT_AGGREGATE_STATE_NOT_RAW_RECONSTRUCTION"
+    },
+    "is_live_and_recomputable": true
+  },
+  "signal_run": {
+    "append_only": true,
+    "purpose": "PROVENANCE_OF_ONE_READER_SOURCE_EXECUTION",
+    "fields": ["run_id", "reader_id", "source_ref", "started_at", "finished_at", "status", "items_seen", "items_new", "observations_written", "reader_version", "error_summary"],
+    "required_fields": ["run_id", "reader_id", "source_ref", "started_at", "finished_at", "status", "reader_version"],
+    "statuses": ["SUCCEEDED", "PARTIAL", "FAILED"],
+    "counts_are_compact": true,
+    "excluded_scheduler_runtime_fields": ["lease", "lease_until", "cursor", "cursor_json", "next_due", "claim", "claimed_by", "run_lock", "failure_count"],
+    "scheduler_runtime_state": "DEFERRED",
+    "observations_reference_run_id": true
+  },
+  "lineage": {
+    "chain": ["SOURCE_OR_EXTERNAL_REF", "SIGNAL_RUN", "OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_EVALUATION", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT"],
+    "relation_chain": ["RELATION", "RELATION_MEMBER", "RELATION_OBSERVATION", "SIGNAL_AGGREGATE", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT"],
+    "snapshot_cites": {
+      "aggregate_state_refs": "PRIMARY_EVIDENCE_UNIT",
+      "provenance_refs": "BOUNDED_SELF_DESCRIBING_REPRESENTATIVE_NOT_EXHAUSTIVE",
+      "exhaustive_membership_recoverable_via": "AGGREGATE_SELECTOR_ONLY_WHILE_RAW_OBSERVATIONS_EXIST",
+      "raw_reference_explosion_allowed": false,
+      "raw_data_duplicated_into_snapshot": false
+    },
+    "answers": "WHY_DID_THIS_APPEAR_NOW"
+  },
+  "alias": {
+    "entity": "ALIAS",
+    "fields": ["alias_id", "concept_id", "alias_text", "normalized_alias", "language", "alias_type", "status"],
+    "alias_types": ["CANONICAL_NAME", "SYNONYM", "ABBREVIATION", "TRANSLATION", "FORM_OR_VARIANT", "MISSPELLING"],
+    "statuses": ["ACTIVE", "RETIRED"],
+    "normalized_alias_globally_unique": false,
+    "same_surface_form_may_map_to": ["DIFFERENT_CONCEPTS", "DIFFERENT_DOMAINS", "DIFFERENT_LANGUAGES"],
+    "ambiguity": "DERIVED_BY_RESOLVER_FROM_MORE_THAN_ONE_DISTINCT_SURVIVOR_CONCEPT",
+    "resolver": {
+      "exact_unambiguous_match": "MATCHED_EXISTING",
+      "ambiguous_match": "REVIEW_REQUIRED",
+      "no_match": "PROPOSED",
+      "never_auto_merge_ambiguous": true,
+      "review_required_keeps_observation_unresolved": true
+    },
+    "rejected_or_merged_aliases_still_match_so_the_identity_is_not_recreated": true
+  },
+  "compaction": {
+    "may_compact": ["RAW_OBSERVATIONS_NOT_REQUIRED_BY_ANY_SNAPSHOT", "SUPERSEDED_LIVE_AGGREGATES"],
+    "may_never_invalidate": ["CANDIDATE_SNAPSHOT", "CANDIDATE_SNAPSHOT_AGGREGATE_STATE", "CANDIDATE_SNAPSHOT_PROVENANCE_REF", "CANDIDATE_SNAPSHOT_SIGNAL_REF", "HUMAN_REVIEW"],
+    "durations_and_thresholds": "POLICY_NOT_SET",
+    "structural_data_not_discarded_for_fast_window_age": true
+  },
+  "connector": {
+    "classes": ["RSS_WEB", "WEBSITE_BOUNDED", "YOUTUBE_CHANNEL", "PODCAST_RSS", "NEWSLETTER", "INSTAGRAM_PROVIDER", "INSTAGRAM_MANUAL", "TIKTOK_PROVIDER", "TIKTOK_CSI_MANUAL", "PUBLIC_DEMAND", "PUBLIC_DATA_API", "PUBLIC_TABLE", "PUBLICATION_METADATA", "TRIAL_METADATA", "GEO_OBSERVATION", "SURVEILLANCE_RELEASE", "MANUAL_SNAPSHOT"],
+    "platform_modes": ["INSTAGRAM_AUTHORIZED_PROVIDER", "INSTAGRAM_OFFICIAL_ACCESS", "INSTAGRAM_MANUAL_SNAPSHOT", "INSTAGRAM_SEMI_MANUAL", "TIKTOK_AUTHORIZED_PROVIDER", "TIKTOK_PUBLIC_ALLOWED", "TIKTOK_CSI_MANUAL", "TIKTOK_CSI_SEMI_MANUAL"],
+    "capability_flags": ["can_list_items", "can_increment", "can_backfill", "can_fetch_metadata", "can_fetch_text", "can_fetch_transcript", "can_geo_filter", "requires_auth", "manual_only"],
+    "legal_states": ["APPROVED", "RESTRICTED", "MANUAL_ONLY", "UNRESOLVED", "REJECTED"],
+    "required_declarations": ["class", "legal_status", "capabilities", "normalization_mode", "signal_roles", "mock"],
+    "normalization_modes": ["ITEM_TO_OBSERVATIONS", "STATISTICAL_RELEASE", "SNAPSHOT_ROW"],
+    "interface": ["plan", "fetch", "normalize", "checkpoint"],
+    "tiktok_signal_roles": {
+      "CREATOR_PUBLIC_CONTENT": "SOCIAL_CREATOR",
+      "CREATOR_SEARCH_INSIGHTS": "PUBLIC_DEMAND_SEARCH",
+      "roles_are_never_mixed": true
+    },
+    "real_scraping_implemented": false,
+    "anti_bot_or_waf_bypass": false,
+    "mock_connectors_never_touch_the_network": true,
+    "mock_connectors_are_never_eligible_for_activation": true,
+    "owner_decision_required": ["INSTAGRAM_PRODUCTION_ACCESS_METHOD", "TIKTOK_PRODUCTION_ACCESS_METHOD", "TIKTOK_CSI_AUTOMATION_AVAILABILITY", "PAID_PROVIDER_CHOICE", "API_CREDENTIALS", "PRODUCTION_EXTRACTION_METHOD"]
+  },
+  "router": {
+    "outcomes": ["TIME_SENSITIVE_CONTEXT", "EVERGREEN_DOSSIER", "FRONTIER_DOSSIER", "WATCH"],
+    "event_kinds": ["SINGLE_EVENT", "REPEATED_PATTERN", "STRUCTURAL_INDICATOR", "GLOBAL_EMERGING", "UNKNOWN"],
+    "a_source_event_may_feed_both_paths_without_duplicate_acquisition": true,
+    "modifies_production_time_sensitive_routing": false,
+    "without_configured_policy": "WATCH_NOT_READY",
+    "public_health_dossier_requires_credible_anchor": true
+  },
+  "lifecycle_promotion": {
+    "$comment": "Canonical owner decision: DISCOVERED -> WATCH -> CANDIDATE -> REVIEW -> ACCEPT / REJECT / SNOOZE. WATCH != DOSSIER_CANDIDATE and WATCH is not a candidate class. WATCH is a DERIVED pre-candidate discovery state, with no candidate row and no immutable snapshot. A durable candidate exists only after an explicit promotion. Gate = editorial eligibility + a valid promotion route + quality/integrity not rejected; never a scientific-evidence judgment.",
+    "pre_candidate_states": ["DISCOVERED", "WATCH"],
+    "durable_candidate_initial_state": "CANDIDATE",
+    "watch_requires_durable_candidate": false,
+    "snapshots_only_for_promoted_candidates": true,
+    "promotion_paths": ["MULTI_SIGNAL_FAMILY_CONVERGENCE", "SOURCE_SPECIFIC_FRONTIER", "HUMAN_PROMOTION"],
+    "default_enabled_paths": ["MULTI_SIGNAL_FAMILY_CONVERGENCE"],
+    "default_disabled_paths": ["SOURCE_SPECIFIC_FRONTIER"],
+    "human_promotion": { "decider": "HUMAN", "review_target_type": "WATCH_TARGET", "decision": "PROMOTE", "effect": "CANDIDATE_CREATION_ONLY", "auditable": true, "is_not_accept": true, "implies_scientific_truth": false, "bypasses_p5": false },
+    "convergence_means": "eligible support from more than one independent signal family (the definition, not a tunable count)",
+    "source_specific_frontier_means": "one explicitly approved signal family may promote alone; no source has such a policy by default",
+    "gate_requires": ["EDITORIAL_ELIGIBILITY", "VALID_PROMOTION_ROUTE", "TOPIC_COHERENCE", "QUALITY_INTEGRITY_NOT_REJECTED"],
+    "route_pass_does_not_imply_candidate_created": true,
+    "default_without_valid_route": "WATCH_NOT_READY_FOR_CANDIDATE",
+    "route_default_classes": { "MULTI_SIGNAL_FAMILY_CONVERGENCE": "EMERGING", "SOURCE_SPECIFIC_FRONTIER": "EMERGING", "HUMAN_PROMOTION": "EMERGING" },
+    "classes_beyond_the_default_come_only_from_owner_class_criteria": true,
+    "repetition_inside_one_family_is_not_convergence": true,
+    "no_numeric_product_threshold": true
+  },
+  "topic_coherence": {
+    "$comment": "CONVERGENCE != CANDIDATE SUITABILITY. Editorial scope gate between a valid promotion route and durable candidate creation. Granularity is editorial metadata derived ONLY from structure a source exposes; it is not a quality judgment, not a score, and never mutates, rejects, merges or activates a concept.",
+    "outcomes": ["COHERENT", "TOO_BROAD", "TOO_NARROW", "REVIEW_REQUIRED", "NON_EDITORIAL_SCOPE", "UNKNOWN_GRANULARITY"],
+    "outcomes_produced_today": ["COHERENT", "TOO_BROAD", "REVIEW_REQUIRED", "UNKNOWN_GRANULARITY"],
+    "granularities": ["SCOPED_TOPIC", "INTERMEDIATE_TOPIC", "BROAD_PARENT", "TAXONOMY_CONTAINER", "UNKNOWN_GRANULARITY"],
+    "granularity_reasons": ["BROAD_PARENT_FROM_SOURCE_TAXONOMY", "TAXONOMY_CONTAINER_FROM_SOURCE", "INTERMEDIATE_IN_SOURCE_TAXONOMY", "SCOPED_BY_SOURCE_TAXONOMY", "GRANULARITY_UNRESOLVED"],
+    "observation_fields": ["topic_granularity", "granularity_reason"],
+    "unknown_granularity_default": "FAIL_CLOSED_STAY_WATCH",
+    "automatic_gate_may_only": ["CANDIDATE_READY", "STAY_WATCH_OR_REQUIRE_REVIEW"],
+    "automatic_gate_never": ["reject_concept", "merge_concepts", "activate_concept", "change_source", "change_weights", "change_cadence", "rewrite_taxonomy"],
+    "too_broad_is_not_rejected": true,
+    "human_promotion_override_is_candidate_instance_only": true,
+    "no_label_list_no_word_count_no_string_length_no_depth_no_child_count": true,
+    "no_synthetic_descendants": true
+  },
+  "attribution": {
+    "$comment": "Generic source-attribution capability: a connector declares what an official source terms require; the runtime adds retrieval/processing times. Available to handoff, export, editorial rendering and provenance display. No UI, no publishing.",
+    "static_fields": ["attribution_required", "source_display_name", "source_reference", "transformation_note", "attribution_requirements"],
+    "runtime_fields": ["source_id", "retrieved_at", "processed_at"],
+    "requirements": ["ATTRIBUTE_SOURCE", "DISPLAY_PROCESSED_DATE", "STATE_MODIFICATIONS", "KEEP_CURRENT", "NO_PROPRIETARY_CLAIM", "NO_CONTACT_EXTRACTION_FOR_MARKETING", "THIRD_PARTY_RIGHTS_MAY_APPLY"]
+  },
+  "editorial_eligibility": {
+    "$comment": "DISCOVERED CONCEPT != DOSSIER CANDIDATE. Observation != concept != candidate-eligible topic != candidate. Eligibility is DERIVED, explainable by reason codes, and is NOT canonical concept status (PROPOSED/ACTIVE/REJECTED/MERGED). No lexical lists: a role comes from the source field semantics and the source's own structured metadata.",
+    "source_roles": ["TOPIC_BEARING", "CONTEXT_ATTRIBUTE", "SOURCE_ACTOR", "POPULATION_DESCRIPTOR", "COMPARATOR_OR_CONTROL", "OPERATIONAL_METADATA", "REVIEW_REQUIRED"],
+    "signal_eligibility": ["TRUE", "FALSE", "REVIEW_REQUIRED"],
+    "signal_reasons": ["TOPIC_BEARING_SOURCE_ROLE", "TOPIC_COHERENT", "CONTEXT_ONLY", "SOURCE_ACTOR_CONTEXT", "POPULATION_CONTEXT", "CONTROL_OR_COMPARATOR_CONTEXT", "OPERATIONAL_METADATA", "AMBIGUOUS_TOPIC_ROLE", "SOURCE_ROLE_NOT_DECLARED"],
+    "role_to_eligibility": {
+      "TOPIC_BEARING": { "eligible": "TRUE", "reasons": ["TOPIC_BEARING_SOURCE_ROLE", "TOPIC_COHERENT"] },
+      "CONTEXT_ATTRIBUTE": { "eligible": "FALSE", "reasons": ["CONTEXT_ONLY"] },
+      "SOURCE_ACTOR": { "eligible": "FALSE", "reasons": ["SOURCE_ACTOR_CONTEXT"] },
+      "POPULATION_DESCRIPTOR": { "eligible": "FALSE", "reasons": ["POPULATION_CONTEXT"] },
+      "COMPARATOR_OR_CONTROL": { "eligible": "FALSE", "reasons": ["CONTROL_OR_COMPARATOR_CONTEXT"] },
+      "OPERATIONAL_METADATA": { "eligible": "FALSE", "reasons": ["OPERATIONAL_METADATA"] },
+      "REVIEW_REQUIRED": { "eligible": "REVIEW_REQUIRED", "reasons": ["AMBIGUOUS_TOPIC_ROLE"] }
+    },
+    "undeclared_role": { "eligible": "TRUE", "reason": "SOURCE_ROLE_NOT_DECLARED" },
+    "concept_states": ["ELIGIBLE", "WATCH_ONLY", "REVIEW_REQUIRED", "NOT_EDITORIAL_TOPIC"],
+    "context_roles_kept_as_watch_only": ["CONTEXT_ATTRIBUTE", "SOURCE_ACTOR", "POPULATION_DESCRIPTOR", "COMPARATOR_OR_CONTROL"],
+    "support_dimensions": { "SOURCE_LOCAL_REPETITION": "several independent records of ONE signal family", "MULTI_SIGNAL_FAMILY_SUPPORT": "two or more independent signal families (convergence)" },
+    "observations_and_concepts_are_never_deleted_for_ineligibility": true,
+    "ineligible_observations_are_excluded_from_candidate_aggregates": true
+  },
+  "policy": {
+    "statuses": ["SET", "POLICY_NOT_SET", "CONFIG_REQUIRED", "OWNER_DECISION_REQUIRED"],
+    "keys": ["retention", "backfill", "per_run_fetch_cap", "per_run_item_cap", "provenance_representative_cap", "candidate_class_criteria", "candidate_promotion", "topic_coherence", "wow_thresholds", "commercial_concentration", "triple_network_qualification", "candidate_reconsideration", "snooze_behavior", "public_health_credible_anchor", "repetition_criteria", "actor_mention_proposal", "extraction_method"],
+    "defaults_are_unset": true,
+    "unset_runtime_behavior": "FAIL_SAFE"
+  }
+}

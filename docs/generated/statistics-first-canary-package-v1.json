@@ -1,0 +1,292 @@
+{
+  "phase": "CLOSE_ONLY_MATERIAL_FIRST_CANARY_PACKAGE_BLOCKER (O2) - local only",
+  "as_of": "2026-10-06",
+  "status": "FROZEN_V1: prepared for production infrastructure (items 38-44) and separately authorized execution. NOT_EXECUTED; NOT_AUTHORIZED. Does not mean the canary ran.",
+  "scope": "HEALTH_STATISTICS first production canary, EUROSTAT_HEALTH / DEMO_MLEXPEC only. Items 45-52 of the master readiness list. Nothing here was executed remotely; no database, binding, deploy, activation or run exists.",
+  "item_45_execution_plan": {
+    "steps": "release/statistics-canary-commands.json S0..S10",
+    "principles": [
+      "each mutating step has its own approval key",
+      "the source only ever reaches ACTIVATION_GATED, never ACTIVE",
+      "one logical canary, at most 3 operator invocations in total",
+      "first failure or platform termination stops the sequence, no retry"
+    ],
+    "policy_control": "outside the Worker: owner-run SQL release/statistics-canary-policy-{arm,disarm,activate,pause}.sql"
+  },
+  "item_46_exact_slice": {
+    "source_id": "EUROSTAT_HEALTH",
+    "dataset": "EUROSTAT_HEALTH:DEMO_MLEXPEC",
+    "native_dataset": "DEMO_MLEXPEC",
+    "sexes": [
+      "F",
+      "M",
+      "T"
+    ],
+    "ages": [
+      "Y_LT1"
+    ],
+    "geos": [
+      "DE",
+      "EU27_2020",
+      "TR"
+    ],
+    "startYear": 2022,
+    "endYear": 2024,
+    "request_url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_MLEXPEC/A.YR.F+M+T.Y_LT1.DE+EU27_2020+TR?startPeriod=2022&endPeriod=2024&format=JSON",
+    "expected": {
+      "observations": 27,
+      "series": 9,
+      "releases": 1,
+      "artifacts": 1,
+      "source_requests": 1,
+      "current_observations_after_canary": 0,
+      "current_observations_after_handoff": 27
+    },
+    "never": [
+      "lastTimePeriod",
+      "countries outside TR/DE/EU27_2020 (legal gate: EU/EFTA/candidate + aggregates only)",
+      "a wider window or more geos in the canary"
+    ],
+    "fixed_in_code": "FIRST_CANARY_PROFILE.slice (request bodies cannot change it)"
+  },
+  "item_47_d1_budget_hard_stop": {
+    "soft_calls": 40,
+    "hard_stop_calls": 44,
+    "max_statements": 160,
+    "call_semantics": "one call = one first/all/run or one batch(); statements counted separately",
+    "hard_stop": "the over-budget call is refused before it reaches D1 (checkpoint-guarded batch is atomic)",
+    "bootstrap": "registry registered in 4 chunks of 8 so each invocation fits the 44-call bound under the conservative Free assumption",
+    "source_request_limit": 3,
+    "observation_limit": 27,
+    "observation_hard_cap": 30,
+    "operator_invocation_limit": 3,
+    "enforced_by": [
+      "apps/worker/src/statistics/canary-budget.ts",
+      "apps/worker/src/statistics/canary-routes.ts"
+    ],
+    "unknowns_kept": [
+      "account tier (Free bound used)",
+      "whether batch() counts per statement on the platform (treated conservatively)"
+    ],
+    "measured_whole_invocation": {
+      "A_CANARY_RUN": {
+        "calls": 38,
+        "statements": 147
+      },
+      "B_POST_CANARY_PRODUCTION_HANDOFF_RUN": {
+        "calls": 38,
+        "statements": 147
+      },
+      "C_combined_owner_workflow": {
+        "TOTAL_D1_CALLS": 76,
+        "TOTAL_D1_STATEMENTS": 294,
+        "note": "two independent invocations; each is compared to its OWN limits (target 40, hard stop 44, conservative 50). The sum is never compared to a per-invocation limit."
+      },
+      "engines": "node:sqlite and real local D1 (identical)",
+      "includes": "opening the runtime (schema check) and the combined pre-check",
+      "history": [
+        "40 calls / 149 statements (first measurement, three separate pre-checks)",
+        "38 / 147 (combined preflight) before O2: superseded"
+      ]
+    },
+    "TARGET_D1_CALL_BUDGET": 40,
+    "D1_CALL_HARD_STOP": 44,
+    "CONSERVATIVE_D1_CALL_LIMIT": 50,
+    "D1_STATEMENT_REFERENCE": 149,
+    "margins": "4 calls between target and hard stop (intentional); 6 calls between hard stop and the conservative 50-call limit (final reserve)",
+    "D1_PROFILE_STALE_RULE": "any change to the canary execution path (reader, preflight, storage, routes) sets D1_PROFILE_STALE=YES: rerun the capacity measurement (canary-routes.test.mjs prints MEASURED_FULL_INVOCATION on both engines) and update this package before production authorization",
+    "ACCOUNT_TIER_FOR_STATS": "UNKNOWN",
+    "D1_QUERY_LIMIT_ASSUMPTION": "CONSERVATIVE_FREE_50",
+    "BATCH_COUNTING": "UNRESOLVED_DOCUMENTATION_AMBIGUITY (not claimed solved; the conservative measured envelope and hard stop are what the package relies on)",
+    "D1_PROFILE_STALE": "NO (remeasured after the O2 change; the earlier 38/147 is historical evidence only)",
+    "handoff_source_requests": {
+      "MAX_HANDOFF_SOURCE_REQUESTS": 1,
+      "POST_CANARY_REFETCH_REQUIRED": "YES",
+      "SAME_FROZEN_SLICE": "YES",
+      "observation_cap": 27,
+      "absolute_cap": 30,
+      "note": "a transient failure is not retried (the cap cuts the retry); the terminal run needs an owner decision"
+    }
+  },
+  "item_48_lease_run_profile": {
+    "run_mode": "CANARY",
+    "policy_state_required": "ACTIVATION_GATED",
+    "lease_ttl_ms": 120000,
+    "leaseGuard": "never NONE",
+    "runtime_limits": {
+      "maxListLimit": 100,
+      "maxObservationsPerBatch": 30,
+      "maxStatementsPerBatch": 120,
+      "leaseTtlMs": 120000
+    },
+    "note": "this is the Eurostat canary profile; it is not DOSSIER's 200/45 profile and not a universal profile"
+  },
+  "item_49_observability_cpu_wall": {
+    "per_invocation": "every route response carries usage {calls, statements, rowsRead, rowsWritten, softExceeded, stopped}",
+    "platform": [
+      "wrangler tail --format json capture with fields outcome, cpuTime, wallTime, exceptions, scriptVersion.id",
+      "read-only analytics query with CF_API_TOKEN from the environment only (never Wrangler OAuth)"
+    ],
+    "pre_canary_cpu": "UNMEASURED (local proxy ~31 ms upper bound; Free 10 ms is a genuine risk, Paid is not)",
+    "decision_rule": "a platform termination stops the canary and records the evidence; no retry loop"
+  },
+  "item_50_rollback_shutdown": {
+    "shutdown_sequence": "owner pause or disarm SQL -> redeploy STATISTICS_CANARY_ENABLED=false (production observations and the projection are retained; nothing is deleted)",
+    "rollback_target": "previous Worker version read live at preflight (not assumed)",
+    "data": "no deletion; canary data is retained for review; the STATS_DB stays isolated from the content DB",
+    "kill_switches": [
+      "env STATISTICS_CANARY_ENABLED (exact string true)",
+      "policy state (owner SQL)",
+      "OPS_TOKEN rotation"
+    ]
+  },
+  "item_51_exact_deployment_diff": {
+    "wrangler_toml_add": [
+      "[[d1_databases]]\nbinding = \"STATS_DB\"\ndatabase_name = \"global-content-os-stats\"\ndatabase_id = \"<from S2>\"\nmigrations_dir = \"migrations/statistics\"",
+      "[vars] STATISTICS_CANARY_ENABLED = \"false\""
+    ],
+    "code": [
+      "apps/worker/src/statistics/canary-budget.ts (new)",
+      "apps/worker/src/statistics/canary-routes.ts (new; status/bootstrap/run/handoff, no policy write)",
+      "apps/worker/src/statistics/readers/eurostat-demo-mlexpec.ts + eurostat-demo-mlexpec-runner.ts (class-aware identities, no schema change)",
+      "apps/worker/src/index.ts (one import, one guarded call before route auth)"
+    ],
+    "unchanged": [
+      "cron triggers",
+      "DB binding and content migrations",
+      "every existing route and secret"
+    ],
+    "current_wrangler_toml_has_stats_db": false,
+    "migration_sha256": "c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339"
+  },
+  "item_52_owner_authorization": {
+    "status": "UNSIGNED",
+    "owner_must_provide": [
+      "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
+      "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
+      "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
+      "OWNER_APPROVAL_OPS_TOKEN_FOR_STATS_CANARY",
+      "OWNER_APPROVAL_ENABLE_STATS_CANARY_SWITCH",
+      "OWNER_APPROVAL_ARM_STATS_CANARY (owner-run SQL)",
+      "OWNER_APPROVAL_RUN_FIRST_STATS_CANARY",
+      "OWNER_APPROVAL_STATS_CANARY_ACTIVATE",
+      "OWNER_APPROVAL_RUN_STATS_PRODUCTION_HANDOFF",
+      "OWNER_APPROVAL_STATS_CANARY_SHUTDOWN",
+      "OWNER_ACCEPTS_EUROSTAT_LEGAL_EVIDENCE",
+      "OWNER_STATES_CLOUDFLARE_PLAN (optional; closes item 37)"
+    ],
+    "note": "this package cannot sign itself; each key is per step and per session"
+  },
+  "p_gates": {
+    "P1": "PASS",
+    "P2": "PASS_LOCAL",
+    "P3": "PASS_LOCAL",
+    "P4": "PASS_LOCAL",
+    "P5": "PASS"
+  },
+  "references": [
+    "apps/worker/src/statistics/canary-projection-handoff.test.mjs",
+    "apps/worker/src/statistics/canary-routes.test.mjs",
+    "apps/worker/src/statistics/readers/eurostat-crash-class.test.mjs",
+    "docs/generated/statistics-eurostat-legal-capacity-gate-v1.json",
+    "release/statistics-canary-commands.json",
+    "release/statistics-canary-policy-activate.sql",
+    "release/statistics-canary-policy-pause.sql",
+    "scripts/statistics-canary-operator.mjs"
+  ],
+  "FIRST_HEALTH_STATISTICS_CANARY_PACKAGE": "FROZEN_V1",
+  "canonical_implementation": {
+    "count": 1,
+    "files": [
+      "apps/worker/src/statistics/canary-budget.ts",
+      "apps/worker/src/statistics/canary-routes.ts",
+      "scripts/statistics-canary-operator.mjs",
+      "apps/worker/src/statistics/readers/eurostat-demo-mlexpec.ts (checkpointScopeKey / operationalReleaseKey run class)",
+      "apps/worker/src/statistics/readers/eurostat-demo-mlexpec-runner.ts (class-aware identities)",
+      "release/statistics-canary-policy-arm.sql",
+      "release/statistics-canary-policy-disarm.sql",
+      "release/statistics-canary-policy-activate.sql",
+      "release/statistics-canary-policy-pause.sql",
+      "release/statistics-canary-commands.json"
+    ],
+    "competing_uncommitted_canary_ts": "quarantined to .logs/quarantine (git-ignored), not in the source tree; its unique safety invariants were ported: single combined preflight read, owner_activation_ref required, no dataset-scoped or ACTIVE policy rows, terminal non-completed run refuses a new run, one-logical-run cap, resume only the single RUNNING run, strict request body, source host allow-list and no lastTimePeriod",
+    "not_ported_on_purpose": "its own statement hard stop of 175 (the canonical 160 is stricter) and its action/runId request body (the canonical run request takes no parameters; resume is derived from durable state)"
+  },
+  "run_model": {
+    "ONE_LOGICAL_CANARY_RUN": "REQUIRED",
+    "MAX_OPERATOR_INVOCATIONS": 3,
+    "invocation_1": "creates the one logical run and executes the bounded work",
+    "invocations_2_3": "may ONLY resume the same RUNNING run (lease/checkpoint contract); a COMPLETED run is refused (409 CANARY_RUN_ALREADY_COMPLETED), a terminal non-completed run is refused (409 CANARY_RUN_TERMINAL) and needs a new owner decision",
+    "AUTOMATIC_SECOND_LOGICAL_RUN": "FORBIDDEN",
+    "invocation_cap_enforcement": "operator CLI durable counter (.logs/statistics-canary-invocations.json): the frozen schema has no per-invocation counter, so the Worker cannot count them; structurally the Worker already bounds the work (a COMPLETED/terminal run cannot be replayed, only a RUNNING run can be resumed, each resume is lease-guarded)",
+    "POST_CANARY_PRODUCTION_HANDOFF_RUN": "OWNER_TRIGGERED_ONLY",
+    "handoff_is_not_a_canary_run": "it is a PRODUCTION-class run (route POST /api/statistics/canary/handoff); it does not count against ONE_LOGICAL_CANARY_RUN",
+    "AUTOMATIC_SECOND_CANARY_RUN": "FORBIDDEN",
+    "handoff_one_logical_run": "one production hand-off run; later invocations may only RESUME that same RUNNING run; a COMPLETED hand-off is refused (409 HANDOFF_RUN_ALREADY_COMPLETED), a terminal one is refused (409 HANDOFF_RUN_TERMINAL) and needs an owner decision",
+    "handoff_preconditions": "policy ACTIVE (owner SQL), canary_gate PASSED, owner reference, exactly one completed canary run, no dataset-scoped policy row, this source the only ACTIVE row",
+    "handoff_invocation_cap": "operator CLI counter, 3 (.logs/statistics-handoff-invocations.json)"
+  },
+  "projection_handoff": {
+    "item_59": "READY_LOCAL",
+    "decision": "O2",
+    "GATED_CURRENT_PROJECTION": "0_EXPECTED",
+    "POST_CANARY_PRODUCTION_CURRENT_PROJECTION": "EXPECTED_NONZERO (27 on the frozen fixture)",
+    "PROJECTION_SOURCE_CLASS": "PRODUCTION_ONLY",
+    "CANARY_RELEASE_PROJECTED": "NO",
+    "CANARY_RELEASE_MUTATED": "NO",
+    "flow": [
+      "S0 source DISABLED",
+      "S1 owner SQL arm: DISABLED -> ACTIVATION_GATED",
+      "S2 one bounded CANARY logical run (27 versions, provenance, checkpoint, 0 current)",
+      "S3 owner reviews, owner SQL activate: ACTIVATION_GATED -> ACTIVE (canary_gate PASSED)",
+      "S4 owner triggers ONE bounded PRODUCTION hand-off run (1 Eurostat request, same frozen slice)",
+      "S5 production release/versions written under their own operational identity; projection eligible",
+      "S6 verify: current populated, rebuild parity, provenance to the PRODUCTION version, CANARY history unchanged, no double count",
+      "S7 owner pause or disarm"
+    ],
+    "UPSTREAM_RELEASE_IDENTITY": "the Eurostat `updated` marker: source_native_release_id, published_at and release_rank are identical for both classes; never a second timestamp; retrieval time never decides semantic ordering",
+    "INTERNAL_OPERATIONAL_RELEASE_IDENTITY": "the frozen release_key: PRODUCTION = `updated:<utc>` (unchanged for production data), CANARY = `updated:<utc>#CANARY`; plus the CANARY checkpoint scope `...|class=CANARY` and the CANARY artifact request descriptor `[run_class=CANARY]`. PRODUCTION identities are exactly the pre-O2 ones.",
+    "why_no_schema_change": "the schema keys on release_key, checkpoint scope_key and artifact_id, all of which the reader already chooses; STAT_RELEASE_IDENTITY_IMMUTABLE is untouched, no migration exists",
+    "no_double_counting": [
+      "9 series (not 18): series identity is class independent",
+      "one current row per (series, period), always PRODUCTION",
+      "27 canary + 27 production versions are audit history; value fingerprints are equal for the same cell",
+      "revision_count in the projection excludes canary history",
+      "consumer read models read the projection; the audit view revisionHistory lists both classes by release and is not a fact count"
+    ],
+    "idempotency_matrix": {
+      "1 CANARY first ingestion": "PASS",
+      "2 CANARY replay": "PASS (NO_CHANGE; route-level replay is refused)",
+      "3 CANARY completed run cannot be replaced": "PASS (route 409)",
+      "4 owner ACTIVE transition": "PASS (owner SQL)",
+      "5 PRODUCTION hand-off first run": "PASS",
+      "6 same upstream marker under production identity": "PASS",
+      "7 production current projection": "PASS",
+      "8 PRODUCTION replay": "PASS (NO_CHANGE; route 409)",
+      "9 projection unchanged and rebuild parity": "PASS",
+      "10 CANARY history byte-identical": "PASS",
+      "11 older release does not displace current": "PASS",
+      "12 newer release follows revision rules": "PASS"
+    },
+    "crash_resume": "canary-routes + eurostat-crash-class tests: both classes, 7 fault points each, same-run resume only, no duplicate versions/releases, a terminal FAILED run is never replaced",
+    "proven_by": [
+      "apps/worker/src/statistics/canary-projection-handoff.test.mjs",
+      "apps/worker/src/statistics/readers/eurostat-crash-class.test.mjs",
+      "apps/worker/src/statistics/canary-routes.test.mjs"
+    ]
+  },
+  "master_checklist_disposition": {
+    "45": "READY_LOCAL",
+    "46": "READY_LOCAL",
+    "47": "READY_LOCAL",
+    "48": "READY_LOCAL",
+    "49": "READY_LOCAL",
+    "50": "READY_LOCAL",
+    "51": "READY_LOCAL",
+    "52": "READY_LOCAL (package prepared; owner authorization itself stays UNSIGNED)",
+    "59": "READY_LOCAL (current projection live CONTRACT; live production projection still needs items 53-62)"
+  },
+  "parallel_session_findings_folded_in": "F1 staged-not-projected, F2 NO_CHANGE after canary, F4 D1 measurement, F5 CPU outside the Worker: all confirmed or accepted (see projection_handoff and item_47/49); F3 resolved by the run model",
+  "blocker_decision": "O2 (owner, 2026-10-06): class-aware operational identity, no schema change, no O1, no O3",
+  "O2_REQUIRES_SCHEMA_CHANGE": "NO"
+}

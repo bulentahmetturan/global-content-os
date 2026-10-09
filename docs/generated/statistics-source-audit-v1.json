@@ -1,0 +1,634 @@
+{
+  "phase": "SOURCE_DISCOVERY_AND_DATASET_AUDIT",
+  "as_of": "2026-10-05",
+  "mode": "READ_ONLY_RESEARCH",
+  "note": "Research output. Not a production registry; no source is ACTIVE. Evidence = official URLs probed read-only on as_of; UNVERIFIED marks claims taken from secondary/search summaries.",
+  "pillar_matrix": [
+    {
+      "source_id": "TURKSTAT_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Owner-created API key + terms UNKNOWN (activation, not architecture)",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "Terms of use / licence not located (search found none). SDMX access requires a SMS-verified personal API key or TÜİK-issued credentials: an owner action (no account was created in this phase).",
+      "technical_gate": "Health dataflow ids unknown until authenticated listing (https://nsiws.tuik.gov.tr/rest/dataflow/TR/all/latest). Portal-internal /api/{lang}/... paths are not public (404/405) and were NOT pursued.",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Documented authenticated SDMX 2.1 service with versioned structures, bounded queries, release calendar and revision policy. Class: DOCUMENTED_API_AUTH (not PUBLIC_UNDOCUMENTED_ENDPOINT).",
+      "evidence": [
+        "https://veriportali.tuik.gov.tr/robots.txt",
+        "https://veriportali.tuik.gov.tr/api/",
+        "https://biruni.tuik.gov.tr/medas/?kn=93&locale=tr",
+        "https://nsiws.tuik.gov.tr/rest/dataflow/TR/all/latest?detail=allstubs (HTTP 401)",
+        "https://veriportali.tuik.gov.tr/assets/main-DqKRJY-Z.js (documentation text)",
+        "https://www.tuik.gov.tr/Kurumsal/Revizyon_Politikasi",
+        "https://www.tuik.gov.tr/Kurumsal/Veri_Takvimi"
+      ]
+    },
+    {
+      "source_id": "TR_MINISTRY_OF_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "PDF-only; terms UNKNOWN; revision model explicit UNKNOWN",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "Terms UNKNOWN (no open licence found); owner decision before republishing derived tables.",
+      "technical_gate": "PDF-only: table extraction fidelity must be validated per edition.",
+      "final_decision": "ACCEPT",
+      "decision_reason": "PDF_RELEASE_READER is the only reliable form (accepted for architecture). Class: PDF_RELEASE.",
+      "evidence": [
+        "https://sbsgm.saglik.gov.tr/TR-93445/saglik-istatistikleri-yilligi.html",
+        "https://sbsgm.saglik.gov.tr/TR-114956/saglik-istatistikleri-yilligi-2024-yayimlanmistir.html",
+        "https://dosyamerkez.saglik.gov.tr/Eklenti/52859/0/siy2024tr31122025pdf.pdf",
+        "https://sbsgm.saglik.gov.tr/TR-121059/saglik-istatistikleri-yilligi-2025-haber-bulteni-yayimlanmistir.html",
+        "https://dosyamerkez.saglik.gov.tr/Eklenti/56342/0/haber-bulteni-2025-trpdf.pdf",
+        "https://dosyasb.saglik.gov.tr/Eklenti/50500/0/siy202307032025pdf.pdf"
+      ]
+    },
+    {
+      "source_id": "HSGM_PUBLIC_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PASS",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "PDF-only; terms UNKNOWN; 3 groups unverified (communicable-other, immunization, screening)",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "Terms UNKNOWN.",
+      "technical_gate": "Network sensitivity: /tr/istatistikler returned access-denied from this network while other HSGM pages and PDFs returned 200 (not bypassed). Run pollers from the Türkiye runner (existing repo pattern).",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Six groups verified (cancer, HIV, TB, influenza, risk factors, nutrition); adapter pattern is clear. NETWORK_ACCESS_REQUIRED = UNKNOWN for the 3 unverified groups.",
+      "evidence": [
+        "https://hsgm.saglik.gov.tr/tr/kanser-istatistikleri",
+        "https://hsgm.saglik.gov.tr/depo/birimler/kanser-db/Dokumanlar/Istatistikler/2022_Turkiye_Kanser_Istatistikleri.pdf",
+        "https://hsgm.saglik.gov.tr/depo/birimler/bulasici-hastaliklar-ve-erken-uyari-db/Dokumanlar/Istatistikler/HIV_AIDS_Istatistikleri.pdf",
+        "https://hsgm.saglik.gov.tr/depo/tuberkuloz/6-HIVTB_Birlikteligi_2009-2023.pdf",
+        "https://grip.saglik.gov.tr/tr/hir",
+        "https://hsgm.saglik.gov.tr/media/attachments/2025/05/13/web-tr-dso-sonuc-rap-130525.pdf",
+        "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Kitaplar/TBSA_2017_Ozet_Bulgular.pdf"
+      ]
+    },
+    {
+      "source_id": "SGK_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Terms UNKNOWN",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "Terms UNKNOWN.",
+      "technical_gate": "Monthly bulletin files are not enumerated by the page (only metadata + revision policy links); health-benefit payment statistics location UNVERIFIED (see veri.sgk.gov.tr SPA, 'Devredilen Kurum İstatistikleri' legacy pages).",
+      "final_decision": "ACCEPT",
+      "decision_reason": "2024 ZIP downloaded and inspected (5 xlsx; 4.4 MB); metadata and revision-policy PDFs read. BULK_FILE_READER (ZIP→XLSX) chosen. Closes Türkiye OCCUPATIONAL_HEALTH.",
+      "evidence": [
+        "https://www.sgk.gov.tr/Istatistik/Yillik/fcd5e59b-6af9-4d90-a451-ee7500eb1cb4/",
+        "https://www.sgk.gov.tr/Istatistik/Aylik/42919466-593f-4600-937d-1f95c9e252e6/",
+        "https://www.sgk.gov.tr/download/downloadfile?f=c3ebc2d5-76f2-4f9f-ba03-4ddc2e7ecfe5.zip&d=b449b3c3-1c9f-4c33-bc21-d317d29e97a4",
+        "https://www.sgk.gov.tr/Download/DownloadFile?f=b24b67b3-8a10-428e-9d86-61900ceeebcd.pdf&d=052fa159-65a5-4117-9dfc-8235b7dca01a"
+      ]
+    },
+    {
+      "source_id": "TR_HACETTEPE_HIPS_TNSA",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Low frequency; 2024 wave not published yet (UNVERIFIED)",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Terms UNKNOWN; microdata requires registration/permission (out of scope).",
+      "technical_gate": "None for aggregate PDF reports.",
+      "final_decision": "ACCEPT_ADDED_BY_GAP_SEARCH",
+      "decision_reason": "Public aggregate output = report PDFs; microdata = restricted. PDF_RELEASE_READER; priority P2 (low frequency).",
+      "evidence": [
+        "https://hips.hacettepe.edu.tr/tr/tnsa-2018",
+        "https://tubitak.gov.tr/en/node/16909",
+        "https://hips.hacettepe.edu.tr/tr/menu/raporlar-62",
+        "https://microdata.worldbank.org/catalog/3452"
+      ]
+    },
+    {
+      "source_id": "WHO_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Licence NC-SA owner confirmation; latest-value-only revisions",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "WHO_TERMS_STATUS = PARTIAL. Publications: CC BY-NC-SA 3.0 IGO (official page). Data policy page opened: speaks of non-commercial public-health use, no explicit data licence. Owner review before republishing derived data.",
+      "technical_gate": "NONE (API verified live: Indicator, Dimension, indicator data with $filter).",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Best-documented machine access; verified live; Turkey included.",
+      "evidence": [
+        "https://ghoapi.azureedge.net/api/Indicator",
+        "https://ghoapi.azureedge.net/api/WHOSIS_000001?$filter=SpatialDim eq 'TUR'",
+        "https://ghoapi.azureedge.net/api/Dimension",
+        "https://www.who.int/data/gho/info/gho-odata-api"
+      ]
+    },
+    {
+      "source_id": "WORLD_BANK_HEALTH",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Lineage: mostly a redistributor",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "Terms accepted by use; licence page for datasets not rendered here — confirm CC BY 4.0 per dataset.",
+      "technical_gate": "NONE (API verified live).",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Fully open versioned-by-source REST API with lastupdated per source.",
+      "evidence": [
+        "https://api.worldbank.org/v2/sources?format=json",
+        "https://api.worldbank.org/v2/topic/8/indicator?format=json&per_page=1",
+        "https://api.worldbank.org/v2/country/TUR/indicator/SH.XPD.CHEX.GD.ZS?format=json&mrv=2"
+      ]
+    },
+    {
+      "source_id": "EUROSTAT_HEALTH",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Latest-only → local snapshots required",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "Reuse authorised with source acknowledgement (copyright notice; search summary).",
+      "technical_gate": "NONE (SDMX 2.1 dataflow list and JSON-stat data verified live).",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Open, bounded, SDMX/JSON-stat with Türkiye included.",
+      "evidence": [
+        "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow/ESTAT/all?detail=allstubs",
+        "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hlth_sha11_hf?geo=TR&lastTimePeriod=2&format=JSON"
+      ]
+    },
+    {
+      "source_id": "UN_WORLD_POPULATION_PROSPECTS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PASS",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "API token (bulk files do not need it)",
+      "future_pipeline_priority": "P0",
+      "legal_gate": "API token request is an owner/UN contact action; licence for data files to confirm.",
+      "technical_gate": "API requires a free token (HTTP 401 verified; token procedure from search summary). Bulk-download URL could not be verified this phase.",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Canonical global denominators; edition model fits release tracking.",
+      "evidence": [
+        "https://population.un.org/dataportalapi/api/v1/locations?pageSize=1",
+        "https://population.un.org/dataportalapi/api/v1/indicators?pageSize=100",
+        "https://desapublications.un.org/file/20847/download"
+      ]
+    },
+    {
+      "source_id": "UNICEF_DATA",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Licence UNKNOWN",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "Licence/terms not located (UNKNOWN).",
+      "technical_gate": "NONE for access (dataflow list verified, 41 flows); data-endpoint query not exercised.",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Open SDMX with the key maternal/child flows.",
+      "evidence": [
+        "https://sdmx.data.unicef.org/ws/public/sdmxapi/rest/dataflow/UNICEF"
+      ]
+    },
+    {
+      "source_id": "CDC_NCHS_HEALTH_STATISTICS",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Only benchmark relevance; no Türkiye data",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "NONE identified (US Gov Works); confirm no third-party restricted datasets.",
+      "technical_gate": "NHIS/NHANES microdata are file downloads (not Socrata) — not verified here. Not Türkiye-relevant; peer/benchmark value only.",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Open Socrata API, public-domain licence.",
+      "evidence": [
+        "https://data.cdc.gov/api/views/metadata/v1",
+        "https://data.cdc.gov/api/views/w9j2-ggv5.json",
+        "https://data.cdc.gov/resource/jx6g-fdh6.json?$limit=1"
+      ]
+    },
+    {
+      "source_id": "US_CENSUS_HEALTH",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Benchmark-only (no Türkiye)",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "NONE identified (CC0 in catalog).",
+      "technical_gate": "NONE.",
+      "final_decision": "ACCEPT_NARROW_ROLE",
+      "decision_reason": "Unique insurance/disability/denominator value; not clinical.",
+      "evidence": [
+        "https://api.census.gov/data.json"
+      ]
+    },
+    {
+      "source_id": "UK_ONS_HEALTH",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PASS",
+      "P2_status": "PASS",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Beta API stability",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "OGL assumed — confirm.",
+      "technical_gate": "API is 'beta'; contract may migrate.",
+      "final_decision": "ACCEPT",
+      "decision_reason": "Best-versioned API in the set: editions/versions exposed.",
+      "evidence": [
+        "https://api.beta.ons.gov.uk/v1/datasets?limit=1000 (338 datasets)"
+      ]
+    },
+    {
+      "source_id": "OECD_HEALTH_STATISTICS",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "BLOCKED",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Terms/automation rights + conflicting rate limits",
+      "future_pipeline_priority": "P1",
+      "legal_gate": "UNRESOLVED and kept CANONICAL_GATED: terms page 403 to automation; two conflicting rate limits in OECD documentation (20 queries/min + 20 downloads/hr vs 60 downloads/hr). Owner/legal review required; not reclassified.",
+      "technical_gate": "SDMX verified live: 1,548 dataflows (118 health-related).",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Technically excellent, legally unresolved.",
+      "evidence": [
+        "https://sdmx.oecd.org/public/rest/dataflow/all?references=none",
+        "https://www.oecd.org/en/data/insights/data-explainers/2024/11/Api-best-practices-and-recommendations.html"
+      ]
+    },
+    {
+      "source_id": "IHME_GBD",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "BLOCKED",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "NC licence + authenticated download",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Non-commercial agreement; account required; redistribution/derivative terms need owner & counsel review.",
+      "technical_gate": "Account login + emailed download link; agreement is free-of-charge NON-COMMERCIAL (official page opened). AUTH_EXPORT, GATED.",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Unique burden-of-disease source; legally and technically gated.",
+      "evidence": [
+        "https://www.healthdata.org/data-tools-practices/data-practices/ihme-free-charge-non-commercial-user-agreement",
+        "https://ghdx.healthdata.org/gbd-2023/code"
+      ]
+    },
+    {
+      "source_id": "IARC_GLOBAL_CANCER_OBSERVATORY",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "UNKNOWN",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Terms UNVERIFIED; no API; manual export only",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "LEGAL_REVIEW_REQUIRED. terms_status = UNVERIFIED: the official IARC terms page was not verified; a secondary summary reports a restriction on systematic retrieval, so permission for automated ingestion is UNKNOWN. Verify the official terms before any activation.",
+      "technical_gate": "No API; interactive UI; a guessed JSON path returned the HTML shell.",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Authoritative cancer source; access/terms unresolved.",
+      "evidence": [
+        "https://gco.iarc.fr/today/en",
+        "https://www.uicc.org/resources/cancer-today-info"
+      ]
+    },
+    {
+      "source_id": "UNAIDS_DATA",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Terms/access UNKNOWN",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Terms UNKNOWN.",
+      "technical_gate": "AIDSinfo exposes XLSX/CSV exports; the 'Data list' CSV is reported to need an EDMS account (secondary summary). MANUAL_ONLY/GATED; no API found.",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Authoritative; machine access and terms not verified.",
+      "evidence": [
+        "https://aidsinfo.unaids.org/",
+        "https://www.unaids.org/en/resources/documents/2024/2024_unaids_data"
+      ]
+    },
+    {
+      "source_id": "ECDC_SURVEILLANCE",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "No documented machine endpoint",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Licence clear (CC BY 4.0); TESSy third-party access requires request — not needed for public Atlas.",
+      "technical_gate": "Surveillance Atlas CSV download via the interactive UI (secondary summary); no API found (AtlasService/rest 404). MANUAL_ONLY/GATED.",
+      "final_decision": "ACCEPT_AS_CANONICAL_GATED",
+      "decision_reason": "Authoritative EU communicable-disease source; endpoint unverified.",
+      "evidence": [
+        "https://www.ecdc.europa.eu/en/copyright",
+        "https://atlas.ecdc.europa.eu/public/disclaimer.htm"
+      ]
+    },
+    {
+      "source_id": "NCD_RISC",
+      "disposition": "CANONICAL_GATED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Licence unverified",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Licence not read from official page this phase.",
+      "technical_gate": "None beyond file layout.",
+      "final_decision": "ACCEPT_ADDED_BY_GAP_SEARCH",
+      "decision_reason": "Unique authoritative academic source for risk-factor trends; terms to confirm.",
+      "evidence": [
+        "https://ncdrisc.org/archives.html",
+        "https://zenodo.org/records/13987398"
+      ]
+    },
+    {
+      "source_id": "OUR_WORLD_IN_DATA_GLOBAL_HEALTH",
+      "disposition": "SECONDARY_NORMALIZED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PASS",
+      "P3_status": "PARTIAL",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Not canonical",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "Inherits upstream licences.",
+      "technical_gate": "NONE.",
+      "final_decision": "ACCEPT_SECONDARY_QA",
+      "decision_reason": "Useful normalised cross-check with explicit provenance metadata.",
+      "evidence": [
+        "https://ourworldindata.org/grapher/life-expectancy.csv?v=1&csvType=filtered&country=TUR",
+        "https://ourworldindata.org/grapher/life-expectancy.metadata.json"
+      ]
+    },
+    {
+      "source_id": "COUNTY_HEALTH_RANKINGS",
+      "disposition": "SECONDARY_NORMALIZED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Not relevant to Türkiye",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "UNKNOWN.",
+      "technical_gate": "None.",
+      "final_decision": "ACCEPT_SECONDARY_QA_LOW_PRIORITY",
+      "decision_reason": "US-only derived rankings; low value for a Türkiye-centred system.",
+      "evidence": [
+        "https://www.countyhealthrankings.org/health-data/methodology-and-sources/data-documentation"
+      ]
+    },
+    {
+      "source_id": "UN_SDG_GLOBAL_DATABASE",
+      "disposition": "SECONDARY_NORMALIZED",
+      "P1_status": "PARTIAL",
+      "P2_status": "PARTIAL",
+      "P3_status": "PARTIAL",
+      "P4_status": "PARTIAL",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Duplicate of custodians",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "UNKNOWN.",
+      "technical_gate": "API not exercised.",
+      "final_decision": "ADDED_AS_SECONDARY",
+      "decision_reason": "Authoritative aggregation of custodian series; useful QA, adds no new truth.",
+      "evidence": [
+        "https://unstats.un.org/SDGAPI/swagger/"
+      ]
+    },
+    {
+      "source_id": "WORLDOMETER",
+      "disposition": "DISCOVERY_CROSSCHECK",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not an upstream producer",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "Terms not reviewed; no ingestion planned.",
+      "technical_gate": "No API verified.",
+      "final_decision": "DOWNGRADED_TO_DISCOVERY",
+      "decision_reason": "Live counters are 'a real-time estimate using our proprietary algorithm' (about page); modelled, undocumented lineage; robots.txt allows all.",
+      "evidence": [
+        "https://www.worldometers.info/"
+      ]
+    },
+    {
+      "source_id": "WORLD_POPULATION_REVIEW",
+      "disposition": "DISCOVERY_CROSSCHECK",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not an upstream producer",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "Terms not reviewed; no ingestion planned.",
+      "technical_gate": "No API verified.",
+      "final_decision": "DOWNGRADED_TO_DISCOVERY",
+      "decision_reason": "Commercial aggregator; update cadence/methodology not verified; upstream lineage UNKNOWN.",
+      "evidence": [
+        "https://worldpopulationreview.com/"
+      ]
+    },
+    {
+      "source_id": "WORLDSTATS_IO",
+      "disposition": "DISCOVERY_CROSSCHECK",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not an upstream producer",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "Terms not reviewed; no ingestion planned.",
+      "technical_gate": "No API verified.",
+      "final_decision": "DOWNGRADED_TO_DISCOVERY",
+      "decision_reason": "Real-time population-counter style site (page description); no API/terms verified.",
+      "evidence": [
+        "https://worldstats.io/"
+      ]
+    },
+    {
+      "source_id": "STATBASE",
+      "disposition": "DISCOVERY_CROSSCHECK",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not an upstream producer",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "Terms not reviewed; no ingestion planned.",
+      "technical_gate": "No API verified.",
+      "final_decision": "DOWNGRADED_TO_DISCOVERY",
+      "decision_reason": "Homepage timed out (HTTP 000) in this phase; robots.txt has 'Content-signal: ai-train=no, use=reference'; content/lineage UNVERIFIED.",
+      "evidence": [
+        "https://statbase.org/"
+      ]
+    },
+    {
+      "source_id": "WORLD_OF_STATISTICS",
+      "disposition": "REFERENCE_METHODOLOGY",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not a data source",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "NONE_IDENTIFIED",
+      "technical_gate": "NONE_IDENTIFIED",
+      "final_decision": "REFERENCE_ONLY",
+      "decision_reason": "Statistical-education and events hub (page title 'Global Hub for Statistical Education & Events'); not a data producer.",
+      "evidence": [
+        "https://www.worldofstatistics.org/"
+      ]
+    },
+    {
+      "source_id": "STLCC_WORLD_STATISTICS_GUIDE",
+      "disposition": "REFERENCE_METHODOLOGY",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not a data source",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "NONE_IDENTIFIED",
+      "technical_gate": "NONE_IDENTIFIED",
+      "final_decision": "REFERENCE_ONLY",
+      "decision_reason": "Library source directory pointing to producers; use only to discover sources.",
+      "evidence": [
+        "https://guides.stlcc.edu/statistics/world"
+      ]
+    },
+    {
+      "source_id": "NCBI_HEALTH_STATISTICS_REFERENCE",
+      "disposition": "REFERENCE_METHODOLOGY",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not a data source",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "NONE_IDENTIFIED",
+      "technical_gate": "NONE_IDENTIFIED",
+      "final_decision": "REFERENCE_ONLY",
+      "decision_reason": "Book chapter on health-statistics systems; page behind a reCAPTCHA browser check for automation (not bypassed). Book prose is never ingested.",
+      "evidence": [
+        "https://www.ncbi.nlm.nih.gov/books/NBK223602/"
+      ]
+    },
+    {
+      "source_id": "SCIENCEDIRECT_HEALTH_STATISTICS_REFERENCE",
+      "disposition": "REFERENCE_METHODOLOGY",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not a data source",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "NONE_IDENTIFIED",
+      "technical_gate": "NONE_IDENTIFIED",
+      "final_decision": "REFERENCE_ONLY",
+      "decision_reason": "Encyclopedic topic summary (HTTP 403 to automation; not bypassed). Reference only.",
+      "evidence": [
+        "https://www.sciencedirect.com/topics/social-sciences/health-statistics"
+      ]
+    },
+    {
+      "source_id": "UN_DIGITAL_LIBRARY_HEALTH_STATISTICS_REFERENCE",
+      "disposition": "REFERENCE_METHODOLOGY",
+      "P1_status": "FAIL",
+      "P2_status": "FAIL",
+      "P3_status": "FAIL",
+      "P4_status": "FAIL",
+      "P5_status": "PASS",
+      "main_blocker": "Not a data source",
+      "future_pipeline_priority": "P3",
+      "legal_gate": "NONE_IDENTIFIED",
+      "technical_gate": "NONE_IDENTIFIED",
+      "final_decision": "REFERENCE_ONLY",
+      "decision_reason": "IDENTITY UNRESOLVED: the record page returned HTTP 202 (bot challenge) with no body, and a search for the record ID returned nothing. It is a UN Digital Library bibliographic record (PDF view); document type (dataset vs report vs methodology) NOT verified. No production source is created from one PDF.",
+      "evidence": [
+        "https://digitallibrary.un.org/record/4085690"
+      ]
+    },
+    {
+      "source_id": "ILOSTAT_OSH",
+      "disposition": "PRIMARY_CANONICAL",
+      "P1_status": "PARTIAL",
+      "P2_status": "PASS",
+      "P3_status": "PASS",
+      "P4_status": "PASS",
+      "P5_status": "PARTIAL",
+      "main_blocker": "Terms UNKNOWN",
+      "future_pipeline_priority": "P2",
+      "legal_gate": "Licence/terms page not accessible (terms PDF 404, bulk page 403 to automation) → UNKNOWN.",
+      "technical_gate": "NONE (CSV API and SDMX flow list verified live).",
+      "final_decision": "ACCEPT_ADDED_BY_GAP_AUDIT",
+      "decision_reason": "Uniquely covers OCCUPATIONAL_HEALTH comparably across countries with documented automation; injuries only (no disease indicator).",
+      "evidence": [
+        "https://rplumber.ilo.org/metadata/toc/indicator/?lang=en&format=.csv",
+        "https://rplumber.ilo.org/data/indicator/?id=INJ_FATL_ECO_NB_A&ref_area=TUR&format=.csv",
+        "https://sdmx.ilo.org/rest/dataflow/ILO",
+        "https://webapps.ilo.org/ilostat-files/Documents/ILOSTAT_BulkDownload_Guidelines.pdf"
+      ]
+    }
+  ],
+  "completeness_test": "see docs/STATISTICS-SOURCE-BASE.md §16",
+  "final": {
+    "SOURCE_BASE_COMPLETE": "YES",
+    "SOURCE_BASE_ARCHITECTURE_READY": "YES",
+    "SOURCE_ACTIVATION_READY_ALL_SOURCES": "NO",
+    "MAJOR_TIER1_SOURCE_GAPS": 0
+  }
+}

@@ -18,6 +18,10 @@ import { collectOpsSummary } from './ops-summary';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
+import { handleDossierCanary } from './dossier-canary-routes';
+import { DOSSIER_RECURRING_CRON, handleDossierOps, runDossierRecurringTick } from './dossier-ops-routes';
+import { handleStatisticsRoutes } from './statistics/statistics-routes';
+import { runStatisticsScheduledTick, STATISTICS_RECURRING_CRON } from './statistics/ops/worker-scheduler';
 import { ingestWhoNews } from './ingress/who-news';
 import { ingestEuropePmc } from './ingress/europe-pmc';
 import { ingestPubmed, ingestPubmedAll } from './ingress/pubmed';
@@ -110,15 +114,26 @@ export default {
       }
 
       if (path === '/api/ready') {
-        const { report, appliedMigration } = await gatherReadiness(env);
+        const { report, appliedMigration, dossier } = await gatherReadiness(env);
         return json(
-          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION },
+          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION, dossier },
           report.level === 'BLOCKED' ? 503 : 200,
         );
       }
 
       const routeAuth = authorizeRoute(env, request, path);
       if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
+
+      // DOSSIER canary operator surface (OPS_TOKEN; manual, never scheduled, never public; a run also needs DOSSIER_CANARY_ENABLED=true).
+      const dossierCanary = await handleDossierCanary(request, env, path);
+      if (dossierCanary) return dossierCanary;
+      // DOSSIER recurring operation read model + owner controls (own read / write tokens, distinct from OPS_TOKEN).
+      const dossierOps = await handleDossierOps(request, env, path);
+      if (dossierOps) return dossierOps;
+      // HEALTH_STATISTICS operator surface (canary package + read-only operations): OPS_TOKEN-gated inside the handlers, answers /api/statistics/* only,
+      // and fails closed (503) unless the STATS_DB binding exists. It never reads or writes the content database.
+      const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
+      if (statisticsResponse) return statisticsResponse;
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {
@@ -792,6 +807,37 @@ export default {
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    if (controller.cron === STATISTICS_RECURRING_CRON) {
+      ctx.waitUntil(
+        runIsolatedScheduledJobs([{ id: 'statistics-recurring', run: async () => {
+          const result = await runStatisticsScheduledTick(env);
+          if (!result.plan.enabled) return;
+          const event = {
+            event: result.run?.status === 'FAILED' ? 'statistics_scheduled_run_failed' : 'statistics_scheduler_tick',
+            source_id: result.plan.jobs[0]?.sourceId ?? null,
+            plan: result.plan,
+            run_id: result.run?.runId ?? null,
+            run_status: result.run?.status ?? null,
+            release_id: result.run?.releaseId ?? null,
+            reader_error: result.run?.readerError ?? null,
+            d1_budget: result.usage,
+          };
+          (result.run?.status === 'FAILED' ? console.error : console.log)(JSON.stringify(event));
+        } }], {
+          onError: (r) => console.error(JSON.stringify({ event: 'scheduled_job_failed', job_id: r.id, error_name: r.error?.name, error_message: r.error?.message })),
+        }),
+      );
+      return;
+    }
+    // DOSSIER recurring tick: its own five-minute cron. It never runs the GCOS slot rotation below, and a disabled deployment (DOSSIER_RECURRING_ENABLED != "true") reads nothing.
+    if (controller.cron === DOSSIER_RECURRING_CRON) {
+      ctx.waitUntil(
+        runIsolatedScheduledJobs([{ id: 'dossier-recurring', run: () => runDossierRecurringTick(env) }], {
+          onError: (r) => console.error(JSON.stringify({ event: 'scheduled_job_failed', job_id: r.id, error_name: r.error?.name, error_message: r.error?.message })),
+        }),
+      );
+      return;
+    }
     // Continuous coverage: every cron tick advances a sliding window across ALL feeds.
     const minute = new Date(controller.scheduledTime).getUTCMinutes();
     const hour = new Date(controller.scheduledTime).getUTCHours();

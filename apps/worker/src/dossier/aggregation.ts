@@ -1,0 +1,303 @@
+/**
+ * Bounded, incremental signal aggregation (local). Builds the DERIVED live aggregate for ONE concept or relation at a time
+ * so candidate evaluation never needs a whole-table scan: observations are read per target through the target index with a
+ * mandatory limit, and callers re-aggregate only the targets that received new observations ("dirty" targets).
+ *
+ * No universal score. MEASURED / MODELED (and every other measurement provenance) are never mixed: provenance is part of the
+ * group key. Fast windows (7D/30D/90D) are used only for fast signals; structural / release-driven observations keep their own
+ * period and are never forced into a fast window. Momentum and persistence inputs exist only where a fast window makes them
+ * meaningful. An aggregate `value` is reported only when it is unambiguous (one distinct measured value for the same unit);
+ * no statistic (sum, mean, ...) is invented.
+ */
+import { windowKindAllowedForFamily } from '../../../../packages/contracts/src/dossier-discovery';
+import vocab from '../../../../packages/contracts/dossier-discovery.json';
+import { independence, originUnits, type IndependenceObservation } from './clusters';
+import type { DossierRepo } from './repo';
+import type { TargetType } from './types';
+import { DossierError } from './types';
+
+type Row = Record<string, unknown>;
+
+export interface AggregationConfig {
+  version: string;
+  now: string;
+  /** Maximum observation rows read for one target (mandatory: the read is always bounded). */
+  observationLimit: number;
+  platformOf: (acquisitionSourceId: string) => string | null;
+}
+export interface AggregationResult {
+  targetType: TargetType;
+  targetId: string;
+  aggregateIds: string[];
+  skipped: { observationId: string; reason: string }[];
+  truncated: boolean;
+}
+
+const FAST: { kind: string; days: number }[] = [
+  { kind: 'FAST_7D', days: 7 },
+  { kind: 'FAST_30D', days: 30 },
+  { kind: 'BASELINE_90D', days: 90 },
+];
+const STRUCTURAL = ['SOURCE_PERIOD', 'RELEASE_PERIOD', 'STRUCTURAL_PERIOD'];
+const FAST_WINDOW_DAYS: Record<string, number> = Object.fromEntries(FAST.map((f) => [f.kind, f.days]));
+const COUNT_KINDS = ['CONTENT_MENTION', 'ACTOR_MENTION', 'CLINICIAN_REPORTED_PUBLIC_QUESTION', 'SOCIAL_MOMENTUM', 'RESEARCH_ACTIVITY_COUNT', 'INSTITUTIONAL_TOPIC_ACTIVITY'];
+
+const dayOf = (iso: string): string => iso.slice(0, 10);
+const addDays = (day: string, n: number): string => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
+const s = (v: unknown): string => (v === null || v === undefined ? '' : String(v));
+
+interface Obs extends Row {
+  observation_id: string;
+  signal_family: string;
+  signal_subfamily: string;
+  geo_scope: string;
+  measurement_provenance: string;
+  observation_kind: string;
+  observed_at: string;
+}
+
+/**
+ * R09 STALE_FAST_WINDOW. A fast aggregate (7D / 30D / 90D) is dated by the day it was DERIVED (window_end = that day). Once its whole window lies in the past (the window
+ * ended more than its own length ago) it no longer describes the present: its support is UNKNOWN, never carried forward. History is kept (nothing is deleted or rewritten);
+ * the gate, the watch read model and the snapshot simply do not count it. Structural / release-period aggregates never go stale.
+ */
+export function isStaleFastWindow(a: { window_kind?: unknown; window_end?: unknown }, nowIso: string): boolean {
+  const days = FAST_WINDOW_DAYS[s(a.window_kind)];
+  const end = s(a.window_end);
+  if (!days || !/^\d{4}-\d{2}-\d{2}/.test(end)) return false;
+  return addDays(dayOf(end), days) < dayOf(nowIso);
+}
+export function splitStaleFastWindows<T extends { window_kind?: unknown; window_end?: unknown }>(aggs: readonly T[], nowIso: string): { fresh: T[]; stale: T[] } {
+  const fresh: T[] = [];
+  const stale: T[] = [];
+  for (const a of aggs) (isStaleFastWindow(a, nowIso) ? stale : fresh).push(a);
+  return { fresh, stale };
+}
+export const FAST_WINDOW_KINDS: readonly string[] = FAST.map((f) => f.kind);
+export const maxFastWindowDays = (): number => Math.max(...FAST.map((f) => f.days));
+
+function valueOf(group: Obs[]): { value: number | null; unit: string | null; status: 'MEASURED' | 'UNKNOWN' | 'NOT_APPLICABLE' } {
+  const measured = group.filter((o) => o.value_status === 'MEASURED' && typeof o.value === 'number');
+  if (measured.length) {
+    const distinct = new Set(measured.map((o) => `${o.value}|${s(o.value_unit)}`));
+    if (distinct.size === 1) return { value: measured[0].value as number, unit: (measured[0].value_unit as string | null) ?? null, status: 'MEASURED' };
+    return { value: null, unit: null, status: 'UNKNOWN' }; // several different values: no statistic is invented
+  }
+  return { value: null, unit: null, status: group.every((o) => COUNT_KINDS.includes(o.observation_kind)) ? 'NOT_APPLICABLE' : 'UNKNOWN' };
+}
+
+async function commercialSummary(repo: DossierRepo, group: Obs[], units: Map<string, string>): Promise<unknown> {
+  const originIds = group.map((o) => o.origin_item_id).filter((v): v is string => typeof v === 'string');
+  const items = originIds.length ? await repo.getExternalSourceItems(originIds) : [];
+  const ctxOf = new Map(items.map((i) => [String(i.origin_item_id), s(i.commercial_context) || 'UNKNOWN']));
+  const byObservation: Record<string, number> = {};
+  const unitContext = new Map<string, string>();
+  for (const o of group) {
+    const ctx = typeof o.origin_item_id === 'string' ? ctxOf.get(o.origin_item_id) ?? 'UNKNOWN' : 'UNKNOWN';
+    byObservation[ctx] = (byObservation[ctx] ?? 0) + 1;
+    const u = units.get(o.observation_id) ?? `obs:${o.observation_id}`;
+    if (!unitContext.has(u)) unitContext.set(u, ctx);
+  }
+  const byOriginUnit: Record<string, number> = {};
+  for (const ctx of unitContext.values()) byOriginUnit[ctx] = (byOriginUnit[ctx] ?? 0) + 1;
+  return { by_observation: byObservation, by_origin_unit: byOriginUnit };
+}
+
+/** Shared by concept and relation targets: groups observation-like rows into aggregates and writes them (idempotent per selector). */
+async function aggregateRows(repo: DossierRepo, targetType: TargetType, targetId: string, rows: Obs[], cfg: AggregationConfig, truncated: boolean): Promise<AggregationResult> {
+  const result: AggregationResult = { targetType, targetId, aggregateIds: [], skipped: [], truncated };
+  const nowDay = dayOf(cfg.now);
+  const units = await originUnits(repo, rows as unknown as IndependenceObservation[]);
+  type Group = { key: string; family: string; sub: string; geo: string; prov: string; kind: string; start: string; end: string; momentum: boolean; rows: Obs[]; prior: number };
+  const groups = new Map<string, Group>();
+  const add = (g: Omit<Group, 'key' | 'rows' | 'prior'>, o: Obs): void => {
+    const key = [g.family, g.sub, g.geo, g.prov, g.kind, g.start, g.end].join('|');
+    const cur = groups.get(key) ?? { ...g, key, rows: [], prior: 0 };
+    cur.rows.push(o);
+    groups.set(key, cur);
+  };
+  for (const o of rows) {
+    const family = o.signal_family;
+    const base = { family, sub: s(o.signal_subfamily), geo: s(o.geo_scope), prov: o.measurement_provenance };
+    const kind = typeof o.window_kind === 'string' ? o.window_kind : null;
+    if (kind) {
+      if (!windowKindAllowedForFamily(family, kind)) { result.skipped.push({ observationId: o.observation_id, reason: 'window_kind_does_not_follow_signal_semantics' }); continue; }
+      const fast = FAST.find((f) => f.kind === kind);
+      if (fast && (!o.window_start || !o.window_end)) { result.skipped.push({ observationId: o.observation_id, reason: 'explicit_window_needs_bounds' }); continue; }
+      add({ ...base, kind, start: s(o.window_start), end: s(o.window_end), momentum: false }, o);
+      continue;
+    }
+    // no explicit period: the observation is a point event; only fast-capable families may be windowed by observed_at
+    const fastKinds = FAST.filter((f) => windowKindAllowedForFamily(family, f.kind));
+    if (!fastKinds.length) { result.skipped.push({ observationId: o.observation_id, reason: 'structural_family_observation_needs_its_own_period' }); continue; }
+    const day = dayOf(o.observed_at);
+    for (const f of fastKinds) {
+      const start = addDays(nowDay, -f.days);
+      if (day > start && day <= nowDay) add({ ...base, kind: f.kind, start, end: nowDay, momentum: true }, o);
+    }
+  }
+  // momentum: the same-length window immediately before (a structural comparison, no threshold)
+  for (const g of groups.values()) {
+    if (!g.momentum) continue;
+    const f = FAST.find((x) => x.kind === g.kind)!;
+    const priorEnd = g.start;
+    const priorStart = addDays(g.start, -f.days);
+    g.prior = rows.filter((o) => o.signal_family === g.family && s(o.signal_subfamily) === g.sub && s(o.geo_scope) === g.geo && o.measurement_provenance === g.prov && typeof o.window_kind !== 'string' && dayOf(o.observed_at) > priorStart && dayOf(o.observed_at) <= priorEnd).length;
+  }
+  for (const g of groups.values()) {
+    const ind = independence(g.rows as unknown as IndependenceObservation[], units, cfg.platformOf);
+    const v = valueOf(g.rows);
+    const days = new Set(g.rows.map((o) => dayOf(o.observed_at)));
+    const sorted = g.rows.map((o) => o.observed_at).sort();
+    const id = await repo.upsertAggregate({
+      target_type: targetType,
+      target_id: targetId,
+      signal_family: g.family,
+      signal_subfamily: g.sub,
+      geo_scope: g.geo,
+      window_kind: g.kind,
+      window_start: g.start,
+      window_end: g.end,
+      measurement_provenance: g.prov,
+      aggregation_version: cfg.version,
+      observation_count: g.rows.length,
+      independent_source_count: ind.independent_origin_count,
+      unique_actor_count: ind.unique_actor_count,
+      unique_platform_count: ind.unique_platform_count,
+      commercial_context_summary: await commercialSummary(repo, g.rows, units),
+      persistence_inputs: g.momentum ? { first_observed_at: sorted[0], last_observed_at: sorted[sorted.length - 1], distinct_observation_days: days.size } : null,
+      momentum_inputs: g.momentum ? { count_in_window: g.rows.length, count_in_prior_window: g.prior } : null,
+      value: v.value,
+      value_unit: v.unit,
+      value_status: v.status,
+      generated_at: cfg.now,
+    });
+    result.aggregateIds.push(id);
+  }
+  return result;
+}
+
+// ------------------------------------------------------------------------------------------------ current effective value of a statistical cell
+/**
+ * Sources whose origins are STATISTICAL RELEASES with identities `<cell key>|rel=<release instant, UTC ISO>|v=<value>|f=<flag>` (identity strategy
+ * DATASET_RELEASE_KEY). Only their rows go through the effective-release selection below; every other source is aggregated exactly as before.
+ */
+export const STATISTICAL_RELEASE_SOURCES: readonly string[] = ['eurostat-hlth-cd-asdr2'];
+const REL_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
+export interface ReleaseIdentityParts { cell: string; rel: string; releaseMs: number | null; value: string; flag: string }
+export function parseReleaseIdentity(identity: string): ReleaseIdentityParts | null {
+  const m = identity.match(/^(.*)\|rel=([^|]*)\|v=([^|]*)\|f=(.*)$/);
+  if (!m) return null;
+  const ms = REL_ISO.test(m[2]) ? Date.parse(m[2]) : NaN;
+  return { cell: m[1], rel: m[2], releaseMs: Number.isFinite(ms) ? ms : null, value: m[3], flag: m[4] };
+}
+export type EffectiveReason = 'CURRENT_BY_LATEST_RELEASE' | 'AMBIGUOUS_SAME_RELEASE_CONFLICT' | 'NO_VALID_RELEASE_ORDER' | 'NEWEST_RELEASE_HAS_NO_VALUE';
+export interface EffectiveCell<T> { cell: string; reason: EffectiveReason; effective: T[]; superseded: T[] }
+export interface ReleaseEntry<T> { row: T; identity: string; valueStatus: string }
+/**
+ * Deterministic CURRENT value of one canonical statistical cell from its release history (history is never touched: this only chooses which rows count NOW).
+ * PRECEDENCE: the greatest VALID release instant (`rel`, the source's own dataset `updated` marker, UTC) wins. Insertion time and row ids are never used.
+ * - an equal greatest instant carrying more than one distinct (value, flag) is ambiguous: every tied row stays effective, so the aggregate reads UNKNOWN (fail closed);
+ * - an unparsable release instant can never win; with no valid instant at all every row stays effective (UNKNOWN when values differ);
+ * - a winner whose value is UNKNOWN (the newest release has no value) removes the cell from effective support: never a zero, never the stale older value.
+ */
+export function selectEffectiveRelease<T>(cell: string, entries: readonly ReleaseEntry<T>[]): EffectiveCell<T> {
+  const valid = entries.map((e) => ({ e, p: parseReleaseIdentity(e.identity) })).filter((x): x is { e: ReleaseEntry<T>; p: ReleaseIdentityParts } => x.p !== null && x.p.releaseMs !== null);
+  if (valid.length === 0) return { cell, reason: 'NO_VALID_RELEASE_ORDER', effective: entries.map((e) => e.row), superseded: [] };
+  const max = Math.max(...valid.map((x) => x.p.releaseMs as number));
+  const top = valid.filter((x) => x.p.releaseMs === max);
+  const topRows = top.map((x) => x.e.row);
+  const superseded = entries.filter((e) => !topRows.includes(e.row)).map((e) => e.row);
+  const distinct = new Set(top.map((x) => `${x.p.value}|${x.p.flag}`));
+  if (distinct.size > 1) return { cell, reason: 'AMBIGUOUS_SAME_RELEASE_CONFLICT', effective: topRows, superseded };
+  if (top[0].e.valueStatus !== 'MEASURED') return { cell, reason: 'NEWEST_RELEASE_HAS_NO_VALUE', effective: [], superseded: entries.map((e) => e.row) };
+  return { cell, reason: 'CURRENT_BY_LATEST_RELEASE', effective: [topRows[0]], superseded };
+}
+
+/**
+ * The observations that count NOW. `rows` = effective rows (an ambiguous same-release cell keeps every tied row so its aggregate reads UNKNOWN);
+ * `withdrawn` = rows of cells whose newest release has no value; `ambiguous` = the tied rows of ambiguous cells (counted as support-unknown, never citable evidence).
+ * Shared by the aggregate and by the candidate snapshot (R11), so the evidence a snapshot cites is exactly the evidence the aggregate used.
+ */
+export async function effectiveObservationRows(repo: DossierRepo, rows: Obs[]): Promise<{ rows: Obs[]; withdrawn: Obs[]; ambiguous: Obs[] }> {
+  const stat = rows.filter((r) => typeof r.acquisition_source_id === 'string' && STATISTICAL_RELEASE_SOURCES.includes(r.acquisition_source_id) && typeof r.origin_item_id === 'string');
+  if (!stat.length) return { rows, withdrawn: [], ambiguous: [] }; // no extra statement for any other source
+  const origins = new Map((await repo.getExternalSourceItems(stat.map((r) => String(r.origin_item_id)))).map((o) => [String(o.origin_item_id), s(o.identity_value)]));
+  const byCell = new Map<string, ReleaseEntry<Obs>[]>();
+  const passthrough: Obs[] = [];
+  for (const r of rows) {
+    const identity = stat.includes(r) ? origins.get(String(r.origin_item_id)) : undefined;
+    const p = identity ? parseReleaseIdentity(identity) : null;
+    if (!p) { passthrough.push(r); continue; }
+    byCell.set(p.cell, [...(byCell.get(p.cell) ?? []), { row: r, identity: identity as string, valueStatus: s(r.value_status) }]);
+  }
+  const keep = new Set<Obs>(passthrough);
+  const withdrawn: Obs[] = [];
+  const ambiguous: Obs[] = [];
+  for (const [cell, entries] of byCell) {
+    const sel = selectEffectiveRelease(cell, entries);
+    for (const r of sel.effective) keep.add(r);
+    if (sel.reason === 'NEWEST_RELEASE_HAS_NO_VALUE') withdrawn.push(...entries.map((e) => e.row));
+    if (sel.reason === 'AMBIGUOUS_SAME_RELEASE_CONFLICT') ambiguous.push(...sel.effective);
+  }
+  return { rows: rows.filter((r) => keep.has(r)), withdrawn, ambiguous };
+}
+
+export async function aggregateConcept(repo: DossierRepo, conceptId: string, cfg: AggregationConfig): Promise<AggregationResult> {
+  if (!Number.isInteger(cfg.observationLimit) || cfg.observationLimit < 1) throw new DossierError('limit_required');
+  const from = `${addDays(dayOf(cfg.now), -180)}T00:00:00Z`;
+  // candidate aggregates are built from candidate-eligible observations only; ineligible ones stay in the log (see eligibility.ts)
+  const recent = await repo.listObservationsForConcept(conceptId, { limit: cfg.observationLimit, observedFrom: from, candidateEligibleOnly: true });
+  const structural = await repo.listStructuralObservationsForConcept(conceptId, cfg.observationLimit, { candidateEligibleOnly: true });
+  const byId = new Map<string, Obs>();
+  for (const r of [...recent, ...structural]) byId.set(String(r.observation_id), r as Obs);
+  const truncated = recent.length >= cfg.observationLimit || structural.length >= cfg.observationLimit;
+  const eff = await effectiveObservationRows(repo, [...byId.values()]);
+  const result = await aggregateRows(repo, 'CONCEPT', conceptId, eff.rows, cfg, truncated);
+  // a cell whose newest release carries no value is no longer supported: a derived aggregate that only that cell produced earlier is removed (derived, recomputable; the observations stay)
+  for (const w of eff.withdrawn) {
+    await repo.deleteAggregateExcept({ target_type: 'CONCEPT', target_id: conceptId, signal_family: w.signal_family, signal_subfamily: s(w.signal_subfamily), geo_scope: s(w.geo_scope), window_kind: s(w.window_kind), window_start: s(w.window_start), window_end: s(w.window_end), measurement_provenance: w.measurement_provenance, aggregation_version: cfg.version }, result.aggregateIds);
+  }
+  return result;
+}
+
+/** Relation aggregates summarize the JOINT signals (RELATION_SIGNAL family; the joint-signal kind is the subfamily). */
+export async function aggregateRelation(repo: DossierRepo, relationId: string, cfg: AggregationConfig): Promise<AggregationResult> {
+  if (!Number.isInteger(cfg.observationLimit) || cfg.observationLimit < 1) throw new DossierError('limit_required');
+  const ros = await repo.listRelationObservations(relationId, cfg.observationLimit);
+  const underlying = new Map((await repo.listObservationsByIds(ros.map((r) => s(r.observation_id)).filter(Boolean))).map((o) => [String(o.observation_id), o]));
+  const rows: Obs[] = ros.map((r) => {
+    const u = underlying.get(s(r.observation_id));
+    return {
+      observation_id: String(r.relation_observation_id),
+      signal_family: 'RELATION_SIGNAL',
+      signal_subfamily: String(r.joint_signal_kind),
+      geo_scope: '',
+      measurement_provenance: s(u?.measurement_provenance) || 'CONTENT',
+      observation_kind: 'CONTENT_MENTION',
+      observed_at: String(r.observed_at),
+      origin_item_id: u?.origin_item_id ?? null,
+      source_item_id: u?.source_item_id ?? null,
+      acquisition_source_id: u?.acquisition_source_id ?? null,
+      actor_id: u?.actor_id ?? null,
+      window_kind: null,
+      value_status: 'NOT_APPLICABLE',
+    } as Obs;
+  });
+  return aggregateRows(repo, 'RELATION', relationId, rows, cfg, ros.length >= cfg.observationLimit);
+}
+
+/** Incremental: recompute exactly the targets that received new observations. */
+export async function aggregateDirtyTargets(repo: DossierRepo, dirty: readonly { type: TargetType; id: string }[], cfg: AggregationConfig): Promise<AggregationResult[]> {
+  const out: AggregationResult[] = [];
+  const seen = new Set<string>();
+  for (const t of dirty) {
+    const key = `${t.type}:${t.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(t.type === 'CONCEPT' ? await aggregateConcept(repo, t.id, cfg) : await aggregateRelation(repo, t.id, cfg));
+  }
+  return out;
+}
+
+export const AGGREGATION_WINDOWS = { fast: FAST.map((f) => f.kind), structural: STRUCTURAL, known: Object.keys(vocab.window.kinds) };

@@ -1,0 +1,144 @@
+{
+  "record": "DOSSIER_FIRST_CLINICALTRIALS_CANARY_RESUME_1",
+  "result": "INCOMPLETE: 6 resumed invocations succeeded, the 7th was terminated by the platform (outcome exceededCpu, HTTP 503); recovery stopped at the first new failure as authorized; clean shutdown and disabled redeploy",
+  "utc": "2026-10-04T21:07Z..21:15Z",
+  "owner_gate": "resume same run YES; emergency rollback to pre-resume disabled Worker YES (not needed, not performed); OPS_TOKEN rotation YES",
+  "run_id": "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d",
+  "new_run_created": false,
+  "logical_runs_total": 1,
+  "source_refetch": "none (work rows DONE=100 stay as they were; one source request in the whole run)",
+  "versions": {
+    "preresume_disabled_with_new_token (rollback target)": "e89ae509-6ad4-425d-be40-9898ed0ec2d6",
+    "resume_enabled": "a7760133-db90-40f0-91a4-1cada2d717f9",
+    "post_resume_disabled": "0dee2b7a-85f4-4da9-b8b1-5452c105a66b",
+    "code_commit": "84f2d96 (worker code d78a949)"
+  },
+  "observability": {
+    "operator_cli": "commit 829e91d: HTTP status, error code and body head; --run-id added in 84f2d96",
+    "worker_tail": "wrangler tail --format json prints PRETTY-PRINTED objects (not NDJSON); fields used: eventTimestamp, outcome, cpuTime (ms), wallTime (ms), scriptVersion.id, exceptions[], event.request.method/url path, event.response.status; no headers, no query, no log text kept",
+    "exact_cpu_telemetry": "AVAILABLE (tail cpuTime/wallTime in ms)"
+  },
+  "resume_invocations": [
+    {
+      "n": 1,
+      "http": 200,
+      "d1_statements": 761,
+      "cpu_ms": 367,
+      "wall_ms": 18190,
+      "outcome": "ok"
+    },
+    {
+      "n": 2,
+      "http": 200,
+      "d1_statements": 752,
+      "cpu_ms": 314,
+      "wall_ms": 17369,
+      "outcome": "ok"
+    },
+    {
+      "n": 3,
+      "http": 200,
+      "d1_statements": 745,
+      "cpu_ms": 317,
+      "wall_ms": 17337,
+      "outcome": "ok"
+    },
+    {
+      "n": 4,
+      "http": 200,
+      "d1_statements": 752,
+      "cpu_ms": 319,
+      "wall_ms": 17127,
+      "outcome": "ok"
+    },
+    {
+      "n": 5,
+      "http": 200,
+      "d1_statements": 761,
+      "cpu_ms": 320,
+      "wall_ms": 17833,
+      "outcome": "ok"
+    },
+    {
+      "n": 6,
+      "http": 200,
+      "d1_statements": 752,
+      "cpu_ms": 310,
+      "wall_ms": 17291,
+      "outcome": "ok"
+    },
+    {
+      "n": 7,
+      "http": 503,
+      "d1_statements": "not recorded (killed)",
+      "cpu_ms": 119,
+      "wall_ms": 6643,
+      "outcome": "exceededCpu",
+      "exceptions": [
+        {
+          "name": "Error",
+          "message": "Worker exceeded CPU time limit."
+        }
+      ]
+    }
+  ],
+  "d1_accounting": {
+    "attempt_1_recorded": 2965,
+    "resume_recorded": 4523,
+    "full_run_recorded_total": 7488,
+    "recorded_invocations": 10,
+    "max_d1_per_invocation_observed": 763,
+    "ceiling": 800,
+    "note": "7488 = 2965 + 761+752+745+752+761+752; the two killed invocations (attempt-1 #5, resume #7) were not recorded; the historical 9615 / 11258 totals are not comparable until the run completes",
+    "total_d1_accounting_difference": "UNRESOLVED (run incomplete)"
+  },
+  "failure_classification": {
+    "class": "WORKER_CPU_LIMIT (the only class the evidence supports: tail outcome exceededCpu with the platform message)",
+    "caveat": "the reported cpuTime of the killed invocation is 119 ms, far below the 30000 ms limit and below the 310-367 ms of every successful invocation, so the measured CPU does not corroborate a 30 s threshold. The effective CPU limit that fired is therefore UNEXPLAINED: not proven to be the default Paid 30 s, not proven to be anything else. Both deaths happened in DERIVE 6-10 s of wall time into an invocation; the first resumed invocation passed the concept that attempt 1 died on, so a deterministic poison concept is unlikely.",
+    "attempt_1_failure": "remains UNRESOLVED (no tail was captured then); plausibly the same class, unproven"
+  },
+  "cpu_evidence": {
+    "TAIL_OUTCOME_CPU_LIMIT": "OBSERVED",
+    "TAIL_OUTCOME_MEMORY_LIMIT": "NOT_OBSERVED",
+    "EXACT_CPU_TELEMETRY": "AVAILABLE",
+    "LIVE_CPU_PROOF": "PARTIAL: six invocations of ~17 s wall used 310-367 ms CPU (about 2%) and one was killed with exceededCpu at 119 ms reported; the CPU limit is not proven compatible"
+  },
+  "persisted_state": {
+    "status": "RUNNING",
+    "phase": "DERIVE",
+    "invocations_recorded": 10,
+    "statements_used_recorded": 7488,
+    "progress_derived": 288,
+    "progress_watch": 284,
+    "progress_not_editorial_topic": 4,
+    "concepts_remaining_to_derive": 108,
+    "work_rows_done": 100,
+    "lease": "re-taken by the killed invocation, expired 21:12:36Z"
+  },
+  "data_after": {
+    "external_source_items": 100,
+    "observations": 414,
+    "concepts_proposed": 396,
+    "concepts_active": 0,
+    "aliases": 396,
+    "signal_aggregates": 864,
+    "aggregated_concepts": 285,
+    "durable_candidates": 0,
+    "candidate_snapshots": 0,
+    "reviews": 0,
+    "signal_run_provenance_rows": 0,
+    "note": "FINALIZE (which writes the signal-run provenance row) was not reached"
+  },
+  "policy_integrity": "PASS: one signal family, 0 candidates, 0 snapshots, 0 reviews, 0 ACTIVE concepts, frontier disabled",
+  "shutdown": {
+    "controls_off": true,
+    "disabled_redeploy": "PASS",
+    "gcos": "READY",
+    "dossier": "DISABLED",
+    "post_shutdown_cron": "scheduled invocations ok on the disabled version 0dee2b7a (21:14:16Z); dossier row totals unchanged (2279 rows) after the shutdown"
+  },
+  "secret_hygiene": "PASS (token cleared, captured files checked in-process: no token)",
+  "p5": "PASS",
+  "readiness": "98% (100% not awarded)",
+  "open_question_for_owner_or_engineering": "find out why an invocation is killed with exceededCpu at ~119 ms reported: check the account/Worker effective CPU limit (dashboard Workers settings, and pin it explicitly with limits.cpu_ms in wrangler config), then decide whether to resume again (108 concepts + FINALIZE remain) possibly with a smaller per-invocation budget"
+}

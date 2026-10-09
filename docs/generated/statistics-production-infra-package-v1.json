@@ -1,0 +1,377 @@
+{
+  "phase": "HEALTH_STATISTICS_LOCAL_READINESS_SPRINT_TO_75 - workstream 3 (production infrastructure, items 38-44, prepared offline)",
+  "as_of": "2026-10-06",
+  "status": "READY_LOCAL: prepared and rehearsed against throw-away databases; NOT EXECUTED; NOT AUTHORIZED. No production database, binding, secret, migration or deploy exists.",
+  "frozen": {
+    "database_name": "global-content-os-stats",
+    "binding_name": "STATS_DB",
+    "content_database_id_never_to_be_used": "c0ce92dc-9842-4dd9-9d05-a8d09e798b34",
+    "migration_file": "migrations/statistics/0001_statistics_schema_v1.sql",
+    "migration_sha256": "c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339",
+    "schema_fingerprint_sha256": "3497b347f506ba0db08c2bd43ffa2181e2d41563a42ad559666c3f48f6d2ffe4",
+    "schema_counts": {
+      "index": 27,
+      "table": 18,
+      "trigger": 49,
+      "view": 1
+    },
+    "source_count": 32,
+    "location": "automatic (no hint required)",
+    "ownership": "the same Cloudflare account as the Worker; one dedicated database, never the content database",
+    "no_production_id_committed": "the database id exists only after creation and only in a git-ignored local config and the owner-applied wrangler.toml; release/statistics-binding.patch carries a placeholder"
+  },
+  "item_status": {
+    "38": "READY_LOCAL",
+    "39": "READY_LOCAL",
+    "40": "READY_LOCAL",
+    "41": "READY_LOCAL",
+    "42": "READY_LOCAL",
+    "43": "READY_LOCAL",
+    "44": "READY_LOCAL"
+  },
+  "verification_queries": {
+    "Q_EMPTY_BEFORE": {
+      "on": "STATS_DB",
+      "phase": "before migration",
+      "sql": "SELECT COUNT(*) AS n FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%'",
+      "expect": [
+        {
+          "n": 0
+        }
+      ]
+    },
+    "Q_SCHEMA_COUNTS": {
+      "on": "STATS_DB",
+      "phase": "after migration",
+      "sql": "SELECT type, COUNT(*) AS n FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name <> 'd1_migrations' GROUP BY type ORDER BY type",
+      "expect": [
+        {
+          "type": "index",
+          "n": 27
+        },
+        {
+          "type": "table",
+          "n": 18
+        },
+        {
+          "type": "trigger",
+          "n": 49
+        },
+        {
+          "type": "view",
+          "n": 1
+        }
+      ]
+    },
+    "Q_MIGRATION_LEDGER": {
+      "on": "STATS_DB",
+      "phase": "after migration (wrangler ledger)",
+      "sql": "SELECT name FROM d1_migrations ORDER BY id",
+      "expect": [
+        {
+          "name": "0001_statistics_schema_v1.sql"
+        }
+      ]
+    },
+    "Q_CONTENT_TABLES_ABSENT": {
+      "on": "STATS_DB",
+      "phase": "any time",
+      "sql": "SELECT COUNT(*) AS n FROM sqlite_master WHERE name IN ('source_items','approved_briefs','source_feeds','handoff_log')",
+      "expect": [
+        {
+          "n": 0
+        }
+      ]
+    },
+    "Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB": {
+      "on": "CONTENT_DB (global-content-os)",
+      "phase": "before and after every statistics step",
+      "sql": "SELECT COUNT(*) AS n FROM sqlite_master WHERE name LIKE 'statistics_%' OR name LIKE 'trg_stat_%' OR name LIKE 'idx_stat_%' OR name LIKE 'uq_stat_%' OR name LIKE 'v_stat_%'",
+      "expect": [
+        {
+          "n": 0
+        }
+      ]
+    },
+    "Q_SOURCES": {
+      "on": "STATS_DB",
+      "phase": "after registry bootstrap",
+      "sql": "SELECT COUNT(*) AS n FROM statistics_sources",
+      "expect": [
+        {
+          "n": 32
+        }
+      ]
+    },
+    "Q_POLICY_ROWS": {
+      "on": "STATS_DB",
+      "phase": "after registry bootstrap",
+      "sql": "SELECT COUNT(*) AS n FROM statistics_source_runtime_policy",
+      "expect": [
+        {
+          "n": 0
+        }
+      ]
+    },
+    "Q_NOT_DISABLED": {
+      "on": "STATS_DB",
+      "phase": "after registry bootstrap",
+      "sql": "SELECT COUNT(*) AS n FROM statistics_source_runtime_policy WHERE runtime_state IN ('ACTIVE','ACTIVATION_GATED','PAUSED')",
+      "expect": [
+        {
+          "n": 0
+        }
+      ]
+    },
+    "Q_ALL_SOURCES_DEFAULT_DISABLED": {
+      "on": "STATS_DB",
+      "phase": "after registry bootstrap",
+      "sql": "SELECT COUNT(*) AS n FROM statistics_sources s WHERE NOT EXISTS (SELECT 1 FROM statistics_source_runtime_policy p WHERE p.source_id = s.source_id)",
+      "expect": [
+        {
+          "n": 32
+        }
+      ]
+    },
+    "Q_NO_RUNS_NO_DATA": {
+      "on": "STATS_DB",
+      "phase": "after registry bootstrap and after binding deploy",
+      "sql": "SELECT (SELECT COUNT(*) FROM statistics_ingestion_runs) AS runs, (SELECT COUNT(*) FROM statistics_observation_versions) AS versions, (SELECT COUNT(*) FROM statistics_current_observations) AS current_rows, (SELECT COUNT(*) FROM statistics_releases) AS releases",
+      "expect": [
+        {
+          "runs": 0,
+          "versions": 0,
+          "current_rows": 0,
+          "releases": 0
+        }
+      ]
+    }
+  },
+  "fingerprint": {
+    "script": "scripts/statistics-schema-fingerprint.mjs",
+    "query": "SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name <> 'd1_migrations' ORDER BY type, name"
+  },
+  "steps": [
+    {
+      "id": "I0",
+      "items": [
+        38,
+        42
+      ],
+      "purpose": "read-only preflight: account, existing databases, content DB baseline",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler whoami; npx wrangler d1 list --json; npx wrangler d1 execute global-content-os --remote --json --command \"SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name <> 'd1_migrations' ORDER BY type, name\" | node scripts/statistics-schema-fingerprint.mjs",
+      "expected_output": "the expected account; exactly the known databases and NO database named global-content-os-stats; the content DB fingerprint is recorded as the BEFORE baseline",
+      "verification": [
+        "Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB"
+      ],
+      "rollback": "none",
+      "hard_stop": "a database named global-content-os-stats already exists, or the account is not the expected one, or the content DB already contains statistics objects"
+    },
+    {
+      "id": "I1",
+      "items": [
+        38
+      ],
+      "purpose": "create the dedicated production STATS_DB (empty)",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
+      "command": "npx wrangler d1 create global-content-os-stats   (no --location: automatic placement; the owner may add one explicit location hint, it does not change the contract)",
+      "expected_output": "prints a new database_id (a UUID that differs from the content database id c0ce92dc-9842-4dd9-9d05-a8d09e798b34); the database is empty; it is created in the same account as the Worker",
+      "verification": [
+        "Q_EMPTY_BEFORE"
+      ],
+      "rollback": "leave it UNBOUND and EMPTY (nothing references it). Deleting it needs a separate explicit approval OWNER_APPROVAL_DELETE_EMPTY_STATS_DB; it is never deleted automatically",
+      "hard_stop": "the command fails, prints an id equal to any existing database id, or prints no id: stop, do not retry blindly, inspect with wrangler d1 list"
+    },
+    {
+      "id": "I2",
+      "items": [
+        39
+      ],
+      "purpose": "write the local stats-only migration config (never committed) and record the Time Travel baseline",
+      "class": "LOCAL_AND_READ_ONLY",
+      "mutates": false,
+      "approval_key": null,
+      "command": "copy release/wrangler.stats-migrate.template.toml to release/wrangler.stats-migrate.toml and replace the database_id with the value printed by I1; npx wrangler d1 time-travel info STATS_DB --config release/wrangler.stats-migrate.toml",
+      "expected_output": "the config names ONLY STATS_DB with migrations_dir migrations/statistics; no content database entry; the real id exists only in the git-ignored copy",
+      "verification": [
+        "Q_EMPTY_BEFORE"
+      ],
+      "rollback": "delete the local copy",
+      "hard_stop": "the config contains the content database id or any DB binding other than STATS_DB"
+    },
+    {
+      "id": "I3",
+      "items": [
+        39
+      ],
+      "purpose": "apply statistics migration 0001 to the new STATS_DB only",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
+      "command": "npx wrangler d1 migrations apply STATS_DB --remote --config release/wrangler.stats-migrate.toml   (pinned: migrations/statistics/0001_statistics_schema_v1.sql sha256 c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339)",
+      "expected_output": "one migration applied: 0001_statistics_schema_v1.sql",
+      "verification": [
+        "Q_SCHEMA_COUNTS",
+        "Q_MIGRATION_LEDGER",
+        "Q_CONTENT_TABLES_ABSENT"
+      ],
+      "rollback": "the database holds no data yet: record the Time Travel bookmark before; if a later gate fails, leave the database unbound; a reset (delete + create) needs separate explicit approvals",
+      "hard_stop": "any error or a prompt that lists more than 0001: stop, do not retry, inspect the ledger and the schema counts"
+    },
+    {
+      "id": "I4",
+      "items": [
+        39,
+        42
+      ],
+      "purpose": "post-migration verification: schema fingerprint equals the frozen one and the content database is unchanged",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --json --command \"<FINGERPRINT_QUERY>\" | node scripts/statistics-schema-fingerprint.mjs ; the same fingerprint script against the content DB (as in I0)",
+      "expected_output": "STATS_DB fingerprint sha256 3497b347f506ba0db08c2bd43ffa2181e2d41563a42ad559666c3f48f6d2ffe4 with counts {index 27, table 18, trigger 49, view 1}; the content DB fingerprint equals the I0 baseline; no statistics object in the content DB",
+      "verification": [
+        "Q_SCHEMA_COUNTS",
+        "Q_MIGRATION_LEDGER",
+        "Q_CONTENT_TABLES_ABSENT",
+        "Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB"
+      ],
+      "rollback": "none",
+      "hard_stop": "any mismatch of fingerprint, counts or ledger, or any statistics object in the content database"
+    },
+    {
+      "id": "I5",
+      "items": [
+        43
+      ],
+      "purpose": "registry bootstrap: 32 source IDENTITY rows, no policy rows, all DISABLED",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_BOOTSTRAP_STATS_REGISTRY",
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --file release/statistics-registry-bootstrap.sql   (generated; check with node scripts/statistics-build-bootstrap-sql.mjs --check)",
+      "expected_output": "32 inserts; idempotent (INSERT OR IGNORE); no ACTIVE or ACTIVATION_GATED value anywhere in the file",
+      "verification": [
+        "Q_SOURCES",
+        "Q_POLICY_ROWS",
+        "Q_NOT_DISABLED"
+      ],
+      "rollback": "identity rows are retire-only (no delete); nothing is active, so nothing needs undoing",
+      "hard_stop": "any count other than 32 sources / 0 policy rows, or any error"
+    },
+    {
+      "id": "I6",
+      "items": [
+        44
+      ],
+      "purpose": "verify the source default is DISABLED everywhere and nothing has run",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "npx wrangler d1 execute STATS_DB --remote --config release/wrangler.stats-migrate.toml --json --command \"<Q_ALL_SOURCES_DEFAULT_DISABLED; Q_NOT_DISABLED; Q_NO_RUNS_NO_DATA>\"",
+      "expected_output": "every source has no policy row (DISABLED by the frozen default); 0 ACTIVE/ACTIVATION_GATED/PAUSED; 0 runs, 0 versions, 0 current rows, 0 releases",
+      "verification": [
+        "Q_ALL_SOURCES_DEFAULT_DISABLED",
+        "Q_NOT_DISABLED",
+        "Q_NO_RUNS_NO_DATA"
+      ],
+      "rollback": "none",
+      "hard_stop": "any source not DISABLED or any run/data row present"
+    },
+    {
+      "id": "I7",
+      "items": [
+        40
+      ],
+      "purpose": "STATS_DB binding + disabled canary switch + dormant routes: apply the reviewed patch with the real id and deploy",
+      "class": "REMOTE_MUTATION",
+      "mutates": true,
+      "approval_key": "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
+      "command": "git apply release/statistics-binding.patch; replace REPLACE_WITH_DATABASE_ID_FROM_CREATE with the I1 id in wrangler.toml; then the repository release flow (npm run release:preflight, npm run release:gate, deploy) with STATISTICS_CANARY_ENABLED = \"false\"",
+      "expected_output": "the deployed Worker has bindings DB, AI, ASSETS, STATS_DB; STATISTICS_CANARY_ENABLED is \"false\"; content routes unchanged; /api/ready READY",
+      "verification": [
+        "Q_NO_RUNS_NO_DATA"
+      ],
+      "rollback": "redeploy the previous Worker version recorded at preflight (read live, not assumed); STATS_DB stays empty and unreferenced",
+      "hard_stop": "preflight or gate not green, /api/ready not READY, or the patch changes anything other than the STATS_DB binding, the switch variable and the dormant route dispatch"
+    },
+    {
+      "id": "I8",
+      "items": [
+        41
+      ],
+      "purpose": "production runtime validation after the binding (no run starts)",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "node scripts/statistics-canary-operator.mjs --url <worker> status   (OPS_TOKEN from the environment only; this sequence neither creates nor rotates it) ; GET /api/statistics/ops/summary ; GET /api/statistics/ops/contract",
+      "expected_output": "STATS_DB visible and schema applied; policy DISABLED; sources 32; runs 0; active policies 0; enabled false; the contract route lists the nine owner gates and scheduler default OFF",
+      "verification": [
+        "Q_NO_RUNS_NO_DATA"
+      ],
+      "rollback": "none",
+      "hard_stop": "status is not 200, schema not applied, any policy not DISABLED, or any run exists"
+    },
+    {
+      "id": "I9",
+      "items": [
+        42,
+        44
+      ],
+      "purpose": "final isolation and default re-verification before any canary step",
+      "class": "READ_ONLY_REMOTE",
+      "mutates": false,
+      "approval_key": null,
+      "command": "repeat the I4 content-database fingerprint and Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB; repeat I6",
+      "expected_output": "content DB fingerprint equals the I0 baseline; 0 statistics objects in the content DB; every source DISABLED; 0 runs",
+      "verification": [
+        "Q_STATS_OBJECTS_ABSENT_IN_CONTENT_DB",
+        "Q_ALL_SOURCES_DEFAULT_DISABLED",
+        "Q_NO_RUNS_NO_DATA"
+      ],
+      "rollback": "none",
+      "hard_stop": "any difference from the baseline"
+    }
+  ],
+  "binding_patch": {
+    "file": "release/statistics-binding.patch",
+    "adds": [
+      "[[d1_databases]] binding STATS_DB, database global-content-os-stats, placeholder id REPLACE_WITH_DATABASE_ID_FROM_CREATE, migrations_dir migrations/statistics",
+      "var STATISTICS_CANARY_ENABLED = \"false\"",
+      "one import and one guarded call (handleStatisticsRoutes) before route auth in apps/worker/src/index.ts"
+    ],
+    "unchanged": [
+      "the DB binding and content migrations",
+      "the cron trigger",
+      "every existing route and secret"
+    ],
+    "validated_2026_10_06_on_the_patched_tree": [
+      "git apply --check on the committed tree",
+      "tsc clean",
+      "route-auth.test.mjs 49/49 against the bundled real Worker",
+      "real Worker fetch: /api/health 200; /api/statistics/* without a token 401; with a token and no STATS_DB 503 STATS_DB_NOT_BOUND (run and ops included); /api/statistics/ops/contract 200; unknown statistics path 404"
+    ],
+    "not_applied": "the patch is NOT applied in the repository; the owner applies it in step I7 with the real database id"
+  },
+  "local_proof": [
+    "apps/worker/src/statistics/prod-infra.test.mjs: 0001 applies from zero, fingerprint equals the frozen one, the verification queries return the expected values at each stage, the bootstrap SQL equals the repository bootstrap and creates no policy, content database untouched and statistics write cannot fall back to it, missing-binding fail-closed, the binding patch applies cleanly"
+  ],
+  "owner_approval_keys": [
+    "OWNER_APPROVAL_APPLY_STATISTICS_MIGRATION",
+    "OWNER_APPROVAL_BOOTSTRAP_STATS_REGISTRY",
+    "OWNER_APPROVAL_CREATE_PRODUCTION_STATS_DB",
+    "OWNER_APPROVAL_DEPLOY_STATS_BINDING_DISABLED",
+    "OWNER_APPROVAL_DELETE_EMPTY_STATS_DB (only if a reset is ever wanted)"
+  ],
+  "p_gates": {
+    "P1": "PASS (prepared)",
+    "P2": "PASS_LOCAL",
+    "P3": "PASS_LOCAL",
+    "P4": "PASS_LOCAL",
+    "P5": "PASS"
+  }
+}

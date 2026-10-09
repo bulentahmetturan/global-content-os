@@ -1,0 +1,92 @@
+{
+  "record": "DOSSIER_CPU_ROOT_CAUSE_INVESTIGATION",
+  "mode": "READ-ONLY (no deploy, no config change, no resume, no token rotation, no control change)",
+  "run": { "run_id": "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d", "status": "RUNNING", "phase": "DERIVE", "derived": 288, "remaining_concepts": 108 },
+  "repo_cpu_config": {
+    "REPO_CPU_LIMIT_DECLARED": "NO",
+    "evidence": "wrangler.toml has no [limits], usage_model, placement, services, durable objects, queues or [env.*]; git grep finds no cpu_ms / usage_model / limits.cpu anywhere"
+  },
+  "deployed_version_metadata": {
+    "read": "wrangler versions view --json for e89ae509 (pre-resume disabled), a7760133 (resume-enabled), 0dee2b7a (post-resume disabled)",
+    "finding": "identical script etag, handlers [fetch, scheduled], compatibility date and flags, assets, usage_model = standard on all three; no limits key; the readable metadata exposes no CPU limit value",
+    "DECLARED_CPU_LIMIT_MS": "NONE",
+    "EFFECTIVE_RUNTIME_CPU_LIMIT_MS": "UNKNOWN (not exposed by readable metadata)",
+    "deploy_lineage": "every deploy used the same wrangler.toml and: npx wrangler deploy $(node scripts/deploy-identity.mjs --wrangler-vars) [--var DOSSIER_CANARY_ENABLED:true]; the only difference between enabled and disabled versions is that var",
+    "effective_plan_runtime_context": "OWNER_CONFIRMED_PAID_BUT_NOT_MACHINE_VERIFIED (usage_model standard is consistent with Paid; the plan itself is not readable)"
+  },
+  "official_docs": {
+    "pages": [
+      "developers.cloudflare.com/workers/platform/limits (last updated 2026-09-05)",
+      "developers.cloudflare.com/workers/wrangler/configuration (Limits)",
+      "developers.cloudflare.com/workers/runtime-apis/handlers/tail",
+      "developers.cloudflare.com/workers/platform/pricing",
+      "developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings (2026-08-18)"
+    ],
+    "findings": [
+      "Paid CPU per HTTP request: default 30 s, max 5 min; Free 10 ms",
+      "waiting on fetch, KV reads or database queries does NOT count as CPU time",
+      "limits are only supported for the Standard usage model and only enforced on the Cloudflare network; cpu_ms is set in Wrangler config or in the dashboard",
+      "each isolate has built-in flexibility for infrequent overruns of the configured limit; a Worker that hits the limit consistently is terminated according to the configured limit",
+      "exceeded CPU appears as Error 1102 to the client and outcome exceededCpu in analytics and Logpush",
+      "the Tail Handler page lists the outcome values (exceededCpu, exceededMemory) but does not define cpuTime or wallTime semantics for a terminated request: UNKNOWN officially"
+    ]
+  },
+  "execution_topology": {
+    "MULTIPLE_EXECUTION_CONTEXTS": "NO for the DERIVE path",
+    "evidence": "client -> public Worker fetch handler -> handleDossierCanary -> runner -> D1; no service binding, Durable Object, queue or second Worker exists in the configuration; the only fetch to another host happens in FETCH, not in DERIVE; the per-minute cron is a separate invocation of the same Worker (cpu 1-2 ms, ok)"
+  },
+  "tail_event_association": {
+    "TAIL_EVENT_ASSOCIATION": "CONFIRMED",
+    "evidence": "failed event POST /api/dossier/canary/run at 21:10:36.684Z on version a7760133; the run row lease was taken at 21:10:36.724Z (expires 21:12:36.724Z, 120 s) and the run progress was last updated 21:10:42.723Z, 6.0 s later, matching the event wall time of 6.6 s"
+  },
+  "cpu_telemetry_semantics": {
+    "observation": "successful invocations: 310-367 ms CPU over ~17.3 s wall for ~37 concepts (~8.5 ms CPU per concept). The failed invocation reported 119 ms after 6.6 s wall = ~14 concepts x ~8.5 ms, so the reported cpuTime is consistent with the work done before the kill (it looks like genuine accumulated CPU, not a partial or foreign counter).",
+    "inference": "a fixed per-invocation threshold below 367 ms is impossible (six invocations ran 310-367 ms on the same version); a 30 s limit cannot have been reached at 119 ms; so the enforcement that fired is not explained by any static limit, declared or default",
+    "candidate_explanations": {
+      "A partial telemetry after termination": "weakened (119 matches the progress made)",
+      "B different execution context": "refuted (single Worker)",
+      "C reported value is not the enforcement counter": "possible, undocumented",
+      "D effective limit below 119 ms": "contradicted by the successful invocations unless enforcement is statistical (isolate-level flexibility)",
+      "E sampled CPU": "no evidence",
+      "F chained Worker": "refuted",
+      "G platform anomaly": "possible"
+    }
+  },
+  "code_hotspot": {
+    "CODE_CPU_HOTSPOT": "NO_OBVIOUS_HOTSPOT",
+    "evidence": "per-concept DERIVE work is bounded by that concept's observations (live distribution: 384 concepts with 1, 10 with 2, one with 4, one with 6); no nested scan over all observations, aliases or concepts per concept; local profile (scripts/dossier-derive-cpu-profile.mjs): per-invocation Node CPU 46-109 ms for DERIVE slices of ~750 statements, per-concept CPU homogeneous (the 16 ms maxima are timer-tick artifacts)",
+    "caveat": "Node CPU is not Worker CPU"
+  },
+  "workload_shape": {
+    "per_successful_resume_invocation": { "concepts": "~37", "d1": "745-761", "cpu_ms": "310-367", "wall_s": "17.1-18.2" },
+    "cpu_per_d1_statement_ms": "~0.42",
+    "IS_D1_BUDGET_A_GOOD_CPU_PROXY": "YES for this workload (CPU per invocation tracks statements: six slices within +-8%)",
+    "note": "a good proxy for the amount of work, but it neither predicted nor prevented the kill"
+  },
+  "failure_position": {
+    "attempt_1": "died ~10 s wall into invocation 5 after ~20 concepts (derived 32 -> 52); no tail existed then",
+    "resume_7": "died 6.6 s wall into the invocation after ~14 concepts (derived ~274 -> 288)",
+    "boundary_concepts": "ordinary (1 observation each); the concept attempt 1 died on was processed successfully by the first resumed invocation",
+    "FAILURE_PATTERN": "SEMI_REPEATING (2 deaths in 9 DERIVE invocations, 0 in 3 INGEST; different positions and elapsed times; not tied to one concept)"
+  },
+  "root_cause": {
+    "ROOT_CAUSE": "UNRESOLVED",
+    "ROOT_CAUSE_CONFIDENCE": "LOW",
+    "categories": {
+      "CONFIGURED_CPU_LIMIT_TOO_LOW": { "evidence_for": "none", "evidence_against": "no declared limit, no limits key in version metadata, six sibling invocations ran 310-367 ms", "confidence": "LOW that it is the cause" },
+      "UNEXPECTED_EFFECTIVE_PLATFORM_LIMIT": { "evidence_for": "kill at 119 ms of accurate-looking CPU; docs describe isolate-level flexibility and termination on consistent overrun", "evidence_against": "no static limit fits the successes; effective plan limit not machine-verifiable", "confidence": "LOW" },
+      "CHAINED_WORKER_CPU_LIMIT": { "evidence_for": "none", "evidence_against": "single Worker", "confidence": "HIGH that it is not the cause" },
+      "APPLICATION_CPU_HOTSPOT": { "evidence_for": "none found", "evidence_against": "homogeneous bounded per-concept work; the same concept was later processed fine", "confidence": "LOW that it is the cause" },
+      "WORKLOAD_SLICE_TOO_LARGE": { "evidence_for": "deaths happened mid-DERIVE only", "evidence_against": "the killed invocation had used the least CPU of all (119 vs 310-367 ms)", "confidence": "LOW" },
+      "TAIL_TELEMETRY_SEMANTICS_MISMATCH": { "evidence_for": "cpuTime semantics undocumented", "evidence_against": "119 matches the work done", "confidence": "LOW" },
+      "CLOUDFLARE_PLATFORM_ANOMALY": { "evidence_for": "random, non-position-bound deaths with healthy neighbours; documented isolate flexibility", "evidence_against": "two occurrences in a short window", "confidence": "LOW-MEDIUM as a residual explanation" }
+    }
+  },
+  "decision": {
+    "CPU_ROOT_CAUSE_ACTIONABLE": "NO",
+    "SAFE_MITIGATION_PATH": "YES (limited): the risk is to run completion, never to GCOS safety; progress is durable per concept; a kill costs only a 120 s lease wait",
+    "RESUME_2_TECHNICALLY_READY": "NO until the one missing read-only fact is obtained: the Worker effective CPU limit and the CPU / invocation-status metrics (p99 CPU, exceeded-CPU series) from the Cloudflare dashboard or analytics",
+    "MINIMUM_SAFE_FIX_CANDIDATE": "(1) read the Worker CPU limit and the CPU and invocation-status metrics in the dashboard (read-only); (2) if the limit is not 30 s, correct it with limits.cpu_ms; (3) independently, reduce the per-invocation budget (e.g. 800 -> about 200 statements, ~85 ms expected CPU, since CPU tracks statements at ~0.42 ms each) and shorten the lease to ~45 s so a platform kill is recoverable within a minute; (4) keep the filtered tail capture. Step 3 is speculative with respect to the cause: the evidence does not prove that smaller slices avoid the kill."
+  },
+  "next_step": "CLOSE_CPU_ROOT_CAUSE_GAP"
+}

@@ -43,6 +43,14 @@ export interface Env {
   BIBLE_VERSION?: string;
   /** OpenAlex API key (sent as a Bearer token); unset = the OpenAlex research feed records OPENALEX_API_KEY_NOT_CONFIGURED and makes no keyless call. */
   OPENALEX_API_KEY?: string;
+  /** Master switch of the DOSSIER canary. Anything other than the string "true" = disabled: no dossier run can start (default in wrangler.toml: "false"). */
+  DOSSIER_CANARY_ENABLED?: string;
+  /** Master switch of DOSSIER RECURRING operation. Anything other than the string "true" = the five-minute cron tick is a no-op that reads nothing (default in wrangler.toml: "false"). */
+  DOSSIER_RECURRING_ENABLED?: string;
+  /** Bearer for GET /api/dossier/ops/*; unset = 503. Distinct from the write token and from OPS_TOKEN (identical values fail closed). */
+  DOSSIER_OPS_READ_TOKEN?: string;
+  /** Bearer for every state change under /api/dossier/ops/* (controls, source states, reviews, promotion); unset = 503. */
+  DOSSIER_OPS_WRITE_TOKEN?: string;
 }
 
 export type RouteId = 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';

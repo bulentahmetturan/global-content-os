@@ -1,0 +1,51 @@
+diff --git a/apps/worker/src/index.ts b/apps/worker/src/index.ts
+index 46262eb..86dbe4c 100644
+--- a/apps/worker/src/index.ts
++++ b/apps/worker/src/index.ts
+@@ -11,6 +11,7 @@ import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-secu
+ import { authorizeRoute } from './route-auth';
+ import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
+ import { resendApprovedBrief } from './handoff-resend';
++import { handleStatisticsRoutes } from './statistics/statistics-routes';
+ import { collectOpsSummary } from './ops-summary';
+ import { ingestWhoNews } from './ingress/who-news';
+ import { ingestEuropePmc } from './ingress/europe-pmc';
+@@ -110,6 +111,11 @@ export default {
+         );
+       }
+ 
++      // HEALTH_STATISTICS operator surface (canary package + read-only operations): OPS_TOKEN-gated inside the handlers, answers /api/statistics/* only,
++      // and fails closed (503) unless the STATS_DB binding exists. It never reads or writes the content database.
++      const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
++      if (statisticsResponse) return statisticsResponse;
++
+       const routeAuth = authorizeRoute(env, request, path);
+       if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
+ 
+diff --git a/wrangler.toml b/wrangler.toml
+index 058370c..5c37b97 100644
+--- a/wrangler.toml
++++ b/wrangler.toml
+@@ -11,6 +11,13 @@ database_name = "global-content-os"
+ database_id = "c0ce92dc-9842-4dd9-9d05-a8d09e798b34"
+ migrations_dir = "migrations"
+ 
++# HEALTH_STATISTICS (dormant): the dedicated statistics database. Added only by the reviewed owner deployment (release/statistics-binding.patch).
++[[d1_databases]]
++binding = "STATS_DB"
++database_name = "global-content-os-stats"
++database_id = "REPLACE_WITH_DATABASE_ID_FROM_CREATE"
++migrations_dir = "migrations/statistics"
++
+ [assets]
+ directory = "apps/hub"
+ binding = "ASSETS"
+@@ -28,6 +35,8 @@ CCOS_HANDOFF_STUB = "false"
+ # Tıp Topluluğu continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
+ TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED = "true"
+ BIBLE_VERSION = "4.0"
++# HEALTH_STATISTICS canary master switch: OFF until an owner-approved redeploy sets the exact string "true".
++STATISTICS_CANARY_ENABLED = "false"
+ 
+ [ai]
+ binding = "AI"

@@ -1,0 +1,107 @@
+{
+  "milestone": "FIRST_CONTROLLED_PRODUCTION_CANARY",
+  "marker": "FROZEN_V1",
+  "frozen_at_commit_parent": "bb06176",
+  "scope_statement": "FIRST CONTROLLED PRODUCTION CANARY = 100%. DOSSIER PRODUCT MATURITY = NOT YET 100%.",
+  "readiness": "100%",
+  "run": {
+    "run_id": "crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d",
+    "status": "COMPLETED",
+    "phase": "DONE",
+    "source": "ClinicalTrials.gov API v2",
+    "reader": "dossier-clinicaltrials-frontier",
+    "signal_family": "GLOBAL_RESEARCH_ACTIVITY",
+    "source_items": 100,
+    "observations": 414,
+    "concepts": 396,
+    "watch_targets": 391,
+    "editorially_ineligible": 5,
+    "durable_candidates": 0,
+    "candidate_snapshots": 0,
+    "reviews": 0,
+    "active_concepts": 0,
+    "multi_signal_family": false,
+    "source_specific_frontier": "DISABLED",
+    "oecd": "OFF"
+  },
+  "worker_versions": {
+    "before_rotation_first_session": "4b121a92-d94a-4b2a-9b05-6318aed30dbd",
+    "first_canary_enable": "632f3711-5365-4e6c-9a02-8216e54f36ef",
+    "resume_1_enable": "a7760133-db90-40f0-91a4-1cada2d717f9",
+    "resume_2_enable": "b6818732-59a2-4301-a7e3-3e82f5c78533",
+    "post_run_disabled": "ee60d69b-78e0-4519-804f-ec971291f67a"
+  },
+  "commits": { "mitigation": "f76fc44", "completion_record": "bb06176", "schema_migration": "0031_dossier_discovery_foundation.sql (sha256 5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343)" },
+  "references": [
+    "docs/generated/dossier-first-canary-completed.json",
+    "docs/generated/dossier-cpu-decision.json",
+    "docs/generated/dossier-cpu-root-cause-investigation.json",
+    "docs/generated/dossier-canary-attempt-1.json",
+    "docs/generated/dossier-canary-resume-1.json",
+    "docs/generated/dossier-0031-remote-apply.json",
+    "docs/generated/dossier-r3-disabled-deploy.json",
+    "docs/generated/dossier-r6-capacity-recorded.json",
+    "docs/DOSSIER-CANARY-RUNBOOK.md"
+  ],
+  "pillars": {
+    "P1_SYSTEM_SAFETY": "PASS",
+    "P1_FIRST_CANARY_MILESTONE": "PASS",
+    "P1_OVERALL_FOR_FIRST_CANARY": "PASS",
+    "P2_REAL_E2E": "PASS",
+    "P3_RECOVERABILITY_OBSERVABILITY": "PASS (milestone; recurring scheduler deferred)",
+    "P4_BOUNDEDNESS": "PASS (milestone; long-term retention deferred)",
+    "P5_GOVERNANCE": "PASS"
+  },
+  "baselines": {
+    "p2_proven_production_path": "ClinicalTrials -> source items -> observations -> concepts -> editorial eligibility -> WATCH -> FINALIZE -> signal-run provenance -> COMPLETED (real production evidence, not a simulation)",
+    "p3_proven": ["same-run checkpoint recovery", "expired-lease recovery", "tail observability (outcome, cpuTime, wallTime, exceptions, status)", "run history retention", "clean shutdown", "disabled redeploy", "historical explainability"],
+    "p4": { "CLINICALTRIALS_CANARY_PROFILE": { "d1_statements_per_invocation": 200, "lease_seconds": 45, "cpu_ms": "unchanged (none configured)" }, "max_d1_resume_2": 148, "max_d1_full_recorded_history": 763, "universal": false, "note": "the 200 / 45 profile belongs to the ClinicalTrials canary; it is NOT applied to other readers. OECD currently has a minimum runnable unit (~460 statements) above it; every future reader needs a source-specific bounded profile." },
+    "p5_invariants": ["0 candidate", "0 snapshot", "0 review", "0 ACTIVE concept", "single signal family", "frontier disabled", "OECD disabled", "no automatic source activation", "no autonomous policy mutation"]
+  },
+  "dispositions": {
+    "CPU_ROOT_CAUSE": "UNRESOLVED_PLATFORM_ENFORCEMENT",
+    "ROOT_CAUSE_CONFIDENCE": "LOW",
+    "ROOT_CAUSE_FIX": "NONE_AVAILABLE",
+    "MITIGATION": "smaller bounded work slice + shorter lease + same-run recovery",
+    "MITIGATION_EFFECTIVENESS": "NOT_PROVEN_CAUSAL (resume 2 finished with zero terminations; that does not show the mitigation caused it)",
+    "classification": "DEFERRED_NON_BLOCKING_PLATFORM_ISSUE",
+    "cloudflare_support_escalation": "optional, does not block the frozen milestone",
+    "TOTAL_D1_ACCOUNTING": "PARTIAL_EXPLAINED (the two platform-killed invocations never recorded their counters; no reconciliation was fabricated; run identity, ceiling and row integrity are unaffected)",
+    "UNRELATED_EXISTING_TEST_DEBT": "apps/worker/src/ingress/evergreen.test.mjs fails since 2026-10-05 because the calendar passed its hard-coded NOW; untouched by this branch; not a DOSSIER blocker"
+  },
+  "deferred_non_blocking": [
+    "recurring scheduler",
+    "long-term retention / compaction",
+    "OECD terms / access resolution",
+    "OECD reader-specific work budget",
+    "OECD live canary",
+    "second signal family",
+    "real multi-family convergence",
+    "platform enforcement support escalation",
+    "unrelated Evergreen date-sensitive test failure"
+  ],
+  "freeze_rules": [
+    "the milestone evidence is accepted and immutable",
+    "the successful run is not repeated to improve confidence",
+    "deferred maturity work never reopens the 100% milestone",
+    "future work builds from this baseline"
+  ],
+  "not_implied_by_freeze": ["DOSSIER is fully mature", "the recurring scheduler is complete", "OECD is ready", "a second signal family is active", "multi-family convergence is proven", "retention is final"],
+  "invariants": [
+    { "id": "CANARY-M1-001", "statement": "the same original run (crun_52632d2d-282e-44d2-aec3-a8e9f854ab2d) completed", "check": "dossier_canary_runs has exactly one row, status COMPLETED, phase DONE" },
+    { "id": "CANARY-M1-002", "statement": "no new logical run was created", "check": "dossier_canary_runs row count = 1" },
+    { "id": "CANARY-M1-003", "statement": "no source refetch", "check": "checkpoint lastSuccessAt = 2026-10-04T20:45:32.697Z and one source request in the whole run" },
+    { "id": "CANARY-M1-004", "statement": "0 candidates", "check": "dossier_candidates = 0" },
+    { "id": "CANARY-M1-005", "statement": "0 snapshots", "check": "dossier_candidate_snapshots = 0" },
+    { "id": "CANARY-M1-006", "statement": "0 reviews", "check": "dossier_reviews = 0" },
+    { "id": "CANARY-M1-007", "statement": "0 ACTIVE concepts", "check": "dossier_concepts with state ACTIVE = 0" },
+    { "id": "CANARY-M1-008", "statement": "provenance PASS", "check": "dossier_signal_runs has the SUCCEEDED row for the run (items_seen 100, observations_written 414) and the run carries the source attribution notice" },
+    { "id": "CANARY-M1-009", "statement": "D1 per-invocation ceiling respected", "check": "no invocation above the then-current ceiling (max 763 under 800; max 148 under 200)" },
+    { "id": "CANARY-M1-010", "statement": "controls OFF after the run", "check": "canary_enabled, manual_runs_allowed, promotion_enabled and reader:dossier-clinicaltrials-frontier:enabled are all 0" },
+    { "id": "CANARY-M1-011", "statement": "disabled Worker restored", "check": "live Worker ee60d69b (or a later disabled build) with DOSSIER_CANARY_ENABLED=false" },
+    { "id": "CANARY-M1-012", "statement": "GCOS READY", "check": "/api/ready level READY, blocked [], degraded []" },
+    { "id": "CANARY-M1-013", "statement": "DOSSIER DISABLED_HEALTHY", "check": "/api/ready dossier.level DISABLED, canary_enabled_by_config false" },
+    { "id": "CANARY-M1-014", "statement": "secret hygiene PASS", "check": "no OPS_TOKEN value in any file, output or repository; transient token cleared" },
+    { "id": "CANARY-M1-015", "statement": "P1-P5 PASS for the milestone", "check": "pillars block above" }
+  ]
+}
