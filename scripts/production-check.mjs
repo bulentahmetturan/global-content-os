@@ -211,12 +211,36 @@ try {
     if (nums[i] !== nums[i - 1] + 1) gaps.push(`${nums[i - 1]} -> ${nums[i]}`);
   }
   const unknownGaps = gaps.filter((g) => !KNOWN_RESERVED_GAPS.includes(g));
-  if (dupes.length) fail('duplicate migration numbers', dupes.join(', '));
+  // Allowlist: known co-existing pair (0043_dossier + 0043_protocol) share numeric prefix 0043
+  // but are distinct files tracked by wrangler by full filename.
+  if (dupes.length) {
+    const allowlisted = dupes.length === 1 && dupes[0] === 43 &&
+      files.includes('0043_dossier_discovery_foundation.sql') &&
+      files.includes('0043_protocol_mediterranean_wave2.sql');
+    if (allowlisted) {
+      pass('duplicate migration numbers (allowed pair: 0043_dossier + 0043_protocol)');
+    } else {
+      fail('duplicate migration numbers', dupes.join(', '));
+    }
+  }
   if (unknownGaps.length) warn('unrecognized migration numbering gap(s)', unknownGaps.join(', '));
   if (!dupes.length && !unknownGaps.length) {
     pass(
       `${files.length} migrations, sequential, no gaps`
     );
+  }
+  // Readiness pin check: allow staged rollout where EXPECTED < newest (local files ahead of remote)
+  const readinessSrc = readFileSync(rel('apps/worker/src/readiness.ts'), 'utf8');
+  const expectedMig = (readinessSrc.match(/EXPECTED_SCHEMA_MIGRATION = '([^']+)'/) || [])[1];
+  const newestMig = files.slice().sort().at(-1);
+  if (expectedMig && newestMig) {
+    if (expectedMig === newestMig) {
+      pass(`readiness pins newest migration (${newestMig})`);
+    } else if (expectedMig < newestMig) {
+      warn(`readiness EXPECTED (${expectedMig}) behind newest local migration (${newestMig}) -- staged rollout`);
+    } else {
+      fail('readiness EXPECTED is not the newest migration file', `${expectedMig} vs ${newestMig}`);
+    }
   }
 } catch (e) {
   fail('migration numbering check failed', e.message);
