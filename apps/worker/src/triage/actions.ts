@@ -39,7 +39,7 @@ export async function applyTriage(
   action: TriageAction,
   actor = 'hub-user',
   feedback?: RejectFeedback
-): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload; feedbackId?: string }> {
+): Promise<{ item: ReturnType<typeof rowToView>; brief?: ApprovedBriefPayload; feedbackId?: string; deduped?: boolean }> {
   const row = await env.DB.prepare(
     `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
      FROM source_items i
@@ -78,6 +78,42 @@ export async function applyTriage(
 
   const fromStatus = row.triage_status;
   const toStatus: TriageStatus = action === 'undo' ? 'inbox' : ACTION_TO_STATUS[action];
+
+  // A2 double-promote idempotency: an item already in production WITH a
+  // brief must never mint a second brief row or a second CCOS job on
+  // retry/double-click/redelivery. Return the existing brief, record the
+  // retry as a decision (audit), create nothing. Production evidence:
+  // item_dc4fb06bb611401b already carries 2 briefs from this exact gap.
+  // An item in production WITHOUT a brief (legacy gap) falls through to
+  // the normal path and mints its first brief.
+  // Residual window (documented, not closed here): two concurrent FIRST
+  // promotes from inbox can both pass this check. Closing it needs a
+  // UNIQUE(source_item_id) constraint, which current production data
+  // cannot take without an owner data decision (see duplicate above) —
+  // recorded as BLOCKED_OWNER, not silently migrated.
+  if (action === 'promote' && fromStatus === 'production') {
+    const existing = await env.DB.prepare(
+      `SELECT payload_json AS p FROM approved_briefs WHERE source_item_id = ? ORDER BY approved_at DESC LIMIT 1`
+    )
+      .bind(itemId)
+      .first<{ p: string } | null>();
+    if (existing) {
+      let brief: ApprovedBriefPayload;
+      try {
+        brief = JSON.parse(existing.p) as ApprovedBriefPayload;
+      } catch {
+        throw new Error('BRIEF_PAYLOAD_CORRUPT');
+      }
+      await env.DB.prepare(
+        `INSERT INTO editorial_decisions (id, source_item_id, action, from_status, to_status, actor)
+         VALUES (?, ?, 'promote', 'production', 'production', ?)`
+      )
+        .bind(newId('dec'), itemId, actor)
+        .run();
+      const view = rowToView({ ...row, triage_status: 'production' as TriageStatus, archive_kind: null });
+      return { item: view, brief, deduped: true };
+    }
+  }
   const archiveKind =
     action === 'complete'
       ? 'done'

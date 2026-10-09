@@ -114,7 +114,8 @@ test('DEPLOY ORDER and global readiness semantics on a healthy base: Worker depl
     assert.equal(e.status, 503);
     assert.ok(eb.blocked.some((b) => b.startsWith('SCHEMA_BEHIND:0030')), eb.blocked.join());
     // correct order: 0031 applied, master switch off -> READY, DOSSIER DISABLED
-    const ok = healthyBase('0043_dossier_discovery_foundation.sql');
+    const requiredGlobalSchema = readdirSync('migrations').filter((name) => name.endsWith('.sql')).sort().at(-1);
+    const ok = healthyBase(requiredGlobalSchema);
     const r1 = await (await call(envOf(ok.db, ok.secrets), '/api/ready')).json();
     assert.equal(r1.level, 'READY');
     assert.equal(r1.dossier.level, 'DISABLED');

@@ -11,8 +11,17 @@ import { DOSSIER_CANARY_V1 } from './dossier/canary-profile';
 import { gatherDossierReadiness, type DossierReadiness } from './dossier/canary-readiness';
 import { recurringReadiness } from './dossier/recurring-ops';
 
-/** Latest migration this build expects. A test asserts it equals the newest file in migrations/. */
-export const EXPECTED_SCHEMA_MIGRATION = '0043_dossier_discovery_foundation.sql';
+/**
+ * Latest migration this build expects. A test asserts it equals the newest file in migrations/.
+ * 0044 (B candidate queue) travels with this tree; remote apply + deploy are BLOCKED_OWNER,
+ * so live stays 0043/READY until that authorization. Deploying this tree WITHOUT applying
+ * 0044 remotely would (correctly) report SCHEMA_BEHIND/BLOCKED — see §15 deploy checklist.
+ * NOTE 2026-10-09: remote 0043 is the dossier track's 0043_dossier_discovery_foundation.sql
+ * (live commit 7b61870); doctor numbers start at 0044 to avoid the collision. 0045 adds the
+ * source-proposal pipeline, 0046 the profile-fact knowledge store. Any Doctor deploy must
+ * integrate the live dossier lineage first (else it regresses dossier code/tables).
+ */
+export const EXPECTED_SCHEMA_MIGRATION = '0046_protocol_mediterranean_wave2.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

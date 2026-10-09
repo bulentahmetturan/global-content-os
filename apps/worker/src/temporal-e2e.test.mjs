@@ -1,4 +1,4 @@
-// Local E2E for the four temporal views: ingress write (upsertSourceItem) -> real schema (0001..0042 in node:sqlite)
+// Local E2E for the four temporal views: ingress write (upsertSourceItem) -> real schema (0001..0028 in node:sqlite)
 // -> Worker HTTP (/api/items, /api/routes) with the query strings the Hub builds. No network, no remote D1.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -19,6 +19,9 @@ async function setup() {
   }
   const db = d1FromSqlite(sqlite);
   const feedId = sqlite.prepare(`SELECT id FROM source_feeds LIMIT 1`).get().id;
+  // Committed controlled-import seeds (0042/0043) share source_items; the research
+  // view lists them alongside the test item, so capture them for exact expectations.
+  const seedResearchIds = sqlite.prepare(`SELECT id FROM source_items WHERE route = 'kaduse-research'`).all().map((r) => r.id);
   const base = { feedId, summary: 'Özet', publisher: 'Example', channelId: 'kaduse-medikal' };
   const ids = {};
   ids.haber = (await q.upsertSourceItem(db, { ...base, route: 'kaduse-news', title: 'Güncel klinik haber başlığı', canonicalUrl: 'https://example.org/haber', publishedAt: daysAgo(1) })).id;
@@ -28,7 +31,7 @@ async function setup() {
   // Rediscovery of the time-sensitive Haber item as health reference: same row, second path.
   const red = await q.upsertSourceItem(db, { ...base, route: 'kaduse-news', title: 'Güncel klinik haber başlığı', canonicalUrl: 'https://example.org/haber', publishedAt: null, acquisitionPath: 'EVERGREEN', evergreenView: 'health_reference', discoveryReason: 'editorial_rediscovery' });
   assert.equal(red.id, ids.haber);
-  return { sqlite, env: { DB: db }, ids };
+  return { sqlite, env: { DB: db }, ids, seedResearchIds };
 }
 
 const get = async (env, path) => {
@@ -44,7 +47,7 @@ const HUB = {
 };
 
 test('E2E: each of the four views lists exactly its items, and the sidebar count equals the list', async () => {
-  const { sqlite, env, ids } = await setup();
+  const { sqlite, env, ids, seedResearchIds } = await setup();
   const routes = await get(env, '/api/routes');
   assert.equal(routes.status, 200);
   assert.ok(Array.isArray(routes.body.routes), 'legacy routes array kept');
@@ -53,17 +56,12 @@ test('E2E: each of the four views lists exactly its items, and the sidebar count
     haber: { ids: [ids.haber], count: t.TIME_SENSITIVE.haber.inbox, lane: 'haber' },
     duyuru: { ids: [ids.duyuru], count: t.TIME_SENSITIVE.duyuru.inbox, lane: 'duyuru' },
     health: { ids: [ids.health, ids.haber].sort(), count: t.EVERGREEN.health_reference.inbox, lane: 'haber' },
-    research: { ids: [ids.research], count: t.EVERGREEN.research_rediscovery.inbox, lane: 'research' },
+    research: { ids: [ids.research, ...seedResearchIds].sort(), count: t.EVERGREEN.research_rediscovery.inbox, lane: 'research' },
   };
   for (const [view, exp] of Object.entries(expected)) {
     const r = await get(env, HUB[view]);
     assert.equal(r.status, 200, view);
-    // Fixture isolation: 0042 Wave-1 DASH controlled-import seeds share the
-    // same tables by design; scope exact membership to this fixture's own
-    // items, while the count-consistency checks below stay global.
-    const fixtureIds = new Set(Object.values(ids));
-    const present = r.body.items.map((i) => i.id).filter((id) => fixtureIds.has(id)).sort();
-    assert.deepEqual(present, exp.ids, `${view} items`);
+    assert.deepEqual(r.body.items.map((i) => i.id).sort(), exp.ids, `${view} items`);
     assert.equal(exp.count, r.body.items.length, `${view}: sidebar count = list length`);
     assert.equal(r.body.counts.inbox, r.body.items.length, `${view}: list header count = list length`);
     for (const it of r.body.items) assert.equal(it.semanticLane, exp.lane, `${view}: lane unchanged`);
@@ -80,7 +78,7 @@ test('E2E: each of the four views lists exactly its items, and the sidebar count
   const ref = health.find((i) => i.id === ids.health);
   assert.equal(ref.publishedAt.slice(0, 10), '2019-03-12');
   assert.equal(ref.rediscovery, false);
-  const research = (await get(env, HUB.research)).body.items[0];
+  const research = (await get(env, HUB.research)).body.items.find((i) => i.id === ids.research);
   assert.equal(research.importanceSignal.value, 412);
   assert.equal(research.importanceSignal.source, 'europe_pmc');
   const duyuru = (await get(env, HUB.duyuru)).body.items[0];

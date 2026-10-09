@@ -236,6 +236,9 @@ test('association creation does not modify approved_brief', async () => {
 test('rhonda patrick and foundmyfitness remain person and brand source', async () => {
   const { db } = openDb();
   const person = await seedActor(db, 'Rhonda Patrick', 'GLOBAL_EXPERT_PANEL');
+  // Controlled-import seeds (e.g. 0042 actor_nhlbi) share the actors table;
+  // the invariant is that linking the brand creates no NEW actor.
+  const actorsBefore = (await db.prepare(`SELECT * FROM actors`).all()).results.length;
   const brand = await sources.createEndpoint(
     db,
     { channelType: 'OFFICIAL_WEBSITE', platform: 'web', canonicalLocator: 'https://foundmyfitness.com', displayLabel: 'FoundMyFitness' },
@@ -246,9 +249,9 @@ test('rhonda patrick and foundmyfitness remain person and brand source', async (
   assert.equal(bundle.length, 1);
   assert.equal(bundle[0].association_type, 'OFFICIAL_BRAND');
   // No second actor was created for the brand.
-  // Fixture isolation: 0042's seeded actor (actor_nhlbi) shares the actors table by design.
-  const allActors = await db.prepare(`SELECT * FROM actors WHERE actor_id != 'actor_nhlbi'`).all();
-  assert.equal(allActors.results.length, 1);
+  const allActors = await db.prepare(`SELECT * FROM actors`).all();
+  assert.equal(allActors.results.length, actorsBefore);
+  assert.ok(!allActors.results.some((a) => /foundmyfitness/i.test(a.canonical_name)), 'brand stays an endpoint, never an actor');
 });
 
 // 13. Jordan Feigenbaum / Barbell Medicine remains person ↔ organization/source.

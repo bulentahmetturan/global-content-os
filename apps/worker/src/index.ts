@@ -13,11 +13,36 @@ import { EVERGREEN_VIEW_ROUTE, isEvergreenView, isTemporalPath, type TemporalFil
 import { authorizeToken, bearerToken, parseStatusCallback } from './handoff-security';
 import { authorizeRoute } from './route-auth';
 import { EXPECTED_SCHEMA_MIGRATION, gatherReadiness } from './readiness';
+import {
+  compileCandidateAdmission,
+  createCandidate,
+  createCrossFeedSignal,
+  createDiscoveryRun,
+  decideCandidate,
+  listOwnerCandidates,
+  claimNextOnboardingIntent,
+  recordOnboardingSourceResult,
+  recordWaveMetrics,
+  type AdmissionInput,
+  type DiscoveryDomain,
+} from './discovery/kernel';
+import { finalizeOnboardingIntent } from './discovery/onboarding';
+import { runDryRun } from './protocols/ingestion/index';
+import { authorizeIngestPersist, loadPermittedSources } from './protocols/ingestion/authorize';
+import { hashContent } from './protocols/ingestion/source-ref';
+import { persistMappedPackage } from './protocols/ingestion/persist';
+import { recordDurableRun, updateDurableRun } from './protocols/ingestion/run-ledger';
+import { planSources } from './protocols/ingestion/source-plan';
+import { parseDocument, validateParsedDocument } from './protocols/ingestion/parse-contract';
+import { mapParsedToCanonical } from './protocols/ingestion/p-mapping';
+import { SOURCE_TYPE_REGISTRY } from './discovery/kernel';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
+import { runOnboarding } from './doctor-onboarding';
+import { doctorReadiness } from './doctor-status';
 import { handleDossierCanary } from './dossier-canary-routes';
 import { DOSSIER_RECURRING_CRON, handleDossierOps, runDossierRecurringTick } from './dossier-ops-routes';
 import { handleStatisticsRoutes } from './statistics/statistics-routes';
@@ -124,6 +149,319 @@ export default {
       const routeAuth = authorizeRoute(env, request, path);
       if (routeAuth && !routeAuth.ok) return json({ error: routeAuth.error }, routeAuth.status);
 
+      if (path.startsWith('/api/discovery/')) {
+        const executorRoute = path === '/api/discovery/executor/claim' ||
+          path === '/api/discovery/executor/results' ||
+          path === '/api/discovery/executor/finalize';
+        const discoveryAuth = authorizeToken(
+          executorRoute ? env.DISCOVERY_EXECUTOR_TOKEN : env.HUB_OPERATOR_TOKEN,
+          bearerToken(request.headers.get('Authorization')),
+          executorRoute ? 'DISCOVERY_EXECUTOR_TOKEN_NOT_CONFIGURED' : 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED',
+        );
+        if (!discoveryAuth.ok) return json({ error: discoveryAuth.error }, discoveryAuth.status);
+      }
+
+      if (path.startsWith('/api/protocols/ingest/')) {
+        const ingestAuth = authorizeToken(
+          env.HUB_OPERATOR_TOKEN,
+          bearerToken(request.headers.get('Authorization')),
+          'HUB_OPERATOR_TOKEN_NOT_CONFIGURED',
+        );
+        if (!ingestAuth.ok) return json({ error: ingestAuth.error }, ingestAuth.status);
+      }
+
+      if (path === '/api/protocols/ingest/dry-run' && request.method === 'POST') {
+        const body = await request.json() as {
+          protocolId?: unknown; admissionSources?: unknown; documents?: unknown;
+        };
+        if (
+          typeof body.protocolId !== 'string' || !body.protocolId.trim() ||
+          !Array.isArray(body.admissionSources) || !Array.isArray(body.documents)
+        ) return json({ error: 'PROTOCOL_INGEST_INVALID' }, 400);
+        try {
+          const out = await runDryRun(env.DB, {
+            protocolId: body.protocolId,
+            admissionSources: body.admissionSources as never,
+            documents: body.documents as never,
+          });
+          return json({ ok: true, ...out });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message.startsWith('BOUND_EXCEEDED')) return json({ error: message }, 400);
+          throw error;
+        }
+      }
+
+      if (path === '/api/protocols/ingest/execute' && request.method === 'POST') {
+        // Server-side execution: the client supplies ONLY an approval claim
+        // plus document texts. Planning, source-scope enforcement, parsing,
+        // mapping and persistence all happen here against ledger state —
+        // a client-built package is never trusted.
+        const body = await request.json() as { approval?: unknown; documents?: unknown };
+        if (!body.approval || typeof body.approval !== 'object' || !Array.isArray(body.documents)) {
+          return json({ error: 'PROTOCOL_INGEST_INVALID' }, 400);
+        }
+        try {
+          const verified = await authorizeIngestPersist(env.DB, body.approval as never);
+          const permitted = await loadPermittedSources(env.DB, verified);
+          const permittedById = new Map(permitted.map((s) => [s.sourceId, s]));
+          const documents = body.documents as Array<{ sourceId?: unknown; text?: unknown; uri?: unknown; sourceTag?: unknown }>;
+          for (const doc of documents) {
+            if (typeof doc.sourceId !== 'string' || !permittedById.has(doc.sourceId)) {
+              return json({ error: `SOURCE_NOT_AUTHORIZED:${String(doc.sourceId)}` }, 409);
+            }
+            if (typeof doc.text !== 'string' || !doc.text.trim() || doc.text.length > 20000) {
+              return json({ error: `SOURCE_DOCUMENT_INVALID:${String(doc.sourceId)}` }, 400);
+            }
+          }
+          if (documents.length === 0 || documents.length > 12) {
+            return json({ error: 'BOUND_EXCEEDED:documents' }, 400);
+          }
+          const planned = planSources(permitted);
+          const parsed = [];
+          const quarantinedDocs: string[] = [];
+          for (const doc of documents) {
+            const scope = permittedById.get(doc.sourceId as string);
+            if (!scope) return json({ error: `SOURCE_NOT_AUTHORIZED:${String(doc.sourceId)}` }, 409);
+            const family = SOURCE_TYPE_REGISTRY[scope.sourceType]?.parserFamily;
+            try {
+              if (!family) throw new Error(`PARSE_UNSUPPORTED:unknown source type ${scope?.sourceType}`);
+              const parsedDoc = parseDocument({
+                sourceId: doc.sourceId as string,
+                parserFamily: family,
+                text: doc.text as string,
+                uri: (doc.uri as string) || scope.uri,
+                sourceTag: 'REAL_SOURCE_LOCAL',
+              });
+              const problems = validateParsedDocument(parsedDoc);
+              if (problems.length) quarantinedDocs.push(`${doc.sourceId}:${problems.join(',')}`);
+              else parsed.push(parsedDoc);
+            } catch (error) {
+              quarantinedDocs.push(`${doc.sourceId}:${error instanceof Error ? error.message : 'PARSE_FAILED'}`);
+            }
+          }
+          if (parsed.length === 0) {
+            return json({ error: 'PARSE_UNSUPPORTED:zero parseable documents', quarantinedDocs }, 409);
+          }
+          const canonical = await env.DB.prepare('SELECT canonical_name FROM protocols WHERE protocol_id = ?')
+            .bind(verified.protocolId).first<{ canonical_name: string }>();
+          const maxSeq = await env.DB.prepare('SELECT COALESCE(MAX(version_seq), 0) AS m FROM protocol_versions WHERE protocol_id = ?')
+            .bind(verified.protocolId).first<{ m: number }>();
+          const pkg = mapParsedToCanonical({
+            protocolId: verified.protocolId,
+            protocolSlugSeed: canonical?.canonical_name ?? verified.protocolId,
+            parsed,
+            baseVersionSeq: (maxSeq?.m ?? 0) + 1,
+          });
+          const contentHash = await hashContent(JSON.stringify({
+            protocol: verified.protocolId,
+            admission: verified.admissionVersion,
+            docs: documents.map((d) => [d.sourceId, d.text]),
+          }));
+          const run = await recordDurableRun(env.DB, {
+            protocolId: verified.protocolId,
+            candidateId: verified.candidateId,
+            admissionVersion: verified.admissionVersion,
+            contentHash,
+            decidedBy: verified.decidedBy,
+          });
+          if (run.replayed) return json({ ok: true, replayed: true, resumed: false, runId: run.runId });
+          const persisted = await persistMappedPackage(env.DB, pkg, { dryRun: false, verified });
+          await updateDurableRun(env.DB, run.runId, {
+            status: persisted.quarantined > 0 || quarantinedDocs.length > 0 ? 'PARTIAL' : 'PERSISTED',
+            sourcesPlanned: planned.length,
+            sourcesPermitted: permitted.length,
+            recordsMapped: pkg.components.length + pkg.claims.length + pkg.safety.length,
+            recordsPersisted: persisted.created.components + persisted.created.claims + persisted.created.safety,
+            quarantinedIds: quarantinedDocs,
+            diagnostics: persisted.diagnostics,
+          });
+          return json({ ok: true, replayed: false, resumed: run.resumed, runId: run.runId, quarantinedDocs, ...persisted });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message.startsWith('APPROVAL_')) return json({ error: message }, 409);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/owner' && request.method === 'GET') {
+        return json({ ok: true, candidates: await listOwnerCandidates(env.DB) });
+      }
+
+      if (path === '/api/discovery/waves' && request.method === 'GET') {
+        const waves = await env.DB.prepare(
+          `SELECT r.run_id, r.domain, r.wave_number, r.mode, r.status, r.created_at, r.closed_at,
+                  m.candidates_discovered, m.candidates_reviewed, m.approved_quality_new,
+                  m.new_canonical_protocols, m.yield, m.readiness_gate_pass_rate
+             FROM discovery_runs r LEFT JOIN wave_metrics m ON m.run_id = r.run_id
+            ORDER BY r.domain, r.wave_number DESC`,
+        ).all();
+        return json({ ok: true, waves: waves.results });
+      }
+
+      if (path === '/api/discovery/waves' && request.method === 'POST') {
+        const body = await request.json() as { domain?: unknown; searchSpace?: unknown };
+        if (
+          (body.domain !== 'DOCTOR' && body.domain !== 'PROTOCOL') ||
+          !Array.isArray(body.searchSpace) ||
+          body.searchSpace.some((space) => typeof space !== 'string')
+        ) return json({ error: 'DISCOVERY_INVALID_WAVE' }, 400);
+        try {
+          return json({ ok: true, run: await createDiscoveryRun(env.DB, body.domain as DiscoveryDomain, body.searchSpace as string[]) }, 201);
+        } catch (error) {
+          if (error instanceof Error && error.message.startsWith('DISCOVERY_VALIDATION_ERROR')) return json({ error: error.message }, 400);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/candidates' && request.method === 'POST') {
+        const body = await request.json() as {
+          runId?: unknown; domain?: unknown; canonicalName?: unknown; aliases?: unknown; rediscoveryReason?: unknown;
+        };
+        if (
+          typeof body.runId !== 'string' ||
+          (body.domain !== 'DOCTOR' && body.domain !== 'PROTOCOL') ||
+          typeof body.canonicalName !== 'string' ||
+          !Array.isArray(body.aliases) ||
+          body.aliases.some((alias) => !alias || typeof alias !== 'object' ||
+            typeof (alias as { value?: unknown }).value !== 'string' ||
+            typeof (alias as { kind?: unknown }).kind !== 'string')
+        ) return json({ error: 'DISCOVERY_INVALID_CANDIDATE' }, 400);
+        try {
+          const result = await createCandidate(env.DB, {
+            runId: body.runId,
+            domain: body.domain,
+            canonicalName: body.canonicalName,
+            aliases: body.aliases as Array<{ value: string; kind: string }>,
+            rediscoveryReason: body.rediscoveryReason as never,
+          });
+          return json({ ok: true, ...result }, 201);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'REDISCOVERY_REASON_REQUIRED' || message === 'DISCOVERY_RUN_NOT_OPEN') return json({ error: message }, 409);
+          if (message.startsWith('DISCOVERY_VALIDATION_ERROR')) return json({ error: message }, 400);
+          throw error;
+        }
+      }
+
+      const compileCandidate = path.match(/^\/api\/discovery\/candidates\/([^/]+)\/compile$/);
+      if (compileCandidate && request.method === 'POST') {
+        const input = await request.json() as AdmissionInput;
+        try {
+          return json({ ok: true, ...(await compileCandidateAdmission(env.DB, decodeURIComponent(compileCandidate[1]), input)) });
+        } catch (error) {
+          if (error instanceof Error && ['CANDIDATE_NOT_COMPILABLE'].includes(error.message)) return json({ error: error.message }, 409);
+          throw error;
+        }
+      }
+
+      const candidateDecision = path.match(/^\/api\/discovery\/candidates\/([^/]+)\/decision$/);
+      if (candidateDecision && request.method === 'POST') {
+        const body = await request.json() as { decision?: unknown };
+        if (typeof body.decision !== 'string') return json({ error: 'DISCOVERY_INVALID_DECISION' }, 400);
+        try {
+          return json({
+            ok: true,
+            ...(await decideCandidate(env.DB, decodeURIComponent(candidateDecision[1]), body.decision, 'hub-operator')),
+          });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'DISCOVERY_CANDIDATE_NOT_FOUND') return json({ error: message }, 404);
+          if (message.startsWith('DISCOVERY_') || message === 'ADMISSION_PACKAGE_MISSING') return json({ error: message }, 409);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/executor/claim' && request.method === 'POST') {
+        return json({ ok: true, intent: await claimNextOnboardingIntent(env.DB) });
+      }
+
+      if (path === '/api/discovery/executor/results' && request.method === 'POST') {
+        const body = await request.json() as {
+          intentId?: unknown; sourceId?: unknown; outcome?: unknown; lifecycleResult?: unknown; evidenceRef?: unknown;
+        };
+        if (
+          typeof body.intentId !== 'string' || typeof body.sourceId !== 'string' ||
+          !['ACTIVE', 'MANUAL_INTAKE', 'RESTRICTED', 'FAILED', 'REVALIDATED'].includes(String(body.outcome))
+        ) return json({ error: 'ONBOARDING_RESULT_INVALID' }, 400);
+        try {
+          const eventId = await recordOnboardingSourceResult(
+            env.DB,
+            body.intentId,
+            body.sourceId,
+            body.outcome as 'ACTIVE' | 'MANUAL_INTAKE' | 'RESTRICTED' | 'FAILED' | 'REVALIDATED',
+            body.lifecycleResult,
+            typeof body.evidenceRef === 'string' ? body.evidenceRef : null,
+          );
+          return json({ ok: true, eventId });
+        } catch (error) {
+          if (error instanceof Error && error.message === 'ONBOARDING_SOURCE_NOT_FOUND') return json({ error: error.message }, 404);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/executor/finalize' && request.method === 'POST') {
+        const body = await request.json() as { intentId?: unknown };
+        if (typeof body.intentId !== 'string') return json({ error: 'ONBOARDING_INTENT_ID_REQUIRED' }, 400);
+        try {
+          return json({ ok: true, ...(await finalizeOnboardingIntent(env.DB, body.intentId)) });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '';
+          if (message === 'ONBOARDING_INTENT_NOT_FOUND') return json({ error: message }, 404);
+          if (message.startsWith('ONBOARDING_') || message.startsWith('DOCTOR_') ||
+              message.startsWith('PROTOCOL_') || message.startsWith('DISCOVERY_')) {
+            return json({ error: message }, 409);
+          }
+          throw error;
+        }
+      }
+
+      const waveMetrics = path.match(/^\/api\/discovery\/waves\/([^/]+)\/metrics$/);
+      if (waveMetrics && request.method === 'POST') {
+        const body = await request.json() as {
+          reviewed?: unknown; approvedQualityNew?: unknown; readinessEvaluated?: unknown; readinessPassed?: unknown;
+          newCanonicalProtocols?: unknown;
+        };
+        if (![body.reviewed, body.approvedQualityNew, body.readinessEvaluated, body.readinessPassed]
+          .every(Number.isInteger)) return json({ error: 'DISCOVERY_METRICS_INVALID' }, 400);
+        try {
+          return json({
+            ok: true,
+            metrics: await recordWaveMetrics(
+              env.DB,
+              decodeURIComponent(waveMetrics[1]),
+              body.reviewed as number,
+              body.approvedQualityNew as number,
+              body.readinessEvaluated as number,
+              body.readinessPassed as number,
+              Number.isInteger(body.newCanonicalProtocols) ? body.newCanonicalProtocols as number : undefined,
+            ),
+          });
+        } catch (error) {
+          if (error instanceof Error && error.message === 'DISCOVERY_METRICS_INVALID') return json({ error: error.message }, 400);
+          throw error;
+        }
+      }
+
+      if (path === '/api/discovery/signals' && request.method === 'POST') {
+        const body = await request.json() as {
+          signalType?: unknown; rawMention?: unknown; sourceItemId?: unknown; provenance?: unknown;
+        };
+        if (
+          !['UNKNOWN_PROTOCOL_SIGNAL', 'UNKNOWN_ACTOR_SIGNAL'].includes(String(body.signalType)) ||
+          typeof body.rawMention !== 'string' || !body.rawMention.trim()
+        ) return json({ error: 'DISCOVERY_SIGNAL_INVALID' }, 400);
+        const signalId = await createCrossFeedSignal(
+          env.DB,
+          body.signalType as 'UNKNOWN_PROTOCOL_SIGNAL' | 'UNKNOWN_ACTOR_SIGNAL',
+          body.rawMention,
+          typeof body.sourceItemId === 'string' ? body.sourceItemId : null,
+          body.provenance,
+        );
+        return json({ ok: true, created: signalId !== null, signalId }, signalId ? 201 : 200);
+      }
+
+      // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       // DOSSIER canary operator surface (OPS_TOKEN; manual, never scheduled, never public; a run also needs DOSSIER_CANARY_ENABLED=true).
       const dossierCanary = await handleDossierCanary(request, env, path);
       if (dossierCanary) return dossierCanary;
@@ -170,6 +508,54 @@ export default {
         const body = await request.json().catch(() => null);
         const result = await handleDoctorFetchOp(env, body);
         return json(result.body, result.status);
+      }
+
+      // Workstream C onboarding runner: APPROVED candidate → canon rows
+      // (resolve-first, idempotent resume). Never activates, never ingests.
+      // Production use needs the 0043 remote apply + deploy authorization.
+      if (path === '/api/ops/doctor-onboarding' && request.method === 'POST') {
+        const body = (await request.json().catch(() => null)) as {
+          candidateId?: unknown; policy?: unknown; reason?: unknown;
+        } | null;
+        if (!body || typeof body !== 'object' || Array.isArray(body)) {
+          return json({ error: 'INVALID_BODY' }, 400);
+        }
+        for (const key of Object.keys(body)) {
+          if (!['candidateId', 'policy', 'reason'].includes(key)) return json({ error: 'INVALID_BODY' }, 400);
+        }
+        if (typeof body.candidateId !== 'string' || !body.candidateId.trim() || body.candidateId.length > 200) {
+          return json({ error: 'INVALID_BODY' }, 400);
+        }
+        if (!body.policy || typeof body.policy !== 'object' || Array.isArray(body.policy)) {
+          return json({ error: 'INVALID_BODY' }, 400);
+        }
+        try {
+          const result = await runOnboarding(
+            env.DB,
+            (body.candidateId as string).trim(),
+            body.policy as Parameters<typeof runOnboarding>[2],
+            { by: 'ops:doctor-onboarding', reason: typeof body.reason === 'string' ? body.reason : '' },
+          );
+          return json(result, 200);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          if (message.startsWith('ONBOARDING_UNKNOWN_CANDIDATE')) return json({ error: 'UNKNOWN_CANDIDATE' }, 404);
+          if (message.startsWith('ONBOARDING_NOT_APPROVED')) {
+            return json({ error: 'CANDIDATE_NOT_APPROVED', detail: message.slice(0, 160) }, 422);
+          }
+          if (message.startsWith('ONBOARDING_AMBIGUOUS_ACTOR')) {
+            return json({ error: 'AMBIGUOUS_ACTOR', detail: message.slice(0, 160) }, 409);
+          }
+          if (message.startsWith('ONBOARDING_VALIDATION_ERROR')) {
+            return json({ error: 'INVALID_BODY', detail: message.slice(0, 160) }, 400);
+          }
+          throw err;
+        }
+      }
+
+      // Workstream H readiness: bounded read-only snapshot, zero mutations.
+      if (path === '/api/ops/doctor-readiness' && request.method === 'GET') {
+        return json(await doctorReadiness(env.DB));
       }
 
       if (path === '/api/handoff/resend' && request.method === 'POST') {

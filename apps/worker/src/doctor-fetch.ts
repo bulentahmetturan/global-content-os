@@ -15,7 +15,9 @@
 
 import { assertIngestibleForIngestion, ingestOneItem, recordActivity } from './actors/activity';
 import { getEndpoint } from './actors/sources';
+import { capabilityFor } from './doctor-source-capabilities';
 import { fetchText } from './ingress/generic-web';
+import { checkFetchTarget } from './fetch-safety';
 import { parseDoctorFeed, DOCTOR_PARSER_CONTRACT } from './doctor-parser';
 import type { Env } from './db/queries';
 
@@ -96,6 +98,19 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
   if (!carrierFeedId) {
     return { status: 422, body: { error: 'NO_CARRIER_FEED' } };
   }
+  // D capability enforcement: only vehicle-allowed source types may be
+  // fetched (today: OFFICIAL_WEBSITE via RSS). Everything else is
+  // manual-only — registered and verifiable, never auto-ingested.
+  // No Instagram scraping or arbitrary social ingestion by construction.
+  const capability = capabilityFor(endpoint.channel_type);
+  if (!capability.vehicleAllowed) {
+    await recordActivity(env.DB, {
+      associationId, observedAt: new Date().toISOString(), activityKind: 'UNSUPPORTED',
+      outcome: 'BLOCKED', reasonCode: 'UNSUPPORTED_SOURCE_TYPE',
+      techMetadata: { fetch: false, channelType: endpoint.channel_type },
+    }, audit);
+    return { status: 422, body: { error: 'UNSUPPORTED_SOURCE_TYPE' } };
+  }
   const carrierFeed = await env.DB.prepare(`SELECT id, route, channel_id, transport, endpoint_url, enabled FROM source_feeds WHERE id = ?`)
     .bind(carrierFeedId)
     .first<{ id: string; route: string; channel_id: string; transport: string; endpoint_url: string | null; enabled: number } | null>();
@@ -116,6 +131,22 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
     origin = new URL(target).origin;
   } catch {
     return { status: 400, body: { error: 'INVALID_BODY' } };
+  }
+
+  // G SSRF containment (second barrier; the first is that targets come
+  // only from operator-registered carrier rows). Non-public targets are
+  // refused before any network contact, with an audit row. The robots URL
+  // shares the target origin, so one verdict covers both fetches.
+  // DOCTOR_FETCH_ALLOW_PRIVATE_HOSTS=true exists ONLY for localhost
+  // fixture tests and must never be set in production.
+  const verdict = checkFetchTarget(target);
+  if (verdict.blocked && env.DOCTOR_FETCH_ALLOW_PRIVATE_HOSTS !== 'true') {
+    await recordActivity(env.DB, {
+      associationId, observedAt: new Date().toISOString(), activityKind: 'CHECKED',
+      outcome: 'BLOCKED', reasonCode: 'POLICY_UNKNOWN',
+      techMetadata: { fetch: true, ssrfBlocked: true, reason: verdict.reason, target },
+    }, audit);
+    return { status: 422, body: { error: 'FETCH_TARGET_BLOCKED' } };
   }
 
   // Robots gate: fetched live, enforced by prefix match. Absent/unreachable
@@ -161,6 +192,23 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
   const parsed = parseDoctorFeed(fetched.text);
   const items = parsed.items.slice(0, maxItems);
 
+  // F3: an empty parse is not a success. The feed was reachable and
+  // well-formed enough to fetch, but nothing was admitted — recording
+  // CONFIRMED here would be a misleading success record (P3). Park as
+  // INCONCLUSIVE with zero writes so stalled/reshaped feeds are visible
+  // in the audit trail instead of looking healthy.
+  if (items.length === 0) {
+    const emptyActivity = await recordActivity(env.DB, {
+      associationId, observedAt: new Date().toISOString(), activityKind: 'CHECKED',
+      outcome: 'INCONCLUSIVE', reasonCode: 'PARSE_FAILED',
+      techMetadata: { fetch: true, status: fetched.status, bytes: fetched.text.length, parsed: parsed.itemCount, parser: DOCTOR_PARSER_CONTRACT },
+    }, audit);
+    return {
+      status: 200,
+      body: { ok: true, associationId, warning: 'EMPTY_FEED', carrierFeedId, items: [], activityId: emptyActivity.activity_id },
+    };
+  }
+
   const results = [];
   for (const item of items) {
     const written = await ingestOneItem(env.DB, {
@@ -169,6 +217,11 @@ export async function handleDoctorFetchOp(env: Env, rawBody: unknown): Promise<D
       route: carrierFeed.route as 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri',
       channelId: carrierFeed.channel_id,
       title: item.title,
+      // F1 source anchor: title_orig carries the verbatim feed title so
+      // re-ingest title comparison (planExistingItemWrite) can recognize
+      // the source text even after owner edits, and the freeze in
+      // updateExistingItem keeps owner wording authoritative.
+      titleOrig: item.title,
       summary: item.excerpt ? item.excerpt.slice(0, 500) : item.title,
       canonicalUrl: item.link,
       publisher: endpoint.display_label ?? assoc.actor_id,

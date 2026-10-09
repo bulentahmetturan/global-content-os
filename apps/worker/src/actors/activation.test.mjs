@@ -281,7 +281,11 @@ test('personal ingestion leaves the brand association untouched', async () => {
   assert.equal(await activity.getLatestIngestability(db, bAssoc.association_id), null);
 });
 
-// D4 needs no new migration: doctor file set is exactly 0031/0032/0035.
+// D4 needs no new migration: the D4 doctor file set was exactly
+// 0031/0032/0035. 0044 (Workstream B candidate queue, local-only until an
+// owner authorizes remote apply + the matching EXPECTED bump) is the sole
+// later addition, recorded here explicitly. (Renumbered 0043→0044 on
+// 2026-10-09: remote 0043 belongs to the dossier track.)
 test('d4 requires no new migration', async () => {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
   const doctorFiles = files.filter((n) => n.includes('_doctor_'));
@@ -289,5 +293,9 @@ test('d4 requires no new migration', async () => {
     '0031_doctor_actor_registry.sql',
     '0032_doctor_actor_sources.sql',
     '0035_doctor_source_activity_audit.sql',
+    '0044_doctor_discovery_candidates.sql',
+    '0045_doctor_source_proposals.sql',
+    '0046_doctor_knowledge.sql',
+    '0046_doctor_profile_facts.sql',
   ]);
 });

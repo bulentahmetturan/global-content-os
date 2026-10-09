@@ -13,6 +13,7 @@
  */
 
 import type { Env } from '../db/queries';
+import { emitCrossFeedSignalsBestEffort } from '../discovery/kernel';
 
 export const LINK_DIRECTIONS = ['SUPPORTS', 'CONTRADICTS', 'CONTEXT'] as const;
 export type LinkDirection = (typeof LINK_DIRECTIONS)[number];
@@ -34,7 +35,7 @@ export interface ClaimEvidenceLink {
 
 export async function createEvidence(
   db: Env['DB'],
-  input: { evidence_id: string; source_item_id: string; locator?: string },
+  input: { evidence_id: string; source_item_id: string; locator?: string; unknownActorMentions?: string[] },
 ): Promise<ProtocolEvidence> {
   await db
     .prepare(
@@ -45,6 +46,10 @@ export async function createEvidence(
     .run();
   const created = await getEvidence(db, input.evidence_id);
   if (!created) throw new Error('EVIDENCE_CREATE_FAILED');
+  await emitCrossFeedSignalsBestEffort(db, 'UNKNOWN_ACTOR_SIGNAL', input.unknownActorMentions, input.source_item_id, {
+      evidenceId: input.evidence_id,
+      evidenceLocator: input.locator ?? null,
+  });
   return created;
 }
 

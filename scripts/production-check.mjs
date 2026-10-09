@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// Safe, non-mutating production-readiness gate.
+// Local regression and production-readiness prerequisite gate.
 // Runs typecheck + unit tests + a handful of deterministic Bible v4 /
-// source-ownership / registry-hygiene invariant checks. Never touches
-// Cloudflare, D1 (remote or local), or the network. Intended to be run
+// source-ownership / registry-hygiene invariant checks. Tests can use
+// disposable local SQLite/D1 and loopback servers, never remote D1. Run
 // before every deploy, and to be wired into CI once a workflow exists for
 // this worker (see SORUN-TESPIT-LISTESI.md S61).
 //
 // Usage: node scripts/production-check.mjs   (or: pnpm production:check)
-// Exit code 0 = safe to proceed; non-zero = a hard gate failed, do not deploy.
+// Exit code 0 = local gates passed, not deployment approval; non-zero = blocked.
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -41,13 +41,10 @@ function section(title) {
 // 1. Typecheck ---------------------------------------------------------
 section('Typecheck');
 try {
-  // shell: true is required on Windows, where `npx` is a .cmd shim that
-  // execFileSync cannot resolve directly from PATH; args are all
-  // hard-coded literals above, never user input, so this is safe.
-  execFileSync('npx tsc --noEmit -p apps/worker/tsconfig.json', {
+  // Use the installed compiler directly, without a shell or package lookup.
+  execFileSync(process.execPath, [rel('node_modules/typescript/bin/tsc'), '--noEmit', '-p', 'apps/worker/tsconfig.json'], {
     cwd: root,
     stdio: 'pipe',
-    shell: true,
   });
   pass('tsc --noEmit (apps/worker)');
 } catch (e) {
@@ -79,7 +76,7 @@ let unjustifiedSkips = 0;
 let justifiedSkips = 0;
 for (const f of testFiles) {
   try {
-    const out = execFileSync('node', [f], { cwd: root, stdio: 'pipe' }).toString();
+    const out = execFileSync(process.execPath, [f], { cwd: root, stdio: 'pipe', timeout: 180_000, windowsHide: true }).toString();
     const count = (name) => Number((out.match(new RegExp(`(?:#|ℹ) ${name} (\\d+)`)) || [])[1] ?? 0);
     const passMatch = out.match(/# pass (\d+)/) || out.match(/ℹ pass (\d+)/);
     const failMatch = out.match(/# fail (\d+)/) || out.match(/ℹ fail (\d+)/);
@@ -113,7 +110,7 @@ section('Python test suite (adapters/tip-toplulugu-radar)');
 // file.
 const KNOWN_FAILURE_BASELINE = 0; // the 7 phase1 canary failures were STALE fixtures (undated items), fixed in final reconciliation
 try {
-  const out = execFileSync('python3', ['-m', 'pytest', 'tests', '-q', '-rs'], {
+  const out = execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-m', 'pytest', 'tests', '-q', '-rs'], {
     cwd: rel('adapters/tip-toplulugu-radar'),
     stdio: 'pipe',
   }).toString();
@@ -127,7 +124,9 @@ try {
   const failedLines = out.split('\n').filter((l) => l.startsWith('FAILED') || l.startsWith('SUBFAILED'));
   const unexpected = failedLines.filter((l) => !l.includes('test_phase1_ingestion_canary.py'));
   const m = out.match(/(\d+) passed/);
-  if (unexpected.length > 0) {
+  if (!m && failedLines.length === 0) {
+    fail('pytest could not complete', 'test collection/interpreter failure; no passing summary');
+  } else if (unexpected.length > 0) {
     fail('pytest', `${unexpected.length} failure(s) outside the known baseline: ${unexpected.slice(0, 3).join(' | ')}`);
   } else if (failedLines.length > KNOWN_FAILURE_BASELINE) {
     fail('pytest', `${failedLines.length} known-file failures > documented baseline of ${KNOWN_FAILURE_BASELINE}`);
@@ -315,7 +314,7 @@ try {
 // 9. Canonical source identity: one primary heading per source (S66) -----
 section('Canonical source identity: one primary heading per source');
 try {
-  const out = execFileSync('python3', ['scripts/check_source_identity.py'], {
+  const out = execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['scripts/check_source_identity.py'], {
     cwd: rel('adapters/tip-toplulugu-radar'),
     stdio: 'pipe',
   }).toString();

@@ -5,6 +5,7 @@
  */
 
 import type { Env, RouteId } from '../db/queries';
+import { isDoctorOriginItem } from '../doctor-origin';
 import { looksMostlyEnglish } from './tr';
 import { trimToSentences, validateSummaryTr, validateTitleTr } from './contract';
 
@@ -253,8 +254,34 @@ export async function enrichOneItem(
     title: string;
     title_orig: string | null;
     summary: string;
+    feed_id?: string | null;
+    feedId?: string | null;
+    source_id?: string | null;
+    sourceId?: string | null;
   }
 ): Promise<{ ok: boolean; error?: string }> {
+  // D5 Doctor guard: Doctor-origin wording is owner-written only. LLM
+  // enrichment must never rewrite it. Resolved from the canonical
+  // endpoint registry (doctor-origin.ts), not feed-id strings. Recorded
+  // as skipped (terminal, auditable) without consuming any AI call.
+  // The owner hand-writing path (POST /api/localize/apply) is untouched.
+  const feedId = row.feed_id ?? row.feedId ?? null;
+  const sourceId = row.source_id ?? row.sourceId ?? null;
+  if (await isDoctorOriginItem(env.DB, { feedId, sourceId })) {
+    await env.DB.prepare(
+      `UPDATE source_items
+       SET enrichment_status = 'skipped',
+           enrichment_json = ?,
+           enrichment_error = NULL,
+           enriched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+           updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+       WHERE id = ?`
+    )
+      .bind(JSON.stringify({ reason: 'doctor_origin_owner_only' }), row.id)
+      .run();
+    return { ok: true };
+  }
+
   const sourceTitle = (row.title_orig || row.title || '').trim();
   const sourceSummary = stripHtml(row.summary || sourceTitle);
 
@@ -377,12 +404,14 @@ export async function runEnrichmentBatch(
     title: string;
     title_orig: string | null;
     summary: string;
+    feed_id: string | null;
+    source_id: string | null;
   }> = [];
 
   if (opts.ids?.length) {
     for (const id of opts.ids.slice(0, limit)) {
       const row = await env.DB.prepare(
-        `SELECT id, route, title, title_orig, summary FROM source_items WHERE id = ?`
+        `SELECT id, route, title, title_orig, summary, feed_id, source_id FROM source_items WHERE id = ?`
       )
         .bind(id)
         .first<{
@@ -391,6 +420,8 @@ export async function runEnrichmentBatch(
           title: string;
           title_orig: string | null;
           summary: string;
+          feed_id: string | null;
+          source_id: string | null;
         }>();
       if (row) results.push(row);
     }
@@ -400,7 +431,7 @@ export async function runEnrichmentBatch(
     const retryBefore = new Date(Date.now() - RETRY_BACKOFF_MIN * 60000).toISOString();
     // Every live state is enriched (an item moved to hold/production while pending must not stay in processing forever).
     // Failed items are retried with backoff, at most MAX_ENRICH_ATTEMPTS times.
-    let sql = `SELECT id, route, title, title_orig, summary
+    let sql = `SELECT id, route, title, title_orig, summary, feed_id, source_id
              FROM source_items
              WHERE triage_status IN ('inbox', 'hold', 'production')
                AND (enrichment_status = 'pending'
@@ -425,6 +456,8 @@ export async function runEnrichmentBatch(
       title: string;
       title_orig: string | null;
       summary: string;
+      feed_id: string | null;
+      source_id: string | null;
     }>();
     results = q.results ?? [];
   }

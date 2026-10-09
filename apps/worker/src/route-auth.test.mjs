@@ -95,11 +95,27 @@ test('every POST handler in index.ts is gated (table or inline) -- a new write r
   const inline = new Set([
     'POST /api/triage', 'POST /api/handoff/resend', 'POST /api/handoff/status', 'POST /api/ingress/tip',
     'POST /api/ingress/tip-toplulugu-telemetry', 'POST /api/ingress/tip-toplulugu-continuous',
+    'POST /api/protocols/ingest/dry-run', 'POST /api/protocols/ingest/execute',
+    'POST /api/discovery/waves', 'POST /api/discovery/candidates',
+    'POST /api/discovery/executor/claim', 'POST /api/discovery/executor/results',
+    'POST /api/discovery/executor/finalize', 'POST /api/discovery/signals',
   ]);
   assert.ok(posts.length >= 19, `found ${posts.length}`);
   for (const k of posts) assert.ok(inline.has(k) || gates.ROUTE_GATES[k], `ungated write route: ${k}`);
   for (const k of inline) assert.ok(!gates.ROUTE_GATES[k], `double-gated: ${k}`);
 });
+
+for (const path of ['/api/protocols/ingest/dry-run', '/api/protocols/ingest/execute', '/api/discovery/waves', '/api/discovery/candidates', '/api/discovery/candidates/test/compile', '/api/discovery/candidates/test/decision', '/api/discovery/waves/test/metrics', '/api/discovery/signals', '/api/discovery/executor/claim', '/api/discovery/executor/results', '/api/discovery/executor/finalize']) {
+  test(`new inline gate ${path}: missing/wrong tokens write nothing`, async () => {
+    const key=path.includes('/executor/')?'DISCOVERY_EXECUTOR_TOKEN':'HUB_OPERATOR_TOKEN';
+    await withStubbedFetch(async (outbound) => {
+      for (const [env,headers,status] of [[{}, {},503],[{[key]:'test-only'}, {authorization:'Bearer wrong'},401]]) {
+        const db=fakeDb(); const response=await worker.fetch(req('POST',path,headers),{...env,DB:db},{waitUntil(){}});
+        assert.equal(response.status,status); assert.deepEqual(db.writes,[]); assert.equal(outbound(),0);
+      }
+    });
+  });
+}
 
 test('operator-script helper mirrors the Worker gate table exactly', () => {
   const worker = Object.fromEntries(GATED.map((g) => [g.path, g.secret]));

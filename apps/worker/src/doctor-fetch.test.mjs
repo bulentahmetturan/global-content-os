@@ -33,6 +33,9 @@ const server = createServer((req, res) => {
   } else if (req.url === '/oversize.xml') {
     res.writeHead(200, { 'Content-Type': 'application/rss+xml', 'Content-Length': '99999999' });
     res.end('<rss></rss>');
+  } else if (req.url === '/empty.xml') {
+    res.writeHead(200, { 'Content-Type': 'application/rss+xml' });
+    res.end('<?xml version="1.0"?><rss version="2.0"><channel><title>Empty</title><link>http://x/</link></channel></rss>');
   } else if (req.url === '/page.html') {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end('<html><body>static page</body></html>');
@@ -79,7 +82,8 @@ function post(body, token = OPS_TOKEN) {
 }
 
 function envFor(db, ops = OPS_TOKEN) {
-  return { DB: db, OPS_TOKEN: ops, ENVIRONMENT: 'test' };
+  // SSRF guard allowance for localhost fixtures (never set in production).
+  return { DB: db, OPS_TOKEN: ops, ENVIRONMENT: 'test', DOCTOR_FETCH_ALLOW_PRIVATE_HOSTS: 'true' };
 }
 // OPS_TOKEN absent entirely (not merely undefined): default params
 // would otherwise resurrect the configured test token.
@@ -160,6 +164,65 @@ test('declared oversize aborts before body read', async () => {
   const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'oversize proof check' }), envFor(db), ctx);
   assert.equal(res.status, 422);
   assert.equal((await res.json()).error, 'OVERSIZE_BODY');
+});
+
+// G: non-public fetch targets are refused before any network contact.
+test('ssrf guard blocks loopback targets without the test allowance', async () => {
+  const { sqlite, db } = openDb();
+  const before = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
+  const feedId = seedCarrier(sqlite, 'veh_ssrf_feed', `${ORIGIN}/feed.xml`);
+  const { assoc, endpoint } = await seedAssoc(db, `${ORIGIN}/feed.xml`);
+  await setCarrier(db, endpoint.endpoint_id, feedId);
+  await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
+  // Same env minus the private-host allowance: production posture.
+  const prodEnv = { DB: db, OPS_TOKEN, ENVIRONMENT: 'test' };
+  const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'ssrf block proof' }), prodEnv, ctx);
+  assert.equal(res.status, 422);
+  assert.equal((await res.json()).error, 'FETCH_TARGET_BLOCKED');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, before);
+  const acts = await activity.listActivityForAssociation(db, assoc.association_id);
+  assert.ok(acts.some((a) => JSON.parse(a.tech_metadata_json ?? '{}').ssrfBlocked === true));
+});
+
+// D: manual-only source types are refused before any fetch.
+test('unsupported source type fails closed without network contact', async () => {
+  const { sqlite, db } = openDb();
+  const before = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
+  const feedId = seedCarrier(sqlite, 'veh_ig_feed', `${ORIGIN}/feed.xml`);
+  const actor = await actors.createActor(db, { canonicalName: 'Sosyal Hekim', panel: 'TURKEY_EXPERT_PANEL' }, AUDIT);
+  const endpoint = await sources.createEndpoint(db, {
+    channelType: 'INSTAGRAM', platform: 'instagram', canonicalLocator: 'https://instagram.com/sosyalhekim',
+  }, AUDIT);
+  const assoc = await sources.linkActorToSource(db, {
+    actorId: actor.actor_id, endpointId: endpoint.endpoint_id, associationType: 'CONTRIBUTOR',
+  }, AUDIT);
+  await setCarrier(db, endpoint.endpoint_id, feedId);
+  await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
+  const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'unsupported type proof' }), envFor(db), ctx);
+  assert.equal(res.status, 422);
+  assert.equal((await res.json()).error, 'UNSUPPORTED_SOURCE_TYPE');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, before);
+});
+
+// F3: an empty parse is parked INCONCLUSIVE, never recorded as success.
+test('empty feed parks inconclusive with zero writes and a warning', async () => {
+  const { sqlite, db } = openDb();
+  const before = sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c;
+  const feedId = seedCarrier(sqlite, 'veh_empty_feed', `${ORIGIN}/empty.xml`);
+  const { assoc, endpoint } = await seedAssoc(db, `${ORIGIN}/empty.xml`);
+  await setCarrier(db, endpoint.endpoint_id, feedId);
+  await activity.activateAssociationForIngestion(db, assoc.association_id, GOOD, AUDIT);
+  const res = await worker.default.fetch(post({ associationId: assoc.association_id, reason: 'empty feed proof' }), envFor(db), ctx);
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.warning, 'EMPTY_FEED');
+  assert.deepEqual(body.items, []);
+  assert.ok(body.activityId);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS c FROM source_items`).get().c, before);
+  const acts = await activity.listActivityForAssociation(db, assoc.association_id);
+  const empty = acts.find((a) => a.activity_id === body.activityId);
+  assert.equal(empty.outcome, 'INCONCLUSIVE');
+  assert.ok(!acts.some((a) => a.outcome === 'CONFIRMED' && JSON.parse(a.tech_metadata_json ?? '{}').fetch === true));
 });
 
 // Non-feed content has no parser: recorded, nothing persisted.

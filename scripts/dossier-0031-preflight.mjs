@@ -24,7 +24,7 @@ export function preflight(dir = 'migrations') {
   const checks = [];
   const check = (name, ok, detail = '') => checks.push({ name, ok: Boolean(ok), detail });
 
-  check('newest migration', files[files.length - 1] === MIGRATION, files[files.length - 1]);
+  check('frozen Dossier migration remains present and unique in its namespace', files.includes(MIGRATION) && files.filter((name) => /dossier/i.test(name)).length === 1, MIGRATION);
   check('no destructive or altering statement', !/\b(DROP|ALTER|REPLACE|TRUNCATE|VACUUM|PRAGMA)\b/i.test(sql));
   check('no row rewrite, delete or insert', !/\bUPDATE\s+\w+\s+SET\b/i.test(sql.replace(/CREATE TRIGGER[\s\S]*?END;/gi, '')) && !/\bDELETE\s+FROM\b/i.test(sql.replace(/CREATE TRIGGER[\s\S]*?END;/gi, '')) && !/\bINSERT\s+INTO\b/i.test(sql.replace(/CREATE TRIGGER[\s\S]*?END;/gi, '')));
   const stmts = sql.split(/;\s*(?:\n|$)/).map((s) => s.trim()).filter(Boolean);

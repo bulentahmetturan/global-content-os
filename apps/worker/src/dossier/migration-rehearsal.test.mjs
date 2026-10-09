@@ -9,11 +9,11 @@ const { rehearse } = await import('../../../../scripts/dossier-0031-rehearsal.mj
 const FROZEN_SHA = '5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343';
 const MIGRATION = '0043_dossier_discovery_foundation.sql';
 
-test('migration 0043 is FROZEN: LF-normalized checksum equals the owner-reviewed value; it is still the newest migration; exactly one dossier migration exists', () => {
+test('migration 0043 is FROZEN: checksum remains owner-reviewed; exactly one dossier migration exists alongside other workstreams', () => {
   const sha = createHash('sha256').update(readFileSync(`migrations/${MIGRATION}`, 'utf8').replace(/\r\n/g, '\n')).digest('hex');
   assert.equal(sha, FROZEN_SHA);
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort();
-  assert.equal(files[files.length - 1], MIGRATION);
+  assert.ok(files.includes(MIGRATION));
   assert.deepEqual(files.filter((f) => /dossier/i.test(f)), [MIGRATION]);
   // 0028 (the already-applied temporal-paths migration) is byte-identical to the one on main
   const norm = (f) => createHash('sha256').update(readFileSync(f, 'utf8').split(String.fromCharCode(13, 10)).join(String.fromCharCode(10))).digest('hex');

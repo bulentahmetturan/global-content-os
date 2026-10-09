@@ -481,6 +481,8 @@ export interface IngestOneItemInput {
   route: 'kaduse-news' | 'kaduse-research' | 'tip-ogrencileri';
   channelId: string;
   title: string;
+  /** Verbatim source title anchor (stored as title_orig); lets re-ingest recognize source text after owner edits. */
+  titleOrig?: string | null;
   summary: string;
   canonicalUrl: string;
   publisher: string;
@@ -519,6 +521,7 @@ export async function ingestOneItem(
     route: input.route,
     channelId: input.channelId,
     title: input.title,
+    titleOrig: input.titleOrig ?? null,
     summary: input.summary,
     canonicalUrl: input.canonicalUrl,
     publisher: input.publisher,

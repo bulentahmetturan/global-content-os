@@ -38,7 +38,10 @@ test('temporal identity: DOSSIER_DISCOVERY sits under EVERGREEN and creates no t
 test('only migration 0043 carries DOSSIER (0028 CHECKs and earlier migrations untouched); the only cron wiring is the dedicated recurring tick, two operator modules', () => {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n));
   assert.deepEqual(files.filter((f) => /dossier/i.test(f)), ['0043_dossier_discovery_foundation.sql'], 'the dossier schema is exactly one migration');
-  for (const f of files.filter((f) => f !== '0043_dossier_discovery_foundation.sql')) assert.ok(!/dossier/i.test(readFileSync(`migrations/${f}`, 'utf8')), `${f} must not mention dossier`);
+  for (const f of files.filter((f) => f !== '0043_dossier_discovery_foundation.sql')) {
+    const sql = readFileSync(`migrations/${f}`, 'utf8').replace(/--[^\r\n]*|\/\*[\s\S]*?\*\//g, '');
+    assert.ok(!/dossier/i.test(sql), `${f} executable SQL must not reference dossier`);
+  }
   const m28 = readFileSync('migrations/0028_temporal_paths.sql', 'utf8');
   assert.ok(/evergreen_view IN \('health_reference', 'research_rediscovery'\)/.test(m28));
   assert.ok(/acquisition_path IN \('TIME_SENSITIVE', 'EVERGREEN'\)/.test(m28));

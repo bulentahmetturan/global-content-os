@@ -1,5 +1,7 @@
 import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
+import { isDoctorOriginItem } from '../doctor-origin';
 import { orderByRelevance } from '../triage/relevance-order';
+import { recordDiscoveryHubItemBestEffort } from '../discovery/progress';
 import {
   defaultAcquisitionPath,
   effectiveAcquisitionPath,
@@ -36,7 +38,14 @@ export interface Env {
   TIP_RADAR_INGEST_TOKEN?: string;
   /** Bearer for the operator surface (/api/ops/summary, /api/handoff/resend); unset = those endpoints answer 503. */
   OPS_TOKEN?: string;
+  DISCOVERY_EXECUTOR_TOKEN?: string;
   TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED?: string;
+  /**
+   * Test-only escape hatch for the Doctor fetch SSRF guard: when 'true',
+   * loopback/private targets (localhost fixtures) are permitted. NEVER set
+   * in production — production must always deny non-public targets.
+   */
+  DOCTOR_FETCH_ALLOW_PRIVATE_HOSTS?: string;
   /** Fine-grained GitHub token (Actions: write, this repo only) used by POST /api/ingress/tip-toplulugu-run; unset = 424, nothing dispatched. */
   GITHUB_DISPATCH_TOKEN?: string;
   GITHUB_REPO?: string;
@@ -335,9 +344,12 @@ export async function upsertSourceItem(
       });
     }
     const result = await updateExistingItem(db, existing, input, enrichmentStatus);
+    await recordDiscoveryHubItemBestEffort(db, input.sourceId, result.id, input.route);
     return membership ? { ...result, membership } : result;
   }
-  return insertNewItem(db, input, { dedupeKey, enrichmentStatus, rawPublishedAt, canonicalWorkId });
+  const result = await insertNewItem(db, input, { dedupeKey, enrichmentStatus, rawPublishedAt, canonicalWorkId });
+  if (result.id) await recordDiscoveryHubItemBestEffort(db, input.sourceId, result.id, input.route);
+  return result;
 }
 
 async function updateExistingItem(
@@ -354,7 +366,17 @@ async function updateExistingItem(
       input.verifiedDateCorrection = true;
     }
     // D1 Free plan bills every index update as a row write: re-polling an unchanged item must not write at all.
-    const plan = planExistingItemWrite(existing, input, enrichmentStatus);
+    let plan = planExistingItemWrite(existing, input, enrichmentStatus);
+    // F1 Doctor wording freeze: intake must never rewrite Doctor-origin
+    // wording (title/summary/gists) — that wording is owner-owned (D5) and
+    // changes only via POST /api/localize/apply. When a re-ingest would
+    // otherwise take the 'full' path, cap it at 'meta' (URL/publisher/date
+    // still flow; wording is untouched). Checked only on the 'full' path
+    // so non-Doctor behavior is byte-for-byte unchanged, and the common
+    // 'none'/'meta' paths pay zero extra queries.
+    if (plan === 'full' && (await isDoctorOriginItem(db, { feedId: input.feedId, sourceId: existing.source_id }))) {
+      plan = 'meta';
+    }
     if (plan === 'none') {
       if (input.evidence) await upsertEvidence(db, existing.id, input.evidence);
       return { id: existing.id, created: false };
