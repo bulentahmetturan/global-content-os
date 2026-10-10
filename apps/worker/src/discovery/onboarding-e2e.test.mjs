@@ -9,6 +9,7 @@ const { DatabaseSync } = createRequire(import.meta.url)('node:sqlite');
 const worker = await bundle('apps/worker/src/index.ts', 'discovery-onboarding-e2e');
 const queries = await bundle('apps/worker/src/db/queries.ts', 'discovery-onboarding-query');
 const protocols = await bundle('apps/worker/src/protocols/registry.ts', 'discovery-onboarding-protocol-registry');
+const activity = await bundle('apps/worker/src/actors/activity.ts', 'discovery-activation-negative');
 
 const OWNER_TOKEN = 'test-owner';
 const EXECUTOR_TOKEN = 'test-executor';
@@ -162,7 +163,7 @@ async function apiCall(path, method, token, env, body) {
 
 async function execute(domain, canonicalName, admission, env, {
   decision = 'APPROVE',
-  expectedStatus = 'AWAITING_INGEST',
+  expectedStatus = domain === 'DOCTOR' ? 'PARTIAL_SOURCE_COVERAGE' : 'AWAITING_INGEST',
 } = {}) {
   const wave = await apiCall('/api/discovery/waves', 'POST', OWNER_TOKEN, env, {
     domain,
@@ -185,8 +186,11 @@ async function execute(domain, canonicalName, admission, env, {
       exitCode: 0,
       result: { outcome: 'ACTIVE', ok: true, command, source_id: source.source_id },
     }),
-    requestJson: async (_baseUrl, token, path, body) =>
-      apiCall(path, 'POST', token, env, body),
+    requestJson: async (_baseUrl, token, path, body) => {
+      // Persist an independently simulated lifecycle observation, not an executor activation.
+      if (path.endsWith('/results') && claimed.intent.sources.find(s => s.source_id === body.sourceId)?.source_disposition === 'ACTIVATE') body = { ...body, outcome: 'ACTIVE' };
+      return apiCall(path, 'POST', token, env, body);
+    },
   });
   assert.equal(result.finalized.status, expectedStatus, JSON.stringify({
     sources: await env.DB.prepare(
@@ -222,7 +226,7 @@ async function ingestHubItem(db, sourceId, title, url) {
   return item.id;
 }
 
-test('Doctor discovery approval executes to canonical actor, ingestion, and Global Hub item', async () => {
+test('Doctor admission and forged ACTIVE do not activate; separate OPS authorization permits ingestion', async () => {
   const { sqlite, DB } = openDb();
   const env = { DB, HUB_OPERATOR_TOKEN: OWNER_TOKEN, DISCOVERY_EXECUTOR_TOKEN: EXECUTOR_TOKEN };
   const flow = await execute('DOCTOR', 'Discovery Doctor E2E', doctorAdmission(), env);
@@ -233,6 +237,28 @@ test('Doctor discovery approval executes to canonical actor, ingestion, and Glob
       WHERE a.actor_id = ? ORDER BY ep.shared_source_ref`,
   ).all(flow.entityId);
   assert.equal(associations.length, 2);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM actor_source_ingestability').get().n, 0);
+  for (const token of [OWNER_TOKEN, EXECUTOR_TOKEN]) {
+    const response = await worker.default.fetch(new Request('https://hub.example/api/ops/doctor-activation', {
+      method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ associationId: associations[0].association_id, action: 'activate', reason: 'Unauthorized scope must not activate' }),
+    }), { ...env, OPS_TOKEN: 'separate-ops' });
+    assert.equal(response.status, 401);
+  }
+  await activity.evaluateIngestability(DB, associations[0].association_id, { supportedType: true, reachable: true, authorized: true, parseable: true, observedAt: NOW }, { by: 'test:verification', reason: 'D4 verification only; no activation authorization' });
+  const ordinary = await apiCall('/api/discovery/executor/finalize', 'POST', EXECUTOR_TOKEN, env, { intentId: flow.intentId });
+  assert.equal(ordinary.status, 'PARTIAL_SOURCE_COVERAGE');
+  await ingestHubItem(DB, 'discovery-doctor-institution', 'Unauthorized synthetic doctor item', 'https://university.example/unauthorized-item');
+  assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM onboarding_source_events WHERE intent_id=? AND outcome='PIPELINE_INGESTED'").get(flow.intentId).n, 0);
+  for (const association of associations) {
+    await apiCall('/api/ops/doctor-activation', 'POST', 'test-ops', { ...env, OPS_TOKEN: 'test-ops' }, {
+      associationId: association.association_id, action: 'activate', reason: 'Separate explicit owner fixture activation',
+      evidence: { supportedType: true, reachable: true, authorized: true, parseable: true, observedAt: NOW },
+    });
+  }
+  assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM actor_source_ingestability WHERE evaluated_reason LIKE 'CONTROLLED_ACTIVATION:%'").get().n, 2);
+  const activated = await apiCall('/api/discovery/executor/finalize', 'POST', EXECUTOR_TOKEN, env, { intentId: flow.intentId });
+  assert.equal(activated.status, 'AWAITING_INGEST');
   const itemId = await ingestHubItem(DB, 'discovery-doctor-institution', 'Synthetic doctor source item for discovery test', 'https://university.example/item');
   const item = sqlite.prepare('SELECT triage_status, source_id FROM source_items WHERE id = ?').get(itemId);
   assert.equal(item.triage_status, 'inbox');
@@ -251,6 +277,21 @@ test('Doctor discovery approval executes to canonical actor, ingestion, and Glob
     `SELECT COUNT(*) AS n FROM onboarding_source_events
       WHERE intent_id = ? AND outcome IN ('PIPELINE_INGESTED', 'HUB_ITEM_CREATED')`,
   ).get(flow.intentId).n, 2);
+  const before = sqlite.prepare("SELECT COUNT(*) AS n FROM onboarding_source_events WHERE intent_id=? AND outcome='PIPELINE_INGESTED'").get(flow.intentId).n;
+  await apiCall('/api/ops/doctor-activation', 'POST', 'test-ops', { ...env, OPS_TOKEN: 'test-ops' }, {
+    associationId: associations[0].association_id, action: 'disable', reason: 'Owner fixture revokes prior activation',
+  });
+  await ingestHubItem(DB, associations[0].shared_source_ref, 'Revoked synthetic doctor item', 'https://university.example/revoked-item');
+  assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM onboarding_source_events WHERE intent_id=? AND outcome='PIPELINE_INGESTED'").get(flow.intentId).n, before);
+});
+test('executor token must not share owner or OPS authority', async () => {
+  for (const name of ['HUB_OPERATOR_TOKEN', 'OPS_TOKEN']) {
+    let reads = 0;
+    const response = await worker.default.fetch(new Request('https://hub.example/api/discovery/executor/claim', {
+      method: 'POST', headers: { Authorization: 'Bearer same-scope', 'Content-Type': 'application/json' }, body: '{}',
+    }), { DISCOVERY_EXECUTOR_TOKEN: 'same-scope', [name]: 'same-scope', DB: { prepare() { reads++; throw new Error('must not reach DB'); } } });
+    assert.equal(response.status, 503); assert.equal(reads, 0);
+  }
 });
 
 test('Protocol discovery approval executes to canonical protocol, evidence link, and Global Hub item', async () => {

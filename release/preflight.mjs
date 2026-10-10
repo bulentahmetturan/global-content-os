@@ -11,12 +11,18 @@ import { join, resolve } from 'node:path';
 import { RELEASE_DIR, loadConfig, readJson, resolveRoots } from './lib/util.mjs';
 import { evaluate, evaluateChecklist, loadBindings, render } from './lib/readiness.mjs';
 import { runAll } from './e2e/scenarios.mjs';
+import { verifyLocalRelease } from '../scripts/local-release-verification.mjs';
 
 const args = process.argv.slice(2);
 const val = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null; };
 const has = (n) => args.includes(n);
 const phase = val('--phase') ?? 'pre';
 if (!['pre', 'cutover'].includes(phase)) { console.error('--phase must be pre|cutover'); process.exit(2); }
+const authority = verifyLocalRelease({ manifestPath: process.env.LOCAL_MIGRATION_AUTHORITY_PATH });
+if (authority.verdict !== 'PASS' || phase === 'cutover') {
+  console.error(JSON.stringify({ verdict: authority.verdict === 'PASS' ? 'BLOCKED_PRODUCTION_EVIDENCE' : 'FAIL', gate: 'migration_authority', local: authority, reason: 'Local-only authority cannot certify a production cutover.' }));
+  process.exit(2);
+}
 
 const config = loadConfig();
 const roots = resolveRoots(config);

@@ -426,10 +426,11 @@ test('readiness: auditable components, top level DERIVED, environment separate; 
   assert.equal(off2.dossier.components.SCHEMA_READY.ready, false, 'this DB has no dossier tables');
   const on2 = await RDY.gatherReadiness(env('true'));
   assert.ok(on2.report.degraded.includes('DOSSIER_CANARY_NOT_READY'));
-  assert.notEqual(on2.report.level, 'BLOCKED', 'DOSSIER can never block unrelated GCOS features');
+  assert.equal(off2.report.level, 'BLOCKED', 'the deliberately incomplete ledger must fail closed even with DOSSIER disabled');
+  assert.equal(on2.report.level, off2.report.level, 'DOSSIER adds no global blocking dependency');
   assert.deepEqual(on2.report.blocked, off2.report.blocked);
   // the pure global evaluator is unchanged
-  assert.equal(RDY.evaluateReadiness({ dbReachable: true, appliedMigration: RDY.EXPECTED_SCHEMA_MIGRATION, cronLastActivityAgeMin: 1, statusCallbackTokenConfigured: true, ingestTokenConfigured: true, openAlexKeyConfigured: true, handoffMode: 'stub' }).level, 'READY');
+  assert.equal(RDY.evaluateReadiness({ dbReachable: true, appliedMigration: RDY.EXPECTED_SCHEMA_MIGRATION, cronLastActivityAgeMin: 1, statusCallbackTokenConfigured: true, ingestTokenConfigured: true, openAlexKeyConfigured: true, handoffMode: 'stub' }).level, 'BLOCKED', 'a maximum filename without completeness evidence is insufficient');
 });
 
 test('operational rollback: disable everything, preserve data, GCOS continues, no schema down-migration', async () => {

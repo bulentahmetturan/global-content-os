@@ -16,7 +16,11 @@ test('existing Dossier and Statistics dispatch remains before existing operator 
   assert.equal(current.slice(current.indexOf(start),doctorAddition),original);
 });
 test('deployment bindings, crons and switches remain unchanged',()=> {
-  for(const path of ['wrangler.toml','package.json']) assert.equal(readFileSync(path,'utf8').replaceAll('\r\n','\n'),execFileSync('git',['show',`e20a0b3:${path}`],{encoding:'utf8'}));
+  assert.equal(readFileSync('wrangler.toml','utf8').replaceAll('\r\n','\n'),execFileSync('git',['show','e20a0b3:wrangler.toml'],{encoding:'utf8'}));
+  const before=JSON.parse(execFileSync('git',['show','e20a0b3:package.json'],{encoding:'utf8'}));
+  const after=JSON.parse(readFileSync('package.json','utf8'));
+  for(const name of ['deploy','db:remote']) { assert.match(after.scripts[name],/production-operation-blocked/); delete before.scripts[name]; delete after.scripts[name]; }
+  assert.deepEqual(after,before);
 });
 test('migration authority stays outside Worker import graph',()=> {
   assert.doesNotMatch(current,/migration-authority|node:sqlite|d1 migrations apply/);

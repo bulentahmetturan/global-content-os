@@ -12,7 +12,6 @@ import {
   type ActorRow,
 } from '../actors/registry';
 import {
-  activateAssociationForIngestion,
   getLatestIngestability,
 } from '../actors/activity';
 import {
@@ -210,7 +209,8 @@ async function linkDoctorSources(
   actor: ActorRow,
   sources: OnboardingSource[],
   intentId: string,
-): Promise<void> {
+): Promise<Set<string>> {
+  const eligible = new Set<string>();
   const associations = await getSourceBundle(db, actor.actor_id);
   for (const source of sources) {
     if (source.outcome !== 'ACTIVE' || source.source_disposition !== 'ACTIVATE') continue;
@@ -272,23 +272,11 @@ async function linkDoctorSources(
       }
     }
     const latest = await getLatestIngestability(db, association.association_id);
-    if (
-      !latest ||
-      !['INGESTABLE', 'CONDITIONALLY_INGESTABLE'].includes(latest.status) ||
-      !latest.evaluated_reason.startsWith('CONTROLLED_ACTIVATION:')
-    ) {
-      await activateAssociationForIngestion(db, association.association_id, {
-        supportedType: true,
-        reachable: d4.fetchDryRun === 'PASS',
-        authorized: d4.accessTerms === 'ALLOWED',
-        parseable: d4.parseDryRun === 'PASS',
-        observedAt: d4.observedAt ?? null,
-      }, {
-        by: 'discovery-executor',
-        reason: `D4 controlled activation for ${intentId}`,
-      });
-    }
+    // Admission and executor-reported ACTIVE never grant the separate OPS activation authority.
+    if (latest && ['INGESTABLE', 'CONDITIONALLY_INGESTABLE'].includes(latest.status) &&
+        latest.evaluated_reason.startsWith('CONTROLLED_ACTIVATION:')) eligible.add(source.source_id);
   }
+  return eligible;
 }
 
 function aliasType(kind: string): 'NAME_VARIANT' | 'SHORT_FORM' | 'HISTORICAL_NAME' {
@@ -482,13 +470,14 @@ export async function finalizeOnboardingIntent(
   const admission = parseJson<AdmissionPackage>(row.admission_package_json);
   let canonicalEntityId = row.canonical_entity_id;
   let definitionClaimId = row.definition_claim_id;
+  let authorizedDoctorSources: Set<string> | null = null;
   if (row.domain === 'DOCTOR') {
     const actor = canonicalEntityId
       ? await getActor(db, canonicalEntityId)
       : await resolveOrCreateActor(db, row, admission);
     if (!actor) throw new Error('ONBOARDING_ACTOR_NOT_FOUND');
     canonicalEntityId = actor.actor_id;
-    await linkDoctorSources(db, actor, sources.results, intentId);
+    authorizedDoctorSources = await linkDoctorSources(db, actor, sources.results, intentId);
   } else {
     const protocol = canonicalEntityId
       ? await getProtocol(db, canonicalEntityId)
@@ -510,7 +499,8 @@ export async function finalizeOnboardingIntent(
   ).bind(canonicalEntityId, row.candidate_id).run();
 
   const activeSources = sources.results.filter((source) =>
-    source.source_disposition === 'ACTIVATE' && source.outcome === 'ACTIVE',
+    source.source_disposition === 'ACTIVATE' && source.outcome === 'ACTIVE' &&
+      (authorizedDoctorSources === null || authorizedDoctorSources.has(source.source_id)),
   );
   const completeCoverage = activeSources.length === sources.results.length;
   const status = activeSources.length && completeCoverage ? 'AWAITING_INGEST' : 'PARTIAL_SOURCE_COVERAGE';

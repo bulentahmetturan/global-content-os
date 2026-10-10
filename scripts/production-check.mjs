@@ -13,9 +13,15 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { verifyLocalRelease } from './local-release-verification.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const rel = (...p) => join(root, ...p);
+const migrationAuthority = verifyLocalRelease({ root, manifestPath: process.env.LOCAL_MIGRATION_AUTHORITY_PATH });
+if (migrationAuthority.verdict !== 'PASS') {
+  console.log(JSON.stringify({ gate: 'mandatory_migration_authority', ...migrationAuthority }));
+  process.exit(2);
+}
 
 let failures = 0;
 let warnings = 0;
@@ -68,6 +74,7 @@ const testFiles = [
   ...findTestFiles(rel('apps/hub')),
   ...findTestFiles(rel('scripts')),
   ...findTestFiles(rel('packages/contracts')),
+  ...findTestFiles(rel('release/test')),
 ];
 // UNJUSTIFIED_TEST_SKIPS=0: a skip is allowed only for the reason below. channel-content-os is private, so GCOS CI
 // has no sibling checkout; those invariants run wherever both repos are present (operator production:check).
@@ -76,7 +83,8 @@ let unjustifiedSkips = 0;
 let justifiedSkips = 0;
 for (const f of testFiles) {
   try {
-    const out = execFileSync(process.execPath, [f], { cwd: root, stdio: 'pipe', timeout: 180_000, windowsHide: true }).toString();
+    const localWorkerdSuite = /statistics[\\/]local-runtime\.test\.mjs$|statistics[\\/]readers[\\/]eurostat-worker-e2e\.test\.mjs$/.test(f);
+    const out = execFileSync(process.execPath, [f], { cwd: root, stdio: 'pipe', timeout: localWorkerdSuite ? 600_000 : 180_000, windowsHide: true }).toString();
     const count = (name) => Number((out.match(new RegExp(`(?:#|ℹ) ${name} (\\d+)`)) || [])[1] ?? 0);
     const passMatch = out.match(/# pass (\d+)/) || out.match(/ℹ pass (\d+)/);
     const failMatch = out.match(/# fail (\d+)/) || out.match(/ℹ fail (\d+)/);
@@ -193,41 +201,13 @@ try {
   fail('aa.com.tr ownership check failed', e.message);
 }
 
-// 7. Migration file numbering sanity (no gaps/dupes) ---------------------
-section('D1 migration numbering');
-// No gaps are expected. 0008 was applied in production but its file was missing
-// from the repo until 2026-09-30 (ledger E40); the "reserved gap" notes in S61 and
-// in the header of the applied 0023 file are stale and stay unedited (applied
-// migration files are never rewritten).
-// 0027 is reserved for localization-v2 (0027_localization_feedback.sql); temporal paths took 0028 (E90).
-const KNOWN_RESERVED_GAPS = ['26 -> 28'];
+// 7. Exact filename, namespace and independent byte authority ------------
+section('D1 migration authority (local only)');
 try {
   const files = readdirSync(rel('migrations')).filter((f) => /^\d{4}_/.test(f));
-  const nums = files.map((f) => Number(f.slice(0, 4))).sort((a, b) => a - b);
-  const dupes = nums.filter((n, i) => nums.indexOf(n) !== i);
-  const gaps = [];
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] !== nums[i - 1] + 1) gaps.push(`${nums[i - 1]} -> ${nums[i]}`);
-  }
-  const unknownGaps = gaps.filter((g) => !KNOWN_RESERVED_GAPS.includes(g));
-  // Allowlist: known co-existing pair (0043_dossier + 0043_protocol) share numeric prefix 0043
-  // but are distinct files tracked by wrangler by full filename.
-  if (dupes.length) {
-    const allowlisted = dupes.length === 1 && dupes[0] === 43 &&
-      files.includes('0043_dossier_discovery_foundation.sql') &&
-      files.includes('0043_protocol_mediterranean_wave2.sql');
-    if (allowlisted) {
-      pass('duplicate migration numbers (allowed pair: 0043_dossier + 0043_protocol)');
-    } else {
-      fail('duplicate migration numbers', dupes.join(', '));
-    }
-  }
-  if (unknownGaps.length) warn('unrecognized migration numbering gap(s)', unknownGaps.join(', '));
-  if (!dupes.length && !unknownGaps.length) {
-    pass(
-      `${files.length} migrations, sequential, no gaps`
-    );
-  }
+  const authority = migrationAuthority;
+  if (authority.verdict === 'PASS') pass('mandatory migration authority: DB + STATS_DB, frozen hashes, exact authorized filenames, actual local SQLite ledger/replay (LOCAL_ONLY)');
+  else fail('mandatory migration authority', JSON.stringify(authority));
   // Readiness pin check: allow staged rollout where EXPECTED < newest (local files ahead of remote)
   const readinessSrc = readFileSync(rel('apps/worker/src/readiness.ts'), 'utf8');
   const expectedMig = (readinessSrc.match(/EXPECTED_SCHEMA_MIGRATION = '([^']+)'/) || [])[1];
@@ -242,7 +222,7 @@ try {
     }
   }
 } catch (e) {
-  fail('migration numbering check failed', e.message);
+  fail('migration authority check failed', e.message);
 }
 
 // 8. Feedback loop (S63): schema + atomic reject invariant ----------------

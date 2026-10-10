@@ -32,8 +32,15 @@ const cases = [
   ['altered historical checksum', (f) => { f.manifest.baseline = [f.manifest.authorized.shift()]; f.evidence.applied = [{ ...f.manifest.baseline[0], sha256: '0'.repeat(64) }]; }],
   ['deleted history', (f) => { f.manifest.baseline = [f.manifest.authorized.shift()]; f.evidence.applied = structuredClone(f.manifest.baseline); f.files.shift(); f.manifest.order.shift(); }],
   ['synthetic production evidence', (f) => { f.manifest.target = f.evidence.target = { ...target, environment: 'production' }; }],
+  ['incomplete intermediate ledger', (f) => { f.manifest.baseline = [...f.manifest.authorized]; f.manifest.authorized = []; f.evidence.applied = [f.manifest.baseline[1]]; }],
 ];
 for (const [name, mutate] of cases) test(`fail closed: ${name}`, () => { const f=fixture(); mutate(f); const t=name==='synthetic production evidence'?f.manifest.target:target; assert.equal(validateAuthority(f.manifest,f.evidence,t,f.files).verdict,'FAIL'); });
+test('relabelled local fixture cannot impersonate independently verified production provenance', () => {
+  const f = fixture(); const production = { ...target, environment: 'production' };
+  f.manifest.target = f.evidence.target = production; f.evidence.kind = 'VERIFIED_PRODUCTION';
+  const result = validateAuthority(f.manifest, f.evidence, production, f.files);
+  assert.equal(result.verdict, 'FAIL'); assert.ok(result.reasons.includes('PRODUCTION_PROVENANCE_UNVERIFIED'));
+});
 test('real replay repeats with no writes and fingerprints remain equal', () => {
   const f=fixture(), first=replay(f.files);
   try { const second=replay(f.files,{database:first.db}); assert.deepEqual(second.executed,[]); assert.equal(second.schema,first.schema); assert.equal(second.data,first.data); first.db.exec("UPDATE proof SET value='changed'"); assert.notEqual(dataFingerprint(first.db),first.data); first.db.exec('CREATE TABLE extra(id INTEGER)'); assert.notEqual(schemaFingerprint(first.db),first.schema); } finally { first.db.close(); }

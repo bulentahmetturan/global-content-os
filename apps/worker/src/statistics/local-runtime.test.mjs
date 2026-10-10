@@ -227,7 +227,9 @@ describe('A3: production binding present but dormant, content Worker entry wires
     const entry = readFileSync('apps/worker/src/index.ts', 'utf8');
     assert.match(entry, /from '\.\/statistics\/statistics-routes'/);
     assert.match(entry, /await handleStatisticsRoutes\(request/);
-    assert.doesNotMatch(readFileSync('apps/worker/src/db/queries.ts', 'utf8'), /STATS_DB|statistics/);
+    const contentQueries = readFileSync('apps/worker/src/db/queries.ts', 'utf8');
+    assert.equal((contentQueries.match(/^  STATS_DB\?: D1Database;$/gm) ?? []).length, 1, 'readiness has one optional dedicated binding declaration');
+    assert.doesNotMatch(contentQueries.replace(/^  STATS_DB\?: D1Database;\r?\n/m, ''), /STATS_DB|statistics/, 'content query logic never accesses Statistics storage');
   });
 
   it('the local entry is the only module that names a Worker env shape for statistics, and it carries no real database id', () => {

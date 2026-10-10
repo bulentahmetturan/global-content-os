@@ -1,0 +1,352 @@
+{
+  "DB": {
+    "version": 1,
+    "target": {
+      "namespace": "DB",
+      "databaseId": "local-rc-DB",
+      "environment": "local"
+    },
+    "approvalRef": "OWNER_LOCAL_RELEASE_GATE_CLOSURE_2026-10-10",
+    "provenance": {
+      "commit": "b6d72db5f17ec13b267b25d2f171a42b7f03576a",
+      "artifact": "checkout-windows",
+      "productionAuthorized": false
+    },
+    "baseline": [],
+    "authorized": [
+      {
+        "name": "0001_init.sql",
+        "namespace": "DB",
+        "sha256": "d1d1063e7d25dc04d1e62d3ef5a7044a0e2fe32b706f3a354035be174396d5ee"
+      },
+      {
+        "name": "0002_seed_all_feeds.sql",
+        "namespace": "DB",
+        "sha256": "c999908c2aa01665ad950e72206b1b830c866bccd83d875b32af855a0d17152f"
+      },
+      {
+        "name": "0003_enable_all_tip_feeds.sql",
+        "namespace": "DB",
+        "sha256": "3014ebbc59eaec11470a7fa86e7a360e091dd7224ae5f30ce3fdafc3d974d76d"
+      },
+      {
+        "name": "0004_feed_fetch_stats.sql",
+        "namespace": "DB",
+        "sha256": "3dda4eba0ea66c6065bbe51c8d1a0fc745f4c298f59f33f24b0acfda9c1e6f50"
+      },
+      {
+        "name": "0005_triage_complete_purge.sql",
+        "namespace": "DB",
+        "sha256": "c99155e87b3966547076c946b2959854315b4305d0ab62e9481161606614d07c"
+      },
+      {
+        "name": "0006_triage_done_status.sql",
+        "namespace": "DB",
+        "sha256": "0a06bb2bd5675c3279a39d25a0e47d1e3d8a2efd6d345ebfe341c715d0cc884f"
+      },
+      {
+        "name": "0007_enrichment_queue.sql",
+        "namespace": "DB",
+        "sha256": "65a88d17067e4ecc797cd420d853688e712008c650ea3258b0fad2ad9e6c0ed6"
+      },
+      {
+        "name": "0008_day_window_indexes.sql",
+        "namespace": "DB",
+        "sha256": "129ecbfae1c67d497d0ab5273087644960ecfd4a9f9ceffd3da3fdb961009643"
+      },
+      {
+        "name": "0009_hekimler_channel_partition.sql",
+        "namespace": "DB",
+        "sha256": "73cbbfb3ee47a4303c03f9c3a56856f4d77fee277c0337a411a8867a0ade1c81"
+      },
+      {
+        "name": "0010_hekimler_continuous_telemetry.sql",
+        "namespace": "DB",
+        "sha256": "666c427ea8cbbc66a187acfc79700eb152b8e051d6dc689f72be1a3bae122080"
+      },
+      {
+        "name": "0011_hekimler_hardening_locks.sql",
+        "namespace": "DB",
+        "sha256": "bbaa7808343828f48f567de061f47b34bc08b9282df1ab8bd1cbd67bc42aaaa7"
+      },
+      {
+        "name": "0012_drop_unused_indexes.sql",
+        "namespace": "DB",
+        "sha256": "b4804897da490d2d2afcb7f8db2c26de570afd0d405e5aa93dd116a6fa4d8c97"
+      },
+      {
+        "name": "0013_poll_minutes_telemetry.sql",
+        "namespace": "DB",
+        "sha256": "4d15a8b22ab8669b66fc86ff339d43ac775b3f254f5b82db5a55b72b6b457f92"
+      },
+      {
+        "name": "0014_decided_links.sql",
+        "namespace": "DB",
+        "sha256": "b0e8639803d689a63020fcc003f313f18bf26a173779924e08c09256d3cae622"
+      },
+      {
+        "name": "0015_pubmed_nutrition_journals.sql",
+        "namespace": "DB",
+        "sha256": "d6aaf384992eb92fb3dea8196db05b494fe3963f19f631cc971243299f8adba9"
+      },
+      {
+        "name": "0016_sitemap_discovery_batch3.sql",
+        "namespace": "DB",
+        "sha256": "33e74f846881e338f928770ddea3976ee3db7a6061ddc56ca030f3ddd63d09f5"
+      },
+      {
+        "name": "0017_newswise_and_japha.sql",
+        "namespace": "DB",
+        "sha256": "e41ac429418f7915e84e525a4d73a0adfbd35c05995fbe3aafe0190cd9a04405"
+      },
+      {
+        "name": "0018_medpagetoday_mdlinx.sql",
+        "namespace": "DB",
+        "sha256": "365346d4c71988b42e65ad5dec8daaf20454f5006ba2b1ad30068583a35131e0"
+      },
+      {
+        "name": "0019_longevity_fm_dietetics_supplements.sql",
+        "namespace": "DB",
+        "sha256": "1c402780068c366927cd59d4b1f60e9d660bda06f108a3888edbbaa8d97c21f4"
+      },
+      {
+        "name": "0020_longevity_dietetics_batch2.sql",
+        "namespace": "DB",
+        "sha256": "a37656710158b0771330fb52f664530463c04e2a1e7c9abe1f71f7e8e239203c"
+      },
+      {
+        "name": "0021_source_pass_fail_decisions.sql",
+        "namespace": "DB",
+        "sha256": "912fa7d277d3023d8f03d107b96d6829c375e4568868646a2fb2a593af38a034"
+      },
+      {
+        "name": "0022_resmi_gazete_single_channel.sql",
+        "namespace": "DB",
+        "sha256": "bcb3dfe802a5a6d07c53acfca55681a75c872f52a5629cf24cf363434b0de187"
+      },
+      {
+        "name": "0023_review_feedback.sql",
+        "namespace": "DB",
+        "sha256": "a511854f64d6ce91bae41608f3e5a2fae3fd44f4a9834afeafbeb353987b8c68"
+      },
+      {
+        "name": "0024_source_revalidation.sql",
+        "namespace": "DB",
+        "sha256": "28096a8843e108c1b6a8300a63e597d5afacb8f67b36c4b5937e59ec268e5171"
+      },
+      {
+        "name": "0025_tip_toplulugu_rename.sql",
+        "namespace": "DB",
+        "sha256": "03afaa2c21e7292aec33e9cf8d9b8f7604805625056f7a5e61a44e15fc84e139"
+      },
+      {
+        "name": "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql",
+        "namespace": "DB",
+        "sha256": "9e334b8d11e99a5e306d8f2962c11453f4d176d4d3c526172cbb49a9c43aa113"
+      },
+      {
+        "name": "0028_temporal_paths.sql",
+        "namespace": "DB",
+        "sha256": "79ffd6a637f31fd16174847ecb08f39665b056fc549199b97ef3236b9b089c01"
+      },
+      {
+        "name": "0029_evergreen_runtime_state.sql",
+        "namespace": "DB",
+        "sha256": "1107e31e743316fbfddc4c80b7a099fbc90694ed906f260aa6570da28d133457"
+      },
+      {
+        "name": "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
+        "namespace": "DB",
+        "sha256": "305f4e86c2df1d8a17f1b94da185b30dd174be1085442cb38b8232604976e9c3"
+      },
+      {
+        "name": "0031_doctor_actor_registry.sql",
+        "namespace": "DB",
+        "sha256": "fd507e2b133f7a79fa3c3838fb70043880b3cfd953d97d048d76ed769000a4eb"
+      },
+      {
+        "name": "0032_doctor_actor_sources.sql",
+        "namespace": "DB",
+        "sha256": "6a93649b4312e4f29649a927b1f92f6f51cd95a3308639b5e9b9a223e71111d2"
+      },
+      {
+        "name": "0033_protocol_registry.sql",
+        "namespace": "DB",
+        "sha256": "bd014f1badb15121dfffd8b05a9e6ce1ef6ae64a0cf658578c8a1c90368096cd"
+      },
+      {
+        "name": "0034_protocol_families_variants_aliases.sql",
+        "namespace": "DB",
+        "sha256": "5c49941540464864e67e288ef1af56195188fa43b931a7a905f37c89ef4a7380"
+      },
+      {
+        "name": "0035_doctor_source_activity_audit.sql",
+        "namespace": "DB",
+        "sha256": "5e411972c6d3500ea6d6b4b8f02004d3b6adb536bf2052b5aa1be196843dee80"
+      },
+      {
+        "name": "0036_protocol_version_phase_component_model.sql",
+        "namespace": "DB",
+        "sha256": "c29baa30cff9dee792096c8f721edae4b902ed3fbd07c687bfb694416650a055"
+      },
+      {
+        "name": "0037_actor_protocol_relationship_model.sql",
+        "namespace": "DB",
+        "sha256": "d70def61019152fcee3494faf8fb0fff3bd46d9a78faf0c2b895b7e8083e38ea"
+      },
+      {
+        "name": "0038_claim_evidence_provenance_model.sql",
+        "namespace": "DB",
+        "sha256": "5d2639950a65f5af48ea9f32eb526604ac59c752b33c3e5175cb91cc77f363d8"
+      },
+      {
+        "name": "0039_safety_model.sql",
+        "namespace": "DB",
+        "sha256": "4816d31b7e768481cedef2612953a36cf3fb883638e08ff921618901c3a540fa"
+      },
+      {
+        "name": "0040_commercial_model.sql",
+        "namespace": "DB",
+        "sha256": "e7d93573bbefc0a4212fd482e2b19f5732c76bb9cf82f9c76e7f9fc595ad6cd5"
+      },
+      {
+        "name": "0041_source_lifecycle_add_www_medikalnews_whole.sql",
+        "namespace": "DB",
+        "sha256": "9bf1a468c645044abee947c76069192b616b52895f9816e5d2d08bd7bfc502f6"
+      },
+      {
+        "name": "0042_protocol_dash_wave1.sql",
+        "namespace": "DB",
+        "sha256": "84eba203968b6aebac5ace0eac62d574c92b0520fb1283c1542f3184112cebb3"
+      },
+      {
+        "name": "0043_dossier_discovery_foundation.sql",
+        "namespace": "DB",
+        "sha256": "5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343"
+      },
+      {
+        "name": "0043_protocol_mediterranean_wave2.sql",
+        "namespace": "DB",
+        "sha256": "85ee1c23ff3f1f73f315aa6f6aa68951bb6aec0aa6e71e09bb4c9553745bbc9e"
+      },
+      {
+        "name": "0044_doctor_discovery_candidates.sql",
+        "namespace": "DB",
+        "sha256": "9205df1cc7a763cba684c7ef9c9963c9fa418191a03882bb053704f36bc001a2"
+      },
+      {
+        "name": "0044_shared_discovery_kernel.sql",
+        "namespace": "DB",
+        "sha256": "c08b21f8ce4de816fa7ca131bd44b291d90b210d1f19262be03d49689c3706d5"
+      },
+      {
+        "name": "0045_discovery_signal_linkage.sql",
+        "namespace": "DB",
+        "sha256": "65d3b0180c873a009c04adb46d79c0a4ee8f1d6bcb640804412a0a0bf814b1c9"
+      },
+      {
+        "name": "0045_doctor_source_proposals.sql",
+        "namespace": "DB",
+        "sha256": "f4e61ef061c31e0a3ad42d9ff06298eb8e1ee6426d5f5963fd22bdb1dc318667"
+      },
+      {
+        "name": "0045_protocol_ingestion_runs.sql",
+        "namespace": "DB",
+        "sha256": "e14a5f49f3cfefa6892d26ed5b5dbc22bfd06aafe2dd42c2a76165d327c9ea40"
+      },
+      {
+        "name": "0046_doctor_knowledge.sql",
+        "namespace": "DB",
+        "sha256": "3ea0279b4d2155d14135ecb46f6de7047eb666452229802eb199c72092e2a7ce"
+      },
+      {
+        "name": "0046_doctor_profile_facts.sql",
+        "namespace": "DB",
+        "sha256": "c7877402a92e6a108347011157a5906feeffa67bab7e6af0e539489ea10abe59"
+      },
+      {
+        "name": "0046_protocol_mediterranean_wave2.sql",
+        "namespace": "DB",
+        "sha256": "396d6f01120291074e870998e00ef919163be820c454051964104d81ccd2b5ba"
+      }
+    ],
+    "order": [
+      "0001_init.sql",
+      "0002_seed_all_feeds.sql",
+      "0003_enable_all_tip_feeds.sql",
+      "0004_feed_fetch_stats.sql",
+      "0005_triage_complete_purge.sql",
+      "0006_triage_done_status.sql",
+      "0007_enrichment_queue.sql",
+      "0008_day_window_indexes.sql",
+      "0009_hekimler_channel_partition.sql",
+      "0010_hekimler_continuous_telemetry.sql",
+      "0011_hekimler_hardening_locks.sql",
+      "0012_drop_unused_indexes.sql",
+      "0013_poll_minutes_telemetry.sql",
+      "0014_decided_links.sql",
+      "0015_pubmed_nutrition_journals.sql",
+      "0016_sitemap_discovery_batch3.sql",
+      "0017_newswise_and_japha.sql",
+      "0018_medpagetoday_mdlinx.sql",
+      "0019_longevity_fm_dietetics_supplements.sql",
+      "0020_longevity_dietetics_batch2.sql",
+      "0021_source_pass_fail_decisions.sql",
+      "0022_resmi_gazete_single_channel.sql",
+      "0023_review_feedback.sql",
+      "0024_source_revalidation.sql",
+      "0025_tip_toplulugu_rename.sql",
+      "0026_source_lifecycle_add_bilimgenc_tubitak_saglik_whole.sql",
+      "0028_temporal_paths.sql",
+      "0029_evergreen_runtime_state.sql",
+      "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
+      "0031_doctor_actor_registry.sql",
+      "0032_doctor_actor_sources.sql",
+      "0033_protocol_registry.sql",
+      "0034_protocol_families_variants_aliases.sql",
+      "0035_doctor_source_activity_audit.sql",
+      "0036_protocol_version_phase_component_model.sql",
+      "0037_actor_protocol_relationship_model.sql",
+      "0038_claim_evidence_provenance_model.sql",
+      "0039_safety_model.sql",
+      "0040_commercial_model.sql",
+      "0041_source_lifecycle_add_www_medikalnews_whole.sql",
+      "0042_protocol_dash_wave1.sql",
+      "0043_dossier_discovery_foundation.sql",
+      "0043_protocol_mediterranean_wave2.sql",
+      "0044_doctor_discovery_candidates.sql",
+      "0044_shared_discovery_kernel.sql",
+      "0045_discovery_signal_linkage.sql",
+      "0045_doctor_source_proposals.sql",
+      "0045_protocol_ingestion_runs.sql",
+      "0046_doctor_knowledge.sql",
+      "0046_doctor_profile_facts.sql",
+      "0046_protocol_mediterranean_wave2.sql"
+    ]
+  },
+  "STATS_DB": {
+    "version": 1,
+    "target": {
+      "namespace": "STATS_DB",
+      "databaseId": "local-rc-STATS_DB",
+      "environment": "local"
+    },
+    "approvalRef": "OWNER_LOCAL_RELEASE_GATE_CLOSURE_2026-10-10",
+    "provenance": {
+      "commit": "b6d72db5f17ec13b267b25d2f171a42b7f03576a",
+      "artifact": "checkout-windows",
+      "productionAuthorized": false
+    },
+    "baseline": [],
+    "authorized": [
+      {
+        "name": "0001_statistics_schema_v1.sql",
+        "namespace": "STATS_DB",
+        "sha256": "c8fd565ff49b324c4712784f3018564eee875d42e53321cff2b1e678ed5c6339"
+      }
+    ],
+    "order": [
+      "0001_statistics_schema_v1.sql"
+    ]
+  }
+}

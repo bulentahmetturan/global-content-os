@@ -29,6 +29,7 @@ async function requestJson(baseUrl, token, path, body) {
 }
 
 function runLifecycle(command, source) {
+  if (command !== 'plan') throw new Error('EXPLICIT_SOURCE_ACTIVATION_REQUIRED');
   const args = [
     join(ROOT, 'scripts', 'source-lifecycle.mjs'),
     command,
@@ -39,7 +40,6 @@ function runLifecycle(command, source) {
     source.lifecycle_channel,
     '--json',
   ];
-  if (command === 'add') args.push('--apply');
   const result = spawnSync(process.execPath, args, {
     cwd: ROOT,
     encoding: 'utf8',
@@ -71,7 +71,6 @@ function resultDisposition(exitCode, lifecycle) {
   if (['ACTIVE', 'ALREADY_ACTIVE'].includes(outcome) && exitCode === 0) return 'ACTIVE';
   if (/ACCESS|TERMS|AUTH|RESTRICTED/.test(outcome)) return 'RESTRICTED';
   if (['CHANGE_PREPARED', 'PLAN_ONLY', 'NEEDS_USER_DECISION', 'READY'].includes(outcome)) return 'MANUAL_INTAKE';
-  if (exitCode === 0 && lifecycle?.ok === true) return 'ACTIVE';
   return 'FAILED';
 }
 
@@ -129,9 +128,10 @@ export async function processIntent(baseUrl, token, intent, dependencies = {}) {
           }
         }
         if (!outcome) {
-          const applied = lifecycle('add', source);
-          lifecycleResult = { ...lifecycleResult, d4Rerun: stale, lifecycle: applied.result };
-          outcome = resultDisposition(applied.exitCode, applied.result);
+          const plan = lifecycle('plan', source);
+          lifecycleResult = { ...lifecycleResult, d4Rerun: stale, plan: plan.result, activation: 'SEPARATE_OWNER_AUTHORITY_REQUIRED' };
+          // A successful plan/registration is not proof of an authorized activation.
+          outcome = plan.exitCode === 0 ? 'MANUAL_INTAKE' : resultDisposition(plan.exitCode, plan.result);
         }
       } catch (error) {
         outcome = 'FAILED';

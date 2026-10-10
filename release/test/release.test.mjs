@@ -35,9 +35,10 @@ test('migration precheck: replays a good chain, flags a bad pending migration, a
   assert.equal(bad.pending[1].exists, false);
 });
 
-test('migration numbering: duplicates flagged, gaps informational', () => {
+test('migration identity: distinct same-prefix filenames allowed, identical filenames rejected, gaps informational', () => {
   const n = numbering([{ number: 1, filename: 'a' }, { number: 1, filename: 'b' }, { number: 4, filename: 'c' }]);
-  assert.deepEqual(n.dups, ['b']);
+  assert.deepEqual(n.dups, []);
+  assert.deepEqual(numbering([{ number: 1, filename: 'a' }, { number: 1, filename: 'a' }]).dups, ['a']);
   assert.deepEqual(n.gaps, ['1->4']);
 });
 
@@ -166,7 +167,7 @@ function fakeServers(behaviour = {}) {
       const send = (s, j) => { res.writeHead(s, { 'content-type': 'application/json' }); res.end(JSON.stringify(j)); };
       if (which === 'gcos') {
         if (req.url === '/api/health') return send(200, { ok: true, service: 'global-content-os', commit: behaviour.commit ?? 'abc' });
-        if (req.url === '/api/system-health') return send(200, { ok: true });
+        if (req.url === '/api/ready') return send(200, { ok: true, level: 'READY' });
         if (req.url === '/api/handoff/status') return send(behaviour.gcosOpenCallback ? 200 : 401, {});
       } else {
         if (req.url === '/') return send(200, {});

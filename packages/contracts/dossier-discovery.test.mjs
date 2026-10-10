@@ -49,7 +49,7 @@ test('only migration 0043 carries DOSSIER (0028 CHECKs and earlier migrations un
   // dossier-ops-routes.ts: the recurring operation, its own read / write tokens, plus the dedicated five-minute cron entry) plus the readiness block, the route dispatch
   // lines and the env switch types. The canary surface is never reachable from the scheduled (cron) handler and nothing else may mention dossier.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
-  const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/dossier-ops-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts'];
+  const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/dossier-ops-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts', 'apps/worker/src/schema-contract.ts'];
   for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test') && !p.includes('/dossier/'))) {
     const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
     if (!ALLOWED.includes(f)) assert.deepEqual(hits, [], `${f} must not reference dossier`);

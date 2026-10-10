@@ -8,6 +8,7 @@ import { repoIdentity } from './identity.mjs';
 import { analyseRepo } from './migrations.mjs';
 import { namesFromSecretList, secretStates } from './secrets.mjs';
 import { validateManifest } from './manifest.mjs';
+import { verifyLocalRelease } from '../../scripts/local-release-verification.mjs';
 
 export const CATEGORIES = ['GIT', 'TESTS', 'CONTRACTS', 'MIGRATIONS', 'SECRETS/CONFIG', 'SCHEDULER', 'HEALTH', 'OBSERVABILITY', 'ROLLBACK', 'DEPLOYMENT_IDENTITY'];
 export const REQUIRED_ROLLBACK = ['bad_code_deploy', 'bad_worker_deploy', 'bad_ccos_deploy', 'bad_db_migration', 'handoff_break', 'scheduler_regression', 'feedback_integration_failure'];
@@ -64,7 +65,12 @@ function migrationChecks({ key, root, repoCfg, cfg, appliedNames }) {
   if (!root) return out;
   const label = key.toUpperCase();
   const a = analyseRepo({ root, migrationsDir: repoCfg.migrationsDir, schema: repoCfg.schema ?? null, pending: cfg.pendingMigrations[key] ?? [], applied: appliedNames });
-  if (a.dups.length) out.push(check('MIGRATIONS', `migrations_numbering_${key}`, 'FAIL', `${label} duplicate migration numbers: ${a.dups.join(',')}`, { why: WHY.migrations_chain, next: 'renumber duplicates' }));
+  if (a.dups.length) out.push(check('MIGRATIONS', `migrations_filenames_${key}`, 'FAIL', `${label} duplicate filenames: ${a.dups.join(',')}`, { why: WHY.migrations_chain, next: 'resolve the manifest identity conflict without rewriting history' }));
+  if (key === 'gcos') {
+    const authority = verifyLocalRelease({ root });
+    out.push(check('MIGRATIONS', 'migration_authority_gcos', authority.verdict === 'PASS' ? 'PASS' : 'FAIL', JSON.stringify(authority), { why: WHY.migrations_chain, next: 'verify exact local authority inputs; production approval is separate' }));
+    out.push(check('MIGRATIONS', 'production_provenance_gcos', 'WARN', 'BLOCKED_EXTERNAL: production ledger, deployed-byte provenance and pending authorization not verified', { why: WHY.migrations_pending, next: 'obtain genuine read-only evidence and separate exact production approval' }));
+  }
   if (a.freshChainFkOn.ok) out.push(check('MIGRATIONS', `migrations_chain_${key}`, 'PASS', `${label} ${a.fileCount} migrations replay cleanly (latest ${a.latest})`));
   else if (a.freshChainFkOff.ok) out.push(check('MIGRATIONS', `migrations_chain_${key}`, 'WARN', `${label} RECOVERY LIMITATION: fresh rebuild breaks at ${a.freshChainFkOn.failedAt} with FKs on (seeds reference 6 design_sources rows that exist only in production). Cutover does NOT replay from zero (production lineage is valid; only ${(cfg.pendingMigrations[key] ?? []).join(',') || 'no'} pending migration(s) apply)`, { why: WHY.migrations_chain, next: 'rebuild-from-zero is unsafe until those design_sources rows are exported from production (license/pinned_ref cannot be invented); recover via D1 Time Travel/backup, see docs/ops/RELEASE-RUNBOOK.md' }));
   else out.push(check('MIGRATIONS', `migrations_chain_${key}`, 'FAIL', `${label} chain fails at ${a.freshChainFkOff.failedAt}: ${a.freshChainFkOff.error}`, { why: WHY.migrations_chain, next: 'fix the failing migration' }));

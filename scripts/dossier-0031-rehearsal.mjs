@@ -109,6 +109,7 @@ async function boot(worker, sqlite, label) {
     liveness_http: health.status,
     ready_http: ready.status,
     ready_level: readyBody.level,
+    ready_blocked_reasons: readyBody.blocked ?? [],
     ready_degraded_reasons: readyBody.degraded ?? [],
     ready_dossier_level: readyBody.dossier?.level ?? null,
     dossier_surface_without_credentials_http: noTok.status,
@@ -176,8 +177,8 @@ export async function rehearse() {
       check('fresh schema equals the upgraded schema byte for byte (all objects)', sig(fresh) === sig(up));
       check('fresh database integrity', fresh.prepare('PRAGMA integrity_check').get().integrity_check === 'ok');
     }
-    check('Worker boots on the pre-0031 schema: liveness 200, GCOS not blocked, DOSSIER feature disabled, no run possible', preBoot.liveness_http === 200 && preBoot.ready_level !== 'BLOCKED' && preBoot.run_http === 409 && preBoot.status_http === 409 && preBoot.run_refused_reasons === 'DOSSIER_SCHEMA_NOT_APPLIED' && preBoot.dossier_rows_created_by_boot === 'TABLES_ABSENT', JSON.stringify(preBoot));
-    check('Worker boots on the upgraded schema: liveness 200, GCOS ready, DOSSIER disabled (master switch off), no run, no row created', postBoot.liveness_http === 200 && postBoot.ready_level !== 'BLOCKED' && postBoot.dossier_surface_without_credentials_http === 401 && postBoot.status_env_master_switch === false && postBoot.readiness_dossier_level === 'DISABLED' && postBoot.run_http === 409 && postBoot.dossier_rows_created_by_boot === 0, JSON.stringify(postBoot));
+    check('Worker boots on the pre-0031 schema: liveness 200, missing ledger fails closed, DOSSIER feature disabled, no run possible', preBoot.liveness_http === 200 && preBoot.ready_http === 503 && preBoot.ready_level === 'BLOCKED' && preBoot.ready_blocked_reasons.includes('REQUIRED_MIGRATIONS_MISSING') && preBoot.run_http === 409 && preBoot.status_http === 409 && preBoot.run_refused_reasons === 'DOSSIER_SCHEMA_NOT_APPLIED' && preBoot.dossier_rows_created_by_boot === 'TABLES_ABSENT', JSON.stringify(preBoot));
+    check('Worker boots on the upgraded schema: missing ledger still fails closed, DOSSIER disabled (master switch off), no run, no row created', postBoot.liveness_http === 200 && postBoot.ready_http === 503 && postBoot.ready_level === 'BLOCKED' && postBoot.ready_blocked_reasons.includes('REQUIRED_MIGRATIONS_MISSING') && postBoot.dossier_surface_without_credentials_http === 401 && postBoot.status_env_master_switch === false && postBoot.readiness_dossier_level === 'DISABLED' && postBoot.run_http === 409 && postBoot.dossier_rows_created_by_boot === 0, JSON.stringify(postBoot));
 
     const objects = { tables: pf.objects.tables, indexes: pf.objects.indexes, triggers: pf.objects.triggers };
     return {

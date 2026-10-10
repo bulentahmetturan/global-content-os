@@ -60,6 +60,9 @@ export function validateAuthority(manifest, evidence, target, files) {
   if (!plain(target) || !['DB', 'STATS_DB'].includes(target.namespace) || !target.databaseId || !target.environment) return { verdict: 'FAIL', reasons: ['MALFORMED_TARGET'] };
   if (!plain(evidence) || evidence.version !== 1 || !plain(evidence.target) || !Array.isArray(evidence.applied) || !['VERIFIED_PRODUCTION', 'LOCAL_FIXTURE'].includes(evidence.kind) || !Number.isFinite(Date.parse(evidence.capturedAt)) || typeof evidence.sourceRef !== 'string' || !evidence.sourceRef.trim()) return { verdict: 'FAIL', reasons: ['MISSING_LEDGER_EVIDENCE'] };
   if (target.environment === 'production' && evidence.kind !== 'VERIFIED_PRODUCTION') fail('PRODUCTION_EVIDENCE_REQUIRED');
+  // No production provenance verifier is approved/configured in this local candidate.
+  // A JSON label, even VERIFIED_PRODUCTION, cannot attest a ledger or deployed bytes.
+  if (target.environment === 'production') fail('PRODUCTION_PROVENANCE_UNVERIFIED');
   for (const key of ['namespace', 'databaseId', 'environment']) {
     if (manifest.target[key] !== target[key] || evidence.target[key] !== target[key]) fail(`TARGET_MISMATCH:${key}`);
   }

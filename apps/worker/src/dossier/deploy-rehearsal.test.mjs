@@ -5,7 +5,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { bundle } from '../sqlite-d1.test-helper.mjs';
+import { bundle, d1FromSqlite } from '../sqlite-d1.test-helper.mjs';
+import { readMigrations, replay } from '../../../../scripts/migration-authority.mjs';
 import { openDossierDb, setTestCapacity } from './test-support.mjs';
 
 const worker = (await bundle('apps/worker/src/index.ts', 'deploy-rehearsal-worker')).default;
@@ -41,8 +42,8 @@ test('wrangler.toml as deployed: master switch is the string "false", the only c
 test('D1: schema 0031 present + master switch OFF -> normal GCOS healthy; DOSSIER disabled; no run, no source access, no candidate, no GCOS mutation', async () => {
   const net = networkGuard();
   try {
-    const { sqlite, db } = openDossierDb();
-    const env = envOf(db);
+    const { sqlite, db, secrets } = healthyBase('0046_protocol_mediterranean_wave2.sql');
+    const env = envOf(db, secrets);
     const before = gcosDigest(sqlite);
     assert.equal((await call(env, '/api/health')).status, 200);
     const ready = await call(env, '/api/ready');
@@ -70,9 +71,9 @@ test('D1: schema 0031 present + master switch OFF -> normal GCOS healthy; DOSSIE
 test('D2: schema 0031 present + master switch ON + reader controls OFF + capacity unverified -> nothing runs, readiness names the exact blocker, normal GCOS stays healthy', async () => {
   const net = networkGuard();
   try {
-    const { sqlite, db } = openDossierDb();
-    const envOff = envOf(db);
-    const env = envOf(db, { DOSSIER_CANARY_ENABLED: 'true' });
+    const { sqlite, db, secrets } = healthyBase('0046_protocol_mediterranean_wave2.sql');
+    const envOff = envOf(db, { ...secrets, STATUS_CALLBACK_TOKEN: undefined });
+    const env = envOf(db, { ...secrets, STATUS_CALLBACK_TOKEN: undefined, DOSSIER_CANARY_ENABLED: 'true' });
     const healthOff = await (await call(envOff, '/api/ready')).json();
     const healthOn = await call(env, '/api/ready');
     const healthOnBody = await healthOn.json();
@@ -101,7 +102,8 @@ function healthyBase(upTo) {
   const files = readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort().filter((n) => n <= upTo);
   for (const f of files) sqlite.prepare(`INSERT INTO d1_migrations (name) VALUES (?)`).run(f);
   sqlite.prepare(`UPDATE source_feeds SET last_fetched_at = ? WHERE id = (SELECT id FROM source_feeds LIMIT 1)`).run(new Date().toISOString());
-  return { sqlite, db, secrets: { STATUS_CALLBACK_TOKEN: 's', TIP_RADAR_INGEST_TOKEN: 'i', OPENALEX_API_KEY: 'o', CCOS_HANDOFF_STUB: 'true' } };
+  const statistics = replay(readMigrations('migrations/statistics'));
+  return { sqlite, db, secrets: { STATS_DB: d1FromSqlite(statistics.db), STATUS_CALLBACK_TOKEN: 's', TIP_RADAR_INGEST_TOKEN: 'i', OPENALEX_API_KEY: 'o', CCOS_HANDOFF_STUB: 'true' } };
 }
 
 test('DEPLOY ORDER and global readiness semantics on a healthy base: Worker deployed BEFORE 0031 is BLOCKED (503, loud); after 0031 READY with DOSSIER disabled; enabling DOSSIER before capacity is verified only DEGRADES (200) with the one named reason; verified capacity restores READY', async () => {

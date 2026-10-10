@@ -139,9 +139,9 @@ export default {
       }
 
       if (path === '/api/ready') {
-        const { report, appliedMigration, dossier } = await gatherReadiness(env);
+        const { report, appliedMigration, schema, dossier } = await gatherReadiness(env);
         return json(
-          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION, dossier },
+          { ok: report.level !== 'BLOCKED', ...report, commit: env.BUILD_COMMIT ?? null, appliedMigration, expectedSchema: EXPECTED_SCHEMA_MIGRATION, schema, dossier },
           report.level === 'BLOCKED' ? 503 : 200,
         );
       }
@@ -153,6 +153,10 @@ export default {
         const executorRoute = path === '/api/discovery/executor/claim' ||
           path === '/api/discovery/executor/results' ||
           path === '/api/discovery/executor/finalize';
+        if (executorRoute && env.DISCOVERY_EXECUTOR_TOKEN &&
+            [env.HUB_OPERATOR_TOKEN, env.OPS_TOKEN].some(token => token && token === env.DISCOVERY_EXECUTOR_TOKEN)) {
+          return json({ error: 'DISCOVERY_EXECUTOR_TOKEN_SCOPE_COLLISION' }, 503);
+        }
         const discoveryAuth = authorizeToken(
           executorRoute ? env.DISCOVERY_EXECUTOR_TOKEN : env.HUB_OPERATOR_TOKEN,
           bearerToken(request.headers.get('Authorization')),

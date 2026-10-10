@@ -37,8 +37,8 @@ export async function runSmoke({ gcosUrl, ccosUrl, expectCommit = null, ccosToke
     const m = matchLiveIdentity(h.json, expectCommit);
     add('gcos_identity', true, m.ok, m.ok ? 'commit matches' : m.reason);
   }
-  const sh = await call('GET', `${gcosUrl}/api/system-health`);
-  add('gcos_readiness', true, sh.status === 200 && sh.json?.ok === true, `status=${sh.status}`);
+  const sh = await call('GET', `${gcosUrl}/api/ready`);
+  add('gcos_readiness', true, sh.status === 200 && sh.json?.ok === true && sh.json?.level === 'READY', `status=${sh.status}, level=${sh.json?.level ?? 'UNKNOWN'}`);
   const cb = await call('POST', `${gcosUrl}/api/handoff/status`, { body: { briefId: 'smoke', status: 'accepted' } });
   add('gcos_callback_auth_fail_closed', true, cb.status === 401 || cb.status === 503, `status=${cb.status}`);
 

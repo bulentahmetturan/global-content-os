@@ -18,6 +18,7 @@ import {
 } from './temporal';
 export { familyClause } from './family-clause';
 export interface Env {
+  STATS_DB?: D1Database;
   /** Git commit the Worker was built from (set at deploy with --var BUILD_COMMIT:<sha>). */
   BUILD_COMMIT?: string;
   /** Branch and UTC time of the deploy (same --var mechanism; see scripts/deploy-identity.mjs). */

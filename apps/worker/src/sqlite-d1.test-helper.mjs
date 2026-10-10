@@ -6,6 +6,7 @@ import { build } from 'esbuild';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { readMigrations, replay } from '../../../scripts/migration-authority.mjs';
 
 const { DatabaseSync } = createRequire(import.meta.url)('node:sqlite');
 
@@ -19,7 +20,11 @@ export function d1FromSqlite(db) {
       },
       first: async () => db.prepare(sql).get(...args) ?? null,
       all: async () => ({ results: db.prepare(sql).all(...args) }),
-      run: async () => ({ success: true, meta: { changes: Number(db.prepare(sql).run(...args).changes) } }),
+      run: async () => {
+        const statement = db.prepare(sql);
+        if (statement.columns().length) return { success: true, results: statement.all(...args), meta: { changes: 0 } };
+        return { success: true, results: [], meta: { changes: Number(statement.run(...args).changes) } };
+      },
     };
     return p;
   };
@@ -48,11 +53,13 @@ export function unreachableD1() {
 }
 
 /** 0001_init.sql (approved_briefs, production_status, handoff_log, source_feeds) + the d1_migrations ledger. */
-export function openGcosDb({ appliedMigration } = {}) {
-  const sqlite = new DatabaseSync(':memory:');
-  sqlite.exec(readFileSync('migrations/0001_init.sql', 'utf8'));
-  sqlite.exec(`CREATE TABLE d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, applied_at TEXT)`);
-  if (appliedMigration) sqlite.prepare(`INSERT INTO d1_migrations (name, applied_at) VALUES (?, datetime('now'))`).run(appliedMigration);
+export function openGcosDb({ appliedMigration, complete = false } = {}) {
+  const sqlite = complete ? replay(readMigrations('migrations')).db : new DatabaseSync(':memory:');
+  if (!complete) {
+    sqlite.exec(readFileSync('migrations/0001_init.sql', 'utf8'));
+    sqlite.exec(`CREATE TABLE d1_migrations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, applied_at TEXT)`);
+    if (appliedMigration) sqlite.prepare(`INSERT INTO d1_migrations (name, applied_at) VALUES (?, datetime('now'))`).run(appliedMigration);
+  }
   // The cron heartbeat column arrives in a later migration; readiness only needs it to exist.
   if (!sqlite.prepare(`PRAGMA table_info(source_feeds)`).all().some((c) => c.name === 'last_fetched_at')) {
     sqlite.exec(`ALTER TABLE source_feeds ADD COLUMN last_fetched_at TEXT`);

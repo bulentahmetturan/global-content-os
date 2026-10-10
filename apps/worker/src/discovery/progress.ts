@@ -1,3 +1,5 @@
+import { isDoctorSourceActivated } from './activation-contract';
+
 type DiscoveryLink = {
   intent_id: string;
   candidate_id: string;
@@ -84,6 +86,7 @@ export async function recordDiscoveryHubItem(
   ).bind(sourceId, sourceId, sourceId).all<DiscoveryLink>();
 
   for (const link of matches.results) {
+    if (link.domain === 'DOCTOR' && !await isDoctorSourceActivated(db, link.canonical_entity_id, link.source_id)) continue;
     if (link.domain === 'PROTOCOL') await linkProtocolEvidence(db, link, itemId);
     await db.prepare(
       `INSERT OR IGNORE INTO onboarding_source_events
@@ -98,7 +101,11 @@ export async function recordDiscoveryHubItem(
               ) THEN 1 ELSE 0 END) AS active
          FROM onboarding_intent_sources s WHERE s.intent_id = ?`,
     ).bind(link.intent_id).first<{ total: number; active: number }>();
-    const completeCoverage = (coverage?.total ?? 0) > 0 && coverage?.total === coverage?.active;
+    let completeCoverage = (coverage?.total ?? 0) > 0 && coverage?.total === coverage?.active;
+    if (completeCoverage && link.domain === 'DOCTOR') {
+      const sources = await db.prepare('SELECT source_id FROM onboarding_intent_sources WHERE intent_id = ?').bind(link.intent_id).all<{ source_id: string }>();
+      for (const source of sources.results) if (!await isDoctorSourceActivated(db, link.canonical_entity_id, source.source_id)) completeCoverage = false;
+    }
     await db.prepare(
       `UPDATE onboarding_intents
           SET pipeline_stage = 'PIPELINE_ACTIVE',
@@ -106,11 +113,11 @@ export async function recordDiscoveryHubItem(
               updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
         WHERE intent_id = ? AND pipeline_stage = 'ONBOARDING'`,
     ).bind(completeCoverage ? 1 : 0, link.intent_id).run();
-    if (completeCoverage && link.candidate_state === 'ONBOARDING') {
+    if (completeCoverage && ['ONBOARDING', 'PARTIAL_SOURCE_COVERAGE'].includes(link.candidate_state)) {
       await db.prepare(
         `UPDATE candidate_ledger SET state = 'PIPELINE_ACTIVE',
            updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
-          WHERE candidate_id = ? AND state = 'ONBOARDING'`,
+          WHERE candidate_id = ? AND state IN ('ONBOARDING', 'PARTIAL_SOURCE_COVERAGE')`,
       ).bind(link.candidate_id).run();
     }
 

@@ -1,6 +1,7 @@
 # Global OS Central Recovery and Release Report
 
 Date: 2026-10-10 (Europe/Istanbul). Status: PARTIAL_ENGINEERING_COMPLETE.
+Follow-on closure: docs/GLOBAL_OS_CENTRAL_RELEASE_GATE_CLOSURE_REPORT.md. The owner's subsequent local policy approval and final gate results are recorded there; this recovery report retains its original checkpoint evidence.
 No production access, deployment, remote migration, credential operation, source activation or publication was performed.
 
 ## 1. Initial Repository State

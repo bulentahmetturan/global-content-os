@@ -12,6 +12,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { verifyLocalRelease } from './local-release-verification.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -49,9 +50,9 @@ if (args.includes('--skip-ci-check')) {
 
 // 3. migrations known ----------------------------------------------------------
 const migs = readdirSync(join(root, 'migrations')).filter((f) => f.endsWith('.sql')).sort();
-const nums = migs.map((f) => f.slice(0, 4));
-const dup = nums.filter((n, i) => nums.indexOf(n) !== i);
-add('migrations.unique_numbering', dup.length ? 'FAIL' : 'PASS', dup.length ? `duplicate: ${dup.join(',')}` : `${migs.length} files, newest ${migs.at(-1)}`);
+const authority = verifyLocalRelease({ root, manifestPath: process.env.LOCAL_MIGRATION_AUTHORITY_PATH });
+add('migrations.authority', authority.verdict === 'PASS' ? 'PASS' : 'FAIL', JSON.stringify(authority));
+add('migrations.production_authority', 'SKIPPED', 'BLOCKED_EXTERNAL: genuine production ledger, deployed-byte provenance and exact pending-set approval required');
 const ready = readFileSync(join(root, 'apps/worker/src/readiness.ts'), 'utf8');
 add('migrations.expected_matches_newest', ready.includes(`'${migs.at(-1)}'`) ? 'PASS' : 'FAIL', migs.at(-1));
 

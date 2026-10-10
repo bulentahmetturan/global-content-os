@@ -14,6 +14,8 @@ async function load(entry, name) {
 }
 const r = await load('apps/worker/src/readiness.ts', 'readiness');
 const worker = (await load('apps/worker/src/index.ts', 'worker-index-ready')).default;
+const contract = await load('apps/worker/src/schema-contract.ts', 'readiness-schema-contract');
+const READY_SCHEMA = { content: { level: 'READY', missingMigrations: [], missingCapabilities: [] }, workstreams: {}, statistics: { level: 'READY', missingMigrations: [], missingCapabilities: [] } };
 
 const OK = {
   dbReachable: true,
@@ -23,11 +25,14 @@ const OK = {
   ingestTokenConfigured: true,
   openAlexKeyConfigured: true,
   handoffMode: 'stub',
+  schema: READY_SCHEMA,
 };
 
 test('EXPECTED_SCHEMA_MIGRATION equals the newest file in migrations/ (code/schema drift guard)', () => {
   const newest = readdirSync('migrations').filter((f) => f.endsWith('.sql')).sort().at(-1);
   assert.equal(r.EXPECTED_SCHEMA_MIGRATION, newest);
+  assert.deepEqual([...contract.REQUIRED_CONTENT_MIGRATIONS], readdirSync('migrations').filter(f => f.endsWith('.sql')).sort());
+  assert.deepEqual([...contract.REQUIRED_STATISTICS_MIGRATIONS], readdirSync('migrations/statistics').filter(f => f.endsWith('.sql')).sort());
 });
 
 test('READY when everything is present', () => {
@@ -66,7 +71,12 @@ function db({ reachable = true, migration = r.EXPECTED_SCHEMA_MIGRATION } = {}) 
       return { one: 1 };
     },
   });
-  return { prepare: st };
+  return { prepare: sql => ({ ...st(sql), sql, bind() { return this; } }), batch: async statements => {
+    if (!reachable) throw new Error('D1 down');
+    return statements.map(s => ({ success: true, results: /d1_migrations/.test(s.sql)
+      ? (migration === r.EXPECTED_SCHEMA_MIGRATION ? [...contract.REQUIRED_CONTENT_MIGRATIONS, ...contract.REQUIRED_STATISTICS_MIGRATIONS].map(name => ({ name })) : [{ name: migration }])
+      : (() => { const table = s.sql.match(/table_info\("([^"]+)"\)/)?.[1]; const capabilities = Object.assign({}, ...Object.values(contract.WORKSTREAM_CAPABILITIES), contract.STATISTICS_CAPABILITIES); return table in capabilities ? [{ name: '_table_present' }, ...capabilities[table].map(name => ({ name }))] : []; })() }));
+  } };
 }
 
 test('/api/health is liveness only and answers even when the DB is down; /api/ready reports it', async () => {
@@ -80,7 +90,7 @@ test('/api/health is liveness only and answers even when the DB is down; /api/re
 });
 
 test('/api/ready: 200 READY / DEGRADED with secrets flags only (no secret values leaked)', async () => {
-  const env = { DB: db(), STATUS_CALLBACK_TOKEN: 'sekret-1', TIP_RADAR_INGEST_TOKEN: 'sekret-2', OPENALEX_API_KEY: 'sekret-3' };
+  const env = { DB: db(), STATS_DB: db(), STATUS_CALLBACK_TOKEN: 'sekret-1', TIP_RADAR_INGEST_TOKEN: 'sekret-2', OPENALEX_API_KEY: 'sekret-3' };
   const ok = await worker.fetch(new Request('https://x.test/api/ready'), env);
   const body = await ok.json();
   assert.equal(ok.status, 200);

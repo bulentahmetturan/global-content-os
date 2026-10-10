@@ -10,16 +10,12 @@ import { resolveOutbound } from './handoff-security';
 import { DOSSIER_CANARY_V1 } from './dossier/canary-profile';
 import { gatherDossierReadiness, type DossierReadiness } from './dossier/canary-readiness';
 import { recurringReadiness } from './dossier/recurring-ops';
+import { gatherSchemaReadiness, type SchemaSnapshot } from './schema-readiness';
 
 /**
- * Latest migration this build expects. A test asserts it equals the newest file in migrations/.
- * 0044 (B candidate queue) travels with this tree; remote apply + deploy are BLOCKED_OWNER,
- * so live stays 0043/READY until that authorization. Deploying this tree WITHOUT applying
- * 0044 remotely would (correctly) report SCHEMA_BEHIND/BLOCKED — see §15 deploy checklist.
- * NOTE 2026-10-09: remote 0043 is the dossier track's 0043_dossier_discovery_foundation.sql
- * (live commit 7b61870); doctor numbers start at 0044 to avoid the collision. 0045 adds the
- * source-proposal pipeline, 0046 the profile-fact knowledge store. Any Doctor deploy must
- * integrate the live dossier lineage first (else it regresses dossier code/tables).
+ * Latest filename is diagnostic only. Required-set ledger completeness and
+ * metadata capabilities in schema-contract.ts determine schema readiness.
+ * This local candidate is not deployed or production-certified.
  */
 export const EXPECTED_SCHEMA_MIGRATION = '0046_protocol_mediterranean_wave2.sql';
 
@@ -28,6 +24,7 @@ export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 export interface ReadinessInputs {
   dbReachable: boolean;
   appliedMigration: string | null; // newest applied migration name, null when unknown
+  schema?: SchemaSnapshot;
   cronLastActivityAgeMin: number | null; // minutes since the newest feed fetch; null when never
   statusCallbackTokenConfigured: boolean;
   ingestTokenConfigured: boolean;
@@ -49,6 +46,12 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
   if (!i.dbReachable) blocked.push('DB_UNREACHABLE');
   else if (i.appliedMigration == null) degraded.push('SCHEMA_VERSION_UNKNOWN');
   else if (i.appliedMigration < EXPECTED_SCHEMA_MIGRATION) blocked.push(`SCHEMA_BEHIND:${i.appliedMigration}<${EXPECTED_SCHEMA_MIGRATION}`);
+  if (i.dbReachable && !i.schema) blocked.push('SCHEMA_COMPLETENESS_UNKNOWN');
+  else if (i.schema?.content.level === 'BLOCKED') {
+    if (i.schema.content.missingMigrations.length) blocked.push('REQUIRED_MIGRATIONS_MISSING');
+    if (i.schema.content.missingCapabilities.length) blocked.push('REQUIRED_SCHEMA_CAPABILITIES_MISSING');
+  }
+  if (i.schema?.statistics.level === 'BLOCKED') degraded.push('STATISTICS_SCHEMA_NOT_READY');
   if (i.dbReachable && (i.cronLastActivityAgeMin == null || i.cronLastActivityAgeMin > CRON_STALE_MIN)) {
     degraded.push('CRON_HEARTBEAT_STALE');
   }
@@ -60,7 +63,7 @@ export function evaluateReadiness(i: ReadinessInputs): ReadinessReport {
 }
 
 /** Gathers the /api/ready inputs (shared by /api/ready and /api/ops/summary). */
-export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null; dossier: DossierReadiness & { recurring: Awaited<ReturnType<typeof recurringReadiness>> } }> {
+export async function gatherReadiness(env: Env): Promise<{ report: ReadinessReport; appliedMigration: string | null; schema: SchemaSnapshot; dossier: DossierReadiness & { recurring: Awaited<ReturnType<typeof recurringReadiness>> } }> {
   let dbReachable = false;
   let appliedMigration: string | null = null;
   let cronAge: number | null = null;
@@ -74,9 +77,11 @@ export async function gatherReadiness(env: Env): Promise<{ report: ReadinessRepo
   } catch {
     dbReachable = false;
   }
+  const schema = await gatherSchemaReadiness(env.DB, env.STATS_DB);
   const report = evaluateReadiness({
     dbReachable,
     appliedMigration,
+    schema,
     cronLastActivityAgeMin: cronAge,
     statusCallbackTokenConfigured: !!(env.STATUS_CALLBACK_TOKEN || '').trim(),
     ingestTokenConfigured: !!(env.TIP_RADAR_INGEST_TOKEN || '').trim(),
@@ -92,5 +97,5 @@ export async function gatherReadiness(env: Env): Promise<{ report: ReadinessRepo
   }
   // Recurring operation: reported only. It NEVER changes the top-level GCOS level (a source failure must not disable GCOS).
   const recurring = await recurringReadiness(env.DB as never, { env, nowIso: new Date().toISOString() });
-  return { report, appliedMigration, dossier: { ...dossier, recurring } };
+  return { report, appliedMigration, schema, dossier: { ...dossier, recurring } };
 }

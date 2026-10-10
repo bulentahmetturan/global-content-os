@@ -27,7 +27,7 @@ export function makeLocalWorld(variant = 'both', { smokeFlag = true } = {}) {
   if (variant === 'both') parts.push('[[d1_databases]]', 'binding = "STATS_DB"', 'database_name = "stats-local"', `database_id = "${ids.stats}"`, `migrations_dir = "${fwd('migrations/statistics')}"`, '');
   if (variant === 'misbound') parts.push('[[d1_databases]]', 'binding = "STATS_DB"', 'database_name = "content-local"', `database_id = "${ids.content}"`, '');
   writeFileSync(toml, parts.join('\n'));
-  const wr = (...a) => execFileSync(process.execPath, [WRANGLER, ...a], { encoding: 'utf8', cwd: dir, env: ENV, maxBuffer: 32 * 1024 * 1024, timeout: 45_000, windowsHide: true });
+  const wr = (...a) => execFileSync(process.execPath, [WRANGLER, ...a], { encoding: 'utf8', cwd: dir, env: ENV, maxBuffer: 32 * 1024 * 1024, timeout: 120_000, windowsHide: true });
   return {
     dir, toml, persist, ids, variant,
     migrate(name) { return wr('d1', 'migrations', 'apply', name, '--local', '--config', toml, '--persist-to', persist); },

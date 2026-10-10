@@ -3,7 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { bundle, openGcosDb, unreachableD1 } from './sqlite-d1.test-helper.mjs';
+import { bundle, openGcosDb, unreachableD1, d1FromSqlite } from './sqlite-d1.test-helper.mjs';
+import { readMigrations, replay } from '../../../scripts/migration-authority.mjs';
 
 const model = JSON.parse(readFileSync('release/alert-model.json', 'utf8'));
 const ops = await bundle('apps/worker/src/ops-summary.ts', 'ops-summary');
@@ -84,14 +85,16 @@ test('GET /api/ops/summary fails closed on OPS_TOKEN', async () => {
 });
 
 test('GET /api/ops/summary: compact failed-handoff view with readiness, identity and schema; no payloads or secrets', async () => {
-  const { sqlite, db } = openGcosDb({ appliedMigration: readiness.EXPECTED_SCHEMA_MIGRATION });
+  const { sqlite, db } = openGcosDb({ complete: true });
+  const stats = replay(readMigrations('migrations/statistics')).db;
+  test.after(() => stats.close());
   for (const [id, status, detail] of [['b1', 'failed', 'HTTP 503'], ['b2', 'sent', 'delivered'], ['b3', 'failed', 'BRIEF_ID_CONFLICT']]) {
     sqlite
       .prepare(`INSERT INTO approved_briefs (brief_id, source_item_id, route, channel_id, payload_json, handoff_status, handoff_detail) VALUES (?, 'item_1', 'kaduse-news', 'kaduse-medikal', '{"canonicalUrl":"https://secret.example"}', ?, ?)`)
       .run(id, status, detail);
     sqlite.prepare(`INSERT INTO handoff_log (id, brief_id, direction, body_json) VALUES (?, ?, 'outbound', '{}')`).run(`l_${id}`, id);
   }
-  const res = await call({ DB: db, ...SECRET_ENV, BUILD_COMMIT: 'deadbeef' }, 'Bearer ops-secret-abc');
+  const res = await call({ DB: db, STATS_DB: d1FromSqlite(stats), ...SECRET_ENV, BUILD_COMMIT: 'deadbeef' }, 'Bearer ops-secret-abc');
   assert.equal(res.status, 200);
   const text = await res.text();
   const body = JSON.parse(text);

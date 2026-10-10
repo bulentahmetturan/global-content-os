@@ -30,14 +30,14 @@ export function replay(files, { schemaPath = null, foreignKeys = true, upTo = In
   return { ok: true, applied, failedAt: null, error: null, db };
 }
 
-/** Numbering hygiene: duplicate numbers are fatal (D1 orders by name), gaps are informational. */
+/** Full filename identity; numeric prefix gaps are diagnostic, never authorization. */
 export function numbering(files) {
   const seen = new Set();
   const dups = [];
   const gaps = [];
   for (let i = 0; i < files.length; i++) {
-    if (seen.has(files[i].number)) dups.push(files[i].filename);
-    seen.add(files[i].number);
+    if (seen.has(files[i].filename)) dups.push(files[i].filename);
+    seen.add(files[i].filename);
     if (i && files[i].number > files[i - 1].number + 1) gaps.push(`${files[i - 1].number}->${files[i].number}`);
   }
   return { dups, gaps };
@@ -60,7 +60,7 @@ export function analyseRepo({ root, migrationsDir, schema = null, pending = [], 
     if (f) {
       // Test the pending migration against a representative pre-state: chain up to N-1 (FKs off so a known
       // historical break earlier in the chain cannot mask this migration), then apply N.
-      const pre = replay(files, { schemaPath, foreignKeys: false, upTo: f.number - 1 });
+      const pre = replay(files.slice(0, files.indexOf(f)), { schemaPath, foreignKeys: false });
       if (!pre.ok) error = `pre-state failed at ${pre.failedAt}`;
       else {
         try {
