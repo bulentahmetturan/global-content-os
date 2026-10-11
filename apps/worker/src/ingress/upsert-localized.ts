@@ -2,6 +2,7 @@ import { upsertSourceItem, dedupeKeyFromUrl, type Env, type RouteId } from '../d
 import { looksMostlyEnglish } from '../localize/tr';
 import { shouldSkipEnrichment } from '../localize/enrich';
 import { repairMojibake } from './text-repair';
+import { protectedProtocolDisplay } from '../protocols/approved-display';
 
 function stripHtml(s: string): string {
   return repairMojibake(s || '')
@@ -33,6 +34,9 @@ export async function upsertLocalizedSourceItem(
   env: Env,
   input: Parameters<typeof upsertSourceItem>[1]
 ): Promise<{ id: string; created: boolean }> {
+  const protectedId = input.route === 'kaduse-research'
+    ? await protectedProtocolDisplay(env.DB, { url: input.canonicalUrl }) : null;
+  if (protectedId) return { id: protectedId, created: false };
   const sourceTitle = cleanTitle(input.titleOrig || input.title || '');
   const sourceSummary = stripHtml(input.summary || sourceTitle).slice(0, 2000);
   const dedupeKey = input.dedupeKey ?? dedupeKeyFromUrl(input.canonicalUrl);

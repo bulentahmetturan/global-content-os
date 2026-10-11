@@ -1,5 +1,6 @@
 import { hasImpossibleYear, ingestGate, normalizeDate } from '../ingress/ingest-gate';
 import { isDoctorOriginItem } from '../doctor-origin';
+import { protectedProtocolDisplay } from '../protocols/approved-display';
 import { orderByRelevance } from '../triage/relevance-order';
 import { recordDiscoveryHubItemBestEffort } from '../discovery/progress';
 import {
@@ -332,6 +333,8 @@ export async function upsertSourceItem(
   }
 
   if (existing) {
+    const protectedId = await protectedProtocolDisplay(db, { id: existing.id });
+    if (protectedId) return { id: protectedId, created: false };
     // A sighting on another temporal path (e.g. EVERGREEN rediscovery) adds a membership; it never rewrites the row's path.
     let membership: MembershipResult | undefined;
     if (input.acquisitionPath) {

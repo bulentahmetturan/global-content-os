@@ -1,5 +1,6 @@
 import type { Env, RouteId } from '../db/queries';
 import { localizeForHub, looksMostlyEnglish } from '../localize/tr';
+import { APPROVED_PROTOCOL_DISPLAY } from '../protocols/approved-display';
 
 /**
  * Re-localize inbox (or any) items that still have English primary titles.
@@ -54,6 +55,10 @@ export async function backfillLocalization(
   let updated = 0;
   let skipped = 0;
   for (const row of needsWork) {
+    if (APPROVED_PROTOCOL_DISPLAY.some(item => item.id === row.id)) {
+      skipped += 1;
+      continue;
+    }
     const sourceTitle = (
       row.title_orig && looksMostlyEnglish(row.title_orig)
         ? row.title_orig

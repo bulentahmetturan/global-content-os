@@ -6,6 +6,7 @@
 
 import type { Env, RouteId } from '../db/queries';
 import { isDoctorOriginItem } from '../doctor-origin';
+import { protectedProtocolDisplay } from '../protocols/approved-display';
 import { looksMostlyEnglish } from './tr';
 import { trimToSentences, validateSummaryTr, validateTitleTr } from './contract';
 
@@ -260,6 +261,11 @@ export async function enrichOneItem(
     sourceId?: string | null;
   }
 ): Promise<{ ok: boolean; error?: string }> {
+  try {
+    if (await protectedProtocolDisplay(env.DB, { id: row.id })) return { ok: true };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : 'APPROVED_PROTOCOL_GUARD_FAILED' };
+  }
   // D5 Doctor guard: Doctor-origin wording is owner-written only. LLM
   // enrichment must never rewrite it. Resolved from the canonical
   // endpoint registry (doctor-origin.ts), not feed-id strings. Recorded
