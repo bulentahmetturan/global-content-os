@@ -68,6 +68,7 @@ import { runSourceRevalidation, getSourceRevalidation, listRevalidationRequired 
 import { NEWS_MAX_AGE_DAYS } from './ingress/ingest-gate';
 import { backfillJournalWindow, ingestJournalCrossrefFallbacks, JOURNAL_QUERY_COUNT } from './ingress/journal-fallback';
 import { runEnrichmentBatch } from './localize/enrich';
+import { APPROVED_PROTOCOL_DISPLAY } from './protocols/approved-display';
 import {
   assertTipTopluluguChannelPartition,
   authorizeTipTopluluguIngress,
@@ -1137,6 +1138,10 @@ export default {
           }>;
         };
         const items = body.items || [];
+        // Reject the whole request before unrelated items in a mixed batch can write.
+        if (items.some(it => APPROVED_PROTOCOL_DISPLAY.some(item => item.id === it?.id))) {
+          return json({ error: 'APPROVED_PROTOCOL_OPERATOR_WRITER_REQUIRED' }, 409);
+        }
         let updated = 0;
         for (const it of items) {
           if (!it?.id || !it.title) continue;
