@@ -20,6 +20,7 @@ import {
   createDiscoveryRun,
   decideCandidate,
   listOwnerCandidates,
+  discoveryObservability,
   claimNextOnboardingIntent,
   recordOnboardingSourceResult,
   recordWaveMetrics,
@@ -289,8 +290,12 @@ export default {
         }
       }
 
-      if (path === '/api/discovery/owner' && request.method === 'GET') {
+      if ((path === '/api/discovery/owner' || path === '/api/discovery/candidates') && request.method === 'GET') {
         return json({ ok: true, candidates: await listOwnerCandidates(env.DB) });
+      }
+
+      if (path === '/api/discovery/observability' && request.method === 'GET') {
+        return json({ ok: true, ...(await discoveryObservability(env.DB)) });
       }
 
       if (path === '/api/discovery/waves' && request.method === 'GET') {

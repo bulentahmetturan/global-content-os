@@ -809,6 +809,25 @@ export async function listOwnerCandidates(db: D1Database): Promise<Array<{
   }>);
 }
 
+export async function discoveryObservability(db: D1Database) {
+  const q = async <T>(sql: string): Promise<T[]> => (await db.prepare(sql).all<T>()).results;
+  const [runs, candidates, intents, signals, sourceOutcomes, ingestability] = await Promise.all([
+    q<{ domain: string; status: string; n: number }>(
+      'SELECT domain, status, COUNT(*) AS n FROM discovery_runs GROUP BY domain, status'),
+    q<{ domain: string; state: string; n: number }>(
+      'SELECT domain, state, COUNT(*) AS n FROM candidate_ledger GROUP BY domain, state'),
+    q<{ status: string; pipeline_stage: string; n: number }>(
+      'SELECT status, pipeline_stage, COUNT(*) AS n FROM onboarding_intents GROUP BY status, pipeline_stage'),
+    q<{ proposed_domain: string; status: string; n: number }>(
+      'SELECT proposed_domain, status, COUNT(*) AS n FROM discovery_cross_feed_signals GROUP BY proposed_domain, status'),
+    q<{ outcome: string; n: number }>(
+      'SELECT outcome, COUNT(*) AS n FROM onboarding_source_events GROUP BY outcome'),
+    q<{ status: string; n: number }>(
+      'SELECT status, COUNT(*) AS n FROM actor_source_ingestability GROUP BY status'),
+  ]);
+  return { runs, candidates, intents, signals, sourceOutcomes, ingestability };
+}
+
 export async function createCrossFeedSignal(
   db: D1Database,
   signalType: 'UNKNOWN_PROTOCOL_SIGNAL' | 'UNKNOWN_ACTOR_SIGNAL',
