@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
+import { protectedBibliographicProtocol } from '../protocols/approved-display';
 
 interface EuropePmcResult {
   title?: string;
@@ -76,6 +77,10 @@ export async function ingestEuropePmc(
     const doi = it.doi?.trim() || null;
     const pmid = it.pmid?.trim() || null;
     const pmcid = it.pmcid?.trim() || null;
+    if (await protectedBibliographicProtocol(env.DB, { doi, pmid })) {
+      updated += 1;
+      continue;
+    }
     const canonicalUrl = doi
       ? `https://doi.org/${doi}`
       : pmid

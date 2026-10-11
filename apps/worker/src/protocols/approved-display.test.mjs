@@ -44,13 +44,14 @@ test('non-owned identities never consult database or broaden guard',async()=>{
 });
 test('approved PREDIMED preserves corrected-publication and intervention qualifications',()=>{
   const x=approved.APPROVED_PROTOCOL_DISPLAY.find(x=>x.id==='med-item-predimed-2018');
-  assert.match(x.title,/Birincil/); assert.match(x.summary,/Randomizasyon sürecindeki sapmalar/);
+  assert.match(x.title,/Birincil/); assert.match(x.summary,/randomizasyon sapmaları/);
   assert.match(x.summary,/7\.447/); assert.match(x.summary,/natürel sızma/); assert.match(x.summary,/sert kabuklu yemiş/); assert.match(x.summary,/kontrol/);
 });
-test('five scientific gists satisfy existing language/length contract; exact owner PREDIMED summary conflict remains explicit',()=>{
+test('five scientific summaries/gists satisfy the unchanged 320-character contract',()=>{
   for(const x of approved.APPROVED_PROTOCOL_DISPLAY){
     assert.equal(contract.validateTitleTr(x.title,''),null);
     assert.equal(contract.validateSummaryTr(approved.approvedProtocolGist(x),{titleOrig:'',titleTr:x.title}),null);
-    assert.equal(contract.validateSummaryTr(x.summary,{titleOrig:'',titleTr:x.title}),x.id==='med-item-predimed-2018'?'SUMMARY_TOO_LONG':null);
+    assert.equal(contract.validateSummaryTr(x.summary,{titleOrig:'',titleTr:x.title}),null);
+    assert.ok(x.summary.length <= 320);
   }
 });

@@ -1,0 +1,227 @@
+{
+  "generatedBy": "scripts/build-protocol-correction-manifest.mjs",
+  "baseCommit": "b7ebc86ab73cb5b13c3741312b82a3475636ed4d",
+  "productionOperation": "NOT_AUTHORIZED_NOT_EXECUTED",
+  "target": {
+    "databaseName": "global-content-os",
+    "databaseId": "c0ce92dc-9842-4dd9-9d05-a8d09e798b34"
+  },
+  "manifestPath": "release/protocols/five-item-correction.json",
+  "manifestSHA256": "e9cbf5796d25aae10b66ade0c1838035fa7b0d08b074d1aedef49c36aafe582a",
+  "beforeEvidenceSHA256": "7db95f937893e6ba556dbb65169aca2dc5a6e29e4edeacfc617436993ba59067",
+  "allowedIds": [
+    "dash-item-booklet",
+    "dash-item-sodium-2001",
+    "dash-item-trial-1997",
+    "med-item-dga-2015",
+    "med-item-predimed-2018"
+  ],
+  "allowedFields": [
+    "title",
+    "summary",
+    "gists_json"
+  ],
+  "approvedNewValues": [
+    {
+      "id": "dash-item-booklet",
+      "title": "DASH ile Kan Basıncınızı Düşürme Rehberi",
+      "summary": "Nisan 2006'da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.",
+      "gists_json": "[\"Nisan 2006'da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.\"]"
+    },
+    {
+      "id": "dash-item-sodium-2001",
+      "title": "Azaltılmış Sodyum Alımının ve DASH Diyetinin Kan Basıncı Üzerindeki Etkileri — DASH-Sodium Ortak Araştırma Grubu",
+      "summary": "412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.",
+      "gists_json": "[\"412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.\"]"
+    },
+    {
+      "id": "dash-item-trial-1997",
+      "title": "Beslenme Örüntülerinin Kan Basıncı Üzerindeki Etkilerine İlişkin Klinik Çalışma — DASH Ortak Araştırma Grubu",
+      "summary": "459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.",
+      "gists_json": "[\"459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.\"]"
+    },
+    {
+      "id": "med-item-dga-2015",
+      "title": "Amerikalılar İçin Beslenme Rehberi 2015–2020: Ek 4 — Sağlıklı Akdeniz Tarzı Beslenme Örüntüsü",
+      "summary": "USDA/HHS'nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1'i ise beslenme sınırlarını açıklar.",
+      "gists_json": "[\"USDA/HHS'nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1'i ise beslenme sınırlarını açıklar.\"]"
+    },
+    {
+      "id": "med-item-predimed-2018",
+      "title": "Natürel Sızma Zeytinyağı veya Sert Kabuklu Yemişlerle Desteklenen Akdeniz Diyetiyle Kardiyovasküler Hastalıkların Birincil Önlenmesi",
+      "summary": "2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.",
+      "gists_json": "[\"2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.\"]"
+    }
+  ],
+  "beforeFieldHashes": [
+    {
+      "id": "dash-item-booklet",
+      "hashes": {
+        "id": "71297b457e4c2a96114e82c7828f6878a8f636f5e465e8c9759c05933dfc6f45",
+        "title": "b01224590ea356e59e3646db8ad6f87fdbcddafa13e19542bb2f4f44eba1db92",
+        "title_orig": "dd9bf8b95944365c770d1fb0c7d6791ff5e8ace6f89c9bd46d5dcdb8dece3cce",
+        "summary": "528424cd50d138ae175dc1b4d9e1d4eda80120658dcccc3d99e2974ab7eba945",
+        "gists_json": "41c172e3dc03b1cf55b1b3049e6a05bce04e62e863529d68dd0d7de160fb253f",
+        "canonical_url": "dba6248f2835c107754b70cd6660fad004aba05c9fb0b124664d1cf4e7134850",
+        "publisher": "9a09841efaf7be5d1c44010650c1000ae82d6274d3e4c503f264fc1f57057377",
+        "published_at": "dcaa64bff65a363726427316c607593282607808752044afbd0fe4810bb6deba",
+        "feed_id": "8f5e756b20b801b6714787aac234840b07e94b5c4580d7c79ab281acf64d6012",
+        "route": "9bb27c9a2d07f078c3d4f4a8cdfc847a1b1bf844dc4b18076c9a9371466cad2f",
+        "channel_id": "b93499b1b649991107d434dc5b0fdf89e93cfc884f1e302c105dc05d05b952a6",
+        "dedupe_key": "dba6248f2835c107754b70cd6660fad004aba05c9fb0b124664d1cf4e7134850",
+        "canonical_work_id": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "acquisition_path": "c1b1a52103fe50ef53f8fd8d2d1f1bcd427187286df55aa3dc58dc6cb5967973",
+        "discovery_mode": "9fefed0bccc89403d877b77219fc782a7fb9ca7155d132def9411ef2e093c636",
+        "discovery_reason": "bcae89f1d7d1d49eedeaf6ff7b259f1048c00dc915c44798b7d2dfe865de5d5e",
+        "enrichment_status": "a4c3ed04a95a3da14a9d235c83d868bed7c0f45cf7f3faa751ee8f50598d2211",
+        "enrichment_json": "583cc777fa099f7685b7e67e62536dd96d6bc302835cd1faf28d1a57253741da",
+        "enrichment_error": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "enriched_at": "6e65d92c7fa9c1decaf7bb6990a9824163672e3881e0d8da2c1d1e6230d9dd77",
+        "updated_at": "6e65d92c7fa9c1decaf7bb6990a9824163672e3881e0d8da2c1d1e6230d9dd77"
+      }
+    },
+    {
+      "id": "dash-item-sodium-2001",
+      "hashes": {
+        "id": "9c6f263073009cdeb9b5aa221d3d16e328999f55ba256facc8b0b244a48522ec",
+        "title": "333a7688780c4e994a02901b10e6a6a26f641a091d20588ef6fd83223e426b45",
+        "title_orig": "ca412a6c1620c0351e654e6bdbb03e5afb4a35312269ebb4672d44c07fc23546",
+        "summary": "8af3fd51cc65889f6cf74b2b5cd90ba4022123725c0aad1001cd4a84bb87d28a",
+        "gists_json": "a91bd775edb3db96cca563613d7225adac2a077c771ea2bac2eee15949aa3d88",
+        "canonical_url": "088def2e78073549d9ee8a9e7553954eea73d62a4f546b39ef489fe14aced4a4",
+        "publisher": "ba1b637d919de4555b8f4eb376e80002c53602b9f1fbcfdab41d261f5e666ebe",
+        "published_at": "4935b73812dd87780ee8deae03d0bbcb125bbcdc05271066ca527ab029e4e79d",
+        "feed_id": "8f5e756b20b801b6714787aac234840b07e94b5c4580d7c79ab281acf64d6012",
+        "route": "9bb27c9a2d07f078c3d4f4a8cdfc847a1b1bf844dc4b18076c9a9371466cad2f",
+        "channel_id": "b93499b1b649991107d434dc5b0fdf89e93cfc884f1e302c105dc05d05b952a6",
+        "dedupe_key": "088def2e78073549d9ee8a9e7553954eea73d62a4f546b39ef489fe14aced4a4",
+        "canonical_work_id": "84539c4cbe2a1681ec42aad0d3cc483c9e2c22bbb594515a8b4a33ad8fab7a34",
+        "acquisition_path": "c1b1a52103fe50ef53f8fd8d2d1f1bcd427187286df55aa3dc58dc6cb5967973",
+        "discovery_mode": "9fefed0bccc89403d877b77219fc782a7fb9ca7155d132def9411ef2e093c636",
+        "discovery_reason": "bcae89f1d7d1d49eedeaf6ff7b259f1048c00dc915c44798b7d2dfe865de5d5e",
+        "enrichment_status": "a4c3ed04a95a3da14a9d235c83d868bed7c0f45cf7f3faa751ee8f50598d2211",
+        "enrichment_json": "84e69149a7ff873d4fbab2d938fa066e23b617b378a84160e75c1048942faac5",
+        "enrichment_error": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "enriched_at": "45114de69402a2530538f4722e6951d0cbbc88aabcd5f8f5fc295e1f27783795",
+        "updated_at": "45114de69402a2530538f4722e6951d0cbbc88aabcd5f8f5fc295e1f27783795"
+      }
+    },
+    {
+      "id": "dash-item-trial-1997",
+      "hashes": {
+        "id": "b10c6ffb4b20af8d1c66e85a4275844565975c14c0a865f1625a43ba32b6c27e",
+        "title": "23bcdf81b7c1cc7ccece6fda738aa03e301f1a00abae180ff7c8860312b190c5",
+        "title_orig": "178cfffd2f24468b647fce070e26a033a78f821be77f5138f265f7fea873df6e",
+        "summary": "c6055e3948b75a185a45c36605cee0e0477af4f996f4d15d450da66c452fc5f3",
+        "gists_json": "cd76d7d9477bc8379afc16ee3f6f2e5be6a13f6d55b330d46c08d3cdf7898e95",
+        "canonical_url": "e747e1e03d8cb2a1ce13efd18a39db042749102dd34bbd88e4c7a4aaf0bef52f",
+        "publisher": "ba1b637d919de4555b8f4eb376e80002c53602b9f1fbcfdab41d261f5e666ebe",
+        "published_at": "1c91b8c020b783d48de638b11c1f6c1109a7055d556a536f3d366f2a2c61003d",
+        "feed_id": "8f5e756b20b801b6714787aac234840b07e94b5c4580d7c79ab281acf64d6012",
+        "route": "9bb27c9a2d07f078c3d4f4a8cdfc847a1b1bf844dc4b18076c9a9371466cad2f",
+        "channel_id": "b93499b1b649991107d434dc5b0fdf89e93cfc884f1e302c105dc05d05b952a6",
+        "dedupe_key": "e747e1e03d8cb2a1ce13efd18a39db042749102dd34bbd88e4c7a4aaf0bef52f",
+        "canonical_work_id": "84b5ff938e714818846365dd4f4cb23df66cf0f9d4a794f58c0dffd35c038760",
+        "acquisition_path": "c1b1a52103fe50ef53f8fd8d2d1f1bcd427187286df55aa3dc58dc6cb5967973",
+        "discovery_mode": "9fefed0bccc89403d877b77219fc782a7fb9ca7155d132def9411ef2e093c636",
+        "discovery_reason": "bcae89f1d7d1d49eedeaf6ff7b259f1048c00dc915c44798b7d2dfe865de5d5e",
+        "enrichment_status": "a4c3ed04a95a3da14a9d235c83d868bed7c0f45cf7f3faa751ee8f50598d2211",
+        "enrichment_json": "34f1b8f28b89bb72b3d2a9b8ea8ac1a56eafe17ab845c0d6e48afc9a20135c2f",
+        "enrichment_error": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "enriched_at": "0adaa0be22b0c3d776e936e174750c08fe0765b3ff5c68ab2e20b81d80451885",
+        "updated_at": "0adaa0be22b0c3d776e936e174750c08fe0765b3ff5c68ab2e20b81d80451885"
+      }
+    },
+    {
+      "id": "med-item-dga-2015",
+      "hashes": {
+        "id": "16c9a09a7c4043a95ad3970bc53e43ff2f52ded844a19aa241c28935f8267e26",
+        "title": "4b71dce7f8c85bf64de9f27818e597d8dbe6e8ee8b26e769e745e9147ab30246",
+        "title_orig": "6107f4cc8f9ce0088ce721fdef4b73171629a12ef5b666152dd5156e5f27cf30",
+        "summary": "408e7ac2694947453d30b27422b1fd2344c6631ba1a6d5b6b5c54db60e944008",
+        "gists_json": "c76355f8b39967e7e582e2f76ee1cc1e88fbc9166f9c9546e4610bfbeafdcd42",
+        "canonical_url": "ff5aa835d9065beac15f22a10e17b4e7784ca7c0cdfe2823e0ea1f3e369e034c",
+        "publisher": "10ccd1b142eaaa7164f8ad5b845d84e3e26cd1555d8fb805a09df6b87d513b09",
+        "published_at": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "feed_id": "8f5e756b20b801b6714787aac234840b07e94b5c4580d7c79ab281acf64d6012",
+        "route": "9bb27c9a2d07f078c3d4f4a8cdfc847a1b1bf844dc4b18076c9a9371466cad2f",
+        "channel_id": "b93499b1b649991107d434dc5b0fdf89e93cfc884f1e302c105dc05d05b952a6",
+        "dedupe_key": "ff5aa835d9065beac15f22a10e17b4e7784ca7c0cdfe2823e0ea1f3e369e034c",
+        "canonical_work_id": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "acquisition_path": "c1b1a52103fe50ef53f8fd8d2d1f1bcd427187286df55aa3dc58dc6cb5967973",
+        "discovery_mode": "9fefed0bccc89403d877b77219fc782a7fb9ca7155d132def9411ef2e093c636",
+        "discovery_reason": "1f7067f6b0bb602160f8a0e036dbf5c74541e785e622e82be74ed3b0d6479a6d",
+        "enrichment_status": "a4c3ed04a95a3da14a9d235c83d868bed7c0f45cf7f3faa751ee8f50598d2211",
+        "enrichment_json": "7248000e791f85cbefd92d09faedb7c1074ca57824c52b4585b7a77c680855ff",
+        "enrichment_error": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "enriched_at": "09cd9a156c544651f94d06aaf2bbbe26188d24283b1ae79bc69bce63250105c3",
+        "updated_at": "09cd9a156c544651f94d06aaf2bbbe26188d24283b1ae79bc69bce63250105c3"
+      }
+    },
+    {
+      "id": "med-item-predimed-2018",
+      "hashes": {
+        "id": "23f53c78080ddc207c86a294f3ec97c65f93721bd784df1389351b83bfd39deb",
+        "title": "3285b40d47b6d77486b8e766c6cf71d1f3cc615e953faad3600335a92015a8ad",
+        "title_orig": "24759b91e1f4d0bb9a16093a05d65bd39c0fa8228b7db2ffd8ab1b3689e7e218",
+        "summary": "2555e9597f6d99045a9764a44c082fe5a8095ebc48df8d4b91d47eec48e66d18",
+        "gists_json": "b9929515779ad54dd35eff47172298a2721e648e0a3807b9ec8e3552b27c98c2",
+        "canonical_url": "54328a47f94d0793630af9c4996322999dc0d462f836352d0cd790bdc677c179",
+        "publisher": "ba1b637d919de4555b8f4eb376e80002c53602b9f1fbcfdab41d261f5e666ebe",
+        "published_at": "ea07368d4b084e72a2be2cef9ad73d08071a618d41b960c85bc1de54fc819dcf",
+        "feed_id": "8f5e756b20b801b6714787aac234840b07e94b5c4580d7c79ab281acf64d6012",
+        "route": "9bb27c9a2d07f078c3d4f4a8cdfc847a1b1bf844dc4b18076c9a9371466cad2f",
+        "channel_id": "b93499b1b649991107d434dc5b0fdf89e93cfc884f1e302c105dc05d05b952a6",
+        "dedupe_key": "54328a47f94d0793630af9c4996322999dc0d462f836352d0cd790bdc677c179",
+        "canonical_work_id": "c7147dd6524af58db0ac13cf19d0fbb5f2d8fa54b332d1d777d098e689ae1d7d",
+        "acquisition_path": "c1b1a52103fe50ef53f8fd8d2d1f1bcd427187286df55aa3dc58dc6cb5967973",
+        "discovery_mode": "9fefed0bccc89403d877b77219fc782a7fb9ca7155d132def9411ef2e093c636",
+        "discovery_reason": "1f7067f6b0bb602160f8a0e036dbf5c74541e785e622e82be74ed3b0d6479a6d",
+        "enrichment_status": "a4c3ed04a95a3da14a9d235c83d868bed7c0f45cf7f3faa751ee8f50598d2211",
+        "enrichment_json": "e6b43ecfecd9a1238e0009ee440611d6a07486e7e218da155b8b3138740c6131",
+        "enrichment_error": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "enriched_at": "5b1bc35890f89b3f55a702ca89f8782019846a363fb8c944afaf1375c6ea7a1b",
+        "updated_at": "5b1bc35890f89b3f55a702ca89f8782019846a363fb8c944afaf1375c6ea7a1b"
+      }
+    }
+  ],
+  "summaryLengths": [
+    {
+      "id": "dash-item-booklet",
+      "length": 137
+    },
+    {
+      "id": "dash-item-sodium-2001",
+      "length": 208
+    },
+    {
+      "id": "dash-item-trial-1997",
+      "length": 138
+    },
+    {
+      "id": "med-item-dga-2015",
+      "length": 176
+    },
+    {
+      "id": "med-item-predimed-2018",
+      "length": 318
+    }
+  ],
+  "transaction": "Single UPDATE with MATERIALIZED five-row eligibility CTE and RETURNING *. No per-record loop; all 21 historical fields plus every current preflight column compared with null-safe IS. Unknown source_items triggers deny. SQL below is historical-field preview, not blind execution authority; use the validated core with full fresh snapshot.",
+  "expectedSourceRowsChanged": {
+    "apply": 5,
+    "rollback": 5,
+    "idempotentReplay": 0
+  },
+  "readback": "All five RETURNING rows + separate primary-session SELECT *; captured identity/provenance/enrichment fields unchanged; exact approved values required.",
+  "audit": "Persist INTENT with manifest SHA before any write; persist COMPLETED/IDEMPOTENT_REPLAY or failure receipt. Audit failure after commit is reconciliation-required, never claim rollback.",
+  "abort": "Wrong IDs/fields/values/hash/target, stale snapshot, mixed partial state, unexpected trigger deny. Concurrent pre-write modification yields CAS_CONFLICT and zero rows. Post-write conflict reports committed/reconciliation-required.",
+  "rollback": "Same single guarded statement with old/next reversed; exact approved after-values plus preserved before-image fields required. All five or zero; repeated rollback zero. Never roll back concurrent owner edits.",
+  "historicalFieldCASPreview": "WITH expected AS MATERIALIZED (SELECT value FROM json_each('[{\"id\":\"dash-item-booklet\",\"old\":{\"id\":\"dash-item-booklet\",\"title\":\"Kan Basıncınızı DÜŞÜRmenin DASH Yöntemi\",\"title_orig\":\"Your Guide to Lowering Your Blood Pressure with DASH\",\"summary\":\"DASH Yöntemi, yüksek tansiyonlu bireylerde kan basıncını düşürebilir.\",\"gists_json\":\"[\\\"DASH Yöntemi, yüksek tansiyonlu bireylerde kan basıncını düşürebilir.\\\"]\",\"canonical_url\":\"https://www.nhlbi.nih.gov/files/docs/public/heart/new_dash.pdf\",\"publisher\":\"National Heart, Lung, and Blood Institute\",\"published_at\":\"2006-04-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://www.nhlbi.nih.gov/files/docs/public/heart/new_dash.pdf\",\"canonical_work_id\":null,\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"The DASH eating plan can lower blood pressure.\\\",\\\"population\\\":\\\"individuals with high blood pressure\\\",\\\"outcome\\\":\\\"lower blood pressure\\\",\\\"limitation\\\":\\\"\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:23.782Z\",\"updated_at\":\"2026-10-07T14:56:23.782Z\"},\"next\":{\"title\":\"DASH ile Kan Basıncınızı Düşürme Rehberi\",\"summary\":\"Nisan 2006''da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.\",\"gists_json\":\"[\\\"Nisan 2006''da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.\\\"]\"}},{\"id\":\"dash-item-sodium-2001\",\"old\":{\"id\":\"dash-item-sodium-2001\",\"title\":\"Düşük tuz tüketimi ve DASH diyetinin kan basıncı üzerindeki etkileri\",\"title_orig\":\"Effects on blood pressure of reduced dietary sodium and the Dietary Approaches to Stop Hypertension (DASH) diet. DASH-Sodium Collaborative Research Group.\",\"summary\":\"Düzenli tuz indirgeme ve DASH diyetinin kombinasyonu, 412 katılımcı grubunda en yüksek oranda kan baskısını azalttı.\",\"gists_json\":\"[\\\"Düzenli tuz indirgeme ve DASH diyetinin kombinasyonu, 412 katılımcı grubunda en yüksek oranda kan baskısını azalttı.\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/11136953/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"2001-01-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/11136953/\",\"canonical_work_id\":\"10.1056/nejm200101043440101\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"sodium reduction combined with DASH lowered blood pressure\\\",\\\"population\\\":\\\"n=412\\\",\\\"outcome\\\":\\\"blood pressure\\\",\\\"limitation\\\":\\\"\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:35.951Z\",\"updated_at\":\"2026-10-07T14:56:35.951Z\"},\"next\":{\"title\":\"Azaltılmış Sodyum Alımının ve DASH Diyetinin Kan Basıncı Üzerindeki Etkileri — DASH-Sodium Ortak Araştırma Grubu\",\"summary\":\"412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.\",\"gists_json\":\"[\\\"412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.\\\"]\"}},{\"id\":\"dash-item-trial-1997\",\"old\":{\"id\":\"dash-item-trial-1997\",\"title\":\"Diet Desteği ile Tansiyon Nedir?\",\"title_orig\":\"A clinical trial of the effects of dietary patterns on blood pressure. DASH Collaborative Research Group.\",\"summary\":\"DASH kombinasyon diyeti 8 hafta boyunca kontrol grubuna kıyasla tansiyonu düşürdü.\",\"gists_json\":\"[\\\"DASH kombinasyon diyeti 8 hafta boyunca kontrol grubuna kıyasla tansiyonu düşürdü.\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/9099655/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"1997-04-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/9099655/\",\"canonical_work_id\":\"10.1056/nejm199704173361601\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"DASH combination diet lowered blood pressure\\\",\\\"population\\\":\\\"n=459, RCT\\\",\\\"outcome\\\":\\\"blood pressure\\\",\\\"limitation\\\":\\\"8 weeks\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:29.748Z\",\"updated_at\":\"2026-10-07T14:56:29.748Z\"},\"next\":{\"title\":\"Beslenme Örüntülerinin Kan Basıncı Üzerindeki Etkilerine İlişkin Klinik Çalışma — DASH Ortak Araştırma Grubu\",\"summary\":\"459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.\",\"gists_json\":\"[\\\"459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.\\\"]\"}},{\"id\":\"med-item-dga-2015\",\"old\":{\"id\":\"med-item-dga-2015\",\"title\":\"Amerikalılar için 2015-2020 Yönergesi: 4. EK (Sağlıklı Akdeniz Tarzı Yemleme Biçimi)\",\"title_orig\":\"Dietary Guidelines for Americans, 2015-2020: Appendix 4 (Healthy Mediterranean-Style Eating Pattern)\",\"summary\":\"ABD HHS ve USDA, Americans''a Akdeniz tarzı bir yemleme biçimi öneriyor.\",\"gists_json\":\"[\\\"ABD HHS ve USDA, Americans''a Akdeniz tarzı bir yemleme biçimi öneriyor.\\\"]\",\"canonical_url\":\"https://health.gov/dietaryguidelines/2015/guidelines/appendix-4/\",\"publisher\":\"U.S. Department of Agriculture and U.S. Department of Health and Human Services\",\"published_at\":null,\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://health.gov/dietaryguidelines/2015/guidelines/appendix-4/\",\"canonical_work_id\":null,\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-2-med-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"The USDA/HHS recommends a Mediterranean-Style eating pattern.\\\",\\\"population\\\":\\\"Americans\\\",\\\"outcome\\\":\\\"None specified\\\",\\\"limitation\\\":\\\"None specified\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-09T12:15:23.472Z\",\"updated_at\":\"2026-10-09T12:15:23.472Z\"},\"next\":{\"title\":\"Amerikalılar İçin Beslenme Rehberi 2015–2020: Ek 4 — Sağlıklı Akdeniz Tarzı Beslenme Örüntüsü\",\"summary\":\"USDA/HHS''nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1''i ise beslenme sınırlarını açıklar.\",\"gists_json\":\"[\\\"USDA/HHS''nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1''i ise beslenme sınırlarını açıklar.\\\"]\"}},{\"id\":\"med-item-predimed-2018\",\"old\":{\"id\":\"med-item-predimed-2018\",\"title\":\"Kalp Damarı Hastalıklarının Önlenmesi için Akdeniz Diyeti, Zeytinyağı veya Fıstık Eti ile Takviyeli\",\"title_orig\":\"Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts.\",\"summary\":\"Mediterranean diyeti büyük kardiyovasküler olayları azalttı — büyük kardiyovasküler olaylar\",\"gists_json\":\"[\\\"Mediterranean diyeti büyük kardiyovasküler olayları azalttı — büyük kardiyovasküler olaylar\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/29897866/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"2018-06-21\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/29897866/\",\"canonical_work_id\":\"10.1056/nejmoa1800389\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-2-med-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"Mediterranean diet lowered major cardiovascular events\\\",\\\"population\\\":\\\"n=7447\\\",\\\"outcome\\\":\\\"major cardiovascular events\\\",\\\"limitation\\\":\\\"unknown\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-09T12:15:34.752Z\",\"updated_at\":\"2026-10-09T12:15:34.752Z\"},\"next\":{\"title\":\"Natürel Sızma Zeytinyağı veya Sert Kabuklu Yemişlerle Desteklenen Akdeniz Diyetiyle Kardiyovasküler Hastalıkların Birincil Önlenmesi\",\"summary\":\"2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.\",\"gists_json\":\"[\\\"2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.\\\"]\"}}]')), eligible AS MATERIALIZED (\n    SELECT COUNT(*) AS n FROM source_items s JOIN expected e ON s.id = json_extract(e.value,'$.id')\n    WHERE (0 = 1) AND s.id IS json_extract(e.value,'$.old.id') AND s.title IS json_extract(e.value,'$.old.title') AND s.title_orig IS json_extract(e.value,'$.old.title_orig') AND s.summary IS json_extract(e.value,'$.old.summary') AND s.gists_json IS json_extract(e.value,'$.old.gists_json') AND s.canonical_url IS json_extract(e.value,'$.old.canonical_url') AND s.publisher IS json_extract(e.value,'$.old.publisher') AND s.published_at IS json_extract(e.value,'$.old.published_at') AND s.feed_id IS json_extract(e.value,'$.old.feed_id') AND s.route IS json_extract(e.value,'$.old.route') AND s.channel_id IS json_extract(e.value,'$.old.channel_id') AND s.dedupe_key IS json_extract(e.value,'$.old.dedupe_key') AND s.canonical_work_id IS json_extract(e.value,'$.old.canonical_work_id') AND s.acquisition_path IS json_extract(e.value,'$.old.acquisition_path') AND s.discovery_mode IS json_extract(e.value,'$.old.discovery_mode') AND s.discovery_reason IS json_extract(e.value,'$.old.discovery_reason') AND s.enrichment_status IS json_extract(e.value,'$.old.enrichment_status') AND s.enrichment_json IS json_extract(e.value,'$.old.enrichment_json') AND s.enrichment_error IS json_extract(e.value,'$.old.enrichment_error') AND s.enriched_at IS json_extract(e.value,'$.old.enriched_at') AND s.updated_at IS json_extract(e.value,'$.old.updated_at'))\n    UPDATE source_items SET title = (SELECT json_extract(e.value,'$.next.title') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id), summary = (SELECT json_extract(e.value,'$.next.summary') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id), gists_json = (SELECT json_extract(e.value,'$.next.gists_json') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id)\n    WHERE id IN (SELECT json_extract(value,'$.id') FROM expected) AND (SELECT n FROM eligible) = 5 RETURNING *",
+  "historicalFieldRollbackPreview": "WITH expected AS MATERIALIZED (SELECT value FROM json_each('[{\"id\":\"dash-item-booklet\",\"old\":{\"id\":\"dash-item-booklet\",\"title\":\"DASH ile Kan Basıncınızı Düşürme Rehberi\",\"title_orig\":\"Your Guide to Lowering Your Blood Pressure with DASH\",\"summary\":\"Nisan 2006''da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.\",\"gists_json\":\"[\\\"Nisan 2006''da gözden geçirilen NIH Yayını No. 06-4082, resmi DASH beslenme planındaki porsiyonları ve sodyum alımı seçeneklerini açıklar.\\\"]\",\"canonical_url\":\"https://www.nhlbi.nih.gov/files/docs/public/heart/new_dash.pdf\",\"publisher\":\"National Heart, Lung, and Blood Institute\",\"published_at\":\"2006-04-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://www.nhlbi.nih.gov/files/docs/public/heart/new_dash.pdf\",\"canonical_work_id\":null,\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"The DASH eating plan can lower blood pressure.\\\",\\\"population\\\":\\\"individuals with high blood pressure\\\",\\\"outcome\\\":\\\"lower blood pressure\\\",\\\"limitation\\\":\\\"\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:23.782Z\",\"updated_at\":\"2026-10-07T14:56:23.782Z\"},\"next\":{\"title\":\"Kan Basıncınızı DÜŞÜRmenin DASH Yöntemi\",\"summary\":\"DASH Yöntemi, yüksek tansiyonlu bireylerde kan basıncını düşürebilir.\",\"gists_json\":\"[\\\"DASH Yöntemi, yüksek tansiyonlu bireylerde kan basıncını düşürebilir.\\\"]\"}},{\"id\":\"dash-item-sodium-2001\",\"old\":{\"id\":\"dash-item-sodium-2001\",\"title\":\"Azaltılmış Sodyum Alımının ve DASH Diyetinin Kan Basıncı Üzerindeki Etkileri — DASH-Sodium Ortak Araştırma Grubu\",\"title_orig\":\"Effects on blood pressure of reduced dietary sodium and the Dietary Approaches to Stop Hypertension (DASH) diet. DASH-Sodium Collaborative Research Group.\",\"summary\":\"412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.\",\"gists_json\":\"[\\\"412 katılımcılı randomize kontrollü DASH-Sodium çalışmasında, DASH diyeti ve azaltılmış sodyum alımı birlikte uygulandığında, yüksek sodyumlu kontrol diyetine kıyasla kan basıncında daha büyük düşüş gözlendi.\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/11136953/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"2001-01-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/11136953/\",\"canonical_work_id\":\"10.1056/nejm200101043440101\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"sodium reduction combined with DASH lowered blood pressure\\\",\\\"population\\\":\\\"n=412\\\",\\\"outcome\\\":\\\"blood pressure\\\",\\\"limitation\\\":\\\"\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:35.951Z\",\"updated_at\":\"2026-10-07T14:56:35.951Z\"},\"next\":{\"title\":\"Düşük tuz tüketimi ve DASH diyetinin kan basıncı üzerindeki etkileri\",\"summary\":\"Düzenli tuz indirgeme ve DASH diyetinin kombinasyonu, 412 katılımcı grubunda en yüksek oranda kan baskısını azalttı.\",\"gists_json\":\"[\\\"Düzenli tuz indirgeme ve DASH diyetinin kombinasyonu, 412 katılımcı grubunda en yüksek oranda kan baskısını azalttı.\\\"]\"}},{\"id\":\"dash-item-trial-1997\",\"old\":{\"id\":\"dash-item-trial-1997\",\"title\":\"Beslenme Örüntülerinin Kan Basıncı Üzerindeki Etkilerine İlişkin Klinik Çalışma — DASH Ortak Araştırma Grubu\",\"title_orig\":\"A clinical trial of the effects of dietary patterns on blood pressure. DASH Collaborative Research Group.\",\"summary\":\"459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.\",\"gists_json\":\"[\\\"459 katılımcılı randomize kontrollü çalışmada, DASH kombinasyon diyeti sekiz hafta boyunca kontrol diyetine kıyasla kan basıncını düşürdü.\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/9099655/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"1997-04-01\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/9099655/\",\"canonical_work_id\":\"10.1056/nejm199704173361601\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-1-dash-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"DASH combination diet lowered blood pressure\\\",\\\"population\\\":\\\"n=459, RCT\\\",\\\"outcome\\\":\\\"blood pressure\\\",\\\"limitation\\\":\\\"8 weeks\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-07T14:56:29.748Z\",\"updated_at\":\"2026-10-07T14:56:29.748Z\"},\"next\":{\"title\":\"Diet Desteği ile Tansiyon Nedir?\",\"summary\":\"DASH kombinasyon diyeti 8 hafta boyunca kontrol grubuna kıyasla tansiyonu düşürdü.\",\"gists_json\":\"[\\\"DASH kombinasyon diyeti 8 hafta boyunca kontrol grubuna kıyasla tansiyonu düşürdü.\\\"]\"}},{\"id\":\"med-item-dga-2015\",\"old\":{\"id\":\"med-item-dga-2015\",\"title\":\"Amerikalılar İçin Beslenme Rehberi 2015–2020: Ek 4 — Sağlıklı Akdeniz Tarzı Beslenme Örüntüsü\",\"title_orig\":\"Dietary Guidelines for Americans, 2015-2020: Appendix 4 (Healthy Mediterranean-Style Eating Pattern)\",\"summary\":\"USDA/HHS''nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1''i ise beslenme sınırlarını açıklar.\",\"gists_json\":\"[\\\"USDA/HHS''nin resmi Akdeniz tarzı beslenme örüntüsü tablosu, 12 farklı günlük enerji düzeyine göre besin grubu miktarlarını; rehberin Bölüm 1''i ise beslenme sınırlarını açıklar.\\\"]\",\"canonical_url\":\"https://health.gov/dietaryguidelines/2015/guidelines/appendix-4/\",\"publisher\":\"U.S. Department of Agriculture and U.S. Department of Health and Human Services\",\"published_at\":null,\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://health.gov/dietaryguidelines/2015/guidelines/appendix-4/\",\"canonical_work_id\":null,\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-2-med-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"The USDA/HHS recommends a Mediterranean-Style eating pattern.\\\",\\\"population\\\":\\\"Americans\\\",\\\"outcome\\\":\\\"None specified\\\",\\\"limitation\\\":\\\"None specified\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-09T12:15:23.472Z\",\"updated_at\":\"2026-10-09T12:15:23.472Z\"},\"next\":{\"title\":\"Amerikalılar için 2015-2020 Yönergesi: 4. EK (Sağlıklı Akdeniz Tarzı Yemleme Biçimi)\",\"summary\":\"ABD HHS ve USDA, Americans''a Akdeniz tarzı bir yemleme biçimi öneriyor.\",\"gists_json\":\"[\\\"ABD HHS ve USDA, Americans''a Akdeniz tarzı bir yemleme biçimi öneriyor.\\\"]\"}},{\"id\":\"med-item-predimed-2018\",\"old\":{\"id\":\"med-item-predimed-2018\",\"title\":\"Natürel Sızma Zeytinyağı veya Sert Kabuklu Yemişlerle Desteklenen Akdeniz Diyetiyle Kardiyovasküler Hastalıkların Birincil Önlenmesi\",\"title_orig\":\"Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts.\",\"summary\":\"2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.\",\"gists_json\":\"[\\\"2018’de randomizasyon sapmaları nedeniyle düzeltilip yeniden yayımlanan 7.447 katılımcılı randomize kontrollü PREDIMED çalışmasında, natürel sızma zeytinyağı veya sert kabuklu yemişlerle desteklenen Akdeniz diyeti gruplarında, yağ azaltma önerili kontrol grubuna göre majör kardiyovasküler olaylar daha seyrek görüldü.\\\"]\",\"canonical_url\":\"https://pubmed.ncbi.nlm.nih.gov/29897866/\",\"publisher\":\"The New England Journal of Medicine\",\"published_at\":\"2018-06-21\",\"feed_id\":\"europe-pmc-batch\",\"route\":\"kaduse-research\",\"channel_id\":\"kaduse-medikal\",\"dedupe_key\":\"https://pubmed.ncbi.nlm.nih.gov/29897866/\",\"canonical_work_id\":\"10.1056/nejmoa1800389\",\"acquisition_path\":\"EVERGREEN\",\"discovery_mode\":\"EVERGREEN_REDISCOVERY\",\"discovery_reason\":\"protocol-wave-2-med-controlled-import\",\"enrichment_status\":\"done\",\"enrichment_json\":\"{\\\"route\\\":\\\"kaduse-research\\\",\\\"evidence\\\":{\\\"finding\\\":\\\"Mediterranean diet lowered major cardiovascular events\\\",\\\"population\\\":\\\"n=7447\\\",\\\"outcome\\\":\\\"major cardiovascular events\\\",\\\"limitation\\\":\\\"unknown\\\"},\\\"model\\\":\\\"@cf/meta/llama-3.1-8b-instruct-fp8\\\"}\",\"enrichment_error\":null,\"enriched_at\":\"2026-10-09T12:15:34.752Z\",\"updated_at\":\"2026-10-09T12:15:34.752Z\"},\"next\":{\"title\":\"Kalp Damarı Hastalıklarının Önlenmesi için Akdeniz Diyeti, Zeytinyağı veya Fıstık Eti ile Takviyeli\",\"summary\":\"Mediterranean diyeti büyük kardiyovasküler olayları azalttı — büyük kardiyovasküler olaylar\",\"gists_json\":\"[\\\"Mediterranean diyeti büyük kardiyovasküler olayları azalttı — büyük kardiyovasküler olaylar\\\"]\"}}]')), eligible AS MATERIALIZED (\n    SELECT COUNT(*) AS n FROM source_items s JOIN expected e ON s.id = json_extract(e.value,'$.id')\n    WHERE (0 = 1) AND s.id IS json_extract(e.value,'$.old.id') AND s.title IS json_extract(e.value,'$.old.title') AND s.title_orig IS json_extract(e.value,'$.old.title_orig') AND s.summary IS json_extract(e.value,'$.old.summary') AND s.gists_json IS json_extract(e.value,'$.old.gists_json') AND s.canonical_url IS json_extract(e.value,'$.old.canonical_url') AND s.publisher IS json_extract(e.value,'$.old.publisher') AND s.published_at IS json_extract(e.value,'$.old.published_at') AND s.feed_id IS json_extract(e.value,'$.old.feed_id') AND s.route IS json_extract(e.value,'$.old.route') AND s.channel_id IS json_extract(e.value,'$.old.channel_id') AND s.dedupe_key IS json_extract(e.value,'$.old.dedupe_key') AND s.canonical_work_id IS json_extract(e.value,'$.old.canonical_work_id') AND s.acquisition_path IS json_extract(e.value,'$.old.acquisition_path') AND s.discovery_mode IS json_extract(e.value,'$.old.discovery_mode') AND s.discovery_reason IS json_extract(e.value,'$.old.discovery_reason') AND s.enrichment_status IS json_extract(e.value,'$.old.enrichment_status') AND s.enrichment_json IS json_extract(e.value,'$.old.enrichment_json') AND s.enrichment_error IS json_extract(e.value,'$.old.enrichment_error') AND s.enriched_at IS json_extract(e.value,'$.old.enriched_at') AND s.updated_at IS json_extract(e.value,'$.old.updated_at'))\n    UPDATE source_items SET title = (SELECT json_extract(e.value,'$.next.title') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id), summary = (SELECT json_extract(e.value,'$.next.summary') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id), gists_json = (SELECT json_extract(e.value,'$.next.gists_json') FROM expected e WHERE json_extract(e.value,'$.id') = source_items.id)\n    WHERE id IN (SELECT json_extract(value,'$.id') FROM expected) AND (SELECT n FROM eligible) = 5 RETURNING *",
+  "operatorBoundary": "Core writer has no remote adapter or production route. Separate explicit owner operation authorization + approved operator identity/transport + durable audit + bounded readbacks required; do not execute SQL blindly.",
+  "additionalReadScope": [
+    "SELECT type,name,sql FROM sqlite_master WHERE tbl_name='source_items' AND type IN ('table','trigger','index') ORDER BY type,name LIMIT 65",
+    "SELECT * FROM source_items WHERE id IN ('dash-item-booklet','dash-item-sodium-2001','dash-item-trial-1997','med-item-dga-2015','med-item-predimed-2018') ORDER BY id LIMIT 6"
+  ]
+}

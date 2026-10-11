@@ -83,7 +83,7 @@ let unjustifiedSkips = 0;
 let justifiedSkips = 0;
 for (const f of testFiles) {
   try {
-    const localWorkerdSuite = /statistics[\\/]local-runtime\.test\.mjs$|statistics[\\/]readers[\\/]eurostat-worker-e2e\.test\.mjs$/.test(f);
+    const localWorkerdSuite = /statistics[\\/]local-runtime\.test\.mjs$|statistics[\\/]readers[\\/]eurostat-worker-e2e\.test\.mjs$|scripts[\\/]protocols-five-item-d1\.test\.mjs$/.test(f);
     const out = execFileSync(process.execPath, [f], { cwd: root, stdio: 'pipe', timeout: localWorkerdSuite ? 600_000 : 180_000, windowsHide: true }).toString();
     const count = (name) => Number((out.match(new RegExp(`(?:#|ℹ) ${name} (\\d+)`)) || [])[1] ?? 0);
     const passMatch = out.match(/# pass (\d+)/) || out.match(/ℹ pass (\d+)/);

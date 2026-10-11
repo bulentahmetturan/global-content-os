@@ -1,0 +1,39 @@
+{
+  "generatedBy": "scripts/build-protocol-authority-contracts.mjs",
+  "responseSHA256": "afb394953c06dc209e7fac11d711a81f184c4b6dc51eb77938b17ead1c746a5c",
+  "source": "Europe PMC MED records from the existing bounded three-ID public read; no new fetch",
+  "resultList": {
+    "result": [
+      {
+        "id": "29897866",
+        "source": "MED",
+        "title": "Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts.",
+        "doi": "10.1056/nejmoa1800389",
+        "pmid": "29897866",
+        "pubYear": "2018",
+        "firstPublicationDate": "2018-06-13",
+        "authorString": "Estruch R, Ros E, Salas-Salvadó J, Covas MI, Corella D, Arós F, Gómez-Gracia E, Ruiz-Gutiérrez V, Fiol M, Lapetra J, Lamuela-Raventos RM, Serra-Majem L, Pintó X, Basora J, Muñoz MA, Sorlí JV, Martínez JA, Fitó M, Gea A, Hernán MA, Martínez-González MA, PREDIMED Study Investigators."
+      },
+      {
+        "id": "11136953",
+        "source": "MED",
+        "title": "Effects on blood pressure of reduced dietary sodium and the Dietary Approaches to Stop Hypertension (DASH) diet. DASH-Sodium Collaborative Research Group.",
+        "doi": "10.1056/nejm200101043440101",
+        "pmid": "11136953",
+        "pubYear": "2001",
+        "firstPublicationDate": "2001-01-01",
+        "authorString": "Sacks FM, Svetkey LP, Vollmer WM, Appel LJ, Bray GA, Harsha D, Obarzanek E, Conlin PR, Miller ER, Simons-Morton DG, Karanja N, Lin PH, DASH-Sodium Collaborative Research Group."
+      },
+      {
+        "id": "9099655",
+        "source": "MED",
+        "title": "A clinical trial of the effects of dietary patterns on blood pressure. DASH Collaborative Research Group.",
+        "doi": "10.1056/nejm199704173361601",
+        "pmid": "9099655",
+        "pubYear": "1997",
+        "firstPublicationDate": "1997-04-01",
+        "authorString": "Appel LJ, Moore TJ, Obarzanek E, Vollmer WM, Svetkey LP, Sacks FM, Bray GA, Vogt TM, Cutler JA, Windhauser MM, Lin PH, Karanja N."
+      }
+    ]
+  }
+}
