@@ -18,7 +18,7 @@ The captured ER02 comparison is anchored to RC `19cbd3447bf08cdd04e651d5ba7a5a49
 
 | RC-only migration | Owner / effect | Candidate remote filename | Current compatibility evidence | Remaining requirement |
 |---|---|---|---|---|
-| `0043_protocol_mediterranean_wave2.sql` | Protocols; data seed for versions, components, source items, claims, evidence and links | `0044_protocol_mediterranean_wave2.sql` | Prior bounded reads verified expected version/component/claim/evidence relationships, but not the complete seed payload or applied bytes. No required DDL delta is identified. | Authoritative complete row-level comparison for every seeded entity and relationship; original apply receipt or explicit owner risk decision. Do not replay blindly. |
+| `0043_protocol_mediterranean_wave2.sql` | Protocols; data seed for versions, components, source items, claims, evidence and links | `0044_protocol_mediterranean_wave2.sql` | Existing bounded reads verify expected row families and relationships; owner subsequently ran the bounded cross-ID identity check and reported only the two expected source IDs. Four title/summary values still differ from the original SQL payload; applied bytes remain unproven. | Resolve/document the source-text payload variance and obtain original apply receipt or explicit owner risk decision. Do not replay blindly. |
 | `0044_doctor_discovery_candidates.sql` | Doctors; creates candidate table and indexes | `0048_doctor_discovery_candidates.sql` | Corresponding schema contract appears in captured schema comparison; no byte proof. | Confirm all constraints/index details against a fresh authoritative schema snapshot and establish the execution record. |
 | `0045_discovery_signal_linkage.sql` | Discovery; adds three linkage columns and index | `0046_discovery_signal_linkage.sql` | Columns/index appear compatible in captured schema comparison; no byte proof. | Verify exact column definitions, index and existing linked data. SQL contains non-idempotent `ALTER TABLE ADD COLUMN`; reapplication is unsafe. |
 | `0045_doctor_source_proposals.sql` | Doctors; creates proposal table and indexes | `0049_doctor_source_proposals.sql` | Corresponding schema contract appears in captured schema comparison; no byte proof. | Confirm all constraints/index details against a fresh authoritative schema snapshot and establish the execution record. |
@@ -41,7 +41,7 @@ The already-authorized ER03 evidence contains 13 bounded SELECT results. It cove
 | `claim_evidence_links` | 3 | Exact expected claim/evidence/direction links present |
 | `protocol_phases` | 0 | Expected empty; captured result empty |
 
-The displayed source-text differences are already covered by the Protocols text-review and approved correction scope. They do not establish whether the local English seed was applied and later localized, whether another authorized process created the rows, or whether the reviewed text edits were performed with documented provenance. The 13-query comparison reported no missing or unexpected target IDs, but did not search for the same canonical URLs, dedupe keys or DOI under other source-item IDs. Therefore the **observed seed data effect is substantially verified, not fully reconciled**.
+The displayed source-text differences are already covered by the Protocols text-review and approved correction scope. They do not establish whether the local English seed was applied and later localized, whether another authorized process created the rows, or whether the reviewed text edits were performed with documented provenance. The 13-query comparison reported no missing or unexpected target IDs.
 
 Exact source-item payload differences from the captured comparison:
 
@@ -52,7 +52,7 @@ Exact source-item payload differences from the captured comparison:
 | `med-item-predimed-2018.title` | `Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts.` | `Kalp Damarı Hastalıklarının Önlenmesi için Akdeniz Diyeti, Zeytinyağı veya Fıstık Eti ile Takviyeli` |
 | `med-item-predimed-2018.summary` | `Republished RCT n=7447: Mediterranean diet lowered major cardiovascular events versus low-fat control.` | `Mediterranean diyeti büyük kardiyovasküler olayları azalttı — büyük kardiyovasküler olaylar` |
 
-Migration SQL declares `ON CONFLICT(version_id|component_id|id|claim_id|evidence_id|claim_id,evidence_id) DO NOTHING`; duplicate primary/unique-key replay is a no-op, not an update/reconciliation. That is deterministic source behavior, not proof the SQL ran. It also does not prevent a semantically duplicate source under a different ID. One additional bounded operator query closes that remaining duplicate-identity check:
+Migration SQL declares `ON CONFLICT(version_id|component_id|id|claim_id|evidence_id|claim_id,evidence_id) DO NOTHING`; duplicate primary/unique-key replay is a no-op, not an update/reconciliation. That is deterministic source behavior, not proof the SQL ran. It also does not prevent a semantically duplicate source under a different ID. The following additional bounded duplicate-identity query was executed by the owner in the production D1 Console:
 
 ```sql
 SELECT id, canonical_url, dedupe_key, canonical_work_id, discovery_reason
@@ -70,7 +70,9 @@ ORDER BY id
 LIMIT 25;
 ```
 
-Target: existing production Content D1 `global-content-os` (`c0ce92dc-9842-4dd9-9d05-a8d09e798b34`). This query is read-only and bounded; preserve the raw result, timestamp, target identity, response/request ID, and confirm zero writes/database changes. No further SQL is required to compare the seed rows already returned by Q1-Q8. If exact operator authorization does not cover this additional predicate set, the designated operator must obtain separate read-only approval before execution.
+Target: production Content D1 `global-content-os` (`c0ce92dc-9842-4dd9-9d05-a8d09e798b34`). The query was executed in the D1 Console as a SELECT. No further SQL is required to compare the seed rows already returned by Q1-Q8, and this query must not be repeated.
+
+**Owner-reported result, supported by the supplied screenshot:** execution succeeded; SELECT only; 2 rows returned: `med-item-dga-2015` and `med-item-predimed-2018`; no additional IDs matched the queried canonical URLs, dedupe keys, or DOI; production writes: 0. The console shows response time `240ms` and query time `15.97ms`. This closes the bounded cross-ID duplicate check for those identity keys. The screenshot does not provide an execution timestamp or provider request ID and clips the rightmost columns; those details are not inferred. The result does not prove migration execution, byte provenance, or equivalence/provenance of the four changed source-text values. **Do not rerun this query.**
 
 ## Historical identity classification
 
@@ -94,30 +96,22 @@ No Cloudflare production operator transport is exposed in this local task enviro
 ## Risk and readiness
 
 - **Schema compatibility:** captured schema evidence identifies no required application DDL delta; 259 objects matched exactly and 12 more differed only by comments/whitespace. This is limited to the captured snapshot and is not a live freshness claim.
-- **Data migration risk:** UNKNOWN for the overall migration delta. The Protocols seed is data-bearing; prior expected-record SELECTs do not prove every SQL row or seed effect. The other five are described as schema-only/additive in their local SQL, but production data effects/state are not inferred from that description.
+- **Data migration risk:** Core Protocols row identities, version/components/claims/evidence relationships, and the bounded cross-ID identity check are verified from production reads. Four source title/summary fields differ from the original seed values, and the available result does not establish transformation provenance. The other five are described as schema-only/additive in local SQL, but production data effects/state are not inferred from that description.
 - **Historical provenance:** UNPROVEN. The completed bounded search found 59 source-byte artifacts and zero proven applied bytes. Schema or data equivalence cannot repair that evidentiary gap.
 - **Execution identity:** UNKNOWN. Actual pending set remains UNKNOWN. No migration can be selected for apply from this assessment.
 - **Runtime dependency:** exact RC readiness currently fails because six exact required filenames are absent from the captured ledger and no alias authority exists. No Worker code/readiness change is proposed.
 
 ### Owner decision
 
-🔴 **OWNER DECISION REQUIRED — BLOCKED**
-
-Choose one after the missing authoritative evidence is presented:
-
-- **Defer release** (recommended): preserve exact filename/provenance requirements; release stays blocked until apply receipts/byte provenance and any missing data proof are recovered.
-- **Accept a narrowly documented historical-provenance risk**: owner may accept a stated residual uncertainty only after reviewing an exact per-file compatibility packet. This would not prove historical bytes and does not authorize migration apply, ledger edits, aliases, or a readiness bypass. Any implementation of an exception requires a separate explicit approval and a fail-closed, scoped design review.
-- **Recover stronger evidence first**: obtain immutable apply receipts/build artifacts and complete read-only row/schema evidence from the authorized operator, then reassess without accepting provenance risk.
-
-Recommendation: defer release and recover evidence. Do not infer “already applied” from the matching schema.
+**Current owner direction is explicit:** residual migration risk is NOT accepted; migration apply, ledger modification, readiness bypass, and deployment are NOT authorized. No repeat approval request is pending. Keep the release blocked while recovering authoritative receipts/evidence; do not infer “already applied” from matching schema or current rows. Any future proposal to change this direction requires a new, separate owner authorization and is outside this assessment.
 
 ## Exact safe release conditions
 
 1. Obtain current authoritative ledger/environment/database identity and complete per-file apply receipts or immutable byte provenance.
-2. Resolve the complete data delta, especially the Protocols seed, with bounded read-only evidence.
+2. Resolve/document the four Protocols source-text value differences and their provenance; the bounded duplicate-identity query is complete and must not be repeated.
 3. Reconcile all filename discrepancies through the migration authority owner; no implicit aliasing, manual ledger repair, or blind SQL replay.
 4. Preserve and pass exact-file/hash authority, complete-set checks, namespace/environment checks, historical-byte checks where required, and every unrelated readiness gate.
-5. Obtain separate owner approval for any explicit residual-risk exception, and separate exact authorization for any production migration or deployment operation.
+5. Preserve the current owner direction: residual migration risk is not accepted; no migration apply, ledger edit, readiness bypass, or deployment is authorized. Any future change to that direction would require separate explicit authorization.
 
 ## Local verification
 
