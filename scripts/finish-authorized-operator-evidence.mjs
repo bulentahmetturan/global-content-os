@@ -1,6 +1,7 @@
 // Independent authorized OPS group plus local evidence index; no SQL or state changes.
 import { readFileSync, readdirSync, writeFileSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { classifyOperatorResponse, projectOperatorEvidence } from './operator-evidence-sanitize.mjs';
 const dir = '.logs/authorized-operator-evidence-20261011';
 const reads = [], denied = new Set();
 for (const [path, group] of [
@@ -14,13 +15,35 @@ for (const [path, group] of [
     const response = await fetch('https://global-content-os.channel-content-os-mcp.workers.dev' + path,
       { method: 'GET', headers: { Authorization: `Bearer ${token}` }, redirect: 'error', signal: AbortSignal.timeout(15000) });
     receipt.status = response.status; receipt.requestId = response.headers.get('cf-ray'); receipt.attempted = true;
-    if ([401,403].includes(response.status)) { denied.add(group); receipt.reason = 'AUTHENTICATION_DENIED_GROUP_STOP'; continue; }
-    if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) { denied.add(group); receipt.reason = 'NOT_SUCCESSFUL_JSON_EVIDENCE'; continue; }
     const chunks = []; let bytes = 0; const reader = response.body.getReader();
     while (true) { const { done, value } = await reader.read(); if (done) break;
       bytes += value.length; if (bytes > 262144) { await reader.cancel(); throw new Error('RESPONSE_BUDGET_EXCEEDED'); } chunks.push(Buffer.from(value)); }
-    receipt.body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  } catch { receipt.status = 'BLOCKED_EXTERNAL'; receipt.reason = 'TRANSPORT_FAILURE_REDACTED'; denied.add(group); }
+    const raw = Buffer.concat(chunks);
+    receipt.responseBytes = bytes;
+    receipt.responseSha256 = createHash('sha256').update(raw).digest('hex');
+    let body;
+    try { body = JSON.parse(raw.toString('utf8')); } catch { /* only the classification is retained */ }
+    const classification = classifyOperatorResponse(response.status, response.headers.get('content-type'), body !== undefined);
+    receipt.classification = classification;
+    if (classification !== 'SUCCESS') {
+      denied.add(group);
+      receipt.reason = classification;
+      continue;
+    }
+    const evidence = projectOperatorEvidence(path, body);
+    if (!evidence) {
+      denied.add(group);
+      receipt.classification = 'UNEXPECTED_RESPONSE_SHAPE';
+      receipt.reason = 'RESPONSE_SHAPE_REJECTED';
+      continue;
+    }
+    receipt.evidence = evidence;
+  } catch (error) {
+    receipt.status = 'BLOCKED_EXTERNAL';
+    receipt.classification = error?.name === 'TimeoutError' || error?.name === 'AbortError' ? 'TIMEOUT' : 'TRANSPORT_FAILURE';
+    receipt.reason = 'TRANSPORT_FAILURE_REDACTED';
+    denied.add(group);
+  }
   finally { receipt.finishedUtc = new Date().toISOString(); }
 }
 writeFileSync(`${dir}/ops-receipts.json`, JSON.stringify(reads, null, 2));
