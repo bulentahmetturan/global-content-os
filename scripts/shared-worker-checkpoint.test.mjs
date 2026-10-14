@@ -19,6 +19,8 @@ test('deployment bindings, crons and switches remain unchanged',()=> {
   assert.equal(readFileSync('wrangler.toml','utf8').replaceAll('\r\n','\n'),execFileSync('git',['show','e20a0b3:wrangler.toml'],{encoding:'utf8'}));
   const before=JSON.parse(execFileSync('git',['show','e20a0b3:package.json'],{encoding:'utf8'}));
   const after=JSON.parse(readFileSync('package.json','utf8'));
+  // Owner-approved 2026-10-14: read-only local test runner added after the checkpoint; no deploy or migration capability.
+  assert.match(after.scripts['operator-bridge:test'],/^node --test scripts\/operator-bridge\/\*\.test\.mjs$/); delete after.scripts['operator-bridge:test'];
   for(const name of ['deploy','db:remote']) { assert.match(after.scripts[name],/production-operation-blocked/); delete before.scripts[name]; delete after.scripts[name]; }
   assert.deepEqual(after,before);
 });
