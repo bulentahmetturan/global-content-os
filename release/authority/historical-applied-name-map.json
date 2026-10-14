@@ -1,0 +1,13 @@
+{
+  "decision": "GATE_B_OPTION_4_OWNER_EXCEPTION_2026-10-15",
+  "scope": "exact-filename readiness only; applied SQL bytes unproven; no SQL replay; no ledger write; no other migration name",
+  "evidence": "docs/audits/2026-10-15-gate-b-option4-owner-risk-package.md",
+  "entries": [
+    { "rcName": "0043_protocol_mediterranean_wave2.sql", "rcGitBlob": "681290b5d4dd5c0b4c16ee1b69e16e6d1ec161d8", "rcSha256": "85ee1c23ff3f1f73f315aa6f6aa68951bb6aec0aa6e71e09bb4c9553745bbc9e", "productionName": "0044_protocol_mediterranean_wave2.sql", "productionLedgerId": 44 },
+    { "rcName": "0044_doctor_discovery_candidates.sql", "rcGitBlob": "2b5c3c69a9c8c42e057d879fb09619d5aafbccca", "rcSha256": "9205df1cc7a763cba684c7ef9c9963c9fa418191a03882bb053704f36bc001a2", "productionName": "0048_doctor_discovery_candidates.sql", "productionLedgerId": 48 },
+    { "rcName": "0045_discovery_signal_linkage.sql", "rcGitBlob": "f046caf1450778ab3450e5727dcea9ab340e3264", "rcSha256": "65d3b0180c873a009c04adb46d79c0a4ee8f1d6bcb640804412a0a0bf814b1c9", "productionName": "0046_discovery_signal_linkage.sql", "productionLedgerId": 46 },
+    { "rcName": "0045_doctor_source_proposals.sql", "rcGitBlob": "5408e47504b463377b82fa892be5d35b5ff9b098", "rcSha256": "f4e61ef061c31e0a3ad42d9ff06298eb8e1ee6426d5f5963fd22bdb1dc318667", "productionName": "0049_doctor_source_proposals.sql", "productionLedgerId": 49 },
+    { "rcName": "0046_doctor_knowledge.sql", "rcGitBlob": "eb1138ce20efe9d4f9ffa81b57fa41d21bf21184", "rcSha256": "3ea0279b4d2155d14135ecb46f6de7047eb666452229802eb199c72092e2a7ce", "productionName": "0047_doctor_knowledge.sql", "productionLedgerId": 47 },
+    { "rcName": "0046_doctor_profile_facts.sql", "rcGitBlob": "a252b5499c608f72bdaae6b02d2b67b09a204c1d", "rcSha256": "c7877402a92e6a108347011157a5906feeffa67bab7e6af0e539489ea10abe59", "productionName": "0050_doctor_profile_facts.sql", "productionLedgerId": 50 }
+  ]
+}

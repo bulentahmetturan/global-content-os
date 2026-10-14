@@ -43,3 +43,63 @@ test('health performs zero DB queries; readiness metadata is bounded and cached'
     await schema.gatherSchemaReadiness(DB, f.STATS_DB); await schema.gatherSchemaReadiness(DB, f.STATS_DB); assert.equal(batches, 1);
   } finally { f.close(); }
 });
+
+// ---- Gate B owner exception (2026-10-15): closed six-name historical map, exact-filename readiness otherwise ----
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const mapJson = JSON.parse(readFileSync('release/authority/historical-applied-name-map.json', 'utf8'));
+const SIX = mapJson.entries.map(e => [e.rcName, e.productionName]);
+function asProduction(f) {
+  // Simulate the live ledger: the six RC names absent, their production counterparts present.
+  for (const [rc, prod] of SIX) f.content.db.prepare('UPDATE d1_migrations SET name=? WHERE name=?').run(prod, rc);
+}
+test('Gate B map: exactly six entries, RC bytes pinned, counterparts never collide with local filenames', () => {
+  assert.equal(mapJson.entries.length, 6);
+  const local = new Set(files.map(x => x.name));
+  for (const e of mapJson.entries) {
+    assert.ok(local.has(e.rcName), e.rcName);
+    assert.ok(!local.has(e.productionName), `${e.productionName} must not exist locally`);
+    assert.equal(createHash('sha256').update(readFileSync(`migrations/${e.rcName}`)).digest('hex'), e.rcSha256, e.rcName);
+  }
+  assert.equal(new Set(SIX.map(x => x[1])).size, 6);
+});
+test('Gate B map: production ledger names satisfy exactly the six RC names, mapping is reported', async () => {
+  const f = fixture();
+  try {
+    asProduction(f);
+    const r = await schema.gatherSchemaReadiness(f.DB, f.STATS_DB);
+    assert.equal(r.content.level, 'READY'); assert.deepEqual(r.content.missingMigrations, []);
+    assert.deepEqual([...r.content.mappedMigrations].sort(), SIX.map(x => x[0]).sort());
+  } finally { f.close(); }
+});
+test('Gate B map: missing counterpart, one unmapped name or a near-miss name still blocks (fail-closed)', async () => {
+  for (const mutate of [
+    (db) => db.prepare('DELETE FROM d1_migrations WHERE name=?').run('0050_doctor_profile_facts.sql'),
+    (db) => db.prepare('DELETE FROM d1_migrations WHERE name=?').run('0032_doctor_actor_sources.sql'),
+    (db) => db.prepare('UPDATE d1_migrations SET name=? WHERE name=?').run('0050_doctor_profile_facts_v2.sql', '0050_doctor_profile_facts.sql'),
+    (db) => db.prepare('UPDATE d1_migrations SET name=? WHERE name=?').run('0044_doctor_discovery_candidates.sql.bak', '0048_doctor_discovery_candidates.sql'),
+  ]) {
+    const f = fixture();
+    try { asProduction(f); mutate(f.content.db); const r = await schema.gatherSchemaReadiness(f.DB, f.STATS_DB); assert.equal(r.content.level, 'BLOCKED'); assert.ok(r.content.missingMigrations.length >= 1); }
+    finally { f.close(); }
+  }
+});
+test('Gate B map: capability checks stay independent of the map; a counterpart alone cannot hide a missing column', async () => {
+  const f = fixture();
+  try {
+    asProduction(f);
+    f.content.db.exec('ALTER TABLE doctor_profile_facts RENAME COLUMN fact_id TO missing_fact_id');
+    const r = await schema.gatherSchemaReadiness(f.DB, f.STATS_DB);
+    assert.equal(r.content.level, 'BLOCKED'); assert.ok(r.content.missingCapabilities.includes('doctor_profile_facts.fact_id'));
+  } finally { f.close(); }
+});
+test('Gate B map: a future migration name is never satisfied by the map', async () => {
+  const f = fixture();
+  try {
+    asProduction(f);
+    // A name that is not in the closed list cannot be satisfied through a lookalike production name.
+    f.content.db.prepare('UPDATE d1_migrations SET name=? WHERE name=?').run('0047_doctor_knowledge_FUTURE.sql', '0047_doctor_knowledge.sql');
+    const r = await schema.gatherSchemaReadiness(f.DB, f.STATS_DB);
+    assert.equal(r.content.level, 'BLOCKED'); assert.ok(r.content.missingMigrations.includes('0046_doctor_knowledge.sql'));
+  } finally { f.close(); }
+});
