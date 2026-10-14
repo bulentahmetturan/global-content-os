@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { listMigrations, tryRead } from './util.mjs';
+import { decodeSQL } from '../../scripts/migration-authority.mjs';
 
 const { DatabaseSync } = createRequire(import.meta.url)('node:sqlite');
 
@@ -14,14 +15,14 @@ export function replay(files, { schemaPath = null, foreignKeys = true, upTo = In
   if (!foreignKeys) db.exec('PRAGMA foreign_keys = OFF');
   let applied = 0;
   try {
-    if (schemaPath) db.exec(readFileSync(schemaPath, 'utf8'));
+    if (schemaPath) db.exec(decodeSQL(readFileSync(schemaPath)));
   } catch (e) {
     return { ok: false, applied, failedAt: 'schema', error: String(e.message).slice(0, 160), db };
   }
   for (const f of files) {
     if (f.number > upTo) break;
     try {
-      db.exec(readFileSync(f.path, 'utf8'));
+      db.exec(decodeSQL(readFileSync(f.path)));
       applied++;
     } catch (e) {
       return { ok: false, applied, failedAt: f.filename, error: String(e.message).slice(0, 160), db };
@@ -64,7 +65,7 @@ export function analyseRepo({ root, migrationsDir, schema = null, pending = [], 
       if (!pre.ok) error = `pre-state failed at ${pre.failedAt}`;
       else {
         try {
-          pre.db.exec(readFileSync(f.path, 'utf8'));
+          pre.db.exec(decodeSQL(readFileSync(f.path)));
           testedLocal = true;
         } catch (e) {
           error = String(e.message).slice(0, 160);
