@@ -2,7 +2,7 @@
 
 Production version `d8d0a853-c5f4-414a-aada-83430f37f24d` (commit `2afa1467…`). Evidence collected 2026-10-14T22:57–23:05Z under the owner's read-only approval: aggregate-only SELECTs (`release/gate-e-readonly-queries.json`, SHA-256 of capture `df567342…0e07`), five follow-up aggregate reads, anonymous HTTP probes, and the earlier Gate C readbacks. Nothing was written by this run.
 
-LIVE_ACCEPTANCE = **9 PASS / 1 FAIL / 9 BLOCKED / 12 UNKNOWN of 31**. Not 100%.
+LIVE_ACCEPTANCE = **9 PASS / 1 FAIL / 9 BLOCKED / 12 UNKNOWN of 31**. Not 100%. (Run 2 below: 11 PASS / 1 FAIL / 7 BLOCKED / 12 UNKNOWN.)
 
 | ID | Result | Expected → observed |
 |---|---|---|
@@ -43,3 +43,14 @@ LIVE_ACCEPTANCE = **9 PASS / 1 FAIL / 9 BLOCKED / 12 UNKNOWN of 31**. Not 100%.
 2. **Discovery** has never run in production (all tables empty). DISC-A/C/D/E/F need an owner-approved wave.
 3. **Doctors** pipeline tables 0044–0050 are empty by design until a source run is approved.
 4. **Dossier observations** are stale since 2026-10-06 because of finding 1.
+
+## Run 2 (2026-10-14T23:51Z): after OPS token rotation and broker enrollment
+Owner rotated `OPS_TOKEN` and `DOSSIER_OPS_READ_TOKEN` (Worker secrets, values never shown) and enrolled `GCOS_OPS_READ` / `DOSSIER_OPS_READ` through the protected operator credential store (both 64 characters, verified by length only). Broker restarted by the owner in the operator session; authorized bounded reads through the bridge:
+
+| ID | Result | Observed |
+|---|---|---|
+| DOC-F | PASS | `gcos_ops_summary`: readiness READY, blocked/degraded empty, highestAlert NONE, identity commit `2afa1467…`, appliedMigration `0050_doctor_profile_facts.sql`, handoffs sent 7 / stubbed 63 / failed24h 0 |
+| DOS-B | PASS | `dossier_ops_summary`, `dossier_alerts`, `dossier_audit`, `dossier_runs` all `ok: true`, bounded |
+| DOS-D | FAIL (root cause confirmed) | source `dossier-clinicaltrials-frontier` PAUSED (`CIRCUIT_OPEN:1_FAILED_RUNS`), `BACKLOG_TOKEN_PRESENT` since 2026-10-07, last success 2026-10-07T06:00:06Z, daily BURN_IN→PAUSED flapping; matches the stale pageToken defect fixed in `8f31cdb` (not yet deployed) |
+
+Counts after run 2: **11 PASS / 1 FAIL / 7 BLOCKED / 12 UNKNOWN of 31**.
