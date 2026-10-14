@@ -54,3 +54,22 @@ Owner rotated `OPS_TOKEN` and `DOSSIER_OPS_READ_TOKEN` (Worker secrets, values n
 | DOS-D | FAIL (root cause confirmed) | source `dossier-clinicaltrials-frontier` PAUSED (`CIRCUIT_OPEN:1_FAILED_RUNS`), `BACKLOG_TOKEN_PRESENT` since 2026-10-07, last success 2026-10-07T06:00:06Z, daily BURN_IN→PAUSED flapping; matches the stale pageToken defect fixed in `8f31cdb` (not yet deployed) |
 
 Counts after run 2: **11 PASS / 1 FAIL / 7 BLOCKED / 12 UNKNOWN of 31**.
+
+## Run 3 (2026-10-14T23:56Z): B2 extended read-only integrity set
+Owner-approved single run: `scripts/gate-e-readonly-capture.mjs` with `release/gate-e-integrity-queries.json` (aggregate-only: FK orphan counts generated from `PRAGMA foreign_key_list` of the committed schema, plus per-family/per-route freshness). Capture SHA-256 `62290369…ceb4`. Writes: 0.
+
+| Check | Result |
+|---|---|
+| FK integrity, content DB (60 FK relations across actors, doctors, discovery, dossier, protocols, claims) | 0 orphans |
+| FK integrity, STATS DB (47 relations) | 0 orphans |
+| Dossier observations by family | GLOBAL_RESEARCH_ACTIVITY 765 (latest 2026-10-06), TURKEY_HEALTH_BURDEN 91 (latest 2023-12-31 data period) |
+| source_items by route | kaduse-news 1,251 (latest 2026-10-14T18:39Z), kaduse-research 3,331 (2026-10-14T20:22Z), tip-ogrencileri 434 (2026-10-14T09:33Z) |
+| Statistics runs | 5 COMPLETED, latest 2026-10-13T03:00:32Z |
+
+| ID | Change | Basis |
+|---|---|---|
+| DOC-A | UNKNOWN → PASS | 0 orphans across actor/source relations; actors 2, associations 1 |
+| DOC-B | UNKNOWN → PASS | associations/activity/ingestability relations intact (0 orphans) |
+| DOS-F | UNKNOWN → PASS | two families carry real observations with intact relations (ClinicalTrials family stale since 2026-10-06, tracked under DOS-D) |
+
+Counts after run 3: **14 PASS / 1 FAIL / 7 BLOCKED / 9 UNKNOWN of 31**.
