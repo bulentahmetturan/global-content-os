@@ -19,3 +19,6 @@ Owner-approved single deployment of exactly one artifact. No migration, no secre
 - Deployed module fetched back from Cloudflare: `index.js` SHA-256 equals the approved bundle hash (source-to-artifact linkage established for this version). Guard strings `protectedProtocolDisplay`, `APPROVED_PROTOCOL_OPERATOR_WRITER_REQUIRED` and the audit label are present in the live module.
 
 Not verified here: behavior of guarded routes (needs operator token), cron execution results, live acceptance criteria (0/31).
+
+## Second deployment (2026-10-14T23:53:51Z): Dossier ClinicalTrials cursor fix
+Owner ran `wrangler deploy` in their terminal (permission layer blocks agent production writes). Source `4b8dbd330ad5cbc2d61b766014084cee32ac60ff` (code identical to `8f31cdb`); new version `435ed217-17bd-4722-8ad3-e94866f4af9e` (deployment `01e0784e-196f-4cc3-b81c-108cff0baf6b`) 100%; rollback target is the previous version of the secret-rotation deployments (code `cf679c48…`). Live module fetched back: `index.js` 1,265,136 bytes, SHA-256 `26668614983dc2c7fe4635642cc90b7d73f940f8da5544531dffa7c3c5aba6a5` = approved bundle. `/api/health` and `/api/ready` READY, commit stamped. Secrets `OPS_TOKEN` and `DOSSIER_OPS_READ_TOKEN` rotated by the owner earlier the same day (values never exposed).
