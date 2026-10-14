@@ -188,6 +188,9 @@ test('waves snapshot known entities, reject reused search space, and require a r
     runId: first.run_id, domain: 'PROTOCOL', canonicalName: 'Mediterranean diet', aliases: [],
   });
   assert.equal(duplicate.state, 'DUPLICATE/MERGED');
+  assert.deepEqual(await kernel.createCandidate(db, {
+    runId: first.run_id, domain: 'PROTOCOL', canonicalName: 'Mediterranean diet', aliases: [],
+  }), duplicate, 'duplicate replay preserves its original merge target');
   await assert.rejects(kernel.createDiscoveryRun(db, 'PROTOCOL', ['new guideline queries']), /SEARCH_SPACE_ALREADY_USED/);
 
   const candidate = await kernel.createCandidate(db, {
@@ -195,6 +198,9 @@ test('waves snapshot known entities, reject reused search space, and require a r
   });
   await kernel.compileCandidateAdmission(db, candidate.candidate_id, protocolAdmission());
   await kernel.decideCandidate(db, candidate.candidate_id, 'REJECT', 'test-owner');
+  assert.deepEqual(await kernel.createCandidate(db, {
+    runId: first.run_id, domain: 'PROTOCOL', canonicalName: 'New protocol', aliases: [],
+  }), { ...candidate, state: 'REJECTED' }, 'same-wave retry never revives a rejected candidate');
   const second = await kernel.createDiscoveryRun(db, 'PROTOCOL', ['unseen guideline queries']);
   await assert.rejects(kernel.createCandidate(db, {
     runId: second.run_id, domain: 'PROTOCOL', canonicalName: 'New protocol', aliases: [],

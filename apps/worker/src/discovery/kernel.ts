@@ -593,6 +593,19 @@ export async function createCandidate(db: D1Database, input: CreateCandidateInpu
     actors: [], protocols: [], aliases: [], rejected: [], sourceLocators: [],
   });
   const known = [...excluded.actors, ...excluded.protocols, ...excluded.aliases, ...excluded.sourceLocators];
+  // A retried event within its original wave resolves to the existing row.
+  // Cross-wave dedupe below still records a distinct duplicate candidate.
+  const existing = await db.prepare(
+    `SELECT candidate_id, state, entity_id FROM candidate_ledger
+      WHERE run_id = ? AND domain = ? AND normalized_identity = ?`,
+  ).bind(input.runId, input.domain, identity).first<{ candidate_id: string; state: string; entity_id: string | null }>();
+  if (existing) {
+    return {
+      candidate_id: existing.candidate_id,
+      state: existing.state,
+      duplicate_of: existing.state === 'DUPLICATE/MERGED' ? existing.entity_id : null,
+    };
+  }
   if (known.includes(identity)) {
     const knownEntity = await findKnownEntityId(db, identity);
     return recordDuplicateCandidate(db, input, identity, knownEntity ?? identity);
