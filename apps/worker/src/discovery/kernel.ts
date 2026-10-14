@@ -593,6 +593,18 @@ export async function createCandidate(db: D1Database, input: CreateCandidateInpu
     actors: [], protocols: [], aliases: [], rejected: [], sourceLocators: [],
   });
   const known = [...excluded.actors, ...excluded.protocols, ...excluded.aliases, ...excluded.sourceLocators];
+  // Resolve-first (idempotent replay): the same event in the same run maps to its existing ledger row; (run, domain, identity) is UNIQUE.
+  const sameRun = await db.prepare(
+    `SELECT candidate_id, state, entity_id FROM candidate_ledger
+      WHERE run_id = ? AND domain = ? AND normalized_identity = ?`,
+  ).bind(input.runId, input.domain, identity).first<{ candidate_id: string; state: string; entity_id: string | null }>();
+  if (sameRun) {
+    return {
+      candidate_id: sameRun.candidate_id,
+      state: sameRun.state,
+      duplicate_of: sameRun.state === 'DUPLICATE/MERGED' ? sameRun.entity_id : null,
+    };
+  }
   if (known.includes(identity)) {
     const knownEntity = await findKnownEntityId(db, identity);
     return recordDuplicateCandidate(db, input, identity, knownEntity ?? identity);
@@ -802,7 +814,8 @@ export async function listOwnerCandidates(db: D1Database): Promise<Array<{
        LEFT JOIN onboarding_intents i ON i.candidate_id = c.candidate_id
       WHERE c.state IN ('READY_FOR_OWNER', 'APPROVED', 'ONBOARDING', 'PIPELINE_ACTIVE',
                         'PRODUCTION_ACTIVE', 'PARTIAL_SOURCE_COVERAGE', 'SUSPENDED', 'DUPLICATE/MERGED')
-      ORDER BY c.created_at, c.candidate_id`,
+      ORDER BY c.created_at, c.candidate_id
+      LIMIT 500`,
   ).all().then((result) => result.results as Array<{
     candidate_id: string; canonical_name: string; domain: DiscoveryDomain; state: string;
     intent_status: string | null; pipeline_stage: string | null; canonical_entity_id: string | null;
