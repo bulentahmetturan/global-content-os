@@ -11,7 +11,7 @@ test('mandatory local workflow runs full-filename guard for both real SQLite nam
   const r = verifyLocalRelease();
   assert.equal(r.verdict, 'PASS');
   assert.equal(r.productionAuthorized, false);
-  assert.equal(r.results.DB.pending.length, 51);
+  assert.equal(r.results.DB.pending.length, 52);
   assert.equal(r.results.STATS_DB.pending.length, 1);
 });
 test('missing authority fails before any regression or remote operation', () => {

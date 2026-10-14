@@ -6,10 +6,10 @@ import { join } from 'node:path';
 import { analyseRepo, numbering } from '../lib/migrations.mjs';
 import { readMigrations, replay } from '../../scripts/migration-authority.mjs';
 
-test('historical 0043 filenames remain independent, both replay and ledger-idempotency hold', () => {
+test('applied filenames are exact, unique, replay and ledger-idempotency hold', () => {
   const files = readMigrations('migrations');
-  const identities = files.filter(f => f.name.startsWith('0043_')).map(f => f.name);
-  assert.deepEqual(identities, ['0043_dossier_discovery_foundation.sql', '0043_protocol_mediterranean_wave2.sql']);
+  const identities = files.filter(f => f.name.startsWith('0043_') || f.name.startsWith('0044_')).map(f => f.name);
+  assert.deepEqual(identities, ['0043_dossier_discovery_foundation.sql', '0044_protocol_mediterranean_wave2.sql', '0044_shared_discovery_kernel.sql']);
   assert.deepEqual(numbering(files.map(f => ({ filename: f.name, number: Number(f.name.slice(0, 4)) }))).dups, []);
   const first = replay(files);
   try {

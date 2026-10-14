@@ -4,3 +4,14 @@
 migrations/statistics/*.sql text eol=lf
 docs/generated/statistics-schema-v1.sql text eol=lf
 docs/DOSSIER-SOURCES.md text eol=lf
+
+# Gate B supersession (2026-10-14): applied migration bytes must never be line-ending converted.
+migrations/0044_protocol_mediterranean_wave2.sql -text
+migrations/0044_shared_discovery_kernel.sql -text
+migrations/0045_shared_discovery_kernel.sql -text
+migrations/0046_discovery_signal_linkage.sql -text
+migrations/0047_doctor_knowledge.sql -text
+migrations/0048_doctor_discovery_candidates.sql -text
+migrations/0049_doctor_source_proposals.sql -text
+migrations/0050_doctor_profile_facts.sql -text
+release-artifacts/gate-b-retired-rc-only/*.sql -text

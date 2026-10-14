@@ -42,7 +42,7 @@ test('wrangler.toml as deployed: master switch is the string "false", the only c
 test('D1: schema 0031 present + master switch OFF -> normal GCOS healthy; DOSSIER disabled; no run, no source access, no candidate, no GCOS mutation', async () => {
   const net = networkGuard();
   try {
-    const { sqlite, db, secrets } = healthyBase('0046_protocol_mediterranean_wave2.sql');
+    const { sqlite, db, secrets } = healthyBase('0050_doctor_profile_facts.sql');
     const env = envOf(db, secrets);
     const before = gcosDigest(sqlite);
     assert.equal((await call(env, '/api/health')).status, 200);
@@ -71,7 +71,7 @@ test('D1: schema 0031 present + master switch OFF -> normal GCOS healthy; DOSSIE
 test('D2: schema 0031 present + master switch ON + reader controls OFF + capacity unverified -> nothing runs, readiness names the exact blocker, normal GCOS stays healthy', async () => {
   const net = networkGuard();
   try {
-    const { sqlite, db, secrets } = healthyBase('0046_protocol_mediterranean_wave2.sql');
+    const { sqlite, db, secrets } = healthyBase('0050_doctor_profile_facts.sql');
     const envOff = envOf(db, { ...secrets, STATUS_CALLBACK_TOKEN: undefined });
     const env = envOf(db, { ...secrets, STATUS_CALLBACK_TOKEN: undefined, DOSSIER_CANARY_ENABLED: 'true' });
     const healthOff = await (await call(envOff, '/api/ready')).json();

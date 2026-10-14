@@ -13,7 +13,7 @@ test('local readiness checks all required migrations and each workstream capabil
     for(const capabilities of Object.values(CONTENT_CAPABILITIES)) assert.equal(verifySchema(result.db,files.map(f=>f.name),capabilities).verdict,'READY');
     result.db.prepare('DELETE FROM d1_migrations WHERE name=?').run('0031_doctor_actor_registry.sql');
     assert.equal(verifySchema(result.db,files.map(f=>f.name),{}).verdict,'BLOCKED');
-    assert.ok(result.db.prepare('SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1').get().name.startsWith('0046'));
+    assert.ok(result.db.prepare('SELECT name FROM d1_migrations ORDER BY name DESC LIMIT 1').get().name.startsWith('0050'));
     assert.equal(verifySchema(result.db,[],{nonexistent_required_table:[]}).verdict,'BLOCKED');
   } finally {result.db.close();}
 });

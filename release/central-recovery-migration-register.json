@@ -5,15 +5,15 @@
   "content": {
     "verdict": "PASS",
     "directory": "migrations",
-    "freshExecuted": 51,
+    "freshExecuted": 52,
     "repeatExecuted": 0,
-    "schema": "ee58e8b5e1b7bd9a48c1d9014a7c70523ee4a6345bf45dc0da1719637ed9c242",
+    "schema": "ea6b994276433d07934be8349079d5c0446262ab19b5eab09cae852d755884ff",
     "data": "74faf95b2062d06421889123cfd5ba46868003fa1719c37a4a996d66e646c5e2",
     "upgrade": {
       "kind": "HYPOTHETICAL_GIT_LEDGER",
       "predecessor": "7b61870",
-      "executed": 9,
-      "schema": "ee58e8b5e1b7bd9a48c1d9014a7c70523ee4a6345bf45dc0da1719637ed9c242",
+      "executed": 10,
+      "schema": "ea6b994276433d07934be8349079d5c0446262ab19b5eab09cae852d755884ff",
       "data": "74faf95b2062d06421889123cfd5ba46868003fa1719c37a4a996d66e646c5e2"
     },
     "inventory": [
@@ -186,40 +186,44 @@
         "sha256": "5f228b0a2c3541f46ba2259f1e2cce2cef5f4db6fdf24d111f58e49fbcbdc343"
       },
       {
-        "name": "0043_protocol_mediterranean_wave2.sql",
-        "sha256": "85ee1c23ff3f1f73f315aa6f6aa68951bb6aec0aa6e71e09bb4c9553745bbc9e"
-      },
-      {
-        "name": "0044_doctor_discovery_candidates.sql",
-        "sha256": "9205df1cc7a763cba684c7ef9c9963c9fa418191a03882bb053704f36bc001a2"
+        "name": "0044_protocol_mediterranean_wave2.sql",
+        "sha256": "76e587dd2bc5cf17b13714dc30bdc17de27e2a9dc83201969ad4031b7ccdcc1d"
       },
       {
         "name": "0044_shared_discovery_kernel.sql",
-        "sha256": "c08b21f8ce4de816fa7ca131bd44b291d90b210d1f19262be03d49689c3706d5"
-      },
-      {
-        "name": "0045_discovery_signal_linkage.sql",
-        "sha256": "65d3b0180c873a009c04adb46d79c0a4ee8f1d6bcb640804412a0a0bf814b1c9"
-      },
-      {
-        "name": "0045_doctor_source_proposals.sql",
-        "sha256": "f4e61ef061c31e0a3ad42d9ff06298eb8e1ee6426d5f5963fd22bdb1dc318667"
+        "sha256": "ff320fad1b79791be2f10735bcd629cf24b84a23579c4fff22ce1f4f01ec4ce7"
       },
       {
         "name": "0045_protocol_ingestion_runs.sql",
         "sha256": "e14a5f49f3cfefa6892d26ed5b5dbc22bfd06aafe2dd42c2a76165d327c9ea40"
       },
       {
-        "name": "0046_doctor_knowledge.sql",
-        "sha256": "3ea0279b4d2155d14135ecb46f6de7047eb666452229802eb199c72092e2a7ce"
+        "name": "0045_shared_discovery_kernel.sql",
+        "sha256": "ff320fad1b79791be2f10735bcd629cf24b84a23579c4fff22ce1f4f01ec4ce7"
       },
       {
-        "name": "0046_doctor_profile_facts.sql",
-        "sha256": "c7877402a92e6a108347011157a5906feeffa67bab7e6af0e539489ea10abe59"
+        "name": "0046_discovery_signal_linkage.sql",
+        "sha256": "65d3b0180c873a009c04adb46d79c0a4ee8f1d6bcb640804412a0a0bf814b1c9"
       },
       {
         "name": "0046_protocol_mediterranean_wave2.sql",
         "sha256": "396d6f01120291074e870998e00ef919163be820c454051964104d81ccd2b5ba"
+      },
+      {
+        "name": "0047_doctor_knowledge.sql",
+        "sha256": "3ea0279b4d2155d14135ecb46f6de7047eb666452229802eb199c72092e2a7ce"
+      },
+      {
+        "name": "0048_doctor_discovery_candidates.sql",
+        "sha256": "f61fb0d8e43ebf690554e96e62432571d5c56e1da30505aab596a30d78f08f2b"
+      },
+      {
+        "name": "0049_doctor_source_proposals.sql",
+        "sha256": "b8b35bdf3a4bf1f39cef5d31ca4be40cf5705fb1a0110e1e086bfe2385af14ec"
+      },
+      {
+        "name": "0050_doctor_profile_facts.sql",
+        "sha256": "ca7d9dd274bfb9ad1dcd7302d9c9c9664ca8a4c20533e4d639f17bee647b4ba3"
       }
     ]
   },

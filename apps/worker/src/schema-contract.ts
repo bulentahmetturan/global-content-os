@@ -42,15 +42,16 @@ export const REQUIRED_CONTENT_MIGRATIONS = [
   "0041_source_lifecycle_add_www_medikalnews_whole.sql",
   "0042_protocol_dash_wave1.sql",
   "0043_dossier_discovery_foundation.sql",
-  "0043_protocol_mediterranean_wave2.sql",
-  "0044_doctor_discovery_candidates.sql",
+  "0044_protocol_mediterranean_wave2.sql",
   "0044_shared_discovery_kernel.sql",
-  "0045_discovery_signal_linkage.sql",
-  "0045_doctor_source_proposals.sql",
   "0045_protocol_ingestion_runs.sql",
-  "0046_doctor_knowledge.sql",
-  "0046_doctor_profile_facts.sql",
-  "0046_protocol_mediterranean_wave2.sql"
+  "0045_shared_discovery_kernel.sql",
+  "0046_discovery_signal_linkage.sql",
+  "0046_protocol_mediterranean_wave2.sql",
+  "0047_doctor_knowledge.sql",
+  "0048_doctor_discovery_candidates.sql",
+  "0049_doctor_source_proposals.sql",
+  "0050_doctor_profile_facts.sql"
 ] as const;
 export const REQUIRED_STATISTICS_MIGRATIONS = [
   "0001_statistics_schema_v1.sql"
@@ -61,14 +62,15 @@ export const WORKSTREAM_MIGRATIONS: Record<string, string[]> = {
     "0032_doctor_actor_sources.sql",
     "0035_doctor_source_activity_audit.sql",
     "0037_actor_protocol_relationship_model.sql",
-    "0044_doctor_discovery_candidates.sql",
-    "0045_doctor_source_proposals.sql",
-    "0046_doctor_knowledge.sql",
-    "0046_doctor_profile_facts.sql"
+    "0047_doctor_knowledge.sql",
+    "0048_doctor_discovery_candidates.sql",
+    "0049_doctor_source_proposals.sql",
+    "0050_doctor_profile_facts.sql"
   ],
   "Discovery": [
     "0044_shared_discovery_kernel.sql",
-    "0045_discovery_signal_linkage.sql"
+    "0045_shared_discovery_kernel.sql",
+    "0046_discovery_signal_linkage.sql"
   ],
   "Protocols": [
     "0033_protocol_registry.sql",
@@ -79,7 +81,7 @@ export const WORKSTREAM_MIGRATIONS: Record<string, string[]> = {
     "0039_safety_model.sql",
     "0040_commercial_model.sql",
     "0042_protocol_dash_wave1.sql",
-    "0043_protocol_mediterranean_wave2.sql",
+    "0044_protocol_mediterranean_wave2.sql",
     "0045_protocol_ingestion_runs.sql",
     "0046_protocol_mediterranean_wave2.sql"
   ],

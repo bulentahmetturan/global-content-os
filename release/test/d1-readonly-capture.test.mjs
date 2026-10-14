@@ -18,7 +18,7 @@ test('capture pragma targets exist as tables in the committed migrations', () =>
   const dir = new URL('../../migrations/', import.meta.url);
   const names = [...sql.matchAll(/PRAGMA table_info\(([a-z_]+)\)/g)].map(m => m[1]);
   assert.ok(names.length >= 6);
-  const all = ['0044_doctor_discovery_candidates','0045_doctor_source_proposals','0045_discovery_signal_linkage','0046_doctor_knowledge','0046_doctor_profile_facts','0044_shared_discovery_kernel']
+  const all = ['0048_doctor_discovery_candidates','0049_doctor_source_proposals','0046_discovery_signal_linkage','0047_doctor_knowledge','0050_doctor_profile_facts','0044_shared_discovery_kernel']
     .map(n => readFileSync(new URL(n + '.sql', dir), 'utf8')).join('\n');
   for (const n of names) assert.match(all, new RegExp(`(CREATE TABLE( IF NOT EXISTS)? ${n}\\b|ALTER TABLE ${n}\\b)`), n);
 });

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { assessOptionB, OPTION_B_MIGRATIONS } from './migration-compatibility-assessment.mjs';
 
 const root = join(fileURLToPath(new URL('.', import.meta.url)), '..');
-const files = new Map(OPTION_B_MIGRATIONS.map(({ filename }) => [filename, readFileSync(join(root, 'migrations', filename))]));
+const files = new Map(OPTION_B_MIGRATIONS.map(({ filename }) => [filename, readFileSync(join(root, 'release-artifacts', 'gate-b-retired-rc-only', filename))]));
 const evidence = {
   RC_SHA: '19cbd3447bf08cdd04e651d5ba7a5a49ce7a8f81',
   RC_ONLY_FILENAMES: OPTION_B_MIGRATIONS.map((item) => ({

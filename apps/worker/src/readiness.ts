@@ -17,7 +17,7 @@ import { gatherSchemaReadiness, type SchemaSnapshot } from './schema-readiness';
  * metadata capabilities in schema-contract.ts determine schema readiness.
  * This local candidate is not deployed or production-certified.
  */
-export const EXPECTED_SCHEMA_MIGRATION = '0046_protocol_mediterranean_wave2.sql';
+export const EXPECTED_SCHEMA_MIGRATION = '0050_doctor_profile_facts.sql';
 
 export type ReadinessLevel = 'READY' | 'DEGRADED' | 'BLOCKED';
 

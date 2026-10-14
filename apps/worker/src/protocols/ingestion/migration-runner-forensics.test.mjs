@@ -6,7 +6,7 @@ test('full filename ledger semantics keep Dossier and Protocol 0043 independent'
   const names=files.map(f=>f.name);
   const hypothetical=['0043_dossier_discovery_foundation.sql'];
   const pending=names.filter(name=>!hypothetical.includes(name));
-  assert.ok(pending.includes('0043_protocol_mediterranean_wave2.sql'));
+  assert.ok(pending.includes('0044_protocol_mediterranean_wave2.sql'));
   assert.ok(!pending.includes('0043_dossier_discovery_foundation.sql'));
   assert.ok(pending.includes('0045_protocol_ingestion_runs.sql'));
 });

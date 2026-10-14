@@ -293,9 +293,9 @@ test('d4 requires no new migration', async () => {
     '0031_doctor_actor_registry.sql',
     '0032_doctor_actor_sources.sql',
     '0035_doctor_source_activity_audit.sql',
-    '0044_doctor_discovery_candidates.sql',
-    '0045_doctor_source_proposals.sql',
-    '0046_doctor_knowledge.sql',
-    '0046_doctor_profile_facts.sql',
+    '0047_doctor_knowledge.sql',
+    '0048_doctor_discovery_candidates.sql',
+    '0049_doctor_source_proposals.sql',
+    '0050_doctor_profile_facts.sql',
   ]);
 });

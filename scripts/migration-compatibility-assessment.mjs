@@ -123,7 +123,7 @@ function main(argv) {
   let reconciliation;
   try {
     reconciliation = JSON.parse(readFileSync(evidencePath, 'utf8'));
-    const files = new Map(OPTION_B_MIGRATIONS.map(({ filename }) => [filename, readFileSync(join(ROOT, 'migrations', filename))]));
+    const files = new Map(OPTION_B_MIGRATIONS.map(({ filename }) => [filename, readFileSync(join(ROOT, 'release-artifacts', 'gate-b-retired-rc-only', filename))]));
     const result = assessOptionB(reconciliation, files);
     console.log(JSON.stringify({ ...result, evidencePath: evidencePath.replace(`${ROOT}\\`, '') }, null, 2));
     return result.ok ? 0 : 2;

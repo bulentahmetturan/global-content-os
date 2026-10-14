@@ -9,7 +9,7 @@ const { DatabaseSync } = createRequire(import.meta.url)('node:sqlite');
 
 test('0046 after preserved 0043 changes no schema or persisted row in any table', () => {
   const files=readMigrations('migrations');
-  const before=replay(files.filter(f=>Number(f.name.slice(0,4))<=42 || f.name==='0043_protocol_mediterranean_wave2.sql'),{fixtureClock:'2026-10-09T00:00:00.000Z'});
+  const before=replay(files.filter(f=>Number(f.name.slice(0,4))<=42 || f.name==='0044_protocol_mediterranean_wave2.sql'),{fixtureClock:'2026-10-09T00:00:00.000Z'});
   try {
     const schema=schemaFingerprint(before.db),data=dataFingerprint(before.db);
     replay(files.filter(f=>f.name==='0046_protocol_mediterranean_wave2.sql'),{database:before.db});
@@ -46,7 +46,7 @@ function collectMediterraneanState(db) {
 test('0046 forward reconciliation is semantically equivalent to original 0043', () => {
   const db1 = new DatabaseSync(':memory:');
   applyMigrations(db1, allMigrations);
-  db1.exec(readFileSync('migrations/0043_protocol_mediterranean_wave2.sql', 'utf8'));
+  db1.exec(readFileSync('migrations/0044_protocol_mediterranean_wave2.sql', 'utf8'));
   const state1 = collectMediterraneanState(db1);
 
   const db2 = new DatabaseSync(':memory:');
