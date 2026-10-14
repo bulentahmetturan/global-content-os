@@ -435,7 +435,13 @@ export async function recurringCursor(db: D1Like, readerId: string, profile: Dos
   if (!spec || spec.mode !== 'INCREMENTAL') return null;
   const prev = await one<{ progress_json: string }>(db, `SELECT progress_json FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status = 'COMPLETED' ORDER BY finished_at DESC LIMIT 1`, readerId, RECURRING_PROFILE_ID);
   const pc = prev ? (JSON.parse(prev.progress_json) as CanaryProgress).sourceCursor : undefined;
-  if (pc?.pageTokenOut) return { since: dayOnly(pc.since), pageToken: pc.pageTokenOut, maxSeen: dayOnly(pc.maxSeen) };
+  if (pc?.pageTokenOut) {
+    // A backlog token the source has since invalidated would otherwise be replayed forever (failed runs never replace the cursor).
+    // If the newest run for this reader failed with the source's 400, drop the token and restart the chain from its date bound.
+    const last = await one<{ status: string; error_summary: string | null }>(db, `SELECT status, error_summary FROM dossier_canary_runs WHERE reader_id = ? AND profile = ? AND status IN ('COMPLETED','FAILED') ORDER BY created_at DESC LIMIT 1`, readerId, RECURRING_PROFILE_ID);
+    const tokenRejected = last?.status === 'FAILED' && /ClinicalTrials\.gov request failed: 400/.test(last.error_summary ?? '');
+    if (!tokenRejected) return { since: dayOnly(pc.since), pageToken: pc.pageTokenOut, maxSeen: dayOnly(pc.maxSeen) };
+  }
   const bound = dayOnly(pc?.maxSeen) ?? dayOnly(pc?.since);
   if (bound) return { since: bound, pageToken: null, maxSeen: null };
   const d = new Date(Date.parse(nowIso) - profile.clinicaltrials.initial_lookback_days.value * 86_400_000).toISOString().slice(0, 10);

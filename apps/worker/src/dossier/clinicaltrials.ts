@@ -208,7 +208,9 @@ export function createClinicalTrialsReader(o: { fetchImpl: FetchLike; since?: st
       requests += 1;
       const url = buildStudiesUrl({ pageSize: Math.min(plan.itemCap, plan.fetchCap), since: o.since ?? null, pageToken: plan.cursor });
       const res = await o.fetchImpl(url, { headers: { Accept: 'application/json', 'User-Agent': 'global-content-os-dossier-poc/0.1 (bounded; local)' } });
-      if (!res.ok) throw new Error(`ClinicalTrials.gov request failed: ${res.status}`);
+      // A 400 on a request that carried a stored pageToken means the source invalidated that chain ('data changed while paginating');
+      // the marker lets the recurring cursor restart from its date bound on the next run (still exactly one request per run).
+      if (!res.ok) throw new Error(`ClinicalTrials.gov request failed: ${res.status}${res.status === 400 && plan.cursor ? ' pageToken_rejected' : ''}`);
       const body = (await res.json()) as CtPage;
       nextToken = typeof body.nextPageToken === 'string' ? body.nextPageToken : null;
       return (body.studies ?? []).slice(0, plan.itemCap);

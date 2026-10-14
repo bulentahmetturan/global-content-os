@@ -310,3 +310,37 @@ test('nothing outside the recurring sources ever runs: OECD is not a recurring r
   assert.deepEqual(RS.recurringRegistry().map((r) => r.dossier_reader_id), [CT_ID, EU_ID]);
   assert.ok(!JSON.stringify(w.controls()).includes('oecd'));
 });
+
+// Production defect 2026-10-07..: the last COMPLETED recurring run left a backlog pageToken; ClinicalTrials.gov later invalidated it
+// ("data changed while paginating", HTTP 400) and every run replayed the same dead token forever. The next run after such a failure restarts
+// from the date bound (one request per run is preserved) and recovers.
+test('stale backlog pageToken: a 400 on the stored token never deadlocks the reader; the next run restarts from the date bound and completes', async () => {
+  const w = await recWorld({ states: { [CT_ID]: 'BURN_IN' }, ct: ctServer(studiesDated(30, '2026-10-09')) });
+  const cursor = JSON.stringify({ sourceCursor: { since: '2026-10-05', pageTokenIn: null, pageTokenOut: 'tok5', maxSeen: '2026-10-06' } });
+  w.sqlite.prepare(`INSERT INTO dossier_canary_runs (run_id, runtime_key, reader_id, profile, status, phase, progress_json, checkpoint_json, started_by, created_at, updated_at, finished_at) VALUES ('crun_prev', ?, ?, 'DOSSIER_RECURRING_V1', 'COMPLETED', 'DONE', ?, NULL, 'test', '2026-01-07T06:00:00.000Z', '2026-01-07T06:00:06.823Z', '2026-01-07T06:00:06.823Z')`)
+    .run(`dossier:${CT_ID}`, CT_ID, cursor);
+  w.ct.rejectTokens = true;
+  const failed = await w.tick();
+  assert.equal(failed.run_status, 'FAILED');
+  assert.ok(new URL(w.ct.requests.at(-1)).searchParams.get('pageToken'), 'the first run replays the stored token');
+  const recovered = await w.tickAfter(30 * 60_000);
+  assert.notEqual(recovered.run_status, 'FAILED', 'the next run after the backoff step recovers instead of replaying the dead token');
+  const lastReq = new URL(w.ct.requests.at(-1));
+  assert.equal(lastReq.searchParams.get('pageToken'), null, 'the token is dropped');
+  assert.match(lastReq.searchParams.get('filter.advanced'), /RANGE\[2026-10-06,MAX\]/, 'restart from the carried date bound (inclusive overlap)');
+  const done2 = await w.drain(done(CT_ID), 200);
+  assert.equal(done2[done2.length - 1].run_status, 'COMPLETED');
+  assert.ok(n(w.sqlite, 'SELECT COUNT(*) AS n FROM dossier_observations') > 0, 'real observations are written again');
+});
+
+test('a 400 without any stored token, or a non-400 failure with a token, keeps the cursor semantics unchanged', async () => {
+  const w = await recWorld({ states: { [CT_ID]: 'BURN_IN' }, ct: ctServer(studiesDated(30, '2026-10-09')) });
+  const cursor = JSON.stringify({ sourceCursor: { since: '2026-10-05', pageTokenIn: null, pageTokenOut: 'tok5', maxSeen: '2026-10-06' } });
+  w.sqlite.prepare(`INSERT INTO dossier_canary_runs (run_id, runtime_key, reader_id, profile, status, phase, progress_json, checkpoint_json, started_by, created_at, updated_at, finished_at) VALUES ('crun_prev', ?, ?, 'DOSSIER_RECURRING_V1', 'COMPLETED', 'DONE', ?, NULL, 'test', '2026-01-07T06:00:00.000Z', '2026-01-07T06:00:06.823Z', '2026-01-07T06:00:06.823Z')`)
+    .run(`dossier:${CT_ID}`, CT_ID, cursor);
+  w.ct.failNext = httpFail(503);
+  const f = await w.tick();
+  assert.equal(f.run_status, 'FAILED');
+  await w.tickAfter(30 * 60_000);
+  assert.equal(new URL(w.ct.requests.at(-1)).searchParams.get('pageToken'), 'tok5', 'a transient 503 never discards the backlog token');
+});

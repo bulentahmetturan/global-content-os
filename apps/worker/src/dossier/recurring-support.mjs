@@ -42,6 +42,7 @@ export function ctServer(initial = [], { pageCap = Infinity } = {}) {
     const u = new URL(url);
     srv.requests.push(url);
     if (srv.failNext) { const f = srv.failNext; srv.failNext = null; return f; }
+    if (srv.rejectTokens && u.searchParams.get('pageToken')) return { ok: false, status: 400, json: async () => ({}), text: async () => 'The data have probably changed while you were paginating. Please, start over from the first page.' };
     const since = /RANGE\[(\d{4}-\d{2}-\d{2}),MAX\]/.exec(u.searchParams.get('filter.advanced') ?? '')?.[1] ?? '0000-00-00';
     const size = Math.min(Number(u.searchParams.get('pageSize')), srv.pageCap);
     const start = u.searchParams.get('pageToken') ? Number(u.searchParams.get('pageToken').replace('tok', '')) : 0;
