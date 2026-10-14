@@ -13,6 +13,8 @@ const q = await bundle('apps/worker/src/db/queries.ts', 'evergreen-unit-queries'
 
 const NOW = new Date('2026-10-02T12:00:00.000Z');
 const daysAgo = (n) => new Date(NOW.getTime() - n * 86400000).toISOString();
+// The ingest gate's news-age limit reads the wall clock, not NOW: fixtures it must admit are anchored to Date.now().
+const wallClockDaysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString();
 
 function openDb() {
   const sqlite = new DatabaseSync(':memory:');
@@ -282,7 +284,7 @@ test('Nature DOI groundwork: TIME_SENSITIVE rows are unchanged; rediscovery find
 
 test('regression: a normal TIME_SENSITIVE insert is exactly as before FAZ 3 (URL dedupe key, no work id, DOI-keyed research unchanged)', async () => {
   const { sqlite, db, newsFeed, researchFeed } = openDb();
-  const n = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Haber item with a DOI in evidence', summary: 's', canonicalUrl: 'https://news.example.org/a?utm_source=x', publisher: 'News', publishedAt: daysAgo(1), evidence: { doi: '10.1000/xyz' } });
+  const n = await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Haber item with a DOI in evidence', summary: 's', canonicalUrl: 'https://news.example.org/a?utm_source=x', publisher: 'News', publishedAt: wallClockDaysAgo(1), evidence: { doi: '10.1000/xyz' } });
   const r = await q.upsertSourceItem(db, { feedId: researchFeed, route: 'kaduse-research', channelId: 'kaduse-medikal', title: 'PubMed item keyed on its DOI', summary: 's', canonicalUrl: 'https://pubmed.ncbi.nlm.nih.gov/1/', dedupeKey: '10.1000/xyz', publisher: 'PubMed', publishedAt: daysAgo(1), evidence: { doi: '10.1000/xyz' } });
   const a = row(sqlite, n.id);
   const b = row(sqlite, r.id);
@@ -321,7 +323,7 @@ test('a production-shaped PubMed row (DOI dedupe_key, no canonical_work_id) is r
 test('a work known on another route is reported, never duplicated and never given an invisible membership', async () => {
   const { sqlite, db, newsFeed, researchFeed } = openDb();
   const itemsBefore = sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n;
-  await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Nature news piece on a paper', summary: 's', canonicalUrl: 'https://www.nature.com/articles/d41586-024-00001-1', publisher: 'Nature', publishedAt: daysAgo(1) });
+  await q.upsertSourceItem(db, { feedId: newsFeed, route: 'kaduse-news', channelId: 'kaduse-medikal', title: 'Nature news piece on a paper', summary: 's', canonicalUrl: 'https://www.nature.com/articles/d41586-024-00001-1', publisher: 'Nature', publishedAt: wallClockDaysAgo(1) });
   const entries = registry(entry({ id: 'nat', feedId: researchFeed, lane: 'Research', view: 'research_rediscovery' }));
   const r = await ev.ingestEvergreenItems({ DB: db }, 'nat', { items: [{ title: 'Same work as a research rediscovery', url: 'https://doi.org/10.1038/d41586-024-00001-1' }] }, NOW, { entries });
   assert.equal(r.decisions[0].outcome, 'known_on_other_route');

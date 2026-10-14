@@ -36,3 +36,11 @@ Residual: external writers (other operators, console sessions) cannot be exclude
 
 ## D1 migration (Option B) — state
 FAIL_CLOSED unchanged. Re-verified locally this sprint: migration-authority + compatibility-assessment + five-item writer suites 41/41; `verify-option-b-live-contracts.mjs` 12 exact read comparisons, 36 dispatch cases, zero writes. Still unknown: applied-SQL identity for six files, actual pending set, data delta. Required production evidence: `docs/EXACT-BUILD-INPUT-RECOVERY-DECISION.md` (ER01–ER03). Rollback: no live ledger repair or SQL replay; roll back only to a Worker build that retains the protective writers.
+
+## Baseline defects found by the full production check (2026-10-14, branch tip before fixes)
+`npm run production:check`: 2 FAIL, pytest 458/458, typecheck PASS, 0 skipped.
+
+| Defect | Cause | Status |
+|---|---|---|
+| `ingress/evergreen.test.mjs` 2 tests | Date-rot: fixture `NOW` is 2026-10-02 but the ingest gate's 10-day news-age limit uses the wall clock; `daysAgo(1)` became 13 days old | FIXED (test fixtures anchored to `Date.now()`); 18/18 |
+| `scripts/shared-worker-checkpoint.test.mjs` "deployment bindings..." | `package.json` gained `operator-bridge:test` (commit `4ea9cbe`) but the frozen-checkpoint comparison against `e20a0b3` does not allow it | OPEN, owner decision: this is a deployment-configuration guard; the automated permission layer refused loosening it. Proposed one-line allowance for the read-only local script `operator-bridge:test` |
