@@ -70,6 +70,7 @@ test('Gate B map: production ledger names satisfy exactly the six RC names, mapp
     const r = await schema.gatherSchemaReadiness(f.DB, f.STATS_DB);
     assert.equal(r.content.level, 'READY'); assert.deepEqual(r.content.missingMigrations, []);
     assert.deepEqual([...r.content.mappedMigrations].sort(), SIX.map(x => x[0]).sort());
+    assert.equal(r.content.mappedProvenance, mapJson.auditLabel); assert.equal(mapJson.auditLabel, 'HISTORICAL_BYTES_UNPROVEN_ACCEPTED_BY_OWNER');
   } finally { f.close(); }
 });
 test('Gate B map: missing counterpart, one unmapped name or a near-miss name still blocks (fail-closed)', async () => {

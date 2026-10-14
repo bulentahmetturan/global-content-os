@@ -1,5 +1,6 @@
 {
   "decision": "GATE_B_OPTION_4_OWNER_EXCEPTION_2026-10-15",
+  "auditLabel": "HISTORICAL_BYTES_UNPROVEN_ACCEPTED_BY_OWNER",
   "scope": "exact-filename readiness only; applied SQL bytes unproven; no SQL replay; no ledger write; no other migration name",
   "evidence": "docs/audits/2026-10-15-gate-b-option4-owner-risk-package.md",
   "entries": [

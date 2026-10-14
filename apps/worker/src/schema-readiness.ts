@@ -1,7 +1,7 @@
-import { HISTORICAL_APPLIED_NAME_MAP } from './historical-migration-map';
+import { HISTORICAL_APPLIED_NAME_MAP, HISTORICAL_PROVENANCE_AUDIT_LABEL } from './historical-migration-map';
 import { REQUIRED_CONTENT_MIGRATIONS, REQUIRED_STATISTICS_MIGRATIONS, WORKSTREAM_MIGRATIONS, WORKSTREAM_CAPABILITIES, STATISTICS_CAPABILITIES } from './schema-contract';
 
-export type SchemaStatus = { level: 'READY' | 'BLOCKED'; missingMigrations: string[]; missingCapabilities: string[]; mappedMigrations?: string[] };
+export type SchemaStatus = { level: 'READY' | 'BLOCKED'; missingMigrations: string[]; missingCapabilities: string[]; mappedMigrations?: string[]; mappedProvenance?: string };
 export type SchemaSnapshot = { content: SchemaStatus; workstreams: Record<string, SchemaStatus>; statistics: SchemaStatus };
 const cache = new WeakMap<D1Database, { expires: number; result: Promise<{ ledger: string[]; capabilities: Set<string> }> }>();
 
@@ -38,7 +38,7 @@ function evaluate(snapshot: { ledger: string[]; capabilities: Set<string> } | nu
   const missingMigrations = names.filter(n => !satisfied(n));
   const mappedMigrations = names.filter(n => !applied.has(n) && satisfied(n));
   const missingCapabilities = Object.entries(capabilities).flatMap(([table, columns]) => [table, ...columns.map(c => `${table}.${c}`)]).filter(c => !snapshot?.capabilities.has(c));
-  return { level: missingMigrations.length || missingCapabilities.length ? 'BLOCKED' : 'READY', missingMigrations, missingCapabilities, mappedMigrations };
+  return { level: missingMigrations.length || missingCapabilities.length ? 'BLOCKED' : 'READY', missingMigrations, missingCapabilities, mappedMigrations, ...(mappedMigrations.length ? { mappedProvenance: HISTORICAL_PROVENANCE_AUDIT_LABEL } : {}) };
 }
 export async function gatherSchemaReadiness(contentDb: D1Database, statisticsDb?: D1Database): Promise<SchemaSnapshot> {
   const combined = Object.assign({}, ...Object.values(WORKSTREAM_CAPABILITIES));
