@@ -21,3 +21,6 @@ Comparing raw `sqlite_master.sql` captured from production (A0) with local repla
 - Not merged into the RC branch; the owner reviews this branch first.
 - Gate B is closed only for exact-filename readiness. Deployment still needs gates A, C, D, E.
 - Any future byte-hash gate must treat the CRLF contradiction above as open.
+
+## LF/CRLF experiment (added 2026-10-15)
+Same Wrangler version as the 2026-10-09 apply (4.145.0), local mode, a CRLF migration with multi-line CREATE statements: `sqlite_master.sql` retains `\r\n` verbatim. Production retains `\r` for 7 older objects. Production holds LF for the 34 objects from the five preserved CRLF files. Conclusion: Wrangler and D1 do not normalize CRLF, so the preserved CRLF files are **not** the bytes that produced those 34 production objects (the LF RC-named variants match production DDL text exactly). The preserved-source hashes in the authority manifests therefore do not describe applied bytes for those five files. This is the reason the branch must not be merged under the existing "no residual migration risk" policy; it needs an explicit owner decision.
