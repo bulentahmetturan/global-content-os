@@ -12,6 +12,7 @@ import {
   APPROVED_BRIEF_CONTRACT_VERSION,
   type ApprovedBrief,
 } from '../../../../packages/contracts/src/index';
+import { APPROVED_PROTOCOL_DISPLAY } from '../protocols/approved-display';
 import { isReasonCode, type ReasonCode } from './feedback';
 import { resolveOutbound } from '../handoff-security';
 
@@ -337,9 +338,10 @@ export async function purgeExpiredTrash(
   const { results } = await env.DB.prepare(
     `SELECT id FROM source_items
      WHERE triage_status IN ('trash', 'done') AND updated_at < ?
+       AND id NOT IN (${APPROVED_PROTOCOL_DISPLAY.map(() => '?').join(',')})
      LIMIT 200`
   )
-    .bind(cutoff)
+    .bind(cutoff, ...APPROVED_PROTOCOL_DISPLAY.map(item => item.id))
     .all<{ id: string }>();
 
   const ids = (results ?? []).map((r) => r.id);
