@@ -131,3 +131,18 @@ Counts after run 7: **25 PASS / 1 FAIL / 0 BLOCKED / 5 UNKNOWN of 31**. DISC-F w
 Owner accepted, in chat, that STA-G (recovery) is recorded as **PASS (local evidence; no live failure occurred)**. Basis: Statistics local suite 433/433 covers retry/backoff, circuit breaker, probe, run serialization and interruption recovery against the real code; live state shows circuit CLOSED, 0 consecutive failures, 0 failed runs. Not raised to live evidence unless a genuine failure and recovery is observed later; no failure is to be induced in production.
 
 Counts: **26 PASS (1 by owner-accepted local evidence) / 1 FAIL / 0 BLOCKED / 4 UNKNOWN of 31**. Open: DOS-D (FAIL), DOS-A, DOS-C, DOS-E after the Dossier probe (>= 18:45Z), and STA-E after the 03:00Z Statistics run.
+
+## Run 9 (2026-10-15T00:40Z): DOS-C Dossier authorization boundaries (owner-executed)
+| Caller / token | Request | Status |
+|---|---|---|
+| anonymous | `GET /api/dossier/ops/{summary,alerts,audit,runs}` (run 1) | 401 |
+| Hub operator token (browser) | `GET` ×4 and `POST /api/dossier/ops/controls` | 401 ×5 |
+| `GCOS_OPS_READ` (OPS_TOKEN scope) | `GET /api/dossier/ops/summary` | 401 |
+| `DOSSIER_OPS_READ` | `GET summary`, `GET alerts` | 200, 200 |
+| `DOSSIER_OPS_READ` | `POST /api/dossier/ops/controls` `{}` | 401 (read scope cannot write) |
+
+| ID | Change | Basis |
+|---|---|---|
+| DOS-C | UNKNOWN → PASS | anonymous, foreign scope (Hub, OPS) and read-token-write all refused; read scope works |
+
+Counts after run 9: **27 PASS (STA-G, DISC-F by accepted interpretations) / 1 FAIL / 0 BLOCKED / 3 UNKNOWN of 31**. Open: DOS-D (FAIL), DOS-A, DOS-E after the Dossier probe (>= 18:45Z); STA-E after the 03:00Z run.
