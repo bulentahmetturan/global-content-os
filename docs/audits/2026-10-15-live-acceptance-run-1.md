@@ -126,3 +126,8 @@ Counts after run 6: **24 PASS / 1 FAIL / 1 BLOCKED / 5 UNKNOWN of 31**. Open: DO
 | DISC-F | BLOCKED → PASS (gate behavior live; READY_FOR_OWNER path local only) | candidate lifecycle governed end to end: DISCOVERED → compiled → NOT_READY, fail-closed, kept out of the owner queue; the READY path with a reviewed package is covered by the local Discovery suite (35/35) |
 
 Counts after run 7: **25 PASS / 1 FAIL / 0 BLOCKED / 5 UNKNOWN of 31**. DISC-F wording is an owner-accepted interpretation (gate behavior live, positive path local).
+
+## Run 8 (2026-10-15, owner decision): STA-G accepted on local evidence
+Owner accepted, in chat, that STA-G (recovery) is recorded as **PASS (local evidence; no live failure occurred)**. Basis: Statistics local suite 433/433 covers retry/backoff, circuit breaker, probe, run serialization and interruption recovery against the real code; live state shows circuit CLOSED, 0 consecutive failures, 0 failed runs. Not raised to live evidence unless a genuine failure and recovery is observed later; no failure is to be induced in production.
+
+Counts: **26 PASS (1 by owner-accepted local evidence) / 1 FAIL / 0 BLOCKED / 4 UNKNOWN of 31**. Open: DOS-D (FAIL), DOS-A, DOS-C, DOS-E after the Dossier probe (>= 18:45Z), and STA-E after the 03:00Z Statistics run.
