@@ -73,3 +73,16 @@ Owner-approved single run: `scripts/gate-e-readonly-capture.mjs` with `release/g
 | DOS-F | UNKNOWN → PASS | two families carry real observations with intact relations (ClinicalTrials family stale since 2026-10-06, tracked under DOS-D) |
 
 Counts after run 3: **14 PASS / 1 FAIL / 7 BLOCKED / 9 UNKNOWN of 31**.
+
+## Run 4 (2026-10-15T00:08–00:10Z): B5 Discovery wave (owner-executed in the Hub browser session)
+Owner-approved single operation, run by the owner from the browser console with the Hub operator token held in `localStorage` (value never exposed): one PROTOCOL wave (`discovery_537c0cd9c26d461f`, wave 1, MANUAL_ONE_SHOT, OPEN, searchSpace `["intermittent fasting"]`), one candidate (`candidate_3decdf76d9bd4374`, `DISCOVERED`, alias `time-restricted eating`), one idempotent replay (same candidate id, no second row). No decision, no source activation. Read-only D1 verification afterwards: discovery_runs 1, candidate_ledger 1, decision_ledger 0, actors 2 (unchanged), doctor_candidates 0, protocol_versions 2 (unchanged); `GET /api/discovery/candidates` and `/owner` returned 200 with an empty owner queue (a DISCOVERED candidate is not queued until compiled; by design).
+
+| ID | Change | Observed |
+|---|---|---|
+| DISC-A | BLOCKED → PASS | bounded list endpoint 200 with token; empty owner queue as designed |
+| DISC-C | BLOCKED → PASS | candidate created no actor / doctor candidate; not on owner queue |
+| DISC-D | BLOCKED → PASS | Protocols tables unchanged by a PROTOCOL-domain discovery |
+| DISC-E | BLOCKED → PASS | replay returned the same candidate id; ledger still 1 row |
+| DISC-F | BLOCKED (unchanged) | candidate → owner queue needs the compile (admission) and decision steps, not exercised |
+
+Counts after run 4: **18 PASS / 1 FAIL / 3 BLOCKED / 9 UNKNOWN of 31**.
