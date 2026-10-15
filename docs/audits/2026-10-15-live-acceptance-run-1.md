@@ -86,3 +86,21 @@ Owner-approved single operation, run by the owner from the browser console with 
 | DISC-F | BLOCKED (unchanged) | candidate → owner queue needs the compile (admission) and decision steps, not exercised |
 
 Counts after run 4: **18 PASS / 1 FAIL / 3 BLOCKED / 9 UNKNOWN of 31**.
+
+## Run 5 (2026-10-15T00:20Z): Doctors, evidence from live state and negative authorization probes (no new entities, no writes)
+Decision (owner-informed): no new Doctor/actor entity is created in production for acceptance; the Doctors criteria use (a) the 2026-10-07 R2.1 production canary evidence already in D1, (b) fail-closed negative probes, (c) the local suite (74/74).
+
+| Evidence | Observed |
+|---|---|
+| `actor_source_activity` | 17 rows written by `ops:doctor-activation` on 2026-10-07 (23:29 controlled activation "evidence declared"; 23:45 "R2.1 Phase 7 closure: real ingestion done, history preserved"); `actor_source_ingestability` 4 evaluations |
+| Authorization probes (anonymous and wrong bearer) | `POST /api/ops/doctor-activation`, `doctor-onboarding`, `doctor-fetch`, `doctor-bootstrap`, `GET doctor-readiness`, `doctor-audit`: 12 of 12 answer 401 |
+
+| ID | Change | Basis |
+|---|---|---|
+| DOC-C | BLOCKED → PASS | owner/ops-only enforcement observed live (12/12 → 401); controlled activations with declared evidence recorded; duplicate/repeat approval idempotency covered by local tests |
+| DOC-D | BLOCKED → PASS | real bounded ingestion on 2026-10-07 with provenance and history preserved (prior release; same module lineage) |
+| DOC-E | UNKNOWN → PASS | activity records carry observed_at, created_by, created_reason; relations intact (0 orphans) |
+
+Statistics read-only aggregates: 5 runs COMPLETED (1 CANARY, 4 PRODUCTION), inserted 54 observation versions / 27 current, quarantined 0, failed 0; `/api/statistics/ops/` anonymous 401. STA items stay as before pending broker/ops reads.
+
+Counts after run 5: **21 PASS / 1 FAIL / 1 BLOCKED / 8 UNKNOWN of 31**.
