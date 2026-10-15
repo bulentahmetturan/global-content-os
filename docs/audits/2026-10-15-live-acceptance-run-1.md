@@ -117,3 +117,12 @@ Observed summary: `sourceState ACTIVE`, circuit `CLOSED` (0 consecutive failures
 | STA-D | UNKNOWN → PASS | later production polls on the same release inserted/revised nothing (`NO_CHANGE_POLL`); no duplicate versions after unchanged polls |
 
 Counts after run 6: **24 PASS / 1 FAIL / 1 BLOCKED / 5 UNKNOWN of 31**. Open: DOS-D (FAIL) and DOS-A/C/E pending the Dossier probe after 18:45Z; DISC-F (owner decision, recommended local-only); STA-E, STA-G.
+
+## Run 7 (2026-10-15T00:24Z): DISC-F, honest admission compile (owner-approved, browser console)
+`POST /api/discovery/candidates/candidate_3decdf76d9bd4374/compile` with a package that states the real position (identity UNKNOWN, no sources, review/safety/rollback flags false). Response 200, `state: NOT_READY`, package `v1-2ccf24eb`. No decision, no source activation, no protocol created.
+
+| ID | Change | Basis |
+|---|---|---|
+| DISC-F | BLOCKED → PASS (gate behavior live; READY_FOR_OWNER path local only) | candidate lifecycle governed end to end: DISCOVERED → compiled → NOT_READY, fail-closed, kept out of the owner queue; the READY path with a reviewed package is covered by the local Discovery suite (35/35) |
+
+Counts after run 7: **25 PASS / 1 FAIL / 0 BLOCKED / 5 UNKNOWN of 31**. DISC-F wording is an owner-accepted interpretation (gate behavior live, positive path local).
