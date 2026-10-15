@@ -104,3 +104,16 @@ Decision (owner-informed): no new Doctor/actor entity is created in production f
 Statistics read-only aggregates: 5 runs COMPLETED (1 CANARY, 4 PRODUCTION), inserted 54 observation versions / 27 current, quarantined 0, failed 0; `/api/statistics/ops/` anonymous 401. STA items stay as before pending broker/ops reads.
 
 Counts after run 5: **21 PASS / 1 FAIL / 1 BLOCKED / 8 UNKNOWN of 31**.
+
+## Run 6 (2026-10-15T00:20Z): Statistics ops read with OPS_TOKEN (owner-executed in the operator session)
+Owner ran, in the `gcos-operator` window, one GET of `/api/statistics/ops/summary` with the enrolled `GCOS_OPS_READ` value (never displayed) and pasted back the response text. Foreign-scope probe in the Hub browser session: `/api/statistics/ops/{summary,runs,contract}` with the Hub operator token returned 401 for all three; anonymous 401 earlier.
+
+Observed summary: `sourceState ACTIVE`, circuit `CLOSED` (0 consecutive failures), `stale FRESH`, `schemaDrift false`, `lastSuccessAt 2026-10-13T03:00:32Z`, last run PRODUCTION `COMPLETED` in 1,587 ms with `observationsInserted 0` and alert `INFO NO_CHANGE_POLL` ("latest run found no change"), `observationsOfLastRelease 27`, worstAlert INFO.
+
+| ID | Change | Basis |
+|---|---|---|
+| STA-A | UNKNOWN → PASS | anonymous 401, foreign scope 401, OPS_TOKEN 200 |
+| STA-F | UNKNOWN → PASS | health/freshness/circuit/alerts present and healthy |
+| STA-D | UNKNOWN → PASS | later production polls on the same release inserted/revised nothing (`NO_CHANGE_POLL`); no duplicate versions after unchanged polls |
+
+Counts after run 6: **24 PASS / 1 FAIL / 1 BLOCKED / 5 UNKNOWN of 31**. Open: DOS-D (FAIL) and DOS-A/C/E pending the Dossier probe after 18:45Z; DISC-F (owner decision, recommended local-only); STA-E, STA-G.
