@@ -45,3 +45,8 @@ Not done on purpose: AI-written "why it matters" text (the existing evidence-bas
 
 ## Third deployment (2026-10-22T23:28:41Z): editorial Hub, static asset only
 Owner-executed `wrangler deploy`; one modified asset (`/index.html`). New version `8e85aa7a-973c-43f4-91dc-fd031cc59d07` (deployment `d4a0d5da-8eeb-4630-bf08-70e16e0c6f67`), 100%, stamped commit `0be9df93`. Verified read-only: module `index.js` hash unchanged (`2797e26d…169c1422`), `/api/ready` READY (0/0), live HTML carries the editorial markers (Newsreader link, reading pane, theme key), the two gated routes answer 401 without a token, `health-watch` unchanged. Rollback target: `ad1e3c43-da9f-4094-9b34-10943d272d1d`. Rendered result with the real operator token is for the owner to confirm in the browser.
+
+## Finding 2026-10-22 23:40Z: why the Research inbox looked fully English
+Read-only evidence: enrichment works (5,555 items done, latest 23:38Z) but the **Workers AI daily free allocation (10,000 neurons) runs out** (156 items failed with error 4006); hourly throughput fell from about 20-26 to 5-6 after ~21:00Z, and a fresh batch of **88 Research items** fetched in the 23:00Z hour was still pending. The Hub listed newest first, so the top of the list was English. The allocation resets at 00:00Z. Inflow can exceed the free daily capacity, so the backlog can recur.
+
+Hub fix (static): translated items first, items waiting for or failing translation grouped under a heading with an EN tag on the title (Hub tests 32/32). Capacity is a separate owner decision: move Workers AI to a paid plan (usage-priced beyond the free neurons; owner verifies current pricing in the Cloudflare dashboard) or accept a daily delay.

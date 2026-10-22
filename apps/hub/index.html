@@ -454,6 +454,14 @@
     .main.split .work { grid-template-columns: 1fr; }
     .resizer, .main.split .resizer, .resizer-side { display: none; }
   }
+
+  .lang-tag { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--hold); color: var(--hold); letter-spacing: .05em; }
+  .card.is-selected .lang-tag { color: #7A4F00; border-color: #7A4F00; }
+  .card.is-waiting .card-title { font-weight: 500; color: var(--text-dim); }
+  .card.is-waiting.is-selected .card-title { color: var(--select-ink); }
+  .group-sep { margin: 18px 0 8px; padding: 10px 4px 8px; border-top: 1px solid var(--border); font: 600 .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
+  .group-sep b { color: var(--accent); margin-left: 6px; }
+  .group-sep span { display: block; margin-top: 4px; font: 400 .74rem var(--font-ui); text-transform: none; letter-spacing: 0; color: var(--text-faint); }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -1197,6 +1205,13 @@
     }
   }
 
+  function isUntranslated(it) { return it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed'; }
+  /** Turkish-ready items first, items still waiting for (or failing) translation after them. Stable within each group. */
+  function translatedFirst(list) {
+    var ready = [], waiting = [];
+    (list || []).forEach(function (it) { (isUntranslated(it) ? waiting : ready).push(it); });
+    return ready.concat(waiting);
+  }
   function itemTexts(it) {
     var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed';
     var note = it.enrichmentStatus === 'pending' ? 'Öz hazırlanıyor…'
@@ -1229,6 +1244,7 @@
   function cardHtml(it) {
     var mode = it.triageStatus;
     var extra = (mode === 'production' ? ' in-production' : mode === 'done' ? ' in-done' : mode === 'trash' ? ' in-trash' : mode === 'hold' ? ' in-hold' : '') +
+      (isUntranslated(it) ? ' is-waiting' : '') +
       (state.cursor && state.cursor === it.id ? ' is-selected' : '');
     var d = itemTexts(it);
     var isEv = state.temporal === 'EVERGREEN';
@@ -1243,10 +1259,11 @@
           (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
             ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
           '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+          (isUntranslated(it) ? '<span class="lang-tag" title="Başlık kaynak dilinde: Türkçe çeviri henüz hazır değil">EN</span>' : '') +
           (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
           (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
           deadline + statusPillHtml(mode) + '</div>' +
-          '<p class="card-title">' + escapeHtml(d.title) + '</p>' +
+          '<p class="card-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</p>' +
           (d.titleOrig && d.titleOrig !== d.title ? '<p class="original-title">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
           (d.note ? '<p class="card-note">' + escapeHtml(d.note) + '</p>' : '') +
           (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '') +
@@ -1291,7 +1308,7 @@
         (formatAbsDate(it.publishedAt) ? '<span>' + escapeHtml(formatAbsDate(it.publishedAt)) + '</span>' : '') +
         statusPillHtml(it.triageStatus) +
         '<span style="margin-left:auto">' + pos + ' / ' + total + '</span></div>' +
-      '<h2 class="read-title">' + escapeHtml(d.title) + '</h2>' +
+      '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
       lead +
@@ -1796,7 +1813,16 @@
     var items = visibleItems();
     items.forEach(function (it, i) { it._n = i + 1; });
     if (!items.some(function (x) { return x.id === state.cursor; })) state.cursor = items.length ? items[0].id : null;
-    cardListEl.innerHTML = items.map(cardHtml).join('');
+    var waitingN = items.filter(isUntranslated).length;
+    var sepDone = false;
+    cardListEl.innerHTML = items.map(function (it) {
+      var sep = '';
+      if (!sepDone && waitingN && isUntranslated(it)) {
+        sepDone = true;
+        sep = '<div class="group-sep" role="separator">Çevirisi bekleyen ya da üretilemeyen <b>' + waitingN + '</b><span>Başlıklar kaynak dilinde (EN). Günlük çeviri kotası dolduğunda bekler.</span></div>';
+      }
+      return sep + cardHtml(it);
+    }).join('');
     emptyStateEl.hidden = items.length > 0;
     if (!items.length) emptyStateEl.innerHTML = emptyHtml();
     renderToolbar();
@@ -2027,7 +2053,7 @@
       }
     }
     state.counts = data.counts || state.counts;
-    state.items = data.items || [];
+    state.items = translatedFirst(data.items || []);
     state.selected = {};
     if (state.showSources) {
       try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }

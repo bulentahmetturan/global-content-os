@@ -30,7 +30,7 @@ const ctx = {
 vm.createContext(ctx);
 vm.runInContext(
   ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'readPaneHtml'].map(extractFunction))
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -99,4 +99,16 @@ test('resizable panes: both handles exist, limits are enforced and the size is r
   assert.match(html, /name === '--sidebar-w' \? 200 : 300/);
   assert.match(html, /localStorage\.setItem\('gcos' \+ name/);
   assert.match(html, /addEventListener\('dblclick'/);
+});
+
+test('translated items come first, waiting ones after them, order stable inside each group', () => {
+  const mk = (id, s) => ({ id, enrichmentStatus: s });
+  const out = ctx.translatedFirst([mk('a', 'pending'), mk('b', 'done'), mk('c', 'failed'), mk('d', 'skipped'), mk('e', 'done')]);
+  assert.equal(Array.from(out, (x) => x.id).join(','), 'b,d,e,a,c');
+  assert.equal(ctx.translatedFirst(null).length, 0);
+});
+
+test('an untranslated item is flagged EN and keeps the Turkish processing note', () => {
+  assert.match(html, /<span class="lang-tag"/);
+  assert.match(html, /Çevirisi bekleyen ya da üretilemeyen/);
 });
