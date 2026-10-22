@@ -1,0 +1,502 @@
+{
+ "title": "Doctors expert source bundles (proposed)",
+ "researched_on": "2026-10-22",
+ "status": "PROPOSED_NOT_APPLIED",
+ "activation": "OFF",
+ "method": "web search + live ORCID public API + HTTP status check from this machine; no content fetched for ingestion, no polling",
+ "legend": {
+  "check": "what was verified; HTTP_200 proves only that the page loads, not ownership",
+  "ownership": "proven only when a page links the other (Scripps to Substack) or the ORCID employment matches; otherwise noted in role/open"
+ },
+ "people": [
+  {
+   "canonicalName": "Saurabh Sethi",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Public pages (Healthline and Medical News Today reviewer bios) describe MD, MPH, Bay Area gastroenterology. No institutional profile and no ORCID found.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://www.healthline.com/authors/saurabh-sethi-md-mph",
+     "check": "HTTP_200_2026-10-22",
+     "role": "reviewer bio, third-party publisher, not self-owned"
+    },
+    {
+     "disposition": "MANUAL_INTAKE",
+     "activation": "OFF",
+     "type": "INSTAGRAM",
+     "url": "https://www.instagram.com/doctor.sethi/",
+     "check": "HTTP_200_2026-10-22",
+     "role": "social, ownership not yet proven"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://www.wellnessincheck.com",
+     "check": "UNVERIFIED_HTTP_406",
+     "role": "reported by a True Health Initiative bio; ownership and reachability unproven"
+    }
+   ],
+   "open": [
+    "institutional profile or licence evidence",
+    "ORCID or PubMed author identity"
+   ]
+  },
+  {
+   "canonicalName": "Satchin Panda",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [
+    {
+     "value": "Satchidananda Panda",
+     "kind": "NAME_VARIANT"
+    }
+   ],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "Legal name Satchidananda Panda; Satchin is a known public name (alias candidate). ORCID matches Salk. OWNER REVIEW: a July 2026 news report (Hoodline) says he is leaving his Salk post amid a misconduct complaint he denies; the Salk profile URL now returns 404.",
+   "ownerReview": "RECENT_NEWS_REPUTATION_AFFILIATION_CHANGE",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-7855-0091",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Salk and Scripps"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "INSTITUTIONAL_PROFILE",
+     "url": "https://www.salk.edu/scientist/satchidananda-panda/",
+     "check": "FAILED_HTTP_404_2026-10-22",
+     "role": "profile gone; do not use until reviewed"
+    }
+   ],
+   "open": [
+    "current affiliation",
+    "owner decision on the news report",
+    "replacement official site"
+   ]
+  },
+  {
+   "canonicalName": "Emeran Mayer",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "UCLA director pages; ORCID matches UCLA Geffen.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0003-3923-3349",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "UCLA Geffen"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://www.uclahealth.org/departments/medicine/gastro/microbiome/about-us/directors",
+     "check": "HTTP_200_2026-10-22",
+     "role": "UCLA Health director page"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://emeranmayer.com",
+     "check": "HTTP_200_2026-10-22",
+     "role": "personal site listed on Wikipedia"
+    }
+   ],
+   "open": [
+    "feed or blog endpoint on emeranmayer.com"
+   ]
+  },
+  {
+   "canonicalName": "Phyllis Zee",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Northwestern Medicine physician page; ORCID matches Feinberg.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0001-6296-6685",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Northwestern Feinberg"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "INSTITUTIONAL_PROFILE",
+     "url": "https://www.nm.org/doctors/1255418927",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://www.brain.northwestern.edu/about/members/profile.html?xid=13785",
+     "check": "HTTP_200_2026-10-22"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Christopher Gardner",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "Stanford profiles confirm Rehnborg Farquhar Professor. ORCID: several same-name iDs, none with a public employment, so NO iD is recorded (ambiguous).",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://med.stanford.edu/profiles/16607",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "INSTITUTIONAL_PROFILE",
+     "url": "https://prevention.stanford.edu/people/faculty_academic/Gardner.html",
+     "check": "HTTP_200_2026-10-22"
+    }
+   ],
+   "open": [
+    "ORCID iD (ambiguous, do not guess)"
+   ]
+  },
+  {
+   "canonicalName": "Justin Sonnenburg",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "Stanford lab page; ORCID matches Stanford.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0003-2299-6817",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Stanford"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://sonnenburglab.stanford.edu/people/justin-sonnenburg",
+     "check": "HTTP_200_2026-10-22"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Stuart Phillips",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "McMaster faculty page; ORCID matches McMaster (one of four same-name iDs).",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-1956-4098",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "McMaster"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://mira.mcmaster.ca/our-faculty/stuart-phillips/",
+     "check": "HTTP_200_2026-10-22",
+     "role": "redirect target of mira.mcmaster.ca/team/bio/stuart-phillips"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://emrg.science.mcmaster.ca",
+     "check": "HTTP_200_2026-10-22",
+     "role": "Exercise Metabolism Research Group site"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Judson Brewer",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Brown profile; ORCID matches Brown; personal site and Substack listed on Wikipedia.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0001-8984-6704",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Brown"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://mindfulness.sph.brown.edu/people/judson-brewer",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://drjud.com",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://judbrewer.substack.com/feed",
+     "check": "HTTP_200_2026-10-22",
+     "role": "Substack RSS (application/xml); candidate carrier feed",
+     "feed": true
+    }
+   ],
+   "open": [
+    "ownership proof for the Substack (link from drjud.com)"
+   ]
+  },
+  {
+   "canonicalName": "Frank Scheer",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [
+    {
+     "value": "Frank A.J.L. Scheer",
+     "kind": "NAME_VARIANT"
+    }
+   ],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "Harvard profiles (full name Frank A.J.L. Scheer); ORCID matches Brigham and Womens Hospital.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-2014-7582",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "BWH, Broad"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://nutrition.hms.harvard.edu/people/frank-ajl-scheer",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://sleep.hms.harvard.edu/faculty-staff/frank-ajl-scheer",
+     "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Eric Topol",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Scripps faculty page links his Substack; ORCID matches Scripps.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-1478-4729",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Scripps"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "INSTITUTIONAL_PROFILE",
+     "url": "https://www.scripps.edu/faculty/topol/",
+     "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://erictopol.substack.com/feed",
+     "check": "HTTP_200_2026-10-22",
+     "role": "Ground Truths Substack RSS; linked from the Scripps page; candidate carrier feed",
+     "feed": true
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Tim Spector",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Kings College London and TwinsUK pages. ORCID 0000-0002-9795-0365 exists but has no public employment, so it is a CANDIDATE only. ZOE is an organization, not a person source.",
+   "orcidCandidate": "0000-0002-9795-0365",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://www.tim-spector.com",
+     "check": "HTTP_200_2026-10-22",
+     "role": "redirect target of tim-spector.co.uk, which a speaker bio lists"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "INSTITUTIONAL_PROFILE",
+     "url": "https://twinsuk.ac.uk/?p=5586",
+     "check": "UNREACHABLE_FROM_HERE_2026-10-22",
+     "role": "TwinsUK team page; recheck"
+    }
+   ],
+   "open": [
+    "ORCID confirmation",
+    "KCL profile URL"
+   ]
+  },
+  {
+   "canonicalName": "Rob Knight",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "UCSD lab site; two same-name iDs, the UCSD one is recorded.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-0975-9019",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "UCSD"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://knightlab.ucsd.edu/?page_id=47",
+     "check": "HTTP_200_2026-10-22",
+     "role": "lab site"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://kibm.ucsd.edu/users/rob-knight",
+     "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Roy Taylor",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "PHYSICIAN_PENDING_VERIFICATION",
+   "identityNotes": "Newcastle staff page; ORCID 0000-0001-6273-0170 lists Newcastle Professor of Medicine and Metabolism, 111 works (other Roy Taylor iDs rejected).",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0001-6273-0170",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Newcastle"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://www.ncl.ac.uk/medical-sciences/people/profile/roytaylor.html",
+     "check": "HTTP_200_2026-10-22",
+     "role": "page says Emeritus; may be an older snapshot"
+    }
+   ],
+   "open": []
+  },
+  {
+   "canonicalName": "Keith Baar",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "UC Davis profile; ORCID lists UC Davis employment, 318 works.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0001-9337-6186",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "UC Davis"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://profiles.ucdavis.edu/keith.baar/65",
+     "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
+    }
+   ],
+   "open": [
+    "reachable official or lab page"
+   ]
+  },
+  {
+   "canonicalName": "Akiko Iwasaki",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "aliasCandidates": [],
+   "credential": "SCIENTIST_PENDING_VERIFICATION",
+   "identityNotes": "Yale profile and lab page; ORCID matches Yale.",
+   "sources": [
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-7824-9856",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Yale"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "UNIVERSITY_PROFILE",
+     "url": "https://medicine.yale.edu/profile/akiko-iwasaki/",
+     "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "OFFICIAL_WEBSITE",
+     "url": "https://medicine.yale.edu/lab/iwasaki/",
+     "check": "HTTP_200_2026-10-22",
+     "role": "lab site"
+    }
+   ],
+   "open": []
+  }
+ ]
+}
