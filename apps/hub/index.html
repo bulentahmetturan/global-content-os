@@ -6,45 +6,32 @@
 <title>Global Hub — Global Content OS</title>
 <style>
   :root {
-    --bg: #F4F6F8;
-    --surface: #FFFFFF;
-    --surface-2: #EDF1F4;
-    --sidebar-bg: #0B2233;
-    --sidebar-text: #C9DAE3;
-    --sidebar-text-dim: #7C93A1;
-    --sidebar-active: #14344A;
-    --border: #DCE3E8;
-    --text: #0B2233;
-    --text-dim: #52697A;
-    --text-faint: #8A9BA8;
-    --navy: #0B3654;
-    --blue: #1178BB;
-    --turquoise: #35BCD1;
-    --ok: #1A8754;
-    --ok-bg: #E7F6ED;
-    --hold: #A9720A;
-    --hold-bg: #FFF3DF;
-    --danger: #C4392B;
-    --danger-bg: #FBEAE8;
-    --shadow: 0 1px 2px rgba(11,34,51,.06), 0 4px 14px rgba(11,34,51,.05);
-    --radius: 12px;
-    --sidebar-w: 248px;
+    --font-ui: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --bg: #141118; --surface: #1C1824; --surface-2: #262031;
+    --sidebar-bg: #0F0D14; --sidebar-text: #CFC8DA; --sidebar-text-dim: #8B8299; --sidebar-active: #231E2E; --sidebar-border: rgba(255,255,255,.10);
+    --border: #2E2839; --text: #F2EDE6; --text-dim: #B6ADC2; --text-faint: #8A8199;
+    --accent: #F2C14E; --on-accent: #1B1405; --navy: #F2C14E; --on-navy: #1B1405; --blue: #F2C14E; --turquoise: #F2C14E;
+    --select-bg: #EFE6D2; --select-ink: #1E1A12; --select-dim: #5B523F;
+    --ok: #5BD39A; --ok-bg: #153024; --hold: #E8B04B; --hold-bg: #33290F; --danger: #F1766A; --danger-bg: #3A1A18;
+    --shadow: 0 1px 2px rgba(0,0,0,.40), 0 12px 32px rgba(0,0,0,.30);
+    --radius: 12px; --sidebar-w: 248px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0B1620; --surface: #10202E; --surface-2: #14293A; --sidebar-bg: #060F17;
-      --sidebar-text: #C9DAE3; --sidebar-text-dim: #607585; --sidebar-active: #14293A;
-      --border: #223A4A; --text: #E9F1F5; --text-dim: #9DB4C2; --text-faint: #6C8494;
-      --navy: #35BCD1; --blue: #4FC3E8; --turquoise: #35BCD1; --ok: #4ADE94; --ok-bg: #123424;
-      --hold: #F5C265; --hold-bg: #3A2A0C; --danger: #FF7A6B; --danger-bg: #3A1815;
-      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.35);
-    }
+  :root[data-theme="light"] {
+    --bg: #F2F2EF; --surface: #FFFFFF; --surface-2: #E9E9E5;
+    --sidebar-bg: #121212; --sidebar-text: #DADAD6; --sidebar-text-dim: #8F8F8A; --sidebar-active: #242424; --sidebar-border: rgba(255,255,255,.12);
+    --border: #D6D6D1; --text: #141414; --text-dim: #4A4A46; --text-faint: #75756F;
+    --accent: #C98F0A; --on-accent: #141414; --navy: #141414; --on-navy: #FFFFFF; --blue: #8A5A00; --turquoise: #C98F0A;
+    --select-bg: #FFF1BF; --select-ink: #141414; --select-dim: #5A4A12;
+    --ok: #12724A; --ok-bg: #E4F3EA; --hold: #8F5F00; --hold-bg: #FFF0D2; --danger: #B3322A; --danger-bg: #FBE7E4;
+    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.06);
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--font-ui); -webkit-font-smoothing: antialiased;
   }
   .app { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 100vh; }
   .sidebar {
@@ -76,7 +63,7 @@
     font-family: 'IBM Plex Mono', monospace; font-size: .68rem; background: rgba(255,255,255,.12);
     color: #fff; border-radius: 20px; padding: 1px 7px; min-width: 18px; text-align: center;
   }
-  .project-item.active .p-count { background: var(--turquoise); color: #06222b; }
+  .project-item.active .p-count { background: var(--accent); color: var(--on-accent); }
   .project-item.nav-child {
     padding-left: 36px; font-weight: 600; font-size: .84rem;
     color: #fff;
@@ -117,7 +104,7 @@
     background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px;
     padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
   }
-  .pill.active { background: var(--navy); color: #fff; border-color: transparent; }
+  .pill.active { background: var(--navy); color: var(--on-navy); border-color: transparent; }
   .pill .p-count {
     font-family: 'IBM Plex Mono', monospace; font-size: .68rem;
     background: rgba(0,0,0,.08); border-radius: 20px; padding: 1px 7px;
@@ -168,14 +155,14 @@
   .btn-delete { background: var(--danger-bg); color: var(--danger); border-color: transparent; }
   .btn-undo { background: var(--surface); color: var(--blue); }
   .btn-hold { background: var(--hold-bg); color: var(--hold); border-color: transparent; }
-  .btn-sync { background: var(--navy); color: #fff; border-color: transparent; }
+  .btn-sync { background: var(--navy); color: var(--on-navy); border-color: transparent; }
   .empty {
     text-align: center; color: var(--text-faint); font-size: .85rem; padding: 30px 10px;
     border: 1px dashed var(--border); border-radius: var(--radius);
   }
   .toast {
     position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom, 0px) + 20px);
-    transform: translateX(-50%) translateY(20px); background: var(--navy); color: #fff;
+    transform: translateX(-50%) translateY(20px); background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
     font-size: .82rem; font-weight: 600; padding: 10px 18px; border-radius: 30px;
     box-shadow: var(--shadow); opacity: 0; pointer-events: none;
     transition: opacity .25s ease, transform .25s ease; z-index: 20;
@@ -271,14 +258,170 @@
   #rejectDialog label { font-size: .78rem; color: var(--text-dim); }
   #rejectDialog select, #rejectDialog input { width: 100%; padding: 7px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: .82rem; }
   #rejectDialog .row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+
+  /* ===== Editorial layer (2026-10-23): three-column triage, Newsreader + Instrument Sans ===== */
+  .main { padding: 0; max-width: none; }
+  .work { display: block; }
+  .main.split .work { display: grid; grid-template-columns: minmax(380px, 460px) minmax(0, 1fr); height: 100vh; }
+  .pane-list { padding: 22px 18px 40px; min-width: 0; }
+  .main.split .pane-list { overflow-y: auto; border-right: 1px solid var(--border); }
+  .pane-read { display: none; }
+  .main.split .pane-read { display: block; overflow-y: auto; background: var(--surface); padding: 0; }
+  .main > #bibleView, .main > #moduleView, .main > .footnote { padding: 0 28px; max-width: 960px; }
+  .main:not(.split) .pane-list { padding: 24px 28px 8px; max-width: 960px; }
+  .main > .footnote { margin: 24px 0 0; padding: 14px 28px 48px; border-top: 1px solid var(--border); }
+  .main.split > .footnote { display: none; }
+
+  .sidebar { gap: 16px; }
+  .brand-mark { display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font: 700 1.1rem var(--font-serif); border-radius: 8px; }
+  .brand h1 { font-family: var(--font-serif); font-size: 1.05rem; letter-spacing: .04em; }
+  .project-item { font-weight: 500; font-size: .88rem; padding: 9px 10px 9px 12px; border-radius: 8px; transition: background .15s ease, color .15s ease; position: relative; }
+  .project-item.active { background: var(--sidebar-active); box-shadow: inset 3px 0 0 var(--accent); color: #fff; }
+  .project-item .p-icon { width: 20px; height: 20px; display: inline-grid; place-items: center; opacity: .9; }
+  .project-item .p-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .project-item .p-count { background: transparent; color: var(--sidebar-text-dim); padding: 0; font-size: .72rem; }
+  .project-item.active .p-count { background: transparent; color: var(--accent); }
+  .nav-label { font-size: .62rem; letter-spacing: .12em; }
+  .theme-btn { all: unset; cursor: pointer; font: 500 .72rem var(--font-mono); color: var(--sidebar-text-dim); padding: 6px 8px; border: 1px solid var(--sidebar-border); border-radius: 8px; text-align: center; }
+  .theme-btn:hover { color: #fff; border-color: var(--sidebar-text-dim); }
+
+  .main-header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .main-header h2 { font-family: var(--font-serif); font-size: 2.1rem; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1; margin: 0; }
+  .main-header h2 .title-count { font-family: var(--font-mono); font-size: .9rem; font-weight: 500; color: var(--text-faint); letter-spacing: 0; margin-left: 6px; vertical-align: .35em; }
+  .main-header .main-sub { flex-basis: 100%; font-size: .72rem; color: var(--text-faint); }
+  .toolbar { margin: 10px 0 14px; }
+  .btn { font-family: var(--font-ui); border-radius: 8px; transition: background .15s ease, transform .1s ease, border-color .15s ease; }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible, .pill:focus-visible, .project-item:focus-visible, .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-sync { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-sync:hover { border-color: var(--text-faint); }
+  .density { margin-left: auto; display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .density button { all: unset; cursor: pointer; padding: 6px 10px; font: 500 .72rem var(--font-ui); color: var(--text-dim); }
+  .density button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); }
+
+  .pillbar { gap: 0; margin: 0 0 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .pill { background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; margin: 0 16px -1px 0; padding: 8px 0; color: var(--text-dim); font-weight: 500; font-size: .86rem; transition: color .15s ease, border-color .15s ease; }
+  .pill:hover { color: var(--text); }
+  .pill.active { background: none; color: var(--text); border-bottom-color: var(--accent); }
+  .pill .p-count { background: none; padding: 0 0 0 4px; color: var(--text-faint); }
+  .pill.active .p-count { background: none; color: var(--accent); }
+  .lane-note { background: none; border: 0; box-shadow: none; padding: 0; margin: 0 0 12px; font-size: .78rem; color: var(--text-faint); }
+  .lane-dot { display: none; }
+
+  .progress { margin: 0 0 12px; }
+  .progress .bar { height: 3px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .progress .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+  .progress .txt { display: flex; justify-content: space-between; margin-top: 6px; font: 500 .7rem var(--font-mono); color: var(--text-faint); }
+
+  .card-list { gap: 6px; }
+  .card { display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 10px; padding: 11px 14px 11px 8px; border-radius: 12px; border: 1px solid transparent; background: transparent; box-shadow: none; cursor: pointer; transition: background .15s ease, border-color .15s ease, opacity .3s ease, transform .3s ease; }
+  .card:hover { background: var(--surface); border-color: var(--border); }
+  .card.is-selected { background: var(--select-bg); border-color: transparent; color: var(--select-ink); box-shadow: inset 3px 0 0 var(--accent); }
+  .c-num { font: 500 .72rem var(--font-mono); color: var(--text-faint); text-align: right; padding-top: 4px; }
+  .c-body { min-width: 0; }
+  .card-meta { margin-bottom: 4px; font-size: .66rem; gap: 6px; }
+  .pub-pill { background: none; padding: 0; color: var(--text-dim); font-weight: 600; letter-spacing: .02em; }
+  .news-age { color: var(--text-faint); }
+  .card-title { font-family: var(--font-serif); font-size: 1.02rem; font-weight: 600; line-height: 1.28; margin: 0; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .gist { border: 0; padding: 0; margin: 6px 0 0; font-size: .84rem; color: var(--text-dim); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .density-compact .gist { display: none; }
+  .density-compact .card { padding-top: 9px; padding-bottom: 9px; }
+  .card .original-title { display: none; }
+  .card.is-selected .card-title, .card.is-selected .c-num { color: var(--select-ink); }
+  .card.is-selected .gist, .card.is-selected .pub-pill, .card.is-selected .news-age { color: var(--select-dim); }
+  .card.in-production, .card.in-done, .card.in-trash, .card.in-hold { border-left-width: 1px; }
+  .status-pill { background: none; padding: 0; font-weight: 600; }
+  .status-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 5px; vertical-align: 1px; }
+  .bulk-pick { grid-column: 2; }
+
+  .skeleton-row { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 12px 14px 12px 8px; }
+  .skeleton-row i { display: block; height: 10px; border-radius: 6px; background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
+  .skeleton-row i.t { height: 14px; width: 86%; margin: 6px 0; }
+  .skeleton-row i.s { width: 34%; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  .empty { border: 0; padding: 56px 12px; }
+  .empty .e-title { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .empty .e-sub { font-size: .84rem; color: var(--text-faint); line-height: 1.5; }
+
+  .read-inner { max-width: 720px; margin: 0 auto; padding: 36px 44px 64px; animation: readIn .22s ease both; }
+  @keyframes readIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .read-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font: 500 .72rem var(--font-mono); color: var(--text-faint); margin-bottom: 14px; }
+  .read-top .pub-pill { color: var(--text); }
+  .read-title { font-family: var(--font-serif); font-size: 2.3rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 12px; color: var(--text); }
+  .read-orig { font-size: .78rem; color: var(--text-faint); margin: 0 0 14px; font-style: italic; }
+  .read-link { display: inline-block; margin: 0 0 22px; color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: underline; text-underline-offset: 4px; }
+  .read-lead { font-family: var(--font-serif); font-size: 1.28rem; line-height: 1.5; color: var(--text); margin: 0 0 22px; }
+  .read-note { font-size: .9rem; color: var(--text-dim); margin: 0 0 22px; padding: 12px 14px; border: 1px dashed var(--border); border-radius: 10px; }
+  .read-facts { display: grid; grid-template-columns: 130px 1fr; gap: 8px 16px; margin: 0 0 26px; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); font-size: .86rem; }
+  .read-facts dt { color: var(--text-faint); font: 500 .68rem var(--font-mono); text-transform: uppercase; letter-spacing: .08em; padding-top: 2px; }
+  .read-facts dd { margin: 0; color: var(--text); }
+  .read-facts dd.deadline { color: var(--accent); font-weight: 600; }
+  .read-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .read-actions .btn { padding: 10px 16px; font-size: .86rem; }
+  .btn-promote { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .btn-promote:hover { filter: brightness(1.06); }
+  .btn-hold { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-delete { background: transparent; color: var(--danger); border: 1px solid var(--border); }
+  .btn-undo { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn kbd, .kbd { font: 500 .66rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid currentColor; opacity: .6; margin-left: 4px; }
+  .read-nav { display: flex; gap: 8px; margin: 22px 0 0; font-size: .76rem; color: var(--text-faint); align-items: center; }
+  .read-back { all: unset; display: none; cursor: pointer; font: 600 .84rem var(--font-ui); color: var(--accent); padding: 14px 18px 0; }
+  .card-note { margin: 6px 0 0; font-size: .8rem; color: var(--text-faint); font-style: italic; }
+  .deadline-chip { color: var(--accent); font-weight: 600; }
+  .card.is-selected .deadline-chip { color: var(--select-ink); }
+  .read-empty { display: grid; place-items: center; height: 100%; padding: 40px; text-align: center; color: var(--text-faint); font-family: var(--font-serif); font-size: 1.3rem; }
+  .read-keys { font: 500 .7rem var(--font-mono); color: var(--text-faint); margin-top: 26px; line-height: 1.9; }
+
+  .toast { display: flex; align-items: center; gap: 14px; }
+  .toast button { all: unset; cursor: pointer; font-weight: 700; color: var(--accent); }
+  .toast.show { pointer-events: auto; }
+
+  @media (max-width: 1100px) {
+    .main.split .work { grid-template-columns: 1fr; height: auto; }
+    .main.split .pane-list { border-right: 0; overflow: visible; }
+    .main.split .pane-read { display: none; }
+    .main.split.reading .pane-list { display: none; }
+    .main.split.reading .pane-read { display: block; overflow: visible; }
+    .main.split.reading .read-back { display: block; }
+    .read-inner { padding: 20px 20px 48px; }
+    .read-title { font-size: 1.8rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  /* module panels: editorial typography + mini charts */
+  #moduleView h3 { font: 600 .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); margin: 22px 0 8px; }
+  .mod-card { background: var(--surface); border-radius: 12px; }
+  .mod-card h3 { margin: 0 0 6px; }
+  .mod-card .big { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; letter-spacing: -0.01em; }
+  .mod-table { font-size: .82rem; }
+  .mod-table th { font: 500 .66rem var(--font-mono); text-transform: uppercase; letter-spacing: .08em; }
+  .mod-tag { border-radius: 6px; font-weight: 600; }
+  .chart-card { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--surface); margin-bottom: 14px; }
+  .chart-card .ct { font: 600 .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); margin-bottom: 10px; }
+  .mini-bars { display: flex; align-items: flex-end; gap: 10px; height: 84px; }
+  .mini-bars .mb { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; min-width: 34px; flex: 1; max-width: 90px; }
+  .mini-bars .mb i { display: block; width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 4px; }
+  .mini-bars .mb span { font: 500 .62rem var(--font-mono); color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .stack { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--surface-2); gap: 2px; }
+  .stack i { display: block; height: 100%; min-width: 4px; }
+  .stack-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font-size: .76rem; color: var(--text-dim); }
+  .stack-legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .k-ok { background: var(--ok); } .k-bad { background: var(--danger); } .k-n { background: var(--text-faint); } .k-a { background: var(--accent); }
+  .strip { display: flex; gap: 6px; flex-wrap: wrap; }
+  .strip i { display: block; width: 22px; height: 22px; border-radius: 5px; }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('gcos-theme') === 'light' ? 'light' : 'dark'); } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }</script>
 </head>
 <body>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-mark"></div>
+      <div class="brand-mark">G</div>
       <div>
         <h1>GLOBAL HUB</h1>
         <div class="subtitle">global-content-os</div>
@@ -288,24 +431,32 @@
       <nav class="project-nav" id="projectNav"></nav>
     </div>
     <div class="health-chip" id="healthChip" hidden><button type="button" id="healthBtn" aria-expanded="false"><span class="h-title" id="healthTitle"></span><span id="healthSub"></span></button><ul id="healthList"></ul></div>
+    <button class="theme-btn" id="themeBtn" type="button"></button>
     <div class="sidebar-footnote">Kaynak triyajı · CCOS’a yalnızca approved_brief gider</div>
   </aside>
   <main class="main">
+    <div class="work">
+    <section class="pane-list" id="paneList">
     <div class="main-header">
       <h2 id="mainTitle"></h2>
       <div class="main-sub" id="mainSub"></div>
     </div>
     <div class="toolbar" id="toolbar">
       <button class="btn btn-sync" id="btnSync" type="button">↻ Kaynakları çek</button>
+      <div class="density" id="density" role="group" aria-label="Yoğunluk"><button type="button" data-density="compact" aria-pressed="true">Kompakt</button><button type="button" data-density="comfortable" aria-pressed="false">Rahat</button></div>
     </div>
     <div class="pillbar" id="kindbar" hidden></div>
     <div class="pillbar" id="pillbar"></div>
     <div class="lane-note" id="laneNote"></div>
+    <div class="progress" id="progress" hidden><div class="bar"><i id="progressFill"></i></div><div class="txt"><span id="progressPos"></span><span id="progressDay"></span></div></div>
     <div id="listView">
       <div id="srcPanel" hidden></div>
       <div id="hekToolbar" hidden></div>
       <div class="card-list" id="cardList"></div>
-      <div class="empty" id="emptyState">Yükleniyor…</div>
+      <div class="empty" id="emptyState"></div>
+    </div>
+    </section>
+    <aside class="pane-read" id="readPane" aria-live="polite"></aside>
     </div>
     <div id="bibleView" hidden>
       <div class="bible-meta" id="bibleMeta">Bible v4 yükleniyor…</div>
@@ -357,19 +508,19 @@
     { path: 'MODULES', label: 'Sistem Modülleri' }
   ];
   var NAV = [
-    { navId: 'haber', path: 'TIME_SENSITIVE', key: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
-    { navId: 'research', path: 'TIME_SENSITIVE', key: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: '🔬' },
-    { navId: 'duyuru', path: 'TIME_SENSITIVE', key: 'duyuru', route: 'tip_toplulugu', lane: 'duyuru', label: 'Duyuru', icon: '🩺' },
-    { navId: 'burs', path: 'TIME_SENSITIVE', key: 'burs', route: 'tip_toplulugu', lane: 'burs', label: 'Burs', icon: '🎓' },
-    { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
-    { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: '🌿' },
-    { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: '♻️' },
-    { navId: 'm_dossier', path: 'MODULES', route: 'modules', module: 'dossier', lane: null, label: 'Dossier', icon: '📊', doc: true },
-    { navId: 'm_doctors', path: 'MODULES', route: 'modules', module: 'doctors', lane: null, label: 'Doktorlar', icon: '🩺', doc: true },
-    { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: '🧬', doc: true },
-    { navId: 'm_discovery', path: 'MODULES', route: 'modules', module: 'discovery', lane: null, label: 'Keşif', icon: '🔎', doc: true },
-    { navId: 'm_statistics', path: 'MODULES', route: 'modules', module: 'statistics', lane: null, label: 'İstatistik', icon: '📈', doc: true },
-    { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
+    { navId: 'haber', path: 'TIME_SENSITIVE', key: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5h13a1 1 0 0 1 1 1v12a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z\"/><path d=\"M18 9h2v9a2 2 0 0 1-2 2\"/><path d=\"M7 9h7M7 13h7M7 16h4\"/></svg>" },
+    { navId: 'research', path: 'TIME_SENSITIVE', key: 'research', route: 'kaduse', kind: 'research', lane: null, label: 'Research', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3\"/><path d=\"M8 15h8\"/></svg>" },
+    { navId: 'duyuru', path: 'TIME_SENSITIVE', key: 'duyuru', route: 'tip_toplulugu', lane: 'duyuru', label: 'Duyuru', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 11v3a1 1 0 0 0 1 1h2l5 4V7L6 10H4a1 1 0 0 0-1 1z\"/><path d=\"M15 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11\"/></svg>" },
+    { navId: 'burs', path: 'TIME_SENSITIVE', key: 'burs', route: 'tip_toplulugu', lane: 'burs', label: 'Burs', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 9l10-5 10 5-10 5z\"/><path d=\"M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5\"/></svg>" },
+    { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z\"/><path d=\"M4 19V5M8 7h7\"/></svg>" },
+    { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 19c0-9 5-14 15-14 0 10-5 15-14 15\"/><path d=\"M5 19l8-8\"/></svg>" },
+    { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 11a8 8 0 0 0-14-4M4 13a8 8 0 0 0 14 4\"/><path d=\"M6 3v4h4M18 21v-4h-4\"/></svg>" },
+    { navId: 'm_dossier', path: 'MODULES', route: 'modules', module: 'dossier', lane: null, label: 'Dossier', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 20V4M4 20h16\"/><path d=\"M8 16v-4M12 16V8M16 16v-6\"/></svg>", doc: true },
+    { navId: 'm_doctors', path: 'MODULES', route: 'modules', module: 'doctors', lane: null, label: 'Doktorlar', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3v6a4 4 0 0 0 8 0V3\"/><path d=\"M10 13v2a4 4 0 0 0 8 0v-1\"/><circle cx=\"18\" cy=\"12\" r=\"2\"/></svg>", doc: true },
+    { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12\"/><path d=\"M8 7h8M8 17h8\"/></svg>", doc: true },
+    { navId: 'm_discovery', path: 'MODULES', route: 'modules', module: 'discovery', lane: null, label: 'Keşif', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6\"/><path d=\"M20 20l-4.5-4.5\"/></svg>", doc: true },
+    { navId: 'm_statistics', path: 'MODULES', route: 'modules', module: 'statistics', lane: null, label: 'İstatistik', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M15 7h6v6\"/></svg>", doc: true },
+    { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3h8l4 4v14H7z\"/><path d=\"M15 3v4h4M10 12h6M10 16h6\"/></svg>", doc: true }
   ];
   /** Sidebar count for a nav entry from /api/routes `temporal`; null (shown as "–") when the block is missing — never a fake 0. */
   function navTemporalCount(n, temporal) {
@@ -831,6 +982,11 @@
   var state = {
     module: ['dossier', 'doctors', 'protocols', 'discovery', 'statistics'].indexOf(qs.get('module')) >= 0 ? qs.get('module') : 'dossier',
     modulesData: null,
+    cursor: null,
+    loadedKey: '',
+    lastUndo: null,
+    armed: null,
+    density: (function () { try { return localStorage.getItem('gcos-density') === 'comfortable' ? 'comfortable' : 'compact'; } catch (e) { return 'compact'; } })(),
     route: qsRoute || savedRoute || 'kaduse',
     kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
     hekLane: qsLane || savedHekLane || 'duyuru',
@@ -863,6 +1019,7 @@
   var mainSubEl = document.getElementById('mainSub');
   var laneNoteEl = document.getElementById('laneNote');
   var cardListEl = document.getElementById('cardList');
+  var readPaneEl = document.getElementById('readPane');
   var emptyStateEl = document.getElementById('emptyState');
   var footnoteEl = document.getElementById('footnote');
   var toastEl = document.getElementById('toast');
@@ -943,11 +1100,21 @@
     };
   }
 
-  function showToast(msg) {
-    toastEl.textContent = msg;
+  function showToast(msg, undo) {
+    toastEl.innerHTML = '';
+    var span = document.createElement('span');
+    span.textContent = msg;
+    toastEl.appendChild(span);
+    if (undo) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('data-undo-toast', undo.id);
+      b.textContent = undo.label;
+      toastEl.appendChild(b);
+    }
     toastEl.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, undo ? 7000 : 2400);
   }
 
   var OPERATOR_TOKEN_KEY = 'gcos.hubOperatorToken';
@@ -986,90 +1153,164 @@
     }
   }
 
+  function itemTexts(it) {
+    var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed';
+    var note = it.enrichmentStatus === 'pending' ? 'Öz hazırlanıyor…'
+      : it.enrichmentStatus === 'failed' ? 'Türkçe özet üretilemedi — içeriği kaynak bağlantısından inceleyin.' : '';
+    return {
+      title: stripHtml(it.title || ''),
+      titleOrig: stripHtml(it.titleOrig || ''),
+      gist: unenriched ? '' : stripHtml((it.gists && it.gists[0]) || it.summary || ''),
+      note: note
+    };
+  }
+  function statusPillHtml(mode) {
+    return mode === 'production' ? '<span class="status-pill production">üretimde</span>'
+      : mode === 'done' ? '<span class="status-pill done">üretim bitti</span>'
+      : mode === 'trash' ? '<span class="status-pill trash">silindi</span>'
+      : mode === 'hold' ? '<span class="status-pill hold">beklemede</span>' : '';
+  }
+  function actionsHtml(it) {
+    var mode = it.triageStatus;
+    var promote = '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">Üretime aktar <kbd>E</kbd></button>';
+    var hold = '<button class="btn btn-hold" data-action="hold" data-id="' + it.id + '">Beklet <kbd>B</kbd></button>';
+    var del = '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">Sil <kbd>S</kbd></button>';
+    if (mode === 'inbox') return promote + hold + del;
+    if (mode === 'hold') return promote + del;
+    if (mode === 'production') return '<button class="btn btn-promote" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
+    return '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">Geri al <kbd>Z</kbd></button>';
+  }
   function cardHtml(it) {
     var mode = it.triageStatus;
-    var extra = mode === 'production' ? ' in-production'
-      : mode === 'done' ? ' in-done'
-      : mode === 'trash' ? ' in-trash'
-      : mode === 'hold' ? ' in-hold' : '';
-    var statusPill = mode === 'production'
-      ? '<span class="status-pill production">✓ üretimde</span>'
-      : mode === 'done' ? '<span class="status-pill done">🏁 üretim bitti</span>'
-      : mode === 'trash' ? '<span class="status-pill trash">✕ silindi</span>'
-      : mode === 'hold' ? '<span class="status-pill hold">⏳ beklemede</span>' : '';
-    var actions;
-    if (mode === 'inbox') {
-      actions =
-        '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">✓ Üretime Aktar</button>' +
-        '<button class="btn btn-hold" data-action="hold" data-id="' + it.id + '">⏳ Beklet</button>' +
-        '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">✕ Sil</button>';
-    } else if (mode === 'hold') {
-      actions =
-        '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">✓ Üretime Aktar</button>' +
-        '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">✕ Sil</button>';
-    } else if (mode === 'production') {
-      actions =
-        '<button class="btn btn-promote" data-action="complete" data-id="' + it.id + '">✓ Üretim Bitti</button>';
-    } else {
-      actions = '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">↩ Geri Al</button>';
-    }
-    // Turkish title/summary contract: while enrichment is pending or failed the stored summary is the source-language
-    // excerpt, so it is never shown; an explicit Turkish state is shown instead.
-    var unenriched = it.enrichmentStatus === 'pending' || it.enrichmentStatus === 'failed';
-    var gist = unenriched ? '' : stripHtml((it.gists && it.gists[0]) || it.summary || '');
-    var title = stripHtml(it.title || '');
-    var titleOrig = stripHtml(it.titleOrig || '');
-    var evidence = '';
-    if (it.evidence && (it.evidence.doi || it.evidence.pmid)) {
-      evidence = '<p class="original-title">Kanıt: ' +
-        (it.evidence.doi ? 'DOI ' + escapeHtml(it.evidence.doi) + ' ' : '') +
-        (it.evidence.pmid ? 'PMID ' + escapeHtml(it.evidence.pmid) : '') + '</p>';
-    }
+    var extra = (mode === 'production' ? ' in-production' : mode === 'done' ? ' in-done' : mode === 'trash' ? ' in-trash' : mode === 'hold' ? ' in-hold' : '') +
+      (state.cursor && state.cursor === it.id ? ' is-selected' : '');
+    var d = itemTexts(it);
     var isEv = state.temporal === 'EVERGREEN';
     var ev = isEv ? evergreenMeta(it) : null;
     var ageLabel = isEv ? '' : formatNewsAge(it.publishedAt, it.fetchedAt);
-    var paths = it.temporalPaths || [];
-    var alsoPill = isEv
-      ? (paths.indexOf('TIME_SENSITIVE') >= 0 ? '<span class="pub-pill">güncel akışta da</span>' : '')
-      : (paths.indexOf('EVERGREEN') >= 0 ? '<span class="pub-pill">Evergreen’de de</span>' : '');
-    var temporalLines = '';
-    if (ev) {
-      temporalLines = '<p class="original-title">' + escapeHtml(ev.date) +
-        (ev.rediscoveredAt ? ' · ' + escapeHtml(ev.rediscoveredAt) : '') + '</p>' +
-        '<p class="original-title">' + escapeHtml(ev.reason) + ' · ' + escapeHtml(ev.signal) + '</p>';
-    } else if (it.deadlineAt && formatAbsDate(it.deadlineAt)) {
-      temporalLines = '<p class="original-title">Son tarih: ' + escapeHtml(formatAbsDate(it.deadlineAt)) + '</p>';
-    }
-    var enrichNote = '';
-    if (it.enrichmentStatus === 'pending') {
-      enrichNote = '<p class="original-title">Öz hazırlanıyor…</p>';
-    } else if (it.enrichmentStatus === 'failed') {
-      enrichNote = '<p class="original-title">Türkçe özet üretilemedi — içeriği kaynak bağlantısından inceleyin.</p>';
-    }
+    var deadline = !isEv && it.deadlineAt && formatAbsDate(it.deadlineAt)
+      ? '<span class="deadline-chip">Son tarih ' + escapeHtml(formatAbsDate(it.deadlineAt)) + '</span>' : '';
     return (
-      '<div class="card' + extra + '" id="card-' + it.id + '">' +
-        (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
-          ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
-        '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
-        (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') + alsoPill +
-        (it.decisionRoute
-          ? '<span class="pub-pill">' + escapeHtml(DECISION_LABELS[it.decisionRoute] || it.decisionRoute) + '</span>'
-          : '') +
-        (ageLabel
-          ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' +
-            escapeHtml(ageLabel) + '</span>'
-          : '') + statusPill + '</div>' +
-        '<p class="card-title"><a href="' + escapeHtml(it.canonicalUrl) + '" target="_blank" rel="noopener">' +
-          escapeHtml(title) + '</a></p>' +
-        (titleOrig && titleOrig !== title
-          ? '<p class="original-title">Orijinal: ' + escapeHtml(titleOrig) + '</p>' : '') +
-        temporalLines +
-        evidence +
-        enrichNote +
-        (gist ? '<p class="gist">' + escapeHtml(gist) + '</p>' : '') +
-        '<div class="actions">' + actions + '</div>' +
+      '<div class="card' + extra + '" id="card-' + it.id + '" data-card="' + it.id + '">' +
+        '<div class="c-num">' + (it._n || '') + '</div>' +
+        '<div class="c-body">' +
+          (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
+            ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
+          '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+          (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
+          (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
+          deadline + statusPillHtml(mode) + '</div>' +
+          '<p class="card-title">' + escapeHtml(d.title) + '</p>' +
+          (d.titleOrig && d.titleOrig !== d.title ? '<p class="original-title">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
+          (d.note ? '<p class="card-note">' + escapeHtml(d.note) + '</p>' : '') +
+          (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '') +
+        '</div>' +
       '</div>'
     );
+  }
+  function longDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    try { return d.toLocaleString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+    catch (e) { return formatAbsDate(iso); }
+  }
+  function safeHttpUrl(u) { return /^https?:\/\//i.test(String(u || '')) ? String(u) : ''; }
+  function readPaneHtml(it, pos, total) {
+    var d = itemTexts(it);
+    var isEv = state.temporal === 'EVERGREEN';
+    var ev = isEv ? evergreenMeta(it) : null;
+    var facts = [['Kaynak', escapeHtml(sourceLabel(it)), '']];
+    if (longDate(it.publishedAt)) facts.push(['Yayın', escapeHtml(longDate(it.publishedAt)), '']);
+    if (longDate(it.fetchedAt)) facts.push(['Çekildi', escapeHtml(longDate(it.fetchedAt)), '']);
+    if (it.decisionRoute) facts.push(['Karar yolu', escapeHtml(DECISION_LABELS[it.decisionRoute] || it.decisionRoute), '']);
+    if (!isEv && it.deadlineAt && formatAbsDate(it.deadlineAt)) facts.push(['Son tarih', escapeHtml(formatAbsDate(it.deadlineAt)), 'deadline']);
+    if (it.evidence && (it.evidence.doi || it.evidence.pmid)) {
+      facts.push(['Kanıt', escapeHtml((it.evidence.doi ? 'DOI ' + it.evidence.doi + ' ' : '') + (it.evidence.pmid ? 'PMID ' + it.evidence.pmid : '')), '']);
+    }
+    if (ev) {
+      facts.push(['Tür', escapeHtml(ev.badge), '']);
+      facts.push(['İlk yayın', escapeHtml(ev.date.replace('İlk yayın: ', '')), '']);
+      if (ev.rediscoveredAt) facts.push(['Yeniden keşif', escapeHtml(ev.rediscoveredAt.replace('Yeniden keşif: ', '')), '']);
+      facts.push(['Seçim', escapeHtml(ev.reason.replace('Neden seçildi: ', '')), '']);
+      facts.push(['Önem sinyali', escapeHtml(ev.signal.replace('Önem sinyali: ', '')), '']);
+    }
+    var url = safeHttpUrl(it.canonicalUrl);
+    var lead = d.gist
+      ? '<div class="read-label">Özet</div><p class="read-lead">' + escapeHtml(d.gist) + '</p>'
+      : '<p class="read-note">' + escapeHtml(d.note || 'Bu öğe için özet yok. İçeriği kaynak bağlantısından inceleyin.') + '</p>';
+    return '<div class="read-inner">' +
+      '<div class="read-top"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+        (formatAbsDate(it.publishedAt) ? '<span>' + escapeHtml(formatAbsDate(it.publishedAt)) + '</span>' : '') +
+        statusPillHtml(it.triageStatus) +
+        '<span style="margin-left:auto">' + pos + ' / ' + total + '</span></div>' +
+      '<h2 class="read-title">' + escapeHtml(d.title) + '</h2>' +
+      (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
+      (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
+      lead +
+      '<dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl>' +
+      '<div class="read-actions">' + actionsHtml(it) + '</div>' +
+      '<div class="read-keys">J / K gezin · E aktar (iki kez bas) · B beklet · S sil · Z geri al · O kaynağı aç</div>' +
+    '</div>';
+  }
+  function renderRead() {
+    var items = visibleItems();
+    if (!items.length) { readPaneEl.innerHTML = '<div class="read-empty">Okunacak öğe yok.</div>'; return; }
+    var idx = items.findIndex(function (x) { return x.id === state.cursor; });
+    if (idx < 0) { idx = 0; state.cursor = items[0].id; }
+    readPaneEl.innerHTML = '<button class="read-back" type="button" data-readback="1">← Listeye dön</button>' + readPaneHtml(items[idx], idx + 1, items.length);
+    readPaneEl.scrollTop = 0;
+  }
+  function dayKey() { var d = new Date(); return 'gcos-processed-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function processedToday() { try { return parseInt(localStorage.getItem(dayKey()) || '0', 10) || 0; } catch (e) { return 0; } }
+  function bumpProcessed() { try { localStorage.setItem(dayKey(), String(processedToday() + 1)); } catch (e) { /* private mode */ } }
+  function renderProgress() {
+    var el = document.getElementById('progress');
+    var items = state.route === 'bible' || state.route === 'modules' ? [] : visibleItems();
+    el.hidden = !items.length;
+    if (!items.length) return;
+    var idx = items.findIndex(function (x) { return x.id === state.cursor; }) + 1;
+    document.getElementById('progressFill').style.width = (idx / items.length * 100) + '%';
+    document.getElementById('progressPos').textContent = idx + ' / ' + items.length;
+    var day = document.getElementById('progressDay');
+    day.textContent = 'bugün ' + processedToday() + ' işlendi';
+    day.title = 'Bu tarayıcıda bugün yaptığınız aktar / beklet / sil sayısı';
+  }
+  function selectItem(id, opts) {
+    state.cursor = id;
+    var prev = cardListEl.querySelector('.card.is-selected');
+    if (prev) prev.classList.remove('is-selected');
+    var el = document.getElementById('card-' + id);
+    if (el) {
+      el.classList.add('is-selected');
+      if (!opts || opts.scroll !== false) {
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      }
+    }
+    if (opts && opts.open) document.querySelector('.main').classList.add('reading');
+    renderRead();
+    renderProgress();
+  }
+  function showSkeleton() {
+    var row = '<div class="skeleton-row"><i class="s"></i><div><i class="s"></i><i class="t"></i><i class="t" style="width:62%"></i></div></div>';
+    cardListEl.innerHTML = new Array(8).join(row);
+    emptyStateEl.hidden = true;
+    readPaneEl.innerHTML = '<div class="read-inner"><i class="skeleton-row" style="display:block;height:14px;width:30%;margin-bottom:18px"></i><i class="skeleton-row" style="display:block;height:34px;width:88%;margin-bottom:10px"></i><i class="skeleton-row" style="display:block;height:34px;width:60%;margin-bottom:24px"></i><i class="skeleton-row" style="display:block;height:18px;width:92%;margin-bottom:8px"></i><i class="skeleton-row" style="display:block;height:18px;width:80%"></i></div>';
+  }
+  function emptyHtml() {
+    var inboxN = (state.counts && state.counts.inbox) || 0;
+    if (state.hekLane === 'burs') {
+      return '<div class="e-title">Henüz burs ilanı yok.</div><div class="e-sub">İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen çağrılar düşer.</div>';
+    }
+    if (state.hekLane === 'egitim') {
+      return '<div class="e-title">Henüz eğitim ilanı yok.</div><div class="e-sub">İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen kurs ve ilanlar düşer.</div>';
+    }
+    if (state.view === 'inbox') {
+      return '<div class="e-title">Gelen kutusu temiz.</div><div class="e-sub">Yeni öğeler kaynak çekiminden sonra burada görünür. Şu an sizi bekleyen bir şey yok.</div>';
+    }
+    return '<div class="e-title">Bu kutuda öğe yok.</div><div class="e-sub">' +
+      (inboxN ? '<a href="#" data-view="inbox">Gelen Kutusu’nda ' + inboxN + ' öğe var →</a>' : 'Burada görmek istediğiniz bir şey yoksa Gelen Kutusu’na dönün.') + '</div>';
   }
 
   function renderChrome() {
@@ -1110,7 +1351,7 @@
         var btn = document.createElement('button');
         btn.className = 'pill' + (state.view === v.id ? ' active' : '');
         btn.setAttribute('data-view', v.id);
-        btn.innerHTML = v.icon + ' ' + v.label + ' <span class="p-count">' + viewPillCount(v.id) + '</span>';
+        btn.innerHTML = escapeHtml(v.label) + ' <span class="p-count">' + viewPillCount(v.id) + '</span>';
         pillbarEl.appendChild(btn);
       });
     }
@@ -1122,7 +1363,15 @@
     var isBible = state.route === 'bible';
     var isModules = state.route === 'modules';
     var moduleViewEl = document.getElementById('moduleView');
-    document.querySelector('.main').classList.toggle('bible-mode', isBible);
+    var mainEl = document.querySelector('.main');
+    mainEl.classList.toggle('bible-mode', isBible);
+    mainEl.classList.toggle('split', !isBible && !isModules);
+    mainEl.classList.toggle('density-compact', state.density === 'compact');
+    if (isBible || isModules) mainEl.classList.remove('reading');
+    Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-density') === state.density ? 'true' : 'false');
+    });
+    document.getElementById('density').hidden = isBible || isModules;
     if (toolbarEl) toolbarEl.hidden = isBible || isModules;
     if (listViewEl) listViewEl.hidden = isBible || isModules;
     if (moduleViewEl) moduleViewEl.hidden = !isModules;
@@ -1140,15 +1389,16 @@
       kindbar.hidden = true;
       kindbar.innerHTML = '';
     }
-    var title = meta.icon + ' ' + meta.label;
-    if (state.route === 'kaduse' && state.kind === 'news') title = '📰 Haber';
-    if (state.route === 'kaduse' && state.kind === 'research') title = '🔬 Research';
-    if (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru') title = '🩺 Duyuru';
-    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') title = '🎓 Burs';
-    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = '📚 Eğitim';
-    if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? '♻️ Research Rediscovery' : '🌿 Sağlık & Referans';
+    var title = meta.label;
+    if (state.route === 'kaduse' && state.kind === 'news') title = 'Haber';
+    if (state.route === 'kaduse' && state.kind === 'research') title = 'Research';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'duyuru') title = 'Duyuru';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') title = 'Burs';
+    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = 'Eğitim';
+    if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? 'Research Rediscovery' : 'Sağlık & Referans';
     if (isModules) title = (MODULE_META[state.module] || MODULE_META.dossier).title;
-    mainTitleEl.textContent = title;
+    var titleCount = !isBible && !isModules && state.counts ? state.counts[state.view] : null;
+    mainTitleEl.innerHTML = escapeHtml(title) + (titleCount != null ? '<span class="title-count">' + escapeHtml(titleCount) + '</span>' : '');
     if (isModules) {
       mainSubEl.textContent = (MODULE_META[state.module] || MODULE_META.dossier).sub;
       laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Sistem Modülleri.</b> ' + escapeHtml(routeNote()) + '</div>';
@@ -1497,22 +1747,15 @@
   }
   function renderList() {
     var items = visibleItems();
+    items.forEach(function (it, i) { it._n = i + 1; });
+    if (!items.some(function (x) { return x.id === state.cursor; })) state.cursor = items.length ? items[0].id : null;
     cardListEl.innerHTML = items.map(cardHtml).join('');
     emptyStateEl.hidden = items.length > 0;
-    if (!items.length) {
-      var inboxN = (state.counts && state.counts.inbox) || 0;
-      if (state.hekLane === 'burs') {
-        emptyStateEl.innerHTML = 'Gelen kutusunda henüz burs ilanı yok. İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen çağrılar düşer.';
-      } else if (state.hekLane === 'egitim') {
-        emptyStateEl.innerHTML = 'Gelen kutusunda henüz eğitim ilanı yok. İzlenen kaynaklar üstteki “aktif kaynak” listesindedir; buraya yalnız çekilen kurs/ilanlar düşer.';
-      } else {
-        emptyStateEl.innerHTML = state.view !== 'inbox' && inboxN
-          ? 'Bu kutuda öğe yok. <a href="#" data-view="inbox">Gelen Kutusu’nda ' + inboxN + ' öğe var →</a>'
-          : 'Bu kutuda öğe yok.';
-      }
-    }
+    if (!items.length) emptyStateEl.innerHTML = emptyHtml();
     renderToolbar();
     renderSourcePanel();
+    renderRead();
+    renderProgress();
   }
 
   async function refreshRouteCounts() {
@@ -1537,11 +1780,11 @@
     });
   }
   var MODULE_META = {
-    dossier: { title: '📊 Dossier', sub: 'Sinyal hattı: ClinicalTrials ve Eurostat · koşular ve gözlemler' },
-    doctors: { title: '🩺 Doktorlar', sub: 'Aktör kayıt defteri, aday havuzu ve onboarding' },
-    protocols: { title: '🧬 Protokoller', sub: 'Protokol kayıt defteri ve sayımlar' },
-    discovery: { title: '🔎 Keşif', sub: 'Dalgalar, adaylar ve karar kayıtları' },
-    statistics: { title: '📈 İstatistik', sub: 'Veri koşuları, kaynak politikası ve sayımlar' }
+    dossier: { title: 'Dossier', sub: 'Sinyal hattı: ClinicalTrials ve Eurostat · koşular ve gözlemler' },
+    doctors: { title: 'Doktorlar', sub: 'Aktör kayıt defteri, aday havuzu ve onboarding' },
+    protocols: { title: 'Protokoller', sub: 'Protokol kayıt defteri ve sayımlar' },
+    discovery: { title: 'Keşif', sub: 'Dalgalar, adaylar ve karar kayıtları' },
+    statistics: { title: 'İstatistik', sub: 'Veri koşuları, kaynak politikası ve sayımlar' }
   };
   function mTime(v) { return v ? escapeHtml(String(v).replace('T', ' ').slice(0, 16)) : '–'; }
   function mTag(text, kind) { return '<span class="mod-tag ' + (kind || '') + '">' + escapeHtml(text == null ? '–' : String(text)) + '</span>'; }
@@ -1554,6 +1797,29 @@
   function mCards(pairs) {
     return '<div class="mod-grid">' + pairs.map(function (p) { return '<div class="mod-card"><h3>' + escapeHtml(p[0]) + '</h3><div class="big">' + escapeHtml(String(p[1] == null ? '–' : p[1])) + '</div></div>'; }).join('') + '</div>';
   }
+  function miniBars(rows) {
+    var max = Math.max.apply(null, rows.map(function (x) { return x.value || 0; }).concat([1]));
+    return '<div class="mini-bars">' + rows.map(function (x) {
+      return '<div class="mb" title="' + escapeHtml(x.label + ': ' + x.value) + '"><i style="height:' + Math.max(4, Math.round((x.value || 0) / max * 60)) + 'px"></i><span>' + escapeHtml(x.label) + '</span></div>';
+    }).join('') + '</div>';
+  }
+  function stackBar(parts) {
+    var live = parts.filter(function (p) { return p.value > 0; });
+    var total = live.reduce(function (a, p) { return a + p.value; }, 0);
+    if (!total) return '<p class="mod-note">Henüz kayıt yok.</p>';
+    return '<div class="stack">' + live.map(function (p) {
+      return '<i class="k-' + (p.kind || 'n') + '" style="width:' + (p.value / total * 100) + '%" title="' + escapeHtml(p.label + ': ' + p.value) + '"></i>';
+    }).join('') + '</div><div class="stack-legend">' + live.map(function (p) {
+      return '<span><b class="dot k-' + (p.kind || 'n') + '"></b>' + escapeHtml(p.label) + ' · ' + p.value + '</span>';
+    }).join('') + '</div>';
+  }
+  function statusStrip(rows) {
+    if (!rows.length) return '<p class="mod-note">Henüz koşu yok.</p>';
+    return '<div class="strip">' + rows.map(function (r) {
+      return '<i class="k-' + (mStatusKind(r.status) || 'n') + '" title="' + escapeHtml(r.status + ' · ' + String(r.at || '').slice(0, 16).replace('T', ' ')) + '"></i>';
+    }).join('') + '</div>';
+  }
+  function chartCard(title, inner) { return '<div class="chart-card"><div class="ct">' + escapeHtml(title) + '</div>' + inner + '</div>'; }
   function moduleHtml(id, d) {
     if (!d) return '<p class="mod-note">Veri yok.</p>';
     if (d.error) return '<p class="mod-note">Bu modül okunamadı: ' + escapeHtml(d.error) + '</p>';
@@ -1569,7 +1835,11 @@
         return [escapeHtml(k), mTag(st, mStatusKind(st)), escapeHtml(why), mTime(readers[k].state && readers[k].state.updated_at)];
       });
       var c = d.counts || {};
+      var runBars = (d.runs || []).slice(0, 6).reverse().map(function (r) { return { label: String(r.created_at || '').slice(5, 10), value: Number(r.derived) || 0 }; });
+      var obsBars = (d.observations || []).map(function (o) { return { label: String(o.family || '').replace(/_/g, ' ').slice(0, 14), value: Number(o.n) || 0 }; });
       return mCards([['Kavram', c.concepts], ['Aday', c.candidates], ['İlişki', c.relations]]) +
+        chartCard('Koşu başına türetilen kavram', miniBars(runBars)) +
+        chartCard('Sinyal ailesine göre gözlem', miniBars(obsBars)) +
         '<h3>Kaynaklar</h3>' + mTable(['Kaynak', 'Durum', 'Neden', 'Güncelleme'], srcRows) +
         '<h3>Son koşular</h3>' + mTable(['Kaynak', 'Durum', 'Aşama', 'Başladı', 'Bitti', 'Türetilen'], (d.runs || []).map(function (r) {
           return [escapeHtml(r.reader_id), mTag(r.status, mStatusKind(r.status)), escapeHtml(r.phase || ''), mTime(r.created_at), mTime(r.finished_at), escapeHtml(r.derived == null ? '–' : r.derived)];
@@ -1578,7 +1848,15 @@
     }
     if (id === 'doctors') {
       var onb = (d.onboarding || []).map(function (o) { return o.n + ' × ' + o.status; }).join(' · ') || 'yok';
+      var candCount = {};
+      (d.candidates || []).forEach(function (a) { candCount[a.state] = (candCount[a.state] || 0) + 1; });
+      var candParts = Object.keys(candCount).map(function (k) { return { label: k, value: candCount[k], kind: mStatusKind(k) || 'n' }; });
+      var panelCount = {};
+      (d.actors || []).forEach(function (a) { panelCount[a.panel] = (panelCount[a.panel] || 0) + 1; });
+      var panelParts = Object.keys(panelCount).map(function (k) { return { label: k.replace('_PANEL', '').replace(/_/g, ' '), value: panelCount[k], kind: 'a' }; });
       return mCards([['Aktör', (d.actors || []).length], ['Aday', (d.candidates || []).length]]) +
+        chartCard('Aday durumları', stackBar(candParts)) +
+        chartCard('Aktörler, panele göre', stackBar(panelParts)) +
         '<h3>Aktörler</h3>' + mTable(['Ad', 'Panel', 'Yetki', 'Kimlik', 'Durum', 'Kaynak'], (d.actors || []).map(function (a) {
           return [escapeHtml(a.canonical_name), escapeHtml(a.panel), mTag(a.credential_status, mStatusKind(a.credential_status)), escapeHtml(a.identity_confidence), mTag(a.active_status, mStatusKind(a.active_status)), escapeHtml(a.sources)];
         })) +
@@ -1587,19 +1865,28 @@
     }
     if (id === 'protocols') {
       var pc = d.counts || {};
+      var regCount = {};
+      (d.protocols || []).forEach(function (p) { regCount[p.registry_state] = (regCount[p.registry_state] || 0) + 1; });
+      var regParts = Object.keys(regCount).map(function (k) { return { label: k, value: regCount[k], kind: mStatusKind(k) || 'a' }; });
       return mCards([['Protokol', pc.protocols], ['Sürüm', pc.versions], ['Aile', pc.families], ['İddia', pc.claims]]) +
+        chartCard('Kayıt durumu', stackBar(regParts)) +
         mTable(['Protokol', 'Tür', 'Kayıt', 'Durum'], (d.protocols || []).map(function (p) {
           return [escapeHtml(p.canonical_name), escapeHtml(p.protocol_type), mTag(p.registry_state), mTag(p.active_status, mStatusKind(p.active_status))];
         }));
     }
     if (id === 'discovery') {
+      var byDomain = {};
+      (d.candidates || []).forEach(function (x) { (byDomain[x.domain] = byDomain[x.domain] || []).push({ label: x.state, value: Number(x.n) || 0, kind: mStatusKind(x.state) || 'n' }); });
       return mCards([['Karar kaydı', d.decisions]]) +
+        Object.keys(byDomain).map(function (k) { return chartCard('Adaylar · ' + k, stackBar(byDomain[k])); }).join('') +
         '<h3>Dalgalar</h3>' + mTable(['Alan', 'Dalga', 'Durum'], (d.waves || []).map(function (w) { return [escapeHtml(w.domain), escapeHtml(w.wave_number), mTag(w.status)]; })) +
         '<h3>Adaylar</h3>' + mTable(['Alan', 'Durum', 'Adet'], (d.candidates || []).map(function (x) { return [escapeHtml(x.domain), mTag(x.state), escapeHtml(x.n)]; }));
     }
     if (id === 'statistics') {
       var sc = d.counts || {};
+      var strip = (d.runs || []).slice().reverse().map(function (r) { return { status: r.status, at: r.planned_at }; });
       return mCards([['Veri seti', sc.datasets], ['Seri', sc.series], ['Güncel gözlem', sc.current_observations]]) +
+        chartCard('Son koşular (eskiden yeniye)', statusStrip(strip)) +
         '<h3>Son koşular</h3>' + mTable(['Durum', 'Mod', 'Planlanan', 'Bitti', 'Hata sınıfı'], (d.runs || []).map(function (r) {
           return [mTag(r.status, mStatusKind(r.status)), escapeHtml(r.run_mode), mTime(r.planned_at), mTime(r.finished_at), escapeHtml(r.failure_class || '–')];
         })) +
@@ -1678,6 +1965,8 @@
       await renderBible();
       return;
     }
+    var loadedKey = [state.route, state.kind, state.hekLane, state.view, state.temporal, state.evView].join('|');
+    if (loadedKey !== state.loadedKey) { showSkeleton(); state.loadedKey = loadedKey; }
     var days = state.route === 'tip-ogrencileri' ? 2 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
@@ -1749,20 +2038,35 @@
       feedback = await promptRejectReason();
       if (!feedback) return; // operator cancelled -- no state change, no partial reject
     }
+    var items = visibleItems();
+    var idx = items.findIndex(function (x) { return x.id === id; });
+    var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
     var card = document.getElementById('card-' + id);
     if (card) card.classList.add('leaving');
     await new Promise(function (r) { setTimeout(r, 180); });
     var body = { itemId: id, action: action };
     if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
     var result = await api('/api/triage', { method: 'POST', body: JSON.stringify(body) });
+    if (action === 'promote' || action === 'hold' || action === 'delete') bumpProcessed();
     var msg =
       action === 'promote' ? '✓ Üretime aktarıldı — approved_brief üretildi' :
-      action === 'hold' ? '⏳ Beklemede’ye alındı' :
+      action === 'hold' ? 'Beklemeye alındı' :
       action === 'complete' ? '✓ Üretim bitti — Üretimi Bitenler’e taşındı (2 gün sonra kalıcı silinir)' :
       action === 'delete' ? 'Reddedildi — bu red kararı geri besleme olarak kaydedildi (2 gün sonra kalıcı silinir)' :
       'Gelen Kutusu’na taşındı';
     if (result.brief) msg += ' (' + result.brief.briefId + ')';
-    showToast(msg);
+    // Undo is offered only for reversible state changes. A promote mints an approved_brief and a handoff job, which an undo does not retract.
+    var undoable = action === 'hold' || action === 'delete';
+    state.lastUndo = undoable ? { id: id, at: Date.now() } : null;
+    showToast(msg, undoable ? { id: id, label: 'Geri al' } : null);
+    state.cursor = action === 'undo' ? id : nextId;
+    await load();
+  }
+  async function undoLast(id) {
+    await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: id, action: 'undo' }) });
+    state.lastUndo = null;
+    state.cursor = id;
+    showToast('Gelen Kutusu’na geri alındı');
     await load();
   }
 
@@ -1798,6 +2102,18 @@
     }
   });
   document.addEventListener('click', function (e) {
+    var densityBtn = e.target.closest && e.target.closest('[data-density]');
+    if (densityBtn) {
+      state.density = densityBtn.getAttribute('data-density') === 'comfortable' ? 'comfortable' : 'compact';
+      try { localStorage.setItem('gcos-density', state.density); } catch (err) { /* private mode */ }
+      renderChrome();
+      return;
+    }
+    if (e.target.closest && e.target.closest('[data-readback]')) { document.querySelector('.main').classList.remove('reading'); return; }
+    var undoBtn = e.target.closest && e.target.closest('[data-undo-toast]');
+    if (undoBtn) { undoLast(undoBtn.getAttribute('data-undo-toast')).catch(function (err) { showToast(err.message); }); return; }
+    var cardEl = e.target.closest && e.target.closest('.card[data-card]');
+    if (cardEl && !e.target.closest('a, button, input, label, select')) { selectItem(cardEl.getAttribute('data-card'), { scroll: false, open: true }); return; }
     var sel = window.getSelection();
     if (sel && String(sel).length > 0 && e.target.closest('#srcPanel')) { return; }
     if (e.target.closest('[data-srcpanel]')) {
@@ -1960,6 +2276,48 @@
       return load();
     }).catch(function (err) { showToast(err.message); });
   });
+
+  // Klavye ile sıralı triyaj. Üretime aktarma kalıcı bir yan etki (approved_brief) üretir: ikinci tuş vuruşu ister.
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    var tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    var dlg = document.getElementById('rejectDialog');
+    if (dlg && dlg.open) return;
+    if (state.route === 'bible' || state.route === 'modules') return;
+    var k = String(e.key || '').toLowerCase();
+    if (k === 'escape') { document.querySelector('.main').classList.remove('reading'); return; }
+    var items = visibleItems();
+    if (!items.length) return;
+    var idx = items.findIndex(function (x) { return x.id === state.cursor; });
+    if (idx < 0) idx = 0;
+    var cur = items[idx];
+    function fail(err) { showToast(err.message); }
+    if (k === 'j' || k === 'arrowdown') { selectItem(items[Math.min(idx + 1, items.length - 1)].id); e.preventDefault(); }
+    else if (k === 'k' || k === 'arrowup') { selectItem(items[Math.max(idx - 1, 0)].id); e.preventDefault(); }
+    else if (k === 'o') { var u = safeHttpUrl(cur.canonicalUrl); if (u) window.open(u, '_blank', 'noopener,noreferrer'); }
+    else if (k === 'z') { if (state.lastUndo && Date.now() - state.lastUndo.at < 60000) undoLast(state.lastUndo.id).catch(fail); }
+    else if (k === 'b' && cur.triageStatus === 'inbox') { handleAction('hold', cur.id).catch(fail); }
+    else if (k === 's' && (cur.triageStatus === 'inbox' || cur.triageStatus === 'hold')) { handleAction('delete', cur.id).catch(fail); }
+    else if (k === 'e' && (cur.triageStatus === 'inbox' || cur.triageStatus === 'hold')) {
+      if (state.armed && state.armed.id === cur.id && Date.now() - state.armed.at < 3000) { state.armed = null; handleAction('promote', cur.id).catch(fail); }
+      else { state.armed = { id: cur.id, at: Date.now() }; showToast('Üretime aktarmak için E tuşuna tekrar basın'); }
+    }
+  });
+
+  var themeBtn = document.getElementById('themeBtn');
+  function syncThemeBtn() {
+    var light = document.documentElement.getAttribute('data-theme') === 'light';
+    themeBtn.textContent = light ? 'Tema: açık · koyuya geç' : 'Tema: koyu · açığa geç';
+  }
+  themeBtn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('gcos-theme', next); } catch (err) { /* private mode */ }
+    syncThemeBtn();
+  });
+  syncThemeBtn();
 
   // Sistem sağlığı: GET /api/health/watch (Hub operatör anahtarı ile; salt okunur). Sessizce başarısız olur, Hub'ı bozmaz.
   var healthChip = document.getElementById('healthChip');

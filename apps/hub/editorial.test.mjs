@@ -1,0 +1,83 @@
+// Editorial Hub (2026-10-23): reading pane, shared actions, URL safety and the promote/undo guards, extracted from the live index.html.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import vm from 'node:vm';
+
+const html = readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'index.html'), 'utf8');
+
+function extractFunction(name) {
+  const start = html.indexOf(`function ${name}(`);
+  assert.ok(start !== -1, `function ${name} not found in index.html`);
+  let depth = 0;
+  let i = html.indexOf('{', start);
+  for (; i < html.length; i++) {
+    if (html[i] === '{') depth++;
+    else if (html[i] === '}' && --depth === 0) { i++; break; }
+  }
+  return html.slice(start, i);
+}
+
+const ctx = {
+  state: { route: 'kaduse', temporal: 'TIME_SENSITIVE', selected: {} },
+  DECISION_LABELS: { OPPORTUNITY: 'Fırsat' },
+  sourceLabel: () => 'Health Canada',
+  formatNewsAge: () => 'bugün',
+  evergreenMeta: () => null,
+};
+vm.createContext(ctx);
+vm.runInContext(
+  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';']
+    .concat(['escapeHtml', 'stripHtml', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'readPaneHtml'].map(extractFunction))
+    .join('\n'),
+  ctx,
+);
+
+const item = (o) => ({ id: 'i1', triageStatus: 'inbox', canonicalUrl: 'https://x.test/a', title: 'Başlık', titleOrig: 'Title', gists: ['Source English excerpt that must not leak.'], summary: 'Source English excerpt that must not leak.', publishedAt: '2026-10-22T10:24:00Z', ...o });
+
+test('reading pane: Turkish summary first, facts listed, source link opens safely', () => {
+  const h = ctx.readPaneHtml(item({ enrichmentStatus: 'done', gists: ['Kanıta dayalı tek cümlelik Türkçe özet.'], decisionRoute: 'OPPORTUNITY', deadlineAt: '2026-11-20T00:00:00Z' }), 2, 8);
+  assert.match(h, /Kanıta dayalı tek cümlelik Türkçe özet\./);
+  assert.match(h, /<dt>Kaynak<\/dt><dd class="">Health Canada<\/dd>/);
+  assert.match(h, /<dt>Son tarih<\/dt><dd class="deadline">20 Kas 2026<\/dd>/);
+  assert.match(h, /<dt>Karar yolu<\/dt><dd class="">Fırsat<\/dd>/);
+  assert.match(h, /2 \/ 8/);
+  assert.match(h, /rel="noopener noreferrer"/);
+});
+
+test('reading pane: pending and failed enrichment never show the source-language excerpt', () => {
+  const pending = ctx.readPaneHtml(item({ enrichmentStatus: 'pending' }), 1, 1);
+  assert.match(pending, /Öz hazırlanıyor/);
+  assert.doesNotMatch(pending, /must not leak/);
+  const failed = ctx.readPaneHtml(item({ enrichmentStatus: 'failed' }), 1, 1);
+  assert.match(failed, /özet üretilemedi/);
+  assert.doesNotMatch(failed, /must not leak/);
+});
+
+test('source link accepts only http(s): javascript: and data: URLs are dropped', () => {
+  assert.equal(ctx.safeHttpUrl('javascript:alert(1)'), '');
+  assert.equal(ctx.safeHttpUrl('data:text/html,x'), '');
+  assert.equal(ctx.safeHttpUrl('https://example.org/x'), 'https://example.org/x');
+  const h = ctx.readPaneHtml(item({ enrichmentStatus: 'done', canonicalUrl: 'javascript:alert(1)' }), 1, 1);
+  assert.doesNotMatch(h, /javascript:/);
+  assert.doesNotMatch(h, /Orijinal kaynağı aç/);
+});
+
+test('actions per status: inbox has promote/hold/delete, hold has promote/delete, production only completes', () => {
+  const names = (s) => [...ctx.actionsHtml(item({ triageStatus: s })).matchAll(/data-action="(\w+)"/g)].map((m) => m[1]);
+  assert.deepEqual(names('inbox'), ['promote', 'hold', 'delete']);
+  assert.deepEqual(names('hold'), ['promote', 'delete']);
+  assert.deepEqual(names('production'), ['complete']);
+  assert.deepEqual(names('trash'), ['undo']);
+});
+
+test('guards: undo is offered only for hold/delete, promote needs a second key press, dark is the default theme', () => {
+  assert.match(html, /var undoable = action === 'hold' \|\| action === 'delete';/);
+  assert.match(html, /state\.armed && state\.armed\.id === cur\.id && Date\.now\(\) - state\.armed\.at < 3000/);
+  assert.match(html, /localStorage\.getItem\('gcos-theme'\) === 'light' \? 'light' : 'dark'/);
+  assert.match(html, /family=Newsreader/);
+  assert.match(html, /family=Instrument\+Sans/);
+  assert.match(html, /prefers-reduced-motion: reduce/);
+});

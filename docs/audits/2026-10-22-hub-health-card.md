@@ -33,3 +33,12 @@ Verified read-only: deployed `index.js` fetched back, 1,273,956 bytes, SHA-256 `
 
 ## Second deployment (2026-10-22T21:21:16Z): Hub nav dividers, static asset only
 Owner-executed `wrangler deploy`; one modified asset (`/index.html`). New version `ad1e3c43-da9f-4094-9b34-10943d272d1d` (deployment `7a3e70fc-45bd-43e4-98c1-928f45400368`), 100%, stamped commit `f1266858`. Verified read-only: module `index.js` hash unchanged (`2797e26d…169c1422`, so no code change), `/api/ready` READY (0/0), live HTML contains the divider CSS. Rollback target: `c9c9f0ca-f355-4b4f-8aa6-44da721babad`.
+
+## Editorial redesign of the Hub (2026-10-23, local, not deployed)
+Owner decisions: Newsreader (serif, titles and reading text) + Instrument Sans (interface) + IBM Plex Mono (metadata); no images; dark default with the existing light theme kept (neutral editorial, not warm paper); compact default with a Rahat toggle; Turkish dates; three actions (Üretime aktar, Beklet, Sil); deadline highlighted for Burs and Eğitim; undo toast; numbered list with a progress strip; skeleton loading; typographic empty states; mini charts on the module panels; motion respects `prefers-reduced-motion`.
+
+What changed (`apps/hub/index.html` only, static asset, Worker bundle unchanged): three-column layout (menu, numbered compact list, reading pane with summary and fact list), keyboard triage (J/K move, B hold, S delete with the existing reason dialog, Z undo, O open source), auto-advance to the next item after an action, line icons, theme toggle, narrow-screen flow (list, then reading pane with a back button), module mini charts (bars, stacked bars, run status strip).
+
+Deliberate safety choices: **undo is offered only after hold and delete**. A promote mints an approved_brief and a handoff job that an undo does not retract, so no undo toast is shown for it; the E key needs a **second press within 3 seconds** to promote. The reading pane never shows the source-language excerpt while enrichment is pending or failed (existing contract kept), and the source link is only rendered for http(s) URLs.
+
+Not done on purpose: AI-written "why it matters" text (the existing evidence-based Turkish gist is shown as the summary, facts are verified fields), daily digest page and command palette (second wave). Tests: Hub 28/28 (new `editorial.test.mjs`), related Worker tests unchanged.
