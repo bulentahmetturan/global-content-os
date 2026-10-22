@@ -83,6 +83,14 @@
   }
   .project-item.nav-child .p-icon { font-size: 1.05rem; }
   .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
+  .health-chip { margin-top: auto; margin-bottom: 8px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--sidebar-text-dim); font-size: .72rem; line-height: 1.4; color: var(--sidebar-text-dim); }
+  .health-chip + .sidebar-footnote { margin-top: 0; }
+  .health-chip button { all: unset; cursor: pointer; display: block; width: 100%; }
+  .health-chip .h-title { font-weight: 600; }
+  .health-chip.ok { color: var(--ok); border-color: var(--ok); }
+  .health-chip.alert { color: var(--danger); border-color: var(--danger); }
+  .health-chip ul { margin: 6px 0 0; padding-left: 16px; display: none; }
+  .health-chip.open ul { display: block; }
   .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .main { padding: 22px 24px 48px; max-width: 780px; min-width: 0; }
   .main.bible-mode { max-width: 920px; }
@@ -164,6 +172,7 @@
     border-top: 1px solid var(--border); padding-top: 14px;
   }
   @media (max-width: 720px) {
+    .health-chip { display: none; }
     .app { grid-template-columns: 1fr; }
     .sidebar { flex-direction: row; align-items: center; overflow-x: auto; padding: 12px; gap: 14px; }
     .brand .subtitle, .nav-label, .sidebar-footnote { display: none; }
@@ -262,6 +271,7 @@
     <div>
       <nav class="project-nav" id="projectNav"></nav>
     </div>
+    <div class="health-chip" id="healthChip" hidden><button type="button" id="healthBtn" aria-expanded="false"><span class="h-title" id="healthTitle"></span><span id="healthSub"></span></button><ul id="healthList"></ul></div>
     <div class="sidebar-footnote">Kaynak triyajı · CCOS’a yalnızca approved_brief gider</div>
   </aside>
   <main class="main">
@@ -1815,6 +1825,46 @@
       return load();
     }).catch(function (err) { showToast(err.message); });
   });
+
+  // Sistem sağlığı: GET /api/health/watch (Hub operatör anahtarı ile; salt okunur). Sessizce başarısız olur, Hub'ı bozmaz.
+  var healthChip = document.getElementById('healthChip');
+  function renderHealth(report) {
+    var alerts = report.alerts || [];
+    healthChip.hidden = false;
+    healthChip.classList.toggle('ok', alerts.length === 0);
+    healthChip.classList.toggle('alert', alerts.length > 0);
+    document.getElementById('healthTitle').textContent = alerts.length === 0 ? 'Sistem sağlığı: sağlıklı' : 'Sistem sağlığı: ' + alerts.length + ' uyarı';
+    document.getElementById('healthSub').textContent = ' · ' + new Date(report.utc).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    var list = document.getElementById('healthList');
+    list.innerHTML = '';
+    alerts.forEach(function (a) {
+      var li = document.createElement('li');
+      li.textContent = a.name + ': ' + a.detail;
+      list.appendChild(li);
+    });
+  }
+  function renderHealthMessage(text) {
+    healthChip.hidden = false;
+    healthChip.classList.remove('ok', 'alert');
+    document.getElementById('healthTitle').textContent = 'Sistem sağlığı';
+    document.getElementById('healthSub').textContent = ' · ' + text;
+    document.getElementById('healthList').innerHTML = '';
+  }
+  async function refreshHealth() {
+    var token = localStorage.getItem(OPERATOR_TOKEN_KEY);
+    if (!token) { renderHealthMessage('operatör anahtarı gerekli'); return; }
+    try {
+      var res = await fetch('/api/health/watch', { headers: { Authorization: 'Bearer ' + token } });
+      if (!res.ok) { renderHealthMessage('okunamadı (' + res.status + ')'); return; }
+      renderHealth(await res.json());
+    } catch (e) { renderHealthMessage('okunamadı'); }
+  }
+  document.getElementById('healthBtn').addEventListener('click', function () {
+    var open = healthChip.classList.toggle('open');
+    document.getElementById('healthBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  refreshHealth();
+  setInterval(refreshHealth, 15 * 60 * 1000);
 
   load().catch(function (err) {
     showToast('API hazır değil: ' + err.message);

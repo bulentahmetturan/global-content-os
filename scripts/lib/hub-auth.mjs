@@ -24,6 +24,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/ops/doctor-fetch': 'OPS_TOKEN',
   '/api/ops/doctor-onboarding': 'OPS_TOKEN',
   '/api/ops/doctor-readiness': 'OPS_TOKEN',
+  '/api/health/watch': 'HUB_OPERATOR_TOKEN',
 });
 
 const warned = new Set();

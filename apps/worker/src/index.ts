@@ -39,6 +39,7 @@ import { mapParsedToCanonical } from './protocols/ingestion/p-mapping';
 import { SOURCE_TYPE_REGISTRY } from './discovery/kernel';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
+import { runHealthWatch } from './health-watch';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
@@ -482,6 +483,11 @@ export default {
       // and fails closed (503) unless the STATS_DB binding exists. It never reads or writes the content database.
       const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
       if (statisticsResponse) return statisticsResponse;
+
+      // Hub health card: read-only, gated by the Hub operator token in ROUTE_GATES.
+      if (path === '/api/health/watch' && request.method === 'GET') {
+        return json(await runHealthWatch(env));
+      }
 
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {
