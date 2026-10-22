@@ -42,3 +42,11 @@ Also: ZOE is an organization, not a person source (excluded); `tim-spector.co.uk
 
 ## Owner decision 2026-10-22: Satchin Panda on hold
 Held by the owner until a decision. Recorded as `hold: OWNER_HOLD` in the intake and bundle files. The planner now lists **14** candidates and names the held one separately. The hold is lifted only by the owner's explicit word. The other 14 proceed through the governed path.
+
+## Run 12 (2026-10-22 ~13:50Z): DOCTOR wave and 14 candidates registered (owner-executed in the Hub browser console)
+- Wave `discovery_4e403c23ec694292` (DOCTOR, wave 1, OPEN, searchSpace `["owner-approved expert intake 2026-10-20"]`), created once.
+- 14 candidates created, each HTTP 201 `DISCOVERED`, no aliases: Sethi, Mayer, Zee, Gardner, Sonnenburg, Phillips, Brewer, Scheer, Topol, Spector, Knight, Taylor, Baar, Iwasaki. Satchin Panda not submitted (owner hold).
+- Read-only D1 verification: `candidate_ledger` DOCTOR DISCOVERED 14 (PROTOCOL NOT_READY 1 unchanged); `discovery_runs` 2; `actors` 2 (unchanged); `doctor_candidates` 0; `decision_ledger` 0; DOCTOR alias rows 0; enabled `source_feeds` 142 (no new feed). Health watch unchanged (only the Dossier freshness alert).
+- Not done: no compile, decision, onboarding, actor, endpoint, source activation or polling.
+
+Next governed steps per candidate (local research feeds `compile`, each `compile`/`decision` is an owner-executed production write): admission compile with verified identity refs and credential class, owner decision, onboarding executor, ingestability, activation.
