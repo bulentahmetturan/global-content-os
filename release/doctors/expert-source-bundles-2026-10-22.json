@@ -177,7 +177,7 @@
    "panel": "GLOBAL_EXPERT_PANEL",
    "aliasCandidates": [],
    "credential": "SCIENTIST_PENDING_VERIFICATION",
-   "identityNotes": "Stanford profiles confirm Rehnborg Farquhar Professor. ORCID: several same-name iDs, none with a public employment, so NO iD is recorded (ambiguous).",
+   "identityNotes": "Stanford profiles confirm Rehnborg Farquhar Professor. ORCID 0000-0002-7596-1530 found 2026-10-23 (Stanford Professor employment, Berkeley PhD education); earlier same-name iDs without employment rejected.",
    "sources": [
     {
      "disposition": "PROPOSED",
@@ -192,11 +192,17 @@
      "type": "INSTITUTIONAL_PROFILE",
      "url": "https://prevention.stanford.edu/people/faculty_academic/Gardner.html",
      "check": "HTTP_200_2026-10-22"
+    },
+    {
+     "disposition": "PROPOSED",
+     "activation": "OFF",
+     "type": "ORCID",
+     "url": "https://orcid.org/0000-0002-7596-1530",
+     "check": "ORCID_API_NAME_AND_EMPLOYMENT_MATCH",
+     "note": "Stanford University (Professor); education University of California Berkeley PhD; 9 works"
     }
    ],
-   "open": [
-    "ORCID iD (ambiguous, do not guess)"
-   ],
+   "open": [],
    "credentialEvidence": {
     "type": "CREDENTIAL",
     "verified": true,

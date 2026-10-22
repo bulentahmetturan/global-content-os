@@ -81,3 +81,6 @@ Next real work, local: credential/licence evidence per person, then D4 dry-runs 
 | Identity and sources | Sethi (no profile/ORCID), Spector (credential unverified, no ORCID, no usable source) | IDENTITY, SOURCE_PLAN, FETCH, PARSER, SAFETY |
 
 SAFETY is the owner's review of the health-claim policy and the commercial review; it is a flag, not evidence I can supply. Once the owner sets it, the first seven would compile `READY_FOR_OWNER`. That compile, the owner decision and onboarding are production writes, each owner-run, and need a fresh D4 probe (72 h).
+
+## Update 2026-10-23: Gardner's identity gap closed (local)
+ORCID `0000-0002-7596-1530` found by an affiliation-scoped search: Stanford University (Professor) employment, University of California Berkeley PhD education, 9 works. Added to his bundle; his D4 probe (`--only`) re-run; local evaluation now `MAM` with only SAFETY missing (same position as the seven already onboarded). The remaining open names are Mayer, Sonnenburg, Knight, Baar (no usable source: pages blocked or unparseable from here), Sethi and Spector (identity/credential gaps), plus the held Panda. Count correction: that is seven candidates plus Panda, not six.

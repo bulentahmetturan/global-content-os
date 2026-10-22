@@ -1,5 +1,5 @@
 {
- "probedAt": "2026-10-22T14:02:23.749Z",
+ "probedAt": "2026-10-22T21:22:26.651Z",
  "channel": "tip_toplulugu",
  "note": "dry-run only; D4 evidence is valid 72 h for admission, so it must be re-probed before a real compile",
  "results": {
@@ -265,7 +265,7 @@
    "transport": null,
    "evidence": {
     "evidenceRef": ".logs/doctors-d4/src_christopher-gardner_1.json",
-    "observedAt": "2026-10-22T14:01:42.453Z",
+    "observedAt": "2026-10-22T21:22:23.193Z",
     "identityMatch": "PASS",
     "fetchDryRun": "PASS",
     "parseDryRun": "PASS",
@@ -353,7 +353,7 @@
    "transport": "HTML_LIST",
    "evidence": {
     "evidenceRef": ".logs/doctors-d4/src_christopher-gardner_2.json",
-    "observedAt": "2026-10-22T14:01:45.196Z",
+    "observedAt": "2026-10-22T21:22:26.651Z",
     "identityMatch": "PASS",
     "fetchDryRun": "PASS",
     "parseDryRun": "PASS",
@@ -1129,6 +1129,34 @@
     "provenanceClass": "INSTITUTIONAL",
     "provenanceUri": "https://medicine.yale.edu/profile/akiko-iwasaki/",
     "sourceItemShapeValid": true
+   }
+  },
+  "src_christopher-gardner_3": {
+   "person": "Christopher Gardner",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-7596-1530",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_christopher-gardner_3.json",
+    "observedAt": "2026-10-22T21:22:22.905Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-7596-1530",
+    "sourceItemShapeValid": false
    }
   }
  }

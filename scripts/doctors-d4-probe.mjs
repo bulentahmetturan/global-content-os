@@ -14,9 +14,12 @@ const bundles = JSON.parse(readFileSync(resolve(ROOT, 'release/doctors/expert-so
 const idx = process.argv.indexOf('--concurrency');
 const CONC = idx > 0 ? Number(process.argv[idx + 1]) : 3;
 const CHANNEL = 'tip_toplulugu';
+const onlyIdx = process.argv.indexOf('--only');
+const ONLY = onlyIdx > 0 ? process.argv[onlyIdx + 1] : null;
+const OUT = resolve(ROOT, 'release/doctors/expert-d4-evidence-2026-10-22.json');
 
 const jobs = [];
-for (const p of bundles.people.filter((x) => !x.hold)) {
+for (const p of bundles.people.filter((x) => !x.hold && (!ONLY || x.canonicalName === ONLY))) {
   p.sources.forEach((s, i) => jobs.push({ person: p.canonicalName, sourceId: `src_${p.canonicalName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}_${i + 1}`, source: s }));
 }
 
@@ -34,7 +37,9 @@ function plan(job) {
   });
 }
 
-const results = {};
+let existing = {};
+if (ONLY) { try { existing = JSON.parse(readFileSync(OUT, 'utf8')).results; } catch { /* first run */ } }
+const results = { ...existing };
 let next = 0;
 await Promise.all(Array.from({ length: CONC }, async () => {
   while (next < jobs.length) {
@@ -50,5 +55,5 @@ await Promise.all(Array.from({ length: CONC }, async () => {
   }
 }));
 
-writeFileSync(resolve(ROOT, 'release/doctors/expert-d4-evidence-2026-10-22.json'), JSON.stringify({ probedAt: new Date().toISOString(), channel: CHANNEL, note: 'dry-run only; D4 evidence is valid 72 h for admission, so it must be re-probed before a real compile', results }, null, 1) + '\n');
+writeFileSync(OUT, JSON.stringify({ probedAt: new Date().toISOString(), channel: CHANNEL, note: 'dry-run only; D4 evidence is valid 72 h for admission, so it must be re-probed before a real compile', results }, null, 1) + '\n');
 console.log(JSON.stringify({ probed: Object.keys(results).length }));

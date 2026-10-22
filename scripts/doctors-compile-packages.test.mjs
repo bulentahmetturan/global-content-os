@@ -13,7 +13,7 @@ test('14 admission inputs, Panda (hold) excluded, nothing submitted', () => {
   assert.equal(written.status, 'LOCAL_NOT_SUBMITTED');
   assert.equal(Object.keys(written.inputs).length, 14);
   assert.ok(!('Satchin Panda' in written.inputs));
-  assert.equal(Object.keys(d4.results).length, 38);
+  assert.equal(Object.keys(d4.results).length, 39);
 });
 
 test('credentials: 13 of 14 have a recorded primary or page evidence, Spector stays unverified', () => {
