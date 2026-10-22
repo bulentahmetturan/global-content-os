@@ -222,7 +222,9 @@
   .project-item.nav-doc .p-count { display: none; }
   .project-nav .nav-label.nav-group { margin-top: 10px; }
   .project-nav .nav-label.nav-group:first-child { margin-top: 0; }
-  .project-nav .nav-sep { height: 10px; }
+  /* Each group (Time Sensitive, Evergreen, Sistem Modülleri) and Bible stand apart with a divider; all headings share one style. */
+  .project-nav .nav-label.nav-group:not(:first-child) { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--sidebar-border, rgba(255,255,255,.12)); }
+  .project-nav .nav-sep { height: 16px; margin-top: 8px; border-top: 1px solid var(--sidebar-border, rgba(255,255,255,.12)); }
   .ev-pill { background: rgba(57,184,212,.14); color: var(--text-dim); border-radius: 20px; padding: 2px 9px; font-weight: 600; }
   .bible-doc { font-size: .92rem; line-height: 1.65; color: var(--text); }
   .bible-doc h1 { font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 8px; }
