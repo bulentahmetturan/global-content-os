@@ -19,7 +19,6 @@ export function applyApproval(input) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const approvals = read('release/doctors/owner-approvals-2026-10-22.json');
   const inputs = read('release/doctors/expert-admission-inputs-2026-10-22.json').inputs;
-  const cands = JSON.parse(readFileSync(resolve(process.argv[2]), 'utf8'));
   const out = resolve(tmpdir(), `kernel-${process.pid}.mjs`);
   await build({ entryPoints: [resolve(ROOT, 'apps/worker/src/discovery/kernel.ts')], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
   const { compileAdmissionPackage } = await import(pathToFileURL(out).href);
@@ -28,6 +27,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const allApproved = [...approvals.approvedForPipeline, ...(approvals.batches ?? []).flatMap((b) => b.approved)];
   const names = argOf('--names') ? argOf('--names').split(',').map((x) => x.trim()) : approvals.approvedForPipeline;
   for (const n of names) if (!allApproved.includes(n)) throw new Error(`NOT_OWNER_APPROVED: ${n}`);
+  const cands = JSON.parse(readFileSync(resolve(process.argv[2]), 'utf8'));
   const outFile = argOf('--out') || 'release/doctors/owner-compile-snippet-2026-10-22.js';
   for (const name of names) {
     const cand = cands.find((c) => c.canonical_name === name);
