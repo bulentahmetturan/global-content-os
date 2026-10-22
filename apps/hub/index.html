@@ -412,6 +412,48 @@
   .k-ok { background: var(--ok); } .k-bad { background: var(--danger); } .k-n { background: var(--text-faint); } .k-a { background: var(--accent); }
   .strip { display: flex; gap: 6px; flex-wrap: wrap; }
   .strip i { display: block; width: 22px; height: 22px; border-radius: 5px; }
+
+  /* ===== feedback round 1 (real data): contrast numbers, hairlines, row actions, resizable panes ===== */
+  :root { --list-w: 440px; }
+  .sidebar { position: relative; }
+  .main.split .work { grid-template-columns: var(--list-w) 10px minmax(0, 1fr); }
+  .main.split .pane-list { border-right: 0; }
+  .resizer { display: none; position: relative; cursor: col-resize; touch-action: none; background: transparent; }
+  .main.split .resizer { display: block; }
+  .resizer::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: var(--border); transition: background .15s ease; }
+  .resizer:hover::before, .resizer.dragging::before, .resizer:focus-visible::before { background: var(--accent); }
+  .resizer:focus-visible { outline: none; }
+  .resizer-side { position: absolute; top: 0; right: -5px; bottom: 0; width: 10px; cursor: col-resize; z-index: 5; touch-action: none; }
+  .resizer-side::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: transparent; transition: background .15s ease; }
+  .resizer-side:hover::before, .resizer-side.dragging::before, .resizer-side:focus-visible::before { background: var(--accent); }
+  .resizer-side:focus-visible { outline: none; }
+  body.resizing { cursor: col-resize; user-select: none; }
+
+  .card-list { gap: 0; }
+  .card { position: relative; border-radius: 10px; padding: 14px 14px 12px 8px; }
+  .card::after { content: ''; position: absolute; left: 52px; right: 14px; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--border), transparent 92%); }
+  .card:last-child::after, .card.is-selected::after, .card:hover::after { display: none; }
+  .c-num { display: inline-grid; place-items: center; align-self: start; justify-self: end; min-width: 26px; height: 22px; padding: 0 6px; margin-top: 2px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font: 700 .74rem var(--font-mono); letter-spacing: 0; }
+  .card.is-selected .c-num { background: var(--select-ink); border-color: var(--select-ink); color: var(--select-bg); }
+  .card-title { font-size: 1.05rem; }
+  .card-actions { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+  .btn-xs { padding: 4px 10px; font-size: .72rem; border-radius: 7px; }
+  .card .btn-promote.btn-xs { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .card .btn-hold.btn-xs, .card .btn-delete.btn-xs, .card .btn-undo.btn-xs { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+  .card .btn-delete.btn-xs { color: var(--danger); }
+  .card .btn-xs:hover { border-color: var(--text-faint); color: var(--text); }
+  .card .btn-promote.btn-xs:hover { background: var(--accent); color: var(--on-accent); }
+  .card.is-selected .btn-promote.btn-xs { background: var(--select-ink); color: var(--select-bg); border-color: var(--select-ink); }
+  .card.is-selected .btn-hold.btn-xs, .card.is-selected .btn-undo.btn-xs { color: var(--select-ink); border-color: rgba(0,0,0,.28); }
+  .card.is-selected .btn-delete.btn-xs { color: #9B2A20; border-color: rgba(0,0,0,.28); }
+
+  .read-title { font-size: clamp(1.55rem, 2.1vw, 2.2rem); }
+  .read-actions { position: sticky; bottom: 0; background: var(--surface); padding: 14px 0 16px; margin-top: 8px; border-top: 1px solid var(--border); z-index: 2; }
+  .read-inner { padding-bottom: 28px; }
+  @media (max-width: 1100px) {
+    .main.split .work { grid-template-columns: 1fr; }
+    .resizer, .main.split .resizer, .resizer-side { display: none; }
+  }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -420,6 +462,7 @@
 <body>
 <div class="app">
   <aside class="sidebar">
+    <div class="resizer-side" id="resizeSide" role="separator" aria-orientation="vertical" aria-label="Menü genişliği" tabindex="0" title="Sürükleyerek genişliği ayarlayın (çift tık: sıfırla)"></div>
     <div class="brand">
       <div class="brand-mark">G</div>
       <div>
@@ -456,6 +499,7 @@
       <div class="empty" id="emptyState"></div>
     </div>
     </section>
+    <div class="resizer" id="resizeList" role="separator" aria-orientation="vertical" aria-label="Liste genişliği" tabindex="0" title="Sürükleyerek genişliği ayarlayın (çift tık: sıfırla)"></div>
     <aside class="pane-read" id="readPane" aria-live="polite"></aside>
     </div>
     <div id="bibleView" hidden>
@@ -1170,15 +1214,17 @@
       : mode === 'trash' ? '<span class="status-pill trash">silindi</span>'
       : mode === 'hold' ? '<span class="status-pill hold">beklemede</span>' : '';
   }
-  function actionsHtml(it) {
+  function actionsHtml(it, compact) {
     var mode = it.triageStatus;
-    var promote = '<button class="btn btn-promote" data-action="promote" data-id="' + it.id + '">Üretime aktar <kbd>E</kbd></button>';
-    var hold = '<button class="btn btn-hold" data-action="hold" data-id="' + it.id + '">Beklet <kbd>B</kbd></button>';
-    var del = '<button class="btn btn-delete" data-action="delete" data-id="' + it.id + '">Sil <kbd>S</kbd></button>';
+    var sm = compact ? ' btn-xs' : '';
+    var key = function (k) { return compact ? '' : ' <kbd>' + k + '</kbd>'; };
+    var promote = '<button class="btn btn-promote' + sm + '" data-action="promote" data-id="' + it.id + '">Üretime aktar' + key('E') + '</button>';
+    var hold = '<button class="btn btn-hold' + sm + '" data-action="hold" data-id="' + it.id + '">Beklet' + key('B') + '</button>';
+    var del = '<button class="btn btn-delete' + sm + '" data-action="delete" data-id="' + it.id + '">Reddet' + key('S') + '</button>';
     if (mode === 'inbox') return promote + hold + del;
     if (mode === 'hold') return promote + del;
-    if (mode === 'production') return '<button class="btn btn-promote" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
-    return '<button class="btn btn-undo" data-action="undo" data-id="' + it.id + '">Geri al <kbd>Z</kbd></button>';
+    if (mode === 'production') return '<button class="btn btn-promote' + sm + '" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
+    return '<button class="btn btn-undo' + sm + '" data-action="undo" data-id="' + it.id + '">Geri al' + key('Z') + '</button>';
   }
   function cardHtml(it) {
     var mode = it.triageStatus;
@@ -1204,6 +1250,7 @@
           (d.titleOrig && d.titleOrig !== d.title ? '<p class="original-title">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
           (d.note ? '<p class="card-note">' + escapeHtml(d.note) + '</p>' : '') +
           (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '') +
+          '<div class="card-actions">' + actionsHtml(it, true) + '</div>' +
         '</div>' +
       '</div>'
     );
@@ -1250,7 +1297,7 @@
       lead +
       '<dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl>' +
       '<div class="read-actions">' + actionsHtml(it) + '</div>' +
-      '<div class="read-keys">J / K gezin · E aktar (iki kez bas) · B beklet · S sil · Z geri al · O kaynağı aç</div>' +
+      '<div class="read-keys">J / K gezin · E aktar (iki kez bas) · B beklet · S reddet · Z geri al · O kaynağı aç</div>' +
     '</div>';
   }
   function renderRead() {
@@ -2276,6 +2323,55 @@
       return load();
     }).catch(function (err) { showToast(err.message); });
   });
+
+  // Sürüklenebilir genişlik: menü ve liste. Değer tarayıcıda saklanır; çift tık varsayılana döner; klavye okları 16 px oynatır.
+  (function initResizers() {
+    var root = document.documentElement;
+    var DEF = { '--sidebar-w': 248, '--list-w': 440 };
+    function px(name) { return parseInt(getComputedStyle(root).getPropertyValue(name), 10) || DEF[name]; }
+    function clampTo(name, v) {
+      var side = px('--sidebar-w');
+      var min = name === '--sidebar-w' ? 200 : 300;
+      var max = name === '--sidebar-w' ? 360 : Math.max(min, window.innerWidth - side - 420);
+      return Math.max(min, Math.min(max, Math.round(v)));
+    }
+    function setW(name, v, save) {
+      var w = clampTo(name, v);
+      root.style.setProperty(name, w + 'px');
+      if (save) { try { localStorage.setItem('gcos' + name, String(w)); } catch (e) { /* private mode */ } }
+      return w;
+    }
+    try {
+      ['--sidebar-w', '--list-w'].forEach(function (n) { var v = parseInt(localStorage.getItem('gcos' + n) || '', 10); if (v) setW(n, v, false); });
+    } catch (e) { /* private mode */ }
+    function bind(el, name) {
+      if (!el) return;
+      var startX = 0, startW = 0;
+      el.addEventListener('pointerdown', function (e) {
+        startX = e.clientX; startW = px(name);
+        el.setPointerCapture(e.pointerId);
+        el.classList.add('dragging'); document.body.classList.add('resizing');
+      });
+      el.addEventListener('pointermove', function (e) {
+        if (!el.classList.contains('dragging')) return;
+        setW(name, startW + (e.clientX - startX), false);
+      });
+      function end(e) {
+        if (!el.classList.contains('dragging')) return;
+        el.classList.remove('dragging'); document.body.classList.remove('resizing');
+        setW(name, px(name), true);
+      }
+      el.addEventListener('pointerup', end);
+      el.addEventListener('pointercancel', end);
+      el.addEventListener('dblclick', function () { setW(name, DEF[name], true); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { setW(name, px(name) + (e.key === 'ArrowRight' ? 16 : -16), true); e.preventDefault(); }
+      });
+    }
+    bind(document.getElementById('resizeSide'), '--sidebar-w');
+    bind(document.getElementById('resizeList'), '--list-w');
+    window.addEventListener('resize', function () { setW('--list-w', px('--list-w'), false); });
+  })();
 
   // Klavye ile sıralı triyaj. Üretime aktarma kalıcı bir yan etki (approved_brief) üretir: ikinci tuş vuruşu ister.
   document.addEventListener('keydown', function (e) {

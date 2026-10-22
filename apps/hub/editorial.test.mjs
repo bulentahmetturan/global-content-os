@@ -81,3 +81,22 @@ test('guards: undo is offered only for hold/delete, promote needs a second key p
   assert.match(html, /family=Instrument\+Sans/);
   assert.match(html, /prefers-reduced-motion: reduce/);
 });
+
+test('every inbox row carries its own Üretime aktar / Beklet / Reddet buttons; the reading pane keeps the full set with key hints', () => {
+  const row = ctx.actionsHtml(item({ triageStatus: 'inbox' }), true);
+  assert.match(row, /Üretime aktar<\/button>/);
+  assert.match(row, /Beklet<\/button>/);
+  assert.match(row, /Reddet<\/button>/);
+  assert.doesNotMatch(row, /<kbd>/);
+  const full = ctx.actionsHtml(item({ triageStatus: 'inbox' }));
+  assert.match(full, /Üretime aktar <kbd>E<\/kbd>/);
+  assert.match(full, /Reddet <kbd>S<\/kbd>/);
+});
+
+test('resizable panes: both handles exist, limits are enforced and the size is remembered', () => {
+  assert.match(html, /id="resizeList"/);
+  assert.match(html, /id="resizeSide"/);
+  assert.match(html, /name === '--sidebar-w' \? 200 : 300/);
+  assert.match(html, /localStorage\.setItem\('gcos' \+ name/);
+  assert.match(html, /addEventListener\('dblclick'/);
+});
