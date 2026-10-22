@@ -24,7 +24,12 @@
    "roleHint": "research_authority",
    "decision": "USER_APPROVED",
    "sourceActivation": "OFF",
-   "aliases": []
+   "aliases": [],
+   "hold": {
+    "status": "OWNER_HOLD",
+    "since": "2026-10-22",
+    "reason": "Recent news report on affiliation/complaint; owner decision pending"
+   }
   },
   {
    "canonicalName": "Emeran Mayer",

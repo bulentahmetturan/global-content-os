@@ -39,3 +39,6 @@ Method: web search, the public ORCID API (name plus employment match), and an HT
 **Weakest bundle, Saurabh Sethi:** no institutional profile, no ORCID; only third-party reviewer bios and an Instagram account. Needs licence or institutional evidence before approval.
 
 Also: ZOE is an organization, not a person source (excluded); `tim-spector.co.uk` redirects to `tim-spector.com`.
+
+## Owner decision 2026-10-22: Satchin Panda on hold
+Held by the owner until a decision. Recorded as `hold: OWNER_HOLD` in the intake and bundle files. The planner now lists **14** candidates and names the held one separately. The hold is lifted only by the owner's explicit word. The other 14 proceed through the governed path.

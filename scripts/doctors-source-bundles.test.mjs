@@ -48,3 +48,9 @@ test('social sources stay manual intake and the owner-review flag is kept', () =
   }
   assert.equal(bundles.people.find((p) => p.canonicalName === 'Satchin Panda').ownerReview, 'RECENT_NEWS_REPUTATION_AFFILIATION_CHANGE');
 });
+
+test('Panda is on owner hold and excluded from the candidate list; the other 14 are not held', () => {
+  const held = intake.approved.filter((p) => p.hold).map((p) => p.canonicalName);
+  assert.deepEqual(held, ['Satchin Panda']);
+  assert.equal(bundles.people.filter((p) => p.hold === 'OWNER_HOLD').length, 1);
+});

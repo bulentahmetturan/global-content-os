@@ -80,7 +80,8 @@
     "current affiliation",
     "owner decision on the news report",
     "replacement official site"
-   ]
+   ],
+   "hold": "OWNER_HOLD"
   },
   {
    "canonicalName": "Emeran Mayer",
