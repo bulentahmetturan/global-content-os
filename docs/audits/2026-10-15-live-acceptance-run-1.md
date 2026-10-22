@@ -146,3 +146,16 @@ Counts: **26 PASS (1 by owner-accepted local evidence) / 1 FAIL / 0 BLOCKED / 4 
 | DOS-C | UNKNOWN → PASS | anonymous, foreign scope (Hub, OPS) and read-token-write all refused; read scope works |
 
 Counts after run 9: **27 PASS (STA-G, DISC-F by accepted interpretations) / 1 FAIL / 0 BLOCKED / 3 UNKNOWN of 31**. Open: DOS-D (FAIL), DOS-A, DOS-E after the Dossier probe (>= 18:45Z); STA-E after the 03:00Z run.
+
+## Run 10 (2026-10-22T12:24Z): Dossier probe result and Statistics runs (read-only D1)
+| Fact | Observed |
+|---|---|
+| Fix effect | The 2026-10-15T18:41Z probe dropped the dead pageToken and fetched again: run `crun_e3896a9c…` itemsSeen 100, itemsNew 91; `dossier_observations` GLOBAL_RESEARCH_ACTIVITY 765 → 1,143 (latest 2026-10-15) |
+| Run state | phase DERIVE, derived 111 concepts, 31 invocations, 4,296 statements, **4 platform terminations**, status RUNNING since 2026-10-15T22:20Z |
+| Source state | PAUSED, reason `PLATFORM_TERMINATIONS_EXCEEDED` (ACTION_REQUIRED, owner review stop; limit 3 per run) since 2026-10-15T22:20:51Z; paused_from BURN_IN |
+| Statistics | PRODUCTION runs COMPLETED on 2026-10-15, 10-16, 10-18, 10-20, 10-22 (03:00Z), inserted 0 each (no new release); outbox `statistics_release_events` 0 |
+| Health | `/api/ready` READY |
+
+Interpretation: the cursor fix worked (ingestion resumed and new data was written); the recurring run then hit the designed safety stop. Resuming is an owner control (`POST /api/dossier/ops/source-state`, needs `DOSSIER_OPS_WRITE_TOKEN`, which is not configured). After a resume the scheduler grants a fresh termination allowance and continues the same DERIVE phase.
+
+Status: DOS-D remains FAIL (source PAUSED), DOS-A/DOS-E UNKNOWN until the run completes. STA-E: no new Statistics release has occurred, so no release event has flowed.
