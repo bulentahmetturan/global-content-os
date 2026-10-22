@@ -66,3 +66,18 @@ Result: **0 of 14 READY**, as expected. Every package would compile `NOT_READY` 
 Submitting these `NOT_READY` packages (as done for the PROTOCOL candidate in run 7) would be one owner-run production write per candidate; it adds no value until the evidence exists, so it is not proposed now.
 
 Next real work, local: credential/licence evidence per person, then D4 dry-runs for the few sources worth activating (the two Substack feeds, institutional profiles). Both need network probes only, no production write.
+
+## Credential evidence and D4 dry runs (2026-10-22, local, no production write)
+**Credentials.** 13 of 14 now carry recorded evidence (`credentialEvidence` in the bundles file). Five physicians (Sethi, Mayer, Zee, Brewer, Topol) matched in the public US NPI registry by name, specialty and location, with licence numbers recorded (Zee's NPI equals the id in her nm.org page URL; Brewer's second same-name NPI was rejected). Eight people have the degree stated on a page: Gardner, Phillips, Scheer, Iwasaki, Taylor (MB ChB, MD, FRCP), Baar from first-party or institutional pages; Sonnenburg and Knight only from third-party bios (marked as such). **Tim Spector stays unverified** (needs the GMC register or a university page).
+
+**D4 dry runs.** `scripts/doctors-d4-probe.mjs` ran `source-lifecycle plan` for the 38 non-held sources (dry run: no D1, no activation). Summary file `release/doctors/expert-d4-evidence-2026-10-22.json`. Outcomes: 12 sources reached the capacity gate with every other gate PASS (`BLOCKED_CAPACITY_DRY_RUN`, capacity CAUTION; this is the polling-load check, decided at activation time), 23 technical blocks (all 11 ORCID pages: parser yield below minimum, identity still PASS; pages failing canary), 3 access blocks (Instagram robots, a login wall, a legal restriction), 1 duplicate-ownership question. D4 evidence is valid 72 h; it must be re-probed before a real compile.
+
+**Local evaluation with the real kernel (0 submitted):**
+| Group | People | Missing gates |
+|---|---|---|
+| Only SAFETY (owner review) | Zee, Phillips, Brewer, Scheer, Topol, Taylor, Iwasaki (7) | SAFETY |
+| Identity gap | Gardner (no ORCID/PubMed identity found) | IDENTITY, SAFETY |
+| No usable source (stay MANUAL_INTAKE) | Mayer, Sonnenburg, Knight, Baar (pages blocked or unparseable from here; alternates tried, none passed) | SOURCE_PLAN, FETCH, PARSER, SAFETY |
+| Identity and sources | Sethi (no profile/ORCID), Spector (credential unverified, no ORCID, no usable source) | IDENTITY, SOURCE_PLAN, FETCH, PARSER, SAFETY |
+
+SAFETY is the owner's review of the health-claim policy and the commercial review; it is a flag, not evidence I can supply. Once the owner sets it, the first seven would compile `READY_FOR_OWNER`. That compile, the owner decision and onboarding are production writes, each owner-run, and need a fresh D4 probe (72 h).

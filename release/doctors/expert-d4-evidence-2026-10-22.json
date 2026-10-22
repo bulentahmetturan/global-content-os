@@ -1,0 +1,1135 @@
+{
+ "probedAt": "2026-10-22T14:02:23.749Z",
+ "channel": "tip_toplulugu",
+ "note": "dry-run only; D4 evidence is valid 72 h for admission, so it must be re-probed before a real compile",
+ "results": {
+  "src_saurabh-sethi_2": {
+   "person": "Saurabh Sethi",
+   "type": "INSTAGRAM",
+   "uri": "https://www.instagram.com/doctor.sethi/",
+   "exitCode": 3221226505,
+   "outcome": "BLOCKED_ACCESS",
+   "reason": "ROBOTS_DISALLOWED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "BLOCKED_ACCESS",
+    "ENDPOINT": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_saurabh-sethi_2.json",
+    "observedAt": "2026-10-22T14:01:28.970Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "FAIL",
+    "parseDryRun": "FAIL",
+    "accessTerms": "RESTRICTED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.instagram.com/doctor.sethi/",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_emeran-mayer_1": {
+   "person": "Emeran Mayer",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0003-3923-3349",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_emeran-mayer_1.json",
+    "observedAt": "2026-10-22T14:01:30.466Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0003-3923-3349",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_saurabh-sethi_1": {
+   "person": "Saurabh Sethi",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://www.healthline.com/authors/saurabh-sethi-md-mph",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_saurabh-sethi_1.json",
+    "observedAt": "2026-10-22T14:01:31.610Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.healthline.com/authors/saurabh-sethi-md-mph",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_emeran-mayer_2": {
+   "person": "Emeran Mayer",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://www.uclahealth.org/departments/medicine/gastro/microbiome/about-us/directors",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_emeran-mayer_2.json",
+    "observedAt": "2026-10-22T14:01:34.223Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.uclahealth.org/departments/medicine/gastro/microbiome/about-us/directors",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_phyllis-zee_1": {
+   "person": "Phyllis Zee",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0001-6296-6685",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_phyllis-zee_1.json",
+    "observedAt": "2026-10-22T14:01:35.095Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0001-6296-6685",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_saurabh-sethi_3": {
+   "person": "Saurabh Sethi",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://www.wellnessincheck.com",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_saurabh-sethi_3.json",
+    "observedAt": "2026-10-22T14:01:35.124Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.wellnessincheck.com",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_phyllis-zee_3": {
+   "person": "Phyllis Zee",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://www.brain.northwestern.edu/about/members/profile.html?xid=13785",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_phyllis-zee_3.json",
+    "observedAt": "2026-10-22T14:01:40.528Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.brain.northwestern.edu/about/members/profile.html?xid=13785",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_emeran-mayer_3": {
+   "person": "Emeran Mayer",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://emeranmayer.com",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_emeran-mayer_3.json",
+    "observedAt": "2026-10-22T14:01:40.762Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://emeranmayer.com",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_christopher-gardner_1": {
+   "person": "Christopher Gardner",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://med.stanford.edu/profiles/16607",
+   "exitCode": 3,
+   "outcome": "NEEDS_USER_DECISION",
+   "reason": "DUPLICATE_OR_OWNERSHIP",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "NEEDS_USER_DECISION"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_christopher-gardner_1.json",
+    "observedAt": "2026-10-22T14:01:42.453Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://med.stanford.edu/profiles/16607",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_justin-sonnenburg_1": {
+   "person": "Justin Sonnenburg",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0003-2299-6817",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_justin-sonnenburg_1.json",
+    "observedAt": "2026-10-22T14:01:43.361Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0003-2299-6817",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_justin-sonnenburg_2": {
+   "person": "Justin Sonnenburg",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://sonnenburglab.stanford.edu/people/justin-sonnenburg",
+   "exitCode": 3221226505,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_justin-sonnenburg_2.json",
+    "observedAt": "2026-10-22T14:01:44.653Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://sonnenburglab.stanford.edu/people/justin-sonnenburg",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_christopher-gardner_2": {
+   "person": "Christopher Gardner",
+   "type": "INSTITUTIONAL_PROFILE",
+   "uri": "https://prevention.stanford.edu/people/faculty_academic/Gardner.html",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_christopher-gardner_2.json",
+    "observedAt": "2026-10-22T14:01:45.196Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://prevention.stanford.edu/people/faculty_academic/Gardner.html",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_phyllis-zee_2": {
+   "person": "Phyllis Zee",
+   "type": "INSTITUTIONAL_PROFILE",
+   "uri": "https://www.nm.org/doctors/1255418927",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_phyllis-zee_2.json",
+    "observedAt": "2026-10-22T14:01:45.560Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.nm.org/doctors/1255418927",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_stuart-phillips_1": {
+   "person": "Stuart Phillips",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-1956-4098",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_stuart-phillips_1.json",
+    "observedAt": "2026-10-22T14:01:45.588Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-1956-4098",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_judson-brewer_1": {
+   "person": "Judson Brewer",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0001-8984-6704",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_judson-brewer_1.json",
+    "observedAt": "2026-10-22T14:01:46.486Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0001-8984-6704",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_judson-brewer_2": {
+   "person": "Judson Brewer",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://mindfulness.sph.brown.edu/people/judson-brewer",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_judson-brewer_2.json",
+    "observedAt": "2026-10-22T14:01:49.770Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://mindfulness.sph.brown.edu/people/judson-brewer",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_stuart-phillips_2": {
+   "person": "Stuart Phillips",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://mira.mcmaster.ca/our-faculty/stuart-phillips/",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_stuart-phillips_2.json",
+    "observedAt": "2026-10-22T14:01:50.512Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://mira.mcmaster.ca/our-faculty/stuart-phillips/",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_stuart-phillips_3": {
+   "person": "Stuart Phillips",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://emrg.science.mcmaster.ca",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "RSS",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_stuart-phillips_3.json",
+    "observedAt": "2026-10-22T14:01:50.792Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://emrg.science.mcmaster.ca",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_judson-brewer_4": {
+   "person": "Judson Brewer",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://judbrewer.substack.com/feed",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "ADAPTER_REQUIRED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "ADAPTER_REQUIRED"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_judson-brewer_4.json",
+    "observedAt": "2026-10-22T14:01:51.451Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://judbrewer.substack.com/feed",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_frank-scheer_1": {
+   "person": "Frank Scheer",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-2014-7582",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_frank-scheer_1.json",
+    "observedAt": "2026-10-22T14:01:51.784Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-2014-7582",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_judson-brewer_3": {
+   "person": "Judson Brewer",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://drjud.com",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_judson-brewer_3.json",
+    "observedAt": "2026-10-22T14:01:54.574Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://drjud.com",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_frank-scheer_2": {
+   "person": "Frank Scheer",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://nutrition.hms.harvard.edu/people/frank-ajl-scheer",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_frank-scheer_2.json",
+    "observedAt": "2026-10-22T14:01:55.158Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://nutrition.hms.harvard.edu/people/frank-ajl-scheer",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_eric-topol_1": {
+   "person": "Eric Topol",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-1478-4729",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_eric-topol_1.json",
+    "observedAt": "2026-10-22T14:01:55.532Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-1478-4729",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_frank-scheer_3": {
+   "person": "Frank Scheer",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://sleep.hms.harvard.edu/faculty-staff/frank-ajl-scheer",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_frank-scheer_3.json",
+    "observedAt": "2026-10-22T14:01:55.809Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://sleep.hms.harvard.edu/faculty-staff/frank-ajl-scheer",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_eric-topol_3": {
+   "person": "Eric Topol",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://erictopol.substack.com/feed",
+   "exitCode": 3221226505,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "ADAPTER_REQUIRED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "ADAPTER_REQUIRED"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_eric-topol_3.json",
+    "observedAt": "2026-10-22T14:01:56.393Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://erictopol.substack.com/feed",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_tim-spector_1": {
+   "person": "Tim Spector",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://www.tim-spector.com",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "CANARY_FAILED",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_tim-spector_1.json",
+    "observedAt": "2026-10-22T14:01:59.018Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.tim-spector.com",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_eric-topol_2": {
+   "person": "Eric Topol",
+   "type": "INSTITUTIONAL_PROFILE",
+   "uri": "https://www.scripps.edu/faculty/topol/",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_eric-topol_2.json",
+    "observedAt": "2026-10-22T14:01:59.041Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.scripps.edu/faculty/topol/",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_rob-knight_1": {
+   "person": "Rob Knight",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-0975-9019",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_rob-knight_1.json",
+    "observedAt": "2026-10-22T14:01:59.843Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-0975-9019",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_rob-knight_3": {
+   "person": "Rob Knight",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://kibm.ucsd.edu/users/rob-knight",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "HTTP_404",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "BLOCKED_TECHNICAL",
+    "ENDPOINT": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_rob-knight_3.json",
+    "observedAt": "2026-10-22T14:02:13.849Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "FAIL",
+    "parseDryRun": "FAIL",
+    "accessTerms": "RESTRICTED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://kibm.ucsd.edu/users/rob-knight",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_rob-knight_2": {
+   "person": "Rob Knight",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://knightlab.ucsd.edu/?page_id=47",
+   "exitCode": 4,
+   "outcome": "BLOCKED_ACCESS",
+   "reason": "LOGIN_WALL",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "BLOCKED_ACCESS",
+    "ENDPOINT": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_rob-knight_2.json",
+    "observedAt": "2026-10-22T14:02:13.973Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "FAIL",
+    "parseDryRun": "FAIL",
+    "accessTerms": "RESTRICTED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://knightlab.ucsd.edu/?page_id=47",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_roy-taylor_1": {
+   "person": "Roy Taylor",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0001-6273-0170",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_roy-taylor_1.json",
+    "observedAt": "2026-10-22T14:02:15.913Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0001-6273-0170",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_keith-baar_1": {
+   "person": "Keith Baar",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0001-9337-6186",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_keith-baar_1.json",
+    "observedAt": "2026-10-22T14:02:17.199Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0001-9337-6186",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_tim-spector_2": {
+   "person": "Tim Spector",
+   "type": "INSTITUTIONAL_PROFILE",
+   "uri": "https://twinsuk.ac.uk/?p=5586",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "NETWORK_ERROR",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "BLOCKED_TECHNICAL",
+    "ENDPOINT": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_tim-spector_2.json",
+    "observedAt": "2026-10-22T14:02:18.268Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "FAIL",
+    "parseDryRun": "FAIL",
+    "accessTerms": "RESTRICTED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://twinsuk.ac.uk/?p=5586",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_keith-baar_2": {
+   "person": "Keith Baar",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://profiles.ucdavis.edu/keith.baar/65",
+   "exitCode": 4,
+   "outcome": "BLOCKED_ACCESS",
+   "reason": "LEGAL_RESTRICTION",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "BLOCKED_ACCESS",
+    "ENDPOINT": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_keith-baar_2.json",
+    "observedAt": "2026-10-22T14:02:18.567Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "FAIL",
+    "parseDryRun": "FAIL",
+    "accessTerms": "RESTRICTED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://profiles.ucdavis.edu/keith.baar/65",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_akiko-iwasaki_1": {
+   "person": "Akiko Iwasaki",
+   "type": "ORCID",
+   "uri": "https://orcid.org/0000-0002-7824-9856",
+   "exitCode": 4,
+   "outcome": "BLOCKED_TECHNICAL",
+   "reason": "PARSER_YIELD_BELOW_MINIMUM",
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "FAIL"
+   },
+   "transport": null,
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_akiko-iwasaki_1.json",
+    "observedAt": "2026-10-22T14:02:19.275Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "FAIL",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "SCHOLARLY_REGISTRY",
+    "provenanceUri": "https://orcid.org/0000-0002-7824-9856",
+    "sourceItemShapeValid": false
+   }
+  },
+  "src_roy-taylor_2": {
+   "person": "Roy Taylor",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://www.ncl.ac.uk/medical-sciences/people/profile/roytaylor.html",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_roy-taylor_2.json",
+    "observedAt": "2026-10-22T14:02:19.384Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://www.ncl.ac.uk/medical-sciences/people/profile/roytaylor.html",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_akiko-iwasaki_3": {
+   "person": "Akiko Iwasaki",
+   "type": "OFFICIAL_WEBSITE",
+   "uri": "https://medicine.yale.edu/lab/iwasaki/",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_akiko-iwasaki_3.json",
+    "observedAt": "2026-10-22T14:02:23.733Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://medicine.yale.edu/lab/iwasaki/",
+    "sourceItemShapeValid": true
+   }
+  },
+  "src_akiko-iwasaki_2": {
+   "person": "Akiko Iwasaki",
+   "type": "UNIVERSITY_PROFILE",
+   "uri": "https://medicine.yale.edu/profile/akiko-iwasaki/",
+   "exitCode": 4,
+   "outcome": "BLOCKED_CAPACITY_DRY_RUN",
+   "reason": null,
+   "gates": {
+    "REQUEST": "PASS",
+    "IDENTITY": "PASS",
+    "ACCESS": "PASS",
+    "ENDPOINT": "PASS",
+    "ROUTING": "PASS",
+    "PARSER": "PASS",
+    "CADENCE": "PASS",
+    "DEDUPE": "PASS",
+    "CAPACITY": "CAUTION",
+    "CANARY": "PASS"
+   },
+   "transport": "HTML_LIST",
+   "evidence": {
+    "evidenceRef": ".logs/doctors-d4/src_akiko-iwasaki_2.json",
+    "observedAt": "2026-10-22T14:02:23.749Z",
+    "identityMatch": "PASS",
+    "fetchDryRun": "PASS",
+    "parseDryRun": "PASS",
+    "accessTerms": "ALLOWED",
+    "provenanceClass": "INSTITUTIONAL",
+    "provenanceUri": "https://medicine.yale.edu/profile/akiko-iwasaki/",
+    "sourceItemShapeValid": true
+   }
+  }
+ }
+}

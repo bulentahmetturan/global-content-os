@@ -44,7 +44,14 @@
    "open": [
     "institutional profile or licence evidence",
     "ORCID or PubMed author identity"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "LICENSE",
+    "verified": true,
+    "basis": "US_NPI_REGISTRY_PUBLIC_API_2026-10-22",
+    "value": "NPI 1215165600; CA licence A128757; Internal Medicine, Gastroenterology (Fremont CA)",
+    "note": "matched by name, specialty and Bay Area location; public bios agree"
+   }
   },
   {
    "canonicalName": "Satchin Panda",
@@ -117,7 +124,14 @@
    ],
    "open": [
     "feed or blog endpoint on emeranmayer.com"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "LICENSE",
+    "verified": true,
+    "basis": "US_NPI_REGISTRY_PUBLIC_API_2026-10-22",
+    "value": "NPI 1881615508; CA licence A38843; Internal Medicine, Gastroenterology (Los Angeles CA)",
+    "note": "matched by name, specialty and UCLA location"
+   }
   },
   {
    "canonicalName": "Phyllis Zee",
@@ -149,7 +163,14 @@
      "check": "HTTP_200_2026-10-22"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "LICENSE",
+    "verified": true,
+    "basis": "US_NPI_REGISTRY_PUBLIC_API_2026-10-22",
+    "value": "NPI 1255418927; IL licence 036072196; Neurology, Sleep Medicine (Chicago IL)",
+    "note": "NPI equals the id in her nm.org physician page URL"
+   }
   },
   {
    "canonicalName": "Christopher Gardner",
@@ -175,7 +196,14 @@
    ],
    "open": [
     "ORCID iD (ambiguous, do not guess)"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "Professor Christopher Gardner, PhD (Stanford faculty page)",
+    "uri": "https://prevention.stanford.edu/people/faculty_academic/Gardner.html"
+   }
   },
   {
    "canonicalName": "Justin Sonnenburg",
@@ -200,7 +228,14 @@
      "check": "HTTP_200_2026-10-22"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_THIRD_PARTY_BIO",
+    "value": "Justin L. Sonnenburg, Ph.D. (ASM biography)",
+    "uri": "https://asm.org/biographies/justin-l-sonnenburg,-ph-d"
+   }
   },
   {
    "canonicalName": "Stuart Phillips",
@@ -234,7 +269,14 @@
      "role": "Exercise Metabolism Research Group site"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "PhD, University of Waterloo (McMaster profile)",
+    "uri": "https://mira.mcmaster.ca/our-faculty/stuart-phillips/"
+   }
   },
   {
    "canonicalName": "Judson Brewer",
@@ -277,7 +319,14 @@
    ],
    "open": [
     "ownership proof for the Substack (link from drjud.com)"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "LICENSE",
+    "verified": true,
+    "basis": "US_NPI_REGISTRY_PUBLIC_API_2026-10-22",
+    "value": "NPI 1851315840; MA licence 257960; Psychiatry (Boston MA)",
+    "note": "second same-name NPI (OB-GYN, Indiana) rejected"
+   }
   },
   {
    "canonicalName": "Frank Scheer",
@@ -314,7 +363,14 @@
      "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "Frank A.J.L. Scheer, PhD (Harvard Medical School page)",
+    "uri": "https://nutrition.hms.harvard.edu/people/frank-ajl-scheer"
+   }
   },
   {
    "canonicalName": "Eric Topol",
@@ -348,7 +404,14 @@
      "feed": true
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "LICENSE",
+    "verified": true,
+    "basis": "US_NPI_REGISTRY_PUBLIC_API_2026-10-22",
+    "value": "NPI 1487723714; CA licence G43112; Internal Medicine, Cardiovascular Disease (San Diego CA)",
+    "note": "matched by name, specialty and Scripps location"
+   }
   },
   {
    "canonicalName": "Tim Spector",
@@ -378,7 +441,14 @@
    "open": [
     "ORCID confirmation",
     "KCL profile URL"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": false,
+    "basis": "NOT_VERIFIED",
+    "value": "profiles describe medical training and an MD thesis, but no primary record read (GMC register / university page needed)",
+    "uri": null
+   }
   },
   {
    "canonicalName": "Rob Knight",
@@ -411,7 +481,14 @@
      "check": "NOT_VERIFIED_BOT_BLOCKED_HTTP_403_OR_451"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_THIRD_PARTY_BIO",
+    "value": "Rob Knight, Ph.D. (Biocom biography)",
+    "uri": "https://www.biocom.org/people/rob-knight-ph-d"
+   }
   },
   {
    "canonicalName": "Roy Taylor",
@@ -437,7 +514,14 @@
      "role": "page says Emeritus; may be an older snapshot"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "Qualifications BSc, MB ChB, MD, FRCP, FRCPE (Newcastle staff page)",
+    "uri": "https://www.ncl.ac.uk/medical-sciences/people/profile/roytaylor.html"
+   }
   },
   {
    "canonicalName": "Keith Baar",
@@ -464,7 +548,14 @@
    ],
    "open": [
     "reachable official or lab page"
-   ]
+   ],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "Keith Baar, Ph.D. (UC Davis Health page)",
+    "uri": "https://health.ucdavis.edu/patients-visitors/team/43075/keith-baar-sports-medicine-sacramento"
+   }
   },
   {
    "canonicalName": "Akiko Iwasaki",
@@ -497,7 +588,14 @@
      "role": "lab site"
     }
    ],
-   "open": []
+   "open": [],
+   "credentialEvidence": {
+    "type": "CREDENTIAL",
+    "verified": true,
+    "basis": "DEGREE_STATED_ON_PAGE",
+    "value": "Akiko Iwasaki, PhD (Yale School of Medicine profile)",
+    "uri": "https://medicine.yale.edu/profile/akiko-iwasaki/"
+   }
   }
  ]
 }
