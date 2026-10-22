@@ -1,0 +1,247 @@
+{
+ "title": "Doctors expert intake 2026-10-20",
+ "source_handoff": "GLOBAL_OS_DOCTORS_APPROVED_15_AND_PROPOSED_17_2026-10-20.json",
+ "execution_status": "PREPARED_LOCAL_NOT_APPLIED",
+ "domain": "DOCTOR",
+ "panel_default": "GLOBAL_EXPERT_PANEL",
+ "run": {
+  "searchSpace": [
+   "owner-approved expert intake 2026-10-20"
+  ]
+ },
+ "approved": [
+  {
+   "canonicalName": "Saurabh Sethi",
+   "focus": "gastroenterology, digestive health",
+   "roleHint": "clinical_communicator",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Satchin Panda",
+   "focus": "circadian biology, time-restricted eating",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Emeran Mayer",
+   "focus": "gut-brain axis, IBS, neurogastroenterology",
+   "roleHint": "research_clinician",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Phyllis Zee",
+   "focus": "sleep medicine, circadian rhythms",
+   "roleHint": "research_clinician",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Christopher Gardner",
+   "focus": "nutrition interventions, clinical diet trials",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Justin Sonnenburg",
+   "focus": "gut microbiome, dietary fiber, microbial ecology",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Stuart Phillips",
+   "focus": "skeletal muscle, protein, exercise",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Judson Brewer",
+   "focus": "anxiety, habits, behavioral neuroscience",
+   "roleHint": "research_clinician",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Frank Scheer",
+   "focus": "chronobiology, shift work, metabolism",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Eric Topol",
+   "focus": "cardiology, medical innovation, evidence translation",
+   "roleHint": "research_clinician",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Tim Spector",
+   "focus": "microbiome, nutritional epidemiology",
+   "roleHint": "research_communicator",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Rob Knight",
+   "focus": "microbiome, microbial data science",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Roy Taylor",
+   "focus": "type 2 diabetes remission, metabolic research",
+   "roleHint": "research_clinician",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Keith Baar",
+   "focus": "muscle and tendon physiology",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  },
+  {
+   "canonicalName": "Akiko Iwasaki",
+   "focus": "immunology, infection, immune mechanisms",
+   "roleHint": "research_authority",
+   "decision": "USER_APPROVED",
+   "sourceActivation": "OFF",
+   "aliases": []
+  }
+ ],
+ "proposedPool": [
+  {
+   "canonicalName": "Russell Foster",
+   "focus": "circadian and light biology",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Esra Tasali",
+   "focus": "sleep and metabolic disease",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Charles Czeisler",
+   "focus": "sleep medicine, shift work",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Jeffrey Gordon",
+   "focus": "microbiome and nutrition",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "William D. Chey",
+   "focus": "clinical gastroenterology, IBS",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Dariush Mozaffarian",
+   "focus": "nutrition, food as medicine",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "David S. Ludwig",
+   "focus": "obesity, metabolism, nutrition trials",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Herman Pontzer",
+   "focus": "energy expenditure, exercise metabolism",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "John P. A. Ioannidis",
+   "focus": "metaresearch, evidence reliability",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Trish Greenhalgh",
+   "focus": "primary care, digital health, evidence translation",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Michael R. Irwin",
+   "focus": "sleep, stress, psychoneuroimmunology",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Richard J. Davidson",
+   "focus": "emotion and contemplative neuroscience",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Lisa Mosconi",
+   "focus": "women’s brain health, Alzheimer prevention research",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Michael Snyder",
+   "focus": "precision health, multiomics, wearable measurement",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Yasmine Belkaid",
+   "focus": "immunology, microbiome-host interactions",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "David Putrino",
+   "focus": "rehabilitation, Long COVID",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  },
+  {
+   "canonicalName": "Ziyad Al-Aly",
+   "focus": "clinical epidemiology, Long COVID",
+   "decision": "PROPOSED_ONLY",
+   "sourceActivation": "OFF"
+  }
+ ],
+ "guardrails": [
+  "Check current canonical actor table and aliases before create/upsert; do not generate duplicate identities.",
+  "Use existing Global OS source lifecycle and source registry; do not create a separate parallel ingestion system.",
+  "Attach institutional/official, scholarly, social/podcast sources to actors only after verifying URLs and ingestability.",
+  "Do not auto-activate polling, publication, scheduled crawling or source ingestion.",
+  "Social platforms use existing MANUAL_INTAKE policy where required.",
+  "Medical health claims need primary scientific publication / systematic evidence checks independently of expert statements.",
+  "Do not mutate CCOS or the unrelated Kaduse design project."
+ ]
+}
