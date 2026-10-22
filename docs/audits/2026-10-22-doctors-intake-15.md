@@ -50,3 +50,19 @@ Held by the owner until a decision. Recorded as `hold: OWNER_HOLD` in the intake
 - Not done: no compile, decision, onboarding, actor, endpoint, source activation or polling.
 
 Next governed steps per candidate (local research feeds `compile`, each `compile`/`decision` is an owner-executed production write): admission compile with verified identity refs and credential class, owner decision, onboarding executor, ingestability, activation.
+
+## Admission packages, local evaluation (2026-10-22, nothing submitted)
+`scripts/doctors-compile-packages.mjs` builds one admission input per candidate (`release/doctors/expert-admission-inputs-2026-10-22.json`, 14 entries, Panda excluded) and evaluates it with the real kernel (`compileAdmissionPackage`) in memory. Test `doctors-compile-packages.test.mjs`; all intake tests 12/12.
+
+The inputs state the real position: ORCID employment match or a loaded profile page counts as a verified reference; `credentialVerified=false`; no D4 dry-run evidence; `safety` and `commercialReview` false (owner review); routing role ANNOUNCEMENT_EVENT to `GLOBAL_HUB:tip-ogrencileri` (raw triage inbox, per the R1 doctor policy).
+
+Result: **0 of 14 READY**, as expected. Every package would compile `NOT_READY` with the same five missing gates:
+| Gate | What closes it |
+|---|---|
+| IDENTITY | a verified CREDENTIAL or LICENSE reference per person (licence/board or authoritative credential record), plus D4 identity PASS on a profile source and on the ORCID/PubMed source |
+| SOURCE_PLAN, FETCH, PARSER | fresh (72 h) D4 dry-run evidence per source from `source-lifecycle plan` with a lifecycle target and channel; without it every source stays MANUAL_INTAKE |
+| SAFETY | owner review of health-claim policy and commercial review (Doctors health claims need primary-evidence checks) |
+
+Submitting these `NOT_READY` packages (as done for the PROTOCOL candidate in run 7) would be one owner-run production write per candidate; it adds no value until the evidence exists, so it is not proposed now.
+
+Next real work, local: credential/licence evidence per person, then D4 dry-runs for the few sources worth activating (the two Substack feeds, institutional profiles). Both need network probes only, no production write.
