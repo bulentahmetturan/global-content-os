@@ -164,3 +164,19 @@ Status: DOS-D remains FAIL (source PAUSED), DOS-A/DOS-E UNKNOWN until the run co
 Owner accepted that STA-E (cross-module flow of Statistics release events) is recorded as **PASS (local evidence; no new Statistics release occurred in production)**. Basis: Statistics local suite (433/433) including the release-event outbox (duplicate-event creation from 6 contenders yields exactly one event and one creator) and bulletin dedupe; live state: PRODUCTION runs COMPLETED on 2026-10-15/16/18/20/22 with `NO_CHANGE_POLL`, `statistics_release_events` 0 because the source published no new release since 2026-09-25. No release is to be forced in production. Raised to live evidence when a real new release flows.
 
 Counts: **28 PASS / 1 FAIL / 0 BLOCKED / 2 UNKNOWN of 31**; of the 28, three rest on owner-accepted interpretation or local evidence (DISC-F gate behavior, STA-G, STA-E), so directly observed live: 25. Open: DOS-D (FAIL), DOS-A, DOS-E pending completion of the resumed Dossier run (expected ~15:30Z).
+
+## Run 13 (2026-10-22T19:36Z): Dossier run COMPLETED; DOS-D, DOS-A, DOS-E closed
+Read-only evidence (D1 REST, Wrangler OAuth in memory) after the owner resumed `dossier-clinicaltrials-frontier` to BURN_IN at 19:08:46Z (second resume, 48 concepts left; new `DOSSIER_OPS_WRITE_TOKEN` put by the owner, value held only in the owner's PowerShell session).
+- Run `crun_e3896a9c-cf8b-44af-a223-6e78ad3a169b` (the same run id since 2026-10-15T18:41Z): `COMPLETED`, phase `DONE`, finished 2026-10-22T19:35:45Z. itemsSeen 100, itemsNew 100, derived 359 (353 WATCH, 6 not eligible, 0 promoted, per policy), platformTerminations 8 (all acknowledged), no fetch error. The post-resume tail ran 5-minute ticks of about 8 concepts each with no new termination.
+- `dossier-recovery-check`: verdict `RECOVERED`. Source state BURN_IN, `recurring_enabled=1`, Eurostat reader BURN_IN. Observations 1,143 (ClinicalTrials, was 765 before the fix) and 91 (Eurostat); concepts 1,145.
+- History kept: 10 FAILED canary runs and 10 FAILED signal runs before the fix (HTTP 400 stale page token); 7 COMPLETED canary runs, 4 SUCCEEDED signal runs.
+
+| ID | Change | Basis |
+|---|---|---|
+| DOS-D | FAIL → PASS | alerts classified, root cause confirmed (stale `pageToken` after a 400), fix deployed (`435ed217`), effect observed live: ingestion resumed and the run completed with no 400 |
+| DOS-A | UNKNOWN → PASS | pipeline state read: recurring enabled, both sources BURN_IN, a COMPLETED recurring run with derived counts, no running or stuck run |
+| DOS-E | UNKNOWN → PASS | recovery: the interrupted run resumed under owner control and completed as the same run id; checkpointed progress was kept across platform terminations |
+
+Counts after run 13: **31 PASS / 0 FAIL / 0 BLOCKED / 0 UNKNOWN of 31**. Of the 31, three rest on owner-accepted interpretation or local evidence (DISC-F gate behavior, STA-G, STA-E); directly observed live: 28.
+
+Open observation, not a criterion: `health-watch` still raises `dossier_ct_observations_fresh` because the newest observation is dated 2026-10-15 (the date of the data, not the run). The next scheduled daily ingest should bring newer records and clear it; if it does not, or if that run fails, reopen DOS-D.
