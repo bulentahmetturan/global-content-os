@@ -26,3 +26,7 @@ Purpose: show the `health-watch` result inside Global OS so a silent failure (th
 | Owner command | `$v = (node scripts/deploy-identity.mjs --wrangler-vars) -split ' '` then `node .\node_modules\wrangler\bin\wrangler.js deploy @v` |
 | Verification after deploy | `/api/health` commit matches HEAD; `/api/ready` READY; deployed `index.js` hash equals the approved bundle hash; Hub shows the health chip and the module group; `GET /api/health/watch` and `/api/hub/modules` without token answer 401 |
 | Rollback | `wrangler rollback d7b6ab67-57a8-4b27-b289-f8cd6747f43c` (owner) |
+
+## Deployed (2026-10-22T21:11:40Z, owner-executed `wrangler deploy`)
+New version `c9c9f0ca-f355-4b4f-8aa6-44da721babad` (deployment `755e2a10-b348-4660-9487-154b6067ccb6`), 100%, stamped commit `7df8dc74` (code identical to `f13cf7a`). Previous version for rollback: `d7b6ab67-57a8-4b27-b289-f8cd6747f43c`.
+Verified read-only: deployed `index.js` fetched back, 1,273,956 bytes, SHA-256 `2797e26d5063d1d6bf9312b63347535bff0ce119984f16004004d2f0169c1422` = the approved dry-run bundle; `/api/ready` READY (blocked 0, degraded 0); `/api/health/watch` and `/api/hub/modules` answer 401 without and with a wrong token; live Hub HTML contains the "Sistem Modülleri" group; triggers unchanged; `health-watch` unchanged (only the expected ClinicalTrials freshness alert). Not verified by me: the rendered panels with the real token (owner-side, Hub open).
