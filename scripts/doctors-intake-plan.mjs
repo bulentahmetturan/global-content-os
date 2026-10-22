@@ -36,7 +36,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   console.log(JSON.stringify({ approved: intake.approved.length, proposedPool: intake.proposedPool.length, problems }));
   if (problems.length) process.exit(1);
   // Owner-run payload for the existing Discovery API (HUB_OPERATOR_TOKEN in the browser): 1 DOCTOR run, then one candidate per approved name.
-  console.log('RUN   POST /api/discovery/runs        ' + JSON.stringify({ domain: 'DOCTOR', searchSpace: intake.run.searchSpace }));
+  console.log('WAVE  POST /api/discovery/waves       ' + JSON.stringify({ domain: 'DOCTOR', searchSpace: intake.run.searchSpace }));
   const held = intake.approved.filter((p) => p.hold);
   if (held.length) console.log('HELD (not in the candidate list): ' + held.map((p) => p.canonicalName).join(', '));
   for (const p of intake.approved.filter((x) => !x.hold)) console.log('CAND  POST /api/discovery/candidates ' + JSON.stringify({ runId: '<runId>', domain: 'DOCTOR', canonicalName: p.canonicalName, aliases: p.aliases }));
