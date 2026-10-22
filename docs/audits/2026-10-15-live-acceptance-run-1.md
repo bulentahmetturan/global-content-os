@@ -159,3 +159,8 @@ Counts after run 9: **27 PASS (STA-G, DISC-F by accepted interpretations) / 1 FA
 Interpretation: the cursor fix worked (ingestion resumed and new data was written); the recurring run then hit the designed safety stop. Resuming is an owner control (`POST /api/dossier/ops/source-state`, needs `DOSSIER_OPS_WRITE_TOKEN`, which is not configured). After a resume the scheduler grants a fresh termination allowance and continues the same DERIVE phase.
 
 Status: DOS-D remains FAIL (source PAUSED), DOS-A/DOS-E UNKNOWN until the run completes. STA-E: no new Statistics release has occurred, so no release event has flowed.
+
+## Run 11 (2026-10-22, owner decision): STA-E accepted on local evidence
+Owner accepted that STA-E (cross-module flow of Statistics release events) is recorded as **PASS (local evidence; no new Statistics release occurred in production)**. Basis: Statistics local suite (433/433) including the release-event outbox (duplicate-event creation from 6 contenders yields exactly one event and one creator) and bulletin dedupe; live state: PRODUCTION runs COMPLETED on 2026-10-15/16/18/20/22 with `NO_CHANGE_POLL`, `statistics_release_events` 0 because the source published no new release since 2026-09-25. No release is to be forced in production. Raised to live evidence when a real new release flows.
+
+Counts: **28 PASS / 1 FAIL / 0 BLOCKED / 2 UNKNOWN of 31**; of the 28, three rest on owner-accepted interpretation or local evidence (DISC-F gate behavior, STA-G, STA-E), so directly observed live: 25. Open: DOS-D (FAIL), DOS-A, DOS-E pending completion of the resumed Dossier run (expected ~15:30Z).
