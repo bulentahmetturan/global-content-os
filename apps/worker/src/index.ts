@@ -40,6 +40,7 @@ import { SOURCE_TYPE_REGISTRY } from './discovery/kernel';
 import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { runHealthWatch } from './health-watch';
+import { collectHubModules } from './hub-modules';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
@@ -483,6 +484,11 @@ export default {
       // and fails closed (503) unless the STATS_DB binding exists. It never reads or writes the content database.
       const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
       if (statisticsResponse) return statisticsResponse;
+
+      // Hub module panels (Dossier, Doctors, Protocols, Discovery, Statistics): read-only summaries, Hub operator token via ROUTE_GATES.
+      if (path === '/api/hub/modules' && request.method === 'GET') {
+        return json({ ok: true, generatedAt: new Date().toISOString(), modules: await collectHubModules(env) });
+      }
 
       // Hub health card: read-only, gated by the Hub operator token in ROUTE_GATES.
       if (path === '/api/health/watch' && request.method === 'GET') {

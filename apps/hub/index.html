@@ -83,6 +83,20 @@
   }
   .project-item.nav-child .p-icon { font-size: 1.05rem; }
   .sidebar-footnote { margin-top: auto; font-size: .68rem; color: var(--sidebar-text-dim); padding: 0 8px; line-height: 1.5; }
+  .toolbar[hidden] { display: none; }
+  #moduleView { overflow-x: auto; }
+  .mod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .mod-card { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--surface); }
+  .mod-card h3 { margin: 0 0 6px; font-size: .8rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .mod-card .big { font-size: 1.5rem; font-weight: 700; }
+  #moduleView h3 { font-size: .85rem; margin: 14px 0 6px; }
+  .mod-table { width: 100%; border-collapse: collapse; font-size: .78rem; margin-bottom: 14px; }
+  .mod-table th, .mod-table td { border-bottom: 1px solid var(--border); padding: 5px 8px; text-align: left; vertical-align: top; }
+  .mod-table th { color: var(--text-dim); font-weight: 600; }
+  .mod-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: .72rem; border: 1px solid var(--border); }
+  .mod-tag.ok { color: var(--ok); border-color: var(--ok); }
+  .mod-tag.bad { color: var(--danger); border-color: var(--danger); }
+  .mod-note { font-size: .78rem; color: var(--text-dim); margin: 0 0 12px; }
   .health-chip { margin-top: auto; margin-bottom: 8px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--sidebar-text-dim); font-size: .72rem; line-height: 1.4; color: var(--sidebar-text-dim); }
   .health-chip + .sidebar-footnote { margin-top: 0; }
   .health-chip button { all: unset; cursor: pointer; display: block; width: 100%; }
@@ -296,6 +310,7 @@
       <article class="bible-doc" id="bibleDoc">Yükleniyor…</article>
       <p class="bible-raw"><a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham Markdown indir</a></p>
     </div>
+    <div id="moduleView" hidden></div>
     <div class="footnote" id="footnote"></div>
   </main>
 </div>
@@ -330,12 +345,14 @@
   var ROUTES = [
     { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse Haber ve Research ayrı primary category. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
     { id: 'tip_toplulugu', label: 'Tıp Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
+    { id: 'modules', label: 'Sistem Modülleri', icon: '🧩', note: 'Dossier, Doktorlar, Protokoller, Keşif ve İstatistik: salt okunur durum özetleri. Burada hiçbir şey değiştirilmez.' },
     { id: 'bible', label: 'Türk Tıp Bible v4', icon: '📜', note: 'Normatif anayasa v4. Kitap I hard gate + Kitap II Source Pass/Fail. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
   // Temporal path groups (E90). `key` indexes /api/routes `temporal[path]`; Bible sits outside both groups.
   var NAV_GROUPS = [
     { path: 'TIME_SENSITIVE', label: 'Time Sensitive' },
-    { path: 'EVERGREEN', label: 'Evergreen' }
+    { path: 'EVERGREEN', label: 'Evergreen' },
+    { path: 'MODULES', label: 'Sistem Modülleri' }
   ];
   var NAV = [
     { navId: 'haber', path: 'TIME_SENSITIVE', key: 'haber', route: 'kaduse', kind: 'news', lane: null, label: 'Haber', icon: '📰' },
@@ -345,6 +362,11 @@
     { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: '📚' },
     { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: '🌿' },
     { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: '♻️' },
+    { navId: 'm_dossier', path: 'MODULES', route: 'modules', module: 'dossier', lane: null, label: 'Dossier', icon: '📊', doc: true },
+    { navId: 'm_doctors', path: 'MODULES', route: 'modules', module: 'doctors', lane: null, label: 'Doktorlar', icon: '🩺', doc: true },
+    { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: '🧬', doc: true },
+    { navId: 'm_discovery', path: 'MODULES', route: 'modules', module: 'discovery', lane: null, label: 'Keşif', icon: '🔎', doc: true },
+    { navId: 'm_statistics', path: 'MODULES', route: 'modules', module: 'statistics', lane: null, label: 'İstatistik', icon: '📈', doc: true },
     { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: '📜', doc: true }
   ];
   /** Sidebar count for a nav entry from /api/routes `temporal`; null (shown as "–") when the block is missing — never a fake 0. */
@@ -361,6 +383,7 @@
     return '&path=TIME_SENSITIVE';
   }
   function routeNote() {
+    if (state.route === 'modules') return 'Dossier, Doktorlar, Protokoller, Keşif ve İstatistik: salt okunur durum özetleri. Burada hiçbir şey değiştirilmez.';
     if (state.temporal === 'EVERGREEN' && state.evView === 'health_reference') {
       return 'Evergreen · Sağlık & Referans. Yayın yaşı tek başına ret sebebi değildir; kartta özgün yayın tarihi ve seçilme nedeni görünür. Otomatik yayın yok.';
     }
@@ -804,6 +827,8 @@
   var savedEv = EV_VIEW_KIND[localStorage.getItem('gcos-ev-view')] ? localStorage.getItem('gcos-ev-view') : null;
   var startEv = qs.get('route') ? qsEv : savedEv;
   var state = {
+    module: ['dossier', 'doctors', 'protocols', 'discovery', 'statistics'].indexOf(qs.get('module')) >= 0 ? qs.get('module') : 'dossier',
+    modulesData: null,
     route: qsRoute || savedRoute || 'kaduse',
     kind: (qsParsed && qsParsed.kind) || (savedParsed && savedParsed.kind) || savedKind || 'news',
     hekLane: qsLane || savedHekLane || 'duyuru',
@@ -1048,6 +1073,7 @@
   function renderChrome() {
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
     function navActive(n) {
+      if (n.route === 'modules') return state.route === 'modules' && state.module === n.module;
       if (n.route === 'bible') return state.route === 'bible';
       if (n.path !== state.temporal) return false;
       if (n.path === 'EVERGREEN') return n.evView === state.evView;
@@ -1077,7 +1103,7 @@
     });
 
     pillbarEl.innerHTML = '';
-    if (state.route !== 'bible') {
+    if (state.route !== 'bible' && state.route !== 'modules') {
       VIEWS.forEach(function (v) {
         var btn = document.createElement('button');
         btn.className = 'pill' + (state.view === v.id ? ' active' : '');
@@ -1092,11 +1118,14 @@
     var listViewEl = document.getElementById('listView');
     var bibleViewEl = document.getElementById('bibleView');
     var isBible = state.route === 'bible';
+    var isModules = state.route === 'modules';
+    var moduleViewEl = document.getElementById('moduleView');
     document.querySelector('.main').classList.toggle('bible-mode', isBible);
-    if (toolbarEl) toolbarEl.hidden = isBible;
-    if (listViewEl) listViewEl.hidden = isBible;
+    if (toolbarEl) toolbarEl.hidden = isBible || isModules;
+    if (listViewEl) listViewEl.hidden = isBible || isModules;
+    if (moduleViewEl) moduleViewEl.hidden = !isModules;
     if (bibleViewEl) bibleViewEl.hidden = !isBible;
-    if (isBible) {
+    if (isBible || isModules) {
       kindbar.hidden = true;
       kindbar.innerHTML = '';
       pillbarEl.hidden = true;
@@ -1116,7 +1145,14 @@
     if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') title = '🎓 Burs';
     if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = '📚 Eğitim';
     if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? '♻️ Research Rediscovery' : '🌿 Sağlık & Referans';
+    if (isModules) title = (MODULE_META[state.module] || MODULE_META.dossier).title;
     mainTitleEl.textContent = title;
+    if (isModules) {
+      mainSubEl.textContent = (MODULE_META[state.module] || MODULE_META.dossier).sub;
+      laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Sistem Modülleri.</b> ' + escapeHtml(routeNote()) + '</div>';
+      footnoteEl.innerHTML = 'Canlı veritabanından okunan özet. Yalnızca görüntüleme; yazma ve aktivasyon bu ekrandan yapılmaz.';
+      return;
+    }
     if (isBible) {
       mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
       laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Türk Tıp İçerik OS.</b> ' + escapeHtml(routeNote()) + '</div>';
@@ -1498,6 +1534,92 @@
       document.head.appendChild(s);
     });
   }
+  var MODULE_META = {
+    dossier: { title: '📊 Dossier', sub: 'Sinyal hattı: ClinicalTrials ve Eurostat · koşular ve gözlemler' },
+    doctors: { title: '🩺 Doktorlar', sub: 'Aktör kayıt defteri, aday havuzu ve onboarding' },
+    protocols: { title: '🧬 Protokoller', sub: 'Protokol kayıt defteri ve sayımlar' },
+    discovery: { title: '🔎 Keşif', sub: 'Dalgalar, adaylar ve karar kayıtları' },
+    statistics: { title: '📈 İstatistik', sub: 'Veri koşuları, kaynak politikası ve sayımlar' }
+  };
+  function mTime(v) { return v ? escapeHtml(String(v).replace('T', ' ').slice(0, 16)) : '–'; }
+  function mTag(text, kind) { return '<span class="mod-tag ' + (kind || '') + '">' + escapeHtml(text == null ? '–' : String(text)) + '</span>'; }
+  function mStatusKind(s) { s = String(s == null ? '' : s); return /COMPLETED|SUCCEEDED|ACTIVE|BURN_IN|READY|APPROVED|VERIFIED/.test(s) ? 'ok' : /FAILED|PAUSED|BLOCKED|REJECTED/.test(s) ? 'bad' : ''; }
+  function mTable(head, rows) {
+    if (!rows.length) return '<p class="mod-note">Kayıt yok.</p>';
+    return '<table class="mod-table"><thead><tr>' + head.map(function (x) { return '<th>' + escapeHtml(x) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+  }
+  function mCards(pairs) {
+    return '<div class="mod-grid">' + pairs.map(function (p) { return '<div class="mod-card"><h3>' + escapeHtml(p[0]) + '</h3><div class="big">' + escapeHtml(String(p[1] == null ? '–' : p[1])) + '</div></div>'; }).join('') + '</div>';
+  }
+  function moduleHtml(id, d) {
+    if (!d) return '<p class="mod-note">Veri yok.</p>';
+    if (d.error) return '<p class="mod-note">Bu modül okunamadı: ' + escapeHtml(d.error) + '</p>';
+    if (id === 'dossier') {
+      var readers = {};
+      (d.sources || []).forEach(function (r) {
+        var p = String(r.k).split(':');
+        if (p[0] === 'recurring' && p.length === 3) { readers[p[1]] = readers[p[1]] || {}; readers[p[1]][p[2]] = r; }
+      });
+      var srcRows = Object.keys(readers).map(function (k) {
+        var st = readers[k].state ? readers[k].state.v : '–';
+        var why = readers[k].state_reason ? readers[k].state_reason.v : '';
+        return [escapeHtml(k), mTag(st, mStatusKind(st)), escapeHtml(why), mTime(readers[k].state && readers[k].state.updated_at)];
+      });
+      var c = d.counts || {};
+      return mCards([['Kavram', c.concepts], ['Aday', c.candidates], ['İlişki', c.relations]]) +
+        '<h3>Kaynaklar</h3>' + mTable(['Kaynak', 'Durum', 'Neden', 'Güncelleme'], srcRows) +
+        '<h3>Son koşular</h3>' + mTable(['Kaynak', 'Durum', 'Aşama', 'Başladı', 'Bitti', 'Türetilen'], (d.runs || []).map(function (r) {
+          return [escapeHtml(r.reader_id), mTag(r.status, mStatusKind(r.status)), escapeHtml(r.phase || ''), mTime(r.created_at), mTime(r.finished_at), escapeHtml(r.derived == null ? '–' : r.derived)];
+        })) +
+        '<h3>Gözlemler</h3>' + mTable(['Sinyal ailesi', 'Adet', 'En yeni'], (d.observations || []).map(function (o) { return [escapeHtml(o.family), escapeHtml(o.n), mTime(o.latest)]; }));
+    }
+    if (id === 'doctors') {
+      var onb = (d.onboarding || []).map(function (o) { return o.n + ' × ' + o.status; }).join(' · ') || 'yok';
+      return mCards([['Aktör', (d.actors || []).length], ['Aday', (d.candidates || []).length]]) +
+        '<h3>Aktörler</h3>' + mTable(['Ad', 'Panel', 'Yetki', 'Kimlik', 'Durum', 'Kaynak'], (d.actors || []).map(function (a) {
+          return [escapeHtml(a.canonical_name), escapeHtml(a.panel), mTag(a.credential_status, mStatusKind(a.credential_status)), escapeHtml(a.identity_confidence), mTag(a.active_status, mStatusKind(a.active_status)), escapeHtml(a.sources)];
+        })) +
+        '<h3>Adaylar</h3>' + mTable(['Ad', 'Durum'], (d.candidates || []).map(function (a) { return [escapeHtml(a.canonical_name), mTag(a.state, mStatusKind(a.state))]; })) +
+        '<p class="mod-note">Onboarding: ' + escapeHtml(onb) + '</p>';
+    }
+    if (id === 'protocols') {
+      var pc = d.counts || {};
+      return mCards([['Protokol', pc.protocols], ['Sürüm', pc.versions], ['Aile', pc.families], ['İddia', pc.claims]]) +
+        mTable(['Protokol', 'Tür', 'Kayıt', 'Durum'], (d.protocols || []).map(function (p) {
+          return [escapeHtml(p.canonical_name), escapeHtml(p.protocol_type), mTag(p.registry_state), mTag(p.active_status, mStatusKind(p.active_status))];
+        }));
+    }
+    if (id === 'discovery') {
+      return mCards([['Karar kaydı', d.decisions]]) +
+        '<h3>Dalgalar</h3>' + mTable(['Alan', 'Dalga', 'Durum'], (d.waves || []).map(function (w) { return [escapeHtml(w.domain), escapeHtml(w.wave_number), mTag(w.status)]; })) +
+        '<h3>Adaylar</h3>' + mTable(['Alan', 'Durum', 'Adet'], (d.candidates || []).map(function (x) { return [escapeHtml(x.domain), mTag(x.state), escapeHtml(x.n)]; }));
+    }
+    if (id === 'statistics') {
+      var sc = d.counts || {};
+      return mCards([['Veri seti', sc.datasets], ['Seri', sc.series], ['Güncel gözlem', sc.current_observations]]) +
+        '<h3>Son koşular</h3>' + mTable(['Durum', 'Mod', 'Planlanan', 'Bitti', 'Hata sınıfı'], (d.runs || []).map(function (r) {
+          return [mTag(r.status, mStatusKind(r.status)), escapeHtml(r.run_mode), mTime(r.planned_at), mTime(r.finished_at), escapeHtml(r.failure_class || '–')];
+        })) +
+        '<h3>Kaynak politikası</h3>' + mTable(['Durum', 'Hata sayısı', 'Kaynak'], (d.policy || []).map(function (p) { return [mTag(p.state, mStatusKind(p.state)), escapeHtml(p.failures), escapeHtml(p.n)]; }));
+    }
+    return '';
+  }
+  async function renderModule() {
+    var el = document.getElementById('moduleView');
+    var token = localStorage.getItem(OPERATOR_TOKEN_KEY);
+    if (!token) { el.innerHTML = '<p class="mod-note">Bu ekran için operatör anahtarı gerekli (Hub işlem isteyince bir kez sorulur).</p>'; return; }
+    el.innerHTML = '<p class="mod-note">Yükleniyor…</p>';
+    try {
+      var res = await fetch('/api/hub/modules', { headers: { Authorization: 'Bearer ' + token } });
+      if (!res.ok) { el.innerHTML = '<p class="mod-note">Okunamadı (' + res.status + ').</p>'; return; }
+      var data = await res.json();
+      state.modulesData = data;
+      el.innerHTML = '<p class="mod-note">Güncelleme: ' + mTime(data.generatedAt) + ' UTC · salt okunur</p>' + moduleHtml(state.module, data.modules && data.modules[state.module]);
+    } catch (e) {
+      el.innerHTML = '<p class="mod-note">Okunamadı.</p>';
+    }
+  }
   async function renderBible() {
     var el = document.getElementById('bibleDoc');
     var metaEl = document.getElementById('bibleMeta');
@@ -1546,6 +1668,10 @@
 
   async function load() {
     renderChrome();
+    if (state.route === 'modules') {
+      await renderModule();
+      return;
+    }
     if (state.route === 'bible') {
       await renderBible();
       return;
@@ -1718,6 +1844,13 @@
       var navId = navBtn.getAttribute('data-nav');
       var n = NAV.filter(function (x) { return x.navId === navId; })[0];
       if (!n) return;
+      if (n.route === 'modules') {
+        state.route = 'modules';
+        state.module = n.module;
+        history.replaceState(null, '', '/?route=modules&module=' + encodeURIComponent(n.module));
+        load().catch(function (err) { showToast(err.message); });
+        return;
+      }
       state.route = n.route;
       if (n.kind) state.kind = n.kind;
       state.hekLane = n.lane || (n.route === 'tip_toplulugu' ? 'duyuru' : state.hekLane);

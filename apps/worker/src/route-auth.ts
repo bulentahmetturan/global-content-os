@@ -39,6 +39,7 @@ export const ROUTE_GATES: Readonly<Record<string, GateSpec>> = {
   'POST /api/ops/doctor-onboarding': OPS,
   'GET /api/ops/doctor-readiness': OPS,
   'GET /api/health/watch': HUB,
+  'GET /api/hub/modules': HUB,
 };
 
 /** null = route is not gated here (either read-only or gated inline). */
