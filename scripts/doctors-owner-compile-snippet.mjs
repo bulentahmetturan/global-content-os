@@ -24,7 +24,12 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   await build({ entryPoints: [resolve(ROOT, 'apps/worker/src/discovery/kernel.ts')], bundle: true, platform: 'node', format: 'esm', outfile: out, logLevel: 'silent' });
   const { compileAdmissionPackage } = await import(pathToFileURL(out).href);
   const jobs = [];
-  for (const name of approvals.approvedForPipeline) {
+  const argOf = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
+  const allApproved = [...approvals.approvedForPipeline, ...(approvals.batches ?? []).flatMap((b) => b.approved)];
+  const names = argOf('--names') ? argOf('--names').split(',').map((x) => x.trim()) : approvals.approvedForPipeline;
+  for (const n of names) if (!allApproved.includes(n)) throw new Error(`NOT_OWNER_APPROVED: ${n}`);
+  const outFile = argOf('--out') || 'release/doctors/owner-compile-snippet-2026-10-22.js';
+  for (const name of names) {
     const cand = cands.find((c) => c.canonical_name === name);
     if (!cand || cand.state !== 'DISCOVERED') throw new Error(`CANDIDATE_NOT_DISCOVERED: ${name}`);
     const input = applyApproval(inputs[name]);
@@ -49,6 +54,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   return 'bitti: ' + out.length;
 })()
 `;
-  writeFileSync(resolve(ROOT, 'release/doctors/owner-compile-snippet-2026-10-22.js'), code);
+  writeFileSync(resolve(ROOT, outFile), code);
   console.log(JSON.stringify({ jobs: jobs.length, bytes: code.length, allReadyLocally: true }));
 }

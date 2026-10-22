@@ -19,3 +19,14 @@ test('approval is applied only on request: stored inputs stay safety=false', () 
   assert.equal(applyApproval(inputs['Eric Topol']).safety, true);
   assert.ok(!approvals.approvedForPipeline.includes('Satchin Panda'));
 });
+
+test('batch 2 snippet covers only Gardner and an unapproved name is refused by the generator', async () => {
+  const g = readFileSync(new URL('../release/doctors/owner-compile-snippet-gardner-2026-10-23.js', import.meta.url), 'utf8');
+  const jobs = JSON.parse(g.split('const jobs = ')[1].split(';\n  const out')[0]);
+  assert.deepEqual(jobs.map((j) => j.name), ['Christopher Gardner']);
+  assert.ok(jobs[0].input.safety === true && jobs[0].input.commercialReview === true && /^candidate_/.test(jobs[0].id));
+  const { spawnSync } = await import('node:child_process');
+  const r = spawnSync(process.execPath, ['scripts/doctors-owner-compile-snippet.mjs', 'scripts/doctors-owner-compile-snippet.test.mjs', '--names', 'Rob Knight', '--out', 'NUL'], { encoding: 'utf8' });
+  assert.notEqual(r.status, 0);
+  assert.match(r.stderr, /NOT_OWNER_APPROVED/);
+});

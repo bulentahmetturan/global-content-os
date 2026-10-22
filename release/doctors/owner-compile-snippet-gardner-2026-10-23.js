@@ -1,0 +1,16 @@
+(async () => {
+  const t = localStorage.getItem('gcos.hubOperatorToken');
+  const jobs = [{"name":"Christopher Gardner","id":"candidate_144aec0261a44238","input":{"identity":{"status":"PASS","canonicalKey":"christopher-gardner","references":[{"type":"UNIVERSITY_PROFILE","value":"https://med.stanford.edu/profiles/16607","verified":true},{"type":"INSTITUTIONAL_PROFILE","value":"https://prevention.stanford.edu/people/faculty_academic/Gardner.html","verified":true},{"type":"ORCID","value":"https://orcid.org/0000-0002-7596-1530","verified":true},{"type":"CREDENTIAL","value":"Professor Christopher Gardner, PhD (Stanford faculty page)","verified":true}],"doctor":{"credentialClass":"SCIENTIST","credentialVerified":true,"panel":"GLOBAL_EXPERT_PANEL"}},"sources":[{"sourceId":"src_christopher-gardner_1","sourceType":"UNIVERSITY_PROFILE","uri":"https://med.stanford.edu/profiles/16607","sourceRole":"IDENTITY","lifecycleTarget":"Christopher Gardner UNIVERSITY_PROFILE","lifecycleChannel":"tip_toplulugu","d4":{"evidenceRef":".logs/doctors-d4/src_christopher-gardner_1.json","observedAt":"2026-10-22T21:22:23.193Z","identityMatch":"PASS","fetchDryRun":"PASS","parseDryRun":"PASS","accessTerms":"ALLOWED","provenanceClass":"INSTITUTIONAL","provenanceUri":"https://med.stanford.edu/profiles/16607","sourceItemShapeValid":false}},{"sourceId":"src_christopher-gardner_2","sourceType":"INSTITUTIONAL_PROFILE","uri":"https://prevention.stanford.edu/people/faculty_academic/Gardner.html","sourceRole":"IDENTITY","lifecycleTarget":"Christopher Gardner INSTITUTIONAL_PROFILE","lifecycleChannel":"tip_toplulugu","d4":{"evidenceRef":".logs/doctors-d4/src_christopher-gardner_2.json","observedAt":"2026-10-22T21:22:26.651Z","identityMatch":"PASS","fetchDryRun":"PASS","parseDryRun":"PASS","accessTerms":"ALLOWED","provenanceClass":"INSTITUTIONAL","provenanceUri":"https://prevention.stanford.edu/people/faculty_academic/Gardner.html","sourceItemShapeValid":true}},{"sourceId":"src_christopher-gardner_3","sourceType":"ORCID","uri":"https://orcid.org/0000-0002-7596-1530","sourceRole":"IDENTITY","lifecycleTarget":"Christopher Gardner ORCID","lifecycleChannel":"tip_toplulugu","d4":{"evidenceRef":".logs/doctors-d4/src_christopher-gardner_3.json","observedAt":"2026-10-22T21:22:22.905Z","identityMatch":"PASS","fetchDryRun":"PASS","parseDryRun":"FAIL","accessTerms":"ALLOWED","provenanceClass":"SCHOLARLY_REGISTRY","provenanceUri":"https://orcid.org/0000-0002-7596-1530","sourceItemShapeValid":false}}],"dataContract":true,"routing":{"role":"ANNOUNCEMENT_EVENT","destination":"GLOBAL_HUB:tip-ogrencileri"},"provenance":true,"dedupe":true,"safety":true,"observability":true,"rollback":true,"commercialReview":true}}];
+  const out = [];
+  for (const j of jobs) {
+    const r = await fetch('/api/discovery/candidates/' + j.id + '/compile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + t },
+      body: JSON.stringify(j.input)
+    });
+    const b = await r.json().catch(() => ({}));
+    out.push(j.name + ' | ' + r.status + ' | ' + (b.state || b.error) + ' | missing:' + ((b.package && b.package.missing) || []).join(','));
+  }
+  console.log(out.join('\n'));
+  return 'bitti: ' + out.length;
+})()

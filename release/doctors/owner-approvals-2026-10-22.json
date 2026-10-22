@@ -2,6 +2,24 @@
   "decidedBy": "owner (chat)",
   "decidedOn": "2026-10-22",
   "statement": "Owner approved seven experts to enter the governed pipeline: safety/health-claim policy and commercial review accepted for these seven; the other seven (Gardner, Mayer, Sonnenburg, Knight, Baar, Sethi, Spector) and the held Satchin Panda are to be discussed separately.",
-  "approvedForPipeline": ["Phyllis Zee", "Stuart Phillips", "Judson Brewer", "Frank Scheer", "Eric Topol", "Roy Taylor", "Akiko Iwasaki"],
-  "scope": "compile admission package and owner decision/onboarding only; source activation (polling) stays a separate explicit act per source"
+  "approvedForPipeline": [
+    "Phyllis Zee",
+    "Stuart Phillips",
+    "Judson Brewer",
+    "Frank Scheer",
+    "Eric Topol",
+    "Roy Taylor",
+    "Akiko Iwasaki"
+  ],
+  "scope": "compile admission package and owner decision/onboarding only; source activation (polling) stays a separate explicit act per source",
+  "batches": [
+    {
+      "name": "batch-2",
+      "decidedOn": "2026-10-23",
+      "statement": "Owner approved Christopher Gardner for the governed pipeline with the same safety/commercial acceptance as batch 1 (chat).",
+      "approved": [
+        "Christopher Gardner"
+      ]
+    }
+  ]
 }
