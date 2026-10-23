@@ -72,3 +72,39 @@ Status: Q1-Q6 answered; wow-calibration items (8 real inbox items, one by one) i
 7. Cancer-treatment promises are excluded from İyileşme Kanalı.
 
 Status: Q1-Q6 answered, wow calibration done; open: Q7 evidence threshold, Q8 News vs Research split, Q9 safety and claims, Q10 volume, Turkish sources and example posts.
+
+**Q7. Evidence level.** RCT or meta-analysis: tt, km, and ik by content. Large observational cohort: same. Small study (30-60 people): only if the wow factor is high (tt, km, ik by content). **Preprints are not accepted.** Expert opinion, review, guideline: all channels by case.
+
+**Q8. News vs Research.** Rule C: if the study itself can be reached (**DOI or PMID**), the item is **Research**; if it cannot, it is **News**. (Journalistic coverage of a study without a reachable source is News.)
+
+**Q9. Claims and safety.**
+| Case | Decision |
+|---|---|
+| Observational result without proven cause and effect | not needed (no populism; "scientific but popular") |
+| Sponsor is the manufacturer | state it; accept if the wow factor is large |
+| Animal or cell-level finding | accept **with the note "not yet tested in humans"** (note mandatory) |
+| "Stop the drug, eat this" implication | no, too populist |
+| Product or brand names | no, trust must be built first |
+| "Natural cure" for a serious disease (cancer, diabetes) | no; yes only with strong evidence |
+
+**Q10. Volume and sources.** **No cap**; instead a **high quality threshold** ("fewer but right"). All Turkish sources are already registered and more will be added; content must **expire automatically** when its validity ends (freshness rules).
+
+**Q11. Popular doctors and Instagram posts for İyileşme Kanalı.** Used **only as topic ideas**; the claim is **researched and verified**, and the content is **original**, written from verified evidence. The doctor's post must be **visible first** (an intake of doctors' posts is required; automatic Instagram intake is parked, manual intake remains).
+
+Interview status: **complete (Q1-Q11)**.
+
+---
+
+# Channel profiles v0.1 (draft for the owner's approval)
+Hard rules for **all channels**
+1. Universally applicable human health findings only. Single-country policy, pricing, insurance, regulation (FDA, Medicare, US laws, German insurance) and **local studies or local outbreaks** (Kenya diets, Ebola in Congo) never qualify. EMA and WHO-level items qualify for tt and km only.
+2. **"What is this for?" test**: the item states what was found and how it reaches human health. Animal or mechanism work qualifies only with a human implication and the note "not yet tested in humans". Not "who", but "what and why it matters".
+3. **Preprints rejected**; observational results without proven cause and effect are not used; "stop the drug" framing, product or brand names, "natural cure" claims for serious disease are rejected (strong evidence is the only exception for the last). Sponsor conflicts are stated.
+4. **Research vs News by reachable source (DOI/PMID)**; stale items expire automatically; no volume cap, a high quality threshold.
+
+| | **Kaduse Medikal (km)** | **Tıp Topluluğu (tt)** | **İyileşme Kanalı (ik)** |
+|---|---|---|---|
+| Audience | health-interested public, attention-grabbing | Turkish health professionals and students | Turkish public focused on their own health: chronic disease, longevity |
+| Accepts | wow findings, professional-grade developments, EMA/WHO items, foreign trials with a clear point | all of km plus practice-changing research, clinical definitions, first-in-human procedures, guidelines, drug safety, profession and regulation news (Turkey), Turkish achievements; **fixed: Duyuru, Burs, Eğitim**; evergreen as support | lifestyle: nutrition, food, sleep, longevity, chronic disease improved by lifestyle; supplements with sleep outcomes; Dossier and the five Evergreen areas; ideas from popular doctors' posts, rewritten from verified evidence |
+| Never | single-country policy and local studies | consumer lifestyle fluff | **drug-centred or professional information, cancer-treatment promises**, global alerts and foreign regulatory news |
+| Wow | unexpected, first-time, applicable to life, tech and AI, myth-busting, Turkey connection | same, weighted to clinical impact | "this concerns my own health" first |
