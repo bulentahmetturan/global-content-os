@@ -49,3 +49,26 @@ Reading: single-country **policy, pricing or insurance** is rejected everywhere.
 **Additional channel facts from the owner.** Dossier and the five Evergreen areas strongly serve İyileşme Kanalı; News and Research items can also be pulled into İyileşme Kanalı. The wish to follow **popular doctors and Instagram posts** exists for this reason: much content for the İyileşme Kanalı audience can be produced from it.
 
 Status: Q1-Q6 answered; wow-calibration items (8 real inbox items, one by one) in progress; Q7-Q10 open.
+
+## Wow calibration (8 real inbox items, owner scores)
+| # | Item (as translated in the Hub) | Source | Owner decision |
+|---|---|---|---|
+| 1 | Protein or fibre: which makes us feel fuller? | Medical Xpress | wow, **ik** |
+| 2 | Heart-attack definition changed and will save more women | BMJ | **tt, km**, 6/10; could rise if the content explains why the new definition saves women |
+| 3 | First surgery using heart-muscle stem cells in Japan | Medical Xpress | **tt 8-10/10**; not km, not ik |
+| 4 | Mice are drawn to others who hear a harmful sound | Medical Xpress | **1/10, none**: "what is this for?" is not answered |
+| 5 | Popular diabetes drug lowers inflammation, protects the heart | Medical Xpress | **tt, km 6-10/10; not ik** (drug and professional information is not for the public) |
+| 6 | Medicine Nobel awarded to three scientists for brain imaging | GDELT | **fails as written**; passes if it says *what* was awarded, what it explains and how it reaches people's lives |
+| 7 | Ebola vaccine tested in Congo | Medical Xpress | **fails**: an outbreak that does not concern Türkiye now |
+| 8 | Glycine and collagen supplement and sleep outcomes | PubMed, J Dietary Supplements | **tt, ik pass** |
+
+## Rules the owner's answers establish
+1. **"What is this for?" test**: an item must say what was found and how it reaches human health. Animal or mechanism studies without a stated human implication score 1/10.
+2. **Not "who", but "what and why it matters"**: awards, appointments, company news fail unless the finding and its effect on life are explained.
+3. **İyileşme Kanalı = lifestyle for the public**: nutrition, food, sleep, longevity, chronic disease improved through lifestyle. **No drug-centred or professional information for the public.** Supplements with sleep outcomes qualify.
+4. **Tıp Topluluğu and Kaduse Medikal accept professional information** (drugs, first-in-human procedures, clinical definitions) when it is worth a professional's follow.
+5. **Threat news** qualifies only if it can reach Türkiye or people globally (WHO global alert); a local outbreak elsewhere (Ebola in Congo) does not.
+6. **Single-country policy, pricing, insurance and regulatory matters** (FDA, Medicare, US laws, German insurance) never qualify; EMA and WHO-level items qualify for tt and km only.
+7. Cancer-treatment promises are excluded from İyileşme Kanalı.
+
+Status: Q1-Q6 answered, wow calibration done; open: Q7 evidence threshold, Q8 News vs Research split, Q9 safety and claims, Q10 volume, Turkish sources and example posts.
