@@ -41,6 +41,7 @@ import { resendApprovedBrief } from './handoff-resend';
 import { collectOpsSummary } from './ops-summary';
 import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
+import { latestRatings, recordRating } from './ratings';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
@@ -488,6 +489,17 @@ export default {
       // Hub module panels (Dossier, Doctors, Protocols, Discovery, Statistics): read-only summaries, Hub operator token via ROUTE_GATES.
       if (path === '/api/hub/modules' && request.method === 'GET') {
         return json({ ok: true, generatedAt: new Date().toISOString(), modules: await collectHubModules(env) });
+      }
+
+      // Owner ratings (wow 1-10 + channels tt/ik/km): Hub operator token via ROUTE_GATES; 503 RATINGS_NOT_READY until migrations/addons/a001_item_ratings.sql is applied.
+      if (path === '/api/ratings' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const result = await recordRating(env, body);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/ratings/latest' && request.method === 'GET') {
+        const result = await latestRatings(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
       }
 
       // Hub health card: read-only, gated by the Hub operator token in ROUTE_GATES.

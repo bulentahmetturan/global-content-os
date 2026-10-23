@@ -21,7 +21,7 @@ function extractFunction(name) {
 }
 
 const ctx = {
-  state: { route: 'kaduse', temporal: 'TIME_SENSITIVE', selected: {} },
+  state: { route: 'kaduse', temporal: 'TIME_SENSITIVE', selected: {}, ratings: {}, drafts: {}, ratingsReady: null },
   DECISION_LABELS: { OPPORTUNITY: 'Fırsat' },
   sourceLabel: () => 'Health Canada',
   formatNewsAge: () => 'bugün',
@@ -29,8 +29,8 @@ const ctx = {
 };
 vm.createContext(ctx);
 vm.runInContext(
-  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'readPaneHtml'].map(extractFunction))
+  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';']
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'ratingLabel', 'rateHtml', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -111,4 +111,33 @@ test('translated items come first, waiting ones after them, order stable inside 
 test('an untranslated item is flagged EN and keeps the Turkish processing note', () => {
   assert.match(html, /<span class="lang-tag"/);
   assert.match(html, /Çevirisi bekleyen ya da üretilemeyen/);
+});
+
+test('rating block: ten score chips, three channel chips, a send button; saved ratings prefill and are shown', () => {
+  const h = ctx.rateHtml(item({ id: 'r1' }));
+  assert.equal((h.match(/data-wow="/g) || []).length, 10);
+  assert.equal((h.match(/data-ch="/g) || []).length, 3);
+  assert.match(h, /data-rate-send/);
+  assert.doesNotMatch(h, /chip on/);
+  ctx.state.ratings.r1 = { wow: 7, tt: false, ik: true, km: true };
+  const saved = ctx.rateHtml(item({ id: 'r1' }));
+  assert.match(saved, /data-wow="7" aria-pressed="true"/);
+  assert.match(saved, /kayıtlı: 7 · İK KM/);
+  ctx.state.drafts.r1 = { wow: 3, tt: true, ik: false, km: false };
+  assert.match(ctx.rateHtml(item({ id: 'r1' })), /data-wow="3" aria-pressed="true"/);
+  ctx.state.ratings = {}; ctx.state.drafts = {};
+});
+
+test('rating block is replaced by a plain notice while the table is not there (503 RATINGS_NOT_READY)', () => {
+  ctx.state.ratingsReady = false;
+  const h = ctx.rateHtml(item({ id: 'r2' }));
+  assert.match(h, /Puanlama henüz hazır değil/);
+  assert.doesNotMatch(h, /data-wow/);
+  ctx.state.ratingsReady = null;
+});
+
+test('rating guards: a score is required before sending and the keyboard maps 0 to 10', () => {
+  assert.match(html, /Önce 1-10 arası bir wow puanı verin/);
+  assert.ok(html.includes("wow: k === '0' ? 10 : Number(k)"));
+  assert.ok(html.includes("'/api/ratings'"));
 });

@@ -26,6 +26,8 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/ops/doctor-readiness': 'OPS_TOKEN',
   '/api/health/watch': 'HUB_OPERATOR_TOKEN',
   '/api/hub/modules': 'HUB_OPERATOR_TOKEN',
+  '/api/ratings': 'HUB_OPERATOR_TOKEN',
+  '/api/ratings/latest': 'HUB_OPERATOR_TOKEN',
 });
 
 const warned = new Set();

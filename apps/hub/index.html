@@ -462,6 +462,25 @@
   .group-sep { margin: 18px 0 8px; padding: 10px 4px 8px; border-top: 1px solid var(--border); font: 600 .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
   .group-sep b { color: var(--accent); margin-left: 6px; }
   .group-sep span { display: block; margin-top: 4px; font: 400 .74rem var(--font-ui); text-transform: none; letter-spacing: 0; color: var(--text-faint); }
+
+  /* owner rating block */
+  .rate { border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin: 0 0 22px; background: var(--surface-2); }
+  .rate-off { font-size: .84rem; color: var(--text-faint); font-style: italic; }
+  .rate-h { display: flex; align-items: baseline; gap: 12px; font: 600 .72rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); margin-bottom: 12px; }
+  .rate-prev { font: 500 .72rem var(--font-mono); text-transform: none; letter-spacing: 0; color: var(--accent); }
+  .rate-l { font-size: .8rem; color: var(--text-dim); margin: 10px 0 6px; }
+  .rate-scores, .rate-ch { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { all: unset; cursor: pointer; box-sizing: border-box; min-width: 38px; height: 34px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--border); border-radius: 8px; font: 600 .88rem var(--font-ui); color: var(--text-dim); background: var(--surface); transition: background .12s ease, color .12s ease, border-color .12s ease; }
+  .chip:hover { border-color: var(--text-faint); color: var(--text); }
+  .chip.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .chip.ch { font-weight: 500; font-size: .82rem; }
+  .chip.ch b { font: 700 .72rem var(--font-mono); }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .rate-send { display: flex; align-items: center; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+  .rate-hint { font-size: .74rem; color: var(--text-faint); }
+  .rate kbd { font: 500 .62rem var(--font-mono); padding: 0 4px; border: 1px solid currentColor; border-radius: 4px; opacity: .55; margin-left: 2px; }
+  .rated-chip { font: 700 .68rem var(--font-mono); color: var(--accent); }
+  .card.is-selected .rated-chip { color: #7A4F00; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -1035,6 +1054,9 @@
     module: ['dossier', 'doctors', 'protocols', 'discovery', 'statistics'].indexOf(qs.get('module')) >= 0 ? qs.get('module') : 'dossier',
     modulesData: null,
     cursor: null,
+    ratings: {},
+    drafts: {},
+    ratingsReady: null,
     loadedKey: '',
     lastUndo: null,
     armed: null,
@@ -1259,6 +1281,7 @@
           (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
             ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
           '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
+          (state.ratings && state.ratings[it.id] ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(state.ratings[it.id])) + '">★ ' + state.ratings[it.id].wow + '</span>' : '') +
           (isUntranslated(it) ? '<span class="lang-tag" title="Başlık kaynak dilinde: Türkçe çeviri henüz hazır değil">EN</span>' : '') +
           (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
           (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
@@ -1313,9 +1336,74 @@
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
       lead +
       '<dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl>' +
+      rateHtml(it) +
       '<div class="read-actions">' + actionsHtml(it) + '</div>' +
-      '<div class="read-keys">J / K gezin · E aktar (iki kez bas) · B beklet · S reddet · Z geri al · O kaynağı aç</div>' +
+      '<div class="read-keys">J / K gezin · 1-9, 0 puan · T İ M kanal · Enter gönder · E aktar (iki kez bas) · B beklet · S reddet · Z geri al · O kaynağı aç</div>' +
     '</div>';
+  }
+  var CHANNELS = [['tt', 'TT', 'Tıp Topluluğu'], ['ik', 'İK', 'İyileşme Kanalı'], ['km', 'KM', 'Kaduse Medikal']];
+  function draftFor(id) {
+    var d = state.drafts && state.drafts[id];
+    if (d) return d;
+    var r = state.ratings && state.ratings[id];
+    return r ? { wow: r.wow, tt: !!r.tt, ik: !!r.ik, km: !!r.km } : { wow: null, tt: false, ik: false, km: false };
+  }
+  function ratingLabel(r) {
+    var ch = CHANNELS.filter(function (c) { return r[c[0]]; }).map(function (c) { return c[1]; }).join(' ');
+    return r.wow + ' · ' + (ch || 'hiçbir kanal');
+  }
+  function rateHtml(it) {
+    if (state.ratingsReady === false) {
+      return '<div class="rate rate-off" data-rate="' + it.id + '">Puanlama henüz hazır değil (veritabanı tablosu bekleniyor).</div>';
+    }
+    var d = draftFor(it.id);
+    var prev = state.ratings && state.ratings[it.id];
+    var scores = '';
+    for (var n = 1; n <= 10; n++) scores += '<button type="button" class="chip' + (d.wow === n ? ' on' : '') + '" data-wow="' + n + '" aria-pressed="' + (d.wow === n) + '">' + n + '</button>';
+    var chans = CHANNELS.map(function (c) {
+      return '<button type="button" class="chip ch' + (d[c[0]] ? ' on' : '') + '" data-ch="' + c[0] + '" aria-pressed="' + !!d[c[0]] + '" title="' + c[2] + '"><b>' + c[1] + '</b> ' + c[2] + '</button>';
+    }).join('');
+    return '<div class="rate" data-rate="' + it.id + '">' +
+      '<div class="rate-h">Değerlendirme' + (prev ? '<span class="rate-prev">kayıtlı: ' + escapeHtml(ratingLabel(prev)) + '</span>' : '') + '</div>' +
+      '<div class="rate-l">Wow faktörü (1-10) <kbd>1-9</kbd> <kbd>0</kbd>=10</div><div class="rate-scores">' + scores + '</div>' +
+      '<div class="rate-l">Hangi kanalda yayınlanabilir? <kbd>T</kbd> <kbd>İ</kbd> <kbd>M</kbd></div><div class="rate-ch">' + chans + '</div>' +
+      '<div class="rate-send"><button type="button" class="btn btn-promote" data-rate-send="1">Gönder <kbd>↵</kbd></button>' +
+      '<span class="rate-hint">Kanal seçmezseniz "hiçbir kanal için uygun değil" olarak kaydedilir.</span></div>' +
+    '</div>';
+  }
+  function renderRateBlock(id) {
+    var el = readPaneEl.querySelector('.rate[data-rate="' + id + '"]');
+    var it = state.items.find(function (x) { return x.id === id; });
+    if (el && it) el.outerHTML = rateHtml(it);
+  }
+  function ratedToday() { try { return parseInt(localStorage.getItem(dayKey() + '-rated') || '0', 10) || 0; } catch (e) { return 0; } }
+  function bumpRated() { try { localStorage.setItem(dayKey() + '-rated', String(ratedToday() + 1)); } catch (e) { /* private mode */ } }
+  async function loadRatings(items) {
+    var token = null;
+    try { token = localStorage.getItem(OPERATOR_TOKEN_KEY); } catch (e) { token = null; }
+    if (!token || !items.length) return;
+    try {
+      var res = await fetch('/api/ratings/latest?ids=' + encodeURIComponent(items.slice(0, 200).map(function (x) { return x.id; }).join(',')), { headers: { Authorization: 'Bearer ' + token } });
+      if (res.status === 503) { state.ratingsReady = false; return; }
+      if (!res.ok) return;
+      var data = await res.json();
+      state.ratingsReady = true;
+      Object.keys(data.ratings || {}).forEach(function (k) { state.ratings[k] = data.ratings[k]; });
+    } catch (e) { /* ratings are optional: the Hub works without them */ }
+  }
+  async function sendRating(id) {
+    var d = draftFor(id);
+    if (!d.wow) { showToast('Önce 1-10 arası bir wow puanı verin'); return; }
+    var res = await api('/api/ratings', { method: 'POST', body: JSON.stringify({ itemId: id, wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km } }) });
+    state.ratings[id] = { wow: d.wow, tt: !!d.tt, ik: !!d.ik, km: !!d.km };
+    delete state.drafts[id];
+    bumpRated();
+    showToast('Puan kaydedildi: ' + ratingLabel(state.ratings[id]) + (res && res.replaced ? ' (güncellendi)' : ''));
+    var items = visibleItems();
+    var idx = items.findIndex(function (x) { return x.id === id; });
+    var card = document.getElementById('card-' + id);
+    if (card) { var meta = card.querySelector('.card-meta'); if (meta && !meta.querySelector('.rated-chip')) meta.insertAdjacentHTML('beforeend', '<span class="rated-chip">★ ' + d.wow + '</span>'); }
+    if (items[idx + 1]) selectItem(items[idx + 1].id); else { renderRateBlock(id); renderProgress(); }
   }
   function renderRead() {
     var items = visibleItems();
@@ -1337,7 +1425,7 @@
     document.getElementById('progressFill').style.width = (idx / items.length * 100) + '%';
     document.getElementById('progressPos').textContent = idx + ' / ' + items.length;
     var day = document.getElementById('progressDay');
-    day.textContent = 'bugün ' + processedToday() + ' işlendi';
+    day.textContent = 'bugün ' + processedToday() + ' işlendi · ' + ratedToday() + ' puanlandı';
     day.title = 'Bu tarayıcıda bugün yaptığınız aktar / beklet / sil sayısı';
   }
   function selectItem(id, opts) {
@@ -2054,6 +2142,7 @@
     }
     state.counts = data.counts || state.counts;
     state.items = translatedFirst(data.items || []);
+    await loadRatings(state.items);
     state.selected = {};
     if (state.showSources) {
       try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }
@@ -2175,6 +2264,15 @@
     }
   });
   document.addEventListener('click', function (e) {
+    var rateRoot = e.target.closest && e.target.closest('.rate[data-rate]');
+    if (rateRoot && state.ratingsReady !== false) {
+      var rid = rateRoot.getAttribute('data-rate');
+      var wowBtn = e.target.closest('[data-wow]');
+      var chBtn = e.target.closest('[data-ch]');
+      if (wowBtn) { var dw = draftFor(rid); state.drafts[rid] = { wow: Number(wowBtn.getAttribute('data-wow')), tt: dw.tt, ik: dw.ik, km: dw.km }; renderRateBlock(rid); return; }
+      if (chBtn) { var dc = draftFor(rid); var key = chBtn.getAttribute('data-ch'); var nd = { wow: dc.wow, tt: dc.tt, ik: dc.ik, km: dc.km }; nd[key] = !nd[key]; state.drafts[rid] = nd; renderRateBlock(rid); return; }
+      if (e.target.closest('[data-rate-send]')) { sendRating(rid).catch(function (err) { showToast(err.message); }); return; }
+    }
     var densityBtn = e.target.closest && e.target.closest('[data-density]');
     if (densityBtn) {
       state.density = densityBtn.getAttribute('data-density') === 'comfortable' ? 'comfortable' : 'compact';
@@ -2416,6 +2514,25 @@
     if (idx < 0) idx = 0;
     var cur = items[idx];
     function fail(err) { showToast(err.message); }
+    var curRate = state.ratingsReady !== false;
+    if (curRate && /^[0-9]$/.test(k)) {
+      var dd = draftFor(cur.id);
+      state.drafts[cur.id] = { wow: k === '0' ? 10 : Number(k), tt: dd.tt, ik: dd.ik, km: dd.km };
+      renderRateBlock(cur.id);
+      e.preventDefault();
+      return;
+    }
+    if (curRate && (k === 't' || k === 'i' || k === 'm' || k === 'İ')) {
+      var dk = draftFor(cur.id);
+      var map = { t: 'tt', i: 'ik', 'İ': 'ik', m: 'km' };
+      var nk = { wow: dk.wow, tt: dk.tt, ik: dk.ik, km: dk.km };
+      nk[map[k]] = !nk[map[k]];
+      state.drafts[cur.id] = nk;
+      renderRateBlock(cur.id);
+      e.preventDefault();
+      return;
+    }
+    if (curRate && k === 'enter' && !(t && t.closest && t.closest('a, button'))) { sendRating(cur.id).catch(fail); e.preventDefault(); return; }
     if (k === 'j' || k === 'arrowdown') { selectItem(items[Math.min(idx + 1, items.length - 1)].id); e.preventDefault(); }
     else if (k === 'k' || k === 'arrowup') { selectItem(items[Math.max(idx - 1, 0)].id); e.preventDefault(); }
     else if (k === 'o') { var u = safeHttpUrl(cur.canonicalUrl); if (u) window.open(u, '_blank', 'noopener,noreferrer'); }
