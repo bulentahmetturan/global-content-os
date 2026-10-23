@@ -108,3 +108,10 @@ Hard rules for **all channels**
 | Accepts | wow findings, professional-grade developments, EMA/WHO items, foreign trials with a clear point | all of km plus practice-changing research, clinical definitions, first-in-human procedures, guidelines, drug safety, profession and regulation news (Turkey), Turkish achievements; **fixed: Duyuru, Burs, Eğitim**; evergreen as support | lifestyle: nutrition, food, sleep, longevity, chronic disease improved by lifestyle; supplements with sleep outcomes; Dossier and the five Evergreen areas; ideas from popular doctors' posts, rewritten from verified evidence |
 | Never | single-country policy and local studies | consumer lifestyle fluff | **drug-centred or professional information, cancer-treatment promises**, global alerts and foreign regulatory news |
 | Wow | unexpected, first-time, applicable to life, tech and AI, myth-busting, Turkey connection | same, weighted to clinical impact | "this concerns my own health" first |
+
+## Additional answers (second round)
+- **Wow calibration**: continue in chat, one item at a time, enough items **per channel** until the picture is certain (the owner asked for this over the Hub calibration mode).
+- **Translation**: its purpose is to give the owner an idea; **if an item is chosen for publication, a professional translation is made then**. So machine-translation quality is a low priority (the pending/failed English display problem remains a Hub display matter).
+- **Success measure**: followers, saves and other parameters, ending in **collaborations and money-making outcomes. The goal is to earn money.**
+- **Legal and ethical framework**: not needed now.
+- **Freshness**: Evergreen has **no limit**. Duyuru, Burs and Eğitim are worth keeping **only while the application or registration is still open** (expired ones should go). News needs current value; announcements matter only while current.
