@@ -68,43 +68,43 @@ Read-only, production D1 (content DB and STATS DB), open items = `triage_status`
 - İstatistik: last 6 runs COMPLETED (every ~2 days, latest 10-22), source policy ACTIVE with 0 failures. Healthy.
 
 ## TODO
-Owner = [O] (decision or production write), Claude = [C] (code and read-only verification). Production writes are always run by the owner.
+İşaretleme: tamamlananı `[x]` yapın. Owner = [O] (decision or production write), Claude = [C] (code and read-only verification). Production writes are always run by the owner.
 
 A. Lane routing and classification
-1. [C] Find where source-to-lane assignment is defined (Tıp Topluluğu radar config + `classifyTipTopluluguFamily`), document how new items would be routed after a change, add tests. No behavior change yet.
-2. [C] Item-level type tag in the learner: type head (Duyuru/Burs/Eğitim, Haber, Research) over the existing features; show "Haber olmalı" etc. as a suggestion chip.
-3. [C] Hub: three owner buttons "Haber olmalı / Research olmalı / Duyuru olmalı" (E/B/S key conflicts to be checked). Marking calls a new route that re-lanes the item (append-only log in an addon table, e.g. a003) and records the label as training data for the type head. [O] applies the a003 SQL and deploys.
-4. [C] One-off move plan for the existing misrouted items: Group B news (217) to Haber, pubmed (21) and ep_drahmetekmekci (5) to Research; dry run first, rollback query, counts before and after. [O] runs it.
-5. [O] Medical Economics and medicalresearch.com: items decided one by one in the Hub with the new buttons (or "reject").
+- [ ] 1. [C] Find where source-to-lane assignment is defined (Tıp Topluluğu radar config + `classifyTipTopluluguFamily`), document how new items would be routed after a change, add tests. No behavior change yet.
+- [ ] 2. [C] Item-level type tag in the learner: type head (Duyuru/Burs/Eğitim, Haber, Research) over the existing features; show "Haber olmalı" etc. as a suggestion chip.
+- [ ] 3. [C] Hub: three owner buttons "Haber olmalı / Research olmalı / Duyuru olmalı" (E/B/S key conflicts to be checked). Marking calls a new route that re-lanes the item (append-only log in an addon table, e.g. a003) and records the label as training data for the type head. [O] applies the a003 SQL and deploys.
+- [ ] 4. [C] One-off move plan for the existing misrouted items: Group B news (217) to Haber, pubmed (21) and ep_drahmetekmekci (5) to Research; dry run first, rollback query, counts before and after. [O] runs it.
+- [ ] 5. [O] Medical Economics and medicalresearch.com: items decided one by one in the Hub with the new buttons (or "reject").
 
 B. Duyuru / Burs / Eğitim
-6. [C] Extract deadline into `deadline_at` for Duyuru/Burs/Eğitim items (ÖSYM and the abroad sources publish dates in the page) and auto-hide expired ones; owner rule "only while application open".
-7. [C] Explain Burs/Eğitim = 0 in the Hub (items exist but sit outside the 14-day TIME_SENSITIVE window); decide window rule. [O] confirms.
-8. [C] List the 110 `REJECTED_LEGACY` open items by source; [O] decides which stay rejected.
-9. [C] Investigate the 72 empty titles / 71 empty summaries (Medical Economics ingestion) and the 333 untranslated Duyuru items.
-10. [O] Decide the 729 disabled university radar feeds: leave off, or plan a Turkey-side runner (Burs/Eğitim depend on it).
+- [ ] 6. [C] Extract deadline into `deadline_at` for Duyuru/Burs/Eğitim items (ÖSYM and the abroad sources publish dates in the page) and auto-hide expired ones; owner rule "only while application open".
+- [ ] 7. [C] Explain Burs/Eğitim = 0 in the Hub (items exist but sit outside the 14-day TIME_SENSITIVE window); decide window rule. [O] confirms.
+- [ ] 8. [C] List the 110 `REJECTED_LEGACY` open items by source; [O] decides which stay rejected.
+- [ ] 9. [C] Investigate the 72 empty titles / 71 empty summaries (Medical Economics ingestion) and the 333 untranslated Duyuru items.
+- [ ] 10. [O] Decide the 729 disabled university radar feeds: leave off, or plan a Turkey-side runner (Burs/Eğitim depend on it).
 
 C. Haber
-11. [O] Decide source keep/switch-off list for Haber: newswise (616), trade and regulator press, reuters-healthcare, non-English regulators (ANSM, PMDA). [C] prepares the per-source table with sample titles and the learner's predicted usefulness once ratings exist.
-12. [C] Auto-expiry: news older than N days leaves the inbox (owner: content expires automatically); includes the 72 items older than 180 days and the 1,090-item hold pile. [O] sets N.
-13. [C] Fix or retire the 12 failing news feeds.
+- [ ] 11. [O] Decide source keep/switch-off list for Haber: newswise (616), trade and regulator press, reuters-healthcare, non-English regulators (ANSM, PMDA). [C] prepares the per-source table with sample titles and the learner's predicted usefulness once ratings exist.
+- [ ] 12. [C] Auto-expiry: news older than N days leaves the inbox (owner: content expires automatically); includes the 72 items older than 180 days and the 1,090-item hold pile. [O] sets N.
+- [ ] 13. [C] Fix or retire the 12 failing news feeds.
 
 D. Research
-14. [O] Switch off or re-lane non-research sources: clinicaltrials.gov registry, gdelt, nature-news, nih-news-releases, nccih-news, medrxiv (preprints), medical-news-today. Decide stat-news and medical-xpress (news in the Research lane; Medical Xpress is 23% of the lane).
-15. [C] Source-level de-duplication (nature-ageing-hub vs pubmed-nat-aging, 30 duplicate groups) and a research-quality gate: reachable DOI/PMID required to stay in Research (else Haber).
-16. [C] Fix or retire failing research feeds (science, science-translational-medicine 403, nih OVERSIZE_BODY, crossref empty, 27 stale feeds).
-17. [C] Hold pile policy for Research (484, 325 older than 30 days) together with item 12.
+- [ ] 14. [O] Switch off or re-lane non-research sources: clinicaltrials.gov registry, gdelt, nature-news, nih-news-releases, nccih-news, medrxiv (preprints), medical-news-today. Decide stat-news and medical-xpress (news in the Research lane; Medical Xpress is 23% of the lane).
+- [ ] 15. [C] Source-level de-duplication (nature-ageing-hub vs pubmed-nat-aging, 30 duplicate groups) and a research-quality gate: reachable DOI/PMID required to stay in Research (else Haber).
+- [ ] 16. [C] Fix or retire failing research feeds (science, science-translational-medicine 403, nih OVERSIZE_BODY, crossref empty, 27 stale feeds).
+- [ ] 17. [C] Hold pile policy for Research (484, 325 older than 30 days) together with item 12.
 
 E. Evergreen
-18. [O] Decide whether Cleveland Clinic stays the only Sağlık & Referans source; [C] proposes 2-3 more evidence-based lifestyle sources for İyileşme Kanalı.
-19. [C] Rediscovery filter: exclude patient guides; keep only studies with a reachable DOI/PMID.
+- [ ] 18. [O] Decide whether Cleveland Clinic stays the only Sağlık & Referans source; [C] proposes 2-3 more evidence-based lifestyle sources for İyileşme Kanalı.
+- [ ] 19. [C] Rediscovery filter: exclude patient guides; keep only studies with a reachable DOI/PMID.
 
 F. System modules
-20. [C] Dossier clinicaltrials-frontier: root-cause the repeated platform terminations and PAUSED_BUDGET (separate investigation), then [O] decides resume policy.
-21. [O] Doctors: finish the remaining 6 candidates + Panda hold; later the broad study of doctors' Facebook/Instagram intake (not now).
-22. [O/C] Protocol candidate NOT_READY and Discovery waves still OPEN: decide close criteria.
+- [ ] 20. [C] Dossier clinicaltrials-frontier: root-cause the repeated platform terminations and PAUSED_BUDGET (separate investigation), then [O] decides resume policy.
+- [ ] 21. [O] Doctors: finish the remaining 6 candidates + Panda hold; later the broad study of doctors' Facebook/Instagram intake (not now).
+- [ ] 22. [O/C] Protocol candidate NOT_READY and Discovery waves still OPEN: decide close criteria.
 
 G. Cross-cutting
-23. [C] Workers AI quota: enrichment failures (128 research) and untranslated Duyuru; [O] decides paid plan vs accepting delay.
-24. [C] Re-run this audit after items 4, 12, 14 and report before/after counts.
-25. [O] Start rating items only after A4 is done, so labels are not learned from wrongly laned items.
+- [ ] 23. [C] Workers AI quota: enrichment failures (128 research) and untranslated Duyuru; [O] decides paid plan vs accepting delay.
+- [ ] 24. [C] Re-run this audit after items 4, 12, 14 and report before/after counts.
+- [ ] 25. [O] Start rating items only after A4 is done, so labels are not learned from wrongly laned items.
