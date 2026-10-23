@@ -90,7 +90,16 @@ C. Haber
 - [ ] 13. [C] Fix or retire the 12 failing news feeds.
 
 D. Research
-- [ ] 14. [O] Switch off or re-lane non-research sources: clinicaltrials.gov registry, gdelt, nature-news, nih-news-releases, nccih-news, medrxiv (preprints), medical-news-today. Decide stat-news and medical-xpress (news in the Research lane; Medical Xpress is 23% of the lane).
+- [ ] 14. [O] KARAR VERİLDİ (2026-10-24): NIH news, NCCIH, GDELT, medRxiv kapatılır; Medical News Today Research kopyası zaten kapalı, Haber kopyası kalır; ClinicalTrials.gov kapat ya da yalnızca sonuçları yayımlanmış kayıtlarla sınırla (14i). Stat News ve Medical Xpress için karar bekliyor. Kapatma yeni öğe çekmeyi durdurur, mevcut öğeler yerinde kalır, geri açılabilir. [O] kapatmayı çalıştırır; [C] önce ClinicalTrials Research beslemesinin Dossier okuyucusunu etkilemediğini kodda doğrular.
+- [ ] 14a. [C] Kök neden: 30 kaynak Bing News arama proxy'si üzerinden çekiliyor (`ENDPOINT_OVERRIDES`, `apps/worker/src/ingress/generic-web.ts`); Bing `site:` kısıtını uygulamıyor ve alakasız sonuç getiriyor (Nature News'in 74 öğesinden yalnızca 12'si nature.com; geri kalanı Sözcü masaj salonu, BİM kampanyası gibi). Bulgu kayda geçti.
+- [ ] 14b. [C] Nature News: Bing sorgusunu gerçek RSS ile değiştir (`nature.com/subjects/medical-research.rss` ve `health-sciences.rss`, ikisi de 200 döndü); test ekle. [O] dağıtır.
+- [ ] 14c. [C] Genel kapı: Bing/arama proxy'sinden gelen her öğede bağlantı beklenen alan adında değilse ele (30 kaynağı birden temizler); test ekle. [O] dağıtır.
+- [ ] 14d. [C] IEEE JBHI: `embs.org/jbhi/feed/` çalışıyor (200); Bing yerine bunu kullan. İçerik mühendislik ağırlıklı, kalıp kalmayacağı ayrı karar [O]. IEEE TBME için doğrudan RSS araştır (ieeexplore 418 verdi).
+- [ ] 14e. [C] Diğer Bing kaynaklarını aynı yöntemle gözden geçir: FDA, HHS, Health Canada, EurekAlert, Consilium, AAMI, EDQM, Euractiv, Medical Device Network, OECD, Reuters, TÜSEB, saglik.gov.tr; her biri için doğrudan RSS var mı, alan adı dışı oranı nedir.
+- [ ] 14f. [O] Karar bekliyor: Stat News (297) ve Medical Xpress (861) Research'te kalsın mı, Haber'e mi gitsin?
+- [ ] 14g. [C] NIH 403 (Cloudflare engeli) ve NCCIH 404 beslemelerini kapatma sonrası kayıt altına al; veri seti kayıtları (dbGaP `phs…`) haber değil, ileride lazım olursa ayrı kaynak olarak değerlendirilir.
+- [ ] 14h. [O] Medical News Today: Research kopyası zaten kapalı; Haber kopyası kalır (karar verildi, ek iş yok).
+- [ ] 14i. [O/C] ClinicalTrials.gov: kapat ya da `results posted` filtresiyle sınırla; karar ve uygulama.
 - [ ] 15. [C] Source-level de-duplication (nature-ageing-hub vs pubmed-nat-aging, 30 duplicate groups) and a research-quality gate: reachable DOI/PMID required to stay in Research (else Haber).
 - [ ] 16. [C] Fix or retire failing research feeds (science, science-translational-medicine 403, nih OVERSIZE_BODY, crossref empty, 27 stale feeds).
 - [ ] 17. [C] Hold pile policy for Research (484, 325 older than 30 days) together with item 12.
