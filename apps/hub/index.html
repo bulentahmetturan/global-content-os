@@ -457,6 +457,12 @@
 
   .lang-tag { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--hold); color: var(--hold); letter-spacing: .05em; }
   .card.is-selected .lang-tag { color: #7A4F00; border-color: #7A4F00; }
+  .pred-chip { font: 700 .68rem var(--font-mono); color: var(--muted); }
+  .gate-chip { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--reject, #b4554a); color: var(--reject, #b4554a); }
+  .card.is-selected .pred-chip, .card.is-selected .gate-chip { color: #7A4F00; border-color: #7A4F00; }
+  .pred-line { margin: 14px 0 0; padding: 10px 12px; border: 1px solid var(--line, rgba(128,128,128,.3)); border-radius: 6px; font-size: .82rem; color: var(--muted); }
+  .pred-line b { color: var(--text, inherit); }
+  .pred-line .gate-chip { margin-left: 6px; }
   .card.is-waiting .card-title { font-weight: 500; color: var(--text-dim); }
   .card.is-waiting.is-selected .card-title { color: var(--select-ink); }
   .group-sep { margin: 18px 0 8px; padding: 10px 4px 8px; border-top: 1px solid var(--border); font: 600 .7rem var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
@@ -1060,6 +1066,7 @@
     ratings: {},
     drafts: {},
     ratingsReady: null,
+    scores: {},
     loadedKey: '',
     lastUndo: null,
     armed: null,
@@ -1285,6 +1292,7 @@
             ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
           '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
           (state.ratings && state.ratings[it.id] ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(state.ratings[it.id])) + '">★ ' + state.ratings[it.id].wow + '</span>' : '') +
+          predChipHtml(it.id) +
           (isUntranslated(it) ? '<span class="lang-tag" title="Başlık kaynak dilinde: Türkçe çeviri henüz hazır değil">EN</span>' : '') +
           (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
           (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
@@ -1339,12 +1347,41 @@
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
       lead +
       '<dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl>' +
+      predLineHtml(it.id) +
       rateHtml(it) +
       '<div class="read-actions">' + actionsHtml(it) + '</div>' +
       '<div class="read-keys">J / K gezin · 1-9, 0 puan · T İ M kanal · Enter gönder · E aktar (iki kez bas) · B beklet · S reddet · Z geri al · O kaynağı aç</div>' +
     '</div>';
   }
   var CHANNELS = [['tt', 'TT', 'Tıp Topluluğu'], ['ik', 'İK', 'İyileşme Kanalı'], ['km', 'KM', 'Kaduse Medikal']];
+  var GATE_TR = {
+    PREPRINT: 'Hakem onayı yok (preprint)', STOP_DRUG: 'İlaç bırakma çağrısı', MIRACLE_CURE: 'Mucize ya da doğal tedavi iddiası',
+    LOCAL_OUTBREAK: 'Türkiye’yi ilgilendirmeyen yerel salgın', US_REGULATORY: 'Tek ülkeye özgü düzenleme ya da politika', TRADE_NEWS: 'Ticari ya da şirket haberi',
+    LOCAL_STUDY: 'Yerel ya da bölgesel çalışma', ANIMAL_NO_HUMAN: 'Hayvan ya da hücre çalışması, insan karşılığı belirtilmemiş'
+  };
+  var REASON_TR = {
+    'f:lifestyle': 'yaşam tarzı', 'f:chronic': 'kronik hastalık', 'f:ai': 'yapay zekâ', 'f:firstOrBreakthrough': 'ilk/çığır açan', 'f:mythBusting': 'mit çürütme',
+    'f:turkey': 'Türkiye', 'f:rct': 'randomize çalışma', 'f:metaAnalysis': 'meta-analiz', 'f:cohort': 'kohort', 'f:guideline': 'rehber', 'f:animal': 'hayvan çalışması',
+    'f:regulatory': 'düzenleme', 'f:trade': 'ticari', 'f:localSpecific': 'yerel', 'f:outbreak': 'salgın', 'f:award': 'ödül', 'f:preprint': 'preprint',
+    'f:usPolicy': 'ABD politikası', 'f:stopDrug': 'ilaç bırakma', 'f:miracle': 'mucize iddiası', 'f:drugFocus': 'ilaç odaklı', 'f:evidenceReachable': 'kanıt erişilebilir'
+  };
+  function predChipHtml(id) {
+    var s = state.scores && state.scores[id];
+    if (!s) return '';
+    var gate = s.gates && s.gates.length ? '<span class="gate-chip" title="' + escapeHtml(GATE_TR[s.gates[0]] || s.gates[0]) + '">ELENDİ</span>' : '';
+    return '<span class="pred-chip" title="Sistem tahmini (wow)">⚙ ' + Number(s.wow).toFixed(1) + '</span>' + gate;
+  }
+  function predLineHtml(id) {
+    var s = state.scores && state.scores[id];
+    if (!s) return '';
+    var ch = CHANNELS.filter(function (c) { return s[c[0]] > 0.5; }).map(function (c) { return c[1]; }).join(' ') || 'hiçbiri';
+    var reasons = s.reasons || {};
+    var up = (reasons.up || []).map(function (r) { return REASON_TR[r] || r.replace(/^(f|src):/, ''); });
+    var down = (reasons.down || []).map(function (r) { return REASON_TR[r] || r.replace(/^(f|src):/, ''); });
+    var gates = (s.gates || []).map(function (g) { return '<span class="gate-chip">' + escapeHtml(GATE_TR[g] || g) + '</span>'; }).join('');
+    return '<div class="pred-line">Sistem tahmini: wow <b>' + Number(s.wow).toFixed(1) + '</b> · kanal <b>' + escapeHtml(ch) + '</b>' + gates +
+      (up.length ? '<br>Artı: ' + escapeHtml(up.join(', ')) : '') + (down.length ? '<br>Eksi: ' + escapeHtml(down.join(', ')) : '') + '</div>';
+  }
   function draftFor(id) {
     var d = state.drafts && state.drafts[id];
     if (d) return d;
@@ -1395,6 +1432,25 @@
       state.ratingsReady = true;
       Object.keys(data.ratings || {}).forEach(function (k) { state.ratings[k] = data.ratings[k]; });
     } catch (e) { /* ratings are optional: the Hub works without them */ }
+  }
+  // The learner runs on the server; the Hub only asks it to refresh at most every 15 minutes, then reads the predictions. Optional: the Hub works without it.
+  async function loadScores(items) {
+    var token = null;
+    try { token = localStorage.getItem(OPERATOR_TOKEN_KEY); } catch (e) { token = null; }
+    if (!token || !items.length) return;
+    var headers = { Authorization: 'Bearer ' + token };
+    try {
+      var last = 0;
+      try { last = parseInt(localStorage.getItem('gcos-scoring-run') || '0', 10) || 0; } catch (e) { last = 0; }
+      if (Date.now() - last > 15 * 60 * 1000) {
+        try { localStorage.setItem('gcos-scoring-run', String(Date.now())); } catch (e) { /* private mode */ }
+        await fetch('/api/scoring/run', { method: 'POST', headers: headers });
+      }
+      var res = await fetch('/api/scores/latest?ids=' + encodeURIComponent(items.slice(0, 200).map(function (x) { return x.id; }).join(',')), { headers: headers });
+      if (!res.ok) return;
+      var data = await res.json();
+      Object.keys(data.scores || {}).forEach(function (k) { state.scores[k] = data.scores[k]; });
+    } catch (e) { /* scoring is optional */ }
   }
   async function sendRating(id) {
     var d = draftFor(id);
@@ -2150,6 +2206,7 @@
     state.counts = data.counts || state.counts;
     state.items = translatedFirst(data.items || []);
     await loadRatings(state.items);
+    await loadScores(state.items);
     state.selected = {};
     if (state.showSources) {
       try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }

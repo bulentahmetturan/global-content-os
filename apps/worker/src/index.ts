@@ -42,6 +42,7 @@ import { collectOpsSummary } from './ops-summary';
 import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
+import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
 import { handleDoctorFetchOp } from './doctor-fetch';
@@ -499,6 +500,20 @@ export default {
       }
       if (path === '/api/ratings/latest' && request.method === 'GET') {
         const result = await latestRatings(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
+      }
+
+      // Self-improving selection (learner over the owner's ratings): Hub operator token via ROUTE_GATES; 503 SCORING_NOT_READY until migrations/addons/a002_scoring.sql is applied.
+      if (path === '/api/scoring/run' && request.method === 'POST') {
+        const result = await runScoring(env);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/scores/latest' && request.method === 'GET') {
+        const result = await latestScores(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
+      }
+      if (path === '/api/scoring/status' && request.method === 'GET') {
+        const result = await scoringStatus(env);
         return json(result.body, result.status);
       }
 

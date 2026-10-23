@@ -28,6 +28,9 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/hub/modules': 'HUB_OPERATOR_TOKEN',
   '/api/ratings': 'HUB_OPERATOR_TOKEN',
   '/api/ratings/latest': 'HUB_OPERATOR_TOKEN',
+  '/api/scoring/run': 'HUB_OPERATOR_TOKEN',
+  '/api/scores/latest': 'HUB_OPERATOR_TOKEN',
+  '/api/scoring/status': 'HUB_OPERATOR_TOKEN',
 });
 
 const warned = new Set();
