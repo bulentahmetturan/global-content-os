@@ -481,6 +481,9 @@
   .rate kbd { font: 500 .62rem var(--font-mono); padding: 0 4px; border: 1px solid currentColor; border-radius: 4px; opacity: .55; margin-left: 2px; }
   .rated-chip { font: 700 .68rem var(--font-mono); color: var(--accent); }
   .card.is-selected .rated-chip { color: #7A4F00; }
+
+  .rate-saved { margin-top: 12px; font: 600 .84rem var(--font-ui); color: var(--ok); }
+  .rate-saved.rate-dirty { color: var(--hold); }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -1348,6 +1351,7 @@
     var r = state.ratings && state.ratings[id];
     return r ? { wow: r.wow, tt: !!r.tt, ik: !!r.ik, km: !!r.km } : { wow: null, tt: false, ik: false, km: false };
   }
+  function sameAsSaved(d, r) { return d.wow === r.wow && !!d.tt === !!r.tt && !!d.ik === !!r.ik && !!d.km === !!r.km; }
   function ratingLabel(r) {
     var ch = CHANNELS.filter(function (c) { return r[c[0]]; }).map(function (c) { return c[1]; }).join(' ');
     return r.wow + ' · ' + (ch || 'hiçbir kanal');
@@ -1369,6 +1373,7 @@
       '<div class="rate-l">Hangi kanalda yayınlanabilir? <kbd>T</kbd> <kbd>İ</kbd> <kbd>M</kbd></div><div class="rate-ch">' + chans + '</div>' +
       '<div class="rate-send"><button type="button" class="btn btn-promote" data-rate-send="1">Gönder <kbd>↵</kbd></button>' +
       '<span class="rate-hint">Kanal seçmezseniz "hiçbir kanal için uygun değil" olarak kaydedilir.</span></div>' +
+      (prev ? (sameAsSaved(d, prev) ? '<div class="rate-saved">✓ Kaydedildi: ' + escapeHtml(ratingLabel(prev)) + '</div>' : '<div class="rate-saved rate-dirty">Değişiklik henüz kaydedilmedi (kayıtlı: ' + escapeHtml(ratingLabel(prev)) + ')</div>') : '') +
     '</div>';
   }
   function renderRateBlock(id) {
@@ -1403,7 +1408,9 @@
     var idx = items.findIndex(function (x) { return x.id === id; });
     var card = document.getElementById('card-' + id);
     if (card) { var meta = card.querySelector('.card-meta'); if (meta && !meta.querySelector('.rated-chip')) meta.insertAdjacentHTML('beforeend', '<span class="rated-chip">★ ' + d.wow + '</span>'); }
-    if (items[idx + 1]) selectItem(items[idx + 1].id); else { renderRateBlock(id); renderProgress(); }
+    // Stay on the item: the owner decides promote / hold / reject next, with the rating still in view. Those actions advance to the next item.
+    renderRateBlock(id);
+    renderProgress();
   }
   function renderRead() {
     var items = visibleItems();

@@ -30,7 +30,7 @@ const ctx = {
 vm.createContext(ctx);
 vm.runInContext(
   ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'ratingLabel', 'rateHtml', 'readPaneHtml'].map(extractFunction))
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -140,4 +140,15 @@ test('rating guards: a score is required before sending and the keyboard maps 0 
   assert.match(html, /Önce 1-10 arası bir wow puanı verin/);
   assert.ok(html.includes("wow: k === '0' ? 10 : Number(k)"));
   assert.ok(html.includes("'/api/ratings'"));
+});
+
+test('after Gönder the item stays in view with a saved notice; unsaved changes are flagged; sending does not jump to the next item', () => {
+  ctx.state.ratings.r9 = { wow: 7, tt: false, ik: true, km: true };
+  assert.match(ctx.rateHtml(item({ id: 'r9' })), /✓ Kaydedildi: 7 · İK KM/);
+  ctx.state.drafts.r9 = { wow: 8, tt: false, ik: true, km: true };
+  assert.match(ctx.rateHtml(item({ id: 'r9' })), /Değişiklik henüz kaydedilmedi/);
+  ctx.state.ratings = {}; ctx.state.drafts = {};
+  const send = html.slice(html.indexOf('async function sendRating('), html.indexOf('function renderRead()'));
+  assert.ok(!send.includes('selectItem('), 'sendRating must not advance');
+  assert.ok(send.includes('Stay on the item'));
 });
