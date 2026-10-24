@@ -71,10 +71,10 @@ Read-only, production D1 (content DB and STATS DB), open items = `triage_status`
 İşaretleme: tamamlananı `[x]` yapın. Owner = [O] (decision or production write), Claude = [C] (code and read-only verification). Production writes are always run by the owner.
 
 A. Lane routing and classification
-- [ ] 1. [C] Find where source-to-lane assignment is defined (Tıp Topluluğu radar config + `classifyTipTopluluguFamily`), document how new items would be routed after a change, add tests. No behavior change yet.
+- [x] 1. [C] YAPILDI (aa4d24d): hat ataması iki yerde tanımlıydı (`ingress/tip-radar.ts` push yolu ve `ingress/tip-toplulugu-continuous.ts`), ikisinde de `tip-ogrencileri` sabitti. Yeni `ingress/lane-map.ts`: 17 haber kaynağı → Haber, `pubmed_biomedical_evidence` → Research, geri kalanı (Medical Economics ve MedicalResearch.com dahil) Duyuru'da. Kaduse hatlarında Kaduse kabul kapıları (10 gün tazelik, tarihsiz haber yok) ve çeviri çalışır. Testli (lane-map.test.mjs). CANLIYA ALINMADI.
 - [ ] 2. [C] Item-level type tag in the learner: type head (Duyuru/Burs/Eğitim, Haber, Research) over the existing features; show "Haber olmalı" etc. as a suggestion chip.
 - [ ] 3. [C] Hub: three owner buttons "Haber olmalı / Research olmalı / Duyuru olmalı" (E/B/S key conflicts to be checked). Marking calls a new route that re-lanes the item (append-only log in an addon table, e.g. a003) and records the label as training data for the type head. [O] applies the a003 SQL and deploys.
-- [ ] 4. [C] One-off move plan for the existing misrouted items: Group B news (217) to Haber, pubmed (21) and ep_drahmetekmekci (5) to Research; dry run first, rollback query, counts before and after. [O] runs it.
+- [ ] 4. [C] HAZIR: `scripts/lane-move-plan.mjs` + `scripts/lib/lane-move.mjs` (testli). Gerçek veriyle kuru çalıştırma (salt okunur): 161 aday, 50 taşınır (29 Haber, 21 Research), 111 haber kuralı geçmediği için (10 günden eski) Duyuru'da kalır ve süre dolumuyla (madde 12) temizlenir. Çıktı: `release/lane-move/move.sql`, `rollback.sql`, `summary.json`. [O] SIRA: önce Worker dağıtımı, sonra move.sql (aksi halde eski Worker aynı öğeyi Duyuru'ya yeniden ekler). İkiz çakışması korumalı.
 - [ ] 5. [O] Medical Economics and medicalresearch.com: items decided one by one in the Hub with the new buttons (or "reject").
 
 B. Duyuru / Burs / Eğitim
@@ -94,7 +94,7 @@ D. Research
 - [x] 14a. [C] KÖK NEDEN DÜZELTİLDİ (2026-10-24, veriyle): alakasız Nature News öğelerinin (Sözcü, BİM) tamamı 18-21 Eylül tarihli ESKİ Google News yolundan geliyor (219 öğe: nature-news 63, medical-news-today 42, reuters 40, ieee-tbme 36, ieee-jbhi 33 ve diğerleri). 22 Eylül'de Bing'e geçilince akış neredeyse kesildi (o günden beri yalnızca 7 nature.com öğesi). Yani Bing sorun değil, Bing düzeltmeydi; canlı sorun eski kalıntı. İlk tanım (Bing alakasız sonuç getiriyor) yanlıştı.
 - [ ] 14b. [C] Nature News verim sorunu: Bing yolu ayda ~7 öğe veriyor. Temiz bir yalnızca-haber RSS yok (`news.rss` 404; `nature.com/subjects/medical-research.rss` ve `health-sciences.rss` çalışıyor ama makale içeriyor, `nature.rss` ile örtüşür). Seçenek: `nature.com/nature/articles?type=news` HTML liste sayfasını ayrıştırmak. [O] ister mi karar verir; düşük öncelik.
 - [ ] 14c. [C] Önleyici alan adı kapısı (Bing/arama proxy'sinden gelen öğede gerçek hedef alan adı beklenenle eşleşmezse ele). Canlı sorunu çözmez (kalıntı eski), yalnızca tekrarını önler; düşük öncelik.
-- [ ] 14j. [C] Eski Google News kalıntısı (219 öğe, 18-22 Eylül; çoğu inbox'ta) için temizlik planı: kaynak/durum bazlı liste, kuru çalıştırma, geri alma sorgusu. [O] reddet/arşivle işlemini çalıştırır. Madde 12'deki otomatik süre dolumu bunları da kaldırır.
+- [ ] 14j. [C] Eski Google News kalıntısı (219 öğe): ham SQL ile reddetmek denetim izini (`editorial_decisions`, `review_feedback`, karar verilmiş bağlantı hafızası) atlar. Doğru yol: madde 12'deki süre dolumu işi bunları sistemin kendi triyaj fonksiyonuyla reddetsin. Bağımlı: madde 12.
 - [ ] 14d. [C] IEEE JBHI: `embs.org/jbhi/feed/` çalışıyor (200); Bing yerine bunu kullan. İçerik mühendislik ağırlıklı, kalıp kalmayacağı ayrı karar [O]. IEEE TBME için doğrudan RSS araştır (ieeexplore 418 verdi).
 - [ ] 14e. [C] Diğer Bing kaynaklarını aynı yöntemle gözden geçir: FDA, HHS, Health Canada, EurekAlert, Consilium, AAMI, EDQM, Euractiv, Medical Device Network, OECD, Reuters, TÜSEB, saglik.gov.tr; her biri için doğrudan RSS var mı, alan adı dışı oranı nedir.
 - [ ] 14f. [O] Karar bekliyor: Stat News (297) ve Medical Xpress (861) Research'te kalsın mı, Haber'e mi gitsin?
@@ -118,3 +118,7 @@ G. Cross-cutting
 - [ ] 23. [C] Workers AI quota: enrichment failures (128 research) and untranslated Duyuru; [O] decides paid plan vs accepting delay.
 - [ ] 24. [C] Re-run this audit after items 4, 12, 14 and report before/after counts.
 - [ ] 25. [O] Start rating items only after A4 is done, so labels are not learned from wrongly laned items.
+
+## Notes added 2026-10-24
+- Dossier's ClinicalTrials reader is independent of the Research ClinicalTrials feed: it reads and writes only `dossier_external_source_items` and never `source_feeds` / `source_items` (checked in `apps/worker/src/dossier/`). Closing `research-clinicaltrials-gov-api-v2` cannot affect it.
+- Deploy order for the lane change: (1) deploy the Worker (new items go to the right lane), (2) apply `release/lane-move/move.sql`, (3) read-only check. Rollback: `release/lane-move/rollback.sql` and `wrangler rollback`.
