@@ -4,6 +4,7 @@
  */
 import readyBundle from './tip-toplulugu-automation-ready';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { laneForTipSource, laneTarget } from './lane-map';
 import {
   TIP_TOPLULUGU_CHANNEL_ID,
   TIP_TOPLULUGU_CONTENT_FAMILY,
@@ -1244,24 +1245,27 @@ export async function runTipTopluluguContinuousTick(
           auto_publish: false,
           publication_eligible: false,
         });
+        // Owner lane map (2026-10-24): news and research outlets leave the Duyuru lane; unmapped sources are unchanged.
+        const target = laneTarget(laneForTipSource(profile.source_id), TIP_TOPLULUGU_CHANNEL_ID);
         const result = await upsertLocalizedSourceItem(env, {
           feedId: feed.id,
-          route: 'tip-ogrencileri',
-          channelId: TIP_TOPLULUGU_CHANNEL_ID,
+          route: target.route,
+          channelId: target.channelId,
           title: decodeHtmlEntities(item.title),
           titleOrig: null,
           summary: decodeHtmlEntities(item.title),
           gists: [decodeHtmlEntities(item.title)],
           canonicalUrl: item.url,
-          publisher: TIP_TOPLULUGU_EDITORIAL_BRAND,
-          publishedAt: item.published_at || now.toISOString(),
+          publisher: target.tipBranded ? TIP_TOPLULUGU_EDITORIAL_BRAND : profile.source_id,
+          // News must prove it is recent (Kaduse admission gate): no ingestion-time stand-in date outside the Duyuru lane.
+          publishedAt: target.tipBranded ? item.published_at || now.toISOString() : item.published_at || null,
           dedupeKey,
-          editorialBrand: TIP_TOPLULUGU_EDITORIAL_BRAND,
-          contentFamily: TIP_TOPLULUGU_CONTENT_FAMILY,
+          editorialBrand: target.tipBranded ? TIP_TOPLULUGU_EDITORIAL_BRAND : null,
+          contentFamily: target.tipBranded ? TIP_TOPLULUGU_CONTENT_FAMILY : null,
           sourceId: profile.source_id,
-          decisionRoute: dateUnverified ? 'NEEDS_REVIEW' : gate.route,
+          decisionRoute: target.tipBranded ? (dateUnverified ? 'NEEDS_REVIEW' : gate.route) : null,
           intakeMetaJson: intakeMeta,
-          enrichmentStatus: 'skipped',
+          enrichmentStatus: target.enrichment,
         });
         if (result.created) {
           created += 1;

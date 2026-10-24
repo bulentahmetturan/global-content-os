@@ -1,4 +1,5 @@
 import { type Env } from '../db/queries';
+import { laneForTipSource, laneTarget } from './lane-map';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 
 export interface TipRadarCandidatePush {
@@ -210,20 +211,22 @@ export async function ingestTipRadarPush(
     let sourceId: string | null = (c.sourceId || '').trim() || null;
     let decisionRoute: string | null = null;
     let intakeMetaJson: string | null = null;
+    // Owner lane map (2026-10-24): news and research outlets leave the Duyuru lane; unmapped sources keep today's behaviour.
+    const target = laneTarget(tip_toplulugu ? laneForTipSource(sourceId ?? '') : 'duyuru', TIP_TOPLULUGU_CHANNEL_ID);
 
     if (tip_toplulugu) {
-      channelId = TIP_TOPLULUGU_CHANNEL_ID;
-      editorialBrand = TIP_TOPLULUGU_EDITORIAL_BRAND;
-      contentFamily = TIP_TOPLULUGU_CONTENT_FAMILY;
-      decisionRoute = (c.decisionRoute || c.decision || '').trim() || null;
+      channelId = target.channelId;
+      editorialBrand = target.tipBranded ? TIP_TOPLULUGU_EDITORIAL_BRAND : null;
+      contentFamily = target.tipBranded ? TIP_TOPLULUGU_CONTENT_FAMILY : null;
+      decisionRoute = target.tipBranded ? (c.decisionRoute || c.decision || '').trim() || null : null;
       // Sources that overlap (e.g. three OSYM exam groups, Australian regulators) share a dedupeGroup, and an item
       // already stored under the same canonical URL is reused, so path/profile changes never create duplicate rows.
       const group = ((c as { dedupeGroup?: string | null }).dedupeGroup || '').trim();
       dedupeKey = tipTopluluguDedupeKey(channelId, group || sourceId!, (c.contentHash || '').trim());
       const sameUrl = await env.DB.prepare(
-        `SELECT dedupe_key FROM source_items WHERE route = 'tip-ogrencileri' AND channel_id = ? AND canonical_url = ? LIMIT 1`
+        `SELECT dedupe_key FROM source_items WHERE route = ? AND channel_id = ? AND canonical_url = ? LIMIT 1`
       )
-        .bind(channelId, url)
+        .bind(target.route, channelId, url)
         .first<{ dedupe_key: string }>();
       if (sameUrl?.dedupe_key) dedupeKey = sameUrl.dedupe_key;
       resolvedFeedId = tipTopluluguFeed!.id;
@@ -258,7 +261,7 @@ export async function ingestTipRadarPush(
 
     const summary = (c.summary || title).trim();
     const publisher =
-      c.institution || (tip_toplulugu ? TIP_TOPLULUGU_EDITORIAL_BRAND : 'Tıp Öğrencileri Radar');
+      c.institution || (tip_toplulugu ? (target.tipBranded ? TIP_TOPLULUGU_EDITORIAL_BRAND : sourceId || 'Tıp Öğrencileri Radar') : 'Tıp Öğrencileri Radar');
     // D9: an item whose publication date could not be verified must not get the ingestion time as its publication
     // time. It stays NEEDS_REVIEW (date_unverified_needs_review) with a null published_at.
     const dateUnverified = (c.riskFlags || []).includes('date_unverified_needs_review');
@@ -267,7 +270,7 @@ export async function ingestTipRadarPush(
       : c.eventDate || c.deadline || c.discoveredAt || c.fetchedAt || null;
     const result = await upsertLocalizedSourceItem(env, {
       feedId: resolvedFeedId,
-      route: 'tip-ogrencileri',
+      route: tip_toplulugu ? target.route : 'tip-ogrencileri',
       channelId,
       title,
       titleOrig: null,
