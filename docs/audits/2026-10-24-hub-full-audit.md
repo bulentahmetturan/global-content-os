@@ -143,3 +143,8 @@ G. Cross-cutting
 - [ ] 38. [C] Bible Compliance Envelope (§0.2) denetimi: triyaj ve skorlama kararlarının hangi envelope alanlarını (rule_id, reason_codes, human_override, next_review_at) ürettiğini çıkar; eksikleri listele.
 - [ ] 39. [C] Haber/Research'te canonical (birincil) kaynağı bulunmayan öğe için HOLD/HUMAN_REVIEW (§24.3) ve bekletme yığını politikası (madde 31) bununla birleştirilir.
 - [ ] 40. [C] Tüm alanları (Haber, Research, Duyuru, Burs, Eğitim, Evergreen, Modüller) SPF-8…12 ölçütleriyle öğe düzeyinde yeniden say: hangi açık öğe hangi SPF kuralına takılıyor (before/after tablosu, madde 24 ile birleşir).
+- [x] 40. [C] SPF-8…12 öğe düzeyinde sayım yapıldı (2026-10-26-hub-deep-analysis.md bölüm 9). Sonuç: Haber 397 PASS adayı/567, Research 2.145/4.008 (≤30 gün), Duyuru 0/415 doğrudan PASS adayı.
+- [ ] 41. [O+C] Evergreen (Sağlık & Referans, 88 öğe) için Bible kategorisi: Haber alt tipi/tag mi, Bible değişikliği mi? (§2, §28.3) [O] karar.
+- [ ] 42. [C] Duyuru'da kalan 110 haber öğesi + 93 gezinme + 83 başlıksız + 52 süresi dolmuş = 338 öğeyi triyaj fonksiyonuyla işle (haber türünü Haber hattına taşı, gerisini gerekçe kodlu reddet); üretim yazımı owner onayıyla hazır SQL/aksiyon listesi olarak sunulur.
+- [ ] 43. [C] Research >180 gün (493) ve tarihsiz (220) için Config eşiği ve otomatik expiry kararı; Haber tarihsiz 21 için HOLD→HUMAN_REVIEW.
+- [ ] 44. [C] Öğe tablosuna DOI/PMID ve uygunluk alanlarını taşıyacak a003 addon (Bible §13.1, §12.4) ve sayımın tekrarı.

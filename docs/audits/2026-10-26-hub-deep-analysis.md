@@ -74,3 +74,43 @@ Kaynak: `apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (Hub kopyası; kanonik dos
 
 ### 8.3 Bible'a göre eklenen / revize edilen TODO
 Bkz. 2026-10-24-hub-full-audit.md, 2026-10-26 Bible bölümü (madde 26 revize; 32-38 yeni).
+
+## 9. Öğe düzeyinde yeniden sayım: Bible SPF-8…12 (2026-10-26, salt okunur)
+Yöntem: üretim D1'den açık (`inbox`) öğeler okundu; her öğe ilk eşleşen nedenle sınıflandı. "PASS adayı" = otomatik itiraz yok; Bible §11/§35 gereği insan onayı yine şart. Sınırlar: öğe tablosunda DOI/PMID ve uygunluk metni sütunu yok, yani DOI/PMID kapısı ve Türkiye uygunluğu bu sayımda ölçülemedi; Haber/Research öğelerinde `source_id` boş (kaynak feed'den gelir), bu yüzden kaynak kırılımı yalnızca Duyuru'da tam.
+
+### Haber (SPF-8), 567 açık
+| Neden | Adet |
+|---|---|
+| PASS adayı (tarihli, ≤10 gün, kapıya takılmıyor) | 397 |
+| Sağlık & Referans (evergreen), Bible'da kategorisi yok | 88 |
+| Kapı: ABD mevzuatı 34, yerel salgın 10, ticaret haberi 5, yerel çalışma 3, mucize tedavi 1 | 53 |
+| Tarihsiz → HOLD (§0.4) | 21 |
+| Duyuru türü adayı (workshop, symposium) | 8 |
+Düzeltme: önceki "86 öğe 30 günden eski" bulgusu yanlıştı: bunlar haber değil, Cleveland Clinic evergreen kayıtlarıdır (2018-2021). Haber hattında gerçek bayat haber yok (hepsi ≤10 gün ya da tarihsiz).
+
+### Research (SPF-9), 4.008 açık
+| Neden | Adet |
+|---|---|
+| PASS adayı (≤30 gün) | 2.145 |
+| 31-180 gün | 911 |
+| >180 gün (bayat) | 493 |
+| Tarihsiz → HOLD | 220 |
+| Kapı: ABD mevzuatı 94, hayvan-insan bağı yok 75, yerel çalışma 39, yerel salgın 16, ticaret 10, preprint 3, mucize 2 | 239 |
+Not: preprint yalnızca 3 (medRxiv girişi büyük ölçüde zaten düşmüş). Bible research için sabit gün sınırı koymaz (Config); 180 gün üstü 493 öğe "stale" adayıdır, karar eşiği Config'e yazılmalı.
+
+### Duyuru (SPF-10), 415 açık
+| Neden | Adet |
+|---|---|
+| Haber türü, Duyuru'da kalmış (sondakika 26, biopharma 15, saglikpersonelihaberi 15, dha 11, trthaber 10, medical_xpress 8, ...) | 110 |
+| Gezinme/eski reddedilmiş (`REJECTED_LEGACY`): nrmp 24, usmle 15, mcc 12, hasuder 11, moh 10, tuk 5 | 93 |
+| Başlıksız (Medical Economics) | 83 |
+| Süresi muhtemelen dolmuş (>90 gün): ÖSYM YDUS 18, TUS 12, DUS 11, tdb 3, mcc 2, moh 1 | 52 |
+| Süre belirsiz → human_review (tdb_dental 14, osym 11, tvhb 5, medicalresearch 5, ep_drahmetekmekci 5, ttb 4, ...) | 67 |
+| Yurt dışı, Türkiye uygunluğu bilinmiyor (UNKNOWN) | 10 |
+Sonuç: 415 öğeden Bible'a göre "doğrudan PASS adayı" sıfır, çünkü hiçbirinde `deadline_at` yok (§20.3) ve yurt dışı olanlarda uygunluk kanıtı yok. En fazla 67 + 10 öğe insan incelemesiyle kurtarılabilir; 338 öğe (110 + 93 + 83 + 52) ITEM düzeyinde reddedilmeli/taşınmalı.
+
+### Burs / Eğitim (SPF-11/12)
+Tabloda ayrı satır yok: burs/eğitim kaynak kataloğu (Hub `burs-sources.json`, `egitim-sources.json`) var ama açık, tarihli ve Türkiye'den başvurulabilir öğe yok; Hub'da 0 görünmesi bu açıdan doğru, fakat kaynaklardan öğe alınmıyor olması ayrı bir verim sorunudur (todo 7).
+
+### Yeni bulgu: Evergreen için Bible kategorisi yok
+88 Sağlık & Referans öğesi (Cleveland Clinic) Bible'ın 5 kategorisinden hiçbirine oturmaz (§2: yeni ana kategori açılmaz; alt tip/tag ile çözülür). Owner kararı gerekir: evergreen "Haber"in alt tipi mi (tag `evergreen`), yoksa Bible'a ayrı değişiklikle mi eklenecek (§28.3).
