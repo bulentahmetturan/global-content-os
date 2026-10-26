@@ -122,3 +122,12 @@ G. Cross-cutting
 ## Notes added 2026-10-24
 - Dossier's ClinicalTrials reader is independent of the Research ClinicalTrials feed: it reads and writes only `dossier_external_source_items` and never `source_feeds` / `source_items` (checked in `apps/worker/src/dossier/`). Closing `research-clinicaltrials-gov-api-v2` cannot affect it.
 - Deploy order for the lane change: (1) deploy the Worker (new items go to the right lane), (2) apply `release/lane-move/move.sql`, (3) read-only check. Rollback: `release/lane-move/rollback.sql` and `wrangler rollback`.
+
+
+## TODO additions 2026-10-26 (see 2026-10-26-hub-deep-analysis.md)
+- [ ] 26. [C] Uygunluk kuralı (owner 2026-10-26): yurt dışı burs/duyuru yalnızca Türkiye'deki öğrencilerin de yararlanabildiği durumda Duyuru/Burs/Eğitim'e girer; "Kanada'da okuyan Türk öğrenciler" yetmez. Özellik/kapı: uygunluk cümlesini çıkar, yalnızca hedef ülkede bulunanlara/vatandaşlara açıksa ele, belirsizse "uygunluk belirsiz" rozeti. [O] belirsiz durumlarda karar.
+- [ ] 27. [C] ~110 `REJECTED_LEGACY` gezinme öğesini sistemin triyaj fonksiyonuyla reddet (denetim izi korunur); madde 12 ile birlikte.
+- [ ] 28. [C] Kazıma profili: "THE MATCH logo", "Intro to The Match", "Bulletin of Information" gibi genel gezinme başlıklarını öğe olarak alma.
+- [ ] 29. [C] Medical Economics: boş başlığı URL slug'ından ya da sayfa başlığından türet; içerik uyumu için öğe bazlı karar (madde 5).
+- [ ] 30. [O] Facebook ve Instagram hesaplarını bağla (Meta tarafı sende); [C] sonra Instagram alımını yeniden başlat, doktor sayfalarını kaynak listesine ekle.
+- [ ] 31. [C] Beklet yığını politikası: Haber 1.314 (büyüyor); bekletilen öğeler N gün sonra otomatik düşsün; N [O].

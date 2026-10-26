@@ -115,3 +115,7 @@ Hard rules for **all channels**
 - **Success measure**: followers, saves and other parameters, ending in **collaborations and money-making outcomes. The goal is to earn money.**
 - **Legal and ethical framework**: not needed now.
 - **Freshness**: Evergreen has **no limit**. Duyuru, Burs and Eğitim are worth keeping **only while the application or registration is still open** (expired ones should go). News needs current value; announcements matter only while current.
+
+
+## Addition 2026-10-26 (owner)
+International scholarships and announcements must include students in Türkiye. "Open to Turkish students studying in Canada" is not sufficient: an abroad item qualifies for Duyuru/Burs/Eğitim only if students based in Türkiye, or Turkish citizens applying from Türkiye, can use it.
