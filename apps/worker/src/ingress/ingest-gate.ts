@@ -87,6 +87,8 @@ export interface GateInput {
 export type GateVerdict = { ok: true; publishedAt: string | null } | { ok: false; reason: string };
 
 export function ingestGate(input: GateInput, now: Date = new Date()): GateVerdict {
+  // Every lane: an item without a title is not an announcement, news or study (SPF-8..10); it is never stored.
+  if (!(input.title || '').trim()) return { ok: false, reason: 'placeholder_title' };
   if (input.route !== 'kaduse-news' && input.route !== 'kaduse-research') return { ok: true, publishedAt: input.publishedAt ?? null };
   const title = (input.title || '').trim();
   if (title.length < 12 || PLACEHOLDER.test(title)) return { ok: false, reason: 'placeholder_title' };

@@ -8,6 +8,7 @@ import {
   type TriageStatus,
 } from '../db/queries';
 import { normalizeDate } from '../ingress/ingest-gate';
+import { enforceLanePurity, type LanePurityResult } from './lane-purity';
 import {
   APPROVED_BRIEF_CONTRACT_VERSION,
   type ApprovedBrief,
@@ -389,7 +390,14 @@ export async function expireStaleInboxItems(
   maxAgeDays: number,
   limit = 500,
   now: Date = new Date()
-): Promise<{ expired: number; ids: string[] }> {
+): Promise<{ expired: number; ids: string[]; lanePurity?: LanePurityResult | null }> {
+  // Same housekeeping sweep: lane purity (owner 2026-10-26) moves, rejects or holds wrong-lane, expired and undated items with a decision trail.
+  const lanePurity = route === 'kaduse-news'
+    ? await enforceLanePurity(env, now).catch((err) => {
+        console.error(JSON.stringify({ event: 'lane_purity_failed', error_message: err instanceof Error ? err.message : String(err) }));
+        return null;
+      })
+    : undefined;
   // published_at is a free-text string (ISO for items ingested after the 2026-09-22 ingest-gate
   // rollout, but older rows can still carry raw RFC822 -- "Fri, 11 Sep 2026 ..."), so filtering
   // must happen after normalizeDate(), not as a SQL string comparison (which would silently
@@ -413,7 +421,7 @@ export async function expireStaleInboxItems(
       return ageDays > maxAgeDays;
     })
     .map((r) => r.id);
-  if (!ids.length) return { expired: 0, ids: [] };
+  if (!ids.length) return { expired: 0, ids: [], lanePurity };
 
   for (const id of ids) {
     await env.DB.prepare(
@@ -429,7 +437,7 @@ export async function expireStaleInboxItems(
       .run();
   }
 
-  return { expired: ids.length, ids };
+  return { expired: ids.length, ids, lanePurity };
 }
 
 /** Policy start: only decisions made from this point on count toward the threshold below --
