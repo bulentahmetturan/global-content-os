@@ -148,3 +148,6 @@ G. Cross-cutting
 - [ ] 42. [C] Duyuru'da kalan 110 haber öğesi + 93 gezinme + 83 başlıksız + 52 süresi dolmuş = 338 öğeyi triyaj fonksiyonuyla işle (haber türünü Haber hattına taşı, gerisini gerekçe kodlu reddet); üretim yazımı owner onayıyla hazır SQL/aksiyon listesi olarak sunulur.
 - [ ] 43. [C] Research >180 gün (493) ve tarihsiz (220) için Config eşiği ve otomatik expiry kararı; Haber tarihsiz 21 için HOLD→HUMAN_REVIEW.
 - [ ] 44. [C] Öğe tablosuna DOI/PMID ve uygunluk alanlarını taşıyacak a003 addon (Bible §13.1, §12.4) ve sayımın tekrarı.
+- [x] 41. [O] Karar (2026-10-26): evergreen Haber değildir; ayrı başlık. Haber/Duyuru time-sensitive.
+- [ ] 45. [O+C] Bible v4.1 değişikliği: `referans` kategorisi + SPF-8b (docs/audits/2026-10-26-bible-evergreen-proposal.md); sözcük onayı [O], uygulama [C] (§28.3: sürüm, changelog, testler, regresyon, Hub kopyalarını yeniden üret).
+- [ ] 46. [C] Sayım/kapılar: evergreen öğeleri Haber güncellik kapısından ve Haber sayımından ayır (yalnızca raporlama/skorlama; depolama rotası değişikliği ayrı karar).
