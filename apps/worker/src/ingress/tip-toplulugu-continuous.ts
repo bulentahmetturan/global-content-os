@@ -4,7 +4,7 @@
  */
 import readyBundle from './tip-toplulugu-automation-ready';
 import { upsertLocalizedSourceItem } from './upsert-localized';
-import { laneForTipSource, laneTarget } from './lane-map';
+import { isAudienceBlockedSource, laneForTipSource, laneTarget } from './lane-map';
 import {
   TIP_TOPLULUGU_CHANNEL_ID,
   TIP_TOPLULUGU_CONTENT_FAMILY,
@@ -1153,6 +1153,12 @@ export async function runTipTopluluguContinuousTick(
           for (const tok of profile.scope_url_keywords || []) {
             if (tok && item.url.toLowerCase().includes(tok.toLowerCase())) extra += `\n${tok}`;
           }
+        }
+        // Audience gate #1 (Bible v4.1): audience-blocked sources are not ingested.
+        if (isAudienceBlockedSource(profile.source_id)) {
+          discardedHere += 1;
+          discarded += 1;
+          continue;
         }
         const gate = classifyTitle(profile, item.title, extra);
         if (gate.decision === 'DISCARD') {

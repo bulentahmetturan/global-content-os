@@ -1,5 +1,5 @@
 import { type Env } from '../db/queries';
-import { laneForTipSource, laneTarget } from './lane-map';
+import { isAudienceBlockedSource, laneForTipSource, laneTarget } from './lane-map';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 
 export interface TipRadarCandidatePush {
@@ -211,6 +211,12 @@ export async function ingestTipRadarPush(
     let sourceId: string | null = (c.sourceId || '').trim() || null;
     let decisionRoute: string | null = null;
     let intakeMetaJson: string | null = null;
+    // Audience gate #1 (Bible v4.1): audience-blocked sources are not ingested.
+    if (tip_toplulugu && isAudienceBlockedSource(sourceId)) {
+      rejected += 1;
+      rejectionReasons.push(`audience gate: ${sourceId}`);
+      continue;
+    }
     // Owner lane map (2026-10-24): news and research outlets leave the Duyuru lane; unmapped sources keep today's behaviour.
     const target = laneTarget(tip_toplulugu ? laneForTipSource(sourceId ?? '') : 'duyuru', TIP_TOPLULUGU_CHANNEL_ID);
 

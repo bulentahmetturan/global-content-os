@@ -7,7 +7,7 @@ export const NEWS_SOURCES = [
   'euronews_tr_saglik', 'medpage_today', 'ahaber_saglik', 'healthline_news', 'sabah_saglik', 'fierce_biotech', 'yale_medicine_news',
   'anadolu_ajansi_medical_radar', 'foodnavigator', 'saglikhaberi_net', 'stat_news',
 ];
-export const RESEARCH_SOURCES = ['pubmed_biomedical_evidence'];
+export const RESEARCH_SOURCES = ['pubmed_biomedical_evidence', 'ep_drahmetekmekci-com'];
 /** Kaduse news admission gate: dated and at most this many days old (apps/worker/src/ingress/ingest-gate.ts NEWS_MAX_AGE_DAYS). */
 export const NEWS_MAX_AGE_DAYS = 10;
 

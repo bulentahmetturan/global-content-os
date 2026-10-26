@@ -10,8 +10,13 @@ const R = await bundle('apps/worker/src/ingress/tip-radar.ts', 'tip-radar-lane')
 
 test('news outlets go to Haber, pubmed to Research, everything else (and the item-by-item sources) stay in Duyuru', () => {
   for (const s of ['sondakika_saglik', 'biopharma_dive', 'dha_saglik_yasam', 'medical_xpress', 'saglikpersonelihaberi_net', 'trthaber_saglik']) assert.equal(L.laneForTipSource(s), 'haber', s);
-  assert.equal(L.laneForTipSource('pubmed_biomedical_evidence'), 'research');
-  for (const s of ['osym_medical_exams', 'abroad_us_nrmp', 'burs_ers_fellowships', 'egitim_eso', 'ttb_national', 'tdb_dental', 'medical_economics', 'medicalresearch_com', 'unknown_source']) assert.equal(L.laneForTipSource(s), 'duyuru', s);
+  for (const s of ['pubmed_biomedical_evidence', 'ep_drahmetekmekci-com']) assert.equal(L.laneForTipSource(s), 'research', s);
+  for (const s of ['osym_medical_exams', 'abroad_us_nrmp', 'burs_ers_fellowships', 'egitim_eso', 'ttb_national', 'tdb_dental', 'unknown_source']) assert.equal(L.laneForTipSource(s), 'duyuru', s);
+});
+
+test('audience gate: Medical Economics and medicalresearch.com are blocked at ingestion', () => {
+  for (const s of ['medical_economics', 'medicalresearch_com']) assert.equal(L.isAudienceBlockedSource(s), true, s);
+  for (const s of ['osym_medical_exams', 'sondakika_saglik', null, undefined]) assert.equal(L.isAudienceBlockedSource(s), false, String(s));
 });
 
 test('lane targets: duyuru is exactly the previous behaviour, Kaduse lanes translate and drop the Tıp brand', () => {
@@ -53,4 +58,12 @@ test('the push path stores each source in its lane; re-pushing does not duplicat
   assert.equal(rows.osym_medical_exams.decision_route, 'NEEDS_REVIEW');
   await R.ingestTipRadarPush(env, batch);
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE source_id IN ('sondakika_saglik','osym_medical_exams','pubmed_biomedical_evidence')`).get().n, 3, 'idempotent');
+});
+
+test('the push path refuses audience-blocked sources and stores ep_drahmetekmekci-com in Research', async () => {
+  const { sqlite, env } = openDb();
+  const r = await R.ingestTipRadarPush(env, [cand('medical_economics', 1), cand('medicalresearch_com', 1), cand('ep_drahmetekmekci-com', 1)]);
+  assert.equal(r.rejected, 2, JSON.stringify(r.rejectionReasons));
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE source_id IN ('medical_economics','medicalresearch_com')`).get().n, 0);
+  assert.equal(sqlite.prepare(`SELECT route FROM source_items WHERE source_id = 'ep_drahmetekmekci-com'`).get().route, 'kaduse-research');
 });

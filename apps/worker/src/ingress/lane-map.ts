@@ -3,7 +3,8 @@
  * The Tıp Topluluğu pipeline used to put EVERY source into the Duyuru lane (route tip-ogrencileri). News and research
  * outlets now go to their own Kaduse lanes, where the Kaduse admission gates (freshness, placeholder titles, topic) apply and
  * enrichment (Turkish translation) runs. Sources not listed here keep today's behaviour (Duyuru).
- * Medical Economics and medicalresearch.com are deliberately NOT mapped: the owner decides those item by item.
+ * Medical Economics and medicalresearch.com were decided by content on 2026-10-26 (US practice business / promotional, outside the
+ * audience, Bible v4.1 12.0): they are audience-blocked and never ingested. ep_drahmetekmekci-com goes to Research (owner decision).
  */
 import type { RouteId } from '../db/queries';
 
@@ -15,7 +16,14 @@ export const NEWS_LANE_SOURCES: ReadonlySet<string> = new Set([
   'anadolu_ajansi_medical_radar', 'foodnavigator', 'saglikhaberi_net', 'stat_news',
 ]);
 
-export const RESEARCH_LANE_SOURCES: ReadonlySet<string> = new Set(['pubmed_biomedical_evidence']);
+export const RESEARCH_LANE_SOURCES: ReadonlySet<string> = new Set(['pubmed_biomedical_evidence', 'ep_drahmetekmekci-com']);
+
+/** Audience gate #1 (Bible v4.1): sources whose content does not fit any of our audiences are not ingested at all. */
+export const AUDIENCE_BLOCKED_SOURCES: ReadonlySet<string> = new Set(['medical_economics', 'medicalresearch_com']);
+
+export function isAudienceBlockedSource(sourceId: string | null | undefined): boolean {
+  return !!sourceId && AUDIENCE_BLOCKED_SOURCES.has(sourceId);
+}
 
 export function laneForTipSource(sourceId: string): TipLane {
   if (NEWS_LANE_SOURCES.has(sourceId)) return 'haber';
