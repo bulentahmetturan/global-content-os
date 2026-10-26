@@ -29,8 +29,8 @@ const ctx = {
 };
 vm.createContext(ctx);
 vm.runInContext(
-  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';', 'var GATE_TR = ' + html.match(/var GATE_TR = (\{[^;]*\});/)[1] + ';', 'var REASON_TR = ' + html.match(/var REASON_TR = (\{[^;]*\});/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'predChipHtml', 'predLineHtml', 'readPaneHtml'].map(extractFunction))
+  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';', 'var GATE_TR = ' + html.match(/var GATE_TR = (\{[^;]*\});/)[1] + ';', 'var REASON_TR = ' + html.match(/var REASON_TR = (\{[^;]*\});/)[1] + ';', 'var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = (\{[^;]*\});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = (\{[^;]*\});/)[1] + ';']
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'laneButtonsHtml', 'laneChipHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'predChipHtml', 'predLineHtml', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -170,4 +170,27 @@ test('system prediction: chip and line show score, channels, reasons and gates; 
   assert.match(html, /Date\.now\(\) - last > 15 \* 60 \* 1000/);
   assert.match(html, /'\/api\/scoring\/run'/);
   assert.match(html, /await loadScores\(state\.items\)/);
+});
+
+test('lane buttons: open items offer the two other headings, never their own, never evergreen or closed items', () => {
+  const news = item({ route: 'kaduse-news' });
+  const html = ctx.actionsHtml(news, true);
+  assert.match(html, /data-lane-to="research"/);
+  assert.match(html, /data-lane-to="duyuru"/);
+  assert.doesNotMatch(html, /data-lane-to="haber"/);
+  assert.match(html, /Duyuru olmalı/);
+  assert.doesNotMatch(ctx.actionsHtml(item({ route: 'kaduse-news', triageStatus: 'production' }), true), /data-lane-to/);
+  assert.doesNotMatch(ctx.actionsHtml(item({ route: 'unknown' }), true), /data-lane-to/);
+  ctx.state.temporal = 'EVERGREEN';
+  assert.doesNotMatch(ctx.actionsHtml(news, true), /data-lane-to/);
+  ctx.state.temporal = 'TIME_SENSITIVE';
+});
+
+test('lane suggestion chip shows only when the system suggests another heading', () => {
+  ctx.state.laneSugg = {};
+  assert.equal(ctx.laneChipHtml('s1'), '');
+  ctx.state.laneSugg = { s1: { lane: 'duyuru', p: 0.82, current: 'haber' } };
+  assert.match(ctx.laneChipHtml('s1'), /⇄ Duyuru?/);
+  assert.match(ctx.laneChipHtml('s1'), /82%/);
+  ctx.state.laneSugg = {};
 });

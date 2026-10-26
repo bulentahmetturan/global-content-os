@@ -151,6 +151,17 @@ export async function urlLedgerKey(url: string): Promise<string> {
   return [...new Uint8Array(digest)].slice(0, 8).map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+/** True when the owner placed this URL in a lane other than `route` (addons/a003_lane_feedback.sql): a new row for it must not be created there. */
+export async function laneOverrideElsewhere(db: D1Database, canonicalUrl: string, route: string): Promise<boolean> {
+  try {
+    const key = await urlLedgerKey(canonicalUrl);
+    const row = await db.prepare(`SELECT route FROM lane_overrides WHERE url_key = ?`).bind(key).first<{ route: string }>();
+    return !!row && row.route !== route;
+  } catch {
+    return false; // addon not applied: no overrides exist
+  }
+}
+
 /** True if this URL already reached a final triage decision (promote/complete/delete) before --
  * including ones since hard-purged from source_items/trash. See migrations/0014_decided_links.sql. */
 export async function isPreviouslyDecided(db: D1Database, url: string): Promise<boolean> {
@@ -474,6 +485,9 @@ async function insertNewItem(
       return { id: '', created: false, rejected: 'previously_decided' };
     }
   }
+
+  // Owner lane correction (Hub "Haber/Research/Duyuru olmalı"): the URL already lives in the lane the owner chose.
+  if (await laneOverrideElsewhere(db, input.canonicalUrl, input.route)) return { id: '', created: false, rejected: 'lane_override' };
 
   // Central admission gate (new rows only; existing rows are never mutated by it): see ingress/ingest-gate.ts.
   const gate = ingestGate({

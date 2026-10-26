@@ -458,6 +458,10 @@
   .lang-tag { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--hold); color: var(--hold); letter-spacing: .05em; }
   .card.is-selected .lang-tag { color: #7A4F00; border-color: #7A4F00; }
   .pred-chip { font: 700 .68rem var(--font-mono); color: var(--muted); }
+  .lane-chip { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px dashed var(--hold); color: var(--hold); letter-spacing: .03em; }
+  .card .btn-lane.btn-xs, .btn-lane { background: transparent; border: 1px dashed var(--border); color: var(--text-dim); }
+  .card .btn-lane.btn-xs:hover, .btn-lane:hover { border-color: var(--accent); color: var(--accent); }
+  .lane-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .gate-chip { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--reject, #b4554a); color: var(--reject, #b4554a); }
   .card.is-selected .pred-chip, .card.is-selected .gate-chip { color: #7A4F00; border-color: #7A4F00; }
   .pred-line { margin: 14px 0 0; padding: 10px 12px; border: 1px solid var(--line, rgba(128,128,128,.3)); border-radius: 6px; font-size: .82rem; color: var(--muted); }
@@ -1067,6 +1071,7 @@
     drafts: {},
     ratingsReady: null,
     scores: {},
+    laneSugg: {},
     loadedKey: '',
     lastUndo: null,
     armed: null,
@@ -1261,6 +1266,22 @@
       : mode === 'trash' ? '<span class="status-pill trash">silindi</span>'
       : mode === 'hold' ? '<span class="status-pill hold">beklemede</span>' : '';
   }
+  var LANE_OF_ROUTE = { 'kaduse-news': 'haber', 'kaduse-research': 'research', 'tip-ogrencileri': 'duyuru' };
+  var LANE_LABEL = { haber: 'Haber', research: 'Research', duyuru: 'Duyuru' };
+  // Owner corrections: "this belongs in another heading". Moves the item and feeds the lane-type learner.
+  function laneButtonsHtml(it, compact) {
+    var cur = LANE_OF_ROUTE[it.route];
+    if (!cur || state.temporal === 'EVERGREEN' || (it.triageStatus !== 'inbox' && it.triageStatus !== 'hold')) return '';
+    var sm = compact ? ' btn-xs' : '';
+    return '<span class="lane-actions">' + ['haber', 'research', 'duyuru'].filter(function (l) { return l !== cur; }).map(function (l) {
+      return '<button class="btn btn-lane' + sm + '" data-lane-to="' + l + '" data-id="' + it.id + '" title="Bu öğeyi ' + LANE_LABEL[l] + ' hattına taşı ve sisteme öğret">' + LANE_LABEL[l] + ' olmalı</button>';
+    }).join('') + '</span>';
+  }
+  function laneChipHtml(id) {
+    var s = state.laneSugg && state.laneSugg[id];
+    if (!s) return '';
+    return '<span class="lane-chip" title="Sistem bu öğenin ' + LANE_LABEL[s.lane] + ' hattına ait olduğunu düşünüyor (güven ' + Math.round(s.p * 100) + '%). Karar sizin: aşağıdaki düğmeyle taşıyabilirsiniz.">⇄ ' + LANE_LABEL[s.lane] + '?</span>';
+  }
   function actionsHtml(it, compact) {
     var mode = it.triageStatus;
     var sm = compact ? ' btn-xs' : '';
@@ -1268,8 +1289,8 @@
     var promote = '<button class="btn btn-promote' + sm + '" data-action="promote" data-id="' + it.id + '">Üretime aktar' + key('E') + '</button>';
     var hold = '<button class="btn btn-hold' + sm + '" data-action="hold" data-id="' + it.id + '">Beklet' + key('B') + '</button>';
     var del = '<button class="btn btn-delete' + sm + '" data-action="delete" data-id="' + it.id + '">Reddet' + key('S') + '</button>';
-    if (mode === 'inbox') return promote + hold + del;
-    if (mode === 'hold') return promote + del;
+    if (mode === 'inbox') return promote + hold + del + laneButtonsHtml(it, compact);
+    if (mode === 'hold') return promote + del + laneButtonsHtml(it, compact);
     if (mode === 'production') return '<button class="btn btn-promote' + sm + '" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
     return '<button class="btn btn-undo' + sm + '" data-action="undo" data-id="' + it.id + '">Geri al' + key('Z') + '</button>';
   }
@@ -1292,7 +1313,7 @@
             ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
           '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
           (state.ratings && state.ratings[it.id] ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(state.ratings[it.id])) + '">★ ' + state.ratings[it.id].wow + '</span>' : '') +
-          predChipHtml(it.id) +
+          predChipHtml(it.id) + laneChipHtml(it.id) +
           (isUntranslated(it) ? '<span class="lang-tag" title="Başlık kaynak dilinde: Türkçe çeviri henüz hazır değil">EN</span>' : '') +
           (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
           (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
@@ -1451,6 +1472,27 @@
       var data = await res.json();
       Object.keys(data.scores || {}).forEach(function (k) { state.scores[k] = data.scores[k]; });
     } catch (e) { /* scoring is optional */ }
+  }
+  // Lane-type suggestions are optional (learner on the server); the Hub works without them.
+  async function loadLaneSuggestions(items) {
+    var token = null;
+    try { token = localStorage.getItem(OPERATOR_TOKEN_KEY); } catch (e) { token = null; }
+    if (!token || !items.length) return;
+    try {
+      var res = await fetch('/api/lane/suggestions?ids=' + encodeURIComponent(items.slice(0, 200).map(function (x) { return x.id; }).join(',')), { headers: { Authorization: 'Bearer ' + token } });
+      if (!res.ok) return;
+      var data = await res.json();
+      state.laneSugg = data.suggestions || {};
+    } catch (e) { /* suggestions are optional */ }
+  }
+  async function moveLane(id, lane) {
+    var items = visibleItems();
+    var idx = items.findIndex(function (x) { return x.id === id; });
+    var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
+    var res = await api('/api/lane/move', { method: 'POST', body: JSON.stringify({ itemId: id, to: lane }) });
+    showToast(res && res.unchanged ? 'Zaten ' + LANE_LABEL[lane] + ' hattında' : '✓ ' + LANE_LABEL[lane] + ' hattına taşındı — düzeltme sisteme öğretildi');
+    state.cursor = nextId;
+    await load();
   }
   async function sendRating(id) {
     var d = draftFor(id);
@@ -2207,6 +2249,7 @@
     state.items = translatedFirst(data.items || []);
     await loadRatings(state.items);
     await loadScores(state.items);
+    await loadLaneSuggestions(state.items);
     state.selected = {};
     if (state.showSources) {
       try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }
@@ -2448,6 +2491,11 @@
       state.view = viewBtn.getAttribute('data-view');
       localStorage.setItem('gcos-view', state.view);
       load().catch(function (err) { showToast(err.message); });
+      return;
+    }
+    var laneBtn = e.target.closest('[data-lane-to]');
+    if (laneBtn) {
+      moveLane(laneBtn.getAttribute('data-id'), laneBtn.getAttribute('data-lane-to')).catch(function (err) { showToast(err.message); });
       return;
     }
     var actionBtn = e.target.closest('[data-action]');

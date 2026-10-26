@@ -42,6 +42,7 @@ import { collectOpsSummary } from './ops-summary';
 import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
+import { laneSuggestions, moveItemToLane } from './lane-feedback';
 import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
@@ -500,6 +501,17 @@ export default {
       }
       if (path === '/api/ratings/latest' && request.method === 'GET') {
         const result = await latestRatings(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
+      }
+
+      // Lane corrections (Hub "Haber/Research/Duyuru olmalı") and lane-type suggestions: Hub operator token via ROUTE_GATES; 503 LANE_FEEDBACK_NOT_READY until migrations/addons/a003_lane_feedback.sql is applied.
+      if (path === '/api/lane/move' && request.method === 'POST') {
+        const body = (await request.json().catch(() => null)) as { itemId?: unknown; to?: unknown } | null;
+        const result = await moveItemToLane(env, body?.itemId, body?.to);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/lane/suggestions' && request.method === 'GET') {
+        const result = await laneSuggestions(env, (url.searchParams.get('ids') || '').split(',').filter(Boolean));
         return json(result.body, result.status);
       }
 
