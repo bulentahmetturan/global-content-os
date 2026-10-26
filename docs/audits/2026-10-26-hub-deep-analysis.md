@@ -45,3 +45,32 @@ A scholarship, program or announcement abroad qualifies for Duyuru/Burs/Eğitim 
 
 ## 7. New TODO items (added to the audit checklist)
 26 Eligibility rule for Türkiye (section 2); 27 reject the ~110 REJECTED_LEGACY navigation items through the triage function; 28 scraper profile: drop generic navigation titles; 29 Medical Economics titles from slug; 30 Facebook/Instagram intake after the owner connects the accounts; 31 hold-pile policy (Haber 1,314).
+
+## 8. Bible v4 ile denetim (owner 2026-10-26: "her şeyi Bible'a göre audit edeceksin")
+Kaynak: `apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (Hub kopyası; kanonik dosya `adapters/tip-toplulugu-radar/content/`). Bible otorite sırasında en üsttedir (§0.1); kanal görüşmesi kuralları (Kaduse/Tıp/İyileşme) Config/kanal katmanıdır ve Bible'ı daraltabilir, gevşetemez. Bible'da kanal kavramı yoktur; yalnızca 5 içerik kategorisi ve Türk tıp öğrencisi/sağlık profesyoneli hedef kitlesi vardır.
+
+### 8.1 Bible'ın bu denetimi doğrudan belirleyen maddeleri
+- §2 kategoriler: Haber = hedef kitleyi doğrudan ilgilendiren güncel gelişme; Burs = Türk hedef kitlenin başvurabileceği fon; Eğitim = başvurulabilir eğitim; Duyuru = kongre, sınav, mevzuat, çağrı, kontenjan, başvuru takvimi, kurumsal ilan; Research = klinik/kariyer değeri olan araştırma. Her içerik tek primary category alır (§2.1, §11.1).
+- §12.1 / §12.4: Türkiye uygunluğu üç ayrı eksen: application eligibility (Türk vatandaşı / Türkiye'de okuyan veya çalışan başvurabilir mi), credential recognition, practice rights. Burs/Eğitim için zorunlu alanlar: `application_eligibility`, `eligibility_evidence_url`, `nationality_rule`, `residency_rule`, `institution_rule`, `language_rule`, `visa_rule`. Statüler YES/PARTIAL/NO/UNKNOWN/NOT_APPLICABLE; resmî kanıt yoksa UNKNOWN veya PARTIAL (§12.3). Duyuru başvuru içermiyorsa `turkey_relevance` değerlendirilir (§12.5); Haber/Research için başvuru uygunluğu N/A (§12.6).
+- SPF-10/11/12: Duyuru "aksiyon alınabilir resmî ilan", süresi dolmuş veya aksiyon alınamayan ITEM PASS olamaz. Burs: "Türk hedef kitlenin gerçekten başvurabileceği"; açıkça başvurulamayan PASS olamaz. Eğitim: Türk hedef kitlenin katılabildiği.
+- §20.3 deadline güvenliği: deadline belirsizse fırsat "open" gösterilemez; `unknown` veya `human_review`. Hard gate: "tarihi geçmiş fırsatın açıkmış gibi sunulması".
+- §0.4 / §36: UNKNOWN tahminden iyidir; fail-closed; sessiz fallback yok.
+- SPF-6/7, §19.2: ITEM REJECT ≠ SOURCE FAIL; teknik sorun veya düşük verim kaynağı FAIL yapmaz; kaynak silinmez, lifecycle (CONDITIONAL/WATCH/PAUSED/MANUAL_ONLY/retired) ve gerekçe kodu ile yönetilir.
+- §6.4, §10.5, §24.2: sosyal medya yalnızca discovery/yardımcı kanıttır; birincil kaynak kazanır; canonical doğrulama yerine geçmez.
+- §13: Research ve sağlık iddiası içeren Haber için kanıt kapısı; preprint açıkça etiketlenir (reddedilmez); hayvan/in-vitro insan tedavisi gibi sunulamaz.
+- §22.1 hedef kitle sözlüğü: medical_student, intern, resident, physician, specialist, dentist, pharmacist, nurse, midwife, veterinarian, physiotherapist, dietitian, clinical_psychologist, researcher vb.
+
+### 8.2 Bible'a göre değişen tespitler
+1. Türkiye kuralı artık yeni bir buluş değil, Bible §12 uygulamasıdır: owner'ın "Kanada'daki Türk öğrenciler yetmez" kuralı, `application_eligibility = YES` (Türkiye'de okuyan/çalışan ya da Türk vatandaşı olarak Türkiye'den başvurabilir) koşuludur. Kanada'da zaten okuyanlara özel ilan = NO; belirsiz = UNKNOWN → HUMAN_REVIEW (open gösterilmez). Yeni bir "ABROAD_ONLY" bayrağı yerine `nationality_rule` / `residency_rule` alanları çıkarılmalı.
+2. Duyuru ölçütü "resmî ilan"dır: Medical Economics (83, hekim iş dünyası haberi/özet bülteni) Duyuru ölçütünü karşılamaz; olsa olsa Haber adayıdır (ve hedef kitle ilgisi içerik bazında). Genel gezinme sayfaları ("THE MATCH logo", "Bulletin of Information") ITEM düzeyinde SPF-10'a takılır: REJECT (gerekçe kodlu), kaynak FAIL değil; kaynağın kazıma profili düzeltilir.
+3. Düzeltme (önceki bölüm 3): gerçek sınav/başvuru ilanları (USMLE, MCCQE, TDM sınav başvurusu) Bible §2'ye göre "sınav" Duyurusu olabilir; Türkiye'den başvurulabilir olup olmadıkları başlıktan bilinmiyor, kanıt yoksa UNKNOWN. "Yalnızca yabancı başvuranlar içindir" demek de tahmindir; eligibility sayfasından okunmalı.
+4. Meslek grupları kapsam dahilidir: tdb_dental, tvhb_veterinary, tpd_psychiatry, hemşire/eczacı kaynakları hedef kitle sözlüğündedir; "tıp dışı" diye elenmemeli. (Kaduse Haber/İyileşme kanalı daha dar olabilir; bu kanal kuralı, Bible değil.)
+5. Deadline: 415 açık Duyuru öğesinin hiçbirinde `deadline_at` yok; Bible'a göre bunlar "open" gösterilemez → `unknown`/human_review ya da süresi dolmuş sayılıp gizlenir. ÖSYM'deki 41 eski sonuç duyurusu "süresi dolmuş" sınıfıdır.
+6. Kaynak kapatma dili düzelir: GDELT, NIH/NCCIH, medRxiv, Nature News yüzünden "kapatma" Bible'da kaynak FAIL değildir (hard FAIL şartı yok); doğru dil lifecycle: `retired`/`paused` + reason code + ITEM REJECT, silme yok. medRxiv için Bible preprint'i etiketle der; reddi kanal kuralıdır (owner kararı), kaynak FAIL değil.
+7. Owner'ın kanal kuralları Bible'dan daha dar olan yerler (çelişki değil, kanal filtresi): preprint reddi, tek ülke mevzuatı/fiyatı Haber'e girmez (Bible Haber "Türkiye ilgisi" ile uyumlu), hayvan çalışması yalnızca insan çıkarımıyla (Bible §13.2 ile uyumlu), DOI/PMID'li haber/araştırma (Bible §0.2 provenance ile uyumlu).
+8. Doktorların Facebook/Instagram paylaşımları: Bible §6.4 gereği bireysel akademisyen hesabı yalnızca yardımcı keşif/evidence; her paylaşım birincil kaynağa (makale/DOI, kurum duyurusu) çözülmeden Haber/Research olamaz. Instagram alımı "discovery kaynağı" olarak tasarlanmalı.
+9. Haber ve Research için Bible "birincil kaynak" arar (§24.3): Newswise/Medical Xpress tipi PR/aggregator kayıtları discovery rolündedir; Haber'de canonical kaynağı bulunmayan öğe HOLD/HUMAN_REVIEW'a gider. Bu, 1.314 öğelik bekletme yığınının bir bölümünü açıklar.
+10. Her karar için "Bible Compliance Envelope" (§0.2) üretilmesi gerekir. Hub'daki triyaj eylemleri `editorial_decisions` ve `review_feedback` yazıyor; envelope alanlarının (rule_id, ruleset, reason_codes, human_override) ne kadarının üretildiği ayrıca denetlenecek (todo 38).
+
+### 8.3 Bible'a göre eklenen / revize edilen TODO
+Bkz. 2026-10-24-hub-full-audit.md, 2026-10-26 Bible bölümü (madde 26 revize; 32-38 yeni).

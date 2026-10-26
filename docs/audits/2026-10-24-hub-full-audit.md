@@ -131,3 +131,15 @@ G. Cross-cutting
 - [ ] 29. [C] Medical Economics: boş başlığı URL slug'ından ya da sayfa başlığından türet; içerik uyumu için öğe bazlı karar (madde 5).
 - [ ] 30. [O] Facebook ve Instagram hesaplarını bağla (Meta tarafı sende); [C] sonra Instagram alımını yeniden başlat, doktor sayfalarını kaynak listesine ekle.
 - [ ] 31. [C] Beklet yığını politikası: Haber 1.314 (büyüyor); bekletilen öğeler N gün sonra otomatik düşsün; N [O].
+
+## TODO 2026-10-26: Bible v4'e göre revizyon (owner: her şey Bible'a göre denetlenecek)
+- [ ] 26 (revize). [C] Türkiye uygunluğu = Bible §12 `application_eligibility` (YES/PARTIAL/NO/UNKNOWN) + `nationality_rule` + `residency_rule`. Duyuru/Burs/Eğitim'de yurt dışı öğe yalnız YES ise normal akışa girer; "Kanada'da okuyan Türkler" gibi hedef ülkede bulunanlara özel = NO; kanıt yoksa UNKNOWN → HUMAN_REVIEW, "açık" gösterilmez.
+- [ ] 32. [C] Kaynak kapatma/açma dili: 14. madde kapatmaları `retired/paused` + reason code olarak yapılır; Bible'a göre kaynak FAIL yalnız hard FAIL (SPF-6), silme yok (§19.2). Önceki kapatma önerilerinde bu dil kullanılacak.
+- [ ] 33. [C] Duyuru ölçütü "aksiyon alınabilir resmî ilan" (SPF-10): Medical Economics ve gezinme sayfaları ITEM REJECT (gerekçe kodlu); Medical Economics içerik bazında Haber adayı olabilir.
+- [ ] 34. [C] Deadline güvenliği (§20.3): `deadline_at` çıkar; belirsiz = unknown/human_review; süresi dolan gizlenir; ÖSYM eski sonuç duyuruları süresi dolmuş sayılır.
+- [ ] 35. [C] Gerçek sınav/başvuru ilanları (USMLE, MCCQE, TDM) için eligibility sayfasından Türkiye'den başvurulabilirlik oku; tahmin yok.
+- [ ] 36. [C] Hedef kitle sözlüğü (§22.1): diş, veteriner, hemşire, eczacı, psikiyatri kaynakları kapsam içi; kanal filtresi ayrı, Bible kapsamı dar tutulmaz.
+- [ ] 37. [C] Sosyal medya (Facebook/Instagram) yalnız discovery (§6.4): her paylaşım birincil kaynağa çözülmeden Haber/Research olamaz; tasarım bu kısıtla başlar.
+- [ ] 38. [C] Bible Compliance Envelope (§0.2) denetimi: triyaj ve skorlama kararlarının hangi envelope alanlarını (rule_id, reason_codes, human_override, next_review_at) ürettiğini çıkar; eksikleri listele.
+- [ ] 39. [C] Haber/Research'te canonical (birincil) kaynağı bulunmayan öğe için HOLD/HUMAN_REVIEW (§24.3) ve bekletme yığını politikası (madde 31) bununla birleştirilir.
+- [ ] 40. [C] Tüm alanları (Haber, Research, Duyuru, Burs, Eğitim, Evergreen, Modüller) SPF-8…12 ölçütleriyle öğe düzeyinde yeniden say: hangi açık öğe hangi SPF kuralına takılıyor (before/after tablosu, madde 24 ile birleşir).
