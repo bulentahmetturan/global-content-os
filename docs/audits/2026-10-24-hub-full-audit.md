@@ -151,3 +151,6 @@ G. Cross-cutting
 - [x] 41. [O] Karar (2026-10-26): evergreen Haber değildir; ayrı başlık. Haber/Duyuru time-sensitive.
 - [ ] 45. [O+C] Bible v4.1 değişikliği: `referans` kategorisi + SPF-8b (docs/audits/2026-10-26-bible-evergreen-proposal.md); sözcük onayı [O], uygulama [C] (§28.3: sürüm, changelog, testler, regresyon, Hub kopyalarını yeniden üret).
 - [ ] 46. [C] Sayım/kapılar: evergreen öğeleri Haber güncellik kapısından ve Haber sayımından ayır (yalnızca raporlama/skorlama; depolama rotası değişikliği ayrı karar).
+- [x] 47. [O] Yapı kararı (2026-10-26): Time Sensitive = Haber/Duyuru/Burs/Eğitim/Research; Evergreen = Sağlık & Referans, Research Rediscovery, Dossier, Doktorlar, Protokoller, İstatistik; Keşif = tüm alanlar için sürekli aday önerisi. docs/audits/2026-10-26-owner-structure-decision.md
+- [ ] 48. [C] Bible v4.1: hedef kitle uygunluğu 1. hard gate (§1.2/§1.3 başına), iki grup + Keşif katmanı, kitle tanımları; madde 45 ile birleşir.
+- [ ] 49. [C] Keşif adayları için kitle kapısı (ilk eleme) ve Hub'da Keşif başlığının mevcut Discovery/Dossier/Doktor aday akışlarıyla eşlenmesi.
