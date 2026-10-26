@@ -2160,14 +2160,14 @@
           ? '<table><thead><tr><th>Kaynak</th><th>Editorial</th><th>Lifecycle</th><th>Trigger</th></tr></thead><tbody>' + rows + '</tbody></table>'
           : '<p style="margin:8px 0 0">Henüz SPF geri besleme kaydı yok. Fetch sağlığı düşünce CONDITIONAL + degraded yazılır; FAIL değildir.</p>';
         if (metaEl) {
-          metaEl.innerHTML = '<b>Bible v' + escapeHtml(meta.bibleVersion || '4.0') + '</b> · ' +
+          metaEl.innerHTML = '<b>Bible v' + escapeHtml(meta.bibleVersion || '4.1') + '</b> · ' +
             escapeHtml(meta.rulesetVersion || 'source-pass-fail-v1') +
             ' · eşikler Config’te · FAIL yalnız hard FAIL' +
             '<div class="spf-tracks">' + chips + '</div>' + table;
         }
       } catch (metaErr) {
         if (metaEl) {
-          metaEl.innerHTML = '<b>Bible v4.0</b> · Haber/Research = ENGAGEMENT · Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY';
+          metaEl.innerHTML = '<b>Bible v4.1</b> · Haber/Research = ENGAGEMENT · Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY';
         }
       }
     } catch (err) {

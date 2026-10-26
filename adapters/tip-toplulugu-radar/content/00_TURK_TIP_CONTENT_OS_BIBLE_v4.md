@@ -1,7 +1,7 @@
 # TÜRK TIP İÇERİK OS — BIBLE v4
 
 > **Durum:** Normatif / bağlayıcı sistem anayasası  
-> **Sürüm:** 4.0  
+> **Sürüm:** 4.1  
 > **Kapsam:** Haber, Burs, Eğitim, Duyuru, Research  
 > **Kurallar kümesi:** Kitap I (anayasa) + Kitap II (`source-pass-fail-v1`)  
 > **Temel ilke:** Sistem hızdan, engagement'tan ve otomasyondan önce doğruluk, güvenlik, kaynak bütünlüğü ve izlenebilirliği korur.
@@ -10,6 +10,7 @@
 |---|---|
 | 3.0 | Kitap I — hard gate, fail-closed, beş kategori, eligibility eksenleri |
 | 4.0 | Kitap II — Source Pass/Fail & Pipeline Loop; iki değerlendirme hattı; editorial ≠ ingestion ≠ lifecycle |
+| 4.1 | Hedef kitle uygunluğu 1. hard gate (§1.2, §1.3, §12.0); kanallar ve kitle tanımları (§1.4); zaman ekseni: Time Sensitive / Evergreen grupları ve hat saflığı (§2.3); Keşif katmanı (§6.6); kontrollü sözlük: time_axis, evergreen_family, channel_audience (§22.5); SPF-7 ve §35 kontrol listesi güncellendi |
 
 v3 metni Kitap I olarak korunur (Bölüm 0–35). Source Pass/Fail sözleşmesi **SPF-0 … SPF-35** olarak Kitap II'dedir; Kitap I bölüm numaraları ile çakışmaz.
 
@@ -78,6 +79,7 @@ Kaynak ve içerik kararlarında Kitap II SPF-33 ek alanları (soft score, score_
 
 Hard gate örnekleri:
 
+- hedef kitleye uygun olmayan içerik (§1.2, §12.0),
 - kimliği doğrulanmamış kaynak,
 - kırık veya doğrulanamayan kritik iddia,
 - schema hatası,
@@ -132,8 +134,9 @@ Sistemin iki operasyonel hedefi vardır:
 
 ### 1.2. Ana hedeflerden daha üstte duran değişmez kapılar
 
-Aşağıdaki dört ilke hedef değil, **non-negotiable gate**'tir:
+Aşağıdaki beş ilke hedef değil, **non-negotiable gate**'tir. Sıralamada birinci kapı hedef kitle uygunluğudur:
 
+- **Hedef kitle uygunluğu** (1. kapı): kitlelerimize (§1.4) uygun olmayan hiçbir içerik, fırsat, kaynak adayı veya keşif önerisi sistemde istenmez; kanal/hat ne olursa olsun elenir.
 - **Doğruluk**
 - **Tıbbi güvenlik ve kanıt bütünlüğü**
 - **Kaynak/evidence izlenebilirliği**
@@ -141,18 +144,31 @@ Aşağıdaki dört ilke hedef değil, **non-negotiable gate**'tir:
 
 Engagement bu kapılardan hiçbirini geçersiz kılamaz.
 
+### 1.4. Kanallar ve hedef kitleler
+
+Hedef kitle uygunluğu bu üç kitleye göre değerlendirilir (sahip tanımı; yalnız sahip yeniden tanımlayabilir):
+
+| Kanal | Kitle |
+|---|---|
+| **Kaduse Medikal** | Tıp öğrencileri. Stetoskop satışı temelinde diğer medikal alanları geliştirmeye çalışan marka. |
+| **Türk Tıp Topluluğu** | Türkiye'deki tıp profesyonelleri. İleride büyütülecek ve dolaylı olarak Kaduse Medikal ile iş birliği oluşturacak sayfa. |
+| **Sağlık kanalı (İyileşme Kanalı)** | Türkiye'de yaşayan, sağlıkla ilgilenen herkes (sağlıklı yaşam, longevity, kronik hastalıklar). |
+
+Kural: Türkiye'deki tıp profesyonellerine ve öğrencilerine (veya sağlık kanalı için Türkiye'de yaşayanlara) hitap etmeyen içerik uygun değildir. Örnek: Türkiye'den başvurulamayan veya yalnız hedef ülkede bulunanlara açık bir yurt dışı burs/eğitim/duyuru uygun değildir (§12.0, §12.1).
+
 ### 1.3. Öncelik sırası
 
 Bir çatışma olduğunda sıralama:
 
-1. Güvenlik ve doğruluk
-2. Kaynak/evidence bütünlüğü
-3. Veri bütünlüğü ve dedup
-4. Türkiye ilgililiği / eligibility
-5. Güncellik
-6. Kullanıcı değeri
-7. Engagement
-8. Estetik/format tercihleri
+1. Hedef kitle uygunluğu
+2. Güvenlik ve doğruluk
+3. Kaynak/evidence bütünlüğü
+4. Veri bütünlüğü ve dedup
+5. Türkiye ilgililiği / eligibility
+6. Güncellik
+7. Kullanıcı değeri
+8. Engagement
+9. Estetik/format tercihleri
 
 ---
 
@@ -184,6 +200,18 @@ Bir kurum birden fazla kategoride içerik üretebilir. Bu nedenle kategori atama
 
 - `source_categories`: kaynağın üretebildiği kategoriler
 - `content_category`: tek içeriğin ana kategorisi
+
+### 2.3. Zaman ekseni, gruplar ve hat saflığı
+
+Platform iki zaman grubuna ve bir keşif katmanına ayrılır (`time_axis`):
+
+**Time Sensitive** (süreli; güncellik/deadline ile geçerliliğini yitirir): Haber, Duyuru, Burs, Eğitim, Research (güncel/yeni).
+
+**Evergreen** (süresiz; staleness ile elenmez, periyodik ilgililik incelemesi yapılır): Sağlık & Referans, Research Rediscovery, Dossier, Doktorlar, Protokoller, İstatistik. Bunlar beş primary category'nin alt tipi değildir; `evergreen_family` sözlüğüyle ifade edilir ve Haber güncellik kapılarına tabi değildir.
+
+**Keşif:** yukarıdaki tüm alanlar için sisteme yeni dahil edilecek adayları sürekli öneren katman (§6.6).
+
+**Hat saflığı:** Haber'de duyuru, Duyuru'da haber, başka başlık altında Research bulunmaz. Her başlık kendi çerçevesi ve hedef kitlesine göre kendi operasyonel mükemmelliğini oluşturur ve geri besleme ile iyileşir. Tür uyuşmazlığı doğru başlığa taşınır veya gerekçe koduyla reddedilir; çapraz sızıntı kabul edilmez.
 
 ---
 
@@ -415,6 +443,19 @@ possible_category:
 discovery_evidence:
 discovered_at:
 ```
+
+### 6.6. Keşif katmanı kapsamı
+
+Keşif, aşağıdaki alanlar için sürekli aday önerir; her aday önce hedef kitle kapısından (§1.2, §12.0) geçer, sonra sahibe sunulur:
+
+- yeni istatistik kaynakları (istatistik tanımına uygun),
+- yeni protokoller (protokol tanımına uygun),
+- yeni dossier adayları (dossier tanımına uygun),
+- yeni doktor adayları (doktor tanımına uygun),
+- yeni Research Rediscovery alanları,
+- yeni Haber, Duyuru, Burs, Eğitim ve Research kaynakları.
+
+Tarama alanı: Türk tıp profesyonelleri, tıp öğrencileri ve sağlıklı yaşam, longevity ve kronik hastalıklarla ilgilenen kitle. Keşif adayı onaylanana kadar içerik değildir; sosyal medya kaynaklı adaylar §6.4 kurallarına tabidir.
 
 ---
 
@@ -695,6 +736,10 @@ Yeni tag gerekiyorsa:
 ## BÖLÜM 12 — SİSTEM 7: ELIGIBILITY + EVIDENCE + SAFETY GATE
 
 Bu aşama sistemin en kritik kapılarından biridir.
+
+### 12.0. Hedef kitle kapısı (1. kapı)
+
+Her içerik, fırsat ve keşif adayı ilk olarak §1.4'teki kitlelere uygunluk açısından değerlendirilir. Sonuç `YES | PARTIAL | NO | UNKNOWN` olur; `NO` içerik sonraki aşamaya geçmez, `UNKNOWN` fail-closed ilkesiyle `HUMAN_REVIEW`'a gider (§0.4). Yurt dışı burs, eğitim ve duyurularda kapı, Türkiye'deki tıp profesyonellerinin ve öğrencilerinin başvurabilmesini/katılabilmesini arar: yalnız hedef ülkede bulunanlara veya o ülkenin vatandaş/yerleşiklerine açık fırsat `NO`'dur (örn. "Kanada'da okuyan Türk öğrenciler" yetmez).
 
 ### 12.1. Türkiye uygunluğu üç ayrı eksendir
 
@@ -1272,6 +1317,14 @@ regulatory_sensitive
 
 ISO standartlarına yakın kontrollü kodlar tercih edilir; serbest metin yalnız display label olarak kullanılır.
 
+### 22.5. Zaman ekseni, evergreen ailesi, kanal kitlesi
+
+```text
+time_axis:        time_sensitive | evergreen
+evergreen_family: saglik_referans | research_rediscovery | dossier | doktorlar | protokoller | istatistik
+channel_audience: kaduse_medikal | tip_toplulugu | saglik_kanali
+```
+
 ---
 
 
@@ -1645,6 +1698,7 @@ Aynı kişi birden fazla rolü üstlenebilir; ancak audit log'da rol görünür 
 ## BÖLÜM 35 — YAYIN ÖNCESİ SON CHECKLIST
 
 ```text
+[ ] Hedef kitle uygunluğu YES (§12.0)
 [ ] Bible version kaydedildi
 [ ] Source identity doğrulandı
 [ ] Canonical URL belirlendi
@@ -1674,24 +1728,25 @@ Bu checklist'in zorunlu maddelerinden biri eksikse yayın yapılamaz.
 
 ## BÖLÜM 36 — BIBLE'IN DEĞİŞMEZ PRENSİPLERİ
 
-1. **Unknown, tahminden iyidir.**
-2. **Primary source, mümkün olduğunda canonical truth'tur.**
-3. **Discovery source ile verification source aynı olmak zorunda değildir.**
-4. **Source, content ve opportunity ayrı entity'dir.**
-5. **Fetch sorunu tüm sistemi durdurmaz; kaynak izole edilir.**
-6. **Teknik olarak otomatik çekilemeyen değerli kaynak manual_only olabilir.**
-7. **12 aylık sessizlik otomatik red değildir; cadence-aware staleness kullanılır.**
-8. **Başvurabilirlik, credential tanınması ve practice rights ayrı şeylerdir.**
-9. **Tıbbi iddianın gücü kanıtın gücünü aşamaz.**
-10. **Dedup pipeline'ın her girişinde çalışır.**
-11. **İnsan onayı olmadan yayın yoktur.**
-12. **Engagement truth/safety'den üstün değildir.**
-13. **Problem MD nokta düzeltme değil, sistem düzeltme mekanizmasıdır.**
-14. **Analytics içerik doğruluğunu değil, seçim kalitesini optimize eder.**
-15. **Değişken değerler Config/Registry'de; prensipler Bible'dadır.**
-16. **Her kritik karar audit edilebilir olmalıdır.**
-17. **Silent failure, silent fallback ve silent inference yasaktır.**
-18. **Bir işlem Bible Compliance Envelope üretmeden tamamlanmış sayılmaz.**
+1. **Hedef kitleye uygun olmayan hiçbir şey istenmez; hedef kitle uygunluğu 1. kapıdır.**
+2. **Unknown, tahminden iyidir.**
+3. **Primary source, mümkün olduğunda canonical truth'tur.**
+4. **Discovery source ile verification source aynı olmak zorunda değildir.**
+5. **Source, content ve opportunity ayrı entity'dir.**
+6. **Fetch sorunu tüm sistemi durdurmaz; kaynak izole edilir.**
+7. **Teknik olarak otomatik çekilemeyen değerli kaynak manual_only olabilir.**
+8. **12 aylık sessizlik otomatik red değildir; cadence-aware staleness kullanılır.**
+9. **Başvurabilirlik, credential tanınması ve practice rights ayrı şeylerdir.**
+10. **Tıbbi iddianın gücü kanıtın gücünü aşamaz.**
+11. **Dedup pipeline'ın her girişinde çalışır.**
+12. **İnsan onayı olmadan yayın yoktur.**
+13. **Engagement truth/safety'den üstün değildir.**
+14. **Problem MD nokta düzeltme değil, sistem düzeltme mekanizmasıdır.**
+15. **Analytics içerik doğruluğunu değil, seçim kalitesini optimize eder.**
+16. **Değişken değerler Config/Registry'de; prensipler Bible'dadır.**
+17. **Her kritik karar audit edilebilir olmalıdır.**
+18. **Silent failure, silent fallback ve silent inference yasaktır.**
+19. **Bir işlem Bible Compliance Envelope üretmeden tamamlanmış sayılmaz.**
 
 ---
 
@@ -1877,7 +1932,7 @@ Bu durumlarda: `CONDITIONAL` | `WATCH` | `MANUAL_ONLY` | `PAUSED` | `DEGRADED`.
 
 ### SPF-7. Item hard gate
 
-Canonical URL, yayın tarihi, metadata, duplicate, doğrulanabilir publisher, içerik bütünlüğü, güncellik — SOURCE değil ITEM seviyesinde.
+Hedef kitle uygunluğu (§12.0), canonical URL, yayın tarihi, metadata, duplicate, doğrulanabilir publisher, içerik bütünlüğü, güncellik — SOURCE değil ITEM seviyesinde.
 
 ITEM kararları: `PASS` | `HOLD` | `HUMAN_REVIEW` | `REJECT`. ITEM REJECT ≠ SOURCE FAIL.
 

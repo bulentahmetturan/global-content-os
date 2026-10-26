@@ -1,8 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "bibleVersion": "4.0",
+  "bibleVersion": "4.1",
   "note": "Controlled vocabulary (Bible §22 / SPF). Free tags forbidden. New values require taxonomy owner approval.",
   "primary_category": ["haber", "burs", "egitim", "duyuru", "research"],
+  "time_axis": ["time_sensitive", "evergreen"],
+  "evergreen_family": ["saglik_referans", "research_rediscovery", "dossier", "doktorlar", "protokoller", "istatistik"],
+  "channel_audience": ["kaduse_medikal", "tip_toplulugu", "saglik_kanali"],
   "eligibility_status": ["YES", "PARTIAL", "NO", "UNKNOWN", "NOT_APPLICABLE"],
   "source_state": ["candidate", "verified", "active", "degraded", "manual_only", "paused", "retired", "denylisted"],
   "content_state": ["discovered", "fetched", "normalized", "verified", "duplicate", "eligible", "human_review", "approved", "rejected", "published", "archived", "superseded"],

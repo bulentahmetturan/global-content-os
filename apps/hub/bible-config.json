@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "bibleVersion": "4.0",
+  "bibleVersion": "4.1",
   "note": "Variable operational values (Bible §3.6 / §33 / SPF-17 / SPF-22 / SPF-28). Weights, bands, and intervals live here, not in the Bible.",
   "auto_publish": false,
   "fail_closed": true,

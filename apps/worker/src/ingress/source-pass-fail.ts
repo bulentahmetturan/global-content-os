@@ -34,7 +34,7 @@ export const REVALIDATION_TRIGGERS = [
 
 export function biblePublicMeta(env: Env) {
   return {
-    bibleVersion: env.BIBLE_VERSION || '4.0',
+    bibleVersion: env.BIBLE_VERSION || '4.1',
     rulesetVersion: SPF_RULESET_VERSION,
     schemaVersion: SPF_SCHEMA_VERSION,
     document: SPF_DOCUMENT,
@@ -118,7 +118,7 @@ export async function recordSourcePassFail(
         JSON.stringify(input.evidence ?? []),
         JSON.stringify(input.warnings || []),
         JSON.stringify(input.reviewTrigger || []),
-        env.BIBLE_VERSION || '4.0',
+        env.BIBLE_VERSION || '4.1',
         SPF_RULESET_VERSION,
         SPF_SCHEMA_VERSION
       )
