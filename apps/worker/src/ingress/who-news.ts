@@ -1,5 +1,6 @@
 import { type Env } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { whoAudienceFit } from './who-audience-gate';
 
 interface WhoNewsItem {
   Title?: string;
@@ -17,7 +18,7 @@ interface WhoNewsItem {
 export async function ingestWhoNews(
   env: Env,
   opts?: { force?: boolean }
-): Promise<{ created: number; updated: number; total: number }> {
+): Promise<{ created: number; updated: number; skipped?: number; total: number }> {
   const due = opts?.force
     ? ''
     : ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
@@ -54,6 +55,7 @@ export async function ingestWhoNews(
 
   let created = 0;
   let updated = 0;
+  let skipped = 0;
 
   for (const it of items) {
     const title = (it.Title || '').trim();
@@ -69,6 +71,11 @@ export async function ingestWhoNews(
     const summary =
       (it.Summary || it.Description || title).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
     const publishedAt = it.PublicationDateAndTime || it.FormattedDate || null;
+
+    if (!whoAudienceFit(title, summary).ok) {
+      skipped += 1;
+      continue;
+    }
 
     const result = await upsertLocalizedSourceItem(env, {
       feedId: feed.id,
@@ -92,5 +99,5 @@ export async function ingestWhoNews(
     .bind(created + updated)
     .run();
 
-  return { created, updated, total: items.length };
+  return { created, updated, skipped, total: items.length };
 }
