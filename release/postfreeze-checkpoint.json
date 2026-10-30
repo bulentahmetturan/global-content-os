@@ -150,6 +150,11 @@
     "deployedVersion": "f89dbf0a-f5b3-4fb1-8e5b-65f4350875f4",
     "rollbackVersion": "06105aba-0d38-4d4b-9907-b43750eb2864",
     "rollbackCommit": "e7baa574349a4a55b77cb7ee20fe62afae5f8140",
-    "d1BookmarkBeforeFeedChanges": "00000637-00000177-00005113-9dfc3f70cc9fec9f89129b0b2f338907"
+    "d1BookmarkBeforeFeedChanges": "00000637-00000177-00005113-9dfc3f70cc9fec9f89129b0b2f338907",
+    "supersededBy": {
+      "note": "2026-10-30: the f89dbf0a build (from branch who-audience-gate-20261030, based on e7baa57) dropped lane-purity v2, per-source content policies and Rediscovery; replaced by integration/gcos-gate-b-option4-20261015 with the gate cherry-picked as 0cb84a7. Production deploys go only from this branch.",
+      "liveCommit": "0cb84a7",
+      "liveVersion": "02de8781"
+    }
   }
 }
