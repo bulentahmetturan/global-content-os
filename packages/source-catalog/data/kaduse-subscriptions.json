@@ -209,7 +209,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ec-dg-sante",
       "targetId": "ec-dg-sante-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "health-related DG SANTE updates"
       ],
@@ -401,7 +401,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "team-nb-news",
       "targetId": "team-nb-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -437,7 +437,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ec-hera",
       "targetId": "ec-hera-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "preparedness",
         "health emergency countermeasures",
@@ -518,7 +518,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "fierce-medtech",
       "targetId": "fierce-medtech-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "medtech/device content only"
       ]
@@ -539,7 +539,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "health-canada-medical-devices",
       "targetId": "health-canada-devices-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Medical Devices",
         "What's New/announcements",

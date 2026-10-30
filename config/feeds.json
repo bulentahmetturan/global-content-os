@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "01151f661dc45c94f4ddc45336db32c0f35642f3a38bab14b04bda2b4a54e6bc"
+        "sha256": "59e4e676bc2b0d43cbef6375cad3636be49eaf7d1c0b8e2258355d00c1cf1674"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -615,7 +615,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://health.ec.europa.eu",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ec-dg-sante-health-scoped",
       "registrySourceId": "ec-dg-sante",
       "inclusionPolicy": [
@@ -1103,7 +1103,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.team-nb.org/news/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "team-nb-news-whole",
       "registrySourceId": "team-nb-news",
       "inclusionPolicy": null,
@@ -1193,7 +1193,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://health.ec.europa.eu/health-emergency-preparedness-and-response-hera_en",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ec-hera-scoped",
       "registrySourceId": "ec-hera",
       "inclusionPolicy": [
@@ -1393,7 +1393,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.fiercebiotech.com/medtech",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "fierce-medtech-scoped",
       "registrySourceId": "fierce-medtech",
       "inclusionPolicy": [
@@ -1445,7 +1445,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "health-canada-devices-scoped",
       "registrySourceId": "health-canada-medical-devices",
       "inclusionPolicy": [
