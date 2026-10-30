@@ -245,9 +245,10 @@
     "canonicalUrl": "https://www.medrxiv.org/",
     "sourceRole": "RESEARCH_INDEX",
     "discoveryFunction": "DISCOVERY_SECONDARY",
-    "verificationStatus": "CONDITIONAL_VERIFIED",
+    "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
-    "notes": "Well-known real preprint server domain; not individually re-confirmed this batch. Preprints are DISCOVERABLE but NEVER auto-eligible for production Research content (hard rule) -- peerReviewStatus must be PREPRINT, never PEER_REVIEWED, unless independently confirmed."
+    "notes": "Well-known real preprint server domain; not individually re-confirmed this batch. Preprints are DISCOVERABLE but NEVER auto-eligible for production Research content (hard rule) -- peerReviewStatus must be PREPRINT, never PEER_REVIEWED, unless independently confirmed.",
+    "retiredFromStatus": "CONDITIONAL_VERIFIED"
   },
   {
     "sourceId": "science-translational-medicine",
@@ -375,9 +376,10 @@
     "canonicalUrl": "https://www.nih.gov/news-events/news-releases",
     "sourceRole": "ACCESSIBLE_SCIENCE_MEDIA",
     "discoveryFunction": "DISCOVERY_SECONDARY",
-    "verificationStatus": "CONDITIONAL_VERIFIED",
+    "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "retiredFromStatus": "CONDITIONAL_VERIFIED"
   },
   {
     "sourceId": "openalex-api",
@@ -395,9 +397,10 @@
     "canonicalUrl": "https://www.gdeltproject.org/",
     "sourceRole": "ATTENTION_METRIC",
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
-    "verificationStatus": "CONDITIONAL_VERIFIED",
+    "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
-    "notes": "Well-known, real, free global news-monitoring project; the specific DOC 2.0 API endpoint was not reachable via a live check this batch (connection timeout, not a confirmed-down signal). Intended real-world news-mention-volume source for attention-signals.ts's news-attention spike classification -- never a substitute for the primary paper/publisher, and its absence for a given paper is never an exclusion reason."
+    "notes": "Well-known, real, free global news-monitoring project; the specific DOC 2.0 API endpoint was not reachable via a live check this batch (connection timeout, not a confirmed-down signal). Intended real-world news-mention-volume source for attention-signals.ts's news-attention spike classification -- never a substitute for the primary paper/publisher, and its absence for a given paper is never an exclusion reason.",
+    "retiredFromStatus": "CONDITIONAL_VERIFIED"
   },
   {
     "sourceId": "altmetric-api",

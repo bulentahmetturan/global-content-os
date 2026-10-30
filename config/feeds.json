@@ -10,7 +10,7 @@
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
-        "sha256": "103f0a39ca200cbf8a4756c8166d8e0049246a5194d9e379b54720525c49a887"
+        "sha256": "caba3df23593beb8623c3dbb891eeb829a45ba62393224449f8ed3d9548cb502"
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
@@ -2070,7 +2070,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.medrxiv.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "medrxiv-preprint",
       "rules": {
         "mode": "registered"
@@ -2252,7 +2252,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nih.gov/news-events/news-releases",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nih-news-releases",
       "rules": {
         "mode": "registered"
@@ -2280,7 +2280,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.gdeltproject.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "gdelt-doc-api",
       "rules": {
         "mode": "registered"
