@@ -16,8 +16,8 @@ describe('ingest gate: news', () => {
     assert.equal(news({ publishedAt: '2027-03-01' }).reason, 'future_date');
     assert.equal(news({ publishedAt: '2026-09-21', title: 'Title Pending 927' }).reason, 'placeholder_title');
   });
-  it('allows undated only for the AA health listing', () => {
-    assert.equal(news({ feedId: 'news-aa-saglik-scoped', publishedAt: null }).ok, true);
+  it('refuses undated news, AA health included (owner 2026-10-31)', () => {
+    assert.equal(news({ feedId: 'news-aa-saglik-scoped', title: 'Yaşlılarda enfeksiyonlara karşı en etkili koruma aşı', publishedAt: null }).reason, 'undated');
   });
   it('boundary: exactly 10 days ok, 11 days stale', () => {
     assert.equal(news({ publishedAt: '2026-09-12' }).ok, true);

@@ -301,7 +301,7 @@ const HEALTHAI: SourcePolicy = {
  */
 const COMMON_NEWS_ALLOW: RegExp[] = [
   /\b(disease\w*|cancer\w*|tumou?rs?|diabet\w*|obes\w*|heart|cardi\w*|stroke|kidney|liver|brain|dementia|alzheimer\w*|infect\w*|virus|viral|bacteri\w*|fung\w*|outbreaks?|epidemic|pandemic|measles|ebola|dengue|flu|influenza|covid|rsv|mpox|tuberculosis|tb|malaria|hiv|cholera|vaccin\w*|immuni[sz]\w*|treatment\w*|therap\w*|drugs?|medicines?|medications?|approv\w*|clear(s|ed|ance|ances)|authori[sz]\w*|diagnos\w*|tests?|testing|screening|trials?|study|studies|findings?|risks?|prevent\w*|sleep|nutrition|diet\w*|exercise|physical activity|mental health|depression|anxiety|menopause|aging|ageing|longevity|devices?|implants?|recalls?|safety|alerts?|warnings?|wearables?|sensors?|ai|artificial intelligence|machine learning|digital health|software|robot\w*|guidance|guidelines?|standards?|classification|regulation|mdcg|eudamed|ivd|mdr|ivdr|glp-1|retatrutide|semaglutide|tirzepatide|over-the-counter|otc|opioids?|antibiotics?|prescri[a-z]*|patients?|peptides?|supplements?|hypertension|blood pressure|cholesterol|asthma|copd|arthritis|pregnan\w*|maternal|newborn|child\w*|poison\w*|pneumonia|plague|quarantine|parasit\w*|contaminat\w*|foodborne|salmonella|listeria|cyclospora|insulin|pumps?|nod|fda|ce mark|genai|generative|medicinal|chmp|prac|deaths?)\b/i,
-  /(hastal\w*|kanser\w*|diyabet\w*|obezite\w*|kalp\w*|beyin\w*|enfeksiyon\w*|virüs\w*|salgın\w*|aşı\w*|tedavi\w*|ilaç\w*|onay\w*|tanı(?!t)\w*|test\w*|tarama\w*|risk\w*|uyku\w*|beslenme\w*|egzersiz\w*|kızamık|ölüm\w*|veba|karantina|hipertansiyon|insülin|hamile\w*|gebelik\w*|zehirlen\w*|cdc|ruh sağlığı|cihaz\w*|geri çağır\w*|güvenlik\w*|uyarı\w*|giyilebilir\w*|yapay zek\w*|dijital sağlık|yazılım\w*|robot\w*|rehber\w*|kılavuz\w*|standart\w*)/,
+  /(hastal\w*|kanser\w*|diyabet\w*|obezite\w*|kalp\w*|beyin\w*|enfeksiyon\w*|virüs\w*|salgın\w*|aşı\w*|tedavi\w*|ilaç\w*|onay\w*|tanı(?!t)\w*|test\w*|tarama\w*|risk\w*|uyku\w*|beslenme\w*|egzersiz\w*|kızamık|ölüm\w*|veba|karantina|hipertansiyon|insülin|hamile\w*|gebelik\w*|zehirlen\w*|cdc|ruh sağlığı|cihaz\w*|geri çağır\w*|güvenlik\w*|uyarı\w*|giyilebilir\w*|yapay zek\w*|dijital sağlık|yazılım\w*|robot\w*|rehber\w*|kılavuz\w*|standart\w*|mutasyon\w*|hemofili\w*|genetik\w*|cerrahi\w*|ameliyat\w*|nakil\w*|klinik\w*|lösemi\w*|tümör\w*|bağışıklık\w*|immün\w*|alzheimer\w*|sıtma|dsö|dünya sağlık örgütü\w*)/,
 ];
 const COMMON_NEWS_DENY: RegExp[] = [
   // Company and finance, general politics, a public figure's own illness.
@@ -326,7 +326,7 @@ const COMMON_NEWS_DENY: RegExp[] = [
   /^\s*(newsletters?|databases?|home|menu|contact|about|sitemap)\b/i,
   /\b(open content licen[cs]e|newsletters?|online services|terms and conditions|cookies?)\b/i,
   // Turkish counterparts.
-  /(webinar\w*|podcast\w*|zirve\w*|forum\w*|sempozyum\w*|çalıştay\w*|konferans\w*|mutabakat\w*|atan\w*|istifa\w*|ödül\w*|tören\w*|yıldönümü|kutla\w*|indirim\w*|reklam\w*|maaş\w*|nöbet\w*|işe alım\w*)/,
+  /(webinar\w*|podcast\w*|zirve\w*|forum\w*|sempozyum\w*|çalıştay\w*|konferans\w*|mutabakat\w*|atan\w*|istifa\w*|(?<![Nn]obel )ödül\w*|tören\w*|yıldönümü|kutla\w*|indirim\w*|reklam\w*|maaş\w*|nöbet\w*|işe alım\w*)/,
 ];
 
 /**
@@ -379,6 +379,28 @@ const EP_SANT: SourcePolicy = {
 };
 
 /**
+ * Anadolu Ajansı Sağlık (owner 2026-10-31): an item enters when it concerns Turkish medical professionals (a treatment, a
+ * clinical or genetic finding, a vaccine, surgical technology, research) or carries world-level wow. One local hospital's
+ * story, a minister's post or ceremony, an awareness day, and consumer warnings or tips never enter.
+ */
+const AA_SAGLIK: SourcePolicy = {
+  note: 'AA Sağlık: clinical/treatment/research items for Turkish professionals or world-level wow; no local hospital stories, ceremonies, minister posts or consumer tips (owner 2026-10-31).',
+  allow: [
+    /(kanser\w*|tümör\w*|lösemi\w*|hücre tedavi\w*|gen tedavi\w*|tedavi\w*|aşı\w*|mutasyon\w*|hemofili\w*|genetik\w*|cerrahi\w*|robotik|robot\w*|ameliyat\w*|nakil\w*|klinik\w*|ilaç\w*|antibiyotik\w*|enfeksiyon\w*|virüs\w*|salgın\w*|nobel|yapay zek\w*|bilim insan\w*|araştırmacı\w*|çalışma\w*|araştırma\w*|keşfet\w*|geliştir\w*|onay\w*|rehber\w*|kılavuz\w*|immün\w*|bağışıklık\w*|alzheimer\w*|diyabet\w*|obezite\w*|dsö|dünya sağlık örgütü\w*)/,
+  ],
+  deny: [
+    // One local hospital, city or university story.
+    // One person's story.
+    /(\d+ yıldır|kurtuldu|sağlığına kavuştu|öğrenen kişi)/,
+    /(hastane\w*|kalp merkezi\w*|tıp merkezi\w*|eğitim ve araştırma|belediye\w*|valil\w*|kaymakam\w*|il sağlık|müdürlüğ\w*|\b\d+ yılda\b)/,
+    // Minister posts, ceremonies, visits, awareness days and weeks.
+    /(bakan\w*|memişoğlu|paylaşım\w*|tören\w*|ziyaret\w*|açılış\w*|haftası|günü\b|farkındalık\w*|kutlan\w*|anma\w*|programı\w*|düzenlendi)/,
+    // Consumer warnings and tips.
+    /(uyarısı|uyardı|uyarılar\w*|öneri\w*|önlem\w*|dikkat|ipuçları|ipucu|kaçının|zarar\w*|dopamin|algısı\w*|açıkta satılan|tüketici\w*|yaşam tarzı|sağlıklı yaşam|beslen\w*|sıcak çarpması|güneş)/,
+  ],
+};
+
+/**
  * Audience rule for the wire and trade sources (owner 2026-10-31): an item enters when EITHER it concerns Turkish medical
  * professionals (clinical findings, drug decisions, guidance, regulation) OR it carries world-level wow. Items about one
  * foreign place's outbreak, one foreign health system, or one company's routine news concern neither, so they enter only when
@@ -388,6 +410,7 @@ const WIRE_FEED_IDS = new Set([
   'news-reuters-healthcare-scoped',
   'news-medpagetoday-sitemap',
   'news-medical-news-today-sitemap',
+  'news-aa-saglik-scoped',
 ]);
 const WOW: RegExp[] = [
   /\b(first[- ]of[- ]its[- ]kind|world['’]s first|first[- ]in[- ]class|first[- ]ever|first (approved|global|treatment|drug|vaccine|guidelines?|therapy|test|device|human)|nobel|breakthrough|landmark|worldwide|largest|record|millions?|billions?|pandemic|new class|roadmap|worst (year|since)|worst)\b/i,
@@ -425,6 +448,7 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-imdrf-news-whole': IMDRF,
   'news-ep-sant-scoped': EP_SANT,
   'news-ashp-safemedication-sitemap': ASHP_SAFEMEDICATION,
+  'news-aa-saglik-scoped': AA_SAGLIK,
 };
 
 /** Dry-run helper: does the common narrow filter alone refuse this title? */
@@ -436,13 +460,21 @@ export function commonNewsDenied(title: string | null | undefined, titleOrig?: s
 
 export const POLICY_FEED_IDS: readonly string[] = Object.keys(SOURCE_CONTENT_POLICY);
 
+/** Stored titles can still carry HTML escapes (&#x27;, &quot;): their ";" would trip the roundup rule. */
+function decodeEntities(t: string): string {
+  return t
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+}
+
 /** 'pass' / 'deny' for a source with a policy, null when the source has none. */
 export function sourcePolicyVerdict(feedId: string | null | undefined, title: string | null | undefined, titleOrig?: string | null): 'pass' | 'deny' | null {
   const policy = SOURCE_CONTENT_POLICY[feedId ?? ''];
   if (!policy) return null;
   // The source's own (original-language) title decides; the machine translation is used only when no original is stored.
   // Ingestion and the cleanup of stored items then judge the same text.
-  const raw = ((titleOrig ?? '').trim() || (title ?? '')).trim();
+  const raw = decodeEntities(((titleOrig ?? '').trim() || (title ?? '')).trim());
   const low = raw.toLocaleLowerCase('tr-TR');
   const hit = (re: RegExp) => re.test(raw) || re.test(low);
   if (COMMON_NEWS_DENY.some(hit)) return 'deny';

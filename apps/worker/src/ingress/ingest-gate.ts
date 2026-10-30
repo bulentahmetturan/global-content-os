@@ -31,7 +31,7 @@ export const RESEARCH_MEDIA_FEEDS = new Set([
 ]);
 
 /** Listing pages whose newest-first list is current even though items carry no date (first-seen is used). */
-const UNDATED_OK_FEEDS = new Set(['news-aa-saglik-scoped']);
+const UNDATED_OK_FEEDS = new Set<string>();
 /** General-news feeds that must prove health relevance in title/summary. */
 const RELEVANCE_FEEDS = new Set(['research-gdelt-doc-api']);
 
