@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "e06c9468fb49be5f727f2a5ed8c84a6924a324750a224ccb567f8ec2b44a43f3"
+        "sha256": "7763ae2df0dee87ffa74abe642934c57a5dc91c71ae05bd6a967eb025aad34cb"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -881,7 +881,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://ansm.sante.fr/actualites",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ansm-news-scoped",
       "registrySourceId": "ansm-news",
       "inclusionPolicy": [
@@ -1123,7 +1123,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.consilium.europa.eu/en/meetings/epsco/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "council-eu-epsco-health-scoped",
       "registrySourceId": "council-eu-epsco",
       "inclusionPolicy": [

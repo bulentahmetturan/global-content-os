@@ -311,7 +311,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ansm-news",
       "targetId": "ansm-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "dispositifs médicaux",
         "alerts",
@@ -407,7 +407,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "council-eu-epsco",
       "targetId": "council-eu-epsco-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "meeting outcomes",
         "health conclusions",
