@@ -4,7 +4,7 @@
 
 export const PHASES = ['REQUESTED', 'RESOLVING', 'VALIDATING', 'CANARY', 'READY', 'ACTIVE'];
 export const EXCEPTIONAL = ['NEEDS_USER_DECISION', 'BLOCKED_ACCESS', 'BLOCKED_CAPACITY', 'BLOCKED_TECHNICAL', 'RETIRED'];
-// Kaduse lanes: CHANGE_PREPARED = catalog + feeds.json + forward migration written locally (remote apply is the review gate).
+// Kaduse lanes: CHANGE_PREPARED = catalog + feeds.json + forward SQL in scripts/ops written locally (remote apply is the review gate).
 export const OUTCOMES = [...PHASES, ...EXCEPTIONAL, 'ALREADY_ACTIVE', 'ALREADY_RETIRED', 'NOT_FOUND', 'PLAN_ONLY', 'CHANGE_DRY_RUN', 'CHANGE_PREPARED', 'NO_CHANGE'];
 
 // Canonical Tıp Topluluğu vocabulary (radar/tip_toplulugu_activation.py). Re-declared only to read it, never extended.

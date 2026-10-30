@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, rmSync, renameSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -505,7 +505,7 @@ test('Kaduse (R4 pending) source: validated end to end but PLAN_ONLY -- catalog 
   assert.equal(readFileSync(join(root, 'packages/source-catalog/data/research-sources.json'), 'utf8'), catalogBefore);
 });
 
-test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + deterministic forward migrations, never a remote apply', async () => {
+test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + deterministic forward SQL in scripts/ops (never migrations/), never a remote apply', async () => {
   const root = sandbox();
   const subs = () => JSON.parse(readFileSync(join(root, 'packages/source-catalog/data/kaduse-subscriptions.json'), 'utf8')).subscriptions[0].enabled;
   const feed = () => JSON.parse(readFileSync(join(root, 'config/feeds.json'), 'utf8')).feeds.find((f) => f.id === 'news-who-newsroom-whole');
@@ -513,7 +513,7 @@ test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + determinis
   const dry = await lc(root).retire('who-newsroom-whole');
   assert.equal(dry.outcome, 'CHANGE_DRY_RUN');
   assert.equal(subs(), true);
-  assert.equal(existsSync(join(root, 'migrations')), false);
+  assert.equal(existsSync(join(root, 'scripts/ops')), false);
 
   const denied = await lc(root, { authorize: undefined }).retire('who-newsroom-whole', { apply: true });
   assert.equal(denied.outcome, 'DENIED');
@@ -521,7 +521,9 @@ test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + determinis
 
   const r = await lc(root).retire('who-newsroom-whole', { apply: true });
   assert.equal(r.outcome, 'CHANGE_PREPARED', JSON.stringify(r));
-  assert.equal(r.migration, 'migrations/0001_source_lifecycle_retire_who_newsroom_whole.sql');
+  assert.equal(r.migration, 'scripts/ops/2026-09-29-pending-source_lifecycle_retire_who_newsroom_whole.sql');
+  assert.match(r.review_gate.join('\n'), /d1 execute global-content-os --remote --file scripts\/ops\//);
+  assert.equal(existsSync(join(root, 'migrations')), false, 'a feed-row change never lands in the schema history');
   assert.equal(r.remote_applied, false);
   assert.equal(subs(), false);
   assert.equal(feed().enabled, false);
@@ -535,16 +537,22 @@ test('Kaduse retire -> reactivate: catalog + regenerated feeds.json + determinis
 
   const back = await lc(root).reactivate('who-newsroom-whole', { apply: true });
   assert.equal(back.outcome, 'CHANGE_PREPARED', JSON.stringify(back));
-  assert.equal(back.migration, 'migrations/0002_source_lifecycle_reactivate_who_newsroom_whole.sql');
+  assert.equal(back.migration, 'scripts/ops/2026-09-29-pending-source_lifecycle_reactivate_who_newsroom_whole.sql');
   assert.equal(subs(), true);
   assert.equal(feed().enabled, true);
   assert.match(readFileSync(join(root, back.migration), 'utf8'), /'news-who-newsroom-whole',[^\n]+, 1, /);
+
+  // Same-day repeat: the retire file (pending or already renamed -applied-) is never overwritten.
+  renameSync(join(root, r.migration), join(root, r.migration.replace('-pending-', '-applied-')));
+  const again = await lc(root).retire('who-newsroom-whole', { apply: true });
+  assert.equal(again.migration, 'scripts/ops/2026-09-29-pending-source_lifecycle_retire_who_newsroom_whole_2.sql');
 });
 
 test('Kaduse R4 pending feed cannot be activated by retire/reactivate round trip (explicit decision stays in sync-feeds)', async () => {
   const root = sandbox();
   const r = await lc(root).reactivate('nccih-news', { apply: true });
   assert.notEqual(r.outcome, 'CHANGE_PREPARED');
+  assert.equal(existsSync(join(root, 'scripts/ops')), false);
   assert.equal(existsSync(join(root, 'migrations')), false);
 });
 

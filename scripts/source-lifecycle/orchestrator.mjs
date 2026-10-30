@@ -236,7 +236,7 @@ export function createLifecycle(opts) {
       return finish(trace, { ok: false, op: 'add', ...v.stop, gates: { ...gates, ...v.stop.gates } });
     }
     if (v.routing.lane !== 'tip_toplulugu') {
-      const change = prepareKaduseChange({ root, op: 'add', target: v, mutateArgs: { name: v.name, at: clock() }, apply, actor, authorize, requestId: req.request_id, sync: opts.kaduseSync });
+      const change = prepareKaduseChange({ root, op: 'add', target: v, mutateArgs: { name: v.name, at: clock() }, apply, actor, authorize, requestId: req.request_id, now: clock(), sync: opts.kaduseSync });
       return finish(trace, { ok: kaduseOk(change), op: 'add', gates: { ...gates, ...v.gates }, ...summary(v), ...kaduseResult(change), recommended_cadence_minutes: v.cadence.poll_minutes });
     }
 
@@ -321,7 +321,7 @@ export function createLifecycle(opts) {
     if (state === 'ACTIVE') return finish(trace, { ok: true, op: 'reactivate', outcome: 'ALREADY_ACTIVE', source_id: m.source_id, gates });
     if (state !== 'RETIRED') return finish(trace, { ok: false, op: 'reactivate', outcome: 'NOT_RETIRED', source_id: m.source_id, state, next_step: `use: add ${m.source_id}`, gates });
     if (m.store !== 'tip_toplulugu') {
-      const change = prepareKaduseChange({ root, op: 'reactivate', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
+      const change = prepareKaduseChange({ root, op: 'reactivate', target: m, apply, actor, authorize, requestId: trace.request_id, now: clock(), sync: opts.kaduseSync });
       return finish(trace, { ok: kaduseOk(change), op: 'reactivate', source_id: m.source_id, gates, ...kaduseResult(change) });
     }
     return activateExisting({ req: { ...req, url: null, fetch_url: null }, identity, projections, trace, gates, apply, op: 'reactivate', previous: { state: 'RETIRED' } });
@@ -345,7 +345,7 @@ export function createLifecycle(opts) {
     const at = clock();
 
     if (!tip_toplulugu) {
-      const change = prepareKaduseChange({ root, op: 'retire', target: m, apply, actor, authorize, requestId: trace.request_id, sync: opts.kaduseSync });
+      const change = prepareKaduseChange({ root, op: 'retire', target: m, apply, actor, authorize, requestId: trace.request_id, now: clock(), sync: opts.kaduseSync });
       return finish(trace, {
         ok: kaduseOk(change), ...base, ...kaduseResult(change),
         steps: {

@@ -50,8 +50,8 @@ export function commitCanonical({ root, file, mutate, apply = false, actor, auth
   return { outcome: 'APPLIED', file, patch };
 }
 
-// Kaduse lanes: catalog JSON, the regenerated config/feeds.json and the new forward migration (kaduse-change.mjs).
-const KADUSE_WRITABLE = /^(packages\/source-catalog\/data\/[a-z-]+\.json|config\/feeds\.json|migrations\/\d{4}_source_lifecycle_[a-z0-9_]+\.sql)$/;
+// Kaduse lanes: catalog JSON, the regenerated config/feeds.json and the new forward SQL in scripts/ops (kaduse-change.mjs); never migrations/.
+const KADUSE_WRITABLE = /^(packages\/source-catalog\/data\/[a-z-]+\.json|config\/feeds\.json|scripts\/ops\/\d{4}-\d{2}-\d{2}-pending-source_lifecycle_[a-z0-9_]+\.sql)$/;
 
 /** The single repo write path. Callers must have passed authorizeLifecycle and apply === true. */
 export function writeCanonicalFiles(root, writes) {

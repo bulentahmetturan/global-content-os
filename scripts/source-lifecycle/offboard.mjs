@@ -63,6 +63,7 @@ function classify(rel, p, nameHit) {
   if (rel === p.file) return { class: 'CANONICAL_RECORD', action: 'TOMBSTONE_KEEP' };
   if (GENERATED.has(rel)) return { class: 'GENERATED_DERIVATIVE', action: 'REGENERATE_FROM_CANONICAL', generator: REGENERATE[rel] };
   if (/^migrations\//.test(rel)) return { class: 'APPLIED_MIGRATION_HISTORY', action: 'KEEP' };
+  if (/^scripts\/ops\/.*\.sql$/.test(rel)) return { class: 'OPS_SQL_HISTORY', action: 'KEEP' };
   if (/(^|\/)(archive|legacy-cleanup)\//.test(rel) || /SORUN-TESPIT|BIBLE/i.test(rel)) return { class: 'HISTORY', action: 'KEEP' };
   if (/(^|\/)sources\/_/.test(rel) && nameHit) return { class: 'SOURCE_EXCLUSIVE_CACHE', action: 'CLEANUP_CANDIDATE' };
   if (/(^|\/)fixtures?\//.test(rel)) return { class: nameHit ? 'SOURCE_EXCLUSIVE_FIXTURE' : 'SHARED_FIXTURE', action: nameHit ? 'CLEANUP_CANDIDATE' : 'KEEP' };
