@@ -55,13 +55,9 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     }
   });
 
-  it('5. current HTA source is EC/HTA/HTACG, not EUnetHTA 21', () => {
-    const htaSource = getSource('ec-hta-htacg');
-    expect(htaSource).toBeDefined();
-    expect(htaSource!.canonicalName).toContain('HTACG');
+  it('5. EUnetHTA 21 stays superseded (its HTACG successor was removed from the catalog 2026-10-31)', () => {
     const superseded = globalNewsSourceRegistry.supersededOrExcluded.find((e) => e.id === 'eunethta-21');
     expect(superseded?.status).toBe('SUPERSEDED');
-    expect(superseded?.supersededByTargetId).toBe('ec-hta-htacg-target');
   });
 
   it('6. Resmî Gazete subscription target is health-scoped, not whole-publisher unrestricted', () => {
@@ -79,10 +75,8 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(target!.scopeDescription.toLowerCase()).toMatch(/exclude[^.]*pension/);
   });
 
-  it('8. EUR-Lex target is topic/query scoped, not unrestricted EUR-Lex', () => {
-    const target = getTarget('eur-lex-mdr-ivdr-health-query');
-    expect(target!.scopeType).toBe('QUERY_TARGET');
-    expect(target!.transportStatus).toBe('PENDING_MANUAL');
+  it('8. EUR-Lex was removed from the catalog (2026-10-31) and must not return as an unrestricted target', () => {
+    expect(getTarget('eur-lex-mdr-ivdr-health-query')).toBeUndefined();
   });
 
   it('9. TİTCK Tıbbi Cihaz Duyuruları is a child target under TİTCK, not a duplicate unrelated source', () => {
@@ -131,24 +125,18 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
   });
 
   it('15. Fierce source identity is not duplicated as multiple equivalent Fierce device publishers', () => {
+    // Fierce Medtech was removed from the catalog on 2026-10-31 (owner decision); no Fierce publisher may linger or return as a duplicate.
     const fiercePublishers = globalNewsSourceRegistry.publishers.filter((p) => p.id.startsWith('fierce'));
-    expect(fiercePublishers.length).toBe(1);
-    const fierceSources = getSourcesForPublisher('fierce');
-    expect(fierceSources.length).toBe(1);
-    expect(fierceSources[0].id).toBe('fierce-medtech');
+    expect(fiercePublishers.length).toBe(0);
+    expect(getSourcesForPublisher('fierce').length).toBe(0);
   });
 
-  it('16. CEN-CENELEC JTC 21 requires health/device relevance for Kaduse', () => {
-    const target = getTarget('jtc21-ai-health-gated');
-    expect(target!.scopeType).toBe('CHANNEL_FILTER_OVER_BROADER_SOURCE');
-    expect(target!.scopeDescription.toLowerCase()).toContain('health');
-    expect(target!.scopeDescription.toLowerCase()).toContain('gated');
+  it('16. CEN-CENELEC JTC 21 was removed from the catalog (2026-10-31)', () => {
+    expect(getTarget('jtc21-ai-health-gated')).toBeUndefined();
   });
 
-  it('17. MobiHealthNews has a narrower AI/device/digital-health relevance policy, not unrestricted ingestion', () => {
-    const target = getTarget('mobihealthnews-ai-device-scoped');
-    expect(target!.scopeType).toBe('CHANNEL_FILTER_OVER_BROADER_SOURCE');
-    expect(target!.scopeDescription).toMatch(/AI\/ML/);
+  it('17. MobiHealthNews was removed from the catalog (2026-10-31)', () => {
+    expect(getTarget('mobihealthnews-ai-device-scoped')).toBeUndefined();
   });
 
   it('18. Global News source model does not contain mail-provider-specific fields', () => {
@@ -206,49 +194,49 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(routeA.channelId).not.toBe(routeB.channelId);
   });
 
-  it('EC parent institution legitimately owns 5 distinct logical sources, not collapsed', () => {
+  it('EC parent institution keeps only the medical-devices source after the 2026-10-31 catalog purge', () => {
     const ecSources = getSourcesForPublisher('ec');
     expect(ecSources.map((s) => s.id).sort()).toEqual(
-      ['ec-dg-sante', 'ec-hera', 'ec-hta-htacg', 'ec-mdcg', 'ec-medical-devices'].sort()
+      ['ec-medical-devices'].sort()
     );
   });
 
-  it('FDA parent publisher owns exactly 2 logical sources (Press Announcements, CDRH), CDRH has 4 child targets', () => {
+  it('FDA parent publisher owns exactly 2 logical sources (Press Announcements, CDRH), CDRH has 3 child targets', () => {
     const fdaSources = getSourcesForPublisher('fda');
     expect(fdaSources.map((s) => s.id).sort()).toEqual(['fda-cdrh', 'fda-press-announcements'].sort());
-    expect(getTargetsForSource('fda-cdrh').length).toBe(4);
+    expect(getTargetsForSource('fda-cdrh').length).toBe(3);
   });
 
-  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions (56 logical sources)', () => {
+  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (21 logical sources)', () => {
     const counts = computeRegistryCounts();
-    expect(counts.logicalSourceCount).toBe(56);
+    expect(counts.logicalSourceCount).toBe(21);
     expect(counts.referenceResourceCount).toBe(5);
-    expect(counts.monitoredTargetCount).toBe(61);
-    expect(counts.uniquePublisherCount).toBe(51);
+    expect(counts.monitoredTargetCount).toBe(25);
+    expect(counts.uniquePublisherCount).toBe(20);
   });
 
   describe('Batch N2-FINAL-R1: verification state is separate from transport status', () => {
     it('verificationStatus and transportStatus are independently representable (different objects, different enums)', () => {
-      const eurLex = getSource('eur-lex-source')!;
-      const eurLexTarget = getTarget('eur-lex-mdr-ivdr-health-query')!;
-      expect(eurLex.verificationStatus).toBe('PENDING_VERIFICATION');
-      expect(eurLexTarget.scopeType).toBe('QUERY_TARGET');
-      expect(eurLexTarget.transportStatus).toBe('PENDING_MANUAL');
-      // Three independent facts about the same EUR-Lex target/source, none derived from another.
+      const resmi = getSource('resmi-gazete-source')!;
+      const resmiTarget = getTarget('resmi-gazete-health-scoped')!;
+      expect(resmi.verificationStatus).toBe('PENDING_VERIFICATION');
+      expect(resmiTarget.scopeType).toBe('CHANNEL_FILTER_OVER_BROADER_SOURCE');
+      expect(resmiTarget.transportStatus).toBe('PENDING_MANUAL');
+      // Three independent facts about the same Resmi Gazete target/source, none derived from another.
     });
 
-    it('exactly the 5 sources reported as freshly verified in Batch N2-FINAL carry FRESHLY_VERIFIED_THIS_BATCH', () => {
+    it('exactly the 1 source still reported as freshly verified in Batch N2-FINAL carry FRESHLY_VERIFIED_THIS_BATCH', () => {
       const freshlyVerified = globalNewsSourceRegistry.sources
         .filter((s) => s.verificationStatus === 'FRESHLY_VERIFIED_THIS_BATCH')
         .map((s) => s.id)
         .sort();
-      expect(freshlyVerified).toEqual(['ec-hta-htacg', 'fierce-medtech', 'healthai-news', 'jtc21-ai', 'nhs-aidrs-news'].sort());
+      expect(freshlyVerified).toEqual(['healthai-news']);
     });
 
-    it('every other source (51 of 56) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
+    it('every other source (20 of 21) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
       const counts = computeRegistryCounts();
-      expect(counts.freshlyVerifiedSourceCount).toBe(5);
-      expect(counts.pendingVerificationSourceCount).toBe(51);
+      expect(counts.freshlyVerifiedSourceCount).toBe(1);
+      expect(counts.pendingVerificationSourceCount).toBe(20);
       expect(counts.freshlyVerifiedSourceCount + counts.pendingVerificationSourceCount).toBe(counts.logicalSourceCount);
     });
 

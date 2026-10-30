@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "0f34c26f335a0e99c1b50a42db0260ea84add5da91ad28eff48935a4cc403909"
+        "sha256": "9b7fb9801b083070007d3f12434e2bd26bf856a922878f7b00c09565931e1040"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "c860f0750f7236af1a0b3709e083fd3358c0853d4ca8f052a1bc312e6ae9fd3e"
+        "sha256": "eb8ddc59c986e7d17201075c2c89b3f20298e88c117fba0ce24c68399555c2ab"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 62,
+    "news": 26,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 840,
-    "registryTargetsParsed": 61
+    "total": 804,
+    "registryTargetsParsed": 25
   },
   "feeds": [
     {
@@ -119,26 +119,6 @@
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "fda-cdrh-digital-health",
-      "registrySourceId": "fda-cdrh",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-fda-cdrh-ai-ml-device",
-      "label": "FDA CDRH -- AI/ML-Enabled Medical Devices",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "fda-cdrh-ai-ml-device",
       "registrySourceId": "fda-cdrh",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
@@ -304,46 +284,6 @@
       }
     },
     {
-      "id": "news-ecdc-news-whole",
-      "label": "ECDC News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.ecdc.europa.eu/en/news-events",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ecdc-news-whole",
-      "registrySourceId": "ecdc-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-medtech-europe-news-whole",
-      "label": "MedTech Europe News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.medtecheurope.org/news-and-events/news/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "medtech-europe-news-whole",
-      "registrySourceId": "medtech-europe-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
       "id": "news-medtech-dive-news-whole",
       "label": "MedTech Dive",
       "route": "kaduse-news",
@@ -456,134 +396,6 @@
       }
     },
     {
-      "id": "news-observatory-news-whole",
-      "label": "European Observatory on Health Systems and Policies (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://eurohealthobservatory.who.int/news",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "observatory-news-whole",
-      "registrySourceId": "observatory-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-hma-news-whole",
-      "label": "HMA News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.hma.eu/news.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "hma-news-whole",
-      "registrySourceId": "hma-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-edqm-news-whole",
-      "label": "EDQM News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.edqm.eu/en/news",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "edqm-news-whole",
-      "registrySourceId": "edqm-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-ec-hta-htacg-target",
-      "label": "HTACG -- Member State Coordination Group on HTA",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://health.ec.europa.eu/health-technology-assessment/implementation-regulation-health-technology-assessment/member-state-coordination-group-hta-htacg_en",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ec-hta-htacg-target",
-      "registrySourceId": "ec-hta-htacg",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-oecd-health-scoped",
-      "label": "OECD -- Health only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.oecd.org/health/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "oecd-health-scoped",
-      "registrySourceId": "oecd-health",
-      "inclusionPolicy": [
-        "Health section only"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Health section only"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-un-news-health-scoped",
-      "label": "UN News -- Health only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://news.un.org/en/tags/health",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "un-news-health-scoped",
-      "registrySourceId": "un-news-health",
-      "inclusionPolicy": [
-        "Health tag only"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Health tag only"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
       "id": "news-aa-saglik-scoped",
       "label": "Anadolu Ajansı -- Sağlık only",
       "route": "kaduse-news",
@@ -604,110 +416,6 @@
         "inclusionPolicy": [
           "Sağlık (Health) section only"
         ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-ec-dg-sante-health-scoped",
-      "label": "DG SANTE -- Health-related updates only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://health.ec.europa.eu",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ec-dg-sante-health-scoped",
-      "registrySourceId": "ec-dg-sante",
-      "inclusionPolicy": [
-        "health-related DG SANTE updates"
-      ],
-      "exclusionPolicy": [
-        "unrelated food/agriculture material"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "health-related DG SANTE updates"
-        ],
-        "exclusionPolicy": [
-          "unrelated food/agriculture material"
-        ]
-      }
-    },
-    {
-      "id": "news-hhs-press-scoped",
-      "label": "HHS Press Office -- AI-health/medtech/public-health/major regulation scope",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.hhs.gov/about/news/index.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "hhs-press-scoped",
-      "registrySourceId": "hhs-press",
-      "inclusionPolicy": [
-        "AI-health",
-        "medical technology",
-        "public health",
-        "major healthcare regulation/policy",
-        "meaningful HHS technology initiatives"
-      ],
-      "exclusionPolicy": [
-        "purely administrative/political staffing noise"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "AI-health",
-          "medical technology",
-          "public health",
-          "major healthcare regulation/policy",
-          "meaningful HHS technology initiatives"
-        ],
-        "exclusionPolicy": [
-          "purely administrative/political staffing noise"
-        ]
-      }
-    },
-    {
-      "id": "news-africa-cdc-news-whole",
-      "label": "Africa CDC News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://africacdc.org/news-item/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "africa-cdc-news-whole",
-      "registrySourceId": "africa-cdc-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-ec-mdcg-target",
-      "label": "MDCG -- Endorsed guidance / position documents / implementation guidance",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://health.ec.europa.eu/medical-devices-sector/new-regulations/guidance-mdcg-endorsed-documents-and-other-guidance_en",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ec-mdcg-target",
-      "registrySourceId": "ec-mdcg",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
         "exclusionPolicy": null
       }
     },
@@ -739,38 +447,6 @@
           "AI in regulated health products",
           "major pharmaceutical regulation only when broadly newsworthy",
           "health-product regulatory changes"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-swissmedic-news-scoped",
-      "label": "Swissmedic -- Devices/safety/recalls/regulation/digital-AI-health scope",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.swissmedic.ch/swissmedic/en/home/news.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "swissmedic-news-scoped",
-      "registrySourceId": "swissmedic-news",
-      "inclusionPolicy": [
-        "medical devices",
-        "safety",
-        "recalls",
-        "device regulation",
-        "digital/AI health where applicable"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "medical devices",
-          "safety",
-          "recalls",
-          "device regulation",
-          "digital/AI health where applicable"
         ],
         "exclusionPolicy": null
       }
@@ -824,110 +500,6 @@
       }
     },
     {
-      "id": "news-bfarm-news-scoped",
-      "label": "BfArM -- Devices/DiGA/digital health/software/AI scope",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.bfarm.de/EN/News/_node.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "bfarm-news-scoped",
-      "registrySourceId": "bfarm-news",
-      "inclusionPolicy": [
-        "medical devices",
-        "DiGA/digital health",
-        "medical-device regulation/safety",
-        "digital health/software/AI where applicable"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "medical devices",
-          "DiGA/digital health",
-          "medical-device regulation/safety",
-          "digital health/software/AI where applicable"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-imdrf-news-whole",
-      "label": "IMDRF",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.imdrf.org/news",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "imdrf-news-whole",
-      "registrySourceId": "imdrf-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-ansm-news-scoped",
-      "label": "ANSM -- Dispositifs médicaux/alertes/sécurité/surveillance/réglementation",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://ansm.sante.fr/actualites",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ansm-news-scoped",
-      "registrySourceId": "ansm-news",
-      "inclusionPolicy": [
-        "dispositifs médicaux",
-        "alerts",
-        "safety",
-        "surveillance",
-        "regulation",
-        "meaningful enforcement"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "dispositifs médicaux",
-          "alerts",
-          "safety",
-          "surveillance",
-          "regulation",
-          "meaningful enforcement"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-hpw-news-whole",
-      "label": "Health Policy Watch (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://healthpolicy-watch.news",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "hpw-news-whole",
-      "registrySourceId": "hpw-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
       "id": "news-sgk-health-scoped",
       "label": "SGK -- GSS/SUT/Reimbursement/MEDULA Health Scope",
       "route": "kaduse-news",
@@ -974,96 +546,6 @@
       }
     },
     {
-      "id": "news-eur-lex-mdr-ivdr-health-query",
-      "label": "EUR-Lex -- MDR/IVDR/Health/AI-Act-x-Health Saved-Search Query",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "PENDING_MANUAL",
-      "endpointUrl": "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=medical+device+OR+MDR+OR+IVDR&type=quick&lang=en",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "eur-lex-mdr-ivdr-health-query",
-      "registrySourceId": "eur-lex-source",
-      "inclusionPolicy": [
-        "MDR",
-        "IVDR",
-        "medical devices",
-        "IVD",
-        "health",
-        "health technology assessment",
-        "medicines where relevant",
-        "AI Act x health",
-        "AI Act x medical device",
-        "implementing acts",
-        "delegated acts",
-        "Commission decisions materially affecting healthcare/medtech"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "MDR",
-          "IVDR",
-          "medical devices",
-          "IVD",
-          "health",
-          "health technology assessment",
-          "medicines where relevant",
-          "AI Act x health",
-          "AI Act x medical device",
-          "implementing acts",
-          "delegated acts",
-          "Commission decisions materially affecting healthcare/medtech"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-hpra-news-scoped",
-      "label": "HPRA -- Field Safety Notices / Recalls / Device Safety",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "hpra-news-scoped",
-      "registrySourceId": "hpra-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-euractiv-health-scoped",
-      "label": "Euractiv -- Health/Healthcare only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.euractiv.com/section/health-consumers/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "euractiv-health-scoped",
-      "registrySourceId": "euractiv-health",
-      "inclusionPolicy": [
-        "Health/Healthcare section only"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Health/Healthcare section only"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
       "id": "news-ep-sant-scoped",
       "label": "Avrupa Parlamentosu SANT",
       "route": "kaduse-news",
@@ -1093,56 +575,6 @@
         "exclusionPolicy": [
           "all other Parliament press"
         ]
-      }
-    },
-    {
-      "id": "news-team-nb-news-whole",
-      "label": "Team-NB News (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.team-nb.org/news/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "team-nb-news-whole",
-      "registrySourceId": "team-nb-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-council-eu-epsco-health-scoped",
-      "label": "Council of the EU -- EPSCO/Health only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.consilium.europa.eu/en/meetings/epsco/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "council-eu-epsco-health-scoped",
-      "registrySourceId": "council-eu-epsco",
-      "inclusionPolicy": [
-        "meeting outcomes",
-        "health conclusions",
-        "health legislative positions",
-        "relevant press releases"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "meeting outcomes",
-          "health conclusions",
-          "health legislative positions",
-          "relevant press releases"
-        ],
-        "exclusionPolicy": null
       }
     },
     {
@@ -1182,44 +614,6 @@
           "ceremonies",
           "visits",
           "generic institutional events"
-        ]
-      }
-    },
-    {
-      "id": "news-ec-hera-scoped",
-      "label": "HERA -- Preparedness/Countermeasures/Procurement/Shortages/Health-Emergency Tech",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://health.ec.europa.eu/health-emergency-preparedness-and-response-hera_en",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "ec-hera-scoped",
-      "registrySourceId": "ec-hera",
-      "inclusionPolicy": [
-        "preparedness",
-        "health emergency countermeasures",
-        "procurement",
-        "critical medical products",
-        "shortages/supply security",
-        "health emergency technology"
-      ],
-      "exclusionPolicy": [
-        "entire EC corporate news stream"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "preparedness",
-          "health emergency countermeasures",
-          "procurement",
-          "critical medical products",
-          "shortages/supply security",
-          "health emergency technology"
-        ],
-        "exclusionPolicy": [
-          "entire EC corporate news stream"
         ]
       }
     },
@@ -1268,212 +662,6 @@
       }
     },
     {
-      "id": "news-nhs-aidrs-news-scoped",
-      "label": "AI and Digital Regulations Service -- Latest News / relevant Blog & regulatory updates",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.digitalregulations.innovation.nhs.uk",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "nhs-aidrs-news-scoped",
-      "registrySourceId": "nhs-aidrs-news",
-      "inclusionPolicy": [
-        "Latest News",
-        "relevant Blog/regulatory updates"
-      ],
-      "exclusionPolicy": [
-        "all NHS England modeled as this source"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Latest News",
-          "relevant Blog/regulatory updates"
-        ],
-        "exclusionPolicy": [
-          "all NHS England modeled as this source"
-        ]
-      }
-    },
-    {
-      "id": "news-jtc21-ai-health-gated",
-      "label": "CEN-CENELEC JTC 21 -- AI activity, health/medtech-gated",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "jtc21-ai-health-gated",
-      "registrySourceId": "jtc21-ai",
-      "inclusionPolicy": [
-        "JTC 21 AI standardization activity gated by an ADDITIONAL health/medicine/medtech/medical-device/healthcare relevance constraint"
-      ],
-      "exclusionPolicy": [
-        "generic industrial AI standards"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "JTC 21 AI standardization activity gated by an ADDITIONAL health/medicine/medtech/medical-device/healthcare relevance constraint"
-        ],
-        "exclusionPolicy": [
-          "generic industrial AI standards"
-        ]
-      }
-    },
-    {
-      "id": "news-pmda-news-scoped",
-      "label": "PMDA -- Devices/SaMD/Review Reports/Safety/AI-Device Developments",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "pmda-news-scoped",
-      "registrySourceId": "pmda-news",
-      "inclusionPolicy": [
-        "medical devices",
-        "SaMD",
-        "relevant review reports",
-        "innovative SaMD",
-        "device safety",
-        "post-market device information",
-        "AI-device developments"
-      ],
-      "exclusionPolicy": [
-        "all pharmaceutical administrative notices"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "medical devices",
-          "SaMD",
-          "relevant review reports",
-          "innovative SaMD",
-          "device safety",
-          "post-market device information",
-          "AI-device developments"
-        ],
-        "exclusionPolicy": [
-          "all pharmaceutical administrative notices"
-        ]
-      }
-    },
-    {
-      "id": "news-hsa-medical-devices-scoped",
-      "label": "HSA -- Medical Devices / Digital Health / Benefit-Risk / Safety-Regulatory Updates",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.hsa.gov.sg/medical-devices",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "hsa-medical-devices-scoped",
-      "registrySourceId": "hsa-medical-devices",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-fierce-medtech-scoped",
-      "label": "Fierce Medtech -- medtech/device content only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fiercebiotech.com/medtech",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "fierce-medtech-scoped",
-      "registrySourceId": "fierce-medtech",
-      "inclusionPolicy": [
-        "medtech/device content only"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "medtech/device content only"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-medica-sphere-medtech-scoped",
-      "label": "MEDICA Sphere -- MedTech & Devices only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.medica-tradefair.com/en/News/MEDICA_Sphere",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "medica-sphere-medtech-scoped",
-      "registrySourceId": "medica-sphere-medtech",
-      "inclusionPolicy": [
-        "MedTech & Devices sphere only"
-      ],
-      "exclusionPolicy": [
-        "trade-fair marketing content"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "MedTech & Devices sphere only"
-        ],
-        "exclusionPolicy": [
-          "trade-fair marketing content"
-        ]
-      }
-    },
-    {
-      "id": "news-health-canada-devices-scoped",
-      "label": "Health Canada -- Medical Devices / What's New / ML-enabled devices",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "health-canada-devices-scoped",
-      "registrySourceId": "health-canada-medical-devices",
-      "inclusionPolicy": [
-        "Medical Devices",
-        "What's New/announcements",
-        "ML-enabled medical devices",
-        "device guidance/safety",
-        "digital-health/device regulation"
-      ],
-      "exclusionPolicy": [
-        "all Government of Canada news"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Medical Devices",
-          "What's New/announcements",
-          "ML-enabled medical devices",
-          "device guidance/safety",
-          "digital-health/device regulation"
-        ],
-        "exclusionPolicy": [
-          "all Government of Canada news"
-        ]
-      }
-    },
-    {
       "id": "news-nice-healthtech-scoped",
       "label": "NICE HealthTech",
       "route": "kaduse-news",
@@ -1512,58 +700,6 @@
       }
     },
     {
-      "id": "news-advamed-digital-health-scoped",
-      "label": "AdvaMed -- Digital Health Tech / AI in Medtech / Device Policy",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.advamed.org/industry-topics/digital-health/",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "advamed-digital-health-scoped",
-      "registrySourceId": "advamed-digital-health",
-      "inclusionPolicy": [
-        "Digital Health Tech",
-        "AI in medtech",
-        "device policy",
-        "meaningful device developments",
-        "regulatory/industry changes"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Digital Health Tech",
-          "AI in medtech",
-          "device policy",
-          "meaningful device developments",
-          "regulatory/industry changes"
-        ],
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-massdevice-news-whole",
-      "label": "MassDevice (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.massdevice.com",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "massdevice-news-whole",
-      "registrySourceId": "massdevice-news",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
       "id": "news-medical-device-network-news-whole",
       "label": "Medical Device Network",
       "route": "kaduse-news",
@@ -1584,92 +720,6 @@
       }
     },
     {
-      "id": "news-aami-news-scoped",
-      "label": "AAMI News -- device standards/safety engineering/AI-device standards/lifecycle/HTM",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://array.aami.org/content/news",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "aami-news-scoped",
-      "registrySourceId": "aami-news",
-      "inclusionPolicy": [
-        "medical-device standards",
-        "safety engineering",
-        "AI/device standards",
-        "lifecycle",
-        "health technology management news"
-      ],
-      "exclusionPolicy": [
-        "complete formal standards library (reference, not news)"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "medical-device standards",
-          "safety engineering",
-          "AI/device standards",
-          "lifecycle",
-          "health technology management news"
-        ],
-        "exclusionPolicy": [
-          "complete formal standards library (reference, not news)"
-        ]
-      }
-    },
-    {
-      "id": "news-mobihealthnews-ai-device-scoped",
-      "label": "MobiHealthNews -- AI/ML healthcare, diagnostics, regulated digital health, devices, wearables, digital therapeutics, imaging",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.mobihealthnews.com",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "mobihealthnews-ai-device-scoped",
-      "registrySourceId": "mobihealthnews-source",
-      "inclusionPolicy": [
-        "AI/ML healthcare",
-        "diagnostics",
-        "regulated/near-regulated digital health",
-        "medical devices",
-        "wearables",
-        "monitoring",
-        "digital therapeutics",
-        "imaging",
-        "clinically relevant health technology"
-      ],
-      "exclusionPolicy": [
-        "generic funding",
-        "generic hospital IT",
-        "general enterprise software",
-        "broad digital-health business stories unless directly material"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "AI/ML healthcare",
-          "diagnostics",
-          "regulated/near-regulated digital health",
-          "medical devices",
-          "wearables",
-          "monitoring",
-          "digital therapeutics",
-          "imaging",
-          "clinically relevant health technology"
-        ],
-        "exclusionPolicy": [
-          "generic funding",
-          "generic hospital IT",
-          "general enterprise software",
-          "broad digital-health business stories unless directly material"
-        ]
-      }
-    },
-    {
       "id": "news-bilimgenc-tubitak-saglik-whole",
       "label": "Sağlık",
       "route": "kaduse-news",
@@ -1680,26 +730,6 @@
       "enabled": true,
       "externalRef": "bilimgenc-tubitak-saglik-whole",
       "registrySourceId": "bilimgenc-tubitak-saglik",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-www-medikalnews-whole",
-      "label": "Medikal News",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.medikalnews.com/sitemap.rss",
-      "pollMinutes": 60,
-      "enabled": false,
-      "externalRef": "www-medikalnews-whole",
-      "registrySourceId": "www-medikalnews",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

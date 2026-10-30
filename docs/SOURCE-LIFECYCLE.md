@@ -68,7 +68,7 @@ The value is written once, into the one field the scheduler reads (`fetch_plan.e
 
 O1 `status=retired`, `runtime_activation=BLOCKED`, fetch/scheduled/candidate/pipeline flags false (applied to every registry layer holding the id), verified through the runtime gates.
 O2 in-flight: `inbox → hold` with an `editorial_decisions` row. hold / production / trash / approved briefs / published stay untouched. This is returned as D1 SQL for an operator step and never executed here.
-O3 tombstone: the record stays, with `former_*`, `retired_reason/at/change_ref` and `lifecycle_history`.
+O3 tombstone: the record stays (exception, owner 2026-10-31: records of closed Kaduse news sources whose content was hard-deleted were removed from the catalog and D1 on request; git history keeps them), with `former_*`, `retired_reason/at/change_ref` and `lifecycle_history`.
 O4 detach: scheduler eligibility is removed by status. Regenerate the derivatives with their generators (never hand-edit): `tip-toplulugu-automation-ready.ts/.json`, `docs/source-matrix.generated.json`, and for Kaduse `config/feeds.json`.
 O5 artifacts: references are classified KEEP / REVIEW / CLEANUP_CANDIDATE / NEVER_AUTO_DELETE (secrets). A file name belongs to the longest source id it starts with. Nothing is deleted.
 O6 provenance kept: see `PRESERVED` in `offboard.mjs`.
