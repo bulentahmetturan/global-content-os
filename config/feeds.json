@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "4fa4696a5d88a75b4504237aebe3c5cc48d63afd640afe14679d8f47d1277aad"
+        "sha256": "c9ff310a198de084c4e6be0090fcf0467a37f71aa6dad516e54600dda915eccd"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -463,7 +463,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://eurohealthobservatory.who.int/news",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "observatory-news-whole",
       "registrySourceId": "observatory-news",
       "inclusionPolicy": null,
@@ -1275,7 +1275,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.digitalregulations.innovation.nhs.uk",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nhs-aidrs-news-scoped",
       "registrySourceId": "nhs-aidrs-news",
       "inclusionPolicy": [
@@ -1417,7 +1417,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.medica-tradefair.com/en/News/MEDICA_Sphere",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "medica-sphere-medtech-scoped",
       "registrySourceId": "medica-sphere-medtech",
       "inclusionPolicy": [
@@ -1551,7 +1551,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.massdevice.com",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "massdevice-news-whole",
       "registrySourceId": "massdevice-news",
       "inclusionPolicy": null,
@@ -1627,7 +1627,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.mobihealthnews.com",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "mobihealthnews-ai-device-scoped",
       "registrySourceId": "mobihealthnews-source",
       "inclusionPolicy": [

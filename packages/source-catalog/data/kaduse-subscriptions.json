@@ -158,7 +158,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "observatory-news",
       "targetId": "observatory-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -469,7 +469,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "nhs-aidrs-news",
       "targetId": "nhs-aidrs-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Latest News",
         "relevant Blog/regulatory updates"
@@ -527,7 +527,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "medica-sphere-medtech",
       "targetId": "medica-sphere-medtech-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "MedTech & Devices sphere only"
       ],
@@ -586,7 +586,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "massdevice-news",
       "targetId": "massdevice-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -614,7 +614,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "mobihealthnews-source",
       "targetId": "mobihealthnews-ai-device-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "AI/ML healthcare",
         "diagnostics",
