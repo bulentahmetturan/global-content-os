@@ -141,14 +141,6 @@
       "verificationStatus": "PENDING_VERIFICATION"
     },
     {
-      "id": "fda-cdrh",
-      "publisherId": "fda",
-      "canonicalName": "FDA Center for Devices and Radiological Health (CDRH)",
-      "officialUrl": "https://www.fda.gov/medical-devices",
-      "status": "ACTIVE",
-      "verificationStatus": "PENDING_VERIFICATION"
-    },
-    {
       "id": "ema-news",
       "publisherId": "ema",
       "canonicalName": "EMA News",
@@ -313,36 +305,6 @@
       "officialUrl": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Medical devices, diagnostics, human medicine, health AI, major approvals/safety/regulation, digital health only -- excludes food/tobacco/veterinary/administrative announcements per Batch N2-FINAL section 5.",
-      "transportStatus": "WEB_ONLY",
-      "machineReadable": false
-    },
-    {
-      "id": "fda-cdrh-digital-health",
-      "sourceId": "fda-cdrh",
-      "label": "FDA CDRH -- Digital Health Center of Excellence",
-      "officialUrl": "https://www.fda.gov/medical-devices/digital-health-center-excellence",
-      "scopeType": "REAL_SUBFEED",
-      "scopeDescription": "Digital Health Center of Excellence child target -- not a separate publisher.",
-      "transportStatus": "WEB_ONLY",
-      "machineReadable": false
-    },
-    {
-      "id": "fda-cdrh-samd",
-      "sourceId": "fda-cdrh",
-      "label": "FDA CDRH -- Software as a Medical Device (SaMD)",
-      "officialUrl": "https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd",
-      "scopeType": "REAL_SUBFEED",
-      "scopeDescription": "SaMD-specific regulatory developments.",
-      "transportStatus": "WEB_ONLY",
-      "machineReadable": false
-    },
-    {
-      "id": "fda-cdrh-device-safety",
-      "sourceId": "fda-cdrh",
-      "label": "FDA CDRH -- Device Safety / Recalls / Post-Market",
-      "officialUrl": "https://www.fda.gov/medical-devices/safety-communications",
-      "scopeType": "REAL_SUBFEED",
-      "scopeDescription": "Device clearances/authorisations, recalls, safety, post-market updates.",
       "transportStatus": "WEB_ONLY",
       "machineReadable": false
     },

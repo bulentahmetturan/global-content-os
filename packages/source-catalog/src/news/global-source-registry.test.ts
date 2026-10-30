@@ -86,9 +86,8 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(source!.publisherId).toBe('titck');
   });
 
-  it('10. FDA Digital Health Center of Excellence is associated with FDA CDRH, not a duplicate publisher', () => {
-    const target = getTarget('fda-cdrh-digital-health');
-    expect(target!.sourceId).toBe('fda-cdrh');
+  it('10. FDA CDRH was removed from the catalog (2026-10-31) and must not return as a duplicate publisher', () => {
+    expect(getTarget('fda-cdrh-digital-health')).toBeUndefined();
     const publisherIds = globalNewsSourceRegistry.publishers.map((p) => p.id);
     expect(publisherIds).not.toContain('fda-digital-health-center-of-excellence');
     expect(publisherIds).not.toContain('fda-cdrh-digital-health');
@@ -201,17 +200,17 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     );
   });
 
-  it('FDA parent publisher owns exactly 2 logical sources (Press Announcements, CDRH), CDRH has 3 child targets', () => {
+  it('FDA parent publisher keeps only Press Announcements after the 2026-10-31 CDRH removal', () => {
     const fdaSources = getSourcesForPublisher('fda');
-    expect(fdaSources.map((s) => s.id).sort()).toEqual(['fda-cdrh', 'fda-press-announcements'].sort());
-    expect(getTargetsForSource('fda-cdrh').length).toBe(3);
+    expect(fdaSources.map((s) => s.id)).toEqual(['fda-press-announcements']);
+    expect(getTargetsForSource('fda-cdrh').length).toBe(0);
   });
 
-  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (21 logical sources)', () => {
+  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (20 logical sources)', () => {
     const counts = computeRegistryCounts();
-    expect(counts.logicalSourceCount).toBe(21);
+    expect(counts.logicalSourceCount).toBe(20);
     expect(counts.referenceResourceCount).toBe(5);
-    expect(counts.monitoredTargetCount).toBe(25);
+    expect(counts.monitoredTargetCount).toBe(22);
     expect(counts.uniquePublisherCount).toBe(20);
   });
 
@@ -233,10 +232,10 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
       expect(freshlyVerified).toEqual(['healthai-news']);
     });
 
-    it('every other source (20 of 21) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
+    it('every other source (19 of 20) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
       const counts = computeRegistryCounts();
       expect(counts.freshlyVerifiedSourceCount).toBe(1);
-      expect(counts.pendingVerificationSourceCount).toBe(20);
+      expect(counts.pendingVerificationSourceCount).toBe(19);
       expect(counts.freshlyVerifiedSourceCount + counts.pendingVerificationSourceCount).toBe(counts.logicalSourceCount);
     });
 

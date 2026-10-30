@@ -40,11 +40,11 @@ describe('Kaduse subscription contract (canonical local data)', () => {
     }
   });
 
-  it("Kaduse has exactly 25 subscriptions, matching the registry's 25 monitored targets, each once", () => {
-    expect(kaduseNews.subscriptions.length).toBe(25);
+  it("Kaduse has exactly 22 subscriptions, matching the registry's 22 monitored targets, each once", () => {
+    expect(kaduseNews.subscriptions.length).toBe(22);
     expect(kaduseNews.subscriptionCount).toBe(kaduseNews.subscriptions.length);
     expect(kaduseNews.subscriptions.length).toBe(globalNewsSourceRegistry.targets.length);
-    expect(new Set(kaduseNews.subscriptions.map((s) => s.targetId)).size).toBe(25);
+    expect(new Set(kaduseNews.subscriptions.map((s) => s.targetId)).size).toBe(22);
     for (const sub of kaduseNews.subscriptions) expect(sub.channelId).toBe('kaduse-medikal');
   });
 
@@ -55,10 +55,8 @@ describe('Kaduse subscription contract (canonical local data)', () => {
     expect(getTarget(sub!.targetId)!.scopeType).toBe('CHANNEL_FILTER_OVER_BROADER_SOURCE');
   });
 
-  it('mapping b) FDA CDRH -> Kaduse AI/device monitored targets (3 targets, all under fda-cdrh)', () => {
-    const cdrhSubs = kaduseNews.subscriptions.filter((s) => s.sourceId === 'fda-cdrh');
-    expect(cdrhSubs.length).toBe(3);
-    for (const sub of cdrhSubs) expect(getSource(sub.sourceId)!.publisherId).toBe('fda');
+  it('mapping b) FDA CDRH was removed from Kaduse subscriptions (2026-10-31)', () => {
+    expect(kaduseNews.subscriptions.filter((s) => s.sourceId === 'fda-cdrh').length).toBe(0);
   });
 
   it('mapping c) TUSEB -> TUYZE -> Kaduse Saglikta Yapay Zeka subscription', () => {

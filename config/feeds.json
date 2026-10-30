@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "9b7fb9801b083070007d3f12434e2bd26bf856a922878f7b00c09565931e1040"
+        "sha256": "f730e0bbc8b42a1794572dde5e578b428d9e6343369b1d31f983407fde2ab94d"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "eb8ddc59c986e7d17201075c2c89b3f20298e88c117fba0ce24c68399555c2ab"
+        "sha256": "8b073155d36df64a46f538cf115608f4fb941fc3a7b58993cf3d9baf93b12d04"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 26,
+    "news": 23,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 804,
-    "registryTargetsParsed": 25
+    "total": 801,
+    "registryTargetsParsed": 22
   },
   "feeds": [
     {
@@ -107,66 +107,6 @@
           "veterinary",
           "administrative announcements"
         ]
-      }
-    },
-    {
-      "id": "news-fda-cdrh-digital-health",
-      "label": "FDA CDRH -- Digital Health Center of Excellence",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fda.gov/medical-devices/digital-health-center-excellence",
-      "pollMinutes": 360,
-      "enabled": true,
-      "externalRef": "fda-cdrh-digital-health",
-      "registrySourceId": "fda-cdrh",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-fda-cdrh-samd",
-      "label": "FDA CDRH -- Software as a Medical Device (SaMD)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd",
-      "pollMinutes": 360,
-      "enabled": true,
-      "externalRef": "fda-cdrh-samd",
-      "registrySourceId": "fda-cdrh",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-fda-cdrh-device-safety",
-      "label": "FDA CDRH -- Device Safety / Recalls / Post-Market",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fda.gov/medical-devices/safety-communications",
-      "pollMinutes": 360,
-      "enabled": true,
-      "externalRef": "fda-cdrh-device-safety",
-      "registrySourceId": "fda-cdrh",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
       }
     },
     {
