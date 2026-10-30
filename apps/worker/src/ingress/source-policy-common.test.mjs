@@ -18,6 +18,7 @@ const POLICY_FEEDS = [
   'news-nice-healthtech-scoped',
   'news-ec-medical-devices-target',
   'news-fda-press-scoped',
+  'news-ep-sant-scoped',
   'news-imdrf-news-whole',
   'news-ashp-safemedication-sitemap',
 ];

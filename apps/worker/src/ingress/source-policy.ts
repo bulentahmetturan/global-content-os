@@ -355,6 +355,24 @@ const ASHP_SAFEMEDICATION: SourcePolicy = {
   deny: [/\b(recipes?|how to save|coupons?|discounts?|giveaway)\b/i],
 };
 
+/**
+ * European Parliament SANT committee (owner 2026-10-30, "listede olan hepsi açılacak"): only decisions and positions on
+ * health legislation that reach people (medical devices, medicines and shortages, vaccines, health data, cancer,
+ * antimicrobial resistance, tobacco, cross-border health threats). Agendas, hearings, exchanges of views, delegations
+ * and newsletters never enter.
+ */
+const EP_SANT: SourcePolicy = {
+  note: 'EP SANT: only committee decisions on medical devices, medicines, vaccines, health data, cancer, AMR, tobacco and health threats (owner 2026-10-30).',
+  allow: [
+    /\b(medical devices?|medicines?|medicinal|pharma\w*|critical medicines|shortages?|vaccin\w*|health data|ehds|european health data space|cancer|antimicrobial|tobacco|health threats?|clinical trials?|artificial intelligence|ai act|public health)\b/i,
+    /(tıbbi cihaz\w*|ilaç\w*|aşı\w*|sağlık verisi|kanser\w*|antimikrobiyal|tütün\w*|sağlık tehdit\w*|klinik deney\w*|yapay zek\w*|halk sağlığı)/,
+  ],
+  deny: [
+    /\b(draft agenda|agenda|hearings?|exchange of views|delegations?|study visit|newsletter|constructive dialogue|rapporteurs? appointed|coordinators? meeting)\b/i,
+    /(gündem\w*|duruşma\w*|görüş alışverişi|heyet\w*|bülten\w*)/,
+  ],
+};
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -369,6 +387,7 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ec-medical-devices-target': EC_MEDICAL_DEVICES,
   'news-healthai-news-whole': HEALTHAI,
   'news-imdrf-news-whole': IMDRF,
+  'news-ep-sant-scoped': EP_SANT,
   'news-ashp-safemedication-sitemap': ASHP_SAFEMEDICATION,
 };
 

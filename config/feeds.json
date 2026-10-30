@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "2d0c67cbfa83447703b6dcd8d26eb80bf2c9aa6b7c870967c0e42cf8c19fe267"
+        "sha256": "f94d5f81a10d36bf0de44730497bbc2d77e988fddea788750242d543df0de141"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -1071,7 +1071,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.europarl.europa.eu/committees/en/sant/home/highlights",
       "pollMinutes": 360,
-      "enabled": false,
+      "enabled": true,
       "externalRef": "ep-sant-scoped",
       "registrySourceId": "ep-sant",
       "inclusionPolicy": [

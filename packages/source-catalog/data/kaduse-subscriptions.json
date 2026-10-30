@@ -387,7 +387,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ep-sant",
       "targetId": "ep-sant-scoped",
-      "enabled": false,
+      "enabled": true,
       "inclusionPolicy": [
         "SANT press releases",
         "meaningful public-health committee highlights",
