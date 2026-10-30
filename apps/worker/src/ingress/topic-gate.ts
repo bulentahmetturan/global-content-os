@@ -81,6 +81,9 @@ const TOPIC_GATE_EXEMPT_FEED_IDS = new Set<string>([
   'news-healthai-news-whole',
   'news-massdevice-news-whole',
   'news-medical-device-network-news-whole',
+  // Narrow by construction and judged by their own content policy (source-policy.ts); the keyword gate would drop MDCG/Eudamed titles.
+  'news-ec-medical-devices-target',
+  'news-ep-sant-scoped',
 ]);
 
 export function isTopicGateExempt(feedId: string): boolean {
