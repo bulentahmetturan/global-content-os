@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "e20970ce857cb4d6dcd94d05e47d3cdc30902fc736c5b82395867b7176c1c362"
+        "sha256": "c053255546c1645a3702e0637247ebfbbe7ee9fc17fd7152375066597cf95389"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "fe8304da9a8851f8d7f7ea10dca3bc85668005b270e61ef9625fe08078f98a82"
+        "sha256": "3671146c0c76126bc8d6788d930f8ab8f5789c07824eb4eecd0ab3a08693bfa2"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 22,
+    "news": 21,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 800,
-    "registryTargetsParsed": 21
+    "total": 799,
+    "registryTargetsParsed": 20
   },
   "feeds": [
     {
@@ -140,26 +140,6 @@
       "enabled": true,
       "externalRef": "ec-medical-devices-target",
       "registrySourceId": "ec-medical-devices",
-      "inclusionPolicy": null,
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": null,
-        "exclusionPolicy": null
-      }
-    },
-    {
-      "id": "news-saglik-bakanligi-whole",
-      "label": "T.C. Sağlık Bakanlığı Haberler (normal stream)",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.saglik.gov.tr/TR,10169/haberler.html",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "saglik-bakanligi-whole",
-      "registrySourceId": "saglik-bakanligi",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

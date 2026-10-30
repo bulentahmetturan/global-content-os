@@ -26,12 +26,6 @@
       "notes": "Parent institution for multiple distinct logical sources (Medical Devices, DG SANTE, HERA, HTACG, MDCG) -- these remain separate logical sources per Batch N2-FINAL section 12/section-1-addendum-3, not collapsed into one, and not duplicated as separate publishers."
     },
     {
-      "id": "tr-mos",
-      "canonicalName": "T.C. Sağlık Bakanlığı",
-      "officialUrl": "https://www.saglik.gov.tr",
-      "countryOrRegion": "TR"
-    },
-    {
       "id": "titck",
       "canonicalName": "Türkiye İlaç ve Tıbbi Cihaz Kurumu (TİTCK)",
       "officialUrl": "https://www.titck.gov.tr",
@@ -153,14 +147,6 @@
       "publisherId": "ec",
       "canonicalName": "European Commission -- Medical Devices",
       "officialUrl": "https://health.ec.europa.eu/medical-devices-sector/latest-updates_en",
-      "status": "ACTIVE",
-      "verificationStatus": "PENDING_VERIFICATION"
-    },
-    {
-      "id": "saglik-bakanligi",
-      "publisherId": "tr-mos",
-      "canonicalName": "T.C. Sağlık Bakanlığı Haberler",
-      "officialUrl": "https://www.saglik.gov.tr/TR,10169/haberler.html",
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION"
     },
@@ -323,16 +309,6 @@
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 1440
-    },
-    {
-      "id": "saglik-bakanligi-whole",
-      "sourceId": "saglik-bakanligi",
-      "label": "T.C. Sağlık Bakanlığı Haberler (normal stream)",
-      "officialUrl": "https://www.saglik.gov.tr/TR,10169/haberler.html",
-      "scopeType": "WHOLE_SOURCE",
-      "scopeDescription": "Ministry of Health press releases -- already health-scoped by nature.",
-      "transportStatus": "WEB_ONLY",
-      "machineReadable": false
     },
     {
       "id": "titck-tibbi-cihaz-duyurulari",
