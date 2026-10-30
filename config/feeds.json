@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "e06c9468fb49be5f727f2a5ed8c84a6924a324750a224ccb567f8ec2b44a43f3"
+        "sha256": "97e5e466cc69093f610548253263e2dc52930c490dfe1b6e6a17fa602768a681"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -311,7 +311,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.ecdc.europa.eu/en/news-events",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ecdc-news-whole",
       "registrySourceId": "ecdc-news",
       "inclusionPolicy": null,
@@ -679,7 +679,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://africacdc.org/news-item/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "africa-cdc-news-whole",
       "registrySourceId": "africa-cdc-news",
       "inclusionPolicy": null,
@@ -915,7 +915,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://healthpolicy-watch.news",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hpw-news-whole",
       "registrySourceId": "hpw-news",
       "inclusionPolicy": null,
@@ -1697,7 +1697,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.medikalnews.com/sitemap.rss",
       "pollMinutes": 60,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "www-medikalnews-whole",
       "registrySourceId": "www-medikalnews",
       "inclusionPolicy": null,

@@ -98,7 +98,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ecdc-news",
       "targetId": "ecdc-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -237,7 +237,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "africa-cdc-news",
       "targetId": "africa-cdc-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -325,7 +325,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "hpw-news",
       "targetId": "hpw-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -643,7 +643,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "www-medikalnews",
       "targetId": "www-medikalnews-whole",
-      "enabled": true
+      "enabled": false
     }
   ]
 }
