@@ -343,16 +343,19 @@ const IMDRF: SourcePolicy = {
 };
 
 /**
- * ASHP SafeMedication (owner 2026-10-30, "kalacak"): consumer medication-safety articles. Only safety, interactions, side effects,
- * vaccines and the new weight-loss / peptide drugs enter; how-to and generic wellness pages do not.
+ * ASHP NewsCenter (news.ashp.org; owner 2026-10-31, replaces the SafeMedication patient pages): only items about drug supply and
+ * shortages, FDA actions on drugs, compounding, medication safety, antimicrobial stewardship and the new weight-loss / peptide
+ * drugs. Pharmacists' careers, students, members' stories and association events never enter.
  */
 const ASHP_SAFEMEDICATION: SourcePolicy = {
-  note: 'ASHP SafeMedication: only medication safety, interactions, side effects, vaccines and GLP-1/peptide drugs (owner 2026-10-30).',
+  note: 'ASHP NewsCenter: only drug shortages, FDA drug actions, compounding, medication safety, antimicrobial stewardship and GLP-1/peptide drugs (owner 2026-10-31).',
   allow: [
-    /\b(safety|safe|side effects?|interactions?|risks?|warnings?|vaccin\w*|immuni[sz]\w*|glp-1|retatrutide|semaglutide|tirzepatide|peptides?|over-the-counter|otc|antibiotic\w*|opioid\w*|overdose|counterfeit)\b/i,
-    /(güvenli\w*|yan etki\w*|etkileşim\w*|risk\w*|uyarı\w*|aşı\w*|glp-1|retatrutid\w*|peptit\w*|peptid\w*|reçetesiz|antibiyotik\w*|opioid\w*)/,
+    /\b(shortages?|fda|compounding|compounded|peptides?|glp-1|semaglutide|tirzepatide|medication safety|safety|recalls?|counterfeit|antimicrobial|antibiotic\w*|stewardship|vaccin\w*|opioid\w*|biosimilars?|generics?|drug (supply|pricing|approval)s?|clinical trial\w*)\b/i,
+    /(ilaç kıtlığ\w*|fda|hazırlama|peptit\w*|peptid\w*|glp-1|güvenli\w*|geri çağır\w*|antimikrobiyal|antibiyotik\w*|aşı\w*|opioid\w*)/,
   ],
-  deny: [/\b(recipes?|how to save|coupons?|discounts?|giveaway)\b/i],
+  deny: [
+    /\b(students?|pharmacy week|policy week|members?|pharmacy technicians?|technicians?|residen\w*|career\w*|calling|pipeline|curriculum|educators?|comfort zone|awards?|scholarships?|recipes?|coupons?|discounts?|giveaway)\b/i,
+  ],
 };
 
 /**
@@ -369,6 +372,8 @@ const EP_SANT: SourcePolicy = {
   ],
   deny: [
     /\b(draft agenda|agenda|hearings?|exchange of views|delegations?|study visit|newsletter|constructive dialogue|rapporteurs? appointed|coordinators? meeting)\b/i,
+    /^\W*(\d{1,2}(?:[-–]\d{1,2})?\s+[a-z]+:\s*)?(world|international)\b[^.]{0,60}\b(day|week|month)\W*$/i,
+    /\bawareness (day|week|month)\b/i,
     /(gündem\w*|duruşma\w*|görüş alışverişi|heyet\w*|bülten\w*)/,
   ],
 };

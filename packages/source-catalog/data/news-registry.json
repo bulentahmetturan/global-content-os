@@ -296,7 +296,8 @@
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already health-focused by nature; per Batch N2-FINAL section 6, normal stream monitored with standard Kaduse relevance scoring applied downstream.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "fda-press-scoped",
@@ -306,7 +307,8 @@
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Medical devices, diagnostics, human medicine, health AI, major approvals/safety/regulation, digital health only -- excludes food/tobacco/veterinary/administrative announcements per Batch N2-FINAL section 5.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "ema-news-whole",
@@ -316,7 +318,8 @@
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already sufficiently topic-focused per Batch N2-FINAL section 6.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "ec-medical-devices-target",
@@ -326,7 +329,8 @@
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "Dedicated Medical Devices sector surface only, not the entire EC news stream.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "saglik-bakanligi-whole",
@@ -366,7 +370,8 @@
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "reuters-healthcare-scoped",
@@ -376,7 +381,8 @@
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Healthcare, pharma where medically/news relevant, medtech, medical devices, diagnostics, digital health, AI in healthcare only -- not general Reuters.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "resmi-gazete-health-scoped",
@@ -405,7 +411,8 @@
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Medical devices, digital health, AI in regulated health products, major pharmaceutical regulation only when broadly newsworthy, health-product regulatory changes, per Batch N2-FINAL section 5.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "tuyze-saglikta-yapay-zeka",
@@ -445,7 +452,8 @@
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "SANT press releases, meaningful public-health committee highlights, legislative health decisions only -- not all Parliament press, per Batch N2-FINAL section 5.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "hsgm-news-scoped",
@@ -471,11 +479,12 @@
       "id": "healthai-news-whole",
       "sourceId": "healthai-news",
       "label": "HealthAI",
-      "officialUrl": "https://healthai.agency/news-events/",
+      "officialUrl": "https://healthai.agency/tag/news/",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "nice-healthtech-scoped",
@@ -485,7 +494,8 @@
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "Medical devices, diagnostics, digital technologies, AI technologies, technology evaluations, adoption/recommendations/consultations where newsworthy -- not all NICE guidance, per Batch N2-FINAL section 5.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "medical-device-network-news-whole",
@@ -495,7 +505,8 @@
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
+      "machineReadable": false,
+      "pollMinutes": 1440
     },
     {
       "id": "bilimgenc-tubitak-saglik-whole",

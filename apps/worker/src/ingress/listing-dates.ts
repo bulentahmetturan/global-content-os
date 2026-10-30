@@ -26,6 +26,7 @@ const DAY_MONTH_YEAR = new RegExp(`(?<![\\d])(\\d{1,2})(?:st|nd|rd|th|\\.)?\\s+(
 const MONTH_DAY_YEAR = new RegExp(`(?<![a-zçğıöşü])(${MONTH_RE})\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s+(20\\d\\d)(?!\\d)`, 'i');
 const ISO_DATE = /(?<![\d-])(20\d\d)-(\d{2})-(\d{2})(?![\d])/;
 const DOTTED_DATE = /(?<![\d.\/])(\d{1,2})[./](\d{1,2})[./](20\d\d)(?![\d])/;
+const DASHED_DATE = /(?<![\d-])(\d{1,2})-(\d{1,2})-(20\d\d)(?![\d-])/;
 const TIME_TAG = /<time\b[^>]*\bdatetime=["']([^"']+)["']/i;
 
 function iso(y: number, m: number, d: number, now: Date): string | null {
@@ -80,6 +81,7 @@ export function findPrintedDate(
     const b = +m[2];
     return a > 12 || b <= 12 ? iso(+m[3], b, a, now) : iso(+m[3], a, b, now);
   });
+  scan(DASHED_DATE, (m) => (+m[1] > 12 || +m[2] <= 12 ? iso(+m[3], +m[2], +m[1], now) : iso(+m[3], +m[1], +m[2], now))); // day-first, like the dotted form
   if (!found.length) return null;
   found.sort((x, y) => x.at - y.at);
   return pick === 'last' ? found[found.length - 1] : found[0];

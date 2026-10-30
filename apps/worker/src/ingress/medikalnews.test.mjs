@@ -133,19 +133,12 @@ test('no Instagram adapter, registry record, or automation exists for medicalNEW
 
 // ---- WORKSTREAM BOUNDARY (News/Editorial owns medicalNEWS; Protocols does not) ----
 
-test('registry configuration targets News/HABER with zero protocol-domain keys', async () => {
+test('Medikal News was removed from the catalog and generated feeds (owner 2026-10-31)', async () => {
   const catalog = JSON.parse(readFileSync('packages/source-catalog/data/news-registry.json', 'utf8'));
-  const sources = catalog.sources ?? catalog;
-  const src = sources.find((s) => s.id === 'www-medikalnews');
-  assert.ok(src, 'lifecycle source record exists');
-  assert.ok(!Object.keys(src).some((k) => k.toLowerCase().includes('protocol')), 'no protocol keys on source record');
+  assert.ok(!(catalog.sources ?? []).some((s) => s.id === 'www-medikalnews'), 'lifecycle source record is gone');
   const feeds = JSON.parse(readFileSync('config/feeds.json', 'utf8'));
   const list = Array.isArray(feeds) ? feeds : (feeds.feeds ?? feeds.sources ?? []);
-  const feed = list.find((f) => (f.id ?? f.feedId) === 'news-www-medikalnews-whole');
-  assert.ok(feed, 'generated feed record exists');
-  assert.equal(feed.route ?? feed.decisionRoute, 'kaduse-news');
-  assert.ok(!Object.keys(feed).some((k) => k.toLowerCase().includes('protocol')), 'no protocol keys on feed record');
-  assert.ok(!Object.keys(feed.rules ?? {}).some((k) => k.toLowerCase().includes('protocol')), 'no protocol keys in feed rules');
+  assert.ok(!list.some((f) => (f.id ?? f.feedId) === 'news-www-medikalnews-whole'), 'generated feed record is gone');
 });
 
 // ---- NO SIDE EFFECTS ----

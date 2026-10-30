@@ -54,7 +54,10 @@ test('common narrow filter admits the owner pass areas when the source allow lis
 test('IMDRF and ASHP SafeMedication have a policy; Turkish official sources stay untouched', () => {
   assert.equal(v('news-imdrf-news-whole', 'IMDRF publishes final guidance on cybersecurity for medical device software'), 'pass');
   assert.equal(v('news-imdrf-news-whole', 'IMDRF Management Committee meeting in Tokyo'), 'deny');
-  assert.equal(v('news-ashp-safemedication-sitemap', 'What patients need to know about retatrutide side effects'), 'pass');
+  assert.equal(v('news-ashp-safemedication-sitemap', 'ASHP Urges FDA to Enforce Requirements for Peptide Compounding'), 'pass');
+  assert.equal(v('news-ashp-safemedication-sitemap', 'Student Pharmacists Reflect on the Power of Their Voice During ASHP Policy Week'), 'deny');
+  assert.equal(v('news-ep-sant-scoped', '24 October: World Polio Day'), 'deny');
+  assert.equal(v('news-ep-sant-scoped', 'Presentation of a study on The Use of Data in Public Health'), 'pass');
   assert.equal(v('news-ashp-safemedication-sitemap', 'Ten healthy dinner recipes for the week'), 'deny');
   for (const feed of ['news-aa-saglik-scoped', 'news-titck-tibbi-cihaz-duyurulari', 'news-saglik-bakanligi-whole', 'news-sgk-health-scoped']) {
     assert.equal(v(feed, 'Webinar on company shares; senate vote'), null, feed);

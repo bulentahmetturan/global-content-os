@@ -94,7 +94,7 @@ const newsFeeds = news.subscriptions
       channelId: 'kaduse-medikal',
       transport: isWho ? 'JSON_API' : t?.transportStatus || 'WEB_ONLY',
       endpointUrl,
-      pollMinutes: isWho ? 60 : t?.pollMinutes || 360,
+      pollMinutes: t?.pollMinutes || (isWho ? 60 : 360),
       enabled: s.enabled === true,
       externalRef: s.targetId,
       registrySourceId: s.sourceId,

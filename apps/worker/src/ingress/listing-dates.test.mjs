@@ -15,6 +15,7 @@ describe('findPrintedDate', () => {
     assert.equal(findPrintedDate('<p>Sep 30, 2026</p>', NOW)?.date, '2026-09-30');
     assert.equal(findPrintedDate('PUBLIÉ LE 30/09/2026', NOW)?.date, '2026-09-30');
     assert.equal(findPrintedDate('<span>30.09.2026</span>', NOW)?.date, '2026-09-30');
+    assert.equal(findPrintedDate('<span class="es_product-published-date">23-09-2026 - 11:26</span>', NOW)?.date, '2026-09-23');
     assert.equal(findPrintedDate('3 octobre 2025', NOW)?.date, '2025-10-03');
     assert.equal(findPrintedDate('28 Eylül 2026', NOW)?.date, '2026-09-28');
   });
