@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "59e4e676bc2b0d43cbef6375cad3636be49eaf7d1c0b8e2258355d00c1cf1674"
+        "sha256": "f94d5f81a10d36bf0de44730497bbc2d77e988fddea788750242d543df0de141"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -523,7 +523,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://health.ec.europa.eu/health-technology-assessment/implementation-regulation-health-technology-assessment/member-state-coordination-group-hta-htacg_en",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ec-hta-htacg-target",
       "registrySourceId": "ec-hta-htacg",
       "inclusionPolicy": null,
@@ -543,7 +543,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.oecd.org/health/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "oecd-health-scoped",
       "registrySourceId": "oecd-health",
       "inclusionPolicy": [
@@ -1717,7 +1717,7 @@
       "transport": "JSON_API",
       "endpointUrl": "https://www.who.int/api/news/newsitems",
       "pollMinutes": 60,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "who-newsroom",
       "rules": {
         "limit": 20,

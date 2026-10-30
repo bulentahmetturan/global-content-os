@@ -176,13 +176,13 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ec-hta-htacg",
       "targetId": "ec-hta-htacg-target",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
       "sourceId": "oecd-health",
       "targetId": "oecd-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Health section only"
       ]

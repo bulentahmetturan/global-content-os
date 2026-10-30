@@ -225,6 +225,8 @@ const RETIRED_DUPLICATE_FEED_IDS = new Set([
   'news-titck-general-regulatory',
   'news-tuik-saglik-sosyal-koruma',
   'research-medical-news-today',
+  // 2026-10-30 owner: legacy WHO alias of news-who-newsroom-whole (same endpoint); ingestion keeps working through the registered row.
+  'who-newsroom',
 ]);
 for (const f of feeds) {
   if (RETIRED_DUPLICATE_FEED_IDS.has(f.id)) f.enabled = false;
