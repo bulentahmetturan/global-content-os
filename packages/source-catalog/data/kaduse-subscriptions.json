@@ -243,7 +243,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "ec-mdcg",
       "targetId": "ec-mdcg-target",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -293,7 +293,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "bfarm-news",
       "targetId": "bfarm-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "medical devices",
         "DiGA/digital health",
@@ -352,7 +352,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "eur-lex-source",
       "targetId": "eur-lex-mdr-ivdr-health-query",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "MDR",
         "IVDR",
@@ -482,7 +482,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "jtc21-ai",
       "targetId": "jtc21-ai-health-gated",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "JTC 21 AI standardization activity gated by an ADDITIONAL health/medicine/medtech/medical-device/healthcare relevance constraint"
       ],

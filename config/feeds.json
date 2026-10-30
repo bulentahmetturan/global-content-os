@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "c9ff310a198de084c4e6be0090fcf0467a37f71aa6dad516e54600dda915eccd"
+        "sha256": "01151f661dc45c94f4ddc45336db32c0f35642f3a38bab14b04bda2b4a54e6bc"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -699,7 +699,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://health.ec.europa.eu/medical-devices-sector/new-regulations/guidance-mdcg-endorsed-documents-and-other-guidance_en",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ec-mdcg-target",
       "registrySourceId": "ec-mdcg",
       "inclusionPolicy": null,
@@ -831,7 +831,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.bfarm.de/EN/News/_node.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "bfarm-news-scoped",
       "registrySourceId": "bfarm-news",
       "inclusionPolicy": [
@@ -981,7 +981,7 @@
       "transport": "PENDING_MANUAL",
       "endpointUrl": "https://eur-lex.europa.eu/search.html?scope=EURLEX&text=medical+device+OR+MDR+OR+IVDR&type=quick&lang=en",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "eur-lex-mdr-ivdr-health-query",
       "registrySourceId": "eur-lex-source",
       "inclusionPolicy": [
@@ -1305,7 +1305,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "jtc21-ai-health-gated",
       "registrySourceId": "jtc21-ai",
       "inclusionPolicy": [
