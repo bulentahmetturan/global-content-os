@@ -2,6 +2,48 @@
   "schemaVersion": "1.0.0",
   "sources": [
     {
+      "source_id": "bilimgenc-tubitak-saglik-whole",
+      "identity_store": "kaduse-news",
+      "feed_id": "news-bilimgenc-tubitak-saglik-whole",
+      "semantic_lane": "Haber",
+      "time_sensitive": {
+        "enabled": false
+      },
+      "evergreen": {
+        "evergreen_view": "health_reference",
+        "cooldown_days": 180,
+        "signal_providers": [],
+        "rediscovery_cadence_hours": 72,
+        "tier": "SMALL",
+        "daily_target": 1,
+        "activation": "CANARY_ONLY",
+        "deep_archive_cadence_hours": 720,
+        "family": null,
+        "max_items_evaluated_per_cycle": 10,
+        "archives": [
+          {
+            "max_pages_per_run": 3,
+            "url": "https://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed",
+            "id": "bilimgenc-saglik-feed",
+            "kind": "wp_feed"
+          }
+        ],
+        "enabled": true,
+        "importance_signal_strategy": "EDITORIAL_RELEVANCE"
+      },
+      "basis": "owner 2026-10-31: Bilim Genç moves from Haber to Sağlık & Referans; filter: three Turkish audiences or world wow",
+      "updated_at": "2026-10-30T22:46:40.098Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_7a18d7f9b4562420",
+          "at": "2026-10-30T22:46:40.098Z",
+          "by": "W11",
+          "basis": "owner 2026-10-31: Bilim Genç moves from Haber to Sağlık & Referans; filter: three Turkish audiences or world wow"
+        }
+      ]
+    },
+    {
       "source_id": "harvard_nutrition_source",
       "identity_store": "tip_toplulugu",
       "semantic_lane": "Duyuru",

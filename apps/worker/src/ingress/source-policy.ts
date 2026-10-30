@@ -431,6 +431,18 @@ const FOREIGN_LOCAL_OR_ROUTINE: RegExp[] = [
   /^(?!(?:What|Why|How|Did|Are|Is|Do|Does|Can|Will|When|Who)\b)[A-Z][\w.'’-]+(?: [A-Z][\w.'’-]+){1,3} on\b/,
 ];
 
+/**
+ * Bilim Genç (TÜBİTAK; owner 2026-10-31): moved from Haber to Sağlık & Referans. Only health explainers enter; the category also carries
+ * chess, cipher puzzles, sky guides, competitions and summit pages, which serve none of the three Turkish audiences.
+ */
+const BILIMGENC_SAGLIK: SourcePolicy = {
+  note: 'Bilim Genç: only health explainers; no chess, puzzles, sky guides, competitions, summit pages (owner 2026-10-31).',
+  allow: [
+    /(sağlık|hastal\w*|kanser\w*|tedavi\w*|ilaç\w*|aşı\w*|beyin\w*|kalp\w*|diş\w*|uyku\w*|beslenme\w*|bağışıklık|enfeksiyon\w*|virüs\w*|bakteri\w*|hücre\w*|gen\w*|vücut\w*|ağrı\w*|kahve|vitamin\w*|kan\b|sinir\w*)/,
+  ],
+  deny: [/(satranç|şifre\w*|gökyüz\w*|zirve\w*|yarışma\w*|taahh?üt\w*|ev sahipliği|periyodik tablo|okyanus|tasarla ve yap|deney\w* rehberi)/],
+};
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -446,6 +458,7 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-healthai-news-whole': HEALTHAI,
   'news-imdrf-news-whole': IMDRF,
   'news-ep-sant-scoped': EP_SANT,
+  'news-bilimgenc-tubitak-saglik-whole': BILIMGENC_SAGLIK,
   'news-ashp-safemedication-sitemap': ASHP_SAFEMEDICATION,
   'news-aa-saglik-scoped': AA_SAGLIK,
 };
@@ -477,7 +490,8 @@ export function sourcePolicyVerdict(feedId: string | null | undefined, title: st
   const low = raw.toLocaleLowerCase('tr-TR');
   const hit = (re: RegExp) => re.test(raw) || re.test(low);
   if (COMMON_NEWS_DENY.some(hit)) return 'deny';
-  if (!COMMON_NEWS_ALLOW.some(hit)) return 'deny';
+  // Turkish explainer sources bring their own admitted-area list; the common one was written for the English news sources.
+  if (feedId !== 'news-bilimgenc-tubitak-saglik-whole' && !COMMON_NEWS_ALLOW.some(hit)) return 'deny';
   if (policy.deny.some(hit)) return 'deny';
   if (policy.allOf && !policy.allOf.every(hit)) return 'deny';
   if (!policy.allow.some(hit)) return 'deny';

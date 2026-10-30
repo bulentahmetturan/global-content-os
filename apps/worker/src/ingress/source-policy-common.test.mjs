@@ -70,3 +70,12 @@ test('IMDRF and ASHP SafeMedication have a policy; Turkish official sources stay
     assert.equal(v(feed, 'Webinar on company shares; senate vote'), null, feed);
   }
 });
+
+test('Bilim Genç keeps health explainers and refuses chess, puzzles, sky guides and summit pages', () => {
+  const f = 'news-bilimgenc-tubitak-saglik-whole';
+  assert.equal(v(f, 'Dişin İçindeki Kök Hücreler Sinir Onarımına Yardımcı Olabilir mi?'), 'pass');
+  assert.equal(v(f, 'Kahve Neden Hepimizi Aynı Şekilde Etkilemiyor?'), 'pass');
+  assert.equal(v(f, 'Satranç Ekim 2026 Alıştırma Sorusunun Cevabı'), 'deny');
+  assert.equal(v(f, 'Zirve taahütname'), 'deny');
+  assert.equal(v(f, 'Ekim 2026’da Gökyüzü'), 'deny');
+});
