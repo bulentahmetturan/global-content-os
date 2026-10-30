@@ -760,7 +760,7 @@
     {
       "id": "who-newsroom-whole",
       "sourceId": "who-newsroom",
-      "label": "WHO Newsroom (normal stream)",
+      "label": "WHO Newsroom",
       "officialUrl": "https://www.who.int/news",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already health-focused by nature; per Batch N2-FINAL section 6, normal stream monitored with standard Kaduse relevance scoring applied downstream.",
@@ -770,7 +770,7 @@
     {
       "id": "fda-press-scoped",
       "sourceId": "fda-press-announcements",
-      "label": "FDA Press Announcements (medical devices/diagnostics/human medicine/health AI/digital health scope)",
+      "label": "FDA Press",
       "officialUrl": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Medical devices, diagnostics, human medicine, health AI, major approvals/safety/regulation, digital health only -- excludes food/tobacco/veterinary/administrative announcements per Batch N2-FINAL section 5.",
@@ -820,7 +820,7 @@
     {
       "id": "ema-news-whole",
       "sourceId": "ema-news",
-      "label": "EMA News (normal stream)",
+      "label": "EMA",
       "officialUrl": "https://www.ema.europa.eu/en/news",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already sufficiently topic-focused per Batch N2-FINAL section 6.",
@@ -830,7 +830,7 @@
     {
       "id": "ec-medical-devices-target",
       "sourceId": "ec-medical-devices",
-      "label": "EC Medical Devices sector -- latest updates",
+      "label": "AB Tıbbi Cihaz",
       "officialUrl": "https://health.ec.europa.eu/medical-devices-sector/latest-updates_en",
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "Dedicated Medical Devices sector surface only, not the entire EC news stream.",
@@ -890,7 +890,7 @@
     {
       "id": "medtech-dive-news-whole",
       "sourceId": "medtech-dive-news",
-      "label": "MedTech Dive (normal stream)",
+      "label": "MedTech Dive",
       "officialUrl": "https://www.medtechdive.com",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
@@ -900,7 +900,7 @@
     {
       "id": "reuters-healthcare-scoped",
       "sourceId": "reuters-healthcare",
-      "label": "Reuters -- Healthcare/Pharma/Medtech/Diagnostics/Digital Health/AI-in-Health",
+      "label": "Reuters Healthcare",
       "officialUrl": "https://www.reuters.com/business/healthcare-pharmaceuticals/",
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Healthcare, pharma where medically/news relevant, medtech, medical devices, diagnostics, digital health, AI in healthcare only -- not general Reuters.",
@@ -1029,7 +1029,7 @@
     {
       "id": "raps-regulatory-focus-scoped",
       "sourceId": "raps-regulatory-focus",
-      "label": "RAPS Regulatory Focus -- device/digital-health/AI/major pharma-regulation scope",
+      "label": "RAPS Regulatory Focus",
       "officialUrl": "https://www.raps.org/news-and-articles/news-articles",
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Medical devices, digital health, AI in regulated health products, major pharmaceutical regulation only when broadly newsworthy, health-product regulatory changes, per Batch N2-FINAL section 5.",
@@ -1079,7 +1079,7 @@
     {
       "id": "imdrf-news-whole",
       "sourceId": "imdrf-news",
-      "label": "IMDRF News (normal stream)",
+      "label": "IMDRF",
       "officialUrl": "https://www.imdrf.org/news",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
@@ -1148,7 +1148,7 @@
     {
       "id": "ep-sant-scoped",
       "sourceId": "ep-sant",
-      "label": "European Parliament -- SANT press releases / public-health highlights / legislative health decisions",
+      "label": "Avrupa Parlamentosu SANT",
       "officialUrl": "https://www.europarl.europa.eu/committees/en/sant/home/highlights",
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "SANT press releases, meaningful public-health committee highlights, legislative health decisions only -- not all Parliament press, per Batch N2-FINAL section 5.",
@@ -1208,7 +1208,7 @@
     {
       "id": "healthai-news-whole",
       "sourceId": "healthai-news",
-      "label": "HealthAI News (normal stream)",
+      "label": "HealthAI",
       "officialUrl": "https://healthai.agency/news-events/",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",
@@ -1288,7 +1288,7 @@
     {
       "id": "nice-healthtech-scoped",
       "sourceId": "nice-healthtech",
-      "label": "NICE HealthTech -- devices/diagnostics/digital/AI technology evaluations",
+      "label": "NICE HealthTech",
       "officialUrl": "https://www.nice.org.uk/news",
       "scopeType": "REAL_SUBFEED",
       "scopeDescription": "Medical devices, diagnostics, digital technologies, AI technologies, technology evaluations, adoption/recommendations/consultations where newsworthy -- not all NICE guidance, per Batch N2-FINAL section 5.",
@@ -1318,7 +1318,7 @@
     {
       "id": "medical-device-network-news-whole",
       "sourceId": "medical-device-network-news",
-      "label": "Medical Device Network (normal stream)",
+      "label": "Medical Device Network",
       "officialUrl": "https://www.medicaldevice-network.com",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Already topic-focused per Batch N2-FINAL section 6.",

@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "4e4f36be7cabb3b8e0368251e742746ef4921d479e930584b56e847d587372b3"
+        "sha256": "0f34c26f335a0e99c1b50a42db0260ea84add5da91ad28eff48935a4cc403909"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -50,7 +50,7 @@
     },
     {
       "id": "news-who-newsroom-whole",
-      "label": "WHO Newsroom (normal stream)",
+      "label": "WHO Newsroom",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "JSON_API",
@@ -67,7 +67,7 @@
     },
     {
       "id": "news-fda-press-scoped",
-      "label": "FDA Press Announcements (medical devices/diagnostics/human medicine/health AI/digital health scope)",
+      "label": "FDA Press",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -191,7 +191,7 @@
     },
     {
       "id": "news-ema-news-whole",
-      "label": "EMA News (normal stream)",
+      "label": "EMA",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -211,7 +211,7 @@
     },
     {
       "id": "news-ec-medical-devices-target",
-      "label": "EC Medical Devices sector -- latest updates",
+      "label": "AB Tıbbi Cihaz",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -345,7 +345,7 @@
     },
     {
       "id": "news-medtech-dive-news-whole",
-      "label": "MedTech Dive (normal stream)",
+      "label": "MedTech Dive",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -365,7 +365,7 @@
     },
     {
       "id": "news-reuters-healthcare-scoped",
-      "label": "Reuters -- Healthcare/Pharma/Medtech/Diagnostics/Digital Health/AI-in-Health",
+      "label": "Reuters Healthcare",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -713,7 +713,7 @@
     },
     {
       "id": "news-raps-regulatory-focus-scoped",
-      "label": "RAPS Regulatory Focus -- device/digital-health/AI/major pharma-regulation scope",
+      "label": "RAPS Regulatory Focus",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -855,7 +855,7 @@
     },
     {
       "id": "news-imdrf-news-whole",
-      "label": "IMDRF News (normal stream)",
+      "label": "IMDRF",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -1065,7 +1065,7 @@
     },
     {
       "id": "news-ep-sant-scoped",
-      "label": "European Parliament -- SANT press releases / public-health highlights / legislative health decisions",
+      "label": "Avrupa Parlamentosu SANT",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -1249,7 +1249,7 @@
     },
     {
       "id": "news-healthai-news-whole",
-      "label": "HealthAI News (normal stream)",
+      "label": "HealthAI",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -1475,7 +1475,7 @@
     },
     {
       "id": "news-nice-healthtech-scoped",
-      "label": "NICE HealthTech -- devices/diagnostics/digital/AI technology evaluations",
+      "label": "NICE HealthTech",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
@@ -1565,7 +1565,7 @@
     },
     {
       "id": "news-medical-device-network-news-whole",
-      "label": "Medical Device Network (normal stream)",
+      "label": "Medical Device Network",
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
