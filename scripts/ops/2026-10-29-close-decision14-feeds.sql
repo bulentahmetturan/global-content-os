@@ -1,3 +1,4 @@
+-- APPLIED 2026-10-30 through 2026-10-30-close-all-decided-and-clean.sql (same enabled = 0; open items of GDELT, medRxiv and NIH news removed there, owner-held items kept).
 -- Owner decision 14 (2026-10-24, docs/audits/2026-10-24-hub-full-audit.md): close NIH news, NCCIH, GDELT, medRxiv.
 -- Stops new fetches only; existing items stay where they are. Reversible: set enabled = 1 again.
 -- Run: node node_modules/wrangler/bin/wrangler.js d1 execute global-content-os --remote --file scripts/ops/2026-10-29-close-decision14-feeds.sql
