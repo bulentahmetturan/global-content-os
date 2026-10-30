@@ -291,6 +291,70 @@ const HEALTHAI: SourcePolicy = {
   ],
 };
 
+/**
+ * Common narrow filter (owner 2026-10-30, "dar süzgeç hepsi için"): applies on top of every source that has a content policy
+ * (the English-language news sources); Turkish official sources have no policy yet and are not touched.
+ * An item must carry at least one admitted area (disease and treatment, public health, healthy living, medical devices,
+ * health technology, guidance and safety updates) and none of the refused ones (finance, foreign workforce and local
+ * systems, general politics, personal illness, appointments, event and MoU announcements, corporate promotion, ads,
+ * lifestyle lists, ";" roundups, site noise), whatever the source's own allow list says.
+ */
+const COMMON_NEWS_ALLOW: RegExp[] = [
+  /\b(disease\w*|cancer\w*|tumou?rs?|diabet\w*|obes\w*|heart|cardi\w*|stroke|kidney|liver|brain|dementia|alzheimer\w*|infect\w*|virus|viral|bacteri\w*|fung\w*|outbreaks?|epidemic|pandemic|measles|ebola|dengue|flu|influenza|covid|rsv|mpox|tuberculosis|tb|malaria|hiv|cholera|vaccin\w*|immuni[sz]\w*|treatment\w*|therap\w*|drugs?|medicines?|medications?|approv\w*|clear(s|ed|ance|ances)|authori[sz]\w*|diagnos\w*|tests?|testing|screening|trials?|study|studies|findings?|risks?|prevent\w*|sleep|nutrition|diet\w*|exercise|physical activity|mental health|depression|anxiety|menopause|aging|ageing|longevity|devices?|implants?|recalls?|safety|alerts?|warnings?|wearables?|sensors?|ai|artificial intelligence|machine learning|digital health|software|robot\w*|guidance|guidelines?|standards?|classification|regulation|mdcg|eudamed|ivd|mdr|ivdr|glp-1|retatrutide|semaglutide|tirzepatide|over-the-counter|otc|opioids?|antibiotics?|prescri[a-z]*|patients?|peptides?|supplements?|hypertension|blood pressure|cholesterol|asthma|copd|arthritis|pregnan\w*|maternal|newborn|child\w*|poison\w*|pneumonia|plague|quarantine|parasit\w*|contaminat\w*|foodborne|salmonella|listeria|cyclospora|insulin|pumps?|nod|fda|ce mark|genai|generative|medicinal|chmp|prac|deaths?)\b/i,
+  /(hastal\w*|kanser\w*|diyabet\w*|obezite\w*|kalp\w*|beyin\w*|enfeksiyon\w*|virüs\w*|salgın\w*|aşı\w*|tedavi\w*|ilaç\w*|onay\w*|tanı(?!t)\w*|test\w*|tarama\w*|risk\w*|uyku\w*|beslenme\w*|egzersiz\w*|kızamık|ölüm\w*|veba|karantina|hipertansiyon|insülin|hamile\w*|gebelik\w*|zehirlen\w*|cdc|ruh sağlığı|cihaz\w*|geri çağır\w*|güvenlik\w*|uyarı\w*|giyilebilir\w*|yapay zek\w*|dijital sağlık|yazılım\w*|robot\w*|rehber\w*|kılavuz\w*|standart\w*)/,
+];
+const COMMON_NEWS_DENY: RegExp[] = [
+  // Company and finance, general politics, a public figure's own illness.
+  ...BUSINESS_DENY,
+  ...PUBLIC_FIGURE_DENY,
+  ...US_POLITICS_DENY,
+  /\b(market (size|forecast|outlook)|forecasts?|cagr|analysts?)\b/i,
+  // Foreign health workers' conditions and foreign local health-system administration.
+  /\b(salar(y|ies)|wages?|pay (rise|cut|dispute|deal)|rota|on-call|shifts?|recruit\w*|hiring|workforce|staffing|strikes?|unions?|residency|burnout|junior doctors?|working conditions|employment)\b/i,
+  /\b(reimburse\w*|payers?|billing|coverage|prior authori[sz]ation|nhs trusts?)\b/i,
+  // People moves and corporate governance, event and MoU announcements.
+  /\b(appoint\w*|hires?|hired|steps? down|resign\w*|elected|nominat\w*|vice[- ]chair|co-editor|welcomes? new|board of directors)\b/i,
+  /\b(webinar|podcast|summit|forum|symposium|workshop|conference|expo|roundtable|town hall|save the date)\b/i,
+  /\b(memorandum|mou|signs? (an? )?(agreement|mou)|strategic collaboration|joins? forces)\b/i,
+  // Corporate promotion, ads, lifestyle lists.
+  /\b(ceremony|visits?|visited|awards?|awarded|anniversary|celebrat\w*|inaugurat\w*|ribbon|gala|honou?rs?)\b/i,
+  /\b(discounts?|sponsored|coupons?|promo\w*|giveaway|sale|% off)\b/i,
+  /\b(celebrity diets?|beauty trends?|skincare|makeup|\d+ (best|ways|tips|foods|things))\b/i,
+  // Several stories in one piece.
+  /;/,
+  // Site noise: menus, newsletters, licences, database pages.
+  /^\s*(newsletters?|databases?|home|menu|contact|about|sitemap)\b/i,
+  /\b(open content licen[cs]e|newsletters?|online services|terms and conditions|cookies?)\b/i,
+  // Turkish counterparts.
+  /(webinar\w*|podcast\w*|zirve\w*|forum\w*|sempozyum\w*|çalıştay\w*|konferans\w*|mutabakat\w*|atan\w*|istifa\w*|ödül\w*|tören\w*|yıldönümü|kutla\w*|indirim\w*|reklam\w*|maaş\w*|nöbet\w*|işe alım\w*)/,
+];
+
+/**
+ * IMDRF (owner 2026-10-30): only finished regulatory documents on AI, software, cybersecurity and device regulation.
+ * Meetings, chair changes and registrations never enter. The site is currently unreachable, so nothing is stored yet.
+ */
+const IMDRF: SourcePolicy = {
+  note: 'IMDRF: only final regulatory documents on AI, software, cybersecurity and device regulation (owner 2026-10-30).',
+  allow: [
+    /\b(guidance|guidelines?|final document|technical document|ai|artificial intelligence|machine learning|software|samd|cybersecurity|regulat\w*|recognition|nomenclature|unique device identification|udi)\b/i,
+    /(rehber\w*|yapay zek\w*|yazılım\w*|siber güvenlik|düzenleme\w*|tıbbi cihaz\w*)/,
+  ],
+  deny: [/\b(management committee|chair|chairmanship|meeting|registration|call for|vacanc\w*|survey)\b/i, /(toplantı\w*|başkanlık|kayıt\b|anket\w*)/],
+};
+
+/**
+ * ASHP SafeMedication (owner 2026-10-30, "kalacak"): consumer medication-safety articles. Only safety, interactions, side effects,
+ * vaccines and the new weight-loss / peptide drugs enter; how-to and generic wellness pages do not.
+ */
+const ASHP_SAFEMEDICATION: SourcePolicy = {
+  note: 'ASHP SafeMedication: only medication safety, interactions, side effects, vaccines and GLP-1/peptide drugs (owner 2026-10-30).',
+  allow: [
+    /\b(safety|safe|side effects?|interactions?|risks?|warnings?|vaccin\w*|immuni[sz]\w*|glp-1|retatrutide|semaglutide|tirzepatide|peptides?|over-the-counter|otc|antibiotic\w*|opioid\w*|overdose|counterfeit)\b/i,
+    /(güvenli\w*|yan etki\w*|etkileşim\w*|risk\w*|uyarı\w*|aşı\w*|glp-1|retatrutid\w*|peptit\w*|peptid\w*|reçetesiz|antibiyotik\w*|opioid\w*)/,
+  ],
+  deny: [/\b(recipes?|how to save|coupons?|discounts?|giveaway)\b/i],
+};
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -304,7 +368,16 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-nice-healthtech-scoped': NICE_HEALTHTECH,
   'news-ec-medical-devices-target': EC_MEDICAL_DEVICES,
   'news-healthai-news-whole': HEALTHAI,
+  'news-imdrf-news-whole': IMDRF,
+  'news-ashp-safemedication-sitemap': ASHP_SAFEMEDICATION,
 };
+
+/** Dry-run helper: does the common narrow filter alone refuse this title? */
+export function commonNewsDenied(title: string | null | undefined, titleOrig?: string | null): boolean {
+  const raw = ((titleOrig ?? '').trim() || (title ?? '')).trim();
+  const low = raw.toLocaleLowerCase('tr-TR');
+  return COMMON_NEWS_DENY.some((re) => re.test(raw) || re.test(low)) || !COMMON_NEWS_ALLOW.some((re) => re.test(raw) || re.test(low));
+}
 
 export const POLICY_FEED_IDS: readonly string[] = Object.keys(SOURCE_CONTENT_POLICY);
 
@@ -317,6 +390,8 @@ export function sourcePolicyVerdict(feedId: string | null | undefined, title: st
   const raw = ((titleOrig ?? '').trim() || (title ?? '')).trim();
   const low = raw.toLocaleLowerCase('tr-TR');
   const hit = (re: RegExp) => re.test(raw) || re.test(low);
+  if (COMMON_NEWS_DENY.some(hit)) return 'deny';
+  if (!COMMON_NEWS_ALLOW.some(hit)) return 'deny';
   if (policy.deny.some(hit)) return 'deny';
   if (policy.allOf && !policy.allOf.every(hit)) return 'deny';
   return policy.allow.some(hit) ? 'pass' : 'deny';
