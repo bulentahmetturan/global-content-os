@@ -142,5 +142,14 @@
     "schemaMigration": "0028_temporal_paths.sql",
     "schemaMigrationAfter": "0030_source_lifecycle_pubmed_carrier_reconcile.sql",
     "rollbackNote": "Do NOT roll the Worker back to 3f85ff95 (a013a84) while the PubMed carrier row is enabled: that build lacks the time-sensitive eligibility gate in ingestPubmed and would revive the legacy PubMed topic batch. First disable the carrier through canonical state handling, or restore D1 to the pre-0029/0030 Time Travel checkpoint (writes after it are lost). 0029/0030 are additive/idempotent and need no restore for a code-only change."
+  },
+  "whoAudienceGateRelease": {
+    "note": "Owner-authorized 2026-10-30 (owner-operated D1 writes). WHO Newsroom audience-fit gate deployed from branch who-audience-gate-20261030 (cut from live e7baa57). Rollback: npx wrangler rollback 06105aba-0d38-4d4b-9907-b43750eb2864 (code-only; the gate adds no schema). Feeds disabled via d1 execute (enabled=0, rows kept, forward-only, idempotent): news-ansm-news-scoped, news-council-eu-epsco-health-scoped, news-cleveland-clinic-newsroom-sitemap, news-pmda-news-scoped, news-swissmedic-news-scoped; files migrations/0052-0056 (renamed after execution; not in the d1_migrations ledger). Re-enable = set enabled=1 on the row.",
+    "worker": "global-content-os",
+    "deployedCommit": "5c7d9aecb09a7753b87f92a43ef4259f2ba2b30b",
+    "deployedVersion": "f89dbf0a-f5b3-4fb1-8e5b-65f4350875f4",
+    "rollbackVersion": "06105aba-0d38-4d4b-9907-b43750eb2864",
+    "rollbackCommit": "e7baa574349a4a55b77cb7ee20fe62afae5f8140",
+    "d1BookmarkBeforeFeedChanges": "00000637-00000177-00005113-9dfc3f70cc9fec9f89129b0b2f338907"
   }
 }
