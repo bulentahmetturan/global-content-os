@@ -42,7 +42,12 @@ test('common narrow filter refuses the owner reject list on every policy source,
 });
 
 test('common narrow filter admits the owner pass areas when the source allow list also matches', () => {
-  assert.equal(v('news-reuters-healthcare-scoped', 'Pennsylvania measles cases top 700 after four outbreak-related deaths reported'), 'pass');
+  assert.equal(v('news-reuters-healthcare-scoped', 'Pennsylvania measles cases top 700 after four outbreak-related deaths reported'), 'deny'); // one foreign state's outbreak: neither relevant to Turkish professionals nor wow
+  assert.equal(v('news-reuters-healthcare-scoped', "Congo's Ebola outbreak has killed more than 4,000, government data shows"), 'pass'); // world-scale
+  assert.equal(v('news-reuters-healthcare-scoped', 'Kenya reports second death from Ebola'), 'deny');
+  assert.equal(v('news-medpagetoday-sitemap', 'More Medical Debt Linked to More Deadly Cancers'), 'deny');
+  assert.equal(v('news-medpagetoday-sitemap', 'Nobel Medicine Prize Goes to 3 Scientists for Research Into Brain Activity'), 'pass');
+  assert.equal(v('news-reuters-healthcare-scoped', 'Teva wins FDA approval for monthly schizophrenia injection Weltruza'), 'pass');
   assert.equal(v('news-who-newsroom-whole', 'New global roadmap launched to tackle hypertension in pregnancy'), 'pass');
   assert.equal(v('news-medtech-dive-news-whole', 'Beta Bionics’ insulin patch pump gets FDA nod'), 'pass');
   assert.equal(v('news-ema-news-whole', 'Meeting highlights from the Committee for Medicinal Products for Human Use (CHMP) 12-15 October 2026'), 'pass');

@@ -378,6 +378,37 @@ const EP_SANT: SourcePolicy = {
   ],
 };
 
+/**
+ * Audience rule for the wire and trade sources (owner 2026-10-31): an item enters when EITHER it concerns Turkish medical
+ * professionals (clinical findings, drug decisions, guidance, regulation) OR it carries world-level wow. Items about one
+ * foreign place's outbreak, one foreign health system, or one company's routine news concern neither, so they enter only when
+ * they carry wow. Authority sources (WHO, EMA, FDA Press, NICE, EC, EP SANT) are not touched: their decisions are the wow.
+ */
+const WIRE_FEED_IDS = new Set([
+  'news-reuters-healthcare-scoped',
+  'news-medpagetoday-sitemap',
+  'news-medical-news-today-sitemap',
+]);
+const WOW: RegExp[] = [
+  /\b(first[- ]of[- ]its[- ]kind|world['’]s first|first[- ]in[- ]class|first[- ]ever|first (approved|global|treatment|drug|vaccine|guidelines?|therapy|test|device|human)|nobel|breakthrough|landmark|worldwide|largest|record|millions?|billions?|pandemic|new class|roadmap|worst (year|since)|worst)\b/i,
+  /\b\d{1,3},\d{3}\s+(deaths?|cases?|people|lives)\b|\b(killed|infected|dead) more than \d{1,3},\d{3}\b/i,
+  /\b(türkiye|turkey|turkish|türk|muslim|gaza|syria)\b/i,
+];
+const FOREIGN_LOCAL_OR_ROUTINE: RegExp[] = [
+  // One place's outbreak counts: "X reports second death", "Y confirms case".
+  /\b(reports?|confirms?|says|records?)\b[^.]{0,60}\b(deaths?|cases?)\b/i,
+  // One foreign health system, one foreign state.
+  /\b(medicare|medicaid|insurers?|medical debt|cdc (delay|cuts?|director|advisers?|panel)|hhs|nhs|tariffs?|pennsylvania|florida|texas|california|ohio|georgia|michigan|minnesota|new york)\b/i,
+  // One company's routine news: clearances, launches, lab openings, AI labs.
+  /^(?!.*\b(drug|injection|treatment|therapy|vaccine|medicine|antibod\w*)\b).*\b(wins|secures|earns|gets|receives)\b[^.]{0,40}\b(fda|ce mark|clearance|approval|nod)\b/i,
+  /\b(fda (nod|clearance|clears)|launches|unveils|reveals|sets up)\b/i,
+  /\b(anthropic|openai|google|microsoft|nvidia|amazon)\b/i,
+  // An interview: "Name Surname on the topic".
+  /^(?!(?:What|Why|How|Did|Are|Is|Do|Does|Can|Will|When|Who)\b)[A-Z][\w.'’-]+(?: [A-Z][\w.'’-]+){1,3} on\b/,
+  // Consumer tips without a finding behind them.
+  /\b(what the latest research says|what to know|how to|tips?|ways to|may be affecting)\b/i,
+];
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -418,5 +449,7 @@ export function sourcePolicyVerdict(feedId: string | null | undefined, title: st
   if (!COMMON_NEWS_ALLOW.some(hit)) return 'deny';
   if (policy.deny.some(hit)) return 'deny';
   if (policy.allOf && !policy.allOf.every(hit)) return 'deny';
-  return policy.allow.some(hit) ? 'pass' : 'deny';
+  if (!policy.allow.some(hit)) return 'deny';
+  if (WIRE_FEED_IDS.has(feedId ?? '') && !WOW.some(hit) && FOREIGN_LOCAL_OR_ROUTINE.some(hit)) return 'deny';
+  return 'pass';
 }
