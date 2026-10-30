@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "ff8a64b4d2f4a57c3832e1ce6ee9b82c23d57f8d375126cbbb56525d96bfd37d"
+        "sha256": "e20970ce857cb4d6dcd94d05e47d3cdc30902fc736c5b82395867b7176c1c362"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "700323af766cbee3650e17386a1f378cded09b7af975847619a314c63eb5b67a"
+        "sha256": "2db36a9e8e146616784773bce6ceefe2a3e218deb7e98bde7ba55f487bce67f4"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 23,
+    "news": 22,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 801,
-    "registryTargetsParsed": 22
+    "total": 800,
+    "registryTargetsParsed": 21
   },
   "feeds": [
     {
@@ -333,30 +333,6 @@
         "exclusionPolicy": [
           "unrelated government administration"
         ]
-      }
-    },
-    {
-      "id": "news-aa-saglik-scoped",
-      "label": "Anadolu Ajansı -- Sağlık only",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.aa.com.tr/tr/saglik",
-      "pollMinutes": 360,
-      "enabled": false,
-      "externalRef": "aa-saglik-scoped",
-      "registrySourceId": "aa-saglik",
-      "inclusionPolicy": [
-        "Sağlık (Health) section only"
-      ],
-      "exclusionPolicy": null,
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Sağlık (Health) section only"
-        ],
-        "exclusionPolicy": null
       }
     },
     {

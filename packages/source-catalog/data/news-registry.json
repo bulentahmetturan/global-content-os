@@ -197,14 +197,6 @@
       "verificationStatus": "PENDING_VERIFICATION"
     },
     {
-      "id": "aa-saglik",
-      "publisherId": "aa",
-      "canonicalName": "Anadolu Ajansı -- Sağlık",
-      "officialUrl": "https://www.aa.com.tr/tr/saglik",
-      "status": "ACTIVE",
-      "verificationStatus": "PENDING_VERIFICATION"
-    },
-    {
       "id": "raps-regulatory-focus",
       "publisherId": "raps",
       "canonicalName": "RAPS Regulatory Focus",
@@ -391,16 +383,6 @@
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "No dedicated official health-only Resmî Gazete feed exists (verified: not invented). Kaduse relevance is restricted to health, healthcare, Ministry of Health, TİTCK, SGK health reimbursement, SUT, medical devices, medicines, diagnostics, public health, health professions, healthcare delivery, and relevant health regulations -- applied as a channel filter over the broader publisher, per Batch N2-FINAL section 5/7/8.",
       "transportStatus": "PENDING_MANUAL",
-      "machineReadable": false
-    },
-    {
-      "id": "aa-saglik-scoped",
-      "sourceId": "aa-saglik",
-      "label": "Anadolu Ajansı -- Sağlık only",
-      "officialUrl": "https://www.aa.com.tr/tr/saglik",
-      "scopeType": "REAL_SUBFEED",
-      "scopeDescription": "Sağlık (Health) section only, per Batch N2-FINAL section 5.",
-      "transportStatus": "WEB_ONLY",
       "machineReadable": false
     },
     {
