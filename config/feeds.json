@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "f94d5f81a10d36bf0de44730497bbc2d77e988fddea788750242d543df0de141"
+        "sha256": "c860f0750f7236af1a0b3709e083fd3358c0853d4ca8f052a1bc312e6ae9fd3e"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -861,7 +861,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.imdrf.org/news",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "imdrf-news-whole",
       "registrySourceId": "imdrf-news",
       "inclusionPolicy": null,

@@ -305,7 +305,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "imdrf-news",
       "targetId": "imdrf-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
