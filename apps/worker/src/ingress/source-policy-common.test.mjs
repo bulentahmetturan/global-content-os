@@ -79,3 +79,48 @@ test('Bilim Genç keeps health explainers and refuses chess, puzzles, sky guides
   assert.equal(v(f, 'Zirve taahütname'), 'deny');
   assert.equal(v(f, 'Ekim 2026’da Gökyüzü'), 'deny');
 });
+
+test('TÜSEB / TÜYZE Haber takes kurultay, kongre and clinical results; notices, calls, trainings and institutional news stay out', () => {
+  const haber = ['news-tuseb-health-tech-innovation', 'news-tuyze-saglikta-yapay-zeka'];
+  const pass = [
+    '12. Türk Tıp Dünyası Kurultayı’nın İlk Günü Başarıyla Tamamlandı',
+    'TÜSEB, 7. Ulusal Klinik Araştırmalar Kongresi’nde Klinik Araştırma Ekosistemine Yönelik Stratejik Desteklerini Paylaştı',
+    'TÜYZE ve İnönü Üniversitesi’nden Stratejik İş Birliği Çalıştayı',
+  ];
+  const deny = [
+    'TÜSEB, Yerli Tıbbi Cihaz Ekosistemini Saha Ziyaretleriyle Güçlendiriyor.',
+    'Sağlık Bakanımız ve TÜSEB Başkanımız Keyvac Biyolojik Ürünler Tesisine Ziyaret Gerçekleştirdi',
+    'TÜSEB Teknoloji Transfer Ofisi Aydın Şehir Hastanesi Şubesi Faaliyete Geçti',
+    'TÜSEB’den Klinik Araştırmalarda Uluslararası İş Birliğini Güçlendiren Temaslar',
+    'TÜYZE’nin Katkılarıyla Halk Sağlığı Genel Müdürlüğünün Programında Yapay Zekâ Konulu Sunum Gerçekleştirildi',
+    'TÜYZE, Ege Üniversitesindeki İlk Resmi Etkinliğini Açılış Çalıştayıyla Gerçekleştirdi',
+    'TÜYZE Çalışma Toplantısı Gerçekleştirildi: Sağlıkta Yapay Zekâ ve Veri Biliminde Stratejik İş Birlikleri Ele Alındı',
+    'TÜSEB ile Pfizer Türkiye Arasında Klinik Araştırmalar Alanında İş Birliği Protokolü İmzalandı',
+    '12. Türk Tıp Dünyası Kurultayı 29-31 Ekim 2026 Tarihlerinde İstanbul’da Gerçekleştirilecektir',
+    'Uzman Grubuna Yönelik A4 Proje Destek Programı Başvuru Sonuçları Açıklandı!',
+    'TÜSEB – ROCHE / Memorial Sağlık Grubu Hekimlere Yönelik Temel İyi Klinik Uygulamalar Eğitimi Ankara’da Düzenlenecek',
+    '1416 Sayılı Kanun Kapsamındaki YLSY Bursiyerleri',
+    'TEKNOFEST Sağlıkta Yapay Zekâ Yarışması',
+    'Çeşitli Unvanlarda Sürekli İşçi Personel Alımı Sözlü Sınav Sonucu İlanı',
+  ];
+  for (const f of haber) {
+    for (const t of pass) assert.equal(v(f, t), 'pass', `${f}: ${t}`);
+    for (const t of deny) assert.equal(v(f, t), 'deny', `${f}: ${t}`);
+  }
+});
+
+test('TÜSEB Duyuru lane takes advance notices and call results, refuses institutional news and scholarships', () => {
+  const f = 'tip-tuseb_haberler';
+  for (const t of [
+    '12. Türk Tıp Dünyası Kurultayı 29-31 Ekim 2026 Tarihlerinde İstanbul’da Gerçekleştirilecektir',
+    'Uzman Grubuna Yönelik A4 Proje Destek Programı Başvuru Sonuçları Açıklandı!',
+    '2026 Yılı TÜSEB Endovasküler Stent, Stent-Greft ve Taşıyıcı Sistemler Geliştirme Çağrısı Açıldı',
+    'TEKNOFEST Sağlıkta Yapay Zekâ Yarışması',
+  ]) assert.equal(v(f, t), 'pass', t);
+  for (const t of [
+    'TÜSEB, Yerli Tıbbi Cihaz Ekosistemini Saha Ziyaretleriyle Güçlendiriyor.',
+    'TÜSEB ile Novartis Arasında İş Birliği Sözleşmesi İmzalandı',
+    '1416 Sayılı Kanun Kapsamındaki YLSY Bursiyerleri',
+    'Çeşitli Unvanlarda Sürekli İşçi Personel Alımı Başvuru Sonuçları',
+  ]) assert.equal(v(f, t), 'deny', t);
+});

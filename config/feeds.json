@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "859ebab3cafa198d6a3698edea2fa5e3b094bd2b1dcca368740124ce631b12b1"
+        "sha256": "f92ea7079a5dd23a8ae73d7f03924d707235f3b8ef7ccd399fb1f91f8a930a62"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -353,7 +353,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.tuseb.gov.tr/tuyze",
+      "endpointUrl": "https://tuyze.tuseb.gov.tr/tr/haberler",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "tuyze-saglikta-yapay-zeka",
@@ -373,7 +373,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.tuseb.gov.tr/haberler",
+      "endpointUrl": "https://tuseb.gov.tr/tr/haberler",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "tuseb-health-tech-innovation",

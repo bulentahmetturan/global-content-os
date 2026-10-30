@@ -443,6 +443,38 @@ const BILIMGENC_SAGLIK: SourcePolicy = {
   deny: [/(satranç|şifre\w*|gökyüz\w*|zirve\w*|yarışma\w*|taahh?üt\w*|ev sahipliği|periyodik tablo|okyanus|tasarla ve yap|deney\w* rehberi)/],
 };
 
+/**
+ * TÜSEB and TÜYZE (owner 2026-10-31, docs/audits/2026-10-31-tuseb-tuyze-audit.md). Policy is per lane: this Haber source admits only
+ * congress / kurultay reports and clinical or health-AI results. Advance notices, calls, applications, results lists, trainings and
+ * scholarships belong to the Duyuru / Burs / Eğitim sources of the same publisher and are refused here. Institutional news (visits,
+ * branch openings, meetings, presentations, opening workshops, protocol signings, staff and finance notices) is refused everywhere.
+ */
+const TUSEB_INSTITUTIONAL_DENY: RegExp[] = [
+  /(ziyaretw*|şubew*|tto|teknoloji transferw*|temasw*|toplantıw*|sunumw*|açılış çalıştayw*|ilk resmi etkinliw*|etkinliw*|katılım sağladı)/,
+  /(protokolw*|sözleşmew*|mutabakatw*|personelw*|sözlü sınav|ihalew*|mali duyuruw*)/,
+];
+const TUSEB_HABER: SourcePolicy = {
+  note: 'TÜSEB Haber: kurultay/kongre reports and clinical or health-AI results; notices, calls, trainings, scholarships go to their own lane sources (owner 2026-10-31).',
+  allow: [/(kurultayw*|kongrew*|klinik araştırmaw*|çalıştayw*|yapay zekw*|dijital ikizw*|nakilw*|nakliw*|aşıw*|ilaçw*|kanserw*|tıbbi cihazw*)/],
+  deny: [
+    ...TUSEB_INSTITUTIONAL_DENY,
+    // Action-lane material: advance notices, calls, applications, results lists, trainings, scholarships, competitions.
+    /(gerçekleştirilecekw*|düzenlenecekw*|yapılacakw*|yayımlanacakw*|başvuruw*|çağrıw*|açıldı|duyuruw*|ilanw*|bursw*|eğitimi(?!w)|yarışmaw*|sonuçları|teknofest)/,
+    // Workshop reports are not decided yet (candidate for Sağlık & Referans).
+    /çalıştay raporu/,
+  ],
+};
+/** Duyuru lane of the same publisher: only items a professional or student can still act on. */
+const TUSEB_DUYURU: SourcePolicy = {
+  note: 'TÜSEB Duyuru: advance notices with dates or application windows, and results of calls (owner 2026-10-31); no institutional news.',
+  allow: [/(başvuruw*|çağrıw*|sonuçları|gerçekleştirilecekw*|düzenlenecekw*|yapılacakw*|yayımlanacakw*|kurultayw*|kongrew*|yarışmaw*|teknofest)/],
+  deny: [
+    ...TUSEB_INSTITUTIONAL_DENY,
+    /(bursw*)/,
+    /(personelw*|sözlü sınav|ihalew*|mali duyuruw*)/,
+  ],
+};
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -461,6 +493,9 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-bilimgenc-tubitak-saglik-whole': BILIMGENC_SAGLIK,
   'news-ashp-safemedication-sitemap': ASHP_SAFEMEDICATION,
   'news-aa-saglik-scoped': AA_SAGLIK,
+  'news-tuseb-health-tech-innovation': TUSEB_HABER,
+  'news-tuyze-saglikta-yapay-zeka': TUSEB_HABER,
+  'tip-tuseb_haberler': TUSEB_DUYURU,
 };
 
 /** Dry-run helper: does the common narrow filter alone refuse this title? */
@@ -481,6 +516,12 @@ function decodeEntities(t: string): string {
 }
 
 /** 'pass' / 'deny' for a source with a policy, null when the source has none. */
+const OWN_FILTER_FEED_IDS: ReadonlySet<string> = new Set([
+  'news-tuseb-health-tech-innovation',
+  'news-tuyze-saglikta-yapay-zeka',
+  'tip-tuseb_haberler',
+]);
+
 export function sourcePolicyVerdict(feedId: string | null | undefined, title: string | null | undefined, titleOrig?: string | null): 'pass' | 'deny' | null {
   const policy = SOURCE_CONTENT_POLICY[feedId ?? ''];
   if (!policy) return null;
@@ -489,9 +530,10 @@ export function sourcePolicyVerdict(feedId: string | null | undefined, title: st
   const raw = decodeEntities(((titleOrig ?? '').trim() || (title ?? '')).trim());
   const low = raw.toLocaleLowerCase('tr-TR');
   const hit = (re: RegExp) => re.test(raw) || re.test(low);
-  if (COMMON_NEWS_DENY.some(hit)) return 'deny';
+  const ownFilter = OWN_FILTER_FEED_IDS.has(feedId ?? '');
+  if (!ownFilter && COMMON_NEWS_DENY.some(hit)) return 'deny';
   // Turkish explainer sources bring their own admitted-area list; the common one was written for the English news sources.
-  if (feedId !== 'news-bilimgenc-tubitak-saglik-whole' && !COMMON_NEWS_ALLOW.some(hit)) return 'deny';
+  if (!ownFilter && feedId !== 'news-bilimgenc-tubitak-saglik-whole' && !COMMON_NEWS_ALLOW.some(hit)) return 'deny';
   if (policy.deny.some(hit)) return 'deny';
   if (policy.allOf && !policy.allOf.every(hit)) return 'deny';
   if (!policy.allow.some(hit)) return 'deny';
