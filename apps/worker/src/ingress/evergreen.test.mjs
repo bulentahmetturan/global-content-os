@@ -131,7 +131,7 @@ test('CANARY_ONLY sources cannot receive a production lease or persist cursor', 
 });
 
 // Staged activation (owner 2026-10-02): this list is the ONLY set allowed to be ACTIVE; extend it one source per approved stage.
-const OWNER_ACTIVATED = new Set(['news-cleveland-clinic-health-essentials-sitemap', 'research-cochrane-library']);
+const OWNER_ACTIVATED = new Set(['news-cleveland-clinic-health-essentials-sitemap', 'research-cochrane-library', 'news-bilimgenc-tubitak-saglik-whole']); // Bilim Genç: owner 2026-10-31
 
 test('the committed lifecycle registry is valid: one entry per identity, only the owner-activated set is ACTIVE, lanes derived', () => {
   const r = reg.temporalRegistry();
