@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-const g = await import('./ingest-gate.ts');
+import { bundle } from '../sqlite-d1.test-helper.mjs';
+// Bundled (not a bare .ts import): the gate imports the per-source content policy (source-policy.ts).
+const g = await bundle('apps/worker/src/ingress/ingest-gate.ts', 'ingest-gate');
 const NOW = new Date('2026-09-22T12:00:00Z');
 const news = (o) => g.ingestGate({ route: 'kaduse-news', feedId: 'f', title: 'Sağlık Bakanlığı yeni düzenleme yayımladı', ...o }, NOW);
 describe('ingest gate: news', () => {

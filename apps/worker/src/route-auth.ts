@@ -46,6 +46,7 @@ export const ROUTE_GATES: Readonly<Record<string, GateSpec>> = {
   'GET /api/scores/latest': HUB,
   'GET /api/scoring/status': HUB,
   'POST /api/lane/move': HUB,
+  'POST /api/rediscovery/promote': HUB,
   'GET /api/lane/suggestions': HUB,
 };
 

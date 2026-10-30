@@ -1,10 +1,12 @@
 /**
- * Central admission gate for Kaduse news/research items (dependency-free; used by upsertSourceItem).
+ * Central admission gate for Kaduse news/research items (only depends on the dependency-free source-policy.ts; used by upsertSourceItem).
  * A news record that cannot prove it is recent, real and on-topic is not news and is not stored.
  * News (user decision 2026-09-22): dated, not future, <= 10 days, no placeholder title. Research is intentionally NOT
  * age/undated-gated yet: a separate research method is being designed; only placeholder titles, future dates and the
  * GDELT relevance check apply. Publication dates are normalised to ISO (YYYY-MM-DD) when parseable.
  */
+
+import { sourcePolicyVerdict } from './source-policy';
 
 export const NEWS_MAX_AGE_DAYS = 10;
 /**
@@ -92,6 +94,8 @@ export function ingestGate(input: GateInput, now: Date = new Date()): GateVerdic
   if (input.route !== 'kaduse-news' && input.route !== 'kaduse-research') return { ok: true, publishedAt: input.publishedAt ?? null };
   const title = (input.title || '').trim();
   if (title.length < 12 || PLACEHOLDER.test(title)) return { ok: false, reason: 'placeholder_title' };
+  // Owner content policy for this source (e.g. Reuters: drug approvals, trials and public health only).
+  if (sourcePolicyVerdict(input.feedId, title, input.titleOrig) === 'deny') return { ok: false, reason: 'source_policy' };
   const date = normalizeDate(input.publishedAt);
   const isNews = input.route === 'kaduse-news';
   const isMedia = !isNews && RESEARCH_MEDIA_FEEDS.has(input.feedId);

@@ -1275,7 +1275,16 @@
     var sm = compact ? ' btn-xs' : '';
     return '<span class="lane-actions">' + ['haber', 'research', 'duyuru'].filter(function (l) { return l !== cur; }).map(function (l) {
       return '<button class="btn btn-lane' + sm + '" data-lane-to="' + l + '" data-id="' + it.id + '" title="Bu öğeyi ' + LANE_LABEL[l] + ' hattına taşı ve sisteme öğret">' + LANE_LABEL[l] + ' olmalı</button>';
-    }).join('') + '</span>';
+    }).join('') + (cur === 'research' ? '<button class="btn btn-lane' + sm + '" data-rediscover="1" data-id="' + it.id + '" title="Eski ama çok önemli: Research Rediscovery (Evergreen) başlığına al. DOI/PMID gerekir.">Rediscovery\'ye al</button>' : '') + '</span>';
+  }
+  async function promoteRediscovery(id) {
+    var items = visibleItems();
+    var idx = items.findIndex(function (x) { return x.id === id; });
+    var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
+    var res = await api('/api/rediscovery/promote', { method: 'POST', body: JSON.stringify({ itemId: id }) });
+    showToast(res && res.unchanged ? 'Zaten Research Rediscovery\'de' : '✓ Research Rediscovery\'ye alındı');
+    state.cursor = nextId;
+    await load();
   }
   function laneChipHtml(id) {
     var s = state.laneSugg && state.laneSugg[id];
@@ -2491,6 +2500,11 @@
       state.view = viewBtn.getAttribute('data-view');
       localStorage.setItem('gcos-view', state.view);
       load().catch(function (err) { showToast(err.message); });
+      return;
+    }
+    var rediscoverBtn = e.target.closest('[data-rediscover]');
+    if (rediscoverBtn) {
+      promoteRediscovery(rediscoverBtn.getAttribute('data-id')).catch(function (err) { showToast(err.message); });
       return;
     }
     var laneBtn = e.target.closest('[data-lane-to]');

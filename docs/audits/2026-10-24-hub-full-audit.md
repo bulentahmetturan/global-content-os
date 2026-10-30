@@ -85,7 +85,7 @@ B. Duyuru / Burs / Eğitim
 - [ ] 10. [O] Decide the 729 disabled university radar feeds: leave off, or plan a Turkey-side runner (Burs/Eğitim depend on it).
 
 C. Haber
-- [ ] 11. [O] Decide source keep/switch-off list for Haber: newswise (616), trade and regulator press, reuters-healthcare, non-English regulators (ANSM, PMDA). [C] prepares the per-source table with sample titles and the learner's predicted usefulness once ratings exist.
+- [ ] 11. KARAR (owner, 2026-10-29) Newswise için: Haber kaynağı olarak kapatılır, ileride Research için keşif sinyali olarak kullanılır (basın bülteni gösterilmez; bültendeki DOI ile birincil çalışma çekilir). Komut: `scripts/ops/2026-10-29-newswise-to-discovery-signal.sql` [O] çalıştırır. Diğer Haber kaynakları için karar hâlâ açık. Önceki metin: [O] Decide source keep/switch-off list for Haber: newswise (616), trade and regulator press, reuters-healthcare, non-English regulators (ANSM, PMDA). [C] prepares the per-source table with sample titles and the learner's predicted usefulness once ratings exist.
 - [ ] 12. [C] Auto-expiry: news older than N days leaves the inbox (owner: content expires automatically); includes the 72 items older than 180 days and the 1,090-item hold pile. [O] sets N.
 - [ ] 13. [C] Fix or retire the 12 failing news feeds.
 

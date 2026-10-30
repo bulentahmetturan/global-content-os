@@ -43,6 +43,7 @@ import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
 import { laneSuggestions, moveItemToLane } from './lane-feedback';
+import { promoteToRediscovery } from './triage/rediscovery';
 import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
 import { handleDoctorBootstrapOp } from './doctor-bootstrap';
@@ -508,6 +509,11 @@ export default {
       if (path === '/api/lane/move' && request.method === 'POST') {
         const body = (await request.json().catch(() => null)) as { itemId?: unknown; to?: unknown } | null;
         const result = await moveItemToLane(env, body?.itemId, body?.to);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/rediscovery/promote' && request.method === 'POST') {
+        const body = (await request.json().catch(() => null)) as { itemId?: unknown } | null;
+        const result = await promoteToRediscovery(env, body?.itemId);
         return json(result.body, result.status);
       }
       if (path === '/api/lane/suggestions' && request.method === 'GET') {
