@@ -16,7 +16,7 @@
         "rediscovery_cadence_hours": 72,
         "tier": "SMALL",
         "daily_target": 1,
-        "activation": "CANARY_ONLY",
+        "activation": "ACTIVE",
         "deep_archive_cadence_hours": 720,
         "family": null,
         "max_items_evaluated_per_cycle": 10,
@@ -31,8 +31,8 @@
         "enabled": true,
         "importance_signal_strategy": "EDITORIAL_RELEVANCE"
       },
-      "basis": "owner 2026-10-31: Bilim Genç moves from Haber to Sağlık & Referans; filter: three Turkish audiences or world wow",
-      "updated_at": "2026-10-30T22:46:40.098Z",
+      "basis": "owner 2026-10-31: Bilim Genç Sağlık & Referans ACTIVE",
+      "updated_at": "2026-10-30T22:49:31.817Z",
       "history": [
         {
           "op": "recalibrate-temporal",
@@ -40,6 +40,13 @@
           "at": "2026-10-30T22:46:40.098Z",
           "by": "W11",
           "basis": "owner 2026-10-31: Bilim Genç moves from Haber to Sağlık & Referans; filter: three Turkish audiences or world wow"
+        },
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_93d4e5c14194f280",
+          "at": "2026-10-30T22:49:31.817Z",
+          "by": "W11",
+          "basis": "owner 2026-10-31: Bilim Genç Sağlık & Referans ACTIVE"
         }
       ]
     },
