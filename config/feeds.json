@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "55c2d7fa4f2ac69653865d47884217bb56dbe462a615a5c382a6027e4b452342"
+        "sha256": "4e4f36be7cabb3b8e0368251e742746ef4921d479e930584b56e847d587372b3"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -71,7 +71,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.fda.gov/news-events/fda-newsroom/press-announcements",
+      "endpointUrl": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "fda-press-scoped",
@@ -215,7 +215,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://health.ec.europa.eu/medical-devices-sector_en",
+      "endpointUrl": "https://health.ec.europa.eu/medical-devices-sector/latest-updates_en",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "ec-medical-devices-target",
@@ -1253,7 +1253,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://healthai.agency/news/",
+      "endpointUrl": "https://healthai.agency/news-events/",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "healthai-news-whole",
@@ -1479,7 +1479,7 @@
       "route": "kaduse-news",
       "channelId": "kaduse-medikal",
       "transport": "WEB_ONLY",
-      "endpointUrl": "https://www.nice.org.uk/about/what-we-do/our-programmes/nice-guidance/nice-medical-technologies-guidance",
+      "endpointUrl": "https://www.nice.org.uk/news",
       "pollMinutes": 360,
       "enabled": true,
       "externalRef": "nice-healthtech-scoped",

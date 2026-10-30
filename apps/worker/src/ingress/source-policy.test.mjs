@@ -44,14 +44,14 @@ test('Reuters policy: drug approvals, trials and public health pass; business, U
   assert.equal(v('Life sciences firm Danaher to launch AI-powered autonomous research lab in 2027'), 'pass');
   assert.equal(v("Danaher, 2027'de AI destekli otomatik araştırma laboratuvarını açacak"), 'pass');
   // A source without a policy is untouched.
-  assert.equal(S.sourcePolicyVerdict('news-who-newsroom-whole', 'Anything at all'), null);
+  assert.equal(S.sourcePolicyVerdict('news-saglik-bakanligi-whole', 'Anything at all'), null);
 });
 
 test('ingest gate refuses what the source policy refuses, and only for that source', () => {
   const g = (feedId, title) => G.ingestGate({ route: 'kaduse-news', feedId, title, publishedAt: '2026-10-28' }, NOW);
   assert.deepEqual({ ...g(R, 'City Therapeutics files for US IPO') }, { ok: false, reason: 'source_policy' });
   assert.equal(g(R, 'US FDA approves Lilly breast cancer drug combination').ok, true);
-  assert.equal(g('news-who-newsroom-whole', 'City Therapeutics files for US IPO').ok, true);
+  assert.equal(g('news-saglik-bakanligi-whole', 'City Therapeutics files for US IPO').ok, true);
 });
 
 test('Medical News Today policy: our interest areas stay, a public figure\'s illness does not', () => {
@@ -93,7 +93,8 @@ test('RAPS policy: AI / digital / software / robotic regulation and single-topic
   assert.equal(v('FDA approves first AI-enabled sepsis prediction tool'), 'pass');
   // Mixed roundups, even with an AI or approval lead story.
   assert.equal(v('Recon: FDA approves GSK hepatitis B drug; EQT to buy molecular testing firm Qiagen for $10.8B'), 'deny');
-  assert.equal(v('Asia-Pacific Roundup: Japan’s PMDA shares principles for evaluating generative AI-enabled medical devices'), 'deny');
+  // A single-story regional roundup is kept (owner 2026-10-30): only titles joined by ";" are mixed.
+  assert.equal(v('Asia-Pacific Roundup: Japan’s PMDA shares principles for evaluating generative AI-enabled medical devices'), 'pass');
   assert.equal(v('This Week at FDA: Peptide dispute, clinical trial legislation, and more'), 'deny');
   // Warning letters, regulatory detail, US politics.
   assert.equal(v('FDA warns Baxter, Olympus for GMP and QSR violations'), 'deny');

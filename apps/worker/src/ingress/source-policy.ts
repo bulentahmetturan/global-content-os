@@ -19,7 +19,7 @@ export interface SourcePolicy {
 
 /** Business, finance and company news (shared by every policy that refuses it). */
 const BUSINESS_DENY: RegExp[] = [
-  /\b(shares?|stocks?|ipo|listing|nasdaq|nyse|investors?|earnings|revenue|profits?|quarterly|deals?|acquir\w*|acquisition|mergers?|buyout|takeover|stake|valuation|funding|raises|billion|million|ceo|chief executive|lobby\w*|layoffs?|job cuts|prices?|pricing|tariffs?|lawsuits?|sues|settlement|insurers?|insurance|partners? with|partnership|collaborat\w*|sales|strateg\w*|compet\w*|spending|elections?|midterms?|rebates?|discounts?|rall(y|ies|ied)|shareholders?|agreements?)\b/i,
+  /\b(shares?(?! (principles|guidance|data|findings|results|framework))|stocks?|ipo|listing|nasdaq|nyse|investors?|earnings|revenue|profits?|quarterly|deals?|acquir\w*|acquisition|mergers?|buyout|takeover|stake|valuation|funding|raises|billion|million|ceo|chief executive|lobby\w*|layoffs?|job cuts|prices?|pricing|tariffs?|lawsuits?|sues|settlement|insurers?|insurance|partners? with|partnership|collaborat\w*|sales|strateg\w*|compet\w*|spending|elections?|midterms?|rebates?|discounts?|rall(y|ies|ied)|shareholders?|agreements?)\b/i,
   /\$\s?\d/,
   /\bm&a\b|mergers and acquisitions/i,
   /(hisse\w*|borsa\w*|halka arz\w*|yatırım\w*|milyon dolar\w*|milyar dolar\w*|gelir\w*|kâr\w*|zarar\w*|çeyrek\w*|satın al\w*|devral\w*|birleşme\w*|anlaşma\w*|ortaklık\w*|iş birliği\w*|işbirliği\w*|üst yönetici\w*|lobi\w*|işten çıkar\w*|fiyat\w*|tarife\w*|gümrük\w*|dava\w*|sigorta\w*|satış\w*|strateji\w*|rekabet\w*|harcama\w*|payları|payı yüksel\w*|payı düş\w*|pay sahib\w*|değerleme\w*|değeri yüksel\w*|indirim\w*)/,
@@ -94,17 +94,21 @@ const RAPS: SourcePolicy = {
   note: 'RAPS: only AI/digital/software/robotic device regulation and single-topic approvals (owner 2026-10-29).',
   allow: [
     /\b(ai|artificial intelligence|genai|generative|machine learning|digital health|software|samd|apps?|algorithms?|robot\w*|robotically)\b/i,
+    /\b(devices?|ivd|in vitro diagnostic\w*|diagnostics?|510\(k\)|ce[ -]?mark\w*|mdr|ivdr|udi|eudamed|mdcg)\b/i,
+    /(tıbbi cihaz\w*|cihaz\w*|tanı(?!t)\w*)/,
     /\b(approv(e|es|ed|al)|clear(s|ed|ance|ances)|authori[sz](e|es|ed|ation)|ce mark\w*)\b/i,
     /(yapay zek\w*|dijital sağlık|yazılım\w*|mobil uygulama\w*|sağlık uygulama\w*|robot\w*|onayla\w*|onay verdi|onayı)/,
   ],
   deny: [
     // Mixed roundups: several stories under one title.
-    /^\s*(recon|euro roundup|asia-pacific roundup|this week at fda)\b/i,
+    /^\s*(recon|this week at fda)\b/i,
     /;/,
-    /(bu hafta|haftalık|özet\w*|avrupa haberleri|asya-pasifik haberleri|avrupa-pasifik haberleri)/,
+    /(bu hafta|haftalık|özet\w*)/,
     // Warning letters and compliance detail.
     /\b(warn(s|ed|ing)?|warning letters?|admonish\w*|form 483|c?gmp|glp|qsr|qmsr|violations?|inspections?)\b/i,
     /(uyarı mektub\w*|uyar\w*|ihlal\w*|denetim\w*)/,
+    /\b(charges?|fees?)\b/i,
+    /(ücret\w*)/,
     ...BUSINESS_DENY,
     /\b(hhs|doge|adcomms?|midterms?)\b/i,
     ...US_POLITICS_DENY,
@@ -185,6 +189,108 @@ const EMA: SourcePolicy = {
   ],
 };
 
+/**
+ * WHO Newsroom (owner 2026-10-30, "dar süzgeç"): guidelines and recommendations, diagnostics and treatment findings,
+ * vaccines, outbreaks and health alerts. Nominations, director messages, partnerships and MoUs, summits and forums,
+ * schools and academies, youth bodies, climate and finance never enter.
+ */
+const WHO_NEWSROOM: SourcePolicy = {
+  note: 'WHO Newsroom: only guidelines, recommendations, diagnostics/treatment findings, vaccines, outbreaks and health alerts (owner 2026-10-30).',
+  allow: [
+    /\b(guidelines?|guidance|first global|recommend\w*|vaccin\w*|immuni[sz]\w*|outbreaks?|emergenc\w*|diagnos\w*|tests?|testing|treatment\w*|obesity|hypertension|cancer|tuberculosis|tb|malaria|hiv|cholera|ebola|mpox|measles|polio|rabies|eliminat\w*|contracepti\w*|lead poisoning|heat|antimicrobial|screening|prequalif\w*|essential medicines|safety|toolkit)\b/i,
+    /(kılavuz\w*|rehber\w*|öneri\w*|aşı\w*|salgın\w*|tanı(?!t)\w*|tedavi\w*|obezite\w*|hipertansiyon\w*|kanser\w*|tüberküloz\w*|sıtma|kolera|ebola|kuduz\w*|kurşun\w*|sıcak\w*|ön yeterlilik)/,
+  ],
+  deny: [
+    /\b(candidates?|director[- ]general|director'?s? message|message (by|from)|nominat\w*|appoint\w*|elect\w*|partner\w*|sign(s|ed)?|agreement|memorandum|mou|summit|forum|conference|workshop|webinar|summer school|academy|youth council|friends of|coalition|calls? for|invites?|join|host facilit\w*|climate|funding|financ\w*|tax\w*|governance|political declaration|enhypen|training|capacity|commit\w*|social protection|food insecurity|famine|malnutrition|group|advisory|meets?|data requested)\b/i,
+    /(aday\w*|genel direktör\w*|direktör\w*|mesaj\w*|ortaklık\w*|mutabakat\w*|anlaşma\w*|zirve\w*|forum\w*|konferans\w*|çalıştay\w*|yaz okulu|akademi\w*|gençlik konsey\w*|koalisyon\w*|iklim\w*|vergi\w*|finansman\w*|yönetişim\w*|siyasi bildirim\w*|sosyal koruma|gıda güvensizli\w*|açlık\w*|malnütrisyon\w*)/,
+  ],
+};
+
+/**
+ * MedPage Today (owner 2026-10-30, "politika şart, yoksa kapat"): the same interest areas as Medical News Today plus public-health
+ * events. US politics, business, several stories joined by ";" (podcasts, briefs), events, cyber incidents, personal news and
+ * subspecialty trial reports (oncology and rare-disease drug results) never enter.
+ */
+const MEDPAGE_TODAY: SourcePolicy = {
+  note: 'MedPage Today: only our interest areas and public-health events; no US politics, business, roundups or subspecialty trial reports (owner 2026-10-30).',
+  allow: [
+    ...MEDICAL_NEWS_TODAY.allow,
+    /\b(outbreaks?|measles|ebola|dengue|bird flu|h5n1|covid|rsv|influenza|flu|vaccin\w*|mpox)\b/i,
+    /(salgın\w*|kızamık|ebola|dang|kuş gribi|aşı\w*|grip)/,
+  ],
+  deny: [
+    ...PUBLIC_FIGURE_DENY,
+    ...US_POLITICS_DENY,
+    ...BUSINESS_DENY,
+    /;/,
+    /\b(webinar|podcast|cme|conference|summit|quiz|poll|survey|cyber\w*|data breach|ransomware|dies|obituary|cause of death|actor|singer|nfl|nba)\b/i,
+    /\b(chemo\w*|immunotherapy|adjuvant|radiotherapy|radiation|radiosurgery|survival|recurrence|ici|tki|prostate cancer|lung cancer|breast cancer|ovarian|thyroid cancer|colon cancer|rectal|melanoma|carcinoma|oncolog\w*|doublet|regimen|intensified|de-escalation|cancer therapies)\b/i,
+    /\b(murder|death penalty|arrest\w*|charged|remembering|hhs|federal|boycott)\b/i,
+    /^\s*[A-Z][a-z]+( [A-Z]\.?)? [A-Z][a-z]+( and [A-Z][a-z]+ [A-Z][a-z]+)? on /,
+    /\b(pfs|progression-free|overall survival|response rate|her2\w*|egfr|dmmr|msi-h|adc|car-t|metastatic|refractory|relapsed|dlbcl|lymphoma|leukemia|myeloma|myasthenia|sarcoidosis|nephropathy|urticaria|bladder cancer|endometrial|serotypes?|biosimilar\w*|phase [123i]+)\b/i,
+    /(webinar\w*|podcast\w*|siber\w*|metastatik|lenfoma|lösemi|miyelom|miyastenia|sarkoidoz\w*)/,
+  ],
+};
+
+/**
+ * FDA Press Announcements (owner 2026-10-30): approvals, clearances and guidance, devices and digital health. Enforcement
+ * (counterfeits, consent decrees), tobacco, food, advisory-committee calls, public-input requests and framework launches
+ * never enter.
+ */
+const FDA_PRESS: SourcePolicy = {
+  note: 'FDA Press: only approvals, clearances, guidance, devices and digital health (owner 2026-10-30).',
+  allow: [
+    /\b(approv\w*|clear(s|ed|ance|ances)|authori[sz]\w*|guidance|devices?|ai|artificial intelligence|software|apps?|digital health|first (treatment|drug|heart|device|therapy)|recall\w*)\b/i,
+    /(onay\w*|ruhsat\w*|rehber\w*|cihaz\w*|yapay zek\w*|yazılım\w*|uygulama\w*|geri çağır\w*)/,
+  ],
+  deny: [
+    /\b(counterfeit|consent decree|charges?|indict\w*|sentenc\w*|pmta|tobacco|cigarettes?|vap(e|es|ing)|e-cigarettes?|food|infant formula|cosmetics?|pets?|animals?|advisory committee\w*|adcomms?|public input|launch(es)? (a |the )?(new |nationwide )?(program|effort|initiative)|framework|ibogaine|psychedelic\w*|reorgani[sz]\w*)\b/i,
+    /(sahte ilaç\w*|rıza kararı|tütün\w*|sigara\w*|gıda\w*|kozmetik\w*|hayvan\w*|danışma kurul\w*|kamuoyu görüş\w*|çerçeve\w*|psikedelik\w*)/,
+  ],
+};
+
+/**
+ * NICE HealthTech (owner 2026-10-30, device / diagnostics / AI filter): NICE news is all of NICE guidance, so only
+ * technology items enter: devices, diagnostics, digital and AI tools, screening.
+ */
+const NICE_HEALTHTECH: SourcePolicy = {
+  note: 'NICE: only devices, diagnostics, digital/AI technologies and screening (owner 2026-10-30).',
+  allow: [
+    /\b(ai|artificial intelligence|digital|apps?|software|devices?|diagnos\w*|tests?|testing|medtech|medical technolog\w*|health ?tech|wearables?|robot\w*|screening|detect\w*|early value assessment)\b/i,
+    /(yapay zek\w*|dijital|uygulama\w*|yazılım\w*|cihaz\w*|tanı(?!t)\w*|tarama\w*|erken tespit|robot\w*)/,
+  ],
+  deny: [/\b(annual report|accounts|podcasts?|webinars?|consultations?|jobs?|vacanc\w*|board)\b/i, /(yıllık rapor\w*|danışma\w*|podcast\w*|webinar\w*)/],
+};
+
+/**
+ * EC Medical Devices sector page (owner 2026-10-30, device-labelled updates only): MDCG guidance, Eudamed, classification,
+ * harmonised standards. Meeting minutes, registrations, webinars, dashboards and form-file updates never enter.
+ */
+const EC_MEDICAL_DEVICES: SourcePolicy = {
+  note: 'EC medical devices: only MDCG/Eudamed/classification/standards updates; no minutes, registrations, webinars (owner 2026-10-30).',
+  allow: [
+    /\b(mdcg|eudamed|medical devices?|in vitro diagnostic\w*|ivd|mdr|ivdr|harmoni[sz]ed standards?|classification|notified bod\w*|sscp|borderline|implant\w*|well-established technologies|delegated acts?)\b/i,
+    /(tıbbi cihaz\w*|sınıflandırma|uyumlaştırılmış standart\w*|onaylanmış kuruluş\w*)/,
+  ],
+  deny: [/\b(minutes|registration|webinar|summary conclusions|meeting|call for|survey|training|workshop|agenda|dashboard|xsd|changelog)\b/i, /(tutanak\w*|kayıt\b|webinar\w*|toplantı\w*|çalıştay\w*|anket\w*)/],
+};
+
+/**
+ * HealthAI (owner 2026-10-30, "etkinlikler süzülmeli"): the agency announces events, MoUs, appointments and board changes;
+ * only reports, guidance, frameworks and toolkits enter. The monthly AI-and-European-health report is a separate feature.
+ */
+const HEALTHAI: SourcePolicy = {
+  note: 'HealthAI: only reports, guidance, frameworks and toolkits; events, MoUs and appointments never enter (owner 2026-10-30).',
+  allow: [
+    /\b(reports?|guidance|guidelines?|framework|toolkit|principles|benchmark\w*|study|analysis|policy brief|white paper|assessment)\b/i,
+    /(rapor\w*|rehber\w*|çerçeve\w*|araç seti|ilkeler|analiz\w*|değerlendirme\w*)/,
+  ],
+  deny: [
+    /\b(forum|summit|webinar|conference|appointed|welcomes? new|vice[- ]chair|board|co-editor|mou|memorandum|signs?|agreement|joins?|strategic collaboration)\b/i,
+    /(forum\w*|zirve\w*|webinar\w*|konferans\w*|atan\w*|yönetim kurulu|mutabakat\w*|anlaşma\w*|katıl\w*|stratejik iş birliği)/,
+  ],
+};
+
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-ema-news-whole': EMA,
   'news-medical-device-network-news-whole': MEDICAL_DEVICE_NETWORK,
@@ -192,6 +298,12 @@ export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {
   'news-reuters-healthcare-scoped': REUTERS,
   'news-medtech-dive-news-whole': MEDTECH_DIVE,
   'news-raps-regulatory-focus-scoped': RAPS,
+  'news-who-newsroom-whole': WHO_NEWSROOM,
+  'news-medpagetoday-sitemap': MEDPAGE_TODAY,
+  'news-fda-press-scoped': FDA_PRESS,
+  'news-nice-healthtech-scoped': NICE_HEALTHTECH,
+  'news-ec-medical-devices-target': EC_MEDICAL_DEVICES,
+  'news-healthai-news-whole': HEALTHAI,
 };
 
 export const POLICY_FEED_IDS: readonly string[] = Object.keys(SOURCE_CONTENT_POLICY);
