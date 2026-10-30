@@ -459,6 +459,10 @@ export interface LowYieldResult {
  * fetching. Once a feed/source has at least LOW_YIELD_MIN_DECIDED final decisions (promote/
  * complete/delete, counted only since LOW_YIELD_POLICY_SINCE -- not retroactive) and
  * LOW_YIELD_REJECT_RATE of them were deletions, it's disabled.
+ * Only the owner's own Hub decisions count. System sweeps (lane purity, source content policy, stale
+ * expiry), owner-ordered bulk SQL and lifecycle holds are rule enforcement, not a verdict on the source:
+ * counting them disabled Reuters on 2026-10-29 (137 policy deletes, 0 owner decisions) although the
+ * owner had kept it with a content policy.
  * Kaduse feeds are DB-driven (source_feeds.enabled) so this can flip the switch itself.
  * Tıp Topluluğu python_runner sources live in a git-tracked registry + deployed readyBundle -- a
  * scheduled Worker job can't safely edit and redeploy that, so those are only reported back for
@@ -476,6 +480,7 @@ export async function pruneLowYieldSources(
      FROM editorial_decisions d
      JOIN source_items i ON i.id = d.source_item_id
      WHERE d.action IN ('promote', 'complete', 'delete') AND d.decided_at >= ?
+       AND d.actor NOT LIKE 'system:%' AND d.actor NOT LIKE 'owner:%' AND d.actor NOT LIKE 'source-lifecycle:%'
      GROUP BY i.route, key
      HAVING total >= ?`
   )
