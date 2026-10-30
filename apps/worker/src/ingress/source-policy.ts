@@ -401,8 +401,9 @@ const AA_SAGLIK: SourcePolicy = {
 };
 
 /**
- * Audience rule for the wire and trade sources (owner 2026-10-31): an item enters when EITHER it concerns Turkish medical
- * professionals (clinical findings, drug decisions, guidance, regulation) OR it carries world-level wow. Items about one
+ * Audience rule for the wire and trade sources (owner 2026-10-31): an item enters when EITHER it serves one of the three Turkish
+ * audiences (medical professionals, medical students, the health-following public: clinical findings, drug decisions, guidance,
+ * regulation, nutrition, sleep, heart health) OR it carries world-level wow. Items about one
  * foreign place's outbreak, one foreign health system, or one company's routine news concern neither, so they enter only when
  * they carry wow. Authority sources (WHO, EMA, FDA Press, NICE, EC, EP SANT) are not touched: their decisions are the wow.
  */
@@ -428,8 +429,6 @@ const FOREIGN_LOCAL_OR_ROUTINE: RegExp[] = [
   /\b(anthropic|openai|google|microsoft|nvidia|amazon)\b/i,
   // An interview: "Name Surname on the topic".
   /^(?!(?:What|Why|How|Did|Are|Is|Do|Does|Can|Will|When|Who)\b)[A-Z][\w.'’-]+(?: [A-Z][\w.'’-]+){1,3} on\b/,
-  // Consumer tips without a finding behind them.
-  /\b(what the latest research says|what to know|how to|tips?|ways to|may be affecting)\b/i,
 ];
 
 export const SOURCE_CONTENT_POLICY: Readonly<Record<string, SourcePolicy>> = {

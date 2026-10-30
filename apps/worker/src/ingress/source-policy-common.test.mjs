@@ -46,6 +46,8 @@ test('common narrow filter admits the owner pass areas when the source allow lis
   assert.equal(v('news-reuters-healthcare-scoped', "Congo's Ebola outbreak has killed more than 4,000, government data shows"), 'pass'); // world-scale
   assert.equal(v('news-reuters-healthcare-scoped', 'Kenya reports second death from Ebola'), 'deny');
   assert.equal(v('news-medpagetoday-sitemap', 'More Medical Debt Linked to More Deadly Cancers'), 'deny');
+  assert.equal(v('news-medical-news-today-sitemap', 'What the latest research says about how diet can support your liver health'), 'pass'); // serves the health-following public
+  assert.equal(v('news-medical-news-today-sitemap', 'How your daily drink choice may be affecting your mental health'), 'pass');
   assert.equal(v('news-medpagetoday-sitemap', 'Nobel Medicine Prize Goes to 3 Scientists for Research Into Brain Activity'), 'pass');
   assert.equal(v('news-reuters-healthcare-scoped', 'Teva wins FDA approval for monthly schizophrenia injection Weltruza'), 'pass');
   assert.equal(v('news-who-newsroom-whole', 'New global roadmap launched to tackle hypertension in pregnancy'), 'pass');
