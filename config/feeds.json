@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "7763ae2df0dee87ffa74abe642934c57a5dc91c71ae05bd6a967eb025aad34cb"
+        "sha256": "7de46932b6fbf01f7404e6b1f9784020602d6b43583bed171d3ca9a460302478"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -751,7 +751,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.swissmedic.ch/swissmedic/en/home/news.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "swissmedic-news-scoped",
       "registrySourceId": "swissmedic-news",
       "inclusionPolicy": [
@@ -1333,7 +1333,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.pmda.go.jp/english/about-pmda/whatsnew/0002.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "pmda-news-scoped",
       "registrySourceId": "pmda-news",
       "inclusionPolicy": [

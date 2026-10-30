@@ -262,7 +262,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "swissmedic-news",
       "targetId": "swissmedic-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "medical devices",
         "safety",
@@ -494,7 +494,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "pmda-news",
       "targetId": "pmda-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "medical devices",
         "SaMD",
