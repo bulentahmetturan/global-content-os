@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "8b073155d36df64a46f538cf115608f4fb941fc3a7b58993cf3d9baf93b12d04"
+        "sha256": "700323af766cbee3650e17386a1f378cded09b7af975847619a314c63eb5b67a"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -343,7 +343,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.aa.com.tr/tr/saglik",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "aa-saglik-scoped",
       "registrySourceId": "aa-saglik",
       "inclusionPolicy": [
