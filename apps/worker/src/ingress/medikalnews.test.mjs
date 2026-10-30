@@ -79,7 +79,12 @@ test('fresh items pass the ingest gate; aged items fail stale (deterministic clo
 
 test('real items persist with provenance and replay idempotently', async () => {
   const { sqlite, db } = openDb();
-  const items = parsed().filter((it) => Date.parse(it.publishedAt) >= Date.parse('2026-10-05T00:00:00Z')).slice(0, 3);
+  // upsertSourceItem gates on the wall clock, so fixture dates are shifted to today (same offsets from NOW); freshness itself is asserted above.
+  const shift = Date.now() - NOW.getTime();
+  const items = parsed()
+    .filter((it) => Date.parse(it.publishedAt) >= Date.parse('2026-10-05T00:00:00Z'))
+    .slice(0, 3)
+    .map((it) => ({ ...it, publishedAt: new Date(Date.parse(it.publishedAt) + shift).toISOString() }));
   const first = [];
   for (const it of items) {
     const row = await q.upsertSourceItem(db, {

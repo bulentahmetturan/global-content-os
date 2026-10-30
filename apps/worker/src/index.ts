@@ -489,57 +489,6 @@ export default {
       const statisticsResponse = await handleStatisticsRoutes(request, env as unknown as Parameters<typeof handleStatisticsRoutes>[1], path);
       if (statisticsResponse) return statisticsResponse;
 
-      // Hub module panels (Dossier, Doctors, Protocols, Discovery, Statistics): read-only summaries, Hub operator token via ROUTE_GATES.
-      if (path === '/api/hub/modules' && request.method === 'GET') {
-        return json({ ok: true, generatedAt: new Date().toISOString(), modules: await collectHubModules(env) });
-      }
-
-      // Owner ratings (wow 1-10 + channels tt/ik/km): Hub operator token via ROUTE_GATES; 503 RATINGS_NOT_READY until migrations/addons/a001_item_ratings.sql is applied.
-      if (path === '/api/ratings' && request.method === 'POST') {
-        const body = await request.json().catch(() => null);
-        const result = await recordRating(env, body);
-        return json(result.body, result.status);
-      }
-      if (path === '/api/ratings/latest' && request.method === 'GET') {
-        const result = await latestRatings(env, (url.searchParams.get('ids') ?? '').split(','));
-        return json(result.body, result.status);
-      }
-
-      // Lane corrections (Hub "Haber/Research/Duyuru olmalı") and lane-type suggestions: Hub operator token via ROUTE_GATES; 503 LANE_FEEDBACK_NOT_READY until migrations/addons/a003_lane_feedback.sql is applied.
-      if (path === '/api/lane/move' && request.method === 'POST') {
-        const body = (await request.json().catch(() => null)) as { itemId?: unknown; to?: unknown } | null;
-        const result = await moveItemToLane(env, body?.itemId, body?.to);
-        return json(result.body, result.status);
-      }
-      if (path === '/api/rediscovery/promote' && request.method === 'POST') {
-        const body = (await request.json().catch(() => null)) as { itemId?: unknown } | null;
-        const result = await promoteToRediscovery(env, body?.itemId);
-        return json(result.body, result.status);
-      }
-      if (path === '/api/lane/suggestions' && request.method === 'GET') {
-        const result = await laneSuggestions(env, (url.searchParams.get('ids') || '').split(',').filter(Boolean));
-        return json(result.body, result.status);
-      }
-
-      // Self-improving selection (learner over the owner's ratings): Hub operator token via ROUTE_GATES; 503 SCORING_NOT_READY until migrations/addons/a002_scoring.sql is applied.
-      if (path === '/api/scoring/run' && request.method === 'POST') {
-        const result = await runScoring(env);
-        return json(result.body, result.status);
-      }
-      if (path === '/api/scores/latest' && request.method === 'GET') {
-        const result = await latestScores(env, (url.searchParams.get('ids') ?? '').split(','));
-        return json(result.body, result.status);
-      }
-      if (path === '/api/scoring/status' && request.method === 'GET') {
-        const result = await scoringStatus(env);
-        return json(result.body, result.status);
-      }
-
-      // Hub health card: read-only, gated by the Hub operator token in ROUTE_GATES.
-      if (path === '/api/health/watch' && request.method === 'GET') {
-        return json(await runHealthWatch(env));
-      }
-
       // Operator surface: OPS_TOKEN bearer, fail-closed (503 unset, 401 mismatch).
       if (path === '/api/ops/summary' && request.method === 'GET') {
         const opsAuth = authorizeToken(env.OPS_TOKEN, bearerToken(request.headers.get('Authorization')), 'OPS_TOKEN_NOT_CONFIGURED');
@@ -623,6 +572,57 @@ export default {
       // Workstream H readiness: bounded read-only snapshot, zero mutations.
       if (path === '/api/ops/doctor-readiness' && request.method === 'GET') {
         return json(await doctorReadiness(env.DB));
+      }
+
+      // Hub module panels (Dossier, Doctors, Protocols, Discovery, Statistics): read-only summaries, Hub operator token via ROUTE_GATES.
+      if (path === '/api/hub/modules' && request.method === 'GET') {
+        return json({ ok: true, generatedAt: new Date().toISOString(), modules: await collectHubModules(env) });
+      }
+
+      // Owner ratings (wow 1-10 + channels tt/ik/km): Hub operator token via ROUTE_GATES; 503 RATINGS_NOT_READY until migrations/addons/a001_item_ratings.sql is applied.
+      if (path === '/api/ratings' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const result = await recordRating(env, body);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/ratings/latest' && request.method === 'GET') {
+        const result = await latestRatings(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
+      }
+
+      // Lane corrections (Hub "Haber/Research/Duyuru olmalı") and lane-type suggestions: Hub operator token via ROUTE_GATES; 503 LANE_FEEDBACK_NOT_READY until migrations/addons/a003_lane_feedback.sql is applied.
+      if (path === '/api/lane/move' && request.method === 'POST') {
+        const body = (await request.json().catch(() => null)) as { itemId?: unknown; to?: unknown } | null;
+        const result = await moveItemToLane(env, body?.itemId, body?.to);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/rediscovery/promote' && request.method === 'POST') {
+        const body = (await request.json().catch(() => null)) as { itemId?: unknown } | null;
+        const result = await promoteToRediscovery(env, body?.itemId);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/lane/suggestions' && request.method === 'GET') {
+        const result = await laneSuggestions(env, (url.searchParams.get('ids') || '').split(',').filter(Boolean));
+        return json(result.body, result.status);
+      }
+
+      // Self-improving selection (learner over the owner's ratings): Hub operator token via ROUTE_GATES; 503 SCORING_NOT_READY until migrations/addons/a002_scoring.sql is applied.
+      if (path === '/api/scoring/run' && request.method === 'POST') {
+        const result = await runScoring(env);
+        return json(result.body, result.status);
+      }
+      if (path === '/api/scores/latest' && request.method === 'GET') {
+        const result = await latestScores(env, (url.searchParams.get('ids') ?? '').split(','));
+        return json(result.body, result.status);
+      }
+      if (path === '/api/scoring/status' && request.method === 'GET') {
+        const result = await scoringStatus(env);
+        return json(result.body, result.status);
+      }
+
+      // Hub health card: read-only, gated by the Hub operator token in ROUTE_GATES.
+      if (path === '/api/health/watch' && request.method === 'GET') {
+        return json(await runHealthWatch(env));
       }
 
       if (path === '/api/handoff/resend' && request.method === 'POST') {

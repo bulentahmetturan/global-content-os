@@ -50,9 +50,16 @@ test('only migration 0043 carries DOSSIER (0028 CHECKs and earlier migrations un
   // lines and the env switch types. The canary surface is never reachable from the scheduled (cron) handler and nothing else may mention dossier.
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]));
   const ALLOWED = ['apps/worker/src/dossier-canary-routes.ts', 'apps/worker/src/dossier-ops-routes.ts', 'apps/worker/src/readiness.ts', 'apps/worker/src/index.ts', 'apps/worker/src/db/queries.ts', 'apps/worker/src/schema-contract.ts'];
+  // Hub health card and Hub module panels only SELECT dossier status (2026-10-22 / 2026-10-23); they may never write a dossier table.
+  const READ_ONLY = ['apps/worker/src/health-watch.ts', 'apps/worker/src/hub-modules.ts'];
+  for (const f of READ_ONLY) {
+    const src = readFileSync(f, 'utf8');
+    assert.ok(!/\b(INSERT\s+(OR\s+\w+\s+)?INTO|UPDATE|DELETE\s+FROM|REPLACE\s+INTO)\s+dossier_/i.test(src), `${f} must only read dossier tables`);
+    assert.ok(!/dossier-(canary|ops)-routes|handleDossier/.test(src), `${f} must not reach the dossier runtime`);
+  }
   for (const f of walk('apps/worker/src').filter((p) => p.endsWith('.ts') && !p.includes('test') && !p.includes('/dossier/'))) {
     const hits = readFileSync(f, 'utf8').split(/\r?\n/).filter((l) => /dossier/i.test(l));
-    if (!ALLOWED.includes(f)) assert.deepEqual(hits, [], `${f} must not reference dossier`);
+    if (!ALLOWED.includes(f) && !READ_ONLY.includes(f)) assert.deepEqual(hits, [], `${f} must not reference dossier`);
   }
   const routes = readFileSync('apps/worker/src/dossier-canary-routes.ts', 'utf8');
   assert.ok(/authorizeToken\(env\.OPS_TOKEN/.test(routes), 'every canary route needs the OPS_TOKEN bearer');
