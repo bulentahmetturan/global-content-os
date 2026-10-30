@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "d64d909b42fd717bd30bba49c84884eef22e52757b64022c58ebc5a436a5531a"
+        "sha256": "276545c6d4c608ecd57769bd5e260432d45e0b03d3c551bdda0d8543ee7016d5"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -137,7 +137,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "fda-cdrh-ai-ml-device",
       "registrySourceId": "fda-cdrh",
       "inclusionPolicy": null,
@@ -567,7 +567,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://news.un.org/en/tags/health",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "un-news-health-scoped",
       "registrySourceId": "un-news-health",
       "inclusionPolicy": [
@@ -643,7 +643,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.hhs.gov/about/news/index.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hhs-press-scoped",
       "registrySourceId": "hhs-press",
       "inclusionPolicy": [
@@ -1591,7 +1591,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://array.aami.org/content/news",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "aami-news-scoped",
       "registrySourceId": "aami-news",
       "inclusionPolicy": [

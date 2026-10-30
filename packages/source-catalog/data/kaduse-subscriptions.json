@@ -41,7 +41,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "fda-cdrh",
       "targetId": "fda-cdrh-ai-ml-device",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -191,7 +191,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "un-news-health",
       "targetId": "un-news-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Health tag only"
       ]
@@ -221,7 +221,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "hhs-press",
       "targetId": "hhs-press-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "AI-health",
         "medical technology",
@@ -598,7 +598,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "aami-news",
       "targetId": "aami-news-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "medical-device standards",
         "safety engineering",
