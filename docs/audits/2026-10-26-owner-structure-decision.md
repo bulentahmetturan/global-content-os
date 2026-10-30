@@ -24,3 +24,17 @@ No news in Duyuru, no announcements in Haber, no new research under another head
 - Bible v4.1: add audience fit as hard gate #1; add time-sensitivity axis with the two groups; `referans`/evergreen families; Keşif layer definitions; audience definitions (§22.1 and channel layer).
 - Evergreen group items (Dossier, Doktorlar, Protokoller, İstatistik) are no longer Haber-like in any count or gate.
 - Keşif proposals must pass the audience gate before they reach the owner.
+
+## 5. Narrowing criteria per lane (owner, 2026-10-31)
+One rule set for accept/reject in every lane and every source. An item must serve at least one of the three audiences (Turkish medical professionals, Turkish medical students, the Turkish health-following public) OR carry world-level wow / an important world development. Either suffices.
+
+- **Haber:** audience fit OR wow / important world development. Plain institutional news (visits, branch openings, meeting attendance, presentations, opening workshops, MoU/protocol signings) is rejected. Clinical-topic results and congress reports with substance are accepted.
+- **Duyuru, Burs, Eğitim (action lanes):** the purpose is not to report news but to let Turkish professionals and students act in time (apply, register, attend). Same audience / wow / world-development test, plus the Türkiye eligibility check (§2).
+  - Advance notice with dates or an application window: **strong accept**.
+  - Outcome or result of the same call, congress or programme (results lists, "congress held", scholarship introduction): **accept**.
+  - The same thing reported as plain news without dates or an application route: **reject**.
+  - Not eligible for Türkiye, staff/exam/finance notices, ads: reject.
+- A health-related competition or call (e.g. TEKNOFEST Sağlıkta Yapay Zekâ) is accepted if it is health related.
+- **Source policy is per lane (owner, 2026-10-31):** Duyuru items are handled in a Duyuru source, Haber in a Haber source, Burs in a Burs source, Eğitim in an Eğitim source. One publisher that produces several types is registered once per lane, each registration with its own narrow policy that admits only its own type. Items are never re-routed between lanes by a source.
+
+Per-source decision tables live in `docs/audits/` (first: `2026-10-31-tuseb-tuyze-audit.md`).

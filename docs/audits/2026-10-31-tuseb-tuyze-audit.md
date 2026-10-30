@@ -32,4 +32,4 @@ Duyuru/Burs/Eğitim/Kurultay/Çağrı items exist to let Turkish professionals a
 | TÜYZE | İzmir çalışma toplantısı, 7 Eylül önceden duyuru | Duyuru | accept |
 | TÜYZE | TEKNOFEST Sağlıkta Yapay Zekâ Yarışması | Duyuru | accept (health related) |
 
-Open: çalıştay raporları (tütün, KOAH) as Sağlık & Referans candidates (not decided). Routing needs item-level lane decisions (a Kaduse news feed cannot write the Tıp Topluluğu Duyuru lane today).
+Open: çalıştay raporları (tütün, KOAH) as Sağlık & Referans candidates (not decided). Owner 2026-10-31: source policy is per lane (Haber source for Haber, Duyuru source for Duyuru, Burs for Burs, Eğitim for Eğitim); no item-level re-routing.
