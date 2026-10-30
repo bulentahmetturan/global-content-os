@@ -88,3 +88,6 @@ Yoklama 43200 dk (30 gün), son çekim 2026-10-23, sayfa yerine tek başlık yed
 1. Salt depo/kod: RAPS genişletme, WHO ve MedPage politikaları, FDA RSS ve politikası, EC/NICE/HealthAI adres ve süzmeleri.
 2. Canlı yazma (sahip çalıştırır): EP SANT geri çekme SQL'i, adres güncellemeleri, IMDRF bekletme.
 3. Kararlar: Reuters sapması, ASHP kalsın mı, MedPage ilgi alanları, MDN ölçüm penceresi, Newswise 584 açık öğe.
+
+## Sonradan (2026-10-30)
+ASHP SafeMedication: baska bir oturum kapatma SQL'ini canliya uygulamisti (04c4438, scripts/ops/2026-10-30-applied-retire_ashp_safemedication.sql). Sahip "kalacak" dedi; canlida `enabled=1` yapildi (geri alma). Dosya tarihce olarak kaldi, tekrar calistirilmamali.
