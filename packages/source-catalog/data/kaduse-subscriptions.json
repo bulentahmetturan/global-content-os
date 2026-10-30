@@ -47,7 +47,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "saglik-bakanligi",
       "targetId": "saglik-bakanligi-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",

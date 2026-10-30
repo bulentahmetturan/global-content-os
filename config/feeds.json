@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "2db36a9e8e146616784773bce6ceefe2a3e218deb7e98bde7ba55f487bce67f4"
+        "sha256": "fe8304da9a8851f8d7f7ea10dca3bc85668005b270e61ef9625fe08078f98a82"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -157,7 +157,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.saglik.gov.tr/TR,10169/haberler.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "saglik-bakanligi-whole",
       "registrySourceId": "saglik-bakanligi",
       "inclusionPolicy": null,
