@@ -378,7 +378,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "euractiv-health",
       "targetId": "euractiv-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Health/Healthcare section only"
       ]
@@ -572,7 +572,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "advamed-digital-health",
       "targetId": "advamed-digital-health-scoped",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "Digital Health Tech",
         "AI in medtech",

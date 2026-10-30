@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "277e1153a20d211d93f4e19898dca8cac4a0a42d1ad26d562d65ef2f833bcafc"
+        "sha256": "d64d909b42fd717bd30bba49c84884eef22e52757b64022c58ebc5a436a5531a"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -1047,7 +1047,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.euractiv.com/section/health-consumers/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "euractiv-health-scoped",
       "registrySourceId": "euractiv-health",
       "inclusionPolicy": [
@@ -1519,7 +1519,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.advamed.org/industry-topics/digital-health/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "advamed-digital-health-scoped",
       "registrySourceId": "advamed-digital-health",
       "inclusionPolicy": [
