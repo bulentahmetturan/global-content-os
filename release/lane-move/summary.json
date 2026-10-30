@@ -1,0 +1,40 @@
+{
+  "candidates": 161,
+  "moved": 50,
+  "leftBehind": 111,
+  "movedByRoute": {
+    "kaduse-news": 29,
+    "kaduse-research": 21
+  },
+  "movedBySource": {
+    "biopharma_dive": 4,
+    "dha_saglik_yasam": 4,
+    "euronews_tr_saglik": 1,
+    "pubmed_biomedical_evidence": 21,
+    "sabah_saglik": 1,
+    "saglikpersonelihaberi_net": 7,
+    "sondakika_saglik": 12
+  },
+  "leftBySource": {
+    "ahaber_saglik": 3,
+    "anadolu_ajansi_medical_radar": 1,
+    "biopharma_dive": 15,
+    "dha_saglik_yasam": 11,
+    "euronews_tr_saglik": 4,
+    "fierce_biotech": 2,
+    "foodnavigator": 1,
+    "healthline_news": 3,
+    "medical_xpress": 8,
+    "medpage_today": 5,
+    "sabah_saglik": 2,
+    "saglikhaberi_net": 1,
+    "saglikpersonelihaberi_net": 15,
+    "sondakika_saglik": 27,
+    "stat_news": 1,
+    "trthaber_saglik": 10,
+    "yale_medicine_news": 2
+  },
+  "leftByReason": {
+    "older_than_gate": 111
+  }
+}

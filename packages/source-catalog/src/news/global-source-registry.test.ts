@@ -67,12 +67,9 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(target!.scopeDescription.toLowerCase()).toContain('health');
   });
 
-  it('7. SGK target is GSS/SUT/health scoped, not generic SGK', () => {
-    const target = getTarget('sgk-health-scoped');
-    expect(target!.scopeType).toBe('CHANNEL_FILTER_OVER_BROADER_SOURCE');
-    expect(target!.scopeDescription).toMatch(/GSS|SUT|reimbursement/i);
-    // Pensions/employment are explicitly named only as EXCLUDED, never as included scope.
-    expect(target!.scopeDescription.toLowerCase()).toMatch(/exclude[^.]*pension/);
+  it('7. SGK was removed from the catalog (2026-10-31): its Duyuru page is a Duyuru-lane candidate, its news is protocol news', () => {
+    expect(getTarget('sgk-health-scoped')).toBeUndefined();
+    expect(globalNewsSourceRegistry.sources.some((x) => x.id === 'sgk-announcements')).toBe(false);
   });
 
   it('8. EUR-Lex was removed from the catalog (2026-10-31) and must not return as an unrestricted target', () => {
@@ -206,12 +203,12 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(getTargetsForSource('fda-cdrh').length).toBe(0);
   });
 
-  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (18 logical sources)', () => {
+  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (17 logical sources)', () => {
     const counts = computeRegistryCounts();
-    expect(counts.logicalSourceCount).toBe(18);
+    expect(counts.logicalSourceCount).toBe(17);
     expect(counts.referenceResourceCount).toBe(5);
-    expect(counts.monitoredTargetCount).toBe(20);
-    expect(counts.uniquePublisherCount).toBe(18);
+    expect(counts.monitoredTargetCount).toBe(19);
+    expect(counts.uniquePublisherCount).toBe(17);
   });
 
   describe('Batch N2-FINAL-R1: verification state is separate from transport status', () => {
@@ -232,10 +229,10 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
       expect(freshlyVerified).toEqual(['healthai-news']);
     });
 
-    it('every other source (17 of 18) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
+    it('every other source (16 of 17) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
       const counts = computeRegistryCounts();
       expect(counts.freshlyVerifiedSourceCount).toBe(1);
-      expect(counts.pendingVerificationSourceCount).toBe(17);
+      expect(counts.pendingVerificationSourceCount).toBe(16);
       expect(counts.freshlyVerifiedSourceCount + counts.pendingVerificationSourceCount).toBe(counts.logicalSourceCount);
     });
 

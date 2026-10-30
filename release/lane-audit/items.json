@@ -1,0 +1,5321 @@
+[
+ {
+  "id": "item_063ecaf089a143f5",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "İmmünoterapiler de kanser tedavisinde kolaylık sağlıyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_187aaf9806d8423c",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Kalp kriziyle gittiği hastanede prostat kanseri olduğunu öğrenen kişi sağlığına kavuştu",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1c56e6a50faa482b",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Eski bina yıkımlarında açığa çıkan asbest lifleri yıllar sonra hastalığa yol açıyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_23c50474c5cc4764",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Açıkta satılan gıdalar \"doğal\" algısıyla risk oluşturabilir uyarısı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_284dae49c70b48a0",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Sağlıksız beslenme, madde ve sigara kullanımı gençlerde kalp krizini tetikliyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_29a92c3819e1442f",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "21 yıldır çektiği kamburluktan 12 saatlik ameliyatla kurtuldu",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2e3566558d094764",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Nobel ödüllü Meldal&#x27;dan yan etkisiz kanser tedavisine umut olacak çalışma",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_34dc33245bd74603",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Sağlık Bakanı Memişoğlu&#x27;ndan \"organ bağışı\" paylaşımı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_50eab3b1091d4e70",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Türkiye&#x27;de kan kanseri hastaları için \"hücre\" tedavisi dönemi başladı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5ceed8785f554e55",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Atmosferik karbondioksit artışı uzun vadede sağlık risklerini tetikleyebilir",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7ab7aef7b8d446c1",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Yüzdeki şekil bozukluğu \"3 boyutlu teknoloji\"yle düzeltildi",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_847f90610b404af5",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Türkiye robotik cerrahide ileri seviyeye ulaştı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9468ffd8400a4da1",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "TÜSEB Aşı Enstitüsü Başkanı Prof. Dr. Kara&#x27;dan yerli aşı vurgusu",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a49d3cbb382243a4",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Van&#x27;daki kalp merkezi hastalara umut oluyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a58cc503d8d747e5",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Erken tanı ve sağlıklı yaşam kalp hastalıklarına karşı koruma sağlıyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b16ba2266e0c4829",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Yaşlılarda enfeksiyonlara karşı en etkili koruma \"aşı\"",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_cb0ea9a6c9634bbc",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Uzmanından \"Dijital kültür, dopamin bağımlılığını artırıyor\" uyarısı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d4dc2099f7f34e44",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Annenin gençliğinde oluşan mutasyon bebeğinde hemofiliye yol açabiliyor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e1692120616c44e8",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Ege Üniversitesi Hastanesinde 28 yılda 308 kalp nakli yapıldı",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e34af74fcea94f57",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "\"Kaygı bozukluğuyla mücadelede ilaçtan önce yaşam tarzı değişikliği\" önerisi",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f03ff2a0dbab4c6a",
+  "route": "kaduse-news",
+  "source": null,
+  "title": "Dünya Sağlık Örgütüne göre, 2024&#x27;te sıtma nedeniyle 610 bin kişi hayatını kaybetti",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0002b456dcc84511",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A certifiable evidence-chain digital platform supporting decentralized clinical trials: architecture and real-world evaluation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0083ff957446477b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Artificial Intelligence and the Future of the Clinical Workforce",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0195817bc77e4815",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] The Italian model of screening for CKD",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0323c147c2da4105",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "How research funding took me out of the lab and into leadership",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_03781e44ee2f48fe",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] Unmasking inequity: emergency presentations in ovarian cancer care",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_03eac1c1b2c445e3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Popular chewing gum sweetener linked to higher heart attack risk, study finds - Medical News Today",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_06e9fd177e184f79",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Reimagining research papers as interactive and reliable AI agents",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_07831144355e46ce",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Type 2 immune history trains lung macrophages for viral disease tolerance",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_079439e1058a419f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[World Report] ALIMA: the NGO doing things differently",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_09280d8a1fa145e3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Scalable, flexible carbon fiber electrode thread arrays for three-dimensional spatial profiling of neurochemical activity in deep brain structures of rodents",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_09a83be1930b45e2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Enabling equitable global health AI with privacy‑enhancing technologies",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_09a9c0f53c8d4d65",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Pan-genome-based resequencing of 2,320 accessions reveals structural variations and accelerates breeding advances in cultivated peanut",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_09c3e158c05f4480",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Factor IX Padua AAV gene therapy in adolescents with hemophilia B: a phase 1 trial",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_09ebd11a31654020",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Cancer treatment alters the selection of pre-existing somatic mutations in normal esophagus",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0c83ce9d4abb4ac2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Perspectives] The battle for better mental health systems needs us all",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0cd8cded2e5e419c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Losing your way of life to climate change matters — and we need a way to measure it",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0cdc6a2d275440d1",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Large language models as judges for clinical generative AI evaluation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0ee57d879f5c47a9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mutational constraints on RSV F and its neutralization by antibodies",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0f63a4ba49c54e7b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Seven ways coffee affects your body beyond caffeine, from gut microbes to iron",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_12d8e05130954e86",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "G2DBridge: A multimodal framework linking genetics to disease through imaging intermediates",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_12f47174ca514191",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Chronic stress may trigger hidden inflammation that damages the heart",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_132a9b4220754a6d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Failing to act on warning signs: from Letby to AI",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_14cf06c01f8d46bb",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Editorial] The unmet needs of people living with severe asthma",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_17157af4da3e4793",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Improving transparency of drug regulatory decisions",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1749b302559d4db4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "National Advisory Committee",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_194c278cb5b84262",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Blind spots in AI-assisted healthcare evidence search: multiplatform evaluation of clinical retrieval gaps and risk-of-bias",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1b1a1bd98217447a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The application, development and challenge of digital twin in drug evaluation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1be9b79e079a4130",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Perceptions of Technology and Digital Health Tools Among Recently Incarcerated Adults With Opioid Use Disorder: Semistructured Interview Study",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1c0b7a675ecc4d4f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Crop legacies as genetic targets for sustainable farming systems",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1c0f8b32b6bb421b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Decline in childhood vaccination rates in Europe since COVID-19",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_1ce8bf1623264b67",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Toward reviewable medical evidence synthesis for care delivery",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_20287f51a5ff4a04",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Tiny tactile sensor could help distinguish tissues during minimally invasive surgery",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2062a5dc9f834441",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The role of digital twin technology in transforming medical education: a scoping review",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_223e939c42644981",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New | phs004542.v1.p1 | IMPACT Study: Single-Cell RNA-Seq before and after Vaccination for SARS-CoV-2 in Patients with Multiple Myeloma and its Precursor Conditions",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_239796d523cc4477",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Vision wearables with artificial intelligence to close the sensory gap in patient characterization",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_23d83ef9a6704c23",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Liquid biopsy for early detection of pancreatic ductal adenocarcinoma",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_23f35c1d4c594c22",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Classifying Physician Deepfakes: The Many Faces of AI-Powered Medical Deception",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_24cc319c3b354bf8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "NIH Preprint Pilot",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_24f8f50ef8934193",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New sepsis guidelines seek to reduce infection's deadly toll",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_264414aa6da74072",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "How a team of AIs discovered a promising lung-cancer drug",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_26f44d135052444c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The evidence challenge facing large language models in medicine",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2b7f9f35c02d4520",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Fine-Tuning, Retrieval-Augmented Generation, and Hybrid Adaptation of Language Models for Clinical Decision-Making in Health Care: Systematic Review",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2c07f8ec732f4970",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Blinatumomab — A New Standard of Care in Acute Lymphoblastic Leukemia",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2d673dd745294d4a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Why most stars don’t have outbursts like the Sun’s",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2e2451a7159d469c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "External validation of AI assisted colposcopy using WHO dataset for cervical precancer and cancer detection",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_2ef7d1af2909405d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Heart disease: Sleeping in a darker room may help reduce risk - Medical News Today",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3090b452df06429f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Europe pushes for space independence amid geopolitical rifts",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_35116d7f4adf460a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "anywhere on the planet",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3521305743944a41",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Biomimetic cells for studying T cell mechanotransduction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_35c5c8622d50416d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "GLP-1 drugs fail to help some people lose weight — scientists are on a quest for answers",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_362d59b1c8504f06",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Back Issue Digitization",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_38d25b3a32ac4054",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Case 26-2026: A 62-Year-Old Woman with Memory Loss, Anhedonia, and Temporal Wasting",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_39dd1b9547644f7b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mastectomy scandal: Twenty women had unnecessary procedure at trust, investigation finds",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3a4f1d11d28e48bc",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "LEME: open large language models for ophthalmology with advanced reasoning and clinical validation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3bcf2327dd9f4f97",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New guidance puts diabetes distress assessment alongside glucose care for adults",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3d46b4ee00174a8d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "An engineered nanopore identifies saccharides, amino acids, peptides and ribonucleotides",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3e9e794b223c433e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "\"\"IEEE Transactions on Biomedical Engineering\"\" - Google News",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_3f090f57690e4408",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Large Language Models in Multidisciplinary Decision-Making for Hepatopancreatobiliary Oncology: Retrospective Comparative Feasibility Study",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_40712d2bf01b4eb6",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mitochondrial fission factor senses and governs ferroptosis",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_40db7ac8dd2541c9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Counterfeit medicines: Major raid uncovers racket, with fears for medical supply contamination",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_425d1f57e9d14d44",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Health Equity",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4284e216a91c4295",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "AI cracked the Navier–Stokes challenge. What does that mean for physics?",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_43c1f9ad70344430",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Antidotes for Anticoagulation Reversal",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_440536ac9f014a9f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Automating clinical information retrieval from Finnish electronic health records using large language models",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4540ec1cd31f42ba",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "How do I change labs gracefully during my PhD?",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_45d3140d405843d5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Peptides: What are they, uses, and side effects - Medical News Today",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_48bad80747c9447b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Genetic landscape of an in vivo protein interactome",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_490e59cd9f41424c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mental Health",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_496014a898f64a0f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "'Epigenetic' editing is here: gene-tagging technique banishes hepatitis B virus",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_496e176a9893420d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Initial Screening for Colorectal Cancer",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_49aeffff51c547d9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Offline: The emptiness of the quantified self",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4b3438207a424496",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Sexual Health",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4da01e0804aa4af9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "When More Is Not Better — Colonoscopy Surveillance after High-Risk Adenomas",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4ec60a9218b5433f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Chinese companies doubled down on science after US tech restrictions",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4fbd08e9e0a9456e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Advancing women's, children's, and adolescents’ health in the post-2030 era",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_4fe7ef61c2ec487d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Take a risk or play it safe? Neuronal tug-of-war helps the brain decide",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_514dec2aa44c4502",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Continuous-wave laser absorption spectroscopy of the thorium-229 nucleus",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_51c2ff7d28804e86",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "EU social media ban: Commission announces restrictions for under-13s",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_522dd7edb0444dd0",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Optimising a digitally delivered behavioural weight loss programme: a factorial cluster randomised controlled trial",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_52e1404a41664a88",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Digital Health Readiness and Medicare Primary Care Spending: Nationwide County-Level Observational Analysis",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_53b2da8c2ca148a2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Eating more eggs and peanuts while pregnant does not prevent infant allergies, clinical trial finds",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_54d6eb9100c649eb",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Probabilistic multimodal learning for drug–target interaction prediction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5aa339cf0dad49ef",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "When Innovation Leaves People Behind: Reframing Accountability in Commercial Digital Health",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5ba9accc624a4ac3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Type 1 interferon perturbates clonal competition by reshaping human blood development",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5e7917cb93464df7",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Journal Selection Statistics",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5fa86e1254414493",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Stopping β-blockers long after myocardial infarction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_5ffcc2b9678c4dda",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Celiac-Artery Dissection",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_63f1c1823a3c4396",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A genetic mouse model with postnatal Nf1 and p53 loss recapitulates the histology and transcriptome of human malignant peripheral nerve sheath tumor",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_663de185645f4129",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Levetiracetam therapeutically targets GABAergic synapses in diffuse midline glioma",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_671a91a4f1704fc5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Editorial Expression of Concern: SWI/SNF-mutant cancers depend on catalytic and non-catalytic activity of EZH2",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_67b4a3af99544e1f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Ensuring safety and accountability in China’s biomedical translation system",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_6a1faee956e747e4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[World Report] Creating the building blocks of life",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_6ec202e52f3c405e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Trial of a Maternal Diet Rich in Eggs and Peanuts to Reduce Infant Allergy",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_6fbfa4300c884d30",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Moderna flu vaccine wins FDA approval",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_700b8106ff8d4de2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "All of Us diversity and scale yield context-dependent improvements in polygenic prediction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_70abc37f38a148cb",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Late-Onset Pompe Disease",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_70d89031a73348c2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A new chapter in targeting kinase enzymes in cancer",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7190912748f54588",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Protein interactions reveal the hidden wiring of the genome",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_737773ba85904186",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] Making rehabilitation indicators disability-inclusive",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_738b354dbfd54e9c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Briefing Chat: Evidence mounts for hidden chambers beyond Tutankhamun's tomb",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_73f0cd59ca0f421d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Bigger than CRISPR? A guide to the latest genome editors",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_765ece0e00684321",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "FDA approves pioneering breast cancer drug that nips resistance in the bud",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_768df1fff91f4ea4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New | phs004412.v1.p1 | Germline EGFR T790M and Lung Cancer Risk",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_76937bf089644ca7",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Outcome-grounded effect of clinically stigmatizing information on large language model emergency triage prioritization",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_76c095ec6a8f47ad",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Overmassive black holes and little red dots naturally form in simulations",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_78ae46cb83514d9e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Blinatumomab for Replacing Chemotherapy in Pediatric Acute Lymphoblastic Leukemia",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7b827051fa9548f5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Conditional deep generative modeling of blood-based infrared spectra enables controlled in-silico phenotyping studies",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7c1f10f7681d48f4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Genome-wide mapping of common and rare variant effects on adiposity across childhood",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7c65b09d592743d5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Colonoscopy Intervals and Colorectal Cancer Incidence after Adenoma Removal",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7d39a1d886ac494b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Endovascular Therapy for Post-Thrombotic Syndrome — A Randomized Trial",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7e08d050a07b4a99",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "AI co-scientists are revolutionizing how research is done",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_7eae0d8d0e034b9d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Transplanted human brain-tissue takes root in mice without a cortex",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_80cc6b261c53406f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Redesigning cardiovascular medicine around sex differences",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_83aeaa1e54464047",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Schoolhouse meals serve up an income bump",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_84faa2f2e3d34ca5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Primary Care Doctors’ Perspectives and Experiences With a Chest X-Ray AI Triage Program: Qualitative Study",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_856151983ba34dc2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Inflection points and transitions in Alzheimer’s disease",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8745ca67ffec4615",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A consensus-based guideline for personalized bacteriophage therapy",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_88f32d06b897499a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A human single-cell atlas identifies OLR1 + scar-associated macrophages as a potential therapeutic target for chronic liver disease",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8935cea271844cf9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Honoring the Legacy of the HIV Epidemic",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_89f9676baa704dac",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "SMCL-DTA: surface-aware multi-view contrastive learning for drug-target affinity prediction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8b113c8991224897",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Sodium Bicarbonate in Critical Illness — A New Chapter for the Book",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8bdfbe7b49534a3b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "DARE to wear: digital health promotion and disease prevention using wearable devices",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8dc5c35232e740f6",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Medicine needs critics: Why scepticism is both healthy and important",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8e68db6e098c4728",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Interpreting human genetic variation at atomic resolution",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_8ff3b1ca52dc4cd4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Biography of an inherited lung cancer risk gene",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_91631e7c05854381",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "PMC and Research Funder Policies",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_941a1a70ff4740ed",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Reproducibility in biomedical research",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_959923596f2947c3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Men&#x27;s Health",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_959b9cba1e9347fe",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Daily briefing: Fresh evidence for hidden chambers at Tutankhamun’s tomb",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_96464b1e9b0a4c8d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "AI-powered medical devices must be tested in real-world settings",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9713f051dc9044b8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Early-life primary prevention of childhood asthma",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_97f9441ddf754287",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "How to make a brain: new experiments challenge existing picture",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_981a87e7f1914e4c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New | phs004377.v1.p1 | Healthy Donor Controls for Immune Evaluation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_99c50fde5103431d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Gunnar Reiman",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9af0127832674ab7",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Colorectal Cancer Risk among Patients with Serrated Polyps",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9af4b906253d4054",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "International medical graduates still 50% more likely to face regulator sanctions, data show",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9ba4d941ee364ba5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "AI-Based Sepsis Prediction in Hospitalized Adults: Systematic Review, Subgroup Meta-Analysis, and Contextual Analysis of Clinical Burden",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9cc2615844c34fe2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Publisher Correction: Genomic landscape of the human vaginal microbiome is linked to host genetics and population of origin",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9dfc1e27afd64db7",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "STAT+: A biotech hedge fund births a new immunology company",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9e1a3702c9524415",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] Disaster resilience and recovery in Japan's 2040 care reform",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9e571a4159204fa9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Big data analysis sheds light on psoriasis's genetic code",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9eaa1aba784f40d1",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Popular dairy-free dessert pulled a second time in nationwide recall",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_9faa9bf31af84c04",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Evolution and heterogeneity of lethal metastatic bladder cancer subtypes",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a0dd1cbd72354b88",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Six principles for supporting academic freedom in universities",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a23372192aec48d3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Predicting calcification risk in prosthetic aortic valves: a hybrid physics-based and machine learning approach",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a464a1c5251a4f93",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Maternal Allergen Consumption and Infant Food Allergy — Reassurance, Not Prescription",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a486f6975ae34fb6",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Human brain is two separate organs, research finds",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a49dd84efe18499d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Daily briefing: How to turn a paper into an AI agent",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a4ca11b016154355",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The Robot at the Bedside: How Robotics Could Change the Future of Nursing Care",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_a4e6dd973c254d1a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Dementia: Calls for national target for dementia diagnosis backed by clinicians",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_aa3d9a72a7784eec",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Germline homologous recombination deficiency influences TP53 -mutant clonal hematopoiesis fitness during platinum and PARP inhibitor treatment",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_aaa8472043c74052",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A New Approach for the Indian Health Service — Academic Physician Staffing",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ab3f6d48a7cd48d8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "\"site:medicalnewstoday.com\" - Google News",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_abe245b3a3f94e93",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Author Correction: Genomic deletion of malic enzyme 2 confers collateral lethality in pancreatic cancer",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ad5a6e0d472e414c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Topographic structure and function of locus coeruleus noradrenaline neurons",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ad8df7c62eb940d0",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A multicenter assessment of human oversight of generative AI outputs in simulated clinical decision making",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ae2a501d8d0b45fd",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Ultrasound may offer a noninvasive way to manage deep muscle stiffness",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ae3213fa09de4433",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Artificial intelligence-mediated clinical communication between providers and patients or caregivers: scoping review and conceptual framework",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_af128adbb1ff420e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "How genes shape personality and experience",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_af9a3f018ec34b76",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Development and validation of a machine learning model for the preoperative prediction of intractable hypoxemia in repeat lung surgery",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_afbea3bb1ca94cac",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Online Patient Support Communities as Sources of Support, Risk, and Research for Rare or Contested Conditions",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b09fb713bcb94f0d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Perspectives] Why medicine needs philosophy of medicine",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b0b519267d4a46ab",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Human Adenovirus B3–Induced Immune Thrombocytopenia and Thrombosis",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b2a0cff651034fa5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The next phase of translational medicine must bridge the gap between innovation to impact",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b2a12e1566a34ffd",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Large language model–assisted preoperative communication reduces patient anxiety and physician workload in prostate cancer: a prospective randomized phase II trial",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b32831bb1af448e8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Open Access Subset",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b38558bf3e0d44d6",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Cognitive resilience helps to predict Alzheimer’s dementia",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_b5dccd05dc4b4045",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Single-cell analysis of chromatin accessibility in the human intestine identifies regulatory programs and clarifies genetic associations in Crohn’s disease",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_bceec75374b34acb",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Left Atrial Appendage Closure or Anticoagulation for Atrial Fibrillation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_bd8b93d83b934669",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Development of a random background to understand ligand optimization",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_be48cf5a4de94144",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Exclusive: New evidence for hidden chambers beyond Tutankhamun’s tomb",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_beddbf7e0d3d4854",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "STAT+: Pharmalittle: We’re reading about FDA hiring delays, a new Bavarian Nordic CEO, and more",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c14fd296bc4e47b8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Staged purpose-blinded evaluation of provenance risk from a general-purpose generator in breast ultrasound",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c248c0e3d0e74b93",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Obituary] Vadim Pokrovsky",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c26687576bac4df0",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Cardiovascular Health",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c43be90c9a594c1e",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "AI system helps lab devices ‘talk’ with each other — streamlining research",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c6697916ba2d4fcc",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Strabismus-Net mobile application for nine-gaze photograph-based strabismus diagnosis using dual-stream cross-attention and adaptive feature aggregation",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c801f732c6714339",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Multi-criterion uncertainty estimation improves skin cancer distribution shift detection and malignancy prediction",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c88dfa99f5364d43",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "UK maternity inquiries over 25 years&#x2014;or 100?",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_c8a97ba637d9405f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "First for RNA therapy: man with rare motor-neuron disease improves after treatment",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_cb04dd95338b416f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Perioperative immunotherapy goes global in gastro-oesophageal cancer",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_cb5297d84c924fc4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The Epstein Files Transparency Act and the Health of Trafficked Children",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_cd65f71859cd431a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Author Correction: Integrating artificial intelligence tools in health research",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_cfcc4ab614ed4855",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Sodium Bicarbonate for Critically Ill Adults with Metabolic Acidosis and Shock",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d1995ffda5fe4ea8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Neurophysiological signatures of cortical micro-architecture",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d2411bb986c8478a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Does expansion of clinical trial capacity improve healthcare access?",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d482301b39154c23",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Contribution of copy number variants to schizophrenia in East Asian populations",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d4f6237457fb454d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mechanisms of Transcriptional Regulation by Salicylic Acid Receptors",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d567c76f0b1f4b0b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] A call to humanity in the wake of Nepal's massive Himalayan flash flood",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d5c054e8fc1649bc",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "A versatile nanopore identifies four classes of analytes simultaneously",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d6a31ddaddc74ed4",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Video-based assessment of surgical skills using frozen pretrained video foundation models",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d6b65111a79e4358",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Comment] Closing the preparedness gap: moving beyond emergency response to sustain the medical countermeasure ecosystem",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d9111cdab89b4ae5",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Fundamental kinematic indicators predict surgical expertise and clinical outcomes in robot-assisted surgery",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_d9aaf5c108784b7a",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Breast cancer: Life extending drug is now available on NHS in England",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_da9316a3dcf14421",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "APOE -stratified genome-wide association analyses provide insights into the genetic etiology of Alzheimers’s disease",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_dc0314f8082847a3",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "New | phs004258.v1.p1 | The Sepsis ClinicAl Resource And Biorepository (SCARAB) Project",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_dcc18257d1c546e9",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Generalizable CT vision-language modeling for population health and disease risk",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_dee8db92c2c049e7",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Why responsible AI needs regional networks in low-resource health systems",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e134d347b6fb4b47",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Developmental xenocortication using human-derived organoids in mice",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e2d4d639948a4a51",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Longevity: 30-minute brisk walk may be as effective as 7,500 steps - Medical News Today",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e3424a49fbf54901",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Implementation of remote patient monitoring for hypertension: a secondary analysis from electronic health record data",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e374c8b07a37487b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Study seeks to reduce suicide risk among heavy drinkers",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e463c47561394a6b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Vaping in childhood has bigger health risks than we’d thought",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e4acb7b44e394bca",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Physician involvement and research quality in chest X-ray foundation models",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e5e9918203a74a9d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] Unmasking inequity: emergency presentations in ovarian cancer care – Authors’ reply",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e62b5df3e83d464c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Beyond the breakthrough for RAS-driven cancers",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e6f00abcb8cc4864",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Quantifying the plausibility gap in generative AI for surgical video generation with expert assessment",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e86baab3fe834f32",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Fragmentation of care worsens outcomes in cellulitis management",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_e972a3a726cb44d0",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "From Policy to Practice: Tracking an Open Science Funding Initiative",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ea6a7ae77ef54f04",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Who gets credit in the AI era? OpenAI maths bombshell sparks debate",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_eb34dd046a9343fc",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "EBV reactivation priming of the peripheral immune system in multiple sclerosis relapse",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ec0db7a8b6bc492b",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Selective Deposit Collections",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ec16a57df7524f30",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "\"site:nature.com/news (medicine OR health OR device)\" - Google News",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ecc674043fec49c8",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Correspondence] Patient organisations are key implementation partners",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ecfa1ed386d44795",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "John Campbell Anderson",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ee53420cf8734f6d",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Electroluminescent photoresists extending lithographic scaling to OLEDs",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_eea866d093ab4f59",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Kidney Transplantation in Highly Sensitized Persons after CAR T-Cell Therapy",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ef1419153d234e35",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Mercury is shrinking with age — faster than thought",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_ef25ccad682842cc",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Gene editing using large insertions",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f0004c73f0e44724",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Rick van Saene",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f2f05101cf6e4067",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "The generative rearchitecture of antibody engineering shifts empirical discovery into intentional design",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f5869551d6a14e47",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "GPs in England postpone collective action as they seek &#x201C;reset&#x201D; with government",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f7700508499f429f",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Sex-specific biological aging clocks across organs and omics",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_f8e676a44f33458c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "[Perspectives] Waleska Teixeira Caiaffa: shaping healthier cities",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_fd0166ec10d84d18",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Communicating the uncertainty of individual risk from clinical prediction tools with the PGower similarity measure",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_fd29e9f0dfa94e0c",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Clinical trials for digital health interventions: a rapid review of study independence and the developer effect",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_fff07aa129c940d2",
+  "route": "kaduse-research",
+  "source": null,
+  "title": "Why the International Olympic Committee wants mental health screening in elite sports",
+  "published_at": null,
+  "kind": "hold",
+  "reason": "undated"
+ },
+ {
+  "id": "item_0012cead58c648e9",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_0038dbf8f98b476b",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "Diş Hekimliğinde Uzmanlık ve Doktora Eğitimi Hakkında (Karar No: 2826)",
+  "published_at": "2026-06-18",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_0244d751cc2b4f6d",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Step 2 CK Exam Content",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_0287d7d43bf34d5a",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Shionogi pays $2B to acquire a rare disease startup",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_0399e610455d488c",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Now available: Free TDM Examination preparation resources",
+  "published_at": "2026-07-24",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_06564ef839104a90",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "2 milyon 129 bin çocuğa işitme taraması yapıldı",
+  "published_at": "2026-09-23",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_06cdf4a3a81647c9",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "After the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_06f5f8c2b57f470f",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Eskişehir'de SGK personeli sigarayı bırakma süreci ve poliklinik hizmetini öğrendi",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_085acd88e9d14b5f",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Examination Objectives",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_08adee5a91344410",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_09cd7812354f4606",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "A Takeda spinout builds case for its Parkinson’s drug",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_09f175d6243743c5",
+  "route": "tip-ogrencileri",
+  "source": "ttb_national",
+  "title": "Hekimlik Uygulamaları Veritabanı",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_09fb47c5a78e4996",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Get Ready for the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_0a88cd698fa04387",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_0cd159b71627487a",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem: Tercihlerin Alınması",
+  "published_at": "2026-06-10",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_0d18c2143bcd4392",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_0d66f7383efb45a5",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-23",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_0ec70cac845c4101",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_0f43cb6e7e6f4c2d",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Hatay'da 50 poliklinikli fizik tedavi ve psikiyatri hastanesi inşa ediliyor",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_0ffd5b1b6cf44988",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı Uzmanları",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_1033791cbf064bca",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_10f41e963ea94b9b",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı Yeterlik Kurulu",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_11e106252b9140e4",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "11 Gün Yoğun Bakımda Kaldı, Görevine Döndü: Aile Hekiminin Sözleşmesi ‘180 Gün Rapor’ Gerekçesiyle Feshedildi",
+  "published_at": "2026-09-26",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_1219bd9629c84107",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_1221725b8ce442ae",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_1341bd46d0934736",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-18",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_13ac8be4f4624ad7",
+  "route": "tip-ogrencileri",
+  "source": "medicalresearch_com",
+  "title": "The Billing Challenges Physicians Should Address Before They Affect Practice Performance",
+  "published_at": "2026-10-17",
+  "kind": "reject",
+  "reason": "promotional"
+ },
+ {
+  "id": "item_13f6ae60aef34f69",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Bruksizmde masseter botoksu tek başına çözüm değil, Diş Hekimi Rizvan uyardı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_157a9c005463480f",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Aksu'da 9 hekim kapasiteli aile sağlığı merkezinin temeli törenle atıldı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_17c52d8acb484ceb",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "THE MATCH logo",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_19ea45f0b5ff49c8",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem: Ek Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-04-08",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_1b13a691625249bb",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_1c3dbd63090846f0",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_1c40097a2ec44cfb",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "5 FDA decisions to watch in the fourth quarter of 2026",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_1c52a53939f1498b",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Aile Hekimine Mesai Çıkışı Saldırı: 2 Şüpheli Adliyeye Sevk Edildi",
+  "published_at": "2026-09-29",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_1dd20e9f01ff4081",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 2. Dönem ile 2026-STS Tıp Doktorluğu 2. Dönem: Başvuruların Alınması",
+  "published_at": "2026-07-02",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_1e2e156761a54a0a",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-21",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_1e411a19638945ff",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Purchase prep materials for MCCQE",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_1e7394257faf4e64",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1.Dönem Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-06-22",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_1e9ad474a9df458c",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Bu İlimizde Doktorlar Neden Kalmıyor?",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_1ed3aa85ba224773",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Şehir Hastanesi’nde Doktorlar Arasında Kavga: İdari Soruşturma Başlatıldı",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_20083cd37f4f4a13",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı ve Sosyal Bilimler Çalışma Grubu",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_2048ef762f33445d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_209c1e99872043cb",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-20",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_22841789a6284139",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "TDB AKADEMİ & VAN DİŞHEKİMLERİ ODASI BİLİMSEL ETKİNLİĞİ",
+  "published_at": "2026-07-10",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_229012fc1dbc484e",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Doğu Karadeniz'de 'robotik cerrahi' dönemiTarbzon’da Karadeniz Teknik Üniversitesi (KTÜ) Tıp Fakültesi Farabi Hastanesi, başta prostat ve böbrek kanseri olmak üzere ürolojik ameliyatlarda 'Robotik Cerrahi Sistemi'ni kullanmaya başladı. Cerrahın el hareketlerini hassas biçimde aktararak dar bölgelerde kontrollü müdahale imkanı sağlayan teknoloji, hastaların tedavi için büyük şehirlere gitme ihtiyacını azalttı. KTÜ Tıp Fakültesi Üroloji Anabilim Dalı Öğretim Üyesi Dr. İlke Onur Kazaz, “Eskiden hemşehrilerimiz tedavi için İstanbul, Ankara ve Antalya’ya gidiyordu. Cihaz geldikten sonra hasta başvurularımızda belirgin bir artış oldu” dedi.",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_25946cfe485b4fa2",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Apply for Exams",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_25b8ef9728254e63",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Reschedule an Exam",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_26def878e2b54a70",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_2702d93e506a4e40",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_2742d3cc1cb14f6e",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "Tıpta Uzmanlık Eğitimi Mevzuat Arşivi",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_2ac4febb9fdc442f",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-21",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_2ad025b0c3d6435d",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2025-TUS 2. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-04-08",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_2b15bbe8b0b647d2",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Retina rahatsızlığı bulunan deveye kök hücre tedavisiBurdur Mehmet Akif Ersoy Üniversitesi (MAKÜ) Veteriner Fakültesi’nde, retina rahatsızlığı tespit edilen 7 yaşındaki erkek deve için kök hücre tedavisi süreci başlatıldı. Türkiye'de bir deveye yönelik bu kapsamda ilk kez uygulandığı belirtilen tedavide, hayvanın kendi kanından elde edilecek öncü hücrelerin kullanılması planlanıyor.",
+  "published_at": "2026-10-14",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_2bdf3e8d0cda4f83",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem: Tercihlerin Alınması",
+  "published_at": "2026-05-07",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_2d29f6c5a95442f9",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Siverek Devlet Hastanesi’nde Başhekim Değişti: Göreve Abdurrahman Öz Getirildi",
+  "published_at": "2026-09-29",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_2f2a53609cd64786",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-15",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_2fe6004829fd4a6a",
+  "route": "tip-ogrencileri",
+  "source": "ep_drahmetekmekci-com",
+  "title": "8,8 Milyon Kişilik Çalışma: Ultra-İşlenmiş Gıdalar Gerçekten Kronik Hastalıklara Yol Açıyor mu?",
+  "published_at": "Wed, 23 Sep 2026 15:49:57 +0000",
+  "kind": "move",
+  "reason": "kaduse-research"
+ },
+ {
+  "id": "item_2ff7eefc6e254b65",
+  "route": "tip-ogrencileri",
+  "source": "euronews_tr_saglik",
+  "title": "Portekiz hastanesinde evcil hayvanlar serviste: Bakımda paradigma değişimi denemesi Kuzey ve Orta Avrupa’da evcil hayvanlar hastane dışında tutuluyor. São João’nun esnek modeli klinik fayda ile güvenliği birleştiriyor; enfeksiyon yok. Doktora göre “kaygı aşırı”. 08/10/2026",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_311044752d954730",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem: Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-05-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_32a533b78c0b44eb",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı Araştırma ve Uygulamaları Dergisi (HASAUD)",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_3361f02cdb724673",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Diş eti kanaması daha büyük bir sağlık sorununun erken habercisi olabilir",
+  "published_at": "2026-08-07",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_338adbd1e0e04f69",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Establish a Fellowship Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_33f1fb0646e74879",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Kalp krizi ve inme tedavisi için geliştirilen yeni ilaç İstanbul’da görüşüldüBiruni Üniversitesi, kalp krizi ve inmede damarı tıkayan pıhtının çözülmesine yönelik geliştirilen yeni ilaç TS01’in Türkiye’de yapılması planlanan klinik araştırmaları için Thrombolytic Science heyetini ağırladı. Görüşmede, ilacın ileri aşama klinik çalışmalarında Biruni Üniversitesi ile yapılabilecek iş birlikleri değerlendirildi.",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_3403b58d97aa49dd",
+  "route": "tip-ogrencileri",
+  "source": "euronews_tr_saglik",
+  "title": "İtalya: Calabria, ABD baskısına rağmen Kübalı doktorları bırakmıyor Calabria, bölgedeki Küba sağlık misyonlarının sona erdirilmesi yönündeki ABD baskısına karşı çıkıyor. Bölge yönetimi, doktorların kaybedilmesini göze alamayacaklarını belirtiyor. 10/07/2026",
+  "published_at": "2026-07-10",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_3473c0f29b854b08",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_34c271d417074c71",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Cenk Eren’in damarının yüzde 99’u tıkalı çıktı! Doktorların sorusu şaşırttı",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_35aea14609b34558",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-21",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_36931bc3fb274715",
+  "route": "tip-ogrencileri",
+  "source": "healthline_news",
+  "title": "Planning a K-Beauty Trip? What a Top Aesthetic Doctor Says to Look for Before Booking",
+  "published_at": "2026-09-09",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_36d51d7b3339497f",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS Ek Tercih İşlemleri: Tercih Kılavuzu ve Kontenjanlar Tablosu",
+  "published_at": "2026-07-24",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_388aadd993ca44be",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_3b3747783d254902",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Match Calendars",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_3ddfdbf9b5264d90",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Step 3 Exam Content",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_3defcc571f764e98",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_3eb425319d8d47ab",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-06-26",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_3f390ec3115b4dcf",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-05-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_400d57a6061648f5",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Match Results",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_4095834579bc4231",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_41a6aaef4379417b",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "CVS to pay $315M to settle opioid prescribing allegations",
+  "published_at": "2026-10-14",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_4321df914e8c4076",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem: Ek Yerleştirme Tercihlerinin Alınması",
+  "published_at": "2026-07-24",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_434543ca84934537",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "TDB AKADEMİ & VAN DİŞHEKİMLERİ ODASI BİLİMSEL ETKİNLİĞİ GERÇEKLEŞTİRİLDİ",
+  "published_at": "2026-07-27",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_43fe451dcd5f442c",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "MCC webinars",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_45480934fc3e4fa7",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Bakan Memişoğlu: 31 bin aile hekimiyle sağlık hizmeti veriyoruz",
+  "published_at": "2026-09-03",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_455fc9a78ac542a8",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS Temel Soru Kitapçıkları ve Cevap Anahtarları (% 10)",
+  "published_at": "2026-05-03",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_46595e5ca8ba432f",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "TUS : T&#x131;pta Uzmanl&#x131;k E&#x11F;itimi Giri&#x15F; S&#x131;nav&#x131;",
+  "published_at": "2026-09-19T11:39:41.639Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_469667def3f14dd1",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem: Ek Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-07-02",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_4727c04ee3c0405b",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-19",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_47c8c7d204704b93",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_48f660d314514d34",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-06-26",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_49016a839055492a",
+  "route": "tip-ogrencileri",
+  "source": "medicalresearch_com",
+  "title": "How Digital Organization Supports Medical Training and Patient Care",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "promotional"
+ },
+ {
+  "id": "item_4904cd833bff4fa3",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Nöbet Saatinde Hastanede Olmadığı Belirlenen Hekime Uyarma Cezası: KDK İşlemi Hukuka Uygun Buldu",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_497f714ae7d5495a",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Diğer Kuralar",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_49b5dad52ea54e1c",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Yer Değiştirme Suretiyle Atanma Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_4a3efc3813bf4c9b",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem: Tercih Kılavuzu ve Tablolar",
+  "published_at": "2026-06-10",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_4a5655b344624580",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Antalya Aksu'da hayırsever katkısıyla 9 hekimli aile sağlığı merkezinin temeli atıldı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_4ac5f344d7fd4544",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-19",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_4acc2e4d3dfa4308",
+  "route": "tip-ogrencileri",
+  "source": "fierce_biotech",
+  "title": "Trump's FDA pick Heidi Overton calls vaccines, mifepristone safe and effective in confirmation hearing",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_4b344075c53d4e83",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem Ek Yerleştirme Sonuçlarına İlişkin En Büyük ve En Küçük Puanlar (GENEL-YABANCI UYRUKLU)",
+  "published_at": "2026-07-02",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_4be0bdefbc5748da",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Temel Soru Kitapçıkları ve Cevap Anahtarları Yayımlandı",
+  "published_at": "2026-05-02",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_4c15ece53e714b06",
+  "route": "tip-ogrencileri",
+  "source": "anadolu_ajansi_medical_radar",
+  "title": "Aile hekimi, oğluna doğum günü hediyesi olarak sigarayı bıraktı",
+  "published_at": "2026-09-29",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_4ee3979019d54413",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Announcements",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_4f2fde711c864ef7",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Kurumlararası Naklen Atama Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_50b0b32daea64861",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_5138b0fd3add4c93",
+  "route": "tip-ogrencileri",
+  "source": "turk_pediatri_kurumu",
+  "title": "TPK Basın Açıklaması Temmuz 2026",
+  "published_at": "2026-07-22",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_519c351a13cb456c",
+  "route": "tip-ogrencileri",
+  "source": "ttb_national",
+  "title": "Toplum ve Hekim",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_519dc4dd78f44a29",
+  "route": "tip-ogrencileri",
+  "source": "tpd_psychiatry",
+  "title": "20. Psikiyatri Yeterlik Sınavı Başvuruları Başladı!",
+  "published_at": "2026-07-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_52a1532929554e93",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "‘Telefondan uzak kalınca yaşanan huzursuzluk problemli kullanıma işaret edebilir’Telefonu bıraktıktan kısa süre sonra yeniden kontrol etme isteğinin öğrenilmiş ödül döngüsü, merak, dopamin sistemi ve dikkat mekanizmalarının birlikte çalışmasıyla ortaya çıkabildiğini belirten Klinik Psikolog Ayşe Sena Sarıdoğan Öztürk, “Telefondan uzak kalınca yaşanan huzursuzluk problemli kullanıma işaret edebilir. Özellikle sosyal medya uygulamaları üzerinden mesaj, haber, video ve beğeni gibi değişken ödüller sunuyor. Telefonu kontrol ettiğimizde hoşumuza giden bir şeyle karşılaşabileceğimiz düşüncesi veya ‘Acaba bir şey oldu mu?’ merakı bu davranışın tekrarlanmasına neden olabiliyor” dedi.",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_532d9b40a0ba4a72",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-18",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_53d26945dd0d4b8e",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_5502e7c350f34c49",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Intro to The Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_56f9fe2826484a81",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "Nearly 1 in 3 Ukrainian civilians meets criteria for PTSD or complex PTSD",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5877398cf4ca4827",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem Sınavı ile 2026-STS Diş Hekimliği 1. Dönem Sınavı: Cevap Kâğıtları ve Aday Cevapları Erişime Açıldı",
+  "published_at": "2026-05-18",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_59ad3c3d49ac41d0",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Türkiye'de tütün her yıl 100 bin ölüme neden oluyor",
+  "published_at": "2026-09-23",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5b4913906a9a4a30",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Gemerek Devlet Hastanesi'nde üç branşta uzman hekim hasta kabulüne başladı",
+  "published_at": "2026-10-10",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5bc2dc7646954ea1",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Epidemiyoloji Çalışma Grubu",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_5bd1daea27404987",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Examinations & assessments home",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_5c41417f3fe54b28",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Dual-acting drug from AbbVie, Genmab scores in frontline lymphoma trial",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5c65850933364ff0",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "AHESEN, hekime başvuruların yüzde 41'inin aile hekimliğinde olduğunu belirtip yetki istedi",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5c6b234a276e462a",
+  "route": "tip-ogrencileri",
+  "source": "medpage_today",
+  "title": "Doctor Killed in Double Stabbing; Thyroid Pill Recall Upgraded; HHS Nominee Advances",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5c98aa4032ca4a10",
+  "route": "tip-ogrencileri",
+  "source": "healthline_news",
+  "title": "Pope Leo XIV Diagnosed With Lung Cancer After Surgery to Remove Part of Lung",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5c9fcea21ac64e58",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Fellowship Applicants",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_5e2a40e291534c01",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Karabük'teki ağız ve diş hastanesinde dental implant tedavisi başladı",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5e50cc1d172241af",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-16",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_5e9a3aae06a74792",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Doktorlara ameliyat öncesi sanal prova imkanı sunan yerli teknoloji",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_5f30a04a34bb44da",
+  "route": "tip-ogrencileri",
+  "source": "medpage_today",
+  "title": "Twin Doctors Lead Hometown Emergency Department",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_600133a285134177",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Aile Hekimliklerinde Uzaktan Sağlık Hizmeti 1 Kasım’da Başlıyor",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_61592e01b97944a8",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-18",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_62a14d800a1446f3",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_6394edfaab41497e",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_6413e32028d74a5e",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem Ek Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-04-08",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_64ae39e0c57e4212",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-20",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_65187c0c6c264871",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-21",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_67dfbe09bafe48bf",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "New digital tool helps doctors map critical brain functions during tumor removal",
+  "published_at": "2026-09-27",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_67fc4e47feb3464a",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "Nearly half of childhood cancer survivors experience symptoms of anxiety or depression as adults",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6833c0f259ed43e9",
+  "route": "tip-ogrencileri",
+  "source": "ttb_national",
+  "title": "KADIN HEKİMLİK",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_68c0cee9bc004a9a",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 2. Dönem: Kılavuz ve Başvuru Bilgileri",
+  "published_at": "2026-07-03",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_6a15624009bb4239",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "High-salt diet may drive fatty liver disease differently in lean people",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6a1c8dad53e447cc",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_6a4dd7f449f843f3",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "131. Dönem DHY Kurasında 2 Bin 682 Hekim İçin Atama Süreci Başladı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6a5ae3d102a44fb3",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "‘Normal doğum sonrası iyileşme süreci daha hızlı olabilir’Biruni Üniversitesi Tıp Fakültesi Hastanesi Kadın Hastalıkları ve Doğum Uzmanı Dr. Öğr. Üyesi Hazel Çağın Kuzey, normal doğumun uygun anne adaylarında doğum sonrası toparlanma sürecini destekleyebildiğini belirterek, doğum yönteminin anne ve bebeğin sağlık durumu değerlendirilerek bireysel olarak planlanması gerektiğini söyledi.",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6ac0ee1aedd74eef",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Rank Applicants",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6b29653279614c09",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Sultan Ay'a yanak içinden alınan dokuyla idrar yolu oluşturulduKanseri atlatan 45 yaşındaki Sultan Ay'ın idrar yolunda hastalığa bağlı gördüğü tedaviler sonucunda yıllar sonra darlık oluştu. Başvurduğu farklı merkezlerde ömür boyu sonda kullanması gerektiği söylenen Ay, oğlunun yönlendirmesiyle Üroloji Uzmanları Prof. Dr. Mustafa Gürkan Yenice ve Doç. Dr. Yavuz Onur Danacıoğlu'na başvurdu. Ay'a ameliyatla yanak içinden alınan doku ile yeniden idrar yolu oluşturuldu. Sağlığına kavuşan hasta, doktorlara çok teşekkür etti.",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6beb3801fff94cfb",
+  "route": "tip-ogrencileri",
+  "source": "medicalresearch_com",
+  "title": "How Physician Oversight Shapes Safety In NP Led Clinics",
+  "published_at": "2026-10-17",
+  "kind": "reject",
+  "reason": "promotional"
+ },
+ {
+  "id": "item_6c6593cfdeff4104",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "Tıpta Uzmanlık Kurulu Sekretaryası",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6ccd1c125f6e4c22",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Prepare for the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6ce2bb9c1ed044e0",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Çalışanlar için Eş Mazereti Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6d47565fe1814731",
+  "route": "tip-ogrencileri",
+  "source": "sabah_saglik",
+  "title": "‘Mamografinizi yaptırın!’",
+  "published_at": "2026-10-14",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6e70fa671ce04384",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Step 1 Exam Content",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6e82b809a79c41a7",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "UEYS - Uzmanlık Eğitimi Yönetim Sistemi",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6e8f9e4b56974e5d",
+  "route": "tip-ogrencileri",
+  "source": "foodnavigator",
+  "title": "What nutrition education in medical schools could mean for CPG",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_6ee84dba58e24b9d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_6f51be4b46b644cd",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Unvan Değişikliği Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_6f7f437593aa4064",
+  "route": "tip-ogrencileri",
+  "source": "yale_medicine_news",
+  "title": "What Parents Should Know About Clubfoot Treatment",
+  "published_at": "2026-08-03",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_71008bb4db5d48ba",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "HHS launches new plan to strengthen vaccine injury research, reporting",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_71703f8ac5ed4723",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Prepare for the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_7180eb61badd4620",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "TDB AKADEMİ & SİVAS DİŞHEKİMLERİ ODASI BİLİMSEL ETKİNLİĞİ GERÇEKLEŞTİRİLDİ",
+  "published_at": "2026-07-20",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_7241b3827c0e42a4",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Tercihlerin Alınması",
+  "published_at": "2026-06-17",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_73cdb4157c8b4753",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Kura İşleri Daire Başkanlığı",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_748cbbc3a295400c",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Yeterlik Kurulu Yönergesi",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_74b4d5843c774fb5",
+  "route": "tip-ogrencileri",
+  "source": "ep_drahmetekmekci-com",
+  "title": "En Sağlıklı Kuruyemiş Hangisi? Ceviz mi, Badem mi, Antep Fıstığı mı?",
+  "published_at": "Mon, 28 Sep 2026 20:11:48 +0000",
+  "kind": "move",
+  "reason": "kaduse-research"
+ },
+ {
+  "id": "item_750dbb41af5644b4",
+  "route": "tip-ogrencileri",
+  "source": "saglikhaberi_net",
+  "title": "Bir Diploma, Onlarca Klinik: Nasıl Bir Hemşirelik Eğitimi?",
+  "published_at": "2026-10-04",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_7611cc1918cd49fc",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_7690fcc6057848cf",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Sınava Giriş Belgeleri Erişime Açıldı",
+  "published_at": "2026-04-21",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_76f1791594684d0e",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "The top biopharma conferences in 2027",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_7827c33dee094cc9",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığında Gündem (HASGÜN)",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_78ee8168e60b4200",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Main Residency Programs & Institutions",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_790387abceb44938",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "After the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_7a8f6ceecef94201",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "New brain tumor test could transform diagnosis and treatment",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_7b8f141026084b16",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Şırnak Cizre'de diş hekimi Mesut Ozan lise öğrencilerine ağız sağlığını anlattı",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_7bf98629ff9949f8",
+  "route": "tip-ogrencileri",
+  "source": "tvhb_veterinary",
+  "title": "Tarım İşletmeleri Genel Müdür Yardımcısı, TVHB Yüksek Haysiyet Divanı Üyemiz Melikşah Taşkın Birliğimizi Ziyaret Etti",
+  "published_at": "2026-08-27",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_7caa1af15d4d4421",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "Tıpta Uzmanlık Eğitimi Mevzuat Arşivi",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_7d4f152eb35949c9",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Acil Hekimi Dr. Abdullah Abay Akciğer Kanseri Nedeniyle Vefat Etti",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_7eefc10f879c46f1",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem: Ek Yerleştirme Tercihlerinin Alınması",
+  "published_at": "2026-06-23",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_7f11f4f459cb4d5a",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_7f5333906bb748c3",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Düzce'de 130. DHY'li pratisyen hekimlere acil tıp oryantasyon eğitimi verildi",
+  "published_at": "2026-10-03",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_80c85429ffee4eec",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_811e9f4031414fab",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Practice-Ready Assessment",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_81d8e7e12c584063",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "Sözleşmeli Personel Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_81faf031b7aa4801",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-14",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_847a22083ecc4486",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_851da1f09d414254",
+  "route": "tip-ogrencileri",
+  "source": "burs_tr_humphrey",
+  "title": "https://www.humphreyfellowship.org/our-network/host-universities/",
+  "published_at": "2026-07-13",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_85bda44d1ded4cee",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_865f2d4aeec9416b",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Dokuz ayda 4 milyonun üzerinde yaşlıya sağlık değerlendirmesi yapıldı",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_8784b773925e4a2c",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_88f06edc4afd4be7",
+  "route": "tip-ogrencileri",
+  "source": "ahaber_saglik",
+  "title": "12-18 yaşa özel sigara bırakma poliklinikleri açıldı: Hangi illerde var?",
+  "published_at": "2026-07-16",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_88fb7835ea5b4451",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Examination & service fees",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_8bbafa6a61484a7c",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_carms",
+  "title": "help@carms.ca",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_8c16c9c3f5a745de",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "İstanbul'da aile hekimliklerinde yaklaşık 52 milyon kişi muayene oldu",
+  "published_at": "2026-09-09",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_8c1a6b4a671941f8",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Eskişehir'de hekimler arası görüntülü görüş alışverişi HBYS ile başladı",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_8c33dd887a7a4c23",
+  "route": "tip-ogrencileri",
+  "source": "tuk_specialty_training",
+  "title": "Tıpta Uzmanlık Kurulu Üyeleri",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_8cccc8e01c8b4875",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "TTB, Mersin'de hekimlerin adli muayeneye zorlanmasını mevzuata aykırı buldu",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_8cfca5c3e2a342e6",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_8e11c2e960ec415a",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı Okulu Yönergesi",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_8e49fd705bd1459d",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "WEBINAR: MCC assessments and readiness for practice",
+  "published_at": "2026-07-22",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_8e7213bd9e7e41ba",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_8ff61b34a5a54421",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Aile Hekimlerinden Alınan Bazı Sağlık Raporları Ücretli Oldu",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_90870f20e7544a97",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_90d70edeaca44e94",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_914898a5af8f4952",
+  "route": "tip-ogrencileri",
+  "source": "tvhb_veterinary",
+  "title": "Türk Veteriner Hekimleri Birliği ile Yedimevsim Medya Basın Yayın Org. A.Ş arasında İndirim Portalı Yapım ve Üretim Sözleşmesi İmzalandı",
+  "published_at": "2026-08-25",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_92f0867fc0934269",
+  "route": "tip-ogrencileri",
+  "source": "turkmsic_medical_students",
+  "title": "Araştırma Değişimi Çalışma Kolu",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_934317e779164a4b",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_9414706402c94e70",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2025-TUS 2. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-04-08",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_9457ff20b33741c3",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Cevap Kâğıtları ve Aday Cevapları Erişime Açıldı",
+  "published_at": "2026-06-03",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_95391600310749ca",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "How much do Americans spend on GLP-1 medications? Medical students measure drug affordability",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_9561a682c3a94348",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Beypazarı Devlet Hastanesi'nde başhekimlik görevine Op. Dr. Ayberk Karaman başladı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_9567903e35994185",
+  "route": "tip-ogrencileri",
+  "source": "medpage_today",
+  "title": "Exercise and Cancer Survival; COVID Vaccine and Immune Checkpoint Inhibitors",
+  "published_at": "2026-09-26",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_96b611bdf4494256",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_96e762fc13834b2c",
+  "route": "tip-ogrencileri",
+  "source": "sabah_saglik",
+  "title": "Yeni nesil tedavilerde Türkiye imzası: En çok klinik araştırma kanser tedavilerinde",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_9714d99596184b4d",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem: Ek Tercih Kılavuzu ve Tablolar",
+  "published_at": "2026-07-24",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_99a9263d94fa4320",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "TDB AKADEMİ & SİVAS DİŞHEKİMLERİ ODASI BİLİMSEL ETKİNLİĞİ GERÇEKLEŞTİRİLDİ",
+  "published_at": "2026-07-20",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_99aa6f3b8b014793",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-05-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_9a2e05bb81ff4794",
+  "route": "tip-ogrencileri",
+  "source": "medicalresearch_com",
+  "title": "Best Med Spas in Scottsdale: Three Clinics Worth Considering in 2026 and 2027",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "promotional"
+ },
+ {
+  "id": "item_9aa94e5183864e40",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_9bc1d0f4f74d4ca0",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Doktorlara rağmen paralimpik yüzme sporcusu Ali Nihat Erol, milli olmayı hedefliyor",
+  "published_at": "2026-10-11",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_9e02d089ceb64b7f",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "NAC Examination",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_9f871f8df2d64ef0",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-23",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_a24d973f631e43ab",
+  "route": "tip-ogrencileri",
+  "source": "ep_drahmetekmekci-com",
+  "title": "Kalp Krizi Sadece Tıkalı Bir Damar Değil: Vagus Siniri Kalbi Koruyabilir mi?",
+  "published_at": "Mon, 28 Sep 2026 20:05:29 +0000",
+  "kind": "move",
+  "reason": "kaduse-research"
+ },
+ {
+  "id": "item_a2c29f9f2a414cf3",
+  "route": "tip-ogrencileri",
+  "source": "medpage_today",
+  "title": "FDA Nominee Voices Support for Vaccines at Senate Hearing Scrutinizing Trump's Moves",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_a328aa0588e34014",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Hastane Yöneticilerinin Başhekim ve Hastane Müdürü Maaş ile Ek Ödeme Tutarları",
+  "published_at": "2026-07-06",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_a3c07327f9b5473c",
+  "route": "tip-ogrencileri",
+  "source": "burs_ean_fellowships",
+  "title": "Executive Page: Meet the New EAN President, Prof. Kailash Bhatia",
+  "published_at": "2026-07-22",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_a3ca02f15a2b42ff",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem: Uzmanlık Dalı Değişikliği İçin Tercihlerin Alınması",
+  "published_at": "2026-04-30",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_a3e85e5fbec84032",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "İstifa Sonrası Yeniden Atama Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_a47f7e1fdae54484",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Workplace-based assessment",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_a5f03caceb9348f9",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Medipol’den Meme Kanseri Farkındalık Ayı ve Dünya Yürüyüş Günü kapsamında etkinlikMeme kanserine yönelik farkındalığı artırmak ve sağlıklı yaşamın önemine dikkat çekmek isteyen Medipol Sağlık Grubu, 1-31 Ekim Meme Kanseri Farkındalık Ayı ve Dünya Yürüyüş Günü kapsamında bir etkinlik düzenledi. Sabahın ilk ışıklarıyla Bebek Parkı’nda bir araya gelen sağlık çalışanları ve doktorlar, pembe tişörtler giyerek boğaz boyunca yürüdü. Etkinlikte meme kanserine dikkat çekmek amacıyla pembe balonlar da gökyüzüne bırakıldı.",
+  "published_at": "2026-10-04",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_a8b9827aa1a1404d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-26",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_a91034b339a34dd9",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "USMLE Updates & Research",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_a9f78d4297304cd7",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "FDI'DAN HABERLER",
+  "published_at": "2026-07-14",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_ab7b12b7fa994e47",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_ac494492f82e4e6d",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem: Uzmanlık Dalı Değişikliği İçin Tercih Kılavuzu",
+  "published_at": "2026-04-30",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_ae9d54b58840404c",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "KBB hekimleri Tekirdağ'da düzenlenen toplantıda güncel yaklaşımları ele aldı",
+  "published_at": "2026-10-10",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_af77fff9f5194e5e",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_b237622178cc47ec",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem: Yerleştirme Sonuçları Açıklandı",
+  "published_at": "2026-06-22",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_b33561093a3244fa",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Fizik Tedavi ve Rehabilitasyon Hastanesine Doç. Dr. Hüma Bölük Şenlikçi Yeni Başhekim Oldu!",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_b5d2096075784233",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "‘Huzursuz bacak sendromunda akupunktur tamamlayıcı bir seçenek olabilir’Biruni Üniversitesi Tıp Fakültesi Hastanesi Radyoloji ve GETAT Uzmanı Dr. Onur Aksoy, huzursuz bacak sendromunda doğru tanı ve nörolojik değerlendirme sonrasında akupunkturun uygun hastalarda mevcut tedaviyi destekleyen tamamlayıcı bir seçenek olarak değerlendirilebileceğini söyledi.",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_b60c67e91b364f0f",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS Tercih İşlemleri: Tercih Kılavuzu ve Kontenjanlar Tablosu",
+  "published_at": "2026-06-17",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_b7804e17ecca4075",
+  "route": "tip-ogrencileri",
+  "source": "ahaber_saglik",
+  "title": "Sporcu sağlık raporu 3 yıl geçerli olabilecek: Düşük riskli branşlarda e-Nabız üzerinden lisans işlemi artık yapılabilecek",
+  "published_at": "2026-08-11",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_b7e41196d8fa45b5",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Match Participants",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_b81a2a4c175c4e13",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Sahada Çalışan Halk Sağlığı Uzmanları Çalışma Grubu",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_b8b0673b9f4b45fe",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-21",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_b9d6e35171e944ab",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "USMLE Designated Testing Dates Information Hub",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_baef143e54c34c6a",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_bb0b1368ef004c5a",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığında Gündem (Eski Sayılar - Arşiv)",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_bb376426e3c74784",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Erzurum Şehir Hastanesi göz hekimi Sağlam, Dünya Görme Günü'nde kontrol çağrısı yaptı",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_bb56128e33f34363",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-23",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_bbd0f12409be4435",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Examinations & assessments",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_bc03d1ca0e5841da",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Çorum’da arı sokması can aldı! Doktorların müdahalesi yetmedi",
+  "published_at": "2026-09-27",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_bc7c8d1be76c425b",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Match Week for Schools",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_bd03e93d84834e97",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Sınav Sonuçları Açıklandı",
+  "published_at": "2026-06-03",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_be0fc26fd58a4bb5",
+  "route": "tip-ogrencileri",
+  "source": "ep_drahmetekmekci-com",
+  "title": "Uzun Süre Oturuyorsanız, Her Saat Biraz Hareket Etmek Kan Şekerinizi Değiştirebilir",
+  "published_at": "Mon, 28 Sep 2026 20:09:15 +0000",
+  "kind": "move",
+  "reason": "kaduse-research"
+ },
+ {
+  "id": "item_be68848916234292",
+  "route": "tip-ogrencileri",
+  "source": "euronews_tr_saglik",
+  "title": "Deniz ve havuzda çocuk güvenliği için 10 temel kural Doktorlar ve Kızılhaç, yüzücülerin bu yaz suda güvende kalmalarına yardımcı olmak için pratik tavsiyeler yayınlıyor. 12/08/2026",
+  "published_at": "2026-08-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_be8c7a4a74974df5",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Ayak şişlikleri kalp yetersizliği habercisi olabilir",
+  "published_at": "2026-08-18",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_c0d6a95aa3264e7e",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Ağız ve Diş Sağlığı Hastanesi Başhekimi Görevden Alındı",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_c1d05cd818d64301",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Exam Resources",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_c41d76c643be4291",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_c52adcf51f8c4fca",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_c740c46832f44a8d",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "HHS kicks off new programs to speed clinical trials as Chinese competition looms",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_c7c3a2d3e3554fca",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "After the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_c86bf9df059d4c1f",
+  "route": "tip-ogrencileri",
+  "source": "medicalresearch_com",
+  "title": "How to Buy Revolax Wholesale: A Practical Guide for Aesthetic Clinics",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "promotional"
+ },
+ {
+  "id": "item_c8df33a2ec1c4137",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "129.Dönem Devlet Hizmeti Yükümlülüğü Kurası",
+  "published_at": "2026-07-02",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_c923cca5770846b9",
+  "route": "tip-ogrencileri",
+  "source": "yale_medicine_news",
+  "title": "Exploring CAR-T Cell Therapy for Lupus",
+  "published_at": "2026-07-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_c97ac797fe974cf9",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Sağlık Bakanlığı: Son 2 yılda 2 milyon 129 bin çocuğa işitme taraması yapıldıSağlık Bakanlığı, 81 ilde ilkokul 1'inci sınıf öğrencilerine yönelik gerçekleştirilen Okul Çağı Çocuklarda İşitme Tarama Programı (OÇİTP) kapsamında son 2 yılda 2 milyon 129 bin çocuğa işitme taraması yapıldığını ve 118 bin çocuğun kulak burun boğaz hekimlerine yönlendirildiğini duyurdu.",
+  "published_at": "2026-09-23",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_c98e7c5ea4584309",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Examples of Security Violations",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_c9c6629fe6e54c49",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_cb02529df3c84602",
+  "route": "tip-ogrencileri",
+  "source": "ahaber_saglik",
+  "title": "Menenjit şüphesiyle hastaneye kaldırıldı: Polikliniklerde el-ayak-ağız hastalığı vakaları hızla tırmanıyor",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cb8eab23eb684430",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "3 ayda 16 kişi botoks zehirlenmesi nedeniyle tedaviye alındıAntalya'da son 3 ayda kozmetik amacıyla botoks yaptırdıktan sonra rahatsızlanan 16 kişi, Akdeniz Üniversitesi (AÜ) Hastanesi'nde tedaviye alındı. İşlemi doktorun değil, sekreterinin yaptığını öne süren F.F., \"İşlemden birkaç gün sonra göz kapağım düştü, gözüm kapandı. Daha sonra yutma güçlüğü yaşamaya başladım\" dedi.",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cc936ade89444c02",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-15",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_cd1168b7b24043c5",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_cd35fec64a334a51",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_cd45f0c311cb49a2",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "Bedside blood test can deliver results in under 10 minutes to guide urgent stroke care",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cd7da5c5365b4bbd",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS, e-YDS 2026/4 ve e-YDS 2026/5 Sınavları İçin Sınav Günü Açık Tutulacak İl/İlçe Nüfus Müdürlükleri",
+  "published_at": "2026-04-30",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_ce91d0370b534ba8",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Merck, Daiichi end plans to seek speedy approval of lung cancer ADC",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cf0c7b0710bc4a87",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Hakkari Yüksekova'da 4 yeni uzman hekim göreve başladı, uzman kadrosu 61'e yükseldi",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cfb4068e10c240d1",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Temmuz 2026 Sağlık Çalışanları Maaşları Açıklandı! Uzman Hekim Maaşı 128 Bin TL’yi Aştı",
+  "published_at": "2026-07-03",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_cfe84c4c439340a7",
+  "route": "tip-ogrencileri",
+  "source": "euronews_tr_saglik",
+  "title": "Yunan araştırmacılar Alzheimer'a karşı yeni bir molekül geliştirdi Yunan araştırmacıların geliştirdiği RSQ-020 adlı molekül, klinik öncesi deneylerde Alzheimer hastalığının özelliklerini taşıyan hayvan modellerinde öğrenme ve hafıza kapasitesini yeniden kazandırdı. Molekül, nörodejeneratif hastalıklarla ilişkilendirilen Tau proteinini hedefliyor. 05/10/2026",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_d02bec23a2f84305",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "The Match Agreement",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_d231ec9308ce4068",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "Tütünle mücadelede yeni düzenlemeler geliyor",
+  "published_at": "2026-09-24",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_d25d926647b84461",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-16",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d2641f3bfa8d4e81",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d2c67c448707482d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d2d589a73f6c48e7",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d2e2d38723554e20",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Score Rechecks",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_d3c72b990d2c44b9",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Get Ready for the Match",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_d42ed1833781454d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-14",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d6a9a749cede4c35",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-23",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d75d630a408846a9",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2025-YDUS 2. Dönem Uzmanlık Dalı Değişikliği Yerleştirme Sonuçlarına İlişkin Sayısal Bilgiler",
+  "published_at": "2026-05-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_d87a8d8a4a1d4527",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-23",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_d92bc32fdc3d4154",
+  "route": "tip-ogrencileri",
+  "source": "medical_xpress",
+  "title": "CDC vaccine policy recommendations grind to a halt under Health Secretary Kennedy",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_da2683194a664936",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem Ek Tercih İşlemleri: Tercih Kılavuzu ve Tablolar",
+  "published_at": "2026-06-23",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_da58d7a8165e473a",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Korkuteli Devlet Hastanesi 4 yeni uzman doktorun göreve başlamasıyla kadrosunu artırdı",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_dae47d213e6d4765",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "65-72 Yaş Yeniden Atanma Kurası",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_dc2944256e584de4",
+  "route": "tip-ogrencileri",
+  "source": "trthaber_saglik",
+  "title": "8 ayda 179 bini aşkın kişi sigarayı bırakmak için başvurdu",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_dc79f54119834ff4",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Core TDM Examination topics",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_dcb7495677474374",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Lilly, Foghorn part ways; Wave’s FDA-approved plans",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_df905df37f674e1e",
+  "route": "tip-ogrencileri",
+  "source": "tvhb_veterinary",
+  "title": "Türk Veteriner Hekimleri Birliği Merkez Konseyi Toplantısı Gerçekleştirildi",
+  "published_at": "2026-08-21",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_dfe48b8c24174771",
+  "route": "tip-ogrencileri",
+  "source": "turkmsic_medical_students",
+  "title": "Staj Değişimi Çalışma Kolu",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_e01406efc0734c28",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-01",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_e10171f32a9e42dc",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Hafsa Sultan Başhekimi Topçu, yenidoğan yoğun bakımını 20 yatağa çıkaracak",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_e172ba2ad51b4957",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-06",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_e1ab02a8f06d46a8",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "An ‘off-the-shelf’ CAR-T therapy from Adicet shows promise against lupus",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_e261129eed724a1d",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-02",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_e28770e8fa4c4425",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Residency Applicants",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_e3b77cb3927e4798",
+  "route": "tip-ogrencileri",
+  "source": "stat_news",
+  "title": "STAT+: Pharmalittle: We’re reading about a reticent FDA commish nominee, a Novo deal, and more",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_e3c919b182b74518",
+  "route": "tip-ogrencileri",
+  "source": "healthline_news",
+  "title": "RFK Jr.’s Revised Vaccine Schedule May Cause 83% Surge in Hepatitis B Infections",
+  "published_at": "2026-08-10",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_e507c38423984369",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "The Match Process",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_e54d0b1eda4c4565",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem Sınavı ile 2026-STS Diş Hekimliği 1. Dönem Sınavı: Temel Soru Kitapçıkları ve Cevap Anahtarları Yayımlandı",
+  "published_at": "2026-04-26",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_e5a8db3476d1486a",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_e6d3a05477e14fc0",
+  "route": "tip-ogrencileri",
+  "source": "medpage_today",
+  "title": "CDC Vaccine Policy Recommendations Grind to a Halt Under RFK",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_e7f370d8661d4feb",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem ve 2026-STS Diş Hekimliği 1. Dönem: Sınav Sonuçları Açıklandı",
+  "published_at": "2026-05-18",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_e88f5dbee7f34289",
+  "route": "tip-ogrencileri",
+  "source": "tdb_dental",
+  "title": "AÇIKLAMA",
+  "published_at": "2026-06-26",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_e8c4447f96544dfb",
+  "route": "tip-ogrencileri",
+  "source": "osym_ydus_subspecialty_exams",
+  "title": "2026-YDUS: Ek Yerleştirme Tercihlerinin Alınması",
+  "published_at": "2026-07-24",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_e91e61e7d2ee4c6c",
+  "route": "tip-ogrencileri",
+  "source": "osym_medical_exams",
+  "title": "2026-TUS 1. Dönem Tercih İşlemleri: Tercih Kılavuzu ve Tablolar",
+  "published_at": "2026-05-07",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_e95aaa6fc2a74a20",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_e9aaa682a65c4e37",
+  "route": "tip-ogrencileri",
+  "source": "ep_drahmetekmekci-com",
+  "title": "L-Arginin Kalbi Koruyor mu? Mekanizma ile Klinik Gerçek Arasındaki Fark",
+  "published_at": "Wed, 23 Sep 2026 15:46:11 +0000",
+  "kind": "move",
+  "reason": "kaduse-research"
+ },
+ {
+  "id": "item_eada885ff9074b5b",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Hekim Birliği Sendikası yüzde 5 sendikal baraj girişimine karşı harekete geçti",
+  "published_at": "2026-10-10",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_eb53e2f4ba0c4576",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Viatris boosts pain drug portfolio with $1.7B buyout of Pacira",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_ed63b0ecc6ac4c03",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "TDM Examination",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_edb2c037f8fc4eb8",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "SES, hekimlere MEDULA onay yükümlülüğünün kaldırılması için Bakanlığa başvurdu",
+  "published_at": "2026-10-12",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_ee01ecfb62c24413",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_nrmp",
+  "title": "Main Residency Applicants",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_ee7c356e1b474eae",
+  "route": "tip-ogrencileri",
+  "source": "saglikpersonelihaberi_net",
+  "title": "Diş Hekimine Saldırı: Yere Düştükten Sonra da Darbedildiği İddia Edildi",
+  "published_at": "2026-10-07",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f051ab118b594af4",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Kütahya Çavdarhisar'da Devlet Hastanesi 5 acil hekimiyle törenle açıldı",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f0a1b1f14cce4be9",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-05",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_f1bc3c248d2a48ad",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1. Dönem Sınavı ile 2026-STS Diş Hekimliği 1. Dönem Sınavı: Sınava Giriş Belgeleri Erişime Açıldı",
+  "published_at": "2026-04-15",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_f3c337cf9889473d",
+  "route": "tip-ogrencileri",
+  "source": "moh_physician_workforce",
+  "title": "İlk Defa ve Yeniden Atama Kuraları",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_f3e9cc74e0244d4c",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-08",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_f409020f5faa4a7d",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Amasya'da veteriner ekipler köylerde şap hastalığına karşı hayvanları aşılıyor",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f455e9f429724540",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "About the USMLE",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_f4d9488603c74b63",
+  "route": "tip-ogrencileri",
+  "source": "sondakika_saglik",
+  "title": "Ufuk Özkan'ın iyileşme hızı doktorlarını bile şaşırttı",
+  "published_at": "2026-10-13",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f4e1fc1ea9d24d7e",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_f4e3020f0bf14696",
+  "route": "tip-ogrencileri",
+  "source": "abroad_ca_mcc_img_pathways",
+  "title": "Educational Credential Assessment",
+  "published_at": "2026-09-19T16:51:32.159Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_f539eeb87c094fc1",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "FDA starts review of Roche’s multiple sclerosis pill",
+  "published_at": "2026-09-30",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f553d08b3d784354",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "Beam sues 2 biotechs, alleging theft of base editing trade secrets",
+  "published_at": "2026-09-29",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f5afa812dc6a4ad2",
+  "route": "tip-ogrencileri",
+  "source": "biopharma_dive",
+  "title": "FDA review docs spark Revolution sell-off; Zealand diabetes data underwhelm analysts",
+  "published_at": "2026-10-09",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_f7200381e33a41dc",
+  "route": "tip-ogrencileri",
+  "source": "hasuder_public_health",
+  "title": "Halk Sağlığı Dostu Ödülü Yönergesi",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_f76dbd03f7cb4fe7",
+  "route": "tip-ogrencileri",
+  "source": "osym_dus_dental_exams",
+  "title": "2026-DUS 1.Dönem ve 2026-STS Diş Hekimliği 1.Dönem Temel Soru Kitapçığının Yayımlanması (% 10)",
+  "published_at": "2026-04-25",
+  "kind": "reject",
+  "reason": "expired_opportunity"
+ },
+ {
+  "id": "item_f78be90c5a0f49cf",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-15",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_f8ccd61663184243",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-22",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_f960089ba5fc40f9",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Exam Day Overview",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_f9c485b6a277461b",
+  "route": "tip-ogrencileri",
+  "source": "ttb_national",
+  "title": "İşyeri Hekimliği Ücret Tarifeleri",
+  "published_at": "2026-09-20T11:21:32.192Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ },
+ {
+  "id": "item_fa197310df254a94",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-09-25",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_fc1d915b05624c2c",
+  "route": "tip-ogrencileri",
+  "source": "medical_economics",
+  "title": "",
+  "published_at": "2026-10-20",
+  "kind": "reject",
+  "reason": "not_relevant_for_channel"
+ },
+ {
+  "id": "item_fc46382bad5d49a5",
+  "route": "tip-ogrencileri",
+  "source": "dha_saglik_yasam",
+  "title": "Doktorların yüzde 10 yaşama şansı verdiği Almina, hayata tutundu",
+  "published_at": "2026-09-22",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_ff0936a063f1442a",
+  "route": "tip-ogrencileri",
+  "source": "fierce_biotech",
+  "title": "Kodiak's stock doubles as resurrected eye disease drug matches Eylea in phase 3",
+  "published_at": "2026-09-28",
+  "kind": "reject",
+  "reason": "stale"
+ },
+ {
+  "id": "item_ff92ca99f7224b62",
+  "route": "tip-ogrencileri",
+  "source": "abroad_us_usmle",
+  "title": "Bulletin of Information",
+  "published_at": "2026-09-19T16:50:32.171Z",
+  "kind": "reject",
+  "reason": "wrong_category"
+ }
+]

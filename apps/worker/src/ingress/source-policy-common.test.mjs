@@ -66,7 +66,7 @@ test('IMDRF and ASHP SafeMedication have a policy; Turkish official sources stay
   assert.equal(v('news-ep-sant-scoped', '24 October: World Polio Day'), 'deny');
   assert.equal(v('news-ep-sant-scoped', 'Presentation of a study on The Use of Data in Public Health'), 'pass');
   assert.equal(v('news-ashp-safemedication-sitemap', 'Ten healthy dinner recipes for the week'), 'deny');
-  for (const feed of ['news-titck-tibbi-cihaz-duyurulari', 'news-saglik-bakanligi-whole', 'news-sgk-health-scoped']) {
+  for (const feed of ['news-titck-tibbi-cihaz-duyurulari', 'news-saglik-bakanligi-whole']) {
     assert.equal(v(feed, 'Webinar on company shares; senate vote'), null, feed);
   }
 });

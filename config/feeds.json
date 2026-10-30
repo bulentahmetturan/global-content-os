@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "c053255546c1645a3702e0637247ebfbbe7ee9fc17fd7152375066597cf95389"
+        "sha256": "859ebab3cafa198d6a3698edea2fa5e3b094bd2b1dcca368740124ce631b12b1"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "3671146c0c76126bc8d6788d930f8ab8f5789c07824eb4eecd0ab3a08693bfa2"
+        "sha256": "ee22c145730888bea24e259efdd04e8b1e8336b1c59320a3bcc7e6172be95795"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 21,
+    "news": 20,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 799,
-    "registryTargetsParsed": 20
+    "total": 798,
+    "registryTargetsParsed": 19
   },
   "feeds": [
     {
@@ -392,52 +392,6 @@
         ],
         "exclusionPolicy": [
           "ceremonial/institutional noise"
-        ]
-      }
-    },
-    {
-      "id": "news-sgk-health-scoped",
-      "label": "SGK -- GSS/SUT/Reimbursement/MEDULA Health Scope",
-      "route": "kaduse-news",
-      "channelId": "kaduse-medikal",
-      "transport": "PENDING_MANUAL",
-      "endpointUrl": "https://www.sgk.gov.tr/Duyuru",
-      "pollMinutes": 360,
-      "enabled": true,
-      "externalRef": "sgk-health-scoped",
-      "registrySourceId": "sgk-announcements",
-      "inclusionPolicy": [
-        "Genel Sağlık Sigortası",
-        "Sağlık Uygulama Tebliği/SUT",
-        "medical device/material reimbursement",
-        "medicine reimbursement where editorially relevant",
-        "MEDULA healthcare changes",
-        "health service financing",
-        "related attachments/lists/implementation announcements"
-      ],
-      "exclusionPolicy": [
-        "pensions",
-        "employment premiums",
-        "retirement",
-        "unrelated social-security administration"
-      ],
-      "rules": {
-        "mode": "registered",
-        "needsFetcher": true,
-        "inclusionPolicy": [
-          "Genel Sağlık Sigortası",
-          "Sağlık Uygulama Tebliği/SUT",
-          "medical device/material reimbursement",
-          "medicine reimbursement where editorially relevant",
-          "MEDULA healthcare changes",
-          "health service financing",
-          "related attachments/lists/implementation announcements"
-        ],
-        "exclusionPolicy": [
-          "pensions",
-          "employment premiums",
-          "retirement",
-          "unrelated social-security administration"
         ]
       }
     },

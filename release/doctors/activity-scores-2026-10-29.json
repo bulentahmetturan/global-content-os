@@ -1,0 +1,2432 @@
+{
+ "generatedOn": "2026-10-29",
+ "status": "MEASURED_NOT_APPLIED",
+ "method": "Kaynaklar: YouTube Hakkında bağlantıları ve resmî siteler (kimlik doğrulama), WordPress yazı listesi / RSS / sayfa tarihleri (web), Apple Podcasts dizini + akış (podcast), YouTube kanal akışı. Bülten ve Bluesky (2026-10-29), TikTok, LinkedIn ve akademik yayın (2026-10-30) sahibinin kararıyla kapsam dışı, puana ve en iyi kanala katılmaz. Puan = 0.4 sıklık + 0.35 güncellik + 0.25 düzenlilik, son 90 gün. capped = akış yalnız son kayıtları veriyor, puan alt sınır. Instagram/Facebook: yalnız aktif / aktif değil (son 30 günde en az bir gönderi = aktif), puana katılmaz; kaynak herkese açık profil (Instagram gönderi kodundan yayın zamanı, Facebook sayfasındaki son gönderi zamanı) ve Sociality.io, 2026-10-29. X aktifliği ölçülmedi.",
+ "removed": [
+  {
+   "id": "GL-006",
+   "name": "Andrew Hall Cutler",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2026-02-05)"
+   }
+  },
+  {
+   "id": "GL-007",
+   "name": "Rebecca Rust Lee",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "ÖLÇÜLEMEDİ"
+   }
+  },
+  {
+   "id": "GL-008",
+   "name": "Andrew Weil",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "DÜŞÜK, en iyi kanal Podcast 2.1 (son 2026-09-15)"
+   }
+  },
+  {
+   "id": "GL-013",
+   "name": "Robert Lustig",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 2 (son 2026-09-05)"
+   }
+  },
+  {
+   "id": "GL-015",
+   "name": "Rhonda Patrick",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "DÜŞÜK, en iyi kanal YouTube 3.4 (son 2026-10-06)"
+   }
+  },
+  {
+   "id": "GL-020",
+   "name": "Casey Means",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2025-03-25)"
+   }
+  },
+  {
+   "id": "GL-027",
+   "name": "Satchin Panda",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2026-06-01)"
+   }
+  },
+  {
+   "id": "GL-029",
+   "name": "Phyllis Zee",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-030",
+   "name": "Christopher Gardner",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 3.6 (son 2026-10-22)",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-031",
+   "name": "Justin Sonnenburg",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": null
+   }
+  },
+  {
+   "id": "GL-032",
+   "name": "Stuart Phillips",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2025-10-20)",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-033",
+   "name": "Judson Brewer",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 3.7 (son 2026-10-28)",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-034",
+   "name": "Frank Scheer",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-036",
+   "name": "Tim Spector",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2016-08-08)"
+   }
+  },
+  {
+   "id": "GL-037",
+   "name": "Rob Knight",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "ÇOK DÜŞÜK, en iyi kanal Web/Blog 1.5 (son 2026-08-31)"
+   }
+  },
+  {
+   "id": "GL-038",
+   "name": "Roy Taylor",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+   }
+  },
+  {
+   "id": "GL-039",
+   "name": "Keith Baar",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; kapsamdaki ölçülebilir kamusal kanal (site, podcast, YouTube) yok.",
+    "note": "Tek ölçülen kamusal kanalı Bluesky idi; Bluesky kapsam dışı bırakılınca yalnız akademik kaldı ve sahibinin \"yalnız akademik yayınları çıkaralım\" kuralı uygulandı."
+   }
+  },
+  {
+   "id": "GL-043",
+   "name": "Russell Foster",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": null
+   }
+  },
+  {
+   "id": "GL-044",
+   "name": "Charles Czeisler",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": null
+   }
+  },
+  {
+   "id": "GL-045",
+   "name": "John Ioannidis",
+   "removal": {
+    "date": "2026-10-29",
+    "by": "owner",
+    "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+    "note": null
+   }
+  },
+  {
+   "id": "TR-007",
+   "name": "Halit Yerebakan",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2024-08-04)"
+   }
+  },
+  {
+   "id": "TR-009",
+   "name": "Tuğba Duymaz",
+   "removal": {
+    "date": "2026-10-30",
+    "by": "owner",
+    "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+    "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2026-05-10)"
+   }
+  }
+ ],
+ "rows": [
+  {
+   "id": "GL-001",
+   "name": "Sayer Ji",
+   "panel": "OTHER_HEALTH_ACTORS",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 10,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-28",
+     "n90": 20,
+     "capped": false,
+     "total": null,
+     "src": "https://sayerji.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 8.7,
+     "last": "2026-10-27",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCzfQK-p72CVteb6efKEglxA",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "n30": 12,
+     "capped": true,
+     "src": "sayer_ji",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "src": "sayerji",
+     "method": "fb-page",
+     "raw": "2 gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "HINT",
+     "src": ""
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-002",
+   "name": "Amy Myers",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 0,
+     "last": "2026-07-13",
+     "n90": 0,
+     "capped": false,
+     "src": "https://amymyersmd.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 7,
+     "last": "2026-10-28",
+     "n90": 12,
+     "capped": false,
+     "total": 98,
+     "src": "Take Back Your Health®",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCkp7UpF4WKcczHB0S-3G1VA",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-26",
+     "n30": 43,
+     "src": "amymyersmd",
+     "method": "sociality",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "AmyMyersMD",
+     "method": "fb-page",
+     "raw": "3 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "HINT",
+     "src": ""
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-003",
+   "name": "Valter Longo",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 4.4,
+    "last": "2026-10-03"
+   },
+   "status": "DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2026-07-30",
+     "n90": 0,
+     "capped": false,
+     "total": 118,
+     "src": "https://createcures.org",
+     "kind": "inst"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 4.4,
+     "last": "2026-10-03",
+     "n90": 9,
+     "capped": false,
+     "src": "youtube.com/channel/UCt_To5BKa2M5QQfzHpoBgOg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "n30": 17,
+     "src": "prof_valterlongo",
+     "method": "sociality",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 9,
+     "src": "profvalterlongo",
+     "method": "sociality",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-004",
+   "name": "Peter Attia",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 8.7,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 8.7,
+     "last": "2026-10-29",
+     "n90": 24,
+     "capped": false,
+     "total": null,
+     "src": "https://peterattiamd.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 7.2,
+     "last": "2026-10-26",
+     "n90": 13,
+     "capped": false,
+     "total": 462,
+     "src": "The Peter Attia Drive",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 8.6,
+     "last": "2026-10-26",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UC8kGsMa0LygSX9nkBcBH1Sg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-26",
+     "n30": 3,
+     "src": "peterattiamd",
+     "method": "sociality",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-01-25",
+     "n30": 0,
+     "src": "peterattiamd",
+     "method": "sociality",
+     "lastSeen": "25 Ocak",
+     "active": false
+    },
+    "X": {
+     "state": "UNVERIFIED",
+     "src": "x.com/PeterAttiaMD"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-005",
+   "name": "David Sinclair",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 5.8,
+    "last": "2026-10-23"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 3.6,
+     "last": "2026-10-14",
+     "n90": 4,
+     "capped": false,
+     "src": "https://lifespan.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 5.1,
+     "last": "2026-10-18",
+     "n90": 7,
+     "capped": false,
+     "total": 23,
+     "src": "Lifespan with Dr. David Sinclair",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 5.8,
+     "last": "2026-10-23",
+     "n90": 10,
+     "capped": false,
+     "src": "youtube.com/channel/UCwD5YYkbYmN2iFHON9FyDXg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-26",
+     "n30": 3,
+     "src": "davidsinclairphd",
+     "method": "sociality",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "src": "davidsinclairphd",
+     "method": "fb-page",
+     "raw": "2 gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "davidasinclair"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-009",
+   "name": "Chris Kresser",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 5.9,
+    "last": "2026-10-26"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 5.9,
+     "last": "2026-10-26",
+     "n90": 11,
+     "capped": false,
+     "total": 1177,
+     "src": "https://chriskresser.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 5.5,
+     "last": "2026-10-27",
+     "n90": 7,
+     "capped": false,
+     "total": 35,
+     "src": "Revolution Health Radio",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 5.5,
+     "last": "2026-10-27",
+     "n90": 7,
+     "capped": false,
+     "src": "youtube.com/channel/UCjtumpKkGM5KoTAwRigtL1w",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 12,
+     "capped": true,
+     "src": "chriskresser",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "src": "chriskresserlac",
+     "method": "fb-page",
+     "raw": "bir gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "chriskresser"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-010",
+   "name": "Steven Gundry",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 9.5,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 9.4,
+     "last": "2026-10-29",
+     "n90": 33,
+     "capped": false,
+     "total": 904,
+     "src": "https://drgundry.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 8.7,
+     "last": "2026-10-29",
+     "n90": 26,
+     "capped": false,
+     "total": 655,
+     "src": "DR. GUNDRY PODCAST: GUT HEALTH, WEIGHT LOSS, AND NUTRITION",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 9.5,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCtxo0nTZjzlKJq5-vJq6s6g",
+     "others": 1
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 10,
+     "capped": false,
+     "src": "drstevengundry",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-17",
+     "src": "DrStevenGundry",
+     "method": "fb-page",
+     "raw": "17 Ekim",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "drgundry"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-011",
+   "name": "Gabrielle Lyon",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 7.3,
+     "last": "2026-10-28",
+     "n90": 13,
+     "capped": false,
+     "total": 79,
+     "src": "https://drgabriellelyon.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 8.7,
+     "last": "2026-10-29",
+     "n90": 26,
+     "capped": false,
+     "total": 250,
+     "src": "The Dr. Gabrielle Lyon Show",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCWPQJeWz4pvccA3lIoZ7j1Q",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 27,
+     "src": "drgabriellelyon",
+     "method": "sociality",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "doctorgabriellelyon",
+     "method": "fb-page",
+     "raw": "6 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "drgabriellelyon"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-012",
+   "name": "Terry Wahls",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 3.8,
+    "last": "2026-10-28"
+   },
+   "status": "DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 7.9,
+     "last": "2026-10-27",
+     "n90": 3,
+     "capped": false,
+     "src": "https://terrywahls.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 3.8,
+     "last": "2026-10-28",
+     "n90": 1,
+     "capped": false,
+     "src": "youtube.com/channel/UCFSJBgY0ifly0Yd10sDDzxA",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 10,
+     "capped": false,
+     "src": "drterrywahls",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "src": "TerryWahls",
+     "method": "fb-page",
+     "raw": "bir gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "UNVERIFIED",
+     "src": "@TerryWahls"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-014",
+   "name": "William Li",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2025-10-22",
+     "n90": 0,
+     "capped": false,
+     "total": 65,
+     "src": "https://drwilliamli.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "FAKE",
+     "note": "\"Dr. William Li: Science Backed Nutrition\" resmî değil: eski YouTube videolarını kopyalayan üçüncü kişi"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCREeA-1pswf4RTeYIKdAoBg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 9,
+     "capped": false,
+     "src": "drwilliamli",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "drwilliamli",
+     "method": "fb-page",
+     "raw": "6 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "\"Dr. William Li: Science Backed Nutrition\" resmî değil: eski YouTube videolarını kopyalayan üçüncü kişi"
+   ]
+  },
+  {
+   "id": "GL-016",
+   "name": "Brad Stanfield",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [],
+   "best": {
+    "channel": "YouTube",
+    "score": 7.6,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 9.7,
+     "last": "2026-10-29",
+     "n90": 38,
+     "capped": false,
+     "src": "https://drstanfield.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 7.6,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCpcvPcHJVOkO9Qp79BOagTg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "NONE"
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "BradStanfieldMD"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-017",
+   "name": "Karan Rajan",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 7.3,
+     "last": "2026-10-26",
+     "n90": 14,
+     "capped": false,
+     "total": 134,
+     "src": "Dr Karan Explores",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "DrKaranExploresPod",
+     "kind": "own",
+     "others": 1
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "drkaranrajan",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "DrKaranR",
+     "method": "fb-page",
+     "raw": "bir dakika önce",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-018",
+   "name": "Jordan Feigenbaum",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 7.8,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 3.6,
+     "last": "2026-10-08",
+     "n90": 3,
+     "capped": false,
+     "total": 284,
+     "src": "https://barbellmedicine.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NODATES",
+     "src": "Barbell Medicine Podcast"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 7.8,
+     "last": "2026-10-28",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCMcGFPjX2aQy31KYdEvT2-Q",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-24",
+     "n30": 6,
+     "capped": false,
+     "src": "barbell_medicine",
+     "method": "ig-grid",
+     "kind": "company",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-24",
+     "src": "barbellmed",
+     "method": "fb-page",
+     "raw": "5 gün önce",
+     "kind": "company",
+     "active": true
+    },
+    "X": {
+     "state": "HINT",
+     "src": ""
+    }
+   },
+   "notes": [
+    "Barbell Medicine Podcast (452 bölüm) akışı okunamadı."
+   ]
+  },
+  {
+   "id": "GL-019",
+   "name": "Spencer Nadolsky",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2022-11-09",
+     "n90": 0,
+     "capped": false,
+     "total": 91,
+     "src": "https://drspencer.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 6.1,
+     "last": "2026-10-23",
+     "n90": 8,
+     "capped": false,
+     "total": 8,
+     "src": "Weighty Conversations",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-28",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCiYVuCJsA1GZyGgIZJqV64w",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 11,
+     "capped": false,
+     "src": "drnadolsky",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "DrSpencerNadolsky",
+     "method": "fb-page",
+     "raw": "2 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "UNVERIFIED",
+     "src": "@DrNadolsky"
+    }
+   },
+   "notes": [
+    "drspencer.com 2022'den beri güncellenmiyor; podcast \"Docs Who Lift\" Apple dizininde bulunamadı."
+   ]
+  },
+  {
+   "id": "GL-021",
+   "name": "Will Bulsiewicz",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 7.9,
+    "last": "2026-10-26"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 0,
+     "last": "2025-04-28",
+     "n90": 0,
+     "capped": false,
+     "src": "https://theguthealthmd.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 7.9,
+     "last": "2026-10-26",
+     "n90": 20,
+     "capped": false,
+     "total": 49,
+     "src": "The Gut Insiders",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 7.9,
+     "last": "2026-10-26",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UC6gdCj56YK5KxiFf3WSOLtA",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-07",
+     "n30": 2,
+     "capped": false,
+     "src": "theguthealthmd",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-08",
+     "src": "theguthealthmd",
+     "method": "fb-page",
+     "raw": "8 Ekim",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-022",
+   "name": "Michael Ruscio",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 9.2,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "BLOCKED",
+     "src": "https://drruscio.com"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 4.6,
+     "last": "2026-10-11",
+     "n90": 6,
+     "capped": false,
+     "total": 930,
+     "src": "Dr. Ruscio Radio, DC: Health, Nutrition and Functional Healthcare",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 9.2,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCRSG-nLPicq1r8uyM0zLMwA",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 7,
+     "capped": false,
+     "src": "drruscio",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-05-19",
+     "src": "DrRuscio",
+     "method": "fb-page",
+     "raw": "19 Mayıs",
+     "active": false
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "drruscio.com Cloudflare doğrulaması istiyor; aşılmadı."
+   ]
+  },
+  {
+   "id": "GL-023",
+   "name": "Mark Pimentel",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 4.5,
+    "last": "2026-10-19"
+   },
+   "status": "DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2026-01-16",
+     "n90": 0,
+     "capped": false,
+     "total": 22,
+     "src": "https://csmast.com",
+     "kind": "inst"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 4.5,
+     "last": "2026-10-19",
+     "n90": 8,
+     "capped": false,
+     "src": "youtube.com/channel/UCxd1hMyUCGK2wkaEZtuz-8g",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 9,
+     "capped": false,
+     "src": "mastprogram",
+     "method": "ig-grid",
+     "kind": "inst",
+     "active": true
+    },
+    "Facebook": {
+     "state": "VERIFIED",
+     "src": "MAST program"
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "MarkPimentelMD"
+    }
+   },
+   "notes": [
+    "Web varlığı Cedars-Sinai MAST programı (csmast.com) üzerinden."
+   ]
+  },
+  {
+   "id": "GL-024",
+   "name": "David Perlmutter",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 9.9,
+    "last": "2026-10-27"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 4,
+     "last": "2026-10-16",
+     "n90": 4,
+     "capped": false,
+     "total": 609,
+     "src": "https://drperlmutter.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 5.6,
+     "last": "2026-10-27",
+     "n90": 8,
+     "capped": false,
+     "total": 229,
+     "src": "The Empowering Neurologist Podcast",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 9.9,
+     "last": "2026-10-27",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCDRl_UAXxbHyOOjklnA0dxQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 11,
+     "capped": false,
+     "src": "davidperlmutter",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "DavidPerlmutterMd",
+     "method": "fb-page",
+     "raw": "6 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "DavidPerlmutter"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-025",
+   "name": "Jason Fung",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 8,
+    "last": "2026-10-27"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 8,
+     "last": "2026-10-27",
+     "n90": 20,
+     "capped": false,
+     "total": 819,
+     "src": "https://thefastingmethod.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "FAKE",
+     "note": "Apple Podcasts'taki \"Jason Fung\" akışı resmî değil: YouTube seslerini kopyalayan üçüncü kişi"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 5.7,
+     "last": "2026-10-28",
+     "n90": 10,
+     "capped": false,
+     "src": "youtube.com/channel/UCoyL4iGArWn5Hu0V_sAhK2w",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "fastingmethod",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "TheFastingMethod",
+     "method": "fb-page",
+     "raw": "bir saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "HINT",
+     "src": ""
+    }
+   },
+   "notes": [
+    "Apple Podcasts'taki \"Jason Fung\" akışı resmî değil: YouTube seslerini kopyalayan üçüncü kişi"
+   ]
+  },
+  {
+   "id": "GL-026",
+   "name": "Saurabh Sethi",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 8.7,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 5.3,
+     "last": "2026-10-20",
+     "n90": 8,
+     "capped": false,
+     "total": 10,
+     "src": "The Dr. Sethi Show",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 8.7,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCvpDtH669K1a6s0Elmn6OIQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 11,
+     "capped": false,
+     "src": "doctor.sethi",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "saurabhsethimd",
+     "method": "fb-page",
+     "raw": "2 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-028",
+   "name": "Emeran Mayer",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 8,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 7.2,
+     "last": "2026-10-29",
+     "n90": 23,
+     "capped": false,
+     "total": 655,
+     "src": "https://emeranmayer.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 4.3,
+     "last": "2026-10-12",
+     "n90": 5,
+     "capped": false,
+     "total": 128,
+     "src": "The Mind-Gut Conversation Podcast",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 8,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UC3MdJGOG4RHdn7CPXRFr1fQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "emeranmayer",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "EmeranMayerMD",
+     "method": "fb-page",
+     "raw": "6 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "emeranmayermd"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-035",
+   "name": "Eric Topol",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [],
+   "best": {
+    "channel": "Podcast",
+    "score": 5.2,
+    "last": "2026-10-27"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 5.2,
+     "last": "2026-10-27",
+     "n90": 6,
+     "capped": false,
+     "total": 98,
+     "src": "Ground Truths",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 3.8,
+     "last": "2026-09-14",
+     "n90": 12,
+     "capped": false,
+     "src": "youtube.com/channel/UCchFl-hJ98OejRXz2cYKMrQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "NONE"
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "UNVERIFIED",
+     "src": "@EricTopol"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-040",
+   "name": "Akiko Iwasaki",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 4,
+    "last": "2026-10-27"
+   },
+   "status": "DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 4,
+     "last": "2026-10-27",
+     "n90": 2,
+     "capped": false,
+     "src": "https://medicine.yale.edu/lab/iwasaki/",
+     "kind": "inst"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "NONE"
+    },
+    "Instagram": {
+     "state": "NONE"
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "UNVERIFIED",
+     "src": "@VirusesImmunity"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-041",
+   "name": "Rangan Chatterjee",
+   "panel": "GLOBAL_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "Podcast",
+    "score": 6.9,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 6.9,
+     "last": "2026-10-27",
+     "n90": 17,
+     "capped": false,
+     "total": 686,
+     "src": "https://drchatterjee.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 6.9,
+     "last": "2026-10-28",
+     "n90": 17,
+     "capped": false,
+     "total": 688,
+     "src": "Feel Better, Live More with Dr Rangan Chatterjee",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 6.1,
+     "last": "2026-10-28",
+     "n90": 9,
+     "capped": false,
+     "src": "youtube.com/channel/UCDnwlb3IQDPJtFysPUJbDFQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 10,
+     "capped": false,
+     "src": "drchatterjee",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "DrChatterjee",
+     "method": "fb-page",
+     "raw": "bir saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "drchatterjeeuk"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "GL-042",
+   "name": "Anthony William",
+   "panel": "OTHER_HEALTH_ACTORS",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "WEAK",
+     "score": 0,
+     "last": "2023-03-05",
+     "n90": 0,
+     "capped": false,
+     "src": "https://medicalmedium.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2026-03-11",
+     "n90": 0,
+     "capped": false,
+     "total": 248,
+     "src": "Medical Medium Podcast",
+     "kind": "own"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCUORv_qpgmg8N5plVqlYjXg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 10,
+     "capped": false,
+     "src": "medicalmedium",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "medicalmedium",
+     "method": "fb-page",
+     "raw": "3 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "medicalmedium"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "TR-001",
+   "name": "Nazan Uysal Harzadın",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 0,
+    "last": "2025-10-28"
+   },
+   "status": "PASİF (ölçülen kanallarda)",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2025-10-28",
+     "n90": 0,
+     "capped": false,
+     "src": "youtube.com/channel/UCUXLeXnl9FLy3HziVsoLTKQ",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "nazanuysalharzadin",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "TR-002",
+   "name": "Muhammed Keskin",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 9.9,
+     "last": "2026-10-28",
+     "n90": 76,
+     "capped": false,
+     "total": 1288,
+     "src": "https://drmuhammedkeskin.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "@kalpdamaruzmani (drmuhammedkeskin.com)",
+     "kind": "own",
+     "others": 1
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "kardiyobey",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "kardiyobey",
+     "method": "fb-page",
+     "raw": "14 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "kardiyobey"
+    }
+   },
+   "notes": [
+    "İki ayrı \"Prof. Dr. Muhammed Keskin\" kanalı/sitesi var (kardiyobey.com ve drmuhammedkeskin.com); aynı kişi olup olmadığı doğrulanmadı."
+   ]
+  },
+  {
+   "id": "TR-003",
+   "name": "Osman Müftüoğlu",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 8.8,
+     "last": "2026-10-23",
+     "n90": 12,
+     "capped": false,
+     "total": null,
+     "src": "https://gazeteoksijen.com/yazarlar/prof-dr-osman-muftuoglu",
+     "kind": "column"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCDXIX6k4laWY6jfYK3zi1ng",
+     "others": 1
+    },
+    "Instagram": {
+     "state": "NONE"
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "Web varlığı Gazete Oksijen köşe yazısı; ayrıca NTV programının YouTube kanalı."
+   ]
+  },
+  {
+   "id": "TR-004",
+   "name": "Derya Uludüz",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 0.8,
+    "last": "2026-08-13"
+   },
+   "status": "ÇOK DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 0.8,
+     "last": "2026-08-13",
+     "n90": 1,
+     "capped": false,
+     "total": 1351,
+     "src": "https://deryauluduz.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2026-01-04",
+     "n90": 0,
+     "capped": false,
+     "src": "youtube.com/channel/UCADQtp-TntmCm-mQqaXYTTg",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-23",
+     "n30": 11,
+     "capped": false,
+     "src": "deryauluduz",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "src": "dr.deryauluduz",
+     "method": "fb-page",
+     "raw": "bir gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "deryauluduz"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "TR-005",
+   "name": "Ayça Kaya",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 9.9,
+    "last": "2026-10-27"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "NODATES",
+     "src": "https://aycakaya.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 9.9,
+     "last": "2026-10-27",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UC-lAreM4IEA8ncycqfWio8Q",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "RESTRICTED",
+     "src": "draycakaya",
+     "note": "18 yaş sınırlı profil; giriş yapmadan görülemiyor"
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "draycakaya",
+     "method": "fb-page",
+     "raw": "17 saat önce",
+     "note": "klinik sayfası (Sağlıklı Yaşam Merkezi)",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "draycakaya"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "TR-006",
+   "name": "Zeynep Tartan",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": null,
+   "status": "ÖLÇÜLEMEDİ",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "NONE"
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 8,
+     "capped": false,
+     "src": "prof.dr.zeyneptartan",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "Prof. Dr., kardiyoloji (İstanbul). Instagram @prof.dr.zeyneptartan ad ve uzmanlık eşleşmesiyle bulundu (174 B takipçi, resmî siteden bağlantı yok); sahibi \"çok aktif\" dedi. Web sitesi, YouTube ve Facebook bulunamadı."
+   ]
+  },
+  {
+   "id": "TR-008",
+   "name": "Mehmet Müderrisoğlu",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 6.4,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "DOWN",
+     "src": "https://mehmetmuderrisoglu.com"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 6.4,
+     "last": "2026-10-28",
+     "n90": 10,
+     "capped": false,
+     "src": "youtube.com/channel/UC9QNuGEandDLYMmH-waam0w",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "n30": 7,
+     "capped": false,
+     "src": "mehmetmuderrisoglu",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "src": "ecz.mehmetmuderrisoglu",
+     "method": "fb-page",
+     "raw": "2 gün önce",
+     "active": true
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "mehmetmuderrisoglu.com sertifikası geçersiz; kanal adı \"Ecz.\" (eczacı)."
+   ]
+  },
+  {
+   "id": "TR-010",
+   "name": "Mustafa Kalkan",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 4.4,
+    "last": "2026-09-20"
+   },
+   "status": "DÜŞÜK",
+   "cells": {
+    "Web/Blog": {
+     "state": "NONE"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 4.4,
+     "last": "2026-09-20",
+     "n90": 10,
+     "capped": false,
+     "src": "youtube.com/channel/UC8L14kSQN1QXsSWztkJ1y3A",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-28",
+     "n30": 5,
+     "capped": false,
+     "src": "drmustafakalkan",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": []
+  },
+  {
+   "id": "TR-011",
+   "name": "Ahmet Ekmekçi",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 10,
+    "last": "2026-10-29"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 9.8,
+     "last": "2026-10-29",
+     "n90": 100,
+     "capped": true,
+     "total": 183,
+     "src": "https://drahmetekmekci.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 10,
+     "last": "2026-10-29",
+     "n90": 15,
+     "capped": true,
+     "src": "youtube.com/channel/UCOy86T9biBtW0Me32zGB8kw",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 12,
+     "capped": true,
+     "src": "prof.dr.ahmet_ekmekci",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "Sitede 183 yazı; Ağustos-Eylül 2026'da toplu yükleme yapılmış, sonra günde ~1."
+   ]
+  },
+  {
+   "id": "TR-012",
+   "name": "Mustafa Atasoy",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 0,
+    "last": "2026-07-04"
+   },
+   "status": "PASİF (ölçülen kanallarda)",
+   "cells": {
+    "Web/Blog": {
+     "state": "NODATES",
+     "src": "https://fonksiyoneltip.com",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 0,
+     "last": "2026-07-04",
+     "n90": 0,
+     "capped": false,
+     "src": "youtube.com/channel/UCUQK-UP5qXFTcCuhDUWhmJw",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 7,
+     "capped": false,
+     "src": "fonksiyoneltipakademisicom",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2025-07-06",
+     "src": "fonksiyoneltipakademisi",
+     "method": "fb-page",
+     "raw": "6 Temmuz 2025",
+     "active": false
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "fonksiyoneltip.com'da blog yazısı yok; YouTube son video 2026-07-04."
+   ]
+  },
+  {
+   "id": "TR-013",
+   "name": "Erkan Topuz",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram",
+    "Facebook"
+   ],
+   "best": {
+    "channel": "YouTube",
+    "score": 9.9,
+    "last": "2026-10-27"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "NODATES",
+     "src": "naturallife.com.tr",
+     "kind": "company",
+     "note": "ürün/şirket sitesi, kişinin adı geçmiyor"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 9.9,
+     "last": "2026-10-27",
+     "n90": 15,
+     "capped": true,
+     "src": "Prof. Dr. Erkan Topuz (@DrErkanTopuz, oğlu Dr. Berk Topuz ile ortak)",
+     "kind": "own",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "n30": 9,
+     "capped": false,
+     "src": "erkantopuzofficial",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "ACT",
+     "last": "2026-10-29",
+     "src": "drerkantopuz",
+     "method": "fb-page",
+     "raw": "3 saat önce",
+     "active": true
+    },
+    "X": {
+     "state": "VERIFIED",
+     "src": "erkantopuzdr"
+    }
+   },
+   "notes": [
+    "2026-10-29 eklendi. YouTube kanalı oğlu Dr. Berk Topuz ile ortak; bağlı site naturallife.com.tr bir ürün/şirket sitesi, kişisel blog değil."
+   ]
+  },
+  {
+   "id": "TR-014",
+   "name": "Ebru Ünal",
+   "panel": "TURKEY_EXPERT_PANEL",
+   "socialActive": [
+    "Instagram"
+   ],
+   "best": {
+    "channel": "Web/Blog",
+    "score": 6.7,
+    "last": "2026-10-28"
+   },
+   "status": "AKTİF",
+   "cells": {
+    "Web/Blog": {
+     "state": "MEASURED",
+     "score": 6.7,
+     "last": "2026-10-28",
+     "n90": 18,
+     "capped": false,
+     "total": null,
+     "src": "https://ebruunal.com.tr",
+     "kind": "own"
+    },
+    "Podcast": {
+     "state": "NONE"
+    },
+    "YouTube": {
+     "state": "MEASURED",
+     "score": 5.1,
+     "last": "2026-09-16",
+     "n90": 15,
+     "capped": true,
+     "src": "Dr. Ebru Ünal (@drebruunal)",
+     "kind": "own",
+     "others": 0
+    },
+    "Instagram": {
+     "state": "ACT",
+     "last": "2026-10-27",
+     "n30": 10,
+     "capped": false,
+     "src": "doktorebruunal",
+     "method": "ig-grid",
+     "active": true
+    },
+    "Facebook": {
+     "state": "NONE"
+    },
+    "X": {
+     "state": "NONE"
+    }
+   },
+   "notes": [
+    "2026-10-29 eklendi. Kozmetik jinekolog / kadın hastalıkları uzmanı; kimliği sahibi tarafından onaylandı (2026-10-29). Ana YouTube kanalında son video 2026-09-16; ikinci kanal 2024-06'dan beri durgun."
+   ]
+  }
+ ]
+}

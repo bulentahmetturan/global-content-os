@@ -1,0 +1,9 @@
+{
+    "permissions":  {
+                        "allow":  [
+                                      "Bash(node scripts/protocols-five-item-operator.mjs preview)",
+                                      "Bash(node scripts/protocols-five-item-operator.mjs apply --confirm e9cbf5796d25aae10b66ade0c1838035fa7b0d08b074d1aedef49c36aafe582a)",
+                                      "Bash(node scripts/protocols-five-item-operator.mjs rollback --confirm e9cbf5796d25aae10b66ade0c1838035fa7b0d08b074d1aedef49c36aafe582a)"
+                                  ]
+                    }
+}

@@ -1,0 +1,3498 @@
+{
+  "title": "Doctor internet presence registry seed (proposed)",
+  "generatedOn": "2026-10-29",
+  "status": "PROPOSED_NOT_APPLIED",
+  "activation": "OFF",
+  "method": "owner list from chat + release/doctors files + one web-search pass per person; nothing fetched for ingestion",
+  "rules": [
+    "displayId is a stable label, never reused; removal changes selection, not the id",
+    "all endpoints PENDING_VERIFICATION; none feeds the automatic content flow until verified",
+    "locatorGuess is text extracted from search notes and must be resolved to a canonical locator before registration",
+    "credentialClass defaults to UNKNOWN_PENDING_VERIFICATION; only Sayer Ji and Anthony William are placed in OTHER_HEALTH_ACTORS per the earlier owner decision",
+    "REMOVED people keep their displayId and record; they are excluded from the activity matrix",
+    "owner decision 2026-10-29: newsletter and Bluesky channels are out of scope; NEWSLETTER endpoints keep their record with scope OUT_OF_SCOPE and are excluded from the activity matrix and scoring; Bluesky endpoints are not registered",
+    "owner decision 2026-10-30: TikTok and LinkedIn channels are out of scope; their endpoints keep their record with scope OUT_OF_SCOPE and are excluded from the activity matrix and scoring",
+    "owner decision 2026-10-30: academic publication channel (ACADEMIC_PROFILE, PubMed) is out of scope; endpoints keep their record with scope OUT_OF_SCOPE and are excluded from the activity matrix"
+  ],
+  "totals": {
+    "people": 59,
+    "turkiye": 14,
+    "global": 43,
+    "otherHealthActors": 2,
+    "endpoints": 197,
+    "endpointsWithLocatorGuess": 109,
+    "peopleWithoutAnyEndpoint": 3,
+    "byChannel": {
+      "OFFICIAL_WEBSITE/web": 43,
+      "NEWSLETTER/newsletter": 12,
+      "INSTAGRAM/instagram": 35,
+      "FACEBOOK/facebook": 12,
+      "OTHER_OFFICIAL/x": 24,
+      "YOUTUBE/youtube": 26,
+      "OTHER_OFFICIAL/linkedin": 2,
+      "OTHER_OFFICIAL/tiktok": 5,
+      "PODCAST/podcast": 20,
+      "ACADEMIC_PROFILE/web": 18
+    },
+    "byAcquisition": {
+      "rss": 101,
+      "manual-only": 96
+    },
+    "removed": 22,
+    "active": 37,
+    "outOfScopeEndpoints": 37
+  },
+  "people": [
+    {
+      "displayId": "GL-001",
+      "canonicalName": "Sayer Ji",
+      "panel": "OTHER_HEALTH_ACTORS",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "CREATOR",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [
+        "CLAIM_SOURCE"
+      ],
+      "ownerReviewNote": "Doktor değil, iddiaları izlenecek içerik üreticisi önerilir",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "greenmedinfo.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: GreenMedInfo — greenmedinfo.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "greenmedinfo.com/newsletter",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: GreenMedInfo bülteni — greenmedinfo.com/newsletter",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası listeliyor, kullanıcı adı yok"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası listeliyor"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası listeliyor"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası listeliyor"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "linkedin",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası listeliyor",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "GL-002",
+      "canonicalName": "Amy Myers",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@amymyersmd",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İki kullanıcı adı geçiyor: @amymyersmd ve @dramymyers"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: show notes içinde Facebook sayfası geçiyor"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası X listeliyor"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "@AmyMyersMD",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @AmyMyersMD"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "tiktok",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Linktree sayfası TikTok listeliyor",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Take Back Your Health"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "amymyersmd.com",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "amymyersmd.com ve dramymyers.com ikisi de geçiyor"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-003",
+      "canonicalName": "Valter Longo",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@prof_valterlongo",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @prof_valterlongo"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": "facebook.com/profvalterlongo",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: facebook.com/profvalterlongo"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "createcures.org",
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Create Cures Foundation (createcures.org)"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-004",
+      "canonicalName": "Peter Attia",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/peterattiamd",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/peterattiamd"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "x.com/PeterAttiaMD",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: x.com/PeterAttiaMD"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/c/PeterAttiaMD",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: youtube.com/c/PeterAttiaMD"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: The Drive"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "peterattiamd.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: peterattiamd.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "peterattiamd.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: peterattiamd.com bülteni",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "GL-005",
+      "canonicalName": "David Sinclair",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/davidsinclairphd",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/davidsinclairphd"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/davidsinclairpodcast",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: youtube.com/davidsinclairpodcast"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Lifespan with Dr. David Sinclair"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "lifespan.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: lifespan.com (podcast listesinden)"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-006",
+      "canonicalName": "Andrew Hall Cutler",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Kaynaklar vefat ettiğini söylüyor (güvenilirliği düşük kaynak)",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "noamalgam.com",
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: noamalgam.com (kitap satış sitesi olabilir)"
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2026-02-05)"
+      }
+    },
+    {
+      "displayId": "GL-007",
+      "canonicalName": "Rebecca Rust Lee",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Tam ad bulunamadı; \"Rebecca Lee / maybeitsmercury\" olabilir, doğrulanmadı",
+      "endpoints": [
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "rebeccal.substack.com",
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: rebeccal.substack.com, \"maybeitsmercury\"; aynı kişi olduğu doğrulanmadı",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Spotify: maybeitsmercury"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: \"Rebecca Lee\" Instagram'da Cutler protokolünü anlatıyor, adres yok"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: aynı şekilde YouTube'da var, adres yok"
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "ÖLÇÜLEMEDİ"
+      }
+    },
+    {
+      "displayId": "GL-008",
+      "canonicalName": "Andrew Weil",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Adresler 2019-2022 kaynaklı",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@DrWeil",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@DrWeil, 2019-2022 kaynaklı"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "DrWeil, eski kaynak"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@DrWeil",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@DrWeil, eski kaynak"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "@DrWeil",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@DrWeil, eski kaynak"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": "drweil.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drweil.com podcast sayfası ve Body of Wonder"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drweil.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drweil.com"
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "DÜŞÜK, en iyi kanal Podcast 2.1 (son 2026-09-15)"
+      }
+    },
+    {
+      "displayId": "GL-009",
+      "canonicalName": "Chris Kresser",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@chriskresser",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @chriskresser"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Revolution Health Radio"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "chriskresser.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: chriskresser.com"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: analitik sitesinde kanal kimliği var, resmî adres doğrulanmadı"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-010",
+      "canonicalName": "Steven Gundry",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/drstevengundry",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/drstevengundry"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "@DrGundryYouTube",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @DrGundryYouTube"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "tiktok",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: podcast hesabının TikTok adresi anılıyor",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: The Dr. Gundry Podcast"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drgundry.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drgundry.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "drgundry.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drgundry.com ücretsiz bülten",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "GL-011",
+      "canonicalName": "Gabrielle Lyon",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@drgabriellelyon",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @drgabriellelyon"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drgabriellelyon.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drgabriellelyon.com"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: The Dr. Gabrielle Lyon Show"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: podcast sayfası YouTube kanalından söz ediyor, adres yok"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-012",
+      "canonicalName": "Terry Wahls",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@drterrywahls",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @drterrywahls"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": "@TerryWahls",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @TerryWahls"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@TerryWahls",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @TerryWahls"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/c/terrywahlsmd",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: youtube.com/c/terrywahlsmd"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "terrywahls.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: terrywahls.com"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-013",
+      "canonicalName": "Robert Lustig",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "robertlustig.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: robertlustig.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "robertlustig.substack.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: robertlustig.substack.com",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/robertlustigmd",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "instagram.com/robertlustigmd, yalnızca bir podcast notunda geçiyor"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: sitenin altbilgisi X bağlantısı veriyor, adres alınamadı"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: sitenin altbilgisi Facebook bağlantısı veriyor"
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 2 (son 2026-09-05)"
+      }
+    },
+    {
+      "displayId": "GL-014",
+      "canonicalName": "William Li",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@drwilliamli",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @drwilliamli"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/@DrWilliamLi",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: youtube.com/@DrWilliamLi"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drwilliamli.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drwilliamli.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Eat to Beat Disease bülteni",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "GL-015",
+      "canonicalName": "Rhonda Patrick",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "FoundMyFitness",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/foundmyfitness",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/foundmyfitness"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "twitter.com/foundmyfitness",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: twitter.com/foundmyfitness"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/user/FoundMyFitness",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: youtube.com/user/FoundMyFitness"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: FoundMyFitness"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "foundmyfitness.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: foundmyfitness.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "foundmyfitness.com/newsletter",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: foundmyfitness.com/newsletter",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "DÜŞÜK, en iyi kanal YouTube 3.4 (son 2026-10-06)"
+      }
+    },
+    {
+      "displayId": "GL-016",
+      "canonicalName": "Brad Stanfield",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Arama sonuç vermedi, sonuçlar alakasız",
+      "endpoints": []
+    },
+    {
+      "displayId": "GL-017",
+      "canonicalName": "Karan Rajan",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@drkaranrajan",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @drkaranrajan"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: birincil platform olduğu söyleniyor, adres doğrulanmadı"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "tiktok",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: \"TikTok doktoru\" olarak anılıyor, adres yok",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Facebook'ta da olduğu söyleniyor"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Dr. Karan Explores"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-018",
+      "canonicalName": "Jordan Feigenbaum",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@jordan_barbellmedicine",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @jordan_barbellmedicine"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "barbellmedicine.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: barbellmedicine.com"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Barbell Medicine Podcast"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Barbell Medicine kanalı, kişisel kanal belirsiz"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Twitter bağlantısı var, adres alınamadı"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-019",
+      "canonicalName": "Spencer Nadolsky",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "MD mi DO mu, kaynaklar çelişiyor",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/drnadolsky",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/drnadolsky"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@DrNadolsky",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@DrNadolsky, 2019 kaynaklı"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "DrSpencerNadolsky, 2019 kaynaklı"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drspencer.com",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "drspencer.com, 2019 kaynaklı"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Docs Who Lift"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-020",
+      "canonicalName": "Casey Means",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Tıp lisansı inaktif olarak anılıyor",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: 765-825 bin takipçi anılıyor, kullanıcı adı yok"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: X'te paylaşım yaptığı anılıyor, adres yok"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: haftalık bülten yazdığı söyleniyor, platform belirsiz",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Levels blog yazar sayfası"
+        }
+      ],
+      "previousSelection": "PREVIOUS_SELECTION",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2025-03-25)"
+      }
+    },
+    {
+      "displayId": "GL-021",
+      "canonicalName": "Will Bulsiewicz",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@theguthealthmd",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @theguthealthmd"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "theplantfedgut.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: theplantfedgut.com"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-022",
+      "canonicalName": "Michael Ruscio",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drruscio.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı — drruscio.com"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İki farklı kullanıcı adı geçiyor (drrusciodc ve drruscio), hangisi resmî belirsiz"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/c/DrMichaelRuscioDC",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı — youtube.com/c/DrMichaelRuscioDC"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı — Dr. Ruscio Radio"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: medya sayfası bülten olduğunu söylüyor",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "GL-023",
+      "canonicalName": "Mark Pimentel",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "csmast.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: csmast.com (MAST programı)"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Cedars-Sinai lab sayfası Twitter bağlantısı veriyor, adres alınamadı"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: lab sayfası YouTube bağlantısı veriyor, adres alınamadı"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: lab sayfası Facebook bağlantısı veriyor"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-024",
+      "canonicalName": "David Perlmutter",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drperlmutter.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: drperlmutter.com"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@DavidPerlmutter",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@DavidPerlmutter, 2019 kaynaklı"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@davidperlmutter",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@davidperlmutter, 2019 kaynaklı"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "DavidPerlmutterMd, 2019 kaynaklı"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-025",
+      "canonicalName": "Jason Fung",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "thefastingmethod.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: thefastingmethod.com"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: YouTube kanalı bir podcast listesinde geçiyor"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: The Obesity Code Podcast"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: podcast sayfası Instagram bağlantısı veriyor, adres alınamadı"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: aynı şekilde"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: aynı şekilde"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-026",
+      "canonicalName": "Saurabh Sethi",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REPO_LIST",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-027",
+      "canonicalName": "Satchin Panda",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": true,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Sahibi karar bekliyor",
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@SatchinPanda",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @SatchinPanda — x.com/SatchinPanda"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@satchin.panda",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @satchin.panda"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Performance Around The Clock — Apple Podcasts"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "mycircadianclock.org",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: myCircadianClock — mycircadianclock.org"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2026-06-01)"
+      }
+    },
+    {
+      "displayId": "GL-028",
+      "canonicalName": "Emeran Mayer",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REPO_LIST",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "emeranmayer.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — emeranmayer.com"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: bir bölüm sayfası bağlantı veriyor, adres yok"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: aynı kaynak"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-029",
+      "canonicalName": "Phyllis Zee",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-030",
+      "canonicalName": "Christopher Gardner",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: bir bölüm sayfası Instagram'da takip edilebileceğini söylüyor, kullanıcı adı yok"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: aynı kaynak X'te de olduğunu söylüyor"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 3.6 (son 2026-10-22)",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-031",
+      "canonicalName": "Justin Sonnenburg",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": null
+      }
+    },
+    {
+      "displayId": "GL-032",
+      "canonicalName": "Stuart Phillips",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@mackinprof",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @mackinprof — instagram.com/mackinprof"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@mackinprof",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @mackinprof — x.com/mackinprof"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": "@realexscience",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Exercise Science (Martin Gibala ile ortak) — @realexscience"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2025-10-20)",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-033",
+      "canonicalName": "Judson Brewer",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drjud.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — drjud.com"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "judbrewer.substack.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — judbrewer.substack.com",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "linkedin",
+          "locatorGuess": "linkedin.com/in/drjud",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — linkedin.com/in/drjud",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: bir kaynak kanalı olduğunu söylüyor, adres yok"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "DÜŞÜK, en iyi kanal Web/Blog 3.7 (son 2026-10-28)",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-034",
+      "canonicalName": "Frank Scheer",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-035",
+      "canonicalName": "Eric Topol",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REPO_LIST",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@EricTopol",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @EricTopol — x.com/EricTopol"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "erictopol.substack.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Ground Truths — erictopol.substack.com",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": "erictopol.substack.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Ground Truths podcast — erictopol.substack.com"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: yalnızca üçüncü taraf Vumedi kanalı bulundu"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-036",
+      "canonicalName": "Tim Spector",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "tim-spector.co.uk",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — tim-spector.co.uk"
+        },
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Erişim doğrulanamadı: UNREACHABLE_FROM_HERE_2026-10-22",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@tim.spector",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @tim.spector — instagram.com/tim.spector"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@timspector",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@timspector eski sayfalarda geçiyor, güncelliği belirsiz"
+        },
+        {
+          "channelType": "NEWSLETTER",
+          "platform": "newsletter",
+          "locatorGuess": "substack.com/@timspector",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Substack profili — substack.com/@timspector",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-29",
+            "by": "owner",
+            "statement": "Bülten (newsletter) ve Bluesky kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: ZOE Science & Nutrition — Apple Podcasts"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: kişisel kanal bulunamadı, ZOE kurumsal kanalı var"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2016-08-08)"
+      }
+    },
+    {
+      "displayId": "GL-037",
+      "canonicalName": "Rob Knight",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@knightlabnews",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@knightlabnews eski bir laboratuvar sayfasında geçiyor, güncel değil olabilir"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "ÇOK DÜŞÜK, en iyi kanal Web/Blog 1.5 (son 2026-08-31)"
+      }
+    },
+    {
+      "displayId": "GL-038",
+      "canonicalName": "Roy Taylor",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": "owner-approvals-2026-10-22.json onayı ayrı dosyada, değiştirilmedi"
+      }
+    },
+    {
+      "displayId": "GL-039",
+      "canonicalName": "Keith Baar",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@MuscleScience",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @MuscleScience — twitter.com/MuscleScience"
+        }
+      ],
+      "previousSelection": "REPO_LIST",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; kapsamdaki ölçülebilir kamusal kanal (site, podcast, YouTube) yok.",
+        "note": "Tek ölçülen kamusal kanalı Bluesky idi; Bluesky kapsam dışı bırakılınca yalnız akademik kaldı ve sahibinin \"yalnız akademik yayınları çıkaralım\" kuralı uygulandı."
+      }
+    },
+    {
+      "displayId": "GL-040",
+      "canonicalName": "Akiko Iwasaki",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REPO_LIST",
+      "hold": false,
+      "approvedForPipeline": true,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "ORCID adı ve çalıştığı kurum eşleşti",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açılıyor (HTTP 200); kişiye aitliği ayrı kanıt gerektirir"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@VirusesImmunity",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@VirusesImmunity, 2022 tarihli üçüncü taraf veri; güncelliği belirsiz"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-041",
+      "canonicalName": "Rangan Chatterjee",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "OWNER_ADDED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/drchatterjee",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — instagram.com/drchatterjee"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": "facebook.com/DrChatterjee",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — facebook.com/DrChatterjee"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "twitter.com/drchatterjeeuk",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — twitter.com/drchatterjeeuk"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: podcast sayfası YouTube'da izlenebildiğini söylüyor"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": "drchatterjee.com/podcast",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Feel Better, Live More — drchatterjee.com/podcast"
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drchatterjee.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı:  — drchatterjee.com"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-042",
+      "canonicalName": "Anthony William",
+      "panel": "OTHER_HEALTH_ACTORS",
+      "selection": "PREVIOUS_SELECTION",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "CREATOR",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [
+        "HEALTH_CREATOR",
+        "CLAIM_SOURCE"
+      ],
+      "ownerReviewNote": "Sağlık içerik üreticisi / iddia kaynağı katmanı, uzman otoritesi değil",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "medicalmedium.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: medicalmedium.com"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/medicalmedium",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: instagram.com/medicalmedium"
+        },
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "@MedicalMediumAnthonyWilliam",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @MedicalMediumAnthonyWilliam"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "@medicalmedium",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: @medicalmedium"
+        },
+        {
+          "channelType": "PODCAST",
+          "platform": "podcast",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Medical Medium Podcast"
+        }
+      ]
+    },
+    {
+      "displayId": "GL-043",
+      "canonicalName": "Russell Foster",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": "scni.ox.ac.uk",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Oxford, scni.ox.ac.uk",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "scni.ox.ac.uk",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: scni.ox.ac.uk"
+        }
+      ],
+      "previousSelection": "PROPOSED_ONLY",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": null
+      }
+    },
+    {
+      "displayId": "GL-044",
+      "canonicalName": "Charles Czeisler",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Harvard Tıp Fakültesi profili",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "PROPOSED_ONLY",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": null
+      }
+    },
+    {
+      "displayId": "GL-045",
+      "canonicalName": "John Ioannidis",
+      "panel": "GLOBAL_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Arama sonucunda bulundu, doğrulanmadı: Stanford profili",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ],
+      "previousSelection": "PROPOSED_ONLY",
+      "removal": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "reason": "Yalnız akademik yayın; ölçülebilir kamusal kanal (site, bülten, podcast, YouTube, Bluesky) yok.",
+        "note": null
+      }
+    },
+    {
+      "displayId": "TR-001",
+      "canonicalName": "Nazan Uysal Harzadın",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@nazanuysalharzadin",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@nazanuysalharzadin; Business Discovery sorgusu izin hatası verdi (code 10), hesap türü ve aitlik doğrulanmadı"
+        },
+        {
+          "channelType": "ACADEMIC_PROFILE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: \"Fonksiyonel Beslenme\" kitabının yazarı (Doğan Kitap, 2025)",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "Akademik yayın kanalı kapsam dışı."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "TR-002",
+      "canonicalName": "Muhammed Keskin",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "@kardiyobey ile eşleşme belirsiz",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "@kardiyobey",
+          "state": "AMBIGUOUS",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "@kardiyobey, üçüncü taraf analiz sitesinde \"Prof. Dr. Muhammed Keskin\" adıyla geçiyor; aynı kişi olduğu doğrulanmadı"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-003",
+      "canonicalName": "Osman Müftüoğlu",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Hürriyet köşe yazarı, NTV \"Yaşasın Hayat\" programı"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-004",
+      "canonicalName": "Derya Uludüz",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Beyin Sağlığı ve Hasta Derneği başkanı olarak anılıyor"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-005",
+      "canonicalName": "Ayça Kaya",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "biyografiler.com",
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Doğan Kitap yazarı, biyografi sayfası var (biyografiler.com)"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-006",
+      "canonicalName": "Zeynep Tartan",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Aramada hiçbir sonuç yok; ad yazımı kontrol edilmeli",
+      "endpoints": [
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/prof.dr.zeyneptartan",
+          "state": "FOUND_MATCHED_BY_PROFILE",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Profil adı \"Zeynep Tartan\", açıklama \"Kardiyoloji Uzmanı\", 174 B takipçi; doktorsitesi.com kaydıyla (Prof. Dr., kardiyoloji, İstanbul) uyumlu. Resmî bir siteden çapraz bağlantı yok.",
+          "ownerObservation": {
+            "date": "2026-10-30",
+            "basis": "MANUAL_OBSERVATION",
+            "statement": "Sahibi: Instagram'da çok aktif."
+          }
+        }
+      ],
+      "identityNote": "Prof. Dr. Zeynep Tartan, kardiyoloji uzmanı, İstanbul (doktorsitesi.com kaydı). Ad yazımı doğru."
+    },
+    {
+      "displayId": "TR-007",
+      "canonicalName": "Halit Yerebakan",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Milletvekili; kalp-damar cerrahı",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Bulut Klinik profil sayfası"
+        }
+      ],
+      "previousSelection": "OWNER_LIST_TR",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal YouTube 0 (son 2024-08-04)"
+      }
+    },
+    {
+      "displayId": "TR-008",
+      "canonicalName": "Mehmet Müderrisoğlu",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Aramada yalnızca vefat etmiş başka bir kişi çıktı",
+      "endpoints": []
+    },
+    {
+      "displayId": "TR-009",
+      "canonicalName": "Tuğba Duymaz",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "REMOVED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Diş hekimi olabilir (Trustpilot kaydı)",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "tduymaz.com",
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: tduymaz.com Trustpilot kaydı, diş hekimi (DDS)"
+        }
+      ],
+      "previousSelection": "OWNER_LIST_TR",
+      "removal": {
+        "date": "2026-10-30",
+        "by": "owner",
+        "reason": "Sahibinin kararı: listeden çıkarıldı (ölçülen kanallarda düşük ya da hiç etkinlik yok).",
+        "statusAtRemoval": "PASİF (ölçülen kanallarda), en iyi kanal Web/Blog 0 (son 2026-05-10)"
+      }
+    },
+    {
+      "displayId": "TR-010",
+      "canonicalName": "Mustafa Kalkan",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "Aramada alakasız isimler çıktı",
+      "endpoints": []
+    },
+    {
+      "displayId": "TR-011",
+      "canonicalName": "Ahmet Ekmekçi",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": "drahmetekmekci.com ile Memorial kardiyoloğu aynı kişi mi, doğrulanmadı",
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "drahmetekmekci.com",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "drahmetekmekci.com; blog akışı Research hattında"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-012",
+      "canonicalName": "Mustafa Atasoy",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_LIST_TR",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "ownerReviewNote": null,
+      "endpoints": [
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": null,
+          "state": "HINT_NO_LOCATOR",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "İpucu var, adres yok: Memorial Ataşehir dermatoloji profili; \"Fonksiyonel Tıp\" kitabı (aynı kişi mi belirsiz)"
+        }
+      ]
+    },
+    {
+      "displayId": "TR-013",
+      "canonicalName": "Erkan Topuz",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_ADDED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "addedOn": "2026-10-29",
+      "ownerReviewNote": "İç hastalıkları ve tıbbi onkoloji uzmanı; tamamlayıcı tıp ve beslenme. YouTube kanalını oğlu Dr. Berk Topuz ile ortak kullanıyor.",
+      "endpoints": [
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/channel/UCSuTUK22bnNofuYDVkeYijw",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube kanalı @DrErkanTopuz (92,6 bin abone)"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/erkantopuzofficial",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "x",
+          "locatorGuess": "x.com/erkantopuzdr",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "tiktok",
+          "locatorGuess": "tiktok.com/@erkantopuzofficial",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "naturallife.com.tr",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı"
+        },
+        {
+          "channelType": "FACEBOOK",
+          "platform": "facebook",
+          "locatorGuess": "facebook.com/drerkantopuz",
+          "state": "FOUND_VERIFIED_BY_CROSSLINK",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "Sayfa açıklaması: \"Prof. Dr. Erkan Topuz'un Resmi Facebook Sayfasıdır\"; 651 bin takipçi; sayfa Instagram erkantopuzofficial, YouTube DrErkanTopuz ve naturallife.com.tr bağlantılarını veriyor (2026-10-29).",
+          "ownerObservation": {
+            "date": "2026-10-29",
+            "basis": "MANUAL_OBSERVATION",
+            "statement": "Sahibi: Facebook sayfası çok aktif."
+          }
+        }
+      ]
+    },
+    {
+      "displayId": "TR-014",
+      "canonicalName": "Ebru Ünal",
+      "panel": "TURKEY_EXPERT_PANEL",
+      "selection": "OWNER_ADDED",
+      "hold": false,
+      "approvedForPipeline": false,
+      "credentialClass": "UNKNOWN_PENDING_VERIFICATION",
+      "credentialStatus": "PENDING_VERIFICATION",
+      "identityConfidence": "PENDING_IDENTITY_RESOLUTION",
+      "roles": [],
+      "addedOn": "2026-10-29",
+      "ownerReviewNote": "Kozmetik jinekolog / kadın hastalıkları uzmanı (Vadistanbul).",
+      "endpoints": [
+        {
+          "channelType": "YOUTUBE",
+          "platform": "youtube",
+          "locatorGuess": "youtube.com/channel/UC_0ipB-zJqZCIeDM4tNKlhg",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube kanalı @drebruunal (108 bin abone)"
+        },
+        {
+          "channelType": "INSTAGRAM",
+          "platform": "instagram",
+          "locatorGuess": "instagram.com/doktorebruunal",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı"
+        },
+        {
+          "channelType": "OTHER_OFFICIAL",
+          "platform": "tiktok",
+          "locatorGuess": "tiktok.com/@doktorebruunal",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "manual-only",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı",
+          "scope": "OUT_OF_SCOPE",
+          "scopeDecision": {
+            "date": "2026-10-30",
+            "by": "owner",
+            "statement": "TikTok ve LinkedIn kanalları kapsam dışı."
+          }
+        },
+        {
+          "channelType": "OFFICIAL_WEBSITE",
+          "platform": "web",
+          "locatorGuess": "ebruunal.com.tr",
+          "state": "FOUND_UNVERIFIED",
+          "capabilityAcquisition": "rss",
+          "associationType": "UNRESOLVED_ASSOCIATION",
+          "verification": "PENDING_VERIFICATION",
+          "activation": "OFF",
+          "evidence": "YouTube Hakkında bağlantısı"
+        }
+      ],
+      "ownerIdentityConfirmation": {
+        "date": "2026-10-29",
+        "by": "owner",
+        "statement": "Kozmetik jinekolog Dr. Ebru Ünal doğru kişi."
+      }
+    }
+  ]
+}

@@ -69,12 +69,6 @@
       "notes": "TÜYZE (Türkiye Yapay Zekâ Enstitüsü health-AI activity) is represented as a child monitored target under TÜSEB, not a separate publisher."
     },
     {
-      "id": "sgk",
-      "canonicalName": "Sosyal Güvenlik Kurumu (SGK)",
-      "officialUrl": "https://www.sgk.gov.tr",
-      "countryOrRegion": "TR"
-    },
-    {
       "id": "ep",
       "canonicalName": "European Parliament",
       "officialUrl": "https://www.europarl.europa.eu",
@@ -195,14 +189,6 @@
       "publisherId": "tuseb",
       "canonicalName": "TÜSEB Haberler",
       "officialUrl": "https://www.tuseb.gov.tr/haberler",
-      "status": "ACTIVE",
-      "verificationStatus": "PENDING_VERIFICATION"
-    },
-    {
-      "id": "sgk-announcements",
-      "publisherId": "sgk",
-      "canonicalName": "SGK Duyurular",
-      "officialUrl": "https://www.sgk.gov.tr/Duyuru",
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION"
     },
@@ -390,16 +376,6 @@
       "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
       "scopeDescription": "Genuinely relevant health technology/innovation/translational health developments; ceremonial/institutional noise filtered, per Batch N2-FINAL section 5.",
       "transportStatus": "WEB_ONLY",
-      "machineReadable": false
-    },
-    {
-      "id": "sgk-health-scoped",
-      "sourceId": "sgk-announcements",
-      "label": "SGK -- GSS/SUT/Reimbursement/MEDULA Health Scope",
-      "officialUrl": "https://www.sgk.gov.tr/Duyuru",
-      "scopeType": "CHANNEL_FILTER_OVER_BROADER_SOURCE",
-      "scopeDescription": "Genel Sağlık Sigortası, Sağlık Uygulama Tebliği/SUT, medical device/material/medicine reimbursement, MEDULA healthcare changes, health-service financing, related attachments/implementation announcements; excludes pensions/employment/retirement/unrelated social-security administration, per Batch N2-FINAL section 5/9.",
-      "transportStatus": "PENDING_MANUAL",
       "machineReadable": false
     },
     {

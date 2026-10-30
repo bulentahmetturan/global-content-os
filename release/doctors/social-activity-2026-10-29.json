@@ -1,0 +1,702 @@
+{
+ "status": "OBSERVED_NOT_APPLIED",
+ "observedOn": "2026-10-29",
+ "rule": "aktif = son 30 günde en az bir gönderi",
+ "method": "instagram: herkese açık profil ızgarası tarayıcıda görüntülendi, gönderi kodundan yayın zamanı çözüldü (Sociality tarihleriyle doğrulandı); facebook: herkese açık sayfa tarayıcıda görüntülendi, en son gönderinin göreli zamanı okundu; sociality: competitor posts, 2026-09-30..2026-10-30",
+ "activity": {
+  "GL-001": {
+   "instagram": {
+    "last": "2026-10-27",
+    "n30": 12,
+    "capped": true,
+    "src": "sayer_ji",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-27",
+    "src": "sayerji",
+    "method": "fb-page",
+    "raw": "2 gün önce",
+    "active": true
+   }
+  },
+  "GL-009": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 12,
+    "capped": true,
+    "src": "chriskresser",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-28",
+    "src": "chriskresserlac",
+    "method": "fb-page",
+    "raw": "bir gün önce",
+    "active": true
+   }
+  },
+  "GL-010": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 10,
+    "capped": false,
+    "src": "drstevengundry",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-17",
+    "src": "DrStevenGundry",
+    "method": "fb-page",
+    "raw": "17 Ekim",
+    "active": true
+   }
+  },
+  "GL-012": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 10,
+    "capped": false,
+    "src": "drterrywahls",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-28",
+    "src": "TerryWahls",
+    "method": "fb-page",
+    "raw": "bir gün önce",
+    "active": true
+   }
+  },
+  "GL-014": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 9,
+    "capped": false,
+    "src": "drwilliamli",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "drwilliamli",
+    "method": "fb-page",
+    "raw": "6 saat önce",
+    "active": true
+   }
+  },
+  "GL-017": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "drkaranrajan",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "DrKaranR",
+    "method": "fb-page",
+    "raw": "bir dakika önce",
+    "active": true
+   }
+  },
+  "GL-018": {
+   "instagram": {
+    "last": "2026-10-24",
+    "n30": 6,
+    "capped": false,
+    "src": "barbell_medicine",
+    "method": "ig-grid",
+    "kind": "company",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-24",
+    "src": "barbellmed",
+    "method": "fb-page",
+    "raw": "5 gün önce",
+    "kind": "company",
+    "active": true
+   }
+  },
+  "GL-019": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 11,
+    "capped": false,
+    "src": "drnadolsky",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "DrSpencerNadolsky",
+    "method": "fb-page",
+    "raw": "2 saat önce",
+    "active": true
+   }
+  },
+  "GL-021": {
+   "instagram": {
+    "last": "2026-10-07",
+    "n30": 2,
+    "capped": false,
+    "src": "theguthealthmd",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-08",
+    "src": "theguthealthmd",
+    "method": "fb-page",
+    "raw": "8 Ekim",
+    "active": true
+   }
+  },
+  "GL-022": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 7,
+    "capped": false,
+    "src": "drruscio",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-05-19",
+    "src": "DrRuscio",
+    "method": "fb-page",
+    "raw": "19 Mayıs",
+    "active": false
+   }
+  },
+  "GL-023": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 9,
+    "capped": false,
+    "src": "mastprogram",
+    "method": "ig-grid",
+    "kind": "inst",
+    "active": true
+   }
+  },
+  "GL-024": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 11,
+    "capped": false,
+    "src": "davidperlmutter",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "DavidPerlmutterMd",
+    "method": "fb-page",
+    "raw": "6 saat önce",
+    "active": true
+   }
+  },
+  "GL-025": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "fastingmethod",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "TheFastingMethod",
+    "method": "fb-page",
+    "raw": "bir saat önce",
+    "active": true
+   }
+  },
+  "GL-026": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 11,
+    "capped": false,
+    "src": "doctor.sethi",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "saurabhsethimd",
+    "method": "fb-page",
+    "raw": "2 saat önce",
+    "active": true
+   }
+  },
+  "GL-028": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "emeranmayer",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "EmeranMayerMD",
+    "method": "fb-page",
+    "raw": "6 saat önce",
+    "active": true
+   }
+  },
+  "GL-041": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 10,
+    "capped": false,
+    "src": "drchatterjee",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "DrChatterjee",
+    "method": "fb-page",
+    "raw": "bir saat önce",
+    "active": true
+   }
+  },
+  "GL-042": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 10,
+    "capped": false,
+    "src": "medicalmedium",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "medicalmedium",
+    "method": "fb-page",
+    "raw": "3 saat önce",
+    "active": true
+   }
+  },
+  "TR-001": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "nazanuysalharzadin",
+    "method": "ig-grid",
+    "active": true
+   }
+  },
+  "TR-002": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "kardiyobey",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "kardiyobey",
+    "method": "fb-page",
+    "raw": "14 saat önce",
+    "active": true
+   }
+  },
+  "TR-004": {
+   "instagram": {
+    "last": "2026-10-23",
+    "n30": 11,
+    "capped": false,
+    "src": "deryauluduz",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-28",
+    "src": "dr.deryauluduz",
+    "method": "fb-page",
+    "raw": "bir gün önce",
+    "active": true
+   }
+  },
+  "TR-005": {
+   "instagram": {
+    "state": "RESTRICTED",
+    "src": "draycakaya",
+    "note": "18 yaş sınırlı profil; giriş yapmadan görülemiyor"
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "draycakaya",
+    "method": "fb-page",
+    "raw": "17 saat önce",
+    "note": "klinik sayfası (Sağlıklı Yaşam Merkezi)",
+    "active": true
+   }
+  },
+  "TR-008": {
+   "instagram": {
+    "last": "2026-10-27",
+    "n30": 7,
+    "capped": false,
+    "src": "mehmetmuderrisoglu",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-27",
+    "src": "ecz.mehmetmuderrisoglu",
+    "method": "fb-page",
+    "raw": "2 gün önce",
+    "active": true
+   }
+  },
+  "TR-010": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 5,
+    "capped": false,
+    "src": "drmustafakalkan",
+    "method": "ig-grid",
+    "active": true
+   }
+  },
+  "TR-011": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 12,
+    "capped": true,
+    "src": "prof.dr.ahmet_ekmekci",
+    "method": "ig-grid",
+    "active": true
+   }
+  },
+  "TR-012": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 7,
+    "capped": false,
+    "src": "fonksiyoneltipakademisicom",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2025-07-06",
+    "src": "fonksiyoneltipakademisi",
+    "method": "fb-page",
+    "raw": "6 Temmuz 2025",
+    "active": false
+   }
+  },
+  "TR-013": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 9,
+    "capped": false,
+    "src": "erkantopuzofficial",
+    "method": "ig-grid",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "drerkantopuz",
+    "method": "fb-page",
+    "raw": "3 saat önce",
+    "active": true
+   }
+  },
+  "TR-014": {
+   "instagram": {
+    "last": "2026-10-27",
+    "n30": 10,
+    "capped": false,
+    "src": "doktorebruunal",
+    "method": "ig-grid",
+    "active": true
+   }
+  },
+  "TR-006": {
+   "instagram": {
+    "last": "2026-10-28",
+    "n30": 8,
+    "capped": false,
+    "src": "prof.dr.zeyneptartan",
+    "method": "ig-grid",
+    "active": true
+   }
+  },
+  "GL-004": {
+   "instagram": {
+    "last": "2026-10-26",
+    "n30": 3,
+    "src": "peterattiamd",
+    "method": "sociality",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-01-25",
+    "n30": 0,
+    "src": "peterattiamd",
+    "method": "sociality",
+    "lastSeen": "25 Ocak",
+    "active": false
+   }
+  },
+  "GL-011": {
+   "instagram": {
+    "last": "2026-10-29",
+    "n30": 27,
+    "src": "drgabriellelyon",
+    "method": "sociality",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "doctorgabriellelyon",
+    "method": "fb-page",
+    "raw": "6 saat önce",
+    "active": true
+   }
+  },
+  "GL-002": {
+   "instagram": {
+    "last": "2026-10-26",
+    "n30": 43,
+    "src": "amymyersmd",
+    "method": "sociality",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "src": "AmyMyersMD",
+    "method": "fb-page",
+    "raw": "3 saat önce",
+    "active": true
+   }
+  },
+  "GL-003": {
+   "instagram": {
+    "last": "2026-10-27",
+    "n30": 17,
+    "src": "prof_valterlongo",
+    "method": "sociality",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-29",
+    "n30": 9,
+    "src": "profvalterlongo",
+    "method": "sociality",
+    "active": true
+   }
+  },
+  "GL-005": {
+   "instagram": {
+    "last": "2026-10-26",
+    "n30": 3,
+    "src": "davidsinclairphd",
+    "method": "sociality",
+    "active": true
+   },
+   "facebook": {
+    "last": "2026-10-27",
+    "src": "davidsinclairphd",
+    "method": "fb-page",
+    "raw": "2 gün önce",
+    "active": true
+   }
+  }
+ },
+ "rawInstagramCodes": {
+  "GL-001": {
+   "h": "sayer_ji",
+   "codes": "De_Ak2xtvMW De7YcgXvcOw De7MkmKRau4 De7HDbVETTM De6EZiQESPx De5yQazh1Cl De5qrO2jcup De4-xNMv6My De47PwSGj1E De4m_3XRKwh De2GQ8-stFx De2DptUEWx_"
+  },
+  "GL-009": {
+   "h": "chriskresser",
+   "codes": "DfCkWwYD6m8 De9fdCGF_CW De1vWffl_Bq Dewo-D9l_YC DerhGUdl_X3 Deemt0Wl28M DeelkpYl3iI DeZauTADFJv DeRsr5_F47n DeMmiFTEu4V DeHdgjADKCn Dd_veMBDHrE"
+  },
+  "GL-010": {
+   "h": "drstevengundry",
+   "codes": "DfDIUeHReGT DfAk2Y4Cf2l De90nb-FK9h De7ONonl2kY De0U8Qqj0ly DekC0DXk9Kv DeFUL53KzNq DeAUshckvO1 Dd6ZJoLFXJI Dd44AJQP2lb Dd4SO89q_zl Dd12F3zD6vO"
+  },
+  "GL-012": {
+   "h": "drterrywahls",
+   "codes": "De9ejBrgdGt DMiREQgy7F- DHRY7zAJ2qa DfDPtnwAb7F DfDPMW6gffu DfAxpiQAQEc DfAl9B6gV2Z De9cxLxjkt2 De4c6iuDlL7 De0FPX9Due7 Dez_Pv2AaJm DeuMc4vgWeQ"
+  },
+  "GL-014": {
+   "h": "drwilliamli",
+   "codes": "DdUamt2FVZU DXuWwvaDmCw DQ9YN2viogl DfFSSK1hpBd DfEpAsECt3e DfC0ZzHm62F DfCaQmHtIck DfAJQVoSkLD De_6qzGx_Wu De9rLi4iGmJ De6V2JWBcCS De4hOyMiA2s"
+  },
+  "GL-017": {
+   "h": "drkaranrajan",
+   "codes": "DfFLEUzjUl2 DfDNMpGtXr1 DfC8Do0NV6z DfAcLQhNTdP De_3bTWDYkS De98EFOtwER De840BkNce_ De7boWMtvLJ De6ZP8BN5Z8 De4-bp_ysnR DezqxN2tNhP DeytYPjDb5V"
+  },
+  "GL-018": {
+   "h": "barbell_medicine",
+   "company": true,
+   "codes": "DeQJSvKGVEl De42k4cgYxy Deh-lU6gWtj DeaYtF3mW48 DeNbUnLEu5- DeAJwCzmdrc DdkGMjcErQU Ddb8gAvmiPR DdHXOTimN2a Dc9M2imGQ-k Dc6mMWqGSt_ DcwNn3dGIq3"
+  },
+  "GL-019": {
+   "h": "drnadolsky",
+   "codes": "DNRKdWKxRRm DfFuFKDODUi DfDk0jUR2PA DfDCQKQOgpD DfCj3oUEYEd DfBGN0zx3BU DfAUR3zx6lq De-h-NMxgfr De9-afAOMbv De760yTxpkS De7bBRMue7d De5bIS4BCRt"
+  },
+  "GL-021": {
+   "h": "theguthealthmd",
+   "codes": "DNS80v8Opor DeNeI5rMzNn DeHrGIOs1Cq DdpfkialRf4 DdEQZIeuch6 DdCmF2mFaGC DcZzQgpgO7c DcRUcf8s3xQ DcPUAYnFeLN DcL0LSzseVz DcCC05flYOm DbTggjVJum9"
+  },
+  "GL-022": {
+   "h": "drruscio",
+   "codes": "DVezz72FhET DWQBVbYChP1 DVwz2NBltCA DfFXEj1IIdh DexHkEPIqSI Detultqog5q DefhG0fgq6_ DeecjQlCLpn DecTVLbiKet DebcLlyiv2i DdM7QOLiBvx DcumAaiOKNX"
+  },
+  "GL-023": {
+   "h": "mastprogram",
+   "inst": true,
+   "codes": "DZdW-_kSaok C-YYn1Jylsk C3n9kgeSLdO DfF1CXDFuZs DfDNUqAlgBA DfAmtaflj6d DezwaYgFue8 DexJrZklpK9 Deh0hhDlhjK DefNAfJFIoG DeNOR5ilgyt DeKqvEfFv9X"
+  },
+  "GL-024": {
+   "h": "davidperlmutter",
+   "codes": "DeMnA_QjE1V DdrDsXHALRG DeXMcENj8xC DfFO15nDOfn DfCvRAJjQ4o DfBExBQihG4 De9Z78xFyrK De7EUjDDB5A De1r80MFyKS DezTNrakh9k DexUmVtDSAR Dewf7R_HLtR"
+  },
+  "GL-025": {
+   "h": "fastingmethod",
+   "codes": "DfF04CNnd2F DfDP9SZjXxA DfAqnbaipT- De-Fz8JoHx1 De7hCR3DROv De41Z81jDDg De2eZ3BgCVf De2Qk7oiTaI DezrwlEDWOf DexmJJVmmmM DexGVPMjKM1 Deuv7dzjU6l"
+  },
+  "GL-026": {
+   "h": "doctor.sethi",
+   "codes": "DefFa6iDAEy Dd8Lf6iFSsY DOeHWfQD2DG DfFtVWgiKP8 DfFRxeaDUxr DfD9cGyPrM2 DfDIikelGVZ DfCtHVMkZIc DfBb7x_PNN3 DfAjxsslWmt DfAIUkIjQWm De-1M_bvIeI"
+  },
+  "GL-028": {
+   "h": "emeranmayer",
+   "codes": "DfFSQzHkWfP De_668Ouuol DezlMGYmvBY DexHlKVjqH1 DeuG5RhlNVF Der2s79mg8k Demn0pRCO-s DekjvLkGcB0 DehX1aqTct- Dee4V7METvd DecPFwESAYb DecFhGslKYe"
+  },
+  "GL-041": {
+   "h": "drchatterjee",
+   "codes": "DeOdJoHkTiq DTCsl9tDchm DSzJHaNDOER DfC1y4VxcHU DfCtG5CiOKh DfB6wP_u_TB De_UQ8BkYt5 De9iVCVxn8x DeoCKvZHLrf De4h66ukXuA DerHZpwxxsp DewQpmsui65"
+  },
+  "GL-042": {
+   "h": "medicalmedium",
+   "codes": "DRDb386ko5J DX2blvpC0sh DfF3RyOCUEG DfFKBRxCbp5 DfEw8p5iIuW DfEo_pcCUeD DfDCTo9CkNe DfC9xhmi4RW DfCNbHeC059 DfCDSXuCUKB DfAht3Zi-un DfAgTs5C9Py"
+  },
+  "TR-001": {
+   "h": "nazanuysalharzadin",
+   "codes": "DfFklB-xUWB DfEdCBRID34 DfCojxVCBxH DfBxChOFYPm DfARqevuSYW De_TqkniK1u De96HidxwQj De9WVr7iHIs De7d7h1xN1p De6kQvUiA3a De4ng4cIph_ De2LWlVkcIE"
+  },
+  "TR-002": {
+   "h": "kardiyobey",
+   "codes": "DfEo8uKjA-m DfCo4Sylbgb DfAUclpIW5T De6cXyqy6CL De4gr1DjpHU De1799bNy9m De10EFvOl9U Deyt61njcPC DewyWyFtFit DewFd76FKSk DetdZa7jNQn DerowMIDouB"
+  },
+  "TR-004": {
+   "h": "deryauluduz",
+   "codes": "Devf9sHAoJc DeqWd58zXZJ De0poxjgt1J DevgDs4gl9l DeqWde0zbjc DeLc1YwAlF2 DeQmgpCgpjt DeYU0KCTd5i DeLc1XCglx_ DeKHphBI3er DeGaJVkN_uT DdngmCsAt4c"
+  },
+  "TR-005": {
+   "h": "draycakaya",
+   "restricted": "18 yaş sınırlı profil; giriş yapmadan görülemiyor"
+  },
+  "TR-008": {
+   "h": "mehmetmuderrisoglu",
+   "codes": "DdJ5wvbs_8Y DdMUOWADZBY DPa4npVAhZK DfASrAMFhqC DejLzL2gRcr DeZ758pjc8N DePWpcBo7tR Dd_4_gOAior Dd_rJ8OCmy4 Dd9ZhKlsPSQ DduGO0sCLzt DdjiwV4Dl5c"
+  },
+  "TR-010": {
+   "h": "drmustafakalkan",
+   "codes": "DcIqqONDsjg DfBxjBeMRjR DfAOTAGtq36 De6H1cZBuiq DeuUjQuJkuI DeoGNOpBD6C DdwL5M9tX6k DdL_KLtNLdv Dc3GLslNgXw Dc1bT-fEQcN Dcyyc5ORMnh Dctr2nzRjD3"
+  },
+  "TR-011": {
+   "h": "prof.dr.ahmet_ekmekci",
+   "codes": "DfFw5FiNZ5n DfFEMxkM-Ym DfDNVtePgen DfCrWvksRw0 De_LVdLMM0Q De98Rc1sBPZ De8lGzzsqW7 De6Wjv3skc9 De4PHd1sHoI De3-0qNsWpL De2Q4RoM8BE De1WpOKMKcT"
+  },
+  "TR-012": {
+   "h": "fonksiyoneltipakademisicom",
+   "codes": "DfEtqQrNjYL DfEO8LiIIWR DetqZIpDVE3 DemEIJytj9Z DeeGApdDbHf DeeERRwjRwo DeBqTMTjd_X Ddn_O9vtq9E DdJEgSZjVhF DcqcQGaiAMC DblHLo7Nun8 Da-XLUAT7Jd"
+  },
+  "TR-013": {
+   "h": "erkantopuzofficial",
+   "codes": "DdZe0bVMofH DXYLpouMy61 DfFmV7KRh7q DfDTpzeBKXh DfDTTB9hrKL DfDDm6Nxybj DXobb7BjESl De_vH2ds462 De_o-jVMiWP De9cDUuMMT0 DerRfSwsUBp DeeXCZIsPPr"
+  },
+  "TR-014": {
+   "h": "doktorebruunal",
+   "codes": "DYjhSZMs_VB DP1TRpPDKpP DfAn2CKRnts De9zCaBO6nx De4imBcOV_j DeucGA6xPTP DepXgQ4x1dy DemlGlDsAZQ DekE9QpsG2i DehslZuxqjC Dee4rowuua5 Decn9JnMF9F"
+  },
+  "TR-006": {
+   "h": "prof.dr.zeyneptartan",
+   "match": "ad ve uzmanlık eşleşmesi (çapraz bağlantı yok)",
+   "codes": "DfC1lgBOI9_ De955W8uWXq DezlYoFO0Oz Deub7sbOn_v DemRgOljIS4 Dehlmb4O7zA DeZ3MheuS1k DeSHrbWulQS Ddjw2vou7Ep DdYGasduoZS DdRwMBpuBI3 DdKA4HqOUHp"
+  }
+ },
+ "rawFacebookLatest": {
+  "TR-013": {
+   "h": "drerkantopuz",
+   "latest": "3 saat önce"
+  },
+  "GL-001": {
+   "h": "sayerji",
+   "latest": "2 gün önce"
+  },
+  "GL-002": {
+   "h": "AmyMyersMD",
+   "latest": "3 saat önce"
+  }
+ },
+ "sociality": {
+  "GL-004": {
+   "instagram": {
+    "h": "peterattiamd",
+    "last": "2026-10-26",
+    "n30": 3
+   },
+   "facebook": {
+    "h": "peterattiamd",
+    "last": null,
+    "n30": 0
+   }
+  },
+  "GL-011": {
+   "instagram": {
+    "h": "drgabriellelyon",
+    "last": "2026-10-29",
+    "n30": 27
+   }
+  },
+  "GL-002": {
+   "instagram": {
+    "h": "amymyersmd",
+    "last": "2026-10-26",
+    "n30": 43
+   }
+  },
+  "GL-003": {
+   "instagram": {
+    "h": "prof_valterlongo",
+    "last": "2026-10-27",
+    "n30": 17
+   },
+   "facebook": {
+    "h": "profvalterlongo",
+    "last": "2026-10-29",
+    "n30": 9
+   }
+  },
+  "GL-005": {
+   "instagram": {
+    "h": "davidsinclairphd",
+    "last": "2026-10-26",
+    "n30": 3
+   }
+  }
+ }
+}
