@@ -164,13 +164,13 @@
       "channelId": "kaduse-medikal",
       "sourceId": "hma-news",
       "targetId": "hma-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
       "sourceId": "edqm-news",
       "targetId": "edqm-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -372,7 +372,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "hpra-news",
       "targetId": "hpra-news-scoped",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
@@ -512,7 +512,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "hsa-medical-devices",
       "targetId": "hsa-medical-devices-scoped",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",

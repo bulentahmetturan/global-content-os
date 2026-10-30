@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "276545c6d4c608ecd57769bd5e260432d45e0b03d3c551bdda0d8543ee7016d5"
+        "sha256": "4fa4696a5d88a75b4504237aebe3c5cc48d63afd640afe14679d8f47d1277aad"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -483,7 +483,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.hma.eu/news.html",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hma-news-whole",
       "registrySourceId": "hma-news",
       "inclusionPolicy": null,
@@ -503,7 +503,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.edqm.eu/en/news",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "edqm-news-whole",
       "registrySourceId": "edqm-news",
       "inclusionPolicy": null,
@@ -1027,7 +1027,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.hpra.ie/homepage/medical-devices/safety-information/field-safety-notices",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hpra-news-scoped",
       "registrySourceId": "hpra-news",
       "inclusionPolicy": null,
@@ -1373,7 +1373,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.hsa.gov.sg/medical-devices",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "hsa-medical-devices-scoped",
       "registrySourceId": "hsa-medical-devices",
       "inclusionPolicy": null,
