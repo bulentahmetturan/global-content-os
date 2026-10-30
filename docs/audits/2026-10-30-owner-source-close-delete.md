@@ -44,3 +44,10 @@ Owner: "İkisini de kapat". Veri: iki beslemenin bütün canlı öğeleri (salt 
 
 ## Doğrulama (HPW + Medikal News)
 - **Doğrulama:** yerel SQLite denemesi (kapanma, yalnız inbox + hold çöpe, üretim/brief/kanıt korunuyor, başka besleme etkilenmiyor, iki kez çalıştırmak güvenli, temizlik silmesi engele takılmıyor). Testler: yaşam döngüsü + mimari 69/69, katalog 56/56; `medikalnews.test.mjs` 7'de 1 hata, gerçek saate bağlı eski hata (örnek öğeler 10 günlük pencereyi aştı), bu değişiklikten bağımsız.
+
+## MedTech Europe, EMA, HealthAI (owner, 2026-10-30)
+Veri: üç beslemenin canlı öğeleri (salt okunur) ve sitelerin kendi haber sayfaları. Üçü de yalnız Kaduse Medikal'e bağlıydı.
+
+- **MedTech Europe: kapat ve sil.** Tıbbi cihaz sanayi birliği (lobi). Sayfadaki son 12 başlığın 0'ı klinik ya da sağlık bulgusu: 7 politika/ticaret/tarife, 4 "basında çıkış" derlemesi, 1 etkinlik. Depo: `retire medtech-europe-news --apply` (0047 göçü `migrations/` dışında). Canlı: `scripts/ops/2026-10-30-medtech-europe-close-and-delete.sql`. Öncesi: 2 hold + 1 inbox + 3 trash, brief 0, protokol kanıtı 0. Sonrası (salt okunur): besleme `enabled=0`; 6 öğe `trash/deleted`; karar izi `mtedel_` 3, `mtefb_` 3; temizlik işi 2 gün sonra kalıcı siler.
+- **EMA: kalsın, daraltıldı.** Birincil kaynak. Yalnız CHMP/PRAC çıktıları, ruhsat önerisi ve onayları, aşı/salgın rehberi, güvenlik sinyalleri girer. Veteriner (CVMP), yönetim/icra kurulu, çalıştay ve konuşma, idari duyuru (son tarih, değişiklik, pilot, danışma) ve genel düzenleme politikası girmez. Kod: `apps/worker/src/ingress/source-policy.ts` içinde `news-ema-news-whole` politikası, test `source-policy.test.mjs`. Canlı 13 öğede 5 geçer, 8 takılır. Politika worker dağıtımıyla etkinleşir; bu dağıtım henüz yapılmadı.
+- **HealthAI: kalsın.** Ayda yaklaşık 1 duyuru (kurul, mutabakat, forum); bulgu yok. Sahip: "sonra işimize yarayabilir, ayda bir rapor alalım". `recalibrate --set 43200` bu kaynak için `NOT_APPLICABLE`, ayrıca Haber hattının en uzun yoklama sınırı 1440 dk; yoklama sıklığı değişmedi (360 dk). Aylık rapor ayrı bir özellik, henüz kurulmadı.

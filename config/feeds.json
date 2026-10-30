@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "97e5e466cc69093f610548253263e2dc52930c490dfe1b6e6a17fa602768a681"
+        "sha256": "ab00814a46fd9993ac24b5d1b3551b65e270deec9a59be3e9771df4744a7f788"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -331,7 +331,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.medtecheurope.org/news-and-events/news/",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "medtech-europe-news-whole",
       "registrySourceId": "medtech-europe-news",
       "inclusionPolicy": null,

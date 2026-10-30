@@ -104,7 +104,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "medtech-europe-news",
       "targetId": "medtech-europe-news-whole",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
