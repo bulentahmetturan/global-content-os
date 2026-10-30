@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "ee22c145730888bea24e259efdd04e8b1e8336b1c59320a3bcc7e6172be95795"
+        "sha256": "da846335e1b9aa2270aac24dcbdcd82aca6f3f7f4508034dbc2b3f2d419c73d2"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -355,7 +355,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://tuyze.tuseb.gov.tr/tr/haberler",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "tuyze-saglikta-yapay-zeka",
       "registrySourceId": "tuseb-news",
       "inclusionPolicy": null,
@@ -375,7 +375,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://tuseb.gov.tr/tr/haberler",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "tuseb-health-tech-innovation",
       "registrySourceId": "tuseb-news",
       "inclusionPolicy": [

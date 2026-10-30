@@ -129,13 +129,13 @@
       "channelId": "kaduse-medikal",
       "sourceId": "tuseb-news",
       "targetId": "tuyze-saglikta-yapay-zeka",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",
       "sourceId": "tuseb-news",
       "targetId": "tuseb-health-tech-innovation",
-      "enabled": true,
+      "enabled": false,
       "inclusionPolicy": [
         "health technology/innovation/translational health developments"
       ],

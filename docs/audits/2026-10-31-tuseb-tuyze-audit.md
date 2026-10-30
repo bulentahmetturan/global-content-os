@@ -33,3 +33,6 @@ Duyuru/Burs/Eğitim/Kurultay/Çağrı items exist to let Turkish professionals a
 | TÜYZE | TEKNOFEST Sağlıkta Yapay Zekâ Yarışması | Duyuru | accept (health related) |
 
 Open: çalıştay raporları (tütün, KOAH) as Sağlık & Referans candidates (not decided). Owner 2026-10-31: source policy is per lane (Haber source for Haber, Duyuru source for Duyuru, Burs for Burs, Eğitim for Eğitim); no item-level re-routing.
+
+## Status: Haber legs on hold (owner 2026-10-31, option C)
+`tuseb.gov.tr` and `tuyze.tuseb.gov.tr` send only the leaf TLS certificate (no Certum DV TLS G2 R39 intermediate). Browsers and curl complete the chain; Cloudflare Workers do not, so every Worker fetch returns `http_526` (confirmed on both at the corrected `/tr/haberler` URLs). Both subscriptions are `enabled: false`; policies and URLs stay in the repo. Re-enable when TÜSEB fixes the chain or an adapter-push fetcher exists. Social accounts (`@tusebgovtr` on X, Instagram, Facebook, YouTube, LinkedIn) are a possible later intake path, tied to the parked Instagram/social-intake work.
