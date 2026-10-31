@@ -643,7 +643,7 @@
       ],
       "source_tier": "OFFICIAL_PRIMARY",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "surveillance vaccination screening communicable chronic tobacco MCH environmental",
       "audience_scope": [
         "physician",
@@ -684,13 +684,13 @@
       "evidence_strength": "official",
       "viral_signal": "ignored_for_priority",
       "review_status": "mandatory",
-      "runtime_activation": "AUTOMATION_READY",
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
       "publication_eligible": false,
-      "pipeline_wiring_enabled": true,
+      "pipeline_wiring_enabled": false,
       "fetch_plan": {
         "primary_method": "list-page",
         "tls_verification_required": true,
@@ -732,9 +732,9 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
       "execution": "python_runner",
       "http_timeout_seconds": 90,
@@ -772,8 +772,21 @@
             "before": 43200,
             "after": 10080
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_be8890d10b01ed04",
+          "at": "2026-10-31T00:12:21.475Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Duyuru source reads the Basin Odasi news page (management news): lane purity violation, replaced by per-department Duyuru/Egitim sources (owner 2026-10-31)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Duyuru source reads the Basin Odasi news page (management news): lane purity violation, replaced by per-department Duyuru/Egitim sources (owner 2026-10-31)",
+      "retired_at": "2026-10-31T00:12:21.475Z",
+      "retired_change_ref": "source-lifecycle:slr_be8890d10b01ed04"
     },
     {
       "source_id": "ttb_national",
