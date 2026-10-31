@@ -2388,6 +2388,1547 @@
       "hub_lane": "egitim",
       "turkey_eligibility": "Evet",
       "audience": "medical_students"
+    },
+    {
+      "source_id": "egitim_hsgm_aile_hekimligi",
+      "name": "HSGM Aile Hekimliği Eğitim ve İzleme - Eğitim",
+      "label": "HSGM Aile Hekimliği Eğitim ve İzleme - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Aile Hekimliği Eğitim ve İzleme: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 26,
+          "gaps_used": 24,
+          "expected_gap_min": 12141,
+          "newest": "2026-10-20T07:59:00.000Z",
+          "computed_at": "2026-10-31T00:23:22.678Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_d25469921b667892",
+          "at": "2026-10-31T00:23:23.660Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_asi",
+      "name": "HSGM Aşı - Eğitim",
+      "label": "HSGM Aşı - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Aşı: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 4,
+          "gaps_used": 3,
+          "expected_gap_min": null,
+          "newest": "2026-08-31T20:02:00.000Z",
+          "computed_at": "2026-10-31T00:23:28.701Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_1f5719f1acfc20ad",
+          "at": "2026-10-31T00:23:29.676Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_bulasici",
+      "name": "HSGM Bulaşıcı Hastalıklar - Eğitim",
+      "label": "HSGM Bulaşıcı Hastalıklar - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Bulaşıcı Hastalıklar: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 14,
+          "gaps_used": 12,
+          "expected_gap_min": 30178,
+          "newest": "2026-07-28T07:43:00.000Z",
+          "computed_at": "2026-10-31T00:23:34.560Z"
+        },
+        "flags": [
+          "DORMANT_SUSPECT",
+          "FRESHNESS_CAPPED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_fdb1056138fad9ed",
+          "at": "2026-10-31T00:23:35.528Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_zoonotik",
+      "name": "HSGM Zoonotik ve Vektörel Hastalıklar - Eğitim",
+      "label": "HSGM Zoonotik ve Vektörel Hastalıklar - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Zoonotik ve Vektörel Hastalıklar: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 3,
+          "gaps_used": 2,
+          "expected_gap_min": null,
+          "newest": "2026-08-18T11:23:00.000Z",
+          "computed_at": "2026-10-31T00:23:40.289Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_9a2a9b547d702f5d",
+          "at": "2026-10-31T00:23:41.276Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_kadin_ureme",
+      "name": "HSGM Kadın ve Üreme Sağlığı - Eğitim",
+      "label": "HSGM Kadın ve Üreme Sağlığı - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Kadın ve Üreme Sağlığı: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 16,
+          "gaps_used": 12,
+          "expected_gap_min": 14564,
+          "newest": "2026-10-05T09:14:00.000Z",
+          "computed_at": "2026-10-31T00:23:46.623Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_1632cec4e428d26f",
+          "at": "2026-10-31T00:23:47.602Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_cocuk_ergen",
+      "name": "HSGM Çocuk ve Ergen Sağlığı - Eğitim",
+      "label": "HSGM Çocuk ve Ergen Sağlığı - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Çocuk ve Ergen Sağlığı: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 4642,
+          "newest": "2026-10-21T08:18:00.000Z",
+          "computed_at": "2026-10-31T00:23:54.179Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_7feca7627edc25fd",
+          "at": "2026-10-31T00:23:55.149Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_beslenme",
+      "name": "HSGM Sağlıklı Beslenme - Eğitim",
+      "label": "HSGM Sağlıklı Beslenme - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Sağlıklı Beslenme: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 30,
+          "gaps_used": 28,
+          "expected_gap_min": 11558,
+          "newest": "2026-10-22T14:19:00.000Z",
+          "computed_at": "2026-10-31T00:24:01.302Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_6f7208e4270742c6",
+          "at": "2026-10-31T00:24:02.275Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_toplum_sagligi",
+      "name": "HSGM Toplum Sağlığı - Eğitim",
+      "label": "HSGM Toplum Sağlığı - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Toplum Sağlığı: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 1,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": "2025-11-20T14:12:00.000Z",
+          "computed_at": "2026-10-31T00:24:07.762Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_92e31e6d9edcde1e",
+          "at": "2026-10-31T00:24:08.758Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_tuberkuloz",
+      "name": "HSGM Tüberküloz - Eğitim",
+      "label": "HSGM Tüberküloz - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Tüberküloz: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 18,
+          "gaps_used": 17,
+          "expected_gap_min": 15972,
+          "newest": "2026-10-15T14:47:00.000Z",
+          "computed_at": "2026-10-31T00:24:14.004Z"
+        },
+        "flags": []
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_45bee86a1eb8fac2",
+          "at": "2026-10-31T00:24:14.994Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_hsgm_mikrobiyoloji",
+      "name": "HSGM Mikrobiyoloji - Eğitim",
+      "label": "HSGM Mikrobiyoloji - Eğitim",
+      "canonical_url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+      "source_url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+      "primary_url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+      "allowed_hostnames": [
+        "hsgm.saglik.gov.tr",
+        "www.hsgm.saglik.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/tr/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "eğitim",
+        "kurs",
+        "kursiyer",
+        "sertifika",
+        "webinar"
+      ],
+      "exclude_keywords": [
+        "ziyaret",
+        "toplantı",
+        "sunum",
+        "açılış",
+        "protokol",
+        "imza",
+        "atama",
+        "personel",
+        "ihale",
+        "mali duyuru",
+        "sağlıklı hayat saat",
+        "tören",
+        "turnuva",
+        "çalıştay",
+        "bilgi güvenliği",
+        "oryantasyon",
+        "gerçekleştirildi",
+        "gerçekleştirilmiştir",
+        "tamamlandı",
+        "yapıldı",
+        "verildi",
+        "günü",
+        "haftası",
+        "farkındalık"
+      ],
+      "runner_region": "TR",
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "hsgm.saglik.gov.tr",
+          "www.hsgm.saglik.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/tr/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: HSGM Mikrobiyoloji: egitim leg, owner per-lane policy 2026-10-31",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/tr/mevzuat",
+          "/tr/kamuoyuna-duyuru",
+          "/tr/ihale",
+          "/tr/basin-odasi"
+        ]
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 12,
+          "gaps_used": 11,
+          "expected_gap_min": 33222,
+          "newest": "2026-08-13T06:41:00.000Z",
+          "computed_at": "2026-10-31T00:24:20.298Z"
+        },
+        "flags": [
+          "FRESHNESS_CAPPED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_e26d78b20b101738",
+          "at": "2026-10-31T00:24:21.308Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        }
+      ]
     }
   ]
 }

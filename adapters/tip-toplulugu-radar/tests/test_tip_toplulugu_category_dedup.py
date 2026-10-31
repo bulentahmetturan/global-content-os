@@ -27,7 +27,7 @@ KEEP_ACTIVE = (
     "egitim_eular",
     "pubmed_biomedical_evidence",
     "moh_physician_workforce",
-    "hsgm_public_health",
+    "hsgm_toplum_sagligi",
     "resmi_gazete_medical_regulation",
     "titck_announcements_general",
     "tuik_medical_public_health",
@@ -42,7 +42,7 @@ DISABLE_FEEDS = (
 )
 
 KEEP_FEEDS = (
-    "news-saglik-bakanligi-whole",
+    # news-saglik-bakanligi-whole was deleted on purpose (7e603a9, owner decision); no longer a kept feed.
     "research-medical-xpress",
 )
 

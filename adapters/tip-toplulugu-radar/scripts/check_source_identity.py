@@ -62,6 +62,13 @@ DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
         "distinct registered pages, low but non-zero overlap risk (flagged in S57, "
         "not yet resolved to zero overlap)."
     ),
+    "hsgm.saglik.gov.tr": (
+        "Halk Sağlığı Genel Müdürlüğü daire sayfaları one publisher, several content types "
+        "(owner per-lane source policy, 2026-10-31): each daire page is registered once per lane -- "
+        "DUYURU (action-lane announcements: başvuru/kontenjan/sonuç, rehber/mevzuat kitabı güncellemeleri), "
+        "EGITIM (eğitim/kurs/program duyuruları) and HABER (özel gün/hafta/ay) -- each with its own "
+        "narrow include/exclude policy; there is no item-level re-routing between lanes."
+    ),
     "who.int": (
         "Global WHO newsroom API (/api/news/newsitems, HABER) vs. the WHO Turkey "
         "country office page (/turkiye, DUYURU) -- fully distinct endpoints."

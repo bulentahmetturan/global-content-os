@@ -51,7 +51,8 @@ class RunnerGateTests(unittest.TestCase):
                     redirect_stdout(io.StringIO()) as out:
                 self.assertEqual(f.main([]), 0)
             net.assert_not_called()
-            self.assertIn("hsgm_public_health are not collected", out.getvalue())
+            self.assertIn("hsgm_asi", out.getvalue())
+            self.assertIn("are not collected", out.getvalue())
             with open(summary, encoding="utf-8") as fh:
                 self.assertIn("NOT MEASURED", fh.read())
 
@@ -61,7 +62,7 @@ class RunnerGateTests(unittest.TestCase):
         from contextlib import redirect_stdout
         from unittest import mock
 
-        body = json.dumps({"sources": [{"sourceId": "hsgm_public_health", "telemetry": None}]}).encode()
+        body = json.dumps({"sources": [{"sourceId": "hsgm_asi", "telemetry": None}]}).encode()
         resp = mock.MagicMock()
         resp.__enter__.return_value = io.BytesIO(body)
         with mock.patch.dict("os.environ", {"TR_RUNNER_ENABLED": "true"}), \

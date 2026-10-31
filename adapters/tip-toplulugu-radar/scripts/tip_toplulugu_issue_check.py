@@ -187,8 +187,10 @@ def main(only: str | None = None) -> int:
     else:
         check("S07 kanonik kaynak sayısı == registry AUTOMATION_READY", len(scheduled) == expected_canon, f"Hub zamanlanmış {len(scheduled)} (listelenen {len(canon)}) / registry {expected_canon} kaynak")
     check("S07b katı operasyonel >= 42", strict >= 42, f"{strict}/{len(canon)} (hedef: tümü)")
-    hs = next((s for s in src if s["sourceId"] == "hsgm_public_health"), None)
-    external("S08 HSGM canlı (PIPELINE_OK)", bool(hs) and hs["label"].startswith("PIPELINE_OK"), f"etiket {hs and hs['label']}, son başarı {hs and (hs.get('telemetry') or {}).get('last_success_at')}")
+    # HSGM: 10 daire sayfası x 3 hat (Duyuru / Eğitim / özel gün), hepsi Türkiye çıkışlı runner ister (runner_region=TR)
+    hs = [s for s in src if s["sourceId"].startswith(("hsgm_", "egitim_hsgm_"))]
+    hs_ok = [s for s in hs if s["label"].startswith("PIPELINE_OK")]
+    external("S08 HSGM canlı (30 hattın tümü PIPELINE_OK)", len(hs) == 30 and len(hs_ok) == 30, f"{len(hs_ok)}/{len(hs)} PIPELINE_OK")
     for sid in ("abroad_uk_gmc", "abroad_us_ecfmg_intealth", "abroad_de_make_it_in_germany"):
         s = next((x for x in src if x["sourceId"] == sid), None)
         external(f"S09 {sid} tam kapsam", bool(s) and s["label"].startswith("PIPELINE_OK"), f"etiket {s and s['label']}")

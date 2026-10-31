@@ -61,13 +61,13 @@ class EligibilityHelperTests(unittest.TestCase):
 class BibleArtifactsTests(unittest.TestCase):
     def test_controlled_vocabulary_matches_bible(self):
         vocab = json.loads((CONTENT / "taxonomy" / "controlled-vocabulary.json").read_text(encoding="utf-8"))
-        self.assertEqual(vocab["bibleVersion"], "4.0")
+        self.assertEqual(vocab["bibleVersion"], "4.1")
         self.assertEqual(tuple(vocab["primary_category"]), PRIMARY_CATEGORIES)
         self.assertEqual(tuple(vocab["eligibility_status"]), ELIGIBILITY_STATUSES)
 
     def test_config_weights_and_no_auto_publish(self):
         cfg = json.loads((CONTENT / "config" / "bible-config.json").read_text(encoding="utf-8"))
-        self.assertEqual(cfg["bibleVersion"], "4.0")
+        self.assertEqual(cfg["bibleVersion"], "4.1")
         self.assertIs(cfg["auto_publish"], False)
         self.assertIs(cfg["fail_closed"], True)
         weights = cfg["ranking_weights"]
@@ -88,7 +88,7 @@ class BibleArtifactsTests(unittest.TestCase):
         }
         for cat, path in files.items():
             data = json.loads(path.read_text(encoding="utf-8"))
-            self.assertEqual(data["bibleVersion"], "4.0", cat)
+            self.assertEqual(data["bibleVersion"], "4.1", cat)
             self.assertEqual(data["primary_category"], cat, cat)
             self.assertIs(data["auto_publish"], False, cat)
             self.assertIs(data.get("publication_eligible"), False, cat)

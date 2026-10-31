@@ -22,7 +22,7 @@ RADAR = ROOT / "radar"
 BATCH2_PATH = ROOT / "content" / "source-registry-batch2.json"
 BATCH3_PATH = ROOT / "content" / "source-registry-batch3.json"
 
-# Domestic v1.1 OFFICIAL_PRIMARY set (unchanged by Abroad Career additive layer)
+# Domestic OFFICIAL_PRIMARY set (v1.1 closed set + lifecycle-registered HSGM legs; unchanged by Abroad Career additive layer)
 DOMESTIC_OFFICIAL_PRIMARY_IDS = frozenset(
     {
         "osym_medical_exams",
@@ -32,7 +32,28 @@ DOMESTIC_OFFICIAL_PRIMARY_IDS = frozenset(
         "resmi_gazete_medical_regulation",
         "tuik_medical_public_health",
         "moh_physician_workforce",
+        # HSGM: retired tombstone + 10 daire pages x (Duyuru, özel gün) legs, lifecycle-registered 2026-10-31 (Eğitim legs are egitim_* ids)
         "hsgm_public_health",
+        "hsgm_aile_hekimligi",
+        "hsgm_aile_hekimligi_ozelgun",
+        "hsgm_asi",
+        "hsgm_asi_ozelgun",
+        "hsgm_bulasici",
+        "hsgm_bulasici_ozelgun",
+        "hsgm_zoonotik",
+        "hsgm_zoonotik_ozelgun",
+        "hsgm_kadin_ureme",
+        "hsgm_kadin_ureme_ozelgun",
+        "hsgm_cocuk_ergen",
+        "hsgm_cocuk_ergen_ozelgun",
+        "hsgm_beslenme",
+        "hsgm_beslenme_ozelgun",
+        "hsgm_toplum_sagligi",
+        "hsgm_toplum_sagligi_ozelgun",
+        "hsgm_tuberkuloz",
+        "hsgm_tuberkuloz_ozelgun",
+        "hsgm_mikrobiyoloji",
+        "hsgm_mikrobiyoloji_ozelgun",
         "osym_dus_dental_exams",
         "osym_ydus_subspecialty_exams",
         "titck_announcements_general",

@@ -6,6 +6,8 @@ import { hostOf, normalizeUrl } from './catalog.mjs';
 export const RUNTIME_PARSERS = {
   tip_toplulugu: {
     HTML_LIST: { method: 'list-page', module: 'adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py' },
+    // The runner's list-page fetch auto-detects an RSS body (phase1_ingestion_canary._parse_rss_items) and keeps real pubDates.
+    RSS: { method: 'list-page', module: 'adapters/tip-toplulugu-radar/radar/phase1_ingestion_canary.py' },
     OFFICIAL_API: { method: 'eutilities_api', module: 'adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py', hosts: ['eutils.ncbi.nlm.nih.gov', 'pubmed.ncbi.nlm.nih.gov'] },
   },
   'kaduse-news': {

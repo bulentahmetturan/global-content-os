@@ -1958,12 +1958,14 @@ ITEM kararları: `PASS` | `HOLD` | `HUMAN_REVIEW` | `REJECT`. ITEM REJECT ≠ SO
 
 ### SPF-7.1. Tarihsiz resmî liste istisnası (sahip kararı 2026-10-31)
 
-"Yayın tarihi" ve "güncellik" öğe sert kapısıdır. Tek istisna: kaynak kaydında `undated_official_list: true` ile açıkça işaretlenmiş, yayın tarihini listede göstermeyen resmî listeler.
+"Yayın tarihi" ve "güncellik" öğe sert kapısıdır. Tek istisna: kaynak kaydında açıkça işaretlenmiş, yayın tarihini listede göstermeyen resmî listeler.
 
-1. Önce öğenin detay sayfasından gerçek yayın tarihi okunur.
-2. Okunamazsa öğe yine alınır ama `published_at` boş kalır. Tarih icat edilmez. Öğeye "ilk görüldüğü an" (`first_seen_at`) ayrı bir alan olarak yazılır ve yayın tarihi gibi gösterilmez.
-3. Güncellik, listedeki sıraya (en yeni üstte) ve ilk görülme anına göre yargılanır. İlk çekimde yalnız listenin en yeni N öğesi alınır, eski liste yığılmaz.
+1. Önce kaynağın tarihli beslemesi (RSS `pubDate`) ya da öğenin detay sayfası aranır; gerçek yayın tarihi varsa o kullanılır ve istisna gerekmez. HSGM'nin 10 daire sayfasının hepsinin tarihli RSS beslemesi vardır; bu nedenle HSGM hatları istisna kullanmaz.
+2. Gerçek tarih hiçbir yerden okunamazsa öğe yine alınır ama `published_at` boş kalır. Tarih icat edilmez.
+3. Güncellik, listedeki sıraya (en yeni üstte) göre yargılanır. İlk çekimde yalnız listenin en yeni öğeleri alınır, eski liste yığılmaz.
 4. İstisna genel gevşetme değildir; yalnız kaynak kaydında işaretli kaynaklar için geçerlidir.
+
+Uygulama durumu (dürüst kayıt): kayıt işareti bugün `fetch_plan.initial_backfill.undated_as_current` (radar) ve Haber hattında `UNDATED_OK_FEEDS` (ingest kapısı)'dır. Ayrı bir `first_seen_at` alanı ve `undated_official_list` işareti **henüz uygulanmış değildir**; bu istisnayı kullanacak ilk kaynak eklenirken birlikte geliştirilir ve test edilir. Bunlar uygulanana kadar bu bölümün 2. ve 3. maddeleri yalnız hedeftir, çalışan bir mekanizma olarak sunulmaz.
 
 ---
 

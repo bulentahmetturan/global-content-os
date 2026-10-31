@@ -21,7 +21,7 @@ class SchedulerTests(unittest.TestCase):
         self.assertNotIn("abroad_us_nrmp", ids)
         self.assertNotIn("abroad_uk_oriel", ids)
         self.assertNotIn("abroad_au_amc", ids)
-        self.assertNotIn("hsgm_public_health", ids)  # runner_region=TR: needs a Türkiye-based runner
+        self.assertNotIn("hsgm_asi", ids)  # runner_region=TR: needs a Türkiye-based runner
         self.assertIn("tdb_dental", ids)
 
     def test_explicit_selection_ignores_unknown_and_manual_sources(self):
@@ -30,8 +30,10 @@ class SchedulerTests(unittest.TestCase):
         self.assertEqual(ids, ["abroad_ca_mcc_img_pathways"])
 
     def test_tr_runner_selection(self):
-        self.assertEqual(sched.select_sources("tr-runner"), ["hsgm_public_health"])
-        self.assertNotIn("hsgm_public_health", sched.select_sources("all"))
+        tr = sched.select_sources("tr-runner")
+        self.assertEqual(len(tr), 30)  # 10 HSGM daire pages x 3 per-lane legs
+        self.assertTrue(all(s.startswith(("hsgm_", "egitim_hsgm_")) for s in tr))
+        self.assertNotIn("hsgm_asi", sched.select_sources("all"))
 
     def test_one_failing_source_does_not_stop_the_batch_and_is_reported(self):
         def fake_once(sid, timeout, dry_run):

@@ -93,6 +93,16 @@ export const TIP_TOPLULUGU_EGITIM_SOURCE_IDS = [
   'egitim_mayo_scpd',
   'egitim_lshtm_short',
   'egitim_pasteur',
+  'egitim_hsgm_aile_hekimligi',
+  'egitim_hsgm_asi',
+  'egitim_hsgm_bulasici',
+  'egitim_hsgm_zoonotik',
+  'egitim_hsgm_kadin_ureme',
+  'egitim_hsgm_cocuk_ergen',
+  'egitim_hsgm_beslenme',
+  'egitim_hsgm_toplum_sagligi',
+  'egitim_hsgm_tuberkuloz',
+  'egitim_hsgm_mikrobiyoloji',
   'egitim_eso',
   'egitim_eau',
   'egitim_ean_learn',
@@ -166,11 +176,17 @@ export function classifyTipTopluluguFamily(sourceId: string): TipTopluluguFamily
 }
 
 /** Material, documented limitations (snapshot: adapters/tip-toplulugu-radar/content/archive/TIP_TOPLULUGU-COVERAGE-MATRIX.md). */
+const HSGM_SLUGS = ['aile_hekimligi', 'asi', 'bulasici', 'zoonotik', 'kadin_ureme', 'cocuk_ergen', 'beslenme', 'toplum_sagligi', 'tuberkuloz', 'mikrobiyoloji'] as const;
+/** HSGM: 10 daire sayfası x 3 hat (Duyuru, Eğitim, özel gün). hsgm.saglik.gov.tr GitHub/Cloudflare çıkışından erişilemez (TCP engeli), Türkiye çıkışlı runner gerekir. */
+const HSGM_RUNNER_REQUIRED: Record<string, { label: CoverageLabel; note: string }> = Object.fromEntries(
+  HSGM_SLUGS.flatMap((s) => [`hsgm_${s}`, `egitim_hsgm_${s}`, `hsgm_${s}_ozelgun`]).map((id) => [id, { label: 'RUNNER_REQUIRED' as CoverageLabel, note: 'GitHub çıkışından erişilemez; Türkiye çıkışlı runner gerekir.' }]),
+);
+
 export const COVERAGE_OVERRIDES: Record<string, { label: CoverageLabel; note: string }> = {
+  ...HSGM_RUNNER_REQUIRED,
   abroad_uk_gmc: { label: 'PARTIALLY_COVERED', note: 'Yalnız gov.uk UKVI/DHSC beslemeleri; GMC kayıt/PLAB/haber kapsam dışı (bot engeli).' },
   abroad_us_ecfmg_intealth: { label: 'CONFIGURED_NOT_WIRED', note: 'Cloudflare/Radware bot koruması nedeniyle otomatik çekim bağlanmadı (configured_not_wired); yalnız USMLE/NRMP/AAMC komşu kapsam.' },
   abroad_de_make_it_in_germany: { label: 'CONFIGURED_NOT_WIRED', note: 'Kayıtlı ancak otomatik çekim bağlanmadı (configured_not_wired); yalnız tanınma (Anerkennung), vize/taşınma kapsam dışı.' },
-  hsgm_public_health: { label: 'RUNNER_REQUIRED', note: 'GitHub çıkışından erişilemez; Türkiye çıkışlı runner gerekir.' },
   abroad_es_universidades_homologacion: { label: 'PIPELINE_OK_LIMITED', note: 'Tarih yalnız ay hassasiyetinde.' },
   pubmed_biomedical_evidence: { label: 'PIPELINE_OK_LIMITED', note: '90 gün, sınırlı yüksek değerli sorgular.' },
   burs_tr_fulbright: { label: 'RUNNER_REQUIRED', note: 'Burs şeridi: dönemsel resmi çağrı; otomatik list-page henüz açık değil.' },

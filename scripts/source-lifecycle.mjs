@@ -33,6 +33,14 @@ function parseArgs(argv) {
     else if (a === '--reason') o.reason = rest[++i];
     else if (a === '--set') o.set = Number(rest[++i]);
     else if (a === '--basis') o.basis = rest[++i];
+    else if (a === '--source-id') (o.overrides ||= {}).sourceId = rest[++i];
+    else if (a === '--forbid') (o.overrides ||= {}).forbid = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
+    else if (a === '--name') (o.overrides ||= {}).name = rest[++i];
+    else if (a === '--heading') (o.overrides ||= {}).heading = rest[++i];
+    else if (a === '--runner-region') (o.overrides ||= {}).runnerRegion = rest[++i];
+    else if (a === '--include') (o.overrides ||= {}).include = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
+    else if (a === '--exclude') (o.overrides ||= {}).exclude = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
+    else if (a === '--shared-endpoint') (o.overrides ||= {}).sharedEndpointReason = rest[++i];
     else if (a === '--temporal') o.temporal = JSON.parse(readFileSync(rest[++i], 'utf8'));
     else if (a === '--history') while (rest[i + 1] && !rest[i + 1].startsWith('--')) o.history.push(rest[++i]);
     else throw new Error(`unknown option ${a}`);
@@ -87,7 +95,7 @@ async function main() {
   // The operator's explicit command + --apply is the authorization; feedback/automation actors are refused in store.
   const lc = createLifecycle({ root, history: o.history, actor: { kind: 'operator', id: process.env.USER || process.env.USERNAME || 'operator' }, authorize: () => o.apply === true });
   let r;
-  if (o.cmd === 'add' || o.cmd === 'plan') r = await lc.add(o.target, { url: o.url, channel: o.channel, apply: o.cmd === 'add' && o.apply });
+  if (o.cmd === 'add' || o.cmd === 'plan') r = await lc.add(o.target, { url: o.url, channel: o.channel, apply: o.cmd === 'add' && o.apply, overrides: o.overrides || null });
   else if (o.cmd === 'retire') r = await lc.retire(o.target, { reason: o.reason, apply: o.apply });
   else if (o.cmd === 'reactivate') r = await lc.reactivate(o.target, { apply: o.apply });
   else if (o.cmd === 'inspect') r = lc.inspect(o.target);

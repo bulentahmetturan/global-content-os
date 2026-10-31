@@ -20,7 +20,7 @@ python scripts\tip_toplulugu_scheduled_run.py --sources tr-runner --report-dir $
 Görev Zamanlayıcı'da günlük 07:17 (Türkiye saati) çalıştırın. Kaldırma: görevi silin, token dosyasını silin.
 
 ## Sağlık kontrolü ve alarm
-- Başarı: `GET /api/tip_toplulugu/sources` içinde `hsgm_public_health` için `last_success_at` bugün.
+- Başarı: `GET /api/tip_toplulugu/sources` içinde `hsgm_public_health` (ve diğer 29 HSGM hattı: `hsgm_*`, `egitim_hsgm_*`) için `last_success_at` en geç 2 çalışma aralığı içinde (kaynaklar 3 günde bir çekilir).
 - Başarısızlıkta betik çıkış kodu 1 verir; workflow kırmızı olur (GitHub e-posta bildirimi) ve rapor artifact'ı yazılır.
 - Token'ı log'a yazmayın; betik yazmaz.
 

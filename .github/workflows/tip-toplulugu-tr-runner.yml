@@ -1,6 +1,6 @@
 name: Tıp Topluluğu Türkiye-region runner
 
-# Optional. Runs the SAME adapter/ingest contract for sources tagged runner_region=TR (currently hsgm_public_health)
+# Optional. Runs the SAME adapter/ingest contract for sources tagged runner_region=TR (currently the 30 HSGM legs hsgm_* / egitim_hsgm_*)
 # on a self-hosted runner located in Türkiye (labels: self-hosted, tr). Dispatch-only until that runner exists: the
 # daily schedule is skipped unless repo variable TR_RUNNER_ENABLED=true (no such runner or variable as of
 # 2026-09-30), and tip-toplulugu-tr-freshness.yml enforces freshness under the same switch. A manual dispatch without the

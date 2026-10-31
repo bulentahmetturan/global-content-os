@@ -69,8 +69,64 @@
     },
     {
       "id": "hsgm_generic_pr",
-      "source_id": "hsgm_public_health",
+      "source_id": "hsgm_asi",
       "title": "Hastane açılış basın açıklaması genel",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsgm_sahu_basvuru",
+      "source_id": "hsgm_aile_hekimligi",
+      "title": "SAHU başvuru şartları ve kontenjanlar yayımlandı",
+      "published_at": "2026-09-08",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "hsgm_sahu_placement_done",
+      "source_id": "hsgm_aile_hekimligi",
+      "title": "SAHU yerleştirme işlemleri gerçekleştirilmiştir",
+      "published_at": "2026-09-08",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsgm_saglikli_hayat_saati",
+      "source_id": "hsgm_toplum_sagligi",
+      "title": "Sağlıklı Hayat Saatleri bu hafta konusu beslenme başvuru",
+      "published_at": "2026-09-08",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsgm_rehber_guncellendi",
+      "source_id": "hsgm_tuberkuloz",
+      "title": "Tüberküloz Tanı ve Tedavi Rehberi güncellendi",
+      "published_at": "2026-09-08",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "hsgm_egitim_basvuru",
+      "source_id": "egitim_hsgm_zoonotik",
+      "title": "Saha Epidemiyolojisi Sertifikalı Eğitim Programı başvuruları açıldı",
+      "published_at": "2026-09-08",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "hsgm_egitim_done",
+      "source_id": "egitim_hsgm_zoonotik",
+      "title": "Neonatoloji Güncelleme Kursu gerçekleştirildi",
+      "published_at": "2026-09-08",
+      "expect": "DISCARD"
+    },
+    {
+      "id": "hsgm_ozel_gun",
+      "source_id": "hsgm_bulasici_ozelgun",
+      "title": "28 Temmuz Dünya Hepatit Günü",
+      "published_at": "2026-09-08",
+      "expect": "ACCEPT"
+    },
+    {
+      "id": "hsgm_duyuru_leg_skips_ozel_gun",
+      "source_id": "hsgm_bulasici",
+      "title": "Dünya Hepatit Günü programı başvuru",
+      "published_at": "2026-09-08",
       "expect": "DISCARD"
     },
     {

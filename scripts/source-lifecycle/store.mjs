@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
+const POOL_FILE = /^adapters\/tip-toplulugu-radar\/content\/(burs|egitim)\/pool\.json$/;
 export const MUTATING_ACTORS = new Set(['operator', 'canonical_owner']);
 const FEEDBACK_ACTORS = new Set(['feedback', 'pillar5', 'learning', 'relevance_ledger', 'machine']);
 
@@ -38,15 +39,24 @@ export const getAt = (data, path) => path.split(/[.[\]]+/).filter(Boolean).reduc
  * mutate(data) performs the in-memory change and returns a compact patch description.
  * Returns { outcome: DRY_RUN | APPLIED | REQUIRES_MANUAL_EDIT, file, patch }.
  */
-export function commitCanonical({ root, file, mutate, apply = false, actor, authorize, op }) {
+export function commitCanonical({ root, file, mutate, apply = false, actor, authorize, op, companions = [] }) {
   if (!file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-')) return { outcome: 'PLAN_ONLY', file, reason: 'not a lifecycle-writable canonical store' };
   const reg = readRegistry(root, file);
   const patch = mutate(reg.data);
-  if (apply !== true) return { outcome: 'DRY_RUN', file, patch, writable: reg.stable };
+  // Companion mirrors (Burs/Eğitim central pool lists every registry source id): same transaction, same guards.
+  const comp = companions.map((c) => {
+    if (!POOL_FILE.test(c.file)) throw new Error(`not a lifecycle companion path: ${c.file}`);
+    const r = readRegistry(root, c.file);
+    c.mutate(r.data);
+    return { ...c, reg: r };
+  });
+  if (apply !== true) return { outcome: 'DRY_RUN', file, patch, writable: reg.stable && comp.every((c) => c.reg.stable) };
   const auth = authorizeLifecycle({ actor, authorize, op });
   if (!auth.ok) return { outcome: 'DENIED', file, patch, ...auth };
-  if (!reg.stable) return { outcome: 'REQUIRES_MANUAL_EDIT', file, patch, reason: 'file is not byte-stable under JSON round trip' };
-  writeCanonicalFiles(root, [{ file, text: (JSON.stringify(reg.data, null, 2) + (reg.trailing ? '\n' : '')).split('\n').join(reg.eol) }]);
+  const unstable = !reg.stable ? file : comp.find((c) => !c.reg.stable)?.file;
+  if (unstable) return { outcome: 'REQUIRES_MANUAL_EDIT', file, patch, reason: `${unstable} is not byte-stable under JSON round trip` };
+  const text = (r) => (JSON.stringify(r.data, null, 2) + (r.trailing ? '\n' : '')).split('\n').join(r.eol);
+  writeCanonicalFiles(root, [{ file, text: text(reg) }, ...comp.map((c) => ({ file: c.file, text: text(c.reg) }))]);
   return { outcome: 'APPLIED', file, patch };
 }
 
@@ -56,7 +66,7 @@ const KADUSE_WRITABLE = /^(packages\/source-catalog\/data\/[a-z-]+\.json|config\
 /** The single repo write path. Callers must have passed authorizeLifecycle and apply === true. */
 export function writeCanonicalFiles(root, writes) {
   for (const w of writes) {
-    if (!w.file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-') && !KADUSE_WRITABLE.test(w.file)) throw new Error(`not a lifecycle-writable path: ${w.file}`);
+    if (!w.file.startsWith('adapters/tip-toplulugu-radar/content/source-registry-') && !POOL_FILE.test(w.file) && !KADUSE_WRITABLE.test(w.file)) throw new Error(`not a lifecycle-writable path: ${w.file}`);
     writeCanonical(join(root, w.file), w.text);
   }
 }
@@ -74,9 +84,14 @@ export function writeTrace(root, trace) {
   return f.slice(root.length + 1).split('\\').join('/');
 }
 
-/** Target registry file for a NEW Tıp Topluluğu record (additive layers only; never phase1). */
-export function targetFileFor({ heading, url }) {
+/**
+ * Target registry file for a NEW Tıp Topluluğu record (additive layers only; never phase1).
+ * source-registry-v1.1.json is a CLOSED set (load_v11_registry requires exactly its 23 approved_source_ids, in order), so a new
+ * record can never be added there -- doing so broke the registry load for every later source. Duyuru goes to the additive layer.
+ */
+export function targetFileFor({ heading }) {
   if (heading === 'BURS') return 'adapters/tip-toplulugu-radar/content/source-registry-burs-v1.json';
   if (heading === 'EGITIM') return 'adapters/tip-toplulugu-radar/content/source-registry-egitim-v1.json';
-  return /\.tr$/.test(new URL(url).hostname) ? 'adapters/tip-toplulugu-radar/content/source-registry-v1.1.json' : 'adapters/tip-toplulugu-radar/content/source-registry-batch3.json';
+  return 'adapters/tip-toplulugu-radar/content/source-registry-batch3.json';
 }
+

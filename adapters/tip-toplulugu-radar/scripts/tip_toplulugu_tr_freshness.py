@@ -9,7 +9,28 @@ import urllib.request
 from datetime import datetime, timezone
 
 HUB = os.environ.get("GCOS_HUB_URL", "https://global-content-os.channel-content-os-mcp.workers.dev")
-TR_SOURCES = ("hsgm_public_health",)
+
+
+def tr_sources() -> dict[str, float]:
+    """source_id -> expected check interval in hours, for every AUTOMATION_READY source tagged runner_region=TR (registry-driven)."""
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from radar.tip_toplulugu_activation import (
+        ACTIVATION_AUTOMATION_READY,
+        all_sources,
+        check_interval_minutes,
+        compute_activation_state,
+    )
+    from radar.tip_toplulugu_integrity import resolve_effective_registry
+
+    return {
+        s["source_id"]: check_interval_minutes(s) / 60
+        for s in all_sources(resolve_effective_registry())
+        if s.get("runner_region") == "TR" and compute_activation_state(s) == ACTIVATION_AUTOMATION_READY
+    }
+
+
 QUOTA_MARKERS = ("d1_quota_exceeded", "row write limit", "free tier daily")
 
 
@@ -46,8 +67,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-age-hours", type=float, default=48)
     args = ap.parse_args(argv)
+    sources = tr_sources()
     if not runner_enabled():
-        msg = NOT_PROVISIONED.format(sources=", ".join(TR_SOURCES))
+        msg = NOT_PROVISIONED.format(sources=", ".join(sorted(sources)))
         print(f"::notice title=Tıp Topluluğu TR sources not collected::{msg}")
         summary = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary:
@@ -59,8 +81,9 @@ def main(argv: list[str] | None = None) -> int:
         rows = {r["sourceId"]: r for r in json.load(resp)["sources"]}
     now = datetime.now(timezone.utc)
     bad = 0
-    for sid in TR_SOURCES:
-        problems = evaluate((rows.get(sid) or {}).get("telemetry"), now, args.max_age_hours)
+    for sid, interval_h in sorted(sources.items()):
+        # A source polled every 3 days is not stale after 48 h: allow two full intervals.
+        problems = evaluate((rows.get(sid) or {}).get("telemetry"), now, max(args.max_age_hours, 2 * interval_h))
         print(f"{sid}: {'OK' if not problems else 'STALE/FAILING'}")
         for p in problems:
             print(f"::error title=Tıp Topluluğu TR source {sid}::{p}")

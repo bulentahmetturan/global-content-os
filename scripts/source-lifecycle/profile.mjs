@@ -63,11 +63,13 @@ function fetchPlan({ pageUrl, hosts, paths, cadence, notes }) {
 const cadencePolicy = (c) => ({ strategy: c.strategy, bounds: c.bounds, confidence: c.confidence, evidence: c.evidence, flags: c.flags });
 
 /** NEW Tıp Topluluğu record in its fully-activated form (activation state decided later by capacity). */
-export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing, cadence, feedUrl = null }) {
+export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing, cadence, feedUrl = null, overrides = null }) {
   const host = new URL(pageUrl).hostname.toLowerCase();
   const bare = host.replace(/^www\./, '');
   const hosts = [...new Set([host, bare, `www.${bare}`])];
   const paths = pathPatterns(pageUrl, items);
+  const plan = fetchPlan({ pageUrl, hosts, paths, cadence, notes: `Source lifecycle onboarding (list page${feedUrl ? `; official feed ${feedUrl} used as cadence evidence` : ''}).` });
+  if (overrides?.forbid?.length) plan.forbidden_paths = overrides.forbid; // enforced by radar url_allowed_by_plan (prefix match)
   return {
     source_id: sourceId,
     name,
@@ -85,15 +87,41 @@ export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing,
     execution: 'python_runner',
     ...Object.fromEntries(FLAGS.map((f) => [f, true])),
     publication_eligible: false,
-    include_keywords: KEYWORDS[routing.heading],
-    exclude_keywords: [],
+    include_keywords: overrides?.include?.length ? overrides.include : KEYWORDS[routing.heading],
+    exclude_keywords: overrides?.exclude || [],
+    ...(overrides?.runnerRegion ? { runner_region: overrides.runnerRegion } : {}),
     allowed_routes: routing.allowed_routes,
-    default_route_on_accept: 'NEEDS_REVIEW',
+    // Same convention as the curated Burs/Eğitim records (OPPORTUNITY / EDUCATION); Duyuru keeps NEEDS_REVIEW like batch3/v1.1.
+    default_route_on_accept: routing.heading === 'EGITIM' ? 'EDUCATION' : routing.heading === 'BURS' ? 'OPPORTUNITY' : 'NEEDS_REVIEW',
     source_health: 'HEALTHY',
     runtime_activation: ACTIVATION.READY,
-    fetch_plan: fetchPlan({ pageUrl, hosts, paths, cadence, notes: `Source lifecycle onboarding (list page${feedUrl ? `; official feed ${feedUrl} used as cadence evidence` : ''}).` }),
+    fetch_plan: plan,
     cadence_policy: cadencePolicy(cadence),
     ...(feedUrl ? { related_list_urls: [feedUrl] } : {}),
+  };
+}
+
+/**
+ * Central Burs/Eğitim pool entry mirroring a registry record (tests assert pool ids == registry ids). Descriptive fields only;
+ * scores are left out on purpose -- the lifecycle has no evidence for them.
+ */
+export function poolEntryFor(record, { heading, cadence, today }) {
+  return {
+    source_id: record.source_id,
+    kaynak_adi: record.name,
+    url: record.canonical_url,
+    kaynak_turu: 'Resmî kurum',
+    kapsam: `source-lifecycle onboarding (${heading === 'BURS' ? 'burs' : 'eğitim'} hattı); dar include/exclude politikası kayıtta`,
+    hedef_seviye: ['profesyonel'],
+    tibbi_alan: ['public_health'],
+    cografya: 'Türkiye',
+    dil: ['tr'],
+    guncelleme_sikligi: `${cadence.poll_minutes} dk`,
+    takip_yontemi: record.fetch_mode,
+    turk_uygunluk: 'Evet',
+    durum: 'aktif',
+    eklenme_tarihi: today,
+    guncellenme_tarihi: today,
   };
 }
 

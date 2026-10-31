@@ -198,7 +198,7 @@ class AbroadCareerRegistryTests(unittest.TestCase):
             and not s["source_id"].startswith("egitim_")
         }
         self.assertEqual(domestic_op, set(DOMESTIC_OFFICIAL_PRIMARY_IDS))
-        self.assertEqual(len(domestic_op), 12)
+        self.assertEqual(len(domestic_op), 32)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs
         abroad_op = [
             s for s in self.effective["sources"]
             if s["source_id"].startswith("abroad_") and s["source_tier"] == "OFFICIAL_PRIMARY"
@@ -207,8 +207,13 @@ class AbroadCareerRegistryTests(unittest.TestCase):
             s for s in self.effective["sources"]
             if s["source_id"].startswith("burs_") and s["source_tier"] == "OFFICIAL_PRIMARY"
         ]
+        egitim_op = [
+            s for s in self.effective["sources"]
+            if s["source_id"].startswith("egitim_") and s["source_tier"] == "OFFICIAL_PRIMARY"
+        ]
         self.assertEqual(len(abroad_op), 19)
-        self.assertEqual(counts["OFFICIAL_PRIMARY"], 12 + 19 + len(burs_op))
+        self.assertEqual(len(egitim_op), 10)  # egitim_hsgm_* (HSGM Eğitim legs)
+        self.assertEqual(counts["OFFICIAL_PRIMARY"], 32 + 19 + len(burs_op) + len(egitim_op))
         self.assertEqual(counts["PROFESSIONAL_BODY"], 5)  # + tdb_dental (tracked separately from the 46)
         self.assertEqual(counts["PROFESSIONAL_GUIDANCE"], 12)
         self.assertEqual(counts["SECONDARY_NEWSWIRE"], 32)  # +15 batch3 international English health/medical discovery pool

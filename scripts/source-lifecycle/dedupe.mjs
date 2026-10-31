@@ -5,12 +5,14 @@ import { normalizeUrl, registrableDomain } from './catalog.mjs';
 
 const BURS_EGITIM = new Set(['BURS', 'EGITIM']);
 
-export function dedupeGate({ candidate, sample = [], projections, identityCheck = null, knownItemUrls = null }) {
+export function dedupeGate({ candidate, sample = [], projections, identityCheck = null, knownItemUrls = null, sharedEndpointReason = null }) {
   const checks = {};
   const explanation = [];
   const url = normalizeUrl(candidate.url);
 
-  const urlHolders = projections.filter((p) => p.source_id !== candidate.source_id && p.urls.includes(url));
+  // Per-lane registration (owner policy): one publisher, several content types -> one source per lane, each with its own
+  // narrow policy. A second lane may share the same endpoint only with a stated reason; the holders are other lanes' legs of the same publisher (S66 exception documented in check_source_identity.py).
+  const urlHolders = projections.filter((p) => p.source_id !== candidate.source_id && p.urls.includes(url) && !(sharedEndpointReason && !p.retired));
   checks.canonical_url = urlHolders.length ? { status: 'FAIL', holders: [...new Set(urlHolders.map((p) => p.source_id))] } : { status: 'PASS' };
   if (urlHolders.length) explanation.push(`endpoint already registered by ${checks.canonical_url.holders.join(', ')}`);
 

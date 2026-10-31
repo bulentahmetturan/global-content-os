@@ -1038,7 +1038,7 @@
       "guvenilirlik": 10,
       "guncellik": 10,
       "erisim_kolayligi": 10,
-      "toplam_puan": 10.0,
+      "toplam_puan": 10,
       "son_kontrol_tarihi": "2026-09-24",
       "son_basarili_kontrol": "2026-09-24",
       "basarisiz_kontrol_sayisi": 0,
@@ -1198,7 +1198,7 @@
       "guvenilirlik": 8,
       "guncellik": 10,
       "erisim_kolayligi": 7,
-      "toplam_puan": 8.0,
+      "toplam_puan": 8,
       "son_kontrol_tarihi": "2026-09-24",
       "son_basarili_kontrol": "2026-09-24",
       "basarisiz_kontrol_sayisi": 0,
@@ -1235,7 +1235,7 @@
       "guvenilirlik": 10,
       "guncellik": 10,
       "erisim_kolayligi": 10,
-      "toplam_puan": 10.0,
+      "toplam_puan": 10,
       "son_kontrol_tarihi": "2026-09-24",
       "son_basarili_kontrol": "2026-09-24",
       "basarisiz_kontrol_sayisi": 0,
@@ -1439,7 +1439,7 @@
       "guvenilirlik": 10,
       "guncellik": 10,
       "erisim_kolayligi": 10,
-      "toplam_puan": 10.0,
+      "toplam_puan": 10,
       "son_kontrol_tarihi": "2026-09-24",
       "son_basarili_kontrol": "2026-09-24",
       "basarisiz_kontrol_sayisi": 0,
@@ -1447,6 +1447,236 @@
       "notlar": "WHO resmi acil sağlık öğrenme hub. Her yerden ücretsiz, kayıt yok. 2025 yeniden tasarım sonrası sertifika verilmiyor. WHO Academy ayrı kaynak.",
       "eklenme_tarihi": "2026-09-24",
       "guncellenme_tarihi": "2026-09-24"
+    },
+    {
+      "source_id": "egitim_hsgm_aile_hekimligi",
+      "kaynak_adi": "HSGM Aile Hekimliği Eğitim ve İzleme - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "4320 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_asi",
+      "kaynak_adi": "HSGM Aşı - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_bulasici",
+      "kaynak_adi": "HSGM Bulaşıcı Hastalıklar - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_zoonotik",
+      "kaynak_adi": "HSGM Zoonotik ve Vektörel Hastalıklar - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_kadin_ureme",
+      "kaynak_adi": "HSGM Kadın ve Üreme Sağlığı - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "4320 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_cocuk_ergen",
+      "kaynak_adi": "HSGM Çocuk ve Ergen Sağlığı - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "1440 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_beslenme",
+      "kaynak_adi": "HSGM Sağlıklı Beslenme - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "4320 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_toplum_sagligi",
+      "kaynak_adi": "HSGM Toplum Sağlığı - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_tuberkuloz",
+      "kaynak_adi": "HSGM Tüberküloz - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "4320 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_hsgm_mikrobiyoloji",
+      "kaynak_adi": "HSGM Mikrobiyoloji - Eğitim",
+      "url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-10-31",
+      "guncellenme_tarihi": "2026-10-31"
     }
   ],
   "egitim_ilanlari": []

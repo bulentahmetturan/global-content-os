@@ -220,7 +220,7 @@ class PubMedAndBatch2Tests(unittest.TestCase):
     def test_moh_and_hsgm_ready_surfaces(self):
         eff = resolve_effective_registry()
         moh = get_source_profile(eff, "moh_physician_workforce")
-        hsgm = get_source_profile(eff, "hsgm_public_health")
+        hsgm = get_source_profile(eff, "hsgm_toplum_sagligi")
         self.assertEqual(compute_activation_state(moh), ACTIVATION_AUTOMATION_READY)
         self.assertEqual(compute_activation_state(hsgm), ACTIVATION_AUTOMATION_READY)
         self.assertEqual(
@@ -234,7 +234,7 @@ class PubMedAndBatch2Tests(unittest.TestCase):
         ready = {p["source_id"] for p in export_automation_ready_profiles()}
         self.assertIn("pubmed_biomedical_evidence", ready)
         self.assertIn("moh_physician_workforce", ready)
-        self.assertIn("hsgm_public_health", ready)
+        self.assertIn("hsgm_toplum_sagligi", ready)
         # Only verified abroad news lists may join; bulk abroad_* stay MANUAL
         abroad_ready = {sid for sid in ready if sid.startswith("abroad_")}
         abroad_canon = {sid for sid in json.loads((Path(__file__).parent / "fixtures" / "tip_toplulugu_ready_sources.json").read_text(encoding="utf-8"))["automation_ready"] if sid.startswith("abroad_")}

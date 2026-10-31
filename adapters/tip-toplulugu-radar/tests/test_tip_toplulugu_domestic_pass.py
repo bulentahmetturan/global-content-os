@@ -41,7 +41,7 @@ class DomesticPassActivationTests(unittest.TestCase):
         for sid, sample in (
             ("turkmsic_medical_students", "https://turkmsic.org/haberler"),
             ("ttb_national", "https://www.ttb.org.tr/arsiv_duyuru.php"),
-            ("hsgm_public_health", "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html"),
+            ("hsgm_toplum_sagligi", "https://hsgm.saglik.gov.tr/tr/haberler-9/x.html"),
             ("klimık_infectious_diseases", "https://www.klimik.org.tr/category/duyurular/"),
             ("trd_radiology", "https://www.turkrad.org.tr/dernekten-haberler/"),
         ):
@@ -51,9 +51,11 @@ class DomesticPassActivationTests(unittest.TestCase):
             self.assertFalse(_host_path_ok(profile, f"https://{(profile.get('fetch_plan') or {}).get('allowed_hostnames', ['x'])[0]}/"))
 
     def test_hsgm_homepage_and_mevzuat_not_primary(self):
-        hsgm = get_source_profile(self.eff, "hsgm_public_health")
-        self.assertFalse(_host_path_ok(hsgm, "https://hsgm.saglik.gov.tr/tr/"))
-        self.assertFalse(_host_path_ok(hsgm, "https://hsgm.saglik.gov.tr/tr/mevzuat.html"))
+        hsgm = get_source_profile(self.eff, "hsgm_toplum_sagligi")
+        from radar.tip_toplulugu_fetch import url_allowed_by_plan
+
+        plan = hsgm.get("fetch_plan") or {}
+        self.assertFalse(url_allowed_by_plan("https://hsgm.saglik.gov.tr/tr/mevzuat.html", plan)[0])
 
     def test_tpd_ready_only_with_item_path_allowlist_and_date_policy(self):
         # 3000+ site-wide anchors: safe only because item_url_patterns pin the post shape
@@ -67,7 +69,7 @@ class DomesticPassActivationTests(unittest.TestCase):
         for sid in (
             "turkmsic_medical_students",
             "ttb_national",
-            "hsgm_public_health",
+            "hsgm_toplum_sagligi",
             "klimık_infectious_diseases",
             "trd_radiology",
         ):

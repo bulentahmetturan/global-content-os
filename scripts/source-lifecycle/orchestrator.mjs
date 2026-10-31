@@ -8,7 +8,7 @@ import { deriveCadence, recalibration, LADDER, LANE_POLICY } from './cadence.mjs
 import { dedupeGate } from './dedupe.mjs';
 import { pythonBridge } from './bridge.mjs';
 import { commitCanonical, getAt, readRegistry, targetFileFor, writeTrace, authorizeLifecycle } from './store.mjs';
-import { newTipTopluluguRecord, activationPatch, retirementPatch, pushHistory, clearRetirement, canary } from './profile.mjs';
+import { newTipTopluluguRecord, poolEntryFor, activationPatch, retirementPatch, pushHistory, clearRetirement, canary } from './profile.mjs';
 import { inflightPlan, classifyArtifacts, purgePlan, PRESERVED, REGENERATE, TIP_TOPLULUGU_DERIVATIVES } from './offboard.mjs';
 import { stateOf, LANES, ACTIVATION } from './model.mjs';
 import { prepareKaduseChange } from './kaduse-change.mjs';
@@ -47,7 +47,7 @@ export function createLifecycle(opts) {
   }
 
   // ---------- shared G2..G8 pipeline for one endpoint -------------------------------------------------------------
-  async function validate({ req, identity, url, laneHint, projections, existingRecord = null, trace }) {
+  async function validate({ req, identity, url, laneHint, projections, existingRecord = null, trace, overrides = null }) {
     const g = {};
     trace.phases.push({ phase: 'VALIDATING', at: clock() });
     const disc = await discoverEndpoint({ url, lane: laneHint, fetcher });
@@ -61,7 +61,7 @@ export function createLifecycle(opts) {
     const listItems = disc._feed && disc._feed.url === page.url ? [] : extractListPage(page.body, page.url);
     const sampleForRouting = feedItems.length ? feedItems : listItems;
 
-    const routing = resolveRouting({ req, identity, endpoint: disc.endpoint, sample: sampleForRouting, pageTitle: pageTitle(page.body), sameDomain: identity.same_domain || [] });
+    const routing = resolveRouting({ req, identity, endpoint: disc.endpoint, sample: sampleForRouting, pageTitle: pageTitle(page.body), sameDomain: identity.same_domain || [], headingOverride: overrides?.heading || null });
     g.ROUTING = routing.gate === 'PASS' ? 'PASS' : routing.gate;
     if (routing.gate !== 'PASS') return { stop: { outcome: 'NEEDS_USER_DECISION', reason: routing.reason, question: routing.question, gates: g } };
 
@@ -104,19 +104,21 @@ export function createLifecycle(opts) {
 
     // Candidate profile
     const taken = new Set(projections.map((p) => p.source_id));
-    const sourceId = identity.match?.source_id || proposeSourceId({ lane: routing.lane, heading: routing.heading, url: page.url, taken });
+    const sourceId = identity.match?.source_id || overrides?.sourceId || proposeSourceId({ lane: routing.lane, heading: routing.heading, url: page.url, taken });
     const name = identity.match?.name || pageTitle(page.body).split(/\s[|–-]\s/)[0].slice(0, 120) || sourceId;
     let profile = null;
+    const recordUrl = disc.endpoint.transport === 'RSS' && routing.lane === 'tip_toplulugu' ? disc.endpoint.url : page.url;
     if (routing.lane === 'tip_toplulugu') {
       profile = existingRecord
         ? activationPatch(existingRecord, { pageUrl: page.url, items, cadence, routing })
-        : newTipTopluluguRecord({ sourceId, name, pageUrl: page.url, items, routing, cadence, feedUrl: disc._feed && disc._feed.url !== page.url ? disc._feed.url : null });
+        : newTipTopluluguRecord({ sourceId, name: overrides?.name || name, pageUrl: recordUrl, items, routing, cadence, feedUrl: recordUrl === page.url && disc._feed && disc._feed.url !== page.url ? disc._feed.url : null, overrides });
+      if (profile && overrides?.sharedEndpointReason) profile.fetch_plan.notes = `${profile.fetch_plan.notes} Per-lane leg (${routing.heading}) of a publisher registered once per lane: ${overrides.sharedEndpointReason}`;
     }
 
     // G6 dedupe / ownership
-    const candidate = { source_id: sourceId, url: page.url, heading: routing.heading, lane: routing.lane };
+    const candidate = { source_id: sourceId, url: recordUrl, heading: routing.heading, lane: routing.lane };
     const identityCheck = bridge ? (c) => bridge.identity(c) : null;
-    const dd = dedupeGate({ candidate, sample: items, projections, identityCheck, knownItemUrls: opts.knownItemUrls || null });
+    const dd = dedupeGate({ candidate, sample: items, projections, identityCheck, knownItemUrls: opts.knownItemUrls || null, sharedEndpointReason: overrides?.sharedEndpointReason || null });
     const bridgeErr = dd.checks.ownership.violations?.find((v) => v.error);
     g.DEDUPE = bridgeErr ? 'BLOCKED_TECHNICAL' : dd.gate === 'PASS' ? 'PASS' : dd.gate;
     trace.dedupe = dd;
@@ -196,13 +198,15 @@ export function createLifecycle(opts) {
   });
 
   // ---------- ADD ----------------------------------------------------------------------------------------------------
-  async function add(input, { url, channel, apply = false } = {}) {
+  async function add(input, { url, channel, apply = false, overrides = null } = {}) {
     const req = normalizeRequest(input, { now: clock(), url, channel });
     const trace = { request_id: req.request_id, op: 'add', input: { raw: req.raw, url: req.url, channel: req.channel_hint, apply }, actor, phases: [{ phase: 'REQUESTED', at: clock() }] };
     const gates = { REQUEST: 'PASS' };
     trace.phases.push({ phase: 'RESOLVING', at: clock() });
     const projections = loadProjections(root);
-    const identity = resolveIdentity(req, projections);
+    let identity = resolveIdentity(req, projections);
+    // Explicit new per-lane leg: a not-yet-registered --source-id is a NEW identity even when the publisher's URL is already registered.
+    if (overrides?.sourceId && !projections.some((p) => p.source_id === overrides.sourceId)) identity = { outcome: 'NEW', match: null, candidates: [], same_domain: identity.same_domain || [] };
     trace.identity = { outcome: identity.outcome, match: identity.match && compactProjection(identity.match), candidates: identity.candidates, same_domain: identity.same_domain };
     gates.IDENTITY = identity.outcome === 'AMBIGUOUS' || identity.outcome === 'UNRESOLVED' ? 'NEEDS_USER_DECISION' : 'PASS';
 
@@ -230,7 +234,7 @@ export function createLifecycle(opts) {
     }
 
     // NEW source
-    const v = await validate({ req, identity, url: req.fetch_url, laneHint: null, projections, trace });
+    const v = await validate({ req, identity, url: req.fetch_url, laneHint: null, projections, trace, overrides });
     if (v.stop) {
       if (v.fixture && traces) trace.fixture_sample = v.fixture;
       return finish(trace, { ok: false, op: 'add', ...v.stop, gates: { ...gates, ...v.stop.gates } });
@@ -249,7 +253,9 @@ export function createLifecycle(opts) {
     const outcome = safe ? 'ACTIVE' : 'BLOCKED_CAPACITY';
     pushHistory(record, { op: 'add', request_id: req.request_id, at: clock(), outcome: safe ? 'ACTIVE' : 'READY', by: actor.id, gates: { ...gates, ...v.gates } });
     const file = targetFileFor({ heading: v.routing.heading, url: v.endpoint.page_url });
-    const commit = commitCanonical({ root, file, apply, actor, authorize, op: 'add', mutate: (data) => { data.sources.push(record); return { op: 'insert', source_id: record.source_id, path: `sources[${data.sources.length - 1}]` }; } });
+    const poolFile = v.routing.heading === 'EGITIM' ? 'adapters/tip-toplulugu-radar/content/egitim/pool.json' : v.routing.heading === 'BURS' ? 'adapters/tip-toplulugu-radar/content/burs/pool.json' : null;
+    const companions = poolFile ? [{ file: poolFile, mutate: (d) => { d.source_registry.push(poolEntryFor(record, { heading: v.routing.heading, cadence: v.cadence, today: clock().slice(0, 10) })); } }] : [];
+    const commit = commitCanonical({ root, file, apply, actor, authorize, op: 'add', companions, mutate: (data) => { data.sources.push(record); return { op: 'insert', source_id: record.source_id, path: `sources[${data.sources.length - 1}]` }; } });
     trace.phases.push({ phase: safe ? 'ACTIVE' : 'READY', at: clock() });
     return finish(trace, {
       ok: commit.outcome !== 'DENIED',

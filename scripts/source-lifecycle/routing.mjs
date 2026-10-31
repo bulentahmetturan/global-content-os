@@ -44,7 +44,7 @@ const ROUTES_BY_HEADING = {
 /**
  * @param {{ req, identity, endpoint, sample: {title?:string}[], pageTitle?: string, projections }} a
  */
-export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle = '', sameDomain = [] }) {
+export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle = '', sameDomain = [], headingOverride = null }) {
   if (identity?.match) {
     const m = identity.match;
     return { gate: 'PASS', lane: m.lane, channelId: LANES[m.lane].channelId, heading: m.heading, basis: 'EXISTING_IDENTITY' };
@@ -53,7 +53,7 @@ export function resolveRouting({ req, identity, endpoint, sample = [], pageTitle
   const hay = [pageTitle, ...sample.map((s) => s.title || '')].join(' \n ').toLowerCase();
   const tier = tierFor(url, `${hay} ${hostOf(url)}`);
   const finish = (lane, basis, extra = {}) => {
-    const heading = lane === 'tip_toplulugu' ? tipTopluluguHeading(hay) : lane === 'kaduse-news' ? 'HABER' : 'RESEARCH';
+    const heading = lane === 'tip_toplulugu' ? (ROUTES_BY_HEADING[headingOverride] ? headingOverride : tipTopluluguHeading(hay)) : lane === 'kaduse-news' ? 'HABER' : 'RESEARCH';
     return {
       gate: 'PASS',
       lane,

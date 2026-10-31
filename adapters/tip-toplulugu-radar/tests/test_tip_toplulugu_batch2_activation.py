@@ -45,7 +45,7 @@ class Batch2ActivationTests(unittest.TestCase):
     def setUp(self):
         self.eff = resolve_effective_registry()
         self.moh = get_source_profile(self.eff, "moh_physician_workforce")
-        self.hsgm = get_source_profile(self.eff, "hsgm_public_health")
+        self.hsgm = get_source_profile(self.eff, "hsgm_toplum_sagligi")
         self.pubmed = get_source_profile(self.eff, "pubmed_biomedical_evidence")
 
     def test_moh_automation_ready_yhgm_only(self):
@@ -70,19 +70,18 @@ class Batch2ActivationTests(unittest.TestCase):
         pr = classify_item(self.moh, title="Hastane açılış basın açıklaması genel", body="")
         self.assertEqual(pr.decision, "DISCARD")
 
-    def test_hsgm_basin_odasi_automation_ready(self):
+    def test_hsgm_leg_automation_ready(self):
         self.assertEqual(compute_activation_state(self.hsgm), ACTIVATION_AUTOMATION_READY)
         self.assertTrue(self.hsgm.get("fetch_enabled"))
         plan = self.hsgm.get("fetch_plan") or {}
         paths = plan.get("allowed_path_patterns") or []
-        self.assertTrue(any("basin-odasi" in p for p in paths))
         self.assertNotIn("/", paths)
-        self.assertTrue(_host_path_ok(
-            self.hsgm,
-            "https://hsgm.saglik.gov.tr/tr/basin-odasi/basin-odasi-haberler.html",
-        ))
-        self.assertFalse(_host_path_ok(self.hsgm, "https://hsgm.saglik.gov.tr/tr/"))
-        self.assertFalse(_host_path_ok(self.hsgm, "https://hsgm.saglik.gov.tr/tr/mevzuat.html"))
+        self.assertTrue(_host_path_ok(self.hsgm, "https://hsgm.saglik.gov.tr/tr/haberler-9/x.html"))
+        # areas the owner rejected are fenced off by the radar's forbidden_paths (url_allowed_by_plan)
+        from radar.tip_toplulugu_fetch import url_allowed_by_plan
+
+        for banned in ("mevzuat.html", "kamuoyuna-duyuru-2.html", "ihale-ilanlari.html", "basin-odasi/basin-odasi-haberler.html"):
+            self.assertFalse(url_allowed_by_plan(f"https://hsgm.saglik.gov.tr/tr/{banned}", plan)[0], banned)
 
     def test_pubmed_ready_and_rejects_unrestricted(self):
         self.assertEqual(compute_activation_state(self.pubmed), ACTIVATION_AUTOMATION_READY)
@@ -127,7 +126,7 @@ class Batch2ActivationTests(unittest.TestCase):
         ready = {p["source_id"] for p in export_automation_ready_profiles(self.eff)}
         self.assertIn("moh_physician_workforce", ready)
         self.assertIn("pubmed_biomedical_evidence", ready)
-        self.assertIn("hsgm_public_health", ready)
+        self.assertIn("hsgm_toplum_sagligi", ready)
         for sid in (
             "osym_medical_exams",
             "yok_medical_education",
@@ -138,7 +137,7 @@ class Batch2ActivationTests(unittest.TestCase):
             self.assertIn(sid, ready)
 
     def test_no_publish_flags(self):
-        for sid in ("moh_physician_workforce", "pubmed_biomedical_evidence", "hsgm_public_health"):
+        for sid in ("moh_physician_workforce", "pubmed_biomedical_evidence", "hsgm_toplum_sagligi"):
             p = get_source_profile(self.eff, sid)
             self.assertIs(p.get("publication_eligible"), False)
 

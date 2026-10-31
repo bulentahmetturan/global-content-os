@@ -190,13 +190,13 @@ test('URL request for a new source: full onboarding -> ACTIVE through the canoni
   assert.equal(r.endpoint.runtime, 'list-page');
   assert.equal(r.cadence.poll_minutes, 4320);
   assert.equal(r.canary.published, 0);
-  const saved = rec(root, r.source_id, 'v1.1');
+  const saved = rec(root, r.source_id, 'batch3');
   assert.equal(saved.length, 1);
   assert.equal(saved[0].runtime_activation, 'AUTOMATION_READY');
   assert.equal(saved[0].fetch_plan.expected_check_interval_minutes, 4320);
   assert.equal(saved[0].publication_eligible, false);
   assert.equal(saved[0].lifecycle_history.at(-1).request_id, r.request_id);
-  assert.ok(bytes(root, 'v1.1').includes('\r\n'), 'CRLF preserved');
+  assert.ok(bytes(root, 'batch3').includes('\r\n'), 'CRLF preserved');
   assert.ok(existsSync(join(root, r.trace_file)));
   assert.deepEqual(bridge.calls.capacity, [4320]);
   assert.ok(r.regenerate.some((s) => s.path.endsWith('tip-toplulugu-automation-ready.ts')));
@@ -205,11 +205,11 @@ test('URL request for a new source: full onboarding -> ACTIVE through the canoni
 
 test('dry run is the default: full gate evaluation, nothing written', async () => {
   const root = sandbox();
-  const before = bytes(root, 'v1.1');
+  const before = bytes(root, 'batch3');
   const r = await lc(root, { fetcher: fakeFetcher(trRoutes()) }).add(TR_URL);
   assert.equal(r.outcome, 'ACTIVE_DRY_RUN');
   assert.equal(r.commit.outcome, 'DRY_RUN');
-  assert.equal(bytes(root, 'v1.1'), before);
+  assert.equal(bytes(root, 'batch3'), before);
 });
 
 test('existing active source: ALREADY_ACTIVE, zero writes; changed feed URL is drift on the same identity', async () => {
@@ -244,7 +244,7 @@ test('unknown name without official-URL evidence is not guessed', async () => {
 
 // ---------- G2 discovery / access -----------------------------------------------------------------------------------
 
-test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Tıp Topluluğu lane keeps list page + feed as cadence evidence', async () => {
+test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Tıp Topluluğu lane also uses the dated feed (the runner auto-detects RSS bodies)', async () => {
   const root = sandbox();
   const host = 'www.research-inst.org';
   const page = `https://${host}/news/`;
@@ -261,7 +261,8 @@ test('RSS discovery via rel=alternate: Kaduse lane uses the feed; Tıp Topluluğ
   const h = await lc(root, { fetcher: fakeFetcher(routes) }).add(page, { channel: 'tip_toplulugu' });
   assert.equal(h.endpoint.transport, 'RSS');
   assert.equal(h.endpoint.runtime, 'list-page');
-  assert.match(h.endpoint.note, /cadence evidence/);
+  assert.equal(h.endpoint.note, null);
+  assert.equal(h.endpoint.url, feed);
 });
 
 test('third-party feed hosts are never adopted as the official endpoint', async () => {
@@ -312,18 +313,20 @@ test('unsupported HTML: no parser reuse possible -> BLOCKED_TECHNICAL with a fix
   assert.match(trace.fixture_sample, /id="root"/);
 });
 
-test('feed-only endpoint for a lane whose runtime cannot parse feeds -> ADAPTER_REQUIRED (no per-source parser invented)', async () => {
+test('feed-only endpoint for the Tıp Topluluğu lane: the runner parses RSS itself, so the feed becomes the registered URL (no per-source parser invented)', async () => {
   const root = sandbox();
   const u = 'https://feedonly.example.org.tr/rss.xml';
   const items = Array.from({ length: 6 }, (_, i) => ({ title: `Hekim duyurusu başlığı ${i}`, url: `https://feedonly.example.org.tr/d/${i}`, date: daysAgo(i * 3 + 1) }));
   const r = await lc(root, { fetcher: fakeFetcher({ [u]: { body: rss(items), contentType: 'application/rss+xml' } }) }).add(u, { channel: 'tip_toplulugu' });
-  assert.equal(r.outcome, 'BLOCKED_TECHNICAL');
-  assert.equal(r.reason, 'ADAPTER_REQUIRED');
+  assert.equal(r.endpoint.transport, 'RSS');
+  assert.equal(r.endpoint.runtime, 'list-page');
+  assert.equal(r.endpoint.url, u);
 });
 
 test('shared parser reuse: one runtime parser per transport and lane', () => {
   assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'HTML_LIST', url: 'https://a.org/x' }).method, 'list-page');
-  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'RSS', url: 'https://a.org/x' }), null);
+  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'RSS', url: 'https://a.org/x' }).method, 'list-page');
+  assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'ATOM', url: 'https://a.org/x' }), null);
   assert.equal(runtimeParserFor('kaduse-news', { transport: 'RSS', url: 'https://a.org/x' }).module, 'apps/worker/src/ingress/generic-web.ts');
   assert.equal(runtimeParserFor('tip_toplulugu', { transport: 'OFFICIAL_API', url: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi' }).method, 'eutilities_api');
 });
@@ -451,7 +454,7 @@ test('capacity SAFE activates; CAUTION and BLOCK never activate (staged READY as
     const r = await lc(root, { bridge: fakeBridge({ capacity: status }), fetcher: fakeFetcher(trRoutes()) }).add(TR_URL, { apply: true });
     assert.equal(r.outcome, 'BLOCKED_CAPACITY', status);
     assert.match(r.next_step, /not SAFE/);
-    const saved = rec(root, r.source_id, 'v1.1')[0];
+    const saved = rec(root, r.source_id, 'batch3')[0];
     assert.equal(saved.runtime_activation, 'MANUAL_INTAKE');
     assert.match(saved.manual_intake_reason, new RegExp(`CAPACITY_${status}`));
     const state = loadProjections(root).find((p) => p.source_id === r.source_id);
@@ -460,8 +463,8 @@ test('capacity SAFE activates; CAUTION and BLOCK never activate (staged READY as
     // Re-running add once capacity is SAFE activates the same identity.
     const again = await lc(root, { bridge: fakeBridge({ capacity: 'SAFE' }), fetcher: fakeFetcher(trRoutes()) }).add(TR_URL, { apply: true });
     assert.equal(again.outcome, 'ACTIVE');
-    assert.equal(rec(root, r.source_id, 'v1.1').length, 1);
-    assert.equal(rec(root, r.source_id, 'v1.1')[0].manual_intake_reason, undefined);
+    assert.equal(rec(root, r.source_id, 'batch3').length, 1);
+    assert.equal(rec(root, r.source_id, 'batch3')[0].manual_intake_reason, undefined);
   }
   const root = sandbox();
   const r = await lc(root, { bridge: null, fetcher: fakeFetcher(trRoutes()) }).add(TR_URL);
@@ -481,13 +484,13 @@ test('onboarding one source never touches other pending sources', async () => {
 
 test('canary failure (runtime gates reject the profile) -> BLOCKED_TECHNICAL, nothing written', async () => {
   const root = sandbox();
-  const before = bytes(root, 'v1.1');
+  const before = bytes(root, 'batch3');
   const bridge = fakeBridge({ gatesOverride: () => ({ computed: 'MANUAL_INTAKE', gates_ok: false, failures: ['missing_tls_host_path_rules'] }) });
   const r = await lc(root, { bridge, fetcher: fakeFetcher(trRoutes()) }).add(TR_URL, { apply: true });
   assert.equal(r.outcome, 'BLOCKED_TECHNICAL');
   assert.equal(r.reason, 'CANARY_FAILED');
   assert.equal(r.canary.steps.persistence, 'FAIL');
-  assert.equal(bytes(root, 'v1.1'), before);
+  assert.equal(bytes(root, 'batch3'), before);
 });
 
 // ---------- Kaduse lane ---------------------------------------------------------------------------------------------
@@ -750,7 +753,7 @@ test('traceability: every mutation leaves a lifecycle_history entry + a full tra
   assert.deepEqual(trace.phases.map((p) => p.phase), ['REQUESTED', 'RESOLVING', 'VALIDATING', 'CANARY', 'ACTIVE']);
   assert.equal(trace.result.outcome, 'ACTIVE');
   assert.ok(r.trace_file.startsWith('.logs/source-lifecycle/'));
-  const h = rec(root, r.source_id, 'v1.1')[0].lifecycle_history;
+  const h = rec(root, r.source_id, 'batch3')[0].lifecycle_history;
   assert.equal(h.length, 1);
   assert.equal(h[0].op, 'add');
   assert.equal(h[0].gates.CANARY, 'PASS');
@@ -921,7 +924,7 @@ test('real bridge: canonical gates, S66 identity and the unchanged capacity guar
 test('real bridge: a profile produced by onboarding passes the runtime activation gates', { skip: py ? false : 'python 3 not available' }, async () => {
   const root = sandbox();
   const r = await lc(root, { fetcher: fakeFetcher(trRoutes()) }).add(TR_URL, { apply: true });
-  const saved = rec(root, r.source_id, 'v1.1')[0];
+  const saved = rec(root, r.source_id, 'batch3')[0];
   const g = pythonBridge(repoRoot).gates(saved);
   assert.deepEqual([g.computed, g.gates_ok, g.failures], ['AUTOMATION_READY', true, []]);
   const retiredRoot = sandbox();
@@ -938,4 +941,59 @@ test('temporal: a pubmed archive must be a bounded SRC:MED query proxied by Euro
   assert.match(errs({ query: 'TITLE:"meta-analysis"' }), /query_must_restrict_to_SRC:MED/);
   assert.match(errs({ discovery_proxy: 'pubmed' }), /discovery_proxy_must_be_europepmc/);
   assert.match(errs({ publisher: '' }), /publisher_missing/);
+});
+
+// ---------- per-lane legs of one publisher (owner policy 2026-10-31: HSGM) ----------------------------------------
+
+test('per-lane legs: one publisher, one source per lane on the same dated feed, each with its own narrow policy and TR runner tag', async () => {
+  const root = sandbox();
+  writeJson(root, `${HEK}/egitim/pool.json`, { lane: 'egitim', source_registry: [], egitim_ilanlari: [] }, { crlf: false });
+  const host = 'hsgm-test.saglik.gov.tr';
+  const page = `https://${host}/tr/haberler-1.html`;
+  const feed = `https://${host}/tr/haberler-1.feed?type=rss`;
+  const items = Array.from({ length: 12 }, (_, i) => ({ title: `Aile hekimleri için başvuru duyurusu ${i}`, url: `https://${host}/tr/haberler-1/duyuru-${i}.html`, date: daysAgo(2 + i * 3) }));
+  const routes = {
+    [page]: listPage({ host, section: '/tr/haberler-1/', lang: 'tr', words: 'hekim başvuru', title: 'Haberler', alternate: feed }),
+    [feed]: { body: rss(items), contentType: 'application/rss+xml' },
+  };
+  const bridge = fakeBridge();
+  const common = { channel: 'tip_toplulugu', apply: true };
+  const duyuru = await lc(root, { bridge, fetcher: fakeFetcher(routes) }).add(page, {
+    ...common,
+    overrides: { sourceId: 'hsgm_test', heading: 'DUYURU', name: 'HSGM Test - Duyuru', runnerRegion: 'TR', include: ['başvuru'], exclude: ['ziyaret'], forbid: ['/tr/mevzuat'], sharedEndpointReason: 'leg 1' },
+  });
+  assert.equal(duyuru.outcome, 'ACTIVE', JSON.stringify(duyuru));
+  assert.equal(duyuru.endpoint.transport, 'RSS');
+  const d = rec(root, 'hsgm_test', 'batch3')[0];
+  assert.equal(d.canonical_url, feed, 'the dated feed is the registered endpoint');
+  assert.equal(d.runner_region, 'TR');
+  assert.deepEqual(d.include_keywords, ['başvuru']);
+  assert.deepEqual(d.exclude_keywords, ['ziyaret']);
+  assert.deepEqual(d.fetch_plan.forbidden_paths, ['/tr/mevzuat']);
+  assert.equal(d.default_route_on_accept, 'NEEDS_REVIEW');
+
+  const egitim = await lc(root, { bridge, fetcher: fakeFetcher(routes) }).add(page, {
+    ...common,
+    overrides: { sourceId: 'egitim_hsgm_test', heading: 'EGITIM', name: 'HSGM Test - Eğitim', runnerRegion: 'TR', include: ['eğitim'], sharedEndpointReason: 'leg 2' },
+  });
+  assert.equal(egitim.outcome, 'ACTIVE', JSON.stringify(egitim));
+  assert.equal(egitim.route.heading, 'EGITIM');
+  const e = rec(root, 'egitim_hsgm_test', 'egitim-v1')[0];
+  assert.equal(e.default_route_on_accept, 'EDUCATION');
+  assert.equal(e.runner_region, 'TR');
+  assert.equal(rec(root, 'hsgm_test', 'batch3').length, 1, 'the Duyuru leg is untouched');
+  const pool = JSON.parse(readFileSync(join(root, `${HEK}/egitim/pool.json`), 'utf8'));
+  assert.deepEqual(pool.source_registry.map((s) => s.source_id), ['egitim_hsgm_test'], 'central Eğitim pool mirrors the registry id');
+
+  // without an explicit per-lane reason the same endpoint stays a duplicate
+  const dup = await lc(root, { bridge, fetcher: fakeFetcher(routes) }).add(page, { channel: 'tip_toplulugu', overrides: { sourceId: 'hsgm_test_other', heading: 'DUYURU' } });
+  assert.equal(dup.outcome, 'NEEDS_USER_DECISION');
+  assert.equal(dup.reason, 'DUPLICATE_OR_OWNERSHIP');
+});
+
+test('new Duyuru records go to the additive layer, never to the closed v1.1 set', async () => {
+  const { targetFileFor } = await import('./store.mjs');
+  assert.match(targetFileFor({ heading: 'DUYURU', url: 'https://x.gov.tr/a' }), /source-registry-batch3\.json$/);
+  assert.match(targetFileFor({ heading: 'EGITIM' }), /source-registry-egitim-v1\.json$/);
+  assert.match(targetFileFor({ heading: 'BURS' }), /source-registry-burs-v1\.json$/);
 });

@@ -250,5 +250,65 @@
     "name": "OpenWHO Health Emergencies Training",
     "url": "https://openwho.org/courses",
     "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_hsgm_aile_hekimligi",
+    "name": "HSGM Aile Hekimliği Eğitim ve İzleme - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-1.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_asi",
+    "name": "HSGM Aşı - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-5.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_bulasici",
+    "name": "HSGM Bulaşıcı Hastalıklar - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-12.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_zoonotik",
+    "name": "HSGM Zoonotik ve Vektörel Hastalıklar - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-11.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_kadin_ureme",
+    "name": "HSGM Kadın ve Üreme Sağlığı - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-kadinuremesagligi.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_cocuk_ergen",
+    "name": "HSGM Çocuk ve Ergen Sağlığı - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-cocukergen.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_beslenme",
+    "name": "HSGM Sağlıklı Beslenme - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-6.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_toplum_sagligi",
+    "name": "HSGM Toplum Sağlığı - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-9.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_tuberkuloz",
+    "name": "HSGM Tüberküloz - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-tbc.feed?type=rss",
+    "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_hsgm_mikrobiyoloji",
+    "name": "HSGM Mikrobiyoloji - Eğitim",
+    "url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
+    "mode": "AUTOMATION_READY"
   }
 ]

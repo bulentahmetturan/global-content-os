@@ -1,6 +1,6 @@
 name: Tıp Topluluğu TR source freshness
 
-# Visible alarm for runner_region=TR sources (hsgm_public_health). Reads the public Hub telemetry and fails
+# Visible alarm for runner_region=TR sources (30 HSGM hattı: hsgm_*, egitim_hsgm_*). Reads the public Hub telemetry and fails
 # (red run + GitHub e-mail) when the source has no recent success, is unhealthy, or last_success_at is stale.
 # Does not fetch HSGM itself and needs no secret.
 # Enforced only when the TR runner is enabled (repo variable TR_RUNNER_ENABLED=true, same switch as
