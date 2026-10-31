@@ -1,7 +1,7 @@
 # TÜRK TIP İÇERİK OS — BIBLE v4
 
 > **Durum:** Normatif / bağlayıcı sistem anayasası  
-> **Sürüm:** 4.1  
+> **Sürüm:** 4.2  
 > **Kapsam:** Haber, Burs, Eğitim, Duyuru, Research  
 > **Kurallar kümesi:** Kitap I (anayasa) + Kitap II (`source-pass-fail-v1`)  
 > **Temel ilke:** Sistem hızdan, engagement'tan ve otomasyondan önce doğruluk, güvenlik, kaynak bütünlüğü ve izlenebilirliği korur.
@@ -10,6 +10,7 @@
 |---|---|
 | 3.0 | Kitap I — hard gate, fail-closed, beş kategori, eligibility eksenleri |
 | 4.0 | Kitap II — Source Pass/Fail & Pipeline Loop; iki değerlendirme hattı; editorial ≠ ingestion ≠ lifecycle |
+| 4.2 | Hedef kitle üçlüsü (Türk tıp profesyonelleri, Türk tıp öğrencileri, Türk sağlık takipçisi halk) ve "kitle VEYA wow / dünya çapında önemli gelişme" kuralı (§12.0); hat bazlı daraltma ölçütleri: Haber ve aksiyon hatları Duyuru/Burs/Eğitim, ön duyuru / sonuç / düz haber ayrımı (§12.0.1); kaynak politikası hat bazlıdır (§2.3); tarihsiz resmî liste istisnası (SPF-7.1) |
 | 4.1 | Hedef kitle uygunluğu 1. hard gate (§1.2, §1.3, §12.0); kanallar ve kitle tanımları (§1.4); zaman ekseni: Time Sensitive / Evergreen grupları ve hat saflığı (§2.3); Keşif katmanı (§6.6); kontrollü sözlük: time_axis, evergreen_family, channel_audience (§22.5); SPF-7 ve §35 kontrol listesi güncellendi |
 
 v3 metni Kitap I olarak korunur (Bölüm 0–35). Source Pass/Fail sözleşmesi **SPF-0 … SPF-35** olarak Kitap II'dedir; Kitap I bölüm numaraları ile çakışmaz.
@@ -212,6 +213,8 @@ Platform iki zaman grubuna ve bir keşif katmanına ayrılır (`time_axis`):
 **Keşif:** yukarıdaki tüm alanlar için sisteme yeni dahil edilecek adayları sürekli öneren katman (§6.6).
 
 **Hat saflığı:** Haber'de duyuru, Duyuru'da haber, başka başlık altında Research bulunmaz. Her başlık kendi çerçevesi ve hedef kitlesine göre kendi operasyonel mükemmelliğini oluşturur ve geri besleme ile iyileşir. Tür uyuşmazlığı doğru başlığa taşınır veya gerekçe koduyla reddedilir; çapraz sızıntı kabul edilmez.
+
+**Kaynak politikası hat bazlıdır (§12.0.1):** bir yayıncı birden fazla türde içerik üretiyorsa her hat için ayrı kaynak kaydı açılır; hiçbir kaynak öğeyi başka hatta yönlendirmez. Tür uyuşmazlığı "taşınır" ifadesi, aynı yayıncının o hattaki kaynağının öğeyi işlemesi anlamındadır.
 
 ---
 
@@ -740,6 +743,23 @@ Bu aşama sistemin en kritik kapılarından biridir.
 ### 12.0. Hedef kitle kapısı (1. kapı)
 
 Her içerik, fırsat ve keşif adayı ilk olarak §1.4'teki kitlelere uygunluk açısından değerlendirilir. Sonuç `YES | PARTIAL | NO | UNKNOWN` olur; `NO` içerik sonraki aşamaya geçmez, `UNKNOWN` fail-closed ilkesiyle `HUMAN_REVIEW`'a gider (§0.4). Yurt dışı burs, eğitim ve duyurularda kapı, Türkiye'deki tıp profesyonellerinin ve öğrencilerinin başvurabilmesini/katılabilmesini arar: yalnız hedef ülkede bulunanlara veya o ülkenin vatandaş/yerleşiklerine açık fırsat `NO`'dur (örn. "Kanada'da okuyan Türk öğrenciler" yetmez).
+
+### 12.0.1. Hedef kitle ölçütleri ve hat bazlı daraltma (sahip kararı 2026-10-31)
+
+**Üç kitle her zaman Türk kitlesidir:** (1) Türk tıp profesyonelleri, (2) Türk tıp öğrencileri, (3) Türk sağlık takipçisi genel halk (beslenme, uyku, kalp, kronik hastalık gibi tüketici sağlığı dahil).
+
+**Giriş kuralı (biri yeter, ikisi birden gerekmez):** öğe en az bir Türk kitlesine hizmet eder VEYA dünya çapında wow değeri / önemli dünya gelişmesi taşır (ilaç ve cihaz gelişmeleri, dünya ölçeğinde salgın, Nobel gibi). Hiçbir Türk kitlesine hizmet etmeyen ve wow taşımayan yabancı öğe elenir: tek bir bölgenin yerel salgını, tek bir yabancı sağlık sistemi, tek bir şirketin rutin haberi.
+
+**Haber hattı:** kurumsal rutin (ziyaret, açılış töreni, toplantı, sunum, açılış çalıştayı, protokol/MoU imzası, atama, personel/ihale/mali ilan, reklam) elenir; klinik sonuç, kongre/kurultay raporu, rehber/ilaç/cihaz gelişmesi kabul edilir. Özel gün, hafta ve ay (Dünya Hepatit Günü gibi) hedef kitle ile bağ kurduğu için Haber'de kabul edilir.
+
+**Aksiyon hatları (Duyuru, Burs, Eğitim):** amaç haber vermek değil, Türk profesyonel ve öğrencilerin zamanında harekete geçmesini sağlamaktır (başvurmak, kayıt olmak, katılmak). Aynı kitle/wow testi ve §12.1 Türkiye uygunluğu geçerlidir.
+
+- Tarihli veya başvuru penceresi olan ön duyuru: **güçlü kabul.**
+- Aynı çağrının/programın sonucu (sonuç listesi, "kurultay yapıldı", burs tanıtımı): **kabul.**
+- Aynı şeyin tarihsiz, başvuru yolu olmayan düz haberi: **ret.**
+- Rehber, kılavuz, mevzuat kitabı, program, rapor, bülten, tanı kodu listesi "yayımlandı/güncellendi": Duyuru, **kabul.**
+
+**Kaynak politikası hat bazlıdır:** Duyuru kaynağı yalnız Duyuru öğesi, Haber kaynağı yalnız Haber öğesi, Burs kaynağı yalnız Burs öğesi, Eğitim kaynağı yalnız Eğitim öğesi kabul eder. Birden fazla türde içerik üreten yayıncı, her hat için ayrı kaynak olarak ve her biri kendi dar politikasıyla kaydedilir. Bir kaynak öğeyi başka hatta yönlendirmez.
 
 ### 12.1. Türkiye uygunluğu üç ayrı eksendir
 
@@ -1935,6 +1955,15 @@ Bu durumlarda: `CONDITIONAL` | `WATCH` | `MANUAL_ONLY` | `PAUSED` | `DEGRADED`.
 Hedef kitle uygunluğu (§12.0), canonical URL, yayın tarihi, metadata, duplicate, doğrulanabilir publisher, içerik bütünlüğü, güncellik — SOURCE değil ITEM seviyesinde.
 
 ITEM kararları: `PASS` | `HOLD` | `HUMAN_REVIEW` | `REJECT`. ITEM REJECT ≠ SOURCE FAIL.
+
+### SPF-7.1. Tarihsiz resmî liste istisnası (sahip kararı 2026-10-31)
+
+"Yayın tarihi" ve "güncellik" öğe sert kapısıdır. Tek istisna: kaynak kaydında `undated_official_list: true` ile açıkça işaretlenmiş, yayın tarihini listede göstermeyen resmî listeler.
+
+1. Önce öğenin detay sayfasından gerçek yayın tarihi okunur.
+2. Okunamazsa öğe yine alınır ama `published_at` boş kalır. Tarih icat edilmez. Öğeye "ilk görüldüğü an" (`first_seen_at`) ayrı bir alan olarak yazılır ve yayın tarihi gibi gösterilmez.
+3. Güncellik, listedeki sıraya (en yeni üstte) ve ilk görülme anına göre yargılanır. İlk çekimde yalnız listenin en yeni N öğesi alınır, eski liste yığılmaz.
+4. İstisna genel gevşetme değildir; yalnız kaynak kaydında işaretli kaynaklar için geçerlidir.
 
 ---
 
