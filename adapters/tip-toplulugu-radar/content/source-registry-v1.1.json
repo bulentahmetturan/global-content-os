@@ -344,11 +344,14 @@
         "imar planı",
         "enerji piyasası",
         "turizm işletme",
-        "ilan",
-        "ihale",
+        "ihale ilan",
+        "yargı ilan",
+        "çeşitli ilan",
         "kamulaştırma",
         "atama kararı",
-        "personel alım"
+        "atamalar hakkında",
+        "personel alım",
+        "federasyonu ana statüsü"
       ],
       "allowed_routes": [
         "CAREER",
@@ -381,6 +384,9 @@
           "/fihrist",
           "/eskiler/",
           "/"
+        ],
+        "forbidden_paths": [
+          "/ilanlar/"
         ]
       },
       "allowed_path_patterns": [

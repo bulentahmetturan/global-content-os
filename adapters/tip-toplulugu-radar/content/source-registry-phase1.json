@@ -803,11 +803,14 @@
         "imar planı",
         "enerji piyasası",
         "turizm işletme",
-        "ilan",
-        "ihale",
+        "ihale ilan",
+        "yargı ilan",
+        "çeşitli ilan",
         "kamulaştırma",
         "atama kararı",
-        "personel alım"
+        "atamalar hakkında",
+        "personel alım",
+        "federasyonu ana statüsü"
       ],
       "audience_segments": [
         "medical_student",
@@ -885,7 +888,10 @@
           "retain_active_or_future_deadline": true,
           "historical_priority": "backfill_low",
           "undated_as_current": true
-        }
+        },
+        "forbidden_paths": [
+          "/ilanlar/"
+        ]
       },
       "status": "active",
       "canonical_url": "https://www.resmigazete.gov.tr/",
@@ -949,6 +955,18 @@
           "reason": "Fix path pattern mangled by shell on previous amend: /fihrist",
           "fields": [
             "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_a56940a6a2394123",
+          "at": "2026-11-01T11:42:58.106Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Bare exclude 'ilan' substring-matched 'Yapilan'/'bildirilan'; paid notices are now blocked by path (/ilanlar/ forbidden) and by whole phrases only",
+          "fields": [
+            "exclude",
+            "forbid"
           ]
         }
       ],
