@@ -839,45 +839,21 @@
         "academic_physician"
       ],
       "include_keywords": [
-        "hekim",
-        "doktor",
-        "hasta",
-        "hastane",
-        "sağlık bakanlığı",
-        "aşı",
-        "salgın",
-        "tarama",
-        "TUS",
-        "YDUS",
-        "tıp fakültesi",
-        "asistan",
-        "uzmanlık",
-        "halk sağlığı",
-        "klinik",
-        "tedavi",
-        "ilaç",
-        "ameliyat",
-        "teşhis",
-        "kanser",
-        "diyabet",
-        "YÖK",
-        "TUK",
-        "SGK",
-        "TİTCK"
+        "klinik araştırma",
+        "hekimlerin"
       ],
       "exclude_keywords": [
-        "mucize",
-        "şifa",
-        "medikal turizm",
-        "hastane açılışı",
-        "ücretli klinik",
-        "ünlü",
-        "diyet mucize",
-        "burç",
-        "astroloji",
-        "fal",
-        "yıldız falı",
-        "reklam"
+        "geri çek",
+        "blokaj",
+        "kozmetik",
+        "biyosidal",
+        "personel",
+        "firmalarının",
+        "firmaların",
+        "başvuru sahibi",
+        "eczacı yerleştirme",
+        "mali tablo",
+        "fiyat"
       ],
       "allowed_routes": [
         "NEEDS_REVIEW",
@@ -973,6 +949,18 @@
             "before": 43200,
             "after": 10080
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_ff6d70d4229655d4",
+          "at": "2026-11-01T11:17:59.300Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner rule 2026-11-01: card titles are generic (Kamuoyunun/Firmalarin Dikkatine), so title keywords cannot separate audience-fit items; recalls now come from the official recall RSS (titck_geri_cekme). This source keeps only clinical-research and physician-addressed notices.",
+          "fields": [
+            "include",
+            "exclude"
+          ]
         }
       ]
     },

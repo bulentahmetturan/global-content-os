@@ -47,7 +47,7 @@
       "channelId": "kaduse-medikal",
       "sourceId": "titck-announcements",
       "targetId": "titck-tibbi-cihaz-duyurulari",
-      "enabled": true
+      "enabled": false
     },
     {
       "channelId": "kaduse-medikal",

@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "da846335e1b9aa2270aac24dcbdcd82aca6f3f7f4508034dbc2b3f2d419c73d2"
+        "sha256": "239dbebb000f678eaf2c47df91f5a8e1fe673c5971e10ea96a37269ded60cad3"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -157,7 +157,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.titck.gov.tr/duyurular?catID=93",
       "pollMinutes": 360,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "titck-tibbi-cihaz-duyurulari",
       "registrySourceId": "titck-announcements",
       "inclusionPolicy": null,

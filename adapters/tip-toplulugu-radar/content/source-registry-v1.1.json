@@ -338,7 +338,17 @@
       "exclude_keywords": [
         "karayolu",
         "gümrük",
-        "tarım"
+        "tarım ürün",
+        "vergi usul genel",
+        "belediye meclis",
+        "imar planı",
+        "enerji piyasası",
+        "turizm işletme",
+        "ilan",
+        "ihale",
+        "kamulaştırma",
+        "atama kararı",
+        "personel alım"
       ],
       "allowed_routes": [
         "CAREER",
@@ -366,8 +376,18 @@
       "pipeline_wiring_enabled": false,
       "execution": "python_runner",
       "fetch_plan": {
-        "expected_check_interval_minutes": 1440
-      }
+        "expected_check_interval_minutes": 1440,
+        "allowed_path_patterns": [
+          "/fihrist",
+          "/eskiler/",
+          "/"
+        ]
+      },
+      "allowed_path_patterns": [
+        "/fihrist",
+        "/eskiler/",
+        "/"
+      ]
     },
     {
       "source_id": "tuik_medical_public_health",
@@ -394,7 +414,6 @@
         "hastane",
         "ölüm",
         "doğum",
-        "yaşam",
         "engelli",
         "sağlık harcama",
         "sağlık personeli",
@@ -407,7 +426,12 @@
         "tarım",
         "fiyat endeksi",
         "motorlu",
-        "konut"
+        "konut",
+        "hanehalkı bilişim",
+        "işgücü",
+        "dış ticaret",
+        "memnuniyet",
+        "gelir ve yaşam"
       ],
       "allowed_routes": [
         "DATA_INSIGHT",
@@ -457,7 +481,7 @@
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
         "notes": "Official server-rendered home page bulletin slider (latest bulletins: title, period, veriportali press URL). veriportali/data.tuik.gov.tr are JS-only shells; press API not reachable without the portal proxy.",
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 1440,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {

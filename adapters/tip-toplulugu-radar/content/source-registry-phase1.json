@@ -802,7 +802,12 @@
         "belediye meclis",
         "imar planı",
         "enerji piyasası",
-        "turizm işletme"
+        "turizm işletme",
+        "ilan",
+        "ihale",
+        "kamulaştırma",
+        "atama kararı",
+        "personel alım"
       ],
       "audience_segments": [
         "medical_student",
@@ -844,7 +849,6 @@
         "allowed_path_patterns": [
           "/fihrist",
           "/eskiler/",
-          "/ilanlar/",
           "/"
         ],
         "expected_check_interval_minutes": 1440,
@@ -923,7 +927,35 @@
             "before": 43200,
             "after": 1440
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_d96f4f5680cc177c",
+          "at": "2026-11-01T11:19:24.020Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner rule 2026-11-01: paid notices (ilanlar) never carry audience-fit regulation; add institutional/procurement excludes so only health-profession regulation enters",
+          "fields": [
+            "exclude",
+            "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_d52ec3320538876a",
+          "at": "2026-11-01T11:32:32.849Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Fix path pattern mangled by shell on previous amend: /fihrist",
+          "fields": [
+            "paths"
+          ]
         }
+      ],
+      "allowed_path_patterns": [
+        "/fihrist",
+        "/eskiler/",
+        "/"
       ]
     },
     {
@@ -953,7 +985,6 @@
         "hastane",
         "ölüm",
         "doğum",
-        "yaşam",
         "engelli",
         "sağlık harcama",
         "sağlık personeli",
@@ -966,7 +997,12 @@
         "tarım",
         "fiyat endeksi",
         "motorlu",
-        "konut"
+        "konut",
+        "hanehalkı bilişim",
+        "işgücü",
+        "dış ticaret",
+        "memnuniyet",
+        "gelir ve yaşam"
       ],
       "audience_segments": [
         "medical_student",
@@ -1006,7 +1042,7 @@
         "forbidden_hosts": [],
         "forbidden_path_patterns": [],
         "notes": "Official server-rendered home page bulletin slider (latest bulletins: title, period, veriportali press URL). veriportali/data.tuik.gov.tr are JS-only shells; press API not reachable without the portal proxy.",
-        "expected_check_interval_minutes": 10080,
+        "expected_check_interval_minutes": 1440,
         "source_health": "HEALTHY",
         "coverage_status": "configured",
         "coverage_policy": {
@@ -1057,8 +1093,8 @@
         "confidence": "OWNER_DIRECTED",
         "evidence": {
           "source": "owner_directed",
-          "basis": "F4 unmeasurable non-deadline statistical bulletins (59 undated list items); engine class fallback 10080 (was 43200 > lane max)",
-          "computed_at": "2026-10-01T22:06:37.298Z"
+          "basis": "TUIK publishes bulletins on a fixed calendar nearly every weekday; a weekly poll misses time-sensitive health bulletins by up to 6 days, home slider is a single small page",
+          "computed_at": "2026-11-01T11:19:24.393Z"
         },
         "flags": [
           "OWNER_DIRECTED"
@@ -1075,6 +1111,30 @@
             "field": "fetch_plan.expected_check_interval_minutes",
             "before": 43200,
             "after": 10080
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_6c446c54af5aef95",
+          "at": "2026-11-01T11:19:24.197Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner rule 2026-11-01: generic words (yasam, hastane price lines) pull non-health bulletins; keep health, mortality, birth, disability, obesity, tobacco only",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_a04e1b812ef5eec8",
+          "at": "2026-11-01T11:19:24.983Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 10080,
+            "after": 1440
           }
         }
       ]

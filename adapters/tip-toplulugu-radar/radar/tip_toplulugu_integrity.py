@@ -57,6 +57,7 @@ DOMESTIC_OFFICIAL_PRIMARY_IDS = frozenset(
         "osym_dus_dental_exams",
         "osym_ydus_subspecialty_exams",
         "titck_announcements_general",
+        "titck_geri_cekme",
         "saglik_bakanligi_genel",
     }
 )

@@ -511,5 +511,51 @@ export function createLifecycle(opts) {
     return { ok: true, op: 'purge-plan', source_id: m.source_id, outcome: 'PLAN_ONLY', purge: purgePlan(m, artifacts), writes: 0 };
   }
 
-  return { add, retire, reactivate, inspect, recalibrate, purgePlan: purge, authorizeLifecycle };
+  // ---------- AMEND (narrowing / policy change of an EXISTING Tıp Topluluğu source; identity, history and D1 rows stay) -------
+  const AMEND_FIELDS = ['include', 'exclude', 'forbid', 'paths'];
+  async function amend(target, { apply = false, reason = null, changes = {} } = {}) {
+    const trace = { request_id: normalizeRequest(`amend:${target}`, { now: clock() }).request_id, op: 'amend', input: { raw: target, apply, reason, changes }, actor, phases: [{ phase: 'REQUESTED', at: clock() }] };
+    const { identity } = resolveOne(target, trace);
+    if (identity.outcome !== 'EXISTING') return finish(trace, { ok: false, op: 'amend', outcome: 'NOT_FOUND' });
+    const m = identity.match;
+    if (m.store !== 'tip_toplulugu') return finish(trace, { ok: false, op: 'amend', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: 'Kaduse sources are changed through the reviewed catalog commit, not here.' });
+    if (!reason || !String(reason).trim()) return finish(trace, { ok: false, op: 'amend', outcome: 'REASON_REQUIRED', source_id: m.source_id, reason: 'amend needs --reason "<owner rule or evidence>"' });
+    const given = AMEND_FIELDS.filter((k) => Array.isArray(changes[k]));
+    if (!given.length) return finish(trace, { ok: false, op: 'amend', outcome: 'NOTHING_TO_AMEND', source_id: m.source_id, reason: `give at least one of --${AMEND_FIELDS.join(' --')}` });
+    const layers = m.layers.map((l) => ({ file: l.slice(0, l.indexOf(':')), path: l.slice(l.indexOf(':') + 1) }));
+    const before = {};
+    const commitLayer = (layer, applyNow) =>
+      commitCanonical({
+        root, file: layer.file, apply: applyNow, actor, authorize, op: 'amend',
+        mutate: (data) => {
+          const rec = getAt(data, layer.path);
+          const plan = (rec.fetch_plan ||= {});
+          if (changes.include) { before.include_keywords ??= rec.include_keywords; rec.include_keywords = changes.include; }
+          if (changes.exclude) { before.exclude_keywords ??= rec.exclude_keywords; rec.exclude_keywords = changes.exclude; }
+          if (changes.forbid) { before.forbidden_paths ??= plan.forbidden_paths; plan.forbidden_paths = changes.forbid; }
+          if (changes.paths) { before.allowed_path_patterns ??= rec.allowed_path_patterns; rec.allowed_path_patterns = changes.paths; plan.allowed_path_patterns = changes.paths; }
+          if (layer.file === m.file) pushHistory(rec, { op: 'amend', request_id: trace.request_id, at: clock(), outcome: stateOf(m) === 'ACTIVE' ? 'ACTIVE' : 'READY', by: actor.id, reason: String(reason).trim(), fields: given });
+          return { op: 'amend', source_id: m.source_id, path: layer.path, fields: given };
+        },
+      });
+    if (layers.length > 1) {
+      const dry = layers.map((l) => commitLayer(l, false));
+      if (dry.some((c) => c.writable === false || c.outcome === 'PLAN_ONLY')) return finish(trace, { ok: false, op: 'amend', source_id: m.source_id, outcome: 'REQUIRES_MANUAL_EDIT', reason: 'a layer is not byte-stable' });
+    }
+    const commits = layers.map((l) => commitLayer(l, apply));
+    const commit = commits.find((c) => c.outcome !== 'APPLIED') || commits[0];
+    const allApplied = commits.every((c) => c.outcome === 'APPLIED');
+    return finish(trace, {
+      ok: commit.outcome !== 'DENIED',
+      op: 'amend',
+      source_id: m.source_id,
+      outcome: allApplied ? 'AMENDED' : commit.outcome === 'DENIED' ? 'DENIED' : 'AMEND_DRY_RUN',
+      fields: given,
+      before,
+      commit: { outcome: commit.outcome, file: commit.file, ...(commit.code ? { code: commit.code } : {}) },
+      ...(allApplied ? { regenerate: regenerateSteps() } : {}),
+    });
+  }
+
+  return { add, retire, reactivate, inspect, recalibrate, amend, purgePlan: purge, authorizeLifecycle };
 }

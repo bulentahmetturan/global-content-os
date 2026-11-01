@@ -9,6 +9,7 @@
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --set <minutes> --basis "<evidence>" [--history DIR] [--apply]   (owner-directed; ladder step in lane bounds)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --temporal <patch.json> --basis "<evidence>" [--apply]  (time_sensitive / evergreen path config)
+//   node scripts/source-lifecycle.mjs amend       "<source_id>" --reason "<owner rule>" [--include a,b] [--exclude a,b] [--forbid /p1,/p2] [--paths /a/,/b/] [--apply]   (policy change of an existing source; identity kept)
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
@@ -19,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { createLifecycle } from './source-lifecycle/orchestrator.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const COMMANDS = ['add', 'retire', 'reactivate', 'inspect', 'plan', 'recalibrate', 'purge-plan'];
+const COMMANDS = ['add', 'retire', 'reactivate', 'inspect', 'plan', 'recalibrate', 'amend', 'purge-plan'];
 
 function parseArgs(argv) {
   const [cmd, target, ...rest] = argv;
@@ -34,6 +35,7 @@ function parseArgs(argv) {
     else if (a === '--set') o.set = Number(rest[++i]);
     else if (a === '--basis') o.basis = rest[++i];
     else if (a === '--source-id') (o.overrides ||= {}).sourceId = rest[++i];
+    else if (a === '--paths') (o.overrides ||= {}).paths = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
     else if (a === '--forbid') (o.overrides ||= {}).forbid = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
     else if (a === '--name') (o.overrides ||= {}).name = rest[++i];
     else if (a === '--heading') (o.overrides ||= {}).heading = rest[++i];
@@ -99,6 +101,7 @@ async function main() {
   else if (o.cmd === 'retire') r = await lc.retire(o.target, { reason: o.reason, apply: o.apply });
   else if (o.cmd === 'reactivate') r = await lc.reactivate(o.target, { apply: o.apply });
   else if (o.cmd === 'inspect') r = lc.inspect(o.target);
+  else if (o.cmd === 'amend') r = await lc.amend(o.target, { apply: o.apply, reason: o.reason ?? null, changes: o.overrides || {} });
   else if (o.cmd === 'recalibrate') r = await lc.recalibrate(o.target, { apply: o.apply, setMinutes: o.set ?? null, basis: o.basis ?? null, temporal: o.temporal ?? null });
   else r = lc.purgePlan(o.target);
   console.log(o.json ? JSON.stringify(r, null, 1) : human(r));

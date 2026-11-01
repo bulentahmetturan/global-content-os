@@ -997,3 +997,19 @@ test('new Duyuru records go to the additive layer, never to the closed v1.1 set'
   assert.match(targetFileFor({ heading: 'EGITIM' }), /source-registry-egitim-v1\.json$/);
   assert.match(targetFileFor({ heading: 'BURS' }), /source-registry-burs-v1\.json$/);
 });
+
+test('amend: reason required, dry-run writes nothing, apply updates the record once, history kept', async () => {
+  const root = sandbox();
+  const l = lc(root);
+  const changes = { include: ['hekim', 'klinik'], exclude: ['ihale'] };
+  assert.equal((await l.amend('tdb_dental', { changes })).outcome, 'REASON_REQUIRED');
+  const dry = await l.amend('tdb_dental', { reason: 'owner rule', changes });
+  assert.equal(dry.outcome, 'AMEND_DRY_RUN');
+  assert.deepEqual(rec(root, 'tdb_dental')[0].include_keywords, ['hekim'], 'dry-run writes nothing');
+  const a = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes });
+  assert.equal(a.outcome, 'AMENDED');
+  const after = rec(root, 'tdb_dental');
+  assert.equal(after.length, 1);
+  assert.deepEqual(after[0].include_keywords, ['hekim', 'klinik']);
+  assert.deepEqual(after[0].exclude_keywords, ['ihale']);
+});

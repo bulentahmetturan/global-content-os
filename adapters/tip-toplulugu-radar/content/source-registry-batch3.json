@@ -5785,6 +5785,164 @@
           }
         }
       ]
+    },
+    {
+      "source_id": "titck_geri_cekme",
+      "name": "TİTCK Blokaj ve İlaç Geri Çekme Duyuruları",
+      "label": "TİTCK Blokaj ve İlaç Geri Çekme Duyuruları",
+      "canonical_url": "https://www.titck.gov.tr/recallAnnouncementFeeds",
+      "source_url": "https://www.titck.gov.tr/recallAnnouncementFeeds",
+      "primary_url": "https://www.titck.gov.tr/recallAnnouncementFeeds",
+      "allowed_hostnames": [
+        "www.titck.gov.tr",
+        "titck.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/recallAnnouncementFeeds",
+        "/duyuru/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "dikkat",
+        "geri çek",
+        "blokaj"
+      ],
+      "exclude_keywords": [
+        "kozmetik",
+        "biyosidal",
+        "personel"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "AUTOMATION_READY",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.titck.gov.tr",
+          "titck.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/recallAnnouncementFeeds",
+          "/duyuru/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page).",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.titck.gov.tr/recallAnnouncementFeeds",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "RECALIBRATED_OWNER_DIRECTED",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "OWNER_DIRECTED",
+        "evidence": {
+          "source": "owner_directed",
+          "basis": "Safety recalls are time-critical for clinicians and the public; the official recall RSS is tiny (about 3 items per month), so a daily poll costs almost nothing",
+          "computed_at": "2026-11-01T11:17:58.477Z"
+        },
+        "flags": [
+          "OWNER_DIRECTED"
+        ]
+      },
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_66b3e6cc122ac95a",
+          "at": "2026-11-01T11:17:58.246Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "SAFE",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "recalibrate",
+          "request_id": "slr_e5275db86af4c542",
+          "at": "2026-11-01T11:17:59.108Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "cadence": {
+            "field": "fetch_plan.expected_check_interval_minutes",
+            "before": 4320,
+            "after": 1440
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_df11912241d7cd4c",
+          "at": "2026-11-01T11:27:19.337Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Listing URL is the extensionless RSS path /recallAnnouncementFeeds; trailing-slash pattern did not match it in the Worker allowlist",
+          "fields": [
+            "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_8b66928af01920a1",
+          "at": "2026-11-01T11:32:27.939Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Listing URL is the extensionless RSS path; pattern without trailing slash so the Worker allowlist accepts it",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
     }
   ]
 }
