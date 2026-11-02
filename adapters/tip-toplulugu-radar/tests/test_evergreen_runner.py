@@ -258,6 +258,11 @@ class ArchiveTests(unittest.TestCase):
         self.assertEqual(er.wp_feed_pages_to_fetch({"page_cursor": 9}, 3), [1, 9, 10])
         self.assertEqual(er.wp_feed_pages_to_fetch({}, 1), [1])
 
+    def test_http_sitemap_locations_are_upgraded_to_https(self):
+        # The Worker rejects non-https item URLs (HTTP 400 invalid_item) and one such item failed every Evergreen run.
+        xml = "<urlset><url><loc>http://bilimgenc.tubitak.gov.tr/makale/a</loc><lastmod>2026-09-23</lastmod></url></urlset>"
+        self.assertEqual(er.parse_sitemap(xml), [("https://bilimgenc.tubitak.gov.tr/makale/a", "2026-09-23")])
+
     def test_sitemap_windows_respect_budget_and_cadence(self):
         entries = er.parse_sitemap(sitemap(200))
         cands, st = er.sitemap_candidates(entries, path_filter="/health/", seen=set(), budget=12, state={}, now=NOW, rediscovery_cadence_h=24, deep_cadence_h=168)

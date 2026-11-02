@@ -146,8 +146,14 @@ def parse_sitemap(xml: str) -> list[tuple[str, str | None]]:
         if not loc:
             continue
         lm = re.search(r"<lastmod>\s*(.*?)\s*</lastmod>", block, re.S | re.I)
-        out.append((_html.unescape(loc.group(1)), lm.group(1).strip() if lm else None))
+        out.append((_https(_html.unescape(loc.group(1))), lm.group(1).strip() if lm else None))
     return out
+
+
+def _https(url: str) -> str:
+    """Sitemaps may list http:// locations (TÜBİTAK Bilim Genç does); the Worker rejects any non-https item URL with
+    HTTP 400 (invalid_item) and that one item failed the whole run every time. Same host, https scheme."""
+    return "https://" + url[len("http://"):] if url[:7].lower() == "http://" else url
 
 
 def canonical_key(url: str) -> str:
