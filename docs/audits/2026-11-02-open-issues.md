@@ -19,9 +19,9 @@ Sahip: önce kaynak ekleme bitecek, sonra bu liste sırayla halledilecek. Durum:
 10. **HSGM**: 30 bacak kayıtlı, üretimde Türkiye çıkışlı runner olmadan çekilemiyor (self-hosted `tr` runner + `TR_RUNNER_ENABLED=true` veya Windows görev zamanlayıcı; karar bekliyor).
 11. **TÜİK** ana sayfa kaydırıcısı tarihsiz; dönem sonu tarihi yaklaşımı (sahip kararıyla bırakıldı).
 12. **TİTCK** cihaz denetimi "KAMUOYUNUN DİKKATİNE" duyuruları yalnızca geri çekme kaynağıyla karşılanıyor.
-13. S66 ölü istisnalar: `ecdc.europa.eu`, `tuseb.gov.tr`, `who.int`.
-14. `config/feeds.json` 729 eski `tip-*` satırı enabled gösteriyor, D1'de kapalı (sapma).
-15. Emekli satırlar (mezar taşları) D1'de duruyor; silme yalnızca sahip onayıyla.
+13. ~~S66 ölü istisnalar~~ **Çözüldü (2026-11-03):** istisnaları kaldırmadan çalıştırınca yalnızca eutils, hsgm, noroloji, temd, tutd ihlal veriyordu; `ecdc.europa.eu`, `tuseb.gov.tr`, `who.int` `scripts/check_source_identity.py` içinden silindi (testler geçti).
+14. `config/feeds.json` 729 eski `tip-*` satırı enabled gösteriyor: `scripts/sync-feeds.mjs` bilerek `enabled: true` yazar ("Hub registry stays enabled", yaml durumu `radarYamlEnabled` alanında), satırlar `ADAPTER_PUSH` olduğu için genel Kaduse alıcısı (`route = kaduse-news`) bunları çekmez. Üretilmiş eski çıktı; değiştirmek tohum SQL ve checkpoint testlerini etkiler, bu yüzden dokunulmadı (sahip kararı).
+15. Emekli satırlar (mezar taşları) D1'de duruyor; silme yalnızca sahip onayıyla. Salt-okunur D1 kontrolü (2026-11-03): `news-titck-tibbi-cihaz-duyurulari` ve `news-titck-general-regulatory` enabled=0 (uygulanmış); `scripts/ops/2026-10-30-pending-...retire_aa_saglik_scoped.sql` ve `...retire_imdrf_news_whole.sql` dosyalarının satırları D1'de hiç yok (yalnız kapalı satır eklerdi), uygulanması gerekmez, dosyalar kayıt olarak duruyor.
 16. Evergreen bounded executor son çalışmaları başarısızdı; son düzeltmeden sonra çalışması doğrulanmadı.
 17. TÜSEB Duyuru sertifika sabitleme, ASHP `http_403`, AA Sağlık.
 

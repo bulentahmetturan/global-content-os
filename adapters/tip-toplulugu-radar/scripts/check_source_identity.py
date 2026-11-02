@@ -46,17 +46,6 @@ from radar.tip_toplulugu_integrity import resolve_effective_registry  # noqa: E4
 # two different headings belong here. See S57 in SORUN-TESPIT-LISTESI.md
 # for the original per-domain reasoning.
 DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
-    "ecdc.europa.eu": (
-        "General news (/en/news-events, HABER) vs. the weekly epidemiological "
-        "threat-monitoring report (/en/publications-and-data/monitoring/"
-        "weekly-threats-reports, DUYURU) -- genuinely distinct registered pages."
-    ),
-    "tuseb.gov.tr": (
-        "Health-tech/AI innovation news (/tuyze, /haberler -- HABER) vs. Tıp Topluluğu's "
-        "homepage-scoped scholarship/research discovery registration (DUYURU) -- "
-        "distinct registered pages, low but non-zero overlap risk (flagged in S57, "
-        "not yet resolved to zero overlap)."
-    ),
     "hsgm.saglik.gov.tr": (
         "Halk Sağlığı Genel Müdürlüğü daire sayfaları one publisher, several content types "
         "(owner per-lane source policy, 2026-10-31): each daire page is registered once per lane -- "
@@ -78,10 +67,6 @@ DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
         "TND (Türk Nöroloji Derneği) one publisher, several content types (owner per-lane source policy, 2026-11-02, "
         "Bible 26.1): DUYURU (board sınavı/burs/ödül/başvuru), EGITIM (kongre/kurs) and HABER (klinik/bilimsel sonuç, "
         "özel günler)."
-    ),
-    "who.int": (
-        "Global WHO newsroom API (/api/news/newsitems, HABER) vs. the WHO Turkey "
-        "country office page (/turkiye, DUYURU) -- fully distinct endpoints."
     ),
     "eutils.ncbi.nlm.nih.gov": (
         "Kaduse ingests PubMed articles as standalone RESEARCH content "

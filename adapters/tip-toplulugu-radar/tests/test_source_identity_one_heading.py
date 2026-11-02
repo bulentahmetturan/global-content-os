@@ -1,7 +1,7 @@
 """S66 -- every canonical source (by domain, unless a documented exception
 applies) maps to exactly one primary heading (HABER/RESEARCH/DUYURU/BURS/
 EGITIM). See scripts/check_source_identity.py for the full rule and the
-list of documented dual-heading exceptions (S57's ecdc.europa.eu,
+list of documented dual-heading exceptions (S57 historical: ecdc.europa.eu,
 titck.gov.tr, tuseb.gov.tr, who.int, eutils.ncbi.nlm.nih.gov)."""
 from __future__ import annotations
 
