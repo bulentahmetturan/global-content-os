@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
-BIBLE_VERSION = "4.0"
+BIBLE_VERSION = "4.1"
 RULESET_VERSION = "source-pass-fail-v1"
 SCHEMA_VERSION = "spf-1.0.0"
 

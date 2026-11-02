@@ -170,7 +170,7 @@ class ConfigAndBibleLockTests(unittest.TestCase):
 
     def test_vocab_and_policies_lock_v4(self):
         vocab = json.loads((CONTENT / "taxonomy" / "controlled-vocabulary.json").read_text(encoding="utf-8"))
-        self.assertEqual(vocab["bibleVersion"], "4.0")
+        self.assertEqual(vocab["bibleVersion"], "4.1")
         self.assertEqual(tuple(vocab["evaluation_track"]), ("ENGAGEMENT", "PRAGMATIC_UTILITY"))
         self.assertEqual(tuple(vocab["editorial_decision"]), ("PASS", "CONDITIONAL", "WATCH", "FAIL"))
         files = {
@@ -189,7 +189,7 @@ class ConfigAndBibleLockTests(unittest.TestCase):
         }
         for cat, path in paths.items():
             data = json.loads(path.read_text(encoding="utf-8"))
-            self.assertEqual(data["bibleVersion"], "4.0", cat)
+            self.assertEqual(data["bibleVersion"], "4.1", cat)
             self.assertEqual(data["evaluation_track"], files[cat], cat)
             self.assertIs(data["auto_publish"], False, cat)
 
