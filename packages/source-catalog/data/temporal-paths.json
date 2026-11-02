@@ -259,6 +259,90 @@
           "basis": "owner 2026-10-02 state reconciliation: PubMed stays ONE canonical source; Evergreen rediscovery eligible, legacy time-sensitive topic batch (auscultation/stethoscope/AI) not eligible; D1 feed row is only the write carrier"
         }
       ]
+    },
+    {
+      "source_id": "sarkac-saglik-whole",
+      "identity_store": "kaduse-news",
+      "feed_id": "news-sarkac-saglik-whole",
+      "semantic_lane": "Haber",
+      "time_sensitive": {
+        "enabled": false
+      },
+      "evergreen": {
+        "enabled": true,
+        "activation": "CANARY_ONLY",
+        "evergreen_view": "health_reference",
+        "tier": "SMALL",
+        "family": null,
+        "daily_target": 1,
+        "max_items_evaluated_per_cycle": 10,
+        "rediscovery_cadence_hours": 72,
+        "deep_archive_cadence_hours": 720,
+        "cooldown_days": 180,
+        "importance_signal_strategy": "EDITORIAL_RELEVANCE",
+        "signal_providers": [],
+        "archives": [
+          {
+            "id": "sarkac-saglik-feed",
+            "kind": "wp_feed",
+            "url": "https://sarkac.org/category/saglik-tip/feed/",
+            "max_pages_per_run": 3
+          }
+        ]
+      },
+      "basis": "owner 2026-11-03: Sarkaç Sağlık/Tıp Keşif-evergreen hattı; non-health RED, Nobel/tarih/buluş/eğitim/halk sağlığı/söyleşi KABUL",
+      "updated_at": "2026-11-02T21:52:26.653Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_cc0164a5148b1315",
+          "at": "2026-11-02T21:52:26.653Z",
+          "by": "W11",
+          "basis": "owner 2026-11-03: Sarkaç Sağlık/Tıp Keşif-evergreen hattı; non-health RED, Nobel/tarih/buluş/eğitim/halk sağlığı/söyleşi KABUL"
+        }
+      ]
+    },
+    {
+      "source_id": "tubitak-bilimteknik-saglik-whole",
+      "identity_store": "kaduse-news",
+      "feed_id": "news-tubitak-bilimteknik-saglik-whole",
+      "semantic_lane": "Haber",
+      "time_sensitive": {
+        "enabled": false
+      },
+      "evergreen": {
+        "enabled": true,
+        "activation": "CANARY_ONLY",
+        "evergreen_view": "health_reference",
+        "tier": "SMALL",
+        "family": null,
+        "daily_target": 1,
+        "max_items_evaluated_per_cycle": 10,
+        "rediscovery_cadence_hours": 72,
+        "deep_archive_cadence_hours": 720,
+        "cooldown_days": 180,
+        "importance_signal_strategy": "EDITORIAL_RELEVANCE",
+        "signal_providers": [],
+        "archives": [
+          {
+            "id": "tubitak-bilimteknik-saglik-feed",
+            "kind": "wp_feed",
+            "url": "https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/feed/",
+            "max_pages_per_run": 2
+          }
+        ]
+      },
+      "basis": "owner 2026-11-03: TÜBİTAK Bilim ve Teknik Tıp ve Sağlık Keşif-evergreen hattı; hepsi KABUL, tıp dışı RED",
+      "updated_at": "2026-11-02T22:03:31.135Z",
+      "history": [
+        {
+          "op": "recalibrate-temporal",
+          "request_id": "slr_d562884497a5144d",
+          "at": "2026-11-02T22:03:31.135Z",
+          "by": "W11",
+          "basis": "owner 2026-11-03: TÜBİTAK Bilim ve Teknik Tıp ve Sağlık Keşif-evergreen hattı; hepsi KABUL, tıp dışı RED"
+        }
+      ]
     }
   ]
 }

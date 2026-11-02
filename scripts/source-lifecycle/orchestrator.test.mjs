@@ -1052,3 +1052,9 @@ test('list extraction with an owner path allowlist: ids in the path and a larger
   assert.equal(items.length, 5);
   assert.ok(items.every((i) => i.url.includes('/haber/')));
 });
+
+test('discovery: WordPress comment feeds are never picked as the content feed', async () => {
+  const { alternateFeeds } = await import('./discovery.mjs');
+  const html = '<link rel="alternate" type="application/rss+xml" href="https://x.org/comments/feed/"><link rel="alternate" type="application/rss+xml" href="https://x.org/konular/saglik/feed/">';
+  assert.deepEqual(alternateFeeds(html, 'https://x.org/konular/saglik/'), ['https://x.org/konular/saglik/feed/']);
+});

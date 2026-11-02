@@ -5,6 +5,7 @@ import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
 import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
+import { parseElementorLoop } from './elementor-loop';
 
 export interface FeedRow {
   id: string;
@@ -582,6 +583,8 @@ export async function extractFromUrl(endpointUrl: string, keep?: (url: string) =
       const items = parseRssOrAtom(f.text, feedUrl);
       if (items.length) return { items, pageOk: true, pageStatus: page.status };
     }
+    const loopItems = parseElementorLoop(page.text, base);
+    if (loopItems.length >= 3) return { items: loopItems, pageOk: true, pageStatus: page.status };
     const htmlItems = parseHtmlLinks(page.text, base, keep);
     if (htmlItems.length) return { items: htmlItems, pageOk: true, pageStatus: page.status };
 

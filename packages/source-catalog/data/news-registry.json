@@ -109,6 +109,21 @@
       "id": "gov",
       "canonicalName": "Sağlık",
       "officialUrl": "https://bilimgenc.tubitak.gov.tr"
+    },
+    {
+      "id": "teyit",
+      "canonicalName": "Teyit",
+      "officialUrl": "https://teyit.org"
+    },
+    {
+      "id": "sarkac",
+      "canonicalName": "Sağlık / Tıp arşivleri",
+      "officialUrl": "https://sarkac.org"
+    },
+    {
+      "id": "dogrulukpayi",
+      "canonicalName": "Doğruluk Payı",
+      "officialUrl": "https://www.dogrulukpayi.com"
     }
   ],
   "sources": [
@@ -249,6 +264,42 @@
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
       "verificationNote": "Added by source-lifecycle 2026-10-01T14:21:46.022Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint http://bilimgenc.tubitak.gov.tr/taxonomy/term/298/feed."
+    },
+    {
+      "id": "teyit-saglik",
+      "publisherId": "teyit",
+      "canonicalName": "Teyit",
+      "officialUrl": "https://teyit.org/feed",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T21:51:41.687Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://teyit.org/feed."
+    },
+    {
+      "id": "sarkac-saglik",
+      "publisherId": "sarkac",
+      "canonicalName": "Sağlık / Tıp arşivleri",
+      "officialUrl": "https://sarkac.org/category/saglik-tip/feed/",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T21:51:44.523Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint https://sarkac.org/category/saglik-tip/feed/."
+    },
+    {
+      "id": "dogrulukpayi-saglik",
+      "publisherId": "dogrulukpayi",
+      "canonicalName": "Doğruluk Payı",
+      "officialUrl": "https://www.dogrulukpayi.com/rss.xml",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T21:51:46.673Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.dogrulukpayi.com/rss.xml."
+    },
+    {
+      "id": "tubitak-bilimteknik-saglik",
+      "publisherId": "gov",
+      "canonicalName": "Tıp ve Sağlık &mdash; Bilim ve Teknik",
+      "officialUrl": "https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:03:30.448Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/."
     }
   ],
   "targets": [
@@ -452,6 +503,50 @@
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 720
+    },
+    {
+      "id": "teyit-saglik-whole",
+      "sourceId": "teyit-saglik",
+      "label": "Teyit",
+      "officialUrl": "https://teyit.org/feed",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T21:51:41.687Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://teyit.org/feed.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "sarkac-saglik-whole",
+      "sourceId": "sarkac-saglik",
+      "label": "Sağlık / Tıp arşivleri",
+      "officialUrl": "https://sarkac.org/category/saglik-tip/feed/",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T21:51:44.523Z: gates passed (identity, access, parser, routing, dedupe, cadence 720min, canary). Endpoint https://sarkac.org/category/saglik-tip/feed/.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 720
+    },
+    {
+      "id": "dogrulukpayi-saglik-whole",
+      "sourceId": "dogrulukpayi-saglik",
+      "label": "Doğruluk Payı",
+      "officialUrl": "https://www.dogrulukpayi.com/rss.xml",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T21:51:46.673Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.dogrulukpayi.com/rss.xml.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
+    },
+    {
+      "id": "tubitak-bilimteknik-saglik-whole",
+      "sourceId": "tubitak-bilimteknik-saglik",
+      "label": "Tıp ve Sağlık &mdash; Bilim ve Teknik",
+      "officialUrl": "https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:03:30.448Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
     }
   ],
   "referenceResources": [

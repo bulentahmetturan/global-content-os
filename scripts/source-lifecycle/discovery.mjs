@@ -87,6 +87,8 @@ export function alternateFeeds(html, baseUrl) {
     if (!href) continue;
     try {
       const abs = new URL(href.replace(/&amp;/g, '&'), baseUrl);
+      // WordPress comment feeds are never a content source (they crowded out the real feeds in the two-candidate probe).
+      if (/\/comments\/feed\/?$/i.test(abs.pathname)) continue;
       if (normalizeUrl(abs.toString())) out.push(abs.toString());
     } catch {
       /* ignore malformed href */

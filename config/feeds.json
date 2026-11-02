@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "f92ea7079a5dd23a8ae73d7f03924d707235f3b8ef7ccd399fb1f91f8a930a62"
+        "sha256": "0a1727d3c95fb919297506128c785694a4af5b48a29756c668b60498e6bc097e"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "239dbebb000f678eaf2c47df91f5a8e1fe673c5971e10ea96a37269ded60cad3"
+        "sha256": "d1597c275e330da17807736db2548ef0bf8d454de4e03d98d853de8ac83df775"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 20,
+    "news": 24,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 798,
-    "registryTargetsParsed": 19
+    "total": 802,
+    "registryTargetsParsed": 23
   },
   "feeds": [
     {
@@ -580,6 +580,86 @@
       "enabled": true,
       "externalRef": "bilimgenc-tubitak-saglik-whole",
       "registrySourceId": "bilimgenc-tubitak-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-teyit-saglik-whole",
+      "label": "Teyit",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://teyit.org/feed",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "teyit-saglik-whole",
+      "registrySourceId": "teyit-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-sarkac-saglik-whole",
+      "label": "Sağlık / Tıp arşivleri",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://sarkac.org/category/saglik-tip/feed/",
+      "pollMinutes": 720,
+      "enabled": true,
+      "externalRef": "sarkac-saglik-whole",
+      "registrySourceId": "sarkac-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-dogrulukpayi-saglik-whole",
+      "label": "Doğruluk Payı",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.dogrulukpayi.com/rss.xml",
+      "pollMinutes": 60,
+      "enabled": true,
+      "externalRef": "dogrulukpayi-saglik-whole",
+      "registrySourceId": "dogrulukpayi-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-tubitak-bilimteknik-saglik-whole",
+      "label": "Tıp ve Sağlık &mdash; Bilim ve Teknik",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "tubitak-bilimteknik-saglik-whole",
+      "registrySourceId": "tubitak-bilimteknik-saglik",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

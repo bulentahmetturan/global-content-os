@@ -1,0 +1,9 @@
+-- Owner PASS/FAIL interview 2026-11-03 (Bible 26.1): keyword gates for the Kaduse Haber doğrulama/politika kaynakları.
+-- Run AFTER the generated 2026-11-02-pending-source_lifecycle_add_*_saglik_whole.sql files (those upserts reset rules_json).
+-- Worker applies rules_json.includeKeywords to title+summary (apps/worker/src/ingress/generic-web.ts applyIncludeKeywords).
+-- Teyit: only aşı / ilaç / mucize tedavi / takviye doğrulamaları (yanlış ve doğru çıkan ikisi de); bebek videosu, afet söylentisi, kurum sayısı RED.
+UPDATE source_feeds SET rules_json = '{"mode":"registered","needsFetcher":true,"includeKeywords":[" aşı"," aşıl","ilaç","mucize","takviye"],"inclusionPolicy":["aşı","ilaç","mucize tedavi","takviye"],"exclusionPolicy":null}' WHERE id = 'news-teyit-saglik-whole';
+-- Doğruluk Payı: sağlık politikası beyanı (hastane, hekim, bütçe, ilaç, aşı, hava kirliliği) KABUL; ekonomi/siyaset/çevre RED.
+UPDATE source_feeds SET rules_json = '{"mode":"registered","needsFetcher":true,"includeKeywords":["sağlık","hekim","doktor","hastane","hasta ","ilaç"," aşı"," aşıl","tıp","salgın","kanser","hastalık","hava kirliliği"],"inclusionPolicy":["sağlık politikası beyanı"],"exclusionPolicy":null}' WHERE id = 'news-dogrulukpayi-saglik-whole';
+-- TÜBİTAK Bilim ve Teknik (Tıp ve Sağlık): section label alone is not enough (owner); only health/medicine content passes.
+UPDATE source_feeds SET rules_json = '{"mode":"registered","needsFetcher":true,"includeKeywords":["sağlık","hastalık","hasta ","tedavi","ilaç","aşı","tıp","beyin","sinir","kanser","virüs","bağışıklık","alzheimer","nobel","ruh","hücre","gen ","kemik","göz","kalp","uyku","beslenme","vitamin","enfeksiyon","salgın","bakteri"],"inclusionPolicy":["sağlık/tıp içeriği"],"exclusionPolicy":null}' WHERE id = 'news-tubitak-bilimteknik-saglik-whole';
