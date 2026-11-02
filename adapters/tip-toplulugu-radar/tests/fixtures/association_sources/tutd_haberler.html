@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Haberler - TUTD    </title>
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/superfish.css"/>    <link rel="stylesheet" href="/css/superfish-vertical.css"/>    <link rel="stylesheet" href="/css/jquery.flipster.min.css"/>    <link rel="stylesheet" href="/css/test.css"/>    <link rel="stylesheet" href="/css/default.css?v=24"/>    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
+
+</head>
+<body class="inner-page">
+
+
+<!-- Üst Menü -->
+<header id="topnav" class="defaultscroll ">
+
+<!-- Sosyal Medya ve Dil Seçimi -->
+<div class="">
+    <div class="container">
+        <div class="row">
+
+<div class="social-media-icons text-end">
+    <a href="/" class="social-icon" style="font-size:15px; float: left;">
+        Anasayfa
+    </a>
+    <a href="/" class="social-icon" style="font-size:15px; float: left;">
+	English
+    </a>
+
+    <a href="https://facebook.com" class="social-icon" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://x.com" class="social-icon" target="_blank">
+        <i class="fab fa-x"></i>
+    </a>
+    <a href="https://instagram.com" class="social-icon" target="_blank">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://linkedin.com" class="social-icon" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Üst Bölüm -->
+<div class="top-header">
+    <div style="margin: 0 10px;">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <a href="/" class="d-flex align-items-center text-decoration-none">
+                    <a href="/"><img src="/img/tutd-logo-tr.png" alt="TUTD Logo" class="me-2" style="width: 200px !important;"/></a>
+
+                </a>
+            </div>
+            <div class="col-md-8 text-end">
+                <h1 class="mb-0 text-primary" style="font-size: 24px; color: #001f3f;"><span style="color: #001f3f;"><a href="/" class="navbar-brand visible-xs-block">Türk Uyku Tıbbı Derneği</a></span></h1>
+                <p class="mb-0 text-muted">Turkish Sleep Medicine Society</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+
+
+
+        <div class="menu-extras">
+            <div class="menu-item">
+		<a class="navbar-toggle " id="isToggle" href="javascript:void(0)">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <ul class="buy-button list-inline mb-0">
+<!-- Üye Girişi Butonu -->
+<li class="list-inline-item mb-0 me-2">
+            <a href="https://tutd.org.tr/giris" class="btn btn-sm btn-primary">Üye Girişi</a>
+    </li>
+
+<!-- Arama Butonu -->
+<li class="list-inline-item mb-0">
+    <div class="dropdown">
+        <button type="button" class="dropdown-toggle btn btn-sm p-0 border-0" id="searchToggle">
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="fea icon-20 login-btn-primary" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="fea icon-20 text-white login-btn-light" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+    </div>
+</li>
+
+<!-- Arama Kutusu (Gizli Başlangıçta) -->
+<li id="searchBox" class="list-inline-item mb-0" style="display: none; position: absolute; top: 100%; left: 0; right: 0;">
+    <input type="text" class="form-control" id="searchInput" placeholder="Arama Yapın...">
+</li>
+
+    <li class="list-inline-item ps-1 mb-0">
+        <a href="#" id="menuToggle">
+            <div class="btn btn-sm btn-icon btn-pills btn-primary">
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="fea icon-sm" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+        </a>
+    </li>
+        </ul>
+
+        <div id="navigation" class="d-none">
+
+<ul class="navigation-menu nav-right nav-light"><li class="has-submenu parent-menu-item"><a href="#" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">Derneğimiz <span class="menu-arrow"></span></a><ul class="submenu open"><li class="has-submenu parent-menu-item"><a href="#" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">TUTD Hakkında <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/1-tutd-tarihcesi">TUTD Tarihçesi</a></li><li><a href="/3-tutd-yonetim-kurulu">TUTD Yönetim Kurulu</a></li><li><a href="/4-onur-kurulu">Onur Kurulu</a></li><li><a href="/5-yeterlilik-kurulu">Yeterlilik Kurulu</a></li><li><a href="/6-turk-uyku-tibbi-dernegi-tuzugu">Türk Uyku Tıbbı Derneği Tüzüğü</a></li></ul></li><li class="has-submenu parent-menu-item"><a href="#" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">TUTD Merkezleri <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/7-uyku-bozukluklari-merkez-standartlari">Uyku Bozuklukları Merkez Standartları</a></li><li><a href="/8-tutdnin-akredite-ettigi-uyku-bozukluklari-merkezleri">TUTD'nin Akredite Ettiği Uyku Bozuklukları Merkezleri</a></li><li><a href="/9-egitim-merkezleri">Eğitim Merkezleri</a></li></ul></li><li class="has-submenu parent-menu-item"><a href="/15-akreditasyon-islemleri" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">Akreditasyon İşlemleri <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/15-akreditasyon-islemleri">Akreditasyon İşlemleri</a></li><li><a href="/11-reakreditasyon-basvuru-islemleri">Reakreditasyon İşlemleri</a></li></ul></li><li><a href="/14-hukuksal-surec">Hukuksal Süreç</a></li></ul></li><li class="has-submenu parent-menu-item"><a href="#" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">Eğitim <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/yayinlar">TUTD Yayınları</a></li><li><a href="/25-her-yonuyle-polisomnografi">Her Yönüyle Polisomnografi</a></li><li><a href="/12-tutd-yayinlari">Türkiye’den uyku tıbbı yayınları</a></li></ul></li><li><a href="/calisma-gruplari">Çalışma Grupları</a></li><li class="has-submenu parent-menu-item"><a href="/presentations/test" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">Bilimsel Etkinliker <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/17-kongrelerimiz">Kongrelerimiz</a></li><li><a href="/20-yeterlilik-kurslarimiz">Yeterlik Kurslarımız</a></li><li><a href="/presentations/test/3">Bölge Toplantıları</a></li><li><a href="/22-webinarlar">Webinarlar</a></li></ul></li><li><a href="/13-linkler">Linkler</a></li><li><a href="/yayinlar">Yayınlar</a></li><li><a href="/21-basinda">Basında</a></li><li><a href="/iletisim">İletişim</a></li><li class="has-submenu parent-menu-item"><a href="#" class="has-submenu parent-menu-item" data-toggle="dropdown" aria-expanded="false">Üyelik İşlemleri <span class="menu-arrow"></span></a><ul class="submenu open"><li><a href="/dernek-uyeligi-basvuru">Üyelik İşlemleri</a></li><li><a href="https://tutd.org.tr/yeterlilik-kurs-basvurularim">Yeterlilik Kurs Başvurusu</a></li><li><a href="https://tutd.org.tr/yeterlilik-sinav-basvuru-direkt">Yeterlilik Sınav Başvurusu</a></li></ul></li></ul>
+        </div>
+
+    </div>
+</header>
+
+
+
+
+
+<section class="calendar-section my-10">
+
+
+
+
+                                <style>
+.nl-wrap{--nl-accent:#2c4a7c;--nl-soft:#eef2f9;--nl-line:#e3e7ee;--nl-muted:#6b7380;margin-top:10px}
+.nl-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid var(--nl-accent);padding-bottom:12px;margin-bottom:22px}
+.nl-head h1{margin:0;font-size:28px!important;font-weight:700;color:var(--nl-accent);line-height:1.2}
+.nl-archive{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--nl-accent);color:var(--nl-accent)!important;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;text-decoration:none!important;transition:all .15s}
+.nl-archive:hover{background:var(--nl-accent);color:#fff!important}
+.nl-panel{background:#fff;border:1px solid var(--nl-line);border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(20,40,80,.05)}
+.nl-item{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid var(--nl-line);text-decoration:none!important;color:inherit;transition:background .15s}
+.nl-item:last-child{border-bottom:0}
+.nl-item:hover{background:var(--nl-soft)}
+.nl-cal{flex:0 0 52px;text-align:center;border:1px solid var(--nl-line);border-radius:7px;overflow:hidden;line-height:1;background:#fff}
+.nl-cal-d{display:block;font-size:19px!important;font-weight:700;color:var(--nl-accent);padding:6px 0 4px}
+.nl-cal-m{display:block;font-size:10px!important;text-transform:uppercase;letter-spacing:.3px;background:var(--nl-soft);color:var(--nl-muted);padding:4px 0}
+.nl-item{align-items:flex-start;padding:16px 20px}
+.nl-arrow{align-self:center}
+.nl-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.nl-title{font-size:15.5px!important;font-weight:600;color:#2b3344;line-height:1.4}
+.nl-sum{font-size:13.5px!important;color:#5e6675;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nl-item:hover .nl-title{color:var(--nl-accent)}
+.nl-arrow{flex:0 0 auto;color:#b8c0cc;font-size:18px;transition:transform .15s,color .15s}
+.nl-item:hover .nl-arrow{color:var(--nl-accent);transform:translateX(3px)}
+.nl-item.is-new .nl-cal{border-color:var(--nl-accent)}
+.nl-new{display:inline-block;background:var(--nl-accent);color:#fff;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;border-radius:10px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+.nl-pager{display:flex;justify-content:center;margin-top:18px}
+.nl-pager ul{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}
+.nl-pager li a,.nl-pager li span{display:block;padding:6px 12px;border:1px solid var(--nl-line);border-radius:6px;font-size:14px;text-decoration:none;background:#fff}
+.nl-pager li.active a,.nl-pager li.active span{background:var(--nl-accent);color:#fff;border-color:var(--nl-accent)}
+.nl-empty{padding:30px;text-align:center;color:var(--nl-muted)}
+@media (max-width:575px){
+  .nl-item{padding:10px 14px;gap:12px}
+  .nl-cal{flex-basis:46px}
+  .nl-title{font-size:14px!important}
+  .nl-arrow{display:none}
+}
+</style>
+
+<div class="nl-wrap">
+    <div class="nl-head">
+        <h1>Haberler</h1>
+        <a href="/haber-arsivi" class="nl-archive"><i class="fa fa-fw fa-archive"></i> Haber Arşivi</a>    </div>
+
+        <div class="nl-panel">
+                                <a class="nl-item is-new" href="/haber/38-sirkadiyen-ritmi-ve-uykuyu-destekleyen-isik-aliskanliklari-1">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">27</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Sirkadiyen Ritmi ve Uykuyu Destekleyen Işık Alışkanlıkları<span class="nl-new">Yeni</span></span>
+                                            <span class="nl-sum">Işık ve karanlık döngüsü, biyolojik saatimizin düzenlenmesinde ve uyku-uyanıklık ritmimizin sürdürülmesinde önemli bir rol oynar. </span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/36-29-ekim-cumhuriyet-bayramimiz-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">27</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">29 Ekim Cumhuriyet Bayramımız Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/35-haftanin-sorusu-26-10-2026">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">26</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Haftanın sorusu: 26.10.2026</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/34-gerceklik-ile-dus-arasindaki-puslu-sinir-zihnin-cografyasinda-bir-kesif-1">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">21</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Gerçeklik ile Düş Arasındaki Puslu Sınır: Zihnin Coğrafyasında Bir Keşif</span>
+                                            <span class="nl-sum">Gerçeklik ile düş arasındaki sınır nerede başlar, nerede sona erer? Yaşadığımız dünya, bağımsız bir gerçeklik mi, yoksa zihnimizin şekillendirdiği bir deneyim mi?
+</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/32-iyi-bir-uyku-icin-neler-yapabilirizquestion-1">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">20</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">İyi Bir Uyku İçin Neler Yapabiliriz?	</span>
+                                            <span class="nl-sum">İyi bir uyku, fiziksel ve ruhsal sağlığın temel unsurlarından biridir. Uyku kalitesini etkileyen faktörleri anlamak ve günlük yaşamda uygulanabilecek sağlıklı alışkanlıklar geliştirmek, uyku sağlığının korunmasında önemli bir yer tutmaktadır.
+</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/30-yeterlilik-sinavina-girecek-adaylara-duyuru">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">13</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Yeterlilik Sınavına Girecek Adaylara Duyuru</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/29-cocuklarda-saglikli-uyku-1">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">13</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Çocuklarda Sağlıklı Uyku</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/27-magnezyum-uykuma-iyi-gelir-miquestion-1">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">6</span>
+                    <span class="nl-cal-m">Eki 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Magnezyum Uykuma İyi Gelir mi?</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/25-cocuklarda-melatonin-kullanimi-anketi">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">21</span>
+                    <span class="nl-cal-m">Eyl 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Çocuklarda Melatonin Kullanımı Anketi</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/24-30-agustos-zafer-bayrami">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">30</span>
+                    <span class="nl-cal-m">Ağu 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">30 Ağustos Zafer Bayramı</span>
+                                            <span class="nl-sum">Başkomutan Gazi Mustafa Kemal Atatürk ve silah arkadaşlarının önderliğinde kazanılan Büyük Zafer’in 104. yıl dönümünü gurur ve coşkuyla kutluyoruz.
+
+</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/23-kurban-bayraminiz-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">25</span>
+                    <span class="nl-cal-m">May 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Kurban Bayramınız Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/22-vefat-ve-bassagligi">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">23</span>
+                    <span class="nl-cal-m">May 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Vefat ve Başsağlığı</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/21-19-mayis-ataturk-u-anma-genclik-ve-spor-bayrami-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">19</span>
+                    <span class="nl-cal-m">May 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">19 Mayıs Atatürk’ü Anma, Gençlik ve Spor Bayramı Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/20-sosyal-guvenlik-haftasi">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">15</span>
+                    <span class="nl-cal-m">May 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Sosyal Güvenlik Haftası</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/19-1-mayis-emek-ve-dayanisma-gunu-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">1</span>
+                    <span class="nl-cal-m">May 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">1 Mayıs Emek ve Dayanışma Günü Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/18-23-nisan-ulusal-egemenlik-ve-cocuk-bayrami-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">23</span>
+                    <span class="nl-cal-m">Nis 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/15-30-uyku-tibbi-hekimligi-sertifikasyon-kursu-ve-17-uyku-tekniker-ve-teknisyenligi-yeterlilik-kursu-gerceklestirilmistir">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">7</span>
+                    <span class="nl-cal-m">Nis 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">30. Uyku Tıbbı Hekimliği Sertifikasyon Kursu ve 17. Uyku Tekniker ve Teknisyenliği Yeterlilik Kursu Gerçekleştirilmiştir</span>
+                                            <span class="nl-sum">TUTD Yeterlilik kurs programımız, belirlenen eğitim hedefleri doğrultusunda başarıyla tamamlanmıştır. </span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/14-ramazan-bayrami-kutlu-olsun">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">19</span>
+                    <span class="nl-cal-m">Mar 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">Ramazan Bayramı Kutlu Olsun</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/13-18-mart-canakkale-zaferi-ve-sehitleri-anma-gunu">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">18</span>
+                    <span class="nl-cal-m">Mar 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">18 Mart Çanakkale Zaferi ve Şehitleri Anma Günü</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+                                <a class="nl-item" href="/haber/12-14-mart-tip-bayrami-ni-kutlariz">
+                <span class="nl-cal">
+                    <span class="nl-cal-d">14</span>
+                    <span class="nl-cal-m">Mar 2026</span>
+                </span>
+                <span class="nl-text">
+                    <span class="nl-title">14 Mart Tıp Bayramı’nı Kutlarız</span>
+                                            <span class="nl-sum">Sağlık için emek veren, bilimi ve insan hayatını merkeze alan tüm hekimlerin ve sağlık çalışanlarının 14 Mart Tıp Bayramı’nı kutlarız.
+</span>
+                                    </span>
+                <span class="nl-arrow">›</span>
+            </a>
+            </div>
+
+            <nav class="nl-pager"><ul><ul class="pagination"><li class="page-item active"><span class="page-link">1 <span class="sr-only">(current)</span></span></li><li class="page-item"><a class="page-link" href="/haberler?page=2&amp;sort=News.position&amp;direction=desc">2</a></li></ul></ul></nav>
+    </div>
+
+            
+
+</section>
+
+
+
+<div id="footer">
+    <aside>
+        <div class="container">
+            <div class="row">
+                <div class="footer-menu col-md-4">
+                    <h3>Hızlı Erişim</h3>
+                    
+    <ul class="list-inline">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li><a href="/3-tutd-yonetim-kurulu">TUTD Yönetim Kurulu</a></li>
+                    <li><a href="/8-tutdnin-akredite-ettigi-uyku-bozukluklari-merkezleri">TUTD&#039;nin Akredite Ettiği Uyku Bozuklukları Merkezleri</a></li>
+                    <li><a href="/10-akreditasyon-basvuru-islemleri">Akreditasyon İşlemleri</a></li>
+                    <li><a href="/11-reakreditasyon-basvuru-islemleri">Reakreditasyon İşlemleri</a></li>
+            </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>İletişim</h3>
+                    <address>
+    <strong>TUTD Dernek Merkezi</strong><br>
+    <i class="fa fa-fw fa-map-marker"></i> Naci Çakır Mah. 760 Sk. No:25/17 Çankaya / Ankara<br>
+    <i class="fa fa-fw fa-mobile"></i> 0 530 409 8260<br>
+    <i class="fa fa-fw fa-envelope"></i> <a href="mailto:iletisim@tutd.org.tr">iletisim@tutd.org.tr</a>
+</address>
+                </div>
+                <div class="col-md-4">
+                    <h3>Hakkımızda</h3>
+                    <p>Türk Uyku Tıbbı Derneği, halihazırda, uluslararası arenada ülkemizi temsil eden, Avrupa Uyku Araştırmaları Derneği, Asya Uyku Araştırmaları Derneği ve Dünya Uyku Tıbbı Birliği’nin üyesi olan, katılımcı ve kapsayıcı özelliği öne çıkan, uyku tıbbının dünya standartlarına uygun olarak icra edilmesini amaç edinmiş olan örgütsel bir yapıya sahiptir.                </div>
+            </div>
+        </div>
+    </aside>
+
+<footer class="footer text-center">
+  <div class="container">
+    <p>&copy; 2026 <a href="/" class="text-white">Türk Uyku Tıbbı Derneği</a>            . Tüm hakları saklıdır.</p>
+    <p><a href="https://www.tutd.org.tr" target="_blank" class="text-white">www.tutd.org.tr</a></p>
+  </div>
+</footer>
+</div>
+
+
+
+<!-- Offcanvas Menü -->
+<div id="offcanvasMenu" role="dialog" aria-modal="true" class="offcanvas offcanvas-end" tabindex="-1" style="visibility: hidden;">
+    <div class="p-4 border-bottom offcanvas-header">
+        <div class="offcanvas-title h5">
+            <h5 id="offcanvasRightLabel" class="mb-0">Menü</h5>
+        </div>
+        <button type="button" id="closeBtn" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div class="p-4 offcanvas-body">
+        <div class="row">
+            <div class="col-12">
+                            <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Kullanıcı Giriş</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                                                    <form method="post" accept-charset="utf-8" novalidate="novalidate" role="form" action="/giris"><div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>                            <div class="form-group col-sm-12 email"><input type="email" name="email" placeholder="E-Posta Adresi" id="email" class="form-control"/></div>                            <div class="form-group col-sm-12 password"><input type="password" name="password" placeholder="Parola" id="password" class="form-control"/></div>                            <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-user"></i> Giriş</button>                            <a href="/parola-sifirla" class="btn btn-link">Parolamı unuttum.</a>                            </form>                            <br>
+                            <p><a href="/dernek-uyeligi-basvuru">TUTD dernek üyeliği için başvurun.</a></p>
+                                            </div>
+                </div>
+                        </div>
+        </div>
+    </div>
+    <div class="offcanvas-footer p-4 border-top text-center">
+        <ul class="list-unstyled social-icon mb-0">
+            <li class="list-inline-item me-2">
+                    <a href="https://facebook.com" class="rounded" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a></li>
+            <li class="list-inline-item me-2">
+                    <a href="https://x.com" class="rounded" target="_blank">
+                        <i class="fab fa-x"></i>
+                    </a></li>
+            <li class="list-inline-item me-2">
+                    <a href="https://instagram.com" class="rounded" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a></li>
+            <li class="list-inline-item me-2">
+                    <a href="https://linkedin.com" class="rounded" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-tr_TR.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.9/js/superfish.min.js"></script>
+<script src="/js/jquery.flipster.min.js"></script><script src="/js/default.js?v=12345"></script>
+<script>
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+      items: 4,
+      loop: true,
+      margin: 10,
+      nav: true,
+      dots: true,
+      responsive: {
+        0: { items: 1 },
+        600: { items: 2 },
+        1000: { items: 4 }
+      }
+    });
+  });
+
+// Hamburger menü toggle
+document.getElementById("isToggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    var navigation = document.getElementById("navigation");
+    if (navigation.classList.contains("d-none")) {
+        navigation.classList.remove("d-none");
+        navigation.classList.add("d-block");
+    } else {
+        navigation.classList.add("d-none");
+        navigation.classList.remove("d-block");
+    }
+});
+
+// Menü Ikonuna Tıklanarak Offcanvas'ı Açma
+document.getElementById("menuToggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    document.getElementById("offcanvasMenu").classList.add("show");
+    document.getElementById("offcanvasMenu").style.visibility = 'visible';
+    document.getElementById("offcanvasMenu").style.opacity = '1';
+});
+
+// Çarpıya Tıklanarak Offcanvas'ı Kapatma
+document.getElementById("closeBtn").addEventListener("click", function() {
+    document.getElementById("offcanvasMenu").classList.remove("show");
+});
+
+
+document.getElementById("searchToggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    
+    var searchBox = document.getElementById("searchBox");
+    
+    if (searchBox.style.display === "none" || searchBox.style.display === "") {
+        searchBox.style.display = "block";
+        searchBox.classList.add("show");
+    } else {
+        searchBox.style.display = "none";
+        searchBox.classList.remove("show");
+    }
+});
+
+function updateHeight() {
+    let carousel = document.querySelector("#anasayfa .col-md-8");
+    let rightSide = document.querySelector("#anasayfa .col-md-4");
+    
+    if (carousel && rightSide) {
+        let carouselHeight = carousel.offsetHeight;
+        rightSide.style.height = carouselHeight + "px";
+
+        let rows = rightSide.querySelectorAll(".row");
+        rows.forEach(row => {
+            row.style.height = (carouselHeight / 2) + "px";
+        });
+    }
+}
+
+window.addEventListener("load", updateHeight);
+window.addEventListener("resize", updateHeight);
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script>
+  $(document).on('click', '.gallery-link[data-fancybox]', function(e) {
+      e.preventDefault();
+      var $this    = $(this);
+      var gallery  = $this.data('fancybox');
+      var $items   = $('[data-fancybox="' + gallery + '"]');
+      var index    = $items.index($this);
+      var items    = [];
+      $items.each(function() {
+          items.push({
+              src: $(this).attr('href'),
+              opts: { caption: $(this).data('caption') || '' }
+          });
+      });
+      $.fancybox.open(items, {}, index);
+  });
+</script>
+
+</body>
+</html>
+
+
+

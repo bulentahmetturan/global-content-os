@@ -1468,6 +1468,17 @@ Yeni kaynak için zorunlu sıra:
 
 Bu adımlardan herhangi biri gerekli olduğu halde tamamlanmadıysa kaynak `active` olamaz.
 
+### 26.1. Kaynak başına sahip PASS/FAIL görüşmesi (sahip kararı 2026-11-02)
+
+Adım 9–10 (kategori kapsamı, hedef kitle ilgisi) kaynağın gerçek içeriği taranmadan ve sahibe kaynak başına PASS/FAIL soruları sorulmadan kapatılamaz. Kural kodlanmadan önce görüşme biter.
+
+1. **Önce tara.** Her kaynak için sırayla: liste sayfası, ayrıntı sayfası (gövde dahil), tarih alanı (var mı, nerede, hangi biçimde), RSS/sitemap/API varlığı, sayfa menüsü/footer metninin gövdeye karışıp karışmadığı, listenin GET ile mi yoksa POST/JS ile mi yüklendiği. Başlık listesi tek başına yeterli değildir; içerik okunur.
+2. **Gerçek örnekle sor.** Her kaynak için sahibe sade Türkçe, örnekli PASS (kabul) / FAIL (red) soruları sorulur: kaynakta çıkan her içerik türü için en az bir gerçek başlık/özet gösterilir, önerilen seçenek önde durur. Türler: duyuru, haber, kongre/kurs/etkinlik, kılavuz/rapor, burs/başvuru, kutlama/anma, tanıtım/sponsorlu içerik, üye/idari içerik.
+3. **Anlaşılana kadar sor.** Bir türün PASS mi FAIL mi olduğu sahip için net değilse (veya cevap kaynakla çelişiyorsa) o tür için ek soru sorulur; her kaynakta, hiçbir tür belirsiz kalmayana kadar tekrarlanır. Belirsiz tür varsayılarak kabul edilmez; cevap gelene kadar varsayılan FAIL'dir.
+4. **Hat ayrımı.** Cevaplar hat bazında kaydedilir (Haber ayrı, Duyuru/Burs/Eğitim ayrı; `### 2.3`, `### 12.0.1`); aynı yayıncı birden fazla hatta ayrı kaynak olur.
+5. **Karar kayda geçer.** PASS/FAIL cevapları kural olarak kaynağın include/exclude/forbid/detail_gate alanlarına, gerçek sayfadan alınmış fixture ve testlere yansıtılır; denetim kaydında (`docs/audits/`) tür → karar tablosu tutulur.
+6. **Yeni içerik türü.** Kaynakta sonradan yeni bir tür görülürse (telemetri veya inceleme) aynı görüşme o tür için yeniden yapılır; o zamana kadar FAIL.
+
 ---
 
 

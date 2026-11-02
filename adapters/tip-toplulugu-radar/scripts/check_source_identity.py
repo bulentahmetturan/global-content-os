@@ -64,6 +64,21 @@ DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
         "EGITIM (eğitim/kurs/program duyuruları) and HABER (özel gün/hafta/ay) -- each with its own "
         "narrow include/exclude policy; there is no item-level re-routing between lanes."
     ),
+    "temd.org.tr": (
+        "TEMD (Endokrinoloji ve Metabolizma Derneği) one publisher, several content types (owner per-lane source "
+        "policy, 2026-11-02, Bible 26.1): DUYURU (kılavuz/uzlaşı raporu yayımı), EGITIM (kongre/sempozyum/kurs) and "
+        "HABER (özel gün/basın bildirisi), each leg with its own narrow include/exclude policy."
+    ),
+    "tutd.org.tr": (
+        "TUTD (Türk Uyku Tıbbı Derneği) one publisher, several content types (owner per-lane source policy, "
+        "2026-11-02, Bible 26.1): DUYURU (yeterlilik sınavı/akreditasyon), EGITIM (kongre/kurs/etkinlik) and HABER "
+        "(halka uyku yazıları, özel günler)."
+    ),
+    "noroloji.org.tr": (
+        "TND (Türk Nöroloji Derneği) one publisher, several content types (owner per-lane source policy, 2026-11-02, "
+        "Bible 26.1): DUYURU (board sınavı/burs/ödül/başvuru), EGITIM (kongre/kurs) and HABER (klinik/bilimsel sonuç, "
+        "özel günler)."
+    ),
     "who.int": (
         "Global WHO newsroom API (/api/news/newsitems, HABER) vs. the WHO Turkey "
         "country office page (/turkiye, DUYURU) -- fully distinct endpoints."

@@ -3929,6 +3929,472 @@
           }
         }
       ]
+    },
+    {
+      "source_id": "egitim_temd",
+      "name": "TEMD - Eğitim",
+      "label": "TEMD - Eğitim",
+      "canonical_url": "https://www.temd.org.tr/duyurular",
+      "source_url": "https://www.temd.org.tr/duyurular",
+      "primary_url": "https://www.temd.org.tr/duyurular",
+      "allowed_hostnames": [
+        "www.temd.org.tr",
+        "temd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/duyurular",
+        "/haberler/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "sempozyum",
+        "toplantı",
+        "workshop",
+        "masterclass",
+        "meeting",
+        "course",
+        "eğitim"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.temd.org.tr",
+          "temd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyurular",
+          "/haberler/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TEMD eğitim leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.temd.org.tr/duyurular",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 11520,
+          "newest": "2026-11-02T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:30.504Z"
+        },
+        "flags": []
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.39 / failure-heavy 0.93; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_29491d6dc950b012",
+          "at": "2026-11-02T18:47:31.557Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_2b1e81693c26e2d0",
+          "at": "2026-11-02T18:48:58.716Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: list page path /duyurular must be inside the allowlist (items live under /haberler/)",
+          "fields": [
+            "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_bc81d9dcfaf476e9",
+          "at": "2026-11-02T18:50:06.462Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02 (Bible 26.1): kongre/sempozyum/kurs duyuruları kabul",
+          "fields": [
+            "allowCongress"
+          ]
+        }
+      ],
+      "allow_congress": true
+    },
+    {
+      "source_id": "egitim_tutd",
+      "name": "TUTD - Eğitim",
+      "label": "TUTD - Eğitim",
+      "canonical_url": "https://www.tutd.org.tr/haberler",
+      "source_url": "https://www.tutd.org.tr/haberler",
+      "primary_url": "https://www.tutd.org.tr/haberler",
+      "allowed_hostnames": [
+        "www.tutd.org.tr",
+        "tutd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "sempozyum",
+        "toplantı",
+        "workshop",
+        "masterclass",
+        "meeting",
+        "course",
+        "eğitim"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tutd.org.tr",
+          "tutd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TUTD eğitim leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.tutd.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 6,
+          "gaps_used": 5,
+          "expected_gap_min": 5760,
+          "newest": "2026-10-26T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:35.510Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.41 / failure-heavy 0.97; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_194911a21689c8c6",
+          "at": "2026-11-02T18:47:36.635Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_2406f8ab92ba48b9",
+          "at": "2026-11-02T18:50:06.644Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02 (Bible 26.1): kongre/sempozyum/kurs duyuruları kabul",
+          "fields": [
+            "allowCongress"
+          ]
+        }
+      ],
+      "allow_congress": true
+    },
+    {
+      "source_id": "egitim_tnd",
+      "name": "TND - Eğitim",
+      "label": "TND - Eğitim",
+      "canonical_url": "https://noroloji.org.tr/haberler",
+      "source_url": "https://noroloji.org.tr/haberler",
+      "primary_url": "https://noroloji.org.tr/haberler",
+      "allowed_hostnames": [
+        "noroloji.org.tr",
+        "www.noroloji.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler",
+        "/kongre"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "sempozyum",
+        "toplantı",
+        "workshop",
+        "masterclass",
+        "meeting",
+        "course",
+        "eğitim"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar"
+      ],
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "noroloji.org.tr",
+          "www.noroloji.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler",
+          "/kongre"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TND eğitim leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://noroloji.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 7200,
+          "newest": "2026-10-27T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:46.071Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.43 / failure-heavy 1.03 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_c95b9cf9fbbefdde",
+          "at": "2026-11-02T18:47:47.234Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_ac3acf36b2652fa4",
+          "at": "2026-11-02T18:50:06.819Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02 (Bible 26.1): kongre/sempozyum/kurs duyuruları kabul",
+          "fields": [
+            "allowCongress"
+          ]
+        }
+      ],
+      "allow_congress": true
     }
   ]
 }

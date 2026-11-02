@@ -144,7 +144,10 @@ export async function discoverEndpoint({ url, lane = null, fetcher = defaultFetc
   access.status = page.status;
   const http = classifyHttp(page.status);
   if (http) return { ...http, access: { ...access, auth_required: http.reason === 'AUTH_REQUIRED' }, endpoint: null, alternates: [], rejected: [], sitemaps: robots.sitemaps, requests };
-  if (/<input[^>]+type=["']?password/i.test(page.body) && !feedKind(page.body, page.contentType)) {
+  // A password field alone is not a wall: public association sites carry a member-login widget in the header. It is a wall
+  // only when the page offers no real content (few links) besides the form.
+  const linkCount = (page.body.match(/<a\s[^>]*href=/gi) || []).length;
+  if (/<input[^>]+type=["']?password/i.test(page.body) && linkCount < 15 && !feedKind(page.body, page.contentType)) {
     return { gate: 'BLOCKED_ACCESS', reason: 'LOGIN_WALL', access: { ...access, auth_required: true }, endpoint: null, alternates: [], rejected: [], sitemaps: robots.sitemaps, requests };
   }
 

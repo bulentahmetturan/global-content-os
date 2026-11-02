@@ -764,6 +764,91 @@ def _parse_titck_cards(
     return out
 
 
+_TR_MONTHS = {
+    "oca": 1, "ocak": 1, "şub": 2, "şubat": 2, "mar": 3, "mart": 3, "nis": 4, "nisan": 4, "may": 5, "mayıs": 5,
+    "haz": 6, "haziran": 6, "tem": 7, "temmuz": 7, "ağu": 8, "ağustos": 8, "eyl": 9, "eylül": 9, "eki": 10, "ekim": 10,
+    "kas": 11, "kasım": 11, "ara": 12, "aralık": 12,
+}
+
+
+def _tr_day_month_year(text: str) -> str | None:
+    """'27 Eki 2026' / '26 Şubat 2026' -> '2026-10-27' (Turkish day-month-year, short or long month); None otherwise."""
+    m = re.search(r"(\d{1,2})\s+([A-Za-zÇĞİÖŞÜçğıöşü]+)\s+(20\d{2})", text or "")
+    if not m:
+        return None
+    mon = _TR_MONTHS.get(m.group(2).lower().replace("İ", "i").replace("I", "ı"))
+    if not mon:
+        return None
+    return f"{m.group(3)}-{mon:02d}-{int(m.group(1)):02d}"
+
+
+def _card_text(frag: str) -> str:
+    import html as _html
+
+    return re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", frag))).strip()
+
+
+def _parse_tutd_items(
+    *, source_id: str, source_url: str, body: str, fetched_at: str, fetch_method: str
+) -> list[RawItem]:
+    """TUTD /haberler: ``<a class="nl-item" href>`` rows with a day/month-year calendar badge, title and summary."""
+    from urllib.parse import urljoin
+
+    out: list[RawItem] = []
+    seen: set[str] = set()
+    for m in re.finditer(r'<a class="nl-item[^"]*" href="([^"]+)"[^>]*>(.*?)</a>', body, flags=re.S):
+        url, card = urljoin(source_url, m.group(1).strip()), m.group(2)
+        t = re.search(r'class="nl-title"[^>]*>(.*?)</span>\s*(?:</span>|$)', card, flags=re.S) or re.search(r'class="nl-title"[^>]*>(.*?)</span>', card, flags=re.S)
+        title = _card_text(re.sub(r'<span class="nl-new">.*', " ", t.group(1), flags=re.S)) if t else ""
+        if len(title) < 6 or url in seen:
+            continue
+        seen.add(url)
+        day = re.search(r'nl-cal-d[^>]*>(.*?)</span>', card, flags=re.S)
+        mon = re.search(r'nl-cal-m[^>]*>(.*?)</span>', card, flags=re.S)
+        pub = _tr_day_month_year(f"{_card_text(day.group(1)) if day else ''} {_card_text(mon.group(1)) if mon else ''}")
+        sm = re.search(r'class="nl-sum"[^>]*>(.*?)</span>', card, flags=re.S)
+        out.append(
+            RawItem(
+                source_id=source_id, source_url=source_url, canonical_item_url=url, title=title, published_at=pub,
+                fetched_at=fetched_at, content_hash=_hash_text(source_id, url, title), fetch_method=fetch_method,
+                raw_excerpt=" | ".join(x for x in [title, _card_text(sm.group(1)) if sm else ""] if x),
+            )
+        )
+    return out
+
+
+def _parse_gida_cards(
+    *, source_id: str, source_url: str, body: str, fetched_at: str, fetch_method: str
+) -> list[RawItem]:
+    """Güvenilir Gıda 'Gıdada Doğru Bilgi' archive: ``arsivdt-container`` cards (title attr, long-month date)."""
+    from urllib.parse import urljoin
+
+    out: list[RawItem] = []
+    seen: set[str] = set()
+    for m in re.finditer(r'arsivdt-container"(.*?)(?=arsivdt-container"|</body>|$)', body, flags=re.S):
+        card = m.group(1)
+        a = re.search(r'<a class="arsivdt-baslik"[^>]*title="([^"]*)"[^>]*href="([^"]+)"', card, flags=re.S) or re.search(
+            r'<a class="arsivdt-baslik"[^>]*href="([^"]+)"[^>]*>\s*([^<]+)', card, flags=re.S
+        )
+        if not a:
+            continue
+        if a.re.pattern.find("title=") >= 0:
+            title, url = _card_text(a.group(1)), urljoin(source_url, a.group(2).strip())
+        else:
+            title, url = _card_text(a.group(2)), urljoin(source_url, a.group(1).strip())
+        if len(title) < 6 or url in seen:
+            continue
+        seen.add(url)
+        out.append(
+            RawItem(
+                source_id=source_id, source_url=source_url, canonical_item_url=url, title=title,
+                published_at=_tr_day_month_year(_card_text((re.search(r'fa-calendar-alt[^>]*></span>\s*<span>(.*?)</span>', card, flags=re.S) or re.search(r"(\Z)", card)).group(1))), fetched_at=fetched_at,
+                content_hash=_hash_text(source_id, url, title), fetch_method=fetch_method, raw_excerpt=title,
+            )
+        )
+    return out
+
+
 def extract_detail_body(html_body: str, *, selector: str = "", cut_markers: list[str] | None = None, max_chars: int = 4000) -> str:
     """Real text of a detail page's content block (never generated).
 
@@ -948,6 +1033,14 @@ def parse_raw_items(
         )
     if 'class="announcement-v2-card"' in body:
         return _parse_titck_cards(
+            source_id=source_id, source_url=source_url, body=body, fetched_at=fetched_at, fetch_method=fetch_method
+        )
+    if 'class="nl-item' in body and 'class="nl-title"' in body:
+        return _parse_tutd_items(
+            source_id=source_id, source_url=source_url, body=body, fetched_at=fetched_at, fetch_method=fetch_method
+        )
+    if "arsivdt-container" in body and "arsivdt-baslik" in body:
+        return _parse_gida_cards(
             source_id=source_id, source_url=source_url, body=body, fetched_at=fetched_at, fetch_method=fetch_method
         )
     if "hbranabaslik" in body and "SliderUrl(" in body:

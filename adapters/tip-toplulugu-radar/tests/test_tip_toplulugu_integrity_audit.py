@@ -54,7 +54,7 @@ class IntegrityAuditTests(unittest.TestCase):
         }
         self.assertEqual(domestic, set(DOMESTIC_OFFICIAL_PRIMARY_IDS))
         self.assertEqual(domestic, set(OFFICIAL_PRIMARY_IDS))
-        self.assertEqual(len(domestic), 33)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs
+        self.assertEqual(len(domestic), 34)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs + titck_geri_cekme + guvenilirgida_dogru_bilgi
         counts = tier_counts(self.effective)
         self.assertGreaterEqual(counts.get("OFFICIAL_PRIMARY", 0), 8)
 
@@ -120,10 +120,10 @@ class IntegrityAuditTests(unittest.TestCase):
             and not s["source_id"].startswith("burs_")
             and not s["source_id"].startswith("egitim_")
         )
-        self.assertEqual(domestic_op, 33)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs + titck_geri_cekme
-        self.assertEqual(counts["PROFESSIONAL_BODY"], 5)  # + tdb_dental (tracked separately from the 46)
+        self.assertEqual(domestic_op, 34)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs + titck_geri_cekme + guvenilirgida_dogru_bilgi
+        self.assertEqual(counts["PROFESSIONAL_BODY"], 10)  # + tdb_dental + 5 society/Haber legs (2026-11-02 sources)
         self.assertEqual(counts["PROFESSIONAL_GUIDANCE"], 12)
-        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 32)  # +15 batch3 international English health/medical discovery pool
+        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 40)  # +15 batch3 international English health/medical discovery pool
         self.assertEqual(set(PROFESSIONAL_BODY_IDS), {
             s["source_id"] for s in self.effective["sources"] if s["source_tier"] == "PROFESSIONAL_BODY"
         })

@@ -1677,6 +1677,75 @@
       "durum": "aktif",
       "eklenme_tarihi": "2026-10-31",
       "guncellenme_tarihi": "2026-10-31"
+    },
+    {
+      "source_id": "egitim_temd",
+      "kaynak_adi": "TEMD - Eğitim",
+      "url": "https://www.temd.org.tr/duyurular",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "4320 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_tutd",
+      "kaynak_adi": "TUTD - Eğitim",
+      "url": "https://www.tutd.org.tr/haberler",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "2880 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_tnd",
+      "kaynak_adi": "TND - Eğitim",
+      "url": "https://noroloji.org.tr/haberler",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "2880 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
     }
   ],
   "egitim_ilanlari": []

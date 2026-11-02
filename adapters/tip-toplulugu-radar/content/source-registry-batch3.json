@@ -5976,6 +5976,1631 @@
           ]
         }
       ]
+    },
+    {
+      "source_id": "temd_duyuru",
+      "name": "TEMD - Duyuru",
+      "label": "TEMD - Duyuru",
+      "canonical_url": "https://www.temd.org.tr/duyurular",
+      "source_url": "https://www.temd.org.tr/duyurular",
+      "primary_url": "https://www.temd.org.tr/duyurular",
+      "allowed_hostnames": [
+        "www.temd.org.tr",
+        "temd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/duyurular",
+        "/haberler/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kılavuz",
+        "uzlaşı",
+        "rapor",
+        "yayınlandı",
+        "yayımlandı"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "kongre",
+        "kurs",
+        "sempozyum"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.temd.org.tr",
+          "temd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyurular",
+          "/haberler/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TEMD duyuru leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.temd.org.tr/duyurular",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 11520,
+          "newest": "2026-11-02T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:28.318Z"
+        },
+        "flags": []
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.38 / failure-heavy 0.92; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_b556975fdb4c51ab",
+          "at": "2026-11-02T18:47:29.373Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_c0b4be9904a241ee",
+          "at": "2026-11-02T18:48:58.570Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: list page path /duyurular must be inside the allowlist (items live under /haberler/)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "temd_ozelgun",
+      "name": "TEMD - Özel gün (Haber)",
+      "label": "TEMD - Özel gün (Haber)",
+      "canonical_url": "https://www.temd.org.tr/duyurular",
+      "source_url": "https://www.temd.org.tr/duyurular",
+      "primary_url": "https://www.temd.org.tr/duyurular",
+      "allowed_hostnames": [
+        "www.temd.org.tr",
+        "temd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/duyurular",
+        "/haberler/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "kutlu olsun",
+        "bayram",
+        "anma",
+        "basın bildirisi"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.temd.org.tr",
+          "temd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyurular",
+          "/haberler/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TEMD özel gün leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 4320,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.temd.org.tr/duyurular",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 11520,
+          "newest": "2026-11-02T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:32.236Z"
+        },
+        "flags": []
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.39 / failure-heavy 0.94; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_765e0e437714b76f",
+          "at": "2026-11-02T18:47:33.256Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_7e1054367c8e2f1a",
+          "at": "2026-11-02T18:48:58.879Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: list page path /duyurular must be inside the allowlist (items live under /haberler/)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "tutd_duyuru",
+      "name": "TUTD - Duyuru",
+      "label": "TUTD - Duyuru",
+      "canonical_url": "https://www.tutd.org.tr/haberler",
+      "source_url": "https://www.tutd.org.tr/haberler",
+      "primary_url": "https://www.tutd.org.tr/haberler",
+      "allowed_hostnames": [
+        "www.tutd.org.tr",
+        "tutd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "yeterlilik",
+        "sınav",
+        "akreditasyon",
+        "adaylara"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "anket",
+        "haftanın sorusu"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tutd.org.tr",
+          "tutd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TUTD duyuru leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.tutd.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 6,
+          "gaps_used": 5,
+          "expected_gap_min": 5760,
+          "newest": "2026-10-26T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:33.863Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.40 / failure-heavy 0.96; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_8eb26302db9ad6a5",
+          "at": "2026-11-02T18:47:34.898Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "tutd_uyku_yazilari",
+      "name": "TUTD - Uyku yazıları (Haber)",
+      "label": "TUTD - Uyku yazıları (Haber)",
+      "canonical_url": "https://www.tutd.org.tr/haberler",
+      "source_url": "https://www.tutd.org.tr/haberler",
+      "primary_url": "https://www.tutd.org.tr/haberler",
+      "allowed_hostnames": [
+        "www.tutd.org.tr",
+        "tutd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "uyku",
+        "melatonin",
+        "magnezyum",
+        "sirkadiyen",
+        "horlama",
+        "apne",
+        "uykusuzluk",
+        "rüya"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "anket",
+        "haftanın sorusu",
+        "yeterlilik",
+        "bayram",
+        "kutlu olsun"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tutd.org.tr",
+          "tutd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TUTD halka uyku yazıları leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.tutd.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 6,
+          "gaps_used": 5,
+          "expected_gap_min": 5760,
+          "newest": "2026-10-26T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:37.265Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_CAUTION: CAUTION: projected utilization 0.41 / failure-heavy 0.99; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_e8066587bd4131f0",
+          "at": "2026-11-02T18:47:38.355Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "CAUTION",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "tutd_ozelgun",
+      "name": "TUTD - Özel gün (Haber)",
+      "label": "TUTD - Özel gün (Haber)",
+      "canonical_url": "https://www.tutd.org.tr/haberler",
+      "source_url": "https://www.tutd.org.tr/haberler",
+      "primary_url": "https://www.tutd.org.tr/haberler",
+      "allowed_hostnames": [
+        "www.tutd.org.tr",
+        "tutd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "kutlu olsun",
+        "bayram",
+        "anma"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "anket",
+        "haftanın sorusu"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tutd.org.tr",
+          "tutd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TUTD özel gün leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.tutd.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 6,
+          "gaps_used": 5,
+          "expected_gap_min": 5760,
+          "newest": "2026-10-26T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:38.958Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.42 / failure-heavy 1.00 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_f6565c7b6f5842d2",
+          "at": "2026-11-02T18:47:40.013Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "tnd_duyuru",
+      "name": "TND - Duyuru",
+      "label": "TND - Duyuru",
+      "canonical_url": "https://noroloji.org.tr/haberler",
+      "source_url": "https://noroloji.org.tr/haberler",
+      "primary_url": "https://noroloji.org.tr/haberler",
+      "allowed_hostnames": [
+        "noroloji.org.tr",
+        "www.noroloji.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler",
+        "/kongre"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "board",
+        "yeterlik",
+        "burs",
+        "ödül",
+        "başvuru",
+        "sınav",
+        "sertifika"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "seçilmiştir"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "noroloji.org.tr",
+          "www.noroloji.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler",
+          "/kongre"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TND duyuru leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://noroloji.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 7200,
+          "newest": "2026-10-27T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:42.486Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.42 / failure-heavy 1.02 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_a1562a50a930a23b",
+          "at": "2026-11-02T18:47:43.615Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "tnd_bilimsel",
+      "name": "TND - Bilimsel sonuç (Haber)",
+      "label": "TND - Bilimsel sonuç (Haber)",
+      "canonical_url": "https://noroloji.org.tr/haberler",
+      "source_url": "https://noroloji.org.tr/haberler",
+      "primary_url": "https://noroloji.org.tr/haberler",
+      "allowed_hostnames": [
+        "noroloji.org.tr",
+        "www.noroloji.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler",
+        "/kongre"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "patent",
+        "çalışma",
+        "araştırma",
+        "makale",
+        "yayın",
+        "tanı",
+        "tedavi",
+        "yapay zeka",
+        "klinik"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "seçilmiştir",
+        "seçildi",
+        "kutlu olsun"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "noroloji.org.tr",
+          "www.noroloji.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler",
+          "/kongre"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TND bilimsel sonuç leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://noroloji.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 7200,
+          "newest": "2026-10-27T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:49.376Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.44 / failure-heavy 1.05 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_fbe68a72b777e95d",
+          "at": "2026-11-02T18:47:50.449Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "tnd_ozelgun",
+      "name": "TND - Özel gün (Haber)",
+      "label": "TND - Özel gün (Haber)",
+      "canonical_url": "https://noroloji.org.tr/haberler",
+      "source_url": "https://noroloji.org.tr/haberler",
+      "primary_url": "https://noroloji.org.tr/haberler",
+      "allowed_hostnames": [
+        "noroloji.org.tr",
+        "www.noroloji.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber/",
+        "/haberler",
+        "/etkinlik/",
+        "/etkinlikler",
+        "/kongre"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "kutlu olsun",
+        "bayram",
+        "anma"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "endokrin akademi",
+        "webinar",
+        "seçilmiştir"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "noroloji.org.tr",
+          "www.noroloji.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber/",
+          "/haberler",
+          "/etkinlik/",
+          "/etkinlikler",
+          "/kongre"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TND özel gün leg (owner 2026-11-02)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://noroloji.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 7200,
+          "newest": "2026-10-27T00:00:00.000Z",
+          "computed_at": "2026-11-02T18:47:52.622Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.44 / failure-heavy 1.06 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_10caa06ee85c213e",
+          "at": "2026-11-02T18:47:53.694Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "guvenilirgida_dogru_bilgi",
+      "name": "Güvenilir Gıda - Gıdada Doğru Bilgi (Haber)",
+      "label": "Güvenilir Gıda - Gıdada Doğru Bilgi (Haber)",
+      "canonical_url": "https://guvenilirgida.tarimorman.gov.tr/Haber/Arsiv/",
+      "source_url": "https://guvenilirgida.tarimorman.gov.tr/Haber/Arsiv/",
+      "primary_url": "https://guvenilirgida.tarimorman.gov.tr/Haber/Arsiv/",
+      "allowed_hostnames": [
+        "guvenilirgida.tarimorman.gov.tr",
+        "www.guvenilirgida.tarimorman.gov.tr"
+      ],
+      "allowed_path_patterns": [
+        "/Haber/"
+      ],
+      "source_tier": "OFFICIAL_PRIMARY",
+      "statement_treatment": "official_guidance",
+      "source_role": "primary_evidence",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "gıda",
+        "konserve",
+        "e kod",
+        "etiket",
+        "güvenli",
+        "besleyici",
+        "kontrol"
+      ],
+      "exclude_keywords": [
+        "mobil uygulama",
+        "ihale",
+        "personel",
+        "atama"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "guvenilirgida.tarimorman.gov.tr",
+          "www.guvenilirgida.tarimorman.gov.tr"
+        ],
+        "allowed_path_patterns": [
+          "/Haber/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: Gıdada Doğru Bilgi (owner 2026-11-02)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://guvenilirgida.tarimorman.gov.tr/Haber/Arsiv/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T18:47:55.041Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.44 / failure-heavy 1.07 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_0506a313ba3c6c7a",
+          "at": "2026-11-02T18:47:56.087Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_ac7b1a3bb61443b7",
+          "at": "2026-11-02T18:51:39.936Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: Doğru Bilgi yazıları kabul; uygulama tanıtımı ve idari ret",
+          "fields": [
+            "exclude"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "medikal_akademi",
+      "name": "Medikal Akademi (Haber)",
+      "label": "Medikal Akademi (Haber)",
+      "canonical_url": "https://www.medikalakademi.com.tr/feed/",
+      "source_url": "https://www.medikalakademi.com.tr/feed/",
+      "primary_url": "https://www.medikalakademi.com.tr/feed/",
+      "allowed_hostnames": [
+        "www.medikalakademi.com.tr",
+        "medikalakademi.com.tr"
+      ],
+      "allowed_path_patterns": [
+        "/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "dergisinde",
+        "yeni yayımlanan",
+        "yayımlanan araştırma",
+        "klinik çalışma",
+        "meta-analiz",
+        "randomize",
+        "faz 3",
+        "faz 2",
+        "onaylandı",
+        "onay verdi",
+        "yeni ilaç",
+        "yeni tedavi",
+        "implant",
+        "cihaz",
+        "kılavuz",
+        "rehber",
+        "güncellen",
+        "haftası",
+        "ayı",
+        "farkındalık"
+      ],
+      "exclude_keywords": [
+        "geri ödeme",
+        "sponsorlu",
+        "reklam",
+        "en iyi 10",
+        "merkezi",
+        "fiyat",
+        "kampanya",
+        "kimlere",
+        "belirtileri nelerdir",
+        "laptop",
+        "denklik",
+        "kongre'ne"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.medikalakademi.com.tr",
+          "medikalakademi.com.tr"
+        ],
+        "allowed_path_patterns": [
+          "/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: Medikal Akademi RSS (owner 2026-11-02)",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.medikalakademi.com.tr/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 20,
+          "gaps_used": 19,
+          "expected_gap_min": 1168,
+          "newest": "2026-11-02T17:10:00.000Z",
+          "computed_at": "2026-11-02T18:47:56.616Z"
+        },
+        "flags": [
+          "SCHEDULER_FLOOR"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.46 / failure-heavy 1.10 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_841d564e777dd44d",
+          "at": "2026-11-02T18:47:57.702Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_3e1969f0777a8cf6",
+          "at": "2026-11-02T18:51:22.519Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: klinik/literatür + yeni ilaç/cihaz + rehber güncellemesi + özel gün kabul; geri ödeme, sektör/reklam ret",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_b64b89c2e09b18a3",
+          "at": "2026-11-02T18:51:39.779Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: günü alt dizgesi 'bugünü' gibi sözcüklerle yanlış eşleşiyor; özel gün için farkındalık/haftası/ayı",
+          "fields": [
+            "include"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "saglik_aktuel_bilimsel",
+      "name": "Sağlık Aktüel - Bilimsel gelişme (Haber)",
+      "label": "Sağlık Aktüel - Bilimsel gelişme (Haber)",
+      "canonical_url": "https://www.saglikaktuel.com/rss/",
+      "source_url": "https://www.saglikaktuel.com/rss/",
+      "primary_url": "https://www.saglikaktuel.com/rss/",
+      "allowed_hostnames": [
+        "www.saglikaktuel.com",
+        "saglikaktuel.com"
+      ],
+      "allowed_path_patterns": [
+        "/rss/",
+        "/haber/"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "dergisinde",
+        "yayımlan",
+        "klinik çalışma",
+        "bilim insanları",
+        "araştırmacılar",
+        "bulgu",
+        "keşfetti",
+        "geliştirdi",
+        "patent",
+        "yeni tedavi",
+        "faz 3"
+      ],
+      "exclude_keywords": [
+        "bakan",
+        "ziyaret",
+        "açılış",
+        "protokol",
+        "imza",
+        "mutabakat",
+        "operasyon",
+        "gözaltı",
+        "tutuklandı",
+        "yatırım",
+        "öğrenci",
+        "liseli",
+        "bilsem",
+        "kurultay",
+        "yıllık program",
+        "eylem planı",
+        "ödül",
+        "sahte",
+        "kaçak"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.saglikaktuel.com",
+          "saglikaktuel.com"
+        ],
+        "allowed_path_patterns": [
+          "/rss/",
+          "/haber/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: Sağlık Aktüel RSS (owner 2026-11-02)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.saglikaktuel.com/rss/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 17,
+          "gaps_used": 2,
+          "expected_gap_min": null,
+          "newest": "2026-11-02T14:13:00.000Z",
+          "computed_at": "2026-11-02T18:47:58.498Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.46 / failure-heavy 1.10 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_0a73f2a97d8f5eda",
+          "at": "2026-11-02T18:47:59.561Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_8346697b9947b744",
+          "at": "2026-11-02T18:51:22.673Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "Owner 2026-11-02: sadece klinik/bilimsel gelişme kabul; sahte ilaç operasyonu, bakan/ziyaret, hasta hikayesi ret",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -67,7 +67,8 @@ export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing,
   const host = new URL(pageUrl).hostname.toLowerCase();
   const bare = host.replace(/^www\./, '');
   const hosts = [...new Set([host, bare, `www.${bare}`])];
-  const paths = pathPatterns(pageUrl, items);
+  // Owner-set path allowlist wins: a list page whose items live under other sections (/haberler -> /haber/<id>) cannot be inferred from the sample.
+  const paths = overrides?.paths?.length ? overrides.paths : pathPatterns(pageUrl, items);
   const plan = fetchPlan({ pageUrl, hosts, paths, cadence, notes: `Source lifecycle onboarding (list page${feedUrl ? `; official feed ${feedUrl} used as cadence evidence` : ''}).` });
   if (overrides?.forbid?.length) plan.forbidden_paths = overrides.forbid; // enforced by radar url_allowed_by_plan (prefix match)
   return {
@@ -90,6 +91,8 @@ export function newTipTopluluguRecord({ sourceId, name, pageUrl, items, routing,
     include_keywords: overrides?.include?.length ? overrides.include : KEYWORDS[routing.heading],
     exclude_keywords: overrides?.exclude || [],
     ...(overrides?.runnerRegion ? { runner_region: overrides.runnerRegion } : {}),
+    // Owner-approved congress/symposium announcements (Bible 26.1 interview); without it the congress gate discards them.
+    ...(overrides?.allowCongress ? { allow_congress: true } : {}),
     allowed_routes: routing.allowed_routes,
     // Same convention as the curated Burs/Eğitim records (OPPORTUNITY / EDUCATION); Duyuru keeps NEEDS_REVIEW like batch3/v1.1.
     default_route_on_accept: routing.heading === 'EGITIM' ? 'EDUCATION' : routing.heading === 'BURS' ? 'OPPORTUNITY' : 'NEEDS_REVIEW',

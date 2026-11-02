@@ -58,7 +58,7 @@ export function createLifecycle(opts) {
 
     const page = disc._page;
     const feedItems = disc._feed ? parseFeed(disc._feed.body) : [];
-    const listItems = disc._feed && disc._feed.url === page.url ? [] : extractListPage(page.body, page.url);
+    const listItems = disc._feed && disc._feed.url === page.url ? [] : extractListPage(page.body, page.url, overrides?.paths);
     const sampleForRouting = feedItems.length ? feedItems : listItems;
 
     const routing = resolveRouting({ req, identity, endpoint: disc.endpoint, sample: sampleForRouting, pageTitle: pageTitle(page.body), sameDomain: identity.same_domain || [], headingOverride: overrides?.heading || null });
@@ -78,6 +78,14 @@ export function createLifecycle(opts) {
     if (!runtime) {
       g.PARSER = 'ADAPTER_REQUIRED';
       return { stop: { outcome: 'BLOCKED_TECHNICAL', reason: 'ADAPTER_REQUIRED', gates: g, next_step: `No existing ${routing.lane} runtime parser handles ${disc.endpoint.transport}. Write a targeted adapter + fixture test from the trace sample, then re-run add.` }, fixture: page.body.slice(0, 200000) };
+    }
+    // Owner-set path allowlist: the sample is the items the radar would actually take (menu/footer links are not items).
+    // Same-host http links are read as https, exactly as the radar's plan check requires https.
+    if (overrides?.paths?.length) {
+      const pageHost = new URL(page.url).hostname.toLowerCase();
+      items = items
+        .map((i) => { try { const u = new URL(i.url); return u.hostname.toLowerCase() === pageHost && u.protocol === 'http:' ? { ...i, url: i.url.replace(/^http:/i, 'https:') } : i; } catch { return i; } })
+        .filter((i) => { try { const path = new URL(i.url).pathname; return overrides.paths.some((p) => p === '/' || path.startsWith(p) || path.includes(p)); } catch { return false; } });
     }
     const withFields = items.filter((i) => i.title && i.url);
     g.PARSER = disc.endpoint.transport === 'OFFICIAL_API' || withFields.length >= 3 ? 'PASS' : 'FAIL';
@@ -520,8 +528,8 @@ export function createLifecycle(opts) {
     const m = identity.match;
     if (m.store !== 'tip_toplulugu') return finish(trace, { ok: false, op: 'amend', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: 'Kaduse sources are changed through the reviewed catalog commit, not here.' });
     if (!reason || !String(reason).trim()) return finish(trace, { ok: false, op: 'amend', outcome: 'REASON_REQUIRED', source_id: m.source_id, reason: 'amend needs --reason "<owner rule or evidence>"' });
-    const given = [...AMEND_FIELDS.filter((k) => Array.isArray(changes[k])), ...(changes.detailGate !== undefined ? ['detailGate'] : [])];
-    if (!given.length) return finish(trace, { ok: false, op: 'amend', outcome: 'NOTHING_TO_AMEND', source_id: m.source_id, reason: `give at least one of --${AMEND_FIELDS.join(' --')} --detail-gate` });
+    const given = [...AMEND_FIELDS.filter((k) => Array.isArray(changes[k])), ...(changes.detailGate !== undefined ? ['detailGate'] : []), ...(changes.allowCongress !== undefined ? ['allowCongress'] : [])];
+    if (!given.length) return finish(trace, { ok: false, op: 'amend', outcome: 'NOTHING_TO_AMEND', source_id: m.source_id, reason: `give at least one of --${AMEND_FIELDS.join(' --')} --detail-gate --allow-congress` });
     const layers = m.layers.map((l) => ({ file: l.slice(0, l.indexOf(':')), path: l.slice(l.indexOf(':') + 1) }));
     const before = {};
     const commitLayer = (layer, applyNow) =>
@@ -534,6 +542,7 @@ export function createLifecycle(opts) {
           if (changes.exclude) { before.exclude_keywords ??= rec.exclude_keywords; rec.exclude_keywords = changes.exclude; }
           if (changes.forbid) { before.forbidden_paths ??= plan.forbidden_paths; plan.forbidden_paths = changes.forbid; }
           if (changes.detailGate !== undefined) { before.detail_gate ??= plan.detail_gate ?? null; if (changes.detailGate === null) delete plan.detail_gate; else plan.detail_gate = changes.detailGate; }
+          if (changes.allowCongress !== undefined) { before.allow_congress ??= rec.allow_congress ?? false; if (changes.allowCongress) rec.allow_congress = true; else delete rec.allow_congress; }
           if (changes.paths) { before.allowed_path_patterns ??= rec.allowed_path_patterns; rec.allowed_path_patterns = changes.paths; plan.allowed_path_patterns = changes.paths; }
           if (layer.file === m.file) pushHistory(rec, { op: 'amend', request_id: trace.request_id, at: clock(), outcome: stateOf(m) === 'ACTIVE' ? 'ACTIVE' : 'READY', by: actor.id, reason: String(reason).trim(), fields: given });
           return { op: 'amend', source_id: m.source_id, path: layer.path, fields: given };

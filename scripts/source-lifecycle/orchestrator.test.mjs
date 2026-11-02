@@ -292,6 +292,14 @@ test('access gate: 403/WAF, 401, robots disallow and login wall stop before anyt
   assert.deepEqual(f.calls, ['https://blocked.example.gov/robots.txt'], 'no page fetch after robots disallow');
 });
 
+test('access gate: a public page with a member-login widget and real content is not a login wall', async () => {
+  const root = sandbox();
+  const u = 'https://dernek.example.org.tr/haberler';
+  const links = Array.from({ length: 30 }, (_, i) => `<a href="/haber/${i}">Haber ${i}</a>`).join('');
+  const r = await lc(root, { fetcher: fakeFetcher({ [u]: `<form><input type="password" name="p"></form>${links}` }) }).add(u);
+  assert.notEqual(r.reason, 'LOGIN_WALL');
+});
+
 test('robots parser: longest match wins, Allow beats Disallow on tie, sitemaps collected', () => {
   const r = parseRobots('User-agent: *\nDisallow: /private/\nAllow: /private/public/\nCrawl-delay: 5\nSitemap: https://x.org/sitemap.xml');
   assert.equal(r.isAllowed('/private/a'), false);
@@ -1023,4 +1031,24 @@ test('amend --detail-gate: written to fetch_plan.detail_gate on every layer, rem
   const r = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes: { detailGate: null } });
   assert.equal(r.outcome, 'AMENDED');
   assert.equal(rec(root, 'tdb_dental')[0].fetch_plan.detail_gate, undefined);
+});
+
+test('amend --allow-congress: sets and clears allow_congress on the record', async () => {
+  const root = sandbox();
+  const on = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes: { allowCongress: true } });
+  assert.equal(on.outcome, 'AMENDED');
+  assert.equal(rec(root, 'tdb_dental')[0].allow_congress, true);
+  const off = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes: { allowCongress: false } });
+  assert.equal(off.outcome, 'AMENDED');
+  assert.equal(rec(root, 'tdb_dental')[0].allow_congress, undefined);
+});
+
+test('list extraction with an owner path allowlist: ids in the path and a larger menu group no longer hide the news items', () => {
+  const menu = Array.from({ length: 12 }, (_, i) => `<a href="/${i}-menu-page-${i}">Menu page number ${i}</a>`).join('');
+  const news = Array.from({ length: 5 }, (_, i) => `<a href='/haber/20${i}/baslik-${i}'>Haber basligi numarasi ${i}</a>`).join('');
+  const html = `<nav>${menu}</nav><table>${news}</table>`;
+  assert.equal(extractListPage(html, 'https://dernek.example.org.tr/haberler').filter((i) => i.url.includes('/haber/')).length, 0, 'without the allowlist the menu group wins');
+  const items = extractListPage(html, 'https://dernek.example.org.tr/haberler', ['/haber/']);
+  assert.equal(items.length, 5);
+  assert.ok(items.every((i) => i.url.includes('/haber/')));
 });

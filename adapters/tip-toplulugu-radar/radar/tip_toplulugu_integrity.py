@@ -58,6 +58,7 @@ DOMESTIC_OFFICIAL_PRIMARY_IDS = frozenset(
         "osym_ydus_subspecialty_exams",
         "titck_announcements_general",
         "titck_geri_cekme",
+        "guvenilirgida_dogru_bilgi",
         "saglik_bakanligi_genel",
     }
 )
@@ -65,7 +66,11 @@ DOMESTIC_OFFICIAL_PRIMARY_IDS = frozenset(
 OFFICIAL_PRIMARY_IDS = DOMESTIC_OFFICIAL_PRIMARY_IDS
 
 PROFESSIONAL_BODY_IDS = frozenset(
-    {"ttb_national", "turkmsic_medical_students", "hasuder_public_health", "tvhb_veterinary", "tdb_dental"}
+    {
+        "ttb_national", "turkmsic_medical_students", "hasuder_public_health", "tvhb_veterinary", "tdb_dental",
+        # 2026-11-02 lifecycle registrations whose tier the lifecycle derived as professional body
+        "tnd_duyuru", "egitim_tnd", "tnd_bilimsel", "tnd_ozelgun", "saglik_aktuel_bilimsel",
+    }
 )
 PROFESSIONAL_GUIDANCE_IDS = frozenset(
     {

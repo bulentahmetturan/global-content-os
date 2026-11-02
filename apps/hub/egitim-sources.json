@@ -310,5 +310,23 @@
     "name": "HSGM Mikrobiyoloji - Eğitim",
     "url": "https://hsgm.saglik.gov.tr/tr/haberler-10.feed?type=rss",
     "mode": "AUTOMATION_READY"
+  },
+  {
+    "id": "egitim_temd",
+    "name": "TEMD - Eğitim",
+    "url": "https://www.temd.org.tr/duyurular",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_tutd",
+    "name": "TUTD - Eğitim",
+    "url": "https://www.tutd.org.tr/haberler",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_tnd",
+    "name": "TND - Eğitim",
+    "url": "https://noroloji.org.tr/haberler",
+    "mode": "MANUAL_INTAKE"
   }
 ]

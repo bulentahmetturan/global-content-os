@@ -12,7 +12,7 @@ class EgitimLaneTests(unittest.TestCase):
     def test_registry_ids_prefixed_and_merged(self):
         egitim = load_egitim_registry()
         ids = [s["source_id"] for s in egitim["sources"]]
-        self.assertEqual(len(ids), 52)  # 42 curated + 10 egitim_hsgm_* (lifecycle)
+        self.assertEqual(len(ids), 55)  # 42 curated + 10 egitim_hsgm_* + egitim_temd/tutd/tnd (lifecycle)
         self.assertTrue(all(is_egitim_source_id(i) for i in ids))
         self.assertEqual(len(ids), len(set(ids)))
         eff = resolve_effective_registry()
@@ -23,7 +23,8 @@ class EgitimLaneTests(unittest.TestCase):
             self.assertEqual(p.get("default_route_on_accept"), "EDUCATION")
             # 2026-09-30: only the production canary set is automated; the other 40 stay MANUAL_INTAKE.
             # 2026-10-31: the 10 egitim_hsgm_* legs (lifecycle, runner_region TR) are automated too.
-            expected = ACTIVATION_AUTOMATION_READY if sid in {"egitim_eso", "egitim_pasteur"} or sid.startswith("egitim_hsgm_") else ACTIVATION_MANUAL_INTAKE
+            # 2026-11-02: egitim_temd / egitim_tutd / egitim_tnd (owner PASS/FAIL interview, Bible 26.1) are automated too.
+            expected = ACTIVATION_AUTOMATION_READY if sid in {"egitim_eso", "egitim_pasteur", "egitim_temd", "egitim_tutd", "egitim_tnd"} or sid.startswith("egitim_hsgm_") else ACTIVATION_MANUAL_INTAKE
             self.assertEqual(compute_activation_state(p), expected, sid)
 
     def test_pool_mirrors_registry(self):

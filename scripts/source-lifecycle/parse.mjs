@@ -86,7 +86,7 @@ export function dateIn(windowHtml) {
 const NAV = /^(home|anasayfa|ana sayfa|iletişim|contact|about|hakkımızda|devamı|read more|daha fazla|more|next|previous|önceki|sonraki|tümü|all)$/i;
 
 /** Generic list-page extraction: the largest same-template link group with real titles is the item list. */
-export function extractListPage(html, pageUrl) {
+export function extractListPage(html, pageUrl, allowedPaths = null) {
   const body = String(html || '');
   const pageHost = hostOf(pageUrl);
   const anchors = [];
@@ -100,6 +100,8 @@ export function extractListPage(html, pageUrl) {
     if (!abs || hostOf(abs) !== pageHost || abs === normalizeUrl(pageUrl)) continue;
     const title = text(m[2]);
     if (title.length < 12 || NAV.test(title)) continue;
+    // Owner-set path allowlist: menu/footer groups can outnumber the news group, so only the allowed sections compete.
+    if (allowedPaths?.length && !allowedPaths.some((p) => p === '/' || new URL(abs).pathname.startsWith(p) || new URL(abs).pathname.includes(p))) continue;
     anchors.push({ url: abs, title, start: m.index, end: m.index + m[0].length });
   }
   const groups = new Map();
@@ -109,7 +111,8 @@ export function extractListPage(html, pageUrl) {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(a);
   }
-  const best = [...groups.values()].filter((g) => new Set(g.map((a) => a.url)).size >= 3).sort((a, b) => b.length - a.length)[0] || [];
+  // With an owner-set allowlist the allowed sections ARE the item set (ids in the path, e.g. /haber/2069/slug, defeat prefix grouping).
+  const best = allowedPaths?.length ? anchors : [...groups.values()].filter((g) => new Set(g.map((a) => a.url)).size >= 3).sort((a, b) => b.length - a.length)[0] || [];
   const seen = new Set();
   const items = [];
   for (let i = 0; i < best.length; i++) {
