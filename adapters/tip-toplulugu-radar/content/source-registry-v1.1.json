@@ -1901,12 +1901,16 @@
         "enfeksiyon",
         "duyuru",
         "rehber",
-        "antibiyotik"
+        "antibiyotik",
+        "kongre",
+        "sempozyum"
       ],
       "exclude_keywords": [
-        "kongre",
-        "sempozyum",
-        "sponsor"
+        "sponsor",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı"
       ],
       "allowed_routes": [
         "CLINICAL_UPDATE",
@@ -1984,7 +1988,23 @@
         "scheduled_fetch_enabled": true,
         "candidate_emission_enabled": true
       },
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "allow_congress": true,
+      "lifecycle_history": [
+        {
+          "op": "amend",
+          "request_id": "slr_387896cc896060ba",
+          "at": "2026-11-02T22:52:34.043Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "KLİMİK: owner 2026-11-03 lifted the congress/symposium exclusion (dated congress notice = strong accept, Duyuru)",
+          "fields": [
+            "include",
+            "exclude",
+            "allowCongress"
+          ]
+        }
+      ]
     },
     {
       "source_id": "tpd_psychiatry",

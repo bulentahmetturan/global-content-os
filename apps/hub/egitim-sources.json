@@ -328,5 +328,35 @@
     "name": "TND - Eğitim",
     "url": "https://noroloji.org.tr/haberler",
     "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_ttb",
+    "name": "TTB - Eğitim",
+    "url": "https://www.ttb.org.tr/arsiv_haber.php",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_ttd",
+    "name": "TTD - Eğitim",
+    "url": "https://toraks.org.tr/haberler",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_klimik",
+    "name": "KLİMİK - Eğitim",
+    "url": "https://www.klimik.org.tr/category/duyurular/feed/",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_tkd",
+    "name": "TKD - Eğitim",
+    "url": "https://www.tkd.org.tr/duyurular",
+    "mode": "MANUAL_INTAKE"
+  },
+  {
+    "id": "egitim_tpd",
+    "name": "TPD - Eğitim",
+    "url": "https://psikiyatri.org.tr/haber-duyuru",
+    "mode": "MANUAL_INTAKE"
   }
 ]

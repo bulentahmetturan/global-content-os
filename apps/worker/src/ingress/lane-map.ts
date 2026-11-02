@@ -17,6 +17,8 @@ export const NEWS_LANE_SOURCES: ReadonlySet<string> = new Set([
   'hsgm_aile_hekimligi_ozelgun', 'hsgm_asi_ozelgun', 'hsgm_bulasici_ozelgun', 'hsgm_zoonotik_ozelgun', 'hsgm_kadin_ureme_ozelgun', 'hsgm_cocuk_ergen_ozelgun', 'hsgm_beslenme_ozelgun', 'hsgm_toplum_sagligi_ozelgun', 'hsgm_tuberkuloz_ozelgun', 'hsgm_mikrobiyoloji_ozelgun',
   // Owner PASS/FAIL interview 2026-11-02 (Bible 26.1): general-health and özel gün legs of the new publishers go to Haber.
   'medikal_akademi', 'saglik_aktuel_bilimsel', 'guvenilirgida_dogru_bilgi', 'tutd_uyku_yazilari', 'tutd_ozelgun', 'temd_ozelgun', 'tnd_bilimsel', 'tnd_ozelgun',
+  // Owner PASS/FAIL interview 2026-11-03 (Bible 26.1): press Haber legs and the association Haber legs of the ten gap sources.
+  'ntv_saglik', 'bbc_turkce_saglik', 'ttb_meslek_haklari', 'hasuder_ozelgun', 'ttd_ozelgun', 'klimik_ozelgun', 'tpd_ozelgun',
 ]);
 
 export const RESEARCH_LANE_SOURCES: ReadonlySet<string> = new Set(['pubmed_biomedical_evidence', 'ep_drahmetekmekci-com']);

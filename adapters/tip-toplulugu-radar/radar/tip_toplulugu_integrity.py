@@ -70,6 +70,8 @@ PROFESSIONAL_BODY_IDS = frozenset(
         "ttb_national", "turkmsic_medical_students", "hasuder_public_health", "tvhb_veterinary", "tdb_dental",
         # 2026-11-02 lifecycle registrations whose tier the lifecycle derived as professional body
         "tnd_duyuru", "egitim_tnd", "tnd_bilimsel", "tnd_ozelgun", "saglik_aktuel_bilimsel",
+        # 2026-11-03 lifecycle registrations (ten gap sources)
+        "ttb_meslek_haklari", "egitim_ttb", "tpd_duyuru", "egitim_tpd", "tpd_ozelgun", "egitim_tkd",
     }
 )
 PROFESSIONAL_GUIDANCE_IDS = frozenset(

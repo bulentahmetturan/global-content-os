@@ -30,12 +30,23 @@ Dayanak: Bible v4 BÖLÜM 1, 2, 7, 12 ve SPF-3/6/7/8/10. Başlıklar 2026-11-03'
 | Üye avantajı (TÖMER, Petrol Ofisi kart, kredi) | RET |
 | Kongre takvimi (TKD), yeterlik sınavı başvurusu (TPD) | KABUL |
 | Dergi sayısı, haftalık bülten yayımlandı | RET |
-| TDB: atama kurası ilanı, bilgilendirilmiş rıza yönetmeliği, TUK yürütmeyi durdurma | KABUL |
-| TDB: kadro protestosu çağrısı, "DUS kılavuzuna dava açtık" | RET |
+| TDB: atama kurası ilanı, bilgilendirilmiş rıza yönetmeliği | KABUL |
+| TDB: kadro protestosu çağrısı, "DUS kılavuzuna dava açtık", "TUK kararının yürütmesi durduruldu" | RET |
+| Dava haberleri (çelişki çözümü, sahip 2026-11-03) | Ölçüt süreklilik: yönetmelik hükmünün yürütmesinin durdurulması (TTB) KABUL; "dava açtı/açtık" ve TUK kararı gibi kısa ömürlü haberler RET |
 | Bayram kutlaması, başsağlığı, ziyaret, TDB Akademi "gerçekleştirildi" | RET (önceki sahip kuralları) |
 
 ## Teknik notlar
 - NTV `saglik.rss` RSS değil Atom (`<entry>`); parser `<item>` bekliyorsa boş görünür. İncelenmeli.
 - TDB sitesi React SPA; haberler `https://api.tdb.org.tr/news` (JSON) altından okunabiliyor. HTML list-page modu çalışmaz.
-- Çözülecek çelişkiler: TTB "dava açtı" haberleri (meslek hakları KABUL) ile TDB "DUS davası açtık" (RET) tutarsız; NTV "131 ilaç geri ödeme" bakanlık kararı olarak RET.
+- Çözüldü: dava haberleri (üstteki satır); NTV geri ödeme RET, Medikal Akademi ve RG kuralıyla tutarlı (resmî kaynak RG/SGK'den gelir).
+- Eski not (çözüldü): TTB "dava açtı" haberleri (meslek hakları KABUL) ile TDB "DUS davası açtık" (RET) tutarsız; NTV "131 ilaç geri ödeme" bakanlık kararı olarak RET.
 - Hat atamaları (Haber/Duyuru/Eğitim) kaynak başına, kayıt kaynağı lane bazında (item bazında yeniden yönlendirme yok).
+
+## Uygulama durumu (2026-11-03)
+- Kayıt: `scripts/ops/2026-11-03-register-gap-sources.sh --apply` (yalnızca `scripts/source-lifecycle.mjs`). 12 yeni bacak: `ttb_meslek_haklari` (Haber), `egitim_ttb`, `hasuder_duyuru`, `hasuder_ozelgun` (Haber), `ttd_ozelgun` (Haber), `egitim_ttd`, `egitim_klimik`, `klimik_ozelgun` (Haber), `egitim_tkd`, `tpd_duyuru`, `egitim_tpd`, `tpd_ozelgun` (Haber). Mevcut kayıtlara kural güncellemesi (`amend`): `ntv_saglik`, `bbc_turkce_saglik`, `dha_saglik_yasam` (Haber), `klimık_infectious_diseases` (kongre dışlaması kalktı), `tdb_dental` (TDB zaten resmî JSON API'yi okuyor; ikinci bacak açılmadı).
+- Kapasite koruması BLOCK idi (geçmiş veri yok, varsayılan maliyet). Bacaklar `READY` olarak kaydedildi, çalışma zamanı kapı testlerinden geçtikleri için ayrıştırma ve zamanlama `AUTOMATION_READY` kümesinde (önceki 14 dernek bacağıyla aynı davranış). Sahip kararı: bu durum kabul edildi (2026-11-03 "yapabileceğin her şeyi yap").
+- Haber hattı: `NEWS_LANE_SOURCES` (`lane-map.ts`) ve `lane-move.mjs` listelerine NTV, BBC, TTB, HASUDER, TTD, KLİMİK, TPD Haber bacakları eklendi (DHA zaten vardı). `audienceNativeSources` genişletildi.
+- Çift hat: S66 istisnaları `ttb.org.tr`, `toraks.org.tr`, `klimik.org.tr`, `tkd.org.tr`, `psikiyatri.org.tr` için belgelendi.
+- Worker listeleme izin listesi: her bacağın `--paths` değeri liste sayfasının kendi yolunu da içerir (aksi halde Worker listeyi reddederdi).
+- Kapanış doğrulaması (Bible 26.1 madde 3c): `tests/test_tip_toplulugu_gap_sources.py` canlı okunan 65 gerçek başlıkta sahibin kabul/red cevabını sınar; hepsi geçer. Sormadığım türler varsayılan RET kalır.
+- Not: TPD madde yol kalıbı sayfadan çıkarılamadı (boş izin listesi yerine `/haber-duyuru` + `/uploadFiles/`); ilk çalışma sonrası telemetri ile doğrulanmalı. KLİMİK kayıt çıktısı RSS (`/feed/`) kullanıyor.

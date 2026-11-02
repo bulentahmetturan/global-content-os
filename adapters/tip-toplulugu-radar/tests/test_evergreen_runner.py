@@ -252,6 +252,48 @@ class SignalTests(unittest.TestCase):
         self.assertEqual(er.icite_enrich(cands, lambda u: None), "ERROR")
 
 
+class HtmlListSnapshotTests(unittest.TestCase):
+    """Bible 26.3 B: HTML list fallback for a source whose feed does not answer."""
+
+    LIST = (
+        '<html><body><a href="/">Ana</a><a href="/konular/tip-ve-saglik/">liste</a>'
+        '<a href="/yazi-bir/">1</a><a href="https://bilimteknik.example/yazi-iki/?utm=1#x">2</a>'
+        '<a href="https://other.example/x/">dis</a><a href="/yazi-bir/">tekrar</a></body></html>'
+    )
+    PAGE = "https://bilimteknik.example/konular/tip-ve-saglik/"
+
+    def test_entries_are_same_host_https_deduplicated_and_exclude_the_list_page(self):
+        urls = [u for u, _ in er.html_list_snapshot_entries(self.LIST, self.PAGE, item_pattern=r"/yazi-")]
+        self.assertEqual(urls, ["https://bilimteknik.example/yazi-bir/", "https://bilimteknik.example/yazi-iki/"])
+
+    def _src(self, archives):
+        return plan_source(archives=archives, cursor={}, evaluation_cap=10, budget_remaining_today=3)
+
+    def test_fallback_runs_when_feed_fails_and_logs_the_mode(self):
+        archives = [
+            {"id": "feed", "kind": "wp_feed", "url": "https://bilimteknik.example/feed/", "max_pages_per_run": 1},
+            {"id": "list", "kind": "html_list_snapshot", "url": self.PAGE, "path_filter": "", "item_pattern": r"/yazi-", "fallback_of": "feed"},
+        ]
+        pages = {"https://bilimteknik.example/robots.txt": (404, ""), self.PAGE: (200, self.LIST)}
+        res = er.run_source(self._src(archives), fetch=fetcher(pages), now=NOW)
+        self.assertEqual(res.stats["archive_modes"], {"feed": "feed_failed", "list": "html_list_snapshot"})
+        st = res.cursor["list"]
+        self.assertEqual(st["url_count"], 2)
+        self.assertRegex(st["content_hash"], r"^[0-9a-f]{32}$")
+
+    def test_fallback_stays_off_when_the_feed_answers(self):
+        feed = "<rss><channel><item><title>A</title><link>https://bilimteknik.example/yazi-bir/</link><pubDate>Mon, 02 Nov 2026 10:00:00 +0000</pubDate></item></channel></rss>"
+        archives = [
+            {"id": "feed", "kind": "wp_feed", "url": "https://bilimteknik.example/feed/", "max_pages_per_run": 1},
+            {"id": "list", "kind": "html_list_snapshot", "url": self.PAGE, "path_filter": "", "fallback_of": "feed"},
+        ]
+        log = []
+        pages = {"https://bilimteknik.example/robots.txt": (404, ""), "https://bilimteknik.example/feed/": (200, feed), self.PAGE: (200, self.LIST)}
+        res = er.run_source(self._src(archives), fetch=fetcher(pages, log), now=NOW)
+        self.assertEqual(res.stats["archive_modes"]["list"], "skipped_primary_ok")
+        self.assertNotIn(self.PAGE, log)
+
+
 class ArchiveTests(unittest.TestCase):
     def test_wp_feed_page_window_is_bounded_and_rotates(self):
         self.assertEqual(er.wp_feed_pages_to_fetch({}, 3), [1, 2, 3])

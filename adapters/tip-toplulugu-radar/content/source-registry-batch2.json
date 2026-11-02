@@ -706,7 +706,10 @@
         "danıştay",
         "daire başkanlığı",
         "tanıtım rehberi",
-        "tdbd"
+        "atama kurası",
+        "kura ilanı",
+        "bilgilendirilmiş rıza",
+        "dus"
       ],
       "exclude_keywords": [
         "kutlu olsun",
@@ -735,7 +738,13 @@
         "basın açıklamasına bekliyoruz",
         "başkanlar konseyi",
         "gerçekleştirildi",
-        "yapıldı"
+        "yapıldı",
+        "dava açtık",
+        "protesto",
+        "tuk kararı",
+        "ing kazançlı",
+        "komplikasyon sigortası",
+        "tdbd"
       ],
       "allow_congress": true,
       "allowed_routes": [
@@ -803,6 +812,20 @@
       "execution": "python_runner",
       "item_url_patterns": [
         "^https://tdb\\.org\\.tr/basin-odasi/haber-arsivi/[^/]+/detay$"
+      ],
+      "lifecycle_history": [
+        {
+          "op": "amend",
+          "request_id": "slr_acaa0b98d5660b64",
+          "at": "2026-11-02T22:54:06.949Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "TDB: owner 2026-11-03 (atama kurası ilanı and regulation in; protest call, 'case filed', TUK ruling, member perks out)",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        }
       ]
     },
     {
@@ -2248,45 +2271,53 @@
         "academic_physician"
       ],
       "include_keywords": [
-        "hekim",
-        "doktor",
-        "hasta",
-        "hastane",
-        "sağlık bakanlığı",
+        "uzman",
+        "prof",
+        "doç",
+        "araştırma",
+        "çalışma",
+        "keşif",
+        "bilim",
+        "kanser",
         "aşı",
         "salgın",
-        "tarama",
-        "TUS",
-        "YDUS",
-        "tıp fakültesi",
-        "asistan",
-        "uzmanlık",
-        "halk sağlığı",
-        "klinik",
+        "mhrs",
+        "randevu",
         "tedavi",
         "ilaç",
+        "hastalık",
         "ameliyat",
-        "teşhis",
-        "kanser",
-        "diyabet",
-        "YÖK",
-        "TUK",
-        "SGK",
-        "TİTCK"
+        "alzheimer",
+        "demans",
+        "protein"
       ],
       "exclude_keywords": [
         "mucize",
         "şifa",
+        "ünlü",
+        "magazin",
+        "burç",
+        "astroloji",
+        "reklam",
+        "sponsorlu",
+        "geri ödeme",
+        "bakan",
+        "saldırı",
+        "ihmal",
+        "paranormal",
+        "hayalet",
+        "aldatabilir",
+        "sahte botoks",
         "medikal turizm",
         "hastane açılışı",
         "ücretli klinik",
-        "ünlü",
-        "diyet mucize",
-        "burç",
-        "astroloji",
-        "fal",
-        "yıldız falı",
-        "reklam"
+        "çay",
+        "galeri",
+        "kurutularak",
+        "kazanda",
+        "süper meyve",
+        "depresyon türü",
+        "grip vakaları"
       ],
       "allowed_routes": [
         "NEEDS_REVIEW",
@@ -2343,7 +2374,11 @@
         ],
         "fetch_enabled": true,
         "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "candidate_emission_enabled": true,
+        "forbidden_paths": [
+          "/saglik/galeri-",
+          "/saglik/video-"
+        ]
       },
       "fetch_enabled": true,
       "scheduled_fetch_enabled": true,
@@ -2393,6 +2428,32 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_4be892446073f81e",
+          "at": "2026-11-02T22:52:10.792Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "NTV Haber leg: owner 2026-11-03 (herbal/gallery out, MHRS service in, science with named finding in)",
+          "fields": [
+            "include",
+            "exclude",
+            "forbid"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_1ea1400d0d003067",
+          "at": "2026-11-02T23:25:04.952Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "owner 2026-11-03 real-title corrections",
+          "fields": [
+            "include",
+            "exclude",
+            "forbid"
+          ]
         }
       ]
     },
@@ -2429,45 +2490,52 @@
         "academic_physician"
       ],
       "include_keywords": [
-        "hekim",
-        "doktor",
-        "hasta",
-        "hastane",
-        "sağlık bakanlığı",
-        "aşı",
+        "bilim",
+        "gerçekten",
+        "güvenli mi",
+        "faydalı mı",
         "salgın",
-        "tarama",
-        "TUS",
-        "YDUS",
-        "tıp fakültesi",
-        "asistan",
-        "uzmanlık",
-        "halk sağlığı",
-        "klinik",
-        "tedavi",
-        "ilaç",
-        "ameliyat",
-        "teşhis",
+        "veba",
+        "radyasyon",
+        "kamp",
+        "hastalık",
+        "belirtileri",
         "kanser",
-        "diyabet",
-        "YÖK",
-        "TUK",
-        "SGK",
-        "TİTCK"
+        "uyku",
+        "egzersiz",
+        "beslenme",
+        "depresyon",
+        "ruh sağlığı",
+        "demir",
+        "ferritin",
+        "vitamin",
+        "eksikliği"
       ],
       "exclude_keywords": [
         "mucize",
         "şifa",
+        "ünlü",
+        "magazin",
+        "burç",
+        "astroloji",
+        "reklam",
+        "sponsorlu",
+        "geri ödeme",
+        "bakan",
+        "saldırı",
+        "ihmal",
+        "paranormal",
+        "hayalet",
+        "aldatabilir",
+        "sahte botoks",
         "medikal turizm",
         "hastane açılışı",
         "ücretli klinik",
-        "ünlü",
-        "diyet mucize",
-        "burç",
-        "astroloji",
-        "fal",
-        "yıldız falı",
-        "reklam"
+        "papa",
+        "rusya",
+        "video oyunu",
+        "insan boyunun",
+        "nobel"
       ],
       "allowed_routes": [
         "NEEDS_REVIEW",
@@ -2574,6 +2642,30 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_e8a7649b37faaf5a",
+          "at": "2026-11-02T22:52:11.095Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "BBC Haber leg: owner 2026-11-03 (science explainers and global health risks in, curiosity/celebrity out)",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_db07453c42733587",
+          "at": "2026-11-02T23:25:05.291Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "owner 2026-11-03 real-title corrections",
+          "fields": [
+            "include",
+            "exclude"
+          ]
         }
       ]
     },
@@ -3556,45 +3648,45 @@
         "academic_physician"
       ],
       "include_keywords": [
-        "hekim",
-        "doktor",
-        "hasta",
-        "hastane",
-        "sağlık bakanlığı",
+        "prof. dr",
+        "doç. dr",
+        "uzm. dr",
+        "op. dr",
+        "uzman",
+        "uyardı",
+        "çağrı",
+        "araştırma",
         "aşı",
         "salgın",
-        "tarama",
-        "TUS",
-        "YDUS",
-        "tıp fakültesi",
-        "asistan",
-        "uzmanlık",
-        "halk sağlığı",
-        "klinik",
-        "tedavi",
-        "ilaç",
-        "ameliyat",
-        "teşhis",
-        "kanser",
-        "diyabet",
-        "YÖK",
-        "TUK",
-        "SGK",
-        "TİTCK"
+        "kanser"
       ],
       "exclude_keywords": [
         "mucize",
         "şifa",
+        "ünlü",
+        "magazin",
+        "burç",
+        "astroloji",
+        "reklam",
+        "sponsorlu",
+        "geri ödeme",
+        "bakan",
+        "saldırı",
+        "ihmal",
+        "paranormal",
+        "hayalet",
+        "aldatabilir",
+        "sahte botoks",
         "medikal turizm",
         "hastane açılışı",
         "ücretli klinik",
-        "ünlü",
-        "diyet mucize",
-        "burç",
-        "astroloji",
-        "fal",
-        "yıldız falı",
-        "reklam"
+        "kavuştu",
+        "yendi",
+        "ameliyattan",
+        "robotik cerrahi",
+        "akıllı bileklik",
+        "babasından",
+        "böbreklerini"
       ],
       "allowed_routes": [
         "NEEDS_REVIEW",
@@ -3690,6 +3782,18 @@
             "before": 10080,
             "after": 2880
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_aeed657aa596167e",
+          "at": "2026-11-02T22:52:11.378Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "DHA Haber leg: owner 2026-11-03 (named expert advice in, single patient stories and ministers out)",
+          "fields": [
+            "include",
+            "exclude"
+          ]
         }
       ]
     },

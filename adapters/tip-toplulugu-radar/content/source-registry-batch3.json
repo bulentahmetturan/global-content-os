@@ -7601,6 +7601,1166 @@
           ]
         }
       ]
+    },
+    {
+      "source_id": "ttb_meslek_haklari",
+      "name": "TTB - Meslek hakları (Haber)",
+      "label": "TTB - Meslek hakları (Haber)",
+      "canonical_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "source_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "primary_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "allowed_hostnames": [
+        "www.ttb.org.tr",
+        "ttb.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber_goster.php",
+        "/duyuru_goster.php",
+        "/arsiv_haber.php",
+        "/arsiv_duyuru.php"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "hekim",
+        "asistan",
+        "iş yükü",
+        "şiddet",
+        "güvenlik",
+        "sözleşme",
+        "yönetmelik",
+        "performans",
+        "katsayı",
+        "ücret",
+        "mecburi hizmet",
+        "çalışma hakkı",
+        "yürütmesi durduruldu"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "dava açtı",
+        "dava açtık",
+        "khk",
+        "barış akademisyenleri",
+        "kutlu olsun"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ttb.org.tr",
+          "ttb.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber_goster.php",
+          "/duyuru_goster.php",
+          "/arsiv_haber.php",
+          "/arsiv_duyuru.php"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TTB meslek hakları Haber leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.ttb.org.tr/arsiv_haber.php",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T22:52:13.169Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.46 / failure-heavy 1.11 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_bfe3883238082acb",
+          "at": "2026-11-02T22:52:15.747Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "source_id": "hasuder_duyuru",
+      "name": "HASUDER - Duyuru",
+      "label": "HASUDER - Duyuru",
+      "canonical_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "source_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "primary_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "allowed_hostnames": [
+        "www.hasuder.org.tr",
+        "hasuder.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/listele/duyurular-hasuder-cat",
+        "/duyurular-hasuder-cat/detay/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "yeterlik",
+        "sınav",
+        "başvuru",
+        "sonuç bildirgesi",
+        "bildirge",
+        "kongre"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.hasuder.org.tr",
+          "hasuder.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/listele/duyurular-hasuder-cat",
+          "/duyurular-hasuder-cat/detay/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: HASUDER duyuru leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 2,
+          "gaps_used": 1,
+          "expected_gap_min": null,
+          "newest": "2026-09-04T00:00:00.000Z",
+          "computed_at": "2026-11-02T22:52:20.872Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.46 / failure-heavy 1.11 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_16df4bea2cff9bc6",
+          "at": "2026-11-02T22:52:23.106Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_32ec7f653a7c6fea",
+          "at": "2026-11-02T23:13:15.160Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_b84591e4902d2989",
+          "at": "2026-11-02T23:25:05.680Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "owner 2026-11-03: congress outcome (sonuç bildirgesi) is accepted",
+          "fields": [
+            "include",
+            "exclude",
+            "allowCongress"
+          ]
+        }
+      ],
+      "allow_congress": true
+    },
+    {
+      "source_id": "hasuder_ozelgun",
+      "name": "HASUDER - Özel gün (Haber)",
+      "label": "HASUDER - Özel gün (Haber)",
+      "canonical_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "source_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "primary_url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+      "allowed_hostnames": [
+        "www.hasuder.org.tr",
+        "hasuder.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/listele/duyurular-hasuder-cat",
+        "/duyurular-hasuder-cat/detay/"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "bilgi notu",
+        "basın bildirisi",
+        "bildirisi"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.hasuder.org.tr",
+          "hasuder.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/listele/duyurular-hasuder-cat",
+          "/duyurular-hasuder-cat/detay/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: HASUDER özel gün leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.hasuder.org.tr/listele/duyurular-hasuder-cat",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 2,
+          "gaps_used": 1,
+          "expected_gap_min": null,
+          "newest": "2026-09-04T00:00:00.000Z",
+          "computed_at": "2026-11-02T22:52:24.057Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.47 / failure-heavy 1.12 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_9a5785fd2e170e27",
+          "at": "2026-11-02T22:52:26.373Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_e505cf6adc4ee3fa",
+          "at": "2026-11-02T23:13:15.491Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "ttd_ozelgun",
+      "name": "TTD - Özel gün ve toplumsal sağlık (Haber)",
+      "label": "TTD - Özel gün ve toplumsal sağlık (Haber)",
+      "canonical_url": "https://toraks.org.tr/haberler",
+      "source_url": "https://toraks.org.tr/haberler",
+      "primary_url": "https://toraks.org.tr/haberler",
+      "allowed_hostnames": [
+        "toraks.org.tr",
+        "www.toraks.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haberler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "bilgi notu",
+        "basın bildirisi",
+        "bildirisi",
+        "maden",
+        "mesleksel",
+        "iklim",
+        "orman",
+        "tütün kontrolü",
+        "tütün"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "basın bildirisi kutlu",
+        "gar",
+        "lgbt"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "toraks.org.tr",
+          "www.toraks.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haberler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TTD özel gün + sağlık bağlı toplumsal bildiri leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://toraks.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 9,
+          "gaps_used": 8,
+          "expected_gap_min": 5760,
+          "newest": "2026-11-02T00:00:00.000Z",
+          "computed_at": "2026-11-02T22:52:27.124Z"
+        },
+        "flags": []
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.47 / failure-heavy 1.13 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_ffc526358394fe3b",
+          "at": "2026-11-02T22:52:29.505Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_85c3bbc163c894b4",
+          "at": "2026-11-02T23:13:15.819Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "klimik_ozelgun",
+      "name": "KLİMİK - Özel gün (Haber)",
+      "label": "KLİMİK - Özel gün (Haber)",
+      "canonical_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "source_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "primary_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "allowed_hostnames": [
+        "www.klimik.org.tr",
+        "klimik.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/category/duyurular",
+        "/20"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık",
+        "polio"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yaşında"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.klimik.org.tr",
+          "klimik.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/category/duyurular",
+          "/20"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: KLİMİK özel gün leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.klimik.org.tr/category/duyurular/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 10,
+          "gaps_used": 9,
+          "expected_gap_min": 1371,
+          "newest": "2026-11-02T08:33:00.000Z",
+          "computed_at": "2026-11-02T22:52:44.796Z"
+        },
+        "flags": [
+          "SCHEDULER_FLOOR"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.50 / failure-heavy 1.21 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_13beb1a1cc3609c7",
+          "at": "2026-11-02T22:52:47.162Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_a76c2c8cb1b2194e",
+          "at": "2026-11-02T23:13:16.484Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "tpd_duyuru",
+      "name": "TPD - Duyuru",
+      "label": "TPD - Duyuru",
+      "canonical_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "source_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "primary_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "allowed_hostnames": [
+        "psikiyatri.org.tr",
+        "www.psikiyatri.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber-duyuru",
+        "/uploadFiles/"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "yeterlik sınavı",
+        "uygulama sınavı",
+        "başvuru",
+        "kılavuz",
+        "sonuç"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı",
+        "taziye",
+        "kaybettik",
+        "genel kurul"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "psikiyatri.org.tr",
+          "www.psikiyatri.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber-duyuru",
+          "/uploadFiles/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TPD duyuru leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://psikiyatri.org.tr/haber-duyuru",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T22:52:54.267Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.51 / failure-heavy 1.23 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_63aa246ea6ccab06",
+          "at": "2026-11-02T22:52:56.528Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_fce7c0a34a8cd7af",
+          "at": "2026-11-02T23:13:17.484Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "tpd_ozelgun",
+      "name": "TPD - Özel gün (Haber)",
+      "label": "TPD - Özel gün (Haber)",
+      "canonical_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "source_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "primary_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "allowed_hostnames": [
+        "psikiyatri.org.tr",
+        "www.psikiyatri.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber-duyuru",
+        "/uploadFiles/"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "ruh sağlığı günü",
+        "günü",
+        "haftası",
+        "ayı",
+        "farkındalık"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "gar",
+        "katliam",
+        "lgbt",
+        "epa",
+        "dayanışma mektubu"
+      ],
+      "allowed_routes": [
+        "PROFESSIONAL_BRIEF",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "NEEDS_REVIEW",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "psikiyatri.org.tr",
+          "www.psikiyatri.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber-duyuru",
+          "/uploadFiles/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (DUYURU) of a publisher registered once per lane: TPD özel gün leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://psikiyatri.org.tr/haber-duyuru",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T22:53:07.308Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.52 / failure-heavy 1.24 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_d184cb10c7640611",
+          "at": "2026-11-02T22:53:09.990Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_4a790084854b9be7",
+          "at": "2026-11-02T23:13:18.127Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
     }
   ]
 }
