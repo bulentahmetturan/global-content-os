@@ -16,6 +16,14 @@ import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { authorizeLifecycle, writeCanonicalFiles } from './store.mjs';
 
+/** Publisher id = registrable label of the host; `cumhuriyet.com.tr` must give `cumhuriyet`, not `com` (second-level suffixes). */
+const SECOND_LEVEL = new Set(['com', 'org', 'net', 'gov', 'edu', 'k12', 'bel', 'av', 'dr', 'web', 'co']);
+export function publisherIdFromHost(hostname) {
+  const labels = String(hostname || '').replace(/^www\./, '').split('.');
+  if (labels.length >= 3 && SECOND_LEVEL.has(labels[labels.length - 2])) return labels[labels.length - 3];
+  return labels.length >= 2 ? labels[labels.length - 2] : labels[0] || '';
+}
+
 export const KADUSE_FILES = {
   subscriptions: 'packages/source-catalog/data/kaduse-subscriptions.json',
   news: 'packages/source-catalog/data/news-registry.json',
@@ -132,7 +140,7 @@ export const MUTATIONS = {
     const note = `Added by source-lifecycle ${at}: gates passed (identity, access, parser, routing, dedupe, cadence ${v.cadence.poll_minutes}min, canary). Endpoint ${v.endpoint.url}.`;
     if (v.routing.lane === 'kaduse-news') {
       const reg = files.news.data;
-      const pubId = hostname.replace(/^www\./, '').split('.').slice(-2, -1)[0] || slug;
+      const pubId = publisherIdFromHost(hostname) || slug;
       if ((reg.sources || []).some((s) => s.id === slug) || reg.targets.some((t) => t.id === `${slug}-whole`)) return { error: 'ID_TAKEN' };
       reg.publishers ||= [];
       reg.sources ||= [];

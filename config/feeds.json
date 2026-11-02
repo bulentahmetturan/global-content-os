@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "2a94b2f42862cd11d7b14302251140f14b6711dfcd9e693d719d2660726b94df"
+        "sha256": "21364c29a9942cfdd73d81166014b0c576e45987f9f2bf656e2dc827157084c3"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "9dc811ff4f3fee20d2454210c5138be3e56d3894aa9c6948e4fc12d077f1e9ae"
+        "sha256": "0c8b712a1ad0235e8854560053a1b08daf8240dff742c0be4059b4d500e98032"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 26,
+    "news": 29,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 804,
-    "registryTargetsParsed": 25
+    "total": 807,
+    "registryTargetsParsed": 28
   },
   "feeds": [
     {
@@ -700,6 +700,66 @@
       "enabled": true,
       "externalRef": "www-dw-s-57554999-whole",
       "registrySourceId": "www-dw-s-57554999",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-cumhuriyet-saglik-whole",
+      "label": "Cumhuriyet Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.cumhuriyet.com.tr/rss/saglik.xml",
+      "pollMinutes": 60,
+      "enabled": true,
+      "externalRef": "cumhuriyet-saglik-whole",
+      "registrySourceId": "cumhuriyet-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-indyturk-saglik-whole",
+      "label": "Independent Türkçe Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.indyturk.com/taxonomy/term/320/%2A/feed",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "indyturk-saglik-whole",
+      "registrySourceId": "indyturk-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-herkesebilim-saglik-whole",
+      "label": "Herkese Bilim Teknoloji Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.herkesebilimteknoloji.com/feed",
+      "pollMinutes": 60,
+      "enabled": true,
+      "externalRef": "herkesebilim-saglik-whole",
+      "registrySourceId": "herkesebilim-saglik",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

@@ -74,9 +74,40 @@ const DW_RULES: EditorialRule[] = [
   { id: 'contested-policy-no-clinic', title: /kurtaj|tup bebek|sezaryen|tasiyici anne|ozel hastane/, unless: CLINICAL },
 ];
 
+// Backup list 26-32 (owner PASS/FAIL interview 2026-11-03). Expert warnings and consumer tips pass here (evidence gate downstream);
+// sensational wording and one person's story are out. OPEN owner question: whether a "!" headline alone is a reject (see audit).
+const CUMHURIYET_RULES: EditorialRule[] = [
+  { id: 'sensational-headline', title: /mucize|ezber|sifa\b|olumcul|korkutan|\bsok\b/ },
+  HABERTURK_RULES[1],
+  HABERTURK_RULES[2],
+];
+
+// Independent Turkce saglik: translated research and lifestyle pass; global outbreak reports, minister statements and calls are out.
+const INDY_RULES: EditorialRule[] = [
+  { id: 'global-outbreak', text: /ebola|unicef|cocuk felci|kaliforniya|\bkdc\b/ },
+  { id: 'minister-or-call', title: /\bbakani\b|cagri/, unless: REGULATION },
+  { id: 'conspiracy', title: /komplo/ },
+];
+
+// Herkese Bilim Teknoloji: only the health section is read (feed-scope.ts); of the Nobel prizes only Medicine stays; magazine issue notices are out.
+const HERKESEBILIM_RULES: EditorialRule[] = [
+  { id: 'non-medicine-nobel', title: /(fizik|kimya|edebiyat|baris).*(nobel|odul)|(nobel|odul).*(fizik|kimya|edebiyat|baris)/ },
+  { id: 'magazine-issue', title: /hbt dergi|\bdergi\b.*\bsayi/ },
+];
+
+// Medikal News: only regulation/communique items pass (rules_json.includeKeywords in scripts/ops/2026-11-03-backup7-rules.sql);
+// company releases, congress reports, awards, appointments, hospital openings are rejected here as well.
+const MEDIKAL_RULES: EditorialRule[] = [
+  { id: 'sector-pr', text: /kongre|zirve|odul|hizmete girdi|sponsor|roportaj|\batama\b/, unless: /teblig|yonetmelik/ },
+];
+
 const RULES_BY_FEED: Record<string, EditorialRule[]> = {
   'news-www-haberturk-rss-whole': HABERTURK_RULES,
   'news-www-dw-s-57554999-whole': DW_RULES,
+  'news-cumhuriyet-saglik-whole': CUMHURIYET_RULES,
+  'news-indyturk-saglik-whole': INDY_RULES,
+  'news-herkesebilim-saglik-whole': HERKESEBILIM_RULES,
+  'news-www-medikalnews-whole': MEDIKAL_RULES,
 };
 
 /** Feeds whose listing prints no dates: the date (and og:description) is read from each article page. */

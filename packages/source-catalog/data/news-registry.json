@@ -134,6 +134,21 @@
       "id": "dw",
       "canonicalName": "DW Türkçe Sağlık",
       "officialUrl": "https://www.dw.com"
+    },
+    {
+      "id": "cumhuriyet",
+      "canonicalName": "Cumhuriyet",
+      "officialUrl": "https://www.cumhuriyet.com.tr"
+    },
+    {
+      "id": "indyturk",
+      "canonicalName": "Independent Türkçe",
+      "officialUrl": "https://www.indyturk.com"
+    },
+    {
+      "id": "herkesebilimteknoloji",
+      "canonicalName": "Herkese Bilim Teknoloji",
+      "officialUrl": "https://www.herkesebilimteknoloji.com"
     }
   ],
   "sources": [
@@ -328,6 +343,33 @@
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
       "verificationNote": "Added by source-lifecycle 2026-11-02T22:50:49.100Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999."
+    },
+    {
+      "id": "cumhuriyet-saglik",
+      "publisherId": "cumhuriyet",
+      "canonicalName": "Cumhuriyet Sağlık",
+      "officialUrl": "https://www.cumhuriyet.com.tr/rss/saglik.xml",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:09.844Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.cumhuriyet.com.tr/rss/saglik.xml."
+    },
+    {
+      "id": "indyturk-saglik",
+      "publisherId": "indyturk",
+      "canonicalName": "Independent Türkçe Sağlık",
+      "officialUrl": "https://www.indyturk.com/taxonomy/term/320/%2A/feed",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:13.117Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.indyturk.com/taxonomy/term/320/%2A/feed."
+    },
+    {
+      "id": "herkesebilim-saglik",
+      "publisherId": "herkesebilimteknoloji",
+      "canonicalName": "Herkese Bilim Teknoloji",
+      "officialUrl": "https://www.herkesebilimteknoloji.com/feed",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:18.526Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.herkesebilimteknoloji.com/feed."
     }
   ],
   "targets": [
@@ -597,6 +639,39 @@
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 360
+    },
+    {
+      "id": "cumhuriyet-saglik-whole",
+      "sourceId": "cumhuriyet-saglik",
+      "label": "Cumhuriyet Sağlık",
+      "officialUrl": "https://www.cumhuriyet.com.tr/rss/saglik.xml",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:09.844Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.cumhuriyet.com.tr/rss/saglik.xml.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
+    },
+    {
+      "id": "indyturk-saglik-whole",
+      "sourceId": "indyturk-saglik",
+      "label": "Independent Türkçe Sağlık",
+      "officialUrl": "https://www.indyturk.com/taxonomy/term/320/%2A/feed",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:13.117Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.indyturk.com/taxonomy/term/320/%2A/feed.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "herkesebilim-saglik-whole",
+      "sourceId": "herkesebilim-saglik",
+      "label": "Herkese Bilim Teknoloji Sağlık",
+      "officialUrl": "https://www.herkesebilimteknoloji.com/feed",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:18.526Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.herkesebilimteknoloji.com/feed.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
     }
   ],
   "referenceResources": [

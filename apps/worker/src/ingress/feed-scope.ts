@@ -18,6 +18,10 @@ const FEED_URL_SCOPES: Record<string, RegExp> = {
   // DW's health section page links to the whole site (topic pages /t-, section pages /s-, footer pages); only
   // articles end in /a-<id>.
   'news-www-dw-s-57554999-whole': /^https?:\/\/(www\.)?dw\.com\/tr\/[^?#]+\/a-\d+\/?$/i,
+  // Cumhuriyet's saglik RSS also carries /turkiye/ items; the Herkese Bilim RSS is site-wide (toplum, yasam, yazarhp, dergi).
+  // Only the sources' own health sections are read as Haber (owner PASS/FAIL interview 2026-11-03, backup list 26-32).
+  'news-cumhuriyet-saglik-whole': /^https?:\/\/(www\.)?cumhuriyet\.com\.tr\/saglik\/[^?#]+/i,
+  'news-herkesebilim-saglik-whole': /^https?:\/\/(www\.)?herkesebilimteknoloji\.com\/haberler\/saglik\/[^?#]+/i,
 };
 
 export function feedUrlScope(feedId: string): RegExp | null {

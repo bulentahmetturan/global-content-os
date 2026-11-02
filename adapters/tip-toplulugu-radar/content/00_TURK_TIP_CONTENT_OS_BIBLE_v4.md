@@ -1498,6 +1498,13 @@ Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayı
 
 Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; görüşme kuralı yazar, bu bölüm kuralın canlıda çalıştığını kanıtlar.
 
+### 26.3. Bölüm kapsamı, teknik engel ve kaynak-arası tutarlılık (sahip kararı 2026-11-03)
+
+1. **Bölüm kapsamı.** Siteyi bütün olarak veren bir akıştan yalnız kaynağın sağlık bölümü okunur (`apps/worker/src/ingress/feed-scope.ts`, URL yolu); sağlık dışı bölümler (toplum, yazar, dergi, siyaset) hat saflığı gereği Haber'e girmez. Tür ayrımı gereken metin kuralları `feed-editorial.ts` içindedir (`### 26.1.` madde 5).
+2. **Teknik engel FAIL değildir.** 403/WAF, RSS yokluğu veya eski/tarihsiz içerik kaynağı FAIL yapmaz (SPF-6): kaynak kaydedilmez veya `manual_only` / `paused` olur; bot koruması aşılmaz (`### 8.2`). Sahip "bu kaynağı kullanmayacağız" derse kayıt biçimi `retired`'dır (tarihçe korunur, silinmez).
+3. **Kaynak-arası tutarlılık.** Aynı tür farklı kaynaklarda farklı karar alabilir (ör. genel uzman uyarısı bir kaynakta RET, başka kaynakta KABUL); bu sahibin kaynak başına kararıdır. Ama kural yazılırken karar tablosunda yan yana gösterilir ve sahip farkı bilerek onaylar (`### 26.1.` madde 3b).
+4. **Mevcut kayıt da görüşmeye girer.** Daha önce filtresiz eklenmiş bir kaynak (ör. Medikal News) aynı PASS/FAIL görüşmesiyle daraltılır; filtresiz kalmasına izin verilmez.
+
 ---
 
 
