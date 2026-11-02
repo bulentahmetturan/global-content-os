@@ -6,6 +6,7 @@ import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-qual
 import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
 import { parseElementorLoop } from './elementor-loop';
+import { timeSensitiveEnabledForFeed } from '../temporal/registry';
 
 export interface FeedRow {
   id: string;
@@ -753,6 +754,8 @@ export async function ingestGenericFeeds(
 
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
+    // Lane purity (Bible 2.3): a source the lifecycle moved to the Keşif/evergreen path only (time_sensitive off) is not read as Haber here.
+    if (!timeSensitiveEnabledForFeed(feed.id)) continue;
     try {
       const scope = feedUrlScope(feed.id);
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);

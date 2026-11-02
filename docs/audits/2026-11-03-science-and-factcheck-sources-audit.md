@@ -43,3 +43,10 @@ Canlı kuru çalışma (Bible 26.1 madde 3c): Teyit 10 kayıttan 0, Doğruluk Pa
 1. **TÜBİTAK**: evergreen `ACTIVE` için feed ya da HTML-liste arşiv türü gerekir (yukarıdaki sınır).
 2. Prod D1 yazıları sahipte: üç `pending-...sql` + `2026-11-03-kaduse-health-rules.sql` (bu sırayla). Sarkaç `ACTIVE` yapmak ayrı sahip kararı.
 3. Doğruluk Payı ve Teyit bugün 0 verir; verim izlenecek, "hasta " / " aşı" kuralları gevşetilebilir.
+
+## Canlıya alma (2026-11-03)
+
+- Prod D1 kayıt + kural SQL'i uygulandı (sahip); doğrulama: dört `news-*-saglik-whole` satırı `enabled=1`, `includeKeywords` Teyit/Doğruluk Payı/TÜBİTAK'ta var.
+- Kaçak: kural uygulanmadan önceki filtresiz aralıkta Doğruluk Payı 2 sağlık dışı kayıt aldı (Avrupa Parlamentosu yasası, Epstein davası); sahip sildi, o yayıncıdan D1'de kayıt kalmadı. Ders: Bible 26.2 madde 2a.
+- Çelişki bulundu ve giderildi: `ingestGenericFeeds` yalnız pubmed gibi özel yolların uyduğu `time_sensitive=false` ayarını yok sayıyordu; Sarkaç (ilk turda 25 eski kayıt çıkardı, tarih kapısı hepsini düşürdü) ve TÜBİTAK, Keşif'e verilmiş olmalarına rağmen Haber hattında da okunuyordu (Bilim Genç de). `timeSensitiveEnabledForFeed` süzgeci eklendi (test: `lane-purity-temporal.test.mjs`). Etki: Bilim Genç artık Haber hattında çekilmez, yalnız evergreen yolu (zaten ACTIVE).
+- Teyit ilk turu: 10 kayıt, 0 kabul (anahtar kelime), `last_error=no_items_extracted`: sıfır kabul "hata" gibi işaretleniyor; izleme gürültüsü, davranış doğru (açık nokta).

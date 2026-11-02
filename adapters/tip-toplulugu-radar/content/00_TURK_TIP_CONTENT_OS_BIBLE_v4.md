@@ -1484,10 +1484,14 @@ Adım 9–10 (kategori kapsamı, hedef kitle ilgisi) kaynağın gerçek içeriğ
 
 ### 26.2. Kaynak ekleme "bitti" sayılma koşulu: pipeline'a oturma (sahip kararı 2026-11-03)
 
+**Kaynak ekleme amacı (sahip, 2026-11-03):** doğru içerik, doğru pipeline'a yerleştirme, doğru haberin sorunsuz çekilmesi ve buna uygun daraltma; bununla çelişen alanların (başka hatta de çalışan kopya yol, eski kayıt, ölü istisna, filtresiz ilk çekim) temizlenmesi; commit, push, deploy ve temizlik. Ajan bu zincirin sahibin yapabileceği değil **kendi yapabildiği her halkasını** kendisi tamamlar.
+
 Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayılması için sağlıklı çekimin gerçekten başlamış olması gerekir; bunun için gereken her adım ajan tarafından yapılır, sahibe bırakılmaz:
 
 1. Birleştirme (`main`), push ve Worker deploy (sahip "push ve deploy" dediğinde; kaynak ekleme işinde bu adım rutindir).
 2. Lifecycle'ın ürettiği `scripts/ops/*-pending-*.sql` dosyalarının ve varsa kural SQL'inin (`rules_json.includeKeywords` gibi) **prod D1'e uygulanması**: sıra = önce kayıt (upsert) dosyaları, sonra kural dosyası (kayıt dosyaları `rules_json`'u sıfırlar); önce ne yazıldığı gösterilir, geri alma yolu (eklenen satırın silinmesi / `enabled=0`) hazır tutulur.
+2a. Kayıt D1'de filtresiz bir aralık bırakmamalıdır: kural SQL'i kayıt SQL'inden hemen sonra, aynı oturumda uygulanır (kayıt ile kural arasında çekim olursa sağlık dışı kayıt girer; girerse temizlenir).
+2b. Hat saflığı: yalnız Keşif/evergreen hattına verilen kaynak (`time_sensitive` kapalı) Haber hattının genel çekimi tarafından okunmaz (`timeSensitiveEnabledForFeed`); aynı kaynağı iki hat birden okuyamaz.
 3. Salt-okunur doğrulama: satır var, `enabled` doğru, `rules_json` doğru; sonraki zamanlayıcı turundan sonra ilk çekim (`last_fetched_at`, `last_ok_items`) ve kabul/red sayıları kontrol edilir; sonuç sahibe dürüstçe raporlanır (çekim yoksa neden).
 4. Uygulanamayan adım (izin katmanı engeli, sır/hesap/kalıcı silme) varsa ajan bunu **açıkça "bitmedi" diye raporlar**, tam komutu verir ve kaynağı "bitti" saymaz.
 
