@@ -22,5 +22,19 @@ Rule used: three Turkish audiences (tıp profesyonelleri, tıp öğrencileri, sa
 2. Türkiye-egress runner for HSGM and the `tr` sources.
 3. Merge to `main` (review migrations 0031–0040 first).
 
-## Left in place on purpose
-S66 `titck.gov.tr` dual-heading exception stays until the retired Haber row is purged; legacy `tip-*` rows are not deleted without `purge-plan` evidence.
+## Temizlik (2026-11-02)
+- S66 `titck.gov.tr` çift başlık istisnası **silindi** (retired Haber bacağı artık sayılmıyor; kontrol istisnasız geçiyor). `ecdc.europa.eu`, `tuseb.gov.tr`, `who.int` istisnaları da ölü görünüyor; bu işin kapsamı dışında olduğu için bırakıldı.
+- Emekli Haber bacakları (`news-titck-*`, `news-resmi-gazete-health-scoped`, `news-tuik-saglik-sosyal-koruma`) ve eski `tip-resmi_gazete`, `tip-titck_duyurular`, `tip-titck_klinik_arastirmalar` satırları D1'de `enabled=0` ve **0 kayıt**. Lifecycle `purge-plan` silmeyi bilerek uygulamıyor (kanıt/provenans kuralı; üretim silmesi sahibe ait), bu yüzden mezar taşı olarak kaldılar. Silmek istenirse tek tek sahip onayıyla.
+- Bilinen sapma: `config/feeds.json` 729 eski `tip-*` satırını enabled gösteriyor, D1'de bu satırlar kapalı.
+
+## Yeni kaynağa geçiş kontrol listesi
+1. Kaynağı tara: liste sayfası, ayrıntı sayfası/RSS gövdesi, tarih var mı, alt menü/footer metni gövdeye karışıyor mu.
+2. Gerçek içerikten türleri çıkar, sahibe sade Türkçe kabul/red soruları sor (örnekli, önerili seçenek önde).
+3. Ayrıştırıcıyı doğrula (`parse_raw_items` gerçek sayfada kayıt sayısı, tarih, URL).
+4. Kaynağı yalnızca `scripts/source-lifecycle.mjs` ile ekle/değiştir (`add`/`amend`/`recalibrate`); listede bilgi yoksa `--detail-gate`.
+5. Gerçek sayfadan fixture + test yaz; canlı kuru çalıştırma (`ingest_one_source`, dry_run) ile sonucu gör.
+6. Üret: bundle, matrix, feeds, hub assets; tüm paketler; commit; deploy.
+7. Doğrulama: radar iş akışları `main` dalından çalışır, bu yüzden telemetri ancak `main`'e birleşince yeni kuralları gösterir.
+
+## Birleştirme öncesi (sahip)
+`main`'e birleştirmeden önce D1'de 6 migration bekliyor (0043–0046: protocol/doctor tabloları). Radar ve Evergreen iş akışları `main`'de; "Evergreen bounded executor" son 3 çalışmada başarısız.

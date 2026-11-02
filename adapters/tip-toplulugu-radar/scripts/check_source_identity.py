@@ -51,11 +51,6 @@ DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
         "threat-monitoring report (/en/publications-and-data/monitoring/"
         "weekly-threats-reports, DUYURU) -- genuinely distinct registered pages."
     ),
-    "titck.gov.tr": (
-        "General regulatory duyurular (HABER, news-titck-general-regulatory) vs. "
-        "Tıp Topluluğu's clinical-trials-specific /faaliyetalanlari/ilac/klinik-arastirmalar "
-        "and /duyuru physician-facing announcement pages (DUYURU) -- distinct paths."
-    ),
     "tuseb.gov.tr": (
         "Health-tech/AI innovation news (/tuyze, /haberler -- HABER) vs. Tıp Topluluğu's "
         "homepage-scoped scholarship/research discovery registration (DUYURU) -- "
