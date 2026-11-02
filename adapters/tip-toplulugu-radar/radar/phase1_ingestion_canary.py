@@ -717,6 +717,83 @@ def _parse_tuik_carousel(
     return out
 
 
+def _parse_titck_cards(
+    *, source_id: str, source_url: str, body: str, fetched_at: str, fetch_method: str
+) -> list[RawItem]:
+    """TİTCK /duyuru card list (server-rendered): date badge, unit badge, tag badges, h2 title, short description.
+
+    Only real cards become items (the page also carries ~190 menu/footer links that must never be candidates).
+    raw_excerpt = unit + tags + description, i.e. text literally on the card, so the keyword gate sees the department.
+    """
+    import html as _html
+
+    def _txt(frag: str) -> str:
+        return re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", frag))).strip()
+
+    out: list[RawItem] = []
+    seen: set[str] = set()
+    for m in re.finditer(r'<a href="([^"]+)" class="announcement-v2-card"[^>]*>(.*?)</a>', body, flags=re.S):
+        url, card = m.group(1).strip(), m.group(2)
+        if url in seen:
+            continue
+        t = re.search(r'<h2 class="announcement-v2-title">(.*?)</h2>', card, flags=re.S)
+        title = _txt(t.group(1)) if t else ""
+        if len(title) < 6:
+            continue
+        seen.add(url)
+        d = re.search(r"anno-badge-date[^>]*>(.*?)</span>", card, flags=re.S)
+        dm = re.search(r"(\d{2})\.(\d{2})\.(20\d{2})", _txt(d.group(1))) if d else None
+        pub = f"{dm.group(3)}-{dm.group(2)}-{dm.group(1)}" if dm else None
+        unit = re.search(r"anno-badge-unit[^>]*>(.*?)</span>", card, flags=re.S)
+        tags = [_txt(x) for x in re.findall(r"anno-badge-tag[^>]*>(.*?)</span>", card, flags=re.S)]
+        desc = re.search(r'announcement-v2-desc[^>]*>(.*?)</div>', card, flags=re.S)
+        excerpt = " | ".join(x for x in [_txt(unit.group(1)) if unit else "", ", ".join(tags), _txt(desc.group(1)) if desc else ""] if x)
+        out.append(
+            RawItem(
+                source_id=source_id,
+                source_url=source_url,
+                canonical_item_url=url,
+                title=title,
+                published_at=pub,
+                fetched_at=fetched_at,
+                content_hash=_hash_text(source_id, url, title),
+                fetch_method=fetch_method,
+                raw_excerpt=excerpt or title,
+            )
+        )
+    return out
+
+
+def extract_detail_body(html_body: str, *, selector: str = "", cut_markers: list[str] | None = None, max_chars: int = 4000) -> str:
+    """Real text of a detail page's content block (never generated).
+
+    selector: a CSS class name whose element starts the content; the text runs from there until the first cut marker
+    (footer/related-links menus repeat on every page and would poison keyword gates, e.g. "Kozmetik İstenmeyen Etki").
+    Empty selector = whole <body>. Returns "" when the selector is absent so callers can fail closed.
+    """
+    import html as _html
+
+    if not html_body:
+        return ""
+    start = 0
+    if selector:
+        m = re.search(r'class="[^"]*\b' + re.escape(selector) + r'\b[^"]*"', html_body)
+        if not m:
+            return ""
+        start = html_body.rfind("<", 0, m.start())
+    else:
+        bm = re.search(r"<body[^>]*>", html_body, flags=re.I)
+        start = bm.end() if bm else 0
+    seg = html_body[start:]
+    seg = re.sub(r"<(script|style|noscript|nav|header|footer|form)\b[\s\S]*?</\1>", " ", seg, flags=re.I)
+    text = re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", seg))).strip()
+    for mk in cut_markers or []:
+        i = text.find(mk)
+        if i > 0:
+            text = text[:i]
+    return text[:max_chars].strip()
+
+
 def _parse_dated_rows(
     *, source_id: str, source_url: str, body: str, fetched_at: str, fetch_method: str
 ) -> list[RawItem]:
@@ -867,6 +944,10 @@ def parse_raw_items(
             return rows
     if 'class="singolaNorma' in body and "Newsletter del " in body:
         return _parse_trovanorme_newsletters(
+            source_id=source_id, source_url=source_url, body=body, fetched_at=fetched_at, fetch_method=fetch_method
+        )
+    if 'class="announcement-v2-card"' in body:
+        return _parse_titck_cards(
             source_id=source_id, source_url=source_url, body=body, fetched_at=fetched_at, fetch_method=fetch_method
         )
     if "hbranabaslik" in body and "SliderUrl(" in body:
@@ -1333,6 +1414,9 @@ def ingest_one_source(
     item_url_patterns = [re.compile(x) for x in (profile.get("item_url_patterns") or [])]
     item_title_patterns = [re.compile(x) for x in (profile.get("item_title_patterns") or [])]
     detail_budget = 40  # bounded detail-page date lookups per source per run
+    detail_gate = plan.get("detail_gate") or None
+    detail_gate_budget = int((detail_gate or {}).get("max_fetches") or 25)
+    detail_deferred = detail_failed = 0
     excerpt_budget = 20  # bounded detail-page excerpt lookups per source per run (real text only, never generated)
     stale_discarded = 0
     rej_shape = rej_audience = rej_keyword = 0
@@ -1391,6 +1475,58 @@ def ingest_one_source(
             discarded += 1
             rej_shape += 1
             continue
+        # Detail gate (fetch_plan.detail_gate): the listing carries no usable text (e.g. TİTCK recall RSS titles are
+        # "Kamuoyunun Dikkatine - 5376"), so the keyword gate must read the real page text. Order: cheap title
+        # pre-gate -> date proof (stale items are never fetched) -> bounded detail fetch -> body joins the gate text.
+        pre_detail = None
+        if detail_gate:
+            from .tip_toplulugu_registry import _keyword_hit as _kw
+            from .tip_toplulugu_dates import date_verdict as _dv
+
+            pre_kw = detail_gate.get("pre_include") or []
+            if pre_kw and not any(_kw(f"{item.title}\n{item.raw_excerpt or ''}", k) for k in pre_kw):
+                discarded += 1
+                rej_keyword += 1
+                continue
+            pre_ex = detail_gate.get("pre_exclude") or []
+            if pre_ex and any(_kw(f"{item.title}\n{item.raw_excerpt or ''}", k) for k in pre_ex):
+                discarded += 1
+                rej_keyword += 1
+                continue
+            v0, _d0 = _dv(
+                sid, published_at=item.published_at, title=item.title, excerpt=item.raw_excerpt or "", url=item.canonical_item_url or ""
+            )
+            if v0 == "STALE":
+                discarded += 1
+                stale_discarded += 1
+                continue
+            host0 = (urlparse(item.canonical_item_url or "").hostname or "").lower()
+            if host0 not in {h.lower() for h in plan.get("allowed_hostnames") or []}:
+                discarded += 1
+                rej_shape += 1
+                continue
+            if detail_gate_budget <= 0:
+                discarded += 1  # deferred, not decided: nothing is stored, the next run sees the item again
+                detail_deferred += 1
+                continue
+            detail_gate_budget -= 1
+            pre_detail = transport(item.canonical_item_url)
+            body0 = (
+                extract_detail_body(
+                    pre_detail.body or "",
+                    selector=str(detail_gate.get("body_selector") or ""),
+                    cut_markers=list(detail_gate.get("cut_markers") or []),
+                    max_chars=int(detail_gate.get("max_chars") or 4000),
+                )
+                if pre_detail is not None and (pre_detail.http_status or 599) < 400
+                else ""
+            )
+            if not body0:
+                discarded += 1  # fail closed AND retry: an unreadable page is never silently accepted or stored
+                detail_failed += 1
+                continue
+            base0 = item.raw_excerpt if item.raw_excerpt and item.raw_excerpt.strip() != item.title.strip() else ""
+            item.raw_excerpt = f"{base0}\n{body0}".strip()
         medical_impact = None
         if sid == "resmi_gazete_medical_regulation":
             medical_impact = True
@@ -1428,8 +1564,8 @@ def ingest_one_source(
             url=item.canonical_item_url or "",
         )
         date_method = "listing"
-        detail = None
-        if verdict == "UNDATED" and not date_exempt and detail_budget > 0:
+        detail = pre_detail
+        if verdict == "UNDATED" and not date_exempt and detail is None and detail_budget > 0:
             host = (urlparse(item.canonical_item_url or "").hostname or "").lower()
             if host in {h.lower() for h in plan.get("allowed_hostnames") or []}:
                 detail_budget -= 1

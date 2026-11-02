@@ -9,7 +9,7 @@
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --set <minutes> --basis "<evidence>" [--history DIR] [--apply]   (owner-directed; ladder step in lane bounds)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --temporal <patch.json> --basis "<evidence>" [--apply]  (time_sensitive / evergreen path config)
-//   node scripts/source-lifecycle.mjs amend       "<source_id>" --reason "<owner rule>" [--include a,b] [--exclude a,b] [--forbid /p1,/p2] [--paths /a/,/b/] [--apply]   (policy change of an existing source; identity kept)
+//   node scripts/source-lifecycle.mjs amend       "<source_id>" --reason "<owner rule>" [--include a,b] [--exclude a,b] [--forbid /p1,/p2] [--paths /a/,/b/] [--detail-gate '<json>'|off] [--apply]   (policy change of an existing source; identity kept)
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //
@@ -42,6 +42,7 @@ function parseArgs(argv) {
     else if (a === '--runner-region') (o.overrides ||= {}).runnerRegion = rest[++i];
     else if (a === '--include') (o.overrides ||= {}).include = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
     else if (a === '--exclude') (o.overrides ||= {}).exclude = rest[++i].split(',').map((s) => s.trim()).filter(Boolean);
+    else if (a === '--detail-gate') { const v = rest[++i]; (o.overrides ||= {}).detailGate = v === 'off' ? null : JSON.parse(v); }
     else if (a === '--shared-endpoint') (o.overrides ||= {}).sharedEndpointReason = rest[++i];
     else if (a === '--temporal') o.temporal = JSON.parse(readFileSync(rest[++i], 'utf8'));
     else if (a === '--history') while (rest[i + 1] && !rest[i + 1].startsWith('--')) o.history.push(rest[++i]);

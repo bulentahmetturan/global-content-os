@@ -45,6 +45,8 @@ _RE_EN_MDY = re.compile(rf"\b({_EN_NAMES})\.?\s+(\d{{1,2}})(?:st|nd|rd|th)?,?\s+
 _RE_NUM = re.compile(r"(?<!\d)(\d{1,2})[./](\d{1,2})[./](\d{4})(?!\d)")
 _RE_ISO = re.compile(r"(?<!\d)(\d{4})-(\d{2})-(\d{2})(?!\d)")
 _RE_URLPATH = re.compile(r"/(20\d{2})/(\d{1,2})/(\d{1,2})(?:/|$)")
+# Resmî Gazete issue pages: /eskiler/2026/11/20261102-5.htm (issue date compact in the file name)
+_RE_URLISSUE = re.compile(r"/eskiler/(20\d{2})/\d{2}/(?:20\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?:-\d+)?\.(?:htm|html|pdf)")
 _RE_URLSTAMP = re.compile(r"(?<=[-/])(20\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[0-2]\d[0-5]\d(?=$|[/?#])")
 
 
@@ -84,6 +86,9 @@ def extract_dates(*texts: str) -> list[date]:
             d = _mk(int(m.group(1)), int(m.group(2)), int(m.group(3)))
             if d: out.append(d)
         for m in _RE_URLSTAMP.finditer(t):
+            d = _mk(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+            if d: out.append(d)
+        for m in _RE_URLISSUE.finditer(t):
             d = _mk(int(m.group(1)), int(m.group(2)), int(m.group(3)))
             if d: out.append(d)
     return out

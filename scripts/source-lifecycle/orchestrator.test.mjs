@@ -1013,3 +1013,14 @@ test('amend: reason required, dry-run writes nothing, apply updates the record o
   assert.deepEqual(after[0].include_keywords, ['hekim', 'klinik']);
   assert.deepEqual(after[0].exclude_keywords, ['ihale']);
 });
+
+test('amend --detail-gate: written to fetch_plan.detail_gate on every layer, removable with null', async () => {
+  const root = sandbox();
+  const gate = { pre_include: ['hekim'], body_selector: 'v2-detail-body', cut_markers: ['FAYDALI'], max_chars: 3000, max_fetches: 10 };
+  const a = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes: { detailGate: gate } });
+  assert.equal(a.outcome, 'AMENDED');
+  assert.deepEqual(rec(root, 'tdb_dental')[0].fetch_plan.detail_gate, gate);
+  const r = await lc(root).amend('tdb_dental', { apply: true, reason: 'owner rule', changes: { detailGate: null } });
+  assert.equal(r.outcome, 'AMENDED');
+  assert.equal(rec(root, 'tdb_dental')[0].fetch_plan.detail_gate, undefined);
+});

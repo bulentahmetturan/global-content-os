@@ -329,29 +329,33 @@
         "academic_physician"
       ],
       "include_keywords": [
+        "sağlık",
+        "tıp",
+        "tıbbi",
         "hekim",
+        "diş",
+        "eczac",
+        "ilaç",
+        "hastane",
+        "hasta",
+        "tedavi",
+        "halk sağlığı",
         "tabip",
-        "tıp fakültesi",
         "uzmanlık",
-        "sağlık hizmetleri"
+        "tütün",
+        "alkol",
+        "gıda",
+        "içme su",
+        "aşılama",
+        "bağışıklama",
+        "çevre sağlığı",
+        "geri ödeme"
       ],
       "exclude_keywords": [
-        "karayolu",
-        "gümrük",
-        "tarım ürün",
-        "vergi usul genel",
-        "belediye meclis",
-        "imar planı",
-        "enerji piyasası",
-        "turizm işletme",
-        "ihale ilan",
         "yargı ilan",
+        "ihale ilan",
         "çeşitli ilan",
-        "kamulaştırma",
-        "atama kararı",
-        "atamalar hakkında",
-        "personel alım",
-        "federasyonu ana statüsü"
+        "kamulaştırma"
       ],
       "allowed_routes": [
         "CAREER",
@@ -387,7 +391,57 @@
         ],
         "forbidden_paths": [
           "/ilanlar/"
-        ]
+        ],
+        "detail_gate": {
+          "pre_include": [
+            "sağlık",
+            "tıp",
+            "tıbbi",
+            "hekim",
+            "diş",
+            "eczac",
+            "ilaç",
+            "hastane",
+            "hasta",
+            "tedavi",
+            "halk sağlığı",
+            "tabip",
+            "uzmanlık",
+            "tütün",
+            "alkol",
+            "gıda",
+            "içme su",
+            "aşılama",
+            "bağışıklama",
+            "çevre sağlığı",
+            "geri ödeme"
+          ],
+          "pre_exclude": [
+            "atama",
+            "federasyon",
+            "ihale ilan",
+            "yargı ilan",
+            "çeşitli ilan",
+            "kamulaştırma",
+            "personel alım",
+            "ön lisans ve lisans",
+            "önlisans ve lisans",
+            "lisansüstü eğitim",
+            "meslek yüksekokulu",
+            "karayolu",
+            "gümrük",
+            "tarım ürün",
+            "vergi usul genel",
+            "belediye meclis",
+            "imar planı",
+            "enerji piyasası",
+            "turizm işletme"
+          ],
+          "body_selector": "",
+          "cut_markers": [],
+          "max_chars": 1500,
+          "max_fetches": 15
+        }
       },
       "allowed_path_patterns": [
         "/fihrist",
@@ -420,9 +474,10 @@
         "hastane",
         "ölüm",
         "doğum",
+        "yaşam tablo",
         "engelli",
-        "sağlık harcama",
-        "sağlık personeli",
+        "yaşlı",
+        "çocuk",
         "obezite",
         "tütün"
       ],
@@ -437,7 +492,11 @@
         "işgücü",
         "dış ticaret",
         "memnuniyet",
-        "gelir ve yaşam"
+        "gelir ve yaşam",
+        "araştırma-geliştirme",
+        "trafik",
+        "kaza",
+        "suç"
       ],
       "allowed_routes": [
         "DATA_INSIGHT",

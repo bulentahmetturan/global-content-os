@@ -1,6 +1,6 @@
 {
   "version": "tip-toplulugu-continuous-v1",
-  "generated_at": "2026-11-01T11:44:20Z",
+  "generated_at": "2026-11-02T16:07:55Z",
   "channel_id": "tip_toplulugu",
   "editorial_brand": "Tıp Topluluğu",
   "content_family": "tip_toplulugu_phase1",
@@ -179,6 +179,9 @@
       "yurtdisi"
     ],
     "audienceNativeSources": [
+      "titck_announcements_general",
+      "titck_geri_cekme",
+      "resmi_gazete_medical_regulation",
       "tuik_medical_public_health",
       "ttb_national",
       "turkmsic_medical_students",

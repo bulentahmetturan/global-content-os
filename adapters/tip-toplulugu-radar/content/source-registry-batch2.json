@@ -840,20 +840,32 @@
       ],
       "include_keywords": [
         "klinik araştırma",
-        "hekimlerin"
+        "etik kurul",
+        "eczacı yerleştirme",
+        "EYS",
+        "hekim",
+        "farmakovijilans",
+        "sağlık meslek mensubu"
       ],
       "exclude_keywords": [
         "geri çek",
         "blokaj",
         "kozmetik",
         "biyosidal",
+        "firmaların dikkatine",
+        "firmalarının dikkatine",
+        "ilaç firmaları",
+        "başvuru sahibi firma",
+        "ruhsat başvuru",
+        "tanıtım temsilcisi",
+        "farmakope",
+        "kamuoyu görüşü",
         "personel",
-        "firmalarının",
-        "firmaların",
-        "başvuru sahibi",
-        "eczacı yerleştirme",
+        "fiyat",
+        "sunum",
+        "z-denetim",
         "mali tablo",
-        "fiyat"
+        "ihale"
       ],
       "allowed_routes": [
         "NEEDS_REVIEW",
@@ -911,7 +923,25 @@
         ],
         "fetch_enabled": true,
         "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "candidate_emission_enabled": true,
+        "detail_gate": {
+          "pre_include": [
+            "klinik araştırma",
+            "etik kurul",
+            "eczacı yerleştirme",
+            "EYS",
+            "hekim",
+            "farmakovijilans",
+            "sağlık meslek mensubu"
+          ],
+          "body_selector": "v2-detail-body",
+          "cut_markers": [
+            "FAYDALI LİNKLER",
+            "Ek Dokümanlar"
+          ],
+          "max_chars": 3000,
+          "max_fetches": 15
+        }
       },
       "fetch_enabled": true,
       "scheduled_fetch_enabled": true,
@@ -960,6 +990,19 @@
           "fields": [
             "include",
             "exclude"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_24c3a43d940f90f8",
+          "at": "2026-11-02T15:58:52.664Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner decisions 2026-11-02 (detailed accept/reject questions): klinik arastirma ve eczaci yerlestirme (EYS) kabul; firma/kilavuz/fiyat/egitim/farmakope/kurum ici = red. Kart ayristirici + detay kapisi.",
+          "fields": [
+            "include",
+            "exclude",
+            "detailGate"
           ]
         }
       ]

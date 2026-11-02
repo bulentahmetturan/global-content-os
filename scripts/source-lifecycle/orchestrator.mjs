@@ -520,8 +520,8 @@ export function createLifecycle(opts) {
     const m = identity.match;
     if (m.store !== 'tip_toplulugu') return finish(trace, { ok: false, op: 'amend', outcome: 'NOT_APPLICABLE', source_id: m.source_id, reason: 'Kaduse sources are changed through the reviewed catalog commit, not here.' });
     if (!reason || !String(reason).trim()) return finish(trace, { ok: false, op: 'amend', outcome: 'REASON_REQUIRED', source_id: m.source_id, reason: 'amend needs --reason "<owner rule or evidence>"' });
-    const given = AMEND_FIELDS.filter((k) => Array.isArray(changes[k]));
-    if (!given.length) return finish(trace, { ok: false, op: 'amend', outcome: 'NOTHING_TO_AMEND', source_id: m.source_id, reason: `give at least one of --${AMEND_FIELDS.join(' --')}` });
+    const given = [...AMEND_FIELDS.filter((k) => Array.isArray(changes[k])), ...(changes.detailGate !== undefined ? ['detailGate'] : [])];
+    if (!given.length) return finish(trace, { ok: false, op: 'amend', outcome: 'NOTHING_TO_AMEND', source_id: m.source_id, reason: `give at least one of --${AMEND_FIELDS.join(' --')} --detail-gate` });
     const layers = m.layers.map((l) => ({ file: l.slice(0, l.indexOf(':')), path: l.slice(l.indexOf(':') + 1) }));
     const before = {};
     const commitLayer = (layer, applyNow) =>
@@ -533,6 +533,7 @@ export function createLifecycle(opts) {
           if (changes.include) { before.include_keywords ??= rec.include_keywords; rec.include_keywords = changes.include; }
           if (changes.exclude) { before.exclude_keywords ??= rec.exclude_keywords; rec.exclude_keywords = changes.exclude; }
           if (changes.forbid) { before.forbidden_paths ??= plan.forbidden_paths; plan.forbidden_paths = changes.forbid; }
+          if (changes.detailGate !== undefined) { before.detail_gate ??= plan.detail_gate ?? null; if (changes.detailGate === null) delete plan.detail_gate; else plan.detail_gate = changes.detailGate; }
           if (changes.paths) { before.allowed_path_patterns ??= rec.allowed_path_patterns; rec.allowed_path_patterns = changes.paths; plan.allowed_path_patterns = changes.paths; }
           if (layer.file === m.file) pushHistory(rec, { op: 'amend', request_id: trace.request_id, at: clock(), outcome: stateOf(m) === 'ACTIVE' ? 'ACTIVE' : 'READY', by: actor.id, reason: String(reason).trim(), fields: given });
           return { op: 'amend', source_id: m.source_id, path: layer.path, fields: given };

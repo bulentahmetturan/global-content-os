@@ -773,44 +773,33 @@
         "sağlıkta dijitalleşme"
       ],
       "include_keywords": [
+        "sağlık",
+        "tıp",
+        "tıbbi",
         "hekim",
-        "tabip",
-        "tıp fakültesi",
-        "tıpta uzmanlık",
-        "uzmanlık eğitimi",
-        "intörn",
-        "sağlık hizmetleri",
+        "diş",
+        "eczac",
+        "ilaç",
+        "hastane",
+        "hasta",
+        "tedavi",
         "halk sağlığı",
-        "sağlık çalışanı",
-        "klinik araştırma",
-        "hasta güvenliği",
-        "sağlıkta dijital",
-        "e-Nabız",
-        "TUK",
-        "sağlık bakanlığı",
-        "tıbbi cihaz",
-        "hekimlik",
-        "tababet",
-        "tıpta uzmanlık kurulu",
-        "sağlık meslek"
+        "tabip",
+        "uzmanlık",
+        "tütün",
+        "alkol",
+        "gıda",
+        "içme su",
+        "aşılama",
+        "bağışıklama",
+        "çevre sağlığı",
+        "geri ödeme"
       ],
       "exclude_keywords": [
-        "karayolu",
-        "gümrük",
-        "tarım ürün",
-        "vergi usul genel",
-        "belediye meclis",
-        "imar planı",
-        "enerji piyasası",
-        "turizm işletme",
-        "ihale ilan",
         "yargı ilan",
+        "ihale ilan",
         "çeşitli ilan",
-        "kamulaştırma",
-        "atama kararı",
-        "atamalar hakkında",
-        "personel alım",
-        "federasyonu ana statüsü"
+        "kamulaştırma"
       ],
       "audience_segments": [
         "medical_student",
@@ -891,7 +880,57 @@
         },
         "forbidden_paths": [
           "/ilanlar/"
-        ]
+        ],
+        "detail_gate": {
+          "pre_include": [
+            "sağlık",
+            "tıp",
+            "tıbbi",
+            "hekim",
+            "diş",
+            "eczac",
+            "ilaç",
+            "hastane",
+            "hasta",
+            "tedavi",
+            "halk sağlığı",
+            "tabip",
+            "uzmanlık",
+            "tütün",
+            "alkol",
+            "gıda",
+            "içme su",
+            "aşılama",
+            "bağışıklama",
+            "çevre sağlığı",
+            "geri ödeme"
+          ],
+          "pre_exclude": [
+            "atama",
+            "federasyon",
+            "ihale ilan",
+            "yargı ilan",
+            "çeşitli ilan",
+            "kamulaştırma",
+            "personel alım",
+            "ön lisans ve lisans",
+            "önlisans ve lisans",
+            "lisansüstü eğitim",
+            "meslek yüksekokulu",
+            "karayolu",
+            "gümrük",
+            "tarım ürün",
+            "vergi usul genel",
+            "belediye meclis",
+            "imar planı",
+            "enerji piyasası",
+            "turizm işletme"
+          ],
+          "body_selector": "",
+          "cut_markers": [],
+          "max_chars": 1500,
+          "max_fetches": 15
+        }
       },
       "status": "active",
       "canonical_url": "https://www.resmigazete.gov.tr/",
@@ -968,6 +1007,30 @@
             "exclude",
             "forbid"
           ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_75dc9bd7fc2bad5a",
+          "at": "2026-11-02T15:58:52.852Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner decisions 2026-11-02 (detailed accept/reject questions): saglik bakanligi duzenlemeleri, SGK ilac/tedavi geri odeme, tip/dis/eczacilik fakultesi yonetmelikleri, halk sagligi (tutun, alkol, gida, cevre sagligi, icme suyu, asi) = kabul; atama = red",
+          "fields": [
+            "include",
+            "exclude",
+            "detailGate"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_d3e18911a218e7e9",
+          "at": "2026-11-02T16:07:43.415Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Phase1 contract needs a non-empty exclude list; keep only phrase-safe body excludes (title-scoped excludes live in detail_gate.pre_exclude)",
+          "fields": [
+            "exclude"
+          ]
         }
       ],
       "allowed_path_patterns": [
@@ -1003,9 +1066,10 @@
         "hastane",
         "ölüm",
         "doğum",
+        "yaşam tablo",
         "engelli",
-        "sağlık harcama",
-        "sağlık personeli",
+        "yaşlı",
+        "çocuk",
         "obezite",
         "tütün"
       ],
@@ -1020,7 +1084,11 @@
         "işgücü",
         "dış ticaret",
         "memnuniyet",
-        "gelir ve yaşam"
+        "gelir ve yaşam",
+        "araştırma-geliştirme",
+        "trafik",
+        "kaza",
+        "suç"
       ],
       "audience_segments": [
         "medical_student",
@@ -1154,6 +1222,18 @@
             "before": 10080,
             "after": 1440
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_179be60db35bd78b",
+          "at": "2026-11-02T15:58:53.077Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner decisions 2026-11-02 (detailed accept/reject questions): saglik harcamasi/arastirmasi, dogum/olum/yasam tablolari, engelli/yasli/cocuk = kabul; AR-GE, trafik ve digerleri = red; yayin tarihi donem sonu olarak kalir",
+          "fields": [
+            "include",
+            "exclude"
+          ]
         }
       ]
     }

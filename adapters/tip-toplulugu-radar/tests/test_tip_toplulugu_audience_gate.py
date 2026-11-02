@@ -31,7 +31,9 @@ class AudienceGateTests(unittest.TestCase):
         from radar.tip_toplulugu_registry import classify_item
 
         eff = {s["source_id"]: s for s in resolve_effective_registry()["sources"]}
-        rg = eff["resmi_gazete_medical_regulation"]
+        # Resmî Gazete is audience-native since 2026-11-02 (owner: every health decision), so the layer is exercised with
+        # its keyword profile under another listed, non-native official source id.
+        rg = dict(eff["resmi_gazete_medical_regulation"], source_id="yok_medical_education")
         d = classify_item(rg, title="Sağlık Hizmetleri ile İlgili Düzenleme", body="")
         self.assertEqual(d.decision, "ACCEPT")
         self.assertIn("health_system_indirect_impact", d.reason)

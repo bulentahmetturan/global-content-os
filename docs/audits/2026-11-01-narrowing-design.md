@@ -88,3 +88,19 @@ Gövde aşaması:
 - Eczacı yerleştirme (EYS) kabul edilsin mi?
 - Kozmetik geri çekmeleri reddedilsin mi, düşük öncelikli kabul mü?
 - Biyosidal (el dezenfektanı, cerrahi fırça) geri çekmeleri kabul: önerim **evet**.
+
+## 5. Uygulama durumu (2026-11-02) ve sahip kararları
+
+Sahip kararları (ayrıntılı kabul/red soruları): Resmî Gazete'de sağlık bakanlığı düzenlemeleri, SGK ilaç/tedavi geri ödeme, tıp/diş/eczacılık fakültesi yönetmelikleri ve tüm halk sağlığı düzenlemeleri **kabul**, atamalar **red**. TİTCK: ilaç, tıbbi cihaz ve sahte/kaçak geri çekme **kabul**; kozmetik ve biyosidal **red**; klinik araştırma ve eczacı yerleştirme (EYS) **kabul**; firma/kılavuz/fiyat, sektör eğitimi, farmakope ve kurum içi duyurular **red**. TÜİK: sağlık harcaması/araştırması, doğum/ölüm/yaşam tabloları, engelli/yaşlı/çocuk **kabul**; AR-GE, trafik ve diğer dolaylı bültenler **red**; yayın tarihi dönem sonu olarak kalır.
+
+Yazılan kod:
+- `_parse_titck_cards` (TİTCK kart ayrıştırıcı) ve `extract_detail_body` (gövde çıkarımı, alt menü kesme işaretleri) — `radar/phase1_ingestion_canary.py`.
+- Detay kapısı `fetch_plan.detail_gate` (`pre_include`, `pre_exclude`, `body_selector`, `cut_markers`, `max_chars`, `max_fetches`): önce başlık ön süzgeci, sonra tarih kanıtı (eski kayıt hiç çekilmez), sonra sınırlı detay çekimi; okunamayan sayfa kabul edilmez ve kaydedilmez (bir sonraki çalışmada yeniden denenir); bütçe aşımı karar vermez, erteler.
+- Resmî Gazete bölüm sayfası URL'lerinden (`/eskiler/2026/11/20261102-5.htm`) yayın tarihi çıkarımı (`tip_toplulugu_dates.py`). Bu olmadan Resmî Gazete'nin her kaydı "tarihsiz" sayılıp düşüyordu.
+- `titck_*` ve Resmî Gazete kaynakları `audienceNativeSources` içine alındı (aksi halde eczacı ve halk güvenliği kayıtları "hekim terimi yok" kapısında düşerdi).
+- Lifecycle `amend --detail-gate '<json>'|off`.
+- 19 yeni test (`tests/test_tip_toplulugu_official_sources.py`) gerçek sayfa fixture'larıyla: 4 geri çekme gövdesi, 10 kartlık TİTCK listesi, Resmî Gazete 2026-11-02 fihristi, RSS.
+
+Canlı kuru çalıştırma: geri çekme RSS'i 342 kayıttan yalnızca pencere içindeki 7 kaydı çekti, 3'ünü kabul etti (Kyprolis, 5362 blokaj, 5342), biyosidal/kozmetik 4'ünü eledi; TİTCK genel yalnızca EYS'yi kabul etti; Resmî Gazete bugünkü fihristten yalnızca Sivas Cumhuriyet Üniversitesi Tıp Fakültesi yönetmeliğini kabul etti; TÜİK mevcut 5 bültenin hiçbirini geçirmedi (doğru: hiçbiri sağlık değil).
+
+Bilinen, bu işle ilgisiz test: `evergreen.test.mjs` "REDISCOVERY…" gerçek saate bağlı (cooldown 30 gün; test 2026-10-02 kayıtları 2026-11-02'de pencere dışında). Bu çalışmada dokunulmadı.

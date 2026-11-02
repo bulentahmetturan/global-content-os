@@ -5813,14 +5813,25 @@
       "pipeline_wiring_enabled": true,
       "publication_eligible": false,
       "include_keywords": [
-        "dikkat",
         "geri çek",
-        "blokaj"
+        "kullanımının durdurulması",
+        "blokaj",
+        "sahte",
+        "kaçak",
+        "tıbbi cihaz",
+        "ilaç",
+        "beşeri tıbbi ürün",
+        "flakon",
+        "enjeksiyon",
+        "tablet",
+        "implant"
       ],
       "exclude_keywords": [
         "kozmetik",
         "biyosidal",
-        "personel"
+        "dezenfektan",
+        "personel",
+        "ihale"
       ],
       "allowed_routes": [
         "PROFESSIONAL_BRIEF",
@@ -5869,7 +5880,16 @@
         ],
         "fetch_enabled": true,
         "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "candidate_emission_enabled": true,
+        "detail_gate": {
+          "body_selector": "v2-detail-body",
+          "cut_markers": [
+            "FAYDALI LİNKLER",
+            "Ek Dokümanlar"
+          ],
+          "max_chars": 3000,
+          "max_fetches": 25
+        }
       },
       "cadence_policy": {
         "strategy": "RECALIBRATED_OWNER_DIRECTED",
@@ -5940,6 +5960,19 @@
           "reason": "Listing URL is the extensionless RSS path; pattern without trailing slash so the Worker allowlist accepts it",
           "fields": [
             "paths"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_63a07042c349eedf",
+          "at": "2026-11-02T15:58:52.505Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "Owner decisions 2026-11-02 (detailed accept/reject questions): ilac/tibbi cihaz/sahte-kacak geri cekme = kabul; kozmetik ve biyosidal = red. RSS basliklari bos oldugundan karar detay sayfasi govdesinden verilir.",
+          "fields": [
+            "include",
+            "exclude",
+            "detailGate"
           ]
         }
       ]
