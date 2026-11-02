@@ -203,12 +203,12 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
     expect(getTargetsForSource('fda-cdrh').length).toBe(0);
   });
 
-  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (17 logical sources)', () => {
+  it('computed registry counts match the authoritative Batch N2-FINAL selection plus lifecycle additions and the 2026-10-31 purge (23 logical sources)', () => {
     const counts = computeRegistryCounts();
-    expect(counts.logicalSourceCount).toBe(17);
+    expect(counts.logicalSourceCount).toBe(23);
     expect(counts.referenceResourceCount).toBe(5);
-    expect(counts.monitoredTargetCount).toBe(19);
-    expect(counts.uniquePublisherCount).toBe(17);
+    expect(counts.monitoredTargetCount).toBe(25);
+    expect(counts.uniquePublisherCount).toBe(22);
   });
 
   describe('Batch N2-FINAL-R1: verification state is separate from transport status', () => {
@@ -229,10 +229,10 @@ describe('Global News Source Registry (Batch N2-FINAL)', () => {
       expect(freshlyVerified).toEqual(['healthai-news']);
     });
 
-    it('every other source (16 of 17) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
+    it('every other source (22 of 23) is honestly PENDING_VERIFICATION, not falsely marked verified', () => {
       const counts = computeRegistryCounts();
       expect(counts.freshlyVerifiedSourceCount).toBe(1);
-      expect(counts.pendingVerificationSourceCount).toBe(16);
+      expect(counts.pendingVerificationSourceCount).toBe(22);
       expect(counts.freshlyVerifiedSourceCount + counts.pendingVerificationSourceCount).toBe(counts.logicalSourceCount);
     });
 

@@ -124,6 +124,16 @@
       "id": "dogrulukpayi",
       "canonicalName": "Doğruluk Payı",
       "officialUrl": "https://www.dogrulukpayi.com"
+    },
+    {
+      "id": "haberturk",
+      "canonicalName": "Habertürk (sağlık bölümü)",
+      "officialUrl": "https://www.haberturk.com"
+    },
+    {
+      "id": "dw",
+      "canonicalName": "DW Türkçe Sağlık",
+      "officialUrl": "https://www.dw.com"
     }
   ],
   "sources": [
@@ -300,6 +310,24 @@
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
       "verificationNote": "Added by source-lifecycle 2026-11-02T22:03:30.448Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/."
+    },
+    {
+      "id": "www-haberturk-rss",
+      "publisherId": "haberturk",
+      "canonicalName": "Habertürk (sağlık bölümü)",
+      "officialUrl": "https://www.haberturk.com/rss/saglik.xml",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:50:46.689Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.haberturk.com/rss/saglik.xml."
+    },
+    {
+      "id": "www-dw-s-57554999",
+      "publisherId": "dw",
+      "canonicalName": "DW Türkçe Sağlık",
+      "officialUrl": "https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:50:49.100Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999."
     }
   ],
   "targets": [
@@ -544,6 +572,28 @@
       "officialUrl": "https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Added by source-lifecycle 2026-11-02T22:03:30.448Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://bilimteknik.tubitak.gov.tr/konular/tip-ve-saglik/.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "www-haberturk-rss-whole",
+      "sourceId": "www-haberturk-rss",
+      "label": "Habertürk (sağlık bölümü)",
+      "officialUrl": "https://www.haberturk.com/rss/saglik.xml",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:50:46.689Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.haberturk.com/rss/saglik.xml.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
+    },
+    {
+      "id": "www-dw-s-57554999-whole",
+      "sourceId": "www-dw-s-57554999",
+      "label": "DW Türkçe Sağlık",
+      "officialUrl": "https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:50:49.100Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999.",
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 360

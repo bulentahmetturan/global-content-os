@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "0a1727d3c95fb919297506128c785694a4af5b48a29756c668b60498e6bc097e"
+        "sha256": "2a94b2f42862cd11d7b14302251140f14b6711dfcd9e693d719d2660726b94df"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "d1597c275e330da17807736db2548ef0bf8d454de4e03d98d853de8ac83df775"
+        "sha256": "9dc811ff4f3fee20d2454210c5138be3e56d3894aa9c6948e4fc12d077f1e9ae"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 24,
+    "news": 26,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 802,
-    "registryTargetsParsed": 23
+    "total": 804,
+    "registryTargetsParsed": 25
   },
   "feeds": [
     {
@@ -660,6 +660,46 @@
       "enabled": true,
       "externalRef": "tubitak-bilimteknik-saglik-whole",
       "registrySourceId": "tubitak-bilimteknik-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-www-haberturk-rss-whole",
+      "label": "Habertürk (sağlık bölümü)",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.haberturk.com/rss/saglik.xml",
+      "pollMinutes": 60,
+      "enabled": true,
+      "externalRef": "www-haberturk-rss-whole",
+      "registrySourceId": "www-haberturk-rss",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-www-dw-s-57554999-whole",
+      "label": "DW Türkçe Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "www-dw-s-57554999-whole",
+      "registrySourceId": "www-dw-s-57554999",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

@@ -15,6 +15,9 @@ const FEED_URL_SCOPES: Record<string, RegExp> = {
   // direct scrape, which DOES capture genuine dated articles under /news/articles/. Scoped
   // instead of replaced.
   'news-nice-healthtech-scoped': /^https?:\/\/(www\.)?nice\.org\.uk\/news\/articles\/[^/?#]+\/?$/i,
+  // DW's health section page links to the whole site (topic pages /t-, section pages /s-, footer pages); only
+  // articles end in /a-<id>.
+  'news-www-dw-s-57554999-whole': /^https?:\/\/(www\.)?dw\.com\/tr\/[^?#]+\/a-\d+\/?$/i,
 };
 
 export function feedUrlScope(feedId: string): RegExp | null {

@@ -64,6 +64,8 @@ function asciiFold(s: string): string {
 
 /** Feed ids whose source is already narrow/health-scoped by construction — see module header. */
 const TOPIC_GATE_EXEMPT_FEED_IDS = new Set<string>([
+  // DW's health section page lists teasers by title only, so the keyword gate would drop most of a health-only page.
+  'news-www-dw-s-57554999-whole',
   'who-newsroom',
   'news-who-newsroom-whole',
   'news-ema-news-whole',

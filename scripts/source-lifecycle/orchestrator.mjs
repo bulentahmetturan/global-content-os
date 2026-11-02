@@ -113,7 +113,9 @@ export function createLifecycle(opts) {
     // Candidate profile
     const taken = new Set(projections.map((p) => p.source_id));
     const sourceId = identity.match?.source_id || overrides?.sourceId || proposeSourceId({ lane: routing.lane, heading: routing.heading, url: page.url, taken });
-    const name = identity.match?.name || pageTitle(page.body).split(/\s[|–-]\s/)[0].slice(0, 120) || sourceId;
+    // An operator-supplied display name (`add "<name>" --url U`) wins over the page title, which is often a bare site title.
+    const requestedName = req.url && req.raw && !/^https?:\/\//i.test(req.raw) && req.raw !== req.url ? String(req.raw).trim().slice(0, 120) : null;
+    const name = identity.match?.name || requestedName || pageTitle(page.body).split(/\s[|–-]\s/)[0].slice(0, 120) || sourceId;
     let profile = null;
     const recordUrl = disc.endpoint.transport === 'RSS' && routing.lane === 'tip_toplulugu' ? disc.endpoint.url : page.url;
     if (routing.lane === 'tip_toplulugu') {

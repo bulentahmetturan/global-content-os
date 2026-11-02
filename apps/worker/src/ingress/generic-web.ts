@@ -2,6 +2,7 @@ import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
+import { applyEditorialFilter, ARTICLE_META_MAX_FETCHES, needsArticleMeta, parseArticleMeta } from './feed-editorial';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
 import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
@@ -681,6 +682,23 @@ async function upsertExtracted(
   return { created, updated };
 }
 
+/** Listings that print no dates (DW health section): read each undated article's own datePublished/og:description, capped per run. */
+async function enrichArticleMeta(items: ExtractedItem[]): Promise<ExtractedItem[]> {
+  let fetched = 0;
+  const out: ExtractedItem[] = [];
+  for (const it of items) {
+    if (it.publishedAt || fetched >= ARTICLE_META_MAX_FETCHES) {
+      out.push(it);
+      continue;
+    }
+    fetched += 1;
+    const { ok, text } = await fetchText(it.url);
+    const meta = ok && text ? parseArticleMeta(text) : { publishedAt: null, description: null };
+    out.push({ ...it, publishedAt: meta.publishedAt, summary: meta.description || it.summary });
+  }
+  return out;
+}
+
 function applyIncludeKeywords(feed: FeedRow, items: ExtractedItem[]): ExtractedItem[] {
   let keys: string[] = [];
   try {
@@ -707,7 +725,7 @@ export async function ingestGenericFeeds(
   empty: number;
   errors: number;
   nextOffset: number | null;
-  samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }>;
+  samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number; editorialDropped?: number }>;
 }> {
   const offset = opts.offset ?? 0;
   const limit = Math.min(opts.limit ?? 8, 20);
@@ -750,7 +768,7 @@ export async function ingestGenericFeeds(
   let updated = 0;
   let empty = 0;
   let errors = 0;
-  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number }> = [];
+  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number; editorialDropped?: number }> = [];
 
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
@@ -761,16 +779,21 @@ export async function ingestGenericFeeds(
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
       extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
+      if (needsArticleMeta(feed.id)) extracted.items = await enrichArticleMeta(extracted.items);
       extracted.items = applyIncludeKeywords(feed, extracted.items);
       const offTopicCount = extracted.items.length;
       if ((feed.route === 'kaduse-news' || feed.route === 'kaduse-research') && !isTopicGateExempt(feed.id)) {
         extracted.items = extracted.items.filter((it) => isHealthRelevant(it.title, it.summary));
       }
+      // Owner-decided per-feed Haber rules (feed-editorial.ts); no-op for feeds without rules.
+      const editorial = applyEditorialFilter(feed.id, extracted.items);
+      extracted.items = editorial.kept;
       samples.push({
         feedId: feed.id,
         items: extracted.items.length,
         error: extracted.error,
-        offTopicDropped: offTopicCount - extracted.items.length || undefined,
+        offTopicDropped: offTopicCount - extracted.items.length - editorial.dropped.length || undefined,
+        editorialDropped: editorial.dropped.length || undefined,
       });
       if (!extracted.items.length) {
         empty += 1;

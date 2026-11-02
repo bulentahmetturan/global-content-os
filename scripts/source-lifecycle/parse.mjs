@@ -107,7 +107,10 @@ export function extractListPage(html, pageUrl, allowedPaths = null) {
   const groups = new Map();
   for (const a of anchors) {
     const segs = new URL(a.url).pathname.split('/').filter(Boolean);
-    const key = `${segs.length}:${segs.slice(0, -1).join('/')}`;
+    // Id-suffixed article URLs (/<lang>/<slug>/a-79723773, DW) put a unique slug in the parent directory, so grouping by
+    // the parent path would split every article into its own group. Group them by the id shape instead.
+    const idShaped = /^([a-z]{1,3})-\d{5,}$/i.exec(segs[segs.length - 1] || '');
+    const key = idShaped ? `${segs.length}:id:${segs[0]}:${idShaped[1].toLowerCase()}` : `${segs.length}:${segs.slice(0, -1).join('/')}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(a);
   }
