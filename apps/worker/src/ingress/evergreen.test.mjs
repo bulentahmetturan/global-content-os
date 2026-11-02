@@ -254,7 +254,7 @@ test('REDISCOVERY of a time-sensitive item adds one membership; the row (publish
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, itemsBefore + 1);
   const again = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, NOW, { entries });
   assert.equal(again.decisions[0].outcome, 'cooldown');
-  const later = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, new Date(NOW.getTime() + 60 * 86400000), { entries });
+  const later = await ev.ingestEvergreenItems({ DB: db }, 'cochrane', { items: [cand] }, new Date(Math.max(Date.now(), NOW.getTime()) + 60 * 86400000), { entries }); // membership first_at is stamped by the DB clock, so "later" must be relative to the real clock too
   assert.equal(later.decisions[0].outcome, 'already_evergreen', 'membership is immutable: a later sighting is not a second rediscovery');
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM item_path_membership`).get().n, 1);
 });
