@@ -53,10 +53,10 @@ Not: Bible SPF-6'ya göre teknik engel kaynağı FAIL yapmaz; TTOD için "kullan
 - **Independent Türkçe sağlık** (15 kayıt): Ebola/UNICEF/çocuk felci/Kaliforniya, "Bakanı"/çağrı ve komplo başlıkları elenir, araştırma ve yaşam tarzı geçer.
 - **Herkese Bilim** (site RSS'i, 10 kayıt): bugün sağlık yolu taşıyan kayıt yok; yol kapsamı diğer hepsini eler (beklenen düşük verim). Nobel (tıp dışı) ve dergi sayı duyuruları ayrıca ret kuralıdır.
 
-## Açık sahip soruları (Bible 26.1 madde 3b, 26.3 madde 3)
+## Bible ile çözülen noktalar (soru açılmadı)
 
-1. **Cumhuriyet, ünlem başlıkları.** "Uzman uyarısı KABUL" ve "korkutucu başlık RET" cevapları örtüşüyor ("…zatürre uyarısı!"). Kodlanan: yalnız abartı sözcükleri RET, ünlem tek başına RET değil. Sıkı seçenek: ünlem içeren başlık RET (~%30 uzman uyarısı da gider). Sahip seçecek.
-2. **Kaynak-arası tutarlılık.** Habertürk Sağlık'ta "genel uzman uyarısı" RET (aynı gün kararı), Cumhuriyet'te KABUL. İkisi de sahibin kaynak başına cevabı; farkı bilerek onaylaması istenir.
+1. **Cumhuriyet, ünlem başlıkları.** Bible `### 16.2.`: yayın başlığını sistem yazar ve clickbait olamaz; kaynak başlığındaki ünlem içerik RET nedeni değildir. İçerik, iddia kanıtı aşıyorsa elenir (`### 13.2.`, `### 23.1.` soru 5). Kodlanan kural bununla uyumlu: yalnız abartı sözcükleri ve tek kişilik hikâye RET; ünlem tek başına RET değil.
+2. **Habertürk (genel uzman uyarısı RET) ile Cumhuriyet (KABUL) farkı.** Bible `### SPF-3.` ve `### 26.1.` madde 4: karar kaynak ve hat bazındadır; fark çelişki değildir, bu tabloda yan yana kayıtlıdır.
 
 ## Uygulama
 
