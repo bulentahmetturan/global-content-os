@@ -68,6 +68,26 @@ DOCUMENTED_MULTI_HEADING_EXCEPTIONS = {
         "Bible 26.1): DUYURU (board sınavı/burs/ödül/başvuru), EGITIM (kongre/kurs) and HABER (klinik/bilimsel sonuç, "
         "özel günler)."
     ),
+    "ttb.org.tr": (
+        "TTB (Türk Tabipleri Birliği) one publisher, several content types (owner per-lane source policy, 2026-11-03, Bible 26.1): "
+        "DUYURU, EGITIM and HABER legs, each with its own narrow include/exclude policy; no item-level re-routing between lanes."
+    ),
+    "toraks.org.tr": (
+        "TTD (Türk Toraks Derneği) one publisher, several content types (owner per-lane source policy, 2026-11-03, Bible 26.1): "
+        "DUYURU, EGITIM and HABER legs, each with its own narrow include/exclude policy; no item-level re-routing between lanes."
+    ),
+    "klimik.org.tr": (
+        "KLİMİK one publisher, several content types (owner per-lane source policy, 2026-11-03, Bible 26.1): "
+        "DUYURU, EGITIM and HABER legs, each with its own narrow include/exclude policy; no item-level re-routing between lanes."
+    ),
+    "tkd.org.tr": (
+        "TKD (Türk Kardiyoloji Derneği) one publisher, several content types (owner per-lane source policy, 2026-11-03, Bible 26.1): "
+        "DUYURU, EGITIM and HABER legs, each with its own narrow include/exclude policy; no item-level re-routing between lanes."
+    ),
+    "psikiyatri.org.tr": (
+        "TPD (Türkiye Psikiyatri Derneği) one publisher, several content types (owner per-lane source policy, 2026-11-03, Bible 26.1): "
+        "DUYURU, EGITIM and HABER legs, each with its own narrow include/exclude policy; no item-level re-routing between lanes."
+    ),
     "eutils.ncbi.nlm.nih.gov": (
         "Kaduse ingests PubMed articles as standalone RESEARCH content "
         "(research-pubmed-eutilities). Tıp Topluluğu's pubmed_biomedical_evidence is "

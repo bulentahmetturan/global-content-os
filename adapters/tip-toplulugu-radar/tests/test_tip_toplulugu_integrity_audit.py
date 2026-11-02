@@ -121,9 +121,9 @@ class IntegrityAuditTests(unittest.TestCase):
             and not s["source_id"].startswith("egitim_")
         )
         self.assertEqual(domestic_op, 34)  # 11 legacy + hsgm_public_health tombstone + 20 HSGM legs + titck_geri_cekme + guvenilirgida_dogru_bilgi
-        self.assertEqual(counts["PROFESSIONAL_BODY"], 10)  # + tdb_dental + 5 society/Haber legs (2026-11-02 sources)
+        self.assertEqual(counts["PROFESSIONAL_BODY"], 16)  # + tdb_dental + 5 society/Haber legs (2026-11-02) + 6 association legs (2026-11-03)
         self.assertEqual(counts["PROFESSIONAL_GUIDANCE"], 12)
-        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 40)  # +15 batch3 international English health/medical discovery pool
+        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 46)  # +15 batch3 international English health/medical discovery pool, +6 Haber legs (2026-11-03)
         self.assertEqual(set(PROFESSIONAL_BODY_IDS), {
             s["source_id"] for s in self.effective["sources"] if s["source_tier"] == "PROFESSIONAL_BODY"
         })

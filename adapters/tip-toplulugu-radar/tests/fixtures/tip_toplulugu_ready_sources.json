@@ -109,6 +109,18 @@
     "hsgm_tuberkuloz",
     "hsgm_tuberkuloz_ozelgun",
     "hsgm_zoonotik",
-    "hsgm_zoonotik_ozelgun"
+    "hsgm_zoonotik_ozelgun",
+    "egitim_klimik",
+    "egitim_tkd",
+    "egitim_tpd",
+    "egitim_ttb",
+    "egitim_ttd",
+    "hasuder_duyuru",
+    "hasuder_ozelgun",
+    "klimik_ozelgun",
+    "tpd_duyuru",
+    "tpd_ozelgun",
+    "ttb_meslek_haklari",
+    "ttd_ozelgun"
   ]
 }

@@ -22,14 +22,14 @@ amend() { # id reason include exclude [forbid] [allow-congress]
 # --- General press (Haber lane; keyword approximation of the owner's type rules, validated on the live sample in the dry run) ---
 PRESS_EX="mucize,şifa,ünlü,magazin,burç,astroloji,reklam,sponsorlu,geri ödeme,bakan,saldırı,ihmal,paranormal,hayalet,aldatabilir,sahte botoks,medikal turizm,hastane açılışı,ücretli klinik"
 amend ntv_saglik "NTV Haber leg: owner 2026-11-03 (herbal/gallery out, MHRS service in, science with named finding in)" \
-  "uzman,prof,doç,araştırma,çalışma,keşif,bilim,kanser,aşı,salgın,mhrs,randevu,tedavi,ilaç,hastalık,ameliyat" "$PRESS_EX,çay,galeri,kurutularak,kazanda,süper meyve" "/saglik/galeri-,/saglik/video-"
+  "uzman,prof,doç,araştırma,çalışma,keşif,bilim,kanser,aşı,salgın,mhrs,randevu,tedavi,ilaç,hastalık,ameliyat,alzheimer,demans,protein" "$PRESS_EX,çay,galeri,kurutularak,kazanda,süper meyve,depresyon türü,grip vakaları" "/saglik/galeri-,/saglik/video-"
 amend bbc_turkce_saglik "BBC Haber leg: owner 2026-11-03 (science explainers and global health risks in, curiosity/celebrity out)" \
-  "bilim,gerçekten,güvenli mi,faydalı mı,salgın,veba,radyasyon,kamp,hastalık,belirtileri,kanser,uyku,egzersiz,beslenme,depresyon,ruh sağlığı" "$PRESS_EX,papa,rusya,video oyunu,insan boyunun,nobel"
+  "bilim,gerçekten,güvenli mi,faydalı mı,salgın,veba,radyasyon,kamp,hastalık,belirtileri,kanser,uyku,egzersiz,beslenme,depresyon,ruh sağlığı,demir,ferritin,vitamin,eksikliği" "$PRESS_EX,papa,rusya,video oyunu,insan boyunun,nobel"
 amend dha_saglik_yasam "DHA Haber leg: owner 2026-11-03 (named expert advice in, single patient stories and ministers out)" \
   "prof. dr,doç. dr,uzm. dr,op. dr,uzman,uyardı,çağrı,araştırma,aşı,salgın,kanser" "$PRESS_EX,kavuştu,yendi,ameliyattan,robotik cerrahi,akıllı bileklik,babasından,böbreklerini"
 # --- TTB ---
 B=https://www.ttb.org.tr/arsiv_haber.php
-add ttb_meslek_haklari DUYURU "TTB - Meslek hakları (Haber)" $B "hekim,asistan,iş yükü,şiddet,güvenlik,sözleşme,yönetmelik,performans,katsayı,ücret,mecburi hizmet,çalışma hakkı,yürütmesi durduruldu" "$SOC_EX,dava açtı,dava açtık,khk,barış akademisyenleri,kutlu olsun" "TTB meslek hakları Haber leg (owner 2026-11-03)" "/haber_goster.php,/arsiv_haber.php"
+add ttb_meslek_haklari DUYURU "TTB - Meslek hakları (Haber)" $B "hekim,asistan,iş yükü,şiddet,güvenlik,sözleşme,yönetmelik,performans,katsayı,ücret,mecburi hizmet,çalışma hakkı,yürütmesi durduruldu" "$SOC_EX,dava açtı,dava açtık,khk,barış akademisyenleri,kutlu olsun" "TTB meslek hakları Haber leg (owner 2026-11-03)" "/haber_goster.php,/duyuru_goster.php,/arsiv_haber.php,/arsiv_duyuru.php"
 add egitim_ttb EGITIM "TTB - Eğitim" $B "$EGITIM_IN,stE,akreditasyon,kredilendirme" "$SOC_EX,$DONE_EX" "TTB eğitim leg (owner 2026-11-03)" "/duyuru_goster.php,/arsiv_duyuru.php" yes
 # --- HASUDER ---
 H=https://www.hasuder.org.tr/listele/duyurular-hasuder-cat
@@ -53,5 +53,5 @@ P=https://psikiyatri.org.tr/haber-duyuru
 add tpd_duyuru DUYURU "TPD - Duyuru" $P "yeterlik sınavı,uygulama sınavı,başvuru,kılavuz,sonuç" "$SOC_EX,$DONE_EX,taziye,kaybettik,genel kurul" "TPD duyuru leg (owner 2026-11-03)"
 add egitim_tpd EGITIM "TPD - Eğitim" $P "kongre,temel asistan eğitimi,kurs,sempozyum,eğitim" "$SOC_EX,$DONE_EX,şubesi" "TPD eğitim leg (owner 2026-11-03)" "" yes
 add tpd_ozelgun DUYURU "TPD - Özel gün (Haber)" $P "ruh sağlığı günü,günü,haftası,ayı,farkındalık" "$SOC_EX,gar,katliam,lgbt,epa,dayanışma mektubu" "TPD özel gün leg (owner 2026-11-03)"
-# --- TDB (site is a React SPA; news only via https://api.tdb.org.tr/news JSON, expect ADAPTER_REQUIRED) ---
-add tdb_duyuru DUYURU "TDB - Duyuru" https://tdb.org.tr/basin-odasi/haber-arsivi "atama kurası,kura ilanı,yönetmelik,yayımlandı,mevzuat,uzmanlık,kontenjan,dus" "$SOC_EX,$DONE_EX,dava açtık,protesto,tuk kararı,faiz,ing" "TDB duyuru leg (owner 2026-11-03)"
+# --- TDB (existing duyuru record already reads the official JSON API https://api.tdb.org.tr/news; owner rules amended onto it, no second leg) ---
+amend tdb_dental "TDB: owner 2026-11-03 (atama kurası ilanı and regulation in; protest call, 'case filed', TUK ruling, member perks out)"   "dişhekim,diş hekim,dishekim,ağız ve diş,diş hekimliği,dişhekimliği,mevzuat,yönetmelik,uzmanlık,kontenjan,burs,kongre,bilimsel etkinlik,akademi,fdi,sertifika,kurs,muvazaa,danıştay,daire başkanlığı,tanıtım rehberi,atama kurası,kura ilanı,bilgilendirilmiş rıza,dus"   "kutlu olsun,kutlarız,taziye,başımız sağ,başı sağ,vefat,anma,unutmadık,1919,faiz,kredi,sigorta,aidat,fotoğraf yarışması,ziyaret,seçim,iftar,bayram,içimiz yanıyor,gemi kazası,barış günü,demokrasi ve milli birlik,web sitemiz,basın açıklamasına bekliyoruz,başkanlar konseyi,gerçekleştirildi,yapıldı,dava açtık,protesto,tuk kararı,ing kazançlı,komplikasyon sigortası,tdbd"

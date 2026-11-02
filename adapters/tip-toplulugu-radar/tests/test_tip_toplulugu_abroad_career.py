@@ -214,9 +214,9 @@ class AbroadCareerRegistryTests(unittest.TestCase):
         self.assertEqual(len(abroad_op), 19)
         self.assertEqual(len(egitim_op), 10)  # egitim_hsgm_* (HSGM Eğitim legs)
         self.assertEqual(counts["OFFICIAL_PRIMARY"], 34 + 19 + len(burs_op) + len(egitim_op))
-        self.assertEqual(counts["PROFESSIONAL_BODY"], 10)  # + tdb_dental + 5 society/Haber legs (2026-11-02 sources)
+        self.assertEqual(counts["PROFESSIONAL_BODY"], 16)  # + tdb_dental + 5 society/Haber legs (2026-11-02 sources) + 6 association legs (2026-11-03 gap sources)
         self.assertEqual(counts["PROFESSIONAL_GUIDANCE"], 12)
-        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 40)  # +15 batch3 international English health/medical discovery pool
+        self.assertEqual(counts["SECONDARY_NEWSWIRE"], 46)  # +15 batch3 international English health/medical discovery pool, +6 Haber legs (2026-11-03 gap sources)
 
 
 if __name__ == "__main__":

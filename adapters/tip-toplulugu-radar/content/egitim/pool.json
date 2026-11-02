@@ -1746,6 +1746,121 @@
       "durum": "aktif",
       "eklenme_tarihi": "2026-11-02",
       "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_ttb",
+      "kaynak_adi": "TTB - Eğitim",
+      "url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_ttd",
+      "kaynak_adi": "TTD - Eğitim",
+      "url": "https://toraks.org.tr/haberler",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "2880 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_klimik",
+      "kaynak_adi": "KLİMİK - Eğitim",
+      "url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "1440 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_tkd",
+      "kaynak_adi": "TKD - Eğitim",
+      "url": "https://www.tkd.org.tr/duyurular",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "2880 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
+    },
+    {
+      "source_id": "egitim_tpd",
+      "kaynak_adi": "TPD - Eğitim",
+      "url": "https://psikiyatri.org.tr/haber-duyuru",
+      "kaynak_turu": "Resmî kurum",
+      "kapsam": "source-lifecycle onboarding (eğitim hattı); dar include/exclude politikası kayıtta",
+      "hedef_seviye": [
+        "profesyonel"
+      ],
+      "tibbi_alan": [
+        "public_health"
+      ],
+      "cografya": "Türkiye",
+      "dil": [
+        "tr"
+      ],
+      "guncelleme_sikligi": "10080 dk",
+      "takip_yontemi": "list-page",
+      "turk_uygunluk": "Evet",
+      "durum": "aktif",
+      "eklenme_tarihi": "2026-11-02",
+      "guncellenme_tarihi": "2026-11-02"
     }
   ],
   "egitim_ilanlari": []

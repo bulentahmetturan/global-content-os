@@ -244,7 +244,22 @@
     "hsgm_tuberkuloz_ozelgun",
     "hsgm_mikrobiyoloji",
     "egitim_hsgm_mikrobiyoloji",
-    "hsgm_mikrobiyoloji_ozelgun"
+    "hsgm_mikrobiyoloji_ozelgun",
+    "ntv_saglik",
+    "bbc_turkce_saglik",
+    "dha_saglik_yasam",
+    "ttb_meslek_haklari",
+    "egitim_ttb",
+    "hasuder_duyuru",
+    "hasuder_ozelgun",
+    "ttd_ozelgun",
+    "egitim_ttd",
+    "egitim_klimik",
+    "klimik_ozelgun",
+    "egitim_tkd",
+    "tpd_duyuru",
+    "egitim_tpd",
+    "tpd_ozelgun"
   ],
   "rules": [
     "A generic term alone (KPSS, memur, personel alımı, burs, sınav takvimi) never qualifies; it needs a profession/learner term from physician, dental, veterinary or a named medical exam/pathway.",

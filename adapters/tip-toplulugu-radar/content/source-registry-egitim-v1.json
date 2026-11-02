@@ -4395,6 +4395,863 @@
         }
       ],
       "allow_congress": true
+    },
+    {
+      "source_id": "egitim_ttb",
+      "name": "TTB - Eğitim",
+      "label": "TTB - Eğitim",
+      "canonical_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "source_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "primary_url": "https://www.ttb.org.tr/arsiv_haber.php",
+      "allowed_hostnames": [
+        "www.ttb.org.tr",
+        "ttb.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/arsiv_haber.php",
+        "/arsiv_duyuru.php",
+        "/duyuru_goster.php",
+        "/haber_goster.php"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "sempozyum",
+        "toplantı",
+        "workshop",
+        "masterclass",
+        "webinar",
+        "web konferans",
+        "video",
+        "eğitim programı",
+        "kurultay",
+        "panel",
+        "takvimi",
+        "endorse",
+        "course",
+        "meeting",
+        "stE",
+        "akreditasyon",
+        "kredilendirme"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.ttb.org.tr",
+          "ttb.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/arsiv_haber.php",
+          "/arsiv_duyuru.php",
+          "/duyuru_goster.php",
+          "/haber_goster.php"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TTB eğitim leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.ttb.org.tr/arsiv_haber.php",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T22:52:17.475Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.46 / failure-heavy 1.11 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_6ecd441e81bf4e52",
+          "at": "2026-11-02T22:52:19.860Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_5c07dae6729b9c90",
+          "at": "2026-11-02T23:13:18.454Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_ttd",
+      "name": "TTD - Eğitim",
+      "label": "TTD - Eğitim",
+      "canonical_url": "https://toraks.org.tr/haberler",
+      "source_url": "https://toraks.org.tr/haberler",
+      "primary_url": "https://toraks.org.tr/haberler",
+      "allowed_hostnames": [
+        "toraks.org.tr",
+        "www.toraks.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haberler"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "kurs",
+        "sempozyum",
+        "toplantı",
+        "workshop",
+        "masterclass",
+        "webinar",
+        "web konferans",
+        "video",
+        "eğitim programı",
+        "kurultay",
+        "panel",
+        "takvimi",
+        "endorse",
+        "course",
+        "meeting",
+        "aşı",
+        "aşılama",
+        "pnömokok",
+        "rsv"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "toraks.org.tr",
+          "www.toraks.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haberler"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TTD eğitim leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://toraks.org.tr/haberler",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 9,
+          "gaps_used": 8,
+          "expected_gap_min": 5760,
+          "newest": "2026-11-02T00:00:00.000Z",
+          "computed_at": "2026-11-02T22:52:30.219Z"
+        },
+        "flags": []
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.48 / failure-heavy 1.15 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_b4dd5b8d243d68a9",
+          "at": "2026-11-02T22:52:33.380Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_7174dd1e624462ff",
+          "at": "2026-11-02T23:13:16.134Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_klimik",
+      "name": "KLİMİK - Eğitim",
+      "label": "KLİMİK - Eğitim",
+      "canonical_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "source_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "primary_url": "https://www.klimik.org.tr/category/duyurular/feed/",
+      "allowed_hostnames": [
+        "www.klimik.org.tr",
+        "klimik.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/category/duyurular",
+        "/20"
+      ],
+      "source_tier": "SECONDARY_NEWSWIRE",
+      "statement_treatment": "reported_news",
+      "source_role": "discovery_only",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "web konferans",
+        "video",
+        "eğitim programı",
+        "kurs",
+        "toplantı",
+        "webinar",
+        "workshop"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı",
+        "bülten"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.klimik.org.tr",
+          "klimik.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/category/duyurular",
+          "/20"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: KLİMİK eğitim leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 1440,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "daily",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.klimik.org.tr/category/duyurular/feed/",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "MEDIUM",
+        "evidence": {
+          "source": "feed_published",
+          "sample_size": 10,
+          "gaps_used": 9,
+          "expected_gap_min": 1371,
+          "newest": "2026-11-02T08:33:00.000Z",
+          "computed_at": "2026-11-02T22:52:37.921Z"
+        },
+        "flags": [
+          "SCHEDULER_FLOOR"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.49 / failure-heavy 1.18 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_8c8c7bf2592a7b9d",
+          "at": "2026-11-02T22:52:40.585Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_a593c8256ef8a727",
+          "at": "2026-11-02T23:13:16.831Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_tkd",
+      "name": "TKD - Eğitim",
+      "label": "TKD - Eğitim",
+      "canonical_url": "https://www.tkd.org.tr/duyurular",
+      "source_url": "https://www.tkd.org.tr/duyurular",
+      "primary_url": "https://www.tkd.org.tr/duyurular",
+      "allowed_hostnames": [
+        "www.tkd.org.tr",
+        "tkd.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/duyurular",
+        "/duyuru/"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "webinar",
+        "toplantı",
+        "kongre",
+        "bilimsel toplantılar takvimi",
+        "takvimi",
+        "okul",
+        "eğitim"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı",
+        "pci club",
+        "genel kurul"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "www.tkd.org.tr",
+          "tkd.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/duyurular",
+          "/duyuru/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TKD eğitim leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 2880,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": false,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://www.tkd.org.tr/duyurular",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "HIGH",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 30,
+          "gaps_used": 29,
+          "expected_gap_min": 7200,
+          "newest": "2026-10-28T00:00:00.000Z",
+          "computed_at": "2026-11-02T22:52:48.041Z"
+        },
+        "flags": [
+          "OUTLIER_GAPS_IGNORED:1"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.51 / failure-heavy 1.22 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_54b13bc42e251325",
+          "at": "2026-11-02T22:52:50.312Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_2510ccb777077dc3",
+          "at": "2026-11-02T23:13:17.146Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "egitim_tpd",
+      "name": "TPD - Eğitim",
+      "label": "TPD - Eğitim",
+      "canonical_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "source_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "primary_url": "https://psikiyatri.org.tr/haber-duyuru",
+      "allowed_hostnames": [
+        "psikiyatri.org.tr",
+        "www.psikiyatri.org.tr"
+      ],
+      "allowed_path_patterns": [
+        "/haber-duyuru",
+        "/uploadFiles/"
+      ],
+      "source_tier": "PROFESSIONAL_BODY",
+      "statement_treatment": "professional_guidance",
+      "source_role": "primary_evidence_for_own_statements",
+      "status": "active",
+      "fetch_mode": "list-page",
+      "execution": "python_runner",
+      "fetch_enabled": true,
+      "scheduled_fetch_enabled": true,
+      "candidate_emission_enabled": true,
+      "pipeline_wiring_enabled": true,
+      "publication_eligible": false,
+      "include_keywords": [
+        "kongre",
+        "temel asistan eğitimi",
+        "kurs",
+        "sempozyum",
+        "eğitim"
+      ],
+      "exclude_keywords": [
+        "vefat",
+        "başsağlığı",
+        "acı kaybımız",
+        "anısına",
+        "taziye",
+        "kutlu olsun",
+        "bayram",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "indirim",
+        "aidat",
+        "üyelik",
+        "meril",
+        "academy",
+        "sponsor",
+        "advertorial",
+        "dergi",
+        "bülten",
+        "sayısı yayımlandı",
+        "yapıldı",
+        "gerçekleştirildi",
+        "gerçekleşti",
+        "tamamlandı",
+        "şubesi"
+      ],
+      "allow_congress": true,
+      "allowed_routes": [
+        "EDUCATION",
+        "NEEDS_REVIEW",
+        "DISCARD"
+      ],
+      "default_route_on_accept": "EDUCATION",
+      "source_health": "HEALTHY",
+      "runtime_activation": "MANUAL_INTAKE",
+      "fetch_plan": {
+        "primary_method": "list-page",
+        "tls_verification_required": true,
+        "allowed_hostnames": [
+          "psikiyatri.org.tr",
+          "www.psikiyatri.org.tr"
+        ],
+        "allowed_path_patterns": [
+          "/haber-duyuru",
+          "/uploadFiles/"
+        ],
+        "forbidden_hosts": [],
+        "forbidden_path_patterns": [],
+        "notes": "Source lifecycle onboarding (list page). Per-lane leg (EGITIM) of a publisher registered once per lane: TPD eğitim leg (owner 2026-11-03)",
+        "expected_check_interval_minutes": 10080,
+        "source_health": "HEALTHY",
+        "coverage_status": "configured",
+        "coverage_policy": {
+          "sparse_source_allowed": true,
+          "expected_eligible_frequency": "weekly",
+          "coverage_watch_window": 4,
+          "require_in_scope_for_low_coverage": true
+        },
+        "initial_backfill": {
+          "lookback_days": 60,
+          "retain_active_or_future_deadline": true,
+          "historical_priority": "backfill_low",
+          "undated_as_current": true
+        },
+        "surfaces": [
+          {
+            "id": "list",
+            "url": "https://psikiyatri.org.tr/haber-duyuru",
+            "role": "primary",
+            "health": "HEALTHY"
+          }
+        ],
+        "fetch_enabled": true,
+        "scheduled_fetch_enabled": true,
+        "candidate_emission_enabled": true
+      },
+      "cadence_policy": {
+        "strategy": "AUTO_DERIVED_INITIAL",
+        "bounds": {
+          "min": 1440,
+          "max": 20160,
+          "freshness": 10080
+        },
+        "confidence": "LOW",
+        "evidence": {
+          "source": "list_page_dates",
+          "sample_size": 0,
+          "gaps_used": 0,
+          "expected_gap_min": null,
+          "newest": null,
+          "computed_at": "2026-11-02T22:53:01.420Z"
+        },
+        "flags": [
+          "INSUFFICIENT_HISTORY"
+        ]
+      },
+      "manual_intake_reason": "CAPACITY_BLOCK: BLOCK: projected utilization 0.51 / failure-heavy 1.23 exceeds budget headroom; CAUTION: no recent cycle history; assessment uses default per-source cost",
+      "lifecycle_history": [
+        {
+          "op": "add",
+          "request_id": "slr_3b0fc3c2b6e951ff",
+          "at": "2026-11-02T22:53:03.701Z",
+          "outcome": "READY",
+          "by": "W11",
+          "gates": {
+            "REQUEST": "PASS",
+            "IDENTITY": "PASS",
+            "ACCESS": "PASS",
+            "ENDPOINT": "PASS",
+            "ROUTING": "PASS",
+            "PARSER": "PASS",
+            "CADENCE": "PASS",
+            "DEDUPE": "PASS",
+            "CAPACITY": "BLOCK",
+            "CANARY": "PASS"
+          }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_9d13682cf7765e74",
+          "at": "2026-11-02T23:13:17.836Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "worker listing allowlist must include the list page path (owner 2026-11-03 gap sources)",
+          "fields": [
+            "paths"
+          ]
+        }
+      ]
     }
   ]
 }
