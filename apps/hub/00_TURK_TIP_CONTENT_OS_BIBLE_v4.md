@@ -1482,6 +1482,17 @@ Adım 9–10 (kategori kapsamı, hedef kitle ilgisi) kaynağın gerçek içeriğ
 5. **Karar kayda geçer.** PASS/FAIL cevapları kural olarak kaynağın include/exclude/forbid/detail_gate alanlarına, gerçek sayfadan alınmış fixture ve testlere yansıtılır; denetim kaydında (`docs/audits/`) tür → karar tablosu tutulur.
 6. **Yeni içerik türü.** Kaynakta sonradan yeni bir tür görülürse (telemetri veya inceleme) aynı görüşme o tür için yeniden yapılır; o zamana kadar FAIL.
 
+### 26.2. Kaynak ekleme "bitti" sayılma koşulu: pipeline'a oturma (sahip kararı 2026-11-03)
+
+Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayılması için sağlıklı çekimin gerçekten başlamış olması gerekir; bunun için gereken her adım ajan tarafından yapılır, sahibe bırakılmaz:
+
+1. Birleştirme (`main`), push ve Worker deploy (sahip "push ve deploy" dediğinde; kaynak ekleme işinde bu adım rutindir).
+2. Lifecycle'ın ürettiği `scripts/ops/*-pending-*.sql` dosyalarının ve varsa kural SQL'inin (`rules_json.includeKeywords` gibi) **prod D1'e uygulanması**: sıra = önce kayıt (upsert) dosyaları, sonra kural dosyası (kayıt dosyaları `rules_json`'u sıfırlar); önce ne yazıldığı gösterilir, geri alma yolu (eklenen satırın silinmesi / `enabled=0`) hazır tutulur.
+3. Salt-okunur doğrulama: satır var, `enabled` doğru, `rules_json` doğru; sonraki zamanlayıcı turundan sonra ilk çekim (`last_fetched_at`, `last_ok_items`) ve kabul/red sayıları kontrol edilir; sonuç sahibe dürüstçe raporlanır (çekim yoksa neden).
+4. Uygulanamayan adım (izin katmanı engeli, sır/hesap/kalıcı silme) varsa ajan bunu **açıkça "bitmedi" diye raporlar**, tam komutu verir ve kaynağı "bitti" saymaz.
+
+Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; görüşme kuralı yazar, bu bölüm kuralın canlıda çalıştığını kanıtlar.
+
 ---
 
 

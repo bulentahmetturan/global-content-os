@@ -26,6 +26,7 @@ Canonical Bible stays whole. Read only the range for your task: find the heading
 | Source rules, cadence, staleness | `## BÖLÜM 24` | 1313–1351 |
 | Cadence and staleness | `## BÖLÜM 25` | 1352–1374 |
 | Add-a-source procedure | `## BÖLÜM 26` | 1375–1401 |
+| Source-add completion (pipeline seating, D1 apply) | `### 26.2.` | 1481–1495 |
 | Ethics, copyright | `## BÖLÜM 31` | 1535–1558 |
 | Bible vs config vs registry | `## BÖLÜM 33` | 1575–1623 |
 | Pre-publish checklist | `## BÖLÜM 35` | 1645–1674 |
@@ -41,6 +42,7 @@ Canonical Bible stays whole. Read only the range for your task: find the heading
 Parser expectations are code, not Bible: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py`, `adapters/tip-toplulugu-radar/radar/fetchers.py`. Editorial mission (6 points): `adapters/tip-toplulugu-radar/content/SORUN-TESPIT-LISTESI.md:1-98`.
 
 ## Changelog
+- **4.5 (2026-11-03, owner decision):** `### 26.2.` source add is not done until the source is seated in the pipeline: merge/push/deploy, prod D1 apply of the lifecycle pending SQL then the rules SQL, read-only verification and first-fetch check; anything the agent cannot apply is reported as NOT done with the exact command.
 - **4.4 (2026-11-02, owner decision):** interview depth in `### 26.1.`: no fixed question count ("2–4 questions" forbidden); one question per real content type found in live-fetched samples (last 20–30+ records), boundary cases asked separately, contradictions resolved before code, closing dry-run shown to the owner.
 - **4.3 (2026-11-02, owner decision):** per-source owner PASS/FAIL interview is mandatory after scanning (list, detail, date, RSS) and before any rule or code; repeated until every content type of the source is decided, undecided = FAIL, decisions recorded per lane (`### 26.1.`). Config/policy `bibleVersion` stays 4.1.
 - **4.2 (2026-10-31, owner decision):** three Turkish audiences and the "audience OR wow / important world development" rule (`### 12.0`, `### 12.0.1`); per-lane narrowing criteria for Haber and the action lanes Duyuru/Burs/Eğitim (advance notice = strong accept, outcome = accept, plain news = reject); source policy is per lane (`### 2.3`, `### 12.0.1`); undated official-list exception (`### SPF-7.1`).
