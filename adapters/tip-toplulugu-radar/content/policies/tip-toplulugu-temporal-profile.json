@@ -297,36 +297,12 @@
       "basis": "society congress / abstract deadlines; role-based"
     },
     {
-      "source_id": "eur-lex-mdr-ivdr-health-query",
-      "lane": "kaduse-news",
-      "deadline_bearing": true,
-      "expiry_sensitivity": "MEDIUM",
-      "evidence_tier": "ROLE_INFERRED",
-      "basis": "EU legal acts with application/transition dates; role-based candidate"
-    },
-    {
       "source_id": "ec-medical-devices-target",
       "lane": "kaduse-news",
       "deadline_bearing": true,
       "expiry_sensitivity": "MEDIUM",
       "evidence_tier": "ROLE_INFERRED",
       "basis": "MDR/IVDR transition and guidance dates; role-based candidate"
-    },
-    {
-      "source_id": "ec-dg-sante-health-scoped",
-      "lane": "kaduse-news",
-      "deadline_bearing": true,
-      "expiry_sensitivity": "MEDIUM",
-      "evidence_tier": "ROLE_INFERRED",
-      "basis": "consultation/feedback windows; role-based candidate"
-    },
-    {
-      "source_id": "council-eu-epsco-health-scoped",
-      "lane": "kaduse-news",
-      "deadline_bearing": true,
-      "expiry_sensitivity": "MEDIUM",
-      "evidence_tier": "ROLE_INFERRED",
-      "basis": "Council decision/application dates; role-based candidate"
     }
   ]
 }
