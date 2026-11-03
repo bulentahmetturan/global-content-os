@@ -108,15 +108,27 @@ def extract_html_text(html: str | bytes, source: Source) -> tuple[str, str]:
     soup = BeautifulSoup(html, "html.parser")
     title = normalize_text(soup.title.get_text(" ", strip=True)) if soup.title else source.name
     _strip_noise(soup)
-    target = soup.select_one(source.content_selector) if source.content_selector else None
+    target = None
+    if source.content_selector:
+        target = soup.select_one(source.content_selector)
     if not target:
+        # Gövde (article/main) adayı bulunur; body/belge kökü fallback'i yasak
+        # (Bible 9.4). Yeterince uzun aday yoksa ilk bulunan hedefli kapsayıcı
+        # kullanılır; kısa metni build_result zaten reddeder.
+        fallback = None
         for selector in CONTENT_SELECTOR_CANDIDATES:
-            target = soup.select_one(selector)
-            if target and len(target.get_text(strip=True)) >= 80:
+            candidate = soup.select_one(selector)
+            if not candidate:
+                continue
+            if len(candidate.get_text(strip=True)) >= 80:
+                target = candidate
                 break
-        else:
-            target = None
-    target = target or soup.body or soup
+            fallback = fallback or candidate
+        target = target or fallback
+    if not target:
+        raise ValueError(
+            f"Content selector failed for {source.name}. No valid article body found. Manual selector required."
+        )
     text = normalize_text(target.get_text(" ", strip=True))
     return text, title
 

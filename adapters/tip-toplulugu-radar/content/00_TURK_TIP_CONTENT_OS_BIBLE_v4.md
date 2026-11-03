@@ -1494,6 +1494,7 @@ Adım 9–10 (kategori kapsamı, hedef kitle ilgisi) kaynağın gerçek içeriğ
 5. **Karar kayda geçer.** PASS/FAIL cevapları kural olarak kaynağın include/exclude/forbid/detail_gate alanlarına, gerçek sayfadan alınmış fixture ve testlere yansıtılır; denetim kaydında (`docs/audits/`) tür → karar tablosu tutulur.
    Kaduse Haber hattındaki genel akışlı kaynaklarda (tek başlık/özet metninden ayrılması gereken türler: tek kişilik hikâye, bakan konuşması, genel uzman uyarısı) kural, kaynak kimliğine bağlı `apps/worker/src/ingress/feed-editorial.ts` ret kurallarıdır (konu kapısından sonra çalışır); her kural gerçek başlıklı bir testle kapsanır ve karar tablosuna yazılır. Tarihi listede yazmayan kaynaklarda tarih makalenin kendi `datePublished` alanından okunur, uydurulmaz.
 6. **Yeni içerik türü.** Kaynakta sonradan yeni bir tür görülürse (telemetri veya inceleme) aynı görüşme o tür için yeniden yapılır; o zamana kadar FAIL.
+7. **Otonom onboarding taslağı.** Mevcut `scripts/source-lifecycle.mjs` kullanılır. Görüşmeden önce kaynağın ilk başlıkları çekilir, sahibe PASS/FAIL soruları bu başlıklarla sorulur ve cevaplardan `rules_json` taslağı üretilir. Taslak prod'a ancak sahip onayıyla ve §26.2 madde 2'deki geri alma yolu hazırken uygulanır.
 
 ### 26.2. Kaynak ekleme "bitti" sayılma koşulu: pipeline'a oturma (sahip kararı 2026-11-03)
 
