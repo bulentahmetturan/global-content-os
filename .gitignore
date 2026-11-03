@@ -22,3 +22,6 @@ __pycache__/
 
 # local stats migration config carrying the real production database id (never commit)
 release/wrangler.stats-migrate.toml
+
+# local scratch (prod backups, TODO); never commit
+.tmp/

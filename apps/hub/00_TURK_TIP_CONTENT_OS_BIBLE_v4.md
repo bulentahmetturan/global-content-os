@@ -629,6 +629,10 @@ Zorunlu alan eksikse kayıt `schema_invalid` olur ve ilerlemez.
 
 Kritik alanlar kategoriye göre değişir. Örneğin burs/eğitimde deadline ve eligibility kritik olabilir; research'te study design ve source citation kritik olabilir.
 
+### 9.4. Text Sanitization
+
+HTML temizliğinde sadece hedeflenen gövde (article/main) alınır. Body fallback yasaktır; geçerli gövde bulunamazsa çekim hata verir ve kaynak elle seçici (selector) bekler. Boilerplate/footer metni tespit edilirse içerik `HOLD`'a düşer. Seçici ve uzunluk eşikleri kodda/Config'te tutulur (BÖLÜM 33).
+
 ---
 
 
@@ -731,6 +735,10 @@ Yeni tag gerekiyorsa:
 2. taxonomy owner onaylar,
 3. Controlled Vocabulary güncellenir,
 4. schema version artırılır gerekiyorsa migration yapılır.
+
+### 11.5. LLM Tabanlı Bağlam Yönlendirmesi
+
+LLM, içeriğin ruhunu (açısını) analiz eder ve hedef kanalı önerir. LLM çıktısı sadece "öneri"dir; Kitap I'deki hard gate'leri (kitle uyumu, güvenlik, kanıt) geçemez veya geçersiz kılamaz. Hangi kanala gideceğine dair LLM'in JSON çıktısı Config'teki eşiklerle değerlendirilir; eşik sayıları Bible'a yazılmaz (BÖLÜM 33).
 
 ---
 
@@ -1093,6 +1101,8 @@ Measurement sonuçları:
 üzerinde öneri üretir.
 
 Bible hard gate'leri analytics ile değiştirilemez.
+
+Mevcut geri besleme mekanizmasına ek olarak: kullanıcının D1 veritabanındaki (`item_ratings`) yüksek puanlı ve doğru kanala atanmış içerikleri, LLM promptlarına "Few-Shot" (örnek) olarak beslenir. Bu örneklerin sayısı, puan eşiği ve seçim kriteri Config'te tanımlanır; Bible'a gömülmez. Few-shot örnekleri öneriyi yönlendirir, hard gate'leri değiştirmez (§17.3, §11.5).
 
 ---
 
@@ -1484,6 +1494,7 @@ Adım 9–10 (kategori kapsamı, hedef kitle ilgisi) kaynağın gerçek içeriğ
 5. **Karar kayda geçer.** PASS/FAIL cevapları kural olarak kaynağın include/exclude/forbid/detail_gate alanlarına, gerçek sayfadan alınmış fixture ve testlere yansıtılır; denetim kaydında (`docs/audits/`) tür → karar tablosu tutulur.
    Kaduse Haber hattındaki genel akışlı kaynaklarda (tek başlık/özet metninden ayrılması gereken türler: tek kişilik hikâye, bakan konuşması, genel uzman uyarısı) kural, kaynak kimliğine bağlı `apps/worker/src/ingress/feed-editorial.ts` ret kurallarıdır (konu kapısından sonra çalışır); her kural gerçek başlıklı bir testle kapsanır ve karar tablosuna yazılır. Tarihi listede yazmayan kaynaklarda tarih makalenin kendi `datePublished` alanından okunur, uydurulmaz.
 6. **Yeni içerik türü.** Kaynakta sonradan yeni bir tür görülürse (telemetri veya inceleme) aynı görüşme o tür için yeniden yapılır; o zamana kadar FAIL.
+7. **Otonom onboarding taslağı.** Mevcut `scripts/source-lifecycle.mjs` kullanılır. Görüşmeden önce kaynağın ilk başlıkları çekilir, sahibe PASS/FAIL soruları bu başlıklarla sorulur ve cevaplardan `rules_json` taslağı üretilir. Taslak prod'a ancak sahip onayıyla ve §26.2 madde 2'deki geri alma yolu hazırken uygulanır.
 
 ### 26.2. Kaynak ekleme "bitti" sayılma koşulu: pipeline'a oturma (sahip kararı 2026-11-03)
 
