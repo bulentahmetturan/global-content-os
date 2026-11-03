@@ -1,7 +1,7 @@
 # Yedek / ek inceleme kaynakları 26–32 — sahip kararları (2026-11-03)
 
 Kaynaklar: KURIOUS (Koç Üniv.), Medikal News, Herkese Bilim Teknoloji, Bilim ve Gelecek, Türk Tıbbi Onkoloji Derneği (TTOD), Cumhuriyet (sağlık), Independent Türkçe (sağlık).
-Dayanak: Bible 26.1 (PASS/FAIL görüşmesi), 26.2 (pipeline'a oturma), 26.3 (anahtar kelime kuralı); SPF-3/6/7. Hat: Haber. Başlıklar 2026-11-03'te canlı yüzeylerden okundu.
+Dayanak: Bible 26.1 (PASS/FAIL görüşmesi), 26.2 (pipeline'a oturma), 26.4; SPF-3/6/7. Hat: Haber. Başlıklar 2026-11-03'te canlı yüzeylerden okundu.
 
 ## Tür → karar
 
@@ -64,4 +64,4 @@ Not: Bible SPF-6'ya göre teknik engel kaynağı FAIL yapmaz; TTOD için "kullan
 - `feed-editorial.ts`: dört kaynak için ret kuralları (`CUMHURIYET_RULES`, `INDY_RULES`, `HERKESEBILIM_RULES`, `MEDIKAL_RULES`); gerçek başlıklı testler `feed-editorial-backup7.test.mjs`.
 - Lifecycle çıktıları: üç `scripts/ops/2026-11-02-pending-source_lifecycle_add_*` dosyası; Medikal News include kuralı `scripts/ops/2026-11-03-backup7-rules.sql` (yalnız o).
 - Lifecycle hatası düzeltildi: `cumhuriyet.com.tr` yayıncı kimliği `com` çıkıyordu; `publisherIdFromHost` ve testi.
-- Bible 26.3 ve `BIBLE-INDEX` 4.8.
+- Bible 26.4 ve `BIBLE-INDEX` 4.8.

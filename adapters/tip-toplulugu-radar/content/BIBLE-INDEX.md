@@ -27,7 +27,7 @@ Canonical Bible stays whole. Read only the range for your task: find the heading
 | Cadence and staleness | `## BÖLÜM 25` | 1352–1374 |
 | Add-a-source procedure | `## BÖLÜM 26` | 1375–1401 |
 | Source-add completion (pipeline seating, D1 apply) | `### 26.2.` | 1481–1495 |
-| Section scope, technical block != FAIL, cross-source consistency | `### 26.3.` | 1505–1512 |
+| Section scope, technical block != FAIL, cross-source consistency | `### 26.4.` | 1505–1512 |
 | Ethics, copyright | `## BÖLÜM 31` | 1535–1558 |
 | Bible vs config vs registry | `## BÖLÜM 33` | 1575–1623 |
 | Pre-publish checklist | `## BÖLÜM 35` | 1645–1674 |
@@ -43,7 +43,7 @@ Canonical Bible stays whole. Read only the range for your task: find the heading
 Parser expectations are code, not Bible: `adapters/tip-toplulugu-radar/radar/tip_toplulugu_fetch.py`, `adapters/tip-toplulugu-radar/radar/fetchers.py`. Editorial mission (6 points): `adapters/tip-toplulugu-radar/content/SORUN-TESPIT-LISTESI.md:1-98`.
 
 ## Changelog
-- **4.8 (2026-11-03, owner decision):** `### 26.3.` section scope for site-wide feeds (`apps/worker/src/ingress/feed-scope.ts`), technical block is never source FAIL (not registered / manual_only / paused, `retired` only by owner decision), cross-source consistency shown in the decision table, existing unfiltered records are narrowed through the same interview (backup list 26-32: `docs/audits/2026-11-03-backup-list-26-32-owner-decisions.md`).
+- **4.8 (2026-11-03, owner decision):** `### 26.4.` section scope for site-wide feeds (`apps/worker/src/ingress/feed-scope.ts`), technical block is never source FAIL (not registered / manual_only / paused, `retired` only by owner decision), cross-source consistency shown in the decision table, existing unfiltered records are narrowed through the same interview (backup list 26-32: `docs/audits/2026-11-03-backup-list-26-32-owner-decisions.md`).
 - **4.7 (2026-11-03, owner decision):** `### 26.1.` item 5: genel akışlı Kaduse Haber kaynaklarında tür kararları `apps/worker/src/ingress/feed-editorial.ts` ret kurallarına, tarihsiz listelerde makale `datePublished` okumasına yazılır (Habertürk Sağlık, DW Türkçe sağlık; tür → karar tablosu `docs/audits/2026-11-03-wave2-haberturk-dw-owner-decisions.md`).
 - **4.7 (2026-11-03, owner decision):** `### 12.0.1.` continuity criterion (short-lived news is out, durable-effect items are in) and the owner type decisions for NTV, BBC, DHA, TTB, HASUDER, TTD, KLİMİK, TKD, TPD, TDB (`docs/audits/2026-11-03-haber-gap-10-sources-owner-decisions.md`).
 - **4.6 (2026-11-03, owner decision):** `### 26.2.` states the source-add purpose (right content, right pipeline, smooth fetch with matching narrowing, contradictions cleaned, commit/push/deploy/cleanup), no unfiltered window between registration and rules SQL (2a), and lane purity (2b: evergreen-only sources are not read by the Haber generic ingest).
