@@ -768,7 +768,7 @@ export async function ingestGenericFeeds(
   let updated = 0;
   let empty = 0;
   let errors = 0;
-  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number; editorialDropped?: number }> = [];
+  const samples: Array<{ feedId: string; items: number; error?: string; offTopicDropped?: number; editorialDropped?: number; zeroAccept?: boolean }> = [];
 
   for (const feed of feeds) {
     if (!feed.endpoint_url) continue;
@@ -778,6 +778,7 @@ export async function ingestGenericFeeds(
       const scope = feedUrlScope(feed.id);
       const extracted = await extractFromUrl(feed.endpoint_url, scope ? (u) => scope.test(u) : undefined);
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
+      const parsedCount = extracted.items.length;
       extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
       if (needsArticleMeta(feed.id)) extracted.items = await enrichArticleMeta(extracted.items);
       extracted.items = applyIncludeKeywords(feed, extracted.items);
@@ -797,7 +798,10 @@ export async function ingestGenericFeeds(
       });
       if (!extracted.items.length) {
         empty += 1;
-        await markFeed(env.DB, feed.id, 0, extracted.error || 'no_items_extracted');
+        // Bible 26.3 C: fetch+parse succeeded but the rules rejected everything = WARNING (zero accept), not an error.
+        const zeroAccept = parsedCount > 0 && !extracted.error;
+        if (zeroAccept) samples[samples.length - 1].zeroAccept = true;
+        await markFeed(env.DB, feed.id, 0, zeroAccept ? null : extracted.error || 'no_items_extracted');
         continue;
       }
       const result = await upsertExtracted(env, feed, extracted.items);

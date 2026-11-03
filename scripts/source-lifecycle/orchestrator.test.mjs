@@ -1066,3 +1066,15 @@ test('discovery: WordPress comment feeds are never picked as the content feed', 
   const html = '<link rel="alternate" type="application/rss+xml" href="https://x.org/comments/feed/"><link rel="alternate" type="application/rss+xml" href="https://x.org/konular/saglik/feed/">';
   assert.deepEqual(alternateFeeds(html, 'https://x.org/konular/saglik/'), ['https://x.org/konular/saglik/feed/']);
 });
+
+test('temporal: html_list_snapshot is a valid archive kind with a checked fallback_of (Bible 26.3 B)', async () => {
+  const mk = (archives) => ({ ...EVERGREEN_SMALL, archives });
+  const feed = { id: 'feed', kind: 'wp_feed', url: 'https://www.tdb.org.tr/feed/', max_pages_per_run: 2 };
+  const snap = { id: 'list', kind: 'html_list_snapshot', url: 'https://www.tdb.org.tr/liste/', path_filter: '', item_pattern: '/yazi-', fallback_of: 'feed' };
+  const ok = await lc(sandbox()).recalibrate('tdb_dental', { temporal: tpatch(mk([feed, snap])), basis: 'owner decision' });
+  assert.equal(ok.outcome, 'TEMPORAL_DRY_RUN');
+  const bad = await lc(sandbox()).recalibrate('tdb_dental', { temporal: tpatch(mk([feed, { ...snap, fallback_of: 'yok' }])), basis: 'owner decision' });
+  assert.notEqual(bad.outcome, 'TEMPORAL_DRY_RUN');
+  const badRx = await lc(sandbox()).recalibrate('tdb_dental', { temporal: tpatch(mk([feed, { ...snap, item_pattern: '(' }])), basis: 'owner decision' });
+  assert.notEqual(badRx.outcome, 'TEMPORAL_DRY_RUN');
+});

@@ -30,3 +30,9 @@ Sahip: önce kaynak ekleme bitecek, sonra bu liste sırayla halledilecek. Durum:
 
 ## E. Diğer dallar
 19. Push/deploy edilmemiş yan dallar var (ör. `evergreen-activate-cleveland`, `evergreen-activate-cochrane`, `discovery/*`, `dossier/*`, `docs/release-record-*`); durumları bu oturumda doğrulanmadı.
+
+## F. Bible 26.3 uygulama durumu (2026-11-03)
+20. **Yapıldı:** sıfır kabul artık hata değil (`generic-web.ts`: çekim+ayrıştırma başarılı, kurallar hepsini elediyse `last_error` boş, örnekte `zeroAccept`); ayrıştırıcı/çekim hatası hâlâ `ERROR`. Ayrıca `egitim_ttb/ttd/klimik/tkd/tpd` Worker kapsam listesine eklendi (haber boşluğu işinden kalan test kırığı).
+21. **Yapıldı (kod, 2026-11-03):** `html_list_snapshot` arşiv türü (`evergreen_runner.py`: liste bağlantıları, `fallback_of` ile feed çalışırsa atlama, `content_hash`/`url_count`/`last_snapshot_at` imleçte, `archive_modes` logu; lifecycle doğrulaması; Worker imleç izin listesi; testler). **Sapma:** Bible 26.3 B ham HTML saklamayı söyler; imleçte yalnız hash+URL sayısı tutuluyor (ham HTML imleç için büyük). **Kalan:** TÜBİTAK'ı bu türle kaydetmek (yalnız lifecycle `recalibrate --temporal`, `ACTIVE` olmadan).
+22. **Çözüldü (sahip kararı, Bible 26.3 D):** N=5, K=5 (alarm, ERROR değil), ayrıştırma oranı %80 varsayılan. Eşikleri config/politikada okuyan kod ve `ACTIVE` sonrası DEMOTE/alarm kuralı henüz yok.
+

@@ -31,7 +31,7 @@ export const EVERGREEN_TIERS = Object.freeze({
 export const SIGNAL_STRATEGIES = Object.freeze(['DIRECT_SIGNAL', 'INDIRECT_SIGNAL', 'EDITORIAL_RELEVANCE', 'CONTROLLED_EXPLORATION']);
 /** Enrichment/signal providers, never content sources. A provider that answers nothing yields UNKNOWN, never 0. */
 export const SIGNAL_PROVIDERS = Object.freeze(['icite', 'europepmc', 'crossref', 'openalex']);
-export const ARCHIVE_KINDS = Object.freeze(['sitemap', 'wp_feed', 'europepmc', 'pubmed']);
+export const ARCHIVE_KINDS = Object.freeze(['sitemap', 'wp_feed', 'html_list_snapshot', 'europepmc', 'pubmed']);
 
 /** Identity store -> semantic lane. The lane comes from the canonical identity, never from temporal config. */
 export function semanticLaneForIdentity({ store, lane, heading, route }) {
@@ -66,6 +66,19 @@ function validateArchive(a, i, errors) {
   if (a.kind === 'wp_feed') {
     if (!httpsUrl(a.url)) errors.push(`${at}.url_invalid`);
     if (!inRange(a.max_pages_per_run, 1, 6)) errors.push(`${at}.max_pages_per_run_invalid`);
+  }
+  if (a.kind === 'html_list_snapshot') {
+    // Bible 26.3 B: feed fallback. A registered HTML list page; never changes the source's lane, never activates by itself.
+    if (!httpsUrl(a.url)) errors.push(`${at}.url_invalid`);
+    if (typeof a.path_filter !== 'string') errors.push(`${at}.path_filter_missing`);
+    if (a.item_pattern !== undefined) {
+      try {
+        new RegExp(a.item_pattern);
+      } catch {
+        errors.push(`${at}.item_pattern_invalid`);
+      }
+    }
+    if (a.fallback_of !== undefined && (typeof a.fallback_of !== 'string' || a.fallback_of === a.id)) errors.push(`${at}.fallback_of_invalid`);
   }
   if (a.kind === 'europepmc') {
     if (typeof a.query !== 'string' || !a.query.trim()) errors.push(`${at}.query_missing`);
@@ -124,6 +137,9 @@ export function validateTemporalEntry(raw) {
       eg.archives.forEach((a, i) => validateArchive(a, i, errors));
       const ids = eg.archives.map((a) => a?.id);
       if (new Set(ids).size !== ids.length) errors.push('evergreen.archive_ids_not_unique');
+      eg.archives.forEach((a, i) => {
+        if (typeof a?.fallback_of === 'string' && !ids.includes(a.fallback_of)) errors.push(`evergreen.archives[${i}].fallback_of_unknown`);
+      });
     }
     if (!errors.length) {
       const band = EVERGREEN_TIERS[eg.tier];

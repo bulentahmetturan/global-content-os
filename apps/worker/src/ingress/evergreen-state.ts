@@ -29,10 +29,12 @@ export function validateCursor(raw: unknown, e: TemporalEntry): Record<string, u
     if (!ids.has(id) || !value || typeof value !== 'object' || Array.isArray(value)) throw new Error('invalid_cursor');
     const state: Record<string, unknown> = {};
     for (const [key, v] of Object.entries(value)) {
-      if (['cursor', 'deep_cursor', 'page_cursor', 'archive_size_seen', 'archive_pool', 'pages_reachable'].includes(key)) {
+      if (['cursor', 'deep_cursor', 'page_cursor', 'archive_size_seen', 'archive_pool', 'pages_reachable', 'url_count'].includes(key)) {
         if (typeof v !== 'number' || !Number.isInteger(v) || v < 0 || v >= 10_000_000) throw new Error('invalid_cursor');
-      } else if (['last_rediscovery_at', 'last_deep_at'].includes(key)) {
+      } else if (['last_rediscovery_at', 'last_deep_at', 'last_snapshot_at'].includes(key)) {
         if (typeof v !== 'string' || v.length > 40 || !Number.isFinite(Date.parse(v))) throw new Error('invalid_cursor');
+      } else if (key === 'content_hash') {
+        if (typeof v !== 'string' || !/^[0-9a-f]{8,64}$/.test(v)) throw new Error('invalid_cursor');
       } else if (key === 'cursor_mark') {
         if (typeof v !== 'string' || v.length > 200) throw new Error('invalid_cursor');
       } else throw new Error('invalid_cursor');
