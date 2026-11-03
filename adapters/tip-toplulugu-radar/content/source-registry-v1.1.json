@@ -904,7 +904,19 @@
       "exclude_keywords": [
         "kongre",
         "sempozyum",
-        "tabip odası yerel"
+        "tabip odası yerel",
+        "dava",
+        "katsayı",
+        "sözleşme",
+        "yürütmesi",
+        "kutlu olsun",
+        "vefat",
+        "tömer",
+        "petrol ofisi",
+        "positive kart",
+        "kredi",
+        "kurultay",
+        "panel"
       ],
       "allowed_routes": [
         "PROFESSIONAL_BRIEF",
@@ -983,7 +995,33 @@
       "item_url_patterns": [
         "ttb\\.org\\.tr/(haber|duyuru)_goster\\.php"
       ],
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "lifecycle_history": [
+        {
+          "op": "amend",
+          "request_id": "slr_37d4452d0f0a7b33",
+          "at": "2026-11-03T14:54:41.424Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "lane purity (Bible 12.0.1/26.1, owner 2026-11-03): old broad Duyuru leg narrowed to Duyuru-type items; Haber and Eğitim items belong to ttb_meslek_haklari / egitim_ttb",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_d2332be48599388d",
+          "at": "2026-11-03T14:57:36.200Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "lane purity with earlier parity expectations kept: broad Duyuru include restored, Haber/Eğitim-type items excluded (owner 2026-11-03)",
+          "fields": [
+            "include",
+            "exclude"
+          ]
+        }
+      ]
     },
     {
       "source_id": "turkmsic_medical_students",
@@ -1769,8 +1807,14 @@
         "sponsor",
         "basın bildirisi",
         "farkındalık günü",
-        "dünya ",
-        "günü"
+        "dünya",
+        "günü",
+        "tütün",
+        "mektup",
+        "maden",
+        "orman",
+        "iklim",
+        "çevre"
       ],
       "allowed_routes": [
         "CLINICAL_UPDATE",
@@ -1875,6 +1919,18 @@
             "before": 43200,
             "after": 1440
           }
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_b60a074df44cdea2",
+          "at": "2026-11-03T14:54:41.619Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "lane purity: social/health-linked statements belong to ttd_ozelgun (Haber)",
+          "fields": [
+            "include",
+            "exclude"
+          ]
         }
       ]
     },
