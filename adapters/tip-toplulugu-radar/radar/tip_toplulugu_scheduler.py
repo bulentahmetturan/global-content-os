@@ -44,6 +44,12 @@ class Policy:
     backoff_cap_min: int = 10080        # 7 d
     manual_review_failures: int = 5
     lateness_attention_min: int = 2880  # 2 d beyond eligible time => attention condition
+    # A source whose cadence has (almost) elapsed is treated as due: GitHub's `schedule` trigger starts a daily run at a
+    # different time each day (observed 2026-10-31..11-03: 10:22, 11:15, 12:21, 11:54 UTC), so an exact
+    # `last_success + cadence` test skips every source that succeeded later in yesterday's run than today's run starts and
+    # turns a 1440-minute cadence into 2880. Grace is a share of the cadence, capped; it never shortens failure backoff.
+    due_grace_pct: int = 10
+    due_grace_max_min: int = 120
 
     def sleep_before_retry_s(self, attempt: int) -> int:
         """Sleep after attempt number `attempt` (1-based) -- identical to the runner's backoff."""
@@ -74,6 +80,22 @@ def due_at(state: SourceState) -> datetime:
     return EPOCH if last is None else last + timedelta(minutes=state.cadence_min)
 
 
+def due_grace_min(state: SourceState, policy: Policy) -> int:
+    """Minutes before `due_at` from which a source already counts as due (0 for a source that never succeeded)."""
+    if parse_ts(state.last_success_at) is None:
+        return 0
+    return max(0, min(policy.due_grace_max_min, state.cadence_min * policy.due_grace_pct // 100))
+
+
+def ready_at(state: SourceState, policy: Policy) -> datetime:
+    """When the runner starts a source: cadence due time minus grace, never earlier than the end of its failure backoff."""
+    d = due_at(state)
+    if d != EPOCH:
+        d -= timedelta(minutes=due_grace_min(state, policy))
+    b = backoff_until(state, policy)
+    return max(d, b) if b else d
+
+
 def backoff_until(state: SourceState, policy: Policy) -> datetime | None:
     if state.failure_count <= 0:
         return None
@@ -101,7 +123,7 @@ def source_status(state: SourceState, now: datetime, policy: Policy) -> dict:
         "last_attempt": state.last_attempt_at,
         "last_success": state.last_success_at,
         "next_due": None if el == EPOCH else el.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "due": now >= el,
+        "due": now >= ready_at(state, policy),
         "never_succeeded": never,
         "failure_count": state.failure_count,
         "backoff_active": bool(b and now < b and b > due_at(state)),
@@ -130,11 +152,11 @@ def plan_run(states: Iterable[SourceState], now: datetime, policy: Policy, *, fo
         # tier 0 healthy, 1 recently failing, 2 manual-review: failing sources only use budget healthy ones left over
         tier = 2 if quarantined else (1 if s.failure_count > 0 else 0)
         el = eligible_at(s, policy)
-        if force_due or now >= el:
+        if force_due or now >= ready_at(s, policy):
             ready.append((tier, el, s.source_id))
             if el != EPOCH:
-                plan.max_lateness_min = max(plan.max_lateness_min, int((now - el).total_seconds() // 60))
-        elif now >= due_at(s):
+                plan.max_lateness_min = max(plan.max_lateness_min, int(max(0, (now - el).total_seconds()) // 60))
+        elif now >= due_at(s) - timedelta(minutes=due_grace_min(s, policy)):
             plan.backoff.append(s.source_id)
         else:
             plan.not_due.append(s.source_id)

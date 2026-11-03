@@ -17,9 +17,11 @@ from radar.tip_toplulugu_scheduler import (
     SourceState,
     assess_capacity,
     classify_failure,
+    due_grace_min,
     eligible_at,
     execute_plan,
     plan_run,
+    ready_at,
     source_status,
 )
 
@@ -369,6 +371,51 @@ class TestFeedbackBinding(unittest.TestCase):
         ok = post_feedback_candidates(cand, {"GCOS_FEEDBACK_INGEST_URL": "https://x", "GCOS_FEEDBACK_INGEST_TOKEN": "t"}, lambda *a: calls.append(a))
         self.assertEqual(ok["sent"], 1)
         self.assertEqual(calls[0][2]["Authorization"], "Bearer t")
+
+
+class DueGraceTests(unittest.TestCase):
+    """GitHub starts the daily run at a different time each day; a 1440-minute source must not be skipped for starting early."""
+
+    def test_daily_source_is_run_when_today_starts_up_to_grace_before_yesterday(self):
+        # 2026-11-02 12:27 success, 2026-11-03 11:54 run (observed): 33 minutes early.
+        last = datetime(2026, 11, 2, 12, 27, tzinfo=timezone.utc)
+        s = SourceState("osym_medical_exams", 1440, iso(last), iso(last))
+        now = datetime(2026, 11, 3, 11, 54, tzinfo=timezone.utc)
+        self.assertEqual(plan_run([s], now, P).queue, ["osym_medical_exams"])
+        self.assertTrue(source_status(s, now, P)["due"])
+
+    def test_grace_is_bounded_and_not_applied_beyond_it(self):
+        last = datetime(2026, 11, 2, 12, 27, tzinfo=timezone.utc)
+        s = SourceState("x", 1440, iso(last), iso(last))
+        self.assertEqual(due_grace_min(s, P), 120)
+        early = last + timedelta(minutes=1440 - 121)
+        self.assertEqual(plan_run([s], early, P).not_due, ["x"])
+        self.assertEqual(plan_run([s], last + timedelta(minutes=1440 - 120), P).queue, ["x"])
+
+    def test_grace_scales_with_cadence_and_is_zero_without_a_success(self):
+        self.assertEqual(due_grace_min(SourceState("a", 60, "2026-01-01T00:00:00Z"), P), 6)
+        self.assertEqual(due_grace_min(SourceState("a", 360, "2026-01-01T00:00:00Z"), P), 36)
+        self.assertEqual(due_grace_min(SourceState("a", 10080, "2026-01-01T00:00:00Z"), P), 120)
+        self.assertEqual(due_grace_min(SourceState("a", 1440, None), P), 0)
+
+    def test_failure_backoff_is_never_shortened_by_grace(self):
+        last = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
+        attempt = datetime(2026, 11, 2, 12, 0, tzinfo=timezone.utc)
+        s = SourceState("bad", 1440, iso(last), iso(attempt), failure_count=1)  # backoff 720 min after the attempt
+        self.assertEqual(ready_at(s, P), attempt + timedelta(minutes=720))
+        self.assertEqual(plan_run([s], attempt + timedelta(minutes=719), P).backoff, ["bad"])
+
+    def test_daily_run_with_jittered_start_serves_a_source_every_day(self):
+        """Regression: before grace a daily source ran every other day when the run start drifted earlier."""
+        starts = [(10, 22), (11, 15), (12, 21), (11, 54), (11, 20), (12, 5), (11, 40)]
+        last, served = None, []
+        for day, (h, m) in enumerate(starts):
+            now = datetime(2026, 10, 31, h, m, tzinfo=timezone.utc) + timedelta(days=day)
+            s = SourceState("daily", 1440, last, last)
+            if "daily" in plan_run([s], now, P).queue:
+                last = iso(now + timedelta(minutes=6))  # source finishes a few minutes into the run
+                served.append(day)
+        self.assertEqual(served, list(range(len(starts))))
 
 
 if __name__ == "__main__":
