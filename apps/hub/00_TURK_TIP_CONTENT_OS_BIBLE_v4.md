@@ -759,6 +759,8 @@ Her içerik, fırsat ve keşif adayı ilk olarak §1.4'teki kitlelere uygunluk a
 - Aynı şeyin tarihsiz, başvuru yolu olmayan düz haberi: **ret.**
 - Rehber, kılavuz, mevzuat kitabı, program, rapor, bülten, tanı kodu listesi "yayımlandı/güncellendi": Duyuru, **kabul.**
 
+**Süreklilik ölçütü (sahip kararı 2026-11-03):** kısa ömürlü haber değeri taşıyan öğe girmez; kalıcı etkisi olan girer. "Dava açtı/açtık", protesto/eylem çağrısı, tek kurum kararının yürütmesinin durması, tek olay (hekime saldırı, ihmal iddiası), bakan konuşması ve ünlü sağlığı **ret**; yönetmelik hükmünün yürütmesinin durdurulması, mevzuat/yönetmelik yayımı, atama kurası ilanı ve bilimsel sonuç **kabul**. Genel basında (NTV, BBC, DHA) bitkisel/şifa galerisi ve tek hasta/hastane başarı hikâyesi ret; adı geçen uzmanın halk uyarısı, bilim temelli mit/gerçek yazısı ve dünya çapında halk sağlığı riski kabul. Özel gün/hafta bildirileri, sağlık bağı olan toplumsal bildiriler kabul; bayram/taziye/üye avantajı/firma akademisi/dergi-bülten ret. Ayrıntılı tür tablosu: `docs/audits/2026-11-03-haber-gap-10-sources-owner-decisions.md`.
+
 **Kaynak politikası hat bazlıdır:** Duyuru kaynağı yalnız Duyuru öğesi, Haber kaynağı yalnız Haber öğesi, Burs kaynağı yalnız Burs öğesi, Eğitim kaynağı yalnız Eğitim öğesi kabul eder. Birden fazla türde içerik üreten yayıncı, her hat için ayrı kaynak olarak ve her biri kendi dar politikasıyla kaydedilir. Bir kaynak öğeyi başka hatta yönlendirmez.
 
 ### 12.1. Türkiye uygunluğu üç ayrı eksendir
