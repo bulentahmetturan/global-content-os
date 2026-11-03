@@ -9,7 +9,7 @@
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" [--apply]
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --set <minutes> --basis "<evidence>" [--history DIR] [--apply]   (owner-directed; ladder step in lane bounds)
 //   node scripts/source-lifecycle.mjs recalibrate "<source_id>" --temporal <patch.json> --basis "<evidence>" [--apply]  (time_sensitive / evergreen path config)
-//   node scripts/source-lifecycle.mjs amend       "<source_id>" --reason "<owner rule>" [--include a,b] [--exclude a,b] [--forbid /p1,/p2] [--paths /a/,/b/] [--detail-gate '<json>'|off] [--allow-congress true|false] [--apply]   (policy change of an existing source; identity kept)
+//   node scripts/source-lifecycle.mjs amend       "<source_id>" --reason "<owner rule>" [--include a,b] [--exclude a,b] [--forbid /p1,/p2] [--paths /a/,/b/] [--runner-region TR] [--detail-gate '<json>'|off] [--allow-congress true|false] [--apply]   (policy change of an existing source; identity kept)
 //   node scripts/source-lifecycle.mjs purge-plan  "<source_id>"             (dry-run dependency report only)
 //   add --json for machine-readable output. Without --apply nothing is written (dry run).
 //

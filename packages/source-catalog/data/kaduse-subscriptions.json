@@ -3,7 +3,7 @@
   "channelId": "kaduse-medikal",
   "$comment": "CANONICAL (Package 2): the ONLY editable copy of Kaduse news source subscriptions and acquisition scoping. Owned by global-content-os (source acquisition/runtime). Moved from multi_channel_design/channels/kaduse-medikal/content/news-sources.json; editorial COVERAGE rules stay in channel-content-os channels/kaduse-medikal/content/policies/kaduse-news.json (ADR-0005). sourceId/targetId reference news-registry.json in this directory; publisher identity, URLs, transport, cadence and health are NOT duplicated here. `enabled` = the subscription participates in scripts/sync-feeds.mjs output; actual fetching still requires a working fetcher (HTTP 200 != automation ready). inclusionPolicy/exclusionPolicy are acquisition scoping filters, emitted into feed rules. Superseded/excluded identities live only in news-registry.json.",
   "status": "ACTIVE_SUBSCRIPTIONS",
-  "subscriptionCount": 25,
+  "subscriptionCount": 34,
   "subscriptions": [
     {
       "channelId": "kaduse-medikal",
@@ -253,6 +253,60 @@
       "channelId": "kaduse-medikal",
       "sourceId": "www-dw-s-57554999",
       "targetId": "www-dw-s-57554999-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "cumhuriyet-saglik",
+      "targetId": "cumhuriyet-saglik-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "indyturk-saglik",
+      "targetId": "indyturk-saglik-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "herkesebilim-saglik",
+      "targetId": "herkesebilim-saglik-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "trthaber-haber",
+      "targetId": "trthaber-haber-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "sabah-haber",
+      "targetId": "sabah-haber-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "cnnturk-haber",
+      "targetId": "cnnturk-haber-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "euronews-tr-haber",
+      "targetId": "euronews-tr-haber-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "gazeteoksijen-haber",
+      "targetId": "gazeteoksijen-haber-whole",
+      "enabled": true
+    },
+    {
+      "channelId": "kaduse-medikal",
+      "sourceId": "medimagazin-haber",
+      "targetId": "medimagazin-haber-whole",
       "enabled": true
     }
   ]

@@ -7941,9 +7941,22 @@
             "exclude",
             "allowCongress"
           ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_6710d7aca5c69e91",
+          "at": "2026-11-03T16:59:58.999Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)",
+          "fields": [
+            "runnerRegion"
+          ]
         }
       ],
-      "allow_congress": true
+      "allow_congress": true,
+      "runner_region": "TR",
+      "runner_region_reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)"
     },
     {
       "source_id": "hasuder_ozelgun",
@@ -8103,8 +8116,21 @@
           "fields": [
             "paths"
           ]
+        },
+        {
+          "op": "amend",
+          "request_id": "slr_b1386fc862f6dec5",
+          "at": "2026-11-03T16:59:59.172Z",
+          "outcome": "READY",
+          "by": "W11",
+          "reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)",
+          "fields": [
+            "runnerRegion"
+          ]
         }
-      ]
+      ],
+      "runner_region": "TR",
+      "runner_region_reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)"
     },
     {
       "source_id": "ttd_ozelgun",

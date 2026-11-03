@@ -12,7 +12,8 @@ export function dedupeGate({ candidate, sample = [], projections, identityCheck 
 
   // Per-lane registration (owner policy): one publisher, several content types -> one source per lane, each with its own
   // narrow policy. A second lane may share the same endpoint only with a stated reason; the holders are other lanes' legs of the same publisher (S66 exception documented in check_source_identity.py).
-  const urlHolders = projections.filter((p) => p.source_id !== candidate.source_id && p.urls.includes(url) && !(sharedEndpointReason && !p.retired));
+  // A retired holder (tombstone of a leg the owner moved to another lane) is released too when the operator states the reason; without a reason it still blocks (reactivation is the default).
+  const urlHolders = projections.filter((p) => p.source_id !== candidate.source_id && p.urls.includes(url) && !sharedEndpointReason);
   checks.canonical_url = urlHolders.length ? { status: 'FAIL', holders: [...new Set(urlHolders.map((p) => p.source_id))] } : { status: 'PASS' };
   if (urlHolders.length) explanation.push(`endpoint already registered by ${checks.canonical_url.holders.join(', ')}`);
 

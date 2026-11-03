@@ -74,9 +74,73 @@ const DW_RULES: EditorialRule[] = [
   { id: 'contested-policy-no-clinic', title: /kurtaj|tup bebek|sezaryen|tasiyici anne|ozel hastane/, unless: CLINICAL },
 ];
 
+// Backup list 26-32 (owner PASS/FAIL interview 2026-11-03). Expert warnings and consumer tips pass here (evidence gate downstream);
+// sensational wording and one person's story are out. OPEN owner question: whether a "!" headline alone is a reject (see audit).
+const CUMHURIYET_RULES: EditorialRule[] = [
+  { id: 'sensational-headline', title: /mucize|ezber|sifa\b|olumcul|korkutan|\bsok\b/ },
+  HABERTURK_RULES[1],
+  HABERTURK_RULES[2],
+];
+
+// Independent Turkce saglik: translated research and lifestyle pass; global outbreak reports, minister statements and calls are out.
+const INDY_RULES: EditorialRule[] = [
+  { id: 'global-outbreak', text: /ebola|unicef|cocuk felci|kaliforniya|\bkdc\b/ },
+  { id: 'minister-or-call', title: /\bbakani\b|cagri/, unless: REGULATION },
+  { id: 'conspiracy', title: /komplo/ },
+];
+
+// Herkese Bilim Teknoloji: only the health section is read (feed-scope.ts); of the Nobel prizes only Medicine stays; magazine issue notices are out.
+const HERKESEBILIM_RULES: EditorialRule[] = [
+  { id: 'non-medicine-nobel', title: /(fizik|kimya|edebiyat|baris).*(nobel|odul)|(nobel|odul).*(fizik|kimya|edebiyat|baris)/ },
+  { id: 'magazine-issue', title: /hbt dergi|\bdergi\b.*\bsayi/ },
+];
+
+// Haber lane general press and sector news (owner PASS/FAIL interviews 2026-11-03, list D). Only each outlet's own health section is read (feed-scope.ts).
+// Positive gates are written as "reject unless": an unknown type stays out (Bible 26.1 item 3).
+const KEEP_ANY = /./;
+
+const TRT_RULES: EditorialRule[] = [
+  // Praise and statistics ("X milyon kişiye şifa kapısı", "117 kalp merkezi") are out; domestic device production and e-consent stay.
+  { id: 'praise-or-statistics', text: /sifa kapisi|kalp merkezi|saglik degerlendirmesi yapildi|poliklinikleri/ },
+  // A reimbursement notice that names neither drug nor indication.
+  { id: 'unnamed-reimbursement', text: /daha geri odeme|geri odeme kapsamina/ },
+];
+
+const SABAH_RULES: EditorialRule[] = [
+  { id: 'vague-big-move', text: /buyuk hamle/ },
+  // Everyday news with only an indirect medical link.
+  { id: 'peer-violence', text: /akran (siddet|zorbal)/ },
+];
+
+// Global outbreak / WHO decision / major drug-vaccine approval stay; one country's local situation, product recalls and preliminary results are out.
+const EURONEWS_RULES: EditorialRule[] = [
+  { id: 'recall-or-preliminary', text: /geri cagir|umut verici/ },
+  { id: 'not-global-health', text: KEEP_ANY, unless: /salgin|ebola|dso|dunya saglik orgutu|pandemi|onayla|onay verdi/ },
+];
+
+// Sector paper: research and profession news stay; ministers, protocols, raids and feel-good science are out.
+const MEDIMAGAZIN_RULES: EditorialRule[] = [
+  { id: 'minister-protocol-raid', text: /bakan|cumhurbaskani|kktc|mutabakat|operasyon|gozalti|lise ogrenci|midye|tarantula/ },
+  { id: 'not-research-or-profession', text: KEEP_ANY, unless: /arastirma|calisma|incelendi|hekim|dhy|tus|eczac|hemsire|kura|odul|glp|diyabet/ },
+];
+
+// Anadolu Ajansı (Kaduse): first/new treatment in Türkiye and world developments stay; hospital programmes/statistics and expert warnings are out.
+const AA_RULES: EditorialRule[] = [
+  { id: 'hospital-programme-or-expert-warning', text: /hastanesi|uzmanindan|uyari|onerisi/ },
+  { id: 'not-new-treatment-or-world', text: KEEP_ANY, unless: /turkiye|nobel|dunya saglik|dso|robotik|yerli/ },
+];
+
 const RULES_BY_FEED: Record<string, EditorialRule[]> = {
   'news-www-haberturk-rss-whole': HABERTURK_RULES,
   'news-www-dw-s-57554999-whole': DW_RULES,
+  'news-cumhuriyet-saglik-whole': CUMHURIYET_RULES,
+  'news-indyturk-saglik-whole': INDY_RULES,
+  'news-herkesebilim-saglik-whole': HERKESEBILIM_RULES,
+  'news-trthaber-haber-whole': TRT_RULES,
+  'news-sabah-haber-whole': SABAH_RULES,
+  'news-euronews-tr-haber-whole': EURONEWS_RULES,
+  'news-medimagazin-haber-whole': MEDIMAGAZIN_RULES,
+  'news-aa-saglik-scoped': AA_RULES,
 };
 
 /** Feeds whose listing prints no dates: the date (and og:description) is read from each article page. */

@@ -1490,7 +1490,22 @@
       "item_url_patterns": [
         "hasuder\\.org\\.tr/[a-z0-9-]+/detay/[a-z0-9-]+"
       ],
-      "execution": "python_runner"
+      "execution": "python_runner",
+      "runner_region": "TR",
+      "runner_region_reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)",
+      "lifecycle_history": [
+        {
+          "op": "amend",
+          "request_id": "slr_d12f92161f551920",
+          "at": "2026-11-03T16:59:59.339Z",
+          "outcome": "ACTIVE",
+          "by": "W11",
+          "reason": "hasuder.org.tr times out from GitHub egress (run 41678756218; hasuder_public_health FAILED_INTERNAL); reachable from Turkish networks; technical access limit, not a source FAIL (Bible SPF)",
+          "fields": [
+            "runnerRegion"
+          ]
+        }
+      ]
     },
     {
       "source_id": "halk_sagligi_yeterlik",

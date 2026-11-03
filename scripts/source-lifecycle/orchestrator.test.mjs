@@ -1043,6 +1043,14 @@ test('amend --allow-congress: sets and clears allow_congress on the record', asy
   assert.equal(rec(root, 'tdb_dental')[0].allow_congress, undefined);
 });
 
+test('amend --runner-region: tags an existing record as needing the Turkey-egress runner and keeps the reason', async () => {
+  const root = sandbox();
+  const r = await lc(root).amend('tdb_dental', { apply: true, reason: 'site times out from GitHub egress', changes: { runnerRegion: 'TR' } });
+  assert.equal(r.outcome, 'AMENDED');
+  assert.equal(rec(root, 'tdb_dental')[0].runner_region, 'TR');
+  assert.equal(rec(root, 'tdb_dental')[0].runner_region_reason, 'site times out from GitHub egress');
+});
+
 test('list extraction with an owner path allowlist: ids in the path and a larger menu group no longer hide the news items', () => {
   const menu = Array.from({ length: 12 }, (_, i) => `<a href="/${i}-menu-page-${i}">Menu page number ${i}</a>`).join('');
   const news = Array.from({ length: 5 }, (_, i) => `<a href='/haber/20${i}/baslik-${i}'>Haber basligi numarasi ${i}</a>`).join('');

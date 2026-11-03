@@ -134,6 +134,51 @@
       "id": "dw",
       "canonicalName": "DW Türkçe Sağlık",
       "officialUrl": "https://www.dw.com"
+    },
+    {
+      "id": "cumhuriyet",
+      "canonicalName": "Cumhuriyet",
+      "officialUrl": "https://www.cumhuriyet.com.tr"
+    },
+    {
+      "id": "indyturk",
+      "canonicalName": "Independent Türkçe",
+      "officialUrl": "https://www.indyturk.com"
+    },
+    {
+      "id": "herkesebilimteknoloji",
+      "canonicalName": "Herkese Bilim Teknoloji",
+      "officialUrl": "https://www.herkesebilimteknoloji.com"
+    },
+    {
+      "id": "trthaber",
+      "canonicalName": "TRT Haber Sağlık",
+      "officialUrl": "https://www.trthaber.com"
+    },
+    {
+      "id": "sabah",
+      "canonicalName": "Sabah Sağlık",
+      "officialUrl": "https://www.sabah.com.tr"
+    },
+    {
+      "id": "cnnturk",
+      "canonicalName": "CNN Türk Sağlık",
+      "officialUrl": "https://www.cnnturk.com"
+    },
+    {
+      "id": "euronews",
+      "canonicalName": "Euronews Türkçe Sağlık",
+      "officialUrl": "https://tr.euronews.com"
+    },
+    {
+      "id": "gazeteoksijen",
+      "canonicalName": "Gazete Oksijen Sağlık",
+      "officialUrl": "https://gazeteoksijen.com"
+    },
+    {
+      "id": "medimagazin",
+      "canonicalName": "Medimagazin",
+      "officialUrl": "https://medimagazin.com.tr"
     }
   ],
   "sources": [
@@ -328,6 +373,87 @@
       "status": "ACTIVE",
       "verificationStatus": "PENDING_VERIFICATION",
       "verificationNote": "Added by source-lifecycle 2026-11-02T22:50:49.100Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999."
+    },
+    {
+      "id": "cumhuriyet-saglik",
+      "publisherId": "cumhuriyet",
+      "canonicalName": "Cumhuriyet Sağlık",
+      "officialUrl": "https://www.cumhuriyet.com.tr/rss/saglik.xml",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:09.844Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.cumhuriyet.com.tr/rss/saglik.xml."
+    },
+    {
+      "id": "indyturk-saglik",
+      "publisherId": "indyturk",
+      "canonicalName": "Independent Türkçe Sağlık",
+      "officialUrl": "https://www.indyturk.com/taxonomy/term/320/%2A/feed",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:13.117Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.indyturk.com/taxonomy/term/320/%2A/feed."
+    },
+    {
+      "id": "herkesebilim-saglik",
+      "publisherId": "herkesebilimteknoloji",
+      "canonicalName": "Herkese Bilim Teknoloji",
+      "officialUrl": "https://www.herkesebilimteknoloji.com/feed",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-02T22:59:18.526Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.herkesebilimteknoloji.com/feed."
+    },
+    {
+      "id": "trthaber-haber",
+      "publisherId": "trthaber",
+      "canonicalName": "TRT Haber Sağlık",
+      "officialUrl": "https://www.trthaber.com/saglik_articles.rss",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:37:57.017Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.trthaber.com/saglik_articles.rss."
+    },
+    {
+      "id": "sabah-haber",
+      "publisherId": "sabah",
+      "canonicalName": "Sabah Sağlık",
+      "officialUrl": "https://www.sabah.com.tr/rss/saglik.xml",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:37:58.445Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.sabah.com.tr/rss/saglik.xml."
+    },
+    {
+      "id": "cnnturk-haber",
+      "publisherId": "cnnturk",
+      "canonicalName": "CNN Türk Sağlık",
+      "officialUrl": "https://www.cnnturk.com/saglik/",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:37:59.531Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.cnnturk.com/saglik/."
+    },
+    {
+      "id": "euronews-tr-haber",
+      "publisherId": "euronews",
+      "canonicalName": "Euronews Türkçe Sağlık",
+      "officialUrl": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:38:01.082Z: gates passed (identity, access, parser, routing, dedupe, cadence 180min, canary). Endpoint https://tr.euronews.com/rss?level=theme&name=health-news."
+    },
+    {
+      "id": "gazeteoksijen-haber",
+      "publisherId": "gazeteoksijen",
+      "canonicalName": "Gazete Oksijen Sağlık",
+      "officialUrl": "https://gazeteoksijen.com/saglik",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:38:02.740Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://gazeteoksijen.com/saglik."
+    },
+    {
+      "id": "medimagazin-haber",
+      "publisherId": "medimagazin",
+      "canonicalName": "Medimagazin",
+      "officialUrl": "https://medimagazin.com.tr/",
+      "status": "ACTIVE",
+      "verificationStatus": "PENDING_VERIFICATION",
+      "verificationNote": "Added by source-lifecycle 2026-11-03T14:38:05.058Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://medimagazin.com.tr/."
     }
   ],
   "targets": [
@@ -594,6 +720,105 @@
       "officialUrl": "https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999",
       "scopeType": "WHOLE_SOURCE",
       "scopeDescription": "Added by source-lifecycle 2026-11-02T22:50:49.100Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.dw.com/tr/sa%C4%9Fl%C4%B1k/s-57554999.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "cumhuriyet-saglik-whole",
+      "sourceId": "cumhuriyet-saglik",
+      "label": "Cumhuriyet Sağlık",
+      "officialUrl": "https://www.cumhuriyet.com.tr/rss/saglik.xml",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:09.844Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.cumhuriyet.com.tr/rss/saglik.xml.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
+    },
+    {
+      "id": "indyturk-saglik-whole",
+      "sourceId": "indyturk-saglik",
+      "label": "Independent Türkçe Sağlık",
+      "officialUrl": "https://www.indyturk.com/taxonomy/term/320/%2A/feed",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:13.117Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.indyturk.com/taxonomy/term/320/%2A/feed.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "herkesebilim-saglik-whole",
+      "sourceId": "herkesebilim-saglik",
+      "label": "Herkese Bilim Teknoloji Sağlık",
+      "officialUrl": "https://www.herkesebilimteknoloji.com/feed",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-02T22:59:18.526Z: gates passed (identity, access, parser, routing, dedupe, cadence 60min, canary). Endpoint https://www.herkesebilimteknoloji.com/feed.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 60
+    },
+    {
+      "id": "trthaber-haber-whole",
+      "sourceId": "trthaber-haber",
+      "label": "TRT Haber Sağlık",
+      "officialUrl": "https://www.trthaber.com/saglik_articles.rss",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:37:57.017Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.trthaber.com/saglik_articles.rss.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "sabah-haber-whole",
+      "sourceId": "sabah-haber",
+      "label": "Sabah Sağlık",
+      "officialUrl": "https://www.sabah.com.tr/rss/saglik.xml",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:37:58.445Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.sabah.com.tr/rss/saglik.xml.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "cnnturk-haber-whole",
+      "sourceId": "cnnturk-haber",
+      "label": "CNN Türk Sağlık",
+      "officialUrl": "https://www.cnnturk.com/saglik/",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:37:59.531Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://www.cnnturk.com/saglik/.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "euronews-tr-haber-whole",
+      "sourceId": "euronews-tr-haber",
+      "label": "Euronews Türkçe Sağlık",
+      "officialUrl": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:38:01.082Z: gates passed (identity, access, parser, routing, dedupe, cadence 180min, canary). Endpoint https://tr.euronews.com/rss?level=theme&name=health-news.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 180
+    },
+    {
+      "id": "gazeteoksijen-haber-whole",
+      "sourceId": "gazeteoksijen-haber",
+      "label": "Gazete Oksijen Sağlık",
+      "officialUrl": "https://gazeteoksijen.com/saglik",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:38:02.740Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://gazeteoksijen.com/saglik.",
+      "transportStatus": "WEB_ONLY",
+      "machineReadable": false,
+      "pollMinutes": 360
+    },
+    {
+      "id": "medimagazin-haber-whole",
+      "sourceId": "medimagazin-haber",
+      "label": "Medimagazin",
+      "officialUrl": "https://medimagazin.com.tr/",
+      "scopeType": "WHOLE_SOURCE",
+      "scopeDescription": "Added by source-lifecycle 2026-11-03T14:38:05.058Z: gates passed (identity, access, parser, routing, dedupe, cadence 360min, canary). Endpoint https://medimagazin.com.tr/.",
       "transportStatus": "WEB_ONLY",
       "machineReadable": false,
       "pollMinutes": 360

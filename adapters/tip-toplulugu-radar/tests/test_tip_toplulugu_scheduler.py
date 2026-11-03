@@ -31,8 +31,8 @@ class SchedulerTests(unittest.TestCase):
 
     def test_tr_runner_selection(self):
         tr = sched.select_sources("tr-runner")
-        self.assertEqual(len(tr), 30)  # 10 HSGM daire pages x 3 per-lane legs
-        self.assertTrue(all(s.startswith(("hsgm_", "egitim_hsgm_")) for s in tr))
+        self.assertEqual(len(tr), 33)  # 10 HSGM daire pages x 3 per-lane legs + 3 HASUDER records (hasuder.org.tr times out from GitHub egress)
+        self.assertTrue(all(s.startswith(("hsgm_", "egitim_hsgm_", "hasuder_")) for s in tr))
         self.assertNotIn("hsgm_asi", sched.select_sources("all"))
 
     def test_one_failing_source_does_not_stop_the_batch_and_is_reported(self):

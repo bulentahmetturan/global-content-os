@@ -1047,7 +1047,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -1158,18 +1158,33 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
       "fetch_enabled": false,
       "scheduled_fetch_enabled": false,
       "candidate_emission_enabled": false,
       "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
-      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access."
+      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access.",
+      "former_status": "active",
+      "former_runtime_activation": "MANUAL_INTAKE",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:54.739Z",
+      "retired_change_ref": "source-lifecycle:slr_349fb271c7f3c033",
+      "lifecycle_history": [
+        {
+          "op": "retire",
+          "request_id": "slr_349fb271c7f3c033",
+          "at": "2026-11-03T14:37:54.739Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
+        }
+      ]
     },
     {
       "source_id": "trthaber_saglik",
@@ -1188,7 +1203,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -1299,15 +1314,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -1351,8 +1366,21 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_d3822fb9a7f3d96c",
+          "at": "2026-11-03T14:37:43.783Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:43.783Z",
+      "retired_change_ref": "source-lifecycle:slr_d3822fb9a7f3d96c"
     },
     {
       "source_id": "cnnturk_saglik",
@@ -1371,7 +1399,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -1482,15 +1510,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -1534,8 +1562,21 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_c90afc151489bdd3",
+          "at": "2026-11-03T14:37:45.557Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:45.557Z",
+      "retired_change_ref": "source-lifecycle:slr_c90afc151489bdd3"
     },
     {
       "source_id": "sabah_saglik",
@@ -1553,7 +1594,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -1663,15 +1704,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -1715,8 +1756,21 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_0855c29e4aca3138",
+          "at": "2026-11-03T14:37:46.986Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:46.986Z",
+      "retired_change_ref": "source-lifecycle:slr_0855c29e4aca3138"
     },
     {
       "source_id": "euronews_tr_saglik",
@@ -1734,7 +1788,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -1844,15 +1898,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -1896,8 +1950,21 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_d35ecb2f5d6ae5cc",
+          "at": "2026-11-03T14:37:48.583Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:48.583Z",
+      "retired_change_ref": "source-lifecycle:slr_d35ecb2f5d6ae5cc"
     },
     {
       "source_id": "saglik_bakanligi_genel",
@@ -2073,7 +2140,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -2183,15 +2250,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -2235,8 +2302,21 @@
             "before": 1440,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_a2a6e481fdb006a8",
+          "at": "2026-11-03T14:37:51.400Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:51.400Z",
+      "retired_change_ref": "source-lifecycle:slr_a2a6e481fdb006a8"
     },
     {
       "source_id": "ntv_saglik",
@@ -3490,7 +3570,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -3601,18 +3681,33 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
       "fetch_enabled": false,
       "scheduled_fetch_enabled": false,
       "candidate_emission_enabled": false,
       "pipeline_wiring_enabled": false,
-      "runtime_activation": "MANUAL_INTAKE",
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
-      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access."
+      "manual_intake_reason": "2026-09-30 production audit: HTTP 403 (bot protection) from the GitHub runner on every attempt. No bot bypass is developed: paused to MANUAL_INTAKE (discovery only). Reactivate only if the publisher allows identified automated access.",
+      "former_status": "active",
+      "former_runtime_activation": "MANUAL_INTAKE",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:52.975Z",
+      "retired_change_ref": "source-lifecycle:slr_5d0d43e7a665aa54",
+      "lifecycle_history": [
+        {
+          "op": "retire",
+          "request_id": "slr_5d0d43e7a665aa54",
+          "at": "2026-11-03T14:37:52.975Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
+        }
+      ]
     },
     {
       "source_id": "dha_saglik_yasam",
@@ -3814,7 +3909,7 @@
       "source_tier": "SECONDARY_NEWSWIRE",
       "role": "secondary medical newswire discovery only",
       "fetch_mode": "list-page",
-      "status": "active",
+      "status": "retired",
       "medical_scope": "general_turkish_health_news_discovery",
       "audience_scope": [
         "medical_student",
@@ -3925,15 +4020,15 @@
             "health": "HEALTHY"
           }
         ],
-        "fetch_enabled": true,
-        "scheduled_fetch_enabled": true,
-        "candidate_emission_enabled": true
+        "fetch_enabled": false,
+        "scheduled_fetch_enabled": false,
+        "candidate_emission_enabled": false
       },
-      "fetch_enabled": true,
-      "scheduled_fetch_enabled": true,
-      "candidate_emission_enabled": true,
-      "pipeline_wiring_enabled": true,
-      "runtime_activation": "AUTOMATION_READY",
+      "fetch_enabled": false,
+      "scheduled_fetch_enabled": false,
+      "candidate_emission_enabled": false,
+      "pipeline_wiring_enabled": false,
+      "runtime_activation": "BLOCKED",
       "source_health": "HEALTHY",
       "execution": "python_runner",
       "cadence_policy": {
@@ -3965,8 +4060,21 @@
             "before": 43200,
             "after": 2880
           }
+        },
+        {
+          "op": "retire",
+          "request_id": "slr_49ef7825fafa57ef",
+          "at": "2026-11-03T14:37:49.996Z",
+          "outcome": "RETIRED",
+          "by": "W11",
+          "reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)"
         }
-      ]
+      ],
+      "former_status": "active",
+      "former_runtime_activation": "AUTOMATION_READY",
+      "retired_reason": "Owner decision 2026-11-03: general-press health news belongs to the Haber lane only (kaduse-news); single channel per source (S57)",
+      "retired_at": "2026-11-03T14:37:49.996Z",
+      "retired_change_ref": "source-lifecycle:slr_49ef7825fafa57ef"
     }
   ]
 }
