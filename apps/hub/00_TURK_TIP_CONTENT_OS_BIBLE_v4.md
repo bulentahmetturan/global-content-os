@@ -1511,10 +1511,6 @@ Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayı
 
 Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; görüşme kuralı yazar, bu bölüm kuralın canlıda çalıştığını kanıtlar.
 
-### 26.2.1. Otonom Onboarding
-
-Mevcut `scripts/source-lifecycle.mjs` mekanizması kullanılır. Sürecin başına şu adım eklenir: ilk başlıklar çekilir, sahibe PASS/FAIL soruları sorulur, `rules_json` taslağı üretilir. Prod'a uygulama (deploy) adımı her zaman geri alınabilir ve insan onaylı olmalıdır.
-
 ---
 
 
