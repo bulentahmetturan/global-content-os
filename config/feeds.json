@@ -6,7 +6,7 @@
     "inputs": [
       {
         "path": "packages/source-catalog/data/news-registry.json",
-        "sha256": "21364c29a9942cfdd73d81166014b0c576e45987f9f2bf656e2dc827157084c3"
+        "sha256": "fe92b3f6d3e935db6520167bf32a173c2488a5b1bfd9491c80c9dadacdbf929f"
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
@@ -14,7 +14,7 @@
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
-        "sha256": "0c8b712a1ad0235e8854560053a1b08daf8240dff742c0be4059b4d500e98032"
+        "sha256": "6597ccebeb13e0671f8cb9648cccf424062e02f9202795b818821db14ce73047"
       },
       {
         "path": "adapters/tip-toplulugu-radar/sources/official_sources.yaml",
@@ -23,12 +23,12 @@
     ]
   },
   "counts": {
-    "news": 29,
+    "news": 35,
     "research": 49,
     "tipSources": 728,
     "tipEnabled": 728,
-    "total": 807,
-    "registryTargetsParsed": 28
+    "total": 813,
+    "registryTargetsParsed": 34
   },
   "feeds": [
     {
@@ -760,6 +760,126 @@
       "enabled": true,
       "externalRef": "herkesebilim-saglik-whole",
       "registrySourceId": "herkesebilim-saglik",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-trthaber-haber-whole",
+      "label": "TRT Haber Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.trthaber.com/saglik_articles.rss",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "trthaber-haber-whole",
+      "registrySourceId": "trthaber-haber",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-sabah-haber-whole",
+      "label": "Sabah Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.sabah.com.tr/rss/saglik.xml",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "sabah-haber-whole",
+      "registrySourceId": "sabah-haber",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-cnnturk-haber-whole",
+      "label": "CNN Türk Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://www.cnnturk.com/saglik/",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "cnnturk-haber-whole",
+      "registrySourceId": "cnnturk-haber",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-euronews-tr-haber-whole",
+      "label": "Euronews Türkçe Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://tr.euronews.com/saglik/saglik-haberleri",
+      "pollMinutes": 180,
+      "enabled": true,
+      "externalRef": "euronews-tr-haber-whole",
+      "registrySourceId": "euronews-tr-haber",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-gazeteoksijen-haber-whole",
+      "label": "Gazete Oksijen Sağlık",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://gazeteoksijen.com/saglik",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "gazeteoksijen-haber-whole",
+      "registrySourceId": "gazeteoksijen-haber",
+      "inclusionPolicy": null,
+      "exclusionPolicy": null,
+      "rules": {
+        "mode": "registered",
+        "needsFetcher": true,
+        "inclusionPolicy": null,
+        "exclusionPolicy": null
+      }
+    },
+    {
+      "id": "news-medimagazin-haber-whole",
+      "label": "Medimagazin",
+      "route": "kaduse-news",
+      "channelId": "kaduse-medikal",
+      "transport": "WEB_ONLY",
+      "endpointUrl": "https://medimagazin.com.tr/",
+      "pollMinutes": 360,
+      "enabled": true,
+      "externalRef": "medimagazin-haber-whole",
+      "registrySourceId": "medimagazin-haber",
       "inclusionPolicy": null,
       "exclusionPolicy": null,
       "rules": {

@@ -22,6 +22,14 @@ const FEED_URL_SCOPES: Record<string, RegExp> = {
   // Only the sources' own health sections are read as Haber (owner PASS/FAIL interview 2026-11-03, backup list 26-32).
   'news-cumhuriyet-saglik-whole': /^https?:\/\/(www\.)?cumhuriyet\.com\.tr\/saglik\/[^?#]+/i,
   'news-herkesebilim-saglik-whole': /^https?:\/\/(www\.)?herkesebilimteknoloji\.com\/haberler\/saglik\/[^?#]+/i,
+  // Haber-lane general press (owner interviews 2026-11-03): keep only each outlet's own health section; the
+  // listings also carry politics, sport, programme pages and video pages.
+  'news-trthaber-haber-whole': /^https?:\/\/(www\.)?trthaber\.com\/haber\/saglik\/[^?#]+/i,
+  'news-sabah-haber-whole': /^https?:\/\/(www\.)?sabah\.com\.tr\/saglik\/[^?#]+/i,
+  'news-cnnturk-haber-whole': /^https?:\/\/(www\.)?cnnturk\.com\/saglik\/[^?#]+/i,
+  'news-gazeteoksijen-haber-whole': /^https?:\/\/(www\.)?gazeteoksijen\.com\/saglik\/[^?#]+/i,
+  // Euronews article URLs are /YYYY/MM/DD/<slug> for every topic; /programs/ and /video/ pages are not articles.
+  'news-euronews-tr-haber-whole': /^https?:\/\/tr\.euronews\.com\/20\d\d\/\d\d\/\d\d\/[^?#]+/i,
 };
 
 export function feedUrlScope(feedId: string): RegExp | null {

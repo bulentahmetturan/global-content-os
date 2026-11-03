@@ -1507,6 +1507,19 @@ Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; 
 3. **Kaynak-arası tutarlılık.** Karar kaynak ve hat bazındadır (`### SPF-3.`): aynı tür farklı kaynaklarda farklı karar alabilir (ör. genel uzman uyarısı bir kaynakta RET, başka kaynakta KABUL) ve bu çelişki sayılmaz; fark karar tablosunda yan yana gösterilir, sahibe soru olarak açılmaz. Başlık abartısı tek başına içerik RET nedeni değildir: yayın başlığını sistem yazar (`### 16.2.`); içerik, iddia kanıtı aşıyorsa elenir (`### 13.2.`, `### 23.1.` soru 5).
 4. **Mevcut kayıt da görüşmeye girer.** Daha önce filtresiz eklenmiş bir kaynak (ör. Medikal News) aynı PASS/FAIL görüşmesiyle daraltılır; filtresiz kalmasına izin verilmez.
 
+### 26.5. Haber hattı: genel basın ve sektör gazetesi kabul/ret ilkeleri (sahip kararı 2026-11-03)
+
+Kaynak başına görüşmenin (`### 26.1.`) Haber hattındaki genel basın (TRT Haber, Sabah, CNN Türk, Euronews Türkçe, Gazete Oksijen, Anadolu Ajansı) ve sektör gazetesi (Medimagazin) kararlarından çıkan ortak ilkeler. Kaynak başına tür → karar tablosu `docs/audits/2026-11-03-haber-press-list-d-audit.md` dosyasındadır; aşağıdaki ilkeler tablodaki kararların ortak paydasıdır ve Bible Kitap I kapılarının (`## BÖLÜM 1`, `### 12.0.1`) önüne geçmez.
+
+1. **Tek kanal, Haber hattı.** Genel basının sağlık haberi yalnız Haber hattında (`kaduse-news`) kayıtlıdır. Aynı yayıncının Tıp Topluluğu kaydı `retire` edilir (silinmez; bkz. `docs/SOURCE-LIFECYCLE.md`); Tıp Topluluğu başlıkları DUYURU / BURS / EGITIM olduğundan sıradan sağlık haberi oraya yönlenmez.
+2. **Kapsam önce, kural sonra (`### 26.4.` ile uyumlu).** Yayıncının sağlık bölümü dışındaki içerik (siyaset, spor, ekonomi, yazar köşeleri, program ve video sayfaları) URL kapsamıyla elenir (`feed-scope.ts`). Başlığın tonu (ünlem, "sırrı", "dikkat!") tek başına RET nedeni değildir; karar içeriğe göredir. Liste verisinde gövde yoksa konu kapısı (`topic-gate.ts`) ve kaynağa bağlı ret kuralı (`feed-editorial.ts`, "ret, ancak şu varsa kalır" biçiminde pozitif kapı dahil) uygulanır.
+3. **KABUL türleri (Haber):** Türkiye'de ilk/yeni tedavi, yerli tıbbi cihaz üretimi, hekimi/hastayı doğrudan etkileyen uygulama değişikliği (ör. elektronik rıza), küresel salgın / DSÖ kararı / büyük ilaç-aşı onayı, dünya çapında gelişme (ör. Nobel ödüllü tedavi çalışması), hekim/meslek haberi (kura sonucu, meslek hakkı çağrısı, ödül), kaynağı adıyla geçen araştırma haberi, genel halk için tüketici sağlığı (yalnız Sağlık kanalı kitlesi; doktor ve öğrenci kanallarına gitmez).
+4. **RET türleri (Haber):** övgü ve istatistik haberi (X milyon kişiye hizmet verildi), hastane tanıtımı ve program/etkinlik haberi, magazin ve ünlü sağlığı, mucize/sponsorlu/reklam içeriği, tek ülkenin yerel durumu veya ürün geri çağırması, "umut verici" ön sonuç, gündelik olay ve insan hikâyesi haberi (akran şiddeti, donör hikâyesi), bakan ziyareti / protokol / mutabakat zaptı (kaynak bunu ayrıca KABUL etmediyse), adı ve endikasyonu belirsiz geri ödeme duyurusu.
+5. **Kaynak kimliği karar verir.** Aynı tür farklı kaynakta farklı karar alabilir (TRT'de yerli cihaz üretimi açıklaması KABUL, Medimagazin'de bakan açıklaması RET); karar kaynağın kendi tablosunda yazılıdır, madde bazında yeniden yönlendirme yoktur (`### 26.1.` madde 4).
+6. **Değeri kalmayan kaynak kapatılır.** Haber hattında kabul edilebilir tür bırakmayan kaynak (Sondakika, İHA) `retire` edilir; silinmez, geri açılabilir (`### 19`).
+7. **Teknik engel kaynak FAIL'i değildir** (`### SPF-6.`). WAF/403 veren kaynak (Doktorclub) `MANUAL_INTAKE` kalır; bot engeli aşılmaz, tarayıcı kimliği taklit edilmez.
+8. **Aynı haber çok kaynakta çıkarsa** tek kayıt tutulur (`### 10`); kayıt en güvenilir kaynağa bağlanır, diğerleri ek yayıncı olarak not edilir.
+
 ---
 
 
