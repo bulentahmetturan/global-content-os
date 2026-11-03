@@ -6,7 +6,6 @@ const { applyFeedUrlScope } = await import('./feed-scope.ts');
 const CUM = 'news-cumhuriyet-saglik-whole';
 const INDY = 'news-indyturk-saglik-whole';
 const HBT = 'news-herkesebilim-saglik-whole';
-const MED = 'news-www-medikalnews-whole';
 const rej = (feed, title, summary = '') => editorialRejection(feed, title, summary);
 
 // Real headlines scanned 2026-11-03 from the live feeds; owner accept/reject decisions the same day (backup list 26-32).
@@ -56,15 +55,5 @@ describe('Herkese Bilim Teknoloji', () => {
       { url: 'https://www.herkesebilimteknoloji.com/yazarhp/iyi-misiniz' },
     ];
     assert.deepEqual(applyFeedUrlScope(HBT, items).map((i) => i.url), [items[0].url]);
-  });
-});
-
-describe('Medikal News', () => {
-  it('keeps the regulation communiqué, rejects company/congress/award/opening items', () => {
-    assert.equal(rej(MED, 'TIBBİ CİHAZ YÖNETMELİĞİ KAPSAMINDA ATANAN ONAYLANMIŞ KURULUŞLAR TARAFINDAN YÜRÜTÜLEN UYGUNLUK DEĞERLENDİRME FAALİYETLERİ TEBLİĞ'), null);
-    assert.equal(rej(MED, "Vygon Türkiye, İş Ortakları Zirvesi'nde Ortak Gelecek Vizyonunu Paylaştı"), 'sector-pr');
-    assert.equal(rej(MED, "Erdem Sağlık Grubu'na GIGI Awards 2026'dan iki ödül"), 'sector-pr');
-    assert.equal(rej(MED, 'Akçakoca Devlet Hastanesi hizmete girdi'), 'sector-pr');
-    assert.equal(rej(MED, "Prof. Dr. Gazi Huri, IASCON Kongresi'nde canlı cerrahi gerçekleştirdi"), 'sector-pr');
   });
 });

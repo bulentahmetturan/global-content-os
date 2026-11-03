@@ -95,19 +95,12 @@ const HERKESEBILIM_RULES: EditorialRule[] = [
   { id: 'magazine-issue', title: /hbt dergi|\bdergi\b.*\bsayi/ },
 ];
 
-// Medikal News: only regulation/communique items pass (rules_json.includeKeywords in scripts/ops/2026-11-03-backup7-rules.sql);
-// company releases, congress reports, awards, appointments, hospital openings are rejected here as well.
-const MEDIKAL_RULES: EditorialRule[] = [
-  { id: 'sector-pr', text: /kongre|zirve|odul|hizmete girdi|sponsor|roportaj|\batama\b/, unless: /teblig|yonetmelik/ },
-];
-
 const RULES_BY_FEED: Record<string, EditorialRule[]> = {
   'news-www-haberturk-rss-whole': HABERTURK_RULES,
   'news-www-dw-s-57554999-whole': DW_RULES,
   'news-cumhuriyet-saglik-whole': CUMHURIYET_RULES,
   'news-indyturk-saglik-whole': INDY_RULES,
   'news-herkesebilim-saglik-whole': HERKESEBILIM_RULES,
-  'news-www-medikalnews-whole': MEDIKAL_RULES,
 };
 
 /** Feeds whose listing prints no dates: the date (and og:description) is read from each article page. */

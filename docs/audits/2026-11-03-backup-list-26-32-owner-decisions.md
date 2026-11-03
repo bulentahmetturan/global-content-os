@@ -39,7 +39,7 @@ Dayanak: Bible 26.1 (PASS/FAIL görüşmesi), 26.2 (pipeline'a oturma), 26.4; SP
 | Cumhuriyet | Kayıt (`news-cumhuriyet-saglik-whole`, RSS, kapsam `/saglik/`) | RSS çalışıyor, 100 kayıt |
 | Independent Türkçe | Kayıt (`news-indyturk-saglik-whole`, sağlık taksonomi RSS'i) | Site genel RSS'i değil, sağlık beslemesi |
 | Herkese Bilim | Kayıt (`news-herkesebilim-saglik-whole`, site RSS'i, kapsam `/haberler/saglik/`) | Sağlık beslemesi yok; yola göre kapsam |
-| Medikal News | Mevcut kayıt, yalnız kural (`news-www-medikalnews-whole`) | 2026-10-07'de eklenmişti, filtresizdi |
+| Medikal News | **Kapalı kalır** (sahip kararı 2026-10-30: kapat ve sil; canlıda satırı yok, katalogda mezar taşı) | Bu görüşmedeki cevaplar yeniden açılırsa kabul ölçütü olarak kayıtlıdır; yeniden açmak ayrı lifecycle `reactivate` kararıdır |
 | KURIOUS | Kaydedilmedi | Lifecycle `BLOCKED_ACCESS` (403/WAF); bot koruması aşılmaz (Bible 8.2); el ile takip |
 | Bilim ve Gelecek | Kaydedilmedi | RSS/bölüm beslemesi yok; sahip yalnız sağlık bölümünü kabul ederdi; el ile |
 | TTOD (`kanser.org`) | **retired** (sahip kararı) — kayda alınmadı | Mesleki kısım üye girişi arkasında, halka açık haber sayfası ~2015–2020 ve tarihsiz |
@@ -48,7 +48,7 @@ Not: Bible SPF-6'ya göre teknik engel kaynağı FAIL yapmaz; TTOD için "kullan
 
 ## Kuru çalıştırma (Bible 26.1 madde 3c, canlı örnek 2026-11-03)
 
-- **Medikal News** (50 kayıt): 1 kabul — "Tıbbi Cihaz Yönetmeliği kapsamında atanan onaylanmış kuruluşlar… tebliğ"; 49 red. Sahip kararıyla birebir.
+- **Medikal News** (50 kayıt, yalnız bilgi için; kaynak kapalı): kuralla yalnız 1 kayıt geçerdi — "Tıbbi Cihaz Yönetmeliği kapsamında atanan onaylanmış kuruluşlar… tebliğ". Kod/SQL eklenmedi (ölü kural olurdu).
 - **Cumhuriyet** (100 kayıt): ilk kural taslağında `!` içeren başlıklar da elendi ve 67 kabul çıktı (uzman uyarılarının ~%30'u gitti); kodlanan sürümde yalnız abartı sözcükleri (mucize, ezber, şifa, ölümcül, korkutan, şok) ve tek kişilik hikâye elenir.
 - **Independent Türkçe sağlık** (15 kayıt): Ebola/UNICEF/çocuk felci/Kaliforniya, "Bakanı"/çağrı ve komplo başlıkları elenir, araştırma ve yaşam tarzı geçer.
 - **Herkese Bilim** (site RSS'i, 10 kayıt): bugün sağlık yolu taşıyan kayıt yok; yol kapsamı diğer hepsini eler (beklenen düşük verim). Nobel (tıp dışı) ve dergi sayı duyuruları ayrıca ret kuralıdır.
@@ -61,7 +61,7 @@ Not: Bible SPF-6'ya göre teknik engel kaynağı FAIL yapmaz; TTOD için "kullan
 ## Uygulama
 
 - `feed-scope.ts`: Cumhuriyet `/saglik/`, Herkese Bilim `/haberler/saglik/`.
-- `feed-editorial.ts`: dört kaynak için ret kuralları (`CUMHURIYET_RULES`, `INDY_RULES`, `HERKESEBILIM_RULES`, `MEDIKAL_RULES`); gerçek başlıklı testler `feed-editorial-backup7.test.mjs`.
-- Lifecycle çıktıları: üç `scripts/ops/2026-11-02-pending-source_lifecycle_add_*` dosyası; Medikal News include kuralı `scripts/ops/2026-11-03-backup7-rules.sql` (yalnız o).
+- `feed-editorial.ts`: üç kaynak için ret kuralları (`CUMHURIYET_RULES`, `INDY_RULES`, `HERKESEBILIM_RULES`); gerçek başlıklı testler `feed-editorial-backup7.test.mjs`.
+- Lifecycle çıktıları: üç `scripts/ops/2026-11-02-pending-source_lifecycle_add_*` dosyası; ayrı kural SQL'i gerekmez (kurallar Worker koduyla gider).
 - Lifecycle hatası düzeltildi: `cumhuriyet.com.tr` yayıncı kimliği `com` çıkıyordu; `publisherIdFromHost` ve testi.
 - Bible 26.4 ve `BIBLE-INDEX` 4.8.
