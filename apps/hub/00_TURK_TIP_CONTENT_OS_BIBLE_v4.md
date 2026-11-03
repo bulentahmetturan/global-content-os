@@ -629,6 +629,10 @@ Zorunlu alan eksikse kayıt `schema_invalid` olur ve ilerlemez.
 
 Kritik alanlar kategoriye göre değişir. Örneğin burs/eğitimde deadline ve eligibility kritik olabilir; research'te study design ve source citation kritik olabilir.
 
+### 9.4. Text Sanitization
+
+HTML temizliğinde sadece hedeflenen gövde (article/main) alınır. Body fallback yasaktır; geçerli gövde bulunamazsa çekim hata verir ve kaynak elle seçici (selector) bekler. Boilerplate/footer metni tespit edilirse içerik `HOLD`'a düşer. Seçici ve uzunluk eşikleri kodda/Config'te tutulur (BÖLÜM 33).
+
 ---
 
 
@@ -731,6 +735,10 @@ Yeni tag gerekiyorsa:
 2. taxonomy owner onaylar,
 3. Controlled Vocabulary güncellenir,
 4. schema version artırılır gerekiyorsa migration yapılır.
+
+### 11.5. LLM Tabanlı Bağlam Yönlendirmesi
+
+LLM, içeriğin ruhunu (açısını) analiz eder ve hedef kanalı önerir. LLM çıktısı sadece "öneri"dir; Kitap I'deki hard gate'leri (kitle uyumu, güvenlik, kanıt) geçemez veya geçersiz kılamaz. Hangi kanala gideceğine dair LLM'in JSON çıktısı Config'teki eşiklerle değerlendirilir; eşik sayıları Bible'a yazılmaz (BÖLÜM 33).
 
 ---
 
@@ -1093,6 +1101,8 @@ Measurement sonuçları:
 üzerinde öneri üretir.
 
 Bible hard gate'leri analytics ile değiştirilemez.
+
+Mevcut geri besleme mekanizmasına ek olarak: kullanıcının D1 veritabanındaki (`item_ratings`) yüksek puanlı ve doğru kanala atanmış içerikleri, LLM promptlarına "Few-Shot" (örnek) olarak beslenir. Bu örneklerin sayısı, puan eşiği ve seçim kriteri Config'te tanımlanır; Bible'a gömülmez. Few-shot örnekleri öneriyi yönlendirir, hard gate'leri değiştirmez (§17.3, §11.5).
 
 ---
 
@@ -1499,6 +1509,10 @@ Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayı
 4. Uygulanamayan adım (izin katmanı engeli, sır/hesap/kalıcı silme) varsa ajan bunu **açıkça "bitmedi" diye raporlar**, tam komutu verir ve kaynağı "bitti" saymaz.
 
 Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; görüşme kuralı yazar, bu bölüm kuralın canlıda çalıştığını kanıtlar.
+
+### 26.2.1. Otonom Onboarding
+
+Mevcut `scripts/source-lifecycle.mjs` mekanizması kullanılır. Sürecin başına şu adım eklenir: ilk başlıklar çekilir, sahibe PASS/FAIL soruları sorulur, `rules_json` taslağı üretilir. Prod'a uygulama (deploy) adımı her zaman geri alınabilir ve insan onaylı olmalıdır.
 
 ---
 
