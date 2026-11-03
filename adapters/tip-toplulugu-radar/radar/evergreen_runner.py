@@ -12,6 +12,7 @@ or token is ever printed.
 """
 from __future__ import annotations
 
+import hashlib
 import html as _html
 import json
 import re
@@ -271,6 +272,25 @@ def wp_feed_candidates(
         for link, pub, _title in wp_feed_items(pages[p]):
             entries.append((link, _to_iso(pub)))
     return sitemap_candidates(entries, archive_id=archive_id, path_filter="", seen=seen, budget=budget, state=state, now=now, rediscovery_cadence_h=rediscovery_cadence_h, deep_cadence_h=deep_cadence_h)
+
+
+def html_list_snapshot_entries(html: str, page_url: str, *, path_filter: str = "", item_pattern: str = "") -> list[tuple[str, None]]:
+    """Bible 26.3 B: item URLs of a registered HTML list page (feed fallback). Same host, https, deduplicated, no dates."""
+    host = urllib.parse.urlparse(page_url).netloc.lower()
+    pat = re.compile(item_pattern) if item_pattern else None
+    seen: set[str] = set()
+    out: list[tuple[str, None]] = []
+    for href in re.findall(r"""<a[^>]*?href\s*=\s*["']([^"']+)["']""", html, flags=re.I):
+        u = urllib.parse.urljoin(page_url, _html.unescape(href).strip())
+        pu = urllib.parse.urlparse(u)
+        if pu.scheme not in ("http", "https") or pu.netloc.lower() != host:
+            continue
+        u = pu._replace(scheme="https", fragment="", query="").geturl()
+        if u in seen or u.rstrip("/") == page_url.rstrip("/") or path_filter not in u or (pat and not pat.search(u)):
+            continue
+        seen.add(u)
+        out.append((u, None))
+    return out
 
 
 def europepmc_candidates(payload: dict, *, archive_id: str = "", doi_prefix: str, publisher: str, seen: set[str], budget: int) -> list[Candidate]:
@@ -629,10 +649,17 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
     archives = list(src["archives"])
     per_archive_cap = max(1, cap // max(1, len(archives)))
     cands: list[Candidate] = []
+    primary_ok: dict[str, bool] = {}
+    modes: dict[str, str] = {}
     for a in archives:
         aid = a.get("id", "")
         st_in = dict(cursor_in.get(aid) or {})
         kind = a.get("kind")
+        primary = a.get("fallback_of")
+        if primary and primary_ok.get(primary):
+            modes[aid] = "skipped_primary_ok"  # Bible 26.3 B: feed works again, the fallback stays off
+            cursor_out[aid] = st_in
+            continue
         if kind == "sitemap":
             entries: list[tuple[str, str | None]] = []
             for u in a.get("urls", []):
@@ -673,9 +700,33 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
                     break
                 pages[p] = xml
             got, st_out = wp_feed_candidates(pages, archive_id=aid, seen=seen, budget=per_archive_cap, state=st_in, now=now, rediscovery_cadence_h=int(src["rediscovery_cadence_hours"]), deep_cadence_h=int(src["deep_archive_cadence_hours"]))
+            primary_ok[aid] = bool(pages)
+            modes[aid] = "feed" if pages else "feed_failed"
             older = [p for p in pages if p > 1]
             st_out["page_cursor"] = 2 if wrapped or not older else max(older) + 1
             st_out["pages_reachable"] = len(pages)
+        elif kind == "html_list_snapshot":
+            u = a["url"]
+            st_out = dict(st_in)
+            got = []
+            if not robots.allowed(u):
+                stats["robots_skipped"] += 1
+            else:
+                st, body = fetch(u)
+                if st in (403, 429):
+                    stats["blocked"] += 1
+                    stats["last_error"] = f"ARCHIVE_HTTP_{st}"
+                elif st != 200:
+                    stats["archive_fetch_failed"] = stats.get("archive_fetch_failed", 0) + 1
+                    stats["last_error"] = f"ARCHIVE_HTTP_{st}"
+                else:
+                    entries = html_list_snapshot_entries(body, u, path_filter=a.get("path_filter", ""), item_pattern=a.get("item_pattern", ""))
+                    st_out["last_snapshot_at"] = now.isoformat()
+                    st_out["content_hash"] = hashlib.sha256(body.encode("utf-8", "replace")).hexdigest()[:32]
+                    st_out["url_count"] = len(entries)
+                    modes[aid] = "html_list_snapshot"
+                    got, st_out2 = sitemap_candidates(entries, archive_id=aid, path_filter="", seen=seen, budget=per_archive_cap, state=st_out, now=now, rediscovery_cadence_h=int(src["rediscovery_cadence_hours"]), deep_cadence_h=int(src["deep_archive_cadence_hours"]))
+                    st_out = st_out2
         elif kind in ("europepmc", "pubmed"):
             q = {"query": a["query"], "format": "json", "resultType": "core", "pageSize": str(min(100, max(per_archive_cap * 2, 25))), "sort": a.get("sort", "CITED desc"), "cursorMark": st_in.get("cursor_mark", "*")}
             payload = jf("https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + urllib.parse.urlencode(q))
@@ -718,6 +769,8 @@ def run_source(src: dict, *, fetch: Fetch, now: datetime, json_fetch: JsonFetch 
     stats.update(pstats)
     stats["candidates"] = len(items)
     stats["providers"] = providers
+    if modes:
+        stats["archive_modes"] = modes  # Bible 26.3 B: which mode (feed / html_list_snapshot) ran is always logged
     return SourceResult(src["source_id"], items, cursor_out, stats, len(items) < budget)
 
 
