@@ -1511,6 +1511,33 @@ Bir kaynak, kural + kod + test + commit ile **bitmiş sayılmaz**. Bitmiş sayı
 
 Bu bölüm kaynak başına PASS/FAIL görüşmesinin (`### 26.1.`) devamıdır; görüşme kuralı yazar, bu bölüm kuralın canlıda çalıştığını kanıtlar.
 
+### 26.3. Keşif/evergreen kaynağı etkinleştirme, HTML liste yedeği ve sıfır kabul (sahip kararı 2026-11-03)
+
+Bu bölüm tüm kaynaklar için geneldir; belirli bir kaynağa özgü kural değildir.
+
+**A. `CANARY_ONLY` → `ACTIVE` geçişi.** Geçiş otomatik değildir; tek başına "temiz canary" içerik doğruluğunu göstermez, yalnız hattın çalıştığını gösterir. `ACTIVE` olması için hepsi gerekir:
+1. En az N ardışık canary çalışması ölümcül (fatal) hatasız geçmiş olmalı.
+2. Kuru çalıştırma raporu sahibe gösterilir: çekilen aday sayısı, ayrıştırılan kayıt sayısı, reddedilenler (gerekçesiyle) ve örnek kayıtlar (§26.1 madde 3c ile aynı kural).
+3. Ayrıştırma oranı tanımlı eşiğin altına düşmemiş olmalı.
+4. Sahip açıkça onaylar. Onaylamazsa kaynak `CANARY_ONLY` kalır.
+5. `ACTIVE` sonrası canary/izleme hatası için otomatik düşürme (DEMOTE) veya alarm kuralı ayrıca tanımlıdır.
+Eşikler (N, ayrıştırma oranı) madde D'dedir; politikada yazılı değilse geçiş yapılmaz.
+
+**B. `HTML_LIST_SNAPSHOT` arşiv türü.** Kaynağın feed'i yoksa, bozuksa veya yanıt vermiyorsa kayıtlı liste sayfası yedek (fallback) olarak okunabilir. Bu tür belirli bir hatta özgü değildir: Keşif/evergreen ve diğer hatlar kullanabilir; **kaynağın hattını değiştirmez** (hat saflığı §26.2 madde 2b geçerlidir, feed'i çalışmayan Keşif kaynağı Haber hattına alınmaz). Kayıt içeriği: liste sayfasının ham HTML'i, çıkarılan öğe URL'leri, varsa sayfalama bilgisi, `fetched_at`, `content_hash`, kaynak kimliği; makale gövdesi değil, listenin o andaki hali (hangi URL'nin ne zaman görüldüğü yeniden oynatılabilsin ve karşılaştırılabilsin).
+- Yedek tek başına kaynağı `ACTIVE` yapmaz; madde A geçerlidir.
+- Feed yeniden çalışırsa yedek devre dışı kalır; her çalışmada hangi modun (feed / HTML_LIST_SNAPSHOT) kullanıldığı loglanır.
+
+**C. Sıfır kabul hata değildir.** Çekim ve ayrıştırma teknik olarak başarılı, kayıt var ve kurallar hepsini elemişse sonuç `WARNING` ("yetersiz kanıt") olur, `ERROR` değil.
+- `CANARY_ONLY` kaynakta sıfır kabul `ACTIVE` geçişini engeller (sistem hatası sayılmaz).
+- `ACTIVE` kaynakta beklenen kayıt sayısı > 0 iken K ardışık çalışmada sıfır kabul **alarm** (operasyonel uyarı) üretir; `ERROR` değildir, kaynak sağlığı/kural gevşetme incelemesini tetikler (K madde D'dedir).
+- Çekim veya ayrıştırıcı hatası, tüm adayların doğrulamadan geçememesi veya sistem hatası nedeniyle sıfır kabul doğrudan **ERROR**'dır.
+- `no_items_extracted` gibi hata işaretleri yalnız ayrıştırma/çekim başarısızlığında yazılır; kural eleme sonucu sıfır kabulde yazılmaz (Worker `generic-web.ts`'de uygulandı; örnekte `zeroAccept`).
+
+**D. Varsayılan eşikler (sahip kararı 2026-11-03; ilke Bible'da, değer config'de).**
+- **N (ACTIVE adaylığı):** varsayılan 5 ardışık **temiz canary**. Temiz canary: ölümcül hata yok, çekim/ayrıştırma/doğrulama başarılı, beklenen hacim > 0 ise en az bir kabul var, politika alarmı yok, kuru çalıştırma raporu tam. Herhangi bir koşu temiz değilse sayaç sıfırlanır; sıfır kabul koşusu temiz sayılmaz. Yüksek riskli kaynakta (hukuk/ToS, sağlık, finans) config ile 7'ye çıkarılabilir, düşük riskte 3'e indirilebilir. Adaylık ACTIVE değildir: sahip onayı şarttır (madde A).
+- **K (sıfır kabul alarmı):** varsayılan 5 ardışık koşu. Seyrek yayın yapan kaynakta config ile 10, kritik/yüksek hacimli kaynakta 3.
+- **Ayrıştırma oranı:** (başlık + URL + kritik tarih alanı ayrıştırılmış aday) / çekilen aday. Varsayılan eşik %80; eşiğin altındaki canary koşusu temiz sayılmaz ve adaylığı engeller. `ACTIVE` kaynakta eşik altı alarm üretir (çekim/ayrıştırma hatası varsa ERROR). Config istisnaları: %95 yalnız temiz yapılandırılmış feed/liste kaynakları; %60 yalnız karışık HTML sayfaları ve `HTML_LIST_SNAPSHOT` yedeği için, sahip onayı + gerekçeyle ve canary'de uyarı eşliğinde.
+
 ### 26.4. Bölüm kapsamı, teknik engel ve kaynak-arası tutarlılık (sahip kararı 2026-11-03)
 
 1. **Bölüm kapsamı.** Siteyi bütün olarak veren bir akıştan yalnız kaynağın sağlık bölümü okunur (`apps/worker/src/ingress/feed-scope.ts`, URL yolu); sağlık dışı bölümler (toplum, yazar, dergi, siyaset) hat saflığı gereği Haber'e girmez. Tür ayrımı gereken metin kuralları `feed-editorial.ts` içindedir (`### 26.1.` madde 5).
