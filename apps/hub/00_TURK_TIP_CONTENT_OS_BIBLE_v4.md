@@ -12,6 +12,7 @@
 | 4.0 | Kitap II — Source Pass/Fail & Pipeline Loop; iki değerlendirme hattı; editorial ≠ ingestion ≠ lifecycle |
 | 4.1 | Hedef kitle uygunluğu 1. hard gate (§1.2, §1.3, §12.0); kanallar ve kitle tanımları (§1.4); zaman ekseni: Time Sensitive / Evergreen grupları ve hat saflığı (§2.3); Keşif katmanı (§6.6); kontrollü sözlük: time_axis, evergreen_family, channel_audience (§22.5); SPF-7 ve §35 kontrol listesi güncellendi |
 | 4.2 | Hedef kitle üçlüsü (Türk tıp profesyonelleri, Türk tıp öğrencileri, Türk sağlık takipçisi halk) ve "kitle VEYA wow / dünya çapında önemli gelişme" kuralı (§12.0); hat bazlı daraltma ölçütleri: Haber ve aksiyon hatları Duyuru/Burs/Eğitim, ön duyuru / sonuç / düz haber ayrımı (§12.0.1); kaynak politikası hat bazlıdır (§2.3); tarihsiz resmî liste istisnası (SPF-7.1) |
+| 4.2.1–4.2.9 | Ara düzeltmeler (2026-11-02 … 2026-11-03): kaynak görüşmesi zorunluluğu ve derinliği, kaynak ekleme tamamlama ölçütü, bölüm kapsamı, Haber hattı ilkeleri, süreklilik ölçütü, keşif/evergreen etkinleştirme. Ayrıntı: `BIBLE-INDEX.md` changelog’u |
 | 4.3 | **Bağlayıcı (sahip kararı, 2026-11-04).** Research kaynak görüşmesi, çekim kapsamı, kontrollü konu kuyruğu, çalışma kimliği ve tarihleri, kanıt erişimi, yeniden kontrol ve yakınsama. A7, `source_role` enum’una `enrichment`, `integrity_check` ve `attention_metric` eklenmesini öngörür (§0.2, SPF-4, SPF-34); enum kodda ve sözlükte uygulandı (`source-pass-fail` şema sürümü `spf-1.0.0` → `spf-1.1.0`, `controlled-vocabulary.json`, `SOURCE_ROLES`, test eklendi; §28.3). |
 
 Mevcut §0–37 ve SPF-0–35 numaraları sabit atıf kimlikleridir. Bölümler karar sırasına göre yerleştirildi. Yeni hat ve modül hükümleri ile iş hedefinin uygulama ayrıntıları revizyon önerisidir.
@@ -1561,6 +1562,7 @@ new_state:
 Bible değişirse:
 
 - sürüm artırılır,
+- belge başlığındaki sürüm (`Sürüm:` satırı) ile `BIBLE-INDEX.md` changelog’unun en üst girişinin numarası **aynı olmalıdır**; ikisi aynı değişiklikte birlikte güncellenir. Küçük ara düzeltmeler `X.Y.Z` biçiminde numaralanır (ör. 4.2.3), sonraki ana sürümle birlikte başlıktaki `X.Y` ilerler,
 - changelog yazılır,
 - etkilenen validator/testler güncellenir,
 - migration gerekip gerekmediği belirlenir,
