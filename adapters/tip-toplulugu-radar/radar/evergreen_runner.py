@@ -581,7 +581,7 @@ def pick_candidates(evaluated: list[tuple[Candidate, Evaluation]], *, budget: in
         page = ev.page
         item = {
             "title": (page.title if page else cand.title),
-            "url": cand.url,
+            "url": ("https://" + cand.url[7:]) if cand.url.startswith("http://") else cand.url,  # Worker accepts https only (some sitemaps, e.g. bilimgenc, publish http:// locs)
             "summary": ((page.description if page else cand.summary) or "")[:500],
             "publishedAt": (page.published if page else cand.published),
             "updatedAtSource": (cand.lastmod or (page.updated if page else None)),
