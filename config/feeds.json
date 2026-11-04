@@ -1264,10 +1264,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.science.org/journal/stm",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "science-translational-medicine",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1348,10 +1351,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.science.org/journal/science",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "science",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists",
+        "decidedAt": "2026-11-04"
       }
     },
     {

@@ -15,7 +15,7 @@
 //        node scripts/source-matrix.mjs --md   (prints a markdown table instead of the summary)
 
 import { execFileSync } from 'node:child_process';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -121,7 +121,7 @@ function d1Query(sql) {
 
 function liveData() {
   const kaduseFeeds = d1Query(
-    `SELECT id, last_fetched_at, last_ok_items, last_error, fetch_attempts FROM source_feeds WHERE route IN ('kaduse-news','kaduse-research')`
+    `SELECT id, last_fetched_at, last_ok_items, last_error, fetch_attempts, poll_minutes FROM source_feeds WHERE route IN ('kaduse-news','kaduse-research')`
   );
   const hekTelemetry = d1Query(
     `SELECT source_id, last_success_at, source_health, coverage_status, failure_count, zero_accept_streak, last_item_count FROM tip_toplulugu_source_telemetry`
@@ -162,11 +162,17 @@ function liveData() {
 // ---- classification (task 7) --------------------------------------------
 const OVERDUE_TOLERANCE_MINUTES = 60; // grace period beyond next_due before calling it OVERDUE not NOT_DUE
 
+// Evergreen-only feeds (time_sensitive off, packages/source-catalog/data/temporal-paths.json) are never read by the cron rotation; judging them by
+// fetch age or last_error would show a permanent false OVERDUE/DEGRADED. Their health is the Evergreen executor's, not this classifier's.
+const EVERGREEN_ONLY_FEEDS = new Set(JSON.parse(readFileSync(new URL('../packages/source-catalog/data/temporal-paths.json', import.meta.url), 'utf8')).sources
+  .filter((e) => e.feed_id && e.time_sensitive && e.time_sensitive.enabled === false).map((e) => e.feed_id));
+
 function classify(row, live) {
   if (row.lifecycle_state === 'RETIRED' || row.lifecycle_state?.toLowerCase?.() === 'retired') return 'RETIRED';
   if (row.lifecycle_state === 'MANUAL_INTAKE') return 'MANUAL_INTAKE';
   if (!row.wired || row.scheduler_path === 'none') return 'NOT_WIRED';
   if (!row.enabled) return 'MANUAL_INTAKE';
+  if (EVERGREEN_ONLY_FEEDS.has(row.source_id)) return 'EVERGREEN_ONLY';
 
   const kLive = live.kaduseFeeds.get(row.source_id);
   const hLive = live.hekTelemetry.get(row.source_id);
@@ -179,7 +185,7 @@ function classify(row, live) {
 
   if (failureCount >= 3 || (kLive && kLive.last_error)) return 'DEGRADED';
 
-  const pollMinutes = row.poll_minutes || 1440;
+  const pollMinutes = live.kaduseFeeds.get(row.source_id)?.poll_minutes || row.poll_minutes || 1440; // the live D1 cadence is what the cron enforces
   const nextDue = new Date(new Date(lastSuccess).getTime() + pollMinutes * 60000);
   const overdueMs = Date.now() - nextDue.getTime();
   if (overdueMs > OVERDUE_TOLERANCE_MINUTES * 60000) return 'OVERDUE';
@@ -193,7 +199,7 @@ function nextDueLabel(row, live) {
   const hLive = live.hekTelemetry.get(row.source_id);
   const lastSuccess = kLive?.last_fetched_at || hLive?.last_success_at || null;
   if (!lastSuccess) return null;
-  const pollMinutes = row.poll_minutes || 1440;
+  const pollMinutes = live.kaduseFeeds.get(row.source_id)?.poll_minutes || row.poll_minutes || 1440; // the live D1 cadence is what the cron enforces
   return new Date(new Date(lastSuccess).getTime() + pollMinutes * 60000).toISOString();
 }
 

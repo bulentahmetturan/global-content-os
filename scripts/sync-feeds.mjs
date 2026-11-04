@@ -266,6 +266,18 @@ for (const f of feeds) {
   }
 }
 
+// Technical block (Bible 26.4 / SPF-6): paused, record kept. Applied in prod D1 by scripts/ops/2026-11-04-science-403-paused.sql; this keeps the generated config in step.
+const PAUSED_TECHNICAL_BLOCK = {
+  'research-science': 'http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists',
+  'research-science-translational-medicine': 'http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists',
+};
+for (const f of feeds) {
+  if (PAUSED_TECHNICAL_BLOCK[f.id]) {
+    f.enabled = false;
+    f.rules = { ...(f.rules || {}), activation: 'PAUSED_TECHNICAL_BLOCK', decision: PAUSED_TECHNICAL_BLOCK[f.id], decidedAt: '2026-11-04' };
+  }
+}
+
 // Provenance: config/feeds.json is GENERATED, never hand-edited. Hashes are over LF-normalised bytes so they are
 // identical on every checkout regardless of autocrlf.
 const PROVENANCE_INPUTS = [

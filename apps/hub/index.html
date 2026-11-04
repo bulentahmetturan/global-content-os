@@ -2241,7 +2241,8 @@
     }
     var loadedKey = [state.route, state.kind, state.hekLane, state.view, state.temporal, state.evView].join('|');
     if (loadedKey !== state.loadedKey) { showSkeleton(); state.loadedKey = loadedKey; }
-    var days = state.route === 'tip-ogrencileri' ? 2 : 14;
+    // Tıp Topluluğu items are deadline/announcement records kept up to 185 days (issue-check S15b); a 14-day window hid two thirds of the badge count.
+    var days = state.route === 'tip-ogrencileri' ? 2 : state.route === 'tip_toplulugu' ? 185 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
     if (state.temporal === 'EVERGREEN') {
