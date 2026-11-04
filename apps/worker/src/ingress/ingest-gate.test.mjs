@@ -26,8 +26,8 @@ describe('ingest gate: news', () => {
 });
 describe('ingest gate: research and dates', () => {
   const res = (o) => g.ingestGate({ route: 'kaduse-research', feedId: 'r', title: 'Deep learning for arrhythmia detection', ...o }, NOW);
-  it('does not age- or undated-gate research yet', () => {
-    assert.equal(res({ publishedAt: '2019-01-01' }).ok, true);
+  it('research: undated passes; very old is stale unless on the evergreen path (180-day journal limit)', () => {
+    assert.equal(res({ publishedAt: '2019-01-01' }).reason, 'stale');
     assert.equal(res({ publishedAt: null }).ok, true);
   });
   it('still rejects placeholders and future dates in research; GDELT needs health terms', () => {
@@ -69,9 +69,12 @@ describe('ingest gate: Temporal V2 Group 0 research dates and media age', () => 
     assert.equal(research({ publishedAt: '2027-03-01' }).reason, 'future_date');
     assert.equal(research({ publishedAt: '2026 Oct' }).ok, true);
   });
-  it('journal/research sources are not age-gated or undated-gated', () => {
-    assert.equal(research({ publishedAt: '2024-01-15' }).ok, true);
+  it('journal/research sources: undated passes, older than 180 days is stale (boundary), evergreen path exempt', () => {
     assert.equal(research({ publishedAt: null }).ok, true);
+    assert.equal(research({ publishedAt: '2026-03-26' }).ok, true); // 180 days before NOW
+    assert.equal(research({ publishedAt: '2026-03-25' }).reason, 'stale');
+    assert.equal(research({ publishedAt: '2024-01-15' }).reason, 'stale');
+    assert.equal(research({ publishedAt: '2024-01-15', acquisitionPath: 'EVERGREEN' }).ok, true);
   });
   it('research media: stale and undated content is rejected (14-day boundary)', () => {
     assert.equal(media({ publishedAt: '2026-09-08' }).ok, true);
