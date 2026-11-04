@@ -1,0 +1,81 @@
+feed_id;label;class;enabled;n;inbox;hold;trash;production;doi_pct;pmid_pct;pmcid_pct;published_pct;iso_pct;summary_pct;study_type_pct;finding_pct;limitation_pct;cadence_class;staleness_min;poll_min;last_fetch_age_days;registry;role;flags
+research-medical-xpress;Medical Xpress;Haber;1;1113;974;136;1;2;;;;99;81;89;;94;67;medium;2940;1440;0.2;medical-xpress;ACCESSIBLE_SCIENCE_MEDIA;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-clinicaltrials-gov-api-v2;NLM (ClinicalTrials.gov);CTgov;1;398;12;386;;;;;;100;99;87;100;49;85;medium;2940;1440;0.6;clinicaltrials-gov-api-v2;TRIAL_REGISTRY;ESKİ KAYIT (>1 yıl)|DOI BOŞ|BİRİKİM
+research-stat-news;STAT News;Haber;1;353;333;20;;;;;;99;80;82;;70;55;medium;2940;1440;0;stat-news;ACCESSIBLE_SCIENCE_MEDIA;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-bmj;The BMJ;Yayinci;1;269;241;28;;;92;;;92;92;68;;54;42;medium;2940;1440;0.6;bmj;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ|BİRİKİM
+research-jmir;JMIR (Journal of Medical Internet Research);Yayinci;1;187;161;26;;;90;;;90;90;96;;96;40;medium;2940;1440;0.2;jmir;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|BİRİKİM
+research-jama-network;JAMA Network;Yayinci;1;164;142;22;;;4;;;100;83;79;;81;61;medium;2940;1440;1.2;jama-network;PRIMARY_RESEARCH_PUBLISHER;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-nejm;New England Journal of Medicine;Yayinci;1;153;114;36;;3;12;;;84;84;86;;80;52;medium;2940;1440;6.2;nejm;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|BAYAT|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-nature;Nature;Yayinci;1;146;87;56;1;2;17;;;62;62;68;;62;42;medium;2940;1440;0.2;nature;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-npj-digital-medicine;npj Digital Medicine;Yayinci;1;142;95;46;;1;4;;;71;71;89;;78;60;medium;2940;1440;1.2;npj-digital-medicine;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ|BİRİKİM
+research-pubmed-eutilities;NLM / NCBI (PubMed);PubMed;1;124;65;58;;1;100;100;;100;16;81;;73;56;medium;780;360;41.4;pubmed-eutilities;RESEARCH_INDEX;TARİH BİÇİMİ ISO DEĞİL|BAYAT|ÇALIŞMA TÜRÜ BOŞ|BİRİKİM
+research-european-heart-journal;European Heart Journal;Yayinci;1;105;98;7;;;100;;;100;100;88;;35;16;medium;2940;1440;0.6;european-heart-journal;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ|BİRİKİM
+research-nature-medicine;Nature Medicine;Yayinci;1;99;61;37;;1;23;2;;73;71;82;;82;57;medium;2940;1440;0.2;nature-medicine;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-circulation-aha;Circulation (AHA);Yayinci;1;94;87;7;;;100;;;100;100;90;;59;12;medium;2940;1440;1.9;circulation-aha;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-jaha;Journal of the American Heart Association;Yayinci;1;83;75;8;;;100;;;100;100;98;;92;10;medium;2940;1440;1.9;jaha;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-eurekalert;EurekAlert! (AAAS);Haber;;62;51;11;;;;;;100;95;85;;94;79;medium;2940;1440;2;eurekalert;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|SON HATA|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-the-lancet;The Lancet;Yayinci;1;61;36;25;;;67;;;67;67;54;;16;11;medium;2940;1440;0.7;the-lancet;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ
+research-ieee-tbme;IEEE Transactions on Biomedical Engineering;Yayinci;1;60;24;36;;;40;;;98;43;82;;45;42;medium;2940;1440;2.8;ieee-tbme;PRIMARY_RESEARCH_PUBLISHER;TARİH BİÇİMİ ISO DEĞİL|ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-jacc;JACC (Journal of the American College of Cardiology);Yayinci;1;56;50;6;;;100;;;100;100;75;;23;21;medium;2940;1440;0.6;jacc;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-sciencedaily-healthy-aging;ScienceDaily — Healthy Aging;Haber;;50;50;;;;;;;100;98;94;;94;66;medium;2940;1440;0.8;sciencedaily-healthy-aging;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-sciencedaily-alternative-medicine;ScienceDaily — Alternative Medicine;Haber;;48;29;19;;;;;;100;100;96;;94;79;medium;2940;1440;2.8;sciencedaily-alternative-medicine;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-pubmed-nutrients;Nutrients (via PubMed);PubMed;1;45;45;;;;100;100;;100;100;93;;91;62;;;43200;5;;;BAYAT|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-front-nutr;Frontiers in Nutrition (via PubMed);PubMed;1;45;30;15;;;100;100;;100;67;96;;98;64;;;43200;5;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-ieee-jbhi;IEEE Journal of Biomedical and Health Informatics;Yayinci;1;45;12;33;;;27;;;100;27;67;;60;51;medium;2940;1440;29.2;ieee-jbhi;PRIMARY_RESEARCH_PUBLISHER;TARİH BİÇİMİ ISO DEĞİL|ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-european-respiratory-journal;European Respiratory Journal;Yayinci;1;45;39;6;;;98;;;98;98;96;;42;4;medium;2940;1440;5.6;european-respiratory-journal;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-aging-longevity;PubMed — aging / longevity discovery;PubMed;1;44;40;4;;;100;100;;100;66;84;;95;57;;;43200;5.1;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-nejm-ai;NEJM AI;Yayinci;1;43;31;12;;;12;;;86;86;88;;98;77;medium;2940;1440;2.2;nejm-ai;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-nature-ageing-hub;Nature — Ageing subject hub;Yayinci;1;43;43;;;;;;;100;88;84;;95;51;;;1440;1.9;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-sciencedaily-dietary-supplements;ScienceDaily — Dietary Supplements;Haber;;41;41;;;;;;;100;93;93;;100;63;medium;2940;1440;0.8;sciencedaily-dietary-supplements;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-pubmed-nat-aging;Nature Aging (via PubMed);PubMed;1;36;36;;;;100;100;;100;100;78;;81;50;;;43200;12.9;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-front-aging;Frontiers in Aging (via PubMed);PubMed;1;36;30;6;;;100;100;;100;83;72;;72;50;;;43200;5.1;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-nature-biotechnology;Nature Biotechnology;Yayinci;1;36;25;11;;;44;;;81;81;58;;56;42;medium;2940;1440;7.2;nature-biotechnology;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-cell;Cell (Cell Press);Yayinci;1;36;30;6;;;100;;;100;100;75;;8;3;medium;2940;1440;1.8;cell;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-nature-genetics;Nature Genetics;Yayinci;1;35;18;17;;;6;;;57;57;71;;77;43;medium;2940;1440;0.2;nature-genetics;PRIMARY_RESEARCH_PUBLISHER;TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-pubmed-journal-of-nutrition;The Journal of Nutrition (via PubMed);PubMed;1;33;23;10;;;100;100;;100;85;91;;55;42;;;43200;12.9;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-bmc-cmt;BMC Complementary Medicine and Therapies (via PubMed);PubMed;1;33;12;21;;;100;100;;100;100;100;;67;58;;;43200;5;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-ctm;Complementary Therapies in Medicine (via PubMed);PubMed;1;32;32;;;;100;100;;100;59;97;;63;44;;;43200;7.1;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-nat-metab;Nature Metabolism (via PubMed);PubMed;1;31;31;;;;100;100;;100;52;77;;52;32;;;43200;7.3;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-ajcn;American Journal of Clinical Nutrition (via PubMed);PubMed;1;31;18;13;;;100;100;;100;90;87;;68;42;;;43200;12.9;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-gerontologist;The Gerontologist (via PubMed);PubMed;1;30;30;;;;100;100;;100;100;90;;93;67;;;43200;10.7;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-exp-gerontol;Experimental Gerontology (via PubMed);PubMed;1;30;30;;;;100;100;;100;100;90;;100;53;;;43200;10.7;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-clin-nutr;Clinical Nutrition (via PubMed);PubMed;1;30;30;;;;100;100;;100;100;100;;97;67;;;43200;10.8;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-br-j-nutr;British Journal of Nutrition (via PubMed);PubMed;1;30;26;4;;;100;100;;100;100;93;;100;67;;;43200;10.7;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-age-ageing;Age and Ageing (via PubMed);PubMed;1;30;16;14;;;100;100;;100;97;93;;90;50;;;43200;11;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-explore;EXPLORE: The Journal of Science & Healing (via PubMed);PubMed;1;28;28;;;;100;100;;100;57;86;;89;64;;;43200;10.8;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-nature-nutrition-hub;Nature — Nutrition subject hub;Yayinci;1;28;26;2;;;;;;100;96;93;;82;61;;;1440;11.9;;;ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-chest-journal;CHEST;Yayinci;1;28;23;4;1;;100;;;100;100;86;;7;;medium;2940;1440;0.6;chest-journal;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ|BİLDİRİM SIZIYOR(1)
+research-pubmed-jgosa;Journals of Gerontology Series A (via PubMed);PubMed;1;27;27;;;;100;100;;100;48;96;;89;33;;;43200;10.7;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-ph-nutr;Public Health Nutrition (via PubMed);PubMed;1;25;16;9;;;100;100;;100;100;96;;68;48;;;43200;10.7;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-mech-ageing;Mechanisms of Ageing and Development (via PubMed);PubMed;1;25;25;;;;100;100;;100;100;80;;80;56;;;43200;10.7;;;ÇALIŞMA TÜRÜ BOŞ
+research-lancet-digital-health;The Lancet Digital Health;Yayinci;1;25;19;6;;;100;;;100;100;76;;8;8;medium;2940;1440;0.2;lancet-digital-health;PRIMARY_RESEARCH_PUBLISHER;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-jicm;Journal of Integrative and Complementary Medicine (via PubMed);PubMed;1;24;23;1;;;100;100;;100;100;92;;42;33;;;43200;5.1;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-nutrition-reviews;Nutrition Reviews (via PubMed);PubMed;1;23;16;7;;;100;100;;100;96;91;;70;61;;;43200;12.9;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-integrative;PubMed — integrative / complementary discovery;PubMed;1;23;18;5;;;96;100;;100;57;83;;57;43;;;43200;10.5;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-openalex-api;OpenAlex (OurResearch);OpenAlex;1;22;;;22;;100;;;100;100;100;;55;50;medium;2940;43200;3.8;openalex-api;ATTENTION_METRIC;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-central-oa;NLM / NCBI (PubMed Central);EuropePMC;1;22;;7;;;;;68;68;68;68;32;;;medium;2940;1440;46.4;pubmed-central-oa;OPEN_FULL_TEXT;SON HATA|TARİH BOŞ|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-pubmed-jand;Journal of the Academy of Nutrition and Dietetics (via PubMed);PubMed;1;21;9;12;;;100;100;;100;90;90;;38;19;;;43200;12.9;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-curr-dev-nutrition;Current Developments in Nutrition (via PubMed);PubMed;1;20;13;7;;;100;100;;100;70;95;;50;30;;;43200;12.9;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-advances-nutrition;Advances in Nutrition (via PubMed);PubMed;1;20;14;6;;;100;100;;100;100;85;;50;45;;;43200;12.9;;;ÇALIŞMA TÜRÜ BOŞ|BİLDİRİM SIZIYOR(1)
+research-science-translational-medicine;Science Translational Medicine (AAAS);Yayinci;;19;12;7;;;100;;;100;100;95;;95;;medium;2940;1440;5.1;science-translational-medicine;PRIMARY_RESEARCH_PUBLISHER;KAPALI|SON HATA|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-supplements;PubMed — dietary supplement trials / reviews;PubMed;1;18;5;13;;;94;100;;100;56;89;;44;22;;;43200;10.5;;;TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-nutrition-journal;Nutrition Journal (via PubMed);PubMed;1;17;2;15;;;100;100;;100;100;94;;41;29;;;43200;5;;;ÇALIŞMA TÜRÜ BOŞ
+europe-pmc-batch;Europe PMC batch (legacy id);EuropePMC;;17;3;4;2;8;71;65;35;94;94;94;;100;24;medium;780;43200;26.4;europe-pmc-rest;RESEARCH_INDEX;KAPALI|ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-j-diet-suppl;Journal of Dietary Supplements (via PubMed);PubMed;1;16;9;7;;;100;100;;100;100;94;;6;6;;;43200;5.1;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-imr;Integrative Medicine Research (via PubMed);PubMed;1;15;15;;;;100;100;;100;100;87;;;;;;43200;41;;;ÇALIŞMA TÜRÜ BOŞ
+research-pubmed-bmj-nph;BMJ Nutrition, Prevention & Health (via PubMed);PubMed;1;15;;15;;;100;100;;100;100;100;;;;;;43200;41;;;ÇALIŞMA TÜRÜ BOŞ
+research-medical-news-today;Medical News Today;Haber;;15;;14;;1;;;;100;47;93;;87;67;medium;2940;1440;42.1;medical-news-today;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|TARİH BİÇİMİ ISO DEĞİL|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-cochrane-library;Cochrane;Yayinci;1;14;11;3;;;100;79;;100;100;93;;71;64;medium;2940;10080;2;cochrane-library;SYSTEMATIC_EVIDENCE;ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ
+research-science;Science (AAAS);Yayinci;;13;12;1;;;100;;;100;100;85;;100;54;medium;2940;1440;4.1;science;PRIMARY_RESEARCH_PUBLISHER;KAPALI|SON HATA|ÇALIŞMA TÜRÜ BOŞ
+research-asn-news;American Society for Nutrition — News;Haber;1;11;7;4;;;;;;100;100;64;;18;9;;;1440;11.9;;;ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-nature-news;Nature News;Haber;1;9;2;5;;2;;;;89;89;44;;56;33;medium;2940;1440;12.2;nature-news;ACCESSIBLE_SCIENCE_MEDIA;TARİH BOŞ|ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-pubmed-japha;Journal of the American Pharmacists Association (via PubMed);PubMed;1;3;;3;;;;100;;100;;33;;;;;;43200;41.4;;;TARİH BİÇİMİ ISO DEĞİL|ESKİ KAYIT (>1 yıl)|ÇALIŞMA TÜRÜ BOŞ|DOI BOŞ
+research-crossref-rest-api;Crossref;Crossref;1;3;;1;;2;100;;;100;100;67;;;;medium;2940;10080;48;crossref-rest-api;BIBLIOGRAPHIC_METADATA;ÇALIŞMA TÜRÜ BOŞ
+research-europe-pmc-rest;Europe PMC (EMBL-EBI);EuropePMC;1;2;1;;1;;100;100;50;100;100;100;;100;50;medium;780;43200;12.9;europe-pmc-rest;RESEARCH_INDEX;ÇALIŞMA TÜRÜ BOŞ
+research-nih-news-releases;NIH News Releases;Haber;;;;;;;;;;;;;;;;medium;2940;1440;–;nih-news-releases;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|SON HATA
+research-nccih-news;NCCIH News (NIH);Haber;;;;;;;;;;;;;;;;medium;2940;1440;–;nccih-news;ACCESSIBLE_SCIENCE_MEDIA;KAPALI|SON HATA
+research-medrxiv-preprint;medRxiv;Yayinci;;;;;;;;;;;;;;;;medium;2940;1440;–;medrxiv-preprint;RESEARCH_INDEX;KAPALI
+research-gdelt-doc-api;The GDELT Project;Metrik;;;;;;;;;;;;;;;;medium;2940;1440;–;gdelt-doc-api;ATTENTION_METRIC;KAPALI
+research-crossref-retraction-watch-data;Crossref (Retraction Watch Database);Crossref;;;;;;;;;;;;;;;;medium;2940;43200;–;crossref-retraction-watch-data;PUBLICATION_INTEGRITY;KAPALI|SON HATA
+research-crossmark;Crossref (Crossmark);Crossref;;;;;;;;;;;;;;;;medium;2940;1440;–;crossmark;PUBLICATION_INTEGRITY;KAPALI
+research-altmetric-api;Altmetric (Digital Science);Metrik;;;;;;;;;;;;;;;;medium;2940;1440;–;altmetric-api;ATTENTION_METRIC;KAPALI
