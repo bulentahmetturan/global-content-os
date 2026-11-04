@@ -272,6 +272,7 @@ const PAUSED_TECHNICAL_BLOCK = {
   'research-altmetric-api': 'documentation page, no item feed (26.4)',
   'research-crossref-retraction-watch-data': 'documentation page, no item feed (26.4)',
   'research-eurekalert': 'home page only, rss paths 404 (26.4)',
+  'news-fda-press-scoped': 'http_401/http_404 from Worker egress while the RSS is 200 elsewhere (datacenter block, 2026-11-03/04); not bypassed (8.2); re-enable when an adapter-push fetcher exists',
   'research-science': 'http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists',
   'research-science-translational-medicine': 'http_403 (WAF); re-enable when an official feed/API or adapter-push fetcher exists',
 };
