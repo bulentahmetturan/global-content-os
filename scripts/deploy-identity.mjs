@@ -66,7 +66,10 @@ async function live(url) {
     matchesLocalHead: deployedCommit != null && deployedCommit === local.commit,
     identityStamped: deployedCommit != null,
     expectedSchema: local.expectedSchema,
-    schemaMatches: (ready.body?.appliedMigration ?? null) === local.expectedSchema,
+    // Same rule as the Worker (readiness.ts): the newest ledger name must not sort before the expected one.
+    // Legacy-named ledger rows (0047..0050, see docs/audits/2026-10-15-gate-b-forensics-and-options.md) sort higher than
+    // the repo's 0046 and are expected; strict equality would report a false mismatch.
+    schemaMatches: (ready.body?.appliedMigration ?? null) !== null && ready.body.appliedMigration >= local.expectedSchema,
   };
 }
 
