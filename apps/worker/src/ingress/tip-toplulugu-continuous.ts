@@ -696,15 +696,17 @@ async function saveTelemetry(
     lastAcceptedCount?: number;
     lastDiscardedCount?: number;
     lastItemCount?: number;
+    pollMinutes?: number | null;
   }
 ): Promise<void> {
   await env.DB.prepare(
     `INSERT INTO tip_toplulugu_source_telemetry
      (source_id, activation_state, last_success_at, last_content_hash, last_item_timestamp,
       failure_count, source_health, last_run_at, last_operator_status, updated_at,
-      coverage_status, coverage_reason, zero_accept_streak, last_accepted_count, last_discarded_count, last_item_count)
+      coverage_status, coverage_reason, zero_accept_streak, last_accepted_count, last_discarded_count, last_item_count,
+      poll_minutes)
      VALUES (?, ?, ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), ?, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
-             ?, ?, ?, ?, ?, ?)
+             ?, ?, ?, ?, ?, ?, COALESCE(?, 43200))
      ON CONFLICT(source_id) DO UPDATE SET
        activation_state = excluded.activation_state,
        last_success_at = COALESCE(excluded.last_success_at, tip_toplulugu_source_telemetry.last_success_at),
@@ -720,7 +722,8 @@ async function saveTelemetry(
        zero_accept_streak = excluded.zero_accept_streak,
        last_accepted_count = excluded.last_accepted_count,
        last_discarded_count = excluded.last_discarded_count,
-       last_item_count = excluded.last_item_count`
+       last_item_count = excluded.last_item_count,
+       poll_minutes = CASE WHEN ? IS NULL THEN tip_toplulugu_source_telemetry.poll_minutes ELSE excluded.poll_minutes END`
   )
     .bind(
       input.sourceId,
@@ -736,7 +739,9 @@ async function saveTelemetry(
       input.zeroAcceptStreak ?? 0,
       input.lastAcceptedCount ?? 0,
       input.lastDiscardedCount ?? 0,
-      input.lastItemCount ?? 0
+      input.lastItemCount ?? 0,
+      input.pollMinutes ?? null,
+      input.pollMinutes ?? null
     )
     .run();
 }
@@ -790,6 +795,7 @@ export async function recordPythonRunTelemetry(env: Env, body: Record<string, un
     lastAcceptedCount: metrics.eligible,
     lastDiscardedCount: rejected,
     lastItemCount: metrics.inspected,
+    pollMinutes: typeof body.pollMinutes === 'number' && body.pollMinutes >= 1 && body.pollMinutes <= 525600 ? Math.trunc(body.pollMinutes) : null,
   });
   return { ok: true };
 }
