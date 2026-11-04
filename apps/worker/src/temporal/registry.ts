@@ -42,6 +42,11 @@ export function timeSensitiveEnabledForFeed(feedId: string, entries: TemporalEnt
   return e ? e.time_sensitive.enabled : true;
 }
 
+/** Feed ids whose time-sensitive path is off (Evergreen-only). The cron slot rotation must never select them: they are skipped without a fetch stamp, so as the oldest row they would starve every other feed (2026-11-04). */
+export function timeSensitiveDisabledFeedIds(entries: TemporalEntry[] = temporalRegistry().entries): string[] {
+  return entries.filter((e) => e.feed_id && !e.time_sensitive.enabled).map((e) => e.feed_id as string);
+}
+
 export function evergreenEntries(entries: TemporalEntry[] = temporalRegistry().entries): TemporalEntry[] {
   return entries.filter((e) => e.evergreen?.enabled === true);
 }

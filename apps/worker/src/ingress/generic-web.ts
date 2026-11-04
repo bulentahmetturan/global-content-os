@@ -7,7 +7,7 @@ import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-qual
 import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
 import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
 import { parseElementorLoop } from './elementor-loop';
-import { timeSensitiveEnabledForFeed } from '../temporal/registry';
+import { timeSensitiveEnabledForFeed, timeSensitiveDisabledFeedIds } from '../temporal/registry';
 
 export interface FeedRow {
   id: string;
@@ -749,6 +749,9 @@ export async function ingestGenericFeeds(
     // independently for failing ones.
     sql += ` AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))`;
   }
+  // Evergreen-only feeds are not part of this rotation (see timeSensitiveDisabledFeedIds): selecting them would stall the slot.
+  const tsOff = feedIds.length ? [] : timeSensitiveDisabledFeedIds();
+  if (tsOff.length) sql += ` AND id NOT IN (${tsOff.map((id) => `'${id.replace(/'/g, "''")}'`).join(',')})`;
   if (opts.route === 'kaduse-news') {
     sql += ` AND id NOT IN ('who-newsroom', 'news-who-newsroom-whole')`;
   }
