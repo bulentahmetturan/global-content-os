@@ -1767,6 +1767,11 @@ def ingest_one_source(
             )
             delivery = deliver_tip_toplulugu_candidate(payload, hub_client)
             if not delivery.delivered:
+                if "audience gate" in str(delivery.error or ""):
+                    # Bible 26.3/26.4: a Hub audience-gate rejection is an editorial decision, not a technical failure.
+                    discarded += 1
+                    rej_audience += 1
+                    continue
                 hub_failures += 1
                 delivery_error = delivery.error
                 continue

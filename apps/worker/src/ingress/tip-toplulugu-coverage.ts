@@ -303,6 +303,7 @@ export const COVERAGE_OVERRIDES: Record<string, { label: CoverageLabel; note: st
   egitim_esmo_students: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: ESMO tıp öğrencisi medikal onkoloji kursu. 4.–5. sınıf. Vize. Fellowship burs şeridinde ayrı." },
   egitim_ucl_moorfields_oss: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: UCL/Moorfields 5 gün oftalmoloji yaz okulu; uluslararası late-stage öğrenciler. Vize." },
   egitim_erasmus_summer: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: Erasmus MC 3 hafta Rotterdam; Master/PhD düzey. Her tıp öğrencisi otomatik uygun değil." },
+  hsgm_public_health: { label: 'CONFIGURED_NOT_WIRED', note: "Emekli kayıt (tombstone): HSGM daire sayfası bacakları (hsgm_*) bu kaydın yerini aldı; çekilmez." },
   egitim_openwho: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: OpenWHO acil sağlık; ücretsiz global. 2025 sonrası sertifika yok. WHO Academy ayrı." },
 };
 
