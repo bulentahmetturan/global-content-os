@@ -223,6 +223,14 @@ for (const f of researchFeeds) {
   f.staleness_threshold_minutes = 2 * m + 60;
 }
 
+// Bible 3.2 expected_cadence: how often the SOURCE publishes (measured), separate from how often we poll. UNKNOWN when unmeasured.
+const publicationCadence = JSON.parse(fs.readFileSync(new URL('../config/research-publication-cadence.json', import.meta.url), 'utf8')).feeds;
+for (const f of researchFeeds) {
+  const m = publicationCadence[f.id];
+  f.expected_cadence = m ? m.expected_cadence : 'UNKNOWN';
+  f.publication_stale_days = m ? m.publication_stale_days : null;
+}
+
 const feeds = [tipAdapterFeed, ...newsFeeds, ...researchFeeds, ...tipFeeds];
 
 // Same publisher already listed under Tıp Topluluğu Duyuru (or Haber for MNT). Do not resurrect on sync.

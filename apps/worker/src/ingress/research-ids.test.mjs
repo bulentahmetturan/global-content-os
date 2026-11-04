@@ -31,3 +31,14 @@ describe('research identifiers (Bible 10.2 / 13.6)', () => {
     assert.equal(originalStudyFromHtml('<a href="https://pubmed.ncbi.nlm.nih.gov/40123456/">PubMed</a>').link, 'https://pubmed.ncbi.nlm.nih.gov/40123456/');
   });
 });
+
+const { hasNoticePubType, isNonArticleNotice } = await import('./research-quality.ts');
+describe('notice detection from source tags (Bible 13.4)', () => {
+  it('flags erratum/retraction publication types, not ordinary articles', () => {
+    assert.equal(hasNoticePubType(['Journal Article', 'Published Erratum']), true);
+    assert.equal(hasNoticePubType(['Journal Article', 'Retraction of Publication']), true);
+    assert.equal(hasNoticePubType(['Journal Article', 'Randomized Controlled Trial']), false);
+    assert.equal(hasNoticePubType(undefined), false);
+    assert.equal(isNonArticleNotice('Correction of aortic regurgitation in adults'), false);
+  });
+});

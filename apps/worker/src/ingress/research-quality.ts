@@ -72,3 +72,10 @@ export function isNonArticleNotice(title: string): boolean {
   if (!t) return false;
   return NOTICE_HEAD.test(t) || ERROR_NOTICE.test(t) || FRONT_MATTER.test(t) || READER_REPLY.test(t);
 }
+
+/** Source publication-type tags (PubMed pubtype, Europe PMC pubTypeList) that mark a correction/retraction notice, not an article. */
+const NOTICE_PUBTYPE = /^(published erratum|erratum|retraction of publication|retracted publication|expression of concern|corrected and republished article)$/i;
+
+export function hasNoticePubType(types: string[] | undefined | null): boolean {
+  return (types ?? []).some((t) => NOTICE_PUBTYPE.test((t || '').trim()));
+}

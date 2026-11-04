@@ -342,6 +342,14 @@ export async function upsertSourceItem(
       .bind(input.route, canonicalWorkId)
       .first<ExistingItemForWrite & { id: string; triage_status: string }>();
   }
+  // Bible 10.2: PubMed/Crossref/OpenAlex rows are keyed by their lower-case DOI (dedupe_key), so the same work arriving from a
+  // publisher feed (URL-keyed) must find it through its DOI instead of becoming a second row.
+  if (!existing && canonicalWorkId) {
+    existing = await db
+      .prepare(`SELECT ${existingCols} FROM source_items WHERE route = ? AND dedupe_key = ?`)
+      .bind(input.route, canonicalWorkId)
+      .first<ExistingItemForWrite & { id: string; triage_status: string }>();
+  }
 
   if (existing) {
     const protectedId = await protectedProtocolDisplay(db, { id: existing.id });

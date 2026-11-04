@@ -10,7 +10,7 @@
       },
       {
         "path": "packages/source-catalog/data/research-sources.json",
-        "sha256": "caba3df23593beb8623c3dbb891eeb829a45ba62393224449f8ed3d9548cb502"
+        "sha256": "d8502a292522fc43283db66e824e0e497df600dd2d7d3311c236db28d33b4b03"
       },
       {
         "path": "packages/source-catalog/data/kaduse-subscriptions.json",
@@ -922,7 +922,9 @@
         "retmax": 15
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 780
+      "staleness_threshold_minutes": 780,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-europe-pmc-rest",
@@ -939,7 +941,9 @@
         "pageSize": 15
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 780
+      "staleness_threshold_minutes": 780,
+      "expected_cadence": "sparse",
+      "publication_stale_days": 120
     },
     {
       "id": "research-crossref-rest-api",
@@ -955,7 +959,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "sparse",
+      "publication_stale_days": 120
     },
     {
       "id": "research-crossmark",
@@ -974,7 +980,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-crossref-retraction-watch-data",
@@ -993,7 +1001,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-pubmed-central-oa",
@@ -1009,7 +1019,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-cochrane-library",
@@ -1025,7 +1037,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-clinicaltrials-gov-api-v2",
@@ -1041,7 +1055,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-jama-network",
@@ -1057,7 +1073,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-nejm",
@@ -1073,7 +1091,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-the-lancet",
@@ -1089,7 +1109,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-lancet-digital-health",
@@ -1105,7 +1127,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-bmj",
@@ -1121,7 +1145,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-nature-medicine",
@@ -1137,7 +1163,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-npj-digital-medicine",
@@ -1153,7 +1181,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-circulation-aha",
@@ -1169,7 +1199,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-jaha",
@@ -1185,7 +1217,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-jacc",
@@ -1201,7 +1235,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-european-heart-journal",
@@ -1217,7 +1253,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-chest-journal",
@@ -1233,7 +1271,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-european-respiratory-journal",
@@ -1249,7 +1289,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-ieee-jbhi",
@@ -1265,7 +1307,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "sparse",
+      "publication_stale_days": 120
     },
     {
       "id": "research-ieee-tbme",
@@ -1281,7 +1325,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-jmir",
@@ -1297,7 +1343,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-medrxiv-preprint",
@@ -1313,7 +1361,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-science-translational-medicine",
@@ -1332,7 +1382,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-cell",
@@ -1348,7 +1400,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-nature-biotechnology",
@@ -1364,7 +1418,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-nejm-ai",
@@ -1380,7 +1436,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-nature-genetics",
@@ -1396,7 +1454,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-nature",
@@ -1412,7 +1472,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-science",
@@ -1431,7 +1493,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-stat-news",
@@ -1447,7 +1511,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-eurekalert",
@@ -1466,7 +1532,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-medical-xpress",
@@ -1482,7 +1550,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-medical-news-today",
@@ -1498,7 +1568,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "daily",
+      "publication_stale_days": 3
     },
     {
       "id": "research-nature-news",
@@ -1514,7 +1586,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-nih-news-releases",
@@ -1530,7 +1604,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-openalex-api",
@@ -1546,7 +1622,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-gdelt-doc-api",
@@ -1562,7 +1640,9 @@
         "mode": "registered"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-altmetric-api",
@@ -1581,7 +1661,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-nature-ageing-subject",
@@ -1600,7 +1682,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-nature-nutrition-subject",
@@ -1619,7 +1703,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-sciencedaily-healthy-aging",
@@ -1638,7 +1724,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-sciencedaily-alternative-medicine",
@@ -1657,7 +1745,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-sciencedaily-dietary-supplements",
@@ -1676,7 +1766,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "weekly",
+      "publication_stale_days": 14
     },
     {
       "id": "research-asn-nutrition-news",
@@ -1695,7 +1787,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "research-nccih-news",
@@ -1714,7 +1808,9 @@
         "decidedAt": "2026-11-04"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 2940
+      "staleness_threshold_minutes": 2940,
+      "expected_cadence": "UNKNOWN",
+      "publication_stale_days": null
     },
     {
       "id": "europe-pmc-batch",
@@ -1732,7 +1828,9 @@
         "aliasOf": "research-europe-pmc-rest"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 780
+      "staleness_threshold_minutes": 780,
+      "expected_cadence": "sparse",
+      "publication_stale_days": 120
     },
     {
       "id": "tip-osym_duyurular",
