@@ -245,10 +245,24 @@ const PENDING_ACTIVATION_FEED_IDS = new Set([
   'research-asn-nutrition-news',
   'research-nccih-news',
 ]);
+// Hard-gate decision 2026-11-04 (Bible 2.3 one publisher/one heading, 13.3, 26.4): none of the seven is activated and none stays "pending".
+//  - ScienceDaily x3: the publisher is already owned by DUYURU (`sciencedaily_nutrition`); a second heading is not allowed (S66) -> retired duplicate.
+//  - NCCIH News: OVERSIZE_BODY technical block + controversial field (13.3) -> manual_only.
+//  - ASN Nutrition News: Cloudflare challenge on the feed (bot protection is not bypassed, 8.2) -> manual_only.
+//  - Nature ageing/nutrition subjects: no feed, cookie-wall redirect, HTML list only -> manual_only until a stable list/snapshot source exists.
+const DECIDED_INACTIVE = {
+  'research-nature-ageing-subject': 'manual_only: no feed, cookie-wall HTML list (26.4)',
+  'research-nature-nutrition-subject': 'manual_only: no feed, cookie-wall HTML list (26.4)',
+  'research-sciencedaily-healthy-aging': 'retired duplicate: publisher owned by DUYURU (2.3, S66)',
+  'research-sciencedaily-alternative-medicine': 'retired duplicate: publisher owned by DUYURU (2.3, S66)',
+  'research-sciencedaily-dietary-supplements': 'retired duplicate: publisher owned by DUYURU (2.3, S66)',
+  'research-asn-nutrition-news': 'manual_only: Cloudflare challenge, bot protection not bypassed (8.2)',
+  'research-nccih-news': 'manual_only: OVERSIZE_BODY + controversial field (13.3)',
+};
 for (const f of feeds) {
   if (PENDING_ACTIVATION_FEED_IDS.has(f.id)) {
     f.enabled = false;
-    f.rules = { ...(f.rules || {}), activation: 'PENDING_EXPLICIT_DECISION' };
+    f.rules = { ...(f.rules || {}), activation: 'DECIDED_INACTIVE', decision: DECIDED_INACTIVE[f.id], decidedAt: '2026-11-04' };
   }
 }
 
