@@ -43,13 +43,17 @@ jobs:
       PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      # The Türkiye runner is a Windows PC with its own Python 3.11: actions/setup-python needs admin registry access there, so it is skipped on Windows.
+      - if: runner.os != 'Windows'
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: adapters/tip-toplulugu-radar/requirements-runner.txt
-      - run: python -m pip install --disable-pip-version-check -r requirements-runner.txt
+      - shell: bash
+        run: python -m pip install --disable-pip-version-check -r requirements-runner.txt
       - name: Run sources
+        shell: bash
         env:
           TIP_RADAR_INGEST_TOKEN: ${{ secrets.TIP_RADAR_INGEST_TOKEN }}
           SOURCES: ${{ github.event.inputs.sources }}
