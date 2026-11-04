@@ -289,6 +289,8 @@ def run_continuous_ingestion(
                     "newestRecordDate": result.newest_record_date,
                     "error": result.error_reason,
                     "contentHash": result.last_content_hash,
+                    # registry cadence is the single truth; the Hub mirrors it so OVERDUE is measured against it
+                    "pollMinutes": int(((profile.get("fetch_plan") or {}).get("expected_check_interval_minutes")) or 0) or None,
                 }
             )
             if not tele_ok:
