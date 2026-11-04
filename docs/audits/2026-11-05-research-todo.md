@@ -4,6 +4,20 @@ Kaynak: `2026-11-05-research-field-gap-report.md` ve `data/2026-11-05-research-f
 
 Kim: **[B]** ben (kod/belge), **[S]** sahip kararı gerekir, **[B+S]** önce sahip kararı, sonra ben.
 
+## Durum (2026-11-05 akşam)
+
+Yapıldı (kod, [PR #49](https://github.com/bulentahmetturan/global-content-os/pull/49), birleştirilmedi/dağıtılmadı):
+- **A1** Hata değil: `pubmed-eutilities` bilerek Evergreen taşıyıcısı (`temporal-paths.json` zaman-duyarlı yol kapalı, testle sabit). Kapatıldı.
+- **A2** `nejm` çekiliyor (son çekim 11-04, hata yok); "bayat" görünmesi tarihlerin boş gelmesinden (B2). `pubmed-nutrients` bilerek 30 günde bir çekiliyor (poll 43200). Kapatıldı.
+- **A3** `pubmed-central-oa` düzeldi (11-04'te hatasız). Diğer 6 hatalı akışın hepsi zaten kapalı (`enabled=0`); teknik engel FAIL sayılmaz (§26.4). Karar A4'te.
+- **B1** Tarih biçimi: kod zaten yeni kayıtları ISO yazıyor; 640 eski satırın hepsi 10 Ekim öncesi. 351 satır için onarım SQL'i hazır (`scripts/backfill/`), **uygulanmadı**. 289 satır yalnız ay/yıl ("2026 Aug"): gün uydurmamak için dokunulmadı.
+- **B3/B4 (kısmen)** URL'den DOI (nature.com, nejm vb.) ve PubMed URL'sinden PMID. Sayfa içi DOI yalnız basın kaynaklarında (D1).
+- **D1** Basın kaynaklarında orijinal çalışma bağlantısı sayfadan okunuyor; bulunamazsa yeni kayıt HOLD (çalışma başına en çok 8 sayfa/çekim).
+- **E2** 48 kaynakta `declaredFields`, `unavailableFields`, `fetchScope`, `officialDomains`, `languages`; `robots/terms` dürüstçe UNVERIFIED. **E1** 31 PubMed dergi akışı `pubmed-eutilities.fetchScope.journalFeedIds` altında.
+- **C** Şema taslağı hazır (`docs/audits/drafts/`), migration değil.
+
+**Engel:** D1 günlük okuma kotası (ücretsiz plan) bugün doldu; canlı veri sorgulanamıyor, UTC gece yarısı sıfırlanır. B2 (boş tarih), B5 (yeniden ölçüm), A5 doğrulaması bu yüzden bekliyor.
+
 ## A. Önce çalışmayanı düzelt (veri hiç gelmiyor ya da bayat)
 
 - [ ] **A1 [B]** `research-pubmed-eutilities`: açık ama 2026-09-24'ten beri çekilmiyor; hata sadece konsola yazılıyor. Sebebi bul, hatayı `last_error`'a yaz, düzelt.
