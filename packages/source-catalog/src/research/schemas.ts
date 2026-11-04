@@ -32,6 +32,15 @@ export const ResearchSourceSchema = z.object({
   verificationStatus: SourceStatusSchema,
   verifiedAt: z.string().nullable(),
   notes: z.string().min(1),
+  // Bible 3.2 / 9.3 / 25.2 (4.3): per-source field declaration. Optional so older data still parses; a field in neither list is
+  // 'available at the source but not yet fetched' (never silently treated as declared).
+  officialDomains: z.array(z.string()).optional(),
+  languages: z.array(z.string()).optional(),
+  declaredFields: z.array(z.string()).optional(),
+  unavailableFields: z.array(z.string()).optional(),
+  fetchScope: z.object({ kind: z.enum(['query', 'feed', 'listing', 'api']), detail: z.string(), journalFeedIds: z.array(z.string()).optional() }).optional(),
+  robotsStatus: z.enum(['UNVERIFIED', 'ALLOWED', 'RESTRICTED']).optional(),
+  termsStatus: z.enum(['UNVERIFIED', 'ALLOWED', 'RESTRICTED']).optional(),
 });
 export type ResearchSource = z.infer<typeof ResearchSourceSchema>;
 

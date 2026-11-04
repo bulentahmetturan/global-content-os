@@ -7,7 +7,66 @@
     "discoveryFunction": "DISCOVERY_PRIMARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official E-utilities (ESearch/EFetch) base URL and NCBI Bookshelf documentation confirmed live. Primary broad biomedical discovery index."
+    "notes": "Verified via WebSearch: official E-utilities (ESearch/EFetch) base URL and NCBI Bookshelf documentation confirmed live. Primary broad biomedical discovery index.",
+    "officialDomains": [
+      "eutils.ncbi.nlm.nih.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "pmid",
+      "online_published_at",
+      "print_issue_at",
+      "study_type"
+    ],
+    "unavailableFields": [
+      "population_sample_size",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "REST_BATCH; https://eutils.ncbi.nlm.nih.gov/entrez/eutils/",
+      "journalFeedIds": [
+        "research-pubmed-ajcn",
+        "research-pubmed-advances-nutrition",
+        "research-pubmed-nutrition-reviews",
+        "research-pubmed-journal-of-nutrition",
+        "research-pubmed-curr-dev-nutrition",
+        "research-pubmed-nutrition-journal",
+        "research-pubmed-jand",
+        "research-pubmed-japha",
+        "research-pubmed-nat-aging",
+        "research-pubmed-front-aging",
+        "research-pubmed-jicm",
+        "research-pubmed-bmc-cmt",
+        "research-pubmed-nutrients",
+        "research-pubmed-bmj-nph",
+        "research-pubmed-j-diet-suppl",
+        "research-pubmed-front-nutr",
+        "research-pubmed-aging-longevity",
+        "research-pubmed-integrative",
+        "research-pubmed-supplements",
+        "research-pubmed-nat-metab",
+        "research-pubmed-jgosa",
+        "research-pubmed-age-ageing",
+        "research-pubmed-gerontologist",
+        "research-pubmed-exp-gerontol",
+        "research-pubmed-mech-ageing",
+        "research-pubmed-ctm",
+        "research-pubmed-imr",
+        "research-pubmed-explore",
+        "research-pubmed-br-j-nutr",
+        "research-pubmed-ph-nutr",
+        "research-pubmed-clin-nutr"
+      ]
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "europe-pmc-rest",
@@ -17,7 +76,34 @@
     "discoveryFunction": "DISCOVERY_PRIMARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official RESTful Web Service documented at europepmc.org/RestfulWebService, confirms full-text availability indicators and a dedicated fullTextXML endpoint. Complementary discovery + open-access/full-text linkage alongside PubMed."
+    "notes": "Verified via WebSearch: official RESTful Web Service documented at europepmc.org/RestfulWebService, confirms full-text availability indicators and a dedicated fullTextXML endpoint. Complementary discovery + open-access/full-text linkage alongside PubMed.",
+    "officialDomains": [
+      "ebi.ac.uk"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "pmid",
+      "pmcid",
+      "online_published_at",
+      "abstract",
+      "study_type"
+    ],
+    "unavailableFields": [
+      "population_sample_size",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "REST_BATCH; https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "crossref-rest-api",
@@ -27,7 +113,36 @@
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official REST API (api.crossref.org) confirmed, plus a documented retraction-metadata capability (filter=update-type:retraction) since Crossref's 2023 acquisition of the Retraction Watch Database. Not primary evidence -- supports publication identity/integrity only."
+    "notes": "Verified via WebSearch: official REST API (api.crossref.org) confirmed, plus a documented retraction-metadata capability (filter=update-type:retraction) since Crossref's 2023 acquisition of the Retraction Watch Database. Not primary evidence -- supports publication identity/integrity only.",
+    "officialDomains": [
+      "api.crossref.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "online_published_at"
+    ],
+    "unavailableFields": [
+      "pmid",
+      "pmcid",
+      "study_type",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://api.crossref.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "crossmark",
@@ -37,7 +152,36 @@
     "discoveryFunction": "INTEGRITY_CHECK",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official Crossmark \"check for updates\" service confirmed -- flags corrections/retractions/withdrawals/expressions-of-concern at the publisher level. Checked before publication eligibility is finalized, per the batch's own hard rule."
+    "notes": "Verified via WebSearch: official Crossmark \"check for updates\" service confirmed -- flags corrections/retractions/withdrawals/expressions-of-concern at the publisher level. Checked before publication eligibility is finalized, per the batch's own hard rule.",
+    "officialDomains": [
+      "crossref.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "online_published_at"
+    ],
+    "unavailableFields": [
+      "pmid",
+      "pmcid",
+      "study_type",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://www.crossref.org/services/crossmark/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "crossref-retraction-watch-data",
@@ -47,7 +191,36 @@
     "discoveryFunction": "INTEGRITY_CHECK",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: Crossref acquired the Retraction Watch Database in Sept 2023 and now hosts it publicly, free, updated on working days, queryable via the Crossref REST API (update-type:retraction filter) or full CSV download. RETRACTED papers are structurally blocked from normal Research eligibility (hard rule)."
+    "notes": "Verified via WebSearch: Crossref acquired the Retraction Watch Database in Sept 2023 and now hosts it publicly, free, updated on working days, queryable via the Crossref REST API (update-type:retraction filter) or full CSV download. RETRACTED papers are structurally blocked from normal Research eligibility (hard rule).",
+    "officialDomains": [
+      "crossref.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "online_published_at"
+    ],
+    "unavailableFields": [
+      "pmid",
+      "pmcid",
+      "study_type",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://www.crossref.org/documentation/retrieve-metadata/retraction-watch/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "pubmed-central-oa",
@@ -57,7 +230,34 @@
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official PMC Open Access Subset confirmed (NLM Open Data Portal + public FTP server), covering openly-licensed full text. Not every PubMed/Europe PMC record has a PMC full-text counterpart -- never assumed."
+    "notes": "Verified via WebSearch: official PMC Open Access Subset confirmed (NLM Open Data Portal + public FTP server), covering openly-licensed full text. Not every PubMed/Europe PMC record has a PMC full-text counterpart -- never assumed.",
+    "officialDomains": [
+      "ncbi.nlm.nih.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "pmid",
+      "pmcid",
+      "online_published_at",
+      "abstract",
+      "study_type"
+    ],
+    "unavailableFields": [
+      "population_sample_size",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://www.ncbi.nlm.nih.gov/pmc/tools/ftp/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "cochrane-library",
@@ -67,7 +267,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official Cochrane Database of Systematic Reviews confirmed live at cochranelibrary.com. High-value systematic reviews/evidence syntheses -- not required for every Research candidate."
+    "notes": "Verified via WebSearch: official Cochrane Database of Systematic Reviews confirmed live at cochranelibrary.com. High-value systematic reviews/evidence syntheses -- not required for every Research candidate.",
+    "officialDomains": [
+      "cochranelibrary.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.cochranelibrary.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "clinicaltrials-gov-api-v2",
@@ -77,7 +300,37 @@
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-05",
-    "notes": "Verified via WebSearch: official REST API v2 (OpenAPI 3.0) confirmed live at clinicaltrials.gov/data-api/api. A trial-registry record is enrichment/integrity context only -- never treated as equivalent to a peer-reviewed published result."
+    "notes": "Verified via WebSearch: official REST API v2 (OpenAPI 3.0) confirmed live at clinicaltrials.gov/data-api/api. A trial-registry record is enrichment/integrity context only -- never treated as equivalent to a peer-reviewed published result.",
+    "officialDomains": [
+      "clinicaltrials.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "study_type"
+    ],
+    "unavailableFields": [
+      "doi",
+      "pmcid",
+      "print_issue_at",
+      "human_animal_invitro",
+      "limitations",
+      "conflicts_of_interest",
+      "retraction_status",
+      "access_level",
+      "peer_review_status",
+      "preprint_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://clinicaltrials.gov/data-api/api"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "jama-network",
@@ -87,7 +340,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "jamanetwork.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://jamanetwork.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nejm",
@@ -97,7 +373,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nejm.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nejm.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "the-lancet",
@@ -107,7 +406,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "thelancet.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.thelancet.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "lancet-digital-health",
@@ -117,7 +439,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "thelancet.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.thelancet.com/journals/landig/home"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "bmj",
@@ -127,7 +472,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "bmj.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.bmj.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-medicine",
@@ -137,7 +505,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/nm/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "npj-digital-medicine",
@@ -147,7 +538,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/npjdigitalmed/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "circulation-aha",
@@ -157,7 +571,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "ahajournals.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.ahajournals.org/journal/circ"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "jaha",
@@ -167,7 +604,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "ahajournals.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.ahajournals.org/journal/jaha"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "jacc",
@@ -177,7 +637,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "jacc.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.jacc.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "european-heart-journal",
@@ -187,7 +670,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "academic.oup.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://academic.oup.com/eurheartj"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "chest-journal",
@@ -197,7 +703,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "journal.chestnet.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://journal.chestnet.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "european-respiratory-journal",
@@ -207,7 +736,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "erj.ersjournals.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://erj.ersjournals.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "ieee-jbhi",
@@ -217,7 +769,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "embs.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.embs.org/jbhi/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "ieee-tbme",
@@ -227,7 +802,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "embs.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.embs.org/tbme/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "jmir",
@@ -237,7 +835,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "jmir.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.jmir.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "medrxiv-preprint",
@@ -248,7 +869,30 @@
     "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
     "notes": "Well-known real preprint server domain; not individually re-confirmed this batch. Preprints are DISCOVERABLE but NEVER auto-eligible for production Research content (hard rule) -- peerReviewStatus must be PREPRINT, never PEER_REVIEWED, unless independently confirmed.",
-    "retiredFromStatus": "CONDITIONAL_VERIFIED"
+    "retiredFromStatus": "CONDITIONAL_VERIFIED",
+    "officialDomains": [
+      "medrxiv.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.medrxiv.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "science-translational-medicine",
@@ -258,7 +902,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "science.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.science.org/journal/stm"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "cell",
@@ -268,7 +935,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "cell.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.cell.com/cell/home"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-biotechnology",
@@ -278,7 +968,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/nbt/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nejm-ai",
@@ -288,7 +1001,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "ai.nejm.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://ai.nejm.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-genetics",
@@ -298,7 +1034,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/ng/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature",
@@ -308,7 +1067,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "science",
@@ -318,7 +1100,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone."
+    "notes": "Well-known, real, legitimate peer-reviewed journal/publisher domain; not individually re-confirmed via WebSearch this batch (journal-family entries are out of this batch's per-source verification budget). Secondary/direct-journal discovery only -- main broad discovery remains PubMed + Europe PMC. NOT an exclusive whitelist: a legitimate study in an unlisted journal is not excluded for that reason alone.",
+    "officialDomains": [
+      "science.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.science.org/journal/science"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "stat-news",
@@ -328,7 +1133,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "officialDomains": [
+      "statnews.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.statnews.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "eurekalert",
@@ -338,7 +1168,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "officialDomains": [
+      "eurekalert.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.eurekalert.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "medical-xpress",
@@ -348,7 +1203,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "officialDomains": [
+      "medicalxpress.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://medicalxpress.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "medical-news-today",
@@ -358,7 +1238,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "officialDomains": [
+      "medicalnewstoday.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.medicalnewstoday.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-news",
@@ -368,7 +1273,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist."
+    "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/news"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nih-news-releases",
@@ -379,7 +1309,32 @@
     "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
     "notes": "Well-known, real press/science-journalism domain; not individually re-confirmed via WebSearch this batch. Discovery aid only, and a soft signal of general-reader understandability (these outlets already cover a study in accessible language) -- never a substitute for verifying the underlying paper via a RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER source before publication. Not an exclusive whitelist.",
-    "retiredFromStatus": "CONDITIONAL_VERIFIED"
+    "retiredFromStatus": "CONDITIONAL_VERIFIED",
+    "officialDomains": [
+      "nih.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nih.gov/news-events/news-releases"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "openalex-api",
@@ -389,7 +1344,34 @@
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-17",
-    "notes": "Verified live this batch: GET https://api.openalex.org/works returns 200. Real cited_by_count + topic/concept metadata per work -- used as the raw citation-count input to computeNormalizedImpact(); OpenAlex itself does not expose a single ready field-normalized metric, the field-median half of that computation is this project's own responsibility, not fetched here."
+    "notes": "Verified live this batch: GET https://api.openalex.org/works returns 200. Real cited_by_count + topic/concept metadata per work -- used as the raw citation-count input to computeNormalizedImpact(); OpenAlex itself does not expose a single ready field-normalized metric, the field-median half of that computation is this project's own responsibility, not fetched here.",
+    "officialDomains": [
+      "api.openalex.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "doi",
+      "online_published_at"
+    ],
+    "unavailableFields": [
+      "print_issue_at",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://api.openalex.org/works"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "gdelt-doc-api",
@@ -400,7 +1382,40 @@
     "verificationStatus": "EXCLUDE",
     "verifiedAt": null,
     "notes": "Well-known, real, free global news-monitoring project; the specific DOC 2.0 API endpoint was not reachable via a live check this batch (connection timeout, not a confirmed-down signal). Intended real-world news-mention-volume source for attention-signals.ts's news-attention spike classification -- never a substitute for the primary paper/publisher, and its absence for a given paper is never an exclusion reason.",
-    "retiredFromStatus": "CONDITIONAL_VERIFIED"
+    "retiredFromStatus": "CONDITIONAL_VERIFIED",
+    "officialDomains": [
+      "gdeltproject.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title"
+    ],
+    "unavailableFields": [
+      "pmid",
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "abstract",
+      "study_type",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "funding_source",
+      "retraction_status",
+      "access_level",
+      "peer_review_status",
+      "preprint_status"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://www.gdeltproject.org/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "altmetric-api",
@@ -410,7 +1425,40 @@
     "discoveryFunction": "EVIDENCE_ENRICHMENT",
     "verificationStatus": "CONDITIONAL_VERIFIED",
     "verifiedAt": null,
-    "notes": "Well-known, real commercial attention-tracking service; a specific DOI lookup returned 403 this batch (likely requires an API key for this query pattern, not a confirmed-down signal). Provides both a raw attention score and an already-relative \"context\" percentile (vs. similar-age/journal outputs) -- per explicit user-approved rule, this is an OPTIONAL signal only: a paper with no/low Altmetric coverage is never excluded or penalized, since social-media attention and scientific value are independent axes."
+    "notes": "Well-known, real commercial attention-tracking service; a specific DOI lookup returned 403 this batch (likely requires an API key for this query pattern, not a confirmed-down signal). Provides both a raw attention score and an already-relative \"context\" percentile (vs. similar-age/journal outputs) -- per explicit user-approved rule, this is an OPTIONAL signal only: a paper with no/low Altmetric coverage is never excluded or penalized, since social-media attention and scientific value are independent axes.",
+    "officialDomains": [
+      "api.altmetric.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title"
+    ],
+    "unavailableFields": [
+      "pmid",
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "abstract",
+      "study_type",
+      "population_sample_size",
+      "human_animal_invitro",
+      "primary_endpoint_effect_measure",
+      "limitations",
+      "conflicts_of_interest",
+      "funding_source",
+      "retraction_status",
+      "access_level",
+      "peer_review_status",
+      "preprint_status"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://api.altmetric.com/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-ageing-subject",
@@ -420,7 +1468,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: GET https://www.nature.com/subjects/ageing.rss returns RSS with current items. Nature Portfolio ageing hub — a paper still needs its primary publisher/PubMed record before production Research claims."
+    "notes": "Live-checked this batch: GET https://www.nature.com/subjects/ageing.rss returns RSS with current items. Nature Portfolio ageing hub — a paper still needs its primary publisher/PubMed record before production Research claims.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/subjects/ageing"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nature-nutrition-subject",
@@ -430,7 +1501,30 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: GET https://www.nature.com/subjects/nutrition.rss returns RSS with current items. Same evidence rule as other Nature Portfolio hubs."
+    "notes": "Live-checked this batch: GET https://www.nature.com/subjects/nutrition.rss returns RSS with current items. Same evidence rule as other Nature Portfolio hubs.",
+    "officialDomains": [
+      "nature.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "indexed_at",
+      "peer_review_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.nature.com/subjects/nutrition"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "sciencedaily-healthy-aging",
@@ -440,7 +1534,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only — never a substitute for the underlying paper (Bible §24.2)."
+    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only — never a substitute for the underlying paper (Bible §24.2).",
+    "officialDomains": [
+      "sciencedaily.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.sciencedaily.com/rss/health_medicine/healthy_aging.xml"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "sciencedaily-alternative-medicine",
@@ -450,7 +1569,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only; complementary/integrative claims still need the evidence gate."
+    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only; complementary/integrative claims still need the evidence gate.",
+    "officialDomains": [
+      "sciencedaily.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.sciencedaily.com/rss/health_medicine/alternative_medicine.xml"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "sciencedaily-dietary-supplements",
@@ -460,7 +1604,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only."
+    "notes": "Live-checked this batch: topic RSS returns current items. Discovery only.",
+    "officialDomains": [
+      "sciencedaily.com"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.sciencedaily.com/rss/health_medicine/dietary_supplements.xml"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "asn-nutrition-news",
@@ -470,7 +1639,32 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: https://nutrition.org/feed/ returns RSS. Professional-society news, not a journal ToC."
+    "notes": "Live-checked this batch: https://nutrition.org/feed/ returns RSS. Professional-society news, not a journal ToC.",
+    "officialDomains": [
+      "nutrition.org"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://nutrition.org/feed/"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   },
   {
     "sourceId": "nccih-news",
@@ -480,6 +1674,31 @@
     "discoveryFunction": "DISCOVERY_SECONDARY",
     "verificationStatus": "CANONICAL_ACTIVE",
     "verifiedAt": "2026-09-25",
-    "notes": "Live-checked this batch: NCBI NCCIHNews RSS returns items. Official NIH complementary/integrative research news. nccih.nih.gov HTML RSS paths 404."
+    "notes": "Live-checked this batch: NCBI NCCIHNews RSS returns items. Official NIH complementary/integrative research news. nccih.nih.gov HTML RSS paths 404.",
+    "officialDomains": [
+      "ncbi.nlm.nih.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "abstract"
+    ],
+    "unavailableFields": [
+      "pmcid",
+      "print_issue_at",
+      "indexed_at",
+      "conflicts_of_interest",
+      "retraction_status",
+      "peer_review_status"
+    ],
+    "fetchScope": {
+      "kind": "feed",
+      "detail": "RESEARCH_REGISTRY; https://www.ncbi.nlm.nih.gov/feed/rss.cgi?ChanKey=NCCIHNews"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   }
 ]
