@@ -1,6 +1,6 @@
 # TÜRK TIP İÇERİK OS — BIBLE v4
 
-> **Durum** — 4.3 taslak · 4 Kasım 2026 · Bağlayıcı değildir. Mevcut bağlayıcı hükümler korunur. “Revizyon önerisi” olarak işaretli ekler ve Ek A’daki yorumlar sahip kararıyla yürürlüğe girer.  
+> **Durum** — 4.3 son sürüm · 4 Kasım 2026 · Bağlayıcı (sahip kararı, 2026-11-04). “Revizyon önerisi” olarak işaretli hükümler bu sürümün parçasıdır ve yürürlüktedir; şema, validator ve test gerektiren ayrıntılar §28.3’e göre uygulanır.  
 > **Temel sürüm** — v4 ailesi. Paylaşılan kopyanın başlığı 4.2; metinde 4 Kasım’a kadar tarihli kararlar da bulunur. Belge taslağı, yürürlükteki şema ve çalışma zamanı sürümlerinden ayrıdır.  
 > **Kapsam** — Beş güncel hat, Evergreen görünümleri, sistem modülleri, yayın sonrası öğrenme ve ticari katkı.  
 > **Okuma sırası** — Hat ve modül kapıları → ortak hard gate’ler → operasyon ve kaynak döngüsü → editoryal öncelik, büyüme ve satış.  
@@ -12,7 +12,7 @@
 | 4.0 | Kitap II — Source Pass/Fail & Pipeline Loop; iki değerlendirme hattı; editorial ≠ ingestion ≠ lifecycle |
 | 4.1 | Hedef kitle uygunluğu 1. hard gate (§1.2, §1.3, §12.0); kanallar ve kitle tanımları (§1.4); zaman ekseni: Time Sensitive / Evergreen grupları ve hat saflığı (§2.3); Keşif katmanı (§6.6); kontrollü sözlük: time_axis, evergreen_family, channel_audience (§22.5); SPF-7 ve §35 kontrol listesi güncellendi |
 | 4.2 | Hedef kitle üçlüsü (Türk tıp profesyonelleri, Türk tıp öğrencileri, Türk sağlık takipçisi halk) ve "kitle VEYA wow / dünya çapında önemli gelişme" kuralı (§12.0); hat bazlı daraltma ölçütleri: Haber ve aksiyon hatları Duyuru/Burs/Eğitim, ön duyuru / sonuç / düz haber ayrımı (§12.0.1); kaynak politikası hat bazlıdır (§2.3); tarihsiz resmî liste istisnası (SPF-7.1) |
-| 4.3 taslak | **Revizyon önerisi. Bağlayıcı değildir.** Research kaynak görüşmesi, çekim kapsamı, kontrollü konu kuyruğu, çalışma kimliği ve tarihleri, kanıt erişimi, yeniden kontrol ve yakınsama. A7, `source_role` enum’una `enrichment`, `integrity_check` ve `attention_metric` eklemeyi önerir (§0.2, SPF-4, SPF-34). Yürürlüğe giriş için sahip onayı, şema sürümü artışı, validator ve test güncellemesi gerekir (§28.3). |
+| 4.3 | **Bağlayıcı (sahip kararı, 2026-11-04).** Research kaynak görüşmesi, çekim kapsamı, kontrollü konu kuyruğu, çalışma kimliği ve tarihleri, kanıt erişimi, yeniden kontrol ve yakınsama. A7, `source_role` enum’una `enrichment`, `integrity_check` ve `attention_metric` eklenmesini öngörür (§0.2, SPF-4, SPF-34); enum’un şemaya yansıması şema sürümü artışı, validator ve test güncellemesiyle yapılır (§28.3) ve o güne kadar kodda yürürlükteki enum geçerlidir. |
 
 Mevcut §0–37 ve SPF-0–35 numaraları sabit atıf kimlikleridir. Bölümler karar sırasına göre yerleştirildi. Yeni hat ve modül hükümleri ile iş hedefinin uygulama ayrıntıları revizyon önerisidir.
 
