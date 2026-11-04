@@ -5,7 +5,9 @@ import { isNonArticleNotice } from './research-quality';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { applyEditorialFilter, ARTICLE_META_MAX_FETCHES, needsArticleMeta, parseArticleMeta } from './feed-editorial';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
-import { NEWS_MAX_AGE_DAYS } from './ingest-gate';
+import { NEWS_MAX_AGE_DAYS, RESEARCH_MEDIA_FEEDS } from './ingest-gate';
+import { doiFromUrl, extractDoi, originalStudyFromHtml, pmidFromUrl } from './research-ids';
+import { inferStudyType } from './study-type';
 import { assignListingDates, stripPrintedDateFromTitle, type ListingAnchor } from './listing-dates';
 import { parseElementorLoop } from './elementor-loop';
 import { timeSensitiveEnabledForFeed, timeSensitiveDisabledFeedIds } from '../temporal/registry';
@@ -657,6 +659,9 @@ async function markFeed(
     .run();
 }
 
+/** Press/media pages read per run for the original-study link (Bible 13.6); the rest wait for the next run. */
+const ORIGINAL_LINK_MAX_FETCHES = 8;
+
 async function upsertExtracted(
   env: Env,
   feed: FeedRow,
@@ -664,7 +669,25 @@ async function upsertExtracted(
 ): Promise<{ created: number; updated: number }> {
   let created = 0;
   let updated = 0;
+  let linkFetches = 0;
+  const research = feed.route === 'kaduse-research';
+  const media = research && RESEARCH_MEDIA_FEEDS.has(feed.id);
   for (const it of items) {
+    // Bible 10.2: identifiers recoverable without guessing (URL, text); media items additionally need the original study (13.6).
+    let doi = research ? doiFromUrl(it.url) || extractDoi(it.summary) : null;
+    const pmid = research ? pmidFromUrl(it.url) : null;
+    let originalLink: string | null = doi ? `https://doi.org/${doi}` : null;
+    let pageRead = false;
+    if (media && !originalLink && linkFetches < ORIGINAL_LINK_MAX_FETCHES) {
+      linkFetches += 1;
+      const page = await fetchText(it.url);
+      if (page.ok && page.text) {
+        pageRead = true;
+        const found = originalStudyFromHtml(page.text);
+        doi = found.doi || doi;
+        originalLink = found.link;
+      }
+    }
     const result = await upsertLocalizedSourceItem(env, {
       feedId: feed.id,
       route: feed.route,
@@ -676,7 +699,17 @@ async function upsertExtracted(
       canonicalUrl: it.url,
       publisher: feed.label,
       publishedAt: it.publishedAt,
+      ...(research && (doi || pmid)
+        ? { evidence: { doi, pmid, pmcid: null, finding: null, limitation: null, studyType: inferStudyType(null, it.title) } }
+        : {}),
+      ...(media && (originalLink || pageRead) ? { intakeMetaJson: JSON.stringify({ original_study_link: originalLink }) } : {}),
     });
+    // Bible 13.6: a media/bulletin item whose page was read and names no original study is held, never published on the press text alone.
+    if (media && pageRead && !originalLink && result.created) {
+      await env.DB.prepare(`UPDATE source_items SET triage_status = 'hold', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ? AND triage_status = 'inbox'`)
+        .bind(result.id)
+        .run();
+    }
     if (result.created) created += 1;
     else updated += 1;
   }
