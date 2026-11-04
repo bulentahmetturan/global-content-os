@@ -241,6 +241,10 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
     checks.push(check('TESTS', 'tests_run', 'WARN', 'component test suites not run in this preflight', { why: WHY.tests_run, next: 'rerun with --run-tests' }));
   }
 
+  // CCOS is a sibling repo; CI checks out GCOS only. Outside the strict cutover phase its absence means 'not evaluated' (WARN), not a GCOS release FAIL.
+  if (!repos.ccos && phase !== 'cutover') {
+    for (const c of checks) if (c.status === 'FAIL' && ['git_state_ccos', 'fail_closed_evidence', 'contract_parity', 'contract_version'].includes(c.id)) { c.status = 'WARN'; c.detail += ' (CCOS repo absent: not evaluated outside cutover)'; }
+  }
   const status = worst(checks.map((c) => c.status));
   const defers = {};
   for (const c of checks) if (c.defer && c.status !== 'PASS') (defers[c.defer] ??= []).push(c.id);
