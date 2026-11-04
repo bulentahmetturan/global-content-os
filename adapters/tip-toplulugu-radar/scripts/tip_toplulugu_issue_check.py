@@ -101,7 +101,9 @@ def manual(id_: str, detail: str) -> None:
 
 
 def items(route: str, extra: str = "", limit: int = 500):
-    return get(f"/api/items?route={route}{extra}&status=inbox&days=14&limit={limit}")
+    # Same window the Hub uses: Tıp Topluluğu keeps records up to 185 days (S15b), news/research use the 14-day working set.
+    days = 185 if "channel=tip_toplulugu" in extra else 14
+    return get(f"/api/items?route={route}{extra}&status=inbox&days={days}&limit={limit}")
 
 
 def main(only: str | None = None) -> int:

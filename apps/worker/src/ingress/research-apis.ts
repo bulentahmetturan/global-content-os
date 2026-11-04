@@ -160,6 +160,8 @@ async function ingestOpenAlex(env: Env, force = false) {
   for (const it of items) {
     const title = (it.display_name || '').trim();
     if (!title) continue;
+    // OpenAlex sorts publication_date:desc, so scheduled/placeholder future dates (2027-01-01) come first: drop them (issue-check S04b).
+    if (isFutureDate(it.publication_date ?? null)) continue;
     const doi = (it.doi || '').replace(/^https?:\/\/doi\.org\//i, '') || null;
     const canonicalUrl = doi ? `https://doi.org/${doi}` : it.id || `https://openalex.org`;
     const publisher = it.primary_location?.source?.display_name || 'OpenAlex';
