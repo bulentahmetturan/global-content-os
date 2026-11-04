@@ -268,13 +268,15 @@ async function ingestPmcOa(env: Env, force = false) {
   const feed = await getFeed(env, 'research-pubmed-central-oa', force);
   if (!feed) return { created: 0, updated: 0, total: 0 };
   const url = new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
+  // Europe PMC answers 503 for this broad query when sorted (sort=DATE_DESC); a bounded 30-day window without sort is stable.
+  const since = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
   url.searchParams.set(
     'query',
-    'SRC:PMC AND OPEN_ACCESS:y AND (medicine OR device OR auscultation OR "artificial intelligence")'
+    `SRC:PMC AND OPEN_ACCESS:y AND (medicine OR device OR auscultation OR "artificial intelligence") AND FIRST_PDATE:[${since} TO 2099-12-31]`
   );
   url.searchParams.set('format', 'json');
   url.searchParams.set('pageSize', '15');
-  url.searchParams.set('sort', 'DATE_DESC');
+  url.searchParams.set('resultType', 'core');
   const res = await fetch(url.toString(), {
     headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
   });
