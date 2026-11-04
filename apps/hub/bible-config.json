@@ -123,5 +123,49 @@
     "hard_gates": "pass",
     "human_approved": true,
     "publication_copy_valid": true
+  },
+  "source_activation": {
+    "_note": "Bible §26.3/D (owner decision 2026-11-03, restored from the pre-4.3 Bible text). Values live here, principles in the Bible. Changing a value needs owner approval (§28.3).",
+    "clean_canary_runs": {
+      "default": 5,
+      "high_risk_legal_tos_health_finance": 7,
+      "low_risk": 3
+    },
+    "zero_accept_alarm_consecutive_runs": {
+      "default": 5,
+      "sparse_publisher": 10,
+      "critical_or_high_volume": 3
+    },
+    "parse_rate_threshold": {
+      "default": 0.8,
+      "clean_structured_feed_or_list": 0.95,
+      "mixed_html_or_html_list_snapshot": 0.6,
+      "mixed_html_requires": "owner approval + recorded reason + visible canary warning"
+    }
+  },
+  "research_scope": {
+    "_note": "Bible §25.2, §11.6, §13, §30.4, SPF-13 and §14.4 name these values as Config. NOT decided yet: set only after the per-source owner interviews (§26.1/§26.6). null = undefined; nothing is invented.",
+    "status": "OWNER_PENDING",
+    "fetch_scope": {
+      "page_limit": null,
+      "daily_cap": null,
+      "publication_date_window_days": null
+    },
+    "topic_questions": {
+      "delivery_per_day": null,
+      "max_pending": null,
+      "pending_age_warning_days": null
+    },
+    "recency": {
+      "current_max_age_days": null,
+      "rediscovery_min_age_days": null
+    },
+    "convergence": {
+      "rejection_rate_target": null,
+      "new_topic_inflow_target": null,
+      "pending_age_target_days": null
+    },
+    "research_score_profile_weights": null,
+    "content_mix_target_band": null
   }
 }
