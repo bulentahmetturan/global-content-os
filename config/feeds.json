@@ -1492,7 +1492,9 @@
       "externalRef": "nature-ageing-subject",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "manual_only: no feed, cookie-wall HTML list (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1507,7 +1509,9 @@
       "externalRef": "nature-nutrition-subject",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "manual_only: no feed, cookie-wall HTML list (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1522,7 +1526,9 @@
       "externalRef": "sciencedaily-healthy-aging",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "retired duplicate: publisher owned by DUYURU (2.3, S66)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1537,7 +1543,9 @@
       "externalRef": "sciencedaily-alternative-medicine",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "retired duplicate: publisher owned by DUYURU (2.3, S66)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1552,7 +1560,9 @@
       "externalRef": "sciencedaily-dietary-supplements",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "retired duplicate: publisher owned by DUYURU (2.3, S66)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1567,7 +1577,9 @@
       "externalRef": "asn-nutrition-news",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "manual_only: Cloudflare challenge, bot protection not bypassed (8.2)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1582,7 +1594,9 @@
       "externalRef": "nccih-news",
       "rules": {
         "mode": "registered",
-        "activation": "PENDING_EXPLICIT_DECISION"
+        "activation": "DECIDED_INACTIVE",
+        "decision": "manual_only: OVERSIZE_BODY + controversial field (13.3)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
