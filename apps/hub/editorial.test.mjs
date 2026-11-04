@@ -93,10 +93,10 @@ test('every inbox row carries its own Üretime aktar / Beklet / Reddet buttons; 
   assert.match(full, /Reddet <kbd>S<\/kbd>/);
 });
 
-test('resizable panes: both handles exist, limits are enforced and the size is remembered', () => {
-  assert.match(html, /id="resizeList"/);
+test('resizable sidebar: handle exists, limits are enforced and the size is remembered; the old list handle is gone', () => {
+  assert.doesNotMatch(html, /id="resizeList"/);
   assert.match(html, /id="resizeSide"/);
-  assert.match(html, /name === '--sidebar-w' \? 200 : 300/);
+  assert.match(html, /var min = 200, max = 360;/);
   assert.match(html, /localStorage\.setItem\('gcos' \+ name/);
   assert.match(html, /addEventListener\('dblclick'/);
 });

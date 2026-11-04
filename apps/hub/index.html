@@ -110,13 +110,10 @@
     background: rgba(0,0,0,.08); border-radius: 20px; padding: 1px 7px;
   }
   .pill.active .p-count { background: rgba(255,255,255,.25); }
-  .lane-note {
     display: flex; gap: 10px; align-items: flex-start; background: var(--surface);
     border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px;
     margin-bottom: 18px; font-size: .82rem; color: var(--text-dim); box-shadow: var(--shadow);
   }
-  .lane-note b { color: var(--text); }
-  .lane-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--turquoise); margin-top: 6px; flex-shrink: 0; }
   .card-list { display: flex; flex-direction: column; gap: 10px; }
   .card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
@@ -262,11 +259,7 @@
   /* ===== Editorial layer (2026-10-23): three-column triage, Newsreader + Instrument Sans ===== */
   .main { padding: 0; max-width: none; }
   .work { display: block; }
-  .main.split .work { display: grid; grid-template-columns: minmax(380px, 460px) minmax(0, 1fr); height: 100vh; }
   .pane-list { padding: 22px 18px 40px; min-width: 0; }
-  .main.split .pane-list { overflow-y: auto; border-right: 1px solid var(--border); }
-  .pane-read { display: none; }
-  .main.split .pane-read { display: block; overflow-y: auto; background: var(--surface); padding: 0; }
   .main > #bibleView, .main > #moduleView, .main > .footnote { padding: 0 28px; max-width: 960px; }
   .main:not(.split) .pane-list { padding: 24px 28px 8px; max-width: 960px; }
   .main > .footnote { margin: 24px 0 0; padding: 14px 28px 48px; border-top: 1px solid var(--border); }
@@ -305,12 +298,8 @@
   .pill.active { background: none; color: var(--text); border-bottom-color: var(--accent); }
   .pill .p-count { background: none; padding: 0 0 0 4px; color: var(--text-faint); }
   .pill.active .p-count { background: none; color: var(--accent); }
-  .lane-note { background: none; border: 0; box-shadow: none; padding: 0; margin: 0 0 12px; font-size: .78rem; color: var(--text-faint); }
-  .lane-dot { display: none; }
 
   .progress { margin: 0 0 12px; }
-  .progress .bar { height: 3px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
-  .progress .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
   .progress .txt { display: flex; justify-content: space-between; margin-top: 6px; font: 500 .7rem var(--font-mono); color: var(--text-faint); }
 
   .card-list { gap: 6px; }
@@ -345,8 +334,6 @@
 
   .read-inner { max-width: 720px; margin: 0 auto; padding: 36px 44px 64px; animation: readIn .22s ease both; }
   @keyframes readIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .read-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font: 500 .72rem var(--font-mono); color: var(--text-faint); margin-bottom: 14px; }
-  .read-top .pub-pill { color: var(--text); }
   .read-title { font-family: var(--font-serif); font-size: 2.3rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 12px; color: var(--text); }
   .read-orig { font-size: .78rem; color: var(--text-faint); margin: 0 0 14px; font-style: italic; }
   .read-link { display: inline-block; margin: 0 0 22px; color: var(--accent); font-weight: 600; font-size: .9rem; text-decoration: underline; text-underline-offset: 4px; }
@@ -364,8 +351,6 @@
   .btn-delete { background: transparent; color: var(--danger); border: 1px solid var(--border); }
   .btn-undo { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn kbd, .kbd { font: 500 .66rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid currentColor; opacity: .6; margin-left: 4px; }
-  .read-nav { display: flex; gap: 8px; margin: 22px 0 0; font-size: .76rem; color: var(--text-faint); align-items: center; }
-  .read-back { all: unset; display: none; cursor: pointer; font: 600 .84rem var(--font-ui); color: var(--accent); padding: 14px 18px 0; }
   .card-note { margin: 6px 0 0; font-size: .8rem; color: var(--text-faint); font-style: italic; }
   .deadline-chip { color: var(--accent); font-weight: 600; }
   .card.is-selected .deadline-chip { color: var(--select-ink); }
@@ -376,16 +361,6 @@
   .toast button { all: unset; cursor: pointer; font-weight: 700; color: var(--accent); }
   .toast.show { pointer-events: auto; }
 
-  @media (max-width: 1100px) {
-    .main.split .work { grid-template-columns: 1fr; height: auto; }
-    .main.split .pane-list { border-right: 0; overflow: visible; }
-    .main.split .pane-read { display: none; }
-    .main.split.reading .pane-list { display: none; }
-    .main.split.reading .pane-read { display: block; overflow: visible; }
-    .main.split.reading .read-back { display: block; }
-    .read-inner { padding: 20px 20px 48px; }
-    .read-title { font-size: 1.8rem; }
-  }
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   }
@@ -413,16 +388,8 @@
   .strip i { display: block; width: 22px; height: 22px; border-radius: 5px; }
 
   /* ===== feedback round 1 (real data): contrast numbers, hairlines, row actions, resizable panes ===== */
-  :root { --list-w: 440px; }
   .sidebar { position: relative; }
-  .main.split .work { grid-template-columns: var(--list-w) 10px minmax(0, 1fr); }
-  .main.split .pane-list { border-right: 0; }
-  .resizer { display: none; position: relative; cursor: col-resize; touch-action: none; background: transparent; }
-  .main.split .resizer { display: block; }
-  .resizer::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: var(--border); transition: background .15s ease; }
-  .resizer:hover::before, .resizer.dragging::before, .resizer:focus-visible::before { background: var(--accent); }
-  .resizer:focus-visible { outline: none; }
-  .resizer-side { position: absolute; top: 0; right: -5px; bottom: 0; width: 10px; cursor: col-resize; z-index: 5; touch-action: none; }
+  .resizer-side { position: absolute; top: 0; right: 0; bottom: 0; width: 10px; cursor: col-resize; z-index: 5; touch-action: none; }
   .resizer-side::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: transparent; transition: background .15s ease; }
   .resizer-side:hover::before, .resizer-side.dragging::before, .resizer-side:focus-visible::before { background: var(--accent); }
   .resizer-side:focus-visible { outline: none; }
@@ -471,10 +438,6 @@
   .read-title { font-size: clamp(1.55rem, 2.1vw, 2.2rem); }
   .read-actions { position: sticky; bottom: 0; background: var(--surface); padding: 14px 0 16px; margin-top: 8px; border-top: 1px solid var(--border); z-index: 2; }
   .read-inner { padding-bottom: 28px; }
-  @media (max-width: 1100px) {
-    .main.split .work { grid-template-columns: 1fr; }
-    .resizer, .main.split .resizer, .resizer-side { display: none; }
-  }
 
   .lang-tag { font: 700 .6rem var(--font-mono); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--hold); color: var(--hold); letter-spacing: .05em; }
   .card.is-selected .lang-tag { color: #7A4F00; border-color: #7A4F00; }
@@ -585,21 +548,17 @@
   /* single decision card + queue: .pane-list / #listView dissolve into one flex column */
   .main.split .work { display: flex; flex-direction: column; height: auto; max-width: 1040px; margin: 0 auto; padding: 22px 28px 48px; gap: 0; }
   .main.split .pane-list { display: contents; }
-  .main.split .resizer, .resizer-side { display: none; }
   #listView { display: contents; }
   #listView[hidden] { display: none; }
   .main.split .main-header { order: 1; }
   .main.split .toolbar { order: 2; }
   .main.split .pillbar { order: 3; }
-  .main.split .lane-note { order: 4; }
   .main.split #srcPanel { order: 5; }
   .main.split #hekToolbar { order: 6; }
   .main.split .pane-read { order: 7; display: block; overflow: visible; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); padding: 0; margin: 4px 0 26px; }
   .main.split .queue-head { order: 8; }
   .main.split .queue-row { order: 9; }
   .main.split .empty { order: 10; }
-  .main.split.reading .pane-list { display: contents; }
-  .main.split .read-back { display: none; }
   .main:not(.split) .queue-head, .main:not(.split) .queue-row { display: none; }
 
   .main-header h2 { font-size: 1.9rem; }
@@ -608,7 +567,6 @@
   .toolbar .btn-sync { border-radius: 999px; padding: 8px 16px; font-weight: 600; }
   .density { margin-left: auto; }
   .pillbar { margin-bottom: 18px; }
-  .lane-note { display: none; }
 
   .read-inner.read-grid { max-width: none; display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 0 28px; padding: 30px 34px 30px; }
   .read-idx { border-right: 1px solid var(--border); padding-right: 20px; align-self: start; }
@@ -709,7 +667,6 @@
     </div>
     <div class="pillbar" id="kindbar" hidden></div>
     <div class="pillbar" id="pillbar"></div>
-    <div class="lane-note" id="laneNote"></div>
     <div id="listView">
       <div id="srcPanel" hidden></div>
       <div id="hekToolbar" hidden></div>
@@ -724,7 +681,6 @@
       <div class="empty" id="emptyState"></div>
     </div>
     </section>
-    <div class="resizer" id="resizeList" role="separator" aria-orientation="vertical" aria-label="Liste genişliği" tabindex="0" title="Sürükleyerek genişliği ayarlayın (çift tık: sıfırla)"></div>
     <aside class="pane-read" id="readPane" aria-live="polite"></aside>
     </div>
     <div id="bibleView" hidden>
@@ -791,32 +747,6 @@
       return '&path=EVERGREEN&evergreen_view=' + encodeURIComponent(st.evView);
     }
     return '&path=TIME_SENSITIVE';
-  }
-  function routeNote() {
-    if (state.route === 'modules') return 'Dossier, Doktorlar, Protokoller, Keşif ve İstatistik: salt okunur durum özetleri. Burada hiçbir şey değiştirilmez.';
-    if (state.temporal === 'EVERGREEN' && state.evView === 'health_reference') {
-      return 'Evergreen · Sağlık & Referans. Yayın yaşı tek başına ret sebebi değildir; kartta özgün yayın tarihi ve seçilme nedeni görünür. Otomatik yayın yok.';
-    }
-    if (state.temporal === 'EVERGREEN' && state.evView === 'research_rediscovery') {
-      return 'Evergreen · Research Rediscovery. Yeniden keşfedilen çalışma yeni kayıt olmaz; özgün yayın tarihiyle gösterilir. Otomatik yayın yok.';
-    }
-    if (state.route === 'kaduse' && state.kind === 'news') {
-      return 'Kaduse Haber. En fazla 10 gün, tarihli. Otomatik yayın yok.';
-    }
-    if (state.route === 'kaduse' && state.kind === 'research') {
-      return 'Kaduse Research. İddia kanıtı aşamaz; preprint etiketlenir. Otomatik yayın yok.';
-    }
-    if (state.route === 'tip_toplulugu' && state.hekLane === 'burs') {
-      return 'Gelen Kutusu, burs kaynaklarından çekilen ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; çağrı henüz otomatik çekilmiyor.';
-    }
-    if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') {
-      return 'Gelen Kutusu, eğitim kaynaklarından çekilen kurs/ilanların izlendiği alandır. Kaynak listesi üstteki “aktif kaynak” panelindedir; kurs henüz otomatik çekilmiyor.';
-    }
-    if (state.route === 'tip_toplulugu') {
-      return 'Tıp Topluluğu Duyuru. Burs ve Eğitim bu kutuya karışmaz. Otomatik yayın yok.';
-    }
-    var r = ROUTES.find(function (x) { return x.id === state.route; });
-    return r ? r.note : '';
   }
   var VIEWS = [
     { id: 'inbox', label: 'Gelen Kutusu', icon: '📥' },
@@ -1278,7 +1208,6 @@
   var pillbarEl = document.getElementById('pillbar');
   var mainTitleEl = document.getElementById('mainTitle');
   var mainSubEl = document.getElementById('mainSub');
-  var laneNoteEl = document.getElementById('laneNote');
   var cardListEl = document.getElementById('cardList');
   var readPaneEl = document.getElementById('readPane');
   var emptyStateEl = document.getElementById('emptyState');
@@ -1739,7 +1668,7 @@
     if (!items.length) { readPaneEl.innerHTML = '<div class="read-empty">Okunacak öğe yok.</div>'; return; }
     var idx = items.findIndex(function (x) { return x.id === state.cursor; });
     if (idx < 0) { idx = 0; state.cursor = items[0].id; }
-    readPaneEl.innerHTML = '<button class="read-back" type="button" data-readback="1">← Listeye dön</button>' + readPaneHtml(items[idx], idx + 1, items.length);
+    readPaneEl.innerHTML = readPaneHtml(items[idx], idx + 1, items.length);
     readPaneEl.scrollTop = 0;
   }
   function dayKey() { var d = new Date(); return 'gcos-processed-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
@@ -1769,7 +1698,6 @@
         el.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
       }
     }
-    if (opts && opts.open) document.querySelector('.main').classList.add('reading');
     renderRead();
     renderProgress();
   }
@@ -1864,7 +1792,6 @@
     mainEl.classList.toggle('bible-mode', isBible);
     mainEl.classList.toggle('split', !isBible && !isModules);
     mainEl.classList.toggle('density-compact', state.density === 'compact');
-    if (isBible || isModules) mainEl.classList.remove('reading');
     Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-density') === state.density ? 'true' : 'false');
     });
@@ -1898,13 +1825,11 @@
     mainTitleEl.innerHTML = escapeHtml(title) + (titleCount != null ? '<span class="title-count">' + escapeHtml(titleCount) + '</span>' : '');
     if (isModules) {
       mainSubEl.textContent = (MODULE_META[state.module] || MODULE_META.dossier).sub;
-      laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Sistem Modülleri.</b> ' + escapeHtml(routeNote()) + '</div>';
       footnoteEl.innerHTML = 'Canlı veritabanından okunan özet. Yalnızca görüntüleme; yazma ve aktivasyon bu ekrandan yapılmaz.';
       return;
     }
     if (isBible) {
       mainSubEl.innerHTML = 'v4.0 · Kitap I + Source Pass/Fail · Haber · Burs · Eğitim · Duyuru · Research';
-      laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Türk Tıp İçerik OS.</b> ' + escapeHtml(routeNote()) + '</div>';
       footnoteEl.innerHTML = 'Anayasa v4. Haber/Research = ENGAGEMENT. Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY. Soft skor FAIL üretmez. Beş kategori işletim MD’si henüz yazılmadı.';
       return;
     }
@@ -1914,7 +1839,6 @@
       (feedN == null ? 'Evergreen' : '<button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
         feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button>') + ' · D1' +
       (shownN && totalN > shownN ? escapeHtml(' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor') : '');
-    laneNoteEl.innerHTML = '<div class="lane-dot"></div><div><b>Global Hub.</b> ' + escapeHtml(routeNote()) + '</div>';
     footnoteEl.innerHTML =
       'Promote → <code>approved_brief</code> üretir ve Channel Content OS’a gider (stub veya HANDOFF_URL). ' +
       'Ham kaynak kayıtları CCOS’a gitmez. Tip radar: <code>pnpm ingest:tip</code>.' +
@@ -2680,11 +2604,10 @@
       if (qt) selectItem(qt.id);
       return;
     }
-    if (e.target.closest && e.target.closest('[data-readback]')) { document.querySelector('.main').classList.remove('reading'); return; }
     var undoBtn = e.target.closest && e.target.closest('[data-undo-toast]');
     if (undoBtn) { undoLast(undoBtn.getAttribute('data-undo-toast')).catch(function (err) { showToast(err.message); }); return; }
     var cardEl = e.target.closest && e.target.closest('.card[data-card]');
-    if (cardEl && !e.target.closest('a, button, input, label, select')) { selectItem(cardEl.getAttribute('data-card'), { scroll: false, open: true }); return; }
+    if (cardEl && !e.target.closest('a, button, input, label, select')) { selectItem(cardEl.getAttribute('data-card'), { scroll: false }); return; }
     var sel = window.getSelection();
     if (sel && String(sel).length > 0 && e.target.closest('#srcPanel')) { return; }
     if (e.target.closest('[data-srcpanel]')) {
@@ -2865,15 +2788,13 @@
     }).catch(function (err) { showToast(err.message); });
   });
 
-  // Sürüklenebilir genişlik: menü ve liste. Değer tarayıcıda saklanır; çift tık varsayılana döner; klavye okları 16 px oynatır.
+  // Sürüklenebilir genişlik: menü. Değer tarayıcıda saklanır; çift tık varsayılana döner; klavye okları 16 px oynatır.
   (function initResizers() {
     var root = document.documentElement;
-    var DEF = { '--sidebar-w': 248, '--list-w': 440 };
+    var DEF = { '--sidebar-w': 248 };
     function px(name) { return parseInt(getComputedStyle(root).getPropertyValue(name), 10) || DEF[name]; }
     function clampTo(name, v) {
-      var side = px('--sidebar-w');
-      var min = name === '--sidebar-w' ? 200 : 300;
-      var max = name === '--sidebar-w' ? 360 : Math.max(min, window.innerWidth - side - 420);
+      var min = 200, max = 360;
       return Math.max(min, Math.min(max, Math.round(v)));
     }
     function setW(name, v, save) {
@@ -2883,7 +2804,7 @@
       return w;
     }
     try {
-      ['--sidebar-w', '--list-w'].forEach(function (n) { var v = parseInt(localStorage.getItem('gcos' + n) || '', 10); if (v) setW(n, v, false); });
+      ['--sidebar-w'].forEach(function (n) { var v = parseInt(localStorage.getItem('gcos' + n) || '', 10); if (v) setW(n, v, false); });
     } catch (e) { /* private mode */ }
     function bind(el, name) {
       if (!el) return;
@@ -2910,8 +2831,6 @@
       });
     }
     bind(document.getElementById('resizeSide'), '--sidebar-w');
-    bind(document.getElementById('resizeList'), '--list-w');
-    window.addEventListener('resize', function () { setW('--list-w', px('--list-w'), false); });
   })();
 
   // Klavye ile sıralı triyaj. Üretime aktarma kalıcı bir yan etki (approved_brief) üretir: ikinci tuş vuruşu ister.
@@ -2924,7 +2843,6 @@
     if (dlg && dlg.open) return;
     if (state.route === 'bible' || state.route === 'modules') return;
     var k = String(e.key || '').toLowerCase();
-    if (k === 'escape') { document.querySelector('.main').classList.remove('reading'); return; }
     var items = visibleItems();
     if (!items.length) return;
     var idx = items.findIndex(function (x) { return x.id === state.cursor; });
