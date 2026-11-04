@@ -332,9 +332,6 @@
   .card.in-production, .card.in-done, .card.in-trash, .card.in-hold { border-left-width: 1px; }
   .status-pill { background: none; padding: 0; font-weight: 600; }
   .status-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 5px; vertical-align: 1px; }
-  .card .bulk-pick { position: absolute; top: 4px; left: 8px; margin: 0; padding: 0; z-index: 1; opacity: 1; line-height: 0; cursor: pointer; }
-  .card .bulk-pick input { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--accent); }
-  .card { padding-top: 22px; }
 
   .skeleton-row { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 12px 14px 12px 8px; }
   .skeleton-row i { display: block; height: 10px; border-radius: 6px; background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
@@ -439,9 +436,30 @@
   .card.is-selected .c-num { background: var(--select-ink); border-color: var(--select-ink); color: var(--select-bg); }
   .card-title { font-size: 1.05rem; }
   .card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-  .card-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 9px; }
-  .card-score { display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 3px 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); white-space: nowrap; }
-  .card-score .pred-chip, .card-score .rated-chip { font-size: .82rem; }
+  .card-foot { display: flex; flex-direction: column; gap: 10px; margin-top: 11px; }
+  .card-rate { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 6px 10px; padding-top: 9px; border-top: 1px solid color-mix(in srgb, currentColor 11%, transparent); }
+  .card-rate .pred-chip { margin-right: auto; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, currentColor 8%, transparent); font-size: .72rem; letter-spacing: .02em; }
+  .qlabel { font: 600 .62rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase; opacity: .55; }
+  .qnums { display: inline-flex; padding: 2px; border-radius: 10px; background: color-mix(in srgb, currentColor 8%, transparent); }
+  .qn, .qc { all: unset; box-sizing: border-box; cursor: pointer; display: inline-grid; place-items: center; font: 600 .74rem var(--font-ui); color: inherit; opacity: .72; transition: background .12s ease, opacity .12s ease, transform .12s ease, box-shadow .12s ease; }
+  .qn { min-width: 25px; height: 25px; border-radius: 8px; font-variant-numeric: tabular-nums; }
+  .qn:hover, .qc:hover { opacity: 1; background: color-mix(in srgb, currentColor 14%, transparent); }
+  .qn.on, .qc.on { opacity: 1; background: var(--accent); color: var(--on-accent); box-shadow: 0 1px 6px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .qn:active, .qc:active { transform: scale(.92); }
+  .qn:focus-visible, .qc:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .qchans { display: inline-flex; gap: 4px; }
+  .qc { min-width: 32px; height: 25px; padding: 0 8px; border-radius: 8px; border: 1px solid color-mix(in srgb, currentColor 18%, transparent); font: 700 .68rem var(--font-mono); letter-spacing: .03em; }
+  .qc.on { border-color: var(--accent); }
+  .card-rate .rated-chip { font: 600 .68rem var(--font-ui); color: var(--ok); }
+  .card.is-selected .card-rate .rated-chip { color: #1F6B3A; }
+  .card .bulk-pick { position: absolute; left: 17px; top: 42px; margin: 0; padding: 0; line-height: 0; opacity: 1; cursor: pointer; z-index: 1; }
+  .card .bulk-pick input { appearance: none; -webkit-appearance: none; width: 16px; height: 16px; margin: 0; cursor: pointer; border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent); border-radius: 5px; background: transparent; display: grid; place-items: center; transition: background .12s ease, border-color .12s ease, transform .12s ease; }
+  .card .bulk-pick input:hover { border-color: var(--accent); transform: scale(1.1); }
+  .card .bulk-pick input:checked { background: var(--accent); border-color: var(--accent); }
+  .card .bulk-pick input:checked::after { content: '✓'; font: 800 .65rem var(--font-ui); color: var(--on-accent); line-height: 1; }
+  .card:hover { background: color-mix(in srgb, var(--surface-2) 55%, transparent); }
+  .card.is-selected { box-shadow: 0 10px 30px -12px rgba(0,0,0,.55), 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .card-title { letter-spacing: -.012em; line-height: 1.28; }
   .btn-xs { padding: 4px 10px; font-size: .72rem; border-radius: 7px; }
   .card .btn-promote.btn-xs { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   .card .btn-hold.btn-xs, .card .btn-delete.btn-xs, .card .btn-undo.btn-xs { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
@@ -1295,12 +1313,45 @@
     if (mode === 'production') return '<button class="btn btn-promote' + sm + '" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
     return '<button class="btn btn-undo' + sm + '" data-action="undo" data-id="' + it.id + '">Geri al' + key('Z') + '</button>';
   }
-  /** Bottom-right score badge: system prediction (⚙) next to the owner's saved rating (★), so the two can be compared at a glance. */
+  /** Bottom-right rating strip on the card: system prediction (⚙), 1-10 wow, channel toggles. One click on a number saves. */
   function cardScoreHtml(it) {
-    var r = state.ratings && state.ratings[it.id];
     var pred = predChipHtml(it.id);
-    var mine = r ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(r)) + '">★ ' + r.wow + '</span>' : '';
-    return (pred || mine) ? '<div class="card-score">' + pred + mine + '</div>' : '';
+    if (state.ratingsReady === false) return pred ? '<div class="card-rate" data-qrate="' + it.id + '">' + pred + '</div>' : '';
+    var d = draftFor(it.id);
+    var saved = state.ratings && state.ratings[it.id];
+    var nums = '';
+    for (var n = 1; n <= 10; n++) nums += '<button type="button" class="qn' + (d.wow === n ? ' on' : '') + '" data-qwow="' + n + '" aria-pressed="' + (d.wow === n) + '" title="Wow ' + n + '">' + n + '</button>';
+    var chans = CHANNELS.map(function (c) {
+      return '<button type="button" class="qc' + (d[c[0]] ? ' on' : '') + '" data-qch="' + c[0] + '" aria-pressed="' + !!d[c[0]] + '" title="' + c[2] + '">' + c[1] + '</button>';
+    }).join('');
+    var mark = saved ? '<span class="rated-chip" title="Kayıtlı: ' + escapeHtml(ratingLabel(saved)) + '">✓ kayıtlı</span>' : '';
+    return '<div class="card-rate" data-qrate="' + it.id + '">' + pred +
+      '<span class="qlabel">Wow</span><span class="qnums" role="group" aria-label="Wow puanı">' + nums + '</span>' +
+      '<span class="qchans" role="group" aria-label="Yayın kanalı">' + chans + '</span>' + mark + '</div>';
+  }
+  function refreshCardRate(id) {
+    var el = document.querySelector('.card-rate[data-qrate="' + id + '"]');
+    var it = state.items.find(function (x) { return x.id === id; });
+    if (el && it) el.outerHTML = cardScoreHtml(it);
+  }
+  async function quickRate(id, patch) {
+    if (state.ratingsReady === false) return;
+    var base = draftFor(id);
+    var d = { wow: base.wow, tt: !!base.tt, ik: !!base.ik, km: !!base.km };
+    Object.keys(patch).forEach(function (k) { d[k] = patch[k]; });
+    state.drafts[id] = d;
+    refreshCardRate(id);
+    if (!d.wow) { showToast('Kanal seçildi — şimdi 1-10 arası wow puanı verin'); return; }
+    var res;
+    try { res = await api('/api/ratings', { method: 'POST', body: JSON.stringify({ itemId: id, wow: d.wow, channels: { tt: d.tt, ik: d.ik, km: d.km } }) }); }
+    catch (err) { delete state.drafts[id]; refreshCardRate(id); throw err; }
+    state.ratings[id] = { wow: d.wow, tt: d.tt, ik: d.ik, km: d.km };
+    delete state.drafts[id];
+    bumpRated();
+    refreshCardRate(id);
+    renderRateBlock(id);
+    renderProgress();
+    showToast('Puan kaydedildi: ' + ratingLabel(state.ratings[id]) + (res && res.replaced ? ' (güncellendi)' : ''));
   }
   function cardHtml(it) {
     var mode = it.triageStatus;
@@ -1512,8 +1563,7 @@
     showToast('Puan kaydedildi: ' + ratingLabel(state.ratings[id]) + (res && res.replaced ? ' (güncellendi)' : ''));
     var items = visibleItems();
     var idx = items.findIndex(function (x) { return x.id === id; });
-    var card = document.getElementById('card-' + id);
-    if (card) { var meta = card.querySelector('.card-meta'); if (meta && !meta.querySelector('.rated-chip')) meta.insertAdjacentHTML('beforeend', '<span class="rated-chip">★ ' + d.wow + '</span>'); }
+    refreshCardRate(id);
     // Stay on the item: the owner decides promote / hold / reject next, with the rating still in view. Those actions advance to the next item.
     renderRateBlock(id);
     renderProgress();
@@ -2414,6 +2464,16 @@
     }
   });
   document.addEventListener('click', function (e) {
+    var qBtn = e.target.closest && e.target.closest('[data-qwow],[data-qch]');
+    if (qBtn) {
+      e.stopPropagation();
+      var qid = qBtn.closest('.card-rate').getAttribute('data-qrate');
+      var patch = {};
+      if (qBtn.hasAttribute('data-qwow')) patch.wow = Number(qBtn.getAttribute('data-qwow'));
+      else { var kk = qBtn.getAttribute('data-qch'); patch[kk] = !draftFor(qid)[kk]; }
+      quickRate(qid, patch).catch(function (err) { showToast(err.message); });
+      return;
+    }
     var rateRoot = e.target.closest && e.target.closest('.rate[data-rate]');
     if (rateRoot && state.ratingsReady !== false) {
       var rid = rateRoot.getAttribute('data-rate');
