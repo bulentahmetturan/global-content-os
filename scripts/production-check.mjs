@@ -100,11 +100,10 @@ for (const f of testFiles) {
     else if (nSkip > nJustified) fail(f.replace(root, '.'), `${nSkip - nJustified} unjustified skipped/todo test(s): ${reasons.filter((r) => !JUSTIFIED_SKIP.test(r)).slice(0, 2).join(' | ') || 'no reason'}`);
     else pass(`${f.replace(root, '.')} (${nPass ?? '?'} tests${nJustified ? `, ${nJustified} justified skip: sibling repo absent` : ''})`);
   } catch (e) {
-    const detail = (e.stderr?.toString() || e.stdout?.toString() || e.message || '')
-      .split('\n')
-      .filter(Boolean)
-      .slice(0, 6)
-      .join(' | ');
+    const lines = ((e.stderr?.toString() || '') + '\n' + (e.stdout?.toString() || '') || e.message || '').split('\n').filter(Boolean);
+    // Show the failing assertions first (not the passing prelude), so CI logs name the real cause.
+    const failing = lines.filter((l) => /✖|not ok|AssertionError|Error:|ERR_|failing tests/.test(l));
+    const detail = (failing.length ? failing : lines).slice(0, 8).join(' | ').slice(0, 900);
     fail(f.replace(root, '.'), `process exited non-zero -- ${detail}`);
   }
 }
