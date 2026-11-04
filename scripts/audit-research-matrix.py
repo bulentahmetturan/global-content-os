@@ -24,7 +24,7 @@ for route in ("kaduse-news", "tip-ogrencileri"):
     other += get(f"{B}/api/feeds?route={route}")["feeds"]
 items = {}
 for st in ("inbox", "hold"):
-    for x in get(f"{B}/api/items?route=kaduse-research&status={st}&limit=500")["items"]:
+    for x in get(f"{B}/api/items?route=kaduse-research&status={st}&limit=500&days=3650")["items"]:
         x["_st"] = st
         items[x["id"]] = x
 by = defaultdict(list)
