@@ -47,7 +47,7 @@
   },
   "source_pass_fail": {
     "ruleset_version": "source-pass-fail-v1",
-    "schema_version": "spf-1.0.0",
+    "schema_version": "spf-1.1.0",
     "soft_score_can_fail": false,
     "editorial_bands": [
       { "min": 85, "max": 100, "decision": "PASS", "priority": "HIGH_PRIORITY" },

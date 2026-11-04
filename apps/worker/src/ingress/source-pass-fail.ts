@@ -5,7 +5,7 @@
 import type { Env } from '../db/queries';
 
 export const SPF_RULESET_VERSION = 'source-pass-fail-v1';
-export const SPF_SCHEMA_VERSION = 'spf-1.0.0';
+export const SPF_SCHEMA_VERSION = 'spf-1.1.0';
 export const SPF_DOCUMENT = '/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md';
 
 export const EVALUATION_TRACKS = {

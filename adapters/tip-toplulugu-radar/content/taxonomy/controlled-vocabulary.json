@@ -60,7 +60,7 @@
   "evaluation_track": ["ENGAGEMENT", "PRAGMATIC_UTILITY"],
   "editorial_decision": ["PASS", "CONDITIONAL", "WATCH", "FAIL"],
   "item_decision": ["PASS", "HOLD", "HUMAN_REVIEW", "REJECT"],
-  "source_role": ["discovery", "verification", "both"],
+  "source_role": ["discovery", "verification", "both", "enrichment", "integrity_check", "attention_metric"],
   "ingestion_mode": ["AUTO_API", "AUTO_RSS", "AUTO_ATOM", "AUTO_SITEMAP", "AUTO_HTML", "MANUAL_ONLY", "BLOCKED"],
   "health_status": ["healthy", "warning", "unhealthy", "unknown"]
 }

@@ -12,7 +12,7 @@ from typing import Any, Mapping
 
 BIBLE_VERSION = "4.1"
 RULESET_VERSION = "source-pass-fail-v1"
-SCHEMA_VERSION = "spf-1.0.0"
+SCHEMA_VERSION = "spf-1.1.0"
 
 PRIMARY_CATEGORIES = ("haber", "research", "duyuru", "burs", "egitim")
 ENGAGEMENT_CATEGORIES = frozenset({"haber", "research"})
@@ -20,7 +20,7 @@ UTILITY_CATEGORIES = frozenset({"duyuru", "burs", "egitim"})
 
 EDITORIAL_DECISIONS = ("PASS", "CONDITIONAL", "WATCH", "FAIL")
 ITEM_DECISIONS = ("PASS", "HOLD", "HUMAN_REVIEW", "REJECT")
-SOURCE_ROLES = ("discovery", "verification", "both")
+SOURCE_ROLES = ("discovery", "verification", "both", "enrichment", "integrity_check", "attention_metric")
 INGESTION_MODES = (
     "AUTO_API",
     "AUTO_RSS",

@@ -193,6 +193,19 @@ class ConfigAndBibleLockTests(unittest.TestCase):
             self.assertEqual(data["evaluation_track"], files[cat], cat)
             self.assertIs(data["auto_publish"], False, cat)
 
+class SourceRole43Test(unittest.TestCase):
+    """Bible 4.3 (A7, SPF-4, SPF-34): source_role gains enrichment / integrity_check / attention_metric; vocabulary and code agree."""
+
+    def test_new_roles_in_code_and_vocabulary(self):
+        import json
+        from pathlib import Path
+        from radar.source_pass_fail import SOURCE_ROLES, SCHEMA_VERSION
+        new = {"enrichment", "integrity_check", "attention_metric"}
+        self.assertTrue(new <= set(SOURCE_ROLES))
+        vocab = json.loads((Path(__file__).resolve().parents[1] / "content" / "taxonomy" / "controlled-vocabulary.json").read_text(encoding="utf-8"))
+        self.assertEqual(set(vocab["source_role"]), set(SOURCE_ROLES))
+        self.assertEqual(SCHEMA_VERSION, "spf-1.1.0")
+
 
 if __name__ == "__main__":
     unittest.main()
