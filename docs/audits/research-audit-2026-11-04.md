@@ -1,6 +1,6 @@
 # Research audit vs Bible 4.3 (2026-11-04)
 
-Scope: Kaduse Haber > Research (`route=kaduse-research`), 65 feeds, live API. Item stats are a sample: the 500 newest inbox items plus 154 hold items (the API caps one page at 500 and ignores offset); inbox total 3785, hold 1317, production 23.
+Scope: Kaduse Haber > Research (`route=kaduse-research`), 65 feeds, live API. Item stats are a sample of 1000 items (the API caps one page at 500, ignores offset and has no per-feed filter): the 500 newest inbox + up to 500 hold; inbox total 3785, hold 1317, production 23. 31 sources have fewer than 3 sampled items and are shown as 'not measurable' in the matrix (docs/audits/research-matrix-2026-11-04.md, regenerate with scripts/audit-research-matrix.py).
 
 ## Findings (Bible rule -> state -> fix)
 
@@ -20,3 +20,22 @@ Scope: Kaduse Haber > Research (`route=kaduse-research`), 65 feeds, live API. It
 ## Not verified
 - Per-source accept/reject PASS/FAIL with the owner (26.1) has not been run; the fixes above need it for items 3-5.
 - The audience-fit judgement for item 5 is from five sample titles per feed, not the full inbox.
+
+## Ordered action list
+
+Order = Bible priority (1.3: audience, accuracy, evidence integrity, identity/dedup, then freshness/yield) and dependency. "Code" = the agent can do it without an owner answer; "Owner" = needs the 26.1 PASS/FAIL interview.
+
+| # | Action | Bible | Type | Sources hit | Depends on |
+|---|---|---|---|---|---|
+| 1 | Media/press-release items without DOI/PMID/original-study link -> HOLD | 13.6 | Code | medical-xpress, stat-news, eurekalert, asn-news, nature-news | - |
+| 2 | Article-type gate: reject/route errata, replies, letters, opinion, "Information for Authors", STAT+ digests, image-only press items | 26.6, 13.4 | Code | 11 sources (jama-network, ieee-tbme, stat-news, ...) | - |
+| 3 | Correction/retraction handling: flag corrected/retracted, never a normal item; wire an `integrity_check` source (spf-1.1.0 role now exists) | 13.4, SPF-28 | Code | european-heart-journal, jama-network, lancet-digital-health, 2 pubmed journals | - |
+| 4 | Fill evidence metadata (study_type, DOI/PMID, limitation) at ingest/enrichment, THEN hold items whose study_type stays unknown | 13.1, 13.2 | Code | 33 measurable sources (0 pass) | must precede the hold, else almost everything is held |
+| 5 | Per-source PASS/FAIL interview and narrowing rules; start with stat-news, jama-network, european-heart-journal, lancet-digital-health, medical-xpress, nature, cell, ieee-tbme, pubmed-nutrition-journal, pubmed-age-ageing | 26.1, 26.4/4, 1.1 narrowing method | Owner | 63 sources have no source-level rule, 49 no recorded decision | owner answers |
+| 6 | Audience decisions: cell, nature (news features), nature-news, ieee-tbme, ieee-jbhi, nature-genetics, nature-biotechnology | 1.2, 12.0 | Owner (part of 5) | 10 flagged | 5 |
+| 7 | Config: `cadence_class` + `staleness_threshold` per source; decide the 30 monthly `pubmed-*` feeds (low cadence class or Rediscovery) | 25 | Code + Owner | all 65 | owner picks the class for pubmed-* |
+| 8 | Access-level field on the item record and in review UI | 13.5 | Code (schema) | all 65 | schema bump |
+| 9 | Yield decisions: openalex-api (15 fetched, 0 inbox), crossref-rest-api (0 fetched), pubmed-bmj-nph / pubmed-japha (0 inbox), europe-pmc-rest (1) | 26.2/3 | Owner | 5 | 5 |
+| 10 | Cleanup of residue from paused/retired sources (science 12, science-translational-medicine 12, eurekalert 7, sciencedaily-* 10) and stale items (Cochrane 2016) | 26.4/5, 2.3 | Code + Owner (keep as history or trash) | 4 | - |
+| 11 | Verify PMC OA first fetch after the one-API-per-slot fix | 25 | Measure | pubmed-central-oa | background watcher running |
+| 12 | Items API: per-feed filter / paging so the audit covers every source | 30 | Code | 31 unmeasured | - |
