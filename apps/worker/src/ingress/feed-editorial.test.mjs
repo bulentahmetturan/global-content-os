@@ -95,3 +95,22 @@ describe('plumbing', () => {
     assert.equal(needsArticleMeta(HT), false);
   });
 });
+
+// Medical Xpress (Research): owner scored real RSS items 2026-11-05.
+describe('Medical Xpress Research topic rules', () => {
+  const MX = 'research-medical-xpress';
+  it('rejects distant outbreak reports and niche procedure / equipment items', () => {
+    assert.equal(rej(MX, 'Some 1,800 dead from cholera in Ebola-hit DR Congo: WHO', 'Cholera has killed around 1,800 people so far this year'), 'distant-outbreak-report');
+    assert.equal(rej(MX, 'Frankfurt says airport malaria cases likely from West Africa', 'Eight malaria cases around Frankfurt airport this summer'), 'distant-outbreak-report');
+    assert.equal(rej(MX, 'WHO hails progress against neglected tropical diseases', 'sleeping sickness all but disappearing'), 'distant-outbreak-report');
+    assert.equal(rej(MX, 'Proning and high-frequency oscillation may not reduce duration of ventilation for children with lung injury'), 'niche-critical-care-procedure');
+    assert.equal(rej(MX, 'Stair climbers are said to boost fitness, strength and bone health—here\'s what the evidence actually says'), 'fitness-equipment-explainer');
+  });
+  it('keeps the items the owner accepted', () => {
+    assert.equal(rej(MX, 'WHO approves clinical trials on two new Ebola vaccines', 'approved clinical trials for two new Ebola vaccines, as doctors fight to control an outbreak in Africa that has killed more than 5,300 people'), null);
+    assert.equal(rej(MX, 'WHO sounds alarm over lack of physical activity among teens', 'A quarter of teens globally engage in basically no physical activity'), null);
+    assert.equal(rej(MX, 'Combining HIV prevention and addiction treatment in mobile clinics could save lives', 'clinical trial in five major United States cities'), null);
+    assert.equal(rej(MX, 'What science says about perimenopause, menopause and mood swings—minus the hype'), null);
+    assert.equal(rej(MX, 'How your brain learned to love coffee, chocolate, fat and sugar'), null);
+  });
+});
