@@ -303,6 +303,11 @@ export const COVERAGE_OVERRIDES: Record<string, { label: CoverageLabel; note: st
   egitim_esmo_students: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: ESMO tıp öğrencisi medikal onkoloji kursu. 4.–5. sınıf. Vize. Fellowship burs şeridinde ayrı." },
   egitim_ucl_moorfields_oss: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: UCL/Moorfields 5 gün oftalmoloji yaz okulu; uluslararası late-stage öğrenciler. Vize." },
   egitim_erasmus_summer: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: Erasmus MC 3 hafta Rotterdam; Master/PhD düzey. Her tıp öğrencisi otomatik uygun değil." },
+  doktorclub: { label: 'CONFIGURED_NOT_WIRED', note: "Manuel girdi: site bot koruması (HTTP 403) uygular; Bible §8.2 gereği aşılmaz. Otomatik çekim yok." },
+  iha_saglik: { label: 'CONFIGURED_NOT_WIRED', note: "Emekli kayıt: bot koruması (HTTP 403); Bible §8.2 gereği aşılmaz, çekilmez." },
+  medimagazin_general: { label: 'CONFIGURED_NOT_WIRED', note: "Emekli kayıt: bot koruması (HTTP 403); Bible §8.2 gereği aşılmaz, çekilmez." },
+  gazeteoksijen_saglik: { label: 'CONFIGURED_NOT_WIRED', note: "Emekli kayıt: bot koruması (HTTP 403); yayıncı Haber hattında zaten sahipli (S66)." },
+  tihud_internal_medicine: { label: 'CONFIGURED_NOT_WIRED', note: "Manuel girdi: eski liste adresi 404; site yeni /duyurular sayfasına taşındı, bağlama sahip kararıyla yapılır." },
   hsgm_public_health: { label: 'CONFIGURED_NOT_WIRED', note: "Emekli kayıt (tombstone): HSGM daire sayfası bacakları (hsgm_*) bu kaydın yerini aldı; çekilmez." },
   egitim_openwho: { label: 'RUNNER_REQUIRED', note: "Eğitim şeridi: OpenWHO acil sağlık; ücretsiz global. 2025 sonrası sertifika yok. WHO Academy ayrı." },
 };
@@ -313,7 +318,7 @@ export function coverageLabel(
 ): { label: CoverageLabel; note: string } {
   const o = COVERAGE_OVERRIDES[sourceId];
   // HSGM legs are RUNNER_REQUIRED only until the Türkiye runner has actually delivered: a recent healthy success from it is real telemetry and wins.
-  const hsgmDelivered = /^(egitim_)?hsgm_/.test(sourceId) && !!row?.last_success_at && row.source_health !== 'DEGRADED' && row.coverage_status !== 'RUN_FAILED';
+  const hsgmDelivered = sourceId !== 'hsgm_public_health' && /^(egitim_)?hsgm_/.test(sourceId) && !!row?.last_success_at && row.source_health !== 'DEGRADED' && row.coverage_status !== 'RUN_FAILED';
   if (o && !hsgmDelivered) return o;
   if (!row || !row.last_success_at) {
     return { label: row ? 'FAILED_INTERNAL' : 'NOT_RUN', note: row ? 'Başarılı koşu yok.' : 'Henüz koşu yok.' };

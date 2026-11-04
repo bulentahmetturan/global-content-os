@@ -60,3 +60,13 @@ test('HSGM stays RUNNER_REQUIRED until the Türkiye runner delivered, then real 
   assert.equal(coverageLabel('hsgm_asi', { last_success_at: null, source_health: 'DEGRADED', coverage_status: 'RUN_FAILED' }).label, 'RUNNER_REQUIRED');
   assert.equal(coverageLabel('hsgm_asi', { last_success_at: '2026-11-04T16:43:46Z', source_health: 'HEALTHY', coverage_status: 'configured' }).label, 'PIPELINE_OK');
 });
+
+test('blocked/retired sources and the HSGM tombstone are labelled honestly, never FAILED_INTERNAL/PIPELINE_OK', async () => {
+  const { coverageLabel } = await import('./tip-toplulugu-coverage.ts');
+  const failed = { coverage_status: 'RUN_FAILED', source_health: 'DEGRADED', last_success_at: null };
+  for (const id of ['doktorclub', 'iha_saglik', 'medimagazin_general', 'gazeteoksijen_saglik', 'tihud_internal_medicine']) {
+    assert.equal(coverageLabel(id, failed).label, 'CONFIGURED_NOT_WIRED', id);
+  }
+  const fake = { coverage_status: 'NO_ELIGIBLE_ITEMS', source_health: 'HEALTHY', last_success_at: '2026-11-04T00:00:00Z' };
+  assert.equal(coverageLabel('hsgm_public_health', fake).label, 'CONFIGURED_NOT_WIRED');
+});
