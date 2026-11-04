@@ -73,7 +73,7 @@
       "transport": "WEB_ONLY",
       "endpointUrl": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "fda-press-scoped",
       "registrySourceId": "fda-press-announcements",
       "inclusionPolicy": [
@@ -106,7 +106,10 @@
           "tobacco",
           "veterinary",
           "administrative announcements"
-        ]
+        ],
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "http_401/http_404 from Worker egress while the RSS is 200 elsewhere (datacenter block, 2026-11-03/04); not bypassed (8.2); re-enable when an adapter-push fetcher exists",
+        "decidedAt": "2026-11-04"
       }
     },
     {
