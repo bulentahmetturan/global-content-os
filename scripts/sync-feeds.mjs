@@ -215,6 +215,14 @@ const tipAdapterFeed = {
   rules: { adapter: 'adapters/tip-radar', statusFilter: ['review'] },
 };
 
+// Bible 25: cadence_class + staleness_threshold per source, derived from the configured poll interval (owner delegation
+// 2026-11-05). <=120 min high, <=1440 medium, otherwise low; stale = no fetch for 2 intervals + 1 hour.
+for (const f of researchFeeds) {
+  const m = Number(f.pollMinutes) || 360;
+  f.cadence_class = m <= 120 ? 'high' : m <= 1440 ? 'medium' : 'low';
+  f.staleness_threshold_minutes = 2 * m + 60;
+}
+
 const feeds = [tipAdapterFeed, ...newsFeeds, ...researchFeeds, ...tipFeeds];
 
 // Same publisher already listed under Tıp Topluluğu Duyuru (or Haber for MNT). Do not resurrect on sync.

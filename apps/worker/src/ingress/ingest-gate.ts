@@ -15,6 +15,12 @@ export const NEWS_MAX_AGE_DAYS = 10;
  * open (Temporal V2 Group 0). Kept in sync with the catalog roles by ingest-gate.test.mjs.
  */
 export const RESEARCH_MEDIA_MAX_AGE_DAYS = 14;
+/**
+ * Research journal / publication sources on the time-sensitive path (owner delegation 2026-11-05, Bible 26.4/4 + 25):
+ * 180 days covers online-first lag and month-precision issue dates; older work is Evergreen/Rediscovery material, which
+ * is a separate (closed) path, so it is not admitted as current research.
+ */
+export const RESEARCH_JOURNAL_MAX_AGE_DAYS = 180;
 export const RESEARCH_MEDIA_FEEDS = new Set([
   'research-stat-news',
   'research-eurekalert',
@@ -112,6 +118,7 @@ export function ingestGate(input: GateInput, now: Date = new Date()): GateVerdic
     if (ageDays < (isNews ? -2 : -92)) return { ok: false, reason: 'future_date' };
     if (timeSensitive && isNews && ageDays > NEWS_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
     if (timeSensitive && isMedia && ageDays > RESEARCH_MEDIA_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
+    if (timeSensitive && !isNews && !isMedia && ageDays > RESEARCH_JOURNAL_MAX_AGE_DAYS) return { ok: false, reason: 'stale' };
   }
   if (RELEVANCE_FEEDS.has(input.feedId) && !HEALTH.test(`${title} ${input.titleOrig ?? ''} ${input.summary ?? ''}`)) {
     return { ok: false, reason: 'off_topic' };
