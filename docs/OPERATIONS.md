@@ -99,6 +99,14 @@ node scripts/deploy-identity.mjs --live <worker-url>   # deployed commit vs loca
 Production deploys are stamped (`BUILD_COMMIT` comes from `--wrangler-vars`, never from `wrangler.toml`); `--live`
 reports `identityStamped:true` and whether the deployed commit matches local HEAD. The current live commit is in `docs/CURRENT.md`.
 
+### 3.1. Deploy rules (owner decision 2026-11-04)
+
+1. **Every deploy is stamped.** Never run a bare `npx wrangler deploy`. Use the command above; after the deploy run `deploy-identity --live <worker-url>` and require `identityStamped:true` and `matchesLocalHead:true`. An unstamped Worker cannot be traced to a commit; on 2026-11-04 its source had to be found by building candidates and comparing bundle hashes.
+2. **Hotfix and document-only deploys start from the live SHA.** Read the live commit with `--live`. If it is unstamped, prove it first: download the active version's script (`/workers/scripts/<name>/content/v2` after confirming the active version with `wrangler deployments status`), build the candidate commits with the same Wrangler and lockfile (`wrangler deploy --dry-run --outdir`) and compare the module hashes. Branch the hotfix from the matching SHA so unreleased work on the branch tip is not shipped, check that the diff against it contains only the intended files, then deploy. A byte match proves the code, not the historical deploy SHA.
+3. **Work only in a checkout that is current with `origin/main`.** Run `git fetch` and check `git status -sb` before any edit, deploy or release step; a checkout that is behind must not be edited or deployed from. Prefer a fresh worktree from `origin/main`.
+4. **Merge before the next deploy.** A hotfix branch is deployed only until its content is merged to `main`; the following deploy comes from `main` so nothing is rolled back. Record the live version ID before a deploy so `wrangler rollback` is available.
+5. **Acceptance after a deploy:** `READY`, `/api/health` and `/api/ready` 200, `FAILED_INTERNAL=0` in `/api/tip_toplulugu/sources`, and the expected Bible version in the Hub copy.
+
 ## 4. Release gate
 
 ```bash
