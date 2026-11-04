@@ -1,5 +1,6 @@
 import { type Env } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { inferStudyType } from './study-type';
 import { containerMatches, crossrefWindowUrl, expectedContainer, isFutureDate, isPlaceholderTitle } from './research-quality';
 
 /**
@@ -143,7 +144,7 @@ function crossrefItemInput(it: CrossrefWork, j: JournalQuery, feed: FeedRow) {
       pmcid: null,
       finding: abstract.slice(0, 600) || null,
       limitation: null,
-      studyType: null,
+      studyType: inferStudyType(null, title),
     },
   };
 }

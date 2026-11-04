@@ -1,6 +1,7 @@
 import { type Env } from '../db/queries';
 import { clinicalTrialPublishedAt, isFutureDate, isPlaceholderTitle } from './research-quality';
 import { upsertLocalizedSourceItem } from './upsert-localized';
+import { inferStudyType } from './study-type';
 
 const RESEARCH_API_FEED_IDS: Record<string, string> = {
   crossref: 'research-crossref-rest-api',
@@ -146,7 +147,7 @@ async function ingestCrossref(env: Env, force = false) {
       publisher,
       publishedAt,
       dedupeKey: doi.toLowerCase(),
-      evidence: { doi, pmid: null, pmcid: null, finding: abstract.slice(0, 600) || null, limitation: null, studyType: null },
+      evidence: { doi, pmid: null, pmcid: null, finding: abstract.slice(0, 600) || null, limitation: null, studyType: inferStudyType(null, title) },
     });
     if (result.created) created += 1;
     else updated += 1;
@@ -196,7 +197,7 @@ async function ingestOpenAlex(env: Env, force = false) {
       publisher,
       publishedAt: it.publication_date || null,
       dedupeKey: (doi || it.id || canonicalUrl).toLowerCase(),
-      evidence: { doi, pmid: null, pmcid: null, finding: null, limitation: null, studyType: null },
+      evidence: { doi, pmid: null, pmcid: null, finding: null, limitation: null, studyType: inferStudyType(null, title) },
     });
     if (result.created) created += 1;
     else updated += 1;
@@ -288,6 +289,7 @@ async function ingestPmcOa(env: Env, force = false) {
         journalTitle?: string;
         firstPublicationDate?: string;
         abstractText?: string;
+        pubTypeList?: { pubType?: string[] };
       }>;
     };
   };
@@ -326,7 +328,7 @@ async function ingestPmcOa(env: Env, force = false) {
         pmcid,
         finding: abstract.slice(0, 600) || null,
         limitation: null,
-        studyType: null,
+        studyType: inferStudyType(it.pubTypeList?.pubType, title),
       },
     });
     if (result.created) created += 1;

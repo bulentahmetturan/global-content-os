@@ -1,5 +1,6 @@
 import { upsertSourceItem, type Env } from '../db/queries';
 import { pubmedPublishedAt } from './research-quality';
+import { inferStudyType } from './study-type';
 import { timeSensitiveEnabledForFeed } from '../temporal/registry';
 
 /**
@@ -133,7 +134,7 @@ export async function ingestPubmed(
   const sumBody = (await sumRes.json()) as {
     result?: Record<
       string,
-      { title?: string; fulljournalname?: string; source?: string; pubdate?: string; epubdate?: string; elocationid?: string }
+      { title?: string; fulljournalname?: string; source?: string; pubdate?: string; epubdate?: string; elocationid?: string; pubtype?: string[] }
     >;
   };
 
@@ -166,7 +167,7 @@ export async function ingestPubmed(
         pmcid: null,
         finding: null,
         limitation: null,
-        studyType: null,
+        studyType: inferStudyType(it.pubtype, title),
       },
     });
     if (result.created) created += 1;
