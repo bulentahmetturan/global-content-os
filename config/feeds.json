@@ -956,10 +956,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.crossref.org/services/crossmark/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "crossmark",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "documentation page, no item feed (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -970,10 +973,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.crossref.org/documentation/retrieve-metadata/retraction-watch/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "crossref-retraction-watch-data",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "documentation page, no item feed (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1382,10 +1388,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.eurekalert.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "eurekalert",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "home page only, rss paths 404 (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
@@ -1480,10 +1489,13 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://api.altmetric.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "altmetric-api",
       "rules": {
-        "mode": "registered"
+        "mode": "registered",
+        "activation": "PAUSED_TECHNICAL_BLOCK",
+        "decision": "documentation page, no item feed (26.4)",
+        "decidedAt": "2026-11-04"
       }
     },
     {
