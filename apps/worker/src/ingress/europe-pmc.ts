@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
+import { studyTypeFromPubTypes } from './research-quality';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 
 interface EuropePmcResult {
@@ -11,6 +12,7 @@ interface EuropePmcResult {
   pubYear?: string;
   firstPublicationDate?: string;
   abstractText?: string;
+  pubTypeList?: { pubType?: string[] };
 }
 
 /**
@@ -114,7 +116,7 @@ export async function ingestEuropePmc(
         pmcid,
         finding: abstract ? abstract.slice(0, 600) : null,
         limitation: null,
-        studyType: null,
+        studyType: studyTypeFromPubTypes(it.pubTypeList?.pubType),
       },
     });
     if (result.created) created += 1;

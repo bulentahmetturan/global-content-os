@@ -72,3 +72,34 @@ export function isNonArticleNotice(title: string): boolean {
   if (!t) return false;
   return NOTICE_HEAD.test(t) || ERROR_NOTICE.test(t) || FRONT_MATTER.test(t) || READER_REPLY.test(t);
 }
+
+/**
+ * Study design from the source's own publication-type list (PubMed `pubtype`, Europe PMC `pubTypeList`).
+ * Returns the strongest design label found, as a snake_case form of the source's own wording, or null when the list only
+ * carries generic labels (e.g. "Journal Article"): unknown stays unknown (Bible 0.4, 13.2) and is never guessed.
+ * Priority runs from strongest evidence design to weaker ones; non-design labels (comment, letter, news) are not designs.
+ */
+const STUDY_TYPE_PRIORITY = [
+  'meta-analysis',
+  'systematic review',
+  'randomized controlled trial',
+  'controlled clinical trial',
+  'clinical trial',
+  'practice guideline',
+  'guideline',
+  'observational study',
+  'cohort studies',
+  'case-control studies',
+  'cross-sectional studies',
+  'case reports',
+  'review',
+] as const;
+
+export function studyTypeFromPubTypes(types: ReadonlyArray<string> | null | undefined): string | null {
+  if (!types || types.length === 0) return null;
+  const have = new Set(types.map((t) => String(t).trim().toLowerCase()).filter(Boolean));
+  for (const label of STUDY_TYPE_PRIORITY) {
+    if (have.has(label)) return label.replace(/[^a-z0-9]+/g, '_');
+  }
+  return null;
+}

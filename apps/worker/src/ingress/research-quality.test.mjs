@@ -64,3 +64,17 @@ describe('non-article notices (Bible 13.4 / 26.6)', () => {
       assert.ok(!q.isNonArticleNotice(t), t);
   });
 });
+
+describe('studyTypeFromPubTypes', () => {
+  it('returns the strongest design, snake_cased from the source wording', () => {
+    assert.equal(q.studyTypeFromPubTypes(['Journal Article', 'Randomized Controlled Trial', 'Review']), 'randomized_controlled_trial');
+    assert.equal(q.studyTypeFromPubTypes(['Journal Article', 'Meta-Analysis', 'Systematic Review']), 'meta_analysis');
+    assert.equal(q.studyTypeFromPubTypes(['Case Reports']), 'case_reports');
+  });
+  it('keeps unknown unknown', () => {
+    assert.equal(q.studyTypeFromPubTypes(['Journal Article']), null);
+    assert.equal(q.studyTypeFromPubTypes(['Comment', 'Letter', 'News']), null);
+    assert.equal(q.studyTypeFromPubTypes([]), null);
+    assert.equal(q.studyTypeFromPubTypes(undefined), null);
+  });
+});
