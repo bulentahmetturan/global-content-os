@@ -1,6 +1,7 @@
 import { upsertSourceItem, type Env } from '../db/queries';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
+import { hasNoticePubType, isNonArticleNotice } from './research-quality';
 
 interface EuropePmcResult {
   pubTypeList?: { pubType?: string[] };
@@ -74,7 +75,7 @@ export async function ingestEuropePmc(
 
   for (const it of items) {
     const title = (it.title || '').replace(/<[^>]+>/g, '').trim();
-    if (!title) continue;
+    if (!title || isNonArticleNotice(title) || hasNoticePubType(it.pubTypeList?.pubType)) continue;
 
     const doi = it.doi?.trim() || null;
     const pmid = it.pmid?.trim() || null;

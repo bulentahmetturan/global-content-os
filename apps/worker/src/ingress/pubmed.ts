@@ -1,5 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
-import { pubmedPublishedAt } from './research-quality';
+import { hasNoticePubType, isNonArticleNotice, pubmedPublishedAt } from './research-quality';
 import { inferStudyType } from './study-type';
 import { timeSensitiveEnabledForFeed } from '../temporal/registry';
 
@@ -144,6 +144,8 @@ export async function ingestPubmed(
     const it = sumBody.result?.[pmid];
     if (!it?.title) continue;
     const title = it.title.replace(/<[^>]+>/g, '').trim();
+    // Bible 13.4 / 26.6: correction and retraction notices are not Research articles (the integrity flow handles the signal).
+    if (isNonArticleNotice(title) || hasNoticePubType(it.pubtype)) continue;
     const doiMatch = (it.elocationid || '').match(/doi:\s*(\S+)/i);
     const doi = doiMatch?.[1]?.replace(/\.$/, '') || null;
     const canonicalUrl = doi ? `https://doi.org/${doi}` : `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`;

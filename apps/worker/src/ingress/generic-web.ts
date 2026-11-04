@@ -699,6 +699,7 @@ async function upsertExtracted(
       canonicalUrl: it.url,
       publisher: feed.label,
       publishedAt: it.publishedAt,
+      ...(research && doi ? { canonicalWorkId: doi } : {}),
       ...(research && (doi || pmid)
         ? { evidence: { doi, pmid, pmcid: null, finding: null, limitation: null, studyType: inferStudyType(null, it.title) } }
         : {}),

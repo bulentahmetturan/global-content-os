@@ -1,0 +1,351 @@
+{
+  "_note": "Measured publication rate per Research feed (Bible 3.2 expected_cadence, 25). Basis: publish dates of stored items in the last 90 days, snapshot 2026-11-05. Feeds without enough data are omitted (UNKNOWN, never guessed). Thresholds: >=7/week daily, >=1 weekly, >=0.25 monthly, else sparse; stale after 3/14/45/120 days.",
+  "measuredAt": "2026-11-05",
+  "feeds": {
+    "research-medical-xpress": {
+      "expected_cadence": "daily",
+      "items_per_week": 165.9,
+      "publication_stale_days": 3
+    },
+    "research-clinicaltrials-gov-api-v2": {
+      "expected_cadence": "weekly",
+      "items_per_week": 1.1,
+      "publication_stale_days": 14
+    },
+    "research-stat-news": {
+      "expected_cadence": "daily",
+      "items_per_week": 51.8,
+      "publication_stale_days": 3
+    },
+    "research-bmj": {
+      "expected_cadence": "daily",
+      "items_per_week": 41.3,
+      "publication_stale_days": 3
+    },
+    "research-jmir": {
+      "expected_cadence": "daily",
+      "items_per_week": 26.7,
+      "publication_stale_days": 3
+    },
+    "research-jama-network": {
+      "expected_cadence": "daily",
+      "items_per_week": 22.6,
+      "publication_stale_days": 3
+    },
+    "research-nejm": {
+      "expected_cadence": "daily",
+      "items_per_week": 13.9,
+      "publication_stale_days": 3
+    },
+    "research-nature": {
+      "expected_cadence": "daily",
+      "items_per_week": 13.1,
+      "publication_stale_days": 3
+    },
+    "research-npj-digital-medicine": {
+      "expected_cadence": "daily",
+      "items_per_week": 15.7,
+      "publication_stale_days": 3
+    },
+    "research-pubmed-eutilities": {
+      "expected_cadence": "daily",
+      "items_per_week": 7.5,
+      "publication_stale_days": 3
+    },
+    "research-european-heart-journal": {
+      "expected_cadence": "daily",
+      "items_per_week": 15.6,
+      "publication_stale_days": 3
+    },
+    "research-nature-medicine": {
+      "expected_cadence": "daily",
+      "items_per_week": 10.3,
+      "publication_stale_days": 3
+    },
+    "research-circulation-aha": {
+      "expected_cadence": "daily",
+      "items_per_week": 15.7,
+      "publication_stale_days": 3
+    },
+    "research-jaha": {
+      "expected_cadence": "daily",
+      "items_per_week": 12.9,
+      "publication_stale_days": 3
+    },
+    "research-eurekalert": {
+      "expected_cadence": "daily",
+      "items_per_week": 8.5,
+      "publication_stale_days": 3
+    },
+    "research-the-lancet": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.7,
+      "publication_stale_days": 14
+    },
+    "research-ieee-tbme": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.6,
+      "publication_stale_days": 14
+    },
+    "research-jacc": {
+      "expected_cadence": "weekly",
+      "items_per_week": 6.4,
+      "publication_stale_days": 14
+    },
+    "research-sciencedaily-healthy-aging": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.5,
+      "publication_stale_days": 14
+    },
+    "research-sciencedaily-alternative-medicine": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.4,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-nutrients": {
+      "expected_cadence": "daily",
+      "items_per_week": 7.2,
+      "publication_stale_days": 3
+    },
+    "research-pubmed-front-nutr": {
+      "expected_cadence": "weekly",
+      "items_per_week": 6.8,
+      "publication_stale_days": 14
+    },
+    "research-ieee-jbhi": {
+      "expected_cadence": "sparse",
+      "items_per_week": 0,
+      "publication_stale_days": 120
+    },
+    "research-european-respiratory-journal": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.3,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-aging-longevity": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.1,
+      "publication_stale_days": 14
+    },
+    "research-nejm-ai": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.9,
+      "publication_stale_days": 14
+    },
+    "research-nature-ageing-hub": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5,
+      "publication_stale_days": 14
+    },
+    "research-sciencedaily-dietary-supplements": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.2,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-nat-aging": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.3,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-front-aging": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.1,
+      "publication_stale_days": 14
+    },
+    "research-nature-biotechnology": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.6,
+      "publication_stale_days": 14
+    },
+    "research-cell": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.1,
+      "publication_stale_days": 14
+    },
+    "research-nature-genetics": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.6,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-journal-of-nutrition": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.3,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-bmc-cmt": {
+      "expected_cadence": "weekly",
+      "items_per_week": 1.7,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-ctm": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-nat-metab": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.9,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-ajcn": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.2,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-gerontologist": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-exp-gerontol": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-clin-nutr": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.6,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-br-j-nutr": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.3,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-age-ageing": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-explore": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.1,
+      "publication_stale_days": 14
+    },
+    "research-nature-nutrition-hub": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.3,
+      "publication_stale_days": 14
+    },
+    "research-chest-journal": {
+      "expected_cadence": "weekly",
+      "items_per_week": 6.5,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-jgosa": {
+      "expected_cadence": "weekly",
+      "items_per_week": 4.7,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-ph-nutr": {
+      "expected_cadence": "weekly",
+      "items_per_week": 1.2,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-mech-ageing": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.8,
+      "publication_stale_days": 14
+    },
+    "research-lancet-digital-health": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.9,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-jicm": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-nutrition-reviews": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-integrative": {
+      "expected_cadence": "weekly",
+      "items_per_week": 1.5,
+      "publication_stale_days": 14
+    },
+    "research-openalex-api": {
+      "expected_cadence": "weekly",
+      "items_per_week": 5.7,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-jand": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.8,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-curr-dev-nutrition": {
+      "expected_cadence": "weekly",
+      "items_per_week": 3.2,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-advances-nutrition": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.5,
+      "publication_stale_days": 14
+    },
+    "research-science-translational-medicine": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.7,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-supplements": {
+      "expected_cadence": "monthly",
+      "items_per_week": 0.6,
+      "publication_stale_days": 45
+    },
+    "research-pubmed-nutrition-journal": {
+      "expected_cadence": "monthly",
+      "items_per_week": 0.9,
+      "publication_stale_days": 45
+    },
+    "europe-pmc-batch": {
+      "expected_cadence": "sparse",
+      "items_per_week": 0,
+      "publication_stale_days": 120
+    },
+    "research-pubmed-j-diet-suppl": {
+      "expected_cadence": "weekly",
+      "items_per_week": 1,
+      "publication_stale_days": 14
+    },
+    "research-pubmed-imr": {
+      "expected_cadence": "sparse",
+      "items_per_week": 0,
+      "publication_stale_days": 120
+    },
+    "research-medical-news-today": {
+      "expected_cadence": "daily",
+      "items_per_week": 10.2,
+      "publication_stale_days": 3
+    },
+    "research-science": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2.2,
+      "publication_stale_days": 14
+    },
+    "research-asn-news": {
+      "expected_cadence": "monthly",
+      "items_per_week": 0.7,
+      "publication_stale_days": 45
+    },
+    "research-nature-news": {
+      "expected_cadence": "weekly",
+      "items_per_week": 2,
+      "publication_stale_days": 14
+    },
+    "research-crossref-rest-api": {
+      "expected_cadence": "sparse",
+      "items_per_week": 0,
+      "publication_stale_days": 120
+    },
+    "research-europe-pmc-rest": {
+      "expected_cadence": "sparse",
+      "items_per_week": 0.1,
+      "publication_stale_days": 120
+    }
+  }
+}
