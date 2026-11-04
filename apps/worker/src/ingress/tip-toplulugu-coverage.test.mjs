@@ -19,7 +19,7 @@ await build({
   outfile: out,
   logLevel: 'silent',
 });
-const { classifyTipTopluluguFamily, TIP_TOPLULUGU_BURS_SOURCE_IDS, TIP_TOPLULUGU_EGITIM_SOURCE_IDS } = await import(
+const { classifyTipTopluluguFamily, coverageLabel, TIP_TOPLULUGU_BURS_SOURCE_IDS, TIP_TOPLULUGU_EGITIM_SOURCE_IDS } = await import(
   pathToFileURL(out).href
 );
 
@@ -53,4 +53,10 @@ test('a plain duyuru-style source (no prefix, not registered) classifies as duyu
 test('an unregistered id still falls back to the prefix convention', () => {
   assert.equal(classifyTipTopluluguFamily('burs_some_new_source_not_yet_in_the_list'), 'burs');
   assert.equal(classifyTipTopluluguFamily('egitim_some_new_source_not_yet_in_the_list'), 'egitim');
+});
+
+test('HSGM stays RUNNER_REQUIRED until the Türkiye runner delivered, then real telemetry wins (2026-11-04)', () => {
+  assert.equal(coverageLabel('hsgm_asi', null).label, 'RUNNER_REQUIRED');
+  assert.equal(coverageLabel('hsgm_asi', { last_success_at: null, source_health: 'DEGRADED', coverage_status: 'RUN_FAILED' }).label, 'RUNNER_REQUIRED');
+  assert.equal(coverageLabel('hsgm_asi', { last_success_at: '2026-11-04T16:43:46Z', source_health: 'HEALTHY', coverage_status: 'configured' }).label, 'PIPELINE_OK');
 });

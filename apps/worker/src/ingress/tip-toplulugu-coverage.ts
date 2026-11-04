@@ -311,7 +311,9 @@ export function coverageLabel(
   row: { coverage_status?: string | null; source_health?: string | null; last_success_at?: string | null } | null
 ): { label: CoverageLabel; note: string } {
   const o = COVERAGE_OVERRIDES[sourceId];
-  if (o) return o;
+  // HSGM legs are RUNNER_REQUIRED only until the Türkiye runner has actually delivered: a recent healthy success from it is real telemetry and wins.
+  const hsgmDelivered = /^(egitim_)?hsgm_/.test(sourceId) && !!row?.last_success_at && row.source_health !== 'DEGRADED' && row.coverage_status !== 'RUN_FAILED';
+  if (o && !hsgmDelivered) return o;
   if (!row || !row.last_success_at) {
     return { label: row ? 'FAILED_INTERNAL' : 'NOT_RUN', note: row ? 'Başarılı koşu yok.' : 'Henüz koşu yok.' };
   }
