@@ -518,8 +518,8 @@
 
   /* ---- card polish: one block, last in the cascade, so state rules cannot fight each other ---- */
   .card { border-radius: 16px; padding: 14px 16px 12px 10px; border: 1px solid transparent; transition: background .18s ease, border-color .18s ease, box-shadow .22s ease, transform .22s ease, opacity .3s ease; }
-  .card:not(.is-selected):hover { background: color-mix(in srgb, var(--surface) 92%, var(--accent) 3%); border-color: color-mix(in srgb, var(--accent) 28%, var(--border)); box-shadow: 0 8px 24px -14px rgba(0,0,0,.6); transform: translateY(-1px); }
-  .card.is-selected, .card.is-selected:hover { background: linear-gradient(180deg, color-mix(in srgb, var(--select-bg) 100%, #fff 18%), var(--select-bg)); border-color: color-mix(in srgb, var(--accent) 55%, transparent); color: var(--select-ink); box-shadow: inset 4px 0 0 var(--accent), 0 14px 34px -16px rgba(0,0,0,.65); }
+  .card:not(.is-selected):hover { background: var(--surface); border-color: var(--border); background: color-mix(in srgb, var(--surface) 92%, var(--accent) 3%); border-color: color-mix(in srgb, var(--accent) 28%, var(--border)); box-shadow: 0 8px 24px -14px rgba(0,0,0,.6); transform: translateY(-1px); }
+  .card.is-selected, .card.is-selected:hover { background-color: var(--select-bg); background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0)); border-color: var(--accent); color: var(--select-ink); box-shadow: inset 4px 0 0 var(--accent), 0 14px 34px -16px rgba(0,0,0,.65); }
   .c-num { width: 28px; min-width: 28px; height: 24px; padding: 0; display: inline-grid; place-items: center; justify-self: end; border-radius: 8px; font: 700 .74rem var(--font-mono); background: color-mix(in srgb, currentColor 9%, transparent); border: 1px solid color-mix(in srgb, currentColor 14%, transparent); color: var(--text-dim); }
   .card.is-selected .c-num { background: var(--select-ink); border-color: var(--select-ink); color: var(--select-bg); }
   .card-title { font-size: 1.08rem; font-weight: 650; letter-spacing: -.012em; line-height: 1.3; }
