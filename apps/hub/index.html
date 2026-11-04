@@ -332,7 +332,9 @@
   .card.in-production, .card.in-done, .card.in-trash, .card.in-hold { border-left-width: 1px; }
   .status-pill { background: none; padding: 0; font-weight: 600; }
   .status-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 5px; vertical-align: 1px; }
-  .bulk-pick { grid-column: 2; }
+  .card .bulk-pick { position: absolute; top: 4px; left: 8px; margin: 0; padding: 0; z-index: 1; opacity: 1; line-height: 0; cursor: pointer; }
+  .card .bulk-pick input { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--accent); }
+  .card { padding-top: 22px; }
 
   .skeleton-row { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 12px 14px 12px 8px; }
   .skeleton-row i { display: block; height: 10px; border-radius: 6px; background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
@@ -436,7 +438,10 @@
   .c-num { display: inline-grid; place-items: center; align-self: start; justify-self: end; min-width: 26px; height: 22px; padding: 0 6px; margin-top: 2px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font: 700 .74rem var(--font-mono); letter-spacing: 0; }
   .card.is-selected .c-num { background: var(--select-ink); border-color: var(--select-ink); color: var(--select-bg); }
   .card-title { font-size: 1.05rem; }
-  .card-actions { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+  .card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .card-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 9px; }
+  .card-score { display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 3px 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); white-space: nowrap; }
+  .card-score .pred-chip, .card-score .rated-chip { font-size: .82rem; }
   .btn-xs { padding: 4px 10px; font-size: .72rem; border-radius: 7px; }
   .card .btn-promote.btn-xs { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   .card .btn-hold.btn-xs, .card .btn-delete.btn-xs, .card .btn-undo.btn-xs { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
@@ -556,19 +561,7 @@
   <form method="dialog">
     <h3>Neden reddediliyor?</h3>
     <label for="rejectReasonCode">Sebep (zorunlu)</label>
-    <select id="rejectReasonCode" required>
-      <option value="off_topic">Konu dışı</option>
-      <option value="duplicate">Yinelenen (dedup kaçırmış olabilir)</option>
-      <option value="low_quality">Düşük kalite</option>
-      <option value="promotional">Tanıtım/reklam amaçlı</option>
-      <option value="not_relevant_for_channel">Bu kanal için ilgisiz</option>
-      <option value="bad_title_or_summary">Başlık/özet hatalı</option>
-      <option value="wrong_category">Yanlış kategori</option>
-      <option value="misleading_or_untrusted">Yanıltıcı/güvenilmez kaynak</option>
-      <option value="stale">Bayat/güncelliğini yitirmiş</option>
-      <option value="expired_opportunity">Süresi geçmiş fırsat</option>
-      <option value="other">Diğer</option>
-    </select>
+    <select id="rejectReasonCode" required></select>
     <label for="rejectReasonNote">Not (opsiyonel)</label>
     <input id="rejectReasonNote" type="text" maxlength="280" placeholder="Kısa not (opsiyonel)">
     <div class="row">
@@ -1302,6 +1295,13 @@
     if (mode === 'production') return '<button class="btn btn-promote' + sm + '" data-action="complete" data-id="' + it.id + '">Üretim bitti</button>';
     return '<button class="btn btn-undo' + sm + '" data-action="undo" data-id="' + it.id + '">Geri al' + key('Z') + '</button>';
   }
+  /** Bottom-right score badge: system prediction (⚙) next to the owner's saved rating (★), so the two can be compared at a glance. */
+  function cardScoreHtml(it) {
+    var r = state.ratings && state.ratings[it.id];
+    var pred = predChipHtml(it.id);
+    var mine = r ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(r)) + '">★ ' + r.wow + '</span>' : '';
+    return (pred || mine) ? '<div class="card-score">' + pred + mine + '</div>' : '';
+  }
   function cardHtml(it) {
     var mode = it.triageStatus;
     var extra = (mode === 'production' ? ' in-production' : mode === 'done' ? ' in-done' : mode === 'trash' ? ' in-trash' : mode === 'hold' ? ' in-hold' : '') +
@@ -1315,13 +1315,13 @@
       ? '<span class="deadline-chip">Son tarih ' + escapeHtml(formatAbsDate(it.deadlineAt)) + '</span>' : '';
     return (
       '<div class="card' + extra + '" id="card-' + it.id + '" data-card="' + it.id + '">' +
+        ((mode === 'inbox' || mode === 'hold')
+          ? '<label class="bulk-pick" title="Toplu işlem için seç"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + ' aria-label="Seç"></label>' : '') +
         '<div class="c-num">' + (it._n || '') + '</div>' +
         '<div class="c-body">' +
-          (state.route === 'tip_toplulugu' && (mode === 'inbox' || mode === 'hold')
-            ? '<label class="bulk-pick"><input type="checkbox" data-pick="' + it.id + '"' + (state.selected[it.id] ? ' checked' : '') + '> seç</label>' : '') +
+          '' +
           '<div class="card-meta"><span class="pub-pill">' + escapeHtml(sourceLabel(it)) + '</span>' +
-          (state.ratings && state.ratings[it.id] ? '<span class="rated-chip" title="Sizin puanınız: ' + escapeHtml(ratingLabel(state.ratings[it.id])) + '">★ ' + state.ratings[it.id].wow + '</span>' : '') +
-          predChipHtml(it.id) + laneChipHtml(it.id) +
+          laneChipHtml(it.id) +
           (isUntranslated(it) ? '<span class="lang-tag" title="Başlık kaynak dilinde: Türkçe çeviri henüz hazır değil">EN</span>' : '') +
           (ageLabel ? '<span class="news-age" title="' + escapeHtml(it.publishedAt || it.fetchedAt || '') + '">' + escapeHtml(ageLabel) + '</span>' : '') +
           (ev ? '<span class="ev-pill">' + escapeHtml(ev.badge) + '</span>' : '') +
@@ -1330,7 +1330,7 @@
           (d.titleOrig && d.titleOrig !== d.title ? '<p class="original-title">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
           (d.note ? '<p class="card-note">' + escapeHtml(d.note) + '</p>' : '') +
           (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '') +
-          '<div class="card-actions">' + actionsHtml(it, true) + '</div>' +
+          '<div class="card-foot"><div class="card-actions">' + actionsHtml(it, true) + '</div>' + cardScoreHtml(it) + '</div>' +
         '</div>' +
       '</div>'
     );
@@ -1978,7 +1978,15 @@
   }
   function renderToolbar() {
     var el = document.getElementById('hekToolbar');
-    if (state.route !== 'tip_toplulugu') { el.hidden = true; return; }
+    if (state.route !== 'tip_toplulugu') {
+      var nb = Object.keys(state.selected).length;
+      if (!(state.view === 'inbox' || state.view === 'hold') || !state.items.length) { el.hidden = true; return; }
+      el.hidden = false;
+      el.innerHTML = '<div class="hek-bar"><button class="btn" data-bulk-all="1">' + (nb ? '☐ Seçimi temizle' : '☑ Görünenlerin hepsini seç') + '</button>' +
+        '<button class="btn btn-hold" data-bulk="hold"' + (nb ? '' : ' disabled') + '>⏳ Seçilenleri beklet (' + nb + ')</button>' +
+        '<button class="btn btn-delete" data-bulk="delete"' + (nb ? '' : ' disabled') + '>✕ Seçilenleri sil (' + nb + ')</button></div>';
+      return;
+    }
     if ((state.hekLane === 'burs' || state.hekLane === 'egitim') && !state.items.length) { el.hidden = true; return; }
     el.hidden = false;
     var ids = {};
@@ -2256,9 +2264,10 @@
     }
     state.counts = data.counts || state.counts;
     state.items = translatedFirst(data.items || []);
+    var lanesP = loadLaneSuggestions(state.items);
     await loadRatings(state.items);
     await loadScores(state.items);
-    await loadLaneSuggestions(state.items);
+    await lanesP;
     state.selected = {};
     if (state.showSources) {
       try { await ensureFeeds(); } catch (e) { /* panel shows loading */ }
@@ -2282,6 +2291,22 @@
     renderList();
   }
 
+  var REJECT_REASONS = [
+    ['off_topic', 'Konu dışı'], ['duplicate', 'Yinelenen (dedup kaçırmış olabilir)'], ['low_quality', 'Düşük kalite'],
+    ['promotional', 'Tanıtım/reklam amaçlı'], ['not_relevant_for_channel', 'Bu kanal için ilgisiz'], ['bad_title_or_summary', 'Başlık/özet hatalı'],
+    ['wrong_category', 'Yanlış kategori'], ['misleading_or_untrusted', 'Yanıltıcı/güvenilmez kaynak'], ['stale', 'Bayat/güncelliğini yitirmiş'],
+    ['expired_opportunity', 'Süresi geçmiş fırsat'], ['not_turkey_or_world', 'Türkiye’yi veya dünyayı ilgilendirmiyor (yerel)'],
+    ['too_general', 'Çok genel'], ['too_niche_no_wow', 'Çok niş, wow değeri 0'], ['alarmist_generic', 'Genel ve insanları tedirgin edici'],
+    ['us_policy_not_tr', 'ABD politikası, Türkiye ile ilgili değil'], ['not_turkey_relevant', 'Türkiye’yi ilgilendirmiyor'], ['other', 'Diğer']
+  ];
+  /** Alphabetical (Turkish collation); "Diğer" stays last as the catch-all. */
+  function fillRejectReasons(select) {
+    if (select.options.length) return;
+    var list = REJECT_REASONS.filter(function (r) { return r[0] !== 'other'; })
+      .sort(function (x, y) { return x[1].localeCompare(y[1], 'tr'); })
+      .concat(REJECT_REASONS.filter(function (r) { return r[0] === 'other'; }));
+    select.innerHTML = list.map(function (r) { return '<option value="' + r[0] + '">' + r[1] + '</option>'; }).join('');
+  }
   /** Resolves {reasonCode, reasonNote} or null if the operator cancels. Every
    * reject (action === 'delete') requires a reason -- S63 feedback loop. */
   function promptRejectReason() {
@@ -2289,6 +2314,7 @@
       var dlg = document.getElementById('rejectDialog');
       var select = document.getElementById('rejectReasonCode');
       var note = document.getElementById('rejectReasonNote');
+      fillRejectReasons(select);
       select.value = 'off_topic';
       note.value = '';
       function onCancel() { cleanup(); resolve(null); }
@@ -2319,12 +2345,17 @@
     var items = visibleItems();
     var idx = items.findIndex(function (x) { return x.id === id; });
     var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
-    var card = document.getElementById('card-' + id);
-    if (card) card.classList.add('leaving');
-    await new Promise(function (r) { setTimeout(r, 180); });
     var body = { itemId: id, action: action };
     if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
-    var result = await api('/api/triage', { method: 'POST', body: JSON.stringify(body) });
+    // Optimistic: the card leaves the list at once (no wait for the server round trip + full reload).
+    var snapshot = state.items;
+    state.items = state.items.filter(function (x) { return x.id !== id; });
+    delete state.selected[id];
+    state.cursor = action === 'undo' ? id : nextId;
+    renderList();
+    var result;
+    try { result = await api('/api/triage', { method: 'POST', body: JSON.stringify(body) }); }
+    catch (err) { state.items = snapshot; state.cursor = id; renderList(); throw err; }
     if (action === 'promote' || action === 'hold' || action === 'delete') bumpProcessed();
     var msg =
       action === 'promote' ? '✓ Üretime aktarıldı — approved_brief üretildi' :
@@ -2337,8 +2368,7 @@
     var undoable = action === 'hold' || action === 'delete';
     state.lastUndo = undoable ? { id: id, at: Date.now() } : null;
     showToast(msg, undoable ? { id: id, label: 'Geri al' } : null);
-    state.cursor = action === 'undo' ? id : nextId;
-    await load();
+    load().catch(function (err) { showToast(err.message); }); // background refresh: new items fill the top without blocking
   }
   async function undoLast(id) {
     await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: id, action: 'undo' }) });
@@ -2357,14 +2387,18 @@
       if (!feedback) return; // operator cancelled -- no items touched
     }
     var ok = 0, failed = [];
-    for (var i = 0; i < ids.length; i++) {
-      var body = { itemId: ids[i], action: action };
+    var gone = {}; ids.forEach(function (x) { gone[x] = true; });
+    state.items = state.items.filter(function (x) { return !gone[x.id]; });
+    state.selected = {};
+    renderList();
+    await Promise.all(ids.map(function (itemId) {
+      var body = { itemId: itemId, action: action };
       if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
-      try { await api('/api/triage', { method: 'POST', body: JSON.stringify(body) }); ok++; }
-      catch (e) { failed.push(ids[i] + ': ' + e.message); }
-    }
+      return api('/api/triage', { method: 'POST', body: JSON.stringify(body) })
+        .then(function () { ok++; }, function (e) { failed.push(itemId + ': ' + e.message); });
+    }));
     showToast((action === 'hold' ? 'Beklemeye alındı: ' : 'Reddedildi (geri besleme kaydedildi): ') + ok + '/' + ids.length + (failed.length ? ' · hata: ' + failed[0] : ''));
-    await load();
+    load().catch(function (err) { showToast(err.message); });
   }
   document.addEventListener('change', function (e) {
     if (e.target.id === 'hekSourceFilter') { state.sourceFilter = e.target.value; renderList(); return; }
@@ -2442,6 +2476,13 @@
       renderList(); renderChrome(); return;
     }
     if (e.target.closest('[data-src-clear]')) { state.sourceFilter = ''; renderList(); renderChrome(); return; }
+    var allBtn = e.target.closest('[data-bulk-all]');
+    if (allBtn) {
+      if (Object.keys(state.selected).length) state.selected = {};
+      else visibleItems().forEach(function (it) { state.selected[it.id] = true; });
+      renderList();
+      return;
+    }
     var bulkBtn = e.target.closest('[data-bulk]');
     if (bulkBtn) { handleBulk(bulkBtn.getAttribute('data-bulk')).catch(function (err) { showToast(err.message); }); return; }
     var navBtn = e.target.closest('[data-nav]');

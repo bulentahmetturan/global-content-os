@@ -21,6 +21,12 @@ export const REASON_CODES = [
   'misleading_or_untrusted',
   'stale',
   'expired_opportunity',
+  'not_turkey_or_world',
+  'too_general',
+  'too_niche_no_wow',
+  'alarmist_generic',
+  'us_policy_not_tr',
+  'not_turkey_relevant',
   'other',
 ] as const;
 
