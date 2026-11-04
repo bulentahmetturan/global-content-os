@@ -41,11 +41,30 @@ export async function ingestResearchApis(
       }
     }
   };
-  await run('crossref', () => ingestCrossref(env, force));
-  await run('openalex', () => ingestOpenAlex(env, force));
-  await run('clinicaltrials', () => ingestClinicalTrials(env, force));
-  await run('pmc', () => ingestPmcOa(env, force));
-  await run('gdelt', () => ingestGdelt(env, force));
+  const jobs: Record<string, () => Promise<{ created: number; updated: number; total: number }>> = {
+    crossref: () => ingestCrossref(env, force),
+    openalex: () => ingestOpenAlex(env, force),
+    clinicaltrials: () => ingestClinicalTrials(env, force),
+    pmc: () => ingestPmcOa(env, force),
+    gdelt: () => ingestGdelt(env, force),
+  };
+  if (force) {
+    for (const [key, fn] of Object.entries(jobs)) await run(key, fn);
+    return out;
+  }
+  // Scheduled slot: Workers Free allows ~10 ms CPU per invocation, so running all five APIs back to back got killed
+  // before the later ones (pmc) ever ran. One API per slot, the one fetched longest ago (never-fetched first).
+  const ids = Object.values(RESEARCH_API_FEED_IDS);
+  const rows = await env.DB.prepare(
+    `SELECT id FROM source_feeds WHERE enabled = 1 AND id IN (${ids.map(() => '?').join(',')})
+       AND (last_fetched_at IS NULL OR datetime(last_fetched_at, '+' || COALESCE(poll_minutes, 360) || ' minutes') <= datetime('now'))
+     ORDER BY COALESCE(last_fetched_at, '') ASC LIMIT 1`
+  )
+    .bind(...ids)
+    .all<{ id: string }>();
+  const nextId = rows.results?.[0]?.id;
+  const key = Object.entries(RESEARCH_API_FEED_IDS).find(([, id]) => id === nextId)?.[0];
+  if (key && jobs[key]) await run(key, jobs[key]);
   return out;
 }
 
