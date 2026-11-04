@@ -50,16 +50,22 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: adapters/tip-toplulugu-radar/requirements-runner.txt
-      - shell: bash
+      - shell: powershell
         run: python -m pip install --disable-pip-version-check -r requirements-runner.txt
       - name: Run sources
-        shell: bash
+        shell: powershell
         env:
           TIP_RADAR_INGEST_TOKEN: ${{ secrets.TIP_RADAR_INGEST_TOKEN }}
           SOURCES: ${{ github.event.inputs.sources }}
           SOURCE_TIMEOUT: ${{ github.event.inputs.timeout }}
           SOURCE_RETRIES: ${{ github.event.inputs.retries }}
-        run: python scripts/tip_toplulugu_scheduled_run.py --sources "$SOURCES" --timeout "$SOURCE_TIMEOUT" --retries "$SOURCE_RETRIES" --report-dir report
+        run: |
+          # Windows PowerShell 5.1 drops empty-string arguments: scheduled runs have no inputs, so apply the workflow defaults here.
+          $src = if ($env:SOURCES) { $env:SOURCES } else { 'tr-runner' }
+          $to = if ($env:SOURCE_TIMEOUT) { $env:SOURCE_TIMEOUT } else { '240' }
+          $re = if ($env:SOURCE_RETRIES) { $env:SOURCE_RETRIES } else { '2' }
+          python scripts/tip_toplulugu_scheduled_run.py --sources $src --timeout $to --retries $re --report-dir report
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - if: always()
         uses: actions/upload-artifact@v7
         with:
