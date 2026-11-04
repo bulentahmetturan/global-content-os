@@ -35,3 +35,32 @@ describe('research quality gates', () => {
     assert.equal(q.clinicalTrialPublishedAt(undefined), null);
   });
 });
+
+describe('non-article notices (Bible 13.4 / 26.6)', () => {
+  it('rejects corrections, replies and front matter seen in live Research items', () => {
+    for (const t of [
+      'Error in Results',
+      'IEEE Transactions on Biomedical Engineering Information for Authors',
+      'Author Correction: A cohort study of statin use',
+      'Publisher Correction: Genome-wide analysis',
+      'Erratum: Dose-response of vitamin D',
+      'Retraction Note: Effect of X on Y',
+      'Expression of Concern: Trial of Z',
+      'Low-Dose Rivaroxaban, Cardiovascular Events, and Kidney Disease—Reply',
+      'Reply to: Statin intolerance',
+      'Comment on: Early rhythm control',
+      'In This Issue',
+    ])
+      assert.ok(q.isNonArticleNotice(t), t);
+  });
+  it('keeps real articles that merely start with similar words', () => {
+    for (const t of [
+      'Correction of aortic regurgitation with transcatheter repair',
+      'Error-prone replication in cancer genomes',
+      'Retraction of the cervix in labour: a trial',
+      'Low-Dose Rivaroxaban, Cardiovascular Events, and Kidney Disease',
+      'Response to immunotherapy in melanoma: a phase 2 trial',
+    ])
+      assert.ok(!q.isNonArticleNotice(t), t);
+  });
+});

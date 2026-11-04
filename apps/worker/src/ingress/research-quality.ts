@@ -56,3 +56,19 @@ export function containerMatches(expected: string | null, containers: string[] |
   const want = norm(expected);
   return (containers ?? []).some((c) => norm(c) === want);
 }
+
+/**
+ * Bible 13.4 / 26.6: correction, erratum, retraction and expression-of-concern notices, reader replies, and journal front matter
+ * are not research articles. They must not enter Research as normal items (a correction signal is handled by the integrity flow).
+ * Anchored and conservative: "Correction of aortic regurgitation ..." is a real article and must pass.
+ */
+const NOTICE_HEAD = /^(author correction|publisher correction|correction|erratum|errata|corrigendum|addendum|retraction note|retraction notice|retraction|expression of concern)\s*(:|to\b|—|–|-|$)/i;
+const ERROR_NOTICE = /^errors? in (the )?(results?|abstract|table|figure|text|data|affiliation|author|byline|funding|references?|supplement|conclusions?|methods?)\b/i;
+const FRONT_MATTER = /^(information for authors|instructions for authors|table of contents|in this issue|cover|editorial board|masthead|issue information|front cover|back cover)\b|\binformation for authors$/i;
+const READER_REPLY = /(?:—|–|-)\s*(reply|response)\s*$|^reply to\b|^comment on\b/i;
+
+export function isNonArticleNotice(title: string): boolean {
+  const t = (title || '').trim();
+  if (!t) return false;
+  return NOTICE_HEAD.test(t) || ERROR_NOTICE.test(t) || FRONT_MATTER.test(t) || READER_REPLY.test(t);
+}

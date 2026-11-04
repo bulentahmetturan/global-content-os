@@ -1,6 +1,7 @@
 import { type Env, type RouteId } from '../db/queries';
 import { upsertLocalizedSourceItem } from './upsert-localized';
 import { applyFeedUrlScope, feedUrlScope } from './feed-scope';
+import { isNonArticleNotice } from './research-quality';
 import { isHealthRelevant, isTopicGateExempt } from './topic-gate';
 import { applyEditorialFilter, ARTICLE_META_MAX_FETCHES, needsArticleMeta, parseArticleMeta } from './feed-editorial';
 import { decodeEntities, isArticleLink, isGenericTeaserTitle } from './link-quality';
@@ -783,6 +784,8 @@ export async function ingestGenericFeeds(
       extracted.items = applyFeedUrlScope(feed.id, extracted.items);
       const parsedCount = extracted.items.length;
       extracted.items = extracted.items.filter((it) => !isGenericTeaserTitle(it.title));
+      // Bible 13.4 / 26.6: notices, replies and journal front matter are not Research articles.
+      if (feed.route === 'kaduse-research') extracted.items = extracted.items.filter((it) => !isNonArticleNotice(it.title));
       if (needsArticleMeta(feed.id)) extracted.items = await enrichArticleMeta(extracted.items);
       extracted.items = applyIncludeKeywords(feed, extracted.items);
       const offTopicCount = extracted.items.length;
