@@ -17,6 +17,7 @@
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { TEMPORAL_REGISTRY_FILE } from './source-lifecycle/temporal.mjs';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -156,23 +157,28 @@ function liveData() {
     items7d: new Map([...(items7dKaduse || []).map((r) => [r.feed_id, r.n]), ...(items7dHek || []).map((r) => [r.source_id, r.n])]),
     rejects30d: new Map((rejects30d || []).map((r) => [r.key, r.n])),
     available: kaduseFeeds !== null || hekTelemetry !== null,
+    evergreenOnly: evergreenOnlyFeedIds(),
   };
+}
+
+// Feed ids whose time_sensitive path is off (the lifecycle owns the registry file; this only reads it).
+function evergreenOnlyFeedIds() {
+  try {
+    const doc = JSON.parse(readFileSync(new URL('../' + TEMPORAL_REGISTRY_FILE, import.meta.url), 'utf8'));
+    return new Set(doc.sources.filter((e) => e.feed_id && e.time_sensitive && e.time_sensitive.enabled === false).map((e) => e.feed_id));
+  } catch { return new Set(); }
 }
 
 // ---- classification (task 7) --------------------------------------------
 const OVERDUE_TOLERANCE_MINUTES = 60; // grace period beyond next_due before calling it OVERDUE not NOT_DUE
-
-// Evergreen-only feeds (time_sensitive off, packages/source-catalog/data/temporal-paths.json) are never read by the cron rotation; judging them by
-// fetch age or last_error would show a permanent false OVERDUE/DEGRADED. Their health is the Evergreen executor's, not this classifier's.
-const EVERGREEN_ONLY_FEEDS = new Set(JSON.parse(readFileSync(new URL('../packages/source-catalog/data/temporal-paths.json', import.meta.url), 'utf8')).sources
-  .filter((e) => e.feed_id && e.time_sensitive && e.time_sensitive.enabled === false).map((e) => e.feed_id));
 
 function classify(row, live) {
   if (row.lifecycle_state === 'RETIRED' || row.lifecycle_state?.toLowerCase?.() === 'retired') return 'RETIRED';
   if (row.lifecycle_state === 'MANUAL_INTAKE') return 'MANUAL_INTAKE';
   if (!row.wired || row.scheduler_path === 'none') return 'NOT_WIRED';
   if (!row.enabled) return 'MANUAL_INTAKE';
-  if (EVERGREEN_ONLY_FEEDS.has(row.source_id)) return 'EVERGREEN_ONLY';
+  // Evergreen-only feeds (time_sensitive off) are never read by the cron rotation; fetch age / last_error would show a permanent false OVERDUE/DEGRADED.
+  if (live.evergreenOnly?.has(row.source_id)) return 'EVERGREEN_ONLY';
 
   const kLive = live.kaduseFeeds.get(row.source_id);
   const hLive = live.hekTelemetry.get(row.source_id);
