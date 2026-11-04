@@ -172,10 +172,12 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
     let inv = 'PASS'; let invTail = '';
     try { execSync('node --test scripts/ops-invariants.test.mjs', { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 120000 }); } catch (e) { inv = 'FAIL'; invTail = String(e.stdout ?? '').split(/\r?\n/).filter((l) => /not ok|failing/.test(l)).slice(0, 2).join(' | ').slice(0, 200); }
     checks.push(check('SCHEDULER', 'ops_invariants', inv, inv === 'PASS' ? 'scheduler/auth/cron/contract invariants hold' : `operational invariant broken: ${invTail}`, inv === 'PASS' ? {} : { why: WHY.scheduler, next: 'run node --test scripts/ops-invariants.test.mjs' }));
-    let cap = 'UNKNOWN';
+    let cap = 'UNKNOWN'; let capCycles = 1;
     for (const py of ['python3', 'python']) {
-      try { cap = JSON.parse(execSync(`${py} adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity`, { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })).status; break; } catch (e) { try { cap = JSON.parse(String(e.stdout ?? '')).status; break; } catch { /* next interpreter */ } }
+      try { { const j = JSON.parse(execSync(`${py} adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity`, { cwd: repos.gcos, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })); cap = j.status; capCycles = j.metrics?.cycles_considered ?? 0; } break; } catch (e) { try { const j = JSON.parse(String(e.stdout ?? '')); cap = j.status; capCycles = j.metrics?.cycles_considered ?? 0; break; } catch { /* next interpreter */ } }
     }
+    // Without measured run history the BLOCK comes only from the pessimistic default-cost model (Bible 26.3): WARN, never a release FAIL.
+    if (cap === 'BLOCK' && capCycles === 0) cap = 'CAUTION';
     checks.push(check('SCHEDULER', 'capacity_guard', cap === 'SAFE' ? 'PASS' : cap === 'CAUTION' ? 'WARN' : 'FAIL', `capacity guard for the CURRENT active set: ${cap}${cap === 'CAUTION' ? ' (no measured run history supplied)' : ''}`, cap === 'SAFE' ? {} : { why: WHY.scheduler, next: 'python adapters/tip-toplulugu-radar/scripts/tip_toplulugu_ops.py capacity --history <run-report dir>' }));
     const readyEp = grepFile(repos.gcos, 'apps/worker/src/index.ts', "'/api/ready'") && existsSync(R(repos.gcos, 'apps/worker/src/readiness.ts'));
     checks.push(check('HEALTH', 'readiness_endpoint_gcos', readyEp ? 'PASS' : 'FAIL', readyEp ? 'GCOS /api/ready (READY/DEGRADED/BLOCKED) present' : 'GCOS /api/ready missing', readyEp ? {} : { why: WHY.health_model, next: 'restore /api/ready' }));
@@ -239,6 +241,10 @@ export function evaluate({ config, roots, phase = 'pre', bindings = {}, secretFi
     checks.push(check('TESTS', 'tests_run', 'WARN', 'component test suites not run in this preflight', { why: WHY.tests_run, next: 'rerun with --run-tests' }));
   }
 
+  // CCOS is a sibling repo; CI checks out GCOS only. Outside the strict cutover phase its absence means 'not evaluated' (WARN), not a GCOS release FAIL.
+  if (!repos.ccos && phase !== 'cutover') {
+    for (const c of checks) if (c.status === 'FAIL' && ['git_state_ccos', 'fail_closed_evidence', 'contract_parity', 'contract_version'].includes(c.id)) { c.status = 'WARN'; c.detail += ' (CCOS repo absent: not evaluated outside cutover)'; }
+  }
   const status = worst(checks.map((c) => c.status));
   const defers = {};
   for (const c of checks) if (c.defer && c.status !== 'PASS') (defers[c.defer] ??= []).push(c.id);

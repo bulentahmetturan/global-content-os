@@ -103,7 +103,7 @@ test('reader registration: DOSSIER reader identity is separate from canonical so
   const news = JSON.parse(readFileSync('packages/source-catalog/data/news-registry.json', 'utf8'));
   const flat = (x) => JSON.stringify(x);
   assert.ok(flat(research).includes('"clinicaltrials-gov-api-v2"'));
-  assert.ok(flat(news).includes('"oecd-health"'));
+  // oecd-health was removed from the news registry with the closed foreign news sources (65af6fc); the dossier reader id stays reader-local, so only the absence of dossier ids is asserted here.
   assert.ok(!flat(research).includes('dossier-') && !flat(news).includes('dossier-'), 'the canonical catalogs never learn about dossier readers');
   assert.ok(!readFileSync('config/feeds.json', 'utf8').includes('dossier-'), 'no feed row is created for a dossier reader');
   // access / legal: ClinicalTrials verified and APPROVED; OECD technical access verified but usage terms unresolved -> blocked, never silently enabled

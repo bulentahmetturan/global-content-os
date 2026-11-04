@@ -52,6 +52,9 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
+        with:
+          # central-rehearsal / shared-worker-checkpoint tests read historic commits via `git show`.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           # Several *.test.mjs files do `await import('./foo.ts')` directly,

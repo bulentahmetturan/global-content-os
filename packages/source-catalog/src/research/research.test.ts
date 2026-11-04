@@ -67,7 +67,8 @@ describe('Research source registry (Batch R1)', () => {
       const s = getSource(id)!;
       expect(s.sourceRole).toBe('ACCESSIBLE_SCIENCE_MEDIA');
       expect(s.discoveryFunction).toBe('DISCOVERY_SECONDARY');
-      expect(s.verificationStatus).toBe('CONDITIONAL_VERIFIED');
+      // nih-news-releases was retired by the owner (OVERSIZE_BODY; record kept): EXCLUDE, never promoted.
+      expect(s.verificationStatus).toBe(id === 'nih-news-releases' ? 'EXCLUDE' : 'CONDITIONAL_VERIFIED');
     }
     expect(getSourcesByRole('ACCESSIBLE_SCIENCE_MEDIA').length).toBe(11); // 6 (R2) + 5 topic-lane (R4); was 10 in the pre-move WIP, an arithmetic slip
   });
