@@ -250,7 +250,7 @@ async function ingestPmcOa(env: Env, force = false) {
   const url = new URL('https://www.ebi.ac.uk/europepmc/webservices/rest/search');
   url.searchParams.set(
     'query',
-    'SRC:PMC AND (medicine OR device OR auscultation OR "artificial intelligence")'
+    'SRC:PMC AND OPEN_ACCESS:y AND (medicine OR device OR auscultation OR "artificial intelligence")'
   );
   url.searchParams.set('format', 'json');
   url.searchParams.set('pageSize', '15');
