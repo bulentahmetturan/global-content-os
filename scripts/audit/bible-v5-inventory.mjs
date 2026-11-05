@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Bible v5 section 14.1 inventory (read-only). Reuses existing records: config/feeds.json, source-catalog registries,
-// temporal-paths.json, bible-config.json, migrations, docs/audits decision files. No D1, no network, no writes except the
+// time-axis registry, bible-config.json, migrations, docs/audits decision files. No D1, no network, no writes except the
 // two output files. Run: node scripts/audit/bible-v5-inventory.mjs
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
