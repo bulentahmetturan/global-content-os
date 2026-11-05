@@ -1,0 +1,125 @@
+{"seq":1,"at":"2026-11-05","kind":"TOPIC_STATE","id":"KARDIO-METAB","ref":"DEC-R-20261105-001","text":"ACTIVE: Kardiyoloji ve metabolik hastalıklar"}
+{"seq":2,"at":"2026-11-05","kind":"TOPIC_STATE","id":"ONKO","ref":"DEC-R-20261105-002","text":"ACTIVE: Onkoloji: klinik çalışmalar ve yeni tedaviler (T2 ile birleşti)"}
+{"seq":3,"at":"2026-11-05","kind":"TOPIC_STATE","id":"ENF-AMR","ref":"DEC-R-20261105-003","text":"ACTIVE: Enfeksiyon ve antibiyotik direnci"}
+{"seq":4,"at":"2026-11-05","kind":"TOPIC_STATE","id":"DIJ-AI","ref":"DEC-R-20261105-005","text":"ACTIVE: Dijital sağlık ve tıpta yapay zekâ (T3 ile birleşti)"}
+{"seq":5,"at":"2026-11-05","kind":"TOPIC_STATE","id":"BESLENME","ref":"DEC-R-20261105-006","text":"ACTIVE: Beslenme, takviye ve uzun yaşam (T4 ile birleşti)"}
+{"seq":6,"at":"2026-11-05","kind":"TOPIC_STATE","id":"RUH","ref":"DEC-R-20261105-007","text":"ACTIVE: Ruh sağlığı tedavileri (T5 ile birleşti)"}
+{"seq":7,"at":"2026-11-05","kind":"TOPIC_STATE","id":"NORO","ref":"MX-2026-11-05-T1","text":"ACTIVE: Nörobilim ve beyin sağlığı (T1)"}
+{"seq":8,"at":"2026-11-05","kind":"TOPIC_STATE","id":"ASI-KLINIK","ref":"MX-2026-11-05-T6","text":"ACTIVE: Aşı ve klinik deneme sonuçları (T6)"}
+{"seq":9,"at":"2026-11-05","kind":"TOPIC_STATE","id":"UYK","ref":"DEC-R-20261105-011","text":"ACTIVE: Uyku"}
+{"seq":10,"at":"2026-11-05","kind":"TOPIC_STATE","id":"GEN-HUCRE","ref":"DEC-R-T7-20261105","text":"REJECTED: Gen ve hücre tedavileri (T7)"}
+{"seq":11,"at":"2026-11-05","kind":"TOPIC_STATE","id":"UZAK-SALGIN","ref":"MX-2026-11-05-T8","text":"REJECTED: Uzak coğrafya salgın / tropik hastalık raporu (T8)"}
+{"seq":12,"at":"2026-11-05","kind":"TOPIC_STATE","id":"NIS-YOGUN-BAKIM","ref":"MX-2026-11-05-T9","text":"REJECTED: Niş yoğun bakım / pediatrik prosedür (T9)"}
+{"seq":13,"at":"2026-11-05","kind":"TOPIC_STATE","id":"FITNESS-EKIPMAN","ref":"MX-2026-11-05-T10","text":"REJECTED: Spor ekipmanı ve fitness açıklayıcıları (T10)"}
+{"seq":14,"at":"2026-11-05","kind":"TOPIC_STATE","id":"OMURGA-DOKU","ref":"MX-2026-11-05-T11","text":"REJECTED: Omurga ve doku yapısı (T11)"}
+{"seq":15,"at":"2026-11-05","kind":"TOPIC_STATE","id":"TIP-EGITIMI","ref":"DEC-R-20261105-004","text":"NOT_RESEARCH_TOPIC: Tıp eğitimi ve klinik beceri"}
+{"seq":16,"at":"2026-11-05","kind":"TOPIC_STATE","id":"KANIT-SENTEZI","ref":"DEC-R-20261105-008","text":"NOT_A_TOPIC: Kanıt sentezi (çalışma türü ekseni)"}
+{"seq":17,"at":"2026-11-05","kind":"TOPIC_STATE","id":"GERI-CEKME","ref":"DEC-R-20261105-009","text":"NOT_A_TOPIC: Geri çekilen ve düzeltilen çalışmalar (bütünlük kontrolü)"}
+{"seq":18,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-001","ref":"DEC-R-20261105-011","text":"liste-1 / K1: Sirkadiyen ritim ve biyolojik saat"}
+{"seq":19,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-002","ref":"DEC-R-20261105-011","text":"liste-1 / K1: Uyku baskısı ve uyku homeostazı"}
+{"seq":20,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-003","ref":"DEC-R-20261105-011","text":"liste-1 / K1: Adenozin ve adenozin reseptörleri"}
+{"seq":21,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-004","ref":"DEC-R-20261105-011","text":"liste-1 / K1: Kronotip ve bireysel uyku özellikleri"}
+{"seq":22,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-005","ref":"DEC-R-20261105-011","text":"liste-1 / K1: Uykunun sinirsel ve nörokimyasal düzenlenmesi"}
+{"seq":23,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-006","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku ve melatonin"}
+{"seq":24,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-007","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku, kortizol ve stres yanıtı"}
+{"seq":25,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-008","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku ve büyüme hormonu"}
+{"seq":26,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-009","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku ve prolaktin"}
+{"seq":27,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-010","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku, insülin ve glukoz düzenlenmesi"}
+{"seq":28,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-011","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku, leptin, grelin ve iştah"}
+{"seq":29,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-012","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku ve üreme hormonları"}
+{"seq":30,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-013","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku ve tiroid ekseni"}
+{"seq":31,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-014","ref":"DEC-R-20261105-011","text":"liste-1 / K2: Uyku, vücut sıcaklığı ve otonom sinir sistemi"}
+{"seq":32,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-015","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Uyku süresi ve bireysel uyku ihtiyacı"}
+{"seq":33,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-016","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Uyku zamanlaması"}
+{"seq":34,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-017","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Uyku düzenliliği"}
+{"seq":35,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-018","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Sosyal jetlag ve sirkadiyen uyumsuzluk"}
+{"seq":36,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-019","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Uyku yoksunluğu ve uyku kısıtlaması"}
+{"seq":37,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-020","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Uyku borcu ve telafi uykusu"}
+{"seq":38,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-021","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Gündüz uykusu ve şekerleme"}
+{"seq":39,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-022","ref":"DEC-R-20261105-011","text":"liste-1 / K3: Tek, iki ve çok parçalı uyku düzenleri"}
+{"seq":40,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-023","ref":"DEC-R-20261105-011","text":"liste-1 / K4: Uyku mimarisi, evreleri ve döngüleri"}
+{"seq":41,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-024","ref":"DEC-R-20261105-011","text":"liste-1 / K4: Hafif uyku: N1 ve N2"}
+{"seq":42,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-025","ref":"DEC-R-20261105-011","text":"liste-1 / K4: Derin uyku: N3 ve yavaş dalga aktivitesi"}
+{"seq":43,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-026","ref":"DEC-R-20261105-011","text":"liste-1 / K4: REM uykusu"}
+{"seq":44,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-027","ref":"DEC-R-20261105-011","text":"liste-1 / K4: Rüyalar ve rüya hatırlama"}
+{"seq":45,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-028","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Uykuya dalma ve uyku başlangıcı"}
+{"seq":46,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-029","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Gece uyanmaları ve uyku sürekliliği"}
+{"seq":47,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-030","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Sabaha karşı erken uyanma"}
+{"seq":48,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-031","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Uyanma, yataktan kalkma ve uyku ataleti"}
+{"seq":49,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-032","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Uyku kalitesi ve dinlenmiş uyanma"}
+{"seq":50,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-033","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Uyku verimliliği"}
+{"seq":51,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-034","ref":"DEC-R-20261105-011","text":"liste-1 / K5: Gündüz uykululuğu, yorgunluk ve mikrouykular"}
+{"seq":52,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-035","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Uyku hijyeni ve günlük rutinler"}
+{"seq":53,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-036","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Uyku öncesi zihinsel ve bedensel uyarılmışlık"}
+{"seq":54,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-037","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Işık maruziyeti ve karanlık"}
+{"seq":55,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-038","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Ekranlar ve dijital davranışlar"}
+{"seq":56,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-039","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Uyku ortamı, konfor ve pozisyon"}
+{"seq":57,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-040","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Beslenme ve öğün zamanı"}
+{"seq":58,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-041","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Kafein, nikotin, alkol ve diğer maddeler"}
+{"seq":59,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-042","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Egzersiz ve fiziksel aktivite"}
+{"seq":60,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-043","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Yaşam dönemlerine göre uyku"}
+{"seq":61,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-044","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Vardiya, gece çalışması ve seyahat"}
+{"seq":62,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-045","ref":"DEC-R-20261105-011","text":"liste-1 / K6: Uyku fırsatı ve sosyal koşullar"}
+{"seq":63,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-046","ref":"DEC-R-20261105-011","text":"liste-1 / K7: İnsomnia: uykusuzluk bozukluğu"}
+{"seq":64,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-047","ref":"DEC-R-20261105-011","text":"liste-1 / K7: Uykuda solunum bozuklukları"}
+{"seq":65,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-048","ref":"DEC-R-20261105-011","text":"liste-1 / K7: Sirkadiyen ritim uyku-uyanıklık bozuklukları"}
+{"seq":66,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-049","ref":"DEC-R-20261105-011","text":"liste-1 / K7: Narkolepsi ve merkezi aşırı uykululuk"}
+{"seq":67,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-050","ref":"DEC-R-20261105-011","text":"liste-1 / K7: Uykuya bağlı hareket bozuklukları"}
+{"seq":68,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-051","ref":"DEC-R-20261105-011","text":"liste-1 / K7: Parasomniler"}
+{"seq":69,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-052","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Uyku günlüğü ve değerlendirme ölçekleri"}
+{"seq":70,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-053","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Uyku testleri ve biyolojik ölçümler"}
+{"seq":71,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-054","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Akıllı saatler, yüzükler ve uyku takibi"}
+{"seq":72,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-055","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Uykusuzluk için bilişsel davranışçı terapi (CBT-I)"}
+{"seq":73,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-056","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Işık tedavisi ve sirkadiyen müdahaleler"}
+{"seq":74,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-057","ref":"DEC-R-20261105-011","text":"liste-1 / K8: İlaçlar ve uyku"}
+{"seq":75,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-058","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Takviyeler ve bitkisel ürünler"}
+{"seq":76,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-059","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Gevşeme ve tamamlayıcı uygulamalar"}
+{"seq":77,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-060","ref":"DEC-R-20261105-011","text":"liste-1 / K8: Uykunun işlevleri ve gelişen araştırma alanları"}
+{"seq":78,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-061","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve bağışıklık sistemi"}
+{"seq":79,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-062","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve kardiyovasküler hastalıklar"}
+{"seq":80,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-063","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve metabolik sendrom, obezite, tip 2 diyabet"}
+{"seq":81,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-064","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve gastrointestinal hastalıklar"}
+{"seq":82,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-065","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve romatolojik hastalıklar"}
+{"seq":83,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-066","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve dermatolojik hastalıklar"}
+{"seq":84,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-067","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve oftalmolojik ve otolaringolojik hastalıklar"}
+{"seq":85,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-068","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve onkoloji"}
+{"seq":86,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-069","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve nörodejeneratif hastalıklar"}
+{"seq":87,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-070","ref":"DEC-R-20261105-011","text":"liste-2 / K9: Uyku ve epilepsi, multipl skleroz, travmatik beyin hasarı"}
+{"seq":88,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-071","ref":"DEC-R-20261105-011","text":"liste-2 / K10: Uyku ve depresyon, anksiyete bozuklukları"}
+{"seq":89,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-072","ref":"DEC-R-20261105-011","text":"liste-2 / K10: Uyku ve bipolar bozukluk, şizofreni"}
+{"seq":90,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-073","ref":"DEC-R-20261105-011","text":"liste-2 / K10: Uyku ve DEHB, otizm spektrum bozukluğu"}
+{"seq":91,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-074","ref":"DEC-R-20261105-011","text":"liste-2 / K10: Uyku ve travma sonrası stres bozukluğu (TSSB)"}
+{"seq":92,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-075","ref":"DEC-R-20261105-011","text":"liste-2 / K10: Uyku ve madde kullanım bozuklukları"}
+{"seq":93,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-076","ref":"DEC-R-20261105-011","text":"liste-2 / K11: Uyku ve kronik ağrı"}
+{"seq":94,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-077","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve hamilelik, doğum sonrası dönem"}
+{"seq":95,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-078","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve pediatrik özel durumlar"}
+{"seq":96,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-079","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve ergen ruh sağlığı"}
+{"seq":97,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-080","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve yaşlılıkta düşme riski, polifarmasi"}
+{"seq":98,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-081","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve bakıcı yükü"}
+{"seq":99,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-082","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve sporcu performansı"}
+{"seq":100,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-083","ref":"DEC-R-20261105-011","text":"liste-2 / K12: Uyku ve askeri veya vardiyalı meslek grupları"}
+{"seq":101,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-084","ref":"DEC-R-20261105-011","text":"liste-2 / K13: Uyku ve hava kirliliği, iklim değişikliği"}
+{"seq":102,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-085","ref":"DEC-R-20261105-011","text":"liste-2 / K13: Uyku ve mesleki toksin maruziyeti"}
+{"seq":103,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-086","ref":"DEC-R-20261105-011","text":"liste-2 / K13: Uyku ve çalışma saatleri düzenlemeleri, sürücü güvenliği"}
+{"seq":104,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-087","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve psikolojik müdahaleler (CBT-I dışında)"}
+{"seq":105,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-088","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve tamamlayıcı terapiler"}
+{"seq":106,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-089","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve dijital sağlık müdahaleleri"}
+{"seq":107,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-090","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve nöromodülasyon"}
+{"seq":108,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-091","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve cerrahi müdahaleler"}
+{"seq":109,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-092","ref":"DEC-R-20261105-011","text":"liste-2 / K14: Uyku ve farmakogenetik, kişiselleştirilmiş tıp"}
+{"seq":110,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-093","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve genetik, epigenetik"}
+{"seq":111,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-094","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve mikrobiyom"}
+{"seq":112,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-095","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve biyobelirteçler"}
+{"seq":113,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-096","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve nörogörüntüleme"}
+{"seq":114,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-097","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve optogenetik, kemogenetik"}
+{"seq":115,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-098","ref":"DEC-R-20261105-011","text":"liste-2 / K15: Uyku ve hesaplamalı modelleme, makine öğrenmesi"}
+{"seq":116,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-099","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve sağlık eşitsizlikleri"}
+{"seq":117,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-100","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve eğitim politikaları"}
+{"seq":118,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-101","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve çalışma politikaları"}
+{"seq":119,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-102","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve halk sağlığı, küresel sağlık"}
+{"seq":120,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-103","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve kültürel uyku pratikleri"}
+{"seq":121,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-104","ref":"DEC-R-20261105-011","text":"liste-2 / K16: Uyku ve rüya kültürü, din, felsefe"}
+{"seq":122,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-105","ref":"DEC-R-20261105-011","text":"liste-2 / K17: Uyku ve cinsiyet farklılıkları"}
+{"seq":123,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-106","ref":"DEC-R-20261105-011","text":"liste-2 / K17: Uyku ve yaratıcılık, problem çözme, karar verme"}
+{"seq":124,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-107","ref":"DEC-R-20261105-011","text":"liste-2 / K17: Uyku ve sosyal etkileşim, yalnızlık"}
+{"seq":125,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"UYK-108","ref":"DEC-R-20261105-011","text":"liste-2 / K17: Uyku ve cinsel işlev"}

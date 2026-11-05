@@ -1,0 +1,1550 @@
+{
+  "schema": "gcos-topic-plan/1",
+  "status": "DRAFT_NOT_WIRED",
+  "generated_by": "scripts/topics.mjs build",
+  "topics": [
+    {
+      "lane": "research",
+      "topic_id": "UYK",
+      "decision_ref": "DEC-R-20261105-011",
+      "subtopic_count": 108,
+      "tiers": {
+        "A": [
+          "UYK-004",
+          "UYK-010",
+          "UYK-011",
+          "UYK-015",
+          "UYK-016",
+          "UYK-017",
+          "UYK-018",
+          "UYK-019",
+          "UYK-020",
+          "UYK-021",
+          "UYK-028",
+          "UYK-031",
+          "UYK-032",
+          "UYK-035",
+          "UYK-036",
+          "UYK-037",
+          "UYK-038",
+          "UYK-039",
+          "UYK-040",
+          "UYK-041",
+          "UYK-042",
+          "UYK-043",
+          "UYK-044",
+          "UYK-054",
+          "UYK-055",
+          "UYK-058",
+          "UYK-059",
+          "UYK-061",
+          "UYK-062",
+          "UYK-063",
+          "UYK-069",
+          "UYK-071",
+          "UYK-076",
+          "UYK-077",
+          "UYK-078",
+          "UYK-079",
+          "UYK-082",
+          "UYK-084",
+          "UYK-088",
+          "UYK-089",
+          "UYK-094",
+          "UYK-103",
+          "UYK-105",
+          "UYK-106",
+          "UYK-107",
+          "UYK-108"
+        ],
+        "B": [
+          "UYK-006",
+          "UYK-007",
+          "UYK-012",
+          "UYK-022",
+          "UYK-025",
+          "UYK-026",
+          "UYK-027",
+          "UYK-029",
+          "UYK-030",
+          "UYK-033",
+          "UYK-034",
+          "UYK-045",
+          "UYK-046",
+          "UYK-047",
+          "UYK-048",
+          "UYK-049",
+          "UYK-050",
+          "UYK-051",
+          "UYK-052",
+          "UYK-053",
+          "UYK-056",
+          "UYK-057",
+          "UYK-064",
+          "UYK-065",
+          "UYK-066",
+          "UYK-067",
+          "UYK-068",
+          "UYK-070",
+          "UYK-072",
+          "UYK-073",
+          "UYK-074",
+          "UYK-075",
+          "UYK-080",
+          "UYK-081",
+          "UYK-083",
+          "UYK-086",
+          "UYK-087",
+          "UYK-091",
+          "UYK-093",
+          "UYK-095",
+          "UYK-099",
+          "UYK-100",
+          "UYK-101",
+          "UYK-102"
+        ],
+        "C": [
+          "UYK-001",
+          "UYK-002",
+          "UYK-003",
+          "UYK-005",
+          "UYK-008",
+          "UYK-009",
+          "UYK-013",
+          "UYK-014",
+          "UYK-023",
+          "UYK-024",
+          "UYK-060",
+          "UYK-085",
+          "UYK-090",
+          "UYK-092",
+          "UYK-096",
+          "UYK-097",
+          "UYK-098",
+          "UYK-104"
+        ]
+      },
+      "term_to_subtopics": {
+        "a2a receptor sleep": [
+          "UYK-003"
+        ],
+        "acceptance and commitment therapy sleep": [
+          "UYK-087"
+        ],
+        "actigraphy": [
+          "UYK-053"
+        ],
+        "acupuncture sleep": [
+          "UYK-088"
+        ],
+        "adenosine": [
+          "UYK-003"
+        ],
+        "adenosine receptor": [
+          "UYK-003"
+        ],
+        "adolescent sleep": [
+          "UYK-043"
+        ],
+        "adolescent sleep depression": [
+          "UYK-079"
+        ],
+        "advanced sleep phase": [
+          "UYK-048"
+        ],
+        "aging sleep": [
+          "UYK-043"
+        ],
+        "ai sleep coaching": [
+          "UYK-089"
+        ],
+        "air pollution sleep": [
+          "UYK-084"
+        ],
+        "alarm snooze": [
+          "UYK-031"
+        ],
+        "alcohol sleep": [
+          "UYK-041"
+        ],
+        "aromatherapy sleep": [
+          "UYK-088"
+        ],
+        "athlete sleep": [
+          "UYK-082"
+        ],
+        "autonomic sleep": [
+          "UYK-014"
+        ],
+        "bedroom environment": [
+          "UYK-039"
+        ],
+        "bedtime": [
+          "UYK-016"
+        ],
+        "bedtime procrastination": [
+          "UYK-038"
+        ],
+        "bedtime routine": [
+          "UYK-035"
+        ],
+        "benzodiazepine sleep": [
+          "UYK-057"
+        ],
+        "biological clock": [
+          "UYK-001"
+        ],
+        "biphasic sleep": [
+          "UYK-022"
+        ],
+        "blood biomarker sleep disorder": [
+          "UYK-095"
+        ],
+        "blue light": [
+          "UYK-037"
+        ],
+        "bright light therapy": [
+          "UYK-056"
+        ],
+        "bruxism": [
+          "UYK-050"
+        ],
+        "caffeine sleep": [
+          "UYK-041"
+        ],
+        "cannabis sleep": [
+          "UYK-041"
+        ],
+        "caregiver burden sleep": [
+          "UYK-081"
+        ],
+        "caregiver sleep": [
+          "UYK-081"
+        ],
+        "cataplexy": [
+          "UYK-049"
+        ],
+        "catch-up sleep": [
+          "UYK-020"
+        ],
+        "cbt-i": [
+          "UYK-055"
+        ],
+        "chamomile sleep": [
+          "UYK-058"
+        ],
+        "chemogenetics sleep": [
+          "UYK-097"
+        ],
+        "child sleep obesity": [
+          "UYK-078"
+        ],
+        "children sleep adhd": [
+          "UYK-078"
+        ],
+        "chronotherapy": [
+          "UYK-056"
+        ],
+        "chronotype": [
+          "UYK-004"
+        ],
+        "chronotype genetics": [
+          "UYK-093"
+        ],
+        "circadian bipolar": [
+          "UYK-072"
+        ],
+        "circadian misalignment": [
+          "UYK-018"
+        ],
+        "circadian rhythm": [
+          "UYK-001"
+        ],
+        "climate change sleep": [
+          "UYK-084"
+        ],
+        "clock genes": [
+          "UYK-001"
+        ],
+        "cognitive behavioral therapy for insomnia": [
+          "UYK-055"
+        ],
+        "computational model sleep": [
+          "UYK-098"
+        ],
+        "consistent wake time": [
+          "UYK-017"
+        ],
+        "core body temperature sleep": [
+          "UYK-014"
+        ],
+        "cortisol awakening response": [
+          "UYK-007"
+        ],
+        "cortisol sleep": [
+          "UYK-007"
+        ],
+        "cosleeping": [
+          "UYK-103"
+        ],
+        "cultural sleep practices": [
+          "UYK-103"
+        ],
+        "daytime nap": [
+          "UYK-021"
+        ],
+        "daytime sleepiness": [
+          "UYK-034"
+        ],
+        "deep learning sleep": [
+          "UYK-098"
+        ],
+        "deep sleep": [
+          "UYK-025"
+        ],
+        "delayed sleep phase": [
+          "UYK-048"
+        ],
+        "dialectical behavior therapy sleep": [
+          "UYK-087"
+        ],
+        "diet and sleep": [
+          "UYK-040"
+        ],
+        "digital cbt-i": [
+          "UYK-055"
+        ],
+        "digital cbt-i app": [
+          "UYK-089"
+        ],
+        "dim light melatonin onset": [
+          "UYK-006"
+        ],
+        "dream interpretation culture": [
+          "UYK-104"
+        ],
+        "dream recall": [
+          "UYK-027"
+        ],
+        "dreams": [
+          "UYK-027"
+        ],
+        "driver fatigue regulation": [
+          "UYK-086"
+        ],
+        "drowsy driving": [
+          "UYK-034"
+        ],
+        "drowsy driving policy": [
+          "UYK-086"
+        ],
+        "early morning awakening": [
+          "UYK-030"
+        ],
+        "epigenetic sleep": [
+          "UYK-093"
+        ],
+        "epworth": [
+          "UYK-052"
+        ],
+        "evening exercise": [
+          "UYK-042"
+        ],
+        "evening type": [
+          "UYK-004"
+        ],
+        "exercise sleep": [
+          "UYK-042"
+        ],
+        "falling asleep": [
+          "UYK-028"
+        ],
+        "fatigue": [
+          "UYK-034"
+        ],
+        "firefighters sleep": [
+          "UYK-083"
+        ],
+        "flexible work sleep": [
+          "UYK-101"
+        ],
+        "fmri sleep": [
+          "UYK-096"
+        ],
+        "gaba sleep": [
+          "UYK-005"
+        ],
+        "gender differences insomnia": [
+          "UYK-105"
+        ],
+        "geriatric sleep medication": [
+          "UYK-080"
+        ],
+        "global sleep health": [
+          "UYK-102"
+        ],
+        "glymphatic": [
+          "UYK-060"
+        ],
+        "growth hormone sleep": [
+          "UYK-008"
+        ],
+        "gut microbiome sleep": [
+          "UYK-094"
+        ],
+        "gut-brain axis sleep": [
+          "UYK-094"
+        ],
+        "healthcare worker sleep": [
+          "UYK-083"
+        ],
+        "heat sleep": [
+          "UYK-084"
+        ],
+        "heavy metal sleep": [
+          "UYK-085"
+        ],
+        "home sleep apnea test": [
+          "UYK-053"
+        ],
+        "hours of service": [
+          "UYK-086"
+        ],
+        "hpa axis sleep": [
+          "UYK-007"
+        ],
+        "hypnogram": [
+          "UYK-023"
+        ],
+        "hypnotics": [
+          "UYK-057"
+        ],
+        "hypocretin": [
+          "UYK-005"
+        ],
+        "hypoglossal nerve stimulation": [
+          "UYK-091"
+        ],
+        "idiopathic hypersomnia": [
+          "UYK-049"
+        ],
+        "infant sleep": [
+          "UYK-043"
+        ],
+        "insomnia": [
+          "UYK-046"
+        ],
+        "insomnia cancer survivors": [
+          "UYK-068"
+        ],
+        "insomnia depression bidirectional": [
+          "UYK-071"
+        ],
+        "insomnia disorder": [
+          "UYK-046"
+        ],
+        "insomnia severity index": [
+          "UYK-052"
+        ],
+        "insufficient sleep": [
+          "UYK-019"
+        ],
+        "jet lag": [
+          "UYK-044"
+        ],
+        "k-complex": [
+          "UYK-024"
+        ],
+        "late dinner sleep": [
+          "UYK-040"
+        ],
+        "later school start sleep": [
+          "UYK-100"
+        ],
+        "light at night": [
+          "UYK-037"
+        ],
+        "light exposure sleep": [
+          "UYK-037"
+        ],
+        "local sleep": [
+          "UYK-060"
+        ],
+        "long sleep": [
+          "UYK-015"
+        ],
+        "lucid dreaming": [
+          "UYK-027"
+        ],
+        "machine learning sleep staging": [
+          "UYK-098"
+        ],
+        "magnesium sleep": [
+          "UYK-058"
+        ],
+        "massage sleep": [
+          "UYK-088"
+        ],
+        "mattress": [
+          "UYK-039"
+        ],
+        "meal timing sleep": [
+          "UYK-040"
+        ],
+        "meditation sleep": [
+          "UYK-059"
+        ],
+        "melatonin": [
+          "UYK-006"
+        ],
+        "melatonin supplement": [
+          "UYK-058"
+        ],
+        "memory consolidation sleep": [
+          "UYK-060"
+        ],
+        "microsleep": [
+          "UYK-034"
+        ],
+        "military sleep": [
+          "UYK-083"
+        ],
+        "mindfulness sleep": [
+          "UYK-059"
+        ],
+        "mindfulness-based therapy insomnia": [
+          "UYK-087"
+        ],
+        "morning grogginess": [
+          "UYK-031"
+        ],
+        "morning light": [
+          "UYK-037"
+        ],
+        "morningness eveningness": [
+          "UYK-004"
+        ],
+        "multiple sleep latency test": [
+          "UYK-053"
+        ],
+        "n2 sleep": [
+          "UYK-024"
+        ],
+        "n3": [
+          "UYK-025"
+        ],
+        "napping": [
+          "UYK-021"
+        ],
+        "narcolepsy": [
+          "UYK-049"
+        ],
+        "neighborhood sleep": [
+          "UYK-099"
+        ],
+        "neural circuit sleep mouse": [
+          "UYK-097"
+        ],
+        "neurodevelopmental sleep": [
+          "UYK-073"
+        ],
+        "neuroimaging sleep": [
+          "UYK-096"
+        ],
+        "neuromodulation insomnia": [
+          "UYK-090"
+        ],
+        "nicotine sleep": [
+          "UYK-041"
+        ],
+        "night awakenings": [
+          "UYK-029"
+        ],
+        "night eating": [
+          "UYK-040"
+        ],
+        "night shift": [
+          "UYK-044"
+        ],
+        "night terrors": [
+          "UYK-051"
+        ],
+        "nightmares": [
+          "UYK-027"
+        ],
+        "noise sleep": [
+          "UYK-039"
+        ],
+        "non-24-hour": [
+          "UYK-048"
+        ],
+        "nonrestorative sleep": [
+          "UYK-032"
+        ],
+        "obstructive sleep apnea": [
+          "UYK-047"
+        ],
+        "occupational exposure sleep": [
+          "UYK-085"
+        ],
+        "older adults sleep": [
+          "UYK-043"
+        ],
+        "older adults sleep falls": [
+          "UYK-080"
+        ],
+        "optogenetics sleep": [
+          "UYK-097"
+        ],
+        "orexin": [
+          "UYK-005"
+        ],
+        "orthosomnia": [
+          "UYK-054"
+        ],
+        "pain sleep cycle": [
+          "UYK-076"
+        ],
+        "particulate matter sleep": [
+          "UYK-084"
+        ],
+        "pediatric sleep": [
+          "UYK-078"
+        ],
+        "periodic limb movements": [
+          "UYK-050"
+        ],
+        "personalized sleep medicine": [
+          "UYK-092"
+        ],
+        "pet sleep": [
+          "UYK-096"
+        ],
+        "pharmacogenetics sleep": [
+          "UYK-092"
+        ],
+        "phase shifting": [
+          "UYK-056"
+        ],
+        "physical activity sleep": [
+          "UYK-042"
+        ],
+        "pittsburgh sleep quality index": [
+          "UYK-052"
+        ],
+        "polyphasic sleep": [
+          "UYK-022"
+        ],
+        "polysomnography": [
+          "UYK-053"
+        ],
+        "population sleep surveillance": [
+          "UYK-102"
+        ],
+        "postpartum sleep": [
+          "UYK-077"
+        ],
+        "posttraumatic nightmares": [
+          "UYK-074"
+        ],
+        "pre-sleep arousal": [
+          "UYK-036"
+        ],
+        "process s": [
+          "UYK-002"
+        ],
+        "prodromal sleep": [
+          "UYK-069"
+        ],
+        "prolactin sleep": [
+          "UYK-009"
+        ],
+        "race sleep health": [
+          "UYK-099"
+        ],
+        "rapid eye movement": [
+          "UYK-026"
+        ],
+        "relaxation sleep": [
+          "UYK-059"
+        ],
+        "religion sleep": [
+          "UYK-104"
+        ],
+        "rem sleep": [
+          "UYK-026"
+        ],
+        "rem sleep behavior disorder": [
+          "UYK-051"
+        ],
+        "restless legs syndrome": [
+          "UYK-050"
+        ],
+        "restorative sleep": [
+          "UYK-032"
+        ],
+        "room temperature sleep": [
+          "UYK-039"
+        ],
+        "rumination sleep": [
+          "UYK-036"
+        ],
+        "school start time": [
+          "UYK-045",
+          "UYK-079"
+        ],
+        "school start time policy": [
+          "UYK-100"
+        ],
+        "screen time sleep": [
+          "UYK-038"
+        ],
+        "segmented sleep": [
+          "UYK-022"
+        ],
+        "sex differences sleep": [
+          "UYK-105"
+        ],
+        "shift scheduling law": [
+          "UYK-101"
+        ],
+        "shift work disorder": [
+          "UYK-048"
+        ],
+        "shift work sleep": [
+          "UYK-044"
+        ],
+        "short sleep": [
+          "UYK-015"
+        ],
+        "siesta": [
+          "UYK-021"
+        ],
+        "siesta culture": [
+          "UYK-103"
+        ],
+        "sleep adhd": [
+          "UYK-073"
+        ],
+        "sleep alcohol use disorder": [
+          "UYK-075"
+        ],
+        "sleep als": [
+          "UYK-069"
+        ],
+        "sleep alzheimer": [
+          "UYK-069"
+        ],
+        "sleep anxiety disorder": [
+          "UYK-071"
+        ],
+        "sleep apnea": [
+          "UYK-047"
+        ],
+        "sleep appetite": [
+          "UYK-011"
+        ],
+        "sleep architecture": [
+          "UYK-023"
+        ],
+        "sleep arrhythmia": [
+          "UYK-062"
+        ],
+        "sleep atopic dermatitis": [
+          "UYK-066"
+        ],
+        "sleep autism": [
+          "UYK-073"
+        ],
+        "sleep autoimmune": [
+          "UYK-061"
+        ],
+        "sleep biomarkers": [
+          "UYK-095"
+        ],
+        "sleep bipolar": [
+          "UYK-072"
+        ],
+        "sleep breastfeeding": [
+          "UYK-077"
+        ],
+        "sleep cancer patients": [
+          "UYK-068"
+        ],
+        "sleep cancer risk": [
+          "UYK-068"
+        ],
+        "sleep cardiovascular": [
+          "UYK-062"
+        ],
+        "sleep chemotherapy": [
+          "UYK-068"
+        ],
+        "sleep chronic inflammation": [
+          "UYK-065"
+        ],
+        "sleep chronic pain": [
+          "UYK-076"
+        ],
+        "sleep creativity": [
+          "UYK-106"
+        ],
+        "sleep debt": [
+          "UYK-020"
+        ],
+        "sleep decision making": [
+          "UYK-106"
+        ],
+        "sleep dementia risk": [
+          "UYK-069"
+        ],
+        "sleep depression": [
+          "UYK-071"
+        ],
+        "sleep deprivation": [
+          "UYK-019"
+        ],
+        "sleep diabetes": [
+          "UYK-010"
+        ],
+        "sleep diary": [
+          "UYK-052"
+        ],
+        "sleep disparities": [
+          "UYK-045",
+          "UYK-099"
+        ],
+        "sleep duration": [
+          "UYK-015"
+        ],
+        "sleep duration genetics": [
+          "UYK-093"
+        ],
+        "sleep eczema": [
+          "UYK-066"
+        ],
+        "sleep efficiency": [
+          "UYK-033"
+        ],
+        "sleep effort": [
+          "UYK-036"
+        ],
+        "sleep emotion recognition": [
+          "UYK-107"
+        ],
+        "sleep epilepsy": [
+          "UYK-070"
+        ],
+        "sleep erectile dysfunction": [
+          "UYK-108"
+        ],
+        "sleep fibromyalgia": [
+          "UYK-065"
+        ],
+        "sleep fragmentation": [
+          "UYK-029"
+        ],
+        "sleep gastroesophageal reflux": [
+          "UYK-064"
+        ],
+        "sleep glaucoma": [
+          "UYK-067"
+        ],
+        "sleep gwas": [
+          "UYK-093"
+        ],
+        "sleep headache": [
+          "UYK-076"
+        ],
+        "sleep hearing loss": [
+          "UYK-067"
+        ],
+        "sleep heart failure": [
+          "UYK-062"
+        ],
+        "sleep homeostasis": [
+          "UYK-002"
+        ],
+        "sleep hygiene": [
+          "UYK-035"
+        ],
+        "sleep hypertension": [
+          "UYK-062"
+        ],
+        "sleep immune function": [
+          "UYK-061"
+        ],
+        "sleep inertia": [
+          "UYK-031"
+        ],
+        "sleep inflammation": [
+          "UYK-061"
+        ],
+        "sleep insulin sensitivity": [
+          "UYK-010"
+        ],
+        "sleep irritable bowel syndrome": [
+          "UYK-064"
+        ],
+        "sleep itch": [
+          "UYK-066"
+        ],
+        "sleep latency": [
+          "UYK-028"
+        ],
+        "sleep leptin ghrelin": [
+          "UYK-011"
+        ],
+        "sleep libido": [
+          "UYK-108"
+        ],
+        "sleep liver disease": [
+          "UYK-064"
+        ],
+        "sleep loneliness": [
+          "UYK-107"
+        ],
+        "sleep medication": [
+          "UYK-057"
+        ],
+        "sleep menopause": [
+          "UYK-012"
+        ],
+        "sleep menstrual cycle": [
+          "UYK-012"
+        ],
+        "sleep metabolic syndrome": [
+          "UYK-063"
+        ],
+        "sleep midpoint": [
+          "UYK-016"
+        ],
+        "sleep migraine": [
+          "UYK-076"
+        ],
+        "sleep multiple sclerosis": [
+          "UYK-070"
+        ],
+        "sleep need": [
+          "UYK-015"
+        ],
+        "sleep obesity": [
+          "UYK-063"
+        ],
+        "sleep onset": [
+          "UYK-028"
+        ],
+        "sleep operational performance": [
+          "UYK-083"
+        ],
+        "sleep opioid": [
+          "UYK-075"
+        ],
+        "sleep paralysis": [
+          "UYK-051"
+        ],
+        "sleep parkinson": [
+          "UYK-069"
+        ],
+        "sleep philosophy": [
+          "UYK-104"
+        ],
+        "sleep polypharmacy": [
+          "UYK-080"
+        ],
+        "sleep position": [
+          "UYK-039"
+        ],
+        "sleep preeclampsia": [
+          "UYK-077"
+        ],
+        "sleep pregnancy": [
+          "UYK-012",
+          "UYK-077"
+        ],
+        "sleep pressure": [
+          "UYK-002"
+        ],
+        "sleep problem solving": [
+          "UYK-106"
+        ],
+        "sleep psoriasis": [
+          "UYK-066"
+        ],
+        "sleep ptsd": [
+          "UYK-074"
+        ],
+        "sleep public health": [
+          "UYK-102"
+        ],
+        "sleep quality": [
+          "UYK-032"
+        ],
+        "sleep recovery athletes": [
+          "UYK-082"
+        ],
+        "sleep regularity": [
+          "UYK-017"
+        ],
+        "sleep restriction": [
+          "UYK-019"
+        ],
+        "sleep restriction energy intake": [
+          "UYK-011"
+        ],
+        "sleep restriction glucose": [
+          "UYK-010"
+        ],
+        "sleep rheumatoid arthritis": [
+          "UYK-065"
+        ],
+        "sleep schizophrenia": [
+          "UYK-072"
+        ],
+        "sleep sexual function": [
+          "UYK-108"
+        ],
+        "sleep social behavior": [
+          "UYK-107"
+        ],
+        "sleep spindles": [
+          "UYK-024"
+        ],
+        "sleep sports performance": [
+          "UYK-082"
+        ],
+        "sleep stages": [
+          "UYK-023"
+        ],
+        "sleep stimulant use": [
+          "UYK-075"
+        ],
+        "sleep stroke risk": [
+          "UYK-062"
+        ],
+        "sleep substance use disorder": [
+          "UYK-075"
+        ],
+        "sleep surgery": [
+          "UYK-091"
+        ],
+        "sleep testosterone": [
+          "UYK-012"
+        ],
+        "sleep thyroid": [
+          "UYK-013"
+        ],
+        "sleep timing": [
+          "UYK-016"
+        ],
+        "sleep tinnitus": [
+          "UYK-067"
+        ],
+        "sleep tracker": [
+          "UYK-054"
+        ],
+        "sleep traumatic brain injury": [
+          "UYK-070"
+        ],
+        "sleep type 2 diabetes": [
+          "UYK-063"
+        ],
+        "sleep vaccine response": [
+          "UYK-061"
+        ],
+        "sleep variability": [
+          "UYK-017"
+        ],
+        "sleep-disordered breathing": [
+          "UYK-047"
+        ],
+        "sleep-wake circuit": [
+          "UYK-005"
+        ],
+        "sleepwalking": [
+          "UYK-051"
+        ],
+        "slow wave sleep": [
+          "UYK-025"
+        ],
+        "slow wave sleep growth hormone": [
+          "UYK-008"
+        ],
+        "smartphone sleep": [
+          "UYK-038"
+        ],
+        "smartwatch sleep": [
+          "UYK-054"
+        ],
+        "snoring": [
+          "UYK-047"
+        ],
+        "social jetlag": [
+          "UYK-018"
+        ],
+        "socioeconomic sleep": [
+          "UYK-045"
+        ],
+        "socioeconomic status sleep": [
+          "UYK-099"
+        ],
+        "solvent sleep": [
+          "UYK-085"
+        ],
+        "suvorexant": [
+          "UYK-057"
+        ],
+        "synaptic homeostasis": [
+          "UYK-060"
+        ],
+        "tai chi sleep": [
+          "UYK-059"
+        ],
+        "tdcs sleep": [
+          "UYK-090"
+        ],
+        "teen sleep anxiety": [
+          "UYK-079"
+        ],
+        "telemedicine sleep": [
+          "UYK-089"
+        ],
+        "thermoregulation sleep": [
+          "UYK-014"
+        ],
+        "time in bed": [
+          "UYK-033"
+        ],
+        "transcranial magnetic stimulation sleep": [
+          "UYK-090"
+        ],
+        "trauma sleep": [
+          "UYK-074"
+        ],
+        "tsh sleep": [
+          "UYK-013"
+        ],
+        "upper airway surgery sleep apnea": [
+          "UYK-091"
+        ],
+        "valerian": [
+          "UYK-058"
+        ],
+        "wake after sleep onset": [
+          "UYK-029"
+        ],
+        "wearable sleep": [
+          "UYK-054"
+        ],
+        "weekend recovery sleep": [
+          "UYK-020"
+        ],
+        "women sleep": [
+          "UYK-105"
+        ],
+        "work hours sleep policy": [
+          "UYK-101"
+        ],
+        "worry sleep": [
+          "UYK-036"
+        ],
+        "yoga sleep": [
+          "UYK-059"
+        ],
+        "z-drugs": [
+          "UYK-057"
+        ],
+        "zeitgeber": [
+          "UYK-001"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "a2a receptor sleep",
+          "adenosine",
+          "adenosine receptor",
+          "biological clock",
+          "chronotype",
+          "circadian rhythm",
+          "clock genes",
+          "evening type",
+          "gaba sleep",
+          "hypocretin",
+          "morningness eveningness",
+          "orexin",
+          "process s",
+          "sleep homeostasis",
+          "sleep pressure",
+          "sleep-wake circuit",
+          "zeitgeber"
+        ],
+        "K10": [
+          "circadian bipolar",
+          "insomnia depression bidirectional",
+          "neurodevelopmental sleep",
+          "posttraumatic nightmares",
+          "sleep adhd",
+          "sleep alcohol use disorder",
+          "sleep anxiety disorder",
+          "sleep autism",
+          "sleep bipolar",
+          "sleep depression",
+          "sleep opioid",
+          "sleep ptsd",
+          "sleep schizophrenia",
+          "sleep stimulant use",
+          "sleep substance use disorder",
+          "trauma sleep"
+        ],
+        "K11": [
+          "pain sleep cycle",
+          "sleep chronic pain",
+          "sleep headache",
+          "sleep migraine"
+        ],
+        "K12": [
+          "adolescent sleep depression",
+          "athlete sleep",
+          "caregiver burden sleep",
+          "caregiver sleep",
+          "child sleep obesity",
+          "children sleep adhd",
+          "firefighters sleep",
+          "geriatric sleep medication",
+          "healthcare worker sleep",
+          "military sleep",
+          "older adults sleep falls",
+          "pediatric sleep",
+          "postpartum sleep",
+          "school start time",
+          "sleep breastfeeding",
+          "sleep operational performance",
+          "sleep polypharmacy",
+          "sleep preeclampsia",
+          "sleep pregnancy",
+          "sleep recovery athletes",
+          "sleep sports performance",
+          "teen sleep anxiety"
+        ],
+        "K13": [
+          "air pollution sleep",
+          "climate change sleep",
+          "driver fatigue regulation",
+          "drowsy driving policy",
+          "heat sleep",
+          "heavy metal sleep",
+          "hours of service",
+          "occupational exposure sleep",
+          "particulate matter sleep",
+          "solvent sleep"
+        ],
+        "K14": [
+          "acceptance and commitment therapy sleep",
+          "acupuncture sleep",
+          "ai sleep coaching",
+          "aromatherapy sleep",
+          "dialectical behavior therapy sleep",
+          "digital cbt-i app",
+          "hypoglossal nerve stimulation",
+          "massage sleep",
+          "mindfulness-based therapy insomnia",
+          "neuromodulation insomnia",
+          "personalized sleep medicine",
+          "pharmacogenetics sleep",
+          "sleep surgery",
+          "tdcs sleep",
+          "telemedicine sleep",
+          "transcranial magnetic stimulation sleep",
+          "upper airway surgery sleep apnea"
+        ],
+        "K15": [
+          "blood biomarker sleep disorder",
+          "chemogenetics sleep",
+          "chronotype genetics",
+          "computational model sleep",
+          "deep learning sleep",
+          "epigenetic sleep",
+          "fmri sleep",
+          "gut microbiome sleep",
+          "gut-brain axis sleep",
+          "machine learning sleep staging",
+          "neural circuit sleep mouse",
+          "neuroimaging sleep",
+          "optogenetics sleep",
+          "pet sleep",
+          "sleep biomarkers",
+          "sleep duration genetics",
+          "sleep gwas"
+        ],
+        "K16": [
+          "cosleeping",
+          "cultural sleep practices",
+          "dream interpretation culture",
+          "flexible work sleep",
+          "global sleep health",
+          "later school start sleep",
+          "neighborhood sleep",
+          "population sleep surveillance",
+          "race sleep health",
+          "religion sleep",
+          "school start time policy",
+          "shift scheduling law",
+          "siesta culture",
+          "sleep disparities",
+          "sleep philosophy",
+          "sleep public health",
+          "socioeconomic status sleep",
+          "work hours sleep policy"
+        ],
+        "K17": [
+          "gender differences insomnia",
+          "sex differences sleep",
+          "sleep creativity",
+          "sleep decision making",
+          "sleep emotion recognition",
+          "sleep erectile dysfunction",
+          "sleep libido",
+          "sleep loneliness",
+          "sleep problem solving",
+          "sleep sexual function",
+          "sleep social behavior",
+          "women sleep"
+        ],
+        "K2": [
+          "autonomic sleep",
+          "core body temperature sleep",
+          "cortisol awakening response",
+          "cortisol sleep",
+          "dim light melatonin onset",
+          "growth hormone sleep",
+          "hpa axis sleep",
+          "melatonin",
+          "prolactin sleep",
+          "sleep appetite",
+          "sleep diabetes",
+          "sleep insulin sensitivity",
+          "sleep leptin ghrelin",
+          "sleep menopause",
+          "sleep menstrual cycle",
+          "sleep pregnancy",
+          "sleep restriction energy intake",
+          "sleep restriction glucose",
+          "sleep testosterone",
+          "sleep thyroid",
+          "slow wave sleep growth hormone",
+          "thermoregulation sleep",
+          "tsh sleep"
+        ],
+        "K3": [
+          "bedtime",
+          "biphasic sleep",
+          "catch-up sleep",
+          "circadian misalignment",
+          "consistent wake time",
+          "daytime nap",
+          "insufficient sleep",
+          "long sleep",
+          "napping",
+          "polyphasic sleep",
+          "segmented sleep",
+          "short sleep",
+          "siesta",
+          "sleep debt",
+          "sleep deprivation",
+          "sleep duration",
+          "sleep midpoint",
+          "sleep need",
+          "sleep regularity",
+          "sleep restriction",
+          "sleep timing",
+          "sleep variability",
+          "social jetlag",
+          "weekend recovery sleep"
+        ],
+        "K4": [
+          "deep sleep",
+          "dream recall",
+          "dreams",
+          "hypnogram",
+          "k-complex",
+          "lucid dreaming",
+          "n2 sleep",
+          "n3",
+          "nightmares",
+          "rapid eye movement",
+          "rem sleep",
+          "sleep architecture",
+          "sleep spindles",
+          "sleep stages",
+          "slow wave sleep"
+        ],
+        "K5": [
+          "alarm snooze",
+          "daytime sleepiness",
+          "drowsy driving",
+          "early morning awakening",
+          "falling asleep",
+          "fatigue",
+          "microsleep",
+          "morning grogginess",
+          "night awakenings",
+          "nonrestorative sleep",
+          "restorative sleep",
+          "sleep efficiency",
+          "sleep fragmentation",
+          "sleep inertia",
+          "sleep latency",
+          "sleep onset",
+          "sleep quality",
+          "time in bed",
+          "wake after sleep onset"
+        ],
+        "K6": [
+          "adolescent sleep",
+          "aging sleep",
+          "alcohol sleep",
+          "bedroom environment",
+          "bedtime procrastination",
+          "bedtime routine",
+          "blue light",
+          "caffeine sleep",
+          "cannabis sleep",
+          "diet and sleep",
+          "evening exercise",
+          "exercise sleep",
+          "infant sleep",
+          "jet lag",
+          "late dinner sleep",
+          "light at night",
+          "light exposure sleep",
+          "mattress",
+          "meal timing sleep",
+          "morning light",
+          "nicotine sleep",
+          "night eating",
+          "night shift",
+          "noise sleep",
+          "older adults sleep",
+          "physical activity sleep",
+          "pre-sleep arousal",
+          "room temperature sleep",
+          "rumination sleep",
+          "school start time",
+          "screen time sleep",
+          "shift work sleep",
+          "sleep disparities",
+          "sleep effort",
+          "sleep hygiene",
+          "sleep position",
+          "smartphone sleep",
+          "socioeconomic sleep",
+          "worry sleep"
+        ],
+        "K7": [
+          "advanced sleep phase",
+          "bruxism",
+          "cataplexy",
+          "delayed sleep phase",
+          "idiopathic hypersomnia",
+          "insomnia",
+          "insomnia disorder",
+          "narcolepsy",
+          "night terrors",
+          "non-24-hour",
+          "obstructive sleep apnea",
+          "periodic limb movements",
+          "rem sleep behavior disorder",
+          "restless legs syndrome",
+          "shift work disorder",
+          "sleep apnea",
+          "sleep paralysis",
+          "sleep-disordered breathing",
+          "sleepwalking",
+          "snoring"
+        ],
+        "K8": [
+          "actigraphy",
+          "benzodiazepine sleep",
+          "bright light therapy",
+          "cbt-i",
+          "chamomile sleep",
+          "chronotherapy",
+          "cognitive behavioral therapy for insomnia",
+          "digital cbt-i",
+          "epworth",
+          "glymphatic",
+          "home sleep apnea test",
+          "hypnotics",
+          "insomnia severity index",
+          "local sleep",
+          "magnesium sleep",
+          "meditation sleep",
+          "melatonin supplement",
+          "memory consolidation sleep",
+          "mindfulness sleep",
+          "multiple sleep latency test",
+          "orthosomnia",
+          "phase shifting",
+          "pittsburgh sleep quality index",
+          "polysomnography",
+          "relaxation sleep",
+          "sleep diary",
+          "sleep medication",
+          "sleep tracker",
+          "smartwatch sleep",
+          "suvorexant",
+          "synaptic homeostasis",
+          "tai chi sleep",
+          "valerian",
+          "wearable sleep",
+          "yoga sleep",
+          "z-drugs"
+        ],
+        "K9": [
+          "insomnia cancer survivors",
+          "prodromal sleep",
+          "sleep als",
+          "sleep alzheimer",
+          "sleep arrhythmia",
+          "sleep atopic dermatitis",
+          "sleep autoimmune",
+          "sleep cancer patients",
+          "sleep cancer risk",
+          "sleep cardiovascular",
+          "sleep chemotherapy",
+          "sleep chronic inflammation",
+          "sleep dementia risk",
+          "sleep eczema",
+          "sleep epilepsy",
+          "sleep fibromyalgia",
+          "sleep gastroesophageal reflux",
+          "sleep glaucoma",
+          "sleep hearing loss",
+          "sleep heart failure",
+          "sleep hypertension",
+          "sleep immune function",
+          "sleep inflammation",
+          "sleep irritable bowel syndrome",
+          "sleep itch",
+          "sleep liver disease",
+          "sleep metabolic syndrome",
+          "sleep multiple sclerosis",
+          "sleep obesity",
+          "sleep parkinson",
+          "sleep psoriasis",
+          "sleep rheumatoid arthritis",
+          "sleep stroke risk",
+          "sleep tinnitus",
+          "sleep traumatic brain injury",
+          "sleep type 2 diabetes",
+          "sleep vaccine response"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    }
+  ]
+}
