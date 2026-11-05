@@ -12,7 +12,7 @@ Kaynak cevaplar: Medical Xpress 30 puanlı kart (2026-11-05, `research-decisions
 | T4 | Hormon, menopoz, takviye ve beslenme mitleri | ACTIVE | MX: geniş kitle wow GİRSİN | Hayır |
 | T5 | Bağımlılık, ruh sağlığı, kronik hastalık ve ilaç kullanımı | ACTIVE | MX: reçeteli ilaç kötüye kullanımı 6, HIV+bağımlılık 6 GİRSİN | Hayır |
 | T6 | Aşı ve klinik deneme sonuçları (Türkiye'yi ilgilendiren) | ACTIVE, salgın raporu hariç | MX: Ebola aşı denemeleri 7 GİRSİN; ham salgın raporu GİRMESİN | Hayır |
-| T7 | Gen ve hücre tedavileri (CRISPR vb.) | **PROPOSED** | MX: 3–5 GİRMESİN, ama kapı "geniş wow" diyor; puanlar düşük | **EVET** |
+| T7 | Gen ve hücre tedavileri (CRISPR vb.) | **REJECTED** (sahip, 2026-11-05, `DEC-R-T7-20261105`) | MX: 3–5 GİRMESİN; sahip "Hayır, REJECTED" dedi | Kapandı |
 | T8 | Uzak coğrafya salgın / tropik hastalık raporu | REJECTED | MX: 1–4 GİRMESİN; kapı: Türkiye ilgisi yok | Hayır |
 | T9 | Niş yoğun bakım / pediatrik prosedür | REJECTED | MX: 4 GİRMESİN; kapı: niş | Hayır |
 | T10 | Spor ekipmanı ve fitness açıklayıcıları | REJECTED | MX: 4 GİRMESİN | Hayır |
