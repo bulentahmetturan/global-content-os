@@ -94,7 +94,7 @@ export async function topicSummary(env: Env, plan: TopicPlan = TOPIC_PLAN): Prom
 
 const clampInt = (v: string | null, d: number, lo: number, hi: number) => { const n = Number(v); return Number.isInteger(n) ? Math.min(hi, Math.max(lo, n)) : d; };
 
-/** Ranked list for one topic (optionally one cluster or unit): tier A first, then newest; original English title. */
+/** List for one topic (optionally one cluster or unit): newest first; original English title. */
 export async function topicItems(env: Env, params: URLSearchParams, plan: TopicPlan = TOPIC_PLAN): Promise<TopicResult> {
   const topicId = params.get('topic') || '';
   const t = topicOf(plan, topicId);
@@ -121,7 +121,8 @@ export async function topicItems(env: Env, params: URLSearchParams, plan: TopicP
     let list = [...byItem.values()];
     if (cluster) list = list.filter((x) => x.clusters.has(cluster));
     if (unit) list = list.filter((x) => x.units.includes(unit));
-    list.sort((a, b) => (TIER_RANK[a.tier ?? 'Z'] ?? 9) - (TIER_RANK[b.tier ?? 'Z'] ?? 9) || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    // Newest first. A/B/C tiers are an unconfirmed proposal (DEC-R-20261106-014), not a ranking basis.
+    list.sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     const total = list.length;
     const idx = unitIndex(plan, topicId);
     const page = list.slice(0, limit).map((x) => ({ ...x, clusters: [...x.clusters], unitNames: x.units.map((u) => idx.get(u)?.name || (u.endsWith('-?') ? 'Alt başlık belirsiz' : u)) }));

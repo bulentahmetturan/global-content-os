@@ -72,6 +72,9 @@ export interface Classification { planVersion: string; matchedOn: 'title' | 'tit
  * anchored). A single remaining word ("sleep pressure") keeps the strict proximity rule, so generic words stay tight.
  */
 function contextual(raw: string, anchorStems: Set<string>): { raw: string; c: Compiled; ctx: Compiled | null } {
+  // "~word": a distinctive word that, once the item is anchored to the topic, is enough anywhere in the text
+  // (e.g. "~alzheimer" under sleep). Used only for words that are unambiguous inside the topic.
+  if (raw.startsWith('~')) return { raw, c: { stems: [] }, ctx: { stems: tokens(raw.slice(1)) } };
   const c = compileTerm(raw);
   const rest = c.stems.filter((s) => !anchorStems.has(s));
   return { raw, c, ctx: rest.length >= 2 && rest.length < c.stems.length ? { stems: rest } : null };

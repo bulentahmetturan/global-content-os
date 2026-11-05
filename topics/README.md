@@ -28,14 +28,12 @@ topics/
 
 Sahip bir başlığı "X–uyku" ilişkileri ve ayrıntılarıyla açtığında (ör. Spor–uyku: aerobik, direnç, HIIT, zaman, şiddet...), her satır bir **ilişki** olur: `UYK-R01..`, sahibin ayrıntı metni olduğu gibi (`details_tr`), bağlandığı alt başlıklar (`maps_to`, en az bir mevcut alt başlık) ve İngilizce terimler. Komut: `node scripts/topics.mjs add-relation UYK "<ad>" "<ayrıntı>" "UYK-042,UYK-082" "<t1;t2>" --group SPOR`. Defter satırı `RELATION_ADDED`. Hiçbir alt başlığın karşılamadığı alan çıkarsa önce `add-sub` ile alt başlık açılır, sonra ilişki ona bağlanır. Plan çıktısında `term_to_relations` ve `relations` yer alır; ekranda bir kayıt hem alt başlığa hem ilişkiye (ör. "HIIT–uyku") düşer.
 
-Çalışma tasarımı kuralı (DEC-R-20261105-012): farklı tasarımlar farklı sorulara cevap verir; sonuç kendi popülasyonu ve yöntemi içinde değerlendirilir, tek bulgu gibi birleştirilmez.
-
 ## Genişleme kuralları (sürekli büyür, hiçbir şey kaybolmaz)
 
 - Kimlikler sabittir ve yalnız sona eklenir: silinmez, yeniden numaralanmaz, yeniden kullanılmaz.
 - Kaldırma yoktur: alt başlık/konu `REJECTED` veya `SNOOZED` olur, kayıt kalır.
 - Her değişiklik LEDGER'a satır olarak düşer; geçmiş satır değiştirilemez (check yakalar).
-- Katman (A yaşam tarzı/geniş kitle, B klinik, C mekanizma) **sıralama önceliğidir**, ret nedeni değil.
+- Katman (A yaşam tarzı/geniş kitle, B klinik, C mekanizma) sahip onayı bekleyen **öneridir**; sıralama ve ret nedeni değildir.
 
 ## Konu → kaynak: nasıl çekilir (Bible §5.5, §6.2, §6.5)
 
@@ -58,7 +56,7 @@ Ortak kurallar: aynı nesne konu başına çoğaltılmaz, tek nesne çok konu il
 |---|---|---|
 | 1. Etiketleme | Yeni Research kaydı saklanınca, çeviri özeti değiştirmeden **İngilizce başlık + özet** deterministik sınıflandırıcıdan geçer (LLM yok, token yok). Çapa terimi (`anchor_terms_en`) yoksa konuya girmez; `other_senses_en` uyku dışı anlamları düşer; çok kelimeli terimde kelimeler yakın olmalı. Sonuç `topic_item_tags` (alt başlık, ilişki veya `UYK-?` belirsiz). | `apps/worker/src/topics/classify.ts`, `store.ts`; kanca: `upsert-localized.ts`, `europe-pmc.ts`, `pubmed.ts`, `feed-push.ts` |
 | 2. Gölge mod | Etiket hiçbir kaydı gizlemez, reddetmez, öne almaz; triage aynı kalır (§6.1: PASS/FAIL bitmeden daraltma yok). | `topics/rollout.json` `mode: shadow` |
-| 3. Ekran | Hub → Sistem Modülleri → **Research Konuları**: konu özeti, küme bazında netlik, sana sorular, katman A önce sıralı liste (özgün İngilizce başlık). | `apps/hub/index.html` `renderTopics` |
+| 3. Ekran | Hub → Sistem Modülleri → **Research Konuları**: konu özeti, küme bazında netlik, sana sorular, en yeni önce liste (özgün İngilizce başlık). | `apps/hub/index.html` `renderTopics` |
 | 4. Soru | Küme başına farklı kaynaklardan cevaplanmamış gerçek örnek + alt başlığı belirsiz kayıtlar ("hangi alt başlık?"). Cevaplanan kayıt bir daha sorulmaz (§4.4). | `GET /api/topics/questions` |
 | 5. Cevap | Evet/Hayır/Emin değilim, genel kural işareti, doğru alt başlık, not → `topic_labels` (append-only, gördüğün başlığın kopyasıyla). | `POST /api/topics/labels` |
 | 6. Öğrenme | `node scripts/topics-feedback.mjs --pull` cevapları `topics/research/<konu>/labels/golden.ndjson` dosyasına sürümlü altın örnek olarak çeker; `--report` mevcut planın yanlış verdiği örnekleri `ADD_TERMS` / `NARROW` olarak listeler; terim/çapa değişikliği PR'la yapılır, `--baseline` doğru örnekleri kilitler. CI (`scripts/topics-golden.test.mjs`) önceden doğru bir sahip cevabı bozulursa kırmızı olur (§11.6). | `scripts/topics-feedback.mjs` |

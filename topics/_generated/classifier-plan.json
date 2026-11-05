@@ -1633,7 +1633,7 @@
           "UYK-R60"
         ]
       },
-      "study_design_rule": "DEC-R-20261105-012",
+      "study_design_rule": null,
       "subtopic_count": 111,
       "tiers": {
         "A": [
@@ -1911,6 +1911,9 @@
         "computational model sleep": [
           "UYK-098"
         ],
+        "consistent sleep": [
+          "UYK-017"
+        ],
         "consistent wake time": [
           "UYK-017"
         ],
@@ -2025,6 +2028,9 @@
         "glymphatic": [
           "UYK-060"
         ],
+        "good sleep": [
+          "UYK-032"
+        ],
         "growth hormone sleep": [
           "UYK-008"
         ],
@@ -2036,6 +2042,9 @@
         ],
         "healthcare worker sleep": [
           "UYK-083"
+        ],
+        "healthy sleep": [
+          "UYK-032"
         ],
         "heat sleep": [
           "UYK-084"
@@ -2201,6 +2210,9 @@
         ],
         "neuromodulation insomnia": [
           "UYK-090"
+        ],
+        "neuroscience of sleep": [
+          "UYK-060"
         ],
         "nicotine sleep": [
           "UYK-041"
@@ -2473,9 +2485,15 @@
         "sleep diary": [
           "UYK-052"
         ],
+        "sleep disorder drug": [
+          "UYK-057"
+        ],
         "sleep disparities": [
           "UYK-045",
           "UYK-099"
+        ],
+        "sleep drug": [
+          "UYK-057"
         ],
         "sleep duration": [
           "UYK-015"
@@ -2521,6 +2539,9 @@
         ],
         "sleep headache": [
           "UYK-076"
+        ],
+        "sleep health": [
+          "UYK-032"
         ],
         "sleep hearing loss": [
           "UYK-067"
@@ -2603,6 +2624,9 @@
         "sleep need": [
           "UYK-015"
         ],
+        "sleep neuroscience": [
+          "UYK-060"
+        ],
         "sleep obesity": [
           "UYK-063"
         ],
@@ -2673,6 +2697,9 @@
         "sleep rheumatoid arthritis": [
           "UYK-065"
         ],
+        "sleep schedule": [
+          "UYK-017"
+        ],
         "sleep schizophrenia": [
           "UYK-072"
         ],
@@ -2699,6 +2726,12 @@
         ],
         "sleep stroke risk": [
           "UYK-062"
+        ],
+        "sleep studies": [
+          "UYK-053"
+        ],
+        "sleep study": [
+          "UYK-053"
         ],
         "sleep substance use disorder": [
           "UYK-075"
@@ -2834,6 +2867,39 @@
         ],
         "zeitgeber": [
           "UYK-001"
+        ],
+        "~alzheimer": [
+          "UYK-069"
+        ],
+        "~cardiometabolic": [
+          "UYK-063"
+        ],
+        "~concussion": [
+          "UYK-070"
+        ],
+        "~dementia": [
+          "UYK-069"
+        ],
+        "~exercise": [
+          "UYK-042"
+        ],
+        "~neurodegeneration": [
+          "UYK-069"
+        ],
+        "~neurodegenerative": [
+          "UYK-069"
+        ],
+        "~parkinson": [
+          "UYK-069"
+        ],
+        "~physical activity": [
+          "UYK-042"
+        ],
+        "~physically active": [
+          "UYK-042"
+        ],
+        "~traumatic brain injury": [
+          "UYK-070"
         ]
       },
       "cluster_query_bundles": {
@@ -3023,6 +3089,7 @@
           "biphasic sleep",
           "catch-up sleep",
           "circadian misalignment",
+          "consistent sleep",
           "consistent wake time",
           "daytime nap",
           "insufficient sleep",
@@ -3039,6 +3106,7 @@
           "sleep need",
           "sleep regularity",
           "sleep restriction",
+          "sleep schedule",
           "sleep timing",
           "sleep variability",
           "social jetlag",
@@ -3068,6 +3136,8 @@
           "early morning awakening",
           "falling asleep",
           "fatigue",
+          "good sleep",
+          "healthy sleep",
           "microsleep",
           "morning grogginess",
           "night awakenings",
@@ -3075,6 +3145,7 @@
           "restorative sleep",
           "sleep efficiency",
           "sleep fragmentation",
+          "sleep health",
           "sleep inertia",
           "sleep latency",
           "sleep onset",
@@ -3121,7 +3192,10 @@
           "sleep position",
           "smartphone sleep",
           "socioeconomic sleep",
-          "worry sleep"
+          "worry sleep",
+          "~exercise",
+          "~physical activity",
+          "~physically active"
         ],
         "K7": [
           "advanced sleep phase",
@@ -3166,13 +3240,19 @@
           "memory consolidation sleep",
           "mindfulness sleep",
           "multiple sleep latency test",
+          "neuroscience of sleep",
           "orthosomnia",
           "phase shifting",
           "pittsburgh sleep quality index",
           "polysomnography",
           "relaxation sleep",
           "sleep diary",
+          "sleep disorder drug",
+          "sleep drug",
           "sleep medication",
+          "sleep neuroscience",
+          "sleep studies",
+          "sleep study",
           "sleep tracker",
           "smartwatch sleep",
           "suvorexant",
@@ -3231,7 +3311,15 @@
           "sleep tinnitus",
           "sleep traumatic brain injury",
           "sleep type 2 diabetes",
-          "sleep vaccine response"
+          "sleep vaccine response",
+          "~alzheimer",
+          "~cardiometabolic",
+          "~concussion",
+          "~dementia",
+          "~neurodegeneration",
+          "~neurodegenerative",
+          "~parkinson",
+          "~traumatic brain injury"
         ]
       },
       "fetch_budget": {

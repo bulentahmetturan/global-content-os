@@ -16,11 +16,11 @@ Her alt kapsamda: kimlik, küme, Türkçe ad, İngilizce arama terimleri, öncel
 
 | Katman | Anlam | Alt kapsam sayısı |
 |---|---|---|
-| A | Yaşam tarzı / geniş kitle: sıralamada öne çıkar (DEC-R-20261105-010) | 46 |
+| A | Yaşam tarzı / geniş kitle (öneri, sahip onayı yok) | 46 |
 | B | Klinik / doktor kitlesi | 44 |
 | C | Mekanizma: yalnız geniş kitle wow etkisi varsa girer | 18 |
 
-Katman bir **sıralama önceliğidir**, ret değildir. C'nin girişi kitle kapısıyla (Türk kitlesi veya geniş wow) kayıt başına karara bağlanır.
+Katman sahip onayı bekleyen bir **öneridir** (2026-11-06: öncelik kararı silindi); sıralama nedeni değildir, ret değildir. C'nin girişi kitle kapısıyla (Türk kitlesi veya geniş wow) kayıt başına karara bağlanır.
 
 Çakışma: bir kayıt birden fazla konuya girebilir (uyku + ruh sağlığı, uyku + kardiyometabolik, melatonin + takviye). Tek ana konu, ikincil etiketler; çift sayım yok.
 

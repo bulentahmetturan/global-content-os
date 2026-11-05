@@ -2352,7 +2352,7 @@
     return d;
   }
   function topicItemRow(x) {
-    var t = x.tier ? mTag('Katman ' + x.tier, x.tier === 'A' ? 'ok' : '') : '';
+    var t = x.tier ? mTag('Katman ' + x.tier + ' (öneri)') : '';
     return '<div class="tq-item"><div class="tq-title">' + t + ' <a href="' + escapeHtml(x.url) + '" target="_blank" rel="noopener">' + escapeHtml(x.titleOrig) + '</a></div>' +
       '<div class="tq-meta">' + escapeHtml(String(x.source || '').replace(/^research-/, '')) + ' · ' + mTime(x.publishedAt) + ' · ' + escapeHtml(x.triageStatus || '') + '</div>' +
       '<div class="tq-units">' + (x.unitNames || []).slice(0, 6).map(function (n) { return '<span class="spf-chip">' + escapeHtml(n) + '</span>'; }).join('') + '</div></div>';
@@ -2402,7 +2402,7 @@
       (clar.minExamplesPerClass == null ? '<p class="mod-note">Sınıf başına asgari örnek sayısı Config’te belirlenmedi; bu yüzden sayı gösterilmez (Bible §10.4).</p>' : '') +
       mTable(['Küme', 'Kayıt', 'PASS / FAIL örnek', 'Netlik', 'Hata'], clarRows) +
       '<h3>Sana sorular (' + escapeHtml(qs.open || 0) + ')</h3>' + questions +
-      '<h3>' + escapeHtml(clusterName) + ' · ' + escapeHtml(items.total || 0) + ' kayıt (katman A önce, sonra en yeni)</h3>' +
+      '<h3>' + escapeHtml(clusterName) + ' · ' + escapeHtml(items.total || 0) + ' kayıt (en yeni önce)</h3>' +
       (topicUi.cluster ? '<p><a href="#" data-tq-cluster="">Bütün kümeler</a></p>' : '') + list;
   }
   document.addEventListener('click', function (e) {

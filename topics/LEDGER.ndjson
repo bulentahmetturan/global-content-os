@@ -190,3 +190,23 @@
 {"seq":190,"at":"2026-11-05","kind":"RELATION_ADDED","id":"UYK-R62","ref":"DEC-R-20261105-012","text":"liste-3 / ENVANTER: Uyku–diğer müdahaleler -> UYK-056,UYK-088,UYK-091,UYK-047"}
 {"seq":191,"at":"2026-11-05","kind":"RELATION_ADDED","id":"UYK-R63","ref":"DEC-R-20261105-012","text":"liste-3 / ENVANTER: Uyku–ölçüm teknolojileri -> UYK-054,UYK-053"}
 {"seq":192,"at":"2026-11-05","kind":"RELATION_ADDED","id":"UYK-R64","ref":"DEC-R-20261105-012","text":"liste-3 / ENVANTER: Uyku–gelişen biyolojik araştırmalar -> UYK-060,UYK-093,UYK-095"}
+{"seq": 193, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "KARDIO-METAB", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Kardiyoloji ve metabolik hastalıklar (alan baştan kuruldu)"}
+{"seq": 194, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "ONKO", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Onkoloji: klinik çalışmalar ve yeni tedaviler (T2 ile birleşti) (alan baştan kuruldu)"}
+{"seq": 195, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "ENF-AMR", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Enfeksiyon ve antibiyotik direnci (alan baştan kuruldu)"}
+{"seq": 196, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "DIJ-AI", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Dijital sağlık ve tıpta yapay zekâ (T3 ile birleşti) (alan baştan kuruldu)"}
+{"seq": 197, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "BESLENME", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Beslenme, takviye ve uzun yaşam (T4 ile birleşti) (alan baştan kuruldu)"}
+{"seq": 198, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "RUH", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Ruh sağlığı tedavileri (T5 ile birleşti) (alan baştan kuruldu)"}
+{"seq": 199, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "NORO", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Nörobilim ve beyin sağlığı (T1) (alan baştan kuruldu)"}
+{"seq": 200, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "ASI-KLINIK", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Aşı ve klinik deneme sonuçları (T6) (alan baştan kuruldu)"}
+{"seq": 201, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "GEN-HUCRE", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Gen ve hücre tedavileri (T7) (alan baştan kuruldu)"}
+{"seq": 202, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "UZAK-SALGIN", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Uzak coğrafya salgın / tropik hastalık raporu (T8) (alan baştan kuruldu)"}
+{"seq": 203, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "NIS-YOGUN-BAKIM", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Niş yoğun bakım / pediatrik prosedür (T9) (alan baştan kuruldu)"}
+{"seq": 204, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "FITNESS-EKIPMAN", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Spor ekipmanı ve fitness açıklayıcıları (T10) (alan baştan kuruldu)"}
+{"seq": 205, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "OMURGA-DOKU", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Omurga ve doku yapısı (T11) (alan baştan kuruldu)"}
+{"seq": 206, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "TIP-EGITIMI", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Tıp eğitimi ve klinik beceri (alan baştan kuruldu)"}
+{"seq": 207, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "KANIT-SENTEZI", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Kanıt sentezi (çalışma türü ekseni) (alan baştan kuruldu)"}
+{"seq": 208, "at": "2026-11-06", "kind": "TOPIC_DELETED", "id": "GERI-CEKME", "ref": "DEC-R-20261106-014", "text": "sahip sildi: Geri çekilen ve düzeltilen çalışmalar (bütünlük kontrolü) (alan baştan kuruldu)"}
+{"seq": 209, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-008", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
+{"seq": 210, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-009", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
+{"seq": 211, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-010", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
+{"seq": 212, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-012:study_design_rule", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
