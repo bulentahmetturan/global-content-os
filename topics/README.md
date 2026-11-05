@@ -52,6 +52,23 @@ Ortak kurallar: aynı nesne konu başına çoğaltılmaz, tek nesne çok konu il
 
 **Yeni kaynak eklenince:** kaynak yaşam döngüsü kapısından geçer (§6.5: kayıt ile filtre arasında filtresiz pencere yok). Registry'ye girdikten sonra `node scripts/topics.mjs build` çalıştırılır; kaynak tüm ACTIVE konulara karşı otomatik değerlendirilir ve kapsam haritasında görünür. Hangi alt başlıkları ne kadar karşıladığı gerçek kuru çalıştırmayla ölçülür (§6.4), tahmin edilmez.
 
+## Canlı hat: etiketle → sor → öğren → yay (DEC-R-20261105-013)
+
+| Adım | Ne olur | Nerede |
+|---|---|---|
+| 1. Etiketleme | Yeni Research kaydı saklanınca, çeviri özeti değiştirmeden **İngilizce başlık + özet** deterministik sınıflandırıcıdan geçer (LLM yok, token yok). Çapa terimi (`anchor_terms_en`) yoksa konuya girmez; `other_senses_en` uyku dışı anlamları düşer; çok kelimeli terimde kelimeler yakın olmalı. Sonuç `topic_item_tags` (alt başlık, ilişki veya `UYK-?` belirsiz). | `apps/worker/src/topics/classify.ts`, `store.ts`; kanca: `upsert-localized.ts`, `europe-pmc.ts`, `pubmed.ts`, `feed-push.ts` |
+| 2. Gölge mod | Etiket hiçbir kaydı gizlemez, reddetmez, öne almaz; triage aynı kalır (§6.1: PASS/FAIL bitmeden daraltma yok). | `topics/rollout.json` `mode: shadow` |
+| 3. Ekran | Hub → Sistem Modülleri → **Research Konuları**: konu özeti, küme bazında netlik, sana sorular, katman A önce sıralı liste (özgün İngilizce başlık). | `apps/hub/index.html` `renderTopics` |
+| 4. Soru | Küme başına farklı kaynaklardan cevaplanmamış gerçek örnek + alt başlığı belirsiz kayıtlar ("hangi alt başlık?"). Cevaplanan kayıt bir daha sorulmaz (§4.4). | `GET /api/topics/questions` |
+| 5. Cevap | Evet/Hayır/Emin değilim, genel kural işareti, doğru alt başlık, not → `topic_labels` (append-only, gördüğün başlığın kopyasıyla). | `POST /api/topics/labels` |
+| 6. Öğrenme | `node scripts/topics-feedback.mjs --pull` cevapları `topics/research/<konu>/labels/golden.ndjson` dosyasına sürümlü altın örnek olarak çeker; `--report` mevcut planın yanlış verdiği örnekleri `ADD_TERMS` / `NARROW` olarak listeler; terim/çapa değişikliği PR'la yapılır, `--baseline` doğru örnekleri kilitler. CI (`scripts/topics-golden.test.mjs`) önceden doğru bir sahip cevabı bozulursa kırmızı olur (§11.6). | `scripts/topics-feedback.mjs` |
+| 7. Netlik | Küme bazında K/P/F (§10.3), mevcut plana göre yeniden hesaplanır; Config'te asgari örnek sayısı yoksa veya bir sınıf eksikse sayı gösterilmez (§10.4). | `GET /api/topics/clarity`, `rollout.json` `clarity.min_examples_per_class` |
+| 8. Yayılma | Önce pilot kaynaklar (`rollout.json` `feeds`), temiz koşudan sonra `["*"]`: bütün Research kaynakları. Eski kayıtlar için `node scripts/topics-dryrun.mjs --export x.json` → `--sql tags.sql --feeds ...` → `wrangler d1 execute --file` (idempotent `INSERT OR IGNORE`). | `scripts/topics-dryrun.mjs` |
+
+**Yeni konu:** `new` → `add-cluster` / `add-sub` → `topic.json` içine `anchor_terms_en` (çapası olmayan konu Worker planına girmez) → `build` → PR → deploy. Etiketleme, soru, netlik ve ekran aynı konu için kendiliğinden çalışır; kod değişmez.
+**Yeni kaynak:** lifecycle kapısından geçip Research'e girince `rollout.json` `["*"]` ise ilk kaydından itibaren etiketlenir; değilse pilot listesine eklenir. Kapsam haritası `build` ile güncellenir.
+**Token:** sınıflandırma deterministiktir (§1.3.3); LLM yalnız sınır vakada ve ayrı onayla kullanılabilir, bugün kullanılmaz.
+
 ## Bugünkü kapsam haritası (build çıktısı, 48 Research kaynağı)
 
 Konu keşfeden kullanılabilir yöntem: 25 akış + 4 API sorgusu. 11 kaynak kapalı/çekilmiyor, 5 yalnız zenginleştirme, 3 dışlanmış. API sorgusu yapabilen 4 kaynaktan `pubmed-eutilities` bugün Evergreen taşıyıcısıdır (zaman-duyarlı yol bilerek kapalı); güncel Research'te API sorgu yolunu açmak ayrı bir plan/onay işidir (§6.2, §6.6).

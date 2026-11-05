@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env, type RouteId } from '../db/queries';
+import { tagIngestedItem } from '../topics/store';
 
 export interface ExternalFeedItem {
   title: string;
@@ -42,6 +43,8 @@ export async function ingestFeedItems(
       publisher: feed.label,
       publishedAt: it.publishedAt || null,
     });
+    if (result.created && result.id) await tagIngestedItem(env, { itemId: result.id, route: feed.route, feedId: feed.id, title, abstract: summary === title ? null : summary });
+
     if (result.created) created += 1;
     else updated += 1;
   }

@@ -1,0 +1,27 @@
+{
+  "schema": "gcos-topic-rollout/1",
+  "mode": "shadow",
+  "routes": [
+    "kaduse-research"
+  ],
+  "feeds": [
+    "research-medical-xpress",
+    "research-nature",
+    "research-jama-network",
+    "research-npj-digital-medicine",
+    "research-clinicaltrials-gov-api-v2"
+  ],
+  "note": "Gölge etiketleme: yalnız topic_item_tags yazılır, triage/kabul/ret değişmez. Önce bu pilot kaynaklar (Bible §6.6 canary), temiz koşulardan sonra feeds = [\"*\"] ile bütün Research kaynaklarına yayılır.",
+  "history": [
+    {
+      "at": "2026-11-05",
+      "mode": "shadow",
+      "feeds": "pilot-5",
+      "by": "owner instruction: önce birkaç kaynakta, sonra bütün kaynaklara"
+    }
+  ],
+  "clarity": {
+    "min_examples_per_class": null,
+    "note": "Bible §10.3: sınıf başına asgari PASS/FAIL örnek sayısı Config. Sahip belirleyene kadar netlik çubuğu 'Ölçülmedi' gösterir (§10.4); sayı uydurulmaz."
+  }
+}
