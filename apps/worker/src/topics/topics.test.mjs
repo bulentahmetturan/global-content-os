@@ -29,6 +29,12 @@ test('classifier: multi-word terms need their words close together; relations an
   assert.ok(units('Magnesium supplementation for sleep in adults').includes('UYK-058'));
 });
 
+test('classifier: "~word" terms count anywhere once the item is anchored, never without the anchor', () => {
+  assert.ok(units('Your sleep may be hiding an early clue to Alzheimer’s').includes('UYK-069'));
+  assert.equal(isSleep('New Alzheimer drug slows decline'), false);
+  assert.ok(units('Just 10 minutes of daily exercise could unlock deeper sleep').includes('UYK-042'));
+});
+
 test('classifier: abstract widens matching at ingest; stored items fall back to title only', () => {
   const t = 'A randomized trial in older adults';
   assert.equal(isSleep(t), false);
@@ -69,7 +75,7 @@ test('store: without the addon table routes answer 503 TOPICS_NOT_READY and inge
   assert.equal(await S.tagIngestedItem(env, { itemId: 'i_cbt', route: 'kaduse-research', feedId: 'f', title: 'Digital CBT-I app improves insomnia', abstract: null }, plan()), 0);
 });
 
-test('store: ingest tagging, ranked items (tier A first), summary and unassigned rows', async () => {
+test('store: ingest tagging, newest-first items, summary and unassigned rows', async () => {
   const { env } = openDb();
   for (const [id, t] of [['i_cbt', 'Digital CBT-I app improves insomnia in adults'], ['i_mx', 'Smartphones are wrecking teens\' sleep, study indicates'], ['i_vague', 'Hidden signals in sleep can predict future health'], ['i_none', 'New statin trial lowers LDL cholesterol']]) {
     await S.tagIngestedItem(env, { itemId: id, route: 'kaduse-research', feedId: 'f1', title: t, abstract: null }, plan());
@@ -80,7 +86,7 @@ test('store: ingest tagging, ranked items (tier A first), summary and unassigned
   assert.equal(sum.unassigned, 1);
   const items = (await S.topicItems(env, P({ topic: 'UYK' }), plan())).body;
   assert.equal(items.total, 3);
-  assert.equal(items.items[0].tier, 'A');
+  assert.deepEqual(items.items.map((x) => x.publishedAt), [...items.items.map((x) => x.publishedAt)].sort().reverse(), 'newest first');
   assert.ok(items.items.every((x) => x.titleOrig && !x.titleOrig.startsWith('TR ')), 'original English title is shown');
   const k6 = (await S.topicItems(env, P({ topic: 'UYK', cluster: 'K6' }), plan())).body;
   assert.deepEqual(k6.items.map((x) => x.itemId), ['i_mx']);

@@ -2,143 +2,19 @@
   "schema": "gcos-topic-index/1",
   "status": "DRAFT_NOT_WIRED",
   "lane": "research",
-  "note": "Sahibin verdiği her konu burada kalır; hiçbiri silinmez. Durum değişikliği yeni LEDGER satırı olarak yazılır.",
+  "note": "Alan 2026-11-06 sahip kararıyla baştan kuruldu (DEC-R-20261106-014): konu listesi Uyku ile başlar, sahip konuları adım adım verir, rehber Bible. Önceki kartlar ve kural kararları silindi; iz yalnız LEDGER.ndjson içinde.",
   "topics": [
-    {
-      "topic_id": "KARDIO-METAB",
-      "name_tr": "Kardiyoloji ve metabolik hastalıklar",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-001",
-      "owner_importance": 8,
-      "file": null
-    },
-    {
-      "topic_id": "ONKO",
-      "name_tr": "Onkoloji: klinik çalışmalar ve yeni tedaviler (T2 ile birleşti)",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-002",
-      "owner_importance": 5,
-      "file": null
-    },
-    {
-      "topic_id": "ENF-AMR",
-      "name_tr": "Enfeksiyon ve antibiyotik direnci",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-003",
-      "owner_importance": 5,
-      "file": null
-    },
-    {
-      "topic_id": "DIJ-AI",
-      "name_tr": "Dijital sağlık ve tıpta yapay zekâ (T3 ile birleşti)",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-005",
-      "owner_importance": 7,
-      "file": null
-    },
-    {
-      "topic_id": "BESLENME",
-      "name_tr": "Beslenme, takviye ve uzun yaşam (T4 ile birleşti)",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-006",
-      "owner_importance": 9,
-      "file": null
-    },
-    {
-      "topic_id": "RUH",
-      "name_tr": "Ruh sağlığı tedavileri (T5 ile birleşti)",
-      "state": "ACTIVE",
-      "decision_ref": "DEC-R-20261105-007",
-      "owner_importance": 8,
-      "file": null
-    },
-    {
-      "topic_id": "NORO",
-      "name_tr": "Nörobilim ve beyin sağlığı (T1)",
-      "state": "ACTIVE",
-      "decision_ref": "MX-2026-11-05-T1",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "ASI-KLINIK",
-      "name_tr": "Aşı ve klinik deneme sonuçları (T6)",
-      "state": "ACTIVE",
-      "decision_ref": "MX-2026-11-05-T6",
-      "owner_importance": null,
-      "file": null
-    },
     {
       "topic_id": "UYK",
       "name_tr": "Uyku",
       "state": "ACTIVE",
       "decision_ref": "DEC-R-20261105-011",
       "owner_importance": null,
-      "file": "uyku/topic.json"
-    },
-    {
-      "topic_id": "GEN-HUCRE",
-      "name_tr": "Gen ve hücre tedavileri (T7)",
-      "state": "REJECTED",
-      "decision_ref": "DEC-R-T7-20261105",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "UZAK-SALGIN",
-      "name_tr": "Uzak coğrafya salgın / tropik hastalık raporu (T8)",
-      "state": "REJECTED",
-      "decision_ref": "MX-2026-11-05-T8",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "NIS-YOGUN-BAKIM",
-      "name_tr": "Niş yoğun bakım / pediatrik prosedür (T9)",
-      "state": "REJECTED",
-      "decision_ref": "MX-2026-11-05-T9",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "FITNESS-EKIPMAN",
-      "name_tr": "Spor ekipmanı ve fitness açıklayıcıları (T10)",
-      "state": "REJECTED",
-      "decision_ref": "MX-2026-11-05-T10",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "OMURGA-DOKU",
-      "name_tr": "Omurga ve doku yapısı (T11)",
-      "state": "REJECTED",
-      "decision_ref": "MX-2026-11-05-T11",
-      "owner_importance": null,
-      "file": null
-    },
-    {
-      "topic_id": "TIP-EGITIMI",
-      "name_tr": "Tıp eğitimi ve klinik beceri",
-      "state": "NOT_RESEARCH_TOPIC",
-      "decision_ref": "DEC-R-20261105-004",
-      "owner_importance": 2,
-      "file": null
-    },
-    {
-      "topic_id": "KANIT-SENTEZI",
-      "name_tr": "Kanıt sentezi (çalışma türü ekseni)",
-      "state": "NOT_A_TOPIC",
-      "decision_ref": "DEC-R-20261105-008",
-      "owner_importance": 5,
-      "file": null
-    },
-    {
-      "topic_id": "GERI-CEKME",
-      "name_tr": "Geri çekilen ve düzeltilen çalışmalar (bütünlük kontrolü)",
-      "state": "NOT_A_TOPIC",
-      "decision_ref": "DEC-R-20261105-009",
-      "owner_importance": 5,
-      "file": null
+      "file": "uyku/topic.json",
+      "use_areas": [
+        "research",
+        "evergreen"
+      ]
     }
   ]
 }

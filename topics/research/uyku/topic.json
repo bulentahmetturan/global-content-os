@@ -6,7 +6,7 @@
   "name_tr": "Uyku",
   "state": "ACTIVE",
   "decision_ref": "DEC-R-20261105-011",
-  "owner_statement": "Sahip: ilk konumuz uyku; ikinci listedekileri de ekleyeceğiz (2026-11-05)",
+  "owner_statement": "Sahip: ilk konumuz uyku; ikinci listedekileri de ekleyeceğiz (2026-11-05). Alan baştan kuruluyor, konular adım adım gelecek; konular Research ve Evergreen'de kullanılacak (2026-11-06).",
   "extension_rules": [
     "Alt kapsam kimlikleri (UYK-NNN) sabittir; silinmez, yeniden numaralanmaz, yeniden kullanılmaz.",
     "Yeni alt kapsam yalnız sona eklenir (sonraki UYK-NNN) ve topics/LEDGER.ndjson içine SUBTOPIC_ADDED satırı yazılır.",
@@ -14,18 +14,12 @@
     "Sahibin verdiği ham metin topics/research/uyku/intake/ altında olduğu gibi saklanır."
   ],
   "tier_legend": {
-    "A": "yaşam tarzı / geniş kitle: sıralamada öne çıkar",
-    "B": "klinik / doktor kitlesi",
-    "C": "mekanizma: yalnız geniş kitle wow etkisi varsa girer"
+    "status": "ÖNERİ: sahip onayı yok; sıralama nedeni değildir (Bible §4.4 ile sorulacak)",
+    "A": "yaşam tarzı / geniş kitle (öneri)",
+    "B": "klinik / doktor kitlesi (öneri)",
+    "C": "mekanizma (öneri)"
   },
-  "cross_topic_overlap": [
-    "RUH",
-    "KARDIO-METAB",
-    "BESLENME",
-    "DIJ-AI",
-    "ONKO",
-    "ENF-AMR"
-  ],
+  "cross_topic_overlap": [],
   "anchor_terms_en": [
     "sleep",
     "insomnia",
@@ -372,7 +366,9 @@
       "search_terms_en": [
         "sleep regularity",
         "sleep variability",
-        "consistent wake time"
+        "consistent wake time",
+        "sleep schedule",
+        "consistent sleep"
       ],
       "priority_tier": "A",
       "source_list": "liste-1",
@@ -579,7 +575,10 @@
       "search_terms_en": [
         "sleep quality",
         "restorative sleep",
-        "nonrestorative sleep"
+        "nonrestorative sleep",
+        "sleep health",
+        "good sleep",
+        "healthy sleep"
       ],
       "priority_tier": "A",
       "source_list": "liste-1",
@@ -724,7 +723,10 @@
       "search_terms_en": [
         "exercise sleep",
         "physical activity sleep",
-        "evening exercise"
+        "evening exercise",
+        "~exercise",
+        "~physical activity",
+        "~physically active"
       ],
       "priority_tier": "A",
       "source_list": "liste-1",
@@ -883,7 +885,9 @@
         "polysomnography",
         "actigraphy",
         "home sleep apnea test",
-        "multiple sleep latency test"
+        "multiple sleep latency test",
+        "sleep study",
+        "sleep studies"
       ],
       "priority_tier": "B",
       "source_list": "liste-1",
@@ -942,7 +946,9 @@
         "sleep medication",
         "benzodiazepine sleep",
         "suvorexant",
-        "z-drugs"
+        "z-drugs",
+        "sleep disorder drug",
+        "sleep drug"
       ],
       "priority_tier": "B",
       "source_list": "liste-1",
@@ -988,7 +994,9 @@
         "glymphatic",
         "memory consolidation sleep",
         "synaptic homeostasis",
-        "local sleep"
+        "local sleep",
+        "sleep neuroscience",
+        "neuroscience of sleep"
       ],
       "priority_tier": "C",
       "source_list": "liste-1",
@@ -1033,7 +1041,8 @@
       "search_terms_en": [
         "sleep metabolic syndrome",
         "sleep obesity",
-        "sleep type 2 diabetes"
+        "sleep type 2 diabetes",
+        "~cardiometabolic"
       ],
       "priority_tier": "A",
       "source_list": "liste-2",
@@ -1121,7 +1130,12 @@
         "sleep Parkinson",
         "sleep ALS",
         "sleep dementia risk",
-        "prodromal sleep"
+        "prodromal sleep",
+        "~alzheimer",
+        "~dementia",
+        "~parkinson",
+        "~neurodegeneration",
+        "~neurodegenerative"
       ],
       "priority_tier": "A",
       "source_list": "liste-2",
@@ -1135,7 +1149,9 @@
       "search_terms_en": [
         "sleep epilepsy",
         "sleep multiple sclerosis",
-        "sleep traumatic brain injury"
+        "sleep traumatic brain injury",
+        "~concussion",
+        "~traumatic brain injury"
       ],
       "priority_tier": "B",
       "source_list": "liste-2",
@@ -3146,8 +3162,9 @@
       "added_at": "2026-11-05"
     }
   ],
-  "study_design_rule": {
-    "decision_ref": "DEC-R-20261105-012",
-    "text_tr": "Farklı tasarımlar farklı sorulara cevap verir (ör. düzenli aerobik egzersiz deneyi, akşam antrenman zamanlaması gözlemsel çalışması, uyku kısıtlamasında kas protein sentezi deneyi). Sonuç kendi popülasyonu ve yöntemi içinde değerlendirilir; farklı tasarımların sonuçları tek bulgu gibi birleştirilmez."
-  }
+  "term_note": "Terim başındaki '~': kayıt uyku çapasına bağlandıktan sonra bu ayırt edici kelimenin metinde herhangi bir yerde geçmesi yeterlidir (ör. ~alzheimer). Yalnız konu içinde tek anlamlı kelimeler için kullanılır.",
+  "use_areas": [
+    "research",
+    "evergreen"
+  ]
 }

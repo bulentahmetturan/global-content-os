@@ -1,3 +1,5 @@
+> **Geçersiz (2026-11-06, DEC-R-20261106-014):** bu belgedeki konu önerileri ve cevapları sahip kararıyla silindi; alan Uyku ile baştan kuruldu. Yalnız tarihçe olarak durur, kaynak kabul edilmez.
+
 # Research: konu adayları (Bible v5 §4.1, 2026-11-05)
 
 Durum alanı §4.1'e göredir (PROPOSED / ACTIVE / REJECTED / SNOOZED). Bu belge kayıt değil **öneridir**: kural, SQL ve kod bu onaydan sonra gelir (§6.1). Mevcut cevaplar yeniden sorulmaz (§4.4); dayanak her satırda yazılıdır.
