@@ -24,6 +24,12 @@ topics/
 6. **Türetilir:** `node scripts/topics.mjs build` → sınıflandırıcı planı ve kaynak kapsam haritası.
 7. **Push/deploy:** PR → CI → birleştirme → damgalı deploy (docs/OPERATIONS.md §3.1). Worker bu dosyaları okuyacak hâle gelene kadar deploy yalnız belgeyi taşır; **bağlama (kod) ayrı bir değişikliktir ve şema onayı ister**.
 
+## İlişkiler (ayrıntı katmanı)
+
+Sahip bir başlığı "X–uyku" ilişkileri ve ayrıntılarıyla açtığında (ör. Spor–uyku: aerobik, direnç, HIIT, zaman, şiddet...), her satır bir **ilişki** olur: `UYK-R01..`, sahibin ayrıntı metni olduğu gibi (`details_tr`), bağlandığı alt başlıklar (`maps_to`, en az bir mevcut alt başlık) ve İngilizce terimler. Komut: `node scripts/topics.mjs add-relation UYK "<ad>" "<ayrıntı>" "UYK-042,UYK-082" "<t1;t2>" --group SPOR`. Defter satırı `RELATION_ADDED`. Hiçbir alt başlığın karşılamadığı alan çıkarsa önce `add-sub` ile alt başlık açılır, sonra ilişki ona bağlanır. Plan çıktısında `term_to_relations` ve `relations` yer alır; ekranda bir kayıt hem alt başlığa hem ilişkiye (ör. "HIIT–uyku") düşer.
+
+Çalışma tasarımı kuralı (DEC-R-20261105-012): farklı tasarımlar farklı sorulara cevap verir; sonuç kendi popülasyonu ve yöntemi içinde değerlendirilir, tek bulgu gibi birleştirilmez.
+
 ## Genişleme kuralları (sürekli büyür, hiçbir şey kaybolmaz)
 
 - Kimlikler sabittir ve yalnız sona eklenir: silinmez, yeniden numaralanmaz, yeniden kullanılmaz.

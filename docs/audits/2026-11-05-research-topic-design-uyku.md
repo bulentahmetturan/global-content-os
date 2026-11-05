@@ -12,6 +12,8 @@ Kaynak alanı sürekli genişleyecek. Bu yüzden konu kaydı hiçbir kaynağa ba
 
 Her alt kapsamda: kimlik, küme, Türkçe ad, İngilizce arama terimleri, öncelik katmanı.
 
+**Ek (liste-3, DEC-R-20261105-012):** sahip ilişki ayrıntılarını verdi: 12 Spor–uyku ilişkisi (aerobik, direnç, HIIT, zaman, şiddet, sıklık, performans, kas gelişimi, sakatlık, egzersiz davranışı, müsabaka, şekerleme–spor) ve 52 düz envanter ilişkisi. Hepsi `relations` (`UYK-R01..R64`) olarak sahibin metniyle kaydedildi ve mevcut alt kapsamlara bağlandı. Hiçbir alt kapsamın karşılamadığı üç alan yeni alt kapsam oldu: `UYK-109` solunum hastalıkları (B), `UYK-110` böbrek ve idrar sistemi (B), `UYK-111` duygu düzenleme (A). Toplam 111 alt kapsam, katmanlar 47/46/18. Çalışma tasarımı kuralı: farklı tasarımların sonuçları kendi popülasyonu ve yöntemi içinde okunur.
+
 | Katman | Anlam | Alt kapsam sayısı |
 |---|---|---|
 | A | Yaşam tarzı / geniş kitle: sıralamada öne çıkar (DEC-R-20261105-010) | 46 |

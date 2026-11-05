@@ -7,7 +7,1634 @@
       "lane": "research",
       "topic_id": "UYK",
       "decision_ref": "DEC-R-20261105-011",
-      "subtopic_count": 108,
+      "relation_count": 64,
+      "relations": {
+        "UYK-R01": {
+          "name_tr": "Aerobik egzersiz–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-028",
+            "UYK-029",
+            "UYK-032",
+            "UYK-042"
+          ]
+        },
+        "UYK-R02": {
+          "name_tr": "Direnç antrenmanı–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-042",
+            "UYK-082"
+          ]
+        },
+        "UYK-R03": {
+          "name_tr": "HIIT–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-036",
+            "UYK-042"
+          ]
+        },
+        "UYK-R04": {
+          "name_tr": "Egzersiz zamanı–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-004",
+            "UYK-016",
+            "UYK-042"
+          ]
+        },
+        "UYK-R05": {
+          "name_tr": "Egzersiz şiddeti–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-042"
+          ]
+        },
+        "UYK-R06": {
+          "name_tr": "Egzersiz sıklığı–uyku",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-017",
+            "UYK-042"
+          ]
+        },
+        "UYK-R07": {
+          "name_tr": "Uyku–sportif performans",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-019",
+            "UYK-082",
+            "UYK-106"
+          ]
+        },
+        "UYK-R08": {
+          "name_tr": "Uyku–kas gelişimi",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-008",
+            "UYK-019",
+            "UYK-082"
+          ]
+        },
+        "UYK-R09": {
+          "name_tr": "Uyku–sakatlık",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-076",
+            "UYK-082"
+          ]
+        },
+        "UYK-R10": {
+          "name_tr": "Uyku–egzersiz davranışı",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-034",
+            "UYK-042"
+          ]
+        },
+        "UYK-R11": {
+          "name_tr": "Uyku–müsabaka koşulları",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-036",
+            "UYK-044",
+            "UYK-082"
+          ]
+        },
+        "UYK-R12": {
+          "name_tr": "Şekerleme–spor",
+          "group": "SPOR",
+          "maps_to": [
+            "UYK-021",
+            "UYK-031",
+            "UYK-082"
+          ]
+        },
+        "UYK-R13": {
+          "name_tr": "Uyku–beslenme örüntüleri",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-040"
+          ]
+        },
+        "UYK-R14": {
+          "name_tr": "Uyku–besin bileşenleri",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-040"
+          ]
+        },
+        "UYK-R15": {
+          "name_tr": "Uyku–öğün zamanlaması",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-016",
+            "UYK-040"
+          ]
+        },
+        "UYK-R16": {
+          "name_tr": "Uyku–oruç ve enerji kısıtlaması",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-040",
+            "UYK-063"
+          ]
+        },
+        "UYK-R17": {
+          "name_tr": "Uyku–yeme davranışı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-011",
+            "UYK-040"
+          ]
+        },
+        "UYK-R18": {
+          "name_tr": "Uyku–sıvı tüketimi",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-029",
+            "UYK-040",
+            "UYK-110"
+          ]
+        },
+        "UYK-R19": {
+          "name_tr": "Uyku–kafein",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-041"
+          ]
+        },
+        "UYK-R20": {
+          "name_tr": "Uyku–madde kullanımı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-041",
+            "UYK-075"
+          ]
+        },
+        "UYK-R21": {
+          "name_tr": "Uyku–hormonlar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-006",
+            "UYK-007",
+            "UYK-008",
+            "UYK-009",
+            "UYK-010",
+            "UYK-011",
+            "UYK-012",
+            "UYK-013"
+          ]
+        },
+        "UYK-R22": {
+          "name_tr": "Uyku–nörokimyasal mekanizmalar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-003",
+            "UYK-005"
+          ]
+        },
+        "UYK-R23": {
+          "name_tr": "Uyku–stres",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-007",
+            "UYK-036"
+          ]
+        },
+        "UYK-R24": {
+          "name_tr": "Uyku–ruminasyon ve endişe",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-036",
+            "UYK-046"
+          ]
+        },
+        "UYK-R25": {
+          "name_tr": "Uyku–depresyon",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-030",
+            "UYK-071"
+          ]
+        },
+        "UYK-R26": {
+          "name_tr": "Uyku–anksiyete ve panik",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-071"
+          ]
+        },
+        "UYK-R27": {
+          "name_tr": "Uyku–travma ve TSSB",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-074"
+          ]
+        },
+        "UYK-R28": {
+          "name_tr": "Uyku–bipolar bozukluk",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-072"
+          ]
+        },
+        "UYK-R29": {
+          "name_tr": "Uyku–DEHB",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-073"
+          ]
+        },
+        "UYK-R30": {
+          "name_tr": "Uyku–otizm ve duyusal özellikler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-073"
+          ]
+        },
+        "UYK-R31": {
+          "name_tr": "Uyku–diğer ruhsal durumlar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-071",
+            "UYK-072",
+            "UYK-075"
+          ]
+        },
+        "UYK-R32": {
+          "name_tr": "Uyku–bilişsel işlevler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-034",
+            "UYK-060",
+            "UYK-106"
+          ]
+        },
+        "UYK-R33": {
+          "name_tr": "Uyku–duygu düzenleme",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-111"
+          ]
+        },
+        "UYK-R34": {
+          "name_tr": "Uyku–ağrı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-076"
+          ]
+        },
+        "UYK-R35": {
+          "name_tr": "Uyku–baş ağrıları",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-050",
+            "UYK-076"
+          ]
+        },
+        "UYK-R36": {
+          "name_tr": "Uyku–yorgunluk tabloları",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-034",
+            "UYK-065"
+          ]
+        },
+        "UYK-R37": {
+          "name_tr": "Uyku–metabolik sağlık",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-010",
+            "UYK-063"
+          ]
+        },
+        "UYK-R38": {
+          "name_tr": "Uyku–kalp-damar sağlığı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-062"
+          ]
+        },
+        "UYK-R39": {
+          "name_tr": "Uyku–nörolojik hastalıklar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-069",
+            "UYK-070"
+          ]
+        },
+        "UYK-R40": {
+          "name_tr": "Uyku–tinnitus ve otonom belirtiler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-014",
+            "UYK-067"
+          ]
+        },
+        "UYK-R41": {
+          "name_tr": "Uyku–solunum",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-047",
+            "UYK-109"
+          ]
+        },
+        "UYK-R42": {
+          "name_tr": "Uyku–sindirim sistemi",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-064"
+          ]
+        },
+        "UYK-R43": {
+          "name_tr": "Uyku–mikrobiyota",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-094"
+          ]
+        },
+        "UYK-R44": {
+          "name_tr": "Uyku–bağışıklık",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-061"
+          ]
+        },
+        "UYK-R45": {
+          "name_tr": "Uyku–otoimmün hastalıklar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-065"
+          ]
+        },
+        "UYK-R46": {
+          "name_tr": "Uyku–deri hastalıkları",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-066"
+          ]
+        },
+        "UYK-R47": {
+          "name_tr": "Uyku–kanser",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-068"
+          ]
+        },
+        "UYK-R48": {
+          "name_tr": "Uyku–böbrek ve idrar sistemi",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-110"
+          ]
+        },
+        "UYK-R49": {
+          "name_tr": "Uyku–üreme sağlığı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-012",
+            "UYK-077",
+            "UYK-108"
+          ]
+        },
+        "UYK-R50": {
+          "name_tr": "Uyku–yaşam dönemleri",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-043",
+            "UYK-078",
+            "UYK-079",
+            "UYK-080"
+          ]
+        },
+        "UYK-R51": {
+          "name_tr": "Uyku–ışık",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-037",
+            "UYK-056"
+          ]
+        },
+        "UYK-R52": {
+          "name_tr": "Uyku–dijital davranışlar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-038"
+          ]
+        },
+        "UYK-R53": {
+          "name_tr": "Uyku–fiziksel çevre",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-039",
+            "UYK-084"
+          ]
+        },
+        "UYK-R54": {
+          "name_tr": "Uyku–çevresel maruziyetler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-085"
+          ]
+        },
+        "UYK-R55": {
+          "name_tr": "Uyku–uyuma koşulları",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-039"
+          ]
+        },
+        "UYK-R56": {
+          "name_tr": "Uyku–çalışma hayatı",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-044",
+            "UYK-083",
+            "UYK-086"
+          ]
+        },
+        "UYK-R57": {
+          "name_tr": "Uyku–eğitim",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-079",
+            "UYK-100"
+          ]
+        },
+        "UYK-R58": {
+          "name_tr": "Uyku–sosyal koşullar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-045",
+            "UYK-081",
+            "UYK-099",
+            "UYK-107"
+          ]
+        },
+        "UYK-R59": {
+          "name_tr": "Uyku–ilaçlar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-057"
+          ]
+        },
+        "UYK-R60": {
+          "name_tr": "Uyku–takviyeler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-058"
+          ]
+        },
+        "UYK-R61": {
+          "name_tr": "Uyku–davranışsal müdahaleler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-055",
+            "UYK-059",
+            "UYK-087"
+          ]
+        },
+        "UYK-R62": {
+          "name_tr": "Uyku–diğer müdahaleler",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-047",
+            "UYK-056",
+            "UYK-088",
+            "UYK-091"
+          ]
+        },
+        "UYK-R63": {
+          "name_tr": "Uyku–ölçüm teknolojileri",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-053",
+            "UYK-054"
+          ]
+        },
+        "UYK-R64": {
+          "name_tr": "Uyku–gelişen biyolojik araştırmalar",
+          "group": "ENVANTER",
+          "maps_to": [
+            "UYK-060",
+            "UYK-093",
+            "UYK-095"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "academic workload sleep": [
+          "UYK-R57"
+        ],
+        "acetylcholine sleep": [
+          "UYK-R22"
+        ],
+        "acute exercise sleep": [
+          "UYK-R01"
+        ],
+        "addiction sleep": [
+          "UYK-R31"
+        ],
+        "adenosine sleep": [
+          "UYK-R22"
+        ],
+        "adhd daytime sleepiness": [
+          "UYK-R29"
+        ],
+        "adhd delayed sleep phase": [
+          "UYK-R29"
+        ],
+        "adhd sleep": [
+          "UYK-R29"
+        ],
+        "adolescent sleep": [
+          "UYK-R50"
+        ],
+        "adult sleep": [
+          "UYK-R50"
+        ],
+        "aerobic exercise sleep": [
+          "UYK-R01"
+        ],
+        "air pollution sleep": [
+          "UYK-R53"
+        ],
+        "alcohol sleep": [
+          "UYK-R20"
+        ],
+        "alcohol withdrawal sleep": [
+          "UYK-R20"
+        ],
+        "allergic rhinitis sleep": [
+          "UYK-R41"
+        ],
+        "alzheimer disease sleep": [
+          "UYK-R39"
+        ],
+        "ambient temperature sleep": [
+          "UYK-R53"
+        ],
+        "antidepressants sleep": [
+          "UYK-R59"
+        ],
+        "antihistamines sleep": [
+          "UYK-R59"
+        ],
+        "antipsychotics sleep": [
+          "UYK-R59"
+        ],
+        "anxiety sleep": [
+          "UYK-R26"
+        ],
+        "asthma sleep": [
+          "UYK-R41"
+        ],
+        "atopic dermatitis sleep": [
+          "UYK-R46"
+        ],
+        "atrial fibrillation sleep": [
+          "UYK-R38"
+        ],
+        "autism family sleep": [
+          "UYK-R30"
+        ],
+        "autism sleep": [
+          "UYK-R30"
+        ],
+        "autism sleep onset": [
+          "UYK-R30"
+        ],
+        "autoimmune disease activity sleep": [
+          "UYK-R45"
+        ],
+        "autoimmune medication sleep": [
+          "UYK-R45"
+        ],
+        "autonomic dysfunction sleep": [
+          "UYK-R40"
+        ],
+        "bed sharing": [
+          "UYK-R55"
+        ],
+        "bedroom ventilation sleep": [
+          "UYK-R53"
+        ],
+        "bedtime procrastination": [
+          "UYK-R52"
+        ],
+        "bedtime routine autism": [
+          "UYK-R30"
+        ],
+        "bereavement sleep": [
+          "UYK-R31"
+        ],
+        "biological aging sleep": [
+          "UYK-R64"
+        ],
+        "bipolar disorder sleep": [
+          "UYK-R28"
+        ],
+        "bladder sleep": [
+          "UYK-R48"
+        ],
+        "breakfast skipping sleep": [
+          "UYK-R15"
+        ],
+        "breathing exercise sleep": [
+          "UYK-R61"
+        ],
+        "burnout sleep": [
+          "UYK-R31"
+        ],
+        "caffeine dose sleep": [
+          "UYK-R19"
+        ],
+        "caffeine metabolism sleep": [
+          "UYK-R19"
+        ],
+        "caffeine sleep": [
+          "UYK-R19"
+        ],
+        "caffeine timing sleep": [
+          "UYK-R19"
+        ],
+        "caffeine withdrawal sleep": [
+          "UYK-R19"
+        ],
+        "caloric restriction sleep": [
+          "UYK-R16"
+        ],
+        "cancer diagnosis sleep": [
+          "UYK-R47"
+        ],
+        "cancer pain sleep": [
+          "UYK-R47"
+        ],
+        "cancer treatment sleep": [
+          "UYK-R47"
+        ],
+        "cancer-related fatigue sleep": [
+          "UYK-R47"
+        ],
+        "cannabidiol sleep": [
+          "UYK-R20"
+        ],
+        "cannabis sleep": [
+          "UYK-R20"
+        ],
+        "carbohydrate intake sleep": [
+          "UYK-R14"
+        ],
+        "cardiorespiratory fitness sleep": [
+          "UYK-R05"
+        ],
+        "caregiving sleep": [
+          "UYK-R58"
+        ],
+        "cbt-i": [
+          "UYK-R61"
+        ],
+        "celiac disease sleep": [
+          "UYK-R42"
+        ],
+        "cellular energy sleep": [
+          "UYK-R64"
+        ],
+        "child sleep": [
+          "UYK-R50"
+        ],
+        "chronic fatigue syndrome sleep": [
+          "UYK-R36"
+        ],
+        "chronic kidney disease sleep": [
+          "UYK-R48"
+        ],
+        "chronic pain sleep": [
+          "UYK-R34"
+        ],
+        "chronic stress sleep": [
+          "UYK-R23"
+        ],
+        "chronotype exercise timing": [
+          "UYK-R04"
+        ],
+        "circadian disruption cancer": [
+          "UYK-R47"
+        ],
+        "circadian rhythm bipolar": [
+          "UYK-R28"
+        ],
+        "clock watching insomnia": [
+          "UYK-R24"
+        ],
+        "co-sleeping": [
+          "UYK-R55"
+        ],
+        "cognitive decline sleep": [
+          "UYK-R39"
+        ],
+        "commuting sleep": [
+          "UYK-R56"
+        ],
+        "competition anxiety sleep": [
+          "UYK-R11"
+        ],
+        "consumer sleep tracker accuracy": [
+          "UYK-R63"
+        ],
+        "copd sleep": [
+          "UYK-R41"
+        ],
+        "coronary heart disease sleep": [
+          "UYK-R38"
+        ],
+        "corticosteroids sleep": [
+          "UYK-R59"
+        ],
+        "cortisol sleep": [
+          "UYK-R21"
+        ],
+        "cpap": [
+          "UYK-R62"
+        ],
+        "cycling sleep": [
+          "UYK-R01"
+        ],
+        "dash diet sleep": [
+          "UYK-R13"
+        ],
+        "daylight exposure sleep": [
+          "UYK-R51"
+        ],
+        "decreased need for sleep mania": [
+          "UYK-R28"
+        ],
+        "depression insomnia": [
+          "UYK-R25"
+        ],
+        "dialysis sleep": [
+          "UYK-R48"
+        ],
+        "dietary fat sleep": [
+          "UYK-R14"
+        ],
+        "dietary fiber sleep": [
+          "UYK-R14"
+        ],
+        "dopamine sleep": [
+          "UYK-R22"
+        ],
+        "early morning awakening depression": [
+          "UYK-R25"
+        ],
+        "emotional eating sleep": [
+          "UYK-R17"
+        ],
+        "endocrine disrupting chemicals sleep": [
+          "UYK-R54"
+        ],
+        "energy drinks sleep": [
+          "UYK-R19"
+        ],
+        "epigenetic clock sleep": [
+          "UYK-R64"
+        ],
+        "epilepsy sleep": [
+          "UYK-R39"
+        ],
+        "estrogen progesterone sleep": [
+          "UYK-R21"
+        ],
+        "evening artificial light sleep": [
+          "UYK-R51"
+        ],
+        "evening exercise sleep": [
+          "UYK-R04"
+        ],
+        "evening fluid intake": [
+          "UYK-R18"
+        ],
+        "evening high-intensity exercise sleep": [
+          "UYK-R03"
+        ],
+        "exam period sleep": [
+          "UYK-R57"
+        ],
+        "exercise before bedtime": [
+          "UYK-R04"
+        ],
+        "exercise frequency sleep": [
+          "UYK-R06"
+        ],
+        "exercise intensity sleep": [
+          "UYK-R05"
+        ],
+        "exercise timing sleep": [
+          "UYK-R04"
+        ],
+        "exercise training program sleep": [
+          "UYK-R01"
+        ],
+        "family routines sleep": [
+          "UYK-R58"
+        ],
+        "fatigue versus sleepiness": [
+          "UYK-R36"
+        ],
+        "fatty liver sleep": [
+          "UYK-R37"
+        ],
+        "fertility sleep": [
+          "UYK-R49"
+        ],
+        "fibromyalgia sleep": [
+          "UYK-R36"
+        ],
+        "gaba sleep": [
+          "UYK-R22"
+        ],
+        "gaming sleep": [
+          "UYK-R52"
+        ],
+        "gastroesophageal reflux sleep": [
+          "UYK-R42"
+        ],
+        "generalized anxiety disorder sleep": [
+          "UYK-R26"
+        ],
+        "glucagon sleep": [
+          "UYK-R21"
+        ],
+        "glutamate sleep": [
+          "UYK-R22"
+        ],
+        "glycemic index sleep": [
+          "UYK-R14"
+        ],
+        "glycine sleep": [
+          "UYK-R60"
+        ],
+        "glymphatic system sleep": [
+          "UYK-R64"
+        ],
+        "grief sleep": [
+          "UYK-R31"
+        ],
+        "growth hormone sleep": [
+          "UYK-R21"
+        ],
+        "gut microbiome sleep": [
+          "UYK-R43"
+        ],
+        "gut-brain axis sleep": [
+          "UYK-R43"
+        ],
+        "headache medication sleep": [
+          "UYK-R35"
+        ],
+        "heart failure sleep": [
+          "UYK-R38"
+        ],
+        "heart rate variability sleep": [
+          "UYK-R40"
+        ],
+        "heat therapy sleep": [
+          "UYK-R62"
+        ],
+        "heat wave sleep": [
+          "UYK-R53"
+        ],
+        "heavy metals sleep": [
+          "UYK-R54"
+        ],
+        "herbal supplement sleep": [
+          "UYK-R60"
+        ],
+        "high altitude sleep": [
+          "UYK-R53"
+        ],
+        "high-intensity interval training sleep": [
+          "UYK-R03"
+        ],
+        "hiit sleep": [
+          "UYK-R03"
+        ],
+        "histamine sleep": [
+          "UYK-R22"
+        ],
+        "housing sleep": [
+          "UYK-R58"
+        ],
+        "hpa axis sleep": [
+          "UYK-R23"
+        ],
+        "humidity sleep": [
+          "UYK-R53"
+        ],
+        "hydration sleep": [
+          "UYK-R18"
+        ],
+        "hypersomnia depression": [
+          "UYK-R25"
+        ],
+        "hypertension sleep": [
+          "UYK-R38"
+        ],
+        "hypervigilance sleep": [
+          "UYK-R27"
+        ],
+        "hypnotics sleep": [
+          "UYK-R59"
+        ],
+        "infant sleep": [
+          "UYK-R50"
+        ],
+        "inflammatory bowel disease sleep": [
+          "UYK-R42"
+        ],
+        "insomnia bipolar": [
+          "UYK-R28"
+        ],
+        "insomnia treatment depression outcome": [
+          "UYK-R25"
+        ],
+        "insulin resistance sleep": [
+          "UYK-R37"
+        ],
+        "insulin sleep": [
+          "UYK-R21"
+        ],
+        "intermittent fasting sleep": [
+          "UYK-R16"
+        ],
+        "iron sleep": [
+          "UYK-R60"
+        ],
+        "irritable bowel syndrome sleep": [
+          "UYK-R42"
+        ],
+        "itch sleep": [
+          "UYK-R46"
+        ],
+        "jet lag athletes": [
+          "UYK-R11"
+        ],
+        "ketogenic diet sleep": [
+          "UYK-R13"
+        ],
+        "l-theanine sleep": [
+          "UYK-R60"
+        ],
+        "late dinner sleep": [
+          "UYK-R15"
+        ],
+        "late eating sleep": [
+          "UYK-R15"
+        ],
+        "leptin ghrelin sleep": [
+          "UYK-R21"
+        ],
+        "levothyroxine sleep": [
+          "UYK-R59"
+        ],
+        "light at night sleep": [
+          "UYK-R51"
+        ],
+        "light therapy sleep": [
+          "UYK-R62"
+        ],
+        "local sleep": [
+          "UYK-R64"
+        ],
+        "loneliness sleep": [
+          "UYK-R58"
+        ],
+        "long covid sleep": [
+          "UYK-R36"
+        ],
+        "long-term care sleep": [
+          "UYK-R50"
+        ],
+        "long-term exercise sleep": [
+          "UYK-R06"
+        ],
+        "low-carbohydrate diet sleep": [
+          "UYK-R13"
+        ],
+        "lupus sleep": [
+          "UYK-R45"
+        ],
+        "magnesium sleep": [
+          "UYK-R60"
+        ],
+        "masld sleep": [
+          "UYK-R37"
+        ],
+        "mattress sleep": [
+          "UYK-R55"
+        ],
+        "me/cfs sleep": [
+          "UYK-R36"
+        ],
+        "meal timing sleep": [
+          "UYK-R15"
+        ],
+        "meditation sleep": [
+          "UYK-R61"
+        ],
+        "mediterranean diet sleep": [
+          "UYK-R13"
+        ],
+        "melatonin sleep": [
+          "UYK-R21"
+        ],
+        "melatonin supplement": [
+          "UYK-R60"
+        ],
+        "menopause sleep": [
+          "UYK-R49"
+        ],
+        "menstrual cycle sleep": [
+          "UYK-R49"
+        ],
+        "metabolic syndrome sleep": [
+          "UYK-R37"
+        ],
+        "microbiome circadian rhythm": [
+          "UYK-R43"
+        ],
+        "migraine sleep": [
+          "UYK-R35"
+        ],
+        "moderate intensity exercise sleep": [
+          "UYK-R05"
+        ],
+        "morning exercise sleep": [
+          "UYK-R04"
+        ],
+        "morning headache": [
+          "UYK-R35"
+        ],
+        "morning light sleep": [
+          "UYK-R51"
+        ],
+        "mouth breathing sleep": [
+          "UYK-R41"
+        ],
+        "multiple sclerosis sleep": [
+          "UYK-R39"
+        ],
+        "muscle soreness sleep": [
+          "UYK-R02"
+        ],
+        "music sleep": [
+          "UYK-R61"
+        ],
+        "nap athletic performance": [
+          "UYK-R12"
+        ],
+        "nap duration performance": [
+          "UYK-R12"
+        ],
+        "napping athletes": [
+          "UYK-R12"
+        ],
+        "nasal obstruction sleep": [
+          "UYK-R41"
+        ],
+        "nicotine sleep": [
+          "UYK-R20"
+        ],
+        "night eating sleep": [
+          "UYK-R17"
+        ],
+        "night games sleep athletes": [
+          "UYK-R11"
+        ],
+        "nightmare disorder": [
+          "UYK-R27"
+        ],
+        "nightmares ptsd": [
+          "UYK-R27"
+        ],
+        "nocturia": [
+          "UYK-R48"
+        ],
+        "nocturia sleep": [
+          "UYK-R18"
+        ],
+        "nocturnal blood pressure dipping": [
+          "UYK-R38"
+        ],
+        "nocturnal glucose": [
+          "UYK-R37"
+        ],
+        "nocturnal pain": [
+          "UYK-R34"
+        ],
+        "nocturnal panic attacks": [
+          "UYK-R26"
+        ],
+        "nocturnal pruritus": [
+          "UYK-R46"
+        ],
+        "noise sleep": [
+          "UYK-R53"
+        ],
+        "noradrenaline sleep": [
+          "UYK-R22"
+        ],
+        "notifications sleep": [
+          "UYK-R52"
+        ],
+        "obesity sleep": [
+          "UYK-R37"
+        ],
+        "obsessive-compulsive disorder sleep": [
+          "UYK-R31"
+        ],
+        "occupational safety sleep": [
+          "UYK-R56"
+        ],
+        "older adults sleep": [
+          "UYK-R50"
+        ],
+        "omega-3 sleep": [
+          "UYK-R14"
+        ],
+        "on-call sleep": [
+          "UYK-R56"
+        ],
+        "opioids sleep": [
+          "UYK-R59"
+        ],
+        "oral appliance sleep apnea": [
+          "UYK-R62"
+        ],
+        "orexin sleep": [
+          "UYK-R22"
+        ],
+        "orthosomnia": [
+          "UYK-R63"
+        ],
+        "overtime sleep": [
+          "UYK-R56"
+        ],
+        "oxidative stress sleep": [
+          "UYK-R64"
+        ],
+        "pain threshold sleep": [
+          "UYK-R34"
+        ],
+        "pain treatment sleep": [
+          "UYK-R34"
+        ],
+        "parkinson disease sleep": [
+          "UYK-R39"
+        ],
+        "partner snoring": [
+          "UYK-R55"
+        ],
+        "pcos sleep": [
+          "UYK-R49"
+        ],
+        "pesticides sleep": [
+          "UYK-R54"
+        ],
+        "pets in bed sleep": [
+          "UYK-R55"
+        ],
+        "photoperiod sleep": [
+          "UYK-R51"
+        ],
+        "physical activity volume sleep": [
+          "UYK-R06"
+        ],
+        "physiological arousal sleep": [
+          "UYK-R23"
+        ],
+        "pillow sleep": [
+          "UYK-R55"
+        ],
+        "plant-based diet sleep": [
+          "UYK-R13"
+        ],
+        "pmdd sleep": [
+          "UYK-R49"
+        ],
+        "positional therapy sleep apnea": [
+          "UYK-R62"
+        ],
+        "post-exercise recovery sleep": [
+          "UYK-R02"
+        ],
+        "post-nap sleep inertia": [
+          "UYK-R12"
+        ],
+        "postpartum sleep": [
+          "UYK-R49"
+        ],
+        "postural orthostatic tachycardia sleep": [
+          "UYK-R40"
+        ],
+        "pots sleep": [
+          "UYK-R40"
+        ],
+        "pre-competition sleep": [
+          "UYK-R11"
+        ],
+        "pre-workout supplement sleep": [
+          "UYK-R19"
+        ],
+        "pregnancy sleep": [
+          "UYK-R49"
+        ],
+        "premenstrual syndrome sleep": [
+          "UYK-R49"
+        ],
+        "probiotics sleep": [
+          "UYK-R43"
+        ],
+        "prolactin sleep": [
+          "UYK-R21"
+        ],
+        "prostate symptoms sleep": [
+          "UYK-R48"
+        ],
+        "protein intake sleep": [
+          "UYK-R14"
+        ],
+        "psoriasis sleep": [
+          "UYK-R46"
+        ],
+        "psychosis sleep": [
+          "UYK-R31"
+        ],
+        "psychotherapy sleep": [
+          "UYK-R61"
+        ],
+        "ptsd sleep": [
+          "UYK-R27"
+        ],
+        "ramadan fasting sleep": [
+          "UYK-R16"
+        ],
+        "relaxation sleep": [
+          "UYK-R61"
+        ],
+        "remote work sleep": [
+          "UYK-R56"
+        ],
+        "repetitive negative thinking sleep": [
+          "UYK-R24"
+        ],
+        "resistance training sleep": [
+          "UYK-R02"
+        ],
+        "rheumatoid arthritis sleep": [
+          "UYK-R45"
+        ],
+        "rumination sleep": [
+          "UYK-R24"
+        ],
+        "running sleep": [
+          "UYK-R01"
+        ],
+        "school start time sleep": [
+          "UYK-R57"
+        ],
+        "screen media bedtime": [
+          "UYK-R52"
+        ],
+        "seasonal variation sleep": [
+          "UYK-R51"
+        ],
+        "sensory sensitivity sleep": [
+          "UYK-R30"
+        ],
+        "serotonin sleep": [
+          "UYK-R22"
+        ],
+        "sexual function sleep": [
+          "UYK-R49"
+        ],
+        "shift work sleep": [
+          "UYK-R56"
+        ],
+        "skin temperature sleep": [
+          "UYK-R46"
+        ],
+        "sleep and physical activity bidirectional": [
+          "UYK-R10"
+        ],
+        "sleep apnea": [
+          "UYK-R41"
+        ],
+        "sleep app": [
+          "UYK-R63"
+        ],
+        "sleep athletic performance": [
+          "UYK-R07"
+        ],
+        "sleep attention": [
+          "UYK-R32"
+        ],
+        "sleep bruxism": [
+          "UYK-R35"
+        ],
+        "sleep cancer risk": [
+          "UYK-R47"
+        ],
+        "sleep creativity": [
+          "UYK-R32"
+        ],
+        "sleep cytokines": [
+          "UYK-R44"
+        ],
+        "sleep decision making": [
+          "UYK-R32"
+        ],
+        "sleep depression onset": [
+          "UYK-R25"
+        ],
+        "sleep depression relapse": [
+          "UYK-R25"
+        ],
+        "sleep deprivation strength": [
+          "UYK-R07"
+        ],
+        "sleep device": [
+          "UYK-R62"
+        ],
+        "sleep during illness": [
+          "UYK-R44"
+        ],
+        "sleep effort": [
+          "UYK-R24"
+        ],
+        "sleep emotion regulation": [
+          "UYK-R33"
+        ],
+        "sleep emotional reactivity": [
+          "UYK-R33"
+        ],
+        "sleep endurance performance": [
+          "UYK-R07"
+        ],
+        "sleep executive function": [
+          "UYK-R32"
+        ],
+        "sleep exercise adherence": [
+          "UYK-R10"
+        ],
+        "sleep extension athletes": [
+          "UYK-R07"
+        ],
+        "sleep food cravings": [
+          "UYK-R17"
+        ],
+        "sleep hunger satiety": [
+          "UYK-R17"
+        ],
+        "sleep impulsivity": [
+          "UYK-R33"
+        ],
+        "sleep infection susceptibility": [
+          "UYK-R44"
+        ],
+        "sleep inflammation": [
+          "UYK-R44"
+        ],
+        "sleep injury recovery": [
+          "UYK-R09"
+        ],
+        "sleep injury risk athletes": [
+          "UYK-R09"
+        ],
+        "sleep learning": [
+          "UYK-R32"
+        ],
+        "sleep loss food choice": [
+          "UYK-R17"
+        ],
+        "sleep loss stress reactivity": [
+          "UYK-R23"
+        ],
+        "sleep memory": [
+          "UYK-R32"
+        ],
+        "sleep mood episodes": [
+          "UYK-R28"
+        ],
+        "sleep motivation": [
+          "UYK-R33"
+        ],
+        "sleep muscle hypertrophy": [
+          "UYK-R08"
+        ],
+        "sleep muscle protein synthesis": [
+          "UYK-R08"
+        ],
+        "sleep muscle recovery": [
+          "UYK-R08"
+        ],
+        "sleep next-day physical activity": [
+          "UYK-R10"
+        ],
+        "sleep pain sensitivity": [
+          "UYK-R34"
+        ],
+        "sleep perceived exertion": [
+          "UYK-R10"
+        ],
+        "sleep position": [
+          "UYK-R55"
+        ],
+        "sleep problems mimic adhd": [
+          "UYK-R29"
+        ],
+        "sleep protein intake": [
+          "UYK-R08"
+        ],
+        "sleep reaction time athletes": [
+          "UYK-R07"
+        ],
+        "sleep rehabilitation": [
+          "UYK-R09"
+        ],
+        "sleep restriction muscle": [
+          "UYK-R08"
+        ],
+        "sleep risk taking": [
+          "UYK-R32"
+        ],
+        "sleep score": [
+          "UYK-R63"
+        ],
+        "sleep self-control": [
+          "UYK-R33"
+        ],
+        "sleep sports injury": [
+          "UYK-R09"
+        ],
+        "sleep vaccine response": [
+          "UYK-R44"
+        ],
+        "sleep working memory": [
+          "UYK-R32"
+        ],
+        "sleep-related anxiety": [
+          "UYK-R26"
+        ],
+        "smart ring sleep": [
+          "UYK-R63"
+        ],
+        "smartphone use sleep": [
+          "UYK-R52"
+        ],
+        "smartwatch sleep": [
+          "UYK-R63"
+        ],
+        "smoking cessation sleep": [
+          "UYK-R20"
+        ],
+        "smoking sleep": [
+          "UYK-R20"
+        ],
+        "snacking sleep": [
+          "UYK-R17"
+        ],
+        "social media sleep": [
+          "UYK-R52"
+        ],
+        "social support sleep": [
+          "UYK-R58"
+        ],
+        "socioeconomic status sleep": [
+          "UYK-R58"
+        ],
+        "sodium intake sleep": [
+          "UYK-R14"
+        ],
+        "solvent exposure sleep": [
+          "UYK-R54"
+        ],
+        "stimulant medication sleep": [
+          "UYK-R29"
+        ],
+        "stimulants sleep": [
+          "UYK-R59"
+        ],
+        "strain-specific probiotic sleep": [
+          "UYK-R43"
+        ],
+        "strength training sleep": [
+          "UYK-R02"
+        ],
+        "stress sleep": [
+          "UYK-R23"
+        ],
+        "stroke sleep": [
+          "UYK-R38"
+        ],
+        "students sleep academic performance": [
+          "UYK-R57"
+        ],
+        "sugar intake sleep": [
+          "UYK-R14"
+        ],
+        "synaptic plasticity sleep": [
+          "UYK-R64"
+        ],
+        "tai chi sleep": [
+          "UYK-R61"
+        ],
+        "tension-type headache sleep": [
+          "UYK-R35"
+        ],
+        "testosterone sleep": [
+          "UYK-R21"
+        ],
+        "thc sleep": [
+          "UYK-R20"
+        ],
+        "thirst sleep": [
+          "UYK-R18"
+        ],
+        "thyroid sleep": [
+          "UYK-R21"
+        ],
+        "time between last meal and bedtime": [
+          "UYK-R15"
+        ],
+        "time-restricted eating sleep": [
+          "UYK-R16"
+        ],
+        "tinnitus sleep": [
+          "UYK-R40"
+        ],
+        "training load sleep": [
+          "UYK-R05"
+        ],
+        "training volume sleep": [
+          "UYK-R02"
+        ],
+        "trauma sleep": [
+          "UYK-R27"
+        ],
+        "traumatic brain injury sleep": [
+          "UYK-R39"
+        ],
+        "travel fatigue athletes": [
+          "UYK-R11"
+        ],
+        "tryptophan sleep": [
+          "UYK-R60"
+        ],
+        "type 1 diabetes sleep": [
+          "UYK-R37"
+        ],
+        "type 2 diabetes sleep": [
+          "UYK-R37"
+        ],
+        "ultra-processed food sleep": [
+          "UYK-R13"
+        ],
+        "vigorous exercise sleep": [
+          "UYK-R03"
+        ],
+        "vitamin b sleep": [
+          "UYK-R60"
+        ],
+        "vitamin d sleep": [
+          "UYK-R60"
+        ],
+        "walking sleep quality": [
+          "UYK-R01"
+        ],
+        "warm bath sleep": [
+          "UYK-R62"
+        ],
+        "weekly physical activity sleep": [
+          "UYK-R06"
+        ],
+        "weight loss sleep": [
+          "UYK-R16"
+        ],
+        "worry sleep": [
+          "UYK-R24"
+        ],
+        "yoga sleep": [
+          "UYK-R61"
+        ],
+        "zinc sleep": [
+          "UYK-R60"
+        ]
+      },
+      "study_design_rule": "DEC-R-20261105-012",
+      "subtopic_count": 111,
       "tiers": {
         "A": [
           "UYK-004",
@@ -55,7 +1682,8 @@
           "UYK-105",
           "UYK-106",
           "UYK-107",
-          "UYK-108"
+          "UYK-108",
+          "UYK-111"
         ],
         "B": [
           "UYK-006",
@@ -101,7 +1729,9 @@
           "UYK-099",
           "UYK-100",
           "UYK-101",
-          "UYK-102"
+          "UYK-102",
+          "UYK-109",
+          "UYK-110"
         ],
         "C": [
           "UYK-001",
@@ -167,6 +1797,9 @@
         "alcohol sleep": [
           "UYK-041"
         ],
+        "allergic rhinitis sleep": [
+          "UYK-109"
+        ],
         "aromatherapy sleep": [
           "UYK-088"
         ],
@@ -187,6 +1820,9 @@
         ],
         "bedtime routine": [
           "UYK-035"
+        ],
+        "benign prostatic hyperplasia sleep": [
+          "UYK-110"
         ],
         "benzodiazepine sleep": [
           "UYK-057"
@@ -241,6 +1877,9 @@
         ],
         "children sleep adhd": [
           "UYK-078"
+        ],
+        "chronic kidney disease sleep": [
+          "UYK-110"
         ],
         "chronotherapy": [
           "UYK-056"
@@ -404,6 +2043,9 @@
         "heavy metal sleep": [
           "UYK-085"
         ],
+        "hemodialysis sleep": [
+          "UYK-110"
+        ],
         "home sleep apnea test": [
           "UYK-053"
         ],
@@ -524,6 +2166,9 @@
         "morningness eveningness": [
           "UYK-004"
         ],
+        "mouth breathing sleep": [
+          "UYK-109"
+        ],
         "multiple sleep latency test": [
           "UYK-053"
         ],
@@ -538,6 +2183,9 @@
         ],
         "narcolepsy": [
           "UYK-049"
+        ],
+        "nasal congestion sleep": [
+          "UYK-109"
         ],
         "neighborhood sleep": [
           "UYK-099"
@@ -572,6 +2220,12 @@
         "nightmares": [
           "UYK-027"
         ],
+        "nocturia sleep": [
+          "UYK-110"
+        ],
+        "nocturnal asthma": [
+          "UYK-109"
+        ],
         "noise sleep": [
           "UYK-039"
         ],
@@ -601,6 +2255,9 @@
         ],
         "orthosomnia": [
           "UYK-054"
+        ],
+        "overactive bladder sleep": [
+          "UYK-110"
         ],
         "pain sleep cycle": [
           "UYK-076"
@@ -750,6 +2407,9 @@
         "sleep arrhythmia": [
           "UYK-062"
         ],
+        "sleep asthma": [
+          "UYK-109"
+        ],
         "sleep atopic dermatitis": [
           "UYK-066"
         ],
@@ -785,6 +2445,9 @@
         ],
         "sleep chronic pain": [
           "UYK-076"
+        ],
+        "sleep copd": [
+          "UYK-109"
         ],
         "sleep creativity": [
           "UYK-106"
@@ -832,6 +2495,9 @@
         "sleep emotion recognition": [
           "UYK-107"
         ],
+        "sleep emotion regulation": [
+          "UYK-111"
+        ],
         "sleep epilepsy": [
           "UYK-070"
         ],
@@ -874,6 +2540,9 @@
         "sleep immune function": [
           "UYK-061"
         ],
+        "sleep impulsivity": [
+          "UYK-111"
+        ],
         "sleep inertia": [
           "UYK-031"
         ],
@@ -904,6 +2573,9 @@
         "sleep loneliness": [
           "UYK-107"
         ],
+        "sleep loss emotional reactivity": [
+          "UYK-111"
+        ],
         "sleep medication": [
           "UYK-057"
         ],
@@ -921,6 +2593,9 @@
         ],
         "sleep migraine": [
           "UYK-076"
+        ],
+        "sleep motivation": [
+          "UYK-111"
         ],
         "sleep multiple sclerosis": [
           "UYK-070"
@@ -1000,6 +2675,9 @@
         ],
         "sleep schizophrenia": [
           "UYK-072"
+        ],
+        "sleep self-control": [
+          "UYK-111"
         ],
         "sleep sexual function": [
           "UYK-108"
@@ -1302,10 +2980,15 @@
           "sleep creativity",
           "sleep decision making",
           "sleep emotion recognition",
+          "sleep emotion regulation",
           "sleep erectile dysfunction",
+          "sleep impulsivity",
           "sleep libido",
           "sleep loneliness",
+          "sleep loss emotional reactivity",
+          "sleep motivation",
           "sleep problem solving",
+          "sleep self-control",
           "sleep sexual function",
           "sleep social behavior",
           "women sleep"
@@ -1501,11 +3184,21 @@
           "z-drugs"
         ],
         "K9": [
+          "allergic rhinitis sleep",
+          "benign prostatic hyperplasia sleep",
+          "chronic kidney disease sleep",
+          "hemodialysis sleep",
           "insomnia cancer survivors",
+          "mouth breathing sleep",
+          "nasal congestion sleep",
+          "nocturia sleep",
+          "nocturnal asthma",
+          "overactive bladder sleep",
           "prodromal sleep",
           "sleep als",
           "sleep alzheimer",
           "sleep arrhythmia",
+          "sleep asthma",
           "sleep atopic dermatitis",
           "sleep autoimmune",
           "sleep cancer patients",
@@ -1513,6 +3206,7 @@
           "sleep cardiovascular",
           "sleep chemotherapy",
           "sleep chronic inflammation",
+          "sleep copd",
           "sleep dementia risk",
           "sleep eczema",
           "sleep epilepsy",

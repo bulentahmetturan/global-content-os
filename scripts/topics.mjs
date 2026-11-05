@@ -58,6 +58,7 @@ export function validate(root, { base = null } = {}) {
   const topicStateRows = new Set(ledger.filter((r) => r.kind === 'TOPIC_STATE').map((r) => `${r.id}|${r.text.split(':')[0]}`));
   const subRows = new Set(ledger.filter((r) => r.kind === 'SUBTOPIC_ADDED').map((r) => r.id));
   const clusterRows = new Set(ledger.filter((r) => r.kind === 'CLUSTER_ADDED').map((r) => r.id));
+  const relRows = new Set(ledger.filter((r) => r.kind === 'RELATION_ADDED').map((r) => r.id));
   const seenTopic = new Set();
   for (const { lane, topics } of loadAll(root)) {
     for (const { entry, doc } of topics) {
@@ -95,6 +96,26 @@ export function validate(root, { base = null } = {}) {
       }
       for (const c of doc.clusters || []) if (!clusterRows.has(`${entry.topic_id}:${c.id}`) && !(doc.subtopics || []).length) errors.push(`${entry.topic_id}: cluster ${c.id} has no ledger row`);
       if (doc.counts && doc.counts.subtopics !== (doc.subtopics || []).length) errors.push(`${entry.topic_id}: counts.subtopics ${doc.counts.subtopics} != ${(doc.subtopics || []).length}`);
+      // Relations: owner-detailed "X–uyku" links with their own detail text; each points at existing sub-topics (no orphan).
+      const groups = new Set((doc.relation_groups || []).map((g) => g.id));
+      let lastR = 0;
+      const relIds = new Set();
+      for (const r of doc.relations || []) {
+        const m = new RegExp(`^${prefix}R(\\d{2,3})$`).exec(r.id);
+        if (!m) { errors.push(`${entry.topic_id}: bad relation id ${r.id}`); continue; }
+        if (relIds.has(r.id)) errors.push(`${entry.topic_id}: duplicate relation id ${r.id}`);
+        relIds.add(r.id);
+        if (Number(m[1]) !== lastR + 1) errors.push(`${entry.topic_id}: relation ids must be contiguous and append-only (${r.id})`);
+        lastR = Number(m[1]);
+        if (r.group && !groups.has(r.group)) errors.push(`${r.id}: unknown relation group ${r.group}`);
+        if (!r.name_tr || !r.details_tr) errors.push(`${r.id}: name_tr and details_tr (owner text) required`);
+        if (!Array.isArray(r.maps_to) || !r.maps_to.length) errors.push(`${r.id}: maps_to must list at least one sub-topic`);
+        for (const s of r.maps_to || []) if (!ids.has(s)) errors.push(`${r.id}: maps_to unknown sub-topic ${s}`);
+        if (!Array.isArray(r.search_terms_en) || !r.search_terms_en.length || r.search_terms_en.some((t) => typeof t !== 'string' || !t.trim())) errors.push(`${r.id}: non-empty search_terms_en required`);
+        if (!STATES.has(r.state)) errors.push(`${r.id}: bad state ${r.state}`);
+        if (!relRows.has(r.id)) errors.push(`${r.id}: no ledger RELATION_ADDED row (run: sync)`);
+      }
+      if (doc.counts && doc.relations && doc.counts.relations !== doc.relations.length) errors.push(`${entry.topic_id}: counts.relations ${doc.counts.relations} != ${doc.relations.length}`);
     }
   }
   if (base) {
@@ -103,6 +124,8 @@ export function validate(root, { base = null } = {}) {
     ledger.slice(0, baseLines.length).forEach((r, i) => { if (JSON.stringify(r) !== JSON.stringify(baseLines[i])) errors.push(`ledger: row ${i + 1} was changed (ledger is append-only)`); });
     if (ledger.length < baseLines.length) errors.push('ledger: rows were removed (ledger is append-only)');
     for (const id of base.subIds) if (!subRows.has(id)) errors.push(`${id}: sub-topic existed on the base branch and is gone (REJECT/SNOOZE it instead of deleting)`);
+    const live = new Set(loadAll(root).flatMap((l) => l.topics).flatMap((t) => [...((t.doc && t.doc.subtopics) || []), ...((t.doc && t.doc.relations) || [])].map((x) => x.id)));
+    for (const id of [...base.subIds, ...(base.relIds || [])]) if (!live.has(id)) errors.push(`${id}: existed on the base branch and is missing from topic files (REJECT/SNOOZE it instead of deleting)`);
   }
   return errors;
 }
@@ -112,7 +135,7 @@ function gitBase(root) {
     try {
       const txt = execFileSync('git', ['-C', root, 'show', `${ref}:topics/LEDGER.ndjson`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
       const ledger = txt.split('\n').filter(Boolean).map((l) => JSON.parse(l));
-      return { ref, ledger, subIds: ledger.filter((r) => r.kind === 'SUBTOPIC_ADDED').map((r) => r.id) };
+      return { ref, ledger, subIds: ledger.filter((r) => r.kind === 'SUBTOPIC_ADDED').map((r) => r.id), relIds: ledger.filter((r) => r.kind === 'RELATION_ADDED').map((r) => r.id) };
     } catch { /* ref or file absent: first introduction, nothing to compare */ }
   }
   return null;
@@ -129,7 +152,8 @@ export function sync(root) {
       if (!have.has(`TOPIC_STATE|${entry.topic_id}|${entry.state}`)) push('TOPIC_STATE', entry.topic_id, entry.decision_ref, `${entry.state}: ${entry.name_tr}`);
       if (!doc) continue;
       for (const c of doc.clusters || []) if (!have.has(`CLUSTER_ADDED|${entry.topic_id}:${c.id}|`) && !(doc.subtopics || []).some((s) => s.cluster === c.id)) push('CLUSTER_ADDED', `${entry.topic_id}:${c.id}`, doc.decision_ref, c.name_tr);
-      for (const s of doc.subtopics || []) if (!have.has(`SUBTOPIC_ADDED|${s.id}|`)) push('SUBTOPIC_ADDED', s.id, doc.decision_ref, `${s.source_list || 'manual'} / ${s.cluster}: ${s.name_tr}`);
+      for (const s of doc.subtopics || []) if (!have.has(`SUBTOPIC_ADDED|${s.id}|`)) push('SUBTOPIC_ADDED', s.id, s.decision_ref || doc.decision_ref, `${s.source_list || 'manual'} / ${s.cluster}: ${s.name_tr}`);
+      for (const r of doc.relations || []) if (!have.has(`RELATION_ADDED|${r.id}|`)) push('RELATION_ADDED', r.id, r.decision_ref || doc.decision_ref, `${r.source_list || 'manual'} / ${r.group || '-'}: ${r.name_tr} -> ${r.maps_to.join(',')}`);
     }
   }
   appendLedger(root, rows);
@@ -152,8 +176,19 @@ export function buildPlan(root) {
           (bundles[s.cluster] ||= new Set()).add(k);
         }
       }
+      const relTerms = {};
+      const relations = {};
+      for (const r of doc.relations || []) {
+        if (r.state !== 'ACTIVE') continue;
+        relations[r.id] = { name_tr: r.name_tr, group: r.group || null, maps_to: [...r.maps_to].sort() };
+        for (const t of r.search_terms_en) (relTerms[t.trim().toLowerCase()] ||= []).push(r.id);
+      }
       topics.push({
         lane, topic_id: entry.topic_id, decision_ref: doc.decision_ref,
+        relation_count: Object.keys(relations).length,
+        relations,
+        term_to_relations: Object.fromEntries(Object.keys(relTerms).sort().map((k) => [k, relTerms[k].sort()])),
+        study_design_rule: doc.study_design_rule ? doc.study_design_rule.decision_ref : null,
         subtopic_count: doc.subtopics.filter((s) => s.state === 'ACTIVE').length,
         tiers: Object.fromEntries(['A', 'B', 'C'].map((k) => [k, doc.subtopics.filter((s) => s.state === 'ACTIVE' && s.priority_tier === k).map((s) => s.id)])),
         term_to_subtopics: Object.fromEntries(Object.keys(termMap).sort().map((k) => [k, termMap[k].sort()])),
@@ -208,7 +243,7 @@ function findTopic(root, id) {
   for (const l of loadAll(root)) for (const t of l.topics) if (t.entry.topic_id === id && t.doc) return { ...t, lane: l.lane };
   throw new Error(`topic ${id} not found or has no file`);
 }
-function recount(doc) { doc.counts = { subtopics: doc.subtopics.length, clusters: doc.clusters.length, tiers: { A: doc.subtopics.filter((s) => s.priority_tier === 'A').length, B: doc.subtopics.filter((s) => s.priority_tier === 'B').length, C: doc.subtopics.filter((s) => s.priority_tier === 'C').length } }; }
+function recount(doc) { doc.counts = { subtopics: doc.subtopics.length, clusters: doc.clusters.length, ...(doc.relations ? { relations: doc.relations.length } : {}), tiers: { A: doc.subtopics.filter((s) => s.priority_tier === 'A').length, B: doc.subtopics.filter((s) => s.priority_tier === 'B').length, C: doc.subtopics.filter((s) => s.priority_tier === 'C').length } }; }
 
 export function main(argv) {
   const cmd = argv[0];
@@ -247,7 +282,23 @@ export function main(argv) {
     t.doc.subtopics.push({ id, cluster: argv[2], name_tr: argv[3], search_terms_en: terms, priority_tier: argv[5], source_list: arg(argv, '--list') || 'manual', state: 'ACTIVE', added_at: TODAY() });
     recount(t.doc); writeJson(t.file, t.doc); sync(root); console.log(`SUBTOPIC_ADDED ${id}`); return 0;
   }
-  console.log('usage: check | sync | build [--check] | new <lane> <ID> "<name>" --decision <DEC> | add-cluster <ID> <K..> "<name>" | add-sub <ID> <K..> "<name>" "<t1;t2>" <A|B|C>');
+  if (cmd === 'add-relation') {
+    // add-relation <ID> "<name>" "<owner detail text>" "<SUB1,SUB2>" "<t1;t2>" [--group G] [--list x]
+    const t = findTopic(root, argv[1]);
+    const maps = String(argv[4] || '').split(',').map((x) => x.trim()).filter(Boolean);
+    const terms = String(argv[5] || '').split(';').map((x) => x.trim()).filter(Boolean);
+    if (!argv[2] || !argv[3]) throw new Error('relation name and owner detail text required');
+    if (!maps.length || !terms.length) throw new Error('maps_to (SUB1,SUB2) and search terms (t1;t2) required');
+    for (const m of maps) if (!t.doc.subtopics.some((s) => s.id === m)) throw new Error(`unknown sub-topic ${m}`);
+    const group = arg(argv, '--group');
+    t.doc.relation_groups ||= [];
+    if (group && !t.doc.relation_groups.some((g) => g.id === group)) t.doc.relation_groups.push({ id: group, name_tr: group });
+    t.doc.relations ||= [];
+    const id = `${argv[1]}-R${String(t.doc.relations.length + 1).padStart(2, '0')}`;
+    t.doc.relations.push({ id, group: group || null, name_tr: argv[2], details_tr: argv[3], maps_to: maps, search_terms_en: terms, source_list: arg(argv, '--list') || 'manual', state: 'ACTIVE', added_at: TODAY() });
+    recount(t.doc); writeJson(t.file, t.doc); sync(root); console.log(`RELATION_ADDED ${id}`); return 0;
+  }
+  console.log('usage: check | sync | build [--check] | new <lane> <ID> "<name>" --decision <DEC> | add-cluster <ID> <K..> "<name>" | add-sub <ID> <K..> "<name>" "<t1;t2>" <A|B|C> | add-relation <ID> "<name>" "<detail>" "<SUB1,SUB2>" "<t1;t2>" [--group G]');
   return 2;
 }
 

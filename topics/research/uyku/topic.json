@@ -1630,15 +1630,1479 @@
       "source_list": "liste-2",
       "state": "ACTIVE",
       "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-109",
+      "cluster": "K9",
+      "name_tr": "Uyku ve solunum hastalıkları (astım, KOAH, alerjik rinit, burun tıkanıklığı)",
+      "search_terms_en": [
+        "sleep asthma",
+        "nocturnal asthma",
+        "sleep COPD",
+        "allergic rhinitis sleep",
+        "nasal congestion sleep",
+        "mouth breathing sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-110",
+      "cluster": "K9",
+      "name_tr": "Uyku ve böbrek, idrar sistemi (KBH, diyaliz, noktüri, mesane, prostat)",
+      "search_terms_en": [
+        "chronic kidney disease sleep",
+        "hemodialysis sleep",
+        "nocturia sleep",
+        "overactive bladder sleep",
+        "benign prostatic hyperplasia sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-111",
+      "cluster": "K17",
+      "name_tr": "Uyku ve duygu düzenleme, dürtüsellik, motivasyon",
+      "search_terms_en": [
+        "sleep emotion regulation",
+        "sleep loss emotional reactivity",
+        "sleep impulsivity",
+        "sleep motivation",
+        "sleep self-control"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
     }
   ],
   "counts": {
-    "subtopics": 108,
+    "subtopics": 111,
     "clusters": 17,
+    "relations": 64,
     "tiers": {
-      "A": 46,
-      "B": 44,
+      "A": 47,
+      "B": 46,
       "C": 18
     }
+  },
+  "relation_groups": [
+    {
+      "id": "SPOR",
+      "name_tr": "Spor–uyku"
+    },
+    {
+      "id": "ENVANTER",
+      "name_tr": "Uyku ilişkileri (düz envanter)"
+    }
+  ],
+  "relations": [
+    {
+      "id": "UYK-R01",
+      "group": "SPOR",
+      "name_tr": "Aerobik egzersiz–uyku",
+      "details_tr": "Yürüyüş, koşu, bisiklet; tek seans ve düzenli program; uykuya dalma, süreklilik ve kalite",
+      "maps_to": [
+        "UYK-042",
+        "UYK-028",
+        "UYK-029",
+        "UYK-032"
+      ],
+      "search_terms_en": [
+        "aerobic exercise sleep",
+        "walking sleep quality",
+        "running sleep",
+        "cycling sleep",
+        "acute exercise sleep",
+        "exercise training program sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R02",
+      "group": "SPOR",
+      "name_tr": "Direnç antrenmanı–uyku",
+      "details_tr": "Ağırlık çalışması, antrenman hacmi, kas ağrısı, toparlanma",
+      "maps_to": [
+        "UYK-042",
+        "UYK-082"
+      ],
+      "search_terms_en": [
+        "resistance training sleep",
+        "strength training sleep",
+        "training volume sleep",
+        "muscle soreness sleep",
+        "post-exercise recovery sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R03",
+      "group": "SPOR",
+      "name_tr": "HIIT–uyku",
+      "details_tr": "Yüksek yoğunluk, uygulama saati, gece uyarılmışlığı ve sonraki uyku",
+      "maps_to": [
+        "UYK-042",
+        "UYK-036"
+      ],
+      "search_terms_en": [
+        "high-intensity interval training sleep",
+        "HIIT sleep",
+        "vigorous exercise sleep",
+        "evening high-intensity exercise sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R04",
+      "group": "SPOR",
+      "name_tr": "Egzersiz zamanı–uyku",
+      "details_tr": "Sabah, öğle ve akşam; egzersizin bitişiyle yatış arasındaki süre; kronotip",
+      "maps_to": [
+        "UYK-042",
+        "UYK-016",
+        "UYK-004"
+      ],
+      "search_terms_en": [
+        "exercise timing sleep",
+        "evening exercise sleep",
+        "morning exercise sleep",
+        "exercise before bedtime",
+        "chronotype exercise timing"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R05",
+      "group": "SPOR",
+      "name_tr": "Egzersiz şiddeti–uyku",
+      "details_tr": "Hafif, orta ve yüksek yük; kişinin kondisyonu ve alışkanlıkları",
+      "maps_to": [
+        "UYK-042"
+      ],
+      "search_terms_en": [
+        "exercise intensity sleep",
+        "moderate intensity exercise sleep",
+        "cardiorespiratory fitness sleep",
+        "training load sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R06",
+      "group": "SPOR",
+      "name_tr": "Egzersiz sıklığı–uyku",
+      "details_tr": "Haftalık sıklık, toplam hacim ve uzun dönem değişim",
+      "maps_to": [
+        "UYK-042",
+        "UYK-017"
+      ],
+      "search_terms_en": [
+        "exercise frequency sleep",
+        "weekly physical activity sleep",
+        "long-term exercise sleep",
+        "physical activity volume sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R07",
+      "group": "SPOR",
+      "name_tr": "Uyku–sportif performans",
+      "details_tr": "Kuvvet, dayanıklılık, reaksiyon, teknik beceri ve karar verme",
+      "maps_to": [
+        "UYK-082",
+        "UYK-019",
+        "UYK-106"
+      ],
+      "search_terms_en": [
+        "sleep athletic performance",
+        "sleep deprivation strength",
+        "sleep endurance performance",
+        "sleep reaction time athletes",
+        "sleep extension athletes"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R08",
+      "group": "SPOR",
+      "name_tr": "Uyku–kas gelişimi",
+      "details_tr": "Kas protein sentezi, enerji ve protein alımı, toparlanma",
+      "maps_to": [
+        "UYK-082",
+        "UYK-008",
+        "UYK-019"
+      ],
+      "search_terms_en": [
+        "sleep muscle protein synthesis",
+        "sleep restriction muscle",
+        "sleep protein intake",
+        "sleep muscle recovery",
+        "sleep muscle hypertrophy"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R09",
+      "group": "SPOR",
+      "name_tr": "Uyku–sakatlık",
+      "details_tr": "Sakatlık riski, ağrı, rehabilitasyona katılım ve iyileşme",
+      "maps_to": [
+        "UYK-082",
+        "UYK-076"
+      ],
+      "search_terms_en": [
+        "sleep injury risk athletes",
+        "sleep sports injury",
+        "sleep rehabilitation",
+        "sleep injury recovery"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R10",
+      "group": "SPOR",
+      "name_tr": "Uyku–egzersiz davranışı",
+      "details_tr": "Ertesi gün hareket etme isteği, antrenmana katılım ve algılanan efor",
+      "maps_to": [
+        "UYK-042",
+        "UYK-034"
+      ],
+      "search_terms_en": [
+        "sleep next-day physical activity",
+        "sleep exercise adherence",
+        "sleep perceived exertion",
+        "sleep and physical activity bidirectional"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R11",
+      "group": "SPOR",
+      "name_tr": "Uyku–müsabaka koşulları",
+      "details_tr": "Yarışma kaygısı, geç karşılaşmalar, seyahat ve toparlanma geceleri",
+      "maps_to": [
+        "UYK-082",
+        "UYK-044",
+        "UYK-036"
+      ],
+      "search_terms_en": [
+        "pre-competition sleep",
+        "competition anxiety sleep",
+        "night games sleep athletes",
+        "travel fatigue athletes",
+        "jet lag athletes"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R12",
+      "group": "SPOR",
+      "name_tr": "Şekerleme–spor",
+      "details_tr": "Zamanlama, süre, sonrasındaki sersemlik ve performans",
+      "maps_to": [
+        "UYK-021",
+        "UYK-082",
+        "UYK-031"
+      ],
+      "search_terms_en": [
+        "napping athletes",
+        "nap athletic performance",
+        "nap duration performance",
+        "post-nap sleep inertia"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R13",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–beslenme örüntüleri",
+      "details_tr": "Akdeniz tipi beslenme, DASH, düşük karbonhidrat, ketojenik beslenme, bitki ağırlıklı beslenme, ultra işlenmiş besinler",
+      "maps_to": [
+        "UYK-040"
+      ],
+      "search_terms_en": [
+        "Mediterranean diet sleep",
+        "DASH diet sleep",
+        "low-carbohydrate diet sleep",
+        "ketogenic diet sleep",
+        "plant-based diet sleep",
+        "ultra-processed food sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R14",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–besin bileşenleri",
+      "details_tr": "Karbonhidrat miktarı ve niteliği, glisemik yük, protein, yağ türleri, omega-3, lif, şeker, tuz",
+      "maps_to": [
+        "UYK-040"
+      ],
+      "search_terms_en": [
+        "carbohydrate intake sleep",
+        "glycemic index sleep",
+        "protein intake sleep",
+        "dietary fat sleep",
+        "omega-3 sleep",
+        "dietary fiber sleep",
+        "sugar intake sleep",
+        "sodium intake sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R15",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–öğün zamanlaması",
+      "details_tr": "Geç akşam yemeği, son öğün–yatış aralığı, kahvaltı, erken ve geç yeme pencereleri",
+      "maps_to": [
+        "UYK-040",
+        "UYK-016"
+      ],
+      "search_terms_en": [
+        "meal timing sleep",
+        "late dinner sleep",
+        "time between last meal and bedtime",
+        "breakfast skipping sleep",
+        "late eating sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R16",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–oruç ve enerji kısıtlaması",
+      "details_tr": "Zaman kısıtlı beslenme, aralıklı oruç türleri, Ramazan, kalori kısıtlaması, kilo verme",
+      "maps_to": [
+        "UYK-040",
+        "UYK-063"
+      ],
+      "search_terms_en": [
+        "time-restricted eating sleep",
+        "intermittent fasting sleep",
+        "Ramadan fasting sleep",
+        "caloric restriction sleep",
+        "weight loss sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R17",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–yeme davranışı",
+      "details_tr": "Gece yeme, atıştırma, duygusal yeme, açlık, tokluk, tatlı isteği ve yiyecek seçimi",
+      "maps_to": [
+        "UYK-011",
+        "UYK-040"
+      ],
+      "search_terms_en": [
+        "night eating sleep",
+        "snacking sleep",
+        "emotional eating sleep",
+        "sleep food cravings",
+        "sleep loss food choice",
+        "sleep hunger satiety"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R18",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–sıvı tüketimi",
+      "details_tr": "Hidrasyon, akşam sıvı alımı, susama ve gece idrara kalkma",
+      "maps_to": [
+        "UYK-040",
+        "UYK-029",
+        "UYK-110"
+      ],
+      "search_terms_en": [
+        "hydration sleep",
+        "evening fluid intake",
+        "thirst sleep",
+        "nocturia sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R19",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–kafein",
+      "details_tr": "Doz, tüketim saati, metabolizma, tolerans, yoksunluk, enerji içecekleri ve antrenman öncesi ürünler",
+      "maps_to": [
+        "UYK-041"
+      ],
+      "search_terms_en": [
+        "caffeine sleep",
+        "caffeine timing sleep",
+        "caffeine dose sleep",
+        "caffeine metabolism sleep",
+        "caffeine withdrawal sleep",
+        "energy drinks sleep",
+        "pre-workout supplement sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R20",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–madde kullanımı",
+      "details_tr": "Nikotin, tütün, alkol, THC, CBD; akut kullanım, alışkanlık ve bırakma dönemleri",
+      "maps_to": [
+        "UYK-041",
+        "UYK-075"
+      ],
+      "search_terms_en": [
+        "nicotine sleep",
+        "smoking sleep",
+        "alcohol sleep",
+        "cannabis sleep",
+        "THC sleep",
+        "cannabidiol sleep",
+        "smoking cessation sleep",
+        "alcohol withdrawal sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R21",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–hormonlar",
+      "details_tr": "Melatonin, kortizol, büyüme hormonu, prolaktin, insülin, glukagon, leptin, grelin, testosteron, östrojen, progesteron ve tiroid ekseni",
+      "maps_to": [
+        "UYK-006",
+        "UYK-007",
+        "UYK-008",
+        "UYK-009",
+        "UYK-010",
+        "UYK-011",
+        "UYK-012",
+        "UYK-013"
+      ],
+      "search_terms_en": [
+        "melatonin sleep",
+        "cortisol sleep",
+        "growth hormone sleep",
+        "prolactin sleep",
+        "insulin sleep",
+        "glucagon sleep",
+        "leptin ghrelin sleep",
+        "testosterone sleep",
+        "estrogen progesterone sleep",
+        "thyroid sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R22",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–nörokimyasal mekanizmalar",
+      "details_tr": "Adenozin, oreksin, GABA, glutamat, serotonin, dopamin, histamin, noradrenalin ve asetilkolin",
+      "maps_to": [
+        "UYK-003",
+        "UYK-005"
+      ],
+      "search_terms_en": [
+        "adenosine sleep",
+        "orexin sleep",
+        "GABA sleep",
+        "glutamate sleep",
+        "serotonin sleep",
+        "dopamine sleep",
+        "histamine sleep",
+        "noradrenaline sleep",
+        "acetylcholine sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R23",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–stres",
+      "details_tr": "Akut ve kronik stres, HPA ekseni, bedensel uyarılmışlık, ertesi gün stres tepkisi",
+      "maps_to": [
+        "UYK-007",
+        "UYK-036"
+      ],
+      "search_terms_en": [
+        "stress sleep",
+        "chronic stress sleep",
+        "HPA axis sleep",
+        "physiological arousal sleep",
+        "sleep loss stress reactivity"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R24",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–ruminasyon ve endişe",
+      "details_tr": "Tekrarlayan düşünceler, uyuma çabası, saat kontrolü, gece düşüncelerinin sürmesi",
+      "maps_to": [
+        "UYK-036",
+        "UYK-046"
+      ],
+      "search_terms_en": [
+        "rumination sleep",
+        "worry sleep",
+        "sleep effort",
+        "clock watching insomnia",
+        "repetitive negative thinking sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R25",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–depresyon",
+      "details_tr": "İnsomnia, fazla uyuma, erken uyanma, hastalık başlangıcı, iyileşme, nüks ve tedavi sonuçları",
+      "maps_to": [
+        "UYK-071",
+        "UYK-030"
+      ],
+      "search_terms_en": [
+        "depression insomnia",
+        "hypersomnia depression",
+        "early morning awakening depression",
+        "sleep depression onset",
+        "sleep depression relapse",
+        "insomnia treatment depression outcome"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R26",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–anksiyete ve panik",
+      "details_tr": "Genel kaygı, gece panik atakları, bedensel belirtiler ve uykuya ilişkin kaygı",
+      "maps_to": [
+        "UYK-071"
+      ],
+      "search_terms_en": [
+        "anxiety sleep",
+        "generalized anxiety disorder sleep",
+        "nocturnal panic attacks",
+        "sleep-related anxiety"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R27",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–travma ve TSSB",
+      "details_tr": "Kâbuslar, hipervijilans, gece güvenlik hissi ve uyumaktan kaçınma",
+      "maps_to": [
+        "UYK-074"
+      ],
+      "search_terms_en": [
+        "PTSD sleep",
+        "nightmares PTSD",
+        "hypervigilance sleep",
+        "trauma sleep",
+        "nightmare disorder"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R28",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–bipolar bozukluk",
+      "details_tr": "Uyku ihtiyacında azalma, insomnia, ritim düzensizliği ve hastalık dönemleri",
+      "maps_to": [
+        "UYK-072"
+      ],
+      "search_terms_en": [
+        "bipolar disorder sleep",
+        "decreased need for sleep mania",
+        "insomnia bipolar",
+        "circadian rhythm bipolar",
+        "sleep mood episodes"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R29",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–DEHB",
+      "details_tr": "Dikkat belirtileri, gecikmiş zamanlama, uykululuk, ilaçlar ve belirtilerin birbirini taklit etmesi",
+      "maps_to": [
+        "UYK-073"
+      ],
+      "search_terms_en": [
+        "ADHD sleep",
+        "ADHD delayed sleep phase",
+        "ADHD daytime sleepiness",
+        "stimulant medication sleep",
+        "sleep problems mimic ADHD"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R30",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–otizm ve duyusal özellikler",
+      "details_tr": "Uyku başlangıcı, rutinler, duyusal hassasiyet ve aile uykusu",
+      "maps_to": [
+        "UYK-073"
+      ],
+      "search_terms_en": [
+        "autism sleep",
+        "autism sleep onset",
+        "sensory sensitivity sleep",
+        "autism family sleep",
+        "bedtime routine autism"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R31",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–diğer ruhsal durumlar",
+      "details_tr": "Obsesif düşünceler, psikoz, bağımlılık, yas ve tükenmişlik",
+      "maps_to": [
+        "UYK-072",
+        "UYK-075",
+        "UYK-071"
+      ],
+      "search_terms_en": [
+        "obsessive-compulsive disorder sleep",
+        "psychosis sleep",
+        "addiction sleep",
+        "grief sleep",
+        "bereavement sleep",
+        "burnout sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R32",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–bilişsel işlevler",
+      "details_tr": "Öğrenme, bellek, dikkat, çalışma belleği, yürütücü işlev, karar verme, yaratıcılık ve risk alma",
+      "maps_to": [
+        "UYK-106",
+        "UYK-060",
+        "UYK-034"
+      ],
+      "search_terms_en": [
+        "sleep learning",
+        "sleep memory",
+        "sleep attention",
+        "sleep working memory",
+        "sleep executive function",
+        "sleep decision making",
+        "sleep creativity",
+        "sleep risk taking"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R33",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–duygu düzenleme",
+      "details_tr": "Duygusal tepkiler, dürtüsellik, motivasyon ve özdenetim",
+      "maps_to": [
+        "UYK-111"
+      ],
+      "search_terms_en": [
+        "sleep emotion regulation",
+        "sleep emotional reactivity",
+        "sleep impulsivity",
+        "sleep motivation",
+        "sleep self-control"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R34",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–ağrı",
+      "details_tr": "Kronik ağrı, ağrı eşiği, gece ağrısı, ertesi gün hassasiyet ve ağrı tedavileri",
+      "maps_to": [
+        "UYK-076"
+      ],
+      "search_terms_en": [
+        "chronic pain sleep",
+        "pain threshold sleep",
+        "nocturnal pain",
+        "sleep pain sensitivity",
+        "pain treatment sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R35",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–baş ağrıları",
+      "details_tr": "Migren, gerilim tipi baş ağrısı, sabah baş ağrısı, bruksizm ve ilaç kullanımı",
+      "maps_to": [
+        "UYK-076",
+        "UYK-050"
+      ],
+      "search_terms_en": [
+        "migraine sleep",
+        "tension-type headache sleep",
+        "morning headache",
+        "sleep bruxism",
+        "headache medication sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R36",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–yorgunluk tabloları",
+      "details_tr": "Fibromiyalji, ME/CFS, Long COVID; yorgunluk ile uykululuğun ayrılması",
+      "maps_to": [
+        "UYK-065",
+        "UYK-034"
+      ],
+      "search_terms_en": [
+        "fibromyalgia sleep",
+        "chronic fatigue syndrome sleep",
+        "ME/CFS sleep",
+        "long COVID sleep",
+        "fatigue versus sleepiness"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R37",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–metabolik sağlık",
+      "details_tr": "Obezite, insülin direnci, tip 1 ve tip 2 diyabet, metabolik sendrom, gece glukoz değişimleri ve karaciğer yağlanması",
+      "maps_to": [
+        "UYK-063",
+        "UYK-010"
+      ],
+      "search_terms_en": [
+        "obesity sleep",
+        "insulin resistance sleep",
+        "type 1 diabetes sleep",
+        "type 2 diabetes sleep",
+        "metabolic syndrome sleep",
+        "nocturnal glucose",
+        "fatty liver sleep",
+        "MASLD sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R38",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–kalp-damar sağlığı",
+      "details_tr": "Hipertansiyon, gece kan basıncı ritmi, koroner hastalık, kalp yetersizliği, aritmiler ve inme",
+      "maps_to": [
+        "UYK-062"
+      ],
+      "search_terms_en": [
+        "hypertension sleep",
+        "nocturnal blood pressure dipping",
+        "coronary heart disease sleep",
+        "heart failure sleep",
+        "atrial fibrillation sleep",
+        "stroke sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R39",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–nörolojik hastalıklar",
+      "details_tr": "Epilepsi, Parkinson, Alzheimer, bilişsel gerileme, multipl skleroz ve beyin hasarı",
+      "maps_to": [
+        "UYK-069",
+        "UYK-070"
+      ],
+      "search_terms_en": [
+        "epilepsy sleep",
+        "Parkinson disease sleep",
+        "Alzheimer disease sleep",
+        "cognitive decline sleep",
+        "multiple sclerosis sleep",
+        "traumatic brain injury sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R40",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–tinnitus ve otonom belirtiler",
+      "details_tr": "Gece ses algısı, kaygı, POTS, nabız değişimleri ve gündüz işlevselliği",
+      "maps_to": [
+        "UYK-067",
+        "UYK-014"
+      ],
+      "search_terms_en": [
+        "tinnitus sleep",
+        "POTS sleep",
+        "postural orthostatic tachycardia sleep",
+        "heart rate variability sleep",
+        "autonomic dysfunction sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R41",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–solunum",
+      "details_tr": "Astım, KOAH, alerjik rinit, burun tıkanıklığı, ağız solunumu ve apne",
+      "maps_to": [
+        "UYK-109",
+        "UYK-047"
+      ],
+      "search_terms_en": [
+        "asthma sleep",
+        "COPD sleep",
+        "allergic rhinitis sleep",
+        "nasal obstruction sleep",
+        "mouth breathing sleep",
+        "sleep apnea"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R42",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–sindirim sistemi",
+      "details_tr": "Reflü, irritabl bağırsak, inflamatuvar bağırsak hastalığı ve çölyak",
+      "maps_to": [
+        "UYK-064"
+      ],
+      "search_terms_en": [
+        "gastroesophageal reflux sleep",
+        "irritable bowel syndrome sleep",
+        "inflammatory bowel disease sleep",
+        "celiac disease sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R43",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–mikrobiyota",
+      "details_tr": "Bağırsak–beyin ekseni, beslenme, günlük ritimler, probiyotikler ve suşa özgü sonuçlar",
+      "maps_to": [
+        "UYK-094"
+      ],
+      "search_terms_en": [
+        "gut microbiome sleep",
+        "gut-brain axis sleep",
+        "probiotics sleep",
+        "microbiome circadian rhythm",
+        "strain-specific probiotic sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R44",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–bağışıklık",
+      "details_tr": "Enfeksiyona yatkınlık, hastalık sırasında uyku, aşı yanıtı, sitokinler ve inflamasyon",
+      "maps_to": [
+        "UYK-061"
+      ],
+      "search_terms_en": [
+        "sleep infection susceptibility",
+        "sleep during illness",
+        "sleep vaccine response",
+        "sleep cytokines",
+        "sleep inflammation"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R45",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–otoimmün hastalıklar",
+      "details_tr": "Romatoid artrit, lupus, hastalık aktivitesi, ağrı ve kullanılan ilaçlar",
+      "maps_to": [
+        "UYK-065"
+      ],
+      "search_terms_en": [
+        "rheumatoid arthritis sleep",
+        "lupus sleep",
+        "autoimmune disease activity sleep",
+        "autoimmune medication sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R46",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–deri hastalıkları",
+      "details_tr": "Atopik dermatit, psoriazis, kaşıntı, sıcaklık ve gece uyanmaları",
+      "maps_to": [
+        "UYK-066"
+      ],
+      "search_terms_en": [
+        "atopic dermatitis sleep",
+        "psoriasis sleep",
+        "itch sleep",
+        "nocturnal pruritus",
+        "skin temperature sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R47",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–kanser",
+      "details_tr": "Hastalık riski araştırmaları; tanı, tedavi, ağrı, yorgunluk ve ritim değişimleri",
+      "maps_to": [
+        "UYK-068"
+      ],
+      "search_terms_en": [
+        "sleep cancer risk",
+        "cancer diagnosis sleep",
+        "cancer treatment sleep",
+        "cancer pain sleep",
+        "cancer-related fatigue sleep",
+        "circadian disruption cancer"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R48",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–böbrek ve idrar sistemi",
+      "details_tr": "Kronik böbrek hastalığı, diyaliz, noktüri, mesane ve prostat belirtileri",
+      "maps_to": [
+        "UYK-110"
+      ],
+      "search_terms_en": [
+        "chronic kidney disease sleep",
+        "dialysis sleep",
+        "nocturia",
+        "bladder sleep",
+        "prostate symptoms sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R49",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–üreme sağlığı",
+      "details_tr": "Adet döngüsü, PMS/PMDD, gebelik, doğum sonrası dönem, menopoz, PCOS, fertilite ve cinsel işlev",
+      "maps_to": [
+        "UYK-012",
+        "UYK-077",
+        "UYK-108"
+      ],
+      "search_terms_en": [
+        "menstrual cycle sleep",
+        "premenstrual syndrome sleep",
+        "PMDD sleep",
+        "pregnancy sleep",
+        "postpartum sleep",
+        "menopause sleep",
+        "PCOS sleep",
+        "fertility sleep",
+        "sexual function sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R50",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–yaşam dönemleri",
+      "details_tr": "Bebeklik, çocukluk, ergenlik, yetişkinlik, ileri yaş ve bakım ihtiyacı",
+      "maps_to": [
+        "UYK-043",
+        "UYK-078",
+        "UYK-079",
+        "UYK-080"
+      ],
+      "search_terms_en": [
+        "infant sleep",
+        "child sleep",
+        "adolescent sleep",
+        "adult sleep",
+        "older adults sleep",
+        "long-term care sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R51",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–ışık",
+      "details_tr": "Sabah gün ışığı, gündüz aydınlatması, akşam yapay ışık, gece ışığı, mevsim ve gün uzunluğu",
+      "maps_to": [
+        "UYK-037",
+        "UYK-056"
+      ],
+      "search_terms_en": [
+        "morning light sleep",
+        "daylight exposure sleep",
+        "evening artificial light sleep",
+        "light at night sleep",
+        "seasonal variation sleep",
+        "photoperiod sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R52",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–dijital davranışlar",
+      "details_tr": "Telefon, sosyal medya, oyun, bildirimler, uyarıcı içerik ve yatma ertelemesi",
+      "maps_to": [
+        "UYK-038"
+      ],
+      "search_terms_en": [
+        "smartphone use sleep",
+        "social media sleep",
+        "gaming sleep",
+        "notifications sleep",
+        "bedtime procrastination",
+        "screen media bedtime"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R53",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–fiziksel çevre",
+      "details_tr": "Gürültü, sıcaklık, sıcak hava dalgaları, nem, havalandırma, hava kirliliği ve yüksek irtifa",
+      "maps_to": [
+        "UYK-039",
+        "UYK-084"
+      ],
+      "search_terms_en": [
+        "noise sleep",
+        "ambient temperature sleep",
+        "heat wave sleep",
+        "humidity sleep",
+        "bedroom ventilation sleep",
+        "air pollution sleep",
+        "high altitude sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R54",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–çevresel maruziyetler",
+      "details_tr": "Ağır metaller, pestisitler, çözücüler ve endokrin bozucular; doğrulanmış maruziyet ve eş etkenler",
+      "maps_to": [
+        "UYK-085"
+      ],
+      "search_terms_en": [
+        "heavy metals sleep",
+        "pesticides sleep",
+        "solvent exposure sleep",
+        "endocrine disrupting chemicals sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R55",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–uyuma koşulları",
+      "details_tr": "Yatak, yastık, pozisyon, birlikte uyuma, eşin horlaması ve evcil hayvanlar",
+      "maps_to": [
+        "UYK-039"
+      ],
+      "search_terms_en": [
+        "mattress sleep",
+        "pillow sleep",
+        "sleep position",
+        "bed sharing",
+        "co-sleeping",
+        "partner snoring",
+        "pets in bed sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R56",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–çalışma hayatı",
+      "details_tr": "Vardiya, nöbet, fazla mesai, uzaktan çalışma, ulaşım ve iş güvenliği",
+      "maps_to": [
+        "UYK-044",
+        "UYK-083",
+        "UYK-086"
+      ],
+      "search_terms_en": [
+        "shift work sleep",
+        "on-call sleep",
+        "overtime sleep",
+        "remote work sleep",
+        "commuting sleep",
+        "occupational safety sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R57",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–eğitim",
+      "details_tr": "Okul başlangıç saatleri, sınav dönemi, akademik yük, dikkat ve performans",
+      "maps_to": [
+        "UYK-100",
+        "UYK-079"
+      ],
+      "search_terms_en": [
+        "school start time sleep",
+        "exam period sleep",
+        "academic workload sleep",
+        "students sleep academic performance"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R58",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–sosyal koşullar",
+      "details_tr": "Bakım verme, aile düzeni, sosyal destek, yalnızlık, barınma ve ekonomik koşullar",
+      "maps_to": [
+        "UYK-045",
+        "UYK-081",
+        "UYK-099",
+        "UYK-107"
+      ],
+      "search_terms_en": [
+        "caregiving sleep",
+        "family routines sleep",
+        "social support sleep",
+        "loneliness sleep",
+        "housing sleep",
+        "socioeconomic status sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R59",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–ilaçlar",
+      "details_tr": "Hipnotikler, antidepresanlar, antipsikotikler, uyarıcılar, antihistaminikler, steroidler, tiroid ilaçları ve opioidler",
+      "maps_to": [
+        "UYK-057"
+      ],
+      "search_terms_en": [
+        "hypnotics sleep",
+        "antidepressants sleep",
+        "antipsychotics sleep",
+        "stimulants sleep",
+        "antihistamines sleep",
+        "corticosteroids sleep",
+        "levothyroxine sleep",
+        "opioids sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R60",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–takviyeler",
+      "details_tr": "Melatonin, magnezyum, D vitamini, demir, çinko, B vitaminleri, glisin, L-teanin, triptofan ve bitkisel ürünler",
+      "maps_to": [
+        "UYK-058"
+      ],
+      "search_terms_en": [
+        "melatonin supplement",
+        "magnesium sleep",
+        "vitamin D sleep",
+        "iron sleep",
+        "zinc sleep",
+        "vitamin B sleep",
+        "glycine sleep",
+        "L-theanine sleep",
+        "tryptophan sleep",
+        "herbal supplement sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R61",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–davranışsal müdahaleler",
+      "details_tr": "CBT-I, psikoterapi, gevşeme, nefes, meditasyon, yoga, tai chi ve müzik",
+      "maps_to": [
+        "UYK-055",
+        "UYK-059",
+        "UYK-087"
+      ],
+      "search_terms_en": [
+        "CBT-I",
+        "psychotherapy sleep",
+        "relaxation sleep",
+        "breathing exercise sleep",
+        "meditation sleep",
+        "yoga sleep",
+        "tai chi sleep",
+        "music sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R62",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–diğer müdahaleler",
+      "details_tr": "Işık tedavisi, ısıl uygulamalar, CPAP, ağız içi araçlar, pozisyon tedavisi ve deneysel cihazlar",
+      "maps_to": [
+        "UYK-056",
+        "UYK-088",
+        "UYK-091",
+        "UYK-047"
+      ],
+      "search_terms_en": [
+        "light therapy sleep",
+        "warm bath sleep",
+        "heat therapy sleep",
+        "CPAP",
+        "oral appliance sleep apnea",
+        "positional therapy sleep apnea",
+        "sleep device"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R63",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–ölçüm teknolojileri",
+      "details_tr": "Akıllı saatler, yüzükler, uygulamalar, uyku skorları, ölçüm doğruluğu ve ortosomni",
+      "maps_to": [
+        "UYK-054",
+        "UYK-053"
+      ],
+      "search_terms_en": [
+        "smartwatch sleep",
+        "smart ring sleep",
+        "sleep app",
+        "sleep score",
+        "consumer sleep tracker accuracy",
+        "orthosomnia"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-R64",
+      "group": "ENVANTER",
+      "name_tr": "Uyku–gelişen biyolojik araştırmalar",
+      "details_tr": "Glifatik mekanizmalar, sinaptik plastisite, yerel uyku, hücresel enerji, oksidatif stres ve biyolojik yaşlanm",
+      "maps_to": [
+        "UYK-060",
+        "UYK-093",
+        "UYK-095"
+      ],
+      "search_terms_en": [
+        "glymphatic system sleep",
+        "synaptic plasticity sleep",
+        "local sleep",
+        "cellular energy sleep",
+        "oxidative stress sleep",
+        "biological aging sleep",
+        "epigenetic clock sleep"
+      ],
+      "source_list": "liste-3",
+      "decision_ref": "DEC-R-20261105-012",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "study_design_rule": {
+    "decision_ref": "DEC-R-20261105-012",
+    "text_tr": "Farklı tasarımlar farklı sorulara cevap verir (ör. düzenli aerobik egzersiz deneyi, akşam antrenman zamanlaması gözlemsel çalışması, uyku kısıtlamasında kas protein sentezi deneyi). Sonuç kendi popülasyonu ve yöntemi içinde değerlendirilir; farklı tasarımların sonuçları tek bulgu gibi birleştirilmez."
   }
 }
