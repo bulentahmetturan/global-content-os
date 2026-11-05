@@ -125,6 +125,13 @@ newsFeeds.push({
   rules: { limit: 20, aliasOf: 'news-who-newsroom-whole' },
 });
 
+const researchStatePath = path.join(root, 'topics/research-sources-state.json');
+const pausedResearch = new Set();
+if (fs.existsSync(researchStatePath)) {
+  const st = JSON.parse(fs.readFileSync(researchStatePath, 'utf8'));
+  const back = new Set((st.reactivated || []).map((r) => r.feed_id));
+  for (const p of st.paused || []) if (!back.has(p.feed_id)) pausedResearch.add(p.feed_id);
+}
 const researchFeeds = [];
 const seenResearch = new Set();
 for (const rs of researchRegistry) {
@@ -140,14 +147,17 @@ for (const rs of researchRegistry) {
     channelId: 'kaduse-medikal',
     transport: isEpmc || isPubmed ? 'REST_BATCH' : 'RESEARCH_REGISTRY',
     endpointUrl: rs.canonicalUrl,
-    pollMinutes: isEpmc || isPubmed ? 360 : 1440,
-    enabled: rs.verificationStatus !== 'EXCLUDE',
+    pollMinutes: isPubmed ? 360 : 1440,
+    // Wow-example paradigm (topics/research-sources-state.json, DEC-R-20261106-015): paused Research feeds stay disabled until reactivated.
+    enabled: rs.verificationStatus !== 'EXCLUDE' && !pausedResearch.has(`research-${id}`),
     externalRef: id,
     rules: isEpmc
       ? {
+          // Topic-driven discovery (DEC-R-20261106-024): mode 'topics' uses the generated per-relation queries (topic plan); `query` is the legacy fallback.
+          mode: 'topics',
           query:
             'TITLE:auscultation OR TITLE:stethoscope OR ("artificial intelligence" AND medicine)',
-          pageSize: 15,
+          pageSize: 20,
         }
       : isPubmed
         ? {

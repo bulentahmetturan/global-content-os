@@ -933,15 +933,16 @@
       "channelId": "kaduse-medikal",
       "transport": "REST_BATCH",
       "endpointUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
-      "pollMinutes": 360,
+      "pollMinutes": 1440,
       "enabled": true,
       "externalRef": "europe-pmc-rest",
       "rules": {
+        "mode": "topics",
         "query": "TITLE:auscultation OR TITLE:stethoscope OR (\"artificial intelligence\" AND medicine)",
-        "pageSize": 15
+        "pageSize": 20
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 780,
+      "staleness_threshold_minutes": 2940,
       "expected_cadence": "sparse",
       "publication_stale_days": 120
     },
@@ -953,7 +954,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://api.crossref.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "crossref-rest-api",
       "rules": {
         "mode": "registered"
@@ -1013,7 +1014,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.ncbi.nlm.nih.gov/pmc/tools/ftp/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "pubmed-central-oa",
       "rules": {
         "mode": "registered"
@@ -1049,7 +1050,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://clinicaltrials.gov/data-api/api",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "clinicaltrials-gov-api-v2",
       "rules": {
         "mode": "registered"
@@ -1067,7 +1068,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://jamanetwork.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "jama-network",
       "rules": {
         "mode": "registered"
@@ -1085,7 +1086,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nejm.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nejm",
       "rules": {
         "mode": "registered"
@@ -1103,7 +1104,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.thelancet.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "the-lancet",
       "rules": {
         "mode": "registered"
@@ -1121,7 +1122,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.thelancet.com/journals/landig/home",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "lancet-digital-health",
       "rules": {
         "mode": "registered"
@@ -1139,7 +1140,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.bmj.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "bmj",
       "rules": {
         "mode": "registered"
@@ -1157,7 +1158,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/nm/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nature-medicine",
       "rules": {
         "mode": "registered"
@@ -1175,7 +1176,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/npjdigitalmed/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "npj-digital-medicine",
       "rules": {
         "mode": "registered"
@@ -1193,7 +1194,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.ahajournals.org/journal/circ",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "circulation-aha",
       "rules": {
         "mode": "registered"
@@ -1211,7 +1212,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.ahajournals.org/journal/jaha",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "jaha",
       "rules": {
         "mode": "registered"
@@ -1229,7 +1230,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.jacc.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "jacc",
       "rules": {
         "mode": "registered"
@@ -1247,7 +1248,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://academic.oup.com/eurheartj",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "european-heart-journal",
       "rules": {
         "mode": "registered"
@@ -1265,7 +1266,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://journal.chestnet.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "chest-journal",
       "rules": {
         "mode": "registered"
@@ -1283,7 +1284,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://erj.ersjournals.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "european-respiratory-journal",
       "rules": {
         "mode": "registered"
@@ -1301,7 +1302,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.embs.org/jbhi/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ieee-jbhi",
       "rules": {
         "mode": "registered"
@@ -1319,7 +1320,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.embs.org/tbme/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "ieee-tbme",
       "rules": {
         "mode": "registered"
@@ -1337,7 +1338,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.jmir.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "jmir",
       "rules": {
         "mode": "registered"
@@ -1394,7 +1395,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.cell.com/cell/home",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "cell",
       "rules": {
         "mode": "registered"
@@ -1412,7 +1413,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/nbt/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nature-biotechnology",
       "rules": {
         "mode": "registered"
@@ -1430,7 +1431,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://ai.nejm.org/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nejm-ai",
       "rules": {
         "mode": "registered"
@@ -1448,7 +1449,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/ng/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nature-genetics",
       "rules": {
         "mode": "registered"
@@ -1466,7 +1467,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nature",
       "rules": {
         "mode": "registered"
@@ -1505,7 +1506,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.statnews.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "stat-news",
       "rules": {
         "mode": "registered"
@@ -1544,7 +1545,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://medicalxpress.com/",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "medical-xpress",
       "rules": {
         "mode": "registered"
@@ -1580,7 +1581,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://www.nature.com/news",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "nature-news",
       "rules": {
         "mode": "registered"
@@ -1616,7 +1617,7 @@
       "transport": "RESEARCH_REGISTRY",
       "endpointUrl": "https://api.openalex.org/works",
       "pollMinutes": 1440,
-      "enabled": true,
+      "enabled": false,
       "externalRef": "openalex-api",
       "rules": {
         "mode": "registered"
@@ -1819,16 +1820,17 @@
       "channelId": "kaduse-medikal",
       "transport": "REST_BATCH",
       "endpointUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
-      "pollMinutes": 360,
+      "pollMinutes": 1440,
       "enabled": true,
       "externalRef": "europe-pmc-rest",
       "rules": {
+        "mode": "topics",
         "query": "TITLE:auscultation OR TITLE:stethoscope OR (\"artificial intelligence\" AND medicine)",
-        "pageSize": 15,
+        "pageSize": 20,
         "aliasOf": "research-europe-pmc-rest"
       },
       "cadence_class": "medium",
-      "staleness_threshold_minutes": 780,
+      "staleness_threshold_minutes": 2940,
       "expected_cadence": "sparse",
       "publication_stale_days": 120
     },

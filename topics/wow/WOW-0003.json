@@ -1,0 +1,48 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0003",
+  "decision_ref": "DEC-R-20261106-019",
+  "introduced_at": "2026-11-06",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1001/jamacardio.2026.4788",
+    "title": "Intensive vs More Intensive Lipid-Lowering Therapy and Plaque Regression in Statin-Naive Patients: Prespecified Analyses From the FLOWPROMOTE Randomized Clinical Trial",
+    "journal": "JAMA Cardiology",
+    "published_at": "2026-10-30",
+    "verified_by": "Sahibin ekran görüntüsünden okundu; Crossref doğrulaması bekliyor",
+    "study": "Randomize klinik çalışmanın önceden belirlenmiş ikincil analizi (başlıktan)."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puanı ve kanallar sahip tarafından henüz yazılmadı; uydurulmadı.",
+    "selection_reasons": "Oluşmuş hastalık bulgusunun gerileyebilirliği; bilinen tedavinin az bilinen etkisi; LDL değerinden damardaki plak yüküne geçiş; etkinin büyüklüğü (rejim, süre, ölçü); %98'in anlamı hemen açıklanır.",
+    "presentation_note": "Anlatım ayrı konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 günden eskiyse); değilse güncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "JAMA Cardiology kayıtlı kaynakla kesin eşleşirse sahibin isteğiyle açılır; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "ATS",
+        "units": [
+          "ATS-002",
+          "ATS-003",
+          "ATS-R01"
+        ]
+      }
+    ]
+  },
+  "wow_patterns": [
+    "Mevcut hastalık bulgusunun değişebilirliği",
+    "Bilinen tedavinin az bilinen etkisi",
+    "Tahlil sonucunun vücuttaki somut değişime bağlanması",
+    "Etkinin büyüklüğünün karşılaştırılması (hangi rejim, ne kadar sürede, ne ölçüde)",
+    "Büyük yüzdenin doğru açıklanması"
+  ],
+  "evidence_limits": "Plağın küçülmesi ile tamamen kaybolması ayrı. Görüntüleme sonucu, kalp krizi veya ölüm riskinin aynı yüzdelerde azaldığını göstermez.",
+  "raw_text": "topics/wow/intake/2026-11-06-wow-0003.md"
+}

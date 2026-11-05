@@ -210,3 +210,43 @@
 {"seq": 210, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-009", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
 {"seq": 211, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-010", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
 {"seq": 212, "at": "2026-11-06", "kind": "RULE_DELETED", "id": "DEC-R-20261105-012:study_design_rule", "ref": "DEC-R-20261106-014", "text": "sahip sildi: konu olmayan kural kararı (alan baştan kuruldu)"}
+{"seq":213,"at":"2026-11-05","kind":"TOPIC_STATE","id":"SGR","ref":"DEC-R-20261106-016","text":"ACTIVE: Sigara ve tütün kullanımı"}
+{"seq":214,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"SGR:K1","ref":"DEC-R-20261106-016","text":"Sigarayı bırakma ve bıraktıktan sonra toparlanma"}
+{"seq":215,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"SGR-001","ref":"DEC-R-20261106-016","text":"wow-0001 / K1: Sigarayı bırakma"}
+{"seq":216,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"SGR-002","ref":"DEC-R-20261106-016","text":"wow-0001 / K1: Bıraktıktan sonra toparlanma: riskin zaman içindeki seyri"}
+{"seq":217,"at":"2026-11-05","kind":"RELATION_ADDED","id":"SGR-R01","ref":"DEC-R-20261106-016","text":"wow-0001 / WOW: Sigarayı bırakma × kalp-damar hastalığı riski -> SGR-001,SGR-002"}
+{"seq":218,"at":"2026-11-05","kind":"TOPIC_STATE","id":"YSL","ref":"DEC-R-20261106-017","text":"ACTIVE: Yaşlanma ve moleküler hasarın onarılması"}
+{"seq":219,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"YSL:K1","ref":"DEC-R-20261106-017","text":"Glikasyon ve birikmiş protein hasarı"}
+{"seq":220,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-001","ref":"DEC-R-20261106-017","text":"wow-0002 / K1: Glikasyon"}
+{"seq":221,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-002","ref":"DEC-R-20261106-017","text":"wow-0002 / K1: İleri glikasyon ürünleri (AGE)"}
+{"seq":222,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-003","ref":"DEC-R-20261106-017","text":"wow-0002 / K1: CML (karboksimetil-lizin)"}
+{"seq":223,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-004","ref":"DEC-R-20261106-017","text":"wow-0002 / K1: Enzimatik deglikasyon"}
+{"seq":224,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"YSL:K2","ref":"DEC-R-20261106-017","text":"Birikmiş hasarı onarma müdahaleleri"}
+{"seq":225,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-005","ref":"DEC-R-20261106-017","text":"wow-0002 / K2: Hasarı önleme, yavaşlatma ve onarma (ayrı sorular)"}
+{"seq":226,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"YSL-006","ref":"DEC-R-20261106-017","text":"wow-0002 / K2: Protein mühendisliği ve hesaplamalı tasarım"}
+{"seq":227,"at":"2026-11-05","kind":"RELATION_ADDED","id":"YSL-R01","ref":"DEC-R-20261106-017","text":"wow-0002 / WOW: Glikasyon × yaşlanma -> YSL-001,YSL-002,YSL-003,YSL-004,YSL-005"}
+{"seq":228,"at":"2026-11-05","kind":"RELATION_ADDED","id":"YSL-R02","ref":"DEC-R-20261106-017","text":"wow-0002 / WOW: Glikasyon × damar -> YSL-001,YSL-002,YSL-003"}
+{"seq":229,"at":"2026-11-05","kind":"RELATION_ADDED","id":"YSL-R03","ref":"DEC-R-20261106-017","text":"wow-0002 / WOW: Glikasyon × cilt -> YSL-001,YSL-002,YSL-003"}
+{"seq":230,"at":"2026-11-05","kind":"TOPIC_STATE","id":"ATS","ref":"DEC-R-20261106-019","text":"ACTIVE: Ateroskleroz ve koroner plaklar"}
+{"seq":231,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"ATS:K1","ref":"DEC-R-20261106-019","text":"Plak ve LDL: oluşmuş bulgunun gerilemesi"}
+{"seq":232,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"ATS-001","ref":"DEC-R-20261106-019","text":"wow-0003 / K1: Koroner plak"}
+{"seq":233,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"ATS-002","ref":"DEC-R-20261106-019","text":"wow-0003 / K1: Plak gerilemesi"}
+{"seq":234,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"ATS-003","ref":"DEC-R-20261106-019","text":"wow-0003 / K1: LDL kolesterol ve lipid düşürücü tedavi"}
+{"seq":235,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"ATS-004","ref":"DEC-R-20261106-019","text":"wow-0003 / K1: Plak yapısı"}
+{"seq":236,"at":"2026-11-05","kind":"RELATION_ADDED","id":"ATS-R01","ref":"DEC-R-20261106-019","text":"wow-0003 / WOW: Tedavi rejimi ve ulaşılan LDL düzeyi × plak yükündeki değişim -> ATS-001,ATS-002,ATS-003"}
+{"seq":237,"at":"2026-11-05","kind":"TOPIC_STATE","id":"TRG","ref":"DEC-R-20261106-020","text":"ACTIVE: Trigliseritler ve ağır hipertrigliseridemi"}
+{"seq":238,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"TRG:K1","ref":"DEC-R-20261106-020","text":"Trigliserit düşürme ve klinik sonuç"}
+{"seq":239,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"TRG-001","ref":"DEC-R-20261106-020","text":"wow-0004 / K1: Trigliseritler ve ağır hipertrigliseridemi"}
+{"seq":240,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"TRG-002","ref":"DEC-R-20261106-020","text":"wow-0004 / K1: Akut pankreatit"}
+{"seq":241,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"TRG-003","ref":"DEC-R-20261106-020","text":"wow-0004 / K1: ApoC-III hedeflenmesi ve RNA temelli tedavi"}
+{"seq":242,"at":"2026-11-05","kind":"RELATION_ADDED","id":"TRG-R01","ref":"DEC-R-20261106-020","text":"wow-0004 / WOW: Trigliserit düşüşü × akut pankreatit olayları -> TRG-001,TRG-002,TRG-003"}
+{"seq":243,"at":"2026-11-05","kind":"TOPIC_STATE","id":"KMK","ref":"DEC-R-20261106-022","text":"ACTIVE: Kemik biyolojisi ve yaşlanma"}
+{"seq":244,"at":"2026-11-05","kind":"CLUSTER_ADDED","id":"KMK:K1","ref":"DEC-R-20261106-022","text":"Kemik mekanik algısı ve organlar arası iletişim"}
+{"seq":245,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"KMK-001","ref":"DEC-R-20261106-022","text":"wow-0005 / K1: Kemik mekanik algısı"}
+{"seq":246,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"KMK-002","ref":"DEC-R-20261106-022","text":"wow-0005 / K1: Kemikten salgılanan faktörler (PEDF, osteokinler)"}
+{"seq":247,"at":"2026-11-05","kind":"SUBTOPIC_ADDED","id":"KMK-003","ref":"DEC-R-20261106-022","text":"wow-0005 / K1: Kemik ve yaşlanma"}
+{"seq":248,"at":"2026-11-05","kind":"RELATION_ADDED","id":"KMK-R01","ref":"DEC-R-20261106-022","text":"wow-0005 / WOW: Kemik mekanik algısı × yaşlanma -> KMK-001,KMK-002,KMK-003"}
+{"seq":249,"at":"2026-11-05","kind":"RELATION_ADDED","id":"KMK-R02","ref":"DEC-R-20261106-022","text":"wow-0005 / WOW: Kemik yüklenmesi × bağışıklık yaşlanması -> KMK-001,KMK-002,KMK-003"}
+{"seq":250,"at":"2026-11-05","kind":"RELATION_ADDED","id":"KMK-R03","ref":"DEC-R-20261106-022","text":"wow-0005 / WOW: Kemik yüklenmesi × bilişsel işlev testleri -> KMK-001,KMK-002,KMK-003"}
+{"seq":251,"at":"2026-11-05","kind":"RELATION_ADDED","id":"KMK-R04","ref":"DEC-R-20261106-022","text":"wow-0005 / WOW: Kemik yüklenmesi × metabolik değişimler -> KMK-001,KMK-002,KMK-003"}
+{"seq":252,"at":"2026-11-05","kind":"RELATION_ADDED","id":"KMK-R05","ref":"DEC-R-20261106-022","text":"wow-0005 / WOW: Kemikten salgılanan faktörler × diğer dokuların işlevleri -> KMK-001,KMK-002,KMK-003"}

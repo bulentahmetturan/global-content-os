@@ -1,3 +1,5 @@
+import { introduceWow, introducedWow } from './wow/introduce';
+import { wowSimilar, wowSources } from './wow/similar';
 import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
   countByStatus,
@@ -606,6 +608,16 @@ export default {
         const result = await laneSuggestions(env, (url.searchParams.get('ids') || '').split(',').filter(Boolean));
         return json(result.body, result.status);
       }
+
+      // Owner introduces a high-wow article (DOI): canonical item, Rediscovery when old, rating + learner run, optional feed un-pause. Hub operator token via ROUTE_GATES.
+      if (path === '/api/wow/introduce' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const r = await introduceWow(env, body);
+        return json(r.body, r.status);
+      }
+      if (path === '/api/wow/sources' && request.method === 'GET') { const r = await wowSources(env); return json(r.body, r.status); }
+      if (path === '/api/wow/similar' && request.method === 'GET') { const r = await wowSimilar(env, url.searchParams); return json(r.body, r.status); }
+      if (path === '/api/wow/introduced' && request.method === 'GET') { const r = await introducedWow(env); return json(r.body, r.status); }
 
       // Topic tags, questions, owner PASS/FAIL answers and clarity (topics/, Bible v5 §4, §10): Hub operator token via ROUTE_GATES; 503 TOPICS_NOT_READY until migrations/addons/a004_topic_tags.sql is applied. Shadow: no triage effect.
       if (path === '/api/topics/summary' && request.method === 'GET') { const r = await topicSummary(env); return json(r.body, r.status); }

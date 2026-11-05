@@ -1,0 +1,209 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "YSL",
+  "name_tr": "Yaşlanma ve moleküler hasarın onarılması",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261106-017",
+  "use_areas": [
+    "research",
+    "evergreen"
+  ],
+  "anchor_terms_en": [
+    "glycation",
+    "deglycation",
+    "glycated",
+    "advanced glycation end products",
+    "carboxymethyllysine",
+    "carboxymethyl lysine",
+    "accumulated molecular damage",
+    "reversal of aging",
+    "protein chemical aging"
+  ],
+  "other_senses_en": [],
+  "anchor_note": "Konu çapası: glikasyon/birikmiş moleküler hasar dili. \"CML\" tek başına çapa değildir (kronik miyeloid lösemi ile karışır); yalnız çapalı kayıtta alt başlık terimi olarak sayılır.",
+  "tier_legend": {
+    "status": "Katman verilmedi: öncelik kararı yok (DEC-R-20261106-014)"
+  },
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Glikasyon ve birikmiş protein hasarı"
+    },
+    {
+      "id": "K2",
+      "name_tr": "Birikmiş hasarı onarma müdahaleleri"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "YSL-001",
+      "cluster": "K1",
+      "name_tr": "Glikasyon",
+      "search_terms_en": [
+        "glycation",
+        "glycated protein",
+        "protein glycation"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-002",
+      "cluster": "K1",
+      "name_tr": "İleri glikasyon ürünleri (AGE)",
+      "search_terms_en": [
+        "advanced glycation end products",
+        "AGEs",
+        "glycation end product"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-003",
+      "cluster": "K1",
+      "name_tr": "CML (karboksimetil-lizin)",
+      "search_terms_en": [
+        "carboxymethyllysine",
+        "carboxymethyl lysine",
+        "CML"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-004",
+      "cluster": "K1",
+      "name_tr": "Enzimatik deglikasyon",
+      "search_terms_en": [
+        "deglycation",
+        "enzymatic deglycation",
+        "deglycating enzyme",
+        "CMLase",
+        "amadoriase"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-005",
+      "cluster": "K2",
+      "name_tr": "Hasarı önleme, yavaşlatma ve onarma (ayrı sorular)",
+      "search_terms_en": [
+        "reversal of aging",
+        "reverse aging damage",
+        "repair accumulated damage",
+        "rejuvenation",
+        "reversing molecular damage"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-006",
+      "cluster": "K2",
+      "name_tr": "Protein mühendisliği ve hesaplamalı tasarım",
+      "search_terms_en": [
+        "protein engineering",
+        "directed evolution",
+        "enzyme engineering",
+        "AlphaFold",
+        "computational protein design"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 6,
+    "clusters": 2,
+    "relations": 3,
+    "tiers": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "relation_groups": [
+    {
+      "id": "WOW",
+      "name_tr": "WOW"
+    }
+  ],
+  "relations": [
+    {
+      "id": "YSL-R01",
+      "group": "WOW",
+      "name_tr": "Glikasyon × yaşlanma",
+      "details_tr": "Birikmiş moleküler hasar; geri çevrilemez kabul edilen hasarın onarılabilmesi (WOW-0002)",
+      "maps_to": [
+        "YSL-001",
+        "YSL-002",
+        "YSL-003",
+        "YSL-004",
+        "YSL-005"
+      ],
+      "search_terms_en": [
+        "~aging",
+        "~ageing",
+        "~senescence"
+      ],
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-R02",
+      "group": "WOW",
+      "name_tr": "Glikasyon × damar",
+      "details_tr": "Damar dokusu ve esneklik; tek ölçüm damar esnekliğinin geri geldiğini kanıtlamaz (WOW-0002)",
+      "maps_to": [
+        "YSL-001",
+        "YSL-002",
+        "YSL-003"
+      ],
+      "search_terms_en": [
+        "~vascular",
+        "~arterial",
+        "~blood vessel",
+        "~vessel"
+      ],
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "YSL-R03",
+      "group": "WOW",
+      "name_tr": "Glikasyon × cilt",
+      "details_tr": "Cilt değişimleri; CML boyanması cildin bütünüyle gençleştiğini kanıtlamaz (WOW-0002)",
+      "maps_to": [
+        "YSL-001",
+        "YSL-002",
+        "YSL-003"
+      ],
+      "search_terms_en": [
+        "~skin",
+        "~dermal",
+        "~collagen"
+      ],
+      "source_list": "wow-0002",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ]
+}

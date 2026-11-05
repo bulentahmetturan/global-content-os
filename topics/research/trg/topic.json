@@ -1,0 +1,111 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "TRG",
+  "name_tr": "Trigliseritler ve ağır hipertrigliseridemi",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261106-020",
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Trigliserit düşürme ve klinik sonuç"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "TRG-001",
+      "cluster": "K1",
+      "name_tr": "Trigliseritler ve ağır hipertrigliseridemi",
+      "search_terms_en": [
+        "severe hypertriglyceridemia",
+        "hypertriglyceridemia",
+        "triglyceride-lowering",
+        "triglycerides"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0004",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "TRG-002",
+      "cluster": "K1",
+      "name_tr": "Akut pankreatit",
+      "search_terms_en": [
+        "acute pancreatitis",
+        "pancreatitis events",
+        "pancreatitis"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0004",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "TRG-003",
+      "cluster": "K1",
+      "name_tr": "ApoC-III hedeflenmesi ve RNA temelli tedavi",
+      "search_terms_en": [
+        "apoC-III",
+        "APOC3",
+        "plozasiran",
+        "olezarsen",
+        "RNA interference",
+        "siRNA",
+        "antisense"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0004",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 3,
+    "clusters": 1,
+    "relations": 1,
+    "tiers": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "relation_groups": [
+    {
+      "id": "WOW",
+      "name_tr": "WOW"
+    }
+  ],
+  "relations": [
+    {
+      "id": "TRG-R01",
+      "group": "WOW",
+      "name_tr": "Trigliserit düşüşü × akut pankreatit olayları",
+      "details_tr": "Kan değerinden klinik olaya geçiş: trigliserit düşüşüyle pankreatit olaylarının azalması (WOW-0004). Başlangıca göre düşüş ile plaseboya göre fark, olay hızı ile hasta riski ayrı tutulur.",
+      "maps_to": [
+        "TRG-001",
+        "TRG-002",
+        "TRG-003"
+      ],
+      "search_terms_en": [
+        "~pancreatitis",
+        "~triglyceride",
+        "~apoC-III"
+      ],
+      "source_list": "wow-0004",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "anchor_terms_en": [
+    "hypertriglyceridemia",
+    "triglyceride",
+    "triglycerides",
+    "plozasiran",
+    "apoC-III",
+    "APOC3"
+  ],
+  "other_senses_en": [],
+  "anchor_note": "Konu çapası: trigliserit/hipertrigliseridemi dili. Bilimsel sınır (WOW-0004): başlangıca göre düşüş ile plaseboya göre fark ayrı; olay hızı ile hasta riski ayrı (§8.4)."
+}

@@ -5,6 +5,474 @@
   "topics": [
     {
       "lane": "research",
+      "topic_id": "ATS",
+      "decision_ref": "DEC-R-20261106-019",
+      "relation_count": 1,
+      "relations": {
+        "ATS-R01": {
+          "name_tr": "Tedavi rejimi ve ulaşılan LDL düzeyi × plak yükündeki değişim",
+          "group": "WOW",
+          "maps_to": [
+            "ATS-001",
+            "ATS-002",
+            "ATS-003"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "~ldl": [
+          "ATS-R01"
+        ],
+        "~lipid-lowering": [
+          "ATS-R01"
+        ],
+        "~regression": [
+          "ATS-R01"
+        ]
+      },
+      "study_design_rule": null,
+      "subtopic_count": 4,
+      "tiers": {
+        "A": [],
+        "B": [],
+        "C": []
+      },
+      "term_to_subtopics": {
+        "atherosclerotic plaque": [
+          "ATS-001"
+        ],
+        "coronary plaque": [
+          "ATS-001"
+        ],
+        "fibrous cap": [
+          "ATS-004"
+        ],
+        "intensive lipid lowering": [
+          "ATS-003"
+        ],
+        "ldl cholesterol": [
+          "ATS-003"
+        ],
+        "lipid-lowering therapy": [
+          "ATS-003"
+        ],
+        "low-attenuation plaque": [
+          "ATS-004"
+        ],
+        "noncalcified plaque": [
+          "ATS-004"
+        ],
+        "pcsk9": [
+          "ATS-003"
+        ],
+        "plaque burden": [
+          "ATS-001"
+        ],
+        "plaque composition": [
+          "ATS-004"
+        ],
+        "plaque progression": [
+          "ATS-002"
+        ],
+        "plaque regression": [
+          "ATS-002"
+        ],
+        "plaque volume": [
+          "ATS-001"
+        ],
+        "regression of plaque": [
+          "ATS-002"
+        ],
+        "statin": [
+          "ATS-003"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "atherosclerotic plaque",
+          "coronary plaque",
+          "fibrous cap",
+          "intensive lipid lowering",
+          "ldl cholesterol",
+          "lipid-lowering therapy",
+          "low-attenuation plaque",
+          "noncalcified plaque",
+          "pcsk9",
+          "plaque burden",
+          "plaque composition",
+          "plaque progression",
+          "plaque regression",
+          "plaque volume",
+          "regression of plaque",
+          "statin"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    },
+    {
+      "lane": "research",
+      "topic_id": "KMK",
+      "decision_ref": "DEC-R-20261106-022",
+      "relation_count": 5,
+      "relations": {
+        "KMK-R01": {
+          "name_tr": "Kemik mekanik algısı × yaşlanma",
+          "group": "WOW",
+          "maps_to": [
+            "KMK-001",
+            "KMK-002",
+            "KMK-003"
+          ]
+        },
+        "KMK-R02": {
+          "name_tr": "Kemik yüklenmesi × bağışıklık yaşlanması",
+          "group": "WOW",
+          "maps_to": [
+            "KMK-001",
+            "KMK-002",
+            "KMK-003"
+          ]
+        },
+        "KMK-R03": {
+          "name_tr": "Kemik yüklenmesi × bilişsel işlev testleri",
+          "group": "WOW",
+          "maps_to": [
+            "KMK-001",
+            "KMK-002",
+            "KMK-003"
+          ]
+        },
+        "KMK-R04": {
+          "name_tr": "Kemik yüklenmesi × metabolik değişimler",
+          "group": "WOW",
+          "maps_to": [
+            "KMK-001",
+            "KMK-002",
+            "KMK-003"
+          ]
+        },
+        "KMK-R05": {
+          "name_tr": "Kemikten salgılanan faktörler × diğer dokuların işlevleri",
+          "group": "WOW",
+          "maps_to": [
+            "KMK-001",
+            "KMK-002",
+            "KMK-003"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "~aging": [
+          "KMK-R01"
+        ],
+        "~cognitive": [
+          "KMK-R03"
+        ],
+        "~crosstalk": [
+          "KMK-R05"
+        ],
+        "~glucose": [
+          "KMK-R04"
+        ],
+        "~immune": [
+          "KMK-R02"
+        ],
+        "~immunosenescence": [
+          "KMK-R02"
+        ],
+        "~learning": [
+          "KMK-R03"
+        ],
+        "~lifespan": [
+          "KMK-R01"
+        ],
+        "~memory": [
+          "KMK-R03"
+        ],
+        "~metabolic": [
+          "KMK-R04"
+        ],
+        "~organ": [
+          "KMK-R05"
+        ],
+        "~secreted": [
+          "KMK-R05"
+        ]
+      },
+      "study_design_rule": null,
+      "subtopic_count": 3,
+      "tiers": {
+        "A": [],
+        "B": [],
+        "C": []
+      },
+      "term_to_subtopics": {
+        "bone aging": [
+          "KMK-003"
+        ],
+        "bone mechanosensing": [
+          "KMK-001"
+        ],
+        "bone secreted": [
+          "KMK-002"
+        ],
+        "bone-derived factor": [
+          "KMK-002"
+        ],
+        "force sensing": [
+          "KMK-001"
+        ],
+        "healthspan": [
+          "KMK-003"
+        ],
+        "lifespan": [
+          "KMK-003"
+        ],
+        "mechanical loading": [
+          "KMK-001"
+        ],
+        "osteokine": [
+          "KMK-002"
+        ],
+        "pedf": [
+          "KMK-002"
+        ],
+        "piezo1": [
+          "KMK-001"
+        ],
+        "skeletal aging": [
+          "KMK-003"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "bone aging",
+          "bone mechanosensing",
+          "bone secreted",
+          "bone-derived factor",
+          "force sensing",
+          "healthspan",
+          "lifespan",
+          "mechanical loading",
+          "osteokine",
+          "pedf",
+          "piezo1",
+          "skeletal aging"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    },
+    {
+      "lane": "research",
+      "topic_id": "SGR",
+      "decision_ref": "DEC-R-20261106-016",
+      "relation_count": 1,
+      "relations": {
+        "SGR-R01": {
+          "name_tr": "Sigarayı bırakma × kalp-damar hastalığı riski",
+          "group": "WOW",
+          "maps_to": [
+            "SGR-001",
+            "SGR-002"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "~cardiovascular": [
+          "SGR-R01"
+        ],
+        "~coronary": [
+          "SGR-R01"
+        ],
+        "~heart failure": [
+          "SGR-R01"
+        ],
+        "~myocardial infarction": [
+          "SGR-R01"
+        ],
+        "~stroke": [
+          "SGR-R01"
+        ]
+      },
+      "study_design_rule": null,
+      "subtopic_count": 2,
+      "tiers": {
+        "A": [],
+        "B": [],
+        "C": []
+      },
+      "term_to_subtopics": {
+        "after quitting smoking": [
+          "SGR-002"
+        ],
+        "ex-smokers": [
+          "SGR-001"
+        ],
+        "former smokers": [
+          "SGR-001"
+        ],
+        "pack-years": [
+          "SGR-002"
+        ],
+        "quit smoking": [
+          "SGR-001"
+        ],
+        "quitting smoking": [
+          "SGR-001"
+        ],
+        "recovery after smoking cessation": [
+          "SGR-002"
+        ],
+        "risk after smoking cessation": [
+          "SGR-002"
+        ],
+        "smoking cessation": [
+          "SGR-001"
+        ],
+        "time since quitting": [
+          "SGR-002"
+        ],
+        "tobacco cessation": [
+          "SGR-001"
+        ],
+        "years since quitting": [
+          "SGR-002"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "after quitting smoking",
+          "ex-smokers",
+          "former smokers",
+          "pack-years",
+          "quit smoking",
+          "quitting smoking",
+          "recovery after smoking cessation",
+          "risk after smoking cessation",
+          "smoking cessation",
+          "time since quitting",
+          "tobacco cessation",
+          "years since quitting"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    },
+    {
+      "lane": "research",
+      "topic_id": "TRG",
+      "decision_ref": "DEC-R-20261106-020",
+      "relation_count": 1,
+      "relations": {
+        "TRG-R01": {
+          "name_tr": "Trigliserit düşüşü × akut pankreatit olayları",
+          "group": "WOW",
+          "maps_to": [
+            "TRG-001",
+            "TRG-002",
+            "TRG-003"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "~apoc-iii": [
+          "TRG-R01"
+        ],
+        "~pancreatitis": [
+          "TRG-R01"
+        ],
+        "~triglyceride": [
+          "TRG-R01"
+        ]
+      },
+      "study_design_rule": null,
+      "subtopic_count": 3,
+      "tiers": {
+        "A": [],
+        "B": [],
+        "C": []
+      },
+      "term_to_subtopics": {
+        "acute pancreatitis": [
+          "TRG-002"
+        ],
+        "antisense": [
+          "TRG-003"
+        ],
+        "apoc-iii": [
+          "TRG-003"
+        ],
+        "apoc3": [
+          "TRG-003"
+        ],
+        "hypertriglyceridemia": [
+          "TRG-001"
+        ],
+        "olezarsen": [
+          "TRG-003"
+        ],
+        "pancreatitis": [
+          "TRG-002"
+        ],
+        "pancreatitis events": [
+          "TRG-002"
+        ],
+        "plozasiran": [
+          "TRG-003"
+        ],
+        "rna interference": [
+          "TRG-003"
+        ],
+        "severe hypertriglyceridemia": [
+          "TRG-001"
+        ],
+        "sirna": [
+          "TRG-003"
+        ],
+        "triglyceride-lowering": [
+          "TRG-001"
+        ],
+        "triglycerides": [
+          "TRG-001"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "acute pancreatitis",
+          "antisense",
+          "apoc-iii",
+          "apoc3",
+          "hypertriglyceridemia",
+          "olezarsen",
+          "pancreatitis",
+          "pancreatitis events",
+          "plozasiran",
+          "rna interference",
+          "severe hypertriglyceridemia",
+          "sirna",
+          "triglyceride-lowering",
+          "triglycerides"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    },
+    {
+      "lane": "research",
       "topic_id": "UYK",
       "decision_ref": "DEC-R-20261105-011",
       "relation_count": 64,
@@ -3320,6 +3788,191 @@
           "~neurodegenerative",
           "~parkinson",
           "~traumatic brain injury"
+        ]
+      },
+      "fetch_budget": {
+        "max_queries_per_run": null,
+        "publication_window_days": null,
+        "note": "OWNER_PENDING (research_scope); never invented"
+      }
+    },
+    {
+      "lane": "research",
+      "topic_id": "YSL",
+      "decision_ref": "DEC-R-20261106-017",
+      "relation_count": 3,
+      "relations": {
+        "YSL-R01": {
+          "name_tr": "Glikasyon × yaşlanma",
+          "group": "WOW",
+          "maps_to": [
+            "YSL-001",
+            "YSL-002",
+            "YSL-003",
+            "YSL-004",
+            "YSL-005"
+          ]
+        },
+        "YSL-R02": {
+          "name_tr": "Glikasyon × damar",
+          "group": "WOW",
+          "maps_to": [
+            "YSL-001",
+            "YSL-002",
+            "YSL-003"
+          ]
+        },
+        "YSL-R03": {
+          "name_tr": "Glikasyon × cilt",
+          "group": "WOW",
+          "maps_to": [
+            "YSL-001",
+            "YSL-002",
+            "YSL-003"
+          ]
+        }
+      },
+      "term_to_relations": {
+        "~ageing": [
+          "YSL-R01"
+        ],
+        "~aging": [
+          "YSL-R01"
+        ],
+        "~arterial": [
+          "YSL-R02"
+        ],
+        "~blood vessel": [
+          "YSL-R02"
+        ],
+        "~collagen": [
+          "YSL-R03"
+        ],
+        "~dermal": [
+          "YSL-R03"
+        ],
+        "~senescence": [
+          "YSL-R01"
+        ],
+        "~skin": [
+          "YSL-R03"
+        ],
+        "~vascular": [
+          "YSL-R02"
+        ],
+        "~vessel": [
+          "YSL-R02"
+        ]
+      },
+      "study_design_rule": null,
+      "subtopic_count": 6,
+      "tiers": {
+        "A": [],
+        "B": [],
+        "C": []
+      },
+      "term_to_subtopics": {
+        "advanced glycation end products": [
+          "YSL-002"
+        ],
+        "ages": [
+          "YSL-002"
+        ],
+        "alphafold": [
+          "YSL-006"
+        ],
+        "amadoriase": [
+          "YSL-004"
+        ],
+        "carboxymethyl lysine": [
+          "YSL-003"
+        ],
+        "carboxymethyllysine": [
+          "YSL-003"
+        ],
+        "cml": [
+          "YSL-003"
+        ],
+        "cmlase": [
+          "YSL-004"
+        ],
+        "computational protein design": [
+          "YSL-006"
+        ],
+        "deglycating enzyme": [
+          "YSL-004"
+        ],
+        "deglycation": [
+          "YSL-004"
+        ],
+        "directed evolution": [
+          "YSL-006"
+        ],
+        "enzymatic deglycation": [
+          "YSL-004"
+        ],
+        "enzyme engineering": [
+          "YSL-006"
+        ],
+        "glycated protein": [
+          "YSL-001"
+        ],
+        "glycation": [
+          "YSL-001"
+        ],
+        "glycation end product": [
+          "YSL-002"
+        ],
+        "protein engineering": [
+          "YSL-006"
+        ],
+        "protein glycation": [
+          "YSL-001"
+        ],
+        "rejuvenation": [
+          "YSL-005"
+        ],
+        "repair accumulated damage": [
+          "YSL-005"
+        ],
+        "reversal of aging": [
+          "YSL-005"
+        ],
+        "reverse aging damage": [
+          "YSL-005"
+        ],
+        "reversing molecular damage": [
+          "YSL-005"
+        ]
+      },
+      "cluster_query_bundles": {
+        "K1": [
+          "advanced glycation end products",
+          "ages",
+          "amadoriase",
+          "carboxymethyl lysine",
+          "carboxymethyllysine",
+          "cml",
+          "cmlase",
+          "deglycating enzyme",
+          "deglycation",
+          "enzymatic deglycation",
+          "glycated protein",
+          "glycation",
+          "glycation end product",
+          "protein glycation"
+        ],
+        "K2": [
+          "alphafold",
+          "computational protein design",
+          "directed evolution",
+          "enzyme engineering",
+          "protein engineering",
+          "rejuvenation",
+          "repair accumulated damage",
+          "reversal of aging",
+          "reverse aging damage",
+          "reversing molecular damage"
         ]
       },
       "fetch_budget": {

@@ -1,0 +1,185 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "KMK",
+  "name_tr": "Kemik biyolojisi ve yaşlanma",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261106-022",
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Kemik mekanik algısı ve organlar arası iletişim"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "KMK-001",
+      "cluster": "K1",
+      "name_tr": "Kemik mekanik algısı",
+      "search_terms_en": [
+        "bone mechanosensing",
+        "mechanical loading",
+        "force sensing",
+        "PIEZO1"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-002",
+      "cluster": "K1",
+      "name_tr": "Kemikten salgılanan faktörler (PEDF, osteokinler)",
+      "search_terms_en": [
+        "PEDF",
+        "osteokine",
+        "bone-derived factor",
+        "bone secreted"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-003",
+      "cluster": "K1",
+      "name_tr": "Kemik ve yaşlanma",
+      "search_terms_en": [
+        "bone aging",
+        "skeletal aging",
+        "lifespan",
+        "healthspan"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 3,
+    "clusters": 1,
+    "relations": 5,
+    "tiers": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "relation_groups": [
+    {
+      "id": "WOW",
+      "name_tr": "WOW"
+    }
+  ],
+  "relations": [
+    {
+      "id": "KMK-R01",
+      "group": "WOW",
+      "name_tr": "Kemik mekanik algısı × yaşlanma",
+      "details_tr": "Mekanik kuvvetin algılanması ve yaşlanmanın gecikmesi (WOW-0005)",
+      "maps_to": [
+        "KMK-001",
+        "KMK-002",
+        "KMK-003"
+      ],
+      "search_terms_en": [
+        "~aging",
+        "~lifespan"
+      ],
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-R02",
+      "group": "WOW",
+      "name_tr": "Kemik yüklenmesi × bağışıklık yaşlanması",
+      "details_tr": "Kemiğe yüklenme ile bağışıklık yaşlanması (WOW-0005)",
+      "maps_to": [
+        "KMK-001",
+        "KMK-002",
+        "KMK-003"
+      ],
+      "search_terms_en": [
+        "~immune",
+        "~immunosenescence"
+      ],
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-R03",
+      "group": "WOW",
+      "name_tr": "Kemik yüklenmesi × bilişsel işlev testleri",
+      "details_tr": "Kemiğe yüklenme ile öğrenme ve bilişsel testler (WOW-0005)",
+      "maps_to": [
+        "KMK-001",
+        "KMK-002",
+        "KMK-003"
+      ],
+      "search_terms_en": [
+        "~cognitive",
+        "~learning",
+        "~memory"
+      ],
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-R04",
+      "group": "WOW",
+      "name_tr": "Kemik yüklenmesi × metabolik değişimler",
+      "details_tr": "Kemiğe yüklenme ile metabolik değişimler (WOW-0005)",
+      "maps_to": [
+        "KMK-001",
+        "KMK-002",
+        "KMK-003"
+      ],
+      "search_terms_en": [
+        "~metabolic",
+        "~glucose"
+      ],
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "KMK-R05",
+      "group": "WOW",
+      "name_tr": "Kemikten salgılanan faktörler × diğer dokuların işlevleri",
+      "details_tr": "Kemik kaynaklı faktörlerin başka dokulardaki etkisi (WOW-0005)",
+      "maps_to": [
+        "KMK-001",
+        "KMK-002",
+        "KMK-003"
+      ],
+      "search_terms_en": [
+        "~secreted",
+        "~crosstalk",
+        "~organ"
+      ],
+      "source_list": "wow-0005",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "anchor_terms_en": [
+    "bone mechanosensing",
+    "force sensing by bone",
+    "mechanical loading of bone",
+    "PIEZO1",
+    "PEDF",
+    "osteokine",
+    "bone-derived factor",
+    "skeletal aging",
+    "bone aging"
+  ],
+  "other_senses_en": [],
+  "anchor_note": "Konu çapası: kemik mekanik algısı / kemik kaynaklı faktör / kemik yaşlanması. Bilimsel sınır (WOW-0005): fare mekanik yükleme deneyi ile insanda PEDF ilişkisi ayrı kanıt; insan ömrü uzaması veya belirli bir direnç egzersizinin aynı sonucu verdiği söylenemez (§8.4)."
+}

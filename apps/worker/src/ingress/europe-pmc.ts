@@ -1,5 +1,6 @@
 import { upsertSourceItem, type Env } from '../db/queries';
 import { tagIngestedItem } from '../topics/store';
+import { TOPIC_PLAN } from '../topics/plan.generated';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
 import { hasNoticePubType, isNonArticleNotice } from './research-quality';
@@ -43,33 +44,46 @@ export async function ingestEuropePmc(
   let query =
     'TITLE:auscultation OR TITLE:stethoscope OR ("artificial intelligence" AND medicine)';
   let pageSize = 15;
+  let topicMode = false;
   try {
     if (feed.rules_json) {
       const rules = JSON.parse(feed.rules_json);
       query = rules.query ?? query;
       pageSize = rules.pageSize ?? pageSize;
+      topicMode = rules.mode === 'topics';
     }
   } catch {
     /* defaults */
   }
 
-  const url = new URL(feed.endpoint_url);
-  url.searchParams.set('query', query);
-  url.searchParams.set('format', 'json');
-  url.searchParams.set('pageSize', String(pageSize));
-  url.searchParams.set('resultType', 'core');
-
-  const res = await fetch(url.toString(), {
-    headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
-  });
-  if (!res.ok) {
-    throw new Error(`Europe PMC fetch failed: ${res.status}`);
+  // Topic-driven discovery (DEC-R-20261106-024): one search per owner relation, newest first, across every journal Europe PMC
+  // indexes. The query names no journal; it comes from the topic plan (topics/, generated).
+  const queries: { q: string; sort: boolean }[] = topicMode && TOPIC_PLAN.discovery.length
+    ? TOPIC_PLAN.discovery.map((d) => ({ q: d.query, sort: true }))
+    : [{ q: query, sort: false }];
+  const items: EuropePmcResult[] = [];
+  const seen = new Set<string>();
+  for (const one of queries) {
+    const url = new URL(feed.endpoint_url);
+    url.searchParams.set('query', one.q);
+    url.searchParams.set('format', 'json');
+    url.searchParams.set('pageSize', String(pageSize));
+    url.searchParams.set('resultType', 'core');
+    if (one.sort) url.searchParams.set('sort', 'P_PDATE_D desc');
+    const res = await fetch(url.toString(), {
+      headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
+    });
+    if (!res.ok) {
+      throw new Error(`Europe PMC fetch failed: ${res.status}`);
+    }
+    const body = (await res.json()) as { resultList?: { result?: EuropePmcResult[] } };
+    for (const r of body.resultList?.result ?? []) {
+      const key = (r.doi || r.pmid || r.pmcid || r.title || '').toLowerCase();
+      if (key && seen.has(key)) continue;
+      if (key) seen.add(key);
+      items.push(r);
+    }
   }
-
-  const body = (await res.json()) as {
-    resultList?: { result?: EuropePmcResult[] };
-  };
-  const items = body.resultList?.result ?? [];
 
   let created = 0;
   let updated = 0;

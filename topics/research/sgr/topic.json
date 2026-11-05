@@ -1,0 +1,110 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "SGR",
+  "name_tr": "Sigara ve tütün kullanımı",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261106-016",
+  "use_areas": [
+    "research",
+    "evergreen"
+  ],
+  "anchor_terms_en": [
+    "smoking",
+    "smoker",
+    "tobacco",
+    "cigarette",
+    "nicotine",
+    "pack-years"
+  ],
+  "other_senses_en": [
+    "smoking gun",
+    "smoking hot",
+    "smoke detector"
+  ],
+  "anchor_note": "Konu çapası: sigara/tütün kelimesi geçmeyen kayıt bu konuya girmez. Kapsam (sahip, 2026-11-06): yalnız bırakma değil, bıraktıktan sonra toparlanma da.",
+  "tier_legend": {
+    "status": "Katman verilmedi: öncelik kararı yok (DEC-R-20261106-014)"
+  },
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Sigarayı bırakma ve bıraktıktan sonra toparlanma"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "SGR-001",
+      "cluster": "K1",
+      "name_tr": "Sigarayı bırakma",
+      "search_terms_en": [
+        "smoking cessation",
+        "quit smoking",
+        "quitting smoking",
+        "former smokers",
+        "ex-smokers",
+        "tobacco cessation"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0001",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "SGR-002",
+      "cluster": "K1",
+      "name_tr": "Bıraktıktan sonra toparlanma: riskin zaman içindeki seyri",
+      "search_terms_en": [
+        "years since quitting",
+        "time since quitting",
+        "after quitting smoking",
+        "risk after smoking cessation",
+        "recovery after smoking cessation",
+        "pack-years"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0001",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 2,
+    "clusters": 1,
+    "relations": 1,
+    "tiers": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "relation_groups": [
+    {
+      "id": "WOW",
+      "name_tr": "WOW"
+    }
+  ],
+  "relations": [
+    {
+      "id": "SGR-R01",
+      "group": "WOW",
+      "name_tr": "Sigarayı bırakma × kalp-damar hastalığı riski",
+      "details_tr": "Geçmiş tüketim miktarı, bırakmanın üzerinden geçen süre ve karşılaştırılan grup (WOW-0001)",
+      "maps_to": [
+        "SGR-001",
+        "SGR-002"
+      ],
+      "search_terms_en": [
+        "~cardiovascular",
+        "~myocardial infarction",
+        "~heart failure",
+        "~stroke",
+        "~coronary"
+      ],
+      "source_list": "wow-0001",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ]
+}
