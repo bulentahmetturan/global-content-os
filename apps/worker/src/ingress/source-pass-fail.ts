@@ -6,7 +6,7 @@ import type { Env } from '../db/queries';
 
 export const SPF_RULESET_VERSION = 'source-pass-fail-v1';
 export const SPF_SCHEMA_VERSION = 'spf-1.1.0';
-export const SPF_DOCUMENT = '/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md';
+export const SPF_DOCUMENT = '/Global_Content_OS_Bible_v5.md';
 
 export const EVALUATION_TRACKS = {
   haber: 'ENGAGEMENT',
@@ -34,7 +34,7 @@ export const REVALIDATION_TRIGGERS = [
 
 export function biblePublicMeta(env: Env) {
   return {
-    bibleVersion: env.BIBLE_VERSION || '4.1',
+    bibleVersion: env.BIBLE_VERSION || '5.0',
     rulesetVersion: SPF_RULESET_VERSION,
     schemaVersion: SPF_SCHEMA_VERSION,
     document: SPF_DOCUMENT,
@@ -118,7 +118,7 @@ export async function recordSourcePassFail(
         JSON.stringify(input.evidence ?? []),
         JSON.stringify(input.warnings || []),
         JSON.stringify(input.reviewTrigger || []),
-        env.BIBLE_VERSION || '4.1',
+        env.BIBLE_VERSION || '5.0',
         SPF_RULESET_VERSION,
         SPF_SCHEMA_VERSION
       )

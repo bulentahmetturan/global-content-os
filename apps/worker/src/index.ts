@@ -740,7 +740,7 @@ export default {
         routes.push({ id: 'tip-toplulugu-egitim', counts: tipTopluluguEgitim, enabledFeeds: TIP_TOPLULUGU_EGITIM_SOURCE_IDS.filter((id) => tipTopluluguSchedulerPath(id) !== 'none').length });
         // Sidebar counts: one entry per temporal nav item, same predicate and window as GET /api/items for that item.
         const temporal = await temporalNavCounts(env.DB, HUB_WINDOW_DAYS);
-        return json({ routes, temporal, bibleVersion: env.BIBLE_VERSION || '4.1' });
+        return json({ routes, temporal, bibleVersion: env.BIBLE_VERSION || '5.0' });
       }
 
       if (path === '/api/bible' && request.method === 'GET') {

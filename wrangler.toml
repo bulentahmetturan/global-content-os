@@ -35,7 +35,7 @@ ENVIRONMENT = "production"
 CCOS_HANDOFF_STUB = "false"
 # Tıp Topluluğu continuous ingestion (Fast Activation v1). Enabled after local migration + live dry-run.
 TIP_TOPLULUGU_CONTINUOUS_INGESTION_ENABLED = "true"
-BIBLE_VERSION = "4.0"
+BIBLE_VERSION = "5.0"
 # DOSSIER canary master switch: OFF. Nothing in DOSSIER runs unless this is "true" AND an operator enables it (see docs/DOSSIER-CANARY-RUNBOOK.md).
 DOSSIER_CANARY_ENABLED = "false"
 # DOSSIER recurring operation master switch: OFF. The */5 cron tick reads nothing unless this is "true" AND the owner enabled recurring and a source state.

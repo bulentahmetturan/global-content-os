@@ -22,7 +22,7 @@ const catalog = (buf) => {
 };
 
 export const HUB_ASSETS = [
-  { source: `${CONTENT}/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md`, destination: 'apps/hub/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md', transform: copy },
+  { source: `${CONTENT}/Global_Content_OS_Bible_v5.md`, destination: 'apps/hub/Global_Content_OS_Bible_v5.md', transform: copy },
   { source: `${CONTENT}/config/bible-config.json`, destination: 'apps/hub/bible-config.json', transform: copy },
   { source: `${CONTENT}/taxonomy/controlled-vocabulary.json`, destination: 'apps/hub/controlled-vocabulary.json', transform: copy },
   { source: `${CONTENT}/source-registry-burs-v1.json`, destination: 'apps/hub/burs-sources.json', transform: catalog },
