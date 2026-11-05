@@ -2,12 +2,12 @@
 
 Python kaynak izleme. Marka/logo Design OS’ta kalır.
 
-**Anayasa:** [`content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md`](content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md)
+**Anayasa:** [`content/Global_Content_OS_Bible_v5.md`](content/Global_Content_OS_Bible_v5.md)
 
 | Path | Rol |
 |------|------|
 | `radar/` | Fetch / gates / continuous runner |
-| `content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` | Bible v4 (Kitap I + Source Pass/Fail) |
+| `content/Global_Content_OS_Bible_v5.md` | Bible v4 (Kitap I + Source Pass/Fail) |
 | `content/taxonomy/` | Kontrollü sözlük |
 | `content/config/` | Cadence, skor, eşik |
 | `content/policies/` | Kategori kilit JSON |

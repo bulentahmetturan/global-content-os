@@ -158,14 +158,14 @@ class ConfigAndBibleLockTests(unittest.TestCase):
         for t in revalidation_triggers():
             self.assertIn(t, cfg["revalidation"]["event_triggers"])
 
-    def test_living_bible_is_v4(self):
-        v4 = (CONTENT / "00_TURK_TIP_CONTENT_OS_BIBLE_v4.md").read_text(encoding="utf-8")
-        self.assertIn("# TÜRK TIP İÇERİK OS — BIBLE v4", v4)
-        self.assertIn("## KİTAP II — SOURCE PASS/FAIL & PIPELINE LOOP", v4)
+    def test_living_bible_is_v5(self):
+        v5 = (CONTENT / "Global_Content_OS_Bible_v5.md").read_text(encoding="utf-8")
+        self.assertIn("# GLOBAL CONTENT OS — BIBLE v5.0", v5)
+        self.assertIn("evaluation_track", v5)
+        v4 = (CONTENT / "archive" / "00_TURK_TIP_CONTENT_OS_BIBLE_v4.md").read_text(encoding="utf-8")
         self.assertIn("SPF-28. Revalidation", v4)
-        self.assertIn("evaluation_track", v4)
         stub = (CONTENT / "00_TURK_TIP_CONTENT_OS_BIBLE_v3.md").read_text(encoding="utf-8")
-        self.assertIn("v4", stub.lower())
+        self.assertIn("v5", stub.lower())
         self.assertNotIn("## BÖLÜM 0", stub)
 
     def test_vocab_and_policies_lock_v4(self):

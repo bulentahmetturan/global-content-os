@@ -2,7 +2,7 @@
 
 Tek bağlayıcı anayasa:
 
-- [`00_TURK_TIP_CONTENT_OS_BIBLE_v4.md`](00_TURK_TIP_CONTENT_OS_BIBLE_v4.md) (Hub: `/?route=bible`)
+- [`Global_Content_OS_Bible_v5.md`](Global_Content_OS_Bible_v5.md) (Hub: `/?route=bible`)
 
 Bible ile çelişen MD yok sayılır. İkinci bible yazılmaz.
 
@@ -10,7 +10,7 @@ Bible ile çelişen MD yok sayılır. İkinci bible yazılmaz.
 
 | Katman | Nerede |
 |---|---|
-| Bible | `00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` |
+| Bible | `Global_Content_OS_Bible_v5.md` |
 | Controlled vocabulary | `taxonomy/controlled-vocabulary.json` |
 | Config | `config/bible-config.json` |
 | Source registry | `source-registry-*.json` |

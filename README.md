@@ -12,7 +12,7 @@ Source truth (Package 2): everything consumed by source acquisition / pre-approv
 
 ## Brands in Hub
 
-Five primary categories (Bible v4 §2): **Haber**, **Burs**, **Eğitim**, **Duyuru**, **Research**. No automatic publishing. Bible: `adapters/tip-toplulugu-radar/content/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md` (Hub: `/?route=bible`).
+Five primary categories (Bible v4 §2): **Haber**, **Burs**, **Eğitim**, **Duyuru**, **Research**. No automatic publishing. Bible: `adapters/tip-toplulugu-radar/content/Global_Content_OS_Bible_v5.md` (Hub: `/?route=bible`).
 
 | Category | Brand | Technical route |
 |---|---|---|

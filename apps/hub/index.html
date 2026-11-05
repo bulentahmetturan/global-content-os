@@ -600,9 +600,9 @@
     <aside class="pane-read" id="readPane" aria-live="polite"></aside>
     </div>
     <div id="bibleView" hidden>
-      <div class="bible-meta" id="bibleMeta">Bible v4 yükleniyor…</div>
+      <div class="bible-meta" id="bibleMeta">Bible v5 yükleniyor…</div>
       <article class="bible-doc" id="bibleDoc">Yükleniyor…</article>
-      <p class="bible-raw"><a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham Markdown indir</a></p>
+      <p class="bible-raw"><a href="/Global_Content_OS_Bible_v5.md">Ham Markdown indir</a></p>
     </div>
     <div id="moduleView" hidden></div>
     <div class="footnote" id="footnote"></div>
@@ -628,7 +628,7 @@
     { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse Haber ve Research ayrı primary category. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
     { id: 'tip_toplulugu', label: 'Tıp Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
     { id: 'modules', label: 'Sistem Modülleri', icon: '🧩', note: 'Dossier, Doktorlar, Protokoller, Keşif ve İstatistik: salt okunur durum özetleri. Burada hiçbir şey değiştirilmez.' },
-    { id: 'bible', label: 'Türk Tıp Bible v4', icon: '📜', note: 'Normatif anayasa v4. Kitap I hard gate + Kitap II Source Pass/Fail. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
+    { id: 'bible', label: 'Global Content OS Bible v5', icon: '📜', note: 'Normatif anayasa v5.0: tek otorite, değişmez kapılar, konu/kapsam kararları, kaynak ve daraltma sırası. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
   // Temporal path groups (E90). `key` indexes /api/routes `temporal[path]`; Bible sits outside both groups.
   var NAV_GROUPS = [
@@ -649,7 +649,7 @@
     { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12\"/><path d=\"M8 7h8M8 17h8\"/></svg>", doc: true },
     { navId: 'm_discovery', path: 'MODULES', route: 'modules', module: 'discovery', lane: null, label: 'Keşif', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6\"/><path d=\"M20 20l-4.5-4.5\"/></svg>", doc: true },
     { navId: 'm_statistics', path: 'MODULES', route: 'modules', module: 'statistics', lane: null, label: 'İstatistik', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M15 7h6v6\"/></svg>", doc: true },
-    { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v4', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3h8l4 4v14H7z\"/><path d=\"M15 3v4h4M10 12h6M10 16h6\"/></svg>", doc: true }
+    { navId: 'bible', path: null, route: 'bible', lane: null, label: 'Bible v5', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3h8l4 4v14H7z\"/><path d=\"M15 3v4h4M10 12h6M10 16h6\"/></svg>", doc: true }
   ];
   /** Sidebar count for a nav entry from /api/routes `temporal`; null (shown as "–") when the block is missing — never a fake 0. */
   function navTemporalCount(n, temporal) {
@@ -2281,7 +2281,7 @@
     try {
       await loadMarked();
       if (!state.bibleMd) {
-        var r = await fetch('/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md');
+        var r = await fetch('/Global_Content_OS_Bible_v5.md');
         if (!r.ok) throw new Error('Bible dosyası yüklenemedi (' + r.status + ')');
         state.bibleMd = await r.text();
       }
@@ -2302,21 +2302,21 @@
           ? '<table><thead><tr><th>Kaynak</th><th>Editorial</th><th>Lifecycle</th><th>Trigger</th></tr></thead><tbody>' + rows + '</tbody></table>'
           : '<p style="margin:8px 0 0">Henüz SPF geri besleme kaydı yok. Fetch sağlığı düşünce CONDITIONAL + degraded yazılır; FAIL değildir.</p>';
         if (metaEl) {
-          metaEl.innerHTML = '<b>Bible v' + escapeHtml(meta.bibleVersion || '4.1') + '</b> · ' +
+          metaEl.innerHTML = '<b>Bible v' + escapeHtml(meta.bibleVersion || '5.0') + '</b> · ' +
             escapeHtml(meta.rulesetVersion || 'source-pass-fail-v1') +
             ' · eşikler Config’te · FAIL yalnız hard FAIL' +
             '<div class="spf-tracks">' + chips + '</div>' + table;
         }
       } catch (metaErr) {
         if (metaEl) {
-          metaEl.innerHTML = '<b>Bible v4.1</b> · Haber/Research = ENGAGEMENT · Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY';
+          metaEl.innerHTML = '<b>Bible v5.0</b> · Haber/Research = ENGAGEMENT · Duyuru/Burs/Eğitim = PRAGMATIC_UTILITY';
         }
       }
     } catch (err) {
       if (state.bibleMd) {
         el.innerHTML = '<pre>' + escapeHtml(state.bibleMd) + '</pre>';
       } else {
-        el.innerHTML = '<p>Bible yüklenemedi. <a href="/00_TURK_TIP_CONTENT_OS_BIBLE_v4.md">Ham dosyayı aç</a>.</p><p>' + escapeHtml(err.message || err) + '</p>';
+        el.innerHTML = '<p>Bible yüklenemedi. <a href="/Global_Content_OS_Bible_v5.md">Ham dosyayı aç</a>.</p><p>' + escapeHtml(err.message || err) + '</p>';
       }
     }
   }
