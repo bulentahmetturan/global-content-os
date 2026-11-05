@@ -24,7 +24,7 @@ T1–T6 ve T8–T11 için sahip cevapları kapıyla çelişmiyor; yinelenen soru
 
 ## Yalnızca sahibin verebileceği kararlar
 
-1. **T7 gen/hücre tedavileri**: Kapı "geniş kitle wow" izin verir, sahip puanları 3–5. İzlensin mi, hangi koşulla (ör. yalnız onaylanmış tedavi / klinik sonuç)?
+1. ~~T7 gen/hücre tedavileri~~ **Kapandı: REJECTED** (2026-11-05, `DEC-R-T7-20261105`). Yeniden sorulmaz (§4.4); yeni kanıt gelirse SNOOZED/yeniden açılır.
 2. **Medical Xpress günlük sınır** (Excel S3): günde en çok kaç haber aday olsun? Ölçülen hız ~166 haber/hafta.
 3. **Mevcut birikim** (S4): MX'te ~974 gelen kutusu + ~136 bekletilen kayıt. Yeni konu kurallarıyla geriye dönük elensin mi, olduğu gibi kalsın mı? (§6.9 geri alma güvenliği: önce kuru çalıştırma, silme yok, `trash` durumu geri alınabilir.)
 4. **Research Evergreen / Rediscovery** (v5 §3.4): Research'te sürekli yeniden keşif hangi kaynak ve hangi yaş eşiğiyle çalışsın? Bugün yalnız `research-cochrane-library` (ACTIVE) ve `research-pubmed-eutilities` (CANARY_ONLY) var; `research_scope` sayıları boş (OWNER_PENDING), sayı uydurulmaz.
