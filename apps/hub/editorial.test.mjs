@@ -43,7 +43,7 @@ test('reading pane: Turkish summary first, facts listed, source link opens safel
   assert.match(h, /<dt>Kaynak<\/dt><dd class="">Health Canada<\/dd>/);
   assert.match(h, /<dt>Son tarih<\/dt><dd class="deadline">20 Kas 2026<\/dd>/);
   assert.match(h, /<dt>Karar yolu<\/dt><dd class="">Fırsat<\/dd>/);
-  assert.match(h, /2 \/ 8/);
+  assert.match(h, /<div class="idx-n">02<\/div><div class="idx-t">\/ 8<\/div>/);
   assert.match(h, /rel="noopener noreferrer"/);
 });
 
@@ -73,10 +73,10 @@ test('actions per status: inbox has promote/hold/delete, hold has promote/delete
   assert.deepEqual(names('trash'), ['undo']);
 });
 
-test('guards: undo is offered only for hold/delete, promote needs a second key press, dark is the default theme', () => {
+test('guards: undo is offered only for hold/delete, promote needs a second key press, light (cream) is the default theme', () => {
   assert.match(html, /var undoable = action === 'hold' \|\| action === 'delete';/);
   assert.match(html, /state\.armed && state\.armed\.id === cur\.id && Date\.now\(\) - state\.armed\.at < 3000/);
-  assert.match(html, /localStorage\.getItem\('gcos-theme'\) === 'light' \? 'light' : 'dark'/);
+  assert.match(html, /localStorage\.getItem\('gcos-theme'\) === 'dark' \? 'dark' : 'light'/);
   assert.match(html, /family=Newsreader/);
   assert.match(html, /family=Instrument\+Sans/);
   assert.match(html, /prefers-reduced-motion: reduce/);
@@ -93,10 +93,10 @@ test('every inbox row carries its own Üretime aktar / Beklet / Reddet buttons; 
   assert.match(full, /Reddet <kbd>S<\/kbd>/);
 });
 
-test('resizable panes: both handles exist, limits are enforced and the size is remembered', () => {
-  assert.match(html, /id="resizeList"/);
+test('resizable sidebar: handle exists, limits are enforced and the size is remembered; the old list handle is gone', () => {
+  assert.doesNotMatch(html, /id="resizeList"/);
   assert.match(html, /id="resizeSide"/);
-  assert.match(html, /name === '--sidebar-w' \? 200 : 300/);
+  assert.match(html, /var min = 200, max = 360;/);
   assert.match(html, /localStorage\.setItem\('gcos' \+ name/);
   assert.match(html, /addEventListener\('dblclick'/);
 });
