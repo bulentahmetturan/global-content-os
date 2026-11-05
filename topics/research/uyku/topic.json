@@ -1,0 +1,1644 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "UYK",
+  "name_tr": "Uyku",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261105-011",
+  "owner_statement": "Sahip: ilk konumuz uyku; ikinci listedekileri de ekleyeceğiz (2026-11-05)",
+  "extension_rules": [
+    "Alt kapsam kimlikleri (UYK-NNN) sabittir; silinmez, yeniden numaralanmaz, yeniden kullanılmaz.",
+    "Yeni alt kapsam yalnız sona eklenir (sonraki UYK-NNN) ve topics/LEDGER.ndjson içine SUBTOPIC_ADDED satırı yazılır.",
+    "Kaldırma yok: state REJECTED veya SNOOZED olur, kayıt kalır.",
+    "Sahibin verdiği ham metin topics/research/uyku/intake/ altında olduğu gibi saklanır."
+  ],
+  "tier_legend": {
+    "A": "yaşam tarzı / geniş kitle: sıralamada öne çıkar",
+    "B": "klinik / doktor kitlesi",
+    "C": "mekanizma: yalnız geniş kitle wow etkisi varsa girer"
+  },
+  "cross_topic_overlap": [
+    "RUH",
+    "KARDIO-METAB",
+    "BESLENME",
+    "DIJ-AI",
+    "ONKO",
+    "ENF-AMR"
+  ],
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Biyolojik düzenleme"
+    },
+    {
+      "id": "K2",
+      "name_tr": "Hormon ve metabolizma"
+    },
+    {
+      "id": "K3",
+      "name_tr": "Süre, zamanlama ve düzenlilik"
+    },
+    {
+      "id": "K4",
+      "name_tr": "Uyku yapısı ve rüya"
+    },
+    {
+      "id": "K5",
+      "name_tr": "Uyku deneyimi ve işlev"
+    },
+    {
+      "id": "K6",
+      "name_tr": "Davranış ve çevre"
+    },
+    {
+      "id": "K7",
+      "name_tr": "Uyku bozuklukları"
+    },
+    {
+      "id": "K8",
+      "name_tr": "Ölçüm ve müdahale"
+    },
+    {
+      "id": "K9",
+      "name_tr": "Hastalık grupları ve uyku"
+    },
+    {
+      "id": "K10",
+      "name_tr": "Ruh sağlığı ve uyku"
+    },
+    {
+      "id": "K11",
+      "name_tr": "Ağrı ve uyku"
+    },
+    {
+      "id": "K12",
+      "name_tr": "Özel popülasyonlar"
+    },
+    {
+      "id": "K13",
+      "name_tr": "Çevresel ve mesleki etkenler"
+    },
+    {
+      "id": "K14",
+      "name_tr": "Ek müdahale alanları"
+    },
+    {
+      "id": "K15",
+      "name_tr": "Temel bilim ve araştırma yöntemleri"
+    },
+    {
+      "id": "K16",
+      "name_tr": "Sosyal, kültürel ve politik yönler"
+    },
+    {
+      "id": "K17",
+      "name_tr": "Disiplinlerarası başlıklar"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "UYK-001",
+      "cluster": "K1",
+      "name_tr": "Sirkadiyen ritim ve biyolojik saat",
+      "search_terms_en": [
+        "circadian rhythm",
+        "biological clock",
+        "clock genes",
+        "zeitgeber"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-002",
+      "cluster": "K1",
+      "name_tr": "Uyku baskısı ve uyku homeostazı",
+      "search_terms_en": [
+        "sleep pressure",
+        "sleep homeostasis",
+        "process S"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-003",
+      "cluster": "K1",
+      "name_tr": "Adenozin ve adenozin reseptörleri",
+      "search_terms_en": [
+        "adenosine",
+        "adenosine receptor",
+        "A2A receptor sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-004",
+      "cluster": "K1",
+      "name_tr": "Kronotip ve bireysel uyku özellikleri",
+      "search_terms_en": [
+        "chronotype",
+        "morningness eveningness",
+        "evening type"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-005",
+      "cluster": "K1",
+      "name_tr": "Uykunun sinirsel ve nörokimyasal düzenlenmesi",
+      "search_terms_en": [
+        "orexin",
+        "hypocretin",
+        "sleep-wake circuit",
+        "GABA sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-006",
+      "cluster": "K2",
+      "name_tr": "Uyku ve melatonin",
+      "search_terms_en": [
+        "melatonin",
+        "dim light melatonin onset"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-007",
+      "cluster": "K2",
+      "name_tr": "Uyku, kortizol ve stres yanıtı",
+      "search_terms_en": [
+        "cortisol sleep",
+        "HPA axis sleep",
+        "cortisol awakening response"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-008",
+      "cluster": "K2",
+      "name_tr": "Uyku ve büyüme hormonu",
+      "search_terms_en": [
+        "growth hormone sleep",
+        "slow wave sleep growth hormone"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-009",
+      "cluster": "K2",
+      "name_tr": "Uyku ve prolaktin",
+      "search_terms_en": [
+        "prolactin sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-010",
+      "cluster": "K2",
+      "name_tr": "Uyku, insülin ve glukoz düzenlenmesi",
+      "search_terms_en": [
+        "sleep insulin sensitivity",
+        "sleep restriction glucose",
+        "sleep diabetes"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-011",
+      "cluster": "K2",
+      "name_tr": "Uyku, leptin, grelin ve iştah",
+      "search_terms_en": [
+        "sleep leptin ghrelin",
+        "sleep appetite",
+        "sleep restriction energy intake"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-012",
+      "cluster": "K2",
+      "name_tr": "Uyku ve üreme hormonları",
+      "search_terms_en": [
+        "sleep menopause",
+        "sleep pregnancy",
+        "sleep testosterone",
+        "sleep menstrual cycle"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-013",
+      "cluster": "K2",
+      "name_tr": "Uyku ve tiroid ekseni",
+      "search_terms_en": [
+        "sleep thyroid",
+        "TSH sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-014",
+      "cluster": "K2",
+      "name_tr": "Uyku, vücut sıcaklığı ve otonom sinir sistemi",
+      "search_terms_en": [
+        "core body temperature sleep",
+        "thermoregulation sleep",
+        "autonomic sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-015",
+      "cluster": "K3",
+      "name_tr": "Uyku süresi ve bireysel uyku ihtiyacı",
+      "search_terms_en": [
+        "sleep duration",
+        "short sleep",
+        "long sleep",
+        "sleep need"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-016",
+      "cluster": "K3",
+      "name_tr": "Uyku zamanlaması",
+      "search_terms_en": [
+        "sleep timing",
+        "bedtime",
+        "sleep midpoint"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-017",
+      "cluster": "K3",
+      "name_tr": "Uyku düzenliliği",
+      "search_terms_en": [
+        "sleep regularity",
+        "sleep variability",
+        "consistent wake time"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-018",
+      "cluster": "K3",
+      "name_tr": "Sosyal jetlag ve sirkadiyen uyumsuzluk",
+      "search_terms_en": [
+        "social jetlag",
+        "circadian misalignment"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-019",
+      "cluster": "K3",
+      "name_tr": "Uyku yoksunluğu ve uyku kısıtlaması",
+      "search_terms_en": [
+        "sleep deprivation",
+        "sleep restriction",
+        "insufficient sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-020",
+      "cluster": "K3",
+      "name_tr": "Uyku borcu ve telafi uykusu",
+      "search_terms_en": [
+        "sleep debt",
+        "catch-up sleep",
+        "weekend recovery sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-021",
+      "cluster": "K3",
+      "name_tr": "Gündüz uykusu ve şekerleme",
+      "search_terms_en": [
+        "napping",
+        "daytime nap",
+        "siesta"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-022",
+      "cluster": "K3",
+      "name_tr": "Tek, iki ve çok parçalı uyku düzenleri",
+      "search_terms_en": [
+        "biphasic sleep",
+        "polyphasic sleep",
+        "segmented sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-023",
+      "cluster": "K4",
+      "name_tr": "Uyku mimarisi, evreleri ve döngüleri",
+      "search_terms_en": [
+        "sleep architecture",
+        "sleep stages",
+        "hypnogram"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-024",
+      "cluster": "K4",
+      "name_tr": "Hafif uyku: N1 ve N2",
+      "search_terms_en": [
+        "N2 sleep",
+        "sleep spindles",
+        "K-complex"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-025",
+      "cluster": "K4",
+      "name_tr": "Derin uyku: N3 ve yavaş dalga aktivitesi",
+      "search_terms_en": [
+        "deep sleep",
+        "slow wave sleep",
+        "N3"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-026",
+      "cluster": "K4",
+      "name_tr": "REM uykusu",
+      "search_terms_en": [
+        "REM sleep",
+        "rapid eye movement"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-027",
+      "cluster": "K4",
+      "name_tr": "Rüyalar ve rüya hatırlama",
+      "search_terms_en": [
+        "dreams",
+        "dream recall",
+        "lucid dreaming",
+        "nightmares"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-028",
+      "cluster": "K5",
+      "name_tr": "Uykuya dalma ve uyku başlangıcı",
+      "search_terms_en": [
+        "sleep onset",
+        "sleep latency",
+        "falling asleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-029",
+      "cluster": "K5",
+      "name_tr": "Gece uyanmaları ve uyku sürekliliği",
+      "search_terms_en": [
+        "night awakenings",
+        "sleep fragmentation",
+        "wake after sleep onset"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-030",
+      "cluster": "K5",
+      "name_tr": "Sabaha karşı erken uyanma",
+      "search_terms_en": [
+        "early morning awakening"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-031",
+      "cluster": "K5",
+      "name_tr": "Uyanma, yataktan kalkma ve uyku ataleti",
+      "search_terms_en": [
+        "sleep inertia",
+        "morning grogginess",
+        "alarm snooze"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-032",
+      "cluster": "K5",
+      "name_tr": "Uyku kalitesi ve dinlenmiş uyanma",
+      "search_terms_en": [
+        "sleep quality",
+        "restorative sleep",
+        "nonrestorative sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-033",
+      "cluster": "K5",
+      "name_tr": "Uyku verimliliği",
+      "search_terms_en": [
+        "sleep efficiency",
+        "time in bed"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-034",
+      "cluster": "K5",
+      "name_tr": "Gündüz uykululuğu, yorgunluk ve mikrouykular",
+      "search_terms_en": [
+        "daytime sleepiness",
+        "fatigue",
+        "microsleep",
+        "drowsy driving"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-035",
+      "cluster": "K6",
+      "name_tr": "Uyku hijyeni ve günlük rutinler",
+      "search_terms_en": [
+        "sleep hygiene",
+        "bedtime routine"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-036",
+      "cluster": "K6",
+      "name_tr": "Uyku öncesi zihinsel ve bedensel uyarılmışlık",
+      "search_terms_en": [
+        "pre-sleep arousal",
+        "rumination sleep",
+        "worry sleep",
+        "sleep effort"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-037",
+      "cluster": "K6",
+      "name_tr": "Işık maruziyeti ve karanlık",
+      "search_terms_en": [
+        "light exposure sleep",
+        "morning light",
+        "light at night",
+        "blue light"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-038",
+      "cluster": "K6",
+      "name_tr": "Ekranlar ve dijital davranışlar",
+      "search_terms_en": [
+        "screen time sleep",
+        "smartphone sleep",
+        "bedtime procrastination"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-039",
+      "cluster": "K6",
+      "name_tr": "Uyku ortamı, konfor ve pozisyon",
+      "search_terms_en": [
+        "bedroom environment",
+        "noise sleep",
+        "room temperature sleep",
+        "mattress",
+        "sleep position"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-040",
+      "cluster": "K6",
+      "name_tr": "Beslenme ve öğün zamanı",
+      "search_terms_en": [
+        "late dinner sleep",
+        "meal timing sleep",
+        "diet and sleep",
+        "night eating"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-041",
+      "cluster": "K6",
+      "name_tr": "Kafein, nikotin, alkol ve diğer maddeler",
+      "search_terms_en": [
+        "caffeine sleep",
+        "alcohol sleep",
+        "nicotine sleep",
+        "cannabis sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-042",
+      "cluster": "K6",
+      "name_tr": "Egzersiz ve fiziksel aktivite",
+      "search_terms_en": [
+        "exercise sleep",
+        "physical activity sleep",
+        "evening exercise"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-043",
+      "cluster": "K6",
+      "name_tr": "Yaşam dönemlerine göre uyku",
+      "search_terms_en": [
+        "infant sleep",
+        "adolescent sleep",
+        "older adults sleep",
+        "aging sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-044",
+      "cluster": "K6",
+      "name_tr": "Vardiya, gece çalışması ve seyahat",
+      "search_terms_en": [
+        "shift work sleep",
+        "night shift",
+        "jet lag"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-045",
+      "cluster": "K6",
+      "name_tr": "Uyku fırsatı ve sosyal koşullar",
+      "search_terms_en": [
+        "sleep disparities",
+        "school start time",
+        "socioeconomic sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-046",
+      "cluster": "K7",
+      "name_tr": "İnsomnia: uykusuzluk bozukluğu",
+      "search_terms_en": [
+        "insomnia",
+        "insomnia disorder"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-047",
+      "cluster": "K7",
+      "name_tr": "Uykuda solunum bozuklukları",
+      "search_terms_en": [
+        "sleep apnea",
+        "obstructive sleep apnea",
+        "snoring",
+        "sleep-disordered breathing"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-048",
+      "cluster": "K7",
+      "name_tr": "Sirkadiyen ritim uyku-uyanıklık bozuklukları",
+      "search_terms_en": [
+        "delayed sleep phase",
+        "advanced sleep phase",
+        "non-24-hour",
+        "shift work disorder"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-049",
+      "cluster": "K7",
+      "name_tr": "Narkolepsi ve merkezi aşırı uykululuk",
+      "search_terms_en": [
+        "narcolepsy",
+        "idiopathic hypersomnia",
+        "cataplexy"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-050",
+      "cluster": "K7",
+      "name_tr": "Uykuya bağlı hareket bozuklukları",
+      "search_terms_en": [
+        "restless legs syndrome",
+        "periodic limb movements",
+        "bruxism"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-051",
+      "cluster": "K7",
+      "name_tr": "Parasomniler",
+      "search_terms_en": [
+        "sleepwalking",
+        "night terrors",
+        "REM sleep behavior disorder",
+        "sleep paralysis"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-052",
+      "cluster": "K8",
+      "name_tr": "Uyku günlüğü ve değerlendirme ölçekleri",
+      "search_terms_en": [
+        "sleep diary",
+        "Pittsburgh Sleep Quality Index",
+        "Insomnia Severity Index",
+        "Epworth"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-053",
+      "cluster": "K8",
+      "name_tr": "Uyku testleri ve biyolojik ölçümler",
+      "search_terms_en": [
+        "polysomnography",
+        "actigraphy",
+        "home sleep apnea test",
+        "multiple sleep latency test"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-054",
+      "cluster": "K8",
+      "name_tr": "Akıllı saatler, yüzükler ve uyku takibi",
+      "search_terms_en": [
+        "sleep tracker",
+        "wearable sleep",
+        "smartwatch sleep",
+        "orthosomnia"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-055",
+      "cluster": "K8",
+      "name_tr": "Uykusuzluk için bilişsel davranışçı terapi (CBT-I)",
+      "search_terms_en": [
+        "CBT-I",
+        "cognitive behavioral therapy for insomnia",
+        "digital CBT-I"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-056",
+      "cluster": "K8",
+      "name_tr": "Işık tedavisi ve sirkadiyen müdahaleler",
+      "search_terms_en": [
+        "bright light therapy",
+        "chronotherapy",
+        "phase shifting"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-057",
+      "cluster": "K8",
+      "name_tr": "İlaçlar ve uyku",
+      "search_terms_en": [
+        "hypnotics",
+        "sleep medication",
+        "benzodiazepine sleep",
+        "suvorexant",
+        "z-drugs"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-058",
+      "cluster": "K8",
+      "name_tr": "Takviyeler ve bitkisel ürünler",
+      "search_terms_en": [
+        "melatonin supplement",
+        "magnesium sleep",
+        "valerian",
+        "chamomile sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-059",
+      "cluster": "K8",
+      "name_tr": "Gevşeme ve tamamlayıcı uygulamalar",
+      "search_terms_en": [
+        "relaxation sleep",
+        "meditation sleep",
+        "yoga sleep",
+        "tai chi sleep",
+        "mindfulness sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-060",
+      "cluster": "K8",
+      "name_tr": "Uykunun işlevleri ve gelişen araştırma alanları",
+      "search_terms_en": [
+        "glymphatic",
+        "memory consolidation sleep",
+        "synaptic homeostasis",
+        "local sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-1",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-061",
+      "cluster": "K9",
+      "name_tr": "Uyku ve bağışıklık sistemi",
+      "search_terms_en": [
+        "sleep immune function",
+        "sleep vaccine response",
+        "sleep inflammation",
+        "sleep autoimmune"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-062",
+      "cluster": "K9",
+      "name_tr": "Uyku ve kardiyovasküler hastalıklar",
+      "search_terms_en": [
+        "sleep hypertension",
+        "sleep heart failure",
+        "sleep arrhythmia",
+        "sleep stroke risk",
+        "sleep cardiovascular"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-063",
+      "cluster": "K9",
+      "name_tr": "Uyku ve metabolik sendrom, obezite, tip 2 diyabet",
+      "search_terms_en": [
+        "sleep metabolic syndrome",
+        "sleep obesity",
+        "sleep type 2 diabetes"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-064",
+      "cluster": "K9",
+      "name_tr": "Uyku ve gastrointestinal hastalıklar",
+      "search_terms_en": [
+        "sleep irritable bowel syndrome",
+        "sleep gastroesophageal reflux",
+        "sleep liver disease"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-065",
+      "cluster": "K9",
+      "name_tr": "Uyku ve romatolojik hastalıklar",
+      "search_terms_en": [
+        "sleep fibromyalgia",
+        "sleep rheumatoid arthritis",
+        "sleep chronic inflammation"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-066",
+      "cluster": "K9",
+      "name_tr": "Uyku ve dermatolojik hastalıklar",
+      "search_terms_en": [
+        "sleep psoriasis",
+        "sleep eczema",
+        "sleep atopic dermatitis",
+        "sleep itch"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-067",
+      "cluster": "K9",
+      "name_tr": "Uyku ve oftalmolojik ve otolaringolojik hastalıklar",
+      "search_terms_en": [
+        "sleep glaucoma",
+        "sleep tinnitus",
+        "sleep hearing loss"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-068",
+      "cluster": "K9",
+      "name_tr": "Uyku ve onkoloji",
+      "search_terms_en": [
+        "sleep cancer risk",
+        "sleep cancer patients",
+        "insomnia cancer survivors",
+        "sleep chemotherapy"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-069",
+      "cluster": "K9",
+      "name_tr": "Uyku ve nörodejeneratif hastalıklar",
+      "search_terms_en": [
+        "sleep Alzheimer",
+        "sleep Parkinson",
+        "sleep ALS",
+        "sleep dementia risk",
+        "prodromal sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-070",
+      "cluster": "K9",
+      "name_tr": "Uyku ve epilepsi, multipl skleroz, travmatik beyin hasarı",
+      "search_terms_en": [
+        "sleep epilepsy",
+        "sleep multiple sclerosis",
+        "sleep traumatic brain injury"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-071",
+      "cluster": "K10",
+      "name_tr": "Uyku ve depresyon, anksiyete bozuklukları",
+      "search_terms_en": [
+        "sleep depression",
+        "sleep anxiety disorder",
+        "insomnia depression bidirectional"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-072",
+      "cluster": "K10",
+      "name_tr": "Uyku ve bipolar bozukluk, şizofreni",
+      "search_terms_en": [
+        "sleep bipolar",
+        "sleep schizophrenia",
+        "circadian bipolar"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-073",
+      "cluster": "K10",
+      "name_tr": "Uyku ve DEHB, otizm spektrum bozukluğu",
+      "search_terms_en": [
+        "sleep ADHD",
+        "sleep autism",
+        "neurodevelopmental sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-074",
+      "cluster": "K10",
+      "name_tr": "Uyku ve travma sonrası stres bozukluğu (TSSB)",
+      "search_terms_en": [
+        "sleep PTSD",
+        "posttraumatic nightmares",
+        "trauma sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-075",
+      "cluster": "K10",
+      "name_tr": "Uyku ve madde kullanım bozuklukları",
+      "search_terms_en": [
+        "sleep substance use disorder",
+        "sleep alcohol use disorder",
+        "sleep stimulant use",
+        "sleep opioid"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-076",
+      "cluster": "K11",
+      "name_tr": "Uyku ve kronik ağrı",
+      "search_terms_en": [
+        "sleep chronic pain",
+        "sleep migraine",
+        "sleep headache",
+        "pain sleep cycle"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-077",
+      "cluster": "K12",
+      "name_tr": "Uyku ve hamilelik, doğum sonrası dönem",
+      "search_terms_en": [
+        "sleep pregnancy",
+        "sleep preeclampsia",
+        "postpartum sleep",
+        "sleep breastfeeding"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-078",
+      "cluster": "K12",
+      "name_tr": "Uyku ve pediatrik özel durumlar",
+      "search_terms_en": [
+        "child sleep obesity",
+        "pediatric sleep",
+        "children sleep ADHD"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-079",
+      "cluster": "K12",
+      "name_tr": "Uyku ve ergen ruh sağlığı",
+      "search_terms_en": [
+        "adolescent sleep depression",
+        "school start time",
+        "teen sleep anxiety"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-080",
+      "cluster": "K12",
+      "name_tr": "Uyku ve yaşlılıkta düşme riski, polifarmasi",
+      "search_terms_en": [
+        "older adults sleep falls",
+        "sleep polypharmacy",
+        "geriatric sleep medication"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-081",
+      "cluster": "K12",
+      "name_tr": "Uyku ve bakıcı yükü",
+      "search_terms_en": [
+        "caregiver sleep",
+        "caregiver burden sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-082",
+      "cluster": "K12",
+      "name_tr": "Uyku ve sporcu performansı",
+      "search_terms_en": [
+        "athlete sleep",
+        "sleep recovery athletes",
+        "sleep sports performance"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-083",
+      "cluster": "K12",
+      "name_tr": "Uyku ve askeri veya vardiyalı meslek grupları",
+      "search_terms_en": [
+        "military sleep",
+        "sleep operational performance",
+        "firefighters sleep",
+        "healthcare worker sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-084",
+      "cluster": "K13",
+      "name_tr": "Uyku ve hava kirliliği, iklim değişikliği",
+      "search_terms_en": [
+        "air pollution sleep",
+        "particulate matter sleep",
+        "heat sleep",
+        "climate change sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-085",
+      "cluster": "K13",
+      "name_tr": "Uyku ve mesleki toksin maruziyeti",
+      "search_terms_en": [
+        "occupational exposure sleep",
+        "solvent sleep",
+        "heavy metal sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-086",
+      "cluster": "K13",
+      "name_tr": "Uyku ve çalışma saatleri düzenlemeleri, sürücü güvenliği",
+      "search_terms_en": [
+        "driver fatigue regulation",
+        "hours of service",
+        "drowsy driving policy"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-087",
+      "cluster": "K14",
+      "name_tr": "Uyku ve psikolojik müdahaleler (CBT-I dışında)",
+      "search_terms_en": [
+        "acceptance and commitment therapy sleep",
+        "dialectical behavior therapy sleep",
+        "mindfulness-based therapy insomnia"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-088",
+      "cluster": "K14",
+      "name_tr": "Uyku ve tamamlayıcı terapiler",
+      "search_terms_en": [
+        "acupuncture sleep",
+        "massage sleep",
+        "aromatherapy sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-089",
+      "cluster": "K14",
+      "name_tr": "Uyku ve dijital sağlık müdahaleleri",
+      "search_terms_en": [
+        "digital CBT-I app",
+        "telemedicine sleep",
+        "AI sleep coaching"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-090",
+      "cluster": "K14",
+      "name_tr": "Uyku ve nöromodülasyon",
+      "search_terms_en": [
+        "transcranial magnetic stimulation sleep",
+        "tDCS sleep",
+        "neuromodulation insomnia"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-091",
+      "cluster": "K14",
+      "name_tr": "Uyku ve cerrahi müdahaleler",
+      "search_terms_en": [
+        "upper airway surgery sleep apnea",
+        "hypoglossal nerve stimulation",
+        "sleep surgery"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-092",
+      "cluster": "K14",
+      "name_tr": "Uyku ve farmakogenetik, kişiselleştirilmiş tıp",
+      "search_terms_en": [
+        "pharmacogenetics sleep",
+        "personalized sleep medicine"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-093",
+      "cluster": "K15",
+      "name_tr": "Uyku ve genetik, epigenetik",
+      "search_terms_en": [
+        "sleep GWAS",
+        "chronotype genetics",
+        "sleep duration genetics",
+        "epigenetic sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-094",
+      "cluster": "K15",
+      "name_tr": "Uyku ve mikrobiyom",
+      "search_terms_en": [
+        "gut microbiome sleep",
+        "gut-brain axis sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-095",
+      "cluster": "K15",
+      "name_tr": "Uyku ve biyobelirteçler",
+      "search_terms_en": [
+        "sleep biomarkers",
+        "blood biomarker sleep disorder"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-096",
+      "cluster": "K15",
+      "name_tr": "Uyku ve nörogörüntüleme",
+      "search_terms_en": [
+        "fMRI sleep",
+        "PET sleep",
+        "neuroimaging sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-097",
+      "cluster": "K15",
+      "name_tr": "Uyku ve optogenetik, kemogenetik",
+      "search_terms_en": [
+        "optogenetics sleep",
+        "chemogenetics sleep",
+        "neural circuit sleep mouse"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-098",
+      "cluster": "K15",
+      "name_tr": "Uyku ve hesaplamalı modelleme, makine öğrenmesi",
+      "search_terms_en": [
+        "machine learning sleep staging",
+        "deep learning sleep",
+        "computational model sleep"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-099",
+      "cluster": "K16",
+      "name_tr": "Uyku ve sağlık eşitsizlikleri",
+      "search_terms_en": [
+        "sleep disparities",
+        "socioeconomic status sleep",
+        "race sleep health",
+        "neighborhood sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-100",
+      "cluster": "K16",
+      "name_tr": "Uyku ve eğitim politikaları",
+      "search_terms_en": [
+        "school start time policy",
+        "later school start sleep"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-101",
+      "cluster": "K16",
+      "name_tr": "Uyku ve çalışma politikaları",
+      "search_terms_en": [
+        "flexible work sleep",
+        "shift scheduling law",
+        "work hours sleep policy"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-102",
+      "cluster": "K16",
+      "name_tr": "Uyku ve halk sağlığı, küresel sağlık",
+      "search_terms_en": [
+        "sleep public health",
+        "population sleep surveillance",
+        "global sleep health"
+      ],
+      "priority_tier": "B",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-103",
+      "cluster": "K16",
+      "name_tr": "Uyku ve kültürel uyku pratikleri",
+      "search_terms_en": [
+        "cultural sleep practices",
+        "siesta culture",
+        "cosleeping"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-104",
+      "cluster": "K16",
+      "name_tr": "Uyku ve rüya kültürü, din, felsefe",
+      "search_terms_en": [
+        "dream interpretation culture",
+        "religion sleep",
+        "sleep philosophy"
+      ],
+      "priority_tier": "C",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-105",
+      "cluster": "K17",
+      "name_tr": "Uyku ve cinsiyet farklılıkları",
+      "search_terms_en": [
+        "sex differences sleep",
+        "gender differences insomnia",
+        "women sleep"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-106",
+      "cluster": "K17",
+      "name_tr": "Uyku ve yaratıcılık, problem çözme, karar verme",
+      "search_terms_en": [
+        "sleep creativity",
+        "sleep problem solving",
+        "sleep decision making"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-107",
+      "cluster": "K17",
+      "name_tr": "Uyku ve sosyal etkileşim, yalnızlık",
+      "search_terms_en": [
+        "sleep loneliness",
+        "sleep social behavior",
+        "sleep emotion recognition"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "UYK-108",
+      "cluster": "K17",
+      "name_tr": "Uyku ve cinsel işlev",
+      "search_terms_en": [
+        "sleep sexual function",
+        "sleep libido",
+        "sleep erectile dysfunction"
+      ],
+      "priority_tier": "A",
+      "source_list": "liste-2",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 108,
+    "clusters": 17,
+    "tiers": {
+      "A": 46,
+      "B": 44,
+      "C": 18
+    }
+  }
+}

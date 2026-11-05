@@ -841,6 +841,7 @@ Karar kaydında kimlik, konu/kapsam, alan/hat/alt tür/bağlam ve kaynak istisna
 | DEC-R-20261105-008 | Kanıt sentezi (sistematik derleme, meta-analiz) | Konu DEĞİL; çalışma türü ekseni | İlgilenilen konularda kullanılan araştırma yöntemi olarak etiketlenir (§3.5 çalışma türü ekseni). |
 | DEC-R-20261105-009 | Geri çekilen ve düzeltilen çalışmalar | Konu DEĞİL; bütünlük kontrolü | §8.6 yeniden inceleme olarak yürür; konu kuyruğuna girmez. |
 | DEC-R-20261105-010 | Yaşam tarzı ile iyileşme (kesişen öncelik) | Genel kural | Tüm Research konularında, özellikle kardiyoloji, metabolik ve ruh sağlığında, kişinin kendi yaşam tarzı değişikliğiyle hastalığını iyileştirebileceği çalışmalar öne çıkar (sıralama önceliği, ret nedeni değil). |
+| DEC-R-20261105-011 | Uyku (konu) | ACTIVE; 17 küme, 108 alt başlık (sahibin iki listesi) | Konu kaydı `topics/research/uyku/topic.json`, ham metinler `intake/`, defter `topics/LEDGER.ndjson`. Katman A/B/C sıralama önceliğidir. Kayıt belgelendi; kural/SQL/canlı etki yok. |
 
 Medical Xpress cevaplarından gelen T1–T6 (kabul) ve T7–T11 (ret) kayıtları `docs/audits/2026-11-05-research-topics-proposed.md` içindedir; yukarıdaki konularla örtüşenler birleşir (T2→onkoloji, T3→dijital sağlık/yapay zekâ, T4→beslenme/takviye, T5→ruh sağlığı), T1 nörobilim ve T6 aşı/klinik deneme ayrı konu kalır.
 

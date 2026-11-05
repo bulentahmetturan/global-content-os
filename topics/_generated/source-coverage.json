@@ -1,0 +1,451 @@
+{
+  "schema": "gcos-topic-source-coverage/1",
+  "status": "DRAFT_NOT_WIRED",
+  "generated_by": "scripts/topics.mjs build",
+  "rules": [
+    "Tercih sırası resmî API, RSS/Atom, sitemap+HTML, manuel (Bible 5.5); kaynağın desteklemediği arama özelliği ona atfedilmez (6.2).",
+    "Aynı nesne konu başına çoğaltılmaz; tek nesne çoklu konu ilişkisi taşır (6.2).",
+    "Kaynakta ifade edilemeyen sınır yerel filtre ve kanıt kapısında uygulanır (6.2)."
+  ],
+  "summary": {
+    "enrichment_only": 5,
+    "disabled_or_unfetched": 11,
+    "feed_then_local_filter": 25,
+    "api_query_then_local_filter": 4,
+    "excluded": 3
+  },
+  "sources": [
+    {
+      "source_id": "altmetric-api",
+      "role": "ATTENTION_METRIC",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": false,
+      "method": "enrichment_only",
+      "filter_surface": "title_only",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "asn-nutrition-news",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "bmj",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "cell",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "chest-journal",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "circulation-aha",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "clinicaltrials-gov-api-v2",
+      "role": "TRIAL_REGISTRY",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "api_query_then_local_filter",
+      "filter_surface": "title_only",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "cochrane-library",
+      "role": "SYSTEMATIC_EVIDENCE",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "crossmark",
+      "role": "PUBLICATION_INTEGRITY",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "enrichment_only",
+      "filter_surface": "title_only",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "crossref-rest-api",
+      "role": "BIBLIOGRAPHIC_METADATA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "enrichment_only",
+      "filter_surface": "title_only",
+      "cadence": "sparse"
+    },
+    {
+      "source_id": "crossref-retraction-watch-data",
+      "role": "PUBLICATION_INTEGRITY",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "enrichment_only",
+      "filter_surface": "title_only",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "eurekalert",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "europe-pmc-rest",
+      "role": "RESEARCH_INDEX",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "api_query_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "sparse"
+    },
+    {
+      "source_id": "european-heart-journal",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "european-respiratory-journal",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "gdelt-doc-api",
+      "role": "ATTENTION_METRIC",
+      "verification": "EXCLUDE",
+      "enabled": false,
+      "method": "excluded",
+      "filter_surface": "title_only",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "ieee-jbhi",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "sparse"
+    },
+    {
+      "source_id": "ieee-tbme",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "jacc",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "jaha",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "jama-network",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "jmir",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "lancet-digital-health",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "medical-news-today",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "medical-xpress",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "medrxiv-preprint",
+      "role": "RESEARCH_INDEX",
+      "verification": "EXCLUDE",
+      "enabled": false,
+      "method": "excluded",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "nature",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "nature-ageing-subject",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "nature-biotechnology",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "nature-genetics",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "nature-medicine",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "nature-news",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "nature-nutrition-subject",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "nccih-news",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "nejm",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "nejm-ai",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "nih-news-releases",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "EXCLUDE",
+      "enabled": false,
+      "method": "excluded",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "npj-digital-medicine",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "openalex-api",
+      "role": "ATTENTION_METRIC",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "enrichment_only",
+      "filter_surface": "title_only",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "pubmed-central-oa",
+      "role": "OPEN_FULL_TEXT",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "api_query_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "UNKNOWN"
+    },
+    {
+      "source_id": "pubmed-eutilities",
+      "role": "RESEARCH_INDEX",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": true,
+      "method": "api_query_then_local_filter",
+      "filter_surface": "title_only",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "science",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "science-translational-medicine",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "sciencedaily-alternative-medicine",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "sciencedaily-dietary-supplements",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "sciencedaily-healthy-aging",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CANONICAL_ACTIVE",
+      "enabled": false,
+      "method": "disabled_or_unfetched",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    },
+    {
+      "source_id": "stat-news",
+      "role": "ACCESSIBLE_SCIENCE_MEDIA",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "daily"
+    },
+    {
+      "source_id": "the-lancet",
+      "role": "PRIMARY_RESEARCH_PUBLISHER",
+      "verification": "CONDITIONAL_VERIFIED",
+      "enabled": true,
+      "method": "feed_then_local_filter",
+      "filter_surface": "title_and_abstract",
+      "cadence": "weekly"
+    }
+  ]
+}
