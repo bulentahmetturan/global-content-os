@@ -16,7 +16,8 @@ test('existing Dossier and Statistics dispatch remains before existing operator 
   assert.equal(current.slice(current.indexOf(start),doctorAddition),original);
 });
 test('deployment bindings, crons and switches remain unchanged',()=> {
-  assert.equal(readFileSync('wrangler.toml','utf8').replaceAll('\r\n','\n'),execFileSync('git',['show','e20a0b3:wrangler.toml'],{encoding:'utf8'}));
+  // Owner-approved 2026-11-05: BIBLE_VERSION label moves 4.0 -> 5.0 with the Bible v5 install; every other binding stays frozen.
+  assert.equal(readFileSync('wrangler.toml','utf8').replaceAll('\r\n','\n').replace('BIBLE_VERSION = "5.0"','BIBLE_VERSION = "4.0"'),execFileSync('git',['show','e20a0b3:wrangler.toml'],{encoding:'utf8'}));
   const before=JSON.parse(execFileSync('git',['show','e20a0b3:package.json'],{encoding:'utf8'}));
   const after=JSON.parse(readFileSync('package.json','utf8'));
   // Owner-approved 2026-10-14: read-only local test runner added after the checkpoint; no deploy or migration capability.
