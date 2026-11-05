@@ -130,7 +130,20 @@ const AA_RULES: EditorialRule[] = [
   { id: 'not-new-treatment-or-world', text: KEEP_ANY, unless: /turkiye|nobel|dunya saglik|dso|robotik|yerli/ },
 ];
 
+// Medical Xpress, Research lane (owner topic decisions 2026-11-05, scored cards on live RSS items). Audience gate (Bible 12.0):
+// kept when it serves Turkish health professionals/the public or has a broad-audience wow factor; rejected when it is a distant
+// outbreak/tropical-disease report with no Türkiye link, or a niche procedure. Everything else stays for human review.
+const MEDICAL_XPRESS_RULES: EditorialRule[] = [
+  // Cholera, malaria, neglected tropical disease and Ebola-outbreak situation reports abroad; vaccine/trial news about them stays.
+  { id: 'distant-outbreak-report', text: /\bcholera\b|\bmalaria\b|neglected tropical|sleeping sickness|ebola.{0,80}(outbreak|killed|dead|death)/, unless: /vaccine|clinical trial/ },
+  // Niche paediatric intensive-care procedure studies.
+  { id: 'niche-critical-care-procedure', title: /\bproning\b|prone position|high-frequency oscillat/ },
+  // Gym-equipment popularity explainers: not a Turkish topic.
+  { id: 'fitness-equipment-explainer', title: /stair climber/ },
+];
+
 const RULES_BY_FEED: Record<string, EditorialRule[]> = {
+  'research-medical-xpress': MEDICAL_XPRESS_RULES,
   'news-www-haberturk-rss-whole': HABERTURK_RULES,
   'news-www-dw-s-57554999-whole': DW_RULES,
   'news-cumhuriyet-saglik-whole': CUMHURIYET_RULES,
