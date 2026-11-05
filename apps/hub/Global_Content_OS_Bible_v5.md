@@ -827,6 +827,23 @@ Karar kaydında kimlik, konu/kapsam, alan/hat/alt tür/bağlam ve kaynak istisna
 
 **Somut kapsam onayları:** bu oturumda belirli yeni konu, konu içi tür, kaynak veya program onaylanmış değildir. Dört alanın konu listesi ve konu içi PASS/FAIL listesi ilk gerçek cevaplarla oluşur. Haber, Burs, Eğitim ve Duyuru’nun yeni kapsam kayıtları da kendi alt listelerinde tutulur. Önceki tarihli kaynak/tür kararları §3.6, §5.3 ve kaynak audit’leriyle geçerlidir; bugün yeniden onaylanmış gibi tarihlenmez. Bu mimari onaylar canlı kaynak/plan veya yayın aktivasyonu değildir.
 
+**Research konu kapsamı (sahip cevapları, 5 Kasım 2026).** Konu cevabı genel kuraldır; içerik başına tekrar sorulmaz (§4.4). Uygulama durumu: yalnız belgelendi; kural/SQL/canlı etki yok (§4.6, §6.1).
+
+| Karar | Konu / kapsam | Karar | Sahibin ölçütü (kısa gerekçe) |
+|---|---|---|---|
+| DEC-R-20261105-001 | Kardiyoloji ve metabolik hastalıklar | ACTIVE, önem 8 | Yaşam tarzı değişiklikleri ve kişinin kendi hayatında yapabileceği değişiklikler; geniş kitleyi ilgilendiren wow etkili araştırma ve ilaçlar. |
+| DEC-R-20261105-002 | Onkoloji: klinik çalışmalar ve yeni tedaviler | ACTIVE, önem 5 | Topluluktaki doktorlar için önemli; dikkat çekici onkoloji araştırmaları. |
+| DEC-R-20261105-003 | Enfeksiyon ve antibiyotik direnci | ACTIVE, önem 5 | Topluluktaki doktorlar için önemli. |
+| DEC-R-20261105-004 | Tıp eğitimi ve klinik beceri | Research konusu DEĞİL | Eğitim hattında değerlendirilir; Research'e girmez. |
+| DEC-R-20261105-005 | Dijital sağlık ve tıpta yapay zekâ | ACTIVE, önem 7 | Wow etkili haberler, trendler, son araştırmalar. |
+| DEC-R-20261105-006 | Beslenme, takviye ve uzun yaşam | ACTIVE, önem 9 | İnsanlar çok önem veriyor; özellikle bazı hastalıklarda olumlu sonuç veren çalışmalar. |
+| DEC-R-20261105-007 | Ruh sağlığı tedavileri | ACTIVE, önem 8 | Ağırlık (yaklaşık %90) egzersiz, uyku gibi yaşam tarzı değişikliklerinin etkisinde; antidepresan çalışmaları ikincil. |
+| DEC-R-20261105-008 | Kanıt sentezi (sistematik derleme, meta-analiz) | Konu DEĞİL; çalışma türü ekseni | İlgilenilen konularda kullanılan araştırma yöntemi olarak etiketlenir (§3.5 çalışma türü ekseni). |
+| DEC-R-20261105-009 | Geri çekilen ve düzeltilen çalışmalar | Konu DEĞİL; bütünlük kontrolü | §8.6 yeniden inceleme olarak yürür; konu kuyruğuna girmez. |
+| DEC-R-20261105-010 | Yaşam tarzı ile iyileşme (kesişen öncelik) | Genel kural | Tüm Research konularında, özellikle kardiyoloji, metabolik ve ruh sağlığında, kişinin kendi yaşam tarzı değişikliğiyle hastalığını iyileştirebileceği çalışmalar öne çıkar (sıralama önceliği, ret nedeni değil). |
+
+Medical Xpress cevaplarından gelen T1–T6 (kabul) ve T7–T11 (ret) kayıtları `docs/audits/2026-11-05-research-topics-proposed.md` içindedir; yukarıdaki konularla örtüşenler birleşir (T2→onkoloji, T3→dijital sağlık/yapay zekâ, T4→beslenme/takviye, T5→ruh sağlığı), T1 nörobilim ve T6 aşı/klinik deneme ayrı konu kalır.
+
 <a id="s-13-5"></a>
 ### 13.5. Config ve kayıt sınırları
 
