@@ -61,6 +61,32 @@ test('history rewrite and unknown ledger state are caught', () => {
   assert.ok(validate(root, { base }).some((e) => e.includes('append-only')));
 });
 
+test('a relation with owner detail text maps to existing sub-topics and enters ledger and plan', () => {
+  const root = fresh();
+  run(root, 'new', 'research', 'TST', 'Test', '--decision', 'DEC-TEST-1');
+  run(root, 'add-cluster', 'TST', 'K1', 'Küme');
+  run(root, 'add-sub', 'TST', 'K1', 'Egzersiz', 'exercise sleep', 'A');
+  assert.equal(run(root, 'add-relation', 'TST', 'HIIT–uyku', 'Yüksek yoğunluk, uygulama saati', 'TST-001', 'HIIT sleep;vigorous exercise sleep', '--group', 'SPOR'), 0);
+  assert.deepEqual(validate(root), []);
+  assert.equal(readLedger(root).at(-1).kind, 'RELATION_ADDED');
+  const plan = buildPlan(root).topics[0];
+  assert.deepEqual(plan.term_to_relations['hiit sleep'], ['TST-R01']);
+  assert.deepEqual(plan.relations['TST-R01'].maps_to, ['TST-001']);
+  assert.throws(() => quiet(() => main(['add-relation', 'TST', 'X', 'y', 'TST-009', 'z', '--root', root])), /unknown sub-topic/);
+  const file = join(root, 'topics', 'research', 'tst', 'topic.json');
+  const doc = JSON.parse(readFileSync(file, 'utf8'));
+  doc.relations[0].maps_to = ['TST-404'];
+  writeFileSync(file, JSON.stringify(doc));
+  assert.ok(validate(root).some((e) => e.includes('maps_to unknown sub-topic')));
+});
+
+test('real sleep topic keeps every owner relation line (liste-3) as a relation', () => {
+  const doc = JSON.parse(readFileSync(join(repo, 'topics', 'research', 'uyku', 'topic.json'), 'utf8'));
+  const intake = readFileSync(join(repo, 'topics', 'research', 'uyku', 'intake', '2026-11-05-liste-3-iliskiler.md'), 'utf8');
+  const ownerRows = intake.split('\n').filter((l) => l.includes('\t')).map((l) => l.split('\t')[0].trim()).filter((k) => k !== 'İlişki');
+  assert.deepEqual(doc.relations.map((r) => r.name_tr), ownerRows);
+});
+
 test('a topic without an owner decision id and a duplicate topic are refused', () => {
   const root = fresh();
   assert.equal(run(root, 'new', 'research', 'TST', 'Test', '--decision', 'DEC-TEST-1'), 0);
