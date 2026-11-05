@@ -3,6 +3,7 @@ import { looksMostlyEnglish } from '../localize/tr';
 import { shouldSkipEnrichment } from '../localize/enrich';
 import { repairMojibake } from './text-repair';
 import { protectedProtocolDisplay } from '../protocols/approved-display';
+import { tagIngestedItem } from '../topics/store';
 
 function stripHtml(s: string): string {
   return repairMojibake(s || '')
@@ -78,7 +79,7 @@ export async function upsertLocalizedSourceItem(
   }
 
   const skip = shouldSkipEnrichment(sourceTitle, sourceSummary);
-  return upsertSourceItem(env.DB, {
+  const result = await upsertSourceItem(env.DB, {
     ...input,
     title: sourceTitle,
     titleOrig: skip ? input.titleOrig ?? null : sourceTitle,
@@ -86,6 +87,11 @@ export async function upsertLocalizedSourceItem(
     gists: [sourceSummary.slice(0, 500)],
     enrichmentStatus: skip ? 'skipped' : 'pending',
   });
+  // Shadow topic tagging (topics/rollout.json): only here is the English abstract still present (translation replaces it).
+  if (result.created && result.id) {
+    await tagIngestedItem(env, { itemId: result.id, route: input.route, feedId: input.feedId ?? null, title: sourceTitle, abstract: sourceSummary === sourceTitle ? null : sourceSummary });
+  }
+  return result;
 }
 
 export type { RouteId };

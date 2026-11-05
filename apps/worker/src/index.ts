@@ -1,3 +1,4 @@
+import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
   countByStatus,
   HUB_WINDOW_DAYS,
@@ -604,6 +605,17 @@ export default {
       if (path === '/api/lane/suggestions' && request.method === 'GET') {
         const result = await laneSuggestions(env, (url.searchParams.get('ids') || '').split(',').filter(Boolean));
         return json(result.body, result.status);
+      }
+
+      // Topic tags, questions, owner PASS/FAIL answers and clarity (topics/, Bible v5 §4, §10): Hub operator token via ROUTE_GATES; 503 TOPICS_NOT_READY until migrations/addons/a004_topic_tags.sql is applied. Shadow: no triage effect.
+      if (path === '/api/topics/summary' && request.method === 'GET') { const r = await topicSummary(env); return json(r.body, r.status); }
+      if (path === '/api/topics/items' && request.method === 'GET') { const r = await topicItems(env, url.searchParams); return json(r.body, r.status); }
+      if (path === '/api/topics/questions' && request.method === 'GET') { const r = await topicQuestions(env, url.searchParams); return json(r.body, r.status); }
+      if (path === '/api/topics/clarity' && request.method === 'GET') { const r = await topicClarity(env, url.searchParams); return json(r.body, r.status); }
+      if (path === '/api/topics/labels' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        const r = await recordLabel(env, body);
+        return json(r.body, r.status);
       }
 
       // Self-improving selection (learner over the owner's ratings): Hub operator token via ROUTE_GATES; 503 SCORING_NOT_READY until migrations/addons/a002_scoring.sql is applied.

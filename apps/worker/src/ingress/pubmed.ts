@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
+import { tagIngestedItem } from '../topics/store';
 import { hasNoticePubType, isNonArticleNotice, pubmedPublishedAt } from './research-quality';
 import { inferStudyType } from './study-type';
 import { timeSensitiveEnabledForFeed } from '../temporal/registry';
@@ -172,6 +173,8 @@ export async function ingestPubmed(
         studyType: inferStudyType(it.pubtype, title),
       },
     });
+    if (result.created && result.id) await tagIngestedItem(env, { itemId: result.id, route: 'kaduse-research', feedId: feed.id, title, abstract: null });
+
     if (result.created) created += 1;
     else updated += 1;
   }

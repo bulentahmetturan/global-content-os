@@ -1,4 +1,5 @@
 import { upsertSourceItem, type Env } from '../db/queries';
+import { tagIngestedItem } from '../topics/store';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
 import { hasNoticePubType, isNonArticleNotice } from './research-quality';
@@ -120,6 +121,8 @@ export async function ingestEuropePmc(
         studyType: inferStudyType(it.pubTypeList?.pubType, title),
       },
     });
+    if (result.created && result.id) await tagIngestedItem(env, { itemId: result.id, route: 'kaduse-research', feedId: feed.id, title, abstract: abstract || null });
+
     if (result.created) created += 1;
     else updated += 1;
   }
