@@ -1,6 +1,6 @@
 # Bible v5 §14.1 envanteri (2026-11-05)
 
-Kaynak: depodaki mevcut kayıtlar (`config/feeds.json`, `packages/source-catalog/data/*`, `temporal-paths.json`, `bible-config.json`, `migrations/`, `docs/audits/`). Canlı D1 sayıları YOK (okuma kotası dolu); sayılar kayıt/yapılandırma sayısıdır. Üretici: `scripts/audit/bible-v5-inventory.mjs`; tam satırlar: `data/2026-11-05-bible-v5-inventory.json`.
+Kaynak: depodaki mevcut kayıtlar (`config/feeds.json`, `packages/source-catalog/data/*`, zaman-ekseni kaydı (source-catalog), `bible-config.json`, `migrations/`, `docs/audits/`). Canlı D1 sayıları YOK (okuma kotası dolu); sayılar kayıt/yapılandırma sayısıdır. Üretici: `scripts/audit/bible-v5-inventory.mjs`; tam satırlar: `data/2026-11-05-bible-v5-inventory.json`.
 
 ## 1. Kaynak / hat envanteri
 

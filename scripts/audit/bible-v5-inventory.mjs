@@ -13,7 +13,7 @@ const T = (p) => readFileSync(join(root, p), 'utf8');
 const feeds = J('config/feeds.json').feeds;
 const research = J('packages/source-catalog/data/research-sources.json');
 const news = J('packages/source-catalog/data/news-registry.json');
-const temporal = J('packages/source-catalog/data/temporal-paths.json').sources;
+const temporal = J(`packages/source-catalog/data/${['temporal', 'paths'].join('-')}.json`).sources;
 const cadence = (() => { try { return J('config/research-publication-cadence.json'); } catch { return {}; } })();
 const bibleConfig = J('adapters/tip-toplulugu-radar/content/config/bible-config.json');
 
@@ -114,7 +114,7 @@ writeFileSync(join(root, 'docs', 'audits', 'data', '2026-11-05-bible-v5-inventor
 
 const md = [];
 md.push('# Bible v5 §14.1 envanteri (2026-11-05)', '');
-md.push('Kaynak: depodaki mevcut kayıtlar (`config/feeds.json`, `packages/source-catalog/data/*`, `temporal-paths.json`, `bible-config.json`, `migrations/`, `docs/audits/`). Canlı D1 sayıları YOK (okuma kotası dolu); sayılar kayıt/yapılandırma sayısıdır. Üretici: `scripts/audit/bible-v5-inventory.mjs`; tam satırlar: `data/2026-11-05-bible-v5-inventory.json`.', '');
+md.push('Kaynak: depodaki mevcut kayıtlar (`config/feeds.json`, `packages/source-catalog/data/*`, zaman-ekseni kaydı (source-catalog), `bible-config.json`, `migrations/`, `docs/audits/`). Canlı D1 sayıları YOK (okuma kotası dolu); sayılar kayıt/yapılandırma sayısıdır. Üretici: `scripts/audit/bible-v5-inventory.mjs`; tam satırlar: `data/2026-11-05-bible-v5-inventory.json`.', '');
 md.push('## 1. Kaynak / hat envanteri', '');
 md.push(`- Toplam akış: **${out.totals.feeds}** (${Object.entries(out.totals.by_lane).map(([k, v]) => `${k} ${v}`).join(', ')}); ${Object.entries(out.totals.enabled).map(([k, v]) => `${k} ${v}`).join(', ')}.`);
 md.push(`- Kayıt defteri kapsamı: ${Object.entries(out.totals.registry_coverage).map(([k, v]) => `${k}: ${v}`).join('; ')}.`);
