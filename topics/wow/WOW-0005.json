@@ -1,0 +1,53 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0005",
+  "decision_ref": "DEC-R-20261106-022",
+  "introduced_at": "2026-11-06",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1016/j.cmet.2026.09.020",
+    "title": "Dynamic force sensing by bone delays aging and extends lifespan",
+    "journal": "Cell Metabolism",
+    "published_at": "2026-10-23",
+    "verified_by": "Sahip metni; Crossref doğrulaması bekliyor",
+    "study": "Fare mekanik yükleme deneyi; insanda PEDF ilişkisi ayrı kanıt (sahip metni)."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puanı ve kanallar sahip tarafından henüz yazılmadı; uydurulmadı.",
+    "selection_reasons": "Organın az bilinen rolü; yerel müdahalenin uzak etkileri; mekanizmanın yaşam süresi, hareket ve öğrenmeye bağlanması; tanıdık davranışın altında yeni açıklama.",
+    "presentation_note": "Anlatım ayrı konu."
+  },
+  "placement": {
+    "lane": "Research (Cell Metabolism; 90 günden eskiyse Rediscovery)",
+    "source": {
+      "feed_id": null,
+      "action": "Cell Metabolism kayıtlı kaynakla kesin eşleşirse sahibin isteğiyle açılır; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "KMK",
+        "units": [
+          "KMK-001",
+          "KMK-002",
+          "KMK-003",
+          "KMK-R01",
+          "KMK-R02",
+          "KMK-R03",
+          "KMK-R04",
+          "KMK-R05"
+        ]
+      }
+    ]
+  },
+  "wow_patterns": [
+    "Organın daha az bilinen rolü",
+    "Yerel müdahalenin uzak etkileri",
+    "Mekanizmanın anlamlı sonuca bağlanması (yaşam süresi, hareket, öğrenme)",
+    "Tanıdık davranışın altında yeni açıklama",
+    "Organlar arası iletişim"
+  ],
+  "evidence_limits": "Fare doğrudan mekanik yükleme deneyi ile insanda PEDF ilişkisi ayrı kanıtlardır; insan ömrünün uzadığı veya belirli bir direnç egzersizinin aynı sonucu vereceği gösterilmedi.",
+  "raw_text": "topics/wow/intake/2026-11-06-wow-0005.md"
+}

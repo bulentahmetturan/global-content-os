@@ -1,0 +1,131 @@
+{
+  "schema": "gcos-topic/1",
+  "status": "DRAFT_NOT_WIRED",
+  "lane": "research",
+  "topic_id": "ATS",
+  "name_tr": "Ateroskleroz ve koroner plaklar",
+  "state": "ACTIVE",
+  "decision_ref": "DEC-R-20261106-019",
+  "clusters": [
+    {
+      "id": "K1",
+      "name_tr": "Plak ve LDL: oluşmuş bulgunun gerilemesi"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "ATS-001",
+      "cluster": "K1",
+      "name_tr": "Koroner plak",
+      "search_terms_en": [
+        "coronary plaque",
+        "atherosclerotic plaque",
+        "plaque volume",
+        "plaque burden"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0003",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "ATS-002",
+      "cluster": "K1",
+      "name_tr": "Plak gerilemesi",
+      "search_terms_en": [
+        "plaque regression",
+        "regression of plaque",
+        "plaque progression"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0003",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "ATS-003",
+      "cluster": "K1",
+      "name_tr": "LDL kolesterol ve lipid düşürücü tedavi",
+      "search_terms_en": [
+        "LDL cholesterol",
+        "lipid-lowering therapy",
+        "intensive lipid lowering",
+        "statin",
+        "PCSK9"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0003",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    },
+    {
+      "id": "ATS-004",
+      "cluster": "K1",
+      "name_tr": "Plak yapısı",
+      "search_terms_en": [
+        "plaque composition",
+        "fibrous cap",
+        "low-attenuation plaque",
+        "noncalcified plaque"
+      ],
+      "priority_tier": null,
+      "source_list": "wow-0003",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "counts": {
+    "subtopics": 4,
+    "clusters": 1,
+    "relations": 1,
+    "tiers": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "relation_groups": [
+    {
+      "id": "WOW",
+      "name_tr": "WOW"
+    }
+  ],
+  "relations": [
+    {
+      "id": "ATS-R01",
+      "group": "WOW",
+      "name_tr": "Tedavi rejimi ve ulaşılan LDL düzeyi × plak yükündeki değişim",
+      "details_tr": "Hangi tedavi rejiminde, ne kadar sürede, ne ölçüde plak gerileyor (WOW-0003). Görüntüleme sonucu kalp krizi veya ölüm riskinin aynı oranda azaldığı anlamına gelmez.",
+      "maps_to": [
+        "ATS-001",
+        "ATS-002",
+        "ATS-003"
+      ],
+      "search_terms_en": [
+        "~LDL",
+        "~lipid-lowering",
+        "~regression"
+      ],
+      "source_list": "wow-0003",
+      "state": "ACTIVE",
+      "added_at": "2026-11-05"
+    }
+  ],
+  "anchor_terms_en": [
+    "atherosclerosis",
+    "atherosclerotic",
+    "coronary plaque",
+    "plaque regression",
+    "plaque volume",
+    "coronary artery disease",
+    "coronary atherosclerosis"
+  ],
+  "other_senses_en": [
+    "dental plaque",
+    "amyloid plaque",
+    "amyloid plaques",
+    "plaque psoriasis",
+    "senile plaque"
+  ],
+  "anchor_note": "Konu çapası: ateroskleroz/koroner plak dili. Diş plağı, amiloid plak ve plak sedef (psoriasis) başka anlamdır, sayılmaz. Bilimsel sınır (WOW-0003): görüntülemede plak küçülmesi ile plağın tamamen kaybolması ayrı; plak değişimi kalp krizi/ölüm riskinin aynı yüzdelerde azaldığı anlamına gelmez."
+}

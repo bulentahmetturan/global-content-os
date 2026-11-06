@@ -5,11 +5,7 @@
     "kaduse-research"
   ],
   "feeds": [
-    "research-medical-xpress",
-    "research-nature",
-    "research-jama-network",
-    "research-npj-digital-medicine",
-    "research-clinicaltrials-gov-api-v2"
+    "*"
   ],
   "note": "Gölge etiketleme: yalnız topic_item_tags yazılır, triage/kabul/ret değişmez. Önce bu pilot kaynaklar (Bible §6.6 canary), temiz koşulardan sonra feeds = [\"*\"] ile bütün Research kaynaklarına yayılır.",
   "history": [
@@ -18,6 +14,12 @@
       "mode": "shadow",
       "feeds": "pilot-5",
       "by": "owner instruction: önce birkaç kaynakta, sonra bütün kaynaklara"
+    },
+    {
+      "at": "2026-11-06",
+      "mode": "shadow",
+      "feeds": "*",
+      "by": "DEC-R-20261106-015: Research kaynakları beklemede; sahibin wow makalesiyle geri açılan her kaynak ilk kaydından etiketlenir (etiket filtre değil, wow ipucu)"
     }
   ],
   "clarity": {

@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0004",
+  "decision_ref": "DEC-R-20261106-020",
+  "introduced_at": "2026-11-06",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Plozasiran: SHASTA-3 ve SHASTA-4 çalışmaları",
+    "journal": "New England Journal of Medicine",
+    "published_at": null,
+    "verified_by": "Doğrulanmadı: DOI verilmedi; ana sonuçlar ESC açıklamasıyla karşılaştırıldı, NEJM tam metnine erişilemedi (sahip metni)",
+    "study": "Randomize çalışmalar (SHASTA-3, SHASTA-4); ayrıntı doğrulanmadı.",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": 8,
+    "channels": {
+      "tt": true,
+      "ik": false,
+      "km": false
+    },
+    "selection_reasons": "Tanıdık ölçümün (trigliserit) az konuşulan hastalık bağlantısı; kan değerinden klinik olaya geçiş; belirgin etki büyüklüğü; yeni tedavi yöntemi (RNA); daha geniş hasta grubunda kullanım sorusu.",
+    "presentation_note": "Anlatım ayrı konu."
+  },
+  "placement": {
+    "lane": "DOI’siz alınır (sahip kararı 2026-11-06: DOI sonra bulunur); başlık + dergi ile tek kayıt, Rediscovery",
+    "source": {
+      "feed_id": null,
+      "action": "NEJM kayıtlı kaynakla kesin eşleşirse sahibin isteğiyle açılır; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "TRG",
+        "units": [
+          "TRG-001",
+          "TRG-002",
+          "TRG-003",
+          "TRG-R01"
+        ]
+      }
+    ]
+  },
+  "wow_patterns": [
+    "Tanıdık ölçümün daha az konuşulan hastalık bağlantısı",
+    "Kan değerinden klinik olaya geçiş",
+    "Belirgin etki büyüklüğü",
+    "Yeni tedavi yöntemi somut hastalığa bağlanır",
+    "Daha geniş hasta grubunda kullanım",
+    "Komplikasyon önleme"
+  ],
+  "evidence_limits": "Başlangıca göre düşüş ile plaseboya göre fark ayrı; olay hızı ile hasta riski ayrı. Mutlak farkın ölçütü ve yayın tarihi açık kontrol (NEJM tam metni görülmedi).",
+  "raw_text": "topics/wow/intake/2026-11-06-wow-0004.md"
+}

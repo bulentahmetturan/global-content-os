@@ -119,3 +119,35 @@ test('store: questions skip answered items; labels validate; clarity follows §1
   assert.equal(k15.P, 0, 'owner says UYK-095 but the classifier misses it: shown as a wrong example');
   assert.equal(k15.wrong[0].itemId, 'i_vague');
 });
+
+const uIds = (topic, title, abstract = null) => (C.classify(title, abstract).topics.find((t) => t.topicId === topic)?.units || []).map((u) => u.unitId);
+
+test('wow examples: JAMA smoking-cessation article lands on SGR, Nature Communications deglycation article on YSL; CML leukemia is not glycation', () => {
+  const sgr = uIds('SGR', 'Smoking Cessation and Incident Cardiovascular Disease');
+  assert.ok(sgr.includes('SGR-001') && sgr.includes('SGR-R01'), `SGR: ${sgr}`);
+  const ysl = uIds('YSL', 'Reversal of protein chemical aging by enzymatic deglycation');
+  assert.ok(ysl.includes('YSL-004'), `YSL: ${ysl}`);
+  assert.equal(uIds('YSL', 'Imatinib response in CML patients').length, 0);
+  assert.equal(C.classify('Imatinib response in CML patients').topics.length, 0);
+});
+
+test('wow example 3: FLOWPROMOTE plaque-regression article lands on ATS; dental/amyloid plaque do not', () => {
+  const t = 'Intensive vs More Intensive Lipid-Lowering Therapy and Plaque Regression in Statin-Naive Patients: Prespecified Analyses From the FLOWPROMOTE Randomized Clinical Trial';
+  const ats = uIds('ATS', t);
+  assert.ok(ats.includes('ATS-002') && ats.includes('ATS-003'), `ATS: ${ats}`);
+  assert.ok(ats.includes('ATS-R01'), `ATS relation: ${ats}`);
+  assert.equal(C.classify('Dental plaque and gum disease in teenagers').topics.length, 0);
+  assert.equal(C.classify('Amyloid plaques and tau in Alzheimer disease').topics.some((x) => x.topicId === 'ATS'), false);
+});
+
+test('wow example 4: plozasiran / pancreatitis article lands on TRG; unrelated lipid news does not', () => {
+  const trg = uIds('TRG', 'Plozasiran reduces triglycerides and acute pancreatitis events in severe hypertriglyceridemia: SHASTA-3 and SHASTA-4');
+  assert.ok(trg.includes('TRG-003') && trg.includes('TRG-R01'), `TRG: ${trg}`);
+  assert.equal(C.classify('Pancreatitis outcomes after gallstone surgery').topics.some((x) => x.topicId === 'TRG'), false);
+});
+
+test('wow example 5: bone force sensing / PEDF article lands on KMK with its relation; muscle-only exercise news does not', () => {
+  const k = uIds('KMK', 'Dynamic force sensing by bone delays aging and extends lifespan');
+  assert.ok(k.includes('KMK-001') && k.includes('KMK-R01'), `KMK: ${k}`);
+  assert.equal(C.classify('Strength training builds muscle in older adults').topics.some((x) => x.topicId === 'KMK'), false);
+});

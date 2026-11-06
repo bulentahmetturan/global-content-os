@@ -1,0 +1,51 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0001",
+  "decision_ref": "DEC-R-20261106-016",
+  "introduced_at": "2026-11-06",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1001/jamanetworkopen.2024.42639",
+    "title": "Smoking Cessation and Incident Cardiovascular Disease",
+    "journal": "JAMA Network Open",
+    "published_at": "2024-11-01",
+    "verified_by": "Crossref 2026-11-06",
+    "study": "Retrospektif kohort; Kore Ulusal Sağlık Sigortası verisi; 5.391.231 katılımcı; ortalama 4,2 yıl izlem; sonuç: bileşik kalp-damar olayı (kalp-damar ölümü, MI, inme, kalp yetersizliği). Kaynak: Crossref özeti."
+  },
+  "owner": {
+    "wow": 9,
+    "channels": {
+      "tt": true,
+      "ik": true,
+      "km": true
+    },
+    "selection_reasons": "Geçmişin etkisi, toparlanma süresi, kişiler arasındaki fark ve somut hastalık sonucu.",
+    "presentation_note": "Anlatım ayrı bir konu (sahip, 2026-11-06); anlatım unsurları yalnız kayıt olarak durur: kişisel soru, tahmin ettiren açılış, şaşırtıcı bulgu, anlaşılır açıklama, bilimsel sınır.",
+    "scope_note": "Yalnız sigarayı bırakma değil, bıraktıktan sonra toparlanma da kapsama girer."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (Evergreen; özgün tarih korunur)",
+    "source": {
+      "feed_id": "research-jama-network",
+      "action": "beklemeden çıkar (sahibin wow makalesi)"
+    },
+    "topics": [
+      {
+        "topic": "SGR",
+        "units": [
+          "SGR-001",
+          "SGR-002",
+          "SGR-R01"
+        ]
+      }
+    ]
+  },
+  "wow_patterns": [
+    "Geçmiş davranışın etkisinin ne kadar sürdüğü (zaman ve kalan risk)",
+    "Bırakma/değişimden sonra toparlanma süresi",
+    "Kişiler arası fark (geçmiş tüketim miktarı)",
+    "Somut, sert hastalık sonucu"
+  ],
+  "evidence_limits": "Gözlemsel, tek ülke, öz-bildirimli sigara kullanımı: 'bırakanlarda risk zamanla düşüyor' dili; nedensellik iddiası yok (Bible §8.4).",
+  "raw_text": "topics/wow/intake/2026-11-06-wow-0001.md"
+}

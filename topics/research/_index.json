@@ -15,6 +15,46 @@
         "research",
         "evergreen"
       ]
+    },
+    {
+      "topic_id": "SGR",
+      "name_tr": "Sigara ve tütün kullanımı",
+      "state": "ACTIVE",
+      "decision_ref": "DEC-R-20261106-016",
+      "owner_importance": null,
+      "file": "sgr/topic.json"
+    },
+    {
+      "topic_id": "YSL",
+      "name_tr": "Yaşlanma ve moleküler hasarın onarılması",
+      "state": "ACTIVE",
+      "decision_ref": "DEC-R-20261106-017",
+      "owner_importance": null,
+      "file": "ysl/topic.json"
+    },
+    {
+      "topic_id": "ATS",
+      "name_tr": "Ateroskleroz ve koroner plaklar",
+      "state": "ACTIVE",
+      "decision_ref": "DEC-R-20261106-019",
+      "owner_importance": null,
+      "file": "ats/topic.json"
+    },
+    {
+      "topic_id": "TRG",
+      "name_tr": "Trigliseritler ve ağır hipertrigliseridemi",
+      "state": "ACTIVE",
+      "decision_ref": "DEC-R-20261106-020",
+      "owner_importance": null,
+      "file": "trg/topic.json"
+    },
+    {
+      "topic_id": "KMK",
+      "name_tr": "Kemik biyolojisi ve yaşlanma",
+      "state": "ACTIVE",
+      "decision_ref": "DEC-R-20261106-022",
+      "owner_importance": null,
+      "file": "kmk/topic.json"
     }
   ]
 }

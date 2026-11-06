@@ -1,0 +1,55 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0002",
+  "decision_ref": "DEC-R-20261106-017",
+  "introduced_at": "2026-11-06",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1038/s41467-026-75141-2",
+    "title": "Reversal of protein chemical aging by enzymatic deglycation",
+    "journal": "Nature Communications",
+    "published_at": "2026-07-14",
+    "verified_by": "Crossref 2026-11-06",
+    "study": "Laboratuvar ve donör dokusu deneyleri (sahip metni); geliştirilmiş enzim CMLase ile CML azaltımı."
+  },
+  "owner": {
+    "wow": 9,
+    "channels": {
+      "tt": true,
+      "ik": true,
+      "km": false
+    },
+    "selection_reasons": "Geri çevrilemez kabul edilen birikmiş moleküler hasarın deneysel onarımı; mekanizmanın cilt ve damarla bağlanması; yeni teknolojinin somut sağlık sorusuna bağlanması.",
+    "presentation_note": "Anlatım ayrı bir konu; sahibin metnindeki merak oluşturma biçimi editoryal referans olarak durur."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (Evergreen; 90 günden eski, özgün tarih korunur)",
+    "source": {
+      "feed_id": null,
+      "action": "Nature Communications kayıtlı kaynak değil: Bible §6.5 onboarding kuyruğu; makale sahip tanıtımı taşıyıcısında (research-owner-wow) tek kayıt",
+      "onboarding": {
+        "journal": "Nature Communications",
+        "host": "nature.com"
+      }
+    },
+    "topics": [
+      {
+        "topic": "YSL",
+        "units": [
+          "YSL-004",
+          "YSL-005",
+          "YSL-R01"
+        ]
+      }
+    ]
+  },
+  "wow_patterns": [
+    "Geri çevrilemez sanılan hasarın onarılabilmesi ihtimali",
+    "Oluşmuş hasara müdahale (önleme / yavaşlatma / onarma ayrı sorular)",
+    "Bir mekanizmanın farklı dokularla (cilt, damar) buluşması",
+    "Gündelik deneyimin moleküler açıklaması",
+    "Yeni teknolojinin somut sağlık sorusuna bağlanması"
+  ],
+  "evidence_limits": "Belirli bir glikasyon ürününün (CML) deneysel azaltımı. '31 yaş' karşılaştırması CML boyanmasına aittir; cildin bütünüyle gençleştiği veya damar esnekliğinin geri geldiği söylenemez. AlphaFold yapı taraması ile 500 milyondan fazla varyantın yönlendirilmiş evrimle değerlendirilmesi ayrı aşamalardır; birleştirilmez.",
+  "raw_text": "topics/wow/intake/2026-11-06-wow-0002.md"
+}

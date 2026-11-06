@@ -1,0 +1,398 @@
+{
+  "schema": "gcos-research-source-state/1",
+  "mode": "WOW_EXAMPLE_LED",
+  "decision_ref": "DEC-R-20261106-015",
+  "note": "Sahip kararı 2026-11-06: Research artık konu takibiyle değil, sahibin tanıttığı yüksek wow değerli makalelerle yürür. Bütün Research kaynakları silinmeden beklemeye alındı (Bible §5.6 paused): kayıt, kural ve saklanan kayıtlar durur, çekim durur. Sahip bir wow makalesi tanıttığında o makalenin kaynağı baştan kurulmadan tek adımla geri açılır (scripts/research-sources.mjs reactivate). Mevcut kayıtlar ekranda kalır ve yeni anlayışa göre adım adım elenir. Europe PMC duraklatılmadı: konu/ilişki odaklı keşif yolu (DEC-R-20261106-024).",
+  "kept_enabled": [
+    {
+      "feed_id": "research-cochrane-library",
+      "label": "Cochrane",
+      "reason": "Evergreen taşıyıcısı (Research Rediscovery); Research kapsamı dışında, dokunulmadı"
+    },
+    {
+      "feed_id": "research-pubmed-eutilities",
+      "label": "NLM / NCBI (PubMed)",
+      "reason": "Evergreen taşıyıcısı (Research Rediscovery); Research kapsamı dışında, dokunulmadı"
+    },
+    {
+      "feed_id": "research-europe-pmc-rest",
+      "label": "Europe PMC (EMBL-EBI)",
+      "reason": "Konu ve ilişki odaklı keşif yolu (DEC-R-20261106-024): arama dergi adıyla değil sahibin konu ilişkileriyle kurulur; birçok dergiyi tek aramada tarar"
+    }
+  ],
+  "paused": [
+    {
+      "feed_id": "research-asn-news",
+      "label": "American Society for Nutrition — News",
+      "endpoint_url": "https://nutrition.org/feed/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-bmj",
+      "label": "The BMJ",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-cell",
+      "label": "Cell (Cell Press)",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-chest-journal",
+      "label": "CHEST",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-circulation-aha",
+      "label": "Circulation (AHA)",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-clinicaltrials-gov-api-v2",
+      "label": "NLM (ClinicalTrials.gov)",
+      "endpoint_url": "https://clinicaltrials.gov/data-api/api",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-crossref-rest-api",
+      "label": "Crossref",
+      "endpoint_url": "https://api.crossref.org/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-european-heart-journal",
+      "label": "European Heart Journal",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-european-respiratory-journal",
+      "label": "European Respiratory Journal",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-ieee-jbhi",
+      "label": "IEEE Journal of Biomedical and Health Informatics",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-ieee-tbme",
+      "label": "IEEE Transactions on Biomedical Engineering",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-jacc",
+      "label": "JACC (Journal of the American College of Cardiology)",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-jaha",
+      "label": "Journal of the American Heart Association",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-jama-network",
+      "label": "JAMA Network",
+      "endpoint_url": "https://jamanetwork.com/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-jmir",
+      "label": "JMIR (Journal of Medical Internet Research)",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-lancet-digital-health",
+      "label": "The Lancet Digital Health",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-medical-xpress",
+      "label": "Medical Xpress",
+      "endpoint_url": "https://medicalxpress.com/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature",
+      "label": "Nature",
+      "endpoint_url": "https://www.nature.com/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-ageing-hub",
+      "label": "Nature — Ageing subject hub",
+      "endpoint_url": "https://www.nature.com/subjects/ageing.rss",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-biotechnology",
+      "label": "Nature Biotechnology",
+      "endpoint_url": "https://www.nature.com/nbt/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-genetics",
+      "label": "Nature Genetics",
+      "endpoint_url": "https://www.nature.com/ng/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-medicine",
+      "label": "Nature Medicine",
+      "endpoint_url": "https://www.nature.com/nm/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-news",
+      "label": "Nature News",
+      "endpoint_url": "https://www.nature.com/news",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nature-nutrition-hub",
+      "label": "Nature — Nutrition subject hub",
+      "endpoint_url": "https://www.nature.com/subjects/nutrition.rss",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nejm",
+      "label": "New England Journal of Medicine",
+      "endpoint_url": "https://www.nejm.org/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-nejm-ai",
+      "label": "NEJM AI",
+      "endpoint_url": "https://ai.nejm.org/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-npj-digital-medicine",
+      "label": "npj Digital Medicine",
+      "endpoint_url": "https://www.nature.com/npjdigitalmed/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-openalex-api",
+      "label": "OpenAlex (OurResearch)",
+      "endpoint_url": "https://api.openalex.org/works",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-advances-nutrition",
+      "label": "Advances in Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-age-ageing",
+      "label": "Age and Ageing (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-aging-longevity",
+      "label": "PubMed — aging / longevity discovery",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-ajcn",
+      "label": "American Journal of Clinical Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-bmc-cmt",
+      "label": "BMC Complementary Medicine and Therapies (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-bmj-nph",
+      "label": "BMJ Nutrition, Prevention & Health (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-br-j-nutr",
+      "label": "British Journal of Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-central-oa",
+      "label": "NLM / NCBI (PubMed Central)",
+      "endpoint_url": "https://www.ncbi.nlm.nih.gov/pmc/tools/ftp/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-clin-nutr",
+      "label": "Clinical Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-ctm",
+      "label": "Complementary Therapies in Medicine (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-curr-dev-nutrition",
+      "label": "Current Developments in Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-exp-gerontol",
+      "label": "Experimental Gerontology (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-explore",
+      "label": "EXPLORE: The Journal of Science & Healing (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-front-aging",
+      "label": "Frontiers in Aging (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-front-nutr",
+      "label": "Frontiers in Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-gerontologist",
+      "label": "The Gerontologist (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-imr",
+      "label": "Integrative Medicine Research (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-integrative",
+      "label": "PubMed — integrative / complementary discovery",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-j-diet-suppl",
+      "label": "Journal of Dietary Supplements (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-jand",
+      "label": "Journal of the Academy of Nutrition and Dietetics (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-japha",
+      "label": "Journal of the American Pharmacists Association (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-jgosa",
+      "label": "Journals of Gerontology Series A (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-jicm",
+      "label": "Journal of Integrative and Complementary Medicine (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-journal-of-nutrition",
+      "label": "The Journal of Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-mech-ageing",
+      "label": "Mechanisms of Ageing and Development (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-nat-aging",
+      "label": "Nature Aging (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-nat-metab",
+      "label": "Nature Metabolism (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-nutrients",
+      "label": "Nutrients (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-nutrition-journal",
+      "label": "Nutrition Journal (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-nutrition-reviews",
+      "label": "Nutrition Reviews (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-ph-nutr",
+      "label": "Public Health Nutrition (via PubMed)",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-pubmed-supplements",
+      "label": "PubMed — dietary supplement trials / reviews",
+      "endpoint_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-stat-news",
+      "label": "STAT News",
+      "endpoint_url": "https://www.statnews.com/",
+      "paused_at": "2026-11-06"
+    },
+    {
+      "feed_id": "research-the-lancet",
+      "label": "The Lancet",
+      "endpoint_url": null,
+      "paused_at": "2026-11-06"
+    }
+  ],
+  "reactivated": []
+}
