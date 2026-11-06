@@ -43,7 +43,8 @@ DISABLE_FEEDS = (
 
 KEEP_FEEDS = (
     # news-saglik-bakanligi-whole was deleted on purpose (7e603a9, owner decision); no longer a kept feed.
-    "research-medical-xpress",
+    # research-medical-xpress is paused, not deleted, under the wow-example paradigm (DEC-R-20261106-015,
+    # topics/research-sources-state.json); it comes back only when the owner introduces an article from it.
 )
 
 
