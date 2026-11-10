@@ -13,14 +13,15 @@ describe('Research source registry (Batch R1)', () => {
 
   it('DEC-R-20261111-026: the registry holds only the search and Evergreen carriers; journal, media and metric sources are gone', () => {
     const ids = researchSourceRegistry.map((s) => s.sourceId);
-    expect([...ids].sort()).toEqual(['cochrane-library', 'europe-pmc-rest', 'pubmed-eutilities']);
+    // clinicaltrials-gov-api-v2 stays only as the canonical identity of the Dossier reader; sync-feeds creates no Research feed for it.
+    expect([...ids].sort()).toEqual(['clinicaltrials-gov-api-v2', 'cochrane-library', 'europe-pmc-rest', 'pubmed-eutilities']);
     expect(getSource('cochrane-library')!.sourceRole).toBe('SYSTEMATIC_EVIDENCE');
-    for (const gone of ['jama-network', 'nejm', 'medical-xpress', 'openalex-api', 'crossref-rest-api', 'clinicaltrials-gov-api-v2']) expect(getSource(gone)).toBeUndefined();
+    for (const gone of ['jama-network', 'nejm', 'medical-xpress', 'openalex-api', 'crossref-rest-api']) expect(getSource(gone)).toBeUndefined();
     expect(getSourcesByRole('PRIMARY_RESEARCH_PUBLISHER').length).toBe(0);
   });
 
   it('the carriers are all CANONICAL_ACTIVE', () => {
-    expect(computeSourceCounts().byStatus.CANONICAL_ACTIVE).toBe(3);
+    expect(computeSourceCounts().byStatus.CANONICAL_ACTIVE).toBe(4);
   });
 
   it('this registry is disjoint from the News registry', () => {

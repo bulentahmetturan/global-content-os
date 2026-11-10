@@ -83,14 +83,11 @@ describe('ingest gate: Temporal V2 Group 0 research dates and media age', () => 
     assert.equal(media({ publishedAt: null }).reason, 'undated');
     assert.equal(g.ingestGate({ route: 'kaduse-research', feedId: 'research-gdelt-doc-api', title: 'Hospital outbreak health news', publishedAt: '2026-08-01' }, NOW).reason, 'stale');
   });
-  it('media feed set equals the catalog ACCESSIBLE_SCIENCE_MEDIA roles (+ GDELT)', async () => {
+  it('no catalog source is science media any more (DEC-R-20261111-026); the media gate set stays only as a guard for stored records', async () => {
     const { readFileSync } = await import('node:fs');
     const cat = JSON.parse(readFileSync('packages/source-catalog/data/research-sources.json', 'utf8'));
     const list = Array.isArray(cat) ? cat : cat.sources;
-    const want = new Set(list.filter((s) => s.sourceRole === 'ACCESSIBLE_SCIENCE_MEDIA').map((s) => `research-${s.sourceId}`));
-    want.add('research-gdelt-doc-api');
-    const have = [...g.RESEARCH_MEDIA_FEEDS].filter((id) => !want.has(id));
-    const missing = [...want].filter((id) => !g.RESEARCH_MEDIA_FEEDS.has(id));
-    assert.deepEqual({ have, missing }, { have: [], missing: [] });
+    assert.deepEqual(list.filter((s) => s.sourceRole === 'ACCESSIBLE_SCIENCE_MEDIA' || s.sourceRole === 'ATTENTION_METRIC').map((s) => s.sourceId), []);
+    for (const id of g.RESEARCH_MEDIA_FEEDS) assert.ok(!list.some((s) => `research-${s.sourceId}` === id), `${id} must not be a registered source`);
   });
 });

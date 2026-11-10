@@ -137,5 +137,45 @@
     },
     "robotsStatus": "UNVERIFIED",
     "termsStatus": "UNVERIFIED"
+  },
+  {
+    "sourceId": "clinicaltrials-gov-api-v2",
+    "publisher": "NLM (ClinicalTrials.gov)",
+    "canonicalUrl": "https://clinicaltrials.gov/data-api/api",
+    "sourceRole": "TRIAL_REGISTRY",
+    "discoveryFunction": "EVIDENCE_ENRICHMENT",
+    "verificationStatus": "CANONICAL_ACTIVE",
+    "verifiedAt": "2026-09-05",
+    "notes": "Verified via WebSearch: official REST API v2 (OpenAPI 3.0) confirmed live at clinicaltrials.gov/data-api/api. A trial-registry record is enrichment/integrity context only -- never treated as equivalent to a peer-reviewed published result.",
+    "officialDomains": [
+      "clinicaltrials.gov"
+    ],
+    "languages": [
+      "en"
+    ],
+    "declaredFields": [
+      "title",
+      "online_published_at",
+      "study_type"
+    ],
+    "unavailableFields": [
+      "doi",
+      "pmcid",
+      "print_issue_at",
+      "human_animal_invitro",
+      "limitations",
+      "conflicts_of_interest",
+      "retraction_status",
+      "access_level",
+      "peer_review_status",
+      "preprint_status",
+      "original_study_link"
+    ],
+    "fetchScope": {
+      "kind": "query",
+      "detail": "RESEARCH_REGISTRY; https://clinicaltrials.gov/data-api/api"
+    },
+    "robotsStatus": "UNVERIFIED",
+    "termsStatus": "UNVERIFIED"
   }
 ]
