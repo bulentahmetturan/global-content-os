@@ -1843,9 +1843,13 @@
       return;
     }
     var feedN = computeActiveSourceCount(state, bursCatalog, egitimCatalog);
+    // Research is led by the owner's wow articles (DEC-R-20261106-015/-024/-025): no source list is shown for it.
+    var wowLed = state.temporal !== 'EVERGREEN' && state.route === 'kaduse' && state.kind === 'research';
+    if (wowLed) state.showSources = false;
     var shownN = state.items ? state.items.length : 0, totalN = (state.counts && state.counts[state.view]) || 0;
     mainSubEl.innerHTML = escapeHtml(state.view) + ' · ' +
-      (feedN == null ? 'Evergreen' : '<button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
+      (feedN == null ? 'Evergreen' : wowLed ? 'makalelerinden öğrenilen konu ve ilişkilerle keşif (kaynak listesi yok)' :
+        '<button type="button" class="src-link" data-srcpanel="1" title="Kaynakları göster">' +
         feedN + ' aktif kaynak ' + (state.showSources ? '▴' : '▾') + '</button>') + ' · D1' +
       (shownN && totalN > shownN ? escapeHtml(' · en yeni ' + shownN + ' / ' + totalN + ' gösteriliyor') : '');
     footnoteEl.innerHTML =
