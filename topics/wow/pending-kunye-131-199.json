@@ -1,0 +1,274 @@
+{
+  "schema": "gcos-wow-pending-kunye/1",
+  "decision_ref": "DEC-R-20261111-026",
+  "recorded_at": "2026-11-11",
+  "source": "Sahip, 2026-11-11 (Ahmet Ekmekci Kumulatif Liste, satırlar 131-199, eksik künyeli olanlar)",
+  "rule": "Eksik künye tamamlanmış sayılmaz; başlık veya DOI bulunana kadar sisteme tanıtılmaz. Bulunan künye sahibe doğrulatılır.",
+  "count": 37,
+  "rows": [
+    {
+      "list_row": 134,
+      "date": "21.08.2026",
+      "topic": "İleri yaşta bitkisel/hayvansal protein",
+      "owner_text": "Foscolou ve ark. Clin Nutr ESPEN; RCT meta-analizi",
+      "missing": "yıl, tam başlık, DOI"
+    },
+    {
+      "list_row": 137,
+      "date": "20.08.2026",
+      "topic": "Günlük beslenme ve uyku kalitesi",
+      "owner_text": "Shkolnik/Sapir/Rossman, Nature Health 2026; DOI alanına başlık yazılmış",
+      "missing": "başlık (satırda DOI yerine başlık var, başlık metni iletilmedi), DOI"
+    },
+    {
+      "list_row": 139,
+      "date": "19.08.2026",
+      "topic": "10 saniyelik tek ayak denge testi",
+      "owner_text": "Araujo ve ark. Br J Sports Med. 2022;56(17):975–980; 1.702 kişi",
+      "missing": "başlık, DOI"
+    },
+    {
+      "list_row": 141,
+      "date": "18.08.2026",
+      "topic": "Ağız bakterileri ve aterosklerotik plak",
+      "owner_text": "Karhunen ve ark. JAHA; “Viridans Streptococcal Biofilm…” kesik",
+      "missing": "tam başlık, yıl, DOI"
+    },
+    {
+      "list_row": 143,
+      "date": "17.08.2026",
+      "topic": "LDL hedefteyken inflamatuar risk",
+      "owner_text": "Eur J Prev Cardiol; Mount Sinai; 9.446 stent hastası, LDL<70, 1 yıl",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 144,
+      "date": "16.08.2026",
+      "topic": "Terleme, tuz ve egzersiz hiponatremisi",
+      "owner_text": "2015 Uluslararası Egzersizle İlişkili Hiponatremi Konsensüsü; CJSM/BJSM",
+      "missing": "tam başlık, hangi dergi (CJSM mi BJSM mi), DOI"
+    },
+    {
+      "list_row": 145,
+      "date": "16.08.2026",
+      "topic": "Hücresel reprogramlama ve yaşlanma",
+      "owner_text": "Nat Geo kapak; Sinclair glokom denemeleri/FDA faz 1",
+      "missing": "bilimsel makale künyesi (popüler dergi, makale değil)",
+      "flag": "not_an_article_yet"
+    },
+    {
+      "list_row": 146,
+      "date": "16.08.2026",
+      "topic": "Orta yaşta kreatin takviyesi",
+      "owner_text": "JISSN; Texas A&M; 45–65 yaş, 12 hafta çift kör plasebo",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 147,
+      "date": "15.08.2026",
+      "topic": "Fiziksel aktivite ve yumurtalık yaşlanması",
+      "owner_text": "Li ve ark. “Physical activity delays ovarian aging…”, Nature Aging 2026",
+      "missing": "tam başlık (kesik), DOI"
+    },
+    {
+      "list_row": 148,
+      "date": "14.08.2026",
+      "topic": "Sprint egzersizi ve plazma proteinleri",
+      "owner_text": "Cell Rep Med; 90 dk bisiklet vs 6×30 sn sprint; UK Biobank",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 152,
+      "date": "12.08.2026",
+      "topic": "Performans takviyelerinin kanıt düzeyi",
+      "owner_text": "NATA pozisyon bildirisi, J Athletic Training",
+      "missing": "tam başlık, yıl, DOI"
+    },
+    {
+      "list_row": 153,
+      "date": "12.08.2026",
+      "topic": "Sporcu takviyeleri ve güvenlilik",
+      "owner_text": "152’deki NATA belgesinin başka bölümü",
+      "missing": "152 ile aynı belge",
+      "flag": "same_as_152"
+    },
+    {
+      "list_row": 155,
+      "date": "12.08.2026",
+      "topic": "Beslenme, p-tau217 ve demans",
+      "owner_text": "JAMA Netw Open; İsveç 1.865 kişi >60, 8 yıl",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 156,
+      "date": "11.08.2026",
+      "topic": "Yoğun dayanıklılık egzersizi ve kalp",
+      "owner_text": "Eur J Prev Cardiol; yüksek hacim egzersiz/KV derleme",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 161,
+      "date": "09.08.2026",
+      "topic": "MIND/Akdeniz/DASH ve inme",
+      "owner_text": "PREDIMED; 7.000+ kişi",
+      "missing": "yazar, dergi, tam başlık, DOI"
+    },
+    {
+      "list_row": 162,
+      "date": "08.08.2026",
+      "topic": "Kardiyo-böbrek-metabolik-karaciğer",
+      "owner_text": "JACC yayınları ve “2026 CKM Kılavuzu”; CKML/yağlı karaciğer",
+      "missing": "tam künye"
+    },
+    {
+      "list_row": 164,
+      "date": "07.08.2026",
+      "topic": "Metabolik olarak sağlıklı obezite",
+      "owner_text": "Rodriguez/Ravussin, JCEM 2026; Lancet Komisyonu",
+      "missing": "tam başlık, DOI"
+    },
+    {
+      "list_row": 165,
+      "date": "06.08.2026",
+      "topic": "Orta yaş vasküler risk ve demanssız yaşam",
+      "owner_text": "Hu/Coresh/Gottesman, Neurology. 2026;107(3):e000152; ARIC",
+      "missing": "başlık (dergi, yıl, makale numarası var)"
+    },
+    {
+      "list_row": 166,
+      "date": "06.08.2026",
+      "topic": "Testosteron düşüklüğü ve visseral yağ",
+      "owner_text": "J Endocrine Soc",
+      "missing": "yazar, tarih, tam başlık, DOI"
+    },
+    {
+      "list_row": 167,
+      "date": "05.08.2026",
+      "topic": "Süt ürünleri, dondurma ve KV risk",
+      "owner_text": "Soedamah-Muthu, AJCN; süt/KV meta-analizi",
+      "missing": "tam başlık, yıl, DOI"
+    },
+    {
+      "list_row": 168,
+      "date": "05.08.2026",
+      "topic": "Yaşam tarzı ve uzun dönem kilo — 3. bölüm",
+      "owner_text": "NEJM; 120.877 kişi, 20 yıl",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 169,
+      "date": "05.08.2026",
+      "topic": "Erkek hipogonadizmi — JAMA",
+      "owner_text": "JAMA Patient Page; hasta bilgilendirme",
+      "missing": "araştırma değil",
+      "flag": "not_research"
+    },
+    {
+      "list_row": 170,
+      "date": "04.08.2026",
+      "topic": "Besinler ve kilo kontrolü — 2. bölüm",
+      "owner_text": "168’deki NEJM kohortu",
+      "missing": "168 ile aynı çalışma",
+      "flag": "same_as_168"
+    },
+    {
+      "list_row": 174,
+      "date": "03.08.2026",
+      "topic": "Ticari mikrobiyom testlerinin tutarlılığı",
+      "owner_text": "Communications Biology; NIST/Maryland; 7 firma",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 175,
+      "date": "03.08.2026",
+      "topic": "Potasyum, tansiyon ve inme",
+      "owner_text": "Aburto, BMJ; potasyum meta-analizi; WHO",
+      "missing": "tam başlık, yıl, DOI"
+    },
+    {
+      "list_row": 178,
+      "date": "01.08.2026",
+      "topic": "Protein tüketimi ve yaşlanma",
+      "owner_text": "Knopf/Lamming 2026, Cell Press; 350+ araştırma derlemesi",
+      "missing": "dergi tam adı, başlık, DOI"
+    },
+    {
+      "list_row": 179,
+      "date": "31.07.2026",
+      "topic": "Uzun süre oturma ve molalar",
+      "owner_text": "Eur Heart J; NHANES 4.757 yetişkin, ivmeölçer",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 183,
+      "date": "28.07.2026",
+      "topic": "Magnezyumdan zengin beslenme ve kalp",
+      "owner_text": "Eur J Prev Cardiol; ARIC magnezyum diyet puanı/KV",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 187,
+      "date": "26.07.2026",
+      "topic": "Yaşlanma algısı, bellek, fiziksel işlev",
+      "owner_text": "Becca Levy, Geriatrics; 11.000+ kişi >65, 12 yıl",
+      "missing": "kaynak satırı"
+    },
+    {
+      "list_row": 189,
+      "date": "25.07.2026",
+      "topic": "Potasyumlu tuz ikamesi ve KV sonuçlar",
+      "owner_text": "SSaSS—NEJM 2021; 600 köy, 20.995 kişi; SALTTURK",
+      "missing": "tam künye"
+    },
+    {
+      "list_row": 192,
+      "date": "22.07.2026",
+      "topic": "Baklagil tüketimi ve metabolik sağlık",
+      "owner_text": "Current Developments in Nutrition; NHANES 1999–2018, 46.939 yetişkin",
+      "missing": "yazar, başlık, DOI"
+    },
+    {
+      "list_row": 193,
+      "date": "22.07.2026",
+      "topic": "Balık yağlarında oksidasyon ve içerik",
+      "owner_text": "Albert, Sci Rep 2015 (NZ); Sema Yüksel, Ordu Üniv. tez 2023 (10 ürün)",
+      "missing": "tam başlıklar"
+    },
+    {
+      "list_row": 195,
+      "date": "21.07.2026",
+      "topic": "Olumsuz duygular ve damar endoteli",
+      "owner_text": "Shimbo ve ark. JAHA. 2024;13:e032698",
+      "missing": "başlık"
+    },
+    {
+      "list_row": 196,
+      "date": "20.07.2026",
+      "topic": "Ketojenik diyet ve bağırsak tümörleri",
+      "owner_text": "Dmitrieva-Posocco, Nature 2022; Shay/Chi/Yılmaz, Nature 15.07.2026",
+      "missing": "başlıklar (satırda var, iletilmedi), DOI"
+    },
+    {
+      "list_row": 197,
+      "date": "20.07.2026",
+      "topic": "Glikasyon ürünlerinin enzimle temizlenmesi",
+      "owner_text": "Nature Communications; Revel/Calico/Colorado; CMLase",
+      "missing": "WOW-0002 ile aynı makale olabilir",
+      "flag": "probably_same_as_WOW-0002"
+    },
+    {
+      "list_row": 198,
+      "date": "19.07.2026",
+      "topic": "Gençlik algısı, görünüş, fizyoloji",
+      "owner_text": "Langer 1979 deneyi; saç kesimi/boyama, 2010 araştırması",
+      "missing": "makale künyeleri"
+    },
+    {
+      "list_row": 199,
+      "date": "19.07.2026",
+      "topic": "Paketli gıdalar, egzersiz ve KV risk",
+      "owner_text": "ESC kılavuzlarına genel atıf; hangi kılavuz/yayın belirsiz",
+      "missing": "hangi yayın"
+    }
+  ]
+}

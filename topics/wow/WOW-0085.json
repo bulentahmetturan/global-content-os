@@ -1,0 +1,34 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0085",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1111/tog.70046",
+    "title": null,
+    "journal": "The Obstetrician & Gynaecologist",
+    "published_at": null,
+    "verified_by": "Sahip satırı: DOI verilmiş; yazar ve başlık yok. Crossref çözümü bekliyor.",
+    "study": "Menopoz, kas kaybı ve metabolizma; künye yalnız DOI ile.",
+    "doi_pending": false,
+    "title_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #149 (14.08.2026)",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi."
+}

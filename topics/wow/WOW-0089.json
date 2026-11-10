@@ -1,0 +1,36 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0089",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1101/2024.08.20.24312271",
+    "title": null,
+    "journal": "medRxiv",
+    "published_at": null,
+    "verified_by": "Sahip satırı DOI sonunda \"v1\" (sürüm eki) taşıyor; sürüm eki çıkarıldı, Crossref çözümü bekliyor. Ön baskı ve yeniden analizler ayrı kayıtlar.",
+    "study": "Ketojenik diyet, LDL ve koroner plak (KETO-CTA, NCT05733325); ön baskı.",
+    "doi_pending": false,
+    "title_pending": true,
+    "doi_as_given": "10.1101/2024.08.20.24312271v1",
+    "preprint": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #176 (02.08.2026)",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi."
+}
