@@ -10,96 +10,22 @@ describe('Research source registry (Batch R1)', () => {
     expect(getSource('europe-pmc-rest')!.sourceRole).toBe('RESEARCH_INDEX');
   });
 
-  it('65. source roles: Crossref is BIBLIOGRAPHIC_METADATA, Crossmark + retraction data are PUBLICATION_INTEGRITY', () => {
-    expect(getSource('crossref-rest-api')!.sourceRole).toBe('BIBLIOGRAPHIC_METADATA');
-    expect(getSource('crossmark')!.sourceRole).toBe('PUBLICATION_INTEGRITY');
-    expect(getSource('crossref-retraction-watch-data')!.sourceRole).toBe('PUBLICATION_INTEGRITY');
-  });
 
-  it('65. source roles: PMC is OPEN_FULL_TEXT, Cochrane is SYSTEMATIC_EVIDENCE, ClinicalTrials.gov is TRIAL_REGISTRY', () => {
-    expect(getSource('pubmed-central-oa')!.sourceRole).toBe('OPEN_FULL_TEXT');
-    expect(getSource('cochrane-library')!.sourceRole).toBe('SYSTEMATIC_EVIDENCE');
-    expect(getSource('clinicaltrials-gov-api-v2')!.sourceRole).toBe('TRIAL_REGISTRY');
-  });
-
-  it('65. journal-family sources are PRIMARY_RESEARCH_PUBLISHER, honestly CONDITIONAL_VERIFIED (not individually re-checked)', () => {
-    const jama = getSource('jama-network')!;
-    expect(jama.sourceRole).toBe('PRIMARY_RESEARCH_PUBLISHER');
-    expect(jama.verificationStatus).toBe('CONDITIONAL_VERIFIED');
-  });
-
-  it('the 8 core infrastructure sources are all CANONICAL_ACTIVE (individually WebSearch-verified this batch)', () => {
-    const core = ['pubmed-eutilities', 'europe-pmc-rest', 'crossref-rest-api', 'crossmark', 'crossref-retraction-watch-data', 'pubmed-central-oa', 'cochrane-library', 'clinicaltrials-gov-api-v2'];
-    for (const id of core) expect(getSource(id)!.verificationStatus).toBe('CANONICAL_ACTIVE');
-  });
-
-  it('exactly 48 sources registered (9 core + 24 journal-family/preprint + 6 accessible-science-media + 3 attention-metric + 7 topic-lane R4, no duplicates)', () => {
+  it('DEC-R-20261111-026: the registry holds only the search and Evergreen carriers; journal, media and metric sources are gone', () => {
     const ids = researchSourceRegistry.map((s) => s.sourceId);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(researchSourceRegistry.length).toBe(48);
+    expect([...ids].sort()).toEqual(['cochrane-library', 'europe-pmc-rest', 'pubmed-eutilities']);
+    expect(getSource('cochrane-library')!.sourceRole).toBe('SYSTEMATIC_EVIDENCE');
+    for (const gone of ['jama-network', 'nejm', 'medical-xpress', 'openalex-api', 'crossref-rest-api', 'clinicaltrials-gov-api-v2']) expect(getSource(gone)).toBeUndefined();
+    expect(getSourcesByRole('PRIMARY_RESEARCH_PUBLISHER').length).toBe(0);
   });
 
-  it('Batch R3: OpenAlex/GDELT/Altmetric are ATTENTION_METRIC, EVIDENCE_ENRICHMENT -- never RESEARCH_INDEX or PRIMARY_RESEARCH_PUBLISHER', () => {
-    for (const id of ['openalex-api', 'gdelt-doc-api', 'altmetric-api']) {
-      const s = getSource(id)!;
-      expect(s.sourceRole).toBe('ATTENTION_METRIC');
-      expect(s.discoveryFunction).toBe('EVIDENCE_ENRICHMENT');
-    }
-    expect(getSource('openalex-api')!.verificationStatus).toBe('CANONICAL_ACTIVE'); // live-checked this batch
-    expect(getSourcesByRole('ATTENTION_METRIC').length).toBe(3);
-  });
-
-  // Batch R2 (2026-09-17, user-directed expansion): new journal-family
-  // entries + a new ACCESSIBLE_SCIENCE_MEDIA role, added to support the
-  // audienceObjective content-policy edit (understandable, attention-
-  // worthy findings, never at the expense of credibility).
-  it('Batch R2: new journal-family sources resolve as PRIMARY_RESEARCH_PUBLISHER, CONDITIONAL_VERIFIED', () => {
-    for (const id of ['science-translational-medicine', 'cell', 'nature-biotechnology', 'nejm-ai', 'nature-genetics', 'nature', 'science']) {
-      const s = getSource(id)!;
-      expect(s.sourceRole).toBe('PRIMARY_RESEARCH_PUBLISHER');
-      expect(s.verificationStatus).toBe('CONDITIONAL_VERIFIED');
-    }
-  });
-
-  it('Batch R2: accessible-science-media sources are a distinct role, discovery-only, never CANONICAL_ACTIVE by default', () => {
-    const ids = ['stat-news', 'eurekalert', 'medical-xpress', 'medical-news-today', 'nature-news', 'nih-news-releases'];
-    for (const id of ids) {
-      const s = getSource(id)!;
-      expect(s.sourceRole).toBe('ACCESSIBLE_SCIENCE_MEDIA');
-      expect(s.discoveryFunction).toBe('DISCOVERY_SECONDARY');
-      // nih-news-releases was retired by the owner (OVERSIZE_BODY; record kept): EXCLUDE, never promoted.
-      expect(s.verificationStatus).toBe(id === 'nih-news-releases' ? 'EXCLUDE' : 'CONDITIONAL_VERIFIED');
-    }
-    expect(getSourcesByRole('ACCESSIBLE_SCIENCE_MEDIA').length).toBe(11); // 6 (R2) + 5 topic-lane (R4); was 10 in the pre-move WIP, an arithmetic slip
-  });
-
-  it('Batch R4: longevity/nutrition/supplement topic-lane RSS sources are live-checked', () => {
-    for (const id of ['nature-ageing-subject', 'nature-nutrition-subject']) {
-      const s = getSource(id)!;
-      expect(s.sourceRole).toBe('PRIMARY_RESEARCH_PUBLISHER');
-      expect(s.verificationStatus).toBe('CANONICAL_ACTIVE');
-    }
-    for (const id of ['sciencedaily-healthy-aging', 'sciencedaily-alternative-medicine', 'sciencedaily-dietary-supplements', 'asn-nutrition-news', 'nccih-news']) {
-      const s = getSource(id)!;
-      expect(s.sourceRole).toBe('ACCESSIBLE_SCIENCE_MEDIA');
-      expect(s.verificationStatus).toBe('CANONICAL_ACTIVE');
-      expect(s.discoveryFunction).toBe('DISCOVERY_SECONDARY');
-    }
+  it('the carriers are all CANONICAL_ACTIVE', () => {
+    expect(computeSourceCounts().byStatus.CANONICAL_ACTIVE).toBe(3);
   });
 
   it('this registry is disjoint from the News registry', () => {
     const newsIds = new Set(globalNewsSourceRegistry.sources.map((s) => s.id));
     for (const s of researchSourceRegistry) expect(newsIds.has(s.sourceId)).toBe(false);
-  });
-
-  it('honest status breakdown via computeSourceCounts', () => {
-    const counts = computeSourceCounts();
-    expect(counts.byStatus.CANONICAL_ACTIVE).toBe(16); // 8 core + openalex-api + 7 topic-lane R4 (live-checked RSS)
-    expect(counts.byStatus.CONDITIONAL_VERIFIED).toBeGreaterThan(0);
-  });
-
-  it('getSourcesByRole resolves the PRIMARY_RESEARCH_PUBLISHER set (not an exclusive whitelist -- just a discovery aid)', () => {
-    expect(getSourcesByRole('PRIMARY_RESEARCH_PUBLISHER').length).toBeGreaterThanOrEqual(15);
   });
 });
 
