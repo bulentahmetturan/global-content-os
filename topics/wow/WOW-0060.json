@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0060",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Dietary egg and egg white intake, postprandial muscle protein synthesis, and cholesterol dynamics in athletes",
+    "journal": "Sports Nutrition & Exercise Metabolism",
+    "published_at": null,
+    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "study": "Sporcularda tam yumurta vs yumurta akı tüketiminin kas protein sentezi, tokluk lipidemi ve mikronutriyen biyoyararlanımı üzerindeki pratik etkileri.",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Sports Nutrition & Exercise Metabolism kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "BES",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #90 (10.09.2026)"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0057",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Very hot beverage consumption and risk of esophageal squamous cell carcinoma: A prospective study of 977,000+ adults",
+    "journal": "International Journal of Cancer",
+    "published_at": null,
+    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "study": "Int J Cancer; UK Biobank kohortu, 977 binden fazla yetişkin, 10 yılı aşan takip; çay ve kahve içme sıcaklığının özofagus kanseri insidansı ile ilişkisi.",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "International Journal of Cancer kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "BES",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #85 (14.09.2026)"
+}

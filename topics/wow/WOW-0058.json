@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0058",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Vitamin D status, supplementation, and long-term cognitive trajectory in 5,065 older adults",
+    "journal": "BMJ Open",
+    "published_at": null,
+    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "study": "BMJ Open; 5.065 yaşlı birey (ort. yaş 67,5), 6 yıllık takip; serum 25(OH)D düzeyleri ile demans ve bilişsel gerileme riski analizi.",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "BMJ Open kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "MET",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #87 (11.09.2026)"
+}

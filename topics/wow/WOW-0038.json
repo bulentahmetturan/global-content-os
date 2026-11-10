@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0038",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Waterpipe (hookah) smoking vs. cigarette smoking: Toxicant exposure, vascular endothelial dysfunction, and cardiovascular risk",
+    "journal": "American Journal of Preventive Medicine / Circulation",
+    "published_at": null,
+    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "study": "AJPM (2009 nargile vs sigara), Circulation (2019 AHA bilimsel bildirisi) ve 2025 (191 gözlemsel kohort, 807 binden fazla kişi meta-analiz).",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "American Journal of Preventive Medicine / Circulation kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "SGR",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #56 (08.10.2026)"
+}

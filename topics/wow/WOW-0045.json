@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0045",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1017/S000711451100062X",
+    "title": "Black tea contributes to total water intake and does not alter hydration markers: Randomized Controlled Trial",
+    "journal": "British Journal of Nutrition",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Ruxton CHS, Hart VA. Br J Nutr (2011;106:588-595); siyah çay ile su tüketiminin hidrasyon belirteçleri ve idrar ozmolalitesi üzerine randomize çapraz çalışması.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "British Journal of Nutrition kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "BES",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #64 (03.10.2026)"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0062",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1093/eurheartj/ehae558",
+    "title": "Mediterranean diet, wine consumption patterns, and all-cause mortality: Results from the SUN Cohort",
+    "journal": "European Heart Journal",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Martínez-González MA ve ark. Eur Heart J (2026;47:3591-3606); Akdeniz diyetinde öğünle birlikte ılımlı şarap tüketiminin mortalite ile koruyucu ilişkisi.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "European Heart Journal kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "BES",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #92 (08.09.2026)"
+}
