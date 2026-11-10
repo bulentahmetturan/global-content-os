@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0082",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1093/eurheartj/ehaa605",
+    "title": "2020 ESC Guidelines on sports cardiology and exercise in patients with cardiovascular disease",
+    "journal": "European Heart Journal",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Pelliccia A ve ark. Eur Heart J (2021;42:17-96); ESC spor kardiyolojisi kılavuzu; aort dilatasyonu/anevrizması olan bireylerde statik/dinamik egzersiz sınırları ve güvenli rejimler.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "European Heart Journal kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "ATS",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #127 (23.08.2026)"
+}

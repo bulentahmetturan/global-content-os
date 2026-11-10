@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0083",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Somatic symptoms, autonomic dysfunction, and long-term trajectory in chronic clinical burnout: 18-month prospective cohort",
+    "journal": "BMC Psychiatry",
+    "published_at": null,
+    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "study": "Göteborg Stres Tıbbı Enstitüsü; klinik tükenmişlik tanılı 232 hastada 18 aylık boylamsal izlem; kronik sempatik aktivasyon, uyku bozukluğu ve bedensel somatik semptomlar.",
+    "doi_pending": true
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "BMC Psychiatry kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "PSI",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #128 (23.08.2026)"
+}
