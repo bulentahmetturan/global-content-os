@@ -1,4 +1,4 @@
-import { introduceWow, introducedWow } from './wow/introduce';
+import { introduceWow, introducedWow, wowQuestions } from './wow/introduce';
 import { wowSimilar, wowSources } from './wow/similar';
 import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
@@ -586,6 +586,8 @@ export default {
       if (path === '/api/ratings' && request.method === 'POST') {
         const body = await request.json().catch(() => null);
         const result = await recordRating(env, body);
+        // Every owner answer renews the learner at once (DEC-R-20261111-026); a learner failure never loses the rating.
+        if (result.status < 400) await runScoring(env).catch(() => null);
         return json(result.body, result.status);
       }
       if (path === '/api/ratings/latest' && request.method === 'GET') {
@@ -617,6 +619,7 @@ export default {
       }
       if (path === '/api/wow/sources' && request.method === 'GET') { const r = await wowSources(env); return json(r.body, r.status); }
       if (path === '/api/wow/similar' && request.method === 'GET') { const r = await wowSimilar(env, url.searchParams); return json(r.body, r.status); }
+      if (path === '/api/wow/questions' && request.method === 'GET') { const r = await wowQuestions(env); return json(r.body, r.status); }
       if (path === '/api/wow/introduced' && request.method === 'GET') { const r = await introducedWow(env); return json(r.body, r.status); }
 
       // Topic tags, questions, owner PASS/FAIL answers and clarity (topics/, Bible v5 §4, §10): Hub operator token via ROUTE_GATES; 503 TOPICS_NOT_READY until migrations/addons/a004_topic_tags.sql is applied. Shadow: no triage effect.

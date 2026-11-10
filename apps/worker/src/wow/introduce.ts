@@ -20,7 +20,7 @@ export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
 const DOI_RE = /10\.\d{4,9}\/[^\s?#"<>]+/i;
 
-export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; publishedAt: string | null; wow: number; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
+export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; publishedAt: string | null; wow: number | null; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
 export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok: false; error: string } {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { ok: false, error: 'INVALID_BODY' };
   const b = raw as Record<string, unknown>;
@@ -37,12 +37,14 @@ export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok:
   const publishedAt = str('publishedAt', 10) || null;
   if (publishedAt && !/^\d{4}-\d{2}-\d{2}$/.test(publishedAt)) return { ok: false, error: 'INVALID_PUBLISHED_AT' };
   if (!doi && !(title && journal)) return { ok: false, error: 'DOI_OR_TITLE_AND_JOURNAL_REQUIRED' };
-  if (typeof b.wow !== 'number' || !Number.isInteger(b.wow) || b.wow < 1 || b.wow > 10) return { ok: false, error: 'INVALID_WOW' };
-  const c = b.channels as Record<string, unknown> | undefined;
+  // The score may come later (DEC-R-20261111-026): the owner introduces first, the system asks "wow kaç ve neden" afterwards.
+  const unrated = b.wow === undefined || b.wow === null;
+  if (!unrated && (typeof b.wow !== 'number' || !Number.isInteger(b.wow) || b.wow < 1 || b.wow > 10)) return { ok: false, error: 'INVALID_WOW' };
+  const c = (b.channels ?? (unrated ? {} : undefined)) as Record<string, unknown> | undefined;
   if (!c || typeof c !== 'object' || Array.isArray(c) || Object.keys(c).some((k) => !['tt', 'ik', 'km'].includes(k) || typeof c[k] !== 'boolean')) return { ok: false, error: 'INVALID_CHANNELS' };
   const reasons = typeof b.reasons === 'string' ? b.reasons.trim() : '';
   if (reasons.length > 480) return { ok: false, error: 'INVALID_REASONS' };
-  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: b.wow, channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, reactivateSource: b.reactivateSource === true } };
+  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: unrated ? null : (b.wow as number), channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, reactivateSource: b.reactivateSource === true } };
 }
 
 export interface ArticleMeta { doi: string; title: string; journal: string; publishedAt: string | null; abstract: string; landingUrl: string | null }
@@ -68,6 +70,27 @@ interface FeedRow { id: string; label: string; channel_id: string; endpoint_url:
 const path = (u: string | null | undefined) => { try { return u ? new URL(u).pathname.replace(/\/+$/, '') : ''; } catch { return ''; } };
 /** Carrier for articles whose journal has no registered Research feed yet (never fetched; enabled = 0). */
 export const OWNER_WOW_FEED = 'research-owner-wow';
+/** Marks a source row that exists only because an article was published there (DEC-R-20261111-026). */
+export const ARTICLE_SOURCE_REF = 'article-source';
+
+/**
+ * Research sources are an outcome of articles, not an input (DEC-R-20261111-026): the journal an introduced or discovered
+ * article was published in gets one record-only row. It is never fetched (enabled = 0, no endpoint) and never owns a scan;
+ * scanning is by topic. Idempotent; a journal that already has a Research row with the same label is left as it is.
+ */
+export async function registerArticleSource(env: Env, journal: string | null | undefined): Promise<string | null> {
+  const label = (journal || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+  const slug = label.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+  if (!slug || /^(unknown journal|europe pmc|pubmed|journal)$/i.test(label)) return null;
+  const known = await env.DB.prepare(`SELECT id FROM source_feeds WHERE route = 'kaduse-research' AND lower(trim(label)) = ? LIMIT 1`).bind(label.toLowerCase()).first<{ id: string }>();
+  if (known) return known.id;
+  const id = `research-src-${slug}`;
+  await env.DB.prepare(
+    `INSERT OR IGNORE INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled, external_ref, rules_json)
+     VALUES (?, ?, 'kaduse-research', 'kaduse-medikal', 'PENDING_MANUAL', NULL, 1440, 0, ?, '{"mode":"article_source"}')`,
+  ).bind(id, label, ARTICLE_SOURCE_REF).run();
+  return id;
+}
 
 /**
  * The registered Research feed that owns this article, live from source_feeds. Never a guess: one domain match, or among several
@@ -76,7 +99,7 @@ export const OWNER_WOW_FEED = 'research-owner-wow';
  */
 export async function feedForArticle(env: Env, landingUrl: string | null, journal: string): Promise<FeedRow | null> {
   const h = host(landingUrl);
-  const feeds = (await env.DB.prepare(`SELECT id, label, channel_id, endpoint_url, enabled FROM source_feeds WHERE route = 'kaduse-research' AND id <> ?`).bind(OWNER_WOW_FEED).all<FeedRow>()).results;
+  const feeds = (await env.DB.prepare(`SELECT id, label, channel_id, endpoint_url, enabled FROM source_feeds WHERE route = 'kaduse-research' AND id <> ? AND COALESCE(external_ref, '') <> ?`).bind(OWNER_WOW_FEED, ARTICLE_SOURCE_REF).all<FeedRow>()).results;
   if (!h) {
     const exact = feeds.filter((f) => f.label.trim().toLowerCase() === journal.trim().toLowerCase());
     return exact.length === 1 ? exact[0] : null;
@@ -143,15 +166,19 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
     await env.DB.prepare(`UPDATE source_items SET discovery_reason = ? WHERE id = ? AND (discovery_reason IS NULL OR discovery_reason = '')`).bind(WOW_DISCOVERY_REASON, stored.id).run();
     await tagIngestedItem(env, { itemId: stored.id, route: 'kaduse-research', feedId: feed.id, title: meta.title, abstract: meta.abstract || null });
   }
-  const note = `[WOW] ${x.reasons}`.slice(0, 500);
-  const rating = await recordRating(env, { itemId: stored.id, wow: x.wow, channels: x.channels, note });
-  if (rating.status >= 400) return { status: rating.status, body: { error: 'RATING_NOT_RECORDED', detail: rating.body, itemId: stored.id } };
-  const scoring = await runScoring(env).catch((e) => ({ status: 500, body: { error: String(e) } }));
+  const articleSource = await registerArticleSource(env, meta.journal).catch(() => null);
+  let scoring: unknown = null;
+  if (x.wow !== null) {
+    const note = `[WOW] ${x.reasons}`.slice(0, 500);
+    const rating = await recordRating(env, { itemId: stored.id, wow: x.wow, channels: x.channels, note });
+    if (rating.status >= 400) return { status: rating.status, body: { error: 'RATING_NOT_RECORDED', detail: rating.body, itemId: stored.id } };
+    scoring = await runScoring(env).catch((e) => ({ status: 500, body: { error: String(e) } }));
+  }
   return {
     status: stored.created ? 201 : 200,
     body: { ok: true, itemId: stored.id, created: stored.created, doi: meta.doi || null, doiPending: doiless, title: meta.title, journal: meta.journal, publishedAt: meta.publishedAt,
-      path: evergreen ? 'EVERGREEN/research_rediscovery' : 'TIME_SENSITIVE/research', feed: feed.id, feedWasPaused: !!owned && !feed.enabled, reactivated, onboarding,
-      learner: (scoring as { body?: unknown }).body ?? null },
+      path: evergreen ? 'EVERGREEN/research_rediscovery' : 'TIME_SENSITIVE/research', feed: feed.id, feedWasPaused: !!owned && !feed.enabled, reactivated, onboarding, articleSource, ratingPending: x.wow === null,
+      learner: (scoring as { body?: unknown } | null)?.body ?? null },
   };
 }
 
@@ -160,11 +187,31 @@ export async function introducedWow(env: Env): Promise<WowResult> {
     const rows = (await env.DB.prepare(
       `SELECT s.id, COALESCE(s.title_orig, s.title) AS title, s.title AS title_tr, s.canonical_url, s.publisher, s.published_at, s.feed_id,
               r.wow, r.ch_tt, r.ch_ik, r.ch_km, r.note, r.rated_at
-         FROM source_items s JOIN item_ratings r ON r.item_id = s.id
-        WHERE s.discovery_reason = ? AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
-        ORDER BY r.rated_at DESC LIMIT 200`,
+         FROM source_items s LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
+        WHERE s.discovery_reason = ?
+        ORDER BY COALESCE(r.rated_at, s.fetched_at) DESC LIMIT 200`,
     ).bind(WOW_DISCOVERY_REASON).all()).results;
     return { status: 200, body: { ok: true, count: rows.length, items: rows } };
+  } catch (e) {
+    if (/no such table/i.test(String(e))) return { status: 503, body: { error: 'RATINGS_NOT_READY' } };
+    throw e;
+  }
+}
+
+/**
+ * Owner question queue (DEC-R-20261111-026): introduced articles that have no score yet, oldest first, one question each:
+ * "wow kaç ve neden". The owner answers through the rating route; every answer re-runs the learner. Read-only.
+ * Route (Hub operator token, ROUTE_GATES): GET /api/wow/questions.
+ */
+export async function wowQuestions(env: Env): Promise<WowResult> {
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt
+         FROM source_items s
+        WHERE s.discovery_reason = ? AND NOT EXISTS (SELECT 1 FROM item_ratings r WHERE r.item_id = s.id)
+        ORDER BY s.fetched_at ASC LIMIT 100`,
+    ).bind(WOW_DISCOVERY_REASON).all()).results;
+    return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {
     if (/no such table/i.test(String(e))) return { status: 503, body: { error: 'RATINGS_NOT_READY' } };
     throw e;
