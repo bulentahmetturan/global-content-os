@@ -2377,7 +2377,12 @@
     var opts = ''; for (var i = 10; i >= 1; i--) opts += '<option value="' + i + '">' + i + '</option>';
     return '<div class="tq-actions" data-wow-item="' + escapeHtml(id) + '">Wow <select class="wow-score">' + opts + '</select> ' +
       '<label><input type="checkbox" class="wow-tt"> Tıp Topluluğu</label> <label><input type="checkbox" class="wow-ik"> İyileşme</label> <label><input type="checkbox" class="wow-km"> Kaduse</label> ' +
+      '<input class="wow-why tq-note" placeholder="Neden? (kısa)"> ' +
       '<button type="button" data-wow-save="1">Kaydet</button> <button type="button" data-wow-no="1">Wow değil</button></div>';
+  }
+  function wowQuestionRow(x) {
+    return '<div class="tq-item"><div class="tq-title">' + (/^https?:\/\/(?!owner-wow\.invalid)/i.test(x.url || '') ? '<a href="' + escapeHtml(x.url) + '" target="_blank" rel="noopener">' + escapeHtml(x.title) + '</a>' : escapeHtml(x.title)) + '</div>' +
+      '<div class="tq-meta">' + escapeHtml(x.journal || '') + ' · ' + mTime(x.publishedAt) + '</div>' + wowRateControls(x.itemId) + '</div>';
   }
   function wowSimilarRow(x) {
     return '<div class="tq-item"><div class="tq-title"><a href="' + escapeHtml(x.url) + '" target="_blank" rel="noopener">' + escapeHtml(x.titleOrig) + '</a></div>' +
@@ -2385,22 +2390,25 @@
       '<div class="tq-units">' + (x.units || []).slice(0, 6).map(function (u) { return '<span class="spf-chip">' + escapeHtml(u.name) + '</span>'; }).join('') + '</div>' + wowRateControls(x.itemId) + '</div>';
   }
   async function wowSection(token) {
-    var sim = null, intro = null, sc = null, src = null;
+    var sim = null, intro = null, sc = null, src = null, qs = null;
+    try { qs = await topicGet('/api/wow/questions', token); } catch (e) { /* optional */ }
     try { src = await topicGet('/api/wow/sources', token); } catch (e) { /* optional */ }
     try { sim = await topicGet('/api/wow/similar?limit=30', token); } catch (e) { /* queue is optional */ }
     try { intro = await topicGet('/api/wow/introduced', token); } catch (e) { /* optional */ }
     try { sc = await topicGet('/api/scoring/status', token); } catch (e) { /* optional */ }
     var learner = sc ? ('Öğrenme: ' + escapeHtml(sc.ratedItems || 0) + ' / ' + escapeHtml(sc.minRatingsToActivate || 30) + ' puan · ' + escapeHtml((sc.current && sc.current.reason) || 'RULES_ONLY') + ' · “wow değil” cevapların da gerekir (Bible §10.3)') : 'Öğrenme durumu okunamadı.';
     var form = '<div class="tq-card"><div class="tq-q">Wow makale tanıt</div>' +
-      '<div class="tq-actions"><input id="wowDoi" placeholder="DOI veya makale linki (yoksa boş bırak)" style="flex:1 1 260px"> <select id="wowScore">' + [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('') + '</select></div>' +
+      '<div class="tq-actions"><input id="wowDoi" placeholder="DOI veya makale linki (yoksa boş bırak)" style="flex:1 1 260px"> <select id="wowScore"><option value="">puanı sonra ver</option>' + [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('') + '</select></div>' +
       '<div class="tq-actions"><input id="wowTitle" placeholder="Makale başlığı (DOI yoksa gerekli)" style="flex:2 1 260px"> <input id="wowJournal" placeholder="Dergi / kaynak (DOI yoksa gerekli)" style="flex:1 1 160px"></div>' +
       '<div class="tq-actions"><label><input type="checkbox" id="wowTT"> Tıp Topluluğu</label> <label><input type="checkbox" id="wowIK"> İyileşme Kanalı</label> <label><input type="checkbox" id="wowKM"> Kaduse</label></div>' +
       '<div class="tq-actions"><input id="wowWhy" class="tq-note" placeholder="Neden wow? (kısa)"> <button type="button" id="wowGo">Tanıt</button></div><p class="mod-note" id="wowMsg"></p></div>';
-    var introRows = intro && intro.items ? intro.items.map(function (r) { return '<div class="tq-item"><div class="tq-title">' + escapeHtml(r.title) + '</div><div class="tq-meta">wow ' + escapeHtml(r.wow) + ' · ' + mTime(r.published_at) + '</div></div>'; }).join('') : '';
+    var introRows = intro && intro.items ? intro.items.map(function (r) { return '<div class="tq-item"><div class="tq-title">' + escapeHtml(r.title) + '</div><div class="tq-meta">' + (r.wow == null ? 'puan bekliyor' : 'wow ' + escapeHtml(r.wow)) + ' · ' + escapeHtml(r.publisher || '') + ' · ' + mTime(r.published_at) + '</div></div>'; }).join('') : '';
     var simRows = sim && sim.items && sim.items.length ? sim.items.map(wowSimilarRow).join('') : '<p class="mod-note">' + (sim ? 'Kuyrukta puanlanmamış benzer kayıt yok. Kaynaklar duraklatıldığı için yeni kayıt, bir dergiyi açtığında gelir.' : 'Kuyruk okunamadı.') + '</p>';
     var srcRows = src && src.topics ? src.topics.map(function (x) { return [escapeHtml(x.topicId + ' · ' + x.name), escapeHtml(x.items), escapeHtml(x.rated), escapeHtml(x.wow), escapeHtml(x.notWow), escapeHtml(x.sources.slice(0, 4).map(function (z) { return String(z.source).replace(/^research-/, '') + ' ' + z.items + (z.wow ? ' (wow ' + z.wow + ')' : ''); }).join(', '))]; }) : [];
     var srcTable = srcRows.length ? mTable(['Konu', 'Gelen', 'Puanladığın', 'Wow (6+)', 'Wow değil (3-)', 'Hangi kaynaklardan'], srcRows) : '<p class="mod-note">Henüz konuya etiketlenmiş kayıt yok.</p>';
+    var qRows = qs && qs.items && qs.items.length ? qs.items.map(wowQuestionRow).join('') : '<p class="mod-note">' + (qs ? 'Puan bekleyen tanıtılmış makale yok.' : 'Sorular okunamadı.') + '</p>';
     return '<h3>Wow makale tanıt</h3><p class="mod-note">' + learner + '</p>' + form +
+      '<h3>Sana sorular: wow kaç ve neden? (' + escapeHtml(qs && qs.count != null ? qs.count : 0) + ')</h3><p class="mod-note">Tanıttığın ama henüz puanlamadığın makaleler, sırayla. Her cevaptan sonra öğrenme yeniden çalışır.</p>' + qRows +
       '<h3>Konular ve gelen kayıtlar</h3><p class="mod-note">Öğrenilen konu ve ilişkiler bütün kaynaklarda aranır (Europe PMC konu ilişkilerine göre arar, dergi adına göre değil). Kaynaklar yalnız kayıtların nereden geldiğini gösterir.</p>' + srcTable +
       '<h3>Tanıttığın makaleler (' + escapeHtml(intro && intro.count != null ? intro.count : 0) + ')</h3>' + (introRows || '<p class="mod-note">Henüz yok.</p>') +
       '<h3>Benzer araştırmalar (' + escapeHtml(sim && sim.total != null ? sim.total : 0) + ')</h3><p class="mod-note">Konularına uyan, puanlamadığın kayıtlar. Önce somut ilişkiye uyanlar, sonra en yeni. Düşük puan = wow değil örneği.</p>' + simRows;
@@ -2413,13 +2421,14 @@
       var title = document.getElementById('wowTitle').value.trim();
       var journal = document.getElementById('wowJournal').value.trim();
       if (!doi && !(title && journal)) { msg.textContent = 'DOI yazmazsan başlık ve dergi gerekir.'; return; }
-      var body = { wow: Number(document.getElementById('wowScore').value), channels: { tt: document.getElementById('wowTT').checked, ik: document.getElementById('wowIK').checked, km: document.getElementById('wowKM').checked }, reasons: document.getElementById('wowWhy').value.trim() || 'Sahip tanıttı' };
+      var scoreRaw = document.getElementById('wowScore').value;
+      var body = { wow: scoreRaw === '' ? null : Number(scoreRaw), channels: { tt: document.getElementById('wowTT').checked, ik: document.getElementById('wowIK').checked, km: document.getElementById('wowKM').checked }, reasons: document.getElementById('wowWhy').value.trim() || 'Sahip tanıttı' };
       if (doi) body[/^https?:/i.test(doi) ? 'url' : 'doi'] = doi;
       if (title) body.title = title;
       if (journal) body.journal = journal;
       go.disabled = true; msg.textContent = 'Kaydediliyor…';
       api('/api/wow/introduce', { method: 'POST', body: JSON.stringify(body) }).then(function (r) {
-        msg.textContent = 'Kaydedildi: ' + (r.path || '') + (r.doiPending ? ' · DOI sonra bulunacak' : '') + (r.onboarding ? ' · dergi kayıtlı kaynak değil: ' + r.onboarding.journal + ' (onboarding notu düştü)' : '');
+        msg.textContent = 'Kaydedildi: ' + (r.path || '') + (r.ratingPending ? ' · puan sonra sorulacak' : '') + (r.doiPending ? ' · DOI sonra bulunacak' : '') + (r.onboarding ? ' · dergi kayıtlı kaynak değil: ' + r.onboarding.journal + ' (onboarding notu düştü)' : '');
         go.disabled = false;
       }, function (err) { msg.textContent = 'Olmadı: ' + err.message; go.disabled = false; });
       return;
@@ -2429,7 +2438,9 @@
     var box = rb.closest('[data-wow-item]');
     var no = rb.hasAttribute('data-wow-no');
     var body2 = { itemId: box.getAttribute('data-wow-item'), wow: no ? 1 : Number(box.querySelector('.wow-score').value), channels: no ? { tt: false, ik: false, km: false } : { tt: box.querySelector('.wow-tt').checked, ik: box.querySelector('.wow-ik').checked, km: box.querySelector('.wow-km').checked } };
-    if (no) body2.note = '[NOT_WOW] sahip: wow değil';
+    var why = box.querySelector('.wow-why') ? box.querySelector('.wow-why').value.trim() : '';
+    if (no) body2.note = ('[NOT_WOW] ' + (why || 'sahip: wow değil')).slice(0, 500);
+    else if (why) body2.note = ('[WOW] ' + why).slice(0, 500);
     rb.disabled = true;
     api('/api/ratings', { method: 'POST', body: JSON.stringify(body2) }).then(function () {
       box.closest('.tq-item').innerHTML = '<p class="mod-note">Kaydedildi: ' + (no ? 'wow değil' : 'wow ' + body2.wow) + '</p>';

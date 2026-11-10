@@ -1,6 +1,7 @@
 import { upsertSourceItem, type Env } from '../db/queries';
 import { tagIngestedItem } from '../topics/store';
 import { TOPIC_PLAN } from '../topics/plan.generated';
+import { registerArticleSource } from '../wow/introduce';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
 import { hasNoticePubType, isNonArticleNotice } from './research-quality';
@@ -136,6 +137,8 @@ export async function ingestEuropePmc(
       },
     });
     if (result.created && result.id) await tagIngestedItem(env, { itemId: result.id, route: 'kaduse-research', feedId: feed.id, title, abstract: abstract || null });
+    // The journal of a topic-discovered article enters Research as a record-only source (DEC-R-20261111-026).
+    if (result.created && topicMode && it.journalTitle) await registerArticleSource(env, it.journalTitle).catch(() => null);
 
     if (result.created) created += 1;
     else updated += 1;

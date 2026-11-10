@@ -157,3 +157,40 @@ test('Europe PMC in topics mode: one search per owner relation, no journal named
   assert.ok(urls.some((u) => decodeURIComponent(u.split('+').join(' ')).includes('smoking cessation')), 'SGR relation query');
   assert.ok(urls.every((u) => !/jama|nature|nejm/i.test(decodeURIComponent(u).replace(/ebi\.ac\.uk/g, ''))), 'no journal in any query');
 });
+
+test('DEC-026: an article is introduced without a score, waits in the question queue, and leaves it once the owner answers', async () => {
+  const { sqlite, env } = openDb();
+  const v = W.validateWow({ doi: '10.1001/jamanetworkopen.2024.42639' });
+  assert.equal(v.ok, true);
+  assert.equal(v.value.wow, null);
+  const r = await W.introduceWow(env, { doi: '10.1001/jamanetworkopen.2024.42639' }, crossref(works), NOW);
+  assert.equal(r.status, 201, JSON.stringify(r.body));
+  assert.equal(r.body.ratingPending, true);
+  assert.equal(sqlite.prepare('SELECT COUNT(*) AS n FROM item_ratings').get().n, 0, 'no score is invented');
+  const q = await W.wowQuestions(env);
+  assert.equal(q.body.count, 1);
+  assert.equal(q.body.items[0].itemId, r.body.itemId);
+  const listed = await W.introducedWow(env);
+  assert.equal(listed.body.count, 1, 'unscored introductions are listed too');
+  assert.equal(listed.body.items[0].wow, null);
+  sqlite.prepare(`INSERT INTO item_ratings (rating_id, item_id, wow, ch_tt, ch_ik, ch_km, note) VALUES ('r1', ?, 9, 1, 0, 0, '[WOW] neden')`).run(r.body.itemId);
+  assert.equal((await W.wowQuestions(env)).body.count, 0);
+  assert.equal((await W.introducedWow(env)).body.items[0].wow, 9);
+});
+
+test('DEC-026: the journal of an article enters Research as a record-only source, once, never fetched, never matched as a feed', async () => {
+  const { sqlite, env } = openDb();
+  const r = await W.introduceWow(env, body({ doi: '10.1038/s41467-026-75141-2' }), crossref(works), NOW);
+  assert.equal(r.body.articleSource, 'research-src-nature-communications');
+  const row = sqlite.prepare(`SELECT label, enabled, endpoint_url, external_ref FROM source_feeds WHERE id = 'research-src-nature-communications'`).get();
+  assert.equal(row.label, 'Nature Communications');
+  assert.equal(row.enabled, 0);
+  assert.equal(row.endpoint_url, null);
+  assert.equal(row.external_ref, W.ARTICLE_SOURCE_REF);
+  assert.equal(await W.registerArticleSource(env, '  nature   communications '), 'research-src-nature-communications', 'same journal, one row');
+  assert.equal(await W.registerArticleSource(env, 'Nature'), 'research-nature', 'an existing Research row with that label is reused');
+  assert.equal(await W.registerArticleSource(env, 'Europe PMC'), null, 'an index is not a source');
+  const again = await W.introduceWow(env, { title: 'Another work', journal: 'Nature Communications' }, crossref(works), NOW);
+  assert.equal(again.body.feed, W.OWNER_WOW_FEED, 'a record-only source never becomes the owning feed');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_feeds WHERE external_ref = ?`).get(W.ARTICLE_SOURCE_REF).n, 1);
+});

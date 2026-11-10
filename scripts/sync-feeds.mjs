@@ -132,12 +132,15 @@ if (fs.existsSync(researchStatePath)) {
   const back = new Set((st.reactivated || []).map((r) => r.feed_id));
   for (const p of st.paused || []) if (!back.has(p.feed_id)) pausedResearch.add(p.feed_id);
 }
+// Catalog entries that only carry a canonical identity for another family (DEC-R-20261111-026: Research has no source feeds beyond the carriers).
+const IDENTITY_ONLY_RESEARCH = new Set(['clinicaltrials-gov-api-v2']); // Dossier reader canonical_source_id
 const researchFeeds = [];
 const seenResearch = new Set();
 for (const rs of researchRegistry) {
   const id = rs.sourceId;
   if (seenResearch.has(id)) continue;
   seenResearch.add(id);
+  if (IDENTITY_ONLY_RESEARCH.has(id)) continue;
   const isEpmc = id === 'europe-pmc-rest';
   const isPubmed = id === 'pubmed-eutilities';
   researchFeeds.push({
