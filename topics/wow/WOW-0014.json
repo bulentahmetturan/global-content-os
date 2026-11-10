@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0014",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1152/japplphysiol.00662.2003",
+    "title": "Determinants of fat oxidation during exercise: FATmax and training intensity zones",
+    "journal": "Journal of Applied Physiology",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Venables ve ark. J Appl Physiol (2005), Achten ve ark. MSSE (2002), Chavez-Guevara ve ark. Sports Med (2023); egzersizde maksimal yağ oksidasyonu (FATmax) ve nabız bölgeleri.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Journal of Applied Physiology kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "EGZ",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #19 (satir 20)"
+}

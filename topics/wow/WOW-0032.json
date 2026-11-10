@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0032",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1016/j.jfca.2024.106309",
+    "title": "Mercury and toxic metal levels in small pelagic fish (Engraulis encrasicolus and Trachurus mediterraneus)",
+    "journal": "Journal of Food Composition and Analysis",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Bat ve ark. JFCA (2024), Sinop Univ Fen Bil Derg (2023), Ogretmen ve ark. Mar Pollut Bull (2025), Fishes (2026); Karadeniz ve Marmara hamsi ve istavritlerinde civa ve mikrobesin guvenlik indeksleri.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Journal of Food Composition and Analysis kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "TOX",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #48 (satir 49)"
+}

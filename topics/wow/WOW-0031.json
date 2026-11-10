@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0031",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-11",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1038/s41598-025-87875-y",
+    "title": "Total and methylmercury concentrations in bluefish (Pomatomus saltatrix) and bonito (Sarda sarda)",
+    "journal": "Scientific Reports",
+    "published_at": null,
+    "verified_by": "Crossref dogrulamasi bekleniyor (DOI mevcut)",
+    "study": "Önel ve ark. Sci Rep (2025), Akkaya ve ark. Toxics (2025; 10.3390/toxics13030153), Bayrakli & Altuntas JTEMB (2025; 10.1016/j.jtemb.2025.127664), Ekiz & Karabulut Biology (2026; 10.3390/biology15040341); Türkiye denizlerinde lüfer ve palamutta ağır metal ve cıva birikimi.",
+    "doi_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Scientific Reports kayitli kaynakla kesin eslesirse sahibin istegiyle acilir; yoksa §6.5 onboarding"
+    },
+    "topics": [
+      {
+        "topic": "TOX",
+        "units": []
+      }
+    ]
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #47 (satir 48)"
+}
