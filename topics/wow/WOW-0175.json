@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0175",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1002/14651858.CD016297",
+    "title": "Amyloid-beta-targeting monoclonal antibodies for people with mild cognitive impairment or mild dementia due to Alzheimer's disease",
+    "journal": "The Cochrane database of systematic reviews",
+    "published_at": null,
+    "study": "Alzheimer’da amiloid-beta antikorları",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "DOI, yayın başlığı ve dergi kimliği doğrulandı; kaynaklar bibliographic_verification alanında. Klinik iddialar bu işlemle topluca doğrulanmış sayılmaz."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #214",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Nonino ve ark. (2026), Cochrane Reviews. DOI: 10.1002/14651858.CD016297",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1002/14651858.CD016297",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1002%2F14651858.CD016297%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/41985900/"
+    ],
+    "authors": "Nonino F, Minozzi S, Sambati L, Del Giovane C, Baldin E, Bassi MC, De Santis C, Gonzalez-Lorenzo M, Vignatelli L, Filippini G, Richard E.",
+    "pmid": "41985900",
+    "match_note": "Nonino, Cochrane 2026, amiloid-beta antikorları sistematik derlemesi ve verilen DOI eşleşti.",
+    "scope_note": "Verilmeyen paylaşım ve yayın tarihleri tahmin edilmedi; kaynak metni özgün haliyle korundu."
+  }
+}

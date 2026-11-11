@@ -1770,6 +1770,294 @@
       "record_ids": [
         "WOW-0171"
       ]
+    },
+    {
+      "list_row": 212,
+      "topic": "Düşük karbonhidrat diyeti: kalite farkı",
+      "owner_text": "Liu ve ark. (2025), Diabetes Care",
+      "source_line": "212\tDüşük karbonhidrat diyeti: kalite farkı\tLiu ve ark. (2025), Diabetes Care",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0172"
+      ]
+    },
+    {
+      "list_row": 213,
+      "topic": "Statin ilişkili kas ağrısı ve CoQ10",
+      "owner_text": "Kovacic ve ark. (2025); Qu ve ark. (2018), JAHA",
+      "source_line": "213\tStatin ilişkili kas ağrısı ve CoQ10\tKovacic ve ark. (2025); Qu ve ark. (2018), JAHA",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0173",
+        "WOW-0174"
+      ]
+    },
+    {
+      "list_row": 214,
+      "topic": "Alzheimer’da amiloid-beta antikorları",
+      "owner_text": "Nonino ve ark. (2026), Cochrane Reviews. DOI: 10.1002/14651858.CD016297",
+      "source_line": "214\tAlzheimer’da amiloid-beta antikorları\tNonino ve ark. (2026), Cochrane Reviews. DOI: 10.1002/14651858.CD016297",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0175"
+      ]
+    },
+    {
+      "list_row": 215,
+      "topic": "GLP-1RA ve sarkopenik kilo kaybı",
+      "owner_text": "Langer & Norman (2026), Nature Reviews Endocrinology",
+      "source_line": "215\tGLP-1RA ve sarkopenik kilo kaybı\tLanger & Norman (2026), Nature Reviews Endocrinology",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0176"
+      ]
+    },
+    {
+      "list_row": 217,
+      "topic": "Statinler ve Alzheimer riski",
+      "owner_text": "Novak ve ark. (2026), Journal of Alzheimer’s Disease",
+      "source_line": "217\tStatinler ve Alzheimer riski\tNovak ve ark. (2026), Journal of Alzheimer’s Disease",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0177"
+      ]
+    },
+    {
+      "list_row": 218,
+      "topic": "Düşük karbonhidrat ve diyabet riski",
+      "owner_text": "Liu ve ark. (2025), Diabetes Care",
+      "source_line": "218\tDüşük karbonhidrat ve diyabet riski\tLiu ve ark. (2025), Diabetes Care",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 212,
+      "note": "Doğrulanan aynı yayın; ayrı makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0172"
+      ]
+    },
+    {
+      "list_row": 219,
+      "topic": "Ultra işlenmiş gıdalar ve kas içi yağlanma",
+      "owner_text": "Akkaya ve ark., Radiology",
+      "source_line": "219\tUltra işlenmiş gıdalar ve kas içi yağlanma\tAkkaya ve ark., Radiology",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0178"
+      ]
+    },
+    {
+      "list_row": 220,
+      "topic": "Uykuyla uyumlu gece açlığı",
+      "owner_text": "Grimaldi, Zee ve ark. (2026), ATVB",
+      "source_line": "220\tUykuyla uyumlu gece açlığı\tGrimaldi, Zee ve ark. (2026), ATVB",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0179"
+      ]
+    },
+    {
+      "list_row": 221,
+      "topic": "Erken zaman kısıtlı beslenme",
+      "owner_text": "Chen ve ark. (2026), BMJ Medicine. DOI: 10.1136/bmjmed-2024-001071",
+      "source_line": "221\tErken zaman kısıtlı beslenme\tChen ve ark. (2026), BMJ Medicine. DOI: 10.1136/bmjmed-2024-001071",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0180"
+      ]
+    },
+    {
+      "list_row": 222,
+      "topic": "C vitamini, ACSL4 ve ferro-aging",
+      "owner_text": "Liu, Zheng ve ark. (2026), Cell Metabolism",
+      "source_line": "222\tC vitamini, ACSL4 ve ferro-aging\tLiu, Zheng ve ark. (2026), Cell Metabolism",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0181"
+      ]
+    },
+    {
+      "list_row": 223,
+      "topic": "Aort darlığı ve bayılma",
+      "owner_text": "Atıf yok",
+      "source_line": "223\tAort darlığı ve bayılma\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 224,
+      "topic": "COVID-19 aşıları ve GLP-1 güvenlik sinyalleri",
+      "owner_text": "Stone ve ark. (2026), FAERS analizi",
+      "source_line": "224\tCOVID-19 aşıları ve GLP-1 güvenlik sinyalleri\tStone ve ark. (2026), FAERS analizi",
+      "date": null,
+      "date_missing": true,
+      "status": "source_context_ambiguous",
+      "missing": "Stone 2026 FAERS makalesi 225 için doğrulandı; COVID-19 aşılarıyla ilgili ayrı yayın/analiz veya bağlam doğrulanmadı. 224 kesin tekrar sayılmadı.",
+      "possible_related_record_ids": [
+        "WOW-0182"
+      ]
+    },
+    {
+      "list_row": 225,
+      "topic": "GLP-1 ilaçlarının gerçek yaşam güvenlilik analizi",
+      "owner_text": "Stone ve ark. (2026), Obesity",
+      "source_line": "225\tGLP-1 ilaçlarının gerçek yaşam güvenlilik analizi\tStone ve ark. (2026), Obesity",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0182"
+      ]
+    },
+    {
+      "list_row": 226,
+      "topic": "Genç kadınlarda metabolik kardiyovasküler risk",
+      "owner_text": "Dugani ve ark. (2021), JAMA Cardiology",
+      "source_line": "226\tGenç kadınlarda metabolik kardiyovasküler risk\tDugani ve ark. (2021), JAMA Cardiology",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0183"
+      ]
+    },
+    {
+      "list_row": 227,
+      "topic": "Kilo kaybında kas koruma",
+      "owner_text": "Atıf yok",
+      "source_line": "227\tKilo kaybında kas koruma\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 228,
+      "topic": "Kümülatif LDL maruziyeti",
+      "owner_text": "Ference ve ark. (2024), Nature Reviews Cardiology. DOI: 10.1038/s41569-024-01039-5",
+      "source_line": "228\tKümülatif LDL maruziyeti\tFerence ve ark. (2024), Nature Reviews Cardiology. DOI: 10.1038/s41569-024-01039-5",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0184"
+      ]
+    },
+    {
+      "list_row": 229,
+      "topic": "Kümülatif LDL yükü",
+      "owner_text": "Ference ve ark. (2024), Nature Reviews Cardiology",
+      "source_line": "229\tKümülatif LDL yükü\tFerence ve ark. (2024), Nature Reviews Cardiology",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 228,
+      "note": "Doğrulanan aynı yayın; ayrı makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0184"
+      ]
+    },
+    {
+      "list_row": 230,
+      "topic": "AVRT’de EPS ve RF ablasyon",
+      "owner_text": "Klinik olgu",
+      "source_line": "230\tAVRT’de EPS ve RF ablasyon\tKlinik olgu",
+      "date": null,
+      "date_missing": true,
+      "status": "skipped_not_article",
+      "source_type": "clinical_case_without_citation",
+      "note": "Klinik olgu olarak verildi, makale yayın künyesi yok. Makale kaydı açılmadı; özgün kaynak metni korundu."
+    },
+    {
+      "list_row": 232,
+      "topic": "GLP-1 tedavisinde genetik kişiselleştirme",
+      "owner_text": "GWAS anılıyor; künye yok",
+      "source_line": "232\tGLP-1 tedavisinde genetik kişiselleştirme\tGWAS anılıyor; künye yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 233,
+      "topic": "Secundum ASD ve perkütan kapama",
+      "owner_text": "Klinik olgu",
+      "source_line": "233\tSecundum ASD ve perkütan kapama\tKlinik olgu",
+      "date": null,
+      "date_missing": true,
+      "status": "skipped_not_article",
+      "source_type": "clinical_case_without_citation",
+      "note": "Klinik olgu olarak verildi, makale yayın künyesi yok. Makale kaydı açılmadı; özgün kaynak metni korundu."
+    },
+    {
+      "list_row": 234,
+      "topic": "Kilo verirken kas koruma protokolü",
+      "owner_text": "Atıf yok",
+      "source_line": "234\tKilo verirken kas koruma protokolü\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 237,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kilo kaybında kas lifi tipi ve kas kaybı riski",
+      "owner_text": "Atıf yok",
+      "source_line": "237\tKilo kaybında kas lifi tipi ve kas kaybı riski\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 238,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kalp-damar hastalıklarında genetik ve aile öyküsü",
+      "owner_text": "Atıf yok",
+      "source_line": "238\tKalp-damar hastalıklarında genetik ve aile öyküsü\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 240,
+      "date": null,
+      "date_missing": true,
+      "topic": "Metabolik psikiyatri, inflamasyon ve GLP-1/GIP",
+      "owner_text": "Nature Mental Health makalesine atıf; künye/DOI yok",
+      "source_line": "240\tMetabolik psikiyatri, inflamasyon ve GLP-1/GIP\tNature Mental Health makalesine atıf; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 242,
+      "date": null,
+      "date_missing": true,
+      "topic": "Yaban mersini ve damar fonksiyonu",
+      "owner_text": "14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "source_line": "242\tYaban mersini ve damar fonksiyonu\t14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
     }
   ]
 }

@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 84,
+  "count": 93,
   "rows": [
     {
       "list_row": 1,
@@ -855,6 +855,99 @@
         "WOW-0089",
         "WOW-0164"
       ]
+    },
+    {
+      "list_row": 223,
+      "topic": "Aort darlığı ve bayılma",
+      "owner_text": "Atıf yok",
+      "source_line": "223\tAort darlığı ve bayılma\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 224,
+      "topic": "COVID-19 aşıları ve GLP-1 güvenlik sinyalleri",
+      "owner_text": "Stone ve ark. (2026), FAERS analizi",
+      "source_line": "224\tCOVID-19 aşıları ve GLP-1 güvenlik sinyalleri\tStone ve ark. (2026), FAERS analizi",
+      "date": null,
+      "date_missing": true,
+      "status": "source_context_ambiguous",
+      "missing": "Stone 2026 FAERS makalesi 225 için doğrulandı; COVID-19 aşılarıyla ilgili ayrı yayın/analiz veya bağlam doğrulanmadı. 224 kesin tekrar sayılmadı.",
+      "possible_related_record_ids": [
+        "WOW-0182"
+      ]
+    },
+    {
+      "list_row": 227,
+      "topic": "Kilo kaybında kas koruma",
+      "owner_text": "Atıf yok",
+      "source_line": "227\tKilo kaybında kas koruma\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 232,
+      "topic": "GLP-1 tedavisinde genetik kişiselleştirme",
+      "owner_text": "GWAS anılıyor; künye yok",
+      "source_line": "232\tGLP-1 tedavisinde genetik kişiselleştirme\tGWAS anılıyor; künye yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 234,
+      "topic": "Kilo verirken kas koruma protokolü",
+      "owner_text": "Atıf yok",
+      "source_line": "234\tKilo verirken kas koruma protokolü\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; atıf/çalışma künyesi verilmedi."
+    },
+    {
+      "list_row": 237,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kilo kaybında kas lifi tipi ve kas kaybı riski",
+      "owner_text": "Atıf yok",
+      "source_line": "237\tKilo kaybında kas lifi tipi ve kas kaybı riski\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 238,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kalp-damar hastalıklarında genetik ve aile öyküsü",
+      "owner_text": "Atıf yok",
+      "source_line": "238\tKalp-damar hastalıklarında genetik ve aile öyküsü\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 240,
+      "date": null,
+      "date_missing": true,
+      "topic": "Metabolik psikiyatri, inflamasyon ve GLP-1/GIP",
+      "owner_text": "Nature Mental Health makalesine atıf; künye/DOI yok",
+      "source_line": "240\tMetabolik psikiyatri, inflamasyon ve GLP-1/GIP\tNature Mental Health makalesine atıf; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 242,
+      "date": null,
+      "date_missing": true,
+      "topic": "Yaban mersini ve damar fonksiyonu",
+      "owner_text": "14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "source_line": "242\tYaban mersini ve damar fonksiyonu\t14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
     }
   ]
 }

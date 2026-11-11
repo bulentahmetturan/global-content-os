@@ -1,0 +1,98 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 21,
+    "new_records": 13,
+    "new_doi_records": 13,
+    "pending_rows": 5,
+    "duplicate_rows": 2,
+    "not_article_rows": 2,
+    "total_records": 184,
+    "records_with_doi": 173,
+    "records_without_doi": 11,
+    "distinct_dois": 172,
+    "first": "WOW-0172",
+    "last": "WOW-0184"
+  },
+  "added": [
+    {
+      "id": "WOW-0172",
+      "list_row": 212,
+      "title": "Low-Carbohydrate Diets of Varying Macronutrient Quality and Risk of Type 2 Diabetes in Three U.S. Prospective Cohort Studies",
+      "doi": "10.2337/dc25-1401"
+    },
+    {
+      "id": "WOW-0173",
+      "list_row": 213,
+      "title": "Effects of coenzyme Q10 supplementation on myopathy in statin-treated patients: a systematic review and meta-analysis",
+      "doi": "10.1017/jns.2025.10043"
+    },
+    {
+      "id": "WOW-0174",
+      "list_row": 213,
+      "title": "Effects of Coenzyme Q10 on Statin-Induced Myopathy: An Updated Meta-Analysis of Randomized Controlled Trials",
+      "doi": "10.1161/JAHA.118.009835"
+    },
+    {
+      "id": "WOW-0175",
+      "list_row": 214,
+      "title": "Amyloid-beta-targeting monoclonal antibodies for people with mild cognitive impairment or mild dementia due to Alzheimer's disease",
+      "doi": "10.1002/14651858.CD016297"
+    },
+    {
+      "id": "WOW-0176",
+      "list_row": 215,
+      "title": "Causes of sarcopenia and frailty in people taking GLP1RAs",
+      "doi": "10.1038/s41574-026-01254-9"
+    },
+    {
+      "id": "WOW-0177",
+      "list_row": 217,
+      "title": "Alzheimer's disease in patients prescribed statins: A real-world data analysis of U.S. patient health records",
+      "doi": "10.1177/13872877261424220"
+    },
+    {
+      "id": "WOW-0178",
+      "list_row": 219,
+      "title": "Ultra-processed Foods and Muscle Fat Infiltration at Thigh MRI: Data from the Osteoarthritis Initiative",
+      "doi": "10.1148/radiol.251129"
+    },
+    {
+      "id": "WOW-0179",
+      "list_row": 220,
+      "title": "Sleep-Aligned Extended Overnight Fasting Improves Nighttime and Daytime Cardiometabolic Function",
+      "doi": "10.1161/ATVBAHA.125.323355"
+    },
+    {
+      "id": "WOW-0180",
+      "list_row": 221,
+      "title": "Effects of timing and eating duration of time restricted eating on metabolic outcomes: systematic review and network meta-analysis",
+      "doi": "10.1136/bmjmed-2024-001071"
+    },
+    {
+      "id": "WOW-0181",
+      "list_row": 222,
+      "title": "Vitamin C inhibits ACSL4 to alleviate ferro-aging in primates",
+      "doi": "10.1016/j.cmet.2026.02.010"
+    },
+    {
+      "id": "WOW-0182",
+      "list_row": 225,
+      "title": "Evaluating the Evolving Real-World Adverse Events of GLP-1RAs Using FDA Adverse Event Reporting System (FAERS)",
+      "doi": "10.1002/oby.70176"
+    },
+    {
+      "id": "WOW-0183",
+      "list_row": 226,
+      "title": "Association of Lipid, Inflammatory, and Metabolic Biomarkers With Age at Onset for Incident Coronary Heart Disease in Women",
+      "doi": "10.1001/jamacardio.2020.7073"
+    },
+    {
+      "id": "WOW-0184",
+      "list_row": 228,
+      "title": "The LDL cumulative exposure hypothesis: evidence and practical applications",
+      "doi": "10.1038/s41569-024-01039-5"
+    }
+  ],
+  "rule": "Belirsiz COVID-19 bağlamı ve atıfsız/klinik olgu satırları makale sayılmadı. Canlı gönderim yapılmadı."
+}

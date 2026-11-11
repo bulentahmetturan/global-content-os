@@ -1,0 +1,54 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 4,
+    "new_records": 0,
+    "pending_rows": 4,
+    "duplicate_rows": 0,
+    "total_records": 184,
+    "records_with_doi": 173,
+    "records_without_doi": 11
+  },
+  "rows": [
+    {
+      "list_row": 237,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kilo kaybında kas lifi tipi ve kas kaybı riski",
+      "owner_text": "Atıf yok",
+      "source_line": "237\tKilo kaybında kas lifi tipi ve kas kaybı riski\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 238,
+      "date": null,
+      "date_missing": true,
+      "topic": "Kalp-damar hastalıklarında genetik ve aile öyküsü",
+      "owner_text": "Atıf yok",
+      "source_line": "238\tKalp-damar hastalıklarında genetik ve aile öyküsü\tAtıf yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 240,
+      "date": null,
+      "date_missing": true,
+      "topic": "Metabolik psikiyatri, inflamasyon ve GLP-1/GIP",
+      "owner_text": "Nature Mental Health makalesine atıf; künye/DOI yok",
+      "source_line": "240\tMetabolik psikiyatri, inflamasyon ve GLP-1/GIP\tNature Mental Health makalesine atıf; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    },
+    {
+      "list_row": 242,
+      "date": null,
+      "date_missing": true,
+      "topic": "Yaban mersini ve damar fonksiyonu",
+      "owner_text": "14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "source_line": "242\tYaban mersini ve damar fonksiyonu\t14 RKÇ’lik 2026 meta-analizi; künye/DOI yok",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; yazar ve dergi/yıl bilgileriyle kesin yayın eşleştirmesi. Atıfsız veya kısmi künye tamamlanmış makale sayılmadı."
+    }
+  ]
+}
