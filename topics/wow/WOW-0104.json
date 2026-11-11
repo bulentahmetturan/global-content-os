@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0104",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Second Universal Definition of Heart Failure: An Executive Summary of the AHA/ACC/ESC/WHF Expert Consensus Document",
+    "journal": null,
+    "published_at": null,
+    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "study": "Kalp yetersizliğinin yeni tanımı",
+    "doi_pending": true,
+    "title_pending": false,
+    "publication_type": "expert_consensus"
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #56",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Second Universal Definition of Heart Failure: An Executive Summary of the AHA/ACC/ESC/WHF Expert Consensus Document. 2026.",
+  "source_share_date": "01.07.2026"
+}

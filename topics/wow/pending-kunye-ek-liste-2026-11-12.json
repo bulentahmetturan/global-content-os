@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 20,
+  "count": 34,
   "rows": [
     {
       "list_row": 1,
@@ -169,6 +169,122 @@
       "owner_text": "Jillian Kodger ve ark., The Journal of Applied Laboratory Medicine, Ocak 2026. Tam başlık ve DOI eksik.",
       "status": "pending",
       "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 31,
+      "date": "14.07.2026",
+      "topic": "Glüten hassasiyeti ve nosebo",
+      "owner_text": "The Lancet Gastroenterology & Hepatology, Eylül 2025. McMaster Üniversitesi; 29 İBS hastasında glüten, buğday ve plasebo karşılaştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 34,
+      "date": "13.07.2026",
+      "topic": "Grip aşısı ve kalp-damar olayları",
+      "owner_text": "Laurent Fauchier ve ekibi, European Heart Journal, Temmuz 2026. 276 binden fazla yetişkinin yaklaşık 2,7 yıllık takibi.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 37,
+      "date": "11.07.2026",
+      "topic": "Hipertansiyon, bağışıklık ve inflamasyon",
+      "owner_text": "Montezano, Touyz ve ark., Physiology. Tam başlık ve DOI eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 39,
+      "date": "10.07.2026",
+      "topic": "Bitkisel/hayvansal protein ve kas gelişimi",
+      "owner_text": "Hevia-Larrain, Roschel ve ark., Sports Medicine, 2021. 12 haftalık direnç egzersizi araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 47,
+      "date": "06.07.2026",
+      "topic": "Uyku, hareket ve beslenme",
+      "owner_text": "eClinicalMedicine, Şubat 2026. Üç yaşam tarzı etkeninin yaşam süresiyle ilişkisini inceleyen kohort araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 49,
+      "date": "05.07.2026",
+      "topic": "Bal ve kardiyometabolik göstergeler",
+      "owner_text": "Nutrition Reviews. Toronto Üniversitesi; 18 randomize çalışma, 1.105 katılımcılı meta-analiz.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 52,
+      "date": "03.07.2026",
+      "topic": "Kanser tedavilerinin kalbe etkileri",
+      "owner_text": "Açıklamada ve incelenen giriş görüntüsünde makale künyesi görülmemiş.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 53,
+      "date": "03.07.2026",
+      "topic": "Fermente gıdalar, lif ve bağışıklık",
+      "owner_text": "Wastyk, Sonnenburg ve ark., Cell, 2021. Stanford’da 17 haftalık randomize beslenme araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 54,
+      "date": "02.07.2026",
+      "topic": "Aralıklı oruç ve diyabet",
+      "owner_text": "Krista Varady, The Lancet Diabetes & Endocrinology, Haziran 2026. Tam başlık eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 55,
+      "date": "02.07.2026",
+      "topic": "mRNA aşılarının güvenliliği",
+      "owner_text": "The Lancet, 30 Haziran 2026 derlemesi. Tam başlık ve yazarlar eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 56,
+      "date": "01.07.2026",
+      "topic": "Kalp yetersizliğinin yeni tanımı",
+      "owner_text": "Second Universal Definition of Heart Failure: An Executive Summary of the AHA/ACC/ESC/WHF Expert Consensus Document. 2026.",
+      "status": "partial_pending",
+      "record_ids": [
+        "WOW-0104"
+      ],
+      "missing": "Dergi/yayın yeri veya DOI; tam başlık mevcut, yükleme için dergi ya da DOI gerekiyor."
+    },
+    {
+      "list_row": 58,
+      "date": "30.06.2026",
+      "topic": "Çay demleme sıcaklığı ve oksidasyon",
+      "owner_text": "Food Chemistry, Journal of Food Composition and Analysis, LWT. Ayrı makalelerin künyeleri yok.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 59,
+      "date": "30.06.2026",
+      "topic": "Meyve suyu ve hipertansiyon",
+      "owner_text": "Circulation, 22 Haziran 2026. Harvard/Toronto; 25 binden fazla kişiyi izleyen kohort araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 60,
+      "date": "29.06.2026",
+      "topic": "Statin ve takviyeler — SPORT",
+      "owner_text": "Kaynak metni bu noktada kesiliyor; ayrı makale başlığı veya DOI verilmedi.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI",
+      "note": "Sahibin mesajındaki satır kesik; SPORT tek başına tam makale başlığı sayılmadı."
     }
   ]
 }
