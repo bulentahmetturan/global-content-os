@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Vitamin D status, supplementation, and long-term cognitive trajectory in 5,065 older adults",
-    "journal": "BMJ Open",
+    "doi": "10.1136/bmjopen-2025-106050",
+    "title": "Association between vitamin D supplement use and cognitive functioning: a longitudinal cohort study",
+    "journal": "BMJ open",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "BMJ Open; 5.065 yaşlı birey (ort. yaş 67,5), 6 yıllık takip; serum 25(OH)D düzeyleri ile demans ve bilişsel gerileme riski analizi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #87 (11.09.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #87 (11.09.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC DOI lookup",
+    "sources": [
+      "https://doi.org/10.1136/bmjopen-2025-106050",
+      "https://pubmed.ncbi.nlm.nih.gov/41571412/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1136%2Fbmjopen-2025-106050%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Hua R, Lam CS, Mok VCT, Cheung YT.",
+    "pmid": "41571412",
+    "match_note": "BMJ Open, 5.065 HRS katılımcısı, ortalama 67,5 yaş ve altı yıl eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Vitamin D status, supplementation, and long-term cognitive trajectory in 5,065 older adults",
+      "journal": "BMJ Open",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "BMJ Open; 5.065 yaşlı birey (ort. yaş 67,5), 6 yıllık takip; serum 25(OH)D düzeyleri ile demans ve bilişsel gerileme riski analizi.",
+      "doi_pending": true
+    }
+  }
 }

@@ -1,0 +1,1055 @@
+{
+  "schema": "gcos-wow-doi-research/1",
+  "checked_at": "2026-11-12",
+  "summary": {
+    "reviewed": 77,
+    "new_doi_records": 70,
+    "unresolved": 7,
+    "total_records": 116,
+    "records_with_doi": 109,
+    "records_without_doi": 7,
+    "distinct_dois": 108
+  },
+  "rule": "Sadece bibliyografik kimliği eşleştirilen DOI yazıldı. Belirsiz adaylar doğrulanmış sayılmadı. Canlı yükleme yapılmadı.",
+  "rows": [
+    {
+      "id": "WOW-0004",
+      "status": "verified",
+      "doi": "10.1056/NEJMoa2610014",
+      "title": "Plozasiran for Severe Hypertriglyceridemia and Risk of Pancreatitis",
+      "journal": "The New England journal of medicine",
+      "sources": [
+        "https://doi.org/10.1056/NEJMoa2610014",
+        "https://pubmed.ncbi.nlm.nih.gov/42981569/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1056%2FNEJMoa2610014%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "SHASTA-3 ve SHASTA-4 çalışma grupları, ilaç ve NEJM eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0007",
+      "status": "verified",
+      "doi": "10.1056/NEJMoa2609059",
+      "title": "Prevalence of Silent Atherosclerosis across Adult Life",
+      "journal": "The New England journal of medicine",
+      "sources": [
+        "https://doi.org/10.1056/NEJMoa2609059",
+        "https://pubmed.ncbi.nlm.nih.gov/42670946/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1056%2FNEJMoa2609059%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "REACT, 16.808 katılımcı, 18–70 yaş ve NEJM eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0009",
+      "status": "verified",
+      "doi": "10.1111/add.70110",
+      "title": "Synthetic cannabinoids in e-cigarettes seized from English schools",
+      "journal": "Addiction (Abingdon, England)",
+      "sources": [
+        "https://doi.org/10.1111/add.70110",
+        "https://pubmed.ncbi.nlm.nih.gov/40574414/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Cozier+synthetic+cannabinoids+cigarettes&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Cozier, Addiction 2025 ve elektronik sigarada sentetik kannabinoid araştırması eşleşti; Ahmed kaynağı ayrı ve eksik.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0011",
+      "status": "verified",
+      "doi": "10.5543/tkda.2026.44773",
+      "title": "Energy Drink Consumption and Premature Coronary Events: Two Case Reports and a Systematic Patient-Level Review of 31 Published and Newly Reported Patients",
+      "journal": "Turk Kardiyoloji Dernegi arsivi : Turk Kardiyoloji Derneginin yayin organidir",
+      "sources": [
+        "https://doi.org/10.5543/tkda.2026.44773",
+        "https://pubmed.ncbi.nlm.nih.gov/42952259/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Kayikcioglu+energy+drink&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Kayıkçıoğlu; 29 eski ve 2 yeni olgu, toplam 31 hasta eşleşti. Genel dergi etiketi gerçek yayın adıyla düzeltildi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0013",
+      "status": "verified",
+      "doi": "10.1007/s00380-011-0220-7",
+      "title": "Hyperthermia by bathing in a hot spring improves cardiovascular functions and reduces the production of inflammatory cytokines in patients with chronic heart failure",
+      "journal": "Heart and vessels",
+      "sources": [
+        "https://doi.org/10.1007/s00380-011-0220-7",
+        "https://pubmed.ncbi.nlm.nih.gov/22231540/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A22231540+AND+SRC%3AMED&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Oyama, Heart and Vessels, 32 randomize hasta eşleşti; Shah kaynağı ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0015",
+      "status": "verified",
+      "doi": "10.1001/jamanetworkopen.2021.44727",
+      "title": "Examination of Early Childhood Temperament of Shyness and Social Avoidance and Associations With Cardiometabolic Health in Young Adulthood",
+      "journal": "JAMA network open",
+      "sources": [
+        "https://doi.org/10.1001/jamanetworkopen.2021.44727",
+        "https://pubmed.ncbi.nlm.nih.gov/35084482/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Tang+childhood+shyness+cardiometabolic&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tang; JAMA Network Open 2022; 9.491 çocukluk mizaç kaydı eşleşti. Dunedin ayrı kaynak.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0016",
+      "status": "verified",
+      "doi": "10.1016/S0735-1097(00)01054-8",
+      "title": "Age-predicted maximal heart rate revisited",
+      "journal": "Journal of the American College of Cardiology",
+      "sources": [
+        "https://doi.org/10.1016/S0735-1097(00)01054-8",
+        "https://pubmed.ncbi.nlm.nih.gov/11153730/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Age-predicted+maximal+heart+rate+revisited%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tanaka/Monahan/Seals, JACC 2001 ve yaşa göre maksimum kalp hızı yayını eşleşti. AHA ve ESC kaynakları ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0020",
+      "status": "verified",
+      "doi": "10.1016/j.foodchem.2014.02.051",
+      "title": "Pesticide residues in fruits and vegetables from the Aegean region, Turkey",
+      "journal": "Food chemistry",
+      "sources": [
+        "https://doi.org/10.1016/j.foodchem.2014.02.051",
+        "https://pubmed.ncbi.nlm.nih.gov/24799252/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Pesticide+residues+in+fruits+and+vegetables+from+the+Aegean+region%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Food Chemistry 2014, Ege bölgesi ve 1.423 örnek eşleşti; diğer pestisit kaynakları bu DOI ile temsil edilmiyor.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0021",
+      "status": "verified",
+      "doi": "10.1161/CIRCULATIONAHA.120.048996",
+      "title": "Fruit and Vegetable Intake and Mortality: Results From 2 Prospective Cohort Studies of US Men and Women and a Meta-Analysis of 26 Cohort Studies",
+      "journal": "Circulation",
+      "sources": [
+        "https://doi.org/10.1161/CIRCULATIONAHA.120.048996",
+        "https://pubmed.ncbi.nlm.nih.gov/33641343/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1161%2FCIRCULATIONAHA.120.048996%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Circulation 2021, iki kohort ve toplam yaklaşık 1,9 milyon katılımcılı meta-analiz eşleşti; pestisit yayınları ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0023",
+      "status": "verified",
+      "doi": "10.1016/j.smrv.2026.102358",
+      "title": "Effects of morning versus evening exercise on sleep: a systematic review of comparative studies with a meta-analysis of randomized controlled trials",
+      "journal": "Sleep medicine reviews",
+      "sources": [
+        "https://doi.org/10.1016/j.smrv.2026.102358",
+        "https://pubmed.ncbi.nlm.nih.gov/42632303/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Souabni+morning+evening+sleep&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Souabni, Sleep Medicine Reviews 2026 ve 25 çalışma eşleşti; Nature Communications yayını ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0024",
+      "status": "verified",
+      "doi": "10.3390/nu13113827",
+      "title": "The Effect of Weight-Loss Interventions on Cervical and Chin Subcutaneous Fat Depots; the CENTRAL Randomized Controlled Trial",
+      "journal": "Nutrients",
+      "sources": [
+        "https://doi.org/10.3390/nu13113827",
+        "https://pubmed.ncbi.nlm.nih.gov/34836081/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Tsaban+cervical+chin&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tsaban, Nutrients 2021, CENTRAL ve boyun/çene altı yağ depoları eşleşti; Li kaynağı ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0025",
+      "status": "verified",
+      "doi": "10.1016/j.cmet.2026.09.017",
+      "title": "Weight loss during intermittent fasting, not Mediterranean diet quality alone, is associated with lower inflammation: A randomized controlled trial",
+      "journal": "Cell metabolism",
+      "sources": [
+        "https://doi.org/10.1016/j.cmet.2026.09.017",
+        "https://pubmed.ncbi.nlm.nih.gov/42906553/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Mediterranean+diet+fasting+lower+inflammation+2026&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Cell Metabolism, 21 Ekim 2026, 53 yetişkin ve iki aşamalı diyet/oruç müdahalesi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0026",
+      "status": "verified",
+      "doi": "10.1001/jamapsychiatry.2024.4789",
+      "title": "Once-Weekly Semaglutide in Adults With Alcohol Use Disorder: A Randomized Clinical Trial",
+      "journal": "JAMA psychiatry",
+      "sources": [
+        "https://doi.org/10.1001/jamapsychiatry.2024.4789",
+        "https://pubmed.ncbi.nlm.nih.gov/39937469/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1001%2Fjamapsychiatry.2024.4789%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Hendershot, JAMA Psychiatry 2025, semaglutid ve alkol kullanım bozukluğu eşleşti; diğer yayınlar ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0027",
+      "status": "verified",
+      "doi": "10.1038/s41586-026-11162-7",
+      "title": "Artificial intelligence-enabled clinical phenotyping of human brown fat",
+      "journal": "Nature",
+      "sources": [
+        "https://doi.org/10.1038/s41586-026-11162-7",
+        "https://pubmed.ncbi.nlm.nih.gov/42875491/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Gomez-Banoy+brown+fat+2026&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Gómez-Banoy, Nature 14 Ekim 2026, 100 binden fazla tarama ve losartan deneyleri eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0028",
+      "status": "verified",
+      "doi": "10.21467/ajgr.10.1.41-50",
+      "title": "Antioxidative Potential and Phytochemical Content of Detox Water",
+      "journal": "Advanced Journal of Graduate Research",
+      "sources": [
+        "https://doi.org/10.21467/ajgr.10.1.41-50",
+        "https://api.crossref.org/works/10.21467%2Fajgr.10.1.41-50"
+      ],
+      "note": "2021, Fuji elması/Valencia portakalı, suda fenolik ve antioksidan analizleri eşleşti. Önceki genel başlık ve dergi etiketi düzeltildi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0029",
+      "status": "verified",
+      "doi": "10.1016/j.ahj.2025.08.021",
+      "title": "Extra-virgin olive oil and additional cardiovascular outcomes in the PREDIMED Trial: An outcome-wide perspective",
+      "journal": "American heart journal",
+      "sources": [
+        "https://doi.org/10.1016/j.ahj.2025.08.021",
+        "https://pubmed.ncbi.nlm.nih.gov/40907633/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Extra-virgin+olive+oil+and+additional+cardiovascular+outcomes%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "de Rojas, American Heart Journal ve 7.102 PREDIMED katılımcısı eşleşti; DOI’de 2025 bulunması 2026 cilt yılı iddiasını tek başına çürütmez.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0030",
+      "status": "verified",
+      "doi": "10.1126/scitranslmed.adz4815",
+      "title": "Metabolomic aging and mortality clocks based on ensemble learning identify systemic aging risk across the human life span in 18,476 individuals",
+      "journal": "Science translational medicine",
+      "sources": [
+        "https://doi.org/10.1126/scitranslmed.adz4815",
+        "https://pubmed.ncbi.nlm.nih.gov/42873893/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1126%2Fscitranslmed.adz4815%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Science Translational Medicine, 14 Ekim 2026 ve 18.476 kişi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0033",
+      "status": "verified",
+      "doi": "10.3390/nu18091391",
+      "title": "Effects of Dietary Fruit and Vegetable Consumption on Prediabetes: A Systematic Review and Meta-Analysis",
+      "journal": "Nutrients",
+      "sources": [
+        "https://doi.org/10.3390/nu18091391",
+        "https://pubmed.ncbi.nlm.nih.gov/42123992/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Hong+Bae+prediabetes+2026&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Hong ve Bae, Nutrients 2026, prediyabet meta-analizi eşleşti; Muraki BMJ yayını ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0034",
+      "status": "verified",
+      "doi": "10.1016/S0140-6736(15)60461-5",
+      "title": "A 2 year multidomain intervention of diet, exercise, cognitive training, and vascular risk monitoring versus control to prevent cognitive decline in at-risk elderly people (FINGER): a randomised controlled trial",
+      "journal": "Lancet (London, England)",
+      "sources": [
+        "https://doi.org/10.1016/S0140-6736(15)60461-5",
+        "https://pubmed.ncbi.nlm.nih.gov/25771249/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22A+2+year+multidomain+intervention+of+diet%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "FINGER, Ngandu ve The Lancet 2015 eşleşti; US POINTER ve Demans Komisyonu ayrı kaynaklar.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0035",
+      "status": "verified",
+      "doi": "10.3945/ajcn.111.022533",
+      "title": "Sucrose-sweetened beverages increase fat storage in the liver, muscle, and visceral fat depot: a 6-mo randomized intervention study",
+      "journal": "The American journal of clinical nutrition",
+      "sources": [
+        "https://doi.org/10.3945/ajcn.111.022533",
+        "https://pubmed.ncbi.nlm.nih.gov/22205311/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.3945%2Fajcn.111.022533%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "AJCN 2012, Maersk, altı ay ve kola/diyet kola/süt/su karşılaştırması eşleşti; JAMA meta-analizi ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0036",
+      "status": "verified",
+      "doi": "10.1161/CIR.0000000000001435",
+      "title": "2026 Dietary Guidance to Improve Cardiovascular Health: A Scientific Statement From the American Heart Association",
+      "journal": "Circulation",
+      "sources": [
+        "https://doi.org/10.1161/CIR.0000000000001435",
+        "https://pubmed.ncbi.nlm.nih.gov/41914202/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%222026+Dietary+Guidance%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Lichtenstein ve Circulation 2026 AHA bilimsel bildirisi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0037",
+      "status": "verified",
+      "doi": "10.1038/s41591-025-03570-5",
+      "title": "Optimal dietary patterns for healthy aging",
+      "journal": "Nature medicine",
+      "sources": [
+        "https://doi.org/10.1038/s41591-025-03570-5",
+        "https://pubmed.ncbi.nlm.nih.gov/40128348/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1038%2Fs41591-025-03570-5%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Nature Medicine, 105.015 kişi, 30 yıl ve sekiz diyet örüntüsü eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0038",
+      "status": "verified",
+      "doi": "10.1016/j.amepre.2009.07.014",
+      "title": "Waterpipe tobacco and cigarette smoking: direct comparison of toxicant exposure",
+      "journal": "American journal of preventive medicine",
+      "sources": [
+        "https://doi.org/10.1016/j.amepre.2009.07.014",
+        "https://pubmed.ncbi.nlm.nih.gov/19944918/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Waterpipe+tobacco+and+cigarette+smoking%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "AJPM 2009 doğrudan nargile/sigara karşılaştırması eşleşti; 2019 bildirisi ve 2025 meta-analizi ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0039",
+      "status": "verified",
+      "doi": "10.1038/clpt.2013.241",
+      "title": "Green tea ingestion greatly reduces plasma concentrations of nadolol in healthy subjects",
+      "journal": "Clinical pharmacology and therapeutics",
+      "sources": [
+        "https://doi.org/10.1038/clpt.2013.241",
+        "https://pubmed.ncbi.nlm.nih.gov/24419562/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Green+tea+ingestion+greatly+reduces+plasma+concentrations+of+nadolol%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Yeşil çay/nadolol, Clinical Pharmacology and Therapeutics çalışması eşleşti; lisinopril/levotiroksin/demir yayınları ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0040",
+      "status": "verified",
+      "doi": "10.1093/eurjpc/zwac309",
+      "title": "High-intensity interval training induces beneficial effects on coronary atheromatous plaques: a randomized trial",
+      "journal": "European journal of preventive cardiology",
+      "sources": [
+        "https://doi.org/10.1093/eurjpc/zwac309",
+        "https://pubmed.ncbi.nlm.nih.gov/36562212/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Vesterbekkmo+coronary+atheroma+exercise+volume&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Vesterbekkmo, European Journal of Preventive Cardiology, CENIT plak hacmi analizi eşleşti; JAHA lipid içeriği yayınıyla karıştırılmadı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0041",
+      "status": "verified",
+      "doi": "10.1001/jamanetworkopen.2021.48139",
+      "title": "Association of Coronary Plaque With Low-Density Lipoprotein Cholesterol Levels and Rates of Cardiovascular Disease Events Among Symptomatic Adults",
+      "journal": "JAMA network open",
+      "sources": [
+        "https://doi.org/10.1001/jamanetworkopen.2021.48139",
+        "https://pubmed.ncbi.nlm.nih.gov/35147685/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Association+of+Coronary+Plaque+With+Low-Density%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JAMA Network Open 2022, Western Denmark kayıtları, 23.143 kişi ve BT/plak-LDL analizi eşleşti. Özgün çalışma semptomatik kişileri içeriyor; önceki özetin asemptomatik nitelemesi doğrulanmadı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0042",
+      "status": "verified",
+      "doi": "10.1016/j.jacadv.2026.103247",
+      "title": "Central Adiposity and Inflammation Mediate the Association Between Ultraprocessed Food Intake and Cardiovascular Disease Risk",
+      "journal": "JACC. Advances",
+      "sources": [
+        "https://doi.org/10.1016/j.jacadv.2026.103247",
+        "https://pubmed.ncbi.nlm.nih.gov/42820890/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Central+Adiposity+and+Inflammation+Mediate%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "MESA, 6.531 katılımcı, IL-6, bel ölçümleri ve JACC Advances eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0044",
+      "status": "verified",
+      "doi": "10.1080/07315724.2020.1750073",
+      "title": "The Validity of Urine Color as a Hydration Biomarker within the General Adult Population and Athletes: A Systematic Review",
+      "journal": "Journal of the American College of Nutrition",
+      "sources": [
+        "https://doi.org/10.1080/07315724.2020.1750073",
+        "https://pubmed.ncbi.nlm.nih.gov/32330109/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Kostelnik+urine+color+systematic&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Kostelnik ve belirtilen dergide idrar rengi sistematik derlemesi eşleşti; hiponatremi derlemesi ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0046",
+      "status": "verified",
+      "doi": "10.1016/j.numecd.2024.10.009",
+      "title": "Effect of nut consumption on blood lipids: An updated systematic review and meta-analysis of randomized controlled trials",
+      "journal": "Nutrition, metabolism, and cardiovascular diseases : NMCD",
+      "sources": [
+        "https://doi.org/10.1016/j.numecd.2024.10.009",
+        "https://pubmed.ncbi.nlm.nih.gov/39638677/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=nuts+113+8060&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "113 randomize çalışma, 8.060 yetişkin ve kan lipitleri meta-analizi eşleşti; diğer kuruyemiş/ceviz analizleri ayrı.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0047",
+      "status": "verified",
+      "doi": "10.1016/j.jesf.2026.200464",
+      "title": "Comparison of hourly walking and alternating walking-resistance breaks versus prolonged sitting on 26-h glucose responses in sedentary adults: a randomized crossover trial",
+      "journal": "Journal of exercise science and fitness",
+      "sources": [
+        "https://doi.org/10.1016/j.jesf.2026.200464",
+        "https://pubmed.ncbi.nlm.nih.gov/42017059/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Comparison+of+hourly+walking+and+alternating%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JESF 2026, 18 kişilik glukoz analizi ve 26 saatlik çapraz protokol eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0048",
+      "status": "verified",
+      "doi": "10.1016/j.jesf.2025.02.001",
+      "title": "Impact of sequence in concurrent training on physical activity, body composition, and fitness in obese young males: A 12-week randomized controlled trial",
+      "journal": "Journal of exercise science and fitness",
+      "sources": [
+        "https://doi.org/10.1016/j.jesf.2025.02.001",
+        "https://pubmed.ncbi.nlm.nih.gov/40040838/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1016%2Fj.jesf.2025.02.001%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JESF 2025, 45 obez genç erkek ve 12 haftalık egzersiz sırası çalışması eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0049",
+      "status": "verified",
+      "doi": "10.1136/bmj-2026-100688",
+      "title": "Contemporary menopausal hormone therapy and thrombotic disease: nationwide nested case-control study",
+      "journal": "BMJ (Clinical research ed.)",
+      "sources": [
+        "https://doi.org/10.1136/bmj-2026-100688",
+        "https://pubmed.ncbi.nlm.nih.gov/42778212/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1136%2Fbmj-2026-100688%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "BMJ, 23 Eylül 2026, Danimarka ve menopozal hormon tedavisi/trombotik hastalık eşleşti. WOW-0097 ile aynı DOI.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0050",
+      "status": "verified",
+      "doi": "10.1093/eurheartj/ehag674",
+      "title": "The vagus nerve in myocardial infarction",
+      "journal": "European heart journal",
+      "sources": [
+        "https://doi.org/10.1093/eurheartj/ehag674",
+        "https://pubmed.ncbi.nlm.nih.gov/42643152/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1093%2Feurheartj%2Fehag674%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "European Heart Journal derlemesi; vagus, iskemi-reperfüzyon, tragus ve uzaktan iskemik koşullandırma eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0051",
+      "status": "verified",
+      "doi": "10.1038/s41430-026-01796-1",
+      "title": "Meal timing and eating window with all-cause and cardiovascular mortality and life expectancy: population-based cohort study",
+      "journal": "European journal of clinical nutrition",
+      "sources": [
+        "https://doi.org/10.1038/s41430-026-01796-1",
+        "https://pubmed.ncbi.nlm.nih.gov/42538400/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22meal+timing%22+%22mortality%22+%222026%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "EJCN 2026, 31.044 yetişkin, 40 yaş üzeri ve 8,6 yıllık izlem eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0052",
+      "status": "verified",
+      "doi": "10.1136/fmch-2026-003925",
+      "title": "Ultra-processed food consumption and risk of multiple chronic diseases among 8,819,894 adults from 51 prospective cohorts: a dose-response meta-analysis",
+      "journal": "Family medicine and community health",
+      "sources": [
+        "https://doi.org/10.1136/fmch-2026-003925",
+        "https://pubmed.ncbi.nlm.nih.gov/42773062/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Ultra-processed+food+consumption+and+risk+of+multiple+chronic+diseases%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Family Medicine and Community Health; 51 kohort, 8.819.894 kişi eşleşti. Türü umbrella review olarak değil yayın başlığındaki doz-yanıt meta-analizi olarak doğrulandı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0053",
+      "status": "verified",
+      "doi": "10.1001/jamanetworkopen.2019.4270",
+      "title": "Association Between Life Purpose and Mortality Among US Adults Older Than 50 Years",
+      "journal": "JAMA network open",
+      "sources": [
+        "https://doi.org/10.1001/jamanetworkopen.2019.4270",
+        "https://pubmed.ncbi.nlm.nih.gov/31125099/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22life+purpose%22+%226985%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JAMA Network Open 2019, HRS, 50 yaş üzeri 6.985 kişi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0054",
+      "status": "verified",
+      "doi": "10.1093/eurheartj/ehag519",
+      "title": "Whole-grain consumption and cardiometabolic risk: a meta-analysis of randomized trials",
+      "journal": "European heart journal",
+      "sources": [
+        "https://doi.org/10.1093/eurheartj/ehag519",
+        "https://pubmed.ncbi.nlm.nih.gov/42743912/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1093%2Feurheartj%2Fehag519%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "European Heart Journal, Naghshi, 87 randomize çalışma eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0056",
+      "status": "verified",
+      "doi": "10.1146/annurev-nutr-062322-025848",
+      "title": "Nutritional Strategies for Targeting Biological Age",
+      "journal": "Annual review of nutrition",
+      "sources": [
+        "https://doi.org/10.1146/annurev-nutr-062322-025848",
+        "https://pubmed.ncbi.nlm.nih.gov/42629322/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Nutritional+Strategies+for+Targeting+Biological+Age%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Gladyshev ekibi, Annual Review of Nutrition 2026 ve biyolojik yaşı hedefleyen beslenme derlemesi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0057",
+      "status": "verified",
+      "doi": "10.1002/ijc.70654",
+      "title": "Hot Drinks and Oesophageal Cancer: Prospective Analyses in Around 1 Million UK Adults",
+      "journal": "International journal of cancer",
+      "sources": [
+        "https://doi.org/10.1002/ijc.70654",
+        "https://pubmed.ncbi.nlm.nih.gov/42710538/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A42710538+AND+SRC%3AMED&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "International Journal of Cancer; Oxford, 977.282 katılımcı ve sıcak içecekler eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0058",
+      "status": "verified",
+      "doi": "10.1136/bmjopen-2025-106050",
+      "title": "Association between vitamin D supplement use and cognitive functioning: a longitudinal cohort study",
+      "journal": "BMJ open",
+      "sources": [
+        "https://doi.org/10.1136/bmjopen-2025-106050",
+        "https://pubmed.ncbi.nlm.nih.gov/41571412/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1136%2Fbmjopen-2025-106050%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "BMJ Open, 5.065 HRS katılımcısı, ortalama 67,5 yaş ve altı yıl eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0059",
+      "status": "verified",
+      "doi": "10.1136/bjsports-2025-111173",
+      "title": "Combinations of stepping intensity and daily step counts against all-cause and cardiovascular disease mortality: insights from a device-based prospective study",
+      "journal": "British journal of sports medicine",
+      "sources": [
+        "https://doi.org/10.1136/bjsports-2025-111173",
+        "https://pubmed.ncbi.nlm.nih.gov/42711120/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1136%2Fbjsports-2025-111173&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "BJSM, cihazla ölçüm, adım sayısı/peak-30 kadans ve yaklaşık sekiz yıl izlem eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0060",
+      "status": "source_not_identified",
+      "doi": null,
+      "title": "Dietary egg and egg white intake, postprandial muscle protein synthesis, and cholesterol dynamics in athletes",
+      "sources": [],
+      "note": "Özgün kaynak satırı pratik sporcu/yumurta anlatımı; tek bir yayın künyesi yok. Benzer kas protein sentezi çalışmalarından biri rastgele seçilmedi."
+    },
+    {
+      "id": "WOW-0061",
+      "status": "multiple_sources_ambiguous",
+      "doi": null,
+      "title": "High egg consumption, dietary choline, gut microbial TMAO production, and coronary artery disease risk",
+      "sources": [],
+      "note": "Tang/Zhu, NHS ve mekanizma atıfları birden fazla yayını kapsıyor. Birincil makale belirlenmeden tek DOI atanmadı."
+    },
+    {
+      "id": "WOW-0063",
+      "status": "verified",
+      "doi": "10.1056/NEJMoa2610159",
+      "title": "Pelacarsen and Cardiovascular Outcomes in Patients with High Lipoprotein(a)",
+      "journal": "New England Journal of Medicine",
+      "sources": [
+        "https://doi.org/10.1056/NEJMoa2610159",
+        "https://api.crossref.org/works/10.1056%2FNEJMoa2610159"
+      ],
+      "note": "Lp(a)HORIZON faz III sonuçlarının 7 Kasım 2026 tarihli NEJM makalesi bulundu. Bu, Eylül paylaşımındaki şirket duyurusundan sonra yayımlanan araştırma yayınıdır; duyuruyla aynı yayın olduğu iddia edilmiyor.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0064",
+      "status": "verified",
+      "doi": "10.1001/jama.2026.18126",
+      "title": "Influenza Vaccine Effectiveness and Safety for the 2026-2027 Respiratory Season",
+      "journal": "JAMA",
+      "sources": [
+        "https://doi.org/10.1001/jama.2026.18126",
+        "https://pubmed.ncbi.nlm.nih.gov/42684248/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Influenza+Vaccine+Effectiveness+and+Safety+for+the+2026-2027+Respiratory+Season%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JAMA, 2 Eylül 2026 ve 69 kaynaklı grip aşısı güvenlilik/etkililik derlemesi eşleşti; DANFLU-2 ayrı kaynak.",
+      "other_source_references_pending": true
+    },
+    {
+      "id": "WOW-0065",
+      "status": "not_article_source",
+      "doi": null,
+      "title": "Off-label GLP-1 receptor agonist use in normal-weight individuals and poison center dosing error alerts",
+      "sources": [],
+      "note": "Kaynak FDA/zehir danışma merkezi uyarıları; belirli hakemli makale yok. Kurum uyarısına makale DOI’si uydurulmadı."
+    },
+    {
+      "id": "WOW-0066",
+      "status": "verified",
+      "doi": "10.59717/j.xinn-nutri.2026.100030",
+      "title": "Dietary factors and cognitive aging: Mapping epidemiological evidence and the role of gut microbiota",
+      "journal": "The Innovation Nutrition",
+      "sources": [
+        "https://doi.org/10.59717/j.xinn-nutri.2026.100030",
+        "https://api.crossref.org/works/10.59717%2Fj.xinn-nutri.2026.100030"
+      ],
+      "note": "The Innovation Nutrition derlemesi; beslenme, bilişsel yaşlanma ve bağırsak mikrobiyotası eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0067",
+      "status": "verified",
+      "doi": "10.1016/j.cmet.2026.07.006",
+      "title": "Weight-loss-independent actions of GLP-1 medicines",
+      "journal": "Cell metabolism",
+      "sources": [
+        "https://doi.org/10.1016/j.cmet.2026.07.006",
+        "https://pubmed.ncbi.nlm.nih.gov/42551415/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Weight-loss-independent+actions+of+GLP-1+medicines%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Başlık, Gonzalez-Rellan/Drucker ve Cell Metabolism 2026 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0068",
+      "status": "verified",
+      "doi": "10.1001/jama.2026.13087",
+      "title": "Nicotine E-Cigarettes for Cigarette Smoking Cessation: Recommendations to US-Based Clinicians",
+      "journal": "JAMA",
+      "sources": [
+        "https://doi.org/10.1001/jama.2026.13087",
+        "https://pubmed.ncbi.nlm.nih.gov/42530900/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1001%2Fjama.2026.13087%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "JAMA 2026; sigarayı bırakmada nikotinli elektronik sigara ve klinisyen önerileri eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0069",
+      "status": "verified",
+      "doi": "10.1016/j.lanhl.2026.100898",
+      "title": "Reframing sarcopenia as a disease of the ageing motor system",
+      "journal": "The lancet. Healthy longevity",
+      "sources": [
+        "https://doi.org/10.1016/j.lanhl.2026.100898",
+        "https://pubmed.ncbi.nlm.nih.gov/42664982/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A42664982+AND+SRC%3AMED&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "The Lancet Healthy Longevity 2026; sinir-kas bağlantısı ve tüm motor sistem olarak sarkopeni derlemesi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0070",
+      "status": "verified",
+      "doi": "10.1016/S2213-8587(26)00119-1",
+      "title": "Intermittent fasting to treat diabetes: time to update clinical practice guidelines",
+      "journal": "The lancet. Diabetes & endocrinology",
+      "sources": [
+        "https://doi.org/10.1016/S2213-8587(26)00119-1",
+        "https://pubmed.ncbi.nlm.nih.gov/42361830/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1016%2FS2213-8587%2826%2900119-1%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Varady, Lancet Diabetes & Endocrinology 2026;14(9):778–786 eşleşti. Özgün yayın Personal View; yeni bir RCT olduğu iddia edilmiyor.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0071",
+      "status": "verified",
+      "doi": "10.1016/j.jnha.2026.100940",
+      "title": "Effects of exercise snacks on cardiorespiratory fitness, body composition, and blood lipids in adults across different age groups: a systematic review and meta-analysis",
+      "journal": "The journal of nutrition, health & aging",
+      "sources": [
+        "https://doi.org/10.1016/j.jnha.2026.100940",
+        "https://pubmed.ncbi.nlm.nih.gov/42571752/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Meng%22+%22exercise+snacks%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Meng, Journal of Nutrition Health & Aging 2026 ve egzersiz atıştırmalıkları meta-analizi eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0072",
+      "status": "conference_article_not_confirmed",
+      "doi": null,
+      "title": "Blood pressure control and long-term risk of dementia: The China Rural Hypertension Control Project (CRHCP)",
+      "sources": [
+        "https://www.escardio.org/news/press/press-releases/long-term-intensive-blood-pressure-control-reduces-dementia-risk/"
+      ],
+      "note": "ESC 2026 yedi yıllık CRHCP/demans sunumu doğrulandı; aynı yedi yıllık sunuma ait makale DOI’si doğrulanamadı. Daha kısa izlemli CRHCP yayınları kullanılmadı."
+    },
+    {
+      "id": "WOW-0073",
+      "status": "verified",
+      "doi": "10.1093/eurheartj/ehag551",
+      "title": "Lowering cumulative LDL-C exposure: the case for early treatment",
+      "journal": "European heart journal",
+      "sources": [
+        "https://doi.org/10.1093/eurheartj/ehag551",
+        "https://pubmed.ncbi.nlm.nih.gov/42644861/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Bajaj%22+%22Cuchel%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Bajaj ve Cuchel, European Heart Journal 2026 ve kümülatif LDL maruziyeti eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0074",
+      "status": "verified",
+      "doi": "10.1161/CIRCULATIONAHA.126.082363",
+      "title": "Vitamin K<sub>2</sub> and D<sub>3</sub> Supplementation in Patients With Severe Coronary Artery Calcification: The DANCODE Trial",
+      "journal": "Circulation",
+      "sources": [
+        "https://doi.org/10.1161/CIRCULATIONAHA.126.082363",
+        "https://pubmed.ncbi.nlm.nih.gov/42661461/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22DANCODE%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "DANCODE, Circulation 2026, 400 hasta, CAC≥400 ve 24 ay eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0075",
+      "status": "verified",
+      "doi": "10.1016/S0140-6736(18)31809-9",
+      "title": "Carbohydrate quality and human health: a series of systematic reviews and meta-analyses",
+      "journal": "Lancet (London, England)",
+      "sources": [
+        "https://doi.org/10.1016/S0140-6736(18)31809-9",
+        "https://pubmed.ncbi.nlm.nih.gov/30638909/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Carbohydrate+quality+and+human+health%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "The Lancet, lif/karbonhidrat kalitesi meta-analizleri ve yaklaşık 135 milyon kişi-yıl eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0076",
+      "status": "verified",
+      "doi": "10.1038/s41591-026-04606-0",
+      "title": "Recombinant shingles vaccination and the risk of cardiovascular events",
+      "journal": "Nature medicine",
+      "sources": [
+        "https://doi.org/10.1038/s41591-026-04606-0",
+        "https://pubmed.ncbi.nlm.nih.gov/42649256/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Corsi-Zuelli%22+%22vaccination%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Başlık, Corsi-Zuelli ve Nature Medicine eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0077",
+      "status": "verified",
+      "doi": "10.1016/j.cmet.2026.07.020",
+      "title": "Effect of diet macronutrient content on the cardiometabolic response to weight loss: A randomized clinical trial",
+      "journal": "Cell metabolism",
+      "sources": [
+        "https://doi.org/10.1016/j.cmet.2026.07.020",
+        "https://pubmed.ncbi.nlm.nih.gov/42660124/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Petersen%22+%22ketogenic%22+%222026%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Petersen, Cell Metabolism 2026 ve üç diyetle eşit yaklaşık %10 kilo kaybı protokolü eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0079",
+      "status": "source_truncated",
+      "doi": null,
+      "title": "Dietary potassium intake, renal hemodynamics, and blood pressure regulation",
+      "sources": [],
+      "note": "Kaynak kesik; yazar, yıl ve özgün yayın adı yok. Potasyum-böbrek-tansiyon literatüründen benzer bir derleme seçilmedi."
+    },
+    {
+      "id": "WOW-0080",
+      "status": "verified",
+      "doi": "10.1038/s44360-026-00180-4",
+      "title": "Global cancer burden associated with long-term exposure to ambient air pollution",
+      "journal": "Nature Health",
+      "sources": [
+        "https://doi.org/10.1038/s44360-026-00180-4",
+        "https://api.crossref.org/works/10.1038%2Fs44360-026-00180-4"
+      ],
+      "note": "Nature Health, 109 milyon kanser kaydı, 952 yer ve 2000–2020 dönemi eşleşti. Önceki genel kronik hastalık başlığı yerine gerçek kanser makalesi başlığı kaydedildi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0081",
+      "status": "verified",
+      "doi": "10.1186/s40798-026-01085-y",
+      "title": "Exercise and Fat: A Primer",
+      "journal": "Sports medicine - open",
+      "sources": [
+        "https://doi.org/10.1186/s40798-026-01085-y",
+        "https://pubmed.ncbi.nlm.nih.gov/42627570/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Wackerhage%22+%22fat%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Wackerhage, Sports Medicine Open ve Exercise and Fat: A Primer eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0083",
+      "status": "verified",
+      "doi": "10.1186/1471-244X-12-18",
+      "title": "Course of mental symptoms in patients with stress-related exhaustion: does sex or age make a difference?",
+      "journal": "BMC psychiatry",
+      "sources": [
+        "https://doi.org/10.1186/1471-244X-12-18",
+        "https://pubmed.ncbi.nlm.nih.gov/22409935/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2F1471-244X-12-18%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "BMC Psychiatry, İsveç stres kliniği, 232 hasta ve 18 ay eşleşti. Gerçek başlık ruhsal belirtileri izliyor; önceki somatik/otonom özet doğrulanmadı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0084",
+      "status": "verified",
+      "doi": "10.64898/2026.08.17.745156",
+      "title": "The Energetic Cost of Building Human Skeletal Muscle",
+      "journal": "bioRxiv",
+      "sources": [
+        "https://doi.org/10.64898/2026.08.17.745156",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22The+Energetic+Cost+of+Building+Human+Skeletal+Muscle%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık ve bioRxiv ön baskısı eşleşti; hakemli yayın olarak işaretlenmedi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0086",
+      "status": "verified",
+      "doi": "10.1056/NEJM198501313120505",
+      "title": "Paleolithic nutrition. A consideration of its nature and current implications",
+      "journal": "The New England journal of medicine",
+      "sources": [
+        "https://doi.org/10.1056/NEJM198501313120505",
+        "https://pubmed.ncbi.nlm.nih.gov/2981409/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1056%2FNEJM198501313120505%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "NEJM 1985 özgün beslenme makalesi; kısa başlık ve evrimsel beslenme bağlamı eşleşti; aynı adlı mektup DOI’si seçilmedi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0088",
+      "status": "verified",
+      "doi": "10.1001/jama.2026.9551",
+      "title": "Sleep Health and Obesity",
+      "journal": "JAMA",
+      "sources": [
+        "https://doi.org/10.1001/jama.2026.9551",
+        "https://pubmed.ncbi.nlm.nih.gov/42525392/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Sleep+Health+and+Obesity%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Malhotra/Kumar/Mesarwi ve JAMA eşleşti. Mevcut tarih alanı bu DOI çalışmasında yeniden doğrulanmadı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0090",
+      "status": "verified",
+      "doi": "10.1161/JAHA.123.032698",
+      "title": "Translational Research of the Acute Effects of Negative Emotions on Vascular Endothelial Health: Findings From a Randomized Controlled Study",
+      "journal": "Journal of the American Heart Association",
+      "sources": [
+        "https://doi.org/10.1161/JAHA.123.032698",
+        "https://pubmed.ncbi.nlm.nih.gov/38690710/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Shimbo%22+%22e032698%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Shimbo, JAHA 2024;13:e032698 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0091",
+      "status": "verified",
+      "doi": "10.1038/s41586-022-04649-6",
+      "title": "β-Hydroxybutyrate suppresses colorectal cancer",
+      "journal": "Nature",
+      "sources": [
+        "https://doi.org/10.1038/s41586-022-04649-6",
+        "https://pubmed.ncbi.nlm.nih.gov/35477756/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1038%2Fs41586-022-04649-6%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Dmitrieva-Posocco, Nature 2022 ve ketojenik diyet/BHB deneyleri eşleşti. İletilen başlık gerçek makale başlığı değildi; β-Hydroxybutyrate suppresses colorectal cancer olarak düzeltildi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0092",
+      "status": "verified",
+      "doi": "10.1038/s41586-026-10779-y",
+      "title": "Ketogenic diet mediates intestinal tumorigenesis through lipids not ketones",
+      "journal": "Nature",
+      "sources": [
+        "https://doi.org/10.1038/s41586-026-10779-y",
+        "https://pubmed.ncbi.nlm.nih.gov/42457955/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Ketogenic+diet+mediates+intestinal+tumorigenesis%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Shay/Chi/Yılmaz ve Nature 2026 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0095",
+      "status": "citation_conflict",
+      "doi": null,
+      "title": "Daily stair climbing, susceptible genetic predisposition and risk of atherosclerotic cardiovascular disease",
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/37813749/",
+        "https://doi.org/10.1016/j.atherosclerosis.2023.117300"
+      ],
+      "note": "Yakın aday Atherosclerosis 2023 makalesi Song ve ark.; verilen kaynak Zuo ve ark. ve farklı başlık içeriyor. Kesin eşleşme kabul edilmedi."
+    },
+    {
+      "id": "WOW-0096",
+      "status": "verified",
+      "doi": "10.1093/eurjpc/zwae175.405",
+      "title": "Evaluating the cardiovascular benefits of stair climbing: a systematic review and meta-analysis",
+      "journal": "European Journal of Preventive Cardiology",
+      "sources": [
+        "https://doi.org/10.1093/eurjpc/zwae175.405",
+        "https://api.crossref.org/works/10.1093%2Feurjpc%2Fzwae175.405"
+      ],
+      "note": "Paddock, ESC Preventive Cardiology 2024 kongre bildirisi ve merdiven meta-analizi eşleşti. Dergi eki ve gerçek bildiri başlığı doğrulandı; 2026 tarihli tam makale DOI’siyle değiştirilmedi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0100",
+      "status": "verified",
+      "doi": "10.1038/s42255-025-01226-9",
+      "title": "A short-term, high-caloric diet has prolonged effects on brain insulin action in men",
+      "journal": "Nature metabolism",
+      "sources": [
+        "https://doi.org/10.1038/s42255-025-01226-9",
+        "https://pubmed.ncbi.nlm.nih.gov/39984682/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22A+short-term%2C+high-caloric+diet%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Kullmann ve Nature Metabolism 2025 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0102",
+      "status": "verified",
+      "doi": "10.1038/s41586-026-10697-z",
+      "title": "Dietary cholesterol activates a Ral-dependent pathway driving LDLR turnover",
+      "journal": "Nature",
+      "sources": [
+        "https://doi.org/10.1038/s41586-026-10697-z",
+        "https://pubmed.ncbi.nlm.nih.gov/42343138/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Dietary+cholesterol+activates+a+Ral-dependent%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Feng/Zhang/Saltiel ve Nature 2026 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0104",
+      "status": "edition_ambiguous",
+      "doi": null,
+      "title": "Second Universal Definition of Heart Failure: An Executive Summary of the AHA/ACC/ESC/WHF Expert Consensus Document",
+      "sources": [
+        "https://doi.org/10.1161/CIR.0000000000001455",
+        "https://doi.org/10.1016/j.jacc.2026.05.036",
+        "https://doi.org/10.5334/gh.1569"
+      ],
+      "note": "Aynı 2026 ortak belgesinin Circulation/JACC/Global Heart sürümleri bulundu; verilen Executive Summary başlığıyla ayrı sürüm kesinleşmedi. Tam belge DOI’si özetin DOI’si gibi atanmadı."
+    },
+    {
+      "id": "WOW-0106",
+      "status": "verified",
+      "doi": "10.1136/openhrt-2025-003573",
+      "title": "Chronotype-aligned exercise timing in middle-aged adults at cardiometabolic risk: a randomised controlled trial",
+      "journal": "Open heart",
+      "sources": [
+        "https://doi.org/10.1136/openhrt-2025-003573",
+        "https://pubmed.ncbi.nlm.nih.gov/41980852/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Chronotype-aligned+exercise+timing%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Open Heart 2026 kronotipe göre egzersiz zamanlaması RCT’si eşleşti; iletilen yakın başlık yerine dizindeki gerçek başlık kaydedildi.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0109",
+      "status": "verified",
+      "doi": "10.1016/j.atherosclerosis.2026.120783",
+      "title": "Safety of very low LDL-cholesterol: Ten common concerns, misconceptions, and evidence-based clarifications",
+      "journal": "Atherosclerosis",
+      "sources": [
+        "https://doi.org/10.1016/j.atherosclerosis.2026.120783",
+        "https://pubmed.ncbi.nlm.nih.gov/42242022/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Safety+of+very+low+LDL-cholesterol%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Zárate-Correa/Kayıkçıoğlu/Corral ve Atherosclerosis 2026 eşleşti; kısaltılmış başlık tamamlandı.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0110",
+      "status": "verified",
+      "doi": "10.1126/sciadv.adz3612",
+      "title": "Statins promote muscle metabolic danger and NLRP3-mediated myopathy via lower protein-prenylation and YAP",
+      "journal": "Science advances",
+      "sources": [
+        "https://doi.org/10.1126/sciadv.adz3612",
+        "https://pubmed.ncbi.nlm.nih.gov/42319925/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Statins+promote+muscle+metabolic+danger%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Robin/Barra/Schertzer ve Science Advances 2026 eşleşti.",
+      "other_source_references_pending": false
+    },
+    {
+      "id": "WOW-0113",
+      "status": "verified",
+      "doi": "10.1007/s00125-013-2841-0",
+      "title": "Secretion of glucagon-like peptide-1 in patients with type 2 diabetes mellitus: systematic review and meta-analyses of clinical studies",
+      "journal": "Diabetologia",
+      "sources": [
+        "https://doi.org/10.1007/s00125-013-2841-0",
+        "https://pubmed.ncbi.nlm.nih.gov/23377698/",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Secretion+of+glucagon-like+peptide-1+in+patients+with+type+2+diabetes+mellitus%22&format=json&pageSize=3&resultType=core"
+      ],
+      "note": "Tam başlık, Calanna/Knop/Holst ve Diabetologia 2013 eşleşti.",
+      "other_source_references_pending": false
+    }
+  ]
+}

@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Waterpipe (hookah) smoking vs. cigarette smoking: Toxicant exposure, vascular endothelial dysfunction, and cardiovascular risk",
-    "journal": "American Journal of Preventive Medicine / Circulation",
+    "doi": "10.1016/j.amepre.2009.07.014",
+    "title": "Waterpipe tobacco and cigarette smoking: direct comparison of toxicant exposure",
+    "journal": "American journal of preventive medicine",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "AJPM (2009 nargile vs sigara), Circulation (2019 AHA bilimsel bildirisi) ve 2025 (191 gözlemsel kohort, 807 binden fazla kişi meta-analiz).",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #56 (08.10.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #56 (08.10.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1016/j.amepre.2009.07.014",
+      "https://pubmed.ncbi.nlm.nih.gov/19944918/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Waterpipe+tobacco+and+cigarette+smoking%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Eissenberg T, Shihadeh A.",
+    "pmid": "19944918",
+    "match_note": "AJPM 2009 doğrudan nargile/sigara karşılaştırması eşleşti; 2019 bildirisi ve 2025 meta-analizi ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Waterpipe (hookah) smoking vs. cigarette smoking: Toxicant exposure, vascular endothelial dysfunction, and cardiovascular risk",
+      "journal": "American Journal of Preventive Medicine / Circulation",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "AJPM (2009 nargile vs sigara), Circulation (2019 AHA bilimsel bildirisi) ve 2025 (191 gözlemsel kohort, 807 binden fazla kişi meta-analiz).",
+      "doi_pending": true
+    }
+  }
 }

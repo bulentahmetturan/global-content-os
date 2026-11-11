@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Intermittent fasting vs. calorie restriction for glycemic control in type 2 diabetes",
-    "journal": "The Lancet Diabetes & Endocrinology",
+    "doi": "10.1016/S2213-8587(26)00119-1",
+    "title": "Intermittent fasting to treat diabetes: time to update clinical practice guidelines",
+    "journal": "The lancet. Diabetes & endocrinology",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Varady KA ve ark. Lancet Diabetes Endocrinol (2026;14(9):778-786); tip 2 diyabette aralıklı açlık ve zaman kısıtlı beslenmenin HbA1c ve insülin duyarlılığına etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #107 (01.09.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #107 (01.09.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC DOI lookup",
+    "sources": [
+      "https://doi.org/10.1016/S2213-8587(26)00119-1",
+      "https://pubmed.ncbi.nlm.nih.gov/42361830/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1016%2FS2213-8587%2826%2900119-1%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Varady KA, Chow LS, Peterson CM.",
+    "pmid": "42361830",
+    "match_note": "Varady, Lancet Diabetes & Endocrinology 2026;14(9):778–786 eşleşti. Özgün yayın Personal View; yeni bir RCT olduğu iddia edilmiyor.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Intermittent fasting vs. calorie restriction for glycemic control in type 2 diabetes",
+      "journal": "The Lancet Diabetes & Endocrinology",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Varady KA ve ark. Lancet Diabetes Endocrinol (2026;14(9):778-786); tip 2 diyabette aralıklı açlık ve zaman kısıtlı beslenmenin HbA1c ve insülin duyarlılığına etkisi.",
+      "doi_pending": true
+    }
+  }
 }

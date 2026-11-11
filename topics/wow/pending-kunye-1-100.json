@@ -19,7 +19,16 @@
       ],
       "status": "partial_pending",
       "note": "İkinci kayıt kongre bildirisi; dergi ve DOI verilmedi, yükleme için eksik.",
-      "missing": "WOW-0096 kongre bildirisi: yayın yeri/dergi veya DOI eksik; yükleme betiği atlıyor. WOW-0095 ayrı kaydedildi."
+      "missing": "WOW-0096 kongre bildirisi: yayın yeri/dergi veya DOI eksik; yükleme betiği atlıyor. WOW-0095 ayrı kaydedildi.",
+      "resolution": {
+        "checked_at": "2026-11-12",
+        "record_ids": [
+          "WOW-0096"
+        ],
+        "status": "conference_citation_resolved",
+        "doi": "10.1093/eurjpc/zwae175.405",
+        "note": "Kongre bildirisinin başlık, dergi eki ve DOI bilgisi doğrulandı. WOW-0095 yazar/başlık uyuşmazlığı ayrıca DOI araştırma raporunda açık tutuldu."
+      }
     },
     {
       "list_row": 2,

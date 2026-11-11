@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "High dietary fiber intake (fibermaxxing), gut microbiome diversity, and all-cause mortality: 135M person-years meta-analysis",
-    "journal": "The Lancet",
+    "doi": "10.1016/S0140-6736(18)31809-9",
+    "title": "Carbohydrate quality and human health: a series of systematic reviews and meta-analyses",
+    "journal": "Lancet (London, England)",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "The Lancet; 135 milyon kişi-yıl verisini kapsayan geniş çaplı meta-analiz; günlük lif tüketiminin kardiyovasküler, kolorektal ve tüm nedenli ölüm riskini azaltması.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #114 (29.08.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #114 (29.08.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1016/S0140-6736(18)31809-9",
+      "https://pubmed.ncbi.nlm.nih.gov/30638909/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Carbohydrate+quality+and+human+health%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Reynolds A, Mann J, Cummings J, Winter N, Mete E, Te Morenga L.",
+    "pmid": "30638909",
+    "match_note": "The Lancet, lif/karbonhidrat kalitesi meta-analizleri ve yaklaşık 135 milyon kişi-yıl eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "High dietary fiber intake (fibermaxxing), gut microbiome diversity, and all-cause mortality: 135M person-years meta-analysis",
+      "journal": "The Lancet",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "The Lancet; 135 milyon kişi-yıl verisini kapsayan geniş çaplı meta-analiz; günlük lif tüketiminin kardiyovasküler, kolorektal ve tüm nedenli ölüm riskini azaltması.",
+      "doi_pending": true
+    }
+  }
 }

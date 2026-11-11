@@ -5,13 +5,13 @@
   "introduced_at": "2026-11-12",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis",
-    "journal": null,
+    "doi": "10.1093/eurjpc/zwae175.405",
+    "title": "Evaluating the cardiovascular benefits of stair climbing: a systematic review and meta-analysis",
+    "journal": "European Journal of Preventive Cardiology",
     "published_at": null,
-    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Merdiven çıkma ve kalp sağlığı",
-    "doi_pending": true,
+    "doi_pending": false,
     "title_pending": false,
     "publication_type": "conference_abstract"
   },
@@ -33,5 +33,35 @@
   "source_reference": "Ahmet Ekmekci Kumulatif Liste #1",
   "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
   "source_text": "Zuo ve ark. (2023), Atherosclerosis: Daily stair climbing, susceptible genetic predisposition and risk of atherosclerotic cardiovascular disease; Paddock ve ark. (2024): Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis — ESC Preventive Cardiology kongre bildirisi.",
-  "source_share_date": "10.11.2026"
+  "source_share_date": "10.11.2026",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Crossref DOI registration lookup",
+    "sources": [
+      "https://doi.org/10.1093/eurjpc/zwae175.405",
+      "https://api.crossref.org/works/10.1093%2Feurjpc%2Fzwae175.405"
+    ],
+    "authors": "S Paddock; R Veerni; U Bhalraam; J Meng; E Dawson-Plincke; V Vassiliou; V Tsampasian",
+    "pmid": null,
+    "match_note": "Paddock, ESC Preventive Cardiology 2024 kongre bildirisi ve merdiven meta-analizi eşleşti. Dergi eki ve gerçek bildiri başlığı doğrulandı; 2026 tarihli tam makale DOI’siyle değiştirilmedi.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis",
+      "journal": null,
+      "published_at": null,
+      "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+      "study": "Merdiven çıkma ve kalp sağlığı",
+      "doi_pending": true,
+      "title_pending": false,
+      "publication_type": "conference_abstract"
+    }
+  }
 }

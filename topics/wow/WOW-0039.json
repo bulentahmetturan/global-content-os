@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Drug-nutrient interactions of tea: Absorption inhibition of nadolol, lisinopril, levothyroxine, and non-heme iron",
-    "journal": "Clinical Pharmacology & Therapeutics / RCTs",
+    "doi": "10.1038/clpt.2013.241",
+    "title": "Green tea ingestion greatly reduces plasma concentrations of nadolol in healthy subjects",
+    "journal": "Clinical pharmacology and therapeutics",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Yeşil çay-nadolol etkileşimi, EGCG-lisinopril randomize klinik çalışması, çay-demir şelasyonu ve çay/kahve ile levotiroksin biyoyararlanımı.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #57 (08.10.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #57 (08.10.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1038/clpt.2013.241",
+      "https://pubmed.ncbi.nlm.nih.gov/24419562/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Green+tea+ingestion+greatly+reduces+plasma+concentrations+of+nadolol%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Misaka S, Yatabe J, Müller F, Takano K, Kawabe K, Glaeser H, Yatabe MS, Onoue S, Werba JP, Watanabe H, Yamada S, Fromm MF, Kimura J.",
+    "pmid": "24419562",
+    "match_note": "Yeşil çay/nadolol, Clinical Pharmacology and Therapeutics çalışması eşleşti; lisinopril/levotiroksin/demir yayınları ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Drug-nutrient interactions of tea: Absorption inhibition of nadolol, lisinopril, levothyroxine, and non-heme iron",
+      "journal": "Clinical Pharmacology & Therapeutics / RCTs",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Yeşil çay-nadolol etkileşimi, EGCG-lisinopril randomize klinik çalışması, çay-demir şelasyonu ve çay/kahve ile levotiroksin biyoyararlanımı.",
+      "doi_pending": true
+    }
+  }
 }

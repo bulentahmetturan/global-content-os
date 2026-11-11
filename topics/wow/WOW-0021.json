@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Fruit and vegetable intake, dietary pesticide exposure, and total and cause-specific mortality",
+    "doi": "10.1161/CIRCULATIONAHA.120.048996",
+    "title": "Fruit and Vegetable Intake and Mortality: Results From 2 Prospective Cohort Studies of US Men and Women and a Meta-Analysis of 26 Cohort Studies",
     "journal": "Circulation",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Circulation (2021, yaklasik 1.9M kisi), Environment International (2022, 161K kisi), Isvec kohortu (2023, 69K kisi); sebze-meyve tüketiminin sağladığı yaşam süresi avantajı ile pestisit maruziyetinin net etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #29 (satir 30)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #29 (satir 30)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC DOI lookup",
+    "sources": [
+      "https://doi.org/10.1161/CIRCULATIONAHA.120.048996",
+      "https://pubmed.ncbi.nlm.nih.gov/33641343/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1161%2FCIRCULATIONAHA.120.048996%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Wang DD, Li Y, Bhupathiraju SN, Rosner BA, Sun Q, Giovannucci EL, Rimm EB, Manson JE, Willett WC, Stampfer MJ, Hu FB.",
+    "pmid": "33641343",
+    "match_note": "Circulation 2021, iki kohort ve toplam yaklaşık 1,9 milyon katılımcılı meta-analiz eşleşti; pestisit yayınları ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Fruit and vegetable intake, dietary pesticide exposure, and total and cause-specific mortality",
+      "journal": "Circulation",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Circulation (2021, yaklasik 1.9M kisi), Environment International (2022, 161K kisi), Isvec kohortu (2023, 69K kisi); sebze-meyve tüketiminin sağladığı yaşam süresi avantajı ile pestisit maruziyetinin net etkisi.",
+      "doi_pending": true
+    }
+  }
 }

@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Synthetic cannabinoids in electronic cigarettes and acute cardiovascular/arrhythmic complications",
-    "journal": "Addiction",
+    "doi": "10.1111/add.70110",
+    "title": "Synthetic cannabinoids in e-cigarettes seized from English schools",
+    "journal": "Addiction (Abingdon, England)",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Elektronik sigara likitlerinde sentetik kannabinoidler (Spice/K2) ve akut kardiyak/aritmik etkiler; Cozier ve ark. (2025) & Ahmed ve ark. olguları.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #12 (satir 13)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #12 (satir 13)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1111/add.70110",
+      "https://pubmed.ncbi.nlm.nih.gov/40574414/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Cozier+synthetic+cannabinoids+cigarettes&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Cozier GE, Gardner M, Craft S, Skumlien M, Spicer J, Andrews R, Power A, Haines T, Bowman R, Manley AE, Sunderland P, Sutcliffe OB, Husbands SM, Hines L, Taylor G, Freeman TP, Scott J, Pudney CR.",
+    "pmid": "40574414",
+    "match_note": "Cozier, Addiction 2025 ve elektronik sigarada sentetik kannabinoid araştırması eşleşti; Ahmed kaynağı ayrı ve eksik.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Synthetic cannabinoids in electronic cigarettes and acute cardiovascular/arrhythmic complications",
+      "journal": "Addiction",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Elektronik sigara likitlerinde sentetik kannabinoidler (Spice/K2) ve akut kardiyak/aritmik etkiler; Cozier ve ark. (2025) & Ahmed ve ark. olguları.",
+      "doi_pending": true
+    }
+  }
 }

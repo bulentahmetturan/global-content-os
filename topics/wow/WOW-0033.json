@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Whole fruit vs. 100% fruit juice consumption in prediabetes and incident type 2 diabetes",
+    "doi": "10.3390/nu18091391",
+    "title": "Effects of Dietary Fruit and Vegetable Consumption on Prediabetes: A Systematic Review and Meta-Analysis",
     "journal": "Nutrients",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Hong & Bae Nutrients (2026, meta-analiz) & Muraki ve ark. BMJ (2013, 187K hemsire kohortu); tam meyve lif matrisi ile meyve suyunun glukoz dinamikleri ve diyabet riskindeki karsit etkileri.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #50 (satir 50)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #50 (satir 50)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.3390/nu18091391",
+      "https://pubmed.ncbi.nlm.nih.gov/42123992/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Hong+Bae+prediabetes+2026&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Hong SH, Bae YJ.",
+    "pmid": "42123992",
+    "match_note": "Hong ve Bae, Nutrients 2026, prediyabet meta-analizi eşleşti; Muraki BMJ yayını ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Whole fruit vs. 100% fruit juice consumption in prediabetes and incident type 2 diabetes",
+      "journal": "Nutrients",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Hong & Bae Nutrients (2026, meta-analiz) & Muraki ve ark. BMJ (2013, 187K hemsire kohortu); tam meyve lif matrisi ile meyve suyunun glukoz dinamikleri ve diyabet riskindeki karsit etkileri.",
+      "doi_pending": true
+    }
+  }
 }

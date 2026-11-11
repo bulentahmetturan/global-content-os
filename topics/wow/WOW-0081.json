@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Exercise and Fat: A Primer on exercise intensity and adipose tissue / intramuscular substrate metabolism",
-    "journal": "Sports Medicine - Open",
+    "doi": "10.1186/s40798-026-01085-y",
+    "title": "Exercise and Fat: A Primer",
+    "journal": "Sports medicine - open",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Wackerhage H ve ark. Sports Medicine - Open; egzersiz şiddetine bağlı lipoliz, yağ asidi transportu ve mitokondriyal yağ oksidasyonu regülasyonu primer derlemesi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #124 (24.08.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #124 (24.08.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1186/s40798-026-01085-y",
+      "https://pubmed.ncbi.nlm.nih.gov/42627570/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Wackerhage%22+%22fat%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Braunsperger A, Tischer D, Soriano-Arroquia A, Schönfelder M, Georgiadi A, Wackerhage H.",
+    "pmid": "42627570",
+    "match_note": "Wackerhage, Sports Medicine Open ve Exercise and Fat: A Primer eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Exercise and Fat: A Primer on exercise intensity and adipose tissue / intramuscular substrate metabolism",
+      "journal": "Sports Medicine - Open",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Wackerhage H ve ark. Sports Medicine - Open; egzersiz şiddetine bağlı lipoliz, yağ asidi transportu ve mitokondriyal yağ oksidasyonu regülasyonu primer derlemesi.",
+      "doi_pending": true
+    }
+  }
 }

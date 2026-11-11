@@ -5,13 +5,13 @@
   "introduced_at": "2026-11-12",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
+    "doi": "10.1038/s42255-025-01226-9",
     "title": "A short-term, high-caloric diet has prolonged effects on brain insulin action in men",
-    "journal": "Nature Metabolism",
+    "journal": "Nature metabolism",
     "published_at": null,
-    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Yüksek kalorili beslenme ve beyin insülini",
-    "doi_pending": true,
+    "doi_pending": false,
     "title_pending": false
   },
   "owner": {
@@ -32,5 +32,35 @@
   "source_reference": "Sahip ek listesi 2026-11-12 #36",
   "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
   "source_text": "Kullmann ve ark. A short-term, high-caloric diet has prolonged effects on brain insulin action in men. Nature Metabolism, 2025.",
-  "source_share_date": "12.07.2026"
+  "source_share_date": "12.07.2026",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1038/s42255-025-01226-9",
+      "https://pubmed.ncbi.nlm.nih.gov/39984682/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22A+short-term%2C+high-caloric+diet%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Kullmann S, Wagner L, Hauffe R, Kühnel A, Sandforth L, Veit R, Dannecker C, Machann J, Fritsche A, Stefan N, Preissl H, Kroemer NB, Heni M, Kleinridders A, Birkenfeld AL.",
+    "pmid": "39984682",
+    "match_note": "Tam başlık, Kullmann ve Nature Metabolism 2025 eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "A short-term, high-caloric diet has prolonged effects on brain insulin action in men",
+      "journal": "Nature Metabolism",
+      "published_at": null,
+      "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+      "study": "Yüksek kalorili beslenme ve beyin insülini",
+      "doi_pending": true,
+      "title_pending": false
+    }
+  }
 }

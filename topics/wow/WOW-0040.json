@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Aerobic exercise training and coronary plaque regression: CENIT Randomized Controlled Trial",
-    "journal": "European Journal of Preventive Cardiology",
+    "doi": "10.1093/eurjpc/zwac309",
+    "title": "High-intensity interval training induces beneficial effects on coronary atheromatous plaques: a randomized trial",
+    "journal": "European journal of preventive cardiology",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Vesterbekkmo EK ve ark.; CENIT randomize kontrollü klinik çalışması; yapılandırılmış aerobik egzersizin koroner arter plak hacmine ve bileşimine etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #58 (07.10.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #58 (07.10.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1093/eurjpc/zwac309",
+      "https://pubmed.ncbi.nlm.nih.gov/36562212/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Vesterbekkmo+coronary+atheroma+exercise+volume&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Vesterbekkmo EK, Aksetøy IA, Follestad T, Nilsen HO, Hegbom K, Wisløff U, Wiseth R, Madssen E.",
+    "pmid": "36562212",
+    "match_note": "Vesterbekkmo, European Journal of Preventive Cardiology, CENIT plak hacmi analizi eşleşti; JAHA lipid içeriği yayınıyla karıştırılmadı.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Aerobic exercise training and coronary plaque regression: CENIT Randomized Controlled Trial",
+      "journal": "European Journal of Preventive Cardiology",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Vesterbekkmo EK ve ark.; CENIT randomize kontrollü klinik çalışması; yapılandırılmış aerobik egzersizin koroner arter plak hacmine ve bileşimine etkisi.",
+      "doi_pending": true
+    }
+  }
 }

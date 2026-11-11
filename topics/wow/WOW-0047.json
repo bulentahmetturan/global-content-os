@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Interrupting prolonged sitting with short walking or simple resistance activities on 24-h glycemic control",
-    "journal": "Journal of Exercise Science & Fitness",
+    "doi": "10.1016/j.jesf.2026.200464",
+    "title": "Comparison of hourly walking and alternating walking-resistance breaks versus prolonged sitting on 26-h glucose responses in sedentary adults: a randomized crossover trial",
+    "journal": "Journal of exercise science and fitness",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "J Exerc Sci Fit (2026); 18 genç yetişkinde 26 saatlik sürekli glukoz izlemi; uzamış oturmayı kısa yürüyüş veya direnç molalarıyla bölmenin tokluk glukozuna etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #72 (27.09.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #72 (27.09.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1016/j.jesf.2026.200464",
+      "https://pubmed.ncbi.nlm.nih.gov/42017059/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Comparison+of+hourly+walking+and+alternating%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Ma SX, Lin YY, Liu XM, Zhu Z, Cao ZB.",
+    "pmid": "42017059",
+    "match_note": "JESF 2026, 18 kişilik glukoz analizi ve 26 saatlik çapraz protokol eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Interrupting prolonged sitting with short walking or simple resistance activities on 24-h glycemic control",
+      "journal": "Journal of Exercise Science & Fitness",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "J Exerc Sci Fit (2026); 18 genç yetişkinde 26 saatlik sürekli glukoz izlemi; uzamış oturmayı kısa yürüyüş veya direnç molalarıyla bölmenin tokluk glukozuna etkisi.",
+      "doi_pending": true
+    }
+  }
 }

@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Somatic symptoms, autonomic dysfunction, and long-term trajectory in chronic clinical burnout: 18-month prospective cohort",
-    "journal": "BMC Psychiatry",
+    "doi": "10.1186/1471-244X-12-18",
+    "title": "Course of mental symptoms in patients with stress-related exhaustion: does sex or age make a difference?",
+    "journal": "BMC psychiatry",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Göteborg Stres Tıbbı Enstitüsü; klinik tükenmişlik tanılı 232 hastada 18 aylık boylamsal izlem; kronik sempatik aktivasyon, uyku bozukluğu ve bedensel somatik semptomlar.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #128 (23.08.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #128 (23.08.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC DOI lookup",
+    "sources": [
+      "https://doi.org/10.1186/1471-244X-12-18",
+      "https://pubmed.ncbi.nlm.nih.gov/22409935/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2F1471-244X-12-18%22&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Glise K, Ahlborg G, Jonsdottir IH.",
+    "pmid": "22409935",
+    "match_note": "BMC Psychiatry, İsveç stres kliniği, 232 hasta ve 18 ay eşleşti. Gerçek başlık ruhsal belirtileri izliyor; önceki somatik/otonom özet doğrulanmadı.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Somatic symptoms, autonomic dysfunction, and long-term trajectory in chronic clinical burnout: 18-month prospective cohort",
+      "journal": "BMC Psychiatry",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Göteborg Stres Tıbbı Enstitüsü; klinik tükenmişlik tanılı 232 hastada 18 aylık boylamsal izlem; kronik sempatik aktivasyon, uyku bozukluğu ve bedensel somatik semptomlar.",
+      "doi_pending": true
+    }
+  }
 }

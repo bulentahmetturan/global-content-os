@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Mediterranean diet combined with intermittent fasting on systemic inflammation and cardiometabolic biomarkers",
-    "journal": "Cell Metabolism",
+    "doi": "10.1016/j.cmet.2026.09.017",
+    "title": "Weight loss during intermittent fasting, not Mediterranean diet quality alone, is associated with lower inflammation: A randomized controlled trial",
+    "journal": "Cell metabolism",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Cell Metabolism (2026); 53 yetiskin randomize, 43 kisi tamamladı; aralıklı oruç ve Akdeniz diyeti kombinasyonunun immün-metabolik inflamasyon belirteçlerine etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #34 (satir 35)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #34 (satir 35)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1016/j.cmet.2026.09.017",
+      "https://pubmed.ncbi.nlm.nih.gov/42906553/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Mediterranean+diet+fasting+lower+inflammation+2026&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Warmbrunn MV, Tosti V, Biswas RK, Bertozzi B, Cagigas ML, Veronese N, Spelta F, Piccio L, Head RD, Rodrigues RR, Early DS, Zhou Y, Trinchieri G, Fiorito G, Fontana L.",
+    "pmid": "42906553",
+    "match_note": "Cell Metabolism, 21 Ekim 2026, 53 yetişkin ve iki aşamalı diyet/oruç müdahalesi eşleşti.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Mediterranean diet combined with intermittent fasting on systemic inflammation and cardiometabolic biomarkers",
+      "journal": "Cell Metabolism",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Cell Metabolism (2026); 53 yetiskin randomize, 43 kisi tamamladı; aralıklı oruç ve Akdeniz diyeti kombinasyonunun immün-metabolik inflamasyon belirteçlerine etkisi.",
+      "doi_pending": true
+    }
+  }
 }

@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Urine color for hydration monitoring, fluid requirements, and exercise-associated hyponatremia risk",
-    "journal": "Journal of the American College of Nutrition / BMJ Open",
+    "doi": "10.1080/07315724.2020.1750073",
+    "title": "The Validity of Urine Color as a Hydration Biomarker within the General Adult Population and Athletes: A Systematic Review",
+    "journal": "Journal of the American College of Nutrition",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Kostelnik ve ark. J Am Coll Nutr (idrar rengi ve hidrasyon sistematik derlemesi) & Rangan ve ark. BMJ Open (590 olguluk aşırı sıvı alımı ve hiponatremi derlemesi).",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #63 (04.10.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #63 (04.10.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1080/07315724.2020.1750073",
+      "https://pubmed.ncbi.nlm.nih.gov/32330109/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Kostelnik+urine+color+systematic&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Kostelnik SB, Davy KP, Hedrick VE, Thomas DT, Davy BM.",
+    "pmid": "32330109",
+    "match_note": "Kostelnik ve belirtilen dergide idrar rengi sistematik derlemesi eşleşti; hiponatremi derlemesi ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Urine color for hydration monitoring, fluid requirements, and exercise-associated hyponatremia risk",
+      "journal": "Journal of the American College of Nutrition / BMJ Open",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Kostelnik ve ark. J Am Coll Nutr (idrar rengi ve hidrasyon sistematik derlemesi) & Rangan ve ark. BMJ Open (590 olguluk aşırı sıvı alımı ve hiponatremi derlemesi).",
+      "doi_pending": true
+    }
+  }
 }

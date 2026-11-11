@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Global ambient air pollution and multi-system chronic disease burden: Analysis of 109 million records over 20 years",
+    "doi": "10.1038/s44360-026-00180-4",
+    "title": "Global cancer burden associated with long-term exposure to ambient air pollution",
     "journal": "Nature Health",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Nature Health; 20 yılda 109 milyon vakayı değerlendiren küresel araştırma; partikül madde (PM2.5) ve hava kirliliğinin kardiyovasküler, respiratuar ve metabolik sistemik etkileri.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,33 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #123 (25.08.2026)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #123 (25.08.2026)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Crossref DOI registration lookup",
+    "sources": [
+      "https://doi.org/10.1038/s44360-026-00180-4",
+      "https://api.crossref.org/works/10.1038%2Fs44360-026-00180-4"
+    ],
+    "authors": "Gaoxin Zhang; Yingming Li; An Li; Qinghua Zhang; Tiantian Li; Haidong Kan; Patrick L. Kinney; Guibin Jiang",
+    "pmid": null,
+    "match_note": "Nature Health, 109 milyon kanser kaydı, 952 yer ve 2000–2020 dönemi eşleşti. Önceki genel kronik hastalık başlığı yerine gerçek kanser makalesi başlığı kaydedildi.",
+    "other_source_references_pending": false,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Global ambient air pollution and multi-system chronic disease burden: Analysis of 109 million records over 20 years",
+      "journal": "Nature Health",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Nature Health; 20 yılda 109 milyon vakayı değerlendiren küresel araştırma; partikül madde (PM2.5) ve hava kirliliğinin kardiyovasküler, respiratuar ve metabolik sistemik etkileri.",
+      "doi_pending": true
+    }
+  }
 }

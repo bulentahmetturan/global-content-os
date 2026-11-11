@@ -5,13 +5,14 @@
   "introduced_at": "2026-11-11",
   "state": "ACTIVE",
   "article": {
-    "doi": null,
-    "title": "Evening exercise, chronotype, sleep architecture, and nocturnal autonomic cardiac control",
-    "journal": "Sleep Medicine Reviews",
+    "doi": "10.1016/j.smrv.2026.102358",
+    "title": "Effects of morning versus evening exercise on sleep: a systematic review of comparative studies with a meta-analysis of randomized controlled trials",
+    "journal": "Sleep medicine reviews",
     "published_at": null,
-    "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+    "verified_by": "DOI/başlık/dergi kimliği 2026-11-12 tarihinde doğrulandı; kanıt: bibliographic_verification. Diğer açıklamalar ayrıca doğrulanmış sayılmaz.",
     "study": "Souabni ve ark. Sleep Med Rev (2026, 25 calisma sistematik derleme) & Nat Commun (2025, 14.689 kisi ve 4M gece); akşam saatlerinde yapılan egzersizin uyku kalitesi ve kalp hızı değişkenliğine etkisi.",
-    "doi_pending": true
+    "doi_pending": false,
+    "title_pending": false
   },
   "owner": {
     "wow": null,
@@ -33,5 +34,34 @@
       }
     ]
   },
-  "source_reference": "Ahmet Ekmekci Kumulatif Liste #31 (satir 32)"
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #31 (satir 32)",
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "method": "Europe PMC core record",
+    "sources": [
+      "https://doi.org/10.1016/j.smrv.2026.102358",
+      "https://pubmed.ncbi.nlm.nih.gov/42632303/",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Souabni+morning+evening+sleep&format=json&pageSize=3&resultType=core"
+    ],
+    "authors": "Souabni M, Del Sordo GC, Saurel M, Peyrel P, Giacomoni M, Souabni MJ, Davenne D, Gabriel BM, St-Onge MP, Saidi O.",
+    "pmid": "42632303",
+    "match_note": "Souabni, Sleep Medicine Reviews 2026 ve 25 çalışma eşleşti; Nature Communications yayını ayrı.",
+    "other_source_references_pending": true,
+    "scope_note": "DOI ve yayın kimliği doğrulandı. Eski study açıklaması, yayın tarihi ve aynı satırdaki diğer kaynaklar topluca doğrulanmış sayılmaz.",
+    "original_article": {
+      "doi": null,
+      "title": "Evening exercise, chronotype, sleep architecture, and nocturnal autonomic cardiac control",
+      "journal": "Sleep Medicine Reviews",
+      "published_at": null,
+      "verified_by": "Sahip dökümünden alindi (DOI beklemede)",
+      "study": "Souabni ve ark. Sleep Med Rev (2026, 25 calisma sistematik derleme) & Nat Commun (2025, 14.689 kisi ve 4M gece); akşam saatlerinde yapılan egzersizin uyku kalitesi ve kalp hızı değişkenliğine etkisi.",
+      "doi_pending": true
+    }
+  }
 }
