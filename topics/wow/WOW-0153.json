@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0153",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1007/s13197-024-05942-0",
+    "title": "Physico-chemical characterization of food grade natural spring salt from the Central Anatolia region of Turkey and investigation of its microplastic content",
+    "journal": "Journal of food science and technology",
+    "published_at": null,
+    "study": "Türkiye’de tuzlarda mikroplastik",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "DOI, gerçek yayın başlığı ve dergi doğrulandı; kanıt bibliographic_verification alanında. Kaynak satırındaki diğer atıflar topluca doğrulanmış sayılmaz."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #161",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Gündoğdu (2018); Bozkaya & Aluç (2024)",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1007/s13197-024-05942-0",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1007%2Fs13197-024-05942-0%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/39049913/"
+    ],
+    "authors": "Bozkaya O, Aluç Y.",
+    "pmid": "39049913",
+    "match_note": "İki ayrı yayın: Gündoğdu 2018; Bozkaya/Aluç 2024. Yazarlar, yıllar ve Türkiye tuzlarında mikroplastik konusu eşleşti.",
+    "scope_note": "Verilmeyen paylaşım ve yayın tarihleri tahmin edilmedi; kaynak metni özgün haliyle korundu."
+  }
+}

@@ -1269,6 +1269,266 @@
       "date_missing": true,
       "status": "skipped_not_article",
       "note": "DHSC kanıt raporu, ONS istatistikleri ve AHA genel bilgilendirme kaynağı; belirli araştırma makalesi/bildiri künyesi yok. Kaynak metni korundu."
+    },
+    {
+      "list_row": 153,
+      "topic": "Sıcak hava dalgaları ve KV risk",
+      "owner_text": "Piepoli ve ark., ESC çevresel risk uzlaşı bildirisi",
+      "source_line": "153\tSıcak hava dalgaları ve KV risk\tPiepoli ve ark., ESC çevresel risk uzlaşı bildirisi",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 155,
+      "note": "Piepoli çevresel risk uzlaşı belgesi ehag270; kaynak bağlamı korundu, makale çoğaltılmadı.",
+      "record_ids": [
+        "WOW-0150"
+      ]
+    },
+    {
+      "list_row": 154,
+      "topic": "Gece nefes darlığı",
+      "owner_text": "Atıf yok",
+      "source_line": "154\tGece nefes darlığı\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 155,
+      "topic": "Yapay gece ışığı ve KV risk",
+      "owner_text": "Piepoli ve ark., European Heart Journal, ehag270",
+      "source_line": "155\tYapay gece ışığı ve KV risk\tPiepoli ve ark., European Heart Journal, ehag270",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0150"
+      ]
+    },
+    {
+      "list_row": 156,
+      "topic": "Gürültü ve KV risk",
+      "owner_text": "155 ile aynı ESC bildirisi",
+      "source_line": "156\tGürültü ve KV risk\t155 ile aynı ESC bildirisi",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 155,
+      "note": "Piepoli çevresel risk uzlaşı belgesi ehag270; kaynak bağlamı korundu, makale çoğaltılmadı.",
+      "record_ids": [
+        "WOW-0150"
+      ]
+    },
+    {
+      "list_row": 157,
+      "topic": "Hava kirliliği ve KV risk",
+      "owner_text": "155 ile aynı ESC bildirisi",
+      "source_line": "157\tHava kirliliği ve KV risk\t155 ile aynı ESC bildirisi",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 155,
+      "note": "Piepoli çevresel risk uzlaşı belgesi ehag270; kaynak bağlamı korundu, makale çoğaltılmadı.",
+      "record_ids": [
+        "WOW-0150"
+      ]
+    },
+    {
+      "list_row": 158,
+      "topic": "İlk KV olay öncesi riskler",
+      "owner_text": "Lee ve ark. (2025), JACC",
+      "source_line": "158\tİlk KV olay öncesi riskler\tLee ve ark. (2025), JACC",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0151"
+      ]
+    },
+    {
+      "list_row": 161,
+      "topic": "Türkiye’de tuzlarda mikroplastik",
+      "owner_text": "Gündoğdu (2018); Bozkaya & Aluç (2024)",
+      "source_line": "161\tTürkiye’de tuzlarda mikroplastik\tGündoğdu (2018); Bozkaya & Aluç (2024)",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0152",
+        "WOW-0153"
+      ]
+    },
+    {
+      "list_row": 162,
+      "topic": "Lif yüksek kırmızı eti telafi eder mi?",
+      "owner_text": "Atıf yok",
+      "source_line": "162\tLif yüksek kırmızı eti telafi eder mi?\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 163,
+      "topic": "Soğan, kuersetin ve menemen",
+      "owner_text": "2025 fitokimyasallar derlemesi; Frontiers in Nutrition (2026)",
+      "source_line": "163\tSoğan, kuersetin ve menemen\t2025 fitokimyasallar derlemesi; Frontiers in Nutrition (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 164,
+      "topic": "Kırmızı et ve tip 2 diyabet",
+      "owner_text": "Gu ve ark. (2023), AJCN, https://doi.org/10.1016/j.ajcnut.2023.08.021",
+      "source_line": "164\tKırmızı et ve tip 2 diyabet\tGu ve ark. (2023), AJCN, https://doi.org/10.1016/j.ajcnut.2023.08.021",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0154"
+      ]
+    },
+    {
+      "list_row": 168,
+      "topic": "Beslenme riskleri ve küresel KV yük",
+      "owner_text": "The Innovation Nutrition (2026)",
+      "source_line": "168\tBeslenme riskleri ve küresel KV yük\tThe Innovation Nutrition (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "source_match_ambiguous",
+      "missing": "Dergi/yıl/konu var; paylaşımdaki yayının kimliği için tam başlık veya yazar gerekli. Benzer aday kesin kaynak kabul edilmedi.",
+      "candidates": [
+        {
+          "doi": "10.59717/j.xinn-nutri.2026.100015",
+          "title": "Cardiovascular diseases burden attributable to dietary risk factors in 204 countries and territories",
+          "source": "https://www.the-innovation.org/data/article/nutrition/preview/pdf/TIN-2026-0013.pdf",
+          "owner_source_match_verified": false
+        }
+      ]
+    },
+    {
+      "list_row": 169,
+      "topic": "Pulmoner arteriyel hipertansiyon araştırma özeti",
+      "owner_text": "Nascimento ve ark. (2026), Pulmonary Therapy, https://doi.org/10.1007/s41030-026-00359-w",
+      "source_line": "169\tPulmoner arteriyel hipertansiyon araştırma özeti\tNascimento ve ark. (2026), Pulmonary Therapy, https://doi.org/10.1007/s41030-026-00359-w",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0155"
+      ]
+    },
+    {
+      "list_row": 170,
+      "topic": "Dövmeler, lenfoma ve cilt kanseri riski",
+      "owner_text": "Medscape; atıf yapılan çalışmaların künyesi yok",
+      "source_line": "170\tDövmeler, lenfoma ve cilt kanseri riski\tMedscape; atıf yapılan çalışmaların künyesi yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 174,
+      "topic": "HDL yüksekliği gerçekten korur mu?",
+      "owner_text": "Atıf yok",
+      "source_line": "174\tHDL yüksekliği gerçekten korur mu?\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 175,
+      "topic": "Uzun süreli melatonin ve kalp yetmezliği",
+      "owner_text": "AHA 2025, özet MP2306",
+      "source_line": "175\tUzun süreli melatonin ve kalp yetmezliği\tAHA 2025, özet MP2306",
+      "date": null,
+      "date_missing": true,
+      "status": "conference_citation_pending",
+      "missing": "AHA 2025 MP2306 özeti doğrulandı; özgün özetin tam başlığı ve DOI/makale künyesi kesinleştirilmedi. Basın duyurusu başlığı makale başlığı olarak kullanılmadı.",
+      "source_type": "conference_abstract",
+      "abstract_number": "MP2306",
+      "sources": [
+        "https://newsroom.heart.org/news/long-term-use-of-melatonin-supplements-to-support-sleep-may-have-negative-health-effects"
+      ]
+    },
+    {
+      "list_row": 176,
+      "topic": "Ketojenik diyet ve normal kiloda LDL",
+      "owner_text": "DiMattia & Petersen (2026), JAHA",
+      "source_line": "176\tKetojenik diyet ve normal kiloda LDL\tDiMattia & Petersen (2026), JAHA",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0156"
+      ]
+    },
+    {
+      "list_row": 177,
+      "topic": "GLP-1/GIP-GLP-1 tedavisinde beslenme",
+      "owner_text": "de Paulo ve ark. (2026), https://doi.org/10.1111/dom.70779",
+      "source_line": "177\tGLP-1/GIP-GLP-1 tedavisinde beslenme\tde Paulo ve ark. (2026), https://doi.org/10.1111/dom.70779",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0157"
+      ]
+    },
+    {
+      "list_row": 178,
+      "topic": "Zeytinyağını depolama",
+      "owner_text": "Di Stefano ve ark. (2020), https://doi.org/10.1080/14786419.2018.1517124",
+      "source_line": "178\tZeytinyağını depolama\tDi Stefano ve ark. (2020), https://doi.org/10.1080/14786419.2018.1517124",
+      "date": null,
+      "date_missing": true,
+      "status": "doi_unverified",
+      "missing": "Verilen DOI Crossref ve Europe PMC kayıtlarında doğrulanamadı (Crossref 404). Yazar/yıl/konu için birden fazla olası kaynak var; yeni DOI rastgele atanmadı.",
+      "doi_as_given": "10.1080/14786419.2018.1517124",
+      "candidates": [
+        {
+          "doi": "10.1080/14786419.2019.1587434",
+          "title": "Effect of storage on quality parameters and phenolic content of Italian extra-virgin olive oils",
+          "source": "https://pubmed.ncbi.nlm.nih.gov/30896291/",
+          "owner_source_match_verified": false
+        },
+        {
+          "doi": "10.1016/B978-0-12-819528-4.00029-8",
+          "title": "Extra-virgin olive oils storage: Effect on constituents of biological significance",
+          "publication_type": "book_chapter",
+          "source": "https://iris.unipa.it/handle/10447/458494",
+          "owner_source_match_verified": false
+        }
+      ]
+    },
+    {
+      "list_row": 179,
+      "topic": "Çay sıcaklığı ve özofagus kanseri",
+      "owner_text": "Islami ve ark. (2019), International Journal of Cancer",
+      "source_line": "179\tÇay sıcaklığı ve özofagus kanseri\tIslami ve ark. (2019), International Journal of Cancer",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0158"
+      ]
+    },
+    {
+      "list_row": 180,
+      "topic": "Fındık, lipidler ve vücut ağırlığı",
+      "owner_text": "Perna ve ark. (2016), Nutrients, https://doi.org/10.3390/nu8120747",
+      "source_line": "180\tFındık, lipidler ve vücut ağırlığı\tPerna ve ark. (2016), Nutrients, https://doi.org/10.3390/nu8120747",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0159"
+      ]
     }
   ]
 }

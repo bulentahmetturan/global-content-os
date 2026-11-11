@@ -1,0 +1,79 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 20,
+    "new_records": 10,
+    "new_doi_records": 10,
+    "pending_rows": 8,
+    "duplicate_rows": 3,
+    "total_records": 159,
+    "records_with_doi": 148,
+    "records_without_doi": 11,
+    "distinct_dois": 147,
+    "first": "WOW-0150",
+    "last": "WOW-0159"
+  },
+  "added": [
+    {
+      "id": "WOW-0150",
+      "list_row": 155,
+      "title": "Environmental risk factors and cardiovascular health",
+      "doi": "10.1093/eurheartj/ehag270"
+    },
+    {
+      "id": "WOW-0151",
+      "list_row": 158,
+      "title": "Very High Prevalence of Nonoptimally Controlled Traditional Risk Factors at the Onset of Cardiovascular Disease",
+      "doi": "10.1016/j.jacc.2025.07.014"
+    },
+    {
+      "id": "WOW-0152",
+      "list_row": 161,
+      "title": "Contamination of table salts from Turkey with microplastics",
+      "doi": "10.1080/19440049.2018.1447694"
+    },
+    {
+      "id": "WOW-0153",
+      "list_row": 161,
+      "title": "Physico-chemical characterization of food grade natural spring salt from the Central Anatolia region of Turkey and investigation of its microplastic content",
+      "doi": "10.1007/s13197-024-05942-0"
+    },
+    {
+      "id": "WOW-0154",
+      "list_row": 164,
+      "title": "Red meat intake and risk of type 2 diabetes in a prospective cohort study of United States females and males",
+      "doi": "10.1016/j.ajcnut.2023.08.021"
+    },
+    {
+      "id": "WOW-0155",
+      "list_row": 169,
+      "title": "2025 Annual Review of Pulmonary Arterial Hypertension Clinical Research",
+      "doi": "10.1007/s41030-026-00359-w"
+    },
+    {
+      "id": "WOW-0156",
+      "list_row": 176,
+      "title": "Ketogenic Diets and Low-Density Lipoprotein Cholesterol in Adults With Normal Weight: An Emerging Clinical Challenge",
+      "doi": "10.1161/JAHA.125.048903"
+    },
+    {
+      "id": "WOW-0157",
+      "list_row": 177,
+      "title": "Dietary Strategies and Nutritional Management in Patients Receiving GLP-1 and Dual GIP/GLP-1 Receptor Agonists as Adjuncts to Lifestyle Interventions: A Systematic Review of Randomised Clinical Trials",
+      "doi": "10.1111/dom.70779"
+    },
+    {
+      "id": "WOW-0158",
+      "list_row": 179,
+      "title": "A prospective study of tea drinking temperature and risk of esophageal squamous cell carcinoma",
+      "doi": "10.1002/ijc.32220"
+    },
+    {
+      "id": "WOW-0159",
+      "list_row": 180,
+      "title": "Effects of Hazelnut Consumption on Blood Lipids and Body Weight: A Systematic Review and Bayesian Meta-Analysis",
+      "doi": "10.3390/nu8120747"
+    }
+  ],
+  "rule": "Belirsiz kaynaklar ve DOI doğrulanmış sayılmadı; tarihler tahmin edilmedi; canlı yükleme yapılmadı."
+}

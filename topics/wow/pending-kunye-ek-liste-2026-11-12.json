@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 70,
+  "count": 78,
   "rows": [
     {
       "list_row": 1,
@@ -665,6 +665,115 @@
       "date_missing": true,
       "status": "pending",
       "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 154,
+      "topic": "Gece nefes darlığı",
+      "owner_text": "Atıf yok",
+      "source_line": "154\tGece nefes darlığı\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 162,
+      "topic": "Lif yüksek kırmızı eti telafi eder mi?",
+      "owner_text": "Atıf yok",
+      "source_line": "162\tLif yüksek kırmızı eti telafi eder mi?\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 163,
+      "topic": "Soğan, kuersetin ve menemen",
+      "owner_text": "2025 fitokimyasallar derlemesi; Frontiers in Nutrition (2026)",
+      "source_line": "163\tSoğan, kuersetin ve menemen\t2025 fitokimyasallar derlemesi; Frontiers in Nutrition (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 168,
+      "topic": "Beslenme riskleri ve küresel KV yük",
+      "owner_text": "The Innovation Nutrition (2026)",
+      "source_line": "168\tBeslenme riskleri ve küresel KV yük\tThe Innovation Nutrition (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "source_match_ambiguous",
+      "missing": "Dergi/yıl/konu var; paylaşımdaki yayının kimliği için tam başlık veya yazar gerekli. Benzer aday kesin kaynak kabul edilmedi.",
+      "candidates": [
+        {
+          "doi": "10.59717/j.xinn-nutri.2026.100015",
+          "title": "Cardiovascular diseases burden attributable to dietary risk factors in 204 countries and territories",
+          "source": "https://www.the-innovation.org/data/article/nutrition/preview/pdf/TIN-2026-0013.pdf",
+          "owner_source_match_verified": false
+        }
+      ]
+    },
+    {
+      "list_row": 170,
+      "topic": "Dövmeler, lenfoma ve cilt kanseri riski",
+      "owner_text": "Medscape; atıf yapılan çalışmaların künyesi yok",
+      "source_line": "170\tDövmeler, lenfoma ve cilt kanseri riski\tMedscape; atıf yapılan çalışmaların künyesi yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 174,
+      "topic": "HDL yüksekliği gerçekten korur mu?",
+      "owner_text": "Atıf yok",
+      "source_line": "174\tHDL yüksekliği gerçekten korur mu?\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; genel konu/atıf tamamlanmış künye sayılmadı."
+    },
+    {
+      "list_row": 175,
+      "topic": "Uzun süreli melatonin ve kalp yetmezliği",
+      "owner_text": "AHA 2025, özet MP2306",
+      "source_line": "175\tUzun süreli melatonin ve kalp yetmezliği\tAHA 2025, özet MP2306",
+      "date": null,
+      "date_missing": true,
+      "status": "conference_citation_pending",
+      "missing": "AHA 2025 MP2306 özeti doğrulandı; özgün özetin tam başlığı ve DOI/makale künyesi kesinleştirilmedi. Basın duyurusu başlığı makale başlığı olarak kullanılmadı.",
+      "source_type": "conference_abstract",
+      "abstract_number": "MP2306",
+      "sources": [
+        "https://newsroom.heart.org/news/long-term-use-of-melatonin-supplements-to-support-sleep-may-have-negative-health-effects"
+      ]
+    },
+    {
+      "list_row": 178,
+      "topic": "Zeytinyağını depolama",
+      "owner_text": "Di Stefano ve ark. (2020), https://doi.org/10.1080/14786419.2018.1517124",
+      "source_line": "178\tZeytinyağını depolama\tDi Stefano ve ark. (2020), https://doi.org/10.1080/14786419.2018.1517124",
+      "date": null,
+      "date_missing": true,
+      "status": "doi_unverified",
+      "missing": "Verilen DOI Crossref ve Europe PMC kayıtlarında doğrulanamadı (Crossref 404). Yazar/yıl/konu için birden fazla olası kaynak var; yeni DOI rastgele atanmadı.",
+      "doi_as_given": "10.1080/14786419.2018.1517124",
+      "candidates": [
+        {
+          "doi": "10.1080/14786419.2019.1587434",
+          "title": "Effect of storage on quality parameters and phenolic content of Italian extra-virgin olive oils",
+          "source": "https://pubmed.ncbi.nlm.nih.gov/30896291/",
+          "owner_source_match_verified": false
+        },
+        {
+          "doi": "10.1016/B978-0-12-819528-4.00029-8",
+          "title": "Extra-virgin olive oils storage: Effect on constituents of biological significance",
+          "publication_type": "book_chapter",
+          "source": "https://iris.unipa.it/handle/10447/458494",
+          "owner_source_match_verified": false
+        }
+      ]
     }
   ]
 }
