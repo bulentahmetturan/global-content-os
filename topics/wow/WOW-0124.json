@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0124",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "PROPOSED",
+  "article": {
+    "doi": null,
+    "title": null,
+    "journal": null,
+    "published_at": null,
+    "study": "Siğiller ve telkin",
+    "doi_pending": true,
+    "title_pending": true,
+    "verified_by": "Verilen başlık kesin yayın kimliğiyle eşleştirilemedi. title_as_given korunuyor; taslak canlı tanıtıma hazır değil.",
+    "title_as_given": "Cell-mediated immunity and regression of warts following suggestion therapy"
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #100",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "**Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı.",
+  "source_date_pending": true
+}

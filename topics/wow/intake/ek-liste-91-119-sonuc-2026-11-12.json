@@ -1,0 +1,136 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 21,
+    "new_verified_articles": 16,
+    "new_pending_drafts": 3,
+    "new_records": 19,
+    "new_pending_entries": 9,
+    "pending_only_rows": 5,
+    "duplicate_rows": 2,
+    "total_records": 135,
+    "records_with_doi": 125,
+    "records_without_doi": 10,
+    "first": "WOW-0117",
+    "last": "WOW-0135"
+  },
+  "added": [
+    {
+      "id": "WOW-0117",
+      "doi": "10.1016/s0140-6736(04)17018-9",
+      "status": "verified",
+      "list_row": 91
+    },
+    {
+      "id": "WOW-0118",
+      "doi": "10.1111/joim.12496",
+      "status": "verified",
+      "list_row": 93
+    },
+    {
+      "id": "WOW-0119",
+      "doi": "10.1016/j.imr.2017.11.001",
+      "status": "verified",
+      "list_row": 97
+    },
+    {
+      "id": "WOW-0120",
+      "doi": "10.4065/78.5.603",
+      "status": "verified",
+      "list_row": 97
+    },
+    {
+      "id": "WOW-0121",
+      "doi": null,
+      "status": "citation_pending_draft",
+      "list_row": 97
+    },
+    {
+      "id": "WOW-0122",
+      "doi": "10.1016/s0140-6736(59)90605-1",
+      "status": "verified",
+      "list_row": 100
+    },
+    {
+      "id": "WOW-0123",
+      "doi": null,
+      "status": "citation_pending_draft",
+      "list_row": 100
+    },
+    {
+      "id": "WOW-0124",
+      "doi": null,
+      "status": "citation_pending_draft",
+      "list_row": 100
+    },
+    {
+      "id": "WOW-0125",
+      "doi": "10.1080/08998280.2000.11927657",
+      "status": "verified",
+      "list_row": 101
+    },
+    {
+      "id": "WOW-0126",
+      "doi": "10.1111/age.70030",
+      "status": "verified",
+      "list_row": 101
+    },
+    {
+      "id": "WOW-0127",
+      "doi": "10.1093/nutrit/nuag018",
+      "status": "verified",
+      "list_row": 103
+    },
+    {
+      "id": "WOW-0128",
+      "doi": "10.1093/eurheartj/ehag362",
+      "status": "verified",
+      "list_row": 108
+    },
+    {
+      "id": "WOW-0129",
+      "doi": "10.1371/journal.pone.0268641",
+      "status": "verified",
+      "list_row": 109
+    },
+    {
+      "id": "WOW-0130",
+      "doi": "10.1016/j.apradiso.2021.109781",
+      "status": "verified",
+      "list_row": 110
+    },
+    {
+      "id": "WOW-0131",
+      "doi": "10.1053/j.jrn.2026.04.010",
+      "status": "verified",
+      "list_row": 111
+    },
+    {
+      "id": "WOW-0132",
+      "doi": "10.1111/add.16757",
+      "status": "verified",
+      "list_row": 114
+    },
+    {
+      "id": "WOW-0133",
+      "doi": "10.1136/bmj.h6423",
+      "status": "verified",
+      "list_row": 116
+    },
+    {
+      "id": "WOW-0134",
+      "doi": "10.1056/nejme2601013",
+      "status": "verified",
+      "list_row": 117
+    },
+    {
+      "id": "WOW-0135",
+      "doi": "10.1136/bmj.d7799",
+      "status": "verified",
+      "list_row": 119
+    }
+  ],
+  "source": "Sahibin ekli metni; her satır intake/ek-liste-2026-11-12.json içinde korunuyor.",
+  "rejected_source_doi": "10.1016/j.apradiso.2021.109865",
+  "corrected_doi": "10.1016/j.apradiso.2021.109781"
+}

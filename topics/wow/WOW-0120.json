@@ -1,0 +1,53 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0120",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.4065/78.5.603",
+    "title": "Skin blood flow in adult human thermoregulation: how it works, when it does not, and why",
+    "journal": "Mayo Clinic proceedings",
+    "published_at": null,
+    "study": "El ve ayaklarda soğuk aşırı duyarlılığı",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "Tam başlık/dergi/DOI bilimsel dizin veya DOI kaydıyla doğrulandı; kanıt bibliographic_verification alanında."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #97",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "**Bae ve ark.**, *The definition and diagnosis of cold hypersensitivity in the hands and feet: Finding from the experts survey*, **Integrative Medicine Research, 2018**; **Charkoudian**, *Skin blood flow in adult human thermoregulation: how it works, when it does not, and why*, **Mayo Clinic Proceedings, 2003**; **Freedman**, *Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet*, **Clinical Autonomic Research, 1999**.",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.4065/78.5.603",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Skin+blood+flow+in+adult+human+thermoregulation%3A+how+it+works%2C+when+it+does+not%2C+and+why%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/12744548/"
+    ],
+    "authors": "Charkoudian N.",
+    "pmid": "12744548",
+    "scope_note": "Paylaşım tarihi verilmedi; yayın tarihi tahmin edilmedi. Kaynak metni özgün haliyle korundu."
+  }
+}

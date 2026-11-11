@@ -1,0 +1,52 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0126",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1111/age.70030",
+    "title": "A feline model of human low‐density lipoprotein receptor‐related atherosclerosis",
+    "journal": "Animal Genetics",
+    "published_at": null,
+    "study": "Kedigiller ve ateroskleroz",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "Tam başlık/dergi/DOI bilimsel dizin veya DOI kaydıyla doğrulandı; kanıt bibliographic_verification alanında."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #101",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Roberts. *Twenty questions on atherosclerosis.* **Baylor University Medical Center Proceedings, 2000;13:139–143**. Ayrıca Hytönen ve ark. adına verilen *A feline model of human low-density lipoprotein receptor-related atherosclerosis*, **Animal Genetics, 2025** atfı; bu ikinci kaynak doğrulanmadı.",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1111/age.70030",
+      "https://api.crossref.org/works/10.1111%2Fage.70030"
+    ],
+    "authors": "Marjo K. Hytönen; Veera Karkamo; Sruthi Hundi; Niina Airas; Maria Kaukonen; Antti Sukura; Leslie A. Lyons; Heidi Anderson; Ilona Kareinen; Hannes Lohi",
+    "pmid": null,
+    "scope_note": "Paylaşım tarihi verilmedi; yayın tarihi tahmin edilmedi. Kaynak metni özgün haliyle korundu."
+  }
+}

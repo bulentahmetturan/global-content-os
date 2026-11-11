@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0134",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1056/nejme2601013",
+    "title": "Remuscularizing the Failing Human Heart",
+    "journal": "The New England journal of medicine",
+    "published_at": null,
+    "study": "Kalp kasını yeniden oluşturma",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "Tam başlık/dergi/DOI bilimsel dizin veya DOI kaydıyla doğrulandı; kanıt bibliographic_verification alanında.",
+    "publication_type": "editorial"
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #117",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Srivastava. *Remuscularizing the Failing Human Heart.* **NEJM, 2026;394:2055–2058.** DOI: [10.1056/NEJMe2601013](https://doi.org/10.1056/NEJMe2601013). Verilen kaynak BioVAT-HF üzerine yorum yazısı.",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1056/nejme2601013",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1056%2FNEJMe2601013%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/42202327/"
+    ],
+    "authors": "Srivastava D.",
+    "pmid": "42202327",
+    "scope_note": "Paylaşım tarihi verilmedi; yayın tarihi tahmin edilmedi. Kaynak metni özgün haliyle korundu."
+  }
+}

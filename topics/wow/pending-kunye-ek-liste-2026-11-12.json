@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 50,
+  "count": 59,
   "rows": [
     {
       "list_row": 1,
@@ -434,6 +434,113 @@
       "source_line": "| 87 | 15.06.2026 | [Magnezyum ve ritim bozuklukları](https://www.facebook.com/reel/1549937503372975/) | Açıklamada ve incelenen görüntülerde belirli makale künyesi görülmemiş. |",
       "status": "pending",
       "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 97,
+      "topic": "El ve ayaklarda soğuk aşırı duyarlılığı",
+      "owner_text": "**Bae ve ark.**, *The definition and diagnosis of cold hypersensitivity in the hands and feet: Finding from the experts survey*, **Integrative Medicine Research, 2018**; **Charkoudian**, *Skin blood flow in adult human thermoregulation: how it works, when it does not, and why*, **Mayo Clinic Proceedings, 2003**; **Freedman**, *Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet*, **Clinical Autonomic Research, 1999**.",
+      "source_line": "| 97 | [El ve ayaklarda soğuk aşırı duyarlılığı](https://www.facebook.com/reel/1341352011251292/) | **Bae ve ark.**, *The definition and diagnosis of cold hypersensitivity in the hands and feet: Finding from the experts survey*, **Integrative Medicine Research, 2018**; **Charkoudian**, *Skin blood flow in adult human thermoregulation: how it works, when it does not, and why*, **Mayo Clinic Proceedings, 2003**; **Freedman**, *Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet*, **Clinical Autonomic Research, 1999**. |",
+      "date": null,
+      "date_missing": true,
+      "status": "citation_pending_draft",
+      "record_ids": [
+        "WOW-0121"
+      ],
+      "owner_title": "Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet",
+      "missing": "Kesin yayın kimliği ve DOI; dergi/yazar bilgisiyle doğrulama. Verilen başlık taslakta title_as_given alanında korunuyor; aktif başlık olarak kullanılmadı."
+    },
+    {
+      "list_row": 98,
+      "topic": "Bastırınca artan göğüs ağrısı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 98 | [Bastırınca artan göğüs ağrısı](https://www.facebook.com/reel/1315188014063750/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 100,
+      "topic": "Siğiller ve telkin",
+      "owner_text": "**Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı.",
+      "source_line": "| 100 | [Siğiller ve telkin](https://www.facebook.com/reel/954385314263801/) | **Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "citation_pending_draft",
+      "record_ids": [
+        "WOW-0123"
+      ],
+      "owner_title": "Dermatolojide Plasebo ve Telkinin Yeri",
+      "missing": "Kesin yayın kimliği ve DOI; dergi/yazar bilgisiyle doğrulama. Verilen başlık taslakta title_as_given alanında korunuyor; aktif başlık olarak kullanılmadı."
+    },
+    {
+      "list_row": 100,
+      "topic": "Siğiller ve telkin",
+      "owner_text": "**Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı.",
+      "source_line": "| 100 | [Siğiller ve telkin](https://www.facebook.com/reel/954385314263801/) | **Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "citation_pending_draft",
+      "record_ids": [
+        "WOW-0124"
+      ],
+      "owner_title": "Cell-mediated immunity and regression of warts following suggestion therapy",
+      "missing": "Kesin yayın kimliği ve DOI; dergi/yazar bilgisiyle doğrulama. Verilen başlık taslakta title_as_given alanında korunuyor; aktif başlık olarak kullanılmadı."
+    },
+    {
+      "list_row": 100,
+      "topic": "Siğiller ve telkin",
+      "owner_text": "**Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı.",
+      "source_line": "| 100 | [Siğiller ve telkin](https://www.facebook.com/reel/954385314263801/) | **Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "partial_pending",
+      "record_ids": [
+        "WOW-0122",
+        "WOW-0123",
+        "WOW-0124"
+      ],
+      "missing": "Spanos, Archives of Dermatology 1990;126:1475–1479 kaynağının tam başlığı/DOI’si. Bulunan Spanos 1990 Psychosomatic Medicine yayını farklı dergi olduğundan kesin eşleşme sayılmadı."
+    },
+    {
+      "list_row": 106,
+      "topic": "Yürürken kol uyuşması",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 106 | [Yürürken kol uyuşması](https://www.facebook.com/reel/3208154736048279/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 107,
+      "topic": "Karpuz, sitrülin ve damar sağlığı",
+      "owner_text": "**American Journal of Hypertension, Nutrients, Frontiers** dergilerine atıflar. Ayrı makalelerin künyeleri verilmemiş.",
+      "source_line": "| 107 | [Karpuz, sitrülin ve damar sağlığı](https://www.facebook.com/reel/2635257023573214/) | **American Journal of Hypertension, Nutrients, Frontiers** dergilerine atıflar. Ayrı makalelerin künyeleri verilmemiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 113,
+      "topic": "Öfke sırasında göğüs ağrısı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 113 | [Öfke sırasında göğüs ağrısı](https://www.facebook.com/reel/3256442431223810/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 118,
+      "topic": "Erken LDL düşürme ve başlangıç riski",
+      "owner_text": "Irene Karungi/Kausik Ray ekibi, **American Journal of Preventive Cardiology / EAS**, yaklaşık 105 bin katılımcılı meta-analiz. Tam başlık ve DOI yok.",
+      "source_line": "| 118 | [Erken LDL düşürme ve başlangıç riski](https://www.facebook.com/reel/787003034381478/) | Irene Karungi/Kausik Ray ekibi, **American Journal of Preventive Cardiology / EAS**, yaklaşık 105 bin katılımcılı meta-analiz. Tam başlık ve DOI yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
     }
   ]
 }

@@ -1,0 +1,53 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0127",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1093/nutrit/nuag018",
+    "title": "Caffeine and Cardiometabolic Health: Evidence, Controversies, and Clinical Considerations",
+    "journal": "Nutrition reviews",
+    "published_at": null,
+    "study": "Türk kahvesi ve kalp-damar sağlığı",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "Tam başlık/dergi/DOI bilimsel dizin veya DOI kaydıyla doğrulandı; kanıt bibliographic_verification alanında."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #103",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Kayıkçıoğlu ve ark. *Caffeine and Cardiometabolic Health: Evidence, Controversies, and Clinical Considerations.* **Nutrition Reviews, Mart 2026** olarak verilmiş.",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1093/nutrit/nuag018",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Caffeine+and+Cardiometabolic+Health%3A+Evidence%2C+Controversies%2C+and+Clinical+Considerations%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/41824302/"
+    ],
+    "authors": "Kayikcioglu M, Ozkan HS.",
+    "pmid": "41824302",
+    "scope_note": "Paylaşım tarihi verilmedi; yayın tarihi tahmin edilmedi. Kaynak metni özgün haliyle korundu."
+  }
+}

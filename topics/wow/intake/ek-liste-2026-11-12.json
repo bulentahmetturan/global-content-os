@@ -695,6 +695,261 @@
       "record_ids": [
         "WOW-0116"
       ]
+    },
+    {
+      "list_row": 91,
+      "topic": "Sınav stresi ve kalp sağlığı",
+      "owner_text": "Yusuf ve ark. *Effect of potentially modifiable risk factors associated with myocardial infarction in 52 countries (the INTERHEART study): case-control study.* **The Lancet, 2004.** PMID: **15364185**.",
+      "source_line": "| 91 | [Sınav stresi ve kalp sağlığı](https://www.facebook.com/reel/993955443237059/) | Yusuf ve ark. *Effect of potentially modifiable risk factors associated with myocardial infarction in 52 countries (the INTERHEART study): case-control study.* **The Lancet, 2004.** PMID: **15364185**. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0117"
+      ]
+    },
+    {
+      "list_row": 93,
+      "topic": "Güneş maruziyeti — MISS kohortu",
+      "owner_text": "*Avoidance of sun exposure as a risk factor for major causes of death: a competing risk analysis of the Melanoma in Southern Sweden cohort.* **Journal of Internal Medicine, 2016.** PMID: **26992108**.",
+      "source_line": "| 93 | [Güneş maruziyeti — MISS kohortu](https://www.facebook.com/reel/1471119348364679/) | *Avoidance of sun exposure as a risk factor for major causes of death: a competing risk analysis of the Melanoma in Southern Sweden cohort.* **Journal of Internal Medicine, 2016.** PMID: **26992108**. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0118"
+      ]
+    },
+    {
+      "list_row": 96,
+      "topic": "Soğuk ayaklar için yaklaşımlar",
+      "owner_text": "**97. satırdaki üç kaynak tekrar kullanılıyor:** Charkoudian 2003, Bae ve ark. 2018, Freedman 1999. Başka dergilere genel atıflar da var.",
+      "source_line": "| 96 | [Soğuk ayaklar için yaklaşımlar](https://www.facebook.com/reel/1498336432305571/) | **97. satırdaki üç kaynak tekrar kullanılıyor:** Charkoudian 2003, Bae ve ark. 2018, Freedman 1999. Başka dergilere genel atıflar da var. |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 97,
+      "note": "Sahibin açık tekrar notu; yeni makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0119",
+        "WOW-0120",
+        "WOW-0121"
+      ]
+    },
+    {
+      "list_row": 97,
+      "topic": "El ve ayaklarda soğuk aşırı duyarlılığı",
+      "owner_text": "**Bae ve ark.**, *The definition and diagnosis of cold hypersensitivity in the hands and feet: Finding from the experts survey*, **Integrative Medicine Research, 2018**; **Charkoudian**, *Skin blood flow in adult human thermoregulation: how it works, when it does not, and why*, **Mayo Clinic Proceedings, 2003**; **Freedman**, *Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet*, **Clinical Autonomic Research, 1999**.",
+      "source_line": "| 97 | [El ve ayaklarda soğuk aşırı duyarlılığı](https://www.facebook.com/reel/1341352011251292/) | **Bae ve ark.**, *The definition and diagnosis of cold hypersensitivity in the hands and feet: Finding from the experts survey*, **Integrative Medicine Research, 2018**; **Charkoudian**, *Skin blood flow in adult human thermoregulation: how it works, when it does not, and why*, **Mayo Clinic Proceedings, 2003**; **Freedman**, *Biochemical, hematological, and psychological characteristics of women with primary Raynaud’s phenomenon and cold feet*, **Clinical Autonomic Research, 1999**. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0119",
+        "WOW-0120",
+        "WOW-0121"
+      ]
+    },
+    {
+      "list_row": 98,
+      "topic": "Bastırınca artan göğüs ağrısı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 98 | [Bastırınca artan göğüs ağrısı](https://www.facebook.com/reel/1315188014063750/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 100,
+      "topic": "Siğiller ve telkin",
+      "owner_text": "**Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı.",
+      "source_line": "| 100 | [Siğiller ve telkin](https://www.facebook.com/reel/954385314263801/) | **Sinclair-Gieben ve Chalmers, Lancet 1959;274:480–482**; **Spanos ve ark., Archives of Dermatology 1990;126:1475–1479**; Tüzün/Serdaroğlu’nun *Dermatolojide Plasebo ve Telkinin Yeri* atfı; ayrıca *Cell-mediated immunity and regression of warts following suggestion therapy*. Son iki kaynağın künyeleri eksik ve doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0122",
+        "WOW-0123",
+        "WOW-0124"
+      ]
+    },
+    {
+      "list_row": 101,
+      "topic": "Kedigiller ve ateroskleroz",
+      "owner_text": "Roberts. *Twenty questions on atherosclerosis.* **Baylor University Medical Center Proceedings, 2000;13:139–143**. Ayrıca Hytönen ve ark. adına verilen *A feline model of human low-density lipoprotein receptor-related atherosclerosis*, **Animal Genetics, 2025** atfı; bu ikinci kaynak doğrulanmadı.",
+      "source_line": "| 101 | [Kedigiller ve ateroskleroz](https://www.facebook.com/reel/1892546568103767/) | Roberts. *Twenty questions on atherosclerosis.* **Baylor University Medical Center Proceedings, 2000;13:139–143**. Ayrıca Hytönen ve ark. adına verilen *A feline model of human low-density lipoprotein receptor-related atherosclerosis*, **Animal Genetics, 2025** atfı; bu ikinci kaynak doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0125",
+        "WOW-0126"
+      ]
+    },
+    {
+      "list_row": 103,
+      "topic": "Türk kahvesi ve kalp-damar sağlığı",
+      "owner_text": "Kayıkçıoğlu ve ark. *Caffeine and Cardiometabolic Health: Evidence, Controversies, and Clinical Considerations.* **Nutrition Reviews, Mart 2026** olarak verilmiş.",
+      "source_line": "| 103 | [Türk kahvesi ve kalp-damar sağlığı](https://www.facebook.com/reel/1001038118972420/) | Kayıkçıoğlu ve ark. *Caffeine and Cardiometabolic Health: Evidence, Controversies, and Clinical Considerations.* **Nutrition Reviews, Mart 2026** olarak verilmiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0127"
+      ]
+    },
+    {
+      "list_row": 104,
+      "topic": "Kafein derlemesi",
+      "owner_text": "**103. satırdaki Kayıkçıoğlu ve ark. derlemesi tekrar kullanılıyor.**",
+      "source_line": "| 104 | [Kafein derlemesi](https://www.facebook.com/reel/1279976537625800/) | **103. satırdaki Kayıkçıoğlu ve ark. derlemesi tekrar kullanılıyor.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 103,
+      "note": "Sahibin açık tekrar notu; yeni makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0127"
+      ]
+    },
+    {
+      "list_row": 106,
+      "topic": "Yürürken kol uyuşması",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 106 | [Yürürken kol uyuşması](https://www.facebook.com/reel/3208154736048279/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 107,
+      "topic": "Karpuz, sitrülin ve damar sağlığı",
+      "owner_text": "**American Journal of Hypertension, Nutrients, Frontiers** dergilerine atıflar. Ayrı makalelerin künyeleri verilmemiş.",
+      "source_line": "| 107 | [Karpuz, sitrülin ve damar sağlığı](https://www.facebook.com/reel/2635257023573214/) | **American Journal of Hypertension, Nutrients, Frontiers** dergilerine atıflar. Ayrı makalelerin künyeleri verilmemiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 108,
+      "topic": "Kalp yetersizliğinin önlenmesi — ESC",
+      "owner_text": "Piepoli, Rosano, Abreu ve ark. *Prevention of heart failure…* **European Heart Journal** bilimsel bildirisi. DOI: [10.1093/eurheartj/ehag362](https://doi.org/10.1093/eurheartj/ehag362). Açıklamadaki yıl bilgisi teyitsiz.",
+      "source_line": "| 108 | [Kalp yetersizliğinin önlenmesi — ESC](https://www.facebook.com/reel/1742979580479634/) | Piepoli, Rosano, Abreu ve ark. *Prevention of heart failure…* **European Heart Journal** bilimsel bildirisi. DOI: [10.1093/eurheartj/ehag362](https://doi.org/10.1093/eurheartj/ehag362). Açıklamadaki yıl bilgisi teyitsiz. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0128"
+      ]
+    },
+    {
+      "list_row": 109,
+      "topic": "Bluetooth kulaklıklar ve sağlık",
+      "owner_text": "Bodewein, Dechent, Graefrath ve ark. *Systematic review of the physiological and health-related effects of radiofrequency electromagnetic field exposure from wireless communication devices on children and adolescents.* **PLOS ONE**. Ayrıca **WHO Make Listening Safe** rehberleri.",
+      "source_line": "| 109 | [Bluetooth kulaklıklar ve sağlık](https://www.facebook.com/reel/1540286770843931/) | Bodewein, Dechent, Graefrath ve ark. *Systematic review of the physiological and health-related effects of radiofrequency electromagnetic field exposure from wireless communication devices on children and adolescents.* **PLOS ONE**. Ayrıca **WHO Make Listening Safe** rehberleri. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0129"
+      ],
+      "note": "WHO Make Listening Safe rehberleri ayrı kaynak türü; makale kaydı olarak çoğaltılmadı."
+    },
+    {
+      "list_row": 110,
+      "topic": "Bitkisel özütler ve radyasyon",
+      "owner_text": "Ansari ve ark. *Evaluating the radioprotective effect of green tea, grape seed, and coffee bean extracts against gamma irradiation.* **Applied Radiation and Isotopes, 2021;176:109865.** DOI: [10.1016/j.apradiso.2021.109865](https://doi.org/10.1016/j.apradiso.2021.109865).",
+      "source_line": "| 110 | [Bitkisel özütler ve radyasyon](https://www.facebook.com/reel/2140461479846607/) | Ansari ve ark. *Evaluating the radioprotective effect of green tea, grape seed, and coffee bean extracts against gamma irradiation.* **Applied Radiation and Isotopes, 2021;176:109865.** DOI: [10.1016/j.apradiso.2021.109865](https://doi.org/10.1016/j.apradiso.2021.109865). |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0130"
+      ],
+      "note": "İletilen DOI başka yayına ait; doğru Ansari makalesi DOI’si doğrulanarak kullanıldı."
+    },
+    {
+      "list_row": 111,
+      "topic": "Kreatin ve böbrek işlevi",
+      "owner_text": "Tsiaras ve ark. *The effect of creatine supplementation on kidney function: a systematic review and meta-analysis of randomized controlled trials.* **Journal of Renal Nutrition, 2026.** DOI: [10.1053/j.jrn.2026.04.010](https://doi.org/10.1053/j.jrn.2026.04.010).",
+      "source_line": "| 111 | [Kreatin ve böbrek işlevi](https://www.facebook.com/reel/4446031552283723/) | Tsiaras ve ark. *The effect of creatine supplementation on kidney function: a systematic review and meta-analysis of randomized controlled trials.* **Journal of Renal Nutrition, 2026.** DOI: [10.1053/j.jrn.2026.04.010](https://doi.org/10.1053/j.jrn.2026.04.010). |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0131"
+      ]
+    },
+    {
+      "list_row": 113,
+      "topic": "Öfke sırasında göğüs ağrısı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 113 | [Öfke sırasında göğüs ağrısı](https://www.facebook.com/reel/3256442431223810/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 114,
+      "topic": "Bir sigaranın yaşam süresine etkisi",
+      "owner_text": "Jackson, Jarvis ve West. *The price of a cigarette: An updated assessment of the impact of smoking on life expectancy.* **Addiction, 2024** olarak verilmiş.",
+      "source_line": "| 114 | [Bir sigaranın yaşam süresine etkisi](https://www.facebook.com/reel/3667098616761325/) | Jackson, Jarvis ve West. *The price of a cigarette: An updated assessment of the impact of smoking on life expectancy.* **Addiction, 2024** olarak verilmiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0132"
+      ]
+    },
+    {
+      "list_row": 116,
+      "topic": "Zombi enfeksiyonları",
+      "owner_text": "Tara C. Smith. *Zombie infections: epidemiology, treatment, and prevention.* **BMJ, 2015;351:h6423.** DOI: [10.1136/bmj.h6423](https://doi.org/10.1136/bmj.h6423). Mizahi Christmas sayısı yazısı.",
+      "source_line": "| 116 | [Zombi enfeksiyonları](https://www.facebook.com/reel/1710948870095297/) | Tara C. Smith. *Zombie infections: epidemiology, treatment, and prevention.* **BMJ, 2015;351:h6423.** DOI: [10.1136/bmj.h6423](https://doi.org/10.1136/bmj.h6423). Mizahi Christmas sayısı yazısı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0133"
+      ]
+    },
+    {
+      "list_row": 117,
+      "topic": "Kalp kasını yeniden oluşturma",
+      "owner_text": "Srivastava. *Remuscularizing the Failing Human Heart.* **NEJM, 2026;394:2055–2058.** DOI: [10.1056/NEJMe2601013](https://doi.org/10.1056/NEJMe2601013). Verilen kaynak BioVAT-HF üzerine yorum yazısı.",
+      "source_line": "| 117 | [Kalp kasını yeniden oluşturma](https://www.facebook.com/reel/1389088316598823/) | Srivastava. *Remuscularizing the Failing Human Heart.* **NEJM, 2026;394:2055–2058.** DOI: [10.1056/NEJMe2601013](https://doi.org/10.1056/NEJMe2601013). Verilen kaynak BioVAT-HF üzerine yorum yazısı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0134"
+      ]
+    },
+    {
+      "list_row": 118,
+      "topic": "Erken LDL düşürme ve başlangıç riski",
+      "owner_text": "Irene Karungi/Kausik Ray ekibi, **American Journal of Preventive Cardiology / EAS**, yaklaşık 105 bin katılımcılı meta-analiz. Tam başlık ve DOI yok.",
+      "source_line": "| 118 | [Erken LDL düşürme ve başlangıç riski](https://www.facebook.com/reel/787003034381478/) | Irene Karungi/Kausik Ray ekibi, **American Journal of Preventive Cardiology / EAS**, yaklaşık 105 bin katılımcılı meta-analiz. Tam başlık ve DOI yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 119,
+      "topic": "27’ler Kulübü",
+      "owner_text": "*Is 27 really a dangerous age for famous musicians? Retrospective cohort study.* **BMJ, 2011;343:d7799.** DOI: [10.1136/bmj.d7799](https://doi.org/10.1136/bmj.d7799).",
+      "source_line": "| 119 | [27’ler Kulübü](https://www.facebook.com/reel/1520002372995181/) | *Is 27 really a dangerous age for famous musicians? Retrospective cohort study.* **BMJ, 2011;343:d7799.** DOI: [10.1136/bmj.d7799](https://doi.org/10.1136/bmj.d7799). |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0135"
+      ]
     }
   ]
 }
