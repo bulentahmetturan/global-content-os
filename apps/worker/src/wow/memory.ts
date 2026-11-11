@@ -1,0 +1,365 @@
+/**
+ * Wow editorial memory (DEC-R-20261112-027; DEC-R-20261111-025 stages 2-4; Bible v5 §1.3, §1.4, §4.1, §4.4, §4.6, §10).
+ * The memory holds what the owner finds valuable and why, and what the system did with it. Tables: migrations/addons/a005.
+ *   extract   one introduced article -> topic units (deterministic classifier) + the two sides of its relation + the PROBABLE wow
+ *             reason. The LLM (Workers AI, the binding the Hub already uses) is called at most once per article and version, under a
+ *             daily cap; its terms are kept only when every word is in the article text. No AI binding / cap reached -> rules only.
+ *   decide    the owner confirms, corrects or rejects the proposal. Only a confirmed/corrected proposal opens a relation + one query.
+ *   hits      every item a relation query brings is recorded with the query id: the "why it came" text is built from these rows only.
+ *   feedback  score + kind (which part must change) + the owner's own reason tags and sentence + item/general scope. One answer
+ *             touches only its dependents: the learner and the queries that brought that item. A low-scoring query is never closed
+ *             by the system: it goes to REVIEW and the owner is asked (keep / narrow / close).
+ * Routes (Hub operator token, ROUTE_GATES): GET /api/wow/memory, GET /api/wow/candidates, POST /api/wow/extraction,
+ * POST /api/wow/feedback, POST /api/wow/query.
+ */
+import { newId, type Env } from '../db/queries';
+import { classify, tokens } from '../topics/classify';
+import { TOPIC_PLAN, type TopicPlan } from '../topics/plan.generated';
+import { recordRating } from '../ratings';
+import { runScoring } from '../scoring';
+
+export interface MemoryResult { status: number; body: unknown }
+export const EXTRACTOR_VERSION = 'x1';
+const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
+/** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
+export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4 } as const;
+export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
+const STUDY_TYPES = ['RCT', 'COHORT', 'CASE_CONTROL', 'CROSS_SECTIONAL', 'META_ANALYSIS', 'REVIEW', 'ANIMAL', 'IN_VITRO', 'CASE_REPORT', 'OTHER'];
+const OWNER_WOW = 'owner_wow_example';
+
+const notReady = (e: unknown): boolean => /no such table/i.test(e instanceof Error ? e.message : String(e));
+const NOT_READY: MemoryResult = { status: 503, body: { error: 'WOW_MEMORY_NOT_READY', hint: 'apply migrations/addons/a005_wow_memory.sql' } };
+const arr = (s: string | null | undefined): string[] => { try { const v = JSON.parse(s || '[]'); return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []; } catch { return []; } };
+const slug = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+/** Search terms: short, plain words only (they go inside a quoted Europe PMC phrase). */
+export function cleanTerms(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const out: string[] = [];
+  for (const t of raw) {
+    if (typeof t !== 'string') continue;
+    const v = t.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (v.length < 3 || v.length > 60 || !/^[a-z0-9][a-z0-9 '\-]*$/.test(v) || out.includes(v)) continue;
+    out.push(v);
+    if (out.length >= WOW_CONFIG.termsPerSide) break;
+  }
+  return out;
+}
+
+/** One journal-free Europe PMC query for a relation: (any A term) AND (any B term), title or abstract. */
+export function buildQuery(a: string[], b: string[]): string {
+  const side = (ts: string[]) => `(${ts.map((t) => `TITLE:"${t}" OR ABSTRACT:"${t}"`).join(' OR ')})`;
+  return `${side(a)} AND ${side(b)}`;
+}
+
+function textFromAi(out: unknown): string {
+  if (typeof out === 'string') return out;
+  const o = out as { response?: unknown; result?: { response?: unknown } } | null;
+  const r = o?.response ?? o?.result?.response;
+  return typeof r === 'string' ? r : r ? JSON.stringify(r) : '';
+}
+
+interface LlmGuess { sideA: string[]; sideB: string[]; studyType: string | null; reason: string | null }
+/** Structured guess; every kept term is checked against the article text (nothing invented, CORE rule 3). */
+async function llmGuess(env: Env, title: string, abstract: string, reasonCodes: string[]): Promise<LlmGuess | null> {
+  if (!env.AI) return null;
+  const system = `You read one medical research title and abstract. Answer with JSON only, no other text:
+{"exposure":["1-3 short English search terms for the studied factor or intervention"],"outcome":["1-3 short English search terms for the main outcome"],"study_type":"one of ${STUDY_TYPES.join(', ')}","reason":"one of ${reasonCodes.join(', ')} or null"}
+Use only words that appear in the text. "reason" is why a general medical audience may find the result striking; null when unsure.`;
+  const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: `Title: ${title}\nAbstract: ${abstract.slice(0, 2500) || '(none)'}` }], max_tokens: 250 }));
+  const m = /\{[\s\S]*\}/.exec(raw);
+  if (!m) return null;
+  let j: Record<string, unknown>;
+  try { j = JSON.parse(m[0]); } catch { return null; }
+  const have = new Set(tokens(`${title} ${abstract}`));
+  const inText = (ts: string[]) => ts.filter((t) => { const st = tokens(t); return st.length > 0 && st.every((s) => have.has(s)); });
+  const sideA = inText(cleanTerms(j.exposure));
+  const sideB = inText(cleanTerms(j.outcome)).filter((t) => !sideA.includes(t));
+  return {
+    sideA, sideB,
+    studyType: typeof j.study_type === 'string' && STUDY_TYPES.includes(j.study_type) ? j.study_type : null,
+    reason: typeof j.reason === 'string' && reasonCodes.includes(j.reason) ? j.reason : null,
+  };
+}
+
+/**
+ * Extraction for one introduced article. Cached per (item, extractor version): a second call returns the stored row and calls
+ * nothing. Never throws: the memory must not break the introduction.
+ */
+export async function extractArticle(env: Env, input: { itemId: string; title: string; abstract: string | null }, plan: TopicPlan = TOPIC_PLAN): Promise<{ created: boolean; basis: 'rules' | 'llm' } | null> {
+  try {
+    const have = await env.DB.prepare(`SELECT basis FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(input.itemId, EXTRACTOR_VERSION).first<{ basis: 'rules' | 'llm' }>();
+    if (have) return { created: false, basis: have.basis };
+    const c = classify(input.title, input.abstract, plan);
+    const topicIds = c.topics.map((t) => t.topicId);
+    const units = c.topics.flatMap((t) => t.units.map((u) => u.unitId));
+    let guess: LlmGuess | null = null;
+    const used = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
+    if (env.AI && Number(used?.n ?? 0) < WOW_CONFIG.llmCallsPerDay) {
+      const codes = (await env.DB.prepare(`SELECT code FROM wow_reasons WHERE state <> 'REJECTED' ORDER BY code`).all<{ code: string }>()).results.map((r) => r.code);
+      guess = await llmGuess(env, input.title, input.abstract || '', codes).catch(() => null);
+    }
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO wow_extractions (item_id, extractor_version, basis, topic_ids, plan_units, side_a, side_b, probable_reason, study_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(input.itemId, EXTRACTOR_VERSION, guess ? 'llm' : 'rules', JSON.stringify(topicIds), JSON.stringify(units), JSON.stringify(guess?.sideA ?? []), JSON.stringify(guess?.sideB ?? []), guess?.reason ?? null, guess?.studyType ?? null).run();
+    return { created: true, basis: guess ? 'llm' : 'rules' };
+  } catch {
+    return null;
+  }
+}
+
+/** Extraction for an article that is already stored (backfill of articles introduced before the memory existed). */
+export async function extractStored(env: Env, raw: unknown): Promise<MemoryResult> {
+  const itemId = raw && typeof raw === 'object' && typeof (raw as { itemId?: unknown }).itemId === 'string' ? ((raw as { itemId: string }).itemId).trim() : '';
+  if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary FROM source_items WHERE id = ? AND discovery_reason = ?`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null }>();
+  if (!it) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
+  const r = await extractArticle(env, { itemId: it.id, title: it.title, abstract: it.summary && it.summary !== it.title ? it.summary : null });
+  return r ? { status: r.created ? 201 : 200, body: { ok: true, itemId, ...r } } : NOT_READY;
+}
+
+/** Owner decision on a proposal (§4.1: an unanswered proposal waits; nothing is accepted by silence). */
+export async function decideExtraction(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['itemId', 'decision', 'sideA', 'sideB', 'name'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const itemId = typeof b.itemId === 'string' ? b.itemId.trim() : '';
+  const decision = b.decision;
+  if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  if (decision !== 'confirm' && decision !== 'correct' && decision !== 'reject') return { status: 400, body: { error: 'INVALID_DECISION' } };
+  try {
+    const ex = await env.DB.prepare(`SELECT side_a, side_b FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(itemId, EXTRACTOR_VERSION).first<{ side_a: string; side_b: string }>();
+    if (!ex) return { status: 404, body: { error: 'EXTRACTION_NOT_FOUND' } };
+    if (decision === 'reject') {
+      await env.DB.prepare(`UPDATE wow_extractions SET state = 'REJECTED', decided_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE item_id = ? AND extractor_version = ?`).bind(itemId, EXTRACTOR_VERSION).run();
+      return { status: 200, body: { ok: true, itemId, state: 'REJECTED' } };
+    }
+    const a = decision === 'correct' ? cleanTerms(b.sideA) : cleanTerms(arr(ex.side_a));
+    const bb = (decision === 'correct' ? cleanTerms(b.sideB) : cleanTerms(arr(ex.side_b))).filter((t) => !a.includes(t));
+    if (!a.length || !bb.length) return { status: 400, body: { error: 'SIDES_REQUIRED', hint: 'both sides of the relation need at least one English term' } };
+    const relationId = `wr-${slug(a[0])}-x-${slug(bb[0])}`.slice(0, 90);
+    const name = (typeof b.name === 'string' && b.name.trim() ? b.name.trim() : `${a[0]} × ${bb[0]}`).slice(0, 160);
+    await env.DB.prepare(`INSERT OR IGNORE INTO wow_relations (relation_id, name, a_terms, b_terms, state, origin_item_id, decided_at) VALUES (?, ?, ?, ?, 'ACTIVE', ?, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`).bind(relationId, name, JSON.stringify(a), JSON.stringify(bb), itemId).run();
+    await env.DB.prepare(`UPDATE wow_relations SET state = 'ACTIVE', decided_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE relation_id = ? AND state <> 'ACTIVE'`).bind(relationId).run();
+    const q = await env.DB.prepare(`SELECT query_id FROM wow_queries WHERE relation_id = ? AND state <> 'CLOSED' LIMIT 1`).bind(relationId).first<{ query_id: string }>();
+    const queryId = q?.query_id ?? `${relationId}-v1`;
+    if (!q) await env.DB.prepare(`INSERT OR IGNORE INTO wow_queries (query_id, relation_id, version, query) VALUES (?, ?, 1, ?)`).bind(queryId, relationId, buildQuery(a, bb)).run();
+    const state = decision === 'correct' ? 'CORRECTED' : 'CONFIRMED';
+    await env.DB.prepare(`UPDATE wow_extractions SET state = ?, side_a = ?, side_b = ?, relation_id = ?, decided_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE item_id = ? AND extractor_version = ?`).bind(state, JSON.stringify(a), JSON.stringify(bb), relationId, itemId, EXTRACTOR_VERSION).run();
+    return { status: 200, body: { ok: true, itemId, state, relationId, queryId, name } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+export interface RunQuery { queryId: string; relationId: string; query: string }
+/** Owner-relation queries for one ingest run: the least recently run first, capped (§1.4 budget). Empty when the memory is absent. */
+export async function queriesForRun(env: Env): Promise<RunQuery[]> {
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT q.query_id, q.relation_id, q.query FROM wow_queries q JOIN wow_relations r ON r.relation_id = q.relation_id
+        WHERE q.state IN ('ACTIVE', 'REVIEW') AND r.state = 'ACTIVE' ORDER BY COALESCE(q.last_run_at, '') ASC, q.query_id ASC LIMIT ?`,
+    ).bind(WOW_CONFIG.queriesPerRun).all<{ query_id: string; relation_id: string; query: string }>()).results;
+    return rows.map((r) => ({ queryId: r.query_id, relationId: r.relation_id, query: r.query }));
+  } catch {
+    return [];
+  }
+}
+
+/** Which query brought the item. Idempotent; never throws (ingestion must not depend on the memory). */
+export async function recordHits(env: Env, itemId: string, hits: Array<{ queryId: string; relationId: string }>): Promise<void> {
+  try {
+    for (const h of hits) await env.DB.prepare(`INSERT OR IGNORE INTO wow_hits (item_id, query_id, relation_id) VALUES (?, ?, ?)`).bind(itemId, h.queryId, h.relationId).run();
+  } catch { /* memory absent */ }
+}
+
+export async function markQueryRun(env: Env, queryId: string, r: { total: number; created: number; error: string | null }): Promise<void> {
+  try {
+    await env.DB.prepare(`UPDATE wow_queries SET last_run_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), last_total = ?, last_created = ?, last_error = ? WHERE query_id = ?`).bind(r.total, r.created, r.error, queryId).run();
+  } catch { /* memory absent */ }
+}
+
+interface QueryStat { queryId: string; relationId: string; state: string; rated: number; avg: number | null }
+/** Only the queries that brought this item are re-measured. Low average after enough answers -> REVIEW (the owner is asked). */
+async function refreshQueries(env: Env, itemId: string): Promise<QueryStat[]> {
+  const hits = (await env.DB.prepare(`SELECT query_id, relation_id FROM wow_hits WHERE item_id = ?`).bind(itemId).all<{ query_id: string; relation_id: string }>()).results;
+  const out: QueryStat[] = [];
+  for (const h of hits) {
+    const s = await env.DB.prepare(
+      `SELECT COUNT(*) AS n, AVG(r.wow) AS avg FROM wow_hits x JOIN item_ratings r ON r.item_id = x.item_id AND r.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = x.item_id) WHERE x.query_id = ?`,
+    ).bind(h.query_id).first<{ n: number; avg: number | null }>();
+    const rated = Number(s?.n ?? 0);
+    const avg = s?.avg === null || s?.avg === undefined ? null : Math.round(Number(s.avg) * 10) / 10;
+    if (rated >= WOW_CONFIG.reviewMinRated && avg !== null && avg <= WOW_CONFIG.reviewMaxAvg) await env.DB.prepare(`UPDATE wow_queries SET state = 'REVIEW' WHERE query_id = ? AND state = 'ACTIVE'`).bind(h.query_id).run();
+    const q = await env.DB.prepare(`SELECT state FROM wow_queries WHERE query_id = ?`).bind(h.query_id).first<{ state: string }>();
+    out.push({ queryId: h.query_id, relationId: h.relation_id, state: q?.state ?? 'PLAN', rated, avg });
+  }
+  return out;
+}
+
+/** Owner answer on any Research item: score, which part must change, own reasons, item/general scope. */
+export async function recordFeedback(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['itemId', 'wow', 'channels', 'kind', 'reasons', 'newReason', 'sentence', 'scope'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const itemId = typeof b.itemId === 'string' ? b.itemId.trim() : '';
+  if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  const kind = b.kind as (typeof FEEDBACK_KINDS)[number];
+  if (typeof kind !== 'string' || !FEEDBACK_KINDS.includes(kind)) return { status: 400, body: { error: 'INVALID_KIND' } };
+  const skip = kind === 'skip';
+  const hasWow = b.wow !== undefined && b.wow !== null;
+  // "Şimdilik geçiyorum" is a wait state, never a negative example.
+  if (skip && hasWow) return { status: 400, body: { error: 'SKIP_HAS_NO_SCORE' } };
+  if (!skip && (typeof b.wow !== 'number' || !Number.isInteger(b.wow) || b.wow < 1 || b.wow > 10)) return { status: 400, body: { error: 'INVALID_WOW' } };
+  const scope = b.scope === undefined ? 'item' : b.scope;
+  if (scope !== 'item' && scope !== 'general') return { status: 400, body: { error: 'INVALID_SCOPE' } };
+  const sentence = typeof b.sentence === 'string' ? b.sentence.trim() : '';
+  if (sentence.length > 400) return { status: 400, body: { error: 'INVALID_SENTENCE' } };
+  if (b.reasons !== undefined && (!Array.isArray(b.reasons) || b.reasons.some((x) => typeof x !== 'string') || b.reasons.length > 6)) return { status: 400, body: { error: 'INVALID_REASONS' } };
+  const newReason = typeof b.newReason === 'string' ? b.newReason.replace(/\s+/g, ' ').trim() : '';
+  if (newReason.length > 80) return { status: 400, body: { error: 'INVALID_NEW_REASON' } };
+  try {
+    const it = await env.DB.prepare(`SELECT COALESCE(title_orig, title) AS title FROM source_items WHERE id = ?`).bind(itemId).first<{ title: string }>();
+    if (!it) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
+    const reasons = [...new Set((b.reasons as string[] | undefined) ?? [])];
+    for (const code of reasons) {
+      const known = await env.DB.prepare(`SELECT code FROM wow_reasons WHERE code = ? AND state <> 'REJECTED'`).bind(code).first();
+      if (!known) return { status: 400, body: { error: 'UNKNOWN_REASON', code } };
+    }
+    // A reason that does not fit the list is added as its own tag, never squeezed into an existing one.
+    if (newReason) {
+      const code = slug(newReason).replace(/-/g, '_').toUpperCase().slice(0, 48);
+      if (!code) return { status: 400, body: { error: 'INVALID_NEW_REASON' } };
+      await env.DB.prepare(`INSERT OR IGNORE INTO wow_reasons (code, name_tr, state) VALUES (?, ?, 'ACTIVE')`).bind(code, newReason).run();
+      if (!reasons.includes(code)) reasons.push(code);
+    }
+    let learner: unknown = null;
+    if (!skip) {
+      const c = (b.channels && typeof b.channels === 'object' && !Array.isArray(b.channels) ? b.channels : {}) as Record<string, unknown>;
+      const rating = await recordRating(env, { itemId, wow: b.wow, channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, note: `[${kind.toUpperCase()}] ${sentence}`.trim().slice(0, 500) });
+      if (rating.status >= 400) return { status: rating.status, body: { error: 'RATING_NOT_RECORDED', detail: rating.body } };
+    }
+    const feedbackId = newId('wowfb');
+    await env.DB.prepare(`INSERT INTO wow_feedback (feedback_id, item_id, wow, kind, reason_codes, sentence, scope, title_orig) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`).bind(feedbackId, itemId, skip ? null : (b.wow as number), kind, JSON.stringify(reasons), sentence || null, scope, it.title).run();
+    for (const code of reasons) await env.DB.prepare(`UPDATE wow_reasons SET state = 'ACTIVE' WHERE code = ? AND state = 'PROPOSED'`).bind(code).run();
+    let queries: QueryStat[] = [];
+    if (!skip) {
+      learner = (await runScoring(env).catch(() => null) as { body?: unknown } | null)?.body ?? null;
+      queries = await refreshQueries(env, itemId);
+    }
+    return { status: 201, body: { ok: true, feedbackId, itemId, kind, scope, reasons, queries, learner, needsBibleDecision: scope === 'general' } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+/** Owner decision on a query in REVIEW (or any owner-relation query): keep, close, or narrow to a new version. */
+export async function decideQuery(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['queryId', 'action', 'sideA', 'sideB'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const queryId = typeof b.queryId === 'string' ? b.queryId.trim() : '';
+  if (b.action !== 'keep' && b.action !== 'close' && b.action !== 'narrow') return { status: 400, body: { error: 'INVALID_ACTION' } };
+  try {
+    const q = await env.DB.prepare(`SELECT relation_id, version, state FROM wow_queries WHERE query_id = ?`).bind(queryId).first<{ relation_id: string; version: number; state: string }>();
+    if (!q) return { status: 404, body: { error: 'QUERY_NOT_FOUND' } };
+    if (b.action === 'keep') {
+      await env.DB.prepare(`UPDATE wow_queries SET state = 'ACTIVE' WHERE query_id = ?`).bind(queryId).run();
+      return { status: 200, body: { ok: true, queryId, state: 'ACTIVE' } };
+    }
+    if (b.action === 'close') {
+      await env.DB.prepare(`UPDATE wow_queries SET state = 'CLOSED' WHERE query_id = ?`).bind(queryId).run();
+      return { status: 200, body: { ok: true, queryId, state: 'CLOSED' } };
+    }
+    const a = cleanTerms(b.sideA);
+    const bb = cleanTerms(b.sideB).filter((t) => !a.includes(t));
+    if (!a.length || !bb.length) return { status: 400, body: { error: 'SIDES_REQUIRED' } };
+    const next = `${q.relation_id}-v${q.version + 1}`;
+    await env.DB.prepare(`UPDATE wow_queries SET state = 'CLOSED' WHERE query_id = ?`).bind(queryId).run();
+    await env.DB.prepare(`INSERT OR IGNORE INTO wow_queries (query_id, relation_id, version, query) VALUES (?, ?, ?, ?)`).bind(next, q.relation_id, q.version + 1, buildQuery(a, bb)).run();
+    await env.DB.prepare(`UPDATE wow_relations SET a_terms = ?, b_terms = ? WHERE relation_id = ?`).bind(JSON.stringify(a), JSON.stringify(bb), q.relation_id).run();
+    return { status: 201, body: { ok: true, closed: queryId, queryId: next, version: q.version + 1 } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+/**
+ * Candidates the relation queries brought, not yet answered, each with why it came (query -> relation -> the owner's article).
+ * Order: learner score when there is one, then how many relations it hit, then newest. Skipped items wait outside the queue.
+ */
+export async function wowCandidates(env: Env, params: URLSearchParams, plan: TopicPlan = TOPIC_PLAN): Promise<MemoryResult> {
+  const n = Number(params.get('limit') ?? '');
+  const limit = Number.isInteger(n) && n > 0 ? Math.min(100, n) : 20;
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT h.item_id, h.query_id, h.relation_id, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at,
+              r.name AS relation_name, o.title_orig AS origin_title, o.title AS origin_title_tr
+         FROM wow_hits h JOIN source_items s ON s.id = h.item_id
+         LEFT JOIN wow_relations r ON r.relation_id = h.relation_id
+         LEFT JOIN source_items o ON o.id = r.origin_item_id
+        WHERE COALESCE(s.discovery_reason, '') <> ?
+          AND NOT EXISTS (SELECT 1 FROM item_ratings x WHERE x.item_id = h.item_id)
+          AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = h.item_id)`,
+    ).bind(OWNER_WOW).all<{ item_id: string; query_id: string; relation_id: string; title: string; url: string; journal: string | null; published_at: string | null; relation_name: string | null; origin_title: string | null; origin_title_tr: string | null }>()).results;
+    const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    for (const r of rows) {
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, why: [] };
+      cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
+      by.set(r.item_id, cur);
+    }
+    const list = [...by.values()];
+    if (list.length) {
+      try {
+        const sc = (await env.DB.prepare(`SELECT item_id, wow FROM item_scores WHERE item_id IN (SELECT item_id FROM wow_hits)`).all<{ item_id: string; wow: number }>()).results;
+        for (const s of sc) { const c = by.get(s.item_id); if (c) c.score = Math.round(s.wow * 10) / 10; }
+      } catch { /* scoring addon absent: order by relation hits and date */ }
+    }
+    list.sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+/** The whole memory on one read: the owner's articles with the system's proposal and the owner's answer, relations with their
+ * queries and measured results, the reason list, answers that wait for a Bible decision, and today's LLM use against its cap. */
+export async function wowMemory(env: Env): Promise<MemoryResult> {
+  try {
+    const articles = (await env.DB.prepare(
+      `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.publisher AS journal, s.canonical_url AS url,
+              e.basis, e.state AS proposalState, e.topic_ids, e.plan_units, e.side_a, e.side_b, e.probable_reason, e.study_type, e.relation_id,
+              r.wow, f.kind AS ownerKind, f.reason_codes AS ownerReasons, f.sentence AS ownerSentence
+         FROM source_items s
+         LEFT JOIN wow_extractions e ON e.item_id = s.id AND e.extractor_version = ?
+         LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
+         LEFT JOIN wow_feedback f ON f.item_id = s.id AND f.created_at = (SELECT MAX(y.created_at) FROM wow_feedback y WHERE y.item_id = s.id)
+        WHERE s.discovery_reason = ? ORDER BY s.fetched_at ASC LIMIT 300`,
+    ).bind(EXTRACTOR_VERSION, OWNER_WOW).all<Record<string, unknown>>()).results.map((a) => ({
+      ...a, topic_ids: arr(a.topic_ids as string), plan_units: arr(a.plan_units as string), side_a: arr(a.side_a as string), side_b: arr(a.side_b as string), ownerReasons: arr(a.ownerReasons as string),
+    }));
+    const relations = (await env.DB.prepare(
+      `SELECT r.relation_id AS relationId, r.name, r.state, r.a_terms, r.b_terms, r.origin_item_id AS originItemId,
+              q.query_id AS queryId, q.version, q.state AS queryState, q.last_run_at AS lastRunAt, q.last_total AS lastTotal, q.last_created AS lastCreated, q.last_error AS lastError,
+              (SELECT COUNT(*) FROM wow_hits h WHERE h.query_id = q.query_id) AS hits,
+              (SELECT COUNT(*) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS rated,
+              (SELECT ROUND(AVG(x.wow), 1) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS avgWow
+         FROM wow_relations r LEFT JOIN wow_queries q ON q.relation_id = r.relation_id AND q.state <> 'CLOSED'
+        ORDER BY r.created_at ASC`,
+    ).all<Record<string, unknown>>()).results.map((r) => ({ ...r, a_terms: arr(r.a_terms as string), b_terms: arr(r.b_terms as string) }));
+    const reasons = (await env.DB.prepare(`SELECT code, name_tr AS name, state FROM wow_reasons WHERE state <> 'REJECTED' ORDER BY state, code`).all()).results;
+    const general = (await env.DB.prepare(`SELECT feedback_id AS feedbackId, item_id AS itemId, title_orig AS title, kind, sentence, created_at AS createdAt FROM wow_feedback WHERE scope = 'general' ORDER BY created_at DESC LIMIT 50`).all()).results;
+    const llm = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
+    return { status: 200, body: { ok: true, extractorVersion: EXTRACTOR_VERSION, articles, relations, reasons, waitingBibleDecision: general,
+      usage: { llmCallsToday: Number(llm?.n ?? 0), llmCallsPerDay: WOW_CONFIG.llmCallsPerDay, queriesPerRun: WOW_CONFIG.queriesPerRun },
+      measured: { note: 'Seçim oranı ve netlik yüzdesi yeterli puan olmadan hesaplanmaz (Bible §10.4): veri toplanıyor.' } } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}

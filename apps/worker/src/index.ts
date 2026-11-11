@@ -1,5 +1,6 @@
 import { introduceWow, introducedWow, wowQuestions } from './wow/introduce';
 import { wowSimilar, wowSources } from './wow/similar';
+import { wowMemory, wowCandidates, decideExtraction, extractStored, recordFeedback, decideQuery } from './wow/memory';
 import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
   countByStatus,
@@ -619,6 +620,14 @@ export default {
       }
       if (path === '/api/wow/sources' && request.method === 'GET') { const r = await wowSources(env); return json(r.body, r.status); }
       if (path === '/api/wow/similar' && request.method === 'GET') { const r = await wowSimilar(env, url.searchParams); return json(r.body, r.status); }
+      // Editorial memory (DEC-R-20261112-027): proposals, owner decisions, why-it-came candidates, typed feedback. Hub operator token via ROUTE_GATES.
+      if (path === '/api/wow/memory' && request.method === 'GET') { const r = await wowMemory(env); return json(r.body, r.status); }
+      if (path === '/api/wow/candidates' && request.method === 'GET') { const r = await wowCandidates(env, url.searchParams); return json(r.body, r.status); }
+      if (['/api/wow/extraction', '/api/wow/extract', '/api/wow/feedback', '/api/wow/query'].includes(path) && request.method === 'POST') {
+        const raw = await request.json().catch(() => null);
+        const r = path === '/api/wow/extraction' ? await decideExtraction(env, raw) : path === '/api/wow/extract' ? await extractStored(env, raw) : path === '/api/wow/feedback' ? await recordFeedback(env, raw) : await decideQuery(env, raw);
+        return json(r.body, r.status);
+      }
       if (path === '/api/wow/questions' && request.method === 'GET') { const r = await wowQuestions(env); return json(r.body, r.status); }
       if (path === '/api/wow/introduced' && request.method === 'GET') { const r = await introducedWow(env); return json(r.body, r.status); }
 

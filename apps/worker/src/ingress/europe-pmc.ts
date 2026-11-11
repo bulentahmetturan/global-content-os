@@ -2,6 +2,7 @@ import { upsertSourceItem, type Env } from '../db/queries';
 import { tagIngestedItem } from '../topics/store';
 import { TOPIC_PLAN } from '../topics/plan.generated';
 import { registerArticleSource } from '../wow/introduce';
+import { queriesForRun, recordHits, markQueryRun } from '../wow/memory';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
 import { hasNoticePubType, isNonArticleNotice } from './research-quality';
@@ -59,11 +60,21 @@ export async function ingestEuropePmc(
 
   // Topic-driven discovery (DEC-R-20261106-024): one search per owner relation, newest first, across every journal Europe PMC
   // indexes. The query names no journal; it comes from the topic plan (topics/, generated).
-  const queries: { q: string; sort: boolean }[] = topicMode && TOPIC_PLAN.discovery.length
-    ? TOPIC_PLAN.discovery.map((d) => ({ q: d.query, sort: true }))
-    : [{ q: query, sort: false }];
+  // Owner-approved relations from the editorial memory run beside the plan relations (DEC-R-20261112-027). Every result keeps
+  // the id of the query that brought it; an owner-relation query that fails is recorded and does not stop the others.
+  type RunQ = { q: string; sort: boolean; queryId: string | null; relationId: string | null; owner: boolean };
+  const ownerQueries = topicMode ? await queriesForRun(env) : [];
+  const queries: RunQ[] = topicMode && (TOPIC_PLAN.discovery.length || ownerQueries.length)
+    ? [
+        ...TOPIC_PLAN.discovery.map((d) => ({ q: d.query, sort: true, queryId: `plan:${d.id}`, relationId: d.id, owner: false })),
+        ...ownerQueries.map((d) => ({ q: d.query, sort: true, queryId: d.queryId, relationId: d.relationId, owner: true })),
+      ]
+    : [{ q: query, sort: false, queryId: null, relationId: null, owner: false }];
   const items: EuropePmcResult[] = [];
   const seen = new Set<string>();
+  const broughtBy = new Map<EuropePmcResult, Array<{ queryId: string; relationId: string }>>();
+  const byKey = new Map<string, EuropePmcResult>();
+  const ownerRun = new Map<string, { total: number; created: number; error: string | null }>();
   for (const one of queries) {
     const url = new URL(feed.endpoint_url);
     url.searchParams.set('query', one.q);
@@ -75,13 +86,18 @@ export async function ingestEuropePmc(
       headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
     });
     if (!res.ok) {
+      if (one.owner && one.queryId) { ownerRun.set(one.queryId, { total: 0, created: 0, error: `HTTP ${res.status}` }); continue; }
       throw new Error(`Europe PMC fetch failed: ${res.status}`);
     }
     const body = (await res.json()) as { resultList?: { result?: EuropePmcResult[] } };
-    for (const r of body.resultList?.result ?? []) {
+    const results = body.resultList?.result ?? [];
+    if (one.owner && one.queryId) ownerRun.set(one.queryId, { total: results.length, created: 0, error: null });
+    for (const r of results) {
       const key = (r.doi || r.pmid || r.pmcid || r.title || '').toLowerCase();
+      const first = key ? byKey.get(key) ?? r : r;
+      if (one.queryId && one.relationId) broughtBy.set(first, [...(broughtBy.get(first) ?? []), { queryId: one.queryId, relationId: one.relationId }]);
       if (key && seen.has(key)) continue;
-      if (key) seen.add(key);
+      if (key) { seen.add(key); byKey.set(key, r); }
       items.push(r);
     }
   }
@@ -140,9 +156,14 @@ export async function ingestEuropePmc(
     // The journal of a topic-discovered article enters Research as a record-only source (DEC-R-20261111-026).
     if (result.created && topicMode && it.journalTitle) await registerArticleSource(env, it.journalTitle).catch(() => null);
 
+    const hits = broughtBy.get(it) ?? [];
+    if (result.id && hits.length) await recordHits(env, result.id, hits);
+    if (result.created) for (const h of hits) { const run = ownerRun.get(h.queryId); if (run) run.created += 1; }
+
     if (result.created) created += 1;
     else updated += 1;
   }
+  for (const [queryId, run] of ownerRun) await markQueryRun(env, queryId, run);
 
   await env.DB.prepare(
     `UPDATE source_feeds SET last_fetched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), last_ok_items = ?, last_error = NULL, fetch_attempts = COALESCE(fetch_attempts, 0) + 1 WHERE id IN ('europe-pmc-batch', 'research-europe-pmc-rest')`
