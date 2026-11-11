@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0144",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1186/1471-2458-4-56",
+    "title": "Mineral water intake reduces blood pressure among subjects with low urinary magnesium and calcium levels",
+    "journal": "BMC public health",
+    "published_at": null,
+    "study": "Maden suyu ve tansiyon",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "DOI, yayın başlığı ve dergi kimliği doğrulandı; bibliographic_verification alanına bakınız."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #136",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Rylander ve Arnaud, **BMC Public Health, 2004;4:56** olarak verilmiş. Tam başlık yok; künye doğrulanmadı.",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1186/1471-2458-4-56",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1186%2F1471-2458-4-56%22&format=json&pageSize=5&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/15571635/"
+    ],
+    "authors": "Rylander R, Arnaud MJ.",
+    "pmid": "15571635",
+    "match_note": "Rylander/Arnaud, BMC Public Health 2004;4:56 eşleşti; eksik başlık ve DOI tamamlandı.",
+    "scope_note": "Kaynak metni korundu. Verilmeyen paylaşım tarihi ve yayın tarihi tahmin edilmedi; genel atıflar ayrıca doğrulanmış sayılmaz."
+  }
+}

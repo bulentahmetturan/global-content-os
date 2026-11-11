@@ -1,0 +1,120 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 27,
+    "new_verified_articles": 13,
+    "new_pending_drafts": 1,
+    "new_records": 14,
+    "pending_only_rows": 9,
+    "new_pending_entries": 11,
+    "duplicate_rows": 4,
+    "not_article_rows": 2,
+    "total_records": 149,
+    "records_with_doi": 138,
+    "records_without_doi": 11,
+    "distinct_dois": 137,
+    "first": "WOW-0136",
+    "last": "WOW-0149"
+  },
+  "added": [
+    {
+      "id": "WOW-0136",
+      "doi": "10.1371/journal.pone.0090987",
+      "title": "Effect of egg washing and correlation between eggshell characteristics and egg penetration by various Salmonella Typhimurium strains",
+      "list_row": 121,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0137",
+      "doi": null,
+      "title": null,
+      "list_row": 121,
+      "status": "citation_pending_draft"
+    },
+    {
+      "id": "WOW-0138",
+      "doi": "10.17508/cjfst.2020.12.1.06",
+      "title": "The differential effects of cooking methods on the nutritional properties and quality attributes of meat from various animal sources",
+      "list_row": 123,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0139",
+      "doi": "10.1111/1467-9280.14461",
+      "title": "Providing social support may be more beneficial than receiving it: results from a prospective study of mortality",
+      "list_row": 124,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0140",
+      "doi": "10.1111/1750-3841.13439",
+      "title": "Deodorization of Garlic Breath by Foods, and the Role of Polyphenol Oxidase and Phenolic Compounds",
+      "list_row": 125,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0141",
+      "doi": "10.1111/j.1750-3841.2010.01715.x",
+      "title": "Effect of milk on the deodorization of malodorous breath after garlic ingestion",
+      "list_row": 125,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0142",
+      "doi": "10.4103/2008-7802.187248",
+      "title": "Effect of Garlic and Lemon Juice Mixture on Lipid Profile and Some Cardiovascular Risk Factors in People 30-60 Years Old with Moderate Hyperlipidaemia: A Randomized Clinical Trial",
+      "list_row": 126,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0143",
+      "doi": "10.1038/sj.ejcn.1601333",
+      "title": "Magnesium bioavailability from mineral water. A study in adult men",
+      "list_row": 135,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0144",
+      "doi": "10.1186/1471-2458-4-56",
+      "title": "Mineral water intake reduces blood pressure among subjects with low urinary magnesium and calcium levels",
+      "list_row": 136,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0145",
+      "doi": "10.1136/bmjmed-2025-002183",
+      "title": "GLP-1 receptor agonists and risk of all cause and cause specific acute pancreatitis: target trial emulation",
+      "list_row": 137,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0146",
+      "doi": "10.1093/eurheartj/ehag226",
+      "title": "Ultra-processed foods, lifestyle management, and cardiovascular diseases: A clinical consensus statement of the European Society of Cardiology Council for Cardiology Practice and the European Association of Preventive Cardiology of the European Society of Cardiology",
+      "list_row": 138,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0147",
+      "doi": "10.1016/s0140-6736(20)30752-2",
+      "title": "Global burden of 87 risk factors in 204 countries and territories, 1990-2019: a systematic analysis for the Global Burden of Disease Study 2019",
+      "list_row": 142,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0148",
+      "doi": "10.1016/j.ajpc.2026.101665",
+      "title": "Incidence and risk factors for aortic dissection in a community-based cohorts: The Atherosclerosis Risk in Communities (ARIC) and Multi-Ethnic Study of Atherosclerosis (MESA) studies",
+      "list_row": 145,
+      "status": "verified"
+    },
+    {
+      "id": "WOW-0149",
+      "doi": "10.2188/jea.je20100065",
+      "title": "Low cholesterol is associated with mortality from stroke, heart disease, and cancer: the Jichi Medical School Cohort Study",
+      "list_row": 146,
+      "status": "verified"
+    }
+  ],
+  "rule": "Belirsiz aday sahibin makalesi sayılmadı; özgün satırlar ana intake dosyasında korundu."
+}

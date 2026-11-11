@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 59,
+  "count": 70,
   "rows": [
     {
       "list_row": 1,
@@ -541,6 +541,130 @@
       "date_missing": true,
       "status": "pending",
       "missing": "Tam makale başlığı veya DOI. Makale künyesi görülmemesi, kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 121,
+      "topic": "Yumurtayı yıkamak",
+      "owner_text": "*The Eggshell Cuticle*, **Poultry Science**; *Effect of Egg Washing and Correlation between Eggshell Characteristics and Egg Penetration by Various Salmonella Strains*, **PLOS ONE**. Ayrıca USDA/EFSA ve başka dergilere genel atıflar.",
+      "source_line": "| 121 | [Yumurtayı yıkamak](https://www.facebook.com/reel/1299763482020266/) | *The Eggshell Cuticle*, **Poultry Science**; *Effect of Egg Washing and Correlation between Eggshell Characteristics and Egg Penetration by Various Salmonella Strains*, **PLOS ONE**. Ayrıca USDA/EFSA ve başka dergilere genel atıflar. |",
+      "date": null,
+      "date_missing": true,
+      "status": "citation_pending_draft",
+      "record_ids": [
+        "WOW-0137"
+      ],
+      "owner_title": "The Eggshell Cuticle",
+      "missing": "Kesin/tam başlık, yazar, yıl ve DOI. Başka yumurta kütikülü yayınları aynı makale varsayılmadı."
+    },
+    {
+      "list_row": 122,
+      "topic": "Yemekle birlikte sıvı tüketmek",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "| 122 | [Yemekle birlikte sıvı tüketmek](https://www.facebook.com/reel/1216212940483994/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 127,
+      "topic": "BNP/NT-proBNP ve kalp yetersizliği",
+      "owner_text": "Açıklamada belirli makale künyesi yok.",
+      "source_line": "| 127 | [BNP/NT-proBNP ve kalp yetersizliği](https://www.facebook.com/reel/892399017203914/) | Açıklamada belirli makale künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 128,
+      "topic": "Sebzelerde pestisit kalıntılarını azaltmak",
+      "owner_text": "**Foods, 2022 / Gwangju** araştırmasına ve EFSA/USDA raporlarına atıf. Muhtemel makale: Yang ve ark., *Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables.* DOI: [10.3390/foods11182916](https://doi.org/10.3390/foods11182916). **Kesin eşleştirme değil:** makaledeki pestisit sayısı paylaşımda verilenden farklı.",
+      "source_line": "| 128 | [Sebzelerde pestisit kalıntılarını azaltmak](https://www.facebook.com/reel/1291487779806461/) | **Foods, 2022 / Gwangju** araştırmasına ve EFSA/USDA raporlarına atıf. Muhtemel makale: Yang ve ark., *Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables.* DOI: [10.3390/foods11182916](https://doi.org/10.3390/foods11182916). **Kesin eşleştirme değil:** makaledeki pestisit sayısı paylaşımda verilenden farklı.  |",
+      "date": null,
+      "date_missing": true,
+      "status": "source_match_ambiguous",
+      "missing": "Paylaşımdaki gerçek kaynakla eşleşme; pestisit sayısı farklı. Aday DOI gerçek olsa da sahibin kaynak makalesi olarak kabul edilmedi.",
+      "candidate": {
+        "title": "Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables",
+        "doi": "10.3390/foods11182916",
+        "paper_identity_verified": true,
+        "owner_source_match_verified": false,
+        "source": "https://pubmed.ncbi.nlm.nih.gov/36141043/"
+      }
+    },
+    {
+      "list_row": 129,
+      "topic": "NOVA 1 — minimum işlenmiş gıdalar",
+      "owner_text": "NOVA sınıflandırması ve ESC belgesine genel atıf; ayrı makale künyesi yok.",
+      "source_line": "| 129 | [NOVA 1 — minimum işlenmiş gıdalar](https://www.facebook.com/reel/1519950936177224/) | NOVA sınıflandırması ve ESC belgesine genel atıf; ayrı makale künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 130,
+      "topic": "Ülkelerin kolesterol düzeyleri ve ölüm oranları",
+      "owner_text": "PCSK9/APOB genetik araştırmaları ve poligenik risk çalışmalarına genel atıflar. Belirli yayın künyesi yok.",
+      "source_line": "| 130 | [Ülkelerin kolesterol düzeyleri ve ölüm oranları](https://www.facebook.com/reel/27191377353830196/) | PCSK9/APOB genetik araştırmaları ve poligenik risk çalışmalarına genel atıflar. Belirli yayın künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 131,
+      "topic": "Kalp atışının göğüsten görülmesi",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "| 131 | [Kalp atışının göğüsten görülmesi](https://www.facebook.com/reel/4247870958808558/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 133,
+      "topic": "Alıç sirkesi ve damar tıkanıklığı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "|| 133 | [Alıç sirkesi ve damar tıkanıklığı](https://www.facebook.com/reel/1875640290061889/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 143,
+      "topic": "Cinsel güç artırıcı ilaçlar ve kalp",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 143 | [Cinsel güç artırıcı ilaçlar ve kalp](https://www.facebook.com/reel/2440624213050805/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 146,
+      "topic": "Düşük LDL ve ölüm riski tartışması",
+      "owner_text": "**Naoki Nago, 2011** araştırması; ayrıca CTTC meta-analizleri ve Mendelyen randomizasyon çalışmalarına atıflar. Tam künyeler yok.",
+      "source_line": "| 146 | [Düşük LDL ve ölüm riski tartışması](https://www.facebook.com/reel/26741539272193748/) | **Naoki Nago, 2011** araştırması; ayrıca CTTC meta-analizleri ve Mendelyen randomizasyon çalışmalarına atıflar. Tam künyeler yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "partial_pending",
+      "record_ids": [
+        "WOW-0149"
+      ],
+      "missing": "CTTC meta-analizleri ve Mendelci randomizasyon yayınlarının ayrı tam başlıkları/DOI’leri. Nago 2011 ayrı kaydedildi."
+    },
+    {
+      "list_row": 147,
+      "topic": "Uyku apnesi ve sağ kalp yetersizliği",
+      "owner_text": "Klinik vaka anlatımı ve **SURMOUNT-OSA** çalışmasına atıf. Tam makale künyesi verilmemiş.",
+      "source_line": "| 147 | [Uyku apnesi ve sağ kalp yetersizliği](https://www.facebook.com/reel/1478646854039698/) | Klinik vaka anlatımı ve **SURMOUNT-OSA** çalışmasına atıf. Tam makale künyesi verilmemiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
     }
   ]
 }

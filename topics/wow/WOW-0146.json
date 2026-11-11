@@ -1,0 +1,55 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0146",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1093/eurheartj/ehag226",
+    "title": "Ultra-processed foods, lifestyle management, and cardiovascular diseases: A clinical consensus statement of the European Society of Cardiology Council for Cardiology Practice and the European Association of Preventive Cardiology of the European Society of Cardiology",
+    "journal": "European heart journal",
+    "published_at": null,
+    "study": "Aşırı işlenmiş gıdalar ve kardiyovasküler risk",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "DOI, yayın başlığı ve dergi kimliği doğrulandı; bibliographic_verification alanına bakınız.",
+    "publication_type": "clinical_consensus_statement"
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #138",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Guasti, Bonaccio ve ark. *Ultra-processed foods, lifestyle management, and cardiovascular diseases: A clinical consensus statement of the ESC Council for Cardiology Practice and the EAPC.* **European Heart Journal, 2026.**",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1093/eurheartj/ehag226",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1093%2Feurheartj%2Fehag226%22&format=json&pageSize=3&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/42091095/"
+    ],
+    "authors": "Guasti L, Bonaccio M, Abreu A, Asteggiano R, Bes-Rastrollo M, Christodorescu R, de Gaetano G, Ferrini M, Marques-Vidal P, Pathak A, Richter D, Sharma S, Guerreiro CS, Srour B, Stranges S, Touvier M, Vohnout B, Piepoli M, Iacoviello L.",
+    "pmid": "42091095",
+    "match_note": "Guasti/Bonaccio, ESC/EAPC, European Heart Journal 2026 ve tam uzlaşı belgesi eşleşti.",
+    "scope_note": "Kaynak metni korundu. Verilmeyen paylaşım tarihi ve yayın tarihi tahmin edilmedi; genel atıflar ayrıca doğrulanmış sayılmaz."
+  }
+}

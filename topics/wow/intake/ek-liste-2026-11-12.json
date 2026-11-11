@@ -950,6 +950,325 @@
       "record_ids": [
         "WOW-0135"
       ]
+    },
+    {
+      "list_row": 121,
+      "topic": "Yumurtayı yıkamak",
+      "owner_text": "*The Eggshell Cuticle*, **Poultry Science**; *Effect of Egg Washing and Correlation between Eggshell Characteristics and Egg Penetration by Various Salmonella Strains*, **PLOS ONE**. Ayrıca USDA/EFSA ve başka dergilere genel atıflar.",
+      "source_line": "| 121 | [Yumurtayı yıkamak](https://www.facebook.com/reel/1299763482020266/) | *The Eggshell Cuticle*, **Poultry Science**; *Effect of Egg Washing and Correlation between Eggshell Characteristics and Egg Penetration by Various Salmonella Strains*, **PLOS ONE**. Ayrıca USDA/EFSA ve başka dergilere genel atıflar. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0136",
+        "WOW-0137"
+      ]
+    },
+    {
+      "list_row": 122,
+      "topic": "Yemekle birlikte sıvı tüketmek",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "| 122 | [Yemekle birlikte sıvı tüketmek](https://www.facebook.com/reel/1216212940483994/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 123,
+      "topic": "Etin pişirme yöntemi ve besin değeri",
+      "owner_text": "Açıklamadaki Olagunju–Nwachukwu atfıyla eşleşen yayın: *The differential effects of cooking methods on the nutritional properties and quality attributes of meat from various animal sources.* **Croatian Journal of Food Science and Technology, 2020;12:37–47.** DOI: [10.17508/CJFST.2020.12.1.06](https://doi.org/10.17508/CJFST.2020.12.1.06). Eşleştirme yazar ve konu bilgisine dayanıyor.",
+      "source_line": "| 123 | [Etin pişirme yöntemi ve besin değeri](https://www.facebook.com/reel/888456007601721/) | Açıklamadaki Olagunju–Nwachukwu atfıyla eşleşen yayın: *The differential effects of cooking methods on the nutritional properties and quality attributes of meat from various animal sources.* **Croatian Journal of Food Science and Technology, 2020;12:37–47.** DOI: [10.17508/CJFST.2020.12.1.06](https://doi.org/10.17508/CJFST.2020.12.1.06). Eşleştirme yazar ve konu bilgisine dayanıyor.  |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0138"
+      ]
+    },
+    {
+      "list_row": 124,
+      "topic": "Yardım etmek ve ölüm riski",
+      "owner_text": "Brown, Nesse, Vinokur ve Smith. *Providing social support may be more beneficial than receiving it: results from a prospective study of mortality.* **Psychological Science, 2003;14:320–327.**",
+      "source_line": "| 124 | [Yardım etmek ve ölüm riski](https://www.facebook.com/reel/1013489677731669/) | Brown, Nesse, Vinokur ve Smith. *Providing social support may be more beneficial than receiving it: results from a prospective study of mortality.* **Psychological Science, 2003;14:320–327.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0139"
+      ]
+    },
+    {
+      "list_row": 125,
+      "topic": "Sarımsak kokusunu azaltmak",
+      "owner_text": "Mirondo ve Barringer. *Deodorization of Garlic Odor by Foods with High Polyphenol Content and Enzyme Activity.* **Journal of Food Science, 2016.** DOI: [10.1111/1750-3841.13439](https://doi.org/10.1111/1750-3841.13439). Ayrıca Hansanugrum ve Barringer’in süt araştırması, **2010**, DOI: [10.1111/j.1750-3841.2010.01715.x](https://doi.org/10.1111/j.1750-3841.2010.01715.x).",
+      "source_line": "| 125 | [Sarımsak kokusunu azaltmak](https://www.facebook.com/reel/1357346046449931/) | Mirondo ve Barringer. *Deodorization of Garlic Odor by Foods with High Polyphenol Content and Enzyme Activity.* **Journal of Food Science, 2016.** DOI: [10.1111/1750-3841.13439](https://doi.org/10.1111/1750-3841.13439). Ayrıca Hansanugrum ve Barringer’in süt araştırması, **2010**, DOI: [10.1111/j.1750-3841.2010.01715.x](https://doi.org/10.1111/j.1750-3841.2010.01715.x). |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0140",
+        "WOW-0141"
+      ]
+    },
+    {
+      "list_row": 126,
+      "topic": "Limon-sarımsak karışımı",
+      "owner_text": "Aslani, Ghalishourani ve ark. *Effects of Garlic and Lemon Juice Mixture on Lipid Profile and Some Cardiovascular Risk Factors in Hyperlipidemic Patients.* **International Journal of Preventive Medicine, 2016** olarak verilmiş.",
+      "source_line": "| 126 | [Limon-sarımsak karışımı](https://www.facebook.com/reel/1219542793462728/) | Aslani, Ghalishourani ve ark. *Effects of Garlic and Lemon Juice Mixture on Lipid Profile and Some Cardiovascular Risk Factors in Hyperlipidemic Patients.* **International Journal of Preventive Medicine, 2016** olarak verilmiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0142"
+      ]
+    },
+    {
+      "list_row": 127,
+      "topic": "BNP/NT-proBNP ve kalp yetersizliği",
+      "owner_text": "Açıklamada belirli makale künyesi yok.",
+      "source_line": "| 127 | [BNP/NT-proBNP ve kalp yetersizliği](https://www.facebook.com/reel/892399017203914/) | Açıklamada belirli makale künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 128,
+      "topic": "Sebzelerde pestisit kalıntılarını azaltmak",
+      "owner_text": "**Foods, 2022 / Gwangju** araştırmasına ve EFSA/USDA raporlarına atıf. Muhtemel makale: Yang ve ark., *Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables.* DOI: [10.3390/foods11182916](https://doi.org/10.3390/foods11182916). **Kesin eşleştirme değil:** makaledeki pestisit sayısı paylaşımda verilenden farklı.",
+      "source_line": "| 128 | [Sebzelerde pestisit kalıntılarını azaltmak](https://www.facebook.com/reel/1291487779806461/) | **Foods, 2022 / Gwangju** araştırmasına ve EFSA/USDA raporlarına atıf. Muhtemel makale: Yang ve ark., *Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables.* DOI: [10.3390/foods11182916](https://doi.org/10.3390/foods11182916). **Kesin eşleştirme değil:** makaledeki pestisit sayısı paylaşımda verilenden farklı.  |",
+      "date": null,
+      "date_missing": true,
+      "status": "source_match_ambiguous",
+      "missing": "Paylaşımdaki gerçek kaynakla eşleşme; pestisit sayısı farklı. Aday DOI gerçek olsa da sahibin kaynak makalesi olarak kabul edilmedi.",
+      "candidate": {
+        "title": "Effectiveness of Different Washing Strategies on Pesticide Residue Removal: The First Comparative Study on Leafy Vegetables",
+        "doi": "10.3390/foods11182916",
+        "paper_identity_verified": true,
+        "owner_source_match_verified": false,
+        "source": "https://pubmed.ncbi.nlm.nih.gov/36141043/"
+      }
+    },
+    {
+      "list_row": 129,
+      "topic": "NOVA 1 — minimum işlenmiş gıdalar",
+      "owner_text": "NOVA sınıflandırması ve ESC belgesine genel atıf; ayrı makale künyesi yok.",
+      "source_line": "| 129 | [NOVA 1 — minimum işlenmiş gıdalar](https://www.facebook.com/reel/1519950936177224/) | NOVA sınıflandırması ve ESC belgesine genel atıf; ayrı makale künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 130,
+      "topic": "Ülkelerin kolesterol düzeyleri ve ölüm oranları",
+      "owner_text": "PCSK9/APOB genetik araştırmaları ve poligenik risk çalışmalarına genel atıflar. Belirli yayın künyesi yok.",
+      "source_line": "| 130 | [Ülkelerin kolesterol düzeyleri ve ölüm oranları](https://www.facebook.com/reel/27191377353830196/) | PCSK9/APOB genetik araştırmaları ve poligenik risk çalışmalarına genel atıflar. Belirli yayın künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 131,
+      "topic": "Kalp atışının göğüsten görülmesi",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "| 131 | [Kalp atışının göğüsten görülmesi](https://www.facebook.com/reel/4247870958808558/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 133,
+      "topic": "Alıç sirkesi ve damar tıkanıklığı",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi.",
+      "source_line": "|| 133 | [Alıç sirkesi ve damar tıkanıklığı](https://www.facebook.com/reel/1875640290061889/) | Açıklamada ve kontrol edilen görüntüde belirli makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 135,
+      "topic": "Maden suyundaki magnezyumun emilimi",
+      "owner_text": "Verhas, Rayssiguier ve ark. *Magnesium bioavailability from mineral water. A study in adult men.* **European Journal of Clinical Nutrition, 2002;56:442–447.**",
+      "source_line": "| 135 | [Maden suyundaki magnezyumun emilimi](https://www.facebook.com/reel/1502462771365984/) | Verhas, Rayssiguier ve ark. *Magnesium bioavailability from mineral water. A study in adult men.* **European Journal of Clinical Nutrition, 2002;56:442–447.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0143"
+      ]
+    },
+    {
+      "list_row": 136,
+      "topic": "Maden suyu ve tansiyon",
+      "owner_text": "Rylander ve Arnaud, **BMC Public Health, 2004;4:56** olarak verilmiş. Tam başlık yok; künye doğrulanmadı.",
+      "source_line": "| 136 | [Maden suyu ve tansiyon](https://www.facebook.com/reel/1550643630000268/) | Rylander ve Arnaud, **BMC Public Health, 2004;4:56** olarak verilmiş. Tam başlık yok; künye doğrulanmadı. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0144"
+      ]
+    },
+    {
+      "list_row": 137,
+      "topic": "GLP-1 ilaçları ve pankreatit",
+      "owner_text": "Xie, Choi ve Al-Aly. *GLP-1 receptor agonists and risk of all cause and cause specific acute pancreatitis: target trial emulation.* **BMJ Medicine, 2026.** DOI açıklamada yarım bırakılmış.",
+      "source_line": "| 137 | [GLP-1 ilaçları ve pankreatit](https://www.facebook.com/reel/1516973140129009/) | Xie, Choi ve Al-Aly. *GLP-1 receptor agonists and risk of all cause and cause specific acute pancreatitis: target trial emulation.* **BMJ Medicine, 2026.** DOI açıklamada yarım bırakılmış. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0145"
+      ]
+    },
+    {
+      "list_row": 138,
+      "topic": "Aşırı işlenmiş gıdalar ve kardiyovasküler risk",
+      "owner_text": "Guasti, Bonaccio ve ark. *Ultra-processed foods, lifestyle management, and cardiovascular diseases: A clinical consensus statement of the ESC Council for Cardiology Practice and the EAPC.* **European Heart Journal, 2026.**",
+      "source_line": "| 138 | [Aşırı işlenmiş gıdalar ve kardiyovasküler risk](https://www.facebook.com/reel/1689760435500580/) | Guasti, Bonaccio ve ark. *Ultra-processed foods, lifestyle management, and cardiovascular diseases: A clinical consensus statement of the ESC Council for Cardiology Practice and the EAPC.* **European Heart Journal, 2026.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0146"
+      ]
+    },
+    {
+      "list_row": 139,
+      "topic": "Gıda etiketlerini okumak",
+      "owner_text": "**138. satırdaki ESC uzlaşı belgesi tekrar kullanılıyor.**",
+      "source_line": "| 139 | [Gıda etiketlerini okumak](https://www.facebook.com/reel/1301760328817635/) | **138. satırdaki ESC uzlaşı belgesi tekrar kullanılıyor.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 138,
+      "note": "Sahibin açık tekrar notu; ayrı kayıt açılmadı.",
+      "record_ids": [
+        "WOW-0146"
+      ]
+    },
+    {
+      "list_row": 140,
+      "topic": "Aşırı işlenmiş gıdaları tanımak",
+      "owner_text": "**Aynı ESC uzlaşı belgesine atıf.**",
+      "source_line": "| 140 | [Aşırı işlenmiş gıdaları tanımak](https://www.facebook.com/reel/1716041206200493/) | **Aynı ESC uzlaşı belgesine atıf.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 138,
+      "note": "Sahibin açık tekrar notu; ayrı kayıt açılmadı.",
+      "record_ids": [
+        "WOW-0146"
+      ]
+    },
+    {
+      "list_row": 141,
+      "topic": "Aşırı işlenmiş gıda serisi — giriş",
+      "owner_text": "**Aynı ESC uzlaşı belgesi.** Makale başlığı Reels görüntüsünde de görülüyor.",
+      "source_line": "| 141 | [Aşırı işlenmiş gıda serisi — giriş](https://www.facebook.com/reel/832092466190476/) | **Aynı ESC uzlaşı belgesi.** Makale başlığı Reels görüntüsünde de görülüyor. |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 138,
+      "note": "Sahibin açık tekrar notu; ayrı kayıt açılmadı.",
+      "record_ids": [
+        "WOW-0146"
+      ]
+    },
+    {
+      "list_row": 142,
+      "topic": "Genç yaşta sigara ve ölüm riski",
+      "owner_text": "**GBD 2019 Risk Factors Collaborators.** *Global burden of 87 risk factors in 204 countries and territories, 1990–2019…* **The Lancet, 2020;396:1223–1249.** DOI: [10.1016/S0140-6736(20)30752-2](https://doi.org/10.1016/S0140-6736(20)30752-2).",
+      "source_line": "| 142 | [Genç yaşta sigara ve ölüm riski](https://www.facebook.com/reel/972281225662829/) | **GBD 2019 Risk Factors Collaborators.** *Global burden of 87 risk factors in 204 countries and territories, 1990–2019…* **The Lancet, 2020;396:1223–1249.** DOI: [10.1016/S0140-6736(20)30752-2](https://doi.org/10.1016/S0140-6736(20)30752-2). |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0147"
+      ]
+    },
+    {
+      "list_row": 143,
+      "topic": "Cinsel güç artırıcı ilaçlar ve kalp",
+      "owner_text": "Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi.",
+      "source_line": "| 143 | [Cinsel güç artırıcı ilaçlar ve kalp](https://www.facebook.com/reel/2440624213050805/) | Açıklamada ve kontrol edilen görüntüde makale künyesi görülmedi. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 144,
+      "topic": "Hipertansiyon ve ölüm riski",
+      "owner_text": "**142. satırdaki GBD 2019 analizi tekrar kullanılıyor.**",
+      "source_line": "| 144 | [Hipertansiyon ve ölüm riski](https://www.facebook.com/reel/969351132613549/) | **142. satırdaki GBD 2019 analizi tekrar kullanılıyor.** |",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 142,
+      "note": "Sahibin açık tekrar notu; ayrı kayıt açılmadı.",
+      "record_ids": [
+        "WOW-0147"
+      ]
+    },
+    {
+      "list_row": 145,
+      "topic": "Aort diseksiyonunun risk faktörleri",
+      "owner_text": "Erhabor, Dardari, Matsushita ve ark. *Incidence and risk factors for aortic dissection in a community-based cohorts: The ARIC and MESA studies.* **American Journal of Preventive Cardiology, 2026;101665** olarak verilmiş.",
+      "source_line": "| 145 | [Aort diseksiyonunun risk faktörleri](https://www.facebook.com/reel/990104680626374/) | Erhabor, Dardari, Matsushita ve ark. *Incidence and risk factors for aortic dissection in a community-based cohorts: The ARIC and MESA studies.* **American Journal of Preventive Cardiology, 2026;101665** olarak verilmiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0148"
+      ]
+    },
+    {
+      "list_row": 146,
+      "topic": "Düşük LDL ve ölüm riski tartışması",
+      "owner_text": "**Naoki Nago, 2011** araştırması; ayrıca CTTC meta-analizleri ve Mendelyen randomizasyon çalışmalarına atıflar. Tam künyeler yok.",
+      "source_line": "| 146 | [Düşük LDL ve ölüm riski tartışması](https://www.facebook.com/reel/26741539272193748/) | **Naoki Nago, 2011** araştırması; ayrıca CTTC meta-analizleri ve Mendelyen randomizasyon çalışmalarına atıflar. Tam künyeler yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0149"
+      ]
+    },
+    {
+      "list_row": 147,
+      "topic": "Uyku apnesi ve sağ kalp yetersizliği",
+      "owner_text": "Klinik vaka anlatımı ve **SURMOUNT-OSA** çalışmasına atıf. Tam makale künyesi verilmemiş.",
+      "source_line": "| 147 | [Uyku apnesi ve sağ kalp yetersizliği](https://www.facebook.com/reel/1478646854039698/) | Klinik vaka anlatımı ve **SURMOUNT-OSA** çalışmasına atıf. Tam makale künyesi verilmemiş. |",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; makale künyesi görülmemesi kesin makale yokluğu sayılmadı."
+    },
+    {
+      "list_row": 148,
+      "topic": "İngiltere’de e-sigara yaklaşımı",
+      "owner_text": "**UK Department of Health & Social Care — Nicotine Vaping Evidence Update Reports**; **ONS sigara/e-sigara yaygınlığı verileri**. Belirli rapor sürümü yok.",
+      "source_line": "| 148 | [İngiltere’de e-sigara yaklaşımı](https://www.facebook.com/reel/991988003555088/) | **UK Department of Health & Social Care — Nicotine Vaping Evidence Update Reports**; **ONS sigara/e-sigara yaygınlığı verileri**. Belirli rapor sürümü yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "skipped_not_article",
+      "note": "DHSC kanıt raporu, ONS istatistikleri ve AHA genel bilgilendirme kaynağı; belirli araştırma makalesi/bildiri künyesi yok. Kaynak metni korundu."
+    },
+    {
+      "list_row": 150,
+      "topic": "E-sigara: İngiltere ve AHA yaklaşımları",
+      "owner_text": "**DHSC Nicotine Vaping Evidence Update** ve açıklamada **AHA “Is Vaping Safer Than Smoking?”** olarak verilen kaynak. Tam bilimsel bildiri künyesi yok.",
+      "source_line": "| 150 | [E-sigara: İngiltere ve AHA yaklaşımları](https://www.facebook.com/reel/26793691360258017/) | **DHSC Nicotine Vaping Evidence Update** ve açıklamada **AHA “Is Vaping Safer Than Smoking?”** olarak verilen kaynak. Tam bilimsel bildiri künyesi yok. |",
+      "date": null,
+      "date_missing": true,
+      "status": "skipped_not_article",
+      "note": "DHSC kanıt raporu, ONS istatistikleri ve AHA genel bilgilendirme kaynağı; belirli araştırma makalesi/bildiri künyesi yok. Kaynak metni korundu."
     }
   ]
 }
