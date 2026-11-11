@@ -1,0 +1,54 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0168",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": "10.1161/jaha.125.045304",
+    "title": "High-Salt Diet-Induced Endothelial Dysfunction Is Mediated by Cellular Senescence",
+    "journal": "Journal of the American Heart Association",
+    "published_at": null,
+    "study": "Tuz, endotelyal yaşlanma ve IL-16",
+    "doi_pending": false,
+    "title_pending": false,
+    "verified_by": "DOI, gerçek yayın başlığı ve dergi doğrulandı; yayın durumu ve kanıt bibliographic_verification alanında. Diğer atıflar topluca doğrulanmış sayılmaz."
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #197",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "JAHA (2026)",
+  "source_date_pending": true,
+  "bibliographic_verification": {
+    "checked_at": "2026-11-12",
+    "status": "bibliographic_identity_verified",
+    "scope": [
+      "doi",
+      "title",
+      "journal"
+    ],
+    "sources": [
+      "https://doi.org/10.1161/jaha.125.045304",
+      "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.1161%2FJAHA.125.045304%22&format=json&pageSize=4&resultType=core",
+      "https://pubmed.ncbi.nlm.nih.gov/41988978/"
+    ],
+    "authors": "Nascimento AF, Luvizotto RAM, Costa RM, Pimenta GF, Bruder A, Bruder-Nascimento T.",
+    "pmid": "41988978",
+    "match_note": "JAHA 2026, yüksek tuz, endotelyal hücre yaşlanması ve IL-16 içeren deneysel çalışma eşleşti.",
+    "scope_note": "Verilmeyen paylaşım ve yayın tarihleri tahmin edilmedi; kaynak metni özgün haliyle korundu."
+  }
+}

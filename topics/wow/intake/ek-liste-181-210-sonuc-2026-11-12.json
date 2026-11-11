@@ -1,0 +1,106 @@
+{
+  "recorded_at": "2026-11-12",
+  "summary": {
+    "rows": 20,
+    "new_records": 12,
+    "new_doi_records": 12,
+    "pending_only_rows": 5,
+    "partial_pending_rows": 1,
+    "new_pending_entries": 6,
+    "duplicate_rows": 3,
+    "new_retracted_records": 1,
+    "total_records": 171,
+    "records_with_doi": 160,
+    "records_without_doi": 11,
+    "distinct_dois": 159,
+    "first": "WOW-0160",
+    "last": "WOW-0171"
+  },
+  "added": [
+    {
+      "id": "WOW-0160",
+      "list_row": 181,
+      "title": "An Analysis of the Mineral Composition of Pink Salt Available in Australia",
+      "doi": "10.3390/foods9101490",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0161",
+      "list_row": 183,
+      "title": "Effect of Salt Substitution on Cardiovascular Events and Death",
+      "doi": "10.1056/nejmoa2105675",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0162",
+      "list_row": 185,
+      "title": "Brain Health Across the Life Span: A Framework for Future Studies: A Scientific Statement From the American Heart Association",
+      "doi": "10.1161/str.0000000000000518",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0163",
+      "list_row": 186,
+      "title": "The Effect of Coconut Oil Consumption on Cardiovascular Risk Factors: A Systematic Review and Meta-Analysis of Clinical Trials",
+      "doi": "10.1161/circulationaha.119.043052",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0164",
+      "list_row": 188,
+      "title": "RETRACTED: Longitudinal Data From the KETO-CTA Study: Plaque Predicts Plaque, ApoB Does Not",
+      "doi": "10.1016/j.jacadv.2025.101686",
+      "publication_status": "RETRACTED"
+    },
+    {
+      "id": "WOW-0165",
+      "list_row": 191,
+      "title": "The total antioxidant content of more than 3100 foods, beverages, spices, herbs and supplements used worldwide",
+      "doi": "10.1186/1475-2891-9-3",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0166",
+      "list_row": 195,
+      "title": "Atrial fibrillation catheter ablation, brain glymphatic function, and cognitive performance",
+      "doi": "10.1093/eurheartj/ehaf036",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0167",
+      "list_row": 196,
+      "title": "Egg Intake and the Incidence of Alzheimer’s Disease in the Adventist Health Study-2 Cohort Linked with Medicare Data",
+      "doi": "10.1016/j.tjnut.2026.101541",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0168",
+      "list_row": 197,
+      "title": "High-Salt Diet-Induced Endothelial Dysfunction Is Mediated by Cellular Senescence",
+      "doi": "10.1161/jaha.125.045304",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0169",
+      "list_row": 198,
+      "title": "Comparative Efficacy of 5 Exercise Types on Cardiometabolic Health in Overweight and Obese Adults: A Systematic Review and Network Meta-Analysis of 81 Randomized Controlled Trials",
+      "doi": "10.1161/circoutcomes.121.008243",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0170",
+      "list_row": 201,
+      "title": "Joint Consideration of LDL-C and Polygenic Risk for Coronary Heart Disease Risk Assessment",
+      "doi": "10.1016/j.jacadv.2025.102228",
+      "publication_status": "not_flagged_retracted"
+    },
+    {
+      "id": "WOW-0171",
+      "list_row": 210,
+      "title": "Weight loss with GLP-1 medicines does not result in a disproportionate loss of muscle mass or function in obese mice and humans",
+      "doi": "10.1016/j.xcrm.2026.102665",
+      "publication_status": "not_flagged_retracted"
+    }
+  ],
+  "rule": "Geri çekilen yayın açık işaretlendi ve ön baskıyla birleştirilmedi. Eksik kaynaklar tamamlanmış sayılmadı. Canlı gönderim yapılmadı."
+}

@@ -1529,6 +1529,247 @@
       "record_ids": [
         "WOW-0159"
       ]
+    },
+    {
+      "list_row": 181,
+      "topic": "Pembe tuzun mineral bileşimi",
+      "owner_text": "Fayet-Moore ve ark. (2020), Foods. DOI: 10.3390/foods9101490",
+      "source_line": "181\tPembe tuzun mineral bileşimi\tFayet-Moore ve ark. (2020), Foods. DOI: 10.3390/foods9101490",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0160"
+      ]
+    },
+    {
+      "list_row": 183,
+      "topic": "Kaya tuzu, tansiyon ve tuz ikamesi",
+      "owner_text": "Arquivos Brasileiros de Cardiologia (2022); SSaSS / NEJM",
+      "source_line": "183\tKaya tuzu, tansiyon ve tuz ikamesi\tArquivos Brasileiros de Cardiologia (2022); SSaSS / NEJM",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0161"
+      ]
+    },
+    {
+      "list_row": 185,
+      "topic": "Yaşam boyu beyin sağlığı",
+      "owner_text": "AHA: Brain Health Across the Life Span",
+      "source_line": "185\tYaşam boyu beyin sağlığı\tAHA: Brain Health Across the Life Span",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0162"
+      ]
+    },
+    {
+      "list_row": 186,
+      "topic": "Hindistan cevizi yağı ve lipidler",
+      "owner_text": "Circulation meta-analizi",
+      "source_line": "186\tHindistan cevizi yağı ve lipidler\tCirculation meta-analizi",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0163"
+      ]
+    },
+    {
+      "list_row": 187,
+      "topic": "Keto beslenirken riski anlama",
+      "owner_text": "Atıf yok",
+      "source_line": "187\tKeto beslenirken riski anlama\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 188,
+      "topic": "Keto, ApoB ve KETO-CTA’nın geri çekilmesi",
+      "owner_text": "KETO-CTA’ya gönderme",
+      "source_line": "188\tKeto, ApoB ve KETO-CTA’nın geri çekilmesi\tKETO-CTA’ya gönderme",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0164"
+      ]
+    },
+    {
+      "list_row": 189,
+      "topic": "LMHR ve KETO-CTA geri çekilmesi",
+      "owner_text": "KETO-CTA’ya gönderme",
+      "source_line": "189\tLMHR ve KETO-CTA geri çekilmesi\tKETO-CTA’ya gönderme",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 188,
+      "note": "Doğrulanan aynı yayına ait ek bağlam; ayrı makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0164"
+      ]
+    },
+    {
+      "list_row": 191,
+      "topic": "3.100 gıdada antioksidan kapasite",
+      "owner_text": "Oslo Üniversitesi, Nutrition Journal (2010)",
+      "source_line": "191\t3.100 gıdada antioksidan kapasite\tOslo Üniversitesi, Nutrition Journal (2010)",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0165"
+      ]
+    },
+    {
+      "list_row": 193,
+      "topic": "FRAP ile antioksidan haritası",
+      "owner_text": "Carlsen ve ark., Nutrition Journal (2010)",
+      "source_line": "193\tFRAP ile antioksidan haritası\tCarlsen ve ark., Nutrition Journal (2010)",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 191,
+      "note": "Doğrulanan aynı yayına ait ek bağlam; ayrı makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0165"
+      ]
+    },
+    {
+      "list_row": 194,
+      "topic": "Verve ve baz düzenleme",
+      "owner_text": "VerveTx / Heart-2 verileri",
+      "source_line": "194\tVerve ve baz düzenleme\tVerveTx / Heart-2 verileri",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "VerveTx/Heart-2 verilerinin belirli hakemli yayını veya kongre bildirisi için tam başlık/DOI; şirket verisi yeni makale sayılmadı.",
+      "source_type": "company_trial_data"
+    },
+    {
+      "list_row": 195,
+      "topic": "AF ablasyonu, glimfatik işlev ve biliş",
+      "owner_text": "Guo ve ark. (2025), European Heart Journal. DOI: 10.1093/eurheartj/ehaf036",
+      "source_line": "195\tAF ablasyonu, glimfatik işlev ve biliş\tGuo ve ark. (2025), European Heart Journal. DOI: 10.1093/eurheartj/ehaf036",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0166"
+      ]
+    },
+    {
+      "list_row": 196,
+      "topic": "Yumurta ve Alzheimer insidansı",
+      "owner_text": "Oh ve ark. (2026), Adventist Health Study-2",
+      "source_line": "196\tYumurta ve Alzheimer insidansı\tOh ve ark. (2026), Adventist Health Study-2",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0167"
+      ]
+    },
+    {
+      "list_row": 197,
+      "topic": "Tuz, endotelyal yaşlanma ve IL-16",
+      "owner_text": "JAHA (2026)",
+      "source_line": "197\tTuz, endotelyal yaşlanma ve IL-16\tJAHA (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0168"
+      ]
+    },
+    {
+      "list_row": 198,
+      "topic": "Obezitede egzersiz türleri",
+      "owner_text": "Batrakoulis ve ark. (2022), Circulation: CQO",
+      "source_line": "198\tObezitede egzersiz türleri\tBatrakoulis ve ark. (2022), Circulation: CQO",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0169"
+      ]
+    },
+    {
+      "list_row": 199,
+      "topic": "Ezetimib ve Alzheimer",
+      "owner_text": "Dong-Gyu Jo ve ekibi; künye eksik",
+      "source_line": "199\tEzetimib ve Alzheimer\tDong-Gyu Jo ve ekibi; künye eksik",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 201,
+      "topic": "LDL-C ve poligenik risk",
+      "owner_text": "Iribarren ve ark. (2025), JACC Advances. DOI: 10.1016/j.jacadv.2025.102228",
+      "source_line": "201\tLDL-C ve poligenik risk\tIribarren ve ark. (2025), JACC Advances. DOI: 10.1016/j.jacadv.2025.102228",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0170"
+      ]
+    },
+    {
+      "list_row": 202,
+      "topic": "Merdiven çıkma ve kalp sağlığı",
+      "owner_text": "Atıf görünmüyor",
+      "source_line": "202\tMerdiven çıkma ve kalp sağlığı\tAtıf görünmüyor",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 204,
+      "topic": "KETO-CTA ve lipid enerji modeli",
+      "owner_text": "KETO-CTA’ya gönderme",
+      "source_line": "204\tKETO-CTA ve lipid enerji modeli\tKETO-CTA’ya gönderme",
+      "date": null,
+      "date_missing": true,
+      "status": "publication_version_ambiguous",
+      "missing": "KETO-CTA kaynak sürümü: ön baskı, geri çekilmiş ApoB makalesi veya yeniden analiz mi? Yalnız çalışma adına dayanarak kayıt seçilmedi.",
+      "possible_related_record_ids": [
+        "WOW-0089",
+        "WOW-0164"
+      ]
+    },
+    {
+      "list_row": 209,
+      "topic": "GLP-1 tedavisinde kas fonksiyonu",
+      "owner_text": "Langer ve ark. (2026)",
+      "source_line": "209\tGLP-1 tedavisinde kas fonksiyonu\tLanger ve ark. (2026)",
+      "date": null,
+      "date_missing": true,
+      "status": "duplicate",
+      "same_as_list_row": 210,
+      "note": "Doğrulanan aynı yayına ait ek bağlam; ayrı makale kaydı açılmadı.",
+      "record_ids": [
+        "WOW-0171"
+      ]
+    },
+    {
+      "list_row": 210,
+      "topic": "GLP-1 ile kilo kaybı ve kas kütlesi",
+      "owner_text": "Langer ve ark. (2026), Cell Reports Medicine",
+      "source_line": "210\tGLP-1 ile kilo kaybı ve kas kütlesi\tLanger ve ark. (2026), Cell Reports Medicine",
+      "date": null,
+      "date_missing": true,
+      "status": "recorded",
+      "record_ids": [
+        "WOW-0171"
+      ]
     }
   ]
 }

@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 78,
+  "count": 84,
   "rows": [
     {
       "list_row": 1,
@@ -773,6 +773,87 @@
           "source": "https://iris.unipa.it/handle/10447/458494",
           "owner_source_match_verified": false
         }
+      ]
+    },
+    {
+      "list_row": 183,
+      "topic": "Kaya tuzu, tansiyon ve tuz ikamesi",
+      "owner_text": "Arquivos Brasileiros de Cardiologia (2022); SSaSS / NEJM",
+      "source_line": "183\tKaya tuzu, tansiyon ve tuz ikamesi\tArquivos Brasileiros de Cardiologia (2022); SSaSS / NEJM",
+      "date": null,
+      "date_missing": true,
+      "status": "partial_pending",
+      "record_ids": [
+        "WOW-0161"
+      ],
+      "missing": "Arquivos Brasileiros de Cardiologia 2022 kaynağının kesin kimliği. SSaSS yayını kaydedildi; Brezilya atfının araştırma mı ilgili editoryal mi olduğu açık değil.",
+      "candidates": [
+        {
+          "doi": "10.36660/abc.20210069",
+          "title": "Comparison between the Effects of Hymalaian Salt and Common Salt Intake on Urinary Sodium and Blood Pressure in Hypertensive Individuals",
+          "source": "https://pubmed.ncbi.nlm.nih.gov/35137791/",
+          "owner_source_match_verified": false
+        },
+        {
+          "doi": "10.36660/abc.20220243",
+          "publication_type": "editorial",
+          "owner_source_match_verified": false
+        }
+      ]
+    },
+    {
+      "list_row": 187,
+      "topic": "Keto beslenirken riski anlama",
+      "owner_text": "Atıf yok",
+      "source_line": "187\tKeto beslenirken riski anlama\tAtıf yok",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 194,
+      "topic": "Verve ve baz düzenleme",
+      "owner_text": "VerveTx / Heart-2 verileri",
+      "source_line": "194\tVerve ve baz düzenleme\tVerveTx / Heart-2 verileri",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "VerveTx/Heart-2 verilerinin belirli hakemli yayını veya kongre bildirisi için tam başlık/DOI; şirket verisi yeni makale sayılmadı.",
+      "source_type": "company_trial_data"
+    },
+    {
+      "list_row": 199,
+      "topic": "Ezetimib ve Alzheimer",
+      "owner_text": "Dong-Gyu Jo ve ekibi; künye eksik",
+      "source_line": "199\tEzetimib ve Alzheimer\tDong-Gyu Jo ve ekibi; künye eksik",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 202,
+      "topic": "Merdiven çıkma ve kalp sağlığı",
+      "owner_text": "Atıf görünmüyor",
+      "source_line": "202\tMerdiven çıkma ve kalp sağlığı\tAtıf görünmüyor",
+      "date": null,
+      "date_missing": true,
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI; çalışma/şirket/veri göndermesi tamamlanmış makale künyesi sayılmadı."
+    },
+    {
+      "list_row": 204,
+      "topic": "KETO-CTA ve lipid enerji modeli",
+      "owner_text": "KETO-CTA’ya gönderme",
+      "source_line": "204\tKETO-CTA ve lipid enerji modeli\tKETO-CTA’ya gönderme",
+      "date": null,
+      "date_missing": true,
+      "status": "publication_version_ambiguous",
+      "missing": "KETO-CTA kaynak sürümü: ön baskı, geri çekilmiş ApoB makalesi veya yeniden analiz mi? Yalnız çalışma adına dayanarak kayıt seçilmedi.",
+      "possible_related_record_ids": [
+        "WOW-0089",
+        "WOW-0164"
       ]
     }
   ]
