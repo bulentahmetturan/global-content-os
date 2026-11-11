@@ -3,7 +3,7 @@
   "recorded_at": "2026-11-12",
   "source": "Sahibin 2026-11-12 ilettiği ek liste; numaralar bu listeye aittir, kümülatif sıra tahmin edilmedi.",
   "rule": "Tam başlık veya DOI yoksa tanıtma; PMID tek başına bu koşulu karşılamaz.",
-  "count": 34,
+  "count": 50,
   "rows": [
     {
       "list_row": 1,
@@ -285,6 +285,155 @@
       "status": "pending",
       "missing": "Tam makale başlığı veya DOI",
       "note": "Sahibin mesajındaki satır kesik; SPORT tek başına tam makale başlığı sayılmadı."
+    },
+    {
+      "list_row": 61,
+      "date": "29.06.2026",
+      "topic": "Obezite cerrahisi ve kalp-damar riski",
+      "owner_text": "Açıklamada ve incelenen giriş görüntüsünde belirli makale künyesi görülmemiş.",
+      "source_line": "| 61 | 29.06.2026 | [Obezite cerrahisi ve kalp-damar riski](https://www.facebook.com/reel/1921438511864741/) | Açıklamada ve incelenen giriş görüntüsünde belirli makale künyesi görülmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 62,
+      "date": "28.06.2026",
+      "topic": "Yedi günlük açlık",
+      "owner_text": "**Nature Metabolism, 2024**. 12 gönüllüde yedi günlük su orucu sırasında 2.923 plazma proteininin izlendiği araştırma.",
+      "source_line": "| 62 | 28.06.2026 | [Yedi günlük açlık](https://www.facebook.com/reel/1903750563648105/) | **Nature Metabolism, 2024**. 12 gönüllüde yedi günlük su orucu sırasında 2.923 plazma proteininin izlendiği araştırma. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 63,
+      "date": "28.06.2026",
+      "topic": "Olezarsen ve trigliseritler",
+      "owner_text": "**ESSENCE-TIMI 73b** araştırması; FDA değerlendirmesine atıf.",
+      "source_line": "| 63 | 28.06.2026 | [Olezarsen ve trigliseritler](https://www.facebook.com/reel/1722480335456189/) | **ESSENCE-TIMI 73b** araştırması; FDA değerlendirmesine atıf. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 64,
+      "date": "27.06.2026",
+      "topic": "Kreatin ve bilişsel işlev",
+      "owner_text": "Heidi Moawad’ın **Medscape** yazıları; uyku yoksunluğu araştırması ve Alzheimer’da sekiz haftalık kreatin pilot çalışması. Ayrı künyeler eksik.",
+      "source_line": "| 64 | 27.06.2026 | [Kreatin ve bilişsel işlev](https://www.facebook.com/reel/1049272001091550/) | Heidi Moawad’ın **Medscape** yazıları; uyku yoksunluğu araştırması ve Alzheimer’da sekiz haftalık kreatin pilot çalışması. Ayrı künyeler eksik. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 66,
+      "date": "25.06.2026",
+      "topic": "Koroner işlem öncesinde açlık",
+      "owner_text": "**SCOFF, CHOW-NOW, TONIC** araştırmaları; havuzlanmış meta-analizlere atıf.",
+      "source_line": "| 66 | 25.06.2026 | [Koroner işlem öncesinde açlık](https://www.facebook.com/reel/1544173147505371/) | **SCOFF, CHOW-NOW, TONIC** araştırmaları; havuzlanmış meta-analizlere atıf. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 67,
+      "date": "25.06.2026",
+      "topic": "Hava kirliliği ve kalp",
+      "owner_text": "Açıklamada ve incelenen giriş görüntüsünde belirli makale künyesi görülmemiş.",
+      "source_line": "| 67 | 25.06.2026 | Hava kirliliği ve kalp | Açıklamada ve incelenen giriş görüntüsünde belirli makale künyesi görülmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 68,
+      "date": "25.06.2026",
+      "topic": "Zayıflama ilaçları ve kas kaybı",
+      "owner_text": "Spencer Nadolsky, **Medscape, Haziran 2026**; lösinle zenginleştirilmiş bitkisel protein araştırmalarına atıf.",
+      "source_line": "| 68 | 25.06.2026 | [Zayıflama ilaçları ve kas kaybı](https://www.facebook.com/reel/2767355710312615/) | Spencer Nadolsky, **Medscape, Haziran 2026**; lösinle zenginleştirilmiş bitkisel protein araştırmalarına atıf. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 69,
+      "date": "24.06.2026",
+      "topic": "Protein takviyeleri ve böbrekler",
+      "owner_text": "Stuart Phillips, **Medscape, Haziran 2026**. Araştırmaların ayrı künyeleri verilmemiş.",
+      "source_line": "| 69 | 24.06.2026 | [Protein takviyeleri ve böbrekler](https://www.facebook.com/reel/1317506390551992/) | Stuart Phillips, **Medscape, Haziran 2026**. Araştırmaların ayrı künyeleri verilmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 70,
+      "date": "24.06.2026",
+      "topic": "Yaşlandırılmış sarımsak ve S1PC",
+      "owner_text": "**Cell Metabolism**. S1PC, yağ dokusu ve organlar arası sinyalleşme araştırması.",
+      "source_line": "| 70 | 24.06.2026 | [Yaşlandırılmış sarımsak ve S1PC](https://www.facebook.com/reel/1494005201891599/) | **Cell Metabolism**. S1PC, yağ dokusu ve organlar arası sinyalleşme araştırması. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 73,
+      "date": "22.06.2026",
+      "topic": "Statin kullanırken kas ağrısı",
+      "owner_text": "**Science Advances** ve Meral Kayıkçıoğlu’nun da yer aldığı **Atherosclerosis, Mayıs 2026** yayını. Bu paylaşımda tam künyeler yok.",
+      "source_line": "| 73 | 22.06.2026 | [Statin kullanırken kas ağrısı](https://www.facebook.com/reel/983321278009184/) | **Science Advances** ve Meral Kayıkçıoğlu’nun da yer aldığı **Atherosclerosis, Mayıs 2026** yayını. Bu paylaşımda tam künyeler yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI",
+      "possible_same_as_list_rows": [
+        76,
+        77
+      ],
+      "note": "Dergiler ve Kayıkçıoğlu atfı sonraki kayıtlarla örtüşüyor; kesin yayın eşleşmesi iddia edilmedi."
+    },
+    {
+      "list_row": 75,
+      "date": "22.06.2026",
+      "topic": "Yapay kalp / LVAD",
+      "owner_text": "Açıklamada ve incelenen görüntüde makale künyesi görülmemiş.",
+      "source_line": "| 75 | 22.06.2026 | Yapay kalp / LVAD | Açıklamada ve incelenen görüntüde makale künyesi görülmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 78,
+      "date": "20.06.2026",
+      "topic": "Akciğer nodülleri ve çevresel etkenler",
+      "owner_text": "Beş kaynak: **Wang ve ark., JAMA 2019**, hava kirliliği/amfizem; **Zhao ve ark., Frontiers in Medicine 2020**, biyokütle dumanı; **Guler ve ark., Respiratory Medicine 2021**, enfeksiyon sonrası interstisyel hastalık; **Raghu ve ark., AJRCCM 2020**, hipersensitivite pnömonisi kılavuzu; **MacMahon ve ark., Radiology 2017**, Fleischner nodül kılavuzu.",
+      "source_line": "| 78 | 20.06.2026 | [Akciğer nodülleri ve çevresel etkenler](https://www.facebook.com/reel/2066737254727545/) | Beş kaynak: **Wang ve ark., JAMA 2019**, hava kirliliği/amfizem; **Zhao ve ark., Frontiers in Medicine 2020**, biyokütle dumanı; **Guler ve ark., Respiratory Medicine 2021**, enfeksiyon sonrası interstisyel hastalık; **Raghu ve ark., AJRCCM 2020**, hipersensitivite pnömonisi kılavuzu; **MacMahon ve ark., Radiology 2017**, Fleischner nodül kılavuzu. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 81,
+      "date": "18.06.2026",
+      "topic": "Ağırlık antrenmanı mı, yürüyüş mü?",
+      "owner_text": "Açıklamada ve incelenen görüntüde belirli makale künyesi görülmemiş.",
+      "source_line": "| 81 | 18.06.2026 | [Ağırlık antrenmanı mı, yürüyüş mü?](https://www.facebook.com/reel/994621769837501/) | Açıklamada ve incelenen görüntüde belirli makale künyesi görülmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 83,
+      "date": "16.06.2026",
+      "topic": "Mera tereyağı",
+      "owner_text": "Laboratuvar analizleri ve kardiyoloji kılavuzları anılıyor; belirli yayın adı yok.",
+      "source_line": "| 83 | 16.06.2026 | Mera tereyağı | Laboratuvar analizleri ve kardiyoloji kılavuzları anılıyor; belirli yayın adı yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 86,
+      "date": "15.06.2026",
+      "topic": "K2 vitamini ve damar kireçlenmesi",
+      "owner_text": "**Rotterdam Çalışması**, 4.807 kişide 10 yıllık takip. Tam makale künyesi yok.",
+      "source_line": "| 86 | 15.06.2026 | [K2 vitamini ve damar kireçlenmesi](https://www.facebook.com/reel/1501153330981166/) | **Rotterdam Çalışması**, 4.807 kişide 10 yıllık takip. Tam makale künyesi yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 87,
+      "date": "15.06.2026",
+      "topic": "Magnezyum ve ritim bozuklukları",
+      "owner_text": "Açıklamada ve incelenen görüntülerde belirli makale künyesi görülmemiş.",
+      "source_line": "| 87 | 15.06.2026 | [Magnezyum ve ritim bozuklukları](https://www.facebook.com/reel/1549937503372975/) | Açıklamada ve incelenen görüntülerde belirli makale künyesi görülmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
     }
   ]
 }

@@ -1,0 +1,36 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0110",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Statins promote muscle metabolic danger and NLRP3-mediated myopathy via lower protein-prenylation and YAP",
+    "journal": "Science Advances",
+    "published_at": null,
+    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "study": "Statinin kas ağrısı oluşturma mekanizması",
+    "doi_pending": true,
+    "title_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #77",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Robin, Barra, Schertzer ve ark. *Statins promote muscle metabolic danger and NLRP3-mediated myopathy via lower protein-prenylation and YAP.* **Science Advances, 2026.**",
+  "source_share_date": "21.06.2026"
+}

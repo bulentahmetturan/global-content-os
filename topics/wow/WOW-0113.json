@@ -1,0 +1,36 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0113",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Secretion of glucagon-like peptide-1 in patients with type 2 diabetes mellitus: systematic review and meta-analyses of clinical studies",
+    "journal": "Diabetologia",
+    "published_at": null,
+    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "study": "Besinlerle GLP-1 etkisi",
+    "doi_pending": true,
+    "title_pending": false
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Sahip ek listesi 2026-11-12 #85",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Calanna, Knop, Holst ve ark. *Secretion of glucagon-like peptide-1 in patients with type 2 diabetes mellitus: systematic review and meta-analyses of clinical studies.* **Diabetologia, 2013.**",
+  "source_share_date": "15.06.2026"
+}
