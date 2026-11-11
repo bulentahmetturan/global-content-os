@@ -1,0 +1,359 @@
+{
+  "schema": "gcos-wow-pending-kunye/1",
+  "recorded_at": "2026-11-12",
+  "source": "Ahmet_Ekmekci_Kumulatif_Makale_Listesi (1).md; sahibin belirttiği 36 eksik satır",
+  "rule": "Tam başlık veya DOI yoksa tanıtılmaz. Eksik kaynaklar tamamlanmış sayılmaz.",
+  "count": 31,
+  "rows": [
+    {
+      "list_row": 1,
+      "date": "10.11.2026",
+      "topic": "Merdiven çıkma ve kalp sağlığı",
+      "owner_text": "Zuo ve ark. (2023), Atherosclerosis: Daily stair climbing, susceptible genetic predisposition and risk of atherosclerotic cardiovascular disease; Paddock ve ark. (2024): Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis — ESC Preventive Cardiology kongre bildirisi.",
+      "source_place": "Açıklama",
+      "source_status": "Künye var; ikinci kaynak kongre bildirisi.",
+      "source_line": "| 1 | 10.11.2026 | Merdiven çıkma ve kalp sağlığı | Zuo ve ark. (2023), Atherosclerosis: Daily stair climbing, susceptible genetic predisposition and risk of atherosclerotic cardiovascular disease; Paddock ve ark. (2024): Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis — ESC Preventive Cardiology kongre bildirisi. | Açıklama | Künye var; ikinci kaynak kongre bildirisi. |",
+      "record_ids": [
+        "WOW-0095",
+        "WOW-0096"
+      ],
+      "status": "partial_pending",
+      "note": "İkinci kayıt kongre bildirisi; dergi ve DOI verilmedi, yükleme için eksik.",
+      "missing": "WOW-0096 kongre bildirisi: yayın yeri/dergi veya DOI eksik; yükleme betiği atlıyor. WOW-0095 ayrı kaydedildi."
+    },
+    {
+      "list_row": 2,
+      "date": "10.11.2026",
+      "topic": "[Menopozda hormon tedavisi](https://www.facebook.com/reel/1602234714503011/)",
+      "owner_text": "WHI (2002); AHA Scientific Sessions 2026, 52.330 kadınlık araştırma (kongre bildirisi); BMJ (2026), [10.1136/bmj-2026-100688](https://doi.org/10.1136/bmj-2026-100688)",
+      "source_place": "Açıklama",
+      "source_status": "Bazı kaynakların tam başlığı verilmemiş.",
+      "source_line": "| 2 | 10.11.2026 | [Menopozda hormon tedavisi](https://www.facebook.com/reel/1602234714503011/) | WHI (2002); AHA Scientific Sessions 2026, 52.330 kadınlık araştırma (kongre bildirisi); BMJ (2026), [10.1136/bmj-2026-100688](https://doi.org/10.1136/bmj-2026-100688) | Açıklama | Bazı kaynakların tam başlığı verilmemiş. |",
+      "status": "partial_pending",
+      "record_ids": [
+        "WOW-0097"
+      ],
+      "missing": "WHI (2002) ve AHA Scientific Sessions 2026 kaynaklarının ayrı tam başlığı veya DOI; BMJ DOI ayrı kaydedildi."
+    },
+    {
+      "list_row": 4,
+      "date": "09.11.2026",
+      "topic": "[Sildenafil, tadalafil ve cinsel aktivite sırasında ani ölüm](https://www.facebook.com/reel/1374006107951209/)",
+      "owner_text": "Sildenafilin kontrollü çalışmaları; Almanya'daki 45 yıllık, 99 olguluk adli otopsi serisi; cinsel aktivite sonrası kalp krizi tetiklenmesi araştırmaları.",
+      "source_place": "Açıklama; videodan örnek görüntüler",
+      "source_status": "Tam makale adları ve DOI'ler tespit edilemedi.",
+      "source_line": "| 4 | 09.11.2026 | [Sildenafil, tadalafil ve cinsel aktivite sırasında ani ölüm](https://www.facebook.com/reel/1374006107951209/) | Sildenafilin kontrollü çalışmaları; Almanya'daki 45 yıllık, 99 olguluk adli otopsi serisi; cinsel aktivite sonrası kalp krizi tetiklenmesi araştırmaları. | Açıklama; videodan örnek görüntüler | Tam makale adları ve DOI'ler tespit edilemedi. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 5,
+      "date": "08.11.2026",
+      "topic": "Yüksek tansiyonda acil durum belirtileri",
+      "owner_text": "Açıklamada belirli bir makale künyesi bulunmuyor.",
+      "source_place": "Açıklama",
+      "source_status": "Reels görüntüsünden kaynak kontrolü henüz tamamlanmadı; makale yokluğu kesinleştirilmedi.",
+      "source_line": "| 5 | 08.11.2026 | Yüksek tansiyonda acil durum belirtileri | Açıklamada belirli bir makale künyesi bulunmuyor. | Açıklama | Reels görüntüsünden kaynak kontrolü henüz tamamlanmadı; makale yokluğu kesinleştirilmedi. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 6,
+      "date": "07.11.2026",
+      "topic": "[LIMA damarının ateroskleroza direnci](https://www.facebook.com/reel/1115342641390417/)",
+      "owner_text": "2024 tarihli, 573 hastalık LIMA çevresi yağ dokusu/BT inflamasyon araştırması; LIMA ile safen ven greftlerinin 10 yıllık açıklığını karşılaştıran çalışma.",
+      "source_place": "Açıklama; videodan örnek görüntüler",
+      "source_status": "Yazar, tam başlık ve DOI tespit edilemedi.",
+      "source_line": "| 6 | 07.11.2026 | [LIMA damarının ateroskleroza direnci](https://www.facebook.com/reel/1115342641390417/) | 2024 tarihli, 573 hastalık LIMA çevresi yağ dokusu/BT inflamasyon araştırması; LIMA ile safen ven greftlerinin 10 yıllık açıklığını karşılaştıran çalışma. | Açıklama; videodan örnek görüntüler | Yazar, tam başlık ve DOI tespit edilemedi. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 10,
+      "date": "05.11.2026",
+      "topic": "[Atriyal fibrilasyonda ablasyon](https://www.facebook.com/reel/1166212829348554/)",
+      "owner_text": "CABANA çalışması; açıklamada 2.204 hasta ve yaşam kalitesi/semptom sonuçları belirtiliyor.",
+      "source_place": "Açıklama",
+      "source_status": "Hangi CABANA yayınının kullanıldığına ait tam künye görünmüyor.",
+      "source_line": "| 10 | 05.11.2026 | [Atriyal fibrilasyonda ablasyon](https://www.facebook.com/reel/1166212829348554/) | CABANA çalışması; açıklamada 2.204 hasta ve yaşam kalitesi/semptom sonuçları belirtiliyor. | Açıklama | Hangi CABANA yayınının kullanıldığına ait tam künye görünmüyor. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 26,
+      "date": "27.10.2026",
+      "topic": "[GLP-1 tedavisi öncesi değerlendirme](https://www.facebook.com/reel/1419013483779697/)",
+      "owner_text": "JAMA Internal Medicine (2022), GLP-1 reseptör agonistleri ve safra kesesi/safra yolu hastalıkları üzerine 76 randomize çalışmalık meta-analiz; ilaç ürün bilgileri.",
+      "source_place": "Açıklama",
+      "source_status": "Ürün bilgileri makale değildir. Meta-analizin tam künyesi eksik.",
+      "source_line": "| 26 | 27.10.2026 | [GLP-1 tedavisi öncesi değerlendirme](https://www.facebook.com/reel/1419013483779697/) | JAMA Internal Medicine (2022), GLP-1 reseptör agonistleri ve safra kesesi/safra yolu hastalıkları üzerine 76 randomize çalışmalık meta-analiz; ilaç ürün bilgileri. | Açıklama | Ürün bilgileri makale değildir. Meta-analizin tam künyesi eksik. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 27,
+      "date": "26.10.2026",
+      "topic": "[İleri yaşta sistolik ve diyastolik tansiyon](https://www.facebook.com/reel/1111906538350224/)",
+      "owner_text": "Framingham analizi, Circulation (2001); SHEP randomize çalışması (1991); NEJM (2019), 1,3 milyon kişilik sistolik/diyastolik tansiyon analizi.",
+      "source_place": "Açıklama",
+      "source_status": "Çalışmalar tanımlanıyor; tam başlıklar ve DOI'ler henüz yok.",
+      "source_line": "| 27 | 26.10.2026 | [İleri yaşta sistolik ve diyastolik tansiyon](https://www.facebook.com/reel/1111906538350224/) | Framingham analizi, Circulation (2001); SHEP randomize çalışması (1991); NEJM (2019), 1,3 milyon kişilik sistolik/diyastolik tansiyon analizi. | Açıklama | Çalışmalar tanımlanıyor; tam başlıklar ve DOI'ler henüz yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 35,
+      "date": "21.10.2026",
+      "topic": "[Bilimsel kanıt, LDL ve yanlış bilgi](https://www.facebook.com/reel/1120061303855060/)",
+      "owner_text": "Ference ve ark. European Heart Journal (2017); CTT Collaboration, The Lancet (2010); Ecker ve ark. Nature Reviews Psychology (2022).",
+      "source_place": "Açıklama",
+      "source_status": "Üç kaynak yazar/kurum, dergi ve yıl ile belirtiliyor.",
+      "source_line": "| 35 | 21.10.2026 | [Bilimsel kanıt, LDL ve yanlış bilgi](https://www.facebook.com/reel/1120061303855060/) | Ference ve ark. European Heart Journal (2017); CTT Collaboration, The Lancet (2010); Ecker ve ark. Nature Reviews Psychology (2022). | Açıklama | Üç kaynak yazar/kurum, dergi ve yıl ile belirtiliyor. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 36,
+      "date": "21.10.2026",
+      "topic": "TAVI'de kapak seçimi",
+      "owner_text": "Herrmann ve ark. NEJM (2024), SMART; 2025 ESC/EACTS kalp kapak hastalıkları kılavuzu.",
+      "source_place": "Açıklama",
+      "source_status": "SMART araştırma yayını ve kılavuz ayrı kaynak türleridir.",
+      "source_line": "| 36 | 21.10.2026 | TAVI'de kapak seçimi | Herrmann ve ark. NEJM (2024), SMART; 2025 ESC/EACTS kalp kapak hastalıkları kılavuzu. | Açıklama | SMART araştırma yayını ve kılavuz ayrı kaynak türleridir. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 37,
+      "date": "20.10.2026",
+      "topic": "Kümülatif LDL maruziyeti ve erken tedavi",
+      "owner_text": "WOSCOPS 20 yıllık takip yayını, Circulation (2016); FOURIER-OLE, Circulation (2022).",
+      "source_place": "Açıklama",
+      "source_status": "İki yayın çalışma adı/dergi/yıl ile tanımlanıyor.",
+      "source_line": "| 37 | 20.10.2026 | Kümülatif LDL maruziyeti ve erken tedavi | WOSCOPS 20 yıllık takip yayını, Circulation (2016); FOURIER-OLE, Circulation (2022). | Açıklama | İki yayın çalışma adı/dergi/yıl ile tanımlanıyor. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 38,
+      "date": "20.10.2026",
+      "topic": "[Sosyal medyada sağlıkla ilgili yanlış bilgi](https://www.facebook.com/reel/1841713240189292/)",
+      "owner_text": "Ecker ve ark. Nature Reviews Psychology (2022); Medscape, 19 Ekim 2026 yazısı; Physicians Foundation–Medscape 2026 hekim araştırması.",
+      "source_place": "Açıklama",
+      "source_status": "Derleme, haber/yazı ve anket aynı tür yayın değildir.",
+      "source_line": "| 38 | 20.10.2026 | [Sosyal medyada sağlıkla ilgili yanlış bilgi](https://www.facebook.com/reel/1841713240189292/) | Ecker ve ark. Nature Reviews Psychology (2022); Medscape, 19 Ekim 2026 yazısı; Physicians Foundation–Medscape 2026 hekim araştırması. | Açıklama | Derleme, haber/yazı ve anket aynı tür yayın değildir. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI",
+      "note": "Ecker 2022 kaynağı #35 ile tekrar; diğer kaynaklar haber/anket. Yeni kayıt açılmadı."
+    },
+    {
+      "list_row": 39,
+      "date": "19.10.2026",
+      "topic": "[Aort çapındaki artışın değerlendirilmesi](https://www.facebook.com/reel/941919418714049/)",
+      "owner_text": "Obel ve ark. JACC (2025); Henry ve ark. JAHA (2025); 2022 ACC/AHA Aort Hastalıkları Kılavuzu.",
+      "source_place": "Açıklama",
+      "source_status": "İki araştırma yayını ve bir kılavuz.",
+      "source_line": "| 39 | 19.10.2026 | [Aort çapındaki artışın değerlendirilmesi](https://www.facebook.com/reel/941919418714049/) | Obel ve ark. JACC (2025); Henry ve ark. JAHA (2025); 2022 ACC/AHA Aort Hastalıkları Kılavuzu. | Açıklama | İki araştırma yayını ve bir kılavuz. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 43,
+      "date": "16.10.2026",
+      "topic": "Denetimsiz retatrutid kullanımı ve kullanıcı bildirimleri",
+      "owner_text": "Sehgal ve ark. JAMA Network Open, 14 Ekim 2026; Reddit'teki yaklaşık 149 bin paylaşım/yorumun analizi.",
+      "source_place": "Açıklama",
+      "source_status": "Tam başlık ve DOI henüz yok.",
+      "source_line": "| 43 | 16.10.2026 | Denetimsiz retatrutid kullanımı ve kullanıcı bildirimleri | Sehgal ve ark. JAMA Network Open, 14 Ekim 2026; Reddit'teki yaklaşık 149 bin paylaşım/yorumun analizi. | Açıklama | Tam başlık ve DOI henüz yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 44,
+      "date": "16.10.2026",
+      "topic": "[Mitral kapak prolapsusu ve aritmi riski](https://www.facebook.com/reel/2295751731190306/)",
+      "owner_text": "Thamman ve ark. JACC: Cardiovascular Imaging, 12 Ekim 2026; bilimsel derleme.",
+      "source_place": "Açıklama",
+      "source_status": "Tam başlık ve DOI henüz yok.",
+      "source_line": "| 44 | 16.10.2026 | [Mitral kapak prolapsusu ve aritmi riski](https://www.facebook.com/reel/2295751731190306/) | Thamman ve ark. JACC: Cardiovascular Imaging, 12 Ekim 2026; bilimsel derleme. | Açıklama | Tam başlık ve DOI henüz yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 49,
+      "date": "13.10.2026",
+      "topic": "[Meyvenin öğüne göre tüketim zamanı](https://www.facebook.com/reel/3438766439636971/)",
+      "owner_text": "Kivi tüketiminin zamanlaması; kivi-pirinç; elma/armut/portakalın pirinç öncesinde tüketilmesi; elmanın öğün öncesinde tüketimi ve tokluk üzerine küçük randomize çalışmalar.",
+      "source_place": "Açıklama",
+      "source_status": "Çalışmaların yazar, dergi, yıl, tam başlık ve DOI bilgileri açıklamada görünmüyor.",
+      "source_line": "| 49 | 13.10.2026 | [Meyvenin öğüne göre tüketim zamanı](https://www.facebook.com/reel/3438766439636971/) | Kivi tüketiminin zamanlaması; kivi-pirinç; elma/armut/portakalın pirinç öncesinde tüketilmesi; elmanın öğün öncesinde tüketimi ve tokluk üzerine küçük randomize çalışmalar. | Açıklama | Çalışmaların yazar, dergi, yıl, tam başlık ve DOI bilgileri açıklamada görünmüyor. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 54,
+      "date": "09.10.2026 18:33",
+      "topic": "[Alzheimer'ın hafıza dışındaki erken belirtileri](https://www.facebook.com/reel/2191154458499087/)",
+      "owner_text": "81 binden fazla kişide finansal beceriler/ödeme sorunları ve demans çalışması; demans öncesi kilo kaybı çalışmaları; Framingham dil örnekleri araştırması; koku duyusu ve davranış değişiklikleri araştırmaları. National Geographic yazısı haber kaynağı olarak anılıyor.",
+      "source_place": "Açıklama",
+      "source_status": "Birden fazla araştırma anılıyor; tam künyeler açıklamada verilmemiş.",
+      "source_line": "| 54 | 09.10.2026 18:33 | [Alzheimer'ın hafıza dışındaki erken belirtileri](https://www.facebook.com/reel/2191154458499087/) | 81 binden fazla kişide finansal beceriler/ödeme sorunları ve demans çalışması; demans öncesi kilo kaybı çalışmaları; Framingham dil örnekleri araştırması; koku duyusu ve davranış değişiklikleri araştırmaları. National Geographic yazısı haber kaynağı olarak anılıyor. | Açıklama | Birden fazla araştırma anılıyor; tam künyeler açıklamada verilmemiş. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 60,
+      "date": "06.10.2026 11:43",
+      "topic": "[Aterosklerotik plakta kolesterol ve inflamasyon](https://www.facebook.com/reel/1398036332416886/)",
+      "owner_text": "İnsan otopsi/histoloji çalışmaları, plak dokusunun kimyasal lipid analizleri ve makrofaj/köpük hücresi araştırmaları anılıyor.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Belirli bir makalenin künyesi verilmemiş; makale yokluğu kesinleştirilmedi.",
+      "source_line": "| 60 | 06.10.2026 11:43 | [Aterosklerotik plakta kolesterol ve inflamasyon](https://www.facebook.com/reel/1398036332416886/) | İnsan otopsi/histoloji çalışmaları, plak dokusunun kimyasal lipid analizleri ve makrofaj/köpük hücresi araştırmaları anılıyor. | Reels açıklaması | Belirli bir makalenin künyesi verilmemiş; makale yokluğu kesinleştirilmedi. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 65,
+      "date": "02.10.2026 14:16",
+      "topic": "[Retatrutid, yağsız kütle ve uzun dönem sorular — seri 5/5](https://www.facebook.com/reel/1094383526518833/)",
+      "owner_text": "TRIUMPH-1; retatrutidin daha önceki DXA vücut kompozisyonu alt çalışması.",
+      "source_place": "Açıklama",
+      "source_status": "Ana çalışma adı var; DXA alt çalışmasının tam künyesi yok.",
+      "source_line": "| 65 | 02.10.2026 14:16 | [Retatrutid, yağsız kütle ve uzun dönem sorular — seri 5/5](https://www.facebook.com/reel/1094383526518833/) | TRIUMPH-1; retatrutidin daha önceki DXA vücut kompozisyonu alt çalışması. | Açıklama | Ana çalışma adı var; DXA alt çalışmasının tam künyesi yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 66,
+      "date": "01.10.2026 17:33",
+      "topic": "[GLP-1 ilaçlarıyla ilgili davalar ve yan etki kaynakları](https://www.facebook.com/reel/1085763664412884/)",
+      "owner_text": "SELECT çalışması, 17.604 katılımcı; EMA'nın semaglutid/NAION değerlendirmesi; MDL davalarına ilişkin hukuki gelişmeler.",
+      "source_place": "Açıklama",
+      "source_status": "SELECT araştırma kaynağıdır; EMA değerlendirmesi ve dava bilgileri araştırma makalesi değildir.",
+      "source_line": "| 66 | 01.10.2026 17:33 | [GLP-1 ilaçlarıyla ilgili davalar ve yan etki kaynakları](https://www.facebook.com/reel/1085763664412884/) | SELECT çalışması, 17.604 katılımcı; EMA'nın semaglutid/NAION değerlendirmesi; MDL davalarına ilişkin hukuki gelişmeler. | Açıklama | SELECT araştırma kaynağıdır; EMA değerlendirmesi ve dava bilgileri araştırma makalesi değildir. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 70,
+      "date": "30.09.2026 10:42",
+      "topic": "[Retatrutid TRIUMPH-1 — seri 1/5](https://www.facebook.com/reel/1641154870685880/)",
+      "owner_text": "New England Journal of Medicine'da yayımlandığı belirtilen faz 3 TRIUMPH-1; tip 2 diyabeti olmayan 2.300'den fazla katılımcı, 80 hafta.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Dergi ve çalışma adı var; yazar, tam başlık ve DOI açıklamada yok.",
+      "source_line": "| 70 | 30.09.2026 10:42 | [Retatrutid TRIUMPH-1 — seri 1/5](https://www.facebook.com/reel/1641154870685880/) | New England Journal of Medicine'da yayımlandığı belirtilen faz 3 TRIUMPH-1; tip 2 diyabeti olmayan 2.300'den fazla katılımcı, 80 hafta. | Reels açıklaması | Dergi ve çalışma adı var; yazar, tam başlık ve DOI açıklamada yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 81,
+      "date": "15.09.2026 17:12",
+      "topic": "[HFpEF ve epikardiyal yağ dokusu](https://www.facebook.com/reel/1840662363564358/)",
+      "owner_text": "Milton Packer'ın JACC'de yayımlanan HFpEF, visseral/epikardiyal adipoz doku disfonksiyonu üzerine State-of-the-Art derlemesi.",
+      "source_place": "Açıklama",
+      "source_status": "Yazar, dergi ve derleme türü var; yıl, tam başlık ve DOI yok.",
+      "source_line": "| 81 | 15.09.2026 17:12 | [HFpEF ve epikardiyal yağ dokusu](https://www.facebook.com/reel/1840662363564358/) | Milton Packer'ın JACC'de yayımlanan HFpEF, visseral/epikardiyal adipoz doku disfonksiyonu üzerine State-of-the-Art derlemesi. | Açıklama | Yazar, dergi ve derleme türü var; yıl, tam başlık ve DOI yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 83,
+      "date": "14.09.2026 21:15",
+      "topic": "[Loberamisal ve akut iskemik inme](https://www.facebook.com/reel/2180232112900299/)",
+      "owner_text": "LAIS faz 3 çalışması; JAMA, 10 Eylül 2026; 998 hasta.",
+      "source_place": "Açıklama",
+      "source_status": "Çalışma adı, dergi, tarih ve örneklem var; tam başlık ve DOI yok.",
+      "source_line": "| 83 | 14.09.2026 21:15 | [Loberamisal ve akut iskemik inme](https://www.facebook.com/reel/2180232112900299/) | LAIS faz 3 çalışması; JAMA, 10 Eylül 2026; 998 hasta. | Açıklama | Çalışma adı, dergi, tarih ve örneklem var; tam başlık ve DOI yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 84,
+      "date": "14.09.2026 17:35",
+      "topic": "[PCSK9 inhibisyonu ve karaciğer güvenliği](https://www.facebook.com/reel/3646864165466554/)",
+      "owner_text": "JAMA Network Open: yaşam boyu genetik PCSK9 inhibisyonu ile karaciğer yağlanması, hasarı ve fibrozis ilişkisini değerlendiren Mendelci randomizasyon araştırması.",
+      "source_place": "Açıklama",
+      "source_status": "Dergi ve yöntem var; tam künye yok.",
+      "source_line": "| 84 | 14.09.2026 17:35 | [PCSK9 inhibisyonu ve karaciğer güvenliği](https://www.facebook.com/reel/3646864165466554/) | JAMA Network Open: yaşam boyu genetik PCSK9 inhibisyonu ile karaciğer yağlanması, hasarı ve fibrozis ilişkisini değerlendiren Mendelci randomizasyon araştırması. | Açıklama | Dergi ve yöntem var; tam künye yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 86,
+      "date": "12.09.2026 18:18",
+      "topic": "[Genç yaşta ksantelazma ve kalp riski](https://www.facebook.com/reel/1761512985523577/)",
+      "owner_text": "Ksantelazma, ailesel hiperkolesterolemi, ApoB ve sitosterolemi üzerine klinik anlatım.",
+      "source_place": "Reels açıklaması + görüntü örneği",
+      "source_status": "Belirli bir araştırma makalesi künyesi tespit edilemedi; bu, kesin makale yokluğu anlamına gelmez.",
+      "source_line": "| 86 | 12.09.2026 18:18 | [Genç yaşta ksantelazma ve kalp riski](https://www.facebook.com/reel/1761512985523577/) | Ksantelazma, ailesel hiperkolesterolemi, ApoB ve sitosterolemi üzerine klinik anlatım. | Reels açıklaması + görüntü örneği | Belirli bir araştırma makalesi künyesi tespit edilemedi; bu, kesin makale yokluğu anlamına gelmez. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 88,
+      "date": "11.09.2026 08:54",
+      "topic": "[Koroner plağın 10 yıllık görüntüleme takibi](https://www.facebook.com/reel/1053900484130395/)",
+      "owner_text": "JACC'de yayımlandığı belirtilen vaka takibi: 2015, 2019, 2023 ve 2025 koroner BT anjiyografileriyle plak gelişimi ve tedavi sonrası değişim.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Vaka yayını tanımlanıyor; yazar, yayın tarihi, tam başlık ve DOI yok.",
+      "source_line": "| 88 | 11.09.2026 08:54 | [Koroner plağın 10 yıllık görüntüleme takibi](https://www.facebook.com/reel/1053900484130395/) | JACC'de yayımlandığı belirtilen vaka takibi: 2015, 2019, 2023 ve 2025 koroner BT anjiyografileriyle plak gelişimi ve tedavi sonrası değişim. | Reels açıklaması | Vaka yayını tanımlanıyor; yazar, yayın tarihi, tam başlık ve DOI yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 93,
+      "date": "08.09.2026 14:30",
+      "topic": "[Yapay zekâyla geliştirilen rentosertib](https://www.facebook.com/reel/1092190223326909/)",
+      "owner_text": "Nature Biotechnology: TNIK inhibitörü rentosertib, idiyopatik pulmoner fibrozis faz 2a verileri ve proteomik yaş saatleri analizi.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Dergi ve molekül/çalışma aşaması belli; tam künye yok.",
+      "source_line": "| 93 | 08.09.2026 14:30 | [Yapay zekâyla geliştirilen rentosertib](https://www.facebook.com/reel/1092190223326909/) | Nature Biotechnology: TNIK inhibitörü rentosertib, idiyopatik pulmoner fibrozis faz 2a verileri ve proteomik yaş saatleri analizi. | Reels açıklaması | Dergi ve molekül/çalışma aşaması belli; tam künye yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 94,
+      "date": "07.09.2026 21:42",
+      "topic": "[Osteoartritte fiziksel aktivite ve protez riski](https://www.facebook.com/reel/912095828293557/)",
+      "owner_text": "Bernard Liew ve ekibi, British Journal of Sports Medicine: diz/kalça osteoartriti bulunan 17.661 hastada 12 aylık boylamsal analiz.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Yazar, dergi ve örneklem var; tam künye yok.",
+      "source_line": "| 94 | 07.09.2026 21:42 | [Osteoartritte fiziksel aktivite ve protez riski](https://www.facebook.com/reel/912095828293557/) | Bernard Liew ve ekibi, British Journal of Sports Medicine: diz/kalça osteoartriti bulunan 17.661 hastada 12 aylık boylamsal analiz. | Reels açıklaması | Yazar, dergi ve örneklem var; tam künye yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 95,
+      "date": "07.09.2026 16:49",
+      "topic": "Çok yüksek kardiyovasküler riskte LDL hedefleri",
+      "owner_text": "Kalp-damar hastalığı, stent veya bypass öyküsünde LDL hedefleri hakkında kılavuzlara atıf.",
+      "source_place": "Sınırlı açıklama",
+      "source_status": "Bu kaydın açıklaması tam açılamadı; hangi kılavuz veya makalenin kullanıldığı doğrulanamadı.",
+      "source_line": "| 95 | 07.09.2026 16:49 | Çok yüksek kardiyovasküler riskte LDL hedefleri | Kalp-damar hastalığı, stent veya bypass öyküsünde LDL hedefleri hakkında kılavuzlara atıf. | Sınırlı açıklama | Bu kaydın açıklaması tam açılamadı; hangi kılavuz veya makalenin kullanıldığı doğrulanamadı. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 97,
+      "date": "05.09.2026 19:17",
+      "topic": "[RSV aşıları](https://www.facebook.com/reel/1614648376938588/)",
+      "owner_text": "JAMA, 2 Eylül 2026: 75 çalışmayı kapsadığı belirtilen RSV aşılarının etkililiği/güvenliliği sistematik derlemesi.",
+      "source_place": "Reels açıklaması",
+      "source_status": "Dergi, tarih ve kapsam var; tam künye yok.",
+      "source_line": "| 97 | 05.09.2026 19:17 | [RSV aşıları](https://www.facebook.com/reel/1614648376938588/) | JAMA, 2 Eylül 2026: 75 çalışmayı kapsadığı belirtilen RSV aşılarının etkililiği/güvenliliği sistematik derlemesi. | Reels açıklaması | Dergi, tarih ve kapsam var; tam künye yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 100,
+      "date": "04.09.2026 09:08",
+      "topic": "[Güncellenmiş COVID-19 aşıları](https://www.facebook.com/reel/2056814965197828/)",
+      "owner_text": "JAMA, 2 Eylül 2026: güncellenmiş COVID-19 aşılarına ilişkin 155 çalışmalık sistematik derleme; 38 güvenlilik çalışması da anılıyor.",
+      "source_place": "Reels açıklaması + görüntü örneği",
+      "source_status": "Dergi, tarih ve kapsam var; tam makale künyesi yok.",
+      "source_line": "| 100 | 04.09.2026 09:08 | [Güncellenmiş COVID-19 aşıları](https://www.facebook.com/reel/2056814965197828/) | JAMA, 2 Eylül 2026: güncellenmiş COVID-19 aşılarına ilişkin 155 çalışmalık sistematik derleme; 38 güvenlilik çalışması da anılıyor. | Reels açıklaması + görüntü örneği | Dergi, tarih ve kapsam var; tam makale künyesi yok. |",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    }
+  ]
+}

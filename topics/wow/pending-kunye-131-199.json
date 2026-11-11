@@ -239,14 +239,33 @@
       "date": "21.07.2026",
       "topic": "Olumsuz duygular ve damar endoteli",
       "owner_text": "Shimbo ve ark. JAHA. 2024;13:e032698",
-      "missing": "başlık"
+      "missing": "başlık",
+      "resolution": {
+        "recorded_at": "2026-11-12",
+        "source": "Sahip ek listesi 2026-11-12 #19",
+        "record_ids": [
+          "WOW-0090"
+        ],
+        "status": "resolved_from_owner_title",
+        "note": "Önceki eksik kaynak metni tarihçe olarak korundu; DOI verilmedi."
+      }
     },
     {
       "list_row": 196,
       "date": "20.07.2026",
       "topic": "Ketojenik diyet ve bağırsak tümörleri",
       "owner_text": "Dmitrieva-Posocco, Nature 2022; Shay/Chi/Yılmaz, Nature 15.07.2026",
-      "missing": "başlıklar (satırda var, iletilmedi), DOI"
+      "missing": "başlıklar (satırda var, iletilmedi), DOI",
+      "resolution": {
+        "recorded_at": "2026-11-12",
+        "source": "Sahip ek listesi 2026-11-12 #20",
+        "record_ids": [
+          "WOW-0091",
+          "WOW-0092"
+        ],
+        "status": "resolved_from_owner_title",
+        "note": "Önceki eksik kaynak metni tarihçe olarak korundu; DOI verilmedi."
+      }
     },
     {
       "list_row": 197,

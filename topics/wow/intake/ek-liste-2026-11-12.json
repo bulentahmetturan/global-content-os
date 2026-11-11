@@ -1,0 +1,235 @@
+{
+  "recorded_at": "2026-11-12",
+  "rows": [
+    {
+      "list_row": 1,
+      "date": "02.08.2026",
+      "topic": "Genetik risk ve yaşam tarzı",
+      "owner_text": "Khera ve ark., NEJM. Genetik risk ve yaşam tarzını değerlendiren, 55.685 katılımcılı araştırma. Tam künye eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 2,
+      "date": "01.08.2026",
+      "topic": "Protein tüketimi ve yaşlanma",
+      "owner_text": "Knopf ve Lamming, Cell Press, 2026. Protein/aminoasit kısıtlamasına ilişkin derleme. Tam başlık eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 3,
+      "date": "31.07.2026",
+      "topic": "Oturmayı bölmek",
+      "owner_text": "European Heart Journal. NHANES’te 4.757 yetişkinin hareketsizlik ve oturma molaları araştırması. Tam künye eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 4,
+      "date": "30.07.2026",
+      "topic": "Koroner inflamasyon — ORFAN",
+      "owner_text": "The Lancet — ORFAN, 40.109 hastalık takip araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 5,
+      "date": "30.07.2026",
+      "topic": "Obezitenin tanımı",
+      "owner_text": "Nature Reviews Endocrinology derlemesi; EASO, ACC, AACE ve Lancet Commission belgeleri. Ayrı künyeler eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 6,
+      "date": "29.07.2026",
+      "topic": "İlk kalp krizi öncesindeki riskler",
+      "owner_text": "European Heart Journal. İlk kalp krizi geçiren 4.657.412 hastanın verilerini inceleyen araştırma.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 7,
+      "date": "28.07.2026",
+      "topic": "Magnezyumdan zengin beslenme",
+      "owner_text": "European Journal of Preventive Cardiology — ARIC kohortunda beslenme ve kardiyovasküler sonuçlar.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 8,
+      "date": "28.07.2026",
+      "topic": "Genç hastada stent",
+      "owner_text": "Klinik vaka anlatımı; açıklamada makale künyesi yok.",
+      "status": "skipped_not_article",
+      "note": "İletilen kaynak araştırma makalesi künyesi içermiyor; yeni makale kaydı açılmadı."
+    },
+    {
+      "list_row": 9,
+      "date": "27.07.2026",
+      "topic": "Vagal tonus ve ritmik solunum",
+      "owner_text": "ATRAMI araştırması; Bernardi ve Sleight ekibinin BMJ, 2001 tarihli dua/mantra ve solunum araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 10,
+      "date": "27.07.2026",
+      "topic": "Sağlıklı yaşam süresinin ekonomik değeri",
+      "owner_text": "Sinclair, Scott ve Ellison, Nature Aging. Yaşlanmayı yavaşlatmanın ekonomik değeri.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 11,
+      "date": "26.07.2026",
+      "topic": "Yaşlanma algısı ve fiziksel işlev",
+      "owner_text": "Becca Levy ekibi, Geriatrics. 11.000’den fazla kişinin 12 yıllık takibi. Tam künye eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 12,
+      "date": "26.07.2026",
+      "topic": "Kondisyonun yaşamsal bulgu sayılması",
+      "owner_text": "American Heart Association bilimsel belgesi. Belgenin tam künyesi eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 13,
+      "date": "25.07.2026",
+      "topic": "Potasyumlu tuz ikamesi",
+      "owner_text": "SSaSS — NEJM, 2021; 600 köy, 20.995 katılımcı. SALTTURK araştırmaları da anılıyor.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 14,
+      "date": "24.07.2026",
+      "topic": "Himalaya tuzu",
+      "owner_text": "Ferreira ve Hendel’in Su ve Tuz: Yaşamın Kaynağı kitabı; LGL ve Stiftung Warentest analizleri. Makale künyesi yok.",
+      "status": "skipped_not_article",
+      "note": "İletilen kaynak araştırma makalesi künyesi içermiyor; yeni makale kaydı açılmadı."
+    },
+    {
+      "list_row": 15,
+      "date": "23.07.2026",
+      "topic": "Ürik asit ve damar sağlığı",
+      "owner_text": "Açıklamada ve incelenen görüntü örneğinde makale künyesi görülmemiş.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 16,
+      "date": "22.07.2026",
+      "topic": "Baklagiller ve metabolik sağlık",
+      "owner_text": "Current Developments in Nutrition. NHANES 1999–2018’den 46.939 yetişkinin araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 17,
+      "date": "22.07.2026",
+      "topic": "Balık yağlarında oksidasyon",
+      "owner_text": "Albert ve ark., Scientific Reports, 2015; ayrıca Sema Yüksel’in 2023 Ordu Üniversitesi yüksek lisans tezi.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 18,
+      "date": "21.07.2026",
+      "topic": "Ateroskleroz ve evrimsel uyumsuzluk",
+      "owner_text": "Fernando Botto ve ekibi, Current Problems in Cardiology derlemesi. Tam künye eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 19,
+      "date": "21.07.2026",
+      "topic": "Olumsuz duygular ve damar endoteli",
+      "owner_text": "Shimbo ve ark. Translational Research of the Acute Effects of Negative Emotions on Vascular Endothelial Health: Findings From a Randomized Controlled Study. JAHA, 2024;13:e032698.",
+      "record_ids": [
+        "WOW-0090"
+      ],
+      "status": "recorded"
+    },
+    {
+      "list_row": 20,
+      "date": "20.07.2026",
+      "topic": "Ketojenik diyet ve bağırsak tümörleri",
+      "owner_text": "Dmitrieva-Posocco ve ark. Ketogenic diet suppresses intestinal tumor growth through β-hydroxybutyrate. Nature, 2022. Ayrıca Shay, Chi, Yılmaz ve ark. Ketogenic diet mediates intestinal tumorigenesis through lipids not ketones. Nature, 2026.",
+      "record_ids": [
+        "WOW-0091",
+        "WOW-0092"
+      ],
+      "status": "recorded"
+    },
+    {
+      "list_row": 21,
+      "date": "20.07.2026",
+      "topic": "Glikasyon ürünlerini temizleyen enzim",
+      "owner_text": "Nature Communications. Revel Pharma, Calico ve Colorado Üniversitesi’nin CMLase araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI",
+      "possible_duplicate_of": "WOW-0002",
+      "note": "Mevcut pending-kunye-131-199.json #197 ile aynı olası tekrar; kesin eşleşme iddia edilmedi."
+    },
+    {
+      "list_row": 22,
+      "date": "19.07.2026",
+      "topic": "Genç hissetmek ve fizyolojik etkiler",
+      "owner_text": "Ellen Langer’ın 1979 deneyi ve saç kesimi/boyama, gençlik algısı ve kan basıncına ilişkin 2010 araştırması.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    },
+    {
+      "list_row": 23,
+      "date": "19.07.2026",
+      "topic": "Paketli gıdalar ve egzersiz",
+      "owner_text": "ESC kılavuzlarına genel atıf; belirli yayın adı yok.",
+      "status": "skipped_not_article",
+      "note": "İletilen kaynak araştırma makalesi künyesi içermiyor; yeni makale kaydı açılmadı."
+    },
+    {
+      "list_row": 27,
+      "date": "17.07.2026",
+      "topic": "Mikroplastik maruziyetini azaltmak",
+      "owner_text": "Daiber ve ark. Nano- and microplastics in the cardiovascular exposome: a new frontier in environmental risk. European Heart Journal, 2026. DOI: 10.1093/eurheartj/ehag383.",
+      "record_ids": [
+        "WOW-0093"
+      ],
+      "status": "recorded"
+    },
+    {
+      "list_row": 28,
+      "date": "16.07.2026",
+      "topic": "Banyo lifi ve bakteriler",
+      "owner_text": "Bottone ve ark., J Clin Microbiol, 1994, PMID 8151160; Gao ve ark., 2007, PMID 17660491; Sharquie ve Noaimi, Lifa Disease Clinicopathological Study, 2012, DOI 10.4236/jcdsa.2012.24043. Dördüncü kaynak kesik.",
+      "record_ids": [
+        "WOW-0094"
+      ],
+      "status": "recorded"
+    },
+    {
+      "list_row": 29,
+      "date": "16.07.2026",
+      "topic": "Mikroplastikler ve kalp-damar sistemi",
+      "owner_text": "27. satırdaki Daiber ve ark. yazısı tekrar kullanılıyor. DOI: 10.1093/eurheartj/ehag383.",
+      "status": "duplicate",
+      "record_ids": [
+        "WOW-0093"
+      ],
+      "note": "27. satır ile aynı DOI."
+    },
+    {
+      "list_row": 30,
+      "date": "15.07.2026",
+      "topic": "Ferritin eşikleri ve demir eksikliği",
+      "owner_text": "Jillian Kodger ve ark., The Journal of Applied Laboratory Medicine, Ocak 2026. Tam başlık ve DOI eksik.",
+      "status": "pending",
+      "missing": "Tam makale başlığı veya DOI"
+    }
+  ]
+}

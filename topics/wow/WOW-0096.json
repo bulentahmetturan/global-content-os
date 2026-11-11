@@ -1,0 +1,37 @@
+{
+  "schema": "gcos-wow-example/1",
+  "id": "WOW-0096",
+  "decision_ref": "DEC-R-20261111-026",
+  "introduced_at": "2026-11-12",
+  "state": "ACTIVE",
+  "article": {
+    "doi": null,
+    "title": "Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis",
+    "journal": null,
+    "published_at": null,
+    "verified_by": "Sahibin ilettiği kaynak metni; yayıncıda bağımsız doğrulama yapılmadı. Paylaşım tarihi yayın tarihi olarak kullanılmadı.",
+    "study": "Merdiven çıkma ve kalp sağlığı",
+    "doi_pending": true,
+    "title_pending": false,
+    "publication_type": "conference_abstract"
+  },
+  "owner": {
+    "wow": null,
+    "channels": null,
+    "owner_pending": "Wow puani ve kanallar sahip tarafindan henuz yazilmadi; uydurulmadi.",
+    "selection_reasons": null,
+    "presentation_note": "Anlatim ayri konu."
+  },
+  "placement": {
+    "lane": "Research Rediscovery (90 gunden eskiyse); degilse guncel Research",
+    "source": {
+      "feed_id": null,
+      "action": "Kaynak makaleden dogar (DEC-R-20261111-026): dergi, makale tanitilinca kayit olarak girer"
+    },
+    "topics": []
+  },
+  "source_reference": "Ahmet Ekmekci Kumulatif Liste #1",
+  "topic_note": "Konu sahipten bekliyor; kod atanmadi.",
+  "source_text": "Zuo ve ark. (2023), Atherosclerosis: Daily stair climbing, susceptible genetic predisposition and risk of atherosclerotic cardiovascular disease; Paddock ve ark. (2024): Stair climbing and its protective effects on cardiovascular disease and mortality: a meta-analysis — ESC Preventive Cardiology kongre bildirisi.",
+  "source_share_date": "10.11.2026"
+}
