@@ -50,7 +50,7 @@ test('Evergreen source panel renders names and runtime telemetry even with the s
   }, escapeHtml: (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') };
   vm.runInNewContext(fn('renderSourcePanel') + '\nrenderSourcePanel();', context);
   assert.equal(panel.hidden, false);
-  for (const text of ['Cleveland &lt;Clinic&gt;', 'CANARY_ONLY', '2026-10-02', '2026-10-03', '>12<', '>2<', '>4<', 'DAILY_TARGET_UNDERFILLED', 'ARCHIVE_HTTP_403']) assert.ok(panel.innerHTML.includes(text), text);
+  for (const text of ['Cleveland &lt;Clinic&gt;', 'CANARY_ONLY', '2026-10-02', '2026-10-03', '12 / 2', 'Günlük hedef: 4', 'DAILY_TARGET_UNDERFILLED', 'ARCHIVE_HTTP_403']) assert.ok(panel.innerHTML.includes(text), text);
   context.state.evergreenError = 'STATUS_UNAVAILABLE';
   vm.runInNewContext(fn('renderSourcePanel') + '\nrenderSourcePanel();', context);
   assert.match(panel.textContent, /STATUS_UNAVAILABLE/);
@@ -59,7 +59,7 @@ test('Evergreen source panel renders names and runtime telemetry even with the s
 test('sidebar: Time Sensitive group (5 lanes), Evergreen group (2 views), module group (6: Research Konuları + 5 read-only), Bible outside all', () => {
   assert.deepEqual(plain(hub.NAV_GROUPS.map((g) => g.path)), ['TIME_SENSITIVE', 'EVERGREEN', 'MODULES']);
   const by = (p) => plain(hub.NAV.filter((n) => n.path === p).map((n) => n.navId));
-  assert.deepEqual(by('TIME_SENSITIVE'), ['haber', 'research', 'duyuru', 'burs', 'egitim']);
+  assert.deepEqual(by('TIME_SENSITIVE'), ['haber', 'research', 'duyuru', 'burs', 'feedback', 'egitim']);
   assert.deepEqual(by('EVERGREEN'), ['ev_health', 'ev_research']);
   assert.deepEqual(by('MODULES'), ['m_topics', 'm_dossier', 'm_doctors', 'm_protocols', 'm_discovery', 'm_statistics']);
   assert.ok(hub.NAV.filter((n) => n.path === 'MODULES').every((n) => n.route === 'modules' && n.doc === true), 'modules are read-only doc entries');
@@ -79,7 +79,7 @@ test('sidebar counts come from /api/routes temporal[path][key]; missing data sho
     EVERGREEN: { health_reference: { inbox: 4 }, research_rediscovery: { inbox: 5 } },
   };
   const counts = Object.fromEntries(hub.NAV.map((n) => [n.navId, hub.navTemporalCount(n, temporal)]));
-  assert.deepEqual(counts, { haber: 7, research: 3, duyuru: 0, burs: 2, egitim: 1, ev_health: 4, ev_research: 5, m_topics: null, m_dossier: null, m_doctors: null, m_protocols: null, m_discovery: null, m_statistics: null, bible: null });
+  assert.deepEqual(counts, { haber: 7, research: 3, duyuru: 0, burs: 2, feedback: null, egitim: 1, ev_health: 4, ev_research: 5, m_topics: null, m_dossier: null, m_doctors: null, m_protocols: null, m_discovery: null, m_statistics: null, bible: null });
   for (const n of hub.NAV) assert.equal(hub.navTemporalCount(n, null), null);
   assert.equal(hub.navTemporalCount(hub.NAV[0], { EVERGREEN: {} }), null);
 });

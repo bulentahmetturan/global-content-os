@@ -2,7 +2,7 @@ import { upsertSourceItem, type Env } from '../db/queries';
 import { tagIngestedItem } from '../topics/store';
 import { TOPIC_PLAN } from '../topics/plan.generated';
 import { registerArticleSource } from '../wow/introduce';
-import { queriesForRun, recordHits, markQueryRun } from '../wow/memory';
+import { queriesForRun, recordHits, markQueryRun, scopeQueriesForRun, markScopeRun, decidedSets, normTitleKey, laneOf, WOW_CONFIG } from '../wow/memory';
 import { protectedBibliographicProtocol } from '../protocols/approved-display';
 import { inferStudyType } from './study-type';
 import { hasNoticePubType, isNonArticleNotice } from './research-quality';
@@ -58,40 +58,50 @@ export async function ingestEuropePmc(
     /* defaults */
   }
 
-  // Topic-driven discovery (DEC-R-20261106-024): one search per owner relation, newest first, across every journal Europe PMC
-  // indexes. The query names no journal; it comes from the topic plan (topics/, generated).
-  // Owner-approved relations from the editorial memory run beside the plan relations (DEC-R-20261112-027). Every result keeps
-  // the id of the query that brought it; an owner-relation query that fails is recorded and does not stop the others.
-  type RunQ = { q: string; sort: boolean; queryId: string | null; relationId: string | null; owner: boolean };
+  // Topic-driven discovery (DEC-R-20261106-024): one search per relation, newest first, across every journal Europe PMC indexes.
+  // Beyond that (DEC-R-20261112-028): the same relations again limited to the journals our articles came from (scoped), and the same
+  // relations older than the "son dönem" window ordered by citations (evergreen candidates). Every result keeps the id of the query that
+  // brought it; a failing owner, scoped or evergreen search is recorded and does not stop the others.
+  type RunQ = { q: string; sort: string | null; queryId: string | null; relationId: string | null; owner: boolean; scope: { key: string; kind: 'scoped' | 'evergreen' } | null };
   const ownerQueries = topicMode ? await queriesForRun(env) : [];
-  const queries: RunQ[] = topicMode && (TOPIC_PLAN.discovery.length || ownerQueries.length)
+  const planBase = TOPIC_PLAN.discovery.map((d) => ({ queryId: `plan:${d.id}`, relationId: d.id, query: d.query }));
+  const scopeQueries = topicMode ? await scopeQueriesForRun(env, [...planBase, ...ownerQueries.map((o) => ({ queryId: o.queryId, relationId: o.relationId, query: o.query }))]) : [];
+  const queries: RunQ[] = topicMode && (planBase.length || ownerQueries.length)
     ? [
-        ...TOPIC_PLAN.discovery.map((d) => ({ q: d.query, sort: true, queryId: `plan:${d.id}`, relationId: d.id, owner: false })),
-        ...ownerQueries.map((d) => ({ q: d.query, sort: true, queryId: d.queryId, relationId: d.relationId, owner: true })),
+        ...planBase.map((d) => ({ q: d.query, sort: 'P_PDATE_D desc', queryId: d.queryId, relationId: d.relationId, owner: false, scope: null })),
+        ...ownerQueries.map((d) => ({ q: d.query, sort: 'P_PDATE_D desc', queryId: d.queryId, relationId: d.relationId, owner: true, scope: null })),
+        ...scopeQueries.map((d) => ({ q: d.q, sort: d.kind === 'evergreen' ? 'CITED desc' : 'P_PDATE_D desc', queryId: d.queryId, relationId: d.relationId, owner: false, scope: { key: d.scopeKey, kind: d.kind } })),
       ]
-    : [{ q: query, sort: false, queryId: null, relationId: null, owner: false }];
+    : [{ q: query, sort: null, queryId: null, relationId: null, owner: false, scope: null }];
   const items: EuropePmcResult[] = [];
   const seen = new Set<string>();
   const broughtBy = new Map<EuropePmcResult, Array<{ queryId: string; relationId: string }>>();
   const byKey = new Map<string, EuropePmcResult>();
   const ownerRun = new Map<string, { total: number; created: number; error: string | null }>();
+  const scopeRun = new Map<string, { kind: 'scoped' | 'evergreen'; total: number; created: number; error: string | null }>();
   for (const one of queries) {
     const url = new URL(feed.endpoint_url);
     url.searchParams.set('query', one.q);
     url.searchParams.set('format', 'json');
     url.searchParams.set('pageSize', String(pageSize));
     url.searchParams.set('resultType', 'core');
-    if (one.sort) url.searchParams.set('sort', 'P_PDATE_D desc');
-    const res = await fetch(url.toString(), {
-      headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' },
-    });
+    if (one.sort) url.searchParams.set('sort', one.sort);
+    let res: Response;
+    try {
+      res = await fetch(url.toString(), { headers: { Accept: 'application/json', 'User-Agent': 'global-content-os/0.1' } });
+    } catch (e) {
+      if (one.owner || one.scope) { const msg = String((e as Error)?.message || e).slice(0, 120); if (one.scope) scopeRun.set(one.scope.key, { kind: one.scope.kind, total: 0, created: 0, error: msg }); else if (one.queryId) ownerRun.set(one.queryId, { total: 0, created: 0, error: msg }); continue; }
+      throw e;
+    }
     if (!res.ok) {
+      if (one.scope) { scopeRun.set(one.scope.key, { kind: one.scope.kind, total: 0, created: 0, error: `HTTP ${res.status}` }); continue; }
       if (one.owner && one.queryId) { ownerRun.set(one.queryId, { total: 0, created: 0, error: `HTTP ${res.status}` }); continue; }
       throw new Error(`Europe PMC fetch failed: ${res.status}`);
     }
     const body = (await res.json()) as { resultList?: { result?: EuropePmcResult[] } };
     const results = body.resultList?.result ?? [];
-    if (one.owner && one.queryId) ownerRun.set(one.queryId, { total: results.length, created: 0, error: null });
+    if (one.scope) scopeRun.set(one.scope.key, { kind: one.scope.kind, total: results.length, created: 0, error: null });
+    else if (one.owner && one.queryId) ownerRun.set(one.queryId, { total: results.length, created: 0, error: null });
     for (const r of results) {
       const key = (r.doi || r.pmid || r.pmcid || r.title || '').toLowerCase();
       const first = key ? byKey.get(key) ?? r : r;
@@ -102,12 +112,22 @@ export async function ingestEuropePmc(
     }
   }
 
+  // Seen ledger (DEC-R-20261112-028): a work the owner already decided (scored, answered, authority verdict, or the same finding under another
+  // id such as a preprint and its published version) is not processed again and never returns to the queue. Empty when the memory is absent.
+  const decided = topicMode ? await decidedSets(env) : { keys: new Set<string>(), titles: new Set<string>() };
+  let skippedDecided = 0;
+
   let created = 0;
   let updated = 0;
 
   for (const it of items) {
     const title = (it.title || '').replace(/<[^>]+>/g, '').trim();
     if (!title || isNonArticleNotice(title) || hasNoticePubType(it.pubTypeList?.pubType)) continue;
+    {
+      const k = (it.doi || it.pmid || it.pmcid || '').toLowerCase();
+      const tk = normTitleKey(title);
+      if ((k && decided.keys.has(k)) || (tk && decided.titles.has(tk))) { skippedDecided += 1; continue; }
+    }
 
     const doi = it.doi?.trim() || null;
     const pmid = it.pmid?.trim() || null;
@@ -131,6 +151,8 @@ export async function ingestEuropePmc(
     const publishedAt = it.firstPublicationDate || (it.pubYear ? `${it.pubYear}-01-01` : null);
     const publisher = it.journalTitle || 'Europe PMC';
 
+    // One Research window decides the path: newer = time-sensitive Research, older = Evergreen/Rediscovery candidate (owner decision: 500 days).
+    const evergreen = laneOf(publishedAt) === 'EVERGREEN';
     const result = await upsertSourceItem(env.DB, {
       feedId: feed.id,
       route: 'kaduse-research',
@@ -143,6 +165,7 @@ export async function ingestEuropePmc(
       publisher,
       publishedAt,
       dedupeKey: (doi || pmid || pmcid || canonicalUrl).toLowerCase(),
+      ...(topicMode && evergreen ? { acquisitionPath: 'EVERGREEN' as const, evergreenView: 'research_rediscovery' as const, discoveryMode: 'EVERGREEN_REDISCOVERY' as const, discoveryReason: 'relation_authority_candidate' } : {}),
       evidence: {
         doi,
         pmid,
@@ -159,11 +182,14 @@ export async function ingestEuropePmc(
     const hits = broughtBy.get(it) ?? [];
     if (result.id && hits.length) await recordHits(env, result.id, hits);
     if (result.created) for (const h of hits) { const run = ownerRun.get(h.queryId); if (run) run.created += 1; }
+    if (result.created) for (const sc of scopeRun.values()) if (sc.total > 0 && hits.some((h) => queries.some((q) => q.queryId === h.queryId && q.scope && scopeRun.get(q.scope.key) === sc))) sc.created += 1;
 
     if (result.created) created += 1;
     else updated += 1;
   }
   for (const [queryId, run] of ownerRun) await markQueryRun(env, queryId, run);
+  for (const [scopeKey, run] of scopeRun) await markScopeRun(env, { scopeKey, kind: run.kind }, run);
+  void skippedDecided; void WOW_CONFIG;
 
   await env.DB.prepare(
     `UPDATE source_feeds SET last_fetched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), last_ok_items = ?, last_error = NULL, fetch_attempts = COALESCE(fetch_attempts, 0) + 1 WHERE id IN ('europe-pmc-batch', 'research-europe-pmc-rest')`

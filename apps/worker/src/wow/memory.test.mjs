@@ -13,7 +13,7 @@ const E = await bundle('apps/worker/src/ingress/europe-pmc.ts', 'wow-epmc-mem');
 function openDb(withMemory = true) {
   const sqlite = new DatabaseSync(':memory:');
   for (const file of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) sqlite.exec(readFileSync(`migrations/${file}`, 'utf8'));
-  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', ...(withMemory ? ['a005_wow_memory.sql'] : [])]) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
+  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', ...(withMemory ? ['a005_wow_memory.sql', 'a006_wow_scope.sql'] : [])]) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
   sqlite.prepare(`INSERT OR REPLACE INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled, rules_json) VALUES ('research-europe-pmc-rest', 'Europe PMC', 'kaduse-research', 'kaduse-medikal', 'RESEARCH_REGISTRY', 'https://www.ebi.ac.uk/europepmc/webservices/rest/search', 360, 1, '{"mode":"topics","pageSize":5}')`).run();
   // The seeded legacy batch row would be picked first; the topic-mode carrier is the one under test.
   sqlite.prepare(`UPDATE source_feeds SET enabled = 0 WHERE id = 'europe-pmc-batch'`).run();
@@ -227,4 +227,99 @@ test('most informative first: order=uncertain puts the item the learner is least
   const byInfo = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
   assert.equal(byInfo[0].itemId, items[1], 'uncertain first: the doubtful item teaches most');
   assert.equal(byInfo[0].uncertainty, 0.9);
+});
+
+// ---- DEC-R-20261112-028: journals are scan scope, Evergreen from the same relations, authority from owner answers, seen ledger ----
+async function ingestWith(env, handler) {
+  const realFetch = globalThis.fetch;
+  const asked = [];
+  globalThis.fetch = async (url) => { const u = new URL(String(url)); asked.push({ q: u.searchParams.get('query') || '', sort: u.searchParams.get('sort') }); return new Response(JSON.stringify({ resultList: { result: handler(asked.at(-1)) } }), { status: 200 }); };
+  try { return { run: await E.ingestEuropePmc(env, { force: true }), asked }; } finally { globalThis.fetch = realFetch; }
+}
+const rec = (i, date, title) => ({ title: title || `Sleep regularity and obesity work number ${i} in adults`, doi: `10.2000/x.${i}`, journalTitle: 'Sleep', firstPublicationDate: date, abstractText: 'Sleep regularity was associated with obesity.' });
+
+test('scope: journals of our articles are searched with every relation; older-than-window results come in as Evergreen candidates; each scoped run is remembered', async () => {
+  const { sqlite, env, queryId } = await withCandidates();
+  const { run, asked } = await ingestWith(env, (a) => (/JOURNAL:"Sleep"/.test(a.q) ? [rec(11, '2026-10-05')] : /FIRST_PDATE:\[1900-01-01 TO/.test(a.q) ? [rec(12, '2019-03-01', 'A landmark trial of sleep regularity and obesity in adults')] : []));
+  assert.ok(asked.some((a) => /JOURNAL:"Sleep"/.test(a.q) && a.sort === 'P_PDATE_D desc'), 'scoped search: relation AND journal, newest first');
+  const evq = asked.find((a) => /FIRST_PDATE:\[1900-01-01 TO/.test(a.q));
+  assert.ok(evq && evq.sort === 'CITED desc', 'evergreen search: relation older than the window, most cited first');
+  assert.ok(/TO 2025-0[6-7]-/.test(evq.q), 'cut-off is 500 days before 2026-11-12 region, not 180');
+  assert.equal(run.created >= 2, true, JSON.stringify(run));
+  const ev = sqlite.prepare(`SELECT acquisition_path AS p, discovery_mode AS m FROM source_items WHERE dedupe_key = '10.2000/x.12'`).get();
+  assert.equal(ev.p, 'EVERGREEN');
+  assert.equal(ev.m, 'EVERGREEN_REDISCOVERY');
+  const runs = sqlite.prepare(`SELECT kind, last_total, last_error FROM wow_scope_runs`).all();
+  assert.ok(runs.some((r) => r.kind === 'scoped' && r.last_total === 1 && r.last_error === null));
+  assert.ok(runs.some((r) => r.kind === 'evergreen' && r.last_total === 1));
+  const cands = (await M.wowCandidates(env, new URLSearchParams())).body.items;
+  const eg = cands.find((c) => c.title.startsWith('A landmark'));
+  assert.equal(eg.lane, 'EVERGREEN');
+  assert.ok(eg.why.length > 0 && eg.why[0].relationId, 'the Evergreen result says which relation brought it');
+});
+
+test('window: one 500-day Research window decides the lane', async () => {
+  assert.equal(M.laneOf('2025-08-01', NOW), 'TIME_SENSITIVE');
+  assert.equal(M.laneOf('2025-06-01', NOW), 'EVERGREEN');
+  assert.equal(M.laneOf(null, NOW), null);
+});
+
+test('seen ledger: a decided work, or its other version, never returns; skip returns only after the snooze; a failing scoped search does not stop the rest', async () => {
+  const { sqlite, env } = await withCandidates();
+  const items = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
+  assert.equal(items.length, 4);
+  await M.recordFeedback(env, { itemId: items[0].itemId, kind: 'ordinary', wow: 5 });
+  await M.recordFeedback(env, { itemId: items[1].itemId, kind: 'skip' });
+  const auth = await M.recordAuthority(env, { itemId: items[2].itemId, verdict: 'NOT_AUTHORITY' });
+  assert.equal(auth.status, 201, JSON.stringify(auth.body));
+  let left = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
+  assert.ok(!left.includes(items[0].itemId) && !left.includes(items[2].itemId), 'scored and authority-answered works are gone');
+  assert.ok(left.includes(items[3].itemId));
+  assert.ok(!left.includes(items[1].itemId), 'a fresh skip is snoozed');
+  sqlite.prepare(`UPDATE wow_feedback SET created_at = '2026-01-01T00:00:00.000Z' WHERE item_id = ?`).run(items[1].itemId);
+  left = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
+  assert.ok(left.includes(items[1].itemId), 'skip waits 30 days and then comes back');
+  // A later run returning the decided works (and a preprint copy under a new DOI) does not store them again.
+  const before = sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n;
+  const decidedTitle = items[0].title;
+  const { run } = await ingestWith(env, (a) => (/JOURNAL:"Sleep"/.test(a.q) ? [{ ...rec(99, '2026-10-02', decidedTitle), doi: '10.9999/preprint.copy' }, rec(1, '2026-10-01', decidedTitle)] : []));
+  assert.equal(run.created, 0, 'same finding, other id: skipped by the ledger');
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM source_items`).get().n, before);
+});
+
+test('scope: a failing scoped search is recorded and the other searches still run', async () => {
+  const { sqlite, env } = await withCandidates();
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => { const q = new URL(String(url)).searchParams.get('query') || ''; return /JOURNAL:/.test(q) ? new Response('x', { status: 503 }) : new Response(JSON.stringify({ resultList: { result: [] } }), { status: 200 }); };
+  try { await E.ingestEuropePmc(env, { force: true }); } finally { globalThis.fetch = realFetch; }
+  assert.ok(sqlite.prepare(`SELECT 1 FROM wow_scope_runs WHERE kind = 'scoped' AND last_error = 'HTTP 503'`).get());
+  assert.ok(sqlite.prepare(`SELECT 1 FROM wow_scope_runs WHERE kind = 'evergreen' AND last_error IS NULL`).get());
+});
+
+test('authority: no fixed rule; a rate per study type appears only after 5 owner answers; answers are validated', async () => {
+  const { sqlite, env } = await withCandidates();
+  assert.equal((await M.recordAuthority(env, { itemId: 'nope', verdict: 'AUTHORITY' })).status >= 400, true);
+  assert.equal((await M.recordAuthority(env, { itemId: 'x', verdict: 'MAYBE' })).status, 400);
+  const ids = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
+  sqlite.prepare(`UPDATE evidence_cards SET study_type = 'RCT' WHERE source_item_id IN (${ids.map(() => '?').join(',')})`).run(...ids);
+  for (const id of ids) await M.recordAuthority(env, { itemId: id, verdict: 'AUTHORITY' });
+  let a = (await M.authorityLearned(env));
+  assert.equal(a.answers, 4);
+  assert.equal(a.byStudyType.find((t) => t.key === 'RCT')?.rate ?? null, null, 'four answers: still no rate (Bible §10.4)');
+});
+
+test('one card, every answer: feedback carries the lane (Time Sensitive / Evergreen) and the authority verdict; a bad value is refused; the lane answer overrides the date guess', async () => {
+  const { sqlite, env } = await withCandidates();
+  const items = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
+  assert.equal((await M.recordFeedback(env, { itemId: items[0].itemId, kind: 'wow', wow: 7, lane: 'SOMETIMES' })).status, 400);
+  assert.equal((await M.recordFeedback(env, { itemId: items[0].itemId, kind: 'wow', wow: 7, lane: 'EVERGREEN', authority: 'MAYBE' })).status, 400);
+  const ok = await M.recordFeedback(env, { itemId: items[1].itemId, kind: 'wow', wow: 8, lane: 'EVERGREEN', authority: 'AUTHORITY' });
+  assert.equal(ok.status, 201, JSON.stringify(ok.body));
+  assert.equal(ok.body.lane, 'EVERGREEN');
+  assert.equal(ok.body.authority, 'AUTHORITY');
+  assert.equal(sqlite.prepare(`SELECT lane FROM wow_lane_answers WHERE item_id = ?`).get(items[1].itemId).lane, 'EVERGREEN');
+  assert.equal(sqlite.prepare(`SELECT verdict FROM wow_authority WHERE item_id = ?`).get(items[1].itemId).verdict, 'AUTHORITY');
+  // The decided item leaves the queue; a lane-only answer on a skipped-later item would override the date guess.
+  await M.recordFeedback(env, { itemId: items[2].itemId, kind: 'ordinary', wow: 5, lane: 'EVERGREEN' });
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM wow_lane_answers`).get().n, 2);
 });

@@ -6,7 +6,7 @@
  */
 import { newId, type Env } from '../db/queries';
 import { AUDIENCE_BLOCKED_SOURCES, NEWS_LANE_SOURCES } from '../ingress/lane-map';
-import { normalizeDate, NEWS_MAX_AGE_DAYS } from '../ingress/ingest-gate';
+import { normalizeDate, NEWS_MAX_AGE_DAYS, RESEARCH_JOURNAL_MAX_AGE_DAYS } from '../ingress/ingest-gate';
 import { extractDeadline } from '../ingress/deadline';
 import { POLICY_FEED_IDS, SOURCE_CONTENT_POLICY, sourcePolicyVerdict } from '../ingress/source-policy';
 import type { ReasonCode } from './feedback';
@@ -50,7 +50,7 @@ export const PRIMARY_RESEARCH_URL = /^https?:\/\/(doi\.org|dx\.doi\.org|pubmed\.
  * and appears only in Research Rediscovery, and only if the owner judges it very important ("Rediscovery'ye al"). Importance decides, age only routes.
  * Older items are held (never deleted); those with a DOI/PMID are marked `rediscovery_candidate` so the owner can promote them.
  */
-export const RESEARCH_CURRENT_MAX_AGE_DAYS = 90;
+export const RESEARCH_CURRENT_MAX_AGE_DAYS = RESEARCH_JOURNAL_MAX_AGE_DAYS;
 export const REDISCOVERY_CANDIDATE = 'rediscovery_candidate';
 
 /**
@@ -190,7 +190,7 @@ export async function enforceLanePurity(env: Env, now: Date = new Date()): Promi
          OR (route = 'kaduse-research' AND (canonical_url LIKE '%/projects/gap/cgi-bin/study.cgi%' OR lower(title) LIKE '%information for authors%' OR lower(title) LIKE '%instructions for authors%'
              OR lower(title) LIKE '%table of contents%' OR lower(title) LIKE '%editorial board%' OR lower(title) LIKE '%issue information%'))
          OR (route = 'kaduse-research' AND (canonical_url LIKE 'http%://news.google.com/%' OR canonical_url LIKE 'http%://www.bing.com/%' OR evergreen_view = 'research_rediscovery'
-             OR (published_at GLOB '[0-9][0-9][0-9][0-9]-*' AND substr(published_at, 1, 10) < date('now', '-90 days')))))
+             OR (published_at GLOB '[0-9][0-9][0-9][0-9]-*' AND substr(published_at, 1, 10) < date('now', '-${RESEARCH_CURRENT_MAX_AGE_DAYS} days')))))
      ORDER BY CASE WHEN route = 'tip-ogrencileri' THEN 0 ELSE 1 END, updated_at LIMIT 3000`
   ).all<PurityRow>();
   const rows = results ?? [];

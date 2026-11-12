@@ -14,7 +14,7 @@ function openDb() {
   for (const file of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) sqlite.exec(readFileSync(`migrations/${file}`, 'utf8'));
   const feed = sqlite.prepare('SELECT id FROM source_feeds LIMIT 1').get();
   const add = (id, o) => {
-    const r = { route: 'kaduse-research', url: 'https://doi.org/10.1/' + id, work: null, published_at: '2026-05-01', ...o };
+    const r = { route: 'kaduse-research', url: 'https://doi.org/10.1/' + id, work: null, published_at: '2024-05-01', ...o };
     sqlite.prepare(`INSERT INTO source_items (id, feed_id, route, channel_id, title, title_orig, summary, canonical_url, publisher, triage_status, dedupe_key, source_id, enrichment_status, published_at, canonical_work_id)
       VALUES (?, ?, ?, 'kaduse-medikal', ?, ?, 's', ?, 'p', 'inbox', ?, 'research-bmj', 'skipped', ?, ?)`).run(id, feed.id, r.route, 'T ' + id, 'T ' + id, r.url, 'dk_' + id, r.published_at, r.work);
   };
