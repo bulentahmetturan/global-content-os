@@ -48,7 +48,7 @@ import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
 import { laneSuggestions, moveItemToLane } from './lane-feedback';
-import { PRODUCTION_CHANNELS, isProductionChannel, listAllProduction, listProduction, markChannelDone, productionMap, parseProductionChannels, recordProduction } from './production-lines';
+import { PRODUCTION_CHANNELS, isProductionChannel, listProduction, markChannelDone, productionMap, parseProductionChannels, recordApproval, recordProduction } from './production-lines';
 import { promoteToRediscovery } from './triage/rediscovery';
 import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
@@ -857,10 +857,6 @@ export default {
       }
       if (path === '/api/production' && request.method === 'GET') {
         const channel = url.searchParams.get('channel') || '';
-        if (channel === 'all') {
-          try { return json({ ok: true, channel, items: await listAllProduction(env), counts: (await listProduction(env, 'tt')).counts }); }
-          catch (err) { if (/no such table/i.test(String(err))) return json({ error: 'PRODUCTION_LINES_NOT_READY' }, 503); throw err; }
-        }
         if (!isProductionChannel(channel)) return json({ error: 'INVALID_CHANNEL', validChannels: PRODUCTION_CHANNELS }, 400);
         try { return json({ ok: true, channel, ...(await listProduction(env, channel)) }); }
         catch (err) { if (/no such table/i.test(String(err))) return json({ error: 'PRODUCTION_LINES_NOT_READY' }, 503); throw err; }
@@ -898,6 +894,7 @@ export default {
         // Production lines: promote must name the channel(s); a line's "Üretim bitti" names the line it finishes (the item stays in the other lines).
         const prodChannels = parseProductionChannels(body.channels);
         if (action === 'promote' && prodChannels.length === 0) return json({ error: 'PRODUCTION_CHANNEL_REQUIRED', validChannels: PRODUCTION_CHANNELS }, 400);
+        if (action === 'hold' && body.approved === true && prodChannels.length === 0) return json({ error: 'PRODUCTION_CHANNEL_REQUIRED', validChannels: PRODUCTION_CHANNELS }, 400);
         if (action === 'complete' && isProductionChannel(body.channel)) {
           const remaining = await markChannelDone(env, body.itemId, body.channel).catch(() => 0);
           if (remaining > 0) return json({ ok: true, partial: true, remaining });
@@ -914,7 +911,7 @@ export default {
           );
           if (action === 'promote') await recordProduction(env, body.itemId, prodChannels);
           // Sorular pass (DEC-R-20261112-041): the item is approved and waits in its top-bar area ("hold" state); the link is remembered so it never returns.
-          if (action === 'hold' && body.approved === true) await recordDecidedLink(env.DB, result.item.canonicalUrl);
+          if (action === 'hold' && body.approved === true) { await recordApproval(env, body.itemId, prodChannels); await recordDecidedLink(env.DB, result.item.canonicalUrl); }
           return json({ ok: true, ...result });
         } catch (err) {
           if (err instanceof Error && err.message === 'REJECT_REASON_CODE_REQUIRED') {

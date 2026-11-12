@@ -59,9 +59,9 @@ test('Evergreen source panel renders names and runtime telemetry even with the s
 test('sidebar: Time Sensitive group (5 lanes), Evergreen group (2 views), module group (5 read-only; Research Konuları removed, Sorular is the top-right system tab), Bible outside all', () => {
   assert.deepEqual(plain(hub.NAV_GROUPS.map((g) => g.path)), ['TIME_SENSITIVE', 'EVERGREEN', 'PRODUCTION', 'MODULES']);
   const by = (p) => plain(hub.NAV.filter((n) => n.path === p).map((n) => n.navId));
-  assert.deepEqual(by('TIME_SENSITIVE'), ['haber', 'research', 'duyuru', 'burs', 'feedback', 'egitim']);
+  assert.deepEqual(by('TIME_SENSITIVE'), ['feedback'], 'the top bar has no lane tabs: everything arrives through Sorular (DEC-R-20261112-042)');
   assert.deepEqual(by('EVERGREEN'), ['ev_health', 'ev_research']);
-  assert.deepEqual(by('PRODUCTION'), ['prod_all', 'prod_tt', 'prod_ik', 'prod_km'], 'the "Üretim" top tab (all sent items) plus exactly three production lines: Tıp Topluluğu, İyileşme Kanalı, Kaduse Medikal');
+  assert.deepEqual(by('PRODUCTION'), ['prod_km', 'prod_ik', 'prod_tt'], 'exactly three channel pages: Kaduse Medikal, İyileşme Kanalı, Tıp Topluluğu');
   assert.ok(hub.NAV.filter((n) => n.path === 'PRODUCTION').every((n) => n.route === 'prodline'));
   assert.deepEqual(by('MODULES'), ['m_dossier', 'm_doctors', 'm_protocols', 'm_discovery', 'm_statistics']);
   assert.ok(hub.NAV.filter((n) => n.path === 'MODULES').every((n) => n.route === 'modules' && n.doc === true), 'modules are read-only doc entries');
@@ -81,7 +81,7 @@ test('sidebar counts come from /api/routes temporal[path][key]; missing data sho
     EVERGREEN: { health_reference: { inbox: 4 }, research_rediscovery: { inbox: 5 } },
   };
   const counts = Object.fromEntries(hub.NAV.map((n) => [n.navId, hub.navTemporalCount(n, temporal)]));
-  assert.deepEqual(counts, { haber: 7, research: 3, duyuru: 0, burs: 2, feedback: null, egitim: 1, ev_health: 4, ev_research: 5, prod_all: null, prod_tt: null, prod_ik: null, prod_km: null, m_dossier: null, m_doctors: null, m_protocols: null, m_discovery: null, m_statistics: null, bible: null });
+  assert.deepEqual(counts, { feedback: null, ev_health: 4, ev_research: 5, prod_km: null, prod_ik: null, prod_tt: null, m_dossier: null, m_doctors: null, m_protocols: null, m_discovery: null, m_statistics: null, bible: null });
   for (const n of hub.NAV) assert.equal(hub.navTemporalCount(n, null), null);
   assert.equal(hub.navTemporalCount(hub.NAV[0], { EVERGREEN: {} }), null);
 });
