@@ -36,6 +36,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/wow/extraction': 'HUB_OPERATOR_TOKEN',
   '/api/wow/narrow-topic': 'HUB_OPERATOR_TOKEN',
   '/api/wow/tag': 'HUB_OPERATOR_TOKEN',
+  '/api/wow/explain': 'HUB_OPERATOR_TOKEN',
   '/api/wow/extract': 'HUB_OPERATOR_TOKEN',
   '/api/wow/feedback': 'HUB_OPERATOR_TOKEN',
   '/api/wow/query': 'HUB_OPERATOR_TOKEN',
@@ -56,7 +57,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/lane/suggestions': 'HUB_OPERATOR_TOKEN',
 });
 
-export const AGENT_PATHS = new Set(['/api/wow/introduce', '/api/wow/memory', '/api/wow/extract']);
+export const AGENT_PATHS = new Set(['/api/wow/introduce', '/api/wow/memory', '/api/wow/extract', '/api/wow/explain']);
 const warned = new Set();
 
 /** Headers for a POST to `path` (query string allowed). Missing env token: warns once, the Worker answers 401/503. */

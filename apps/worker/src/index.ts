@@ -1,5 +1,6 @@
 import { introduceWow, introducedWow, wowQuestions } from './wow/introduce';
 import { wowSimilar, wowSources } from './wow/similar';
+import { getExplains, explainBatch } from './wow/explain';
 import { wowMemory, wowCandidates, wowInsight, narrowTopic, addOwnerTag, decideExtraction, extractStored, recordFeedback, decideQuery, recordAuthority } from './wow/memory';
 import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
@@ -631,6 +632,8 @@ export default {
         const r = path === '/api/wow/extraction' ? await decideExtraction(env, raw) : path === '/api/wow/extract' ? await extractStored(env, raw) : path === '/api/wow/feedback' ? await recordFeedback(env, raw) : path === '/api/wow/query' ? await decideQuery(env, raw) : await recordAuthority(env, raw);
         return json(r.body, r.status);
       }
+      if (path === '/api/wow/explain' && request.method === 'GET') { const r = await getExplains(env, (url.searchParams.get('ids') || '').split(',')); return json(r.body, r.status); }
+      if (path === '/api/wow/explain' && request.method === 'POST') { const raw = (await request.json().catch(() => null)) as { ids?: unknown } | null; const r = await explainBatch(env, Array.isArray(raw?.ids) ? (raw!.ids as unknown[]).filter((x): x is string => typeof x === 'string') : undefined); return json(r.body, r.status); }
       if (path === '/api/wow/tag' && request.method === 'POST') { const r = await addOwnerTag(env, await request.json().catch(() => null)); return json(r.body, r.status); }
       if (path === '/api/wow/narrow-topic' && request.method === 'POST') { const r = await narrowTopic(env, await request.json().catch(() => null)); return json(r.body, r.status); }
       if (path === '/api/wow/questions' && request.method === 'GET') { const r = await wowQuestions(env); return json(r.body, r.status); }

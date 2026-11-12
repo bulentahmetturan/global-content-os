@@ -21,7 +21,7 @@ import { RESEARCH_CURRENT_MAX_AGE_DAYS } from '../triage/lane-purity';
 
 export interface MemoryResult { status: number; body: unknown }
 export const EXTRACTOR_VERSION = 'x1';
-const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
+export const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 /** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
 export const WOW_CONFIG = { llmCallsPerDay: 250, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6, journalsPerBatch: 20, scopedPerRun: 6, evergreenPerRun: 4, authorityMinAnswers: 5, skipSnoozeDays: 30 } as const;
 export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
@@ -53,7 +53,7 @@ export function buildQuery(a: string[], b: string[]): string {
   return `${side(a)} AND ${side(b)}`;
 }
 
-function textFromAi(out: unknown): string {
+export function textFromAi(out: unknown): string {
   if (typeof out === 'string') return out;
   const o = out as { response?: unknown; result?: { response?: unknown } } | null;
   const r = o?.response ?? o?.result?.response;

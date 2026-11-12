@@ -723,6 +723,9 @@
   .ntag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 11px; border-radius: 999px; border: 1px solid var(--border, #E0D9C8); background: var(--surface, #FFFEFA); font: 600 .78rem var(--font-ui); }
   .ntag.on { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); }
   .ntag-add { all: unset; cursor: pointer; width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--accent, #0E5C3E); color: #fff; font: 700 .8rem var(--font-ui); }
+  .read-explain { margin: 14px 0 6px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--surface-2, rgba(128,128,128,.10)); border-radius: 0 8px 8px 0; }
+  .read-explain .read-lead { margin: 4px 0 0; font-weight: 600; }
+  .explain.pending, .read-explain .pending { color: var(--text-faint); font-style: italic; font-weight: 400; }
   .ntag-input { all: unset; box-sizing: border-box; min-width: 120px; padding: 3px 10px; border: 1px dashed var(--border); border-radius: 999px; font: 500 .78rem var(--font-ui); color: var(--text); }
   .ntag-input:focus { border-style: solid; border-color: var(--accent); }
   .ntag-add[disabled] { cursor: default; opacity: .75; }
@@ -1285,6 +1288,7 @@
     ratings: {},
     drafts: {},
     ratingsReady: null,
+    explains: {},
     scores: {},
     laneSugg: {},
     loadedKey: '',
@@ -1592,7 +1596,7 @@
           '<p class="card-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</p>' +
           (d.titleOrig && d.titleOrig !== d.title ? '<p class="original-title">Orijinal: ' + escapeHtml(d.titleOrig) + '</p>' : '') +
           (d.note ? '<p class="card-note">' + escapeHtml(d.note) + '</p>' : '') +
-          (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '') +
+          (it.sq || it.wowq ? explainHtml(it, 'gist explain') : (d.gist ? '<p class="gist">' + escapeHtml(d.gist) + '</p>' : '')) +
           '<div class="card-foot"><div class="card-actions">' + actionsHtml(it, true) + '</div>' + cardScoreHtml(it) + '</div>' +
         '</div>' +
       '</div>'
@@ -1641,6 +1645,7 @@
       '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
+      (it.sq || it.wowq ? '<div class="read-explain"><div class="read-label">En önemli nokta</div>' + explainHtml(it, 'read-lead') + '</div>' : '') +
       (it.wowq ? (it.summary ? '<p class="read-lead read-short">' + escapeHtml(it.summary) + '</p>' : '') + wowTagsHtml(it) : lead + '<div class="read-insight" id="readInsight"></div>') +
       '<details class="read-more"><summary>Ayrıntılar</summary><dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl></details>' +
       '<section class="decision"><h3 class="decision-h">Editoryal karar</h3>' +
@@ -1773,6 +1778,7 @@
       state.ratingsReady = true;
       state.sourceFilter = '';
       await loadRatings(state.items).catch(function () { /* optional */ });
+      ensureExplains(state.items);
       refreshProdCounts();
       renderChrome();
       renderList();
@@ -1795,16 +1801,63 @@
     try { research = await loadSqInbox('research'); } catch (e) { research = []; }
     state.items = mapped.concat(research).filter(function (m) { if (seen[m.id]) return false; seen[m.id] = true; return true; });
     loadRatings(research).then(function () { renderList(); }).catch(function () { /* optional */ });
+    ensureExplains(state.items);
     state.counts = state.counts || {};
     state.ratingsReady = true;
     state.sourceFilter = '';
     renderChrome();
     renderList();
   }
+  /** Plain Turkish "most important point" of a card (DEC-R-20261112-044). Hard gate: a card cannot be decided until it exists. */
+  function explainHtml(it, cls) {
+    if (!(it.sq || it.wowq)) return '';
+    var t = state.explains[it.id];
+    return '<p class="' + cls + (t ? '' : ' pending') + '" data-explain="' + escapeHtml(it.id) + '">' + escapeHtml(t || 'Açıklama hazırlanıyor…') + '</p>';
+  }
+  function paintExplains() {
+    var els = document.querySelectorAll('[data-explain]');
+    Array.prototype.forEach.call(els, function (el) {
+      var t = state.explains[el.getAttribute('data-explain')];
+      if (t) { el.textContent = t; el.classList.remove('pending'); }
+    });
+  }
+  function explainReady(it) {
+    if (state.explains[it.id]) return true;
+    showToast('Önce “En önemli nokta” açıklaması hazır olmalı; birkaç saniye bekle');
+    return false;
+  }
+  var explainBusy = false;
+  async function ensureExplains(items) {
+    var ids = (items || []).filter(function (x) { return x.sq || x.wowq; }).map(function (x) { return x.id; });
+    if (!ids.length) return;
+    try {
+      var d = await wowGet('/api/wow/explain?ids=' + encodeURIComponent(ids.slice(0, 300).join(',')));
+      Object.keys(d.explains || {}).forEach(function (k) { state.explains[k] = d.explains[k]; });
+      paintExplains();
+    } catch (e) { return; }
+    if (explainBusy) return;
+    explainBusy = true;
+    try {
+      var stuck = 0;
+      for (var n = 0; n < 60 && stuck < 3; n++) {
+        var miss = ids.filter(function (id) { return !state.explains[id]; });
+        if (!miss.length) break;
+        var cur = state.cursor;
+        if (cur && miss.indexOf(cur) > 0) { miss.splice(miss.indexOf(cur), 1); miss.unshift(cur); }
+        var batch = miss.slice(0, 8);
+        var r = await api('/api/wow/explain', { method: 'POST', body: JSON.stringify({ ids: batch }) });
+        stuck = r && r.generated ? 0 : stuck + 1;
+        var g = await wowGet('/api/wow/explain?ids=' + encodeURIComponent(batch.join(',')));
+        Object.keys(g.explains || {}).forEach(function (k) { state.explains[k] = g.explains[k]; });
+        paintExplains();
+      }
+    } catch (e) { /* explanations are retried on the next load */ } finally { explainBusy = false; }
+  }
   async function sendWowAnswer(it, d, opts) {
+    if (!explainReady(it)) return;
     if (!d.wow) { showToast('Önce 1-10 arası bir wow puanı verin'); return; }
     var x = (state.wowx && state.wowx[it.id]) || {};
-    var sent = String(x.sentence || '').replace(/s+/g, ' ').trim();
+    var sent = String(x.sentence || '').replace(/\s+/g, ' ').trim();
     var body = { itemId: it.id, kind: d.wow >= 6 ? 'wow' : 'ordinary', wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km }, reasons: x.reasons || [], sentence: sent };
     if (sent && sent.length <= 80) body.newReason = sent;
     var res = await api('/api/wow/feedback', { method: 'POST', body: JSON.stringify(body) });
@@ -1993,6 +2046,7 @@
   }
   /** Sorular decision (DEC-R-20261112-038): 6+ = pass, goes to the marked channels' lines and to its own top-bar area; 5 or less = fail, leaves. */
   async function sendSqDecision(it, d) {
+    if (!explainReady(it)) return;
     if (!d.wow) { showToast('Önce 1-10 arası bir puan verin'); return; }
     var ch = ['tt', 'ik', 'km'].filter(function (c) { return !!d[c]; });
     if (d.wow >= 6 && !ch.length) { showToast('Pass için en az bir kanal işaretle: Tıp Topluluğu, İyileşme Kanalı veya Kaduse Medikal'); return; }
