@@ -53,11 +53,15 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/lane/suggestions': 'HUB_OPERATOR_TOKEN',
 });
 
+export const AGENT_PATHS = new Set(['/api/wow/introduce', '/api/wow/memory', '/api/wow/extract']);
 const warned = new Set();
 
 /** Headers for a POST to `path` (query string allowed). Missing env token: warns once, the Worker answers 401/503. */
 export function hubAuthHeaders(path, env = process.env) {
-  const secret = SECRET_BY_PATH[String(path).split('?')[0]];
+  const p = String(path).split('?')[0];
+  // The agent key, when present, is used on the three routes that accept it (route-auth.ts HUB_OR_AGENT).
+  if (AGENT_PATHS.has(p) && (env.AGENT_WOW_TOKEN || '').trim()) return { Authorization: `Bearer ${env.AGENT_WOW_TOKEN.trim()}` };
+  const secret = SECRET_BY_PATH[p];
   if (!secret) return {};
   const token = (env[secret] || '').trim();
   if (!token) {

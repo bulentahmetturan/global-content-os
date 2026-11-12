@@ -169,7 +169,7 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
   }
   const articleSource = await registerArticleSource(env, meta.journal).catch(() => null);
   // Editorial memory (DEC-R-20261112-027): what the system reads out of the article waits as a proposal for the owner.
-  const extraction = await extractArticle(env, { itemId: stored.id, title: meta.title, abstract: meta.abstract || null });
+  const extraction = await extractArticle(env, { itemId: stored.id, title: meta.title, abstract: meta.abstract || null, ownerArticle: true });
   let scoring: unknown = null;
   if (x.wow !== null) {
     const note = `[WOW] ${x.reasons}`.slice(0, 500);

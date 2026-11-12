@@ -37,6 +37,8 @@ export interface Env {
   STATUS_CALLBACK_TOKEN?: string;
   /** Bearer the Hub operator presents on POST /api/triage; unset = triage disabled (503). */
   HUB_OPERATOR_TOKEN?: string;
+  /** Narrow agent key: only article introduction, reading (extraction) and the memory read (DEC-R-20261112-029); everything else needs the Hub token. */
+  AGENT_WOW_TOKEN?: string;
   TIP_RADAR_INGEST_TOKEN?: string;
   /** Bearer for the operator surface (/api/ops/summary, /api/handoff/resend); unset = those endpoints answer 503. */
   OPS_TOKEN?: string;
