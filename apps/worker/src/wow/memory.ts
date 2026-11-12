@@ -688,7 +688,7 @@ export async function labelBatch(env: Env): Promise<MemoryResult> {
  * also gives English search terms, kept only when they appear in the article text. Run again until "remaining" is 0.
  */
 /** Tags are re-made whenever this version is higher than the stored one (DEC-R-20261112-043: specific tags, not categories). */
-export const TAGS_VERSION = 2;
+export const TAGS_VERSION = 3;
 /** Category words that say nothing about the article: never kept as a tag. */
 const BROAD_TAGS = new Set(['gıda', 'hastalık', 'yaş', 'sağlık', 'beslenme', 'tedavi', 'araştırma', 'çalışma', 'tıp', 'ilaç', 'hasta', 'insan', 'risk', 'kanser', 'diyabet', 'yaşam', 'bilim', 'sonuç', 'etki', 'genel sağlık', 'halk sağlığı']);
 const isBroadTag = (t: string) => BROAD_TAGS.has(t.toLocaleLowerCase('tr-TR'));
@@ -704,7 +704,7 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
     if (!rows.length) return { status: 200, body: { ok: true, tagged: 0, remaining: 0 } };
     const list = rows.map((r, i) => ({ i, title: r.title, abstract: r.abstract }));
     const system = `You tag medical research articles. For each input item answer with JSON only: [{"i":0,"topics":["..."],"relations":[["...","..."]],"a_en":["..."],"b_en":["..."]}].
-"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Be specific, name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker kısıtlaması", "Erken çocukluk beslenmesi", "Tip 2 diyabet riski", "Hipertansiyon"). NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Use only subjects the article is really about; do not pad and do not reuse a subject from another item.
+"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Never broad: name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker tüketimi", "Çocukluk beslenmesi", "Tip 2 diyabet", "Hipertansiyon"). Where the article truly fits, prefer the wording of subjects that a wide public already searches for and follows (popular, current, everyday topics such as şeker, uyku, stres, kilo verme, bağırsak sağlığı, D vitamini, kalp sağlığı, yapay zekâ ve sağlık) over rare academic terms, because the tags choose the topics that bring followers to the channels. Never invent a popular topic the article does not cover. NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Do not pad and do not reuse a subject from another item.
 "relations": pairs of names taken from "topics" that the article shows a link between (empty list when it is about one subject only).
 "a_en"/"b_en": 1-2 short English search terms for the FIRST relation's two sides, using only words from the title or abstract (empty lists when there is no relation).`;
     const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1400 }));
