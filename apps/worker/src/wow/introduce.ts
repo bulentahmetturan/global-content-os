@@ -236,7 +236,7 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
     catch (e) { if (!/no such (table: wow_provenance|column)/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
     // Topics and topic relations (insight, DEC-R-20261112-032): what the system extracted for each article; optional, never blocks the list.
     try {
-      const exSql = (labels: boolean) => `SELECT ${labels ? 'e.label_a AS labelA, e.label_b AS labelB, ' : ''}e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, e.relation_id AS relationId, r.name AS relationName
+      const exSql = (labels: boolean) => `SELECT ${labels ? 'e.label_a AS labelA, e.label_b AS labelB, e.tags_json AS tagsJson, ' : ''}e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, e.relation_id AS relationId, r.name AS relationName
           FROM wow_extractions e JOIN source_items s ON s.id = e.item_id LEFT JOIN wow_relations r ON r.relation_id = e.relation_id
          WHERE s.discovery_reason = ? AND e.extractor_version = ?`;
       let ex: Record<string, unknown>[];
@@ -256,12 +256,23 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
         return { key: 'term:' + terms[0], name: typeof label === 'string' && label ? label : terms[0] };
       };
       const tagsOf = (e: Record<string, unknown>) => {
+        // DEC-R-20261112-039: the article's own tags (as many as it has) come first; the older side labels are the fallback.
+        try {
+          const tj = JSON.parse(String(e.tagsJson ?? 'null')) as { topics?: string[]; relations?: string[][] } | null;
+          if (tj && Array.isArray(tj.topics) && tj.topics.length) {
+            const rel = (tj.relations ?? []).filter((p) => p.length === 2);
+            return {
+              tags: tj.topics.map((n) => ({ key: 'tag:' + n.toLocaleLowerCase('tr-TR'), name: n, narrowed: marked.has('tag:' + n.toLocaleLowerCase('tr-TR')) })),
+              relationTags: rel.map((p, i) => ({ name: p[0] + ' ile ' + p[1].charAt(0).toLocaleLowerCase('tr-TR') + p[1].slice(1) + ' ilişkisi', open: i === 0 && !!e.relationId, canOpen: i === 0 && parse(e.side_a).length > 0 && parse(e.side_b).length > 0 })),
+            };
+          }
+        } catch { /* fall back */ }
         const a = sideTag(parse(e.side_a), e.labelA), b = sideTag(parse(e.side_b), e.labelB);
         const singles: Array<{ key: string; name: string }> = [];
         for (const t of [a, b, ...parse(e.topic_ids).map((id) => ({ key: id, name: topicName.get(id) || id }))]) if (t && !singles.some((x) => x.key === t.key || x.name.toLocaleLowerCase('tr-TR') === t.name.toLocaleLowerCase('tr-TR'))) singles.push(t);
         return {
           tags: singles.map((t) => ({ ...t, narrowed: marked.has(t.key) })),
-          relationTag: a && b && a.key !== b.key ? { name: a.name + ' ile ' + b.name.charAt(0).toLocaleLowerCase('tr-TR') + b.name.slice(1) + ' ilişkisi', open: !!e.relationId } : null,
+          relationTags: a && b && a.key !== b.key ? [{ name: a.name + ' ile ' + b.name.charAt(0).toLocaleLowerCase('tr-TR') + b.name.slice(1) + ' ilişkisi', open: !!e.relationId, canOpen: true }] : [],
         };
       };
       rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, ...tagsOf(e), topicTags: parse(e.topic_ids).map((id) => ({ id, name: topicName.get(id) || id, narrowed: marked.has(id) })), relationOpen: !!e.relationId, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
