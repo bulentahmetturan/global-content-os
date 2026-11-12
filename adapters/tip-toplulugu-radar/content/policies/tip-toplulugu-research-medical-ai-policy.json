@@ -70,37 +70,10 @@
     "referenced_source_ids": [
       "pubmed-eutilities",
       "europe-pmc-rest",
-      "crossref-rest-api",
-      "crossmark",
-      "crossref-retraction-watch-data",
-      "pubmed-central-oa",
       "cochrane-library",
-      "clinicaltrials-gov-api-v2",
-      "jama-network",
-      "nejm",
-      "the-lancet",
-      "lancet-digital-health",
-      "bmj",
-      "nature-medicine",
-      "npj-digital-medicine",
-      "circulation-aha",
-      "jaha",
-      "jacc",
-      "european-heart-journal",
-      "chest-journal",
-      "european-respiratory-journal",
-      "ieee-jbhi",
-      "ieee-tbme",
-      "jmir",
-      "science-translational-medicine",
-      "cell",
-      "nature-biotechnology",
-      "nejm-ai",
-      "nature-genetics",
-      "nature",
-      "science"
+      "clinicaltrials-gov-api-v2"
     ],
-    "notes": "IDs verified against packages/source-catalog research source-registry.ts. Consumer/science-media and attention metrics excluded from this PRIMARY_SCIENTIFIC bundle."
+    "notes": "IDs verified against packages/source-catalog research source-registry.ts. Since DEC-R-20261111-026 the Research registry holds only the search and Evergreen carriers (journal, media and metric sources were deleted); journals enter as record-only article sources. Consumer/science-media and attention metrics excluded from this PRIMARY_SCIENTIFIC bundle."
   },
   "sources": [
     {

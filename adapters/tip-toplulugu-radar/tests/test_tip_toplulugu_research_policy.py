@@ -25,7 +25,9 @@ class ResearchPolicyTests(unittest.TestCase):
         ok, msg = verify_kaduse_bundle_references(self.policy)
         self.assertTrue(ok, msg)
         refs = self.policy["kaduse_research_evidence_bundle"]["referenced_source_ids"]
-        self.assertIn("nejm", refs)
+        # DEC-R-20261111-026: only the search/Evergreen carriers remain in the Research registry.
+        self.assertEqual(sorted(refs), ["clinicaltrials-gov-api-v2", "cochrane-library", "europe-pmc-rest", "pubmed-eutilities"])
+        self.assertNotIn("nejm", refs)
         self.assertNotIn("stat-news", refs)
         self.assertNotIn("medrxiv-preprint", refs)
         # Bundle is reference_only — no copied publisher rows in Tıp Topluluğu sources list
