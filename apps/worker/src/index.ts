@@ -47,6 +47,7 @@ import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
 import { laneSuggestions, moveItemToLane } from './lane-feedback';
+import { PRODUCTION_CHANNELS, isProductionChannel, listProduction, markChannelDone, parseProductionChannels, recordProduction } from './production-lines';
 import { promoteToRediscovery } from './triage/rediscovery';
 import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
@@ -846,6 +847,13 @@ export default {
         });
       }
 
+      // Production lines (DEC-R-20261112-031): one list per channel; an item marked for two channels is in both. Read-only, like /api/items.
+      if (path === '/api/production' && request.method === 'GET') {
+        const channel = url.searchParams.get('channel') || '';
+        if (!isProductionChannel(channel)) return json({ error: 'INVALID_CHANNEL', validChannels: PRODUCTION_CHANNELS }, 400);
+        try { return json({ ok: true, channel, ...(await listProduction(env, channel)) }); }
+        catch (err) { if (/no such table/i.test(String(err))) return json({ error: 'PRODUCTION_LINES_NOT_READY' }, 503); throw err; }
+      }
       if (path === '/api/triage' && request.method === 'POST') {
         // Promote creates a CCOS production job once handoff is live; reject writes editorial feedback.
         const opAuth = authorizeToken(env.HUB_OPERATOR_TOKEN, bearerToken(request.headers.get('Authorization')), 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED');
@@ -857,6 +865,8 @@ export default {
           action?: string;
           reasonCode?: string;
           reasonNote?: string;
+          channels?: unknown;
+          channel?: unknown;
         };
         const action = body.action as TriageAction;
         if (!body.itemId || !['promote', 'hold', 'delete', 'undo', 'complete'].includes(action)) {
@@ -873,6 +883,13 @@ export default {
             );
           }
         }
+        // Production lines: promote must name the channel(s); a line's "Üretim bitti" names the line it finishes (the item stays in the other lines).
+        const prodChannels = parseProductionChannels(body.channels);
+        if (action === 'promote' && prodChannels.length === 0) return json({ error: 'PRODUCTION_CHANNEL_REQUIRED', validChannels: PRODUCTION_CHANNELS }, 400);
+        if (action === 'complete' && isProductionChannel(body.channel)) {
+          const remaining = await markChannelDone(env, body.itemId, body.channel).catch(() => 0);
+          if (remaining > 0) return json({ ok: true, partial: true, remaining });
+        }
         try {
           const result = await applyTriage(
             env,
@@ -883,6 +900,7 @@ export default {
               ? { reasonCode: body.reasonCode as ReasonCode, reasonNote: body.reasonNote ?? null }
               : undefined
           );
+          if (action === 'promote') await recordProduction(env, body.itemId, prodChannels);
           return json({ ok: true, ...result });
         } catch (err) {
           if (err instanceof Error && err.message === 'REJECT_REASON_CODE_REQUIRED') {
