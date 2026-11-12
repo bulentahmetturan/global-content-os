@@ -76,8 +76,13 @@ test('actions per status: inbox has promote/hold/delete, hold has promote/delete
   const badges = ctx.actionsHtml(item({ id: 'i1', triageStatus: 'production' }));
   assert.match(badges, /Tıp Topluluğu: üretim bekliyor/);
   assert.match(badges, /İyileşme Kanalı: üretildi/);
+  // DEC-R-20261112-042: a channel page shows "Üretime gönder" under a lane heading and "Üretim bitti" only under its Üretim heading.
   ctx.state.route = 'prodline';
+  ctx.state.prodCh = 'km';
+  ctx.state.plLane = 'uretim';
   assert.deepEqual(names('production'), ['complete']);
+  ctx.state.plLane = 'haber';
+  assert.deepEqual(names('hold'), ['promote']);
   ctx.state.route = 'kaduse';
   assert.deepEqual(names('trash'), ['undo']);
   // Sorular: an incoming item is decided by its score; the card offers only "Şimdilik geç" and the lane correction.

@@ -25,27 +25,24 @@ export async function recordProduction(env: Env, itemId: string, channels: Produ
   }
 }
 
+/** Sorular pass (DEC-R-20261112-042): the item waits in each marked channel's page, under its lane heading, until "Üretime gönder". */
+export async function recordApproval(env: Env, itemId: string, channels: ProductionChannel[]): Promise<void> {
+  for (const c of channels) {
+    await env.DB.prepare(`INSERT INTO item_channel_approval (item_id, channel) VALUES (?, ?) ON CONFLICT(item_id, channel) DO NOTHING`).bind(itemId, c).run();
+  }
+}
+
 /** Marks one line done; returns how many other lines still hold the item (0 = the item is finished everywhere). */
 export async function markChannelDone(env: Env, itemId: string, channel: ProductionChannel): Promise<number> {
   await env.DB.prepare(`UPDATE item_production SET status = 'done', done_at = datetime('now') WHERE item_id = ? AND channel = ? AND status = 'production'`).bind(itemId, channel).run();
   const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM item_production WHERE item_id = ? AND status = 'production'`).bind(itemId).first<{ n: number }>();
-  return Number(left?.n ?? 0);
+  const waiting = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM item_channel_approval a WHERE a.item_id = ? AND NOT EXISTS (SELECT 1 FROM item_production p WHERE p.item_id = a.item_id AND p.channel = a.channel)`,
+  ).bind(itemId).first<{ n: number }>().catch(() => ({ n: 0 }));
+  return Number(left?.n ?? 0) + Number(waiting?.n ?? 0);
 }
 
-/** "Üretim" top-bar tab (DEC-R-20261112-041): every item sent to production, once, whichever channel(s) it was marked for. */
-export async function listAllProduction(env: Env): Promise<ReturnType<typeof rowToView>[]> {
-  const { results } = await env.DB.prepare(
-    `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
-       FROM source_items i
-       LEFT JOIN evidence_cards e ON e.source_item_id = i.id
-      WHERE i.triage_status = 'production'
-        AND EXISTS (SELECT 1 FROM item_production p WHERE p.item_id = i.id AND p.status = 'production')
-      ORDER BY (SELECT MAX(p.promoted_at) FROM item_production p WHERE p.item_id = i.id) DESC LIMIT 400`,
-  ).all<SourceItemRow>();
-  return (results ?? []).map(rowToView);
-}
-
-export async function listProduction(env: Env, channel: ProductionChannel): Promise<{ items: ReturnType<typeof rowToView>[]; counts: Record<ProductionChannel, number> & { all: number } }> {
+export async function listProduction(env: Env, channel: ProductionChannel): Promise<{ items: ReturnType<typeof rowToView>[]; approved: ReturnType<typeof rowToView>[]; counts: Record<ProductionChannel, number>; approvedCounts: Record<ProductionChannel, number> }> {
   const { results } = await env.DB.prepare(
     `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
        FROM item_production p
@@ -60,11 +57,21 @@ export async function listProduction(env: Env, channel: ProductionChannel): Prom
       WHERE p.status = 'production' AND i.triage_status = 'production' GROUP BY p.channel`,
   ).all<{ channel: ProductionChannel; n: number }>();
   for (const r of c.results ?? []) if (isProductionChannel(r.channel)) counts[r.channel] = Number(r.n);
-  const all = await env.DB.prepare(
-    `SELECT COUNT(DISTINCT p.item_id) AS n FROM item_production p JOIN source_items i ON i.id = p.item_id WHERE p.status = 'production' AND i.triage_status = 'production'`,
-  ).first<{ n: number }>();
-  counts.all = Number(all?.n ?? 0);
-  return { items: (results ?? []).map(rowToView), counts };
+  const approvedCounts = { tt: 0, ik: 0, km: 0 } as Record<ProductionChannel, number>;
+  let approved: ReturnType<typeof rowToView>[] = [];
+  try {
+    const waitSql = `FROM item_channel_approval a JOIN source_items i ON i.id = a.item_id
+      WHERE i.triage_status IN ('hold', 'production') AND NOT EXISTS (SELECT 1 FROM item_production p WHERE p.item_id = a.item_id AND p.channel = a.channel)`;
+    const rows = await env.DB.prepare(
+      `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type ${waitSql.replace('JOIN source_items i ON i.id = a.item_id', 'JOIN source_items i ON i.id = a.item_id LEFT JOIN evidence_cards e ON e.source_item_id = i.id')} AND a.channel = ? ORDER BY a.approved_at DESC LIMIT 400`,
+    ).bind(channel).all<SourceItemRow>();
+    approved = (rows.results ?? []).map(rowToView);
+    const cc = await env.DB.prepare(`SELECT a.channel AS channel, COUNT(*) AS n ${waitSql} GROUP BY a.channel`).all<{ channel: ProductionChannel; n: number }>();
+    for (const r of cc.results ?? []) if (isProductionChannel(r.channel)) approvedCounts[r.channel] = Number(r.n);
+  } catch (e) {
+    if (!/no such table/i.test(String(e))) throw e; // a013 not applied yet: no approved list
+  }
+  return { items: (results ?? []).map(rowToView), approved, counts, approvedCounts };
 }
 
 /** Every open or finished production line, per item: { itemId: { tt: 'production' | 'done', ... } }. The top-bar lists show it as a reminder
