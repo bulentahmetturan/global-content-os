@@ -21,11 +21,11 @@ export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
 const DOI_RE = /10\.\d{4,9}\/[^\s?#"<>]+/i;
 
-export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; wowId: string | null; sourceReference: string | null; publishedAt: string | null; wow: number | null; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
+export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; wowId: string | null; sourceReference: string | null; sourceNote: string | null; publishedAt: string | null; wow: number | null; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
 export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok: false; error: string } {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { ok: false, error: 'INVALID_BODY' };
   const b = raw as Record<string, unknown>;
-  for (const k of Object.keys(b)) if (!['doi', 'url', 'title', 'journal', 'publishedAt', 'wow', 'channels', 'reasons', 'reactivateSource', 'wowId', 'sourceReference'].includes(k)) return { ok: false, error: 'INVALID_BODY' };
+  for (const k of Object.keys(b)) if (!['doi', 'url', 'title', 'journal', 'publishedAt', 'wow', 'channels', 'reasons', 'reactivateSource', 'wowId', 'sourceReference', 'sourceNote'].includes(k)) return { ok: false, error: 'INVALID_BODY' };
   const src = `${typeof b.doi === 'string' ? b.doi : ''} ${typeof b.url === 'string' ? b.url : ''}`;
   let m: RegExpExecArray | null = null;
   try { m = DOI_RE.exec(decodeURIComponent(src)); } catch { m = DOI_RE.exec(src); }
@@ -40,6 +40,7 @@ export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok:
   const wowId = str('wowId', 12) || null;
   if (wowId && !/^WOW-\d{1,6}$/.test(wowId)) return { ok: false, error: 'INVALID_WOW_ID' };
   const sourceReference = str('sourceReference', 160) || null;
+  const sourceNote = str('sourceNote', 900) || null;
   if (publishedAt && !/^\d{4}-\d{2}-\d{2}$/.test(publishedAt)) return { ok: false, error: 'INVALID_PUBLISHED_AT' };
   if (!doi && !(title && journal)) return { ok: false, error: 'DOI_OR_TITLE_AND_JOURNAL_REQUIRED' };
   // The score may come later (DEC-R-20261111-026): the owner introduces first, the system asks "wow kaç ve neden" afterwards.
@@ -49,7 +50,7 @@ export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok:
   if (!c || typeof c !== 'object' || Array.isArray(c) || Object.keys(c).some((k) => !['tt', 'ik', 'km'].includes(k) || typeof c[k] !== 'boolean')) return { ok: false, error: 'INVALID_CHANNELS' };
   const reasons = typeof b.reasons === 'string' ? b.reasons.trim() : '';
   if (reasons.length > 480) return { ok: false, error: 'INVALID_REASONS' };
-  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: unrated ? null : (b.wow as number), channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, wowId, sourceReference, reactivateSource: b.reactivateSource === true } };
+  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: unrated ? null : (b.wow as number), channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, wowId, sourceReference, sourceNote, reactivateSource: b.reactivateSource === true } };
 }
 
 export interface ArticleMeta { doi: string; title: string; journal: string; publishedAt: string | null; abstract: string; landingUrl: string | null }
@@ -171,10 +172,11 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
     await env.DB.prepare(`UPDATE source_items SET discovery_reason = ? WHERE id = ? AND (discovery_reason IS NULL OR discovery_reason = '')`).bind(WOW_DISCOVERY_REASON, stored.id).run();
     await tagIngestedItem(env, { itemId: stored.id, route: 'kaduse-research', feedId: feed.id, title: meta.title, abstract: meta.abstract || null });
   }
-  if (x.wowId || x.sourceReference) {
-    await env.DB.prepare(`INSERT INTO wow_provenance (item_id, wow_id, source_reference) VALUES (?, ?, ?)
-      ON CONFLICT(item_id) DO UPDATE SET wow_id = COALESCE(excluded.wow_id, wow_provenance.wow_id), source_reference = COALESCE(excluded.source_reference, wow_provenance.source_reference), updated_at = datetime('now')`)
-      .bind(stored.id, x.wowId, x.sourceReference).run().catch(() => null);
+  if (x.wowId || x.sourceReference || x.sourceNote) {
+    const upsert = (withNote: boolean) => env.DB.prepare(`INSERT INTO wow_provenance (item_id, wow_id, source_reference${withNote ? ', source_note' : ''}) VALUES (?, ?, ?${withNote ? ', ?' : ''})
+      ON CONFLICT(item_id) DO UPDATE SET wow_id = COALESCE(excluded.wow_id, wow_provenance.wow_id), source_reference = COALESCE(excluded.source_reference, wow_provenance.source_reference)${withNote ? ', source_note = COALESCE(excluded.source_note, wow_provenance.source_note)' : ''}, updated_at = datetime('now')`)
+      .bind(...(withNote ? [stored.id, x.wowId, x.sourceReference, x.sourceNote] : [stored.id, x.wowId, x.sourceReference])).run();
+    await upsert(true).catch(() => upsert(false)).catch(() => null);
   }
   const articleSource = await registerArticleSource(env, meta.journal).catch(() => null);
   // Editorial memory (DEC-R-20261112-027): what the system reads out of the article waits as a proposal for the owner.
