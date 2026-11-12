@@ -21,11 +21,11 @@ export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
 const DOI_RE = /10\.\d{4,9}\/[^\s?#"<>]+/i;
 
-export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; publishedAt: string | null; wow: number | null; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
+export interface WowInput { doi: string | null; title: string | null; journal: string | null; url: string | null; wowId: string | null; sourceReference: string | null; publishedAt: string | null; wow: number | null; channels: { tt: boolean; ik: boolean; km: boolean }; reasons: string; reactivateSource: boolean }
 export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok: false; error: string } {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { ok: false, error: 'INVALID_BODY' };
   const b = raw as Record<string, unknown>;
-  for (const k of Object.keys(b)) if (!['doi', 'url', 'title', 'journal', 'publishedAt', 'wow', 'channels', 'reasons', 'reactivateSource'].includes(k)) return { ok: false, error: 'INVALID_BODY' };
+  for (const k of Object.keys(b)) if (!['doi', 'url', 'title', 'journal', 'publishedAt', 'wow', 'channels', 'reasons', 'reactivateSource', 'wowId', 'sourceReference'].includes(k)) return { ok: false, error: 'INVALID_BODY' };
   const src = `${typeof b.doi === 'string' ? b.doi : ''} ${typeof b.url === 'string' ? b.url : ''}`;
   let m: RegExpExecArray | null = null;
   try { m = DOI_RE.exec(decodeURIComponent(src)); } catch { m = DOI_RE.exec(src); }
@@ -36,6 +36,10 @@ export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok:
   const journal = str('journal', 160) || null;
   const url = str('url', 500) || null;
   const publishedAt = str('publishedAt', 10) || null;
+  // Provenance shown on the Sorular card (DEC-R-20261112-030): the owner's record number and where the article came from (a doctor's list, the owner's own list).
+  const wowId = str('wowId', 12) || null;
+  if (wowId && !/^WOW-\d{1,6}$/.test(wowId)) return { ok: false, error: 'INVALID_WOW_ID' };
+  const sourceReference = str('sourceReference', 160) || null;
   if (publishedAt && !/^\d{4}-\d{2}-\d{2}$/.test(publishedAt)) return { ok: false, error: 'INVALID_PUBLISHED_AT' };
   if (!doi && !(title && journal)) return { ok: false, error: 'DOI_OR_TITLE_AND_JOURNAL_REQUIRED' };
   // The score may come later (DEC-R-20261111-026): the owner introduces first, the system asks "wow kaç ve neden" afterwards.
@@ -45,7 +49,7 @@ export function validateWow(raw: unknown): { ok: true; value: WowInput } | { ok:
   if (!c || typeof c !== 'object' || Array.isArray(c) || Object.keys(c).some((k) => !['tt', 'ik', 'km'].includes(k) || typeof c[k] !== 'boolean')) return { ok: false, error: 'INVALID_CHANNELS' };
   const reasons = typeof b.reasons === 'string' ? b.reasons.trim() : '';
   if (reasons.length > 480) return { ok: false, error: 'INVALID_REASONS' };
-  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: unrated ? null : (b.wow as number), channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, reactivateSource: b.reactivateSource === true } };
+  return { ok: true, value: { doi, title, journal, url, publishedAt, wow: unrated ? null : (b.wow as number), channels: { tt: c.tt === true, ik: c.ik === true, km: c.km === true }, reasons, wowId, sourceReference, reactivateSource: b.reactivateSource === true } };
 }
 
 export interface ArticleMeta { doi: string; title: string; journal: string; publishedAt: string | null; abstract: string; landingUrl: string | null }
@@ -167,6 +171,11 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
     await env.DB.prepare(`UPDATE source_items SET discovery_reason = ? WHERE id = ? AND (discovery_reason IS NULL OR discovery_reason = '')`).bind(WOW_DISCOVERY_REASON, stored.id).run();
     await tagIngestedItem(env, { itemId: stored.id, route: 'kaduse-research', feedId: feed.id, title: meta.title, abstract: meta.abstract || null });
   }
+  if (x.wowId || x.sourceReference) {
+    await env.DB.prepare(`INSERT INTO wow_provenance (item_id, wow_id, source_reference) VALUES (?, ?, ?)
+      ON CONFLICT(item_id) DO UPDATE SET wow_id = COALESCE(excluded.wow_id, wow_provenance.wow_id), source_reference = COALESCE(excluded.source_reference, wow_provenance.source_reference), updated_at = datetime('now')`)
+      .bind(stored.id, x.wowId, x.sourceReference).run().catch(() => null);
+  }
   const articleSource = await registerArticleSource(env, meta.journal).catch(() => null);
   // Editorial memory (DEC-R-20261112-027): what the system reads out of the article waits as a proposal for the owner.
   const extraction = await extractArticle(env, { itemId: stored.id, title: meta.title, abstract: meta.abstract || null, ownerArticle: true });
@@ -208,17 +217,18 @@ export async function introducedWow(env: Env): Promise<WowResult> {
  * Route (Hub operator token, ROUTE_GATES): GET /api/wow/questions.
  */
 export async function wowQuestions(env: Env): Promise<WowResult> {
-  try {
-    const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
-    const rows = (await env.DB.prepare(
-      `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
-              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm
+  const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
+  const sql = (prov: boolean) => `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
+              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference' : ''}
          FROM source_items s
-         LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
+         LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)${prov ? '\n         LEFT JOIN wow_provenance p ON p.item_id = s.id' : ''}
         WHERE s.discovery_reason = ?
           AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = s.id AND (f.kind <> 'skip' OR f.created_at >= ?))
-        ORDER BY s.fetched_at ASC, s.id ASC LIMIT 400`,
-    ).bind(WOW_DISCOVERY_REASON, since).all()).results;
+        ORDER BY ${prov ? "CAST(substr(COALESCE(p.wow_id, 'WOW-999999'), 5) AS INTEGER), " : ''}s.fetched_at ASC, s.id ASC LIMIT 400`;
+  try {
+    let rows;
+    try { rows = (await env.DB.prepare(sql(true)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
+    catch (e) { if (!/no such table: wow_provenance/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
     return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {
     if (/no such table/i.test(String(e))) return { status: 503, body: { error: 'RATINGS_NOT_READY' } };

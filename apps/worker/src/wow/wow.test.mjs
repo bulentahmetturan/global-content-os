@@ -10,7 +10,7 @@ const W = await bundle('apps/worker/src/wow/introduce.ts', 'wow-introduce');
 function openDb() {
   const sqlite = new DatabaseSync(':memory:');
   for (const file of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) sqlite.exec(readFileSync(`migrations/${file}`, 'utf8'));
-  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', 'a005_wow_memory.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
+  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', 'a005_wow_memory.sql', 'a007_wow_provenance.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
   const feed = (id, label, url, enabled) => sqlite.prepare(`INSERT OR REPLACE INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled) VALUES (?, ?, 'kaduse-research', 'kaduse-medikal', 'RESEARCH_REGISTRY', ?, 1440, ?)`).run(id, label, url, enabled);
   feed('research-jama-network', 'JAMA Network', 'https://jamanetwork.com/', 0);
   feed('research-nature', 'Nature', 'https://www.nature.com/', 0);
@@ -180,6 +180,16 @@ test('DEC-026: an article is introduced without a score, waits in the question q
   sqlite.prepare(`INSERT INTO wow_feedback (feedback_id, item_id, wow, kind, reason_codes, scope, title_orig) VALUES ('f1', ?, 9, 'wow', '[]', 'item', 't')`).run(r.body.itemId);
   assert.equal((await W.wowQuestions(env)).body.count, 0, 'answered once, never asked again');
   assert.equal((await W.introducedWow(env)).body.items[0].wow, 9);
+});
+
+test('DEC-030: the Sorular question carries the owner record number and where the article came from', async () => {
+  const { env } = openDb();
+  const r = await W.introduceWow(env, { doi: '10.1001/jamanetworkopen.2024.42639', wowId: 'WOW-0006', sourceReference: 'Ahmet Ekmekci Kumulatif Liste #7' }, crossref(works), NOW);
+  assert.equal(r.status, 201, JSON.stringify(r.body));
+  const q = await W.wowQuestions(env);
+  assert.equal(q.body.items[0].wowId, 'WOW-0006');
+  assert.equal(q.body.items[0].sourceReference, 'Ahmet Ekmekci Kumulatif Liste #7');
+  assert.equal(W.validateWow({ doi: '10.1001/x1', wowId: 'x' }).ok, false);
 });
 
 test('DEC-026: the journal of an article enters Research as a record-only source, once, never fetched, never matched as a feed', async () => {
