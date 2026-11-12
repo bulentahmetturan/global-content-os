@@ -21,7 +21,7 @@ import { RESEARCH_CURRENT_MAX_AGE_DAYS } from '../triage/lane-purity';
 
 export interface MemoryResult { status: number; body: unknown }
 export const EXTRACTOR_VERSION = 'x1';
-const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
+export const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 /** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
 export const WOW_CONFIG = { llmCallsPerDay: 250, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6, journalsPerBatch: 20, scopedPerRun: 6, evergreenPerRun: 4, authorityMinAnswers: 5, skipSnoozeDays: 30 } as const;
 export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
@@ -53,7 +53,7 @@ export function buildQuery(a: string[], b: string[]): string {
   return `${side(a)} AND ${side(b)}`;
 }
 
-function textFromAi(out: unknown): string {
+export function textFromAi(out: unknown): string {
   if (typeof out === 'string') return out;
   const o = out as { response?: unknown; result?: { response?: unknown } } | null;
   const r = o?.response ?? o?.result?.response;
@@ -685,7 +685,7 @@ export async function labelBatch(env: Env): Promise<MemoryResult> {
  * also gives English search terms, kept only when they appear in the article text. Run again until "remaining" is 0.
  */
 /** Tags are re-made whenever this version is higher than the stored one (DEC-R-20261112-043: specific tags, not categories). */
-export const TAGS_VERSION = 2;
+export const TAGS_VERSION = 3;
 /** Category words that say nothing about the article: never kept as a tag. */
 const BROAD_TAGS = new Set(['gıda', 'hastalık', 'yaş', 'sağlık', 'beslenme', 'tedavi', 'araştırma', 'çalışma', 'tıp', 'ilaç', 'hasta', 'insan', 'risk', 'kanser', 'diyabet', 'yaşam', 'bilim', 'sonuç', 'etki', 'genel sağlık', 'halk sağlığı']);
 const isBroadTag = (t: string) => BROAD_TAGS.has(t.toLocaleLowerCase('tr-TR'));
@@ -701,7 +701,7 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
     if (!rows.length) return { status: 200, body: { ok: true, tagged: 0, remaining: 0 } };
     const list = rows.map((r, i) => ({ i, title: r.title, abstract: r.abstract }));
     const system = `You tag medical research articles. For each input item answer with JSON only: [{"i":0,"topics":["..."],"relations":[["...","..."]],"a_en":["..."],"b_en":["..."]}].
-"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Be specific, name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker kısıtlaması", "Erken çocukluk beslenmesi", "Tip 2 diyabet riski", "Hipertansiyon"). NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Use only subjects the article is really about; do not pad and do not reuse a subject from another item.
+"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Never broad: name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker tüketimi", "Çocukluk beslenmesi", "Tip 2 diyabet", "Hipertansiyon"). Where the article truly fits, prefer the wording of subjects that a wide public already searches for and follows (popular, current, everyday topics such as şeker, uyku, stres, kilo verme, bağırsak sağlığı, D vitamini, kalp sağlığı, yapay zekâ ve sağlık) over rare academic terms, because the tags choose the topics that bring followers to the channels. Never invent a popular topic the article does not cover. NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Do not pad and do not reuse a subject from another item.
 "relations": pairs of names taken from "topics" that the article shows a link between (empty list when it is about one subject only).
 "a_en"/"b_en": 1-2 short English search terms for the FIRST relation's two sides, using only words from the title or abstract (empty lists when there is no relation).`;
     const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1400 }));

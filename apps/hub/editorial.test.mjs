@@ -195,3 +195,15 @@ test('lane suggestion chip shows only when the system suggests another heading',
   assert.match(ctx.laneChipHtml('s1'), /82%/);
   ctx.state.laneSugg = {};
 });
+
+test('regex guard: no whitespace regex lost its backslash (a /s+/ would turn every "s" the owner types into a space)', () => {
+  assert.ok(!/replace\(\/s\+\//.test(html));
+  assert.match(html, /String\(x\.sentence \|\| ''\)\.replace\(\/\\s\+\/g, ' '\)\.trim\(\)/);
+});
+
+test('explanation hard gate: a Sorular card shows "Açıklama hazırlanıyor" until the plain Turkish point exists, and cannot be sent without it', () => {
+  assert.match(html, /function explainReady\(it\)/);
+  assert.match(html, /async function sendSqDecision\(it, d\) \{\r?\n    if \(!explainReady\(it\)\) return;/);
+  assert.match(html, /async function sendWowAnswer\(it, d, opts\) \{\r?\n    if \(!explainReady\(it\)\) return;/);
+  assert.match(html, /En önemli nokta/);
+});
