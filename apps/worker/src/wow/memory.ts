@@ -343,15 +343,38 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     const laneAns = new Map<string, string>();
     try { for (const r of (await env.DB.prepare(`SELECT item_id, lane FROM wow_lane_answers`).all<{ item_id: string; lane: string }>()).results) laneAns.set(r.item_id, r.lane); } catch { /* a006 absent */ }
     const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
-    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; reasonWeight: number | null; matchedReasons: string[]; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
     for (const r of rows) {
       const tk = normTitleKey(r.title);
       if (tk && decided.titles.has(tk)) continue; // the same finding was already decided under another id
-      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, authorityRate: null, why: [] };
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, reasonWeight: null, matchedReasons: [], authorityRate: null, why: [] };
       cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
       by.set(r.item_id, cur);
     }
     const list = [...by.values()];
+    // Owner-written reasons as weight (DEC-R-20261112-034): a relation whose articles the owner scored high WITH a written reason is worth more.
+    // weight = average wow of the owner's reasoned answers on articles of that relation; matched = the reason names used there.
+    const reasonWeight = new Map<string, { weight: number; reasons: string[] }>();
+    try {
+      const fb = (await env.DB.prepare(
+        `SELECT e.relation_id AS relation_id, f.wow AS wow, f.reason_codes AS codes
+           FROM wow_feedback f JOIN wow_extractions e ON e.item_id = f.item_id
+          WHERE f.wow IS NOT NULL AND f.reason_codes <> '[]' AND e.relation_id IS NOT NULL`).all<{ relation_id: string; wow: number; codes: string }>()).results;
+      const names = new Map((await env.DB.prepare(`SELECT code, name_tr FROM wow_reasons WHERE state = 'ACTIVE'`).all<{ code: string; name_tr: string }>()).results.map((r) => [r.code, r.name_tr]));
+      const acc = new Map<string, { sum: number; n: number; reasons: Set<string> }>();
+      for (const r of fb) {
+        const a = acc.get(r.relation_id) ?? { sum: 0, n: 0, reasons: new Set<string>() };
+        a.sum += r.wow; a.n += 1;
+        for (const c of arr(r.codes)) { const nm = names.get(c); if (nm) a.reasons.add(nm); }
+        acc.set(r.relation_id, a);
+      }
+      for (const [k, a] of acc) reasonWeight.set(k, { weight: Math.round((a.sum / a.n) * 10) / 10, reasons: [...a.reasons].slice(0, 4) });
+    } catch { /* wow_feedback / extractions absent: no weight */ }
+    for (const c of list) {
+      const w = c.why.map((x) => reasonWeight.get(x.relationId)).filter((x): x is { weight: number; reasons: string[] } => !!x);
+      c.reasonWeight = w.length ? Math.max(...w.map((x) => x.weight)) : null;
+      c.matchedReasons = [...new Set(w.flatMap((x) => x.reasons))].slice(0, 4);
+    }
     // Learned authority rate (owner answers per study type and per journal) orders Evergreen candidates; below the minimum answers there is no rate.
     let learned: Awaited<ReturnType<typeof authorityLearned>> | null = null;
     try { learned = await authorityLearned(env); } catch { learned = null; }
@@ -371,7 +394,7 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     }
     const byUncertain = params.get('order') === 'uncertain';
     // Most informative first (Bible §1.4: every round must reduce a doubt): the item the learner is least sure about teaches most.
-    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || (b.reasonWeight ?? 0) - (a.reasonWeight ?? 0) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
@@ -554,4 +577,32 @@ export async function decidedSets(env: Env, now: Date = new Date()): Promise<{ k
     }
   } catch { /* memory or ratings absent: nothing is decided yet */ }
   return { keys, titles };
+}
+
+/**
+ * Topics and topic relations of ONE article, for any card (DEC-R-20261112-034): the plan topics it was tagged with (topic_item_tags),
+ * and the relations whose query brought it (wow_hits) or that it opened (wow_extractions). Read-only; empty arrays when nothing is known.
+ */
+export async function wowInsight(env: Env, params: URLSearchParams, plan: TopicPlan = TOPIC_PLAN): Promise<MemoryResult> {
+  const itemId = (params.get('itemId') || '').trim();
+  if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  const topicName = new Map(plan.topics.map((t) => [t.topicId, t.name]));
+  const unitName = new Map(plan.topics.flatMap((t) => t.units.map((u) => [u.id, u.name] as const)));
+  const topics: string[] = [];
+  const relations: string[] = [];
+  try {
+    const tags = (await env.DB.prepare(`SELECT DISTINCT topic_id, unit_id FROM topic_item_tags WHERE item_id = ? LIMIT 12`).bind(itemId).all<{ topic_id: string; unit_id: string }>()).results;
+    for (const t of tags) {
+      const n = unitName.get(t.unit_id) || topicName.get(t.topic_id);
+      if (n && !topics.includes(n)) topics.push(n);
+    }
+  } catch { /* topic tags addon absent */ }
+  try {
+    const rel = (await env.DB.prepare(
+      `SELECT DISTINCT r.name FROM wow_relations r
+        WHERE r.relation_id IN (SELECT relation_id FROM wow_hits WHERE item_id = ?) OR r.relation_id IN (SELECT relation_id FROM wow_extractions WHERE item_id = ? AND relation_id IS NOT NULL) LIMIT 8`,
+    ).bind(itemId, itemId).all<{ name: string }>()).results;
+    for (const r of rel) if (r.name) relations.push(r.name);
+  } catch { /* memory addon absent */ }
+  return { status: 200, body: { ok: true, itemId, topics, relations } };
 }

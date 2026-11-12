@@ -1622,7 +1622,7 @@
       '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
-      (it.wowq ? (it.summary ? '<div class="read-label">Konular ve ilişkiler</div><p class="read-lead" style="white-space:pre-line">' + escapeHtml(it.summary) + '</p>' : '') : lead) +
+      (it.wowq ? (it.summary ? '<div class="read-label">Konular ve ilişkiler</div><p class="read-lead" style="white-space:pre-line">' + escapeHtml(it.summary) + '</p>' : '') : lead + '<div class="read-insight" id="readInsight"></div>') +
       '<details class="read-more"><summary>Ayrıntılar</summary><dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl></details>' +
       '<section class="decision"><h3 class="decision-h">Editoryal karar</h3>' +
       predLineHtml(it.id) +
@@ -1939,6 +1939,27 @@
     if (idx < 0) { idx = 0; state.cursor = items[0].id; }
     readPaneEl.innerHTML = readPaneHtml(items[idx], idx + 1, items.length);
     readPaneEl.scrollTop = 0;
+    if (!items[idx].wowq) loadInsight(items[idx].id);
+  }
+  /** Topics and topic relations of the open article (DEC-R-20261112-034), same place on every card. Silent when there is no operator token yet or nothing is known. */
+  var insightCache = {};
+  function paintInsight(id, d) {
+    var el = document.getElementById('readInsight');
+    if (!el || state.cursor !== id) return;
+    var lines = [];
+    if (d.topics && d.topics.length) lines.push('Konular: ' + d.topics.join(', '));
+    if (d.relations && d.relations.length) lines.push('Konu ilişkisi: ' + d.relations.join(', '));
+    el.innerHTML = lines.length ? '<div class="read-label">Konular ve ilişkiler</div><p class="read-lead" style="white-space:pre-line">' + escapeHtml(lines.join('\n')) + '</p>' : '';
+  }
+  function loadInsight(id) {
+    if (insightCache[id]) { paintInsight(id, insightCache[id]); return; }
+    var token = null;
+    try { token = localStorage.getItem(OPERATOR_TOKEN_KEY); } catch (e) { token = null; }
+    if (!token) return;
+    fetch('/api/wow/insight?itemId=' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + token } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) { insightCache[id] = d; paintInsight(id, d); } })
+      .catch(function () { /* optional */ });
   }
   function dayKey() { var d = new Date(); return 'gcos-processed-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
   function processedToday() { try { return parseInt(localStorage.getItem(dayKey()) || '0', 10) || 0; } catch (e) { return 0; } }
