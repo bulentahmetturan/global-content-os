@@ -60,14 +60,20 @@ function textFromAi(out: unknown): string {
   return typeof r === 'string' ? r : r ? JSON.stringify(r) : '';
 }
 
-interface LlmGuess { sideA: string[]; sideB: string[]; studyType: string | null; reason: string | null }
+interface LlmGuess { sideA: string[]; sideB: string[]; studyType: string | null; reason: string | null; labelA: string | null; labelB: string | null }
+/** A short Turkish topic name from the model: 1-5 words, letters only; anything else is dropped. */
+function trLabel(v: unknown): string | null {
+  if (typeof v !== 'string') return null;
+  const t = v.replace(/\s+/g, ' ').trim();
+  return t.length >= 3 && t.length <= 48 && t.split(' ').length <= 5 && !/[{}\[\]"<>]/.test(t) ? t.charAt(0).toLocaleUpperCase('tr-TR') + t.slice(1) : null;
+}
 /** Structured guess; every kept term is checked against the article text (nothing invented, CORE rule 3). */
 async function llmGuess(env: Env, title: string, abstract: string, reasonCodes: string[]): Promise<LlmGuess | null> {
   if (!env.AI) return null;
   const system = `You read one medical research title and abstract. Answer with JSON only, no other text:
-{"exposure":["1-3 short English search terms for the studied factor or intervention"],"outcome":["1-3 short English search terms for the main outcome"],"study_type":"one of ${STUDY_TYPES.join(', ')}","reason":"one of ${reasonCodes.join(', ')} or null"}
+{"exposure":["1-3 short English search terms for the studied factor or intervention"],"outcome":["1-3 short English search terms for the main outcome"],"exposure_tr":"short Turkish topic name of the studied factor, 1-4 words","outcome_tr":"short Turkish topic name of the main outcome, 1-4 words","study_type":"one of ${STUDY_TYPES.join(', ')}","reason":"one of ${reasonCodes.join(', ')} or null"}
 Use only words that appear in the text. "reason" is why a general medical audience may find the result striking; null when unsure.`;
-  const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: `Title: ${title}\nAbstract: ${abstract.slice(0, 2500) || '(none)'}` }], max_tokens: 250 }));
+  const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: `Title: ${title}\nAbstract: ${abstract.slice(0, 2500) || '(none)'}` }], max_tokens: 320 }));
   const m = /\{[\s\S]*\}/.exec(raw);
   if (!m) return null;
   let j: Record<string, unknown>;
@@ -80,6 +86,8 @@ Use only words that appear in the text. "reason" is why a general medical audien
     sideA, sideB,
     studyType: typeof j.study_type === 'string' && STUDY_TYPES.includes(j.study_type) ? j.study_type : null,
     reason: typeof j.reason === 'string' && reasonCodes.includes(j.reason) ? j.reason : null,
+    labelA: sideA.length ? trLabel(j.exposure_tr) : null,
+    labelB: sideB.length ? trLabel(j.outcome_tr) : null,
   };
 }
 
@@ -105,6 +113,7 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
     await env.DB.prepare(
       `INSERT OR IGNORE INTO wow_extractions (item_id, extractor_version, basis, topic_ids, plan_units, side_a, side_b, probable_reason, study_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(input.itemId, EXTRACTOR_VERSION, guess ? 'llm' : 'rules', JSON.stringify(topicIds), JSON.stringify(units), JSON.stringify(guess?.sideA ?? []), JSON.stringify(guess?.sideB ?? []), guess?.reason ?? null, guess?.studyType ?? null).run();
+    if (guess && (guess.labelA || guess.labelB)) await env.DB.prepare(`UPDATE wow_extractions SET label_a = ?, label_b = ? WHERE item_id = ? AND extractor_version = ?`).bind(guess.labelA, guess.labelB, input.itemId, EXTRACTOR_VERSION).run().catch(() => null); // a011 absent: labels wait
     // DEC-R-20261112-029: an article the owner introduced himself is the owner's own PASS. When it falls in an accepted topic and the system
     // read both sides of the relation out of the text, the relation and its search open at once; the owner corrects or closes it later in the Hub.
     // Articles that only came out of a search never open a relation by themselves (they stay a proposal).
@@ -121,6 +130,7 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
 
 /** Extraction for an article that is already stored (backfill of articles introduced before the memory existed). */
 export async function extractStored(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (raw && typeof raw === 'object' && (raw as { labels?: unknown }).labels === true) return labelBatch(env);
   const itemId = raw && typeof raw === 'object' && typeof (raw as { itemId?: unknown }).itemId === 'string' ? ((raw as { itemId: string }).itemId).trim() : '';
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
   const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary, discovery_reason FROM source_items WHERE id = ? AND (discovery_reason = ? OR EXISTS (SELECT 1 FROM wow_hits h WHERE h.item_id = source_items.id))`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null; discovery_reason: string | null }>();
@@ -374,6 +384,13 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     try {
       const marked = new Set((await env.DB.prepare(`SELECT DISTINCT t.item_id FROM topic_item_tags t JOIN wow_narrow_topics n ON n.topic_id = t.topic_id`).all<{ item_id: string }>()).results.map((r) => r.item_id));
       for (const c of list) c.narrowed = marked.has(c.itemId);
+      // A marked single term (key "term:<english term>") marks every candidate brought by a relation that searches that term.
+      const terms = new Set((await env.DB.prepare(`SELECT topic_id FROM wow_narrow_topics WHERE topic_id LIKE 'term:%'`).all<{ topic_id: string }>()).results.map((r) => r.topic_id.slice(5)));
+      if (terms.size) {
+        const rels = (await env.DB.prepare(`SELECT relation_id, a_terms, b_terms FROM wow_relations`).all<{ relation_id: string; a_terms: string; b_terms: string }>()).results;
+        const hit = new Set(rels.filter((r) => [...arr(r.a_terms), ...arr(r.b_terms)].some((t) => terms.has(t))).map((r) => r.relation_id));
+        for (const c of list) if (c.why.some((x) => hit.has(x.relationId))) c.narrowed = true;
+      }
     } catch { /* a010 absent: nothing is marked */ }
     for (const c of list) {
       const w = c.why.map((x) => reasonWeight.get(x.relationId)).filter((x): x is { weight: number; reasons: string[] } => !!x);
@@ -618,7 +635,8 @@ export async function narrowTopic(env: Env, raw: unknown, plan: TopicPlan = TOPI
   const b = raw as Record<string, unknown>;
   for (const k of Object.keys(b)) if (!['topicId', 'itemId', 'on'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
   const topicId = typeof b.topicId === 'string' ? b.topicId.trim() : '';
-  if (!topicId || !plan.topics.some((t) => t.topicId === topicId)) return { status: 400, body: { error: 'UNKNOWN_TOPIC' } };
+  const isTerm = /^term:[a-z0-9][a-z0-9 '\-]{2,59}$/.test(topicId);
+  if (!topicId || (!isTerm && !plan.topics.some((t) => t.topicId === topicId))) return { status: 400, body: { error: 'UNKNOWN_TOPIC' } };
   const itemId = typeof b.itemId === 'string' && b.itemId.trim() ? b.itemId.trim() : null;
   try {
     if (b.on === false) await env.DB.prepare(`DELETE FROM wow_narrow_topics WHERE topic_id = ?`).bind(topicId).run();
@@ -626,6 +644,39 @@ export async function narrowTopic(env: Env, raw: unknown, plan: TopicPlan = TOPI
     return { status: 200, body: { ok: true, topicId, narrowed: b.on !== false } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+/**
+ * Turkish labels for extractions that have both sides but no label yet (articles read before a011). One LLM call names up to 10
+ * articles; the answer is matched by index and every label is validated. Run again until "remaining" is 0.
+ */
+export async function labelBatch(env: Env): Promise<MemoryResult> {
+  if (!env.AI) return { status: 503, body: { error: 'AI_NOT_BOUND' } };
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT item_id, side_a, side_b FROM wow_extractions WHERE extractor_version = ? AND side_a <> '[]' AND side_b <> '[]' AND (label_a IS NULL OR label_b IS NULL) ORDER BY created_at ASC LIMIT 10`,
+    ).bind(EXTRACTOR_VERSION).all<{ item_id: string; side_a: string; side_b: string }>()).results;
+    if (!rows.length) return { status: 200, body: { ok: true, labeled: 0, remaining: 0 } };
+    const list = rows.map((r, i) => ({ i, a: arr(r.side_a)[0], b: arr(r.side_b)[0] }));
+    const system = 'You translate English medical search terms into short Turkish topic names (1-4 words, plain Turkish, no abbreviations unless standard). Answer with JSON only: [{"i":0,"a":"...","b":"..."}] with one object per input item, same "i".';
+    const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 700 }));
+    const m = /\[[\s\S]*\]/.exec(raw);
+    let out: Array<{ i?: unknown; a?: unknown; b?: unknown }> = [];
+    try { out = m ? JSON.parse(m[0]) : []; } catch { out = []; }
+    let labeled = 0;
+    for (const o of Array.isArray(out) ? out : []) {
+      const r = typeof o.i === 'number' ? rows[o.i] : undefined;
+      const a = trLabel(o.a), b = trLabel(o.b);
+      if (!r || !a || !b) continue;
+      await env.DB.prepare(`UPDATE wow_extractions SET label_a = ?, label_b = ? WHERE item_id = ? AND extractor_version = ?`).bind(a, b, r.item_id, EXTRACTOR_VERSION).run();
+      labeled += 1;
+    }
+    const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE extractor_version = ? AND side_a <> '[]' AND side_b <> '[]' AND (label_a IS NULL OR label_b IS NULL)`).bind(EXTRACTOR_VERSION).first<{ n: number }>();
+    return { status: 200, body: { ok: true, labeled, remaining: Number(left?.n ?? 0) } };
+  } catch (e) {
+    if (notReady(e) || /no such column/i.test(String(e))) return { status: 503, body: { error: 'SIDE_LABELS_NOT_READY' } };
     throw e;
   }
 }
