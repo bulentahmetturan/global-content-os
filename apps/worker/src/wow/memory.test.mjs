@@ -356,3 +356,8 @@ test('an explanation must be exactly one sentence (DEC-R-20261112-044)', () => {
   assert.ok(validExplanation('Şeker kısıtlaması çocuklarda ileride diyabet riskini belirgin biçimde azaltıyor.', 'x'));
   assert.equal(validExplanation('Şeker kısıtlaması çocuklarda diyabeti azaltıyor. Bu yüzden önemli bir bulgu olarak görülüyor.', 'x'), null);
 });
+
+test('a two-sentence model answer is cut to its first sentence', () => {
+  assert.equal(X.firstSentence('Şeker kısıtlaması çocuklarda diyabeti azaltıyor. Bu yüzden önemli.'), 'Şeker kısıtlaması çocuklarda diyabeti azaltıyor.');
+  assert.equal(X.firstSentence('Tek cümle burada yazıyor.'), 'Tek cümle burada yazıyor.');
+});
