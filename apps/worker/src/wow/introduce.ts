@@ -220,7 +220,7 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
   const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
   const sql = (prov: boolean) => `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
               s.enrichment_status AS translation, CASE WHEN s.enrichment_status = 'done' THEN s.title END AS titleTr,
-              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference' : ''}
+              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm, r.note AS priorNote${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference' : ''}
          FROM source_items s
          LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)${prov ? '\n         LEFT JOIN wow_provenance p ON p.item_id = s.id' : ''}
         WHERE s.discovery_reason = ?
