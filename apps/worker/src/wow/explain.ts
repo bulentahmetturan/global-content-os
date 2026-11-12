@@ -1,5 +1,5 @@
 /**
- * Plain Turkish explanation of an item (DEC-R-20261112-044, hard gate): one or two simple sentences that say the single most important point,
+ * Plain Turkish explanation of an item (DEC-R-20261112-044, hard gate): ONE simple sentence that says why the item matters (its single most important point),
  * so the owner never has to open other pages to learn what the article means. Stored in item_explain (a014). Made from the item's own title and
  * summary only; a text that is too short, too long, equals the title or is not Turkish-looking is dropped and tried again later.
  */
@@ -13,7 +13,8 @@ const notReady = (e: unknown) => /no such table/i.test(String(e));
 export function validExplanation(text: unknown, title: string): string | null {
   if (typeof text !== 'string') return null;
   const t = text.replace(/\s+/g, ' ').trim();
-  if (t.length < 40 || t.length > 420) return null;
+  if (t.length < 30 || t.length > 260) return null;
+  if (/[.!?](\s+\S)/.test(t.replace(/(?:Dr|Prof|Doç|vb|vs|örn|yy)\./gi, '$1'))) return null; // exactly one sentence
   if (/[{}\[\]<>]/.test(t)) return null;
   if (t.toLocaleLowerCase('tr-TR') === title.trim().toLocaleLowerCase('tr-TR')) return null;
   return /[çğıöşüÇĞİÖŞÜ]| ve | bir | için | ile /.test(t) ? t : null; // Turkish-looking
@@ -53,7 +54,7 @@ export async function explainBatch(env: Env, ids?: string[]): Promise<MemoryResu
     if (!rows.length) return { status: 200, body: { ok: true, generated: 0, remaining: await remaining(env) } };
     if (!env.AI) return { status: 503, body: { error: 'AI_NOT_BOUND' } };
     const list = rows.map((r, i) => ({ i, title: r.title, text: r.summary }));
-    const system = `You explain items for a Turkish health-content editor who must understand an item without opening any other page. For each input item write 1 or 2 SIMPLE Turkish sentences (everyday words a non-expert understands, no jargon, no abbreviations, at most 45 words in total) that state the single most important point: for a study, what it found and why that matters; for news, what happened; for an announcement, what is announced and the key date or deadline. Use only what the title and text say; never add facts. Answer with JSON only: [{"i":0,"t":"..."}] with one object per input item, same "i".`;
+    const system = `You explain items for a Turkish health-content editor who must understand an item without opening any other page. For each input item write exactly ONE SIMPLE Turkish sentence (everyday words a non-expert understands, no jargon, no abbreviations, at most 30 words) that says why this item is important to know: for a study, what it found and why that matters; for news, what happened; for an announcement, what is announced and the key date or deadline. Use only what the title and text say; never add facts. Answer with JSON only: [{"i":0,"t":"..."}] with one object per input item, same "i".`;
     const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1500 }));
     const m = /\[[\s\S]*\]/.exec(raw);
     let out: Array<{ i?: unknown; t?: unknown }> = [];
