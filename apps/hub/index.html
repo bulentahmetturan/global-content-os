@@ -1860,8 +1860,7 @@
     if (q.priorWow) parts.push('Wow puanı: ' + q.priorWow + (why ? ' · Neden wow: ' + why : ''));
     if (q.topics && q.topics.length) parts.push('Konular: ' + q.topics.join(', '));
     if (q.sideA && q.sideA.length && q.sideB && q.sideB.length) parts.push('Konu ilişkisi: ' + q.sideA.join(', ') + ' ↔ ' + q.sideB.join(', ') + (q.relationName ? ' (' + q.relationName + ')' : ''));
-    return parts.join('
-');
+    return parts.join('\n');
   }
   var PROD_LABEL = { tt: 'Tıp Topluluğu', ik: 'İyileşme Kanalı', km: 'Kaduse Medikal' };
   /** Right-hand green rail under Sorular: the three production lines (tt / ik / km) with their counts. */
