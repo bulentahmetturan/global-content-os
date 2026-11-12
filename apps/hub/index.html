@@ -1762,7 +1762,7 @@
     try { intro = await wowGet('/api/wow/questions'); } catch (e) { state.wowqError = String(e.message || e); }
     // Only the owner's introduced articles are asked, once each (owner decision 2026-11-12): no random source or candidate questions.
     var mapped = (intro.items || []).map(function (q) {
-      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: 'Senin tanıttığın makale. Neden wow? Aşağıda cevapla; cevabın sistemi besler.' + (q.priorWow ? ' Daha önce verdiğin puan: ' + q.priorWow + ' (kartta hazır, onayla ya da değiştir).' : '') };
+      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: (q.wowId ? q.wowId + ' · ' : '') + (q.journal || ''), publishedAt: q.publishedAt, summary: (q.wowId || q.sourceReference ? 'Kayıt: ' + [q.wowId, q.sourceReference].filter(Boolean).join(' · ') + '. ' : '') + 'Senin tanıttığın makale. Neden wow? Aşağıda cevapla; cevabın sistemi besler.' + (q.priorWow ? ' Daha önce verdiğin puan: ' + q.priorWow + ' (kartta hazır, onayla ya da değiştir).' : '') };
     });
     mapped.forEach(function (m, i) {
       var q = (intro.items || [])[i];
