@@ -453,8 +453,10 @@ export async function wowMemory(env: Env): Promise<MemoryResult> {
     ).bind(WOW_CONFIG.selectionWow).all<Record<string, unknown>>()).results.map((r) => ({ ...r, a_terms: arr(r.a_terms as string), b_terms: arr(r.b_terms as string), selectionRate: Number(r.rated) >= WOW_CONFIG.reviewMinRated ? Math.round((Number(r.selected) / Number(r.rated)) * 100) : null }));
     const reasons = (await env.DB.prepare(`SELECT code, name_tr AS name, state FROM wow_reasons WHERE state <> 'REJECTED' ORDER BY state, code`).all()).results;
     const general = (await env.DB.prepare(`SELECT feedback_id AS feedbackId, item_id AS itemId, title_orig AS title, kind, sentence, created_at AS createdAt FROM wow_feedback WHERE scope = 'general' ORDER BY created_at DESC LIMIT 50`).all()).results;
+    // The owner's earlier written reasons, newest first, one line per distinct sentence (shown when the reason box is opened).
+    const past = (await env.DB.prepare(`SELECT sentence, MAX(wow) AS wow, MAX(title_orig) AS title, MAX(created_at) AS createdAt FROM wow_feedback WHERE sentence IS NOT NULL AND TRIM(sentence) <> '' GROUP BY sentence ORDER BY MAX(created_at) DESC LIMIT 40`).all()).results;
     const llm = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
-    return { status: 200, body: { ok: true, extractorVersion: EXTRACTOR_VERSION, articles, relations, reasons, waitingBibleDecision: general,
+    return { status: 200, body: { ok: true, extractorVersion: EXTRACTOR_VERSION, articles, relations, reasons, pastSentences: past, waitingBibleDecision: general,
       usage: { llmCallsToday: Number(llm?.n ?? 0), llmCallsPerDay: WOW_CONFIG.llmCallsPerDay, queriesPerRun: WOW_CONFIG.queriesPerRun },
       window: { days: RESEARCH_CURRENT_MAX_AGE_DAYS }, authority: await authorityLearned(env).catch(() => null),
       measured: { note: 'Seçim oranı ve netlik yüzdesi yeterli puan olmadan hesaplanmaz (Bible §10.4): veri toplanıyor.' } } };
@@ -615,7 +617,7 @@ export async function wowInsight(env: Env, params: URLSearchParams, plan: TopicP
     // The article's own specific tags and the owner's tags (DEC-R-20261112-043); the broad plan-topic names are not shown.
     const row = await env.DB.prepare(`SELECT tags_json FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(itemId, EXTRACTOR_VERSION).first<{ tags_json: string | null }>();
     const tj = JSON.parse(row?.tags_json ?? 'null') as { topics?: string[]; owner?: string[] } | null;
-    for (const n of [...(tj?.topics ?? []), ...(tj?.owner ?? [])]) if (typeof n === 'string' && n && !topics.includes(n)) topics.push(n);
+    for (const n of [...(tj?.topics ?? []).filter((x) => !isBroadTag(x)), ...(tj?.owner ?? [])]) if (typeof n === 'string' && n && !topics.includes(n)) topics.push(n);
   } catch { /* extraction tags absent */ }
   try {
     const rel = (await env.DB.prepare(
@@ -685,10 +687,14 @@ export async function labelBatch(env: Env): Promise<MemoryResult> {
  * also gives English search terms, kept only when they appear in the article text. Run again until "remaining" is 0.
  */
 /** Tags are re-made whenever this version is higher than the stored one (DEC-R-20261112-043: specific tags, not categories). */
-export const TAGS_VERSION = 3;
+export const TAGS_VERSION = 4;
 /** Category words that say nothing about the article: never kept as a tag. */
-const BROAD_TAGS = new Set(['gıda', 'hastalık', 'yaş', 'sağlık', 'beslenme', 'tedavi', 'araştırma', 'çalışma', 'tıp', 'ilaç', 'hasta', 'insan', 'risk', 'kanser', 'diyabet', 'yaşam', 'bilim', 'sonuç', 'etki', 'genel sağlık', 'halk sağlığı']);
-const isBroadTag = (t: string) => BROAD_TAGS.has(t.toLocaleLowerCase('tr-TR'));
+const BROAD_TAGS = new Set(['gıda', 'hastalık', 'yaş', 'sağlık', 'beslenme', 'tedavi', 'araştırma', 'çalışma', 'tıp', 'ilaç', 'hasta', 'insan', 'risk', 'kanser', 'diyabet', 'yaşam', 'bilim', 'sonuç', 'etki', 'genel sağlık', 'halk sağlığı', 'çocuk', 'çocukluk', 'erken çocukluk', 'bebeklik', 'ergenlik', 'yetişkin', 'yetişkinlik', 'yaşlılık', 'bebek', 'kadın', 'erkek', 'toplum', 'nüfus', 'sağlık sorunları', 'sağlık riski', 'gelişim']);
+/** Broad = a category word, singular or plural ("Hastalıklar" is "hastalık"); specific names such as "Kronik hastalıklar" are kept. */
+export const isBroadTag = (t: string) => {
+  const l = t.toLocaleLowerCase('tr-TR').trim();
+  return BROAD_TAGS.has(l) || BROAD_TAGS.has(l.replace(/(lar|ler)$/u, '')) || BROAD_TAGS.has(l.replace(/(lığı|liği|luğu|lüğü)$/u, 'lık'));
+};
 
 export async function tagBatch(env: Env): Promise<MemoryResult> {
   if (!env.AI) return { status: 503, body: { error: 'AI_NOT_BOUND' } };
@@ -701,7 +707,7 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
     if (!rows.length) return { status: 200, body: { ok: true, tagged: 0, remaining: 0 } };
     const list = rows.map((r, i) => ({ i, title: r.title, abstract: r.abstract }));
     const system = `You tag medical research articles. For each input item answer with JSON only: [{"i":0,"topics":["..."],"relations":[["...","..."]],"a_en":["..."],"b_en":["..."]}].
-"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Never broad: name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker tüketimi", "Çocukluk beslenmesi", "Tip 2 diyabet", "Hipertansiyon"). Where the article truly fits, prefer the wording of subjects that a wide public already searches for and follows (popular, current, everyday topics such as şeker, uyku, stres, kilo verme, bağırsak sağlığı, D vitamini, kalp sağlığı, yapay zekâ ve sağlık) over rare academic terms, because the tags choose the topics that bring followers to the channels. Never invent a popular topic the article does not cover. NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Do not pad and do not reuse a subject from another item.
+"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Never broad: name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker tüketimi", "Çocukluk beslenmesi", "Tip 2 diyabet", "Hipertansiyon"). Where the article truly fits, prefer the wording of subjects that a wide public already searches for and follows (popular, current, everyday topics such as şeker, uyku, stres, kilo verme, bağırsak sağlığı, D vitamini, kalp sağlığı, yapay zekâ ve sağlık) over rare academic terms, because the tags choose the topics that bring followers to the channels. Never invent a popular topic the article does not cover. NEVER use broad category words as a tag, singular or plural: Gıda, Hastalık/Hastalıklar, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet, Çocuk, Erken çocukluk, Çocukluk, Yetişkin, Kadın alone; say the exact condition, exposure or intervention instead (\"Tip 2 diyabet\", \"Şeker kısıtlaması\", \"Hipertansiyon\"). Do not pad and do not reuse a subject from another item.
 "relations": pairs of names taken from "topics" that the article shows a link between (empty list when it is about one subject only).
 "a_en"/"b_en": 1-2 short English search terms for the FIRST relation's two sides, using only words from the title or abstract (empty lists when there is no relation).`;
     const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1400 }));

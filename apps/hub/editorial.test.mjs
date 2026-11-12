@@ -207,3 +207,9 @@ test('explanation hard gate: a Sorular card shows "Açıklama hazırlanıyor" un
   assert.match(html, /async function sendWowAnswer\(it, d, opts\) \{\r?\n    if \(!explainReady\(it\)\) return;/);
   assert.match(html, /En önemli nokta/);
 });
+
+test('the Neden wow? box lists the owner\'s earlier reasons on click (DEC-R-20261112-045)', () => {
+  assert.match(html, /function openReasonPicker\(input\)/);
+  assert.match(html, /wowMem && wowMem\.pastSentences/);
+  assert.match(html, /addEventListener\('focusin'/);
+});

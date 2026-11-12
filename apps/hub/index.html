@@ -723,6 +723,14 @@
   .ntag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 11px; border-radius: 999px; border: 1px solid var(--border, #E0D9C8); background: var(--surface, #FFFEFA); font: 600 .78rem var(--font-ui); }
   .ntag.on { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); }
   .ntag-add { all: unset; cursor: pointer; width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--accent, #0E5C3E); color: #fff; font: 700 .8rem var(--font-ui); }
+  .wx-pick { position: absolute; left: 0; right: 0; top: 100%; z-index: 30; margin-top: 4px; max-height: 280px; overflow: auto; background: var(--surface, #fff); border: 1px solid var(--border, rgba(0,0,0,.18)); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+  .wx-pick-h { padding: 8px 12px; font-size: 12px; color: var(--text-faint); }
+  .wx-pick-i { display: block; width: 100%; text-align: left; padding: 8px 12px; border: 0; border-top: 1px solid var(--border, rgba(0,0,0,.08)); background: none; color: inherit; cursor: pointer; font: inherit; }
+  .wx-pick-i:hover { background: var(--surface-2, rgba(128,128,128,.12)); }
+  .wx-pick-s { display: block; font-weight: 600; }
+  .wx-pick-w { display: inline-block; margin-right: 8px; font-size: 12px; color: var(--accent); }
+  .wx-pick-t { font-size: 12px; color: var(--text-faint); }
+  .wx-pick-e { padding: 10px 12px; color: var(--text-faint); }
   .read-explain { margin: 14px 0 6px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--surface-2, rgba(128,128,128,.10)); border-radius: 0 8px 8px 0; }
   .read-explain .read-lead { margin: 4px 0 0; font-weight: 600; }
   .explain.pending, .read-explain .pending { color: var(--text-faint); font-style: italic; font-weight: 400; }
@@ -3316,7 +3324,42 @@
   });
   document.addEventListener('input', function (e) {
     var t = e.target;
-    if (t && t.getAttribute && t.getAttribute('data-wx') === 'sentence') { var st = wowxStore(t); if (st) st.x.sentence = t.value; }
+    if (t && t.getAttribute && t.getAttribute('data-wx') === 'sentence') { var st = wowxStore(t); if (st) st.x.sentence = t.value; openReasonPicker(t); }
+  });
+  // "Neden wow?" box: opening it lists the reasons the owner wrote before (newest first); a click fills the box (DEC-R-20261112-045).
+  function closeReasonPicker() { var o = document.querySelector('.wx-pick'); if (o) o.remove(); }
+  function openReasonPicker(input) {
+    closeReasonPicker();
+    var list = (wowMem && wowMem.pastSentences) || [];
+    var q = input.value.trim().toLocaleLowerCase('tr-TR');
+    list = list.filter(function (r) { return !q || String(r.sentence).toLocaleLowerCase('tr-TR').indexOf(q) >= 0; }).slice(0, 12);
+    var box = document.createElement('div');
+    box.className = 'wx-pick';
+    box.innerHTML = '<div class="wx-pick-h">Daha önce yazdığın nedenler</div>' + (list.length ? list.map(function (r, i) {
+      return '<button type="button" class="wx-pick-i" data-pick="' + i + '"><span class="wx-pick-s">' + escapeHtml(r.sentence) + '</span>' + (r.wow ? '<span class="wx-pick-w">wow ' + escapeHtml(String(r.wow)) + '</span>' : '') + (r.title ? '<span class="wx-pick-t">' + escapeHtml(String(r.title).slice(0, 90)) + '</span>' : '') + '</button>';
+    }).join('') : '<div class="wx-pick-e">Henüz yazılmış neden yok.</div>');
+    input.parentNode.style.position = 'relative';
+    input.parentNode.appendChild(box);
+    box.addEventListener('mousedown', function (ev) {
+      var b = ev.target.closest('[data-pick]');
+      if (!b) return;
+      ev.preventDefault();
+      input.value = String(list[Number(b.getAttribute('data-pick'))].sentence);
+      var st = wowxStore(input); if (st) st.x.sentence = input.value;
+      closeReasonPicker();
+    });
+  }
+  document.addEventListener('focusin', function (e) {
+    var t = e.target;
+    if (t && t.getAttribute && t.getAttribute('data-wx') === 'sentence') openReasonPicker(t);
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t && t.getAttribute && t.getAttribute('data-wx') === 'sentence' && !document.querySelector('.wx-pick')) openReasonPicker(t);
+  });
+  document.addEventListener('focusout', function (e) {
+    var t = e.target;
+    if (t && t.getAttribute && t.getAttribute('data-wx') === 'sentence') setTimeout(closeReasonPicker, 120);
   });
   document.addEventListener('click', function (e) {
     var qBtn = e.target.closest && e.target.closest('[data-qwow],[data-qch]');

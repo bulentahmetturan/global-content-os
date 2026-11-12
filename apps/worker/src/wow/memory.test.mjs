@@ -350,3 +350,9 @@ test('explanation validation: short, over-long, title copies, bracket noise and 
   assert.equal(X.validExplanation('This sentence is entirely written in English and has no Turkish words at all.', title), null);
   assert.ok(X.validExplanation('Bebeklikte şekeri sınırlanan çocuklarda yetişkinlikte diyabet ve yüksek tansiyon riski daha düşük çıktı.', title));
 });
+
+test('an explanation must be exactly one sentence (DEC-R-20261112-044)', () => {
+  const validExplanation = X.validExplanation;
+  assert.ok(validExplanation('Şeker kısıtlaması çocuklarda ileride diyabet riskini belirgin biçimde azaltıyor.', 'x'));
+  assert.equal(validExplanation('Şeker kısıtlaması çocuklarda diyabeti azaltıyor. Bu yüzden önemli bir bulgu olarak görülüyor.', 'x'), null);
+});
