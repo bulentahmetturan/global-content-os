@@ -17,6 +17,7 @@ export const MAX_ENRICH_ATTEMPTS = 3;
 const RETRY_BACKOFF_MIN = 30;
 /** The owner's own wow articles are translated first and retried longer (DEC-R-20261112-030): they are the questions the owner answers. */
 export const OWNER_ENRICH_ATTEMPTS = 10;
+const OWNER_BATCH = 8;
 
 export type EnrichmentStatus = 'pending' | 'done' | 'failed' | 'skipped';
 
@@ -456,7 +457,9 @@ export async function runEnrichmentBatch(
     // backlog must never delay the Turkish title/summary of fresh items.
     sql += ` ORDER BY (discovery_reason = 'owner_wow_example') DESC, (enrichment_status = 'failed') ASC, (enrichment_json IS NOT NULL) ASC, fetched_at ASC
             LIMIT ?`;
-    binds.push(limit);
+    // The owner's wow articles wait in Sorular (DEC-R-20261112-030): while any is untranslated the batch is larger (still bounded).
+    const ownerPending = await env.DB.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE discovery_reason = 'owner_wow_example' AND enrichment_status = 'pending'`).bind().first<{ n: number }>().catch(() => null);
+    binds.push(Number(ownerPending?.n ?? 0) > 0 ? Math.max(limit, OWNER_BATCH) : limit);
 
     const q = await env.DB.prepare(sql).bind(...binds).all<{
       id: string;

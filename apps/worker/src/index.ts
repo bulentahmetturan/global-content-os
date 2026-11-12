@@ -1358,11 +1358,7 @@ export default {
               sourcePassFailRevalidated: spf.recorded,
             };
           },
-          enrich: async () => {
-            // The owner's wow articles wait in Sorular: while any is untranslated the batch is larger (still bounded), and they go first (enrich.ts ordering).
-            const owner = await env.DB.prepare(`SELECT COUNT(*) AS n FROM source_items WHERE discovery_reason = 'owner_wow_example' AND enrichment_status = 'pending'`).first<{ n: number }>().catch(() => null);
-            return runEnrichmentBatch(env, { limit: Number(owner?.n ?? 0) > 0 ? 8 : 3 });
-          },
+          enrich: () => runEnrichmentBatch(env, { limit: 3 }),
           'tip-toplulugu-continuous': () =>
             runTipTopluluguContinuousTick(env, { dryRun: false, holder: 'worker-scheduled' }),
           'who-news': () => ingestWhoNews(env),
