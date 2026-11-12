@@ -49,3 +49,12 @@ export async function listProduction(env: Env, channel: ProductionChannel): Prom
   for (const r of c.results ?? []) if (isProductionChannel(r.channel)) counts[r.channel] = Number(r.n);
   return { items: (results ?? []).map(rowToView), counts };
 }
+
+/** Every open or finished production line, per item: { itemId: { tt: 'production' | 'done', ... } }. The top-bar lists show it as a reminder
+ * ("İK'da üretildi · TT'de üretim bekliyor", DEC-R-20261112-038). */
+export async function productionMap(env: Env): Promise<Record<string, Partial<Record<ProductionChannel, 'production' | 'done'>>>> {
+  const { results } = await env.DB.prepare(`SELECT item_id, channel, status FROM item_production`).all<{ item_id: string; channel: ProductionChannel; status: 'production' | 'done' }>();
+  const out: Record<string, Partial<Record<ProductionChannel, 'production' | 'done'>>> = {};
+  for (const r of results ?? []) (out[r.item_id] ??= {})[r.channel] = r.status;
+  return out;
+}

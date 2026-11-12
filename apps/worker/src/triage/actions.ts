@@ -336,13 +336,15 @@ export async function purgeExpiredTrash(
   days = 2
 ): Promise<{ deleted: number }> {
   const cutoff = new Date(Date.now() - days * 86400000).toISOString();
+  // DEC-R-20261112-038: finished production (archive_kind = 'done') leaves one day after its last line closed.
+  const doneCutoff = new Date(Date.now() - Math.min(days, 1) * 86400000).toISOString();
   const { results } = await env.DB.prepare(
     `SELECT id FROM source_items
-     WHERE triage_status IN ('trash', 'done') AND updated_at < ?
+     WHERE triage_status IN ('trash', 'done') AND (updated_at < ? OR (archive_kind = 'done' AND updated_at < ?))
        AND id NOT IN (${APPROVED_PROTOCOL_DISPLAY.map(() => '?').join(',')})
      LIMIT 200`
   )
-    .bind(cutoff, ...APPROVED_PROTOCOL_DISPLAY.map(item => item.id))
+    .bind(cutoff, doneCutoff, ...APPROVED_PROTOCOL_DISPLAY.map(item => item.id))
     .all<{ id: string }>();
 
   const ids = (results ?? []).map((r) => r.id);

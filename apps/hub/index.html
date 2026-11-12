@@ -739,6 +739,10 @@
   .decision .rate .chip.ch.on b { color: var(--on-accent); }
   .read-short { font-size: .95rem; line-height: 1.5; }
   .ntag.wait { padding: 3px 11px; color: var(--text-faint, #8a8272); font-weight: 500; }
+
+  .prod-badges { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .prod-badge { display: inline-block; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--border, #E0D9C8); background: var(--surface, #FFFEFA); font: 600 .78rem var(--font-ui); }
+  .prod-badge.done { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); color: var(--accent, #0E5C3E); }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -869,6 +873,21 @@
     { id: 'trash', label: 'Silinenler', icon: '🗑️' }
   ];
 
+  // Top-bar areas (Haber, Research, Duyuru, Burs, Eğitim) list only what the owner approved in Sorular (DEC-R-20261112-038).
+  var TS_VIEWS = [
+    { id: 'production', label: 'Onaylananlar', icon: '✅' },
+    { id: 'done', label: 'Üretimi Bitenler', icon: '🏁' }
+  ];
+  var SQ_LANES = [['haber', 'Haber'], ['research', 'Research'], ['duyuru', 'Duyuru'], ['burs', 'Burs'], ['egitim', 'Eğitim']];
+  function isApprovedArea() { return state.temporal !== 'EVERGREEN' && (state.route === 'kaduse' || state.route === 'tip_toplulugu'); }
+  function viewsNow() { return isApprovedArea() ? TS_VIEWS : VIEWS; }
+  /** Which top-bar area an item belongs to. */
+  function laneOfItem(it) {
+    if (it.sq) return it.sq;
+    if (it.route === 'kaduse-news') return 'haber';
+    if (it.route === 'kaduse-research') return 'research';
+    return it.family === 'burs' || it.family === 'egitim' ? it.family : 'duyuru';
+  }
   var SOURCE_LABELS = {
     osym_medical_exams: 'ÖSYM', yok_medical_education: 'YÖK', yokak_medical_accreditation: 'YÖKAK',
     tuk_specialty_training: 'TUK', resmi_gazete_medical_regulation: 'Resmî Gazete',
@@ -1507,8 +1526,10 @@
   }
   function actionsHtml(it, compact) {
     if (it.wowq) return '<button class="btn btn-promote' + (compact ? ' btn-xs' : '') + '" data-action="promote" data-id="' + it.id + '">Üretime aktar</button><button class="btn btn-hold' + (compact ? ' btn-xs' : '') + '" data-action="wowskip" data-id="' + it.id + '">Şimdilik geç</button>';
+    if (it.sq) return '<button class="btn btn-hold' + (compact ? ' btn-xs' : '') + '" data-action="sqskip" data-id="' + it.id + '">Şimdilik geç</button>' + laneButtonsHtml(it, compact);
     var mode = it.triageStatus;
     var sm = compact ? ' btn-xs' : '';
+    if (state.route !== 'prodline' && (mode === 'production' || mode === 'done')) return prodBadgesHtml(it);
     var key = function (k) { return compact ? '' : ' <kbd>' + k + '</kbd>'; };
     var promote = '<button class="btn btn-promote' + sm + '" data-action="promote" data-id="' + it.id + '">Üretime aktar' + key('E') + '</button>';
     var hold = '<button class="btn btn-hold' + sm + '" data-action="hold" data-id="' + it.id + '">Beklet' + key('B') + '</button>';
@@ -1803,7 +1824,31 @@
     }
     throw new Error('UNAUTHORIZED');
   }
+  function sqItemsUrl(lane) {
+    var q = lane === 'haber' ? 'route=kaduse-news' : lane === 'research' ? 'route=kaduse-research' : 'route=tip-ogrencileri&channel=tip_toplulugu&family=' + lane;
+    return '/api/items?' + q + '&path=TIME_SENSITIVE&status=inbox&days=' + (lane === 'haber' || lane === 'research' ? 14 : 185) + '&limit=200';
+  }
+  async function loadSqInbox(lane) {
+    var data = await api(sqItemsUrl(lane));
+    var items = (data.items || []).map(function (x) { x.sq = lane; return x; });
+    items.sort(function (a, b) { return String(b.fetchedAt || '').localeCompare(String(a.fetchedAt || '')); });
+    return items;
+  }
   async function loadWowQuestions() {
+    if (!state.sqLane) { try { state.sqLane = localStorage.getItem('gcos-sq-lane') || 'haber'; } catch (e) { state.sqLane = 'haber'; } }
+    state.temporal = 'TIME_SENSITIVE';
+    if (state.sqLane !== 'research') {
+      state.wowqError = '';
+      state.items = await loadSqInbox(state.sqLane);
+      state.ratingsReady = true;
+      state.sourceFilter = '';
+      await loadRatings(state.items).catch(function () { /* optional */ });
+      await loadScores(state.items).catch(function () { /* optional */ });
+      refreshProdCounts();
+      renderChrome();
+      renderList();
+      return;
+    }
     state.wowx = state.wowx || {};
     state.wowqError = '';
     wowMem = null;
@@ -1821,7 +1866,10 @@
       if (q && q.priorWow && !state.drafts[m.id]) state.drafts[m.id] = { wow: Number(q.priorWow), tt: !!q.priorTt, ik: !!q.priorIk, km: !!q.priorKm };
     });
     var seen = {};
-    state.items = mapped.filter(function (m) { if (seen[m.id]) return false; seen[m.id] = true; return true; });
+    var research = [];
+    try { research = await loadSqInbox('research'); } catch (e) { research = []; }
+    state.items = mapped.concat(research).filter(function (m) { if (seen[m.id]) return false; seen[m.id] = true; return true; });
+    loadRatings(research).then(function () { renderList(); }).catch(function () { /* optional */ });
     state.counts = state.counts || {};
     state.ratingsReady = true;
     state.sourceFilter = '';
@@ -1969,9 +2017,45 @@
       var first = wrap.querySelector('input'); if (first) first.focus();
     });
   }
+  /** Reminder on an approved item: which channel still waits, which is produced. */
+  function prodBadgesHtml(it) {
+    var m = (state.prodMap || {})[it.id] || {};
+    var out = ['tt', 'ik', 'km'].filter(function (c) { return m[c]; }).map(function (c) {
+      return '<span class="prod-badge' + (m[c] === 'done' ? ' done' : '') + '">' + escapeHtml(PROD_LABEL[c]) + ': ' + (m[c] === 'done' ? 'üretildi' : 'üretim bekliyor') + '</span>';
+    }).join('');
+    return '<span class="prod-badges">' + (out || '<span class="prod-badge">Kanal işaretlenmemiş</span>') + '</span>';
+  }
+  function dropSqItem(id) {
+    var items = visibleItems();
+    var idx = items.findIndex(function (z) { return z.id === id; });
+    var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
+    state.items = state.items.filter(function (z) { return z.id !== id; });
+    delete state.drafts[id];
+    state.cursor = nextId;
+    renderChrome();
+    renderList();
+  }
+  /** Sorular decision (DEC-R-20261112-038): 6+ = pass, goes to the marked channels' lines and to its own top-bar area; 5 or less = fail, leaves. */
+  async function sendSqDecision(it, d) {
+    if (!d.wow) { showToast('Önce 1-10 arası bir puan verin'); return; }
+    var ch = ['tt', 'ik', 'km'].filter(function (c) { return !!d[c]; });
+    if (d.wow >= 6 && !ch.length) { showToast('Pass için en az bir kanal işaretle: Tıp Topluluğu, İyileşme Kanalı veya Kaduse Medikal'); return; }
+    await api('/api/ratings', { method: 'POST', body: JSON.stringify({ itemId: it.id, wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km } }) });
+    if (d.wow >= 6) {
+      await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: it.id, action: 'promote', channels: ch }) });
+      showToast('✓ Pass: ' + ch.map(function (c) { return PROD_LABEL[c]; }).join(' + ') + ' hattına ve ' + (SQ_LANES.filter(function (l) { return l[0] === laneOfItem(it); })[0] || ['', ''])[1] + ' alanına gitti');
+      refreshProdCounts();
+    } else {
+      await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: it.id, action: 'delete', reasonCode: 'other', reasonNote: 'Sorular: puan 5 ve altı (fail)' }) });
+      showToast('Fail: içerik kaldırıldı, tekrar gelmez');
+    }
+    bumpRated();
+    dropSqItem(it.id);
+  }
   async function sendRating(id) {
     var d = draftFor(id);
     var wqItem = state.items.find(function (x) { return x.id === id; });
+    if (wqItem && wqItem.sq) { return sendSqDecision(wqItem, d); }
     if (wqItem && wqItem.wowq) { return sendWowAnswer(wqItem, d); }
     if (!d.wow) { showToast('Önce 1-10 arası bir wow puanı verin'); return; }
     var res = await api('/api/ratings', { method: 'POST', body: JSON.stringify({ itemId: id, wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km } }) });
@@ -2134,7 +2218,7 @@
 
     pillbarEl.innerHTML = '';
     if (state.route !== 'bible' && state.route !== 'modules') {
-      VIEWS.forEach(function (v) {
+      viewsNow().forEach(function (v) {
         var btn = document.createElement('button');
         btn.className = 'pill' + (state.view === v.id ? ' active' : '');
         btn.setAttribute('data-view', v.id);
@@ -2169,8 +2253,12 @@
       kindbar.innerHTML = '';
       pillbarEl.hidden = true;
     } else if (isWowq || isProd) {
-      pillbarEl.hidden = true;
-      pillbarEl.innerHTML = '';
+      pillbarEl.hidden = false;
+      var cur = isWowq ? state.sqLane : (state.plLane || 'all');
+      pillbarEl.innerHTML = (isWowq ? SQ_LANES : [['all', 'Hepsi']].concat(SQ_LANES)).map(function (l) {
+        var n = isProd && state.items ? state.items.filter(function (x) { return l[0] === 'all' || laneOfItem(x) === l[0]; }).length : (isWowq && l[0] === state.sqLane ? (state.items || []).length : null);
+        return '<button type="button" class="pill' + (cur === l[0] ? ' active' : '') + '" data-' + (isWowq ? 'sq' : 'pl') + '="' + l[0] + '">' + escapeHtml(l[1]) + (n === null ? '' : ' <span class="p-count">' + fmtN(n) + '</span>') + '</button>';
+      }).join('');
       kindbar.hidden = true;
     } else if (state.route === 'kaduse' || state.route === 'tip_toplulugu') {
       pillbarEl.hidden = false;
@@ -2189,7 +2277,7 @@
     if (state.route === 'tip_toplulugu' && state.hekLane === 'egitim') title = 'Eğitim';
     if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? 'Research Rediscovery' : 'Sağlık & Referans';
     if (isModules) title = (MODULE_META[state.module] || MODULE_META.dossier).title;
-    if (isWowq) title = 'Sorular';
+    if (isWowq) title = 'Sorular · ' + (SQ_LANES.filter(function (l) { return l[0] === state.sqLane; })[0] || ['', ''])[1];
     if (isProd) title = 'Üretim hattı · ' + (PROD_LABEL[state.prodCh] || '');
     var titleCount = !isBible && !isModules && !isWowq && !isProd && state.counts ? state.counts[state.view] : (isWowq || isProd ? (state.items || []).length : null);
     mainTitleEl.innerHTML = escapeHtml(title) + (titleCount != null ? '<span class="title-count">' + escapeHtml(titleCount) + '</span>' : '');
@@ -2199,8 +2287,8 @@
       return;
     }
     if (isWowq) {
-      mainSubEl.textContent = 'Tanıttığın her wow makale bir kez sorulur · neden wow olduğunu, hangi Research olduğunu ve otoriteyi bu kartta birlikte söylersin';
-      footnoteEl.innerHTML = 'Cevapların sistemi besler: ilişkiler, taramalar ve sıralama. Cevaplanan makale bir daha önüne düşmez; “Şimdilik geç” 30 gün sonra döner.';
+      mainSubEl.textContent = 'Gelen her şey önce buraya düşer · puan ver (5 ve altı fail, 6 ve üstü pass), kanalı işaretle, Gönder · pass verdiğin içerik işaretlediğin kanalın üretim hattına ve üstteki kendi alanına gider';
+      footnoteEl.innerHTML = 'Sıra çekim tarihine göredir. Fail verdiğin ya da üretimi biten içerik kaydı tutulduğu için tekrar önüne gelmez. Yanlış alana düşen içeriği karttaki “… olmalı” düğmesiyle doğru alana gönderirsin.';
       return;
     }
     if (isModules) {
@@ -2505,6 +2593,7 @@
     FAILED_INTERNAL: 'Hata', NOT_RUN: 'Çalışmadı'
   };
   function visibleItems() {
+    if (state.route === 'prodline' && state.plLane && state.plLane !== 'all') return state.items.filter(function (it) { return laneOfItem(it) === state.plLane; });
     return state.items.filter(function (it) { return !state.sourceFilter || it.sourceId === state.sourceFilter || it.feedId === state.sourceFilter; });
   }
   function renderToolbar() {
@@ -3067,7 +3156,9 @@
     // Tıp Topluluğu items are deadline/announcement records kept up to 185 days (issue-check S15b); a 14-day window hid two thirds of the badge count.
     var days = state.route === 'tip-ogrencileri' ? 2 : state.route === 'tip_toplulugu' ? 185 : 14;
     var limit = state.route === 'tip-ogrencileri' ? 100 : 200;
+    if (isApprovedArea() && state.view !== 'production' && state.view !== 'done') state.view = 'production';
     var data = await api(itemsQuery(backendRoute(), state.view, days, limit));
+    try { state.prodMap = (await api('/api/production/map')).map || {}; } catch (e) { state.prodMap = state.prodMap || {}; }
     if (state.temporal === 'EVERGREEN') {
       try {
         state.evergreenSources = (await api('/api/evergreen/status')).sources || [];
@@ -3158,6 +3249,7 @@
       if (!prodChannels) return; // cancelled: nothing changes
     }
     var wqIt = state.items.find(function (x) { return x.id === id; });
+    if (wqIt && wqIt.sq && action === 'sqskip') { dropSqItem(id); showToast('Şimdilik geçildi; kart Sorular’da kalır'); return; }
     if (wqIt && wqIt.wowq) {
       if (action === 'wowskip') { await skipWowQuestion(wqIt); }
       else if (action === 'promote') {
@@ -3385,9 +3477,9 @@
       state.hekLane = n.lane || (n.route === 'tip_toplulugu' ? 'duyuru' : state.hekLane);
       state.temporal = n.path === 'EVERGREEN' ? 'EVERGREEN' : 'TIME_SENSITIVE';
       state.evView = n.evView || null;
-      state.view = 'inbox';
+      state.view = n.path === 'EVERGREEN' ? 'inbox' : 'production';
       state.sourceFilter = '';
-      state.showSources = n.lane === 'burs' || n.lane === 'egitim';
+      state.showSources = false;
       localStorage.setItem('gcos-route', state.route);
       localStorage.setItem('gcos-hek-lane', state.hekLane);
       localStorage.setItem('gcos-kind', state.kind);
@@ -3419,6 +3511,16 @@
       load().catch(function (err) { showToast(err.message); });
       return;
     }
+    var sqBtn = e.target.closest('[data-sq]');
+    if (sqBtn) {
+      state.sqLane = sqBtn.getAttribute('data-sq');
+      try { localStorage.setItem('gcos-sq-lane', state.sqLane); } catch (err) { /* private mode */ }
+      state.cursor = null;
+      load().catch(function (err) { showToast(err.message); });
+      return;
+    }
+    var plBtn = e.target.closest('[data-pl]');
+    if (plBtn) { state.plLane = plBtn.getAttribute('data-pl'); state.cursor = null; renderChrome(); renderList(); return; }
     var viewBtn = e.target.closest('[data-view]');
     if (viewBtn) {
       state.view = viewBtn.getAttribute('data-view');
