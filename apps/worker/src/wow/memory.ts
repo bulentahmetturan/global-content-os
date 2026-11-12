@@ -23,7 +23,7 @@ export interface MemoryResult { status: number; body: unknown }
 export const EXTRACTOR_VERSION = 'x1';
 const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 /** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
-export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6, journalsPerBatch: 20, scopedPerRun: 6, evergreenPerRun: 4, authorityMinAnswers: 5, skipSnoozeDays: 30 } as const;
+export const WOW_CONFIG = { llmCallsPerDay: 250, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6, journalsPerBatch: 20, scopedPerRun: 6, evergreenPerRun: 4, authorityMinAnswers: 5, skipSnoozeDays: 30 } as const;
 export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
 const STUDY_TYPES = ['RCT', 'COHORT', 'CASE_CONTROL', 'CROSS_SECTIONAL', 'META_ANALYSIS', 'REVIEW', 'ANIMAL', 'IN_VITRO', 'CASE_REPORT', 'OTHER'];
 const OWNER_WOW = 'owner_wow_example';
