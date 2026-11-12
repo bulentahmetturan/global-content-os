@@ -343,11 +343,11 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     const laneAns = new Map<string, string>();
     try { for (const r of (await env.DB.prepare(`SELECT item_id, lane FROM wow_lane_answers`).all<{ item_id: string; lane: string }>()).results) laneAns.set(r.item_id, r.lane); } catch { /* a006 absent */ }
     const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
-    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; reasonWeight: number | null; matchedReasons: string[]; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; narrowed: boolean; reasonWeight: number | null; matchedReasons: string[]; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
     for (const r of rows) {
       const tk = normTitleKey(r.title);
       if (tk && decided.titles.has(tk)) continue; // the same finding was already decided under another id
-      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, reasonWeight: null, matchedReasons: [], authorityRate: null, why: [] };
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, narrowed: false, reasonWeight: null, matchedReasons: [], authorityRate: null, why: [] };
       cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
       by.set(r.item_id, cur);
     }
@@ -370,6 +370,11 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
       }
       for (const [k, a] of acc) reasonWeight.set(k, { weight: Math.round((a.sum / a.n) * 10) / 10, reasons: [...a.reasons].slice(0, 4) });
     } catch { /* wow_feedback / extractions absent: no weight */ }
+    // Narrowing by the owner's "+" (DEC-R-20261112-035): candidates tagged with a marked topic come first.
+    try {
+      const marked = new Set((await env.DB.prepare(`SELECT DISTINCT t.item_id FROM topic_item_tags t JOIN wow_narrow_topics n ON n.topic_id = t.topic_id`).all<{ item_id: string }>()).results.map((r) => r.item_id));
+      for (const c of list) c.narrowed = marked.has(c.itemId);
+    } catch { /* a010 absent: nothing is marked */ }
     for (const c of list) {
       const w = c.why.map((x) => reasonWeight.get(x.relationId)).filter((x): x is { weight: number; reasons: string[] } => !!x);
       c.reasonWeight = w.length ? Math.max(...w.map((x) => x.weight)) : null;
@@ -394,7 +399,7 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     }
     const byUncertain = params.get('order') === 'uncertain';
     // Most informative first (Bible §1.4: every round must reduce a doubt): the item the learner is least sure about teaches most.
-    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || (b.reasonWeight ?? 0) - (a.reasonWeight ?? 0) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || Number(b.narrowed) - Number(a.narrowed) || (b.score ?? -1) - (a.score ?? -1) || (b.reasonWeight ?? 0) - (a.reasonWeight ?? 0) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
@@ -605,4 +610,22 @@ export async function wowInsight(env: Env, params: URLSearchParams, plan: TopicP
     for (const r of rel) if (r.name) relations.push(r.name);
   } catch { /* memory addon absent */ }
   return { status: 200, body: { ok: true, itemId, topics, relations } };
+}
+
+/** Owner "+" on a topic tag: the topic enters (or, with on:false, leaves) the narrowing system. Relations use POST /api/wow/extraction. */
+export async function narrowTopic(env: Env, raw: unknown, plan: TopicPlan = TOPIC_PLAN): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['topicId', 'itemId', 'on'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const topicId = typeof b.topicId === 'string' ? b.topicId.trim() : '';
+  if (!topicId || !plan.topics.some((t) => t.topicId === topicId)) return { status: 400, body: { error: 'UNKNOWN_TOPIC' } };
+  const itemId = typeof b.itemId === 'string' && b.itemId.trim() ? b.itemId.trim() : null;
+  try {
+    if (b.on === false) await env.DB.prepare(`DELETE FROM wow_narrow_topics WHERE topic_id = ?`).bind(topicId).run();
+    else await env.DB.prepare(`INSERT OR IGNORE INTO wow_narrow_topics (topic_id, origin_item_id) VALUES (?, ?)`).bind(topicId, itemId).run();
+    return { status: 200, body: { ok: true, topicId, narrowed: b.on !== false } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
 }

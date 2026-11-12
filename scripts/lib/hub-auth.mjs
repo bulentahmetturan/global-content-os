@@ -34,6 +34,7 @@ export const SECRET_BY_PATH = Object.freeze({
   '/api/wow/candidates': 'HUB_OPERATOR_TOKEN',
   '/api/wow/insight': 'HUB_OPERATOR_TOKEN',
   '/api/wow/extraction': 'HUB_OPERATOR_TOKEN',
+  '/api/wow/narrow-topic': 'HUB_OPERATOR_TOKEN',
   '/api/wow/extract': 'HUB_OPERATOR_TOKEN',
   '/api/wow/feedback': 'HUB_OPERATOR_TOKEN',
   '/api/wow/query': 'HUB_OPERATOR_TOKEN',
