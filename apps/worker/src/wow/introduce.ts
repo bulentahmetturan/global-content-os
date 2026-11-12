@@ -15,6 +15,7 @@ import { RESEARCH_CURRENT_MAX_AGE_DAYS } from '../triage/lane-purity';
 import { recordRating } from '../ratings';
 import { runScoring } from '../scoring';
 import { tagIngestedItem } from '../topics/store';
+import { extractArticle } from './memory';
 
 export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
@@ -167,6 +168,8 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
     await tagIngestedItem(env, { itemId: stored.id, route: 'kaduse-research', feedId: feed.id, title: meta.title, abstract: meta.abstract || null });
   }
   const articleSource = await registerArticleSource(env, meta.journal).catch(() => null);
+  // Editorial memory (DEC-R-20261112-027): what the system reads out of the article waits as a proposal for the owner.
+  const extraction = await extractArticle(env, { itemId: stored.id, title: meta.title, abstract: meta.abstract || null });
   let scoring: unknown = null;
   if (x.wow !== null) {
     const note = `[WOW] ${x.reasons}`.slice(0, 500);
@@ -177,7 +180,7 @@ export async function introduceWow(env: Env, raw: unknown, fetcher: typeof fetch
   return {
     status: stored.created ? 201 : 200,
     body: { ok: true, itemId: stored.id, created: stored.created, doi: meta.doi || null, doiPending: doiless, title: meta.title, journal: meta.journal, publishedAt: meta.publishedAt,
-      path: evergreen ? 'EVERGREEN/research_rediscovery' : 'TIME_SENSITIVE/research', feed: feed.id, feedWasPaused: !!owned && !feed.enabled, reactivated, onboarding, articleSource, ratingPending: x.wow === null,
+      path: evergreen ? 'EVERGREEN/research_rediscovery' : 'TIME_SENSITIVE/research', feed: feed.id, feedWasPaused: !!owned && !feed.enabled, reactivated, onboarding, articleSource, extraction, ratingPending: x.wow === null,
       learner: (scoring as { body?: unknown } | null)?.body ?? null },
   };
 }

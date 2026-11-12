@@ -38,7 +38,7 @@ DISABLE_FEEDS = (
     "news-resmi-gazete-health-scoped",
     "news-titck-general-regulatory",
     "news-tuik-saglik-sosyal-koruma",
-    "research-medical-news-today",
+    # research-medical-news-today was deleted with the other non-article Research feeds (DEC-R-20261111-026).
 )
 
 KEEP_FEEDS = (
