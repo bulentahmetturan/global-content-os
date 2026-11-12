@@ -30,8 +30,8 @@ const ctx = {
 };
 vm.createContext(ctx);
 vm.runInContext(
-  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';', 'var GATE_TR = ' + html.match(/var GATE_TR = (\{[^;]*\});/)[1] + ';', 'var REASON_TR = ' + html.match(/var REASON_TR = (\{[^;]*\});/)[1] + ';', 'var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = (\{[^;]*\});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = (\{[^;]*\});/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'laneButtonsHtml', 'laneChipHtml', 'prodBadgesHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'predChipHtml', 'predLineHtml', 'readPaneHtml'].map(extractFunction))
+  ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';', 'var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = (\{[^;]*\});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = (\{[^;]*\});/)[1] + ';']
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'laneButtonsHtml', 'laneChipHtml', 'prodBadgesHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -164,23 +164,8 @@ test('after Gönder the item stays in view with a saved notice; unsaved changes 
   assert.ok(send.includes('Stay on the item'));
 });
 
-test('system prediction: chip and line show score, channels, reasons and gates; missing scores render nothing; scoring is throttled', () => {
-  assert.equal(ctx.predChipHtml('p1'), '');
-  assert.equal(ctx.predLineHtml('p1'), '');
-  ctx.state.scores.p1 = { wow: 7.234, tt: 0.2, ik: 0.8, km: 0.6, uncertainty: 0.3, gates: [], reasons: { up: ['f:lifestyle'], down: ['f:animal'] } };
-  assert.match(ctx.predChipHtml('p1'), /⚙ 7\.2/);
-  assert.doesNotMatch(ctx.predChipHtml('p1'), /ELENDİ/);
-  const line = ctx.predLineHtml('p1');
-  assert.match(line, /kanal <b>İK KM<\/b>/);
-  assert.match(line, /Artı: yaşam tarzı/);
-  assert.match(line, /Eksi: hayvan çalışması/);
-  ctx.state.scores.p2 = { wow: 2, tt: 0.1, ik: 0.1, km: 0.1, gates: ['US_REGULATORY'], reasons: {} };
-  assert.match(ctx.predChipHtml('p2'), /ELENDİ/);
-  assert.match(ctx.predLineHtml('p2'), /Tek ülkeye özgü düzenleme/);
-  ctx.state.scores = {};
-  assert.match(html, /Date\.now\(\) - last > 15 \* 60 \* 1000/);
-  assert.match(html, /'\/api\/scoring\/run'/);
-  assert.match(html, /await loadScores\(state\.items\)/);
+test('no system prediction anywhere in the Hub (owner rule DEC-R-20261112-040)', () => {
+  assert.ok(!/Sistem tahmini|predChipHtml|predLineHtml|loadScores|ELENDİ/.test(html));
 });
 
 test('lane buttons: open items offer the two other headings, never their own, never evergreen or closed items', () => {

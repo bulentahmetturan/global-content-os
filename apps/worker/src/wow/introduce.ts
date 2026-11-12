@@ -275,7 +275,7 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
           relationTags: a && b && a.key !== b.key ? [{ name: a.name + ' ile ' + b.name.charAt(0).toLocaleLowerCase('tr-TR') + b.name.slice(1) + ' ilişkisi', open: !!e.relationId, canOpen: true }] : [],
         };
       };
-      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, ...tagsOf(e), topicTags: parse(e.topic_ids).map((id) => ({ id, name: topicName.get(id) || id, narrowed: marked.has(id) })), relationOpen: !!e.relationId, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
+      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, ...tagsOf(e) } : r; });
     } catch { /* extraction tables not ready: the list still works */ }
     return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {
