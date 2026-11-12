@@ -683,7 +683,6 @@
   .wowx .wx-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
   .wowx .wx-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border: 1px solid var(--border, #E0D9C8); border-radius: 999px; background: var(--surface, #FFFEFA); font-size: .8rem; cursor: pointer; }
   .wowx .wx-chip:has(input:checked) { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); }
-  .wowx .wx-auth[hidden] { display: none; }
   .wowx select, .wowx .wx-note { font: inherit; font-size: .82rem; padding: 4px 8px; border: 1px solid var(--border, #E0D9C8); border-radius: 8px; background: var(--surface, #FFFEFA); }
   .wowx .wx-note { flex: 1; min-width: 200px; }
 
@@ -699,7 +698,6 @@
   .decision .rate-send .btn { padding: 4px 12px; font-size: .76rem; }
   .decision .wowx { flex: 1 1 100%; gap: 5px; margin-top: 4px; }
   .decision .wowx .rate-l { display: inline-block; margin-right: 6px; }
-  .prov-badge { display: inline-block; margin: 0 0 8px; padding: 3px 11px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 700 .74rem var(--font-mono); letter-spacing: .03em; }
   .prodpick-back { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; background: rgba(15,22,18,.5); }
   .prodpick { min-width: 280px; max-width: 92vw; padding: 20px 22px; border-radius: 14px; background: var(--surface, #FFFEFA); color: var(--text, #1E1A12); box-shadow: 0 12px 40px rgba(0,0,0,.3); display: grid; gap: 10px; }
   .prodpick h3 { margin: 0; font-size: 1.05rem; }
@@ -1788,13 +1786,6 @@
     await load();
   }
   // ---- Sorular: the owner's wow articles and relation candidates come through the same editorial card (DEC-R-20261112-028/-029) ----
-  var WOWQ_ISSUES = [['', 'Sorun yok'], ['topic_wrong', 'Konu yanlış'], ['weak_evidence', 'İlginç ama kanıt zayıf'], ['channel', 'Kanal uymuyor'], ['repeat', 'Tekrar: bunu zaten gördüm'], ['study_type', 'Bu çalışma türünü istemiyorum']];
-  function wowqWindowDays() { return wowMem && wowMem.window ? wowMem.window.days : 500; }
-  function wowqLaneGuess(it) {
-    if (it.lane) return it.lane;
-    var t = Date.parse(it.publishedAt || '');
-    return !isNaN(t) && (Date.now() - t) / 864e5 > wowqWindowDays() ? 'EVERGREEN' : 'TIME_SENSITIVE';
-  }
   /** Sorular card: the owner's reasons only. Research kind (500 days) and authority are decided by the system; no fixed reason list: the tags are the ones the owner wrote before. */
   function wowExtraHtml(it) {
     var x = (state.wowx && state.wowx[it.id]) || {};
@@ -3354,10 +3345,7 @@
     if (!kind) return;
     var st = wowxStore(t);
     if (!st) return;
-    if (kind === 'lane') { st.x.lane = t.value; var aq = st.box.querySelector('.wx-auth'); if (aq) aq.hidden = t.value !== 'EVERGREEN'; }
-    else if (kind === 'auth') st.x.auth = t.value;
-    else if (kind === 'issue') st.x.issue = t.value;
-    else if (kind === 'reason') { st.x.reasons = Array.prototype.map.call(st.box.querySelectorAll('input[data-wx="reason"]:checked'), function (c) { return c.value; }); }
+    if (kind === 'reason') { st.x.reasons = Array.prototype.map.call(st.box.querySelectorAll('input[data-wx="reason"]:checked'), function (c) { return c.value; }); }
   });
   document.addEventListener('input', function (e) {
     var t = e.target;
