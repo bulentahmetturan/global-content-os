@@ -16,6 +16,7 @@ import { recordRating } from '../ratings';
 import { runScoring } from '../scoring';
 import { tagIngestedItem } from '../topics/store';
 import { EXTRACTOR_VERSION, extractArticle, WOW_CONFIG } from './memory';
+import { TOPIC_PLAN } from '../topics/plan.generated';
 
 export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
@@ -234,12 +235,15 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
     catch (e) { if (!/no such (table: wow_provenance|column)/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
     // Topics and topic relations (insight, DEC-R-20261112-032): what the system extracted for each article; optional, never blocks the list.
     try {
-      const ex = (await env.DB.prepare(`SELECT e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, r.name AS relationName
+      const ex = (await env.DB.prepare(`SELECT e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, e.relation_id AS relationId, r.name AS relationName
           FROM wow_extractions e JOIN source_items s ON s.id = e.item_id LEFT JOIN wow_relations r ON r.relation_id = e.relation_id
          WHERE s.discovery_reason = ? AND e.extractor_version = ?`).bind(WOW_DISCOVERY_REASON, EXTRACTOR_VERSION).all<Record<string, unknown>>()).results;
       const parse = (v: unknown): string[] => { try { const a = JSON.parse(String(v ?? '[]')); return Array.isArray(a) ? a.map(String) : []; } catch { return []; } };
       const byId = new Map(ex.map((e) => [String(e.itemId), e]));
-      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
+      const topicName = new Map(TOPIC_PLAN.topics.map((t) => [t.topicId, t.name]));
+      let marked = new Set<string>();
+      try { marked = new Set((await env.DB.prepare(`SELECT topic_id FROM wow_narrow_topics`).all<{ topic_id: string }>()).results.map((x) => x.topic_id)); } catch { /* a010 absent */ }
+      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, topicTags: parse(e.topic_ids).map((id) => ({ id, name: topicName.get(id) || id, narrowed: marked.has(id) })), relationOpen: !!e.relationId, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
     } catch { /* extraction tables not ready: the list still works */ }
     return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {

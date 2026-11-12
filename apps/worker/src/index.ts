@@ -1,6 +1,6 @@
 import { introduceWow, introducedWow, wowQuestions } from './wow/introduce';
 import { wowSimilar, wowSources } from './wow/similar';
-import { wowMemory, wowCandidates, wowInsight, decideExtraction, extractStored, recordFeedback, decideQuery, recordAuthority } from './wow/memory';
+import { wowMemory, wowCandidates, wowInsight, narrowTopic, decideExtraction, extractStored, recordFeedback, decideQuery, recordAuthority } from './wow/memory';
 import { topicSummary, topicItems, topicQuestions, topicClarity, recordLabel } from './topics/store';
 import {
   countByStatus,
@@ -630,6 +630,7 @@ export default {
         const r = path === '/api/wow/extraction' ? await decideExtraction(env, raw) : path === '/api/wow/extract' ? await extractStored(env, raw) : path === '/api/wow/feedback' ? await recordFeedback(env, raw) : path === '/api/wow/query' ? await decideQuery(env, raw) : await recordAuthority(env, raw);
         return json(r.body, r.status);
       }
+      if (path === '/api/wow/narrow-topic' && request.method === 'POST') { const r = await narrowTopic(env, await request.json().catch(() => null)); return json(r.body, r.status); }
       if (path === '/api/wow/questions' && request.method === 'GET') { const r = await wowQuestions(env); return json(r.body, r.status); }
       if (path === '/api/wow/introduced' && request.method === 'GET') { const r = await introducedWow(env); return json(r.body, r.status); }
 
