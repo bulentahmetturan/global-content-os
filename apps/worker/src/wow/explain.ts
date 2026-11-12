@@ -20,6 +20,14 @@ export function validExplanation(text: unknown, title: string): string | null {
   return /[çğıöşüÇĞİÖŞÜ]| ve | bir | için | ile /.test(t) ? t : null; // Turkish-looking
 }
 
+/** The model sometimes writes two sentences: keep the first one (the rule is exactly one sentence, DEC-R-20261112-044). */
+export function firstSentence(text: unknown): unknown {
+  if (typeof text !== 'string') return text;
+  const t = text.replace(/\s+/g, ' ').trim();
+  const m = /^(.+?[.!?])(?=\s+\S)/u.exec(t);
+  return m ? m[1] : t;
+}
+
 /** Existing explanations for the given item ids: { id: text }. */
 export async function getExplains(env: Env, ids: string[]): Promise<MemoryResult> {
   const list = [...new Set(ids.filter((x) => typeof x === 'string' && x).slice(0, 300))];
@@ -62,7 +70,7 @@ export async function explainBatch(env: Env, ids?: string[]): Promise<MemoryResu
     let generated = 0;
     for (const o of Array.isArray(out) ? out : []) {
       const r = typeof o.i === 'number' ? rows[o.i] : undefined;
-      const t = r ? validExplanation(o.t, r.title) : null;
+      const t = r ? validExplanation(firstSentence(o.t), r.title) : null;
       if (!r || !t) continue;
       await env.DB.prepare(`INSERT OR REPLACE INTO item_explain (item_id, text_tr) VALUES (?, ?)`).bind(r.id, t).run();
       generated += 1;
