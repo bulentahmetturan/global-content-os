@@ -1859,7 +1859,7 @@
     var mapped = (intro.items || []).map(function (q) {
       var ref = String(q.sourceReference || '');
       var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Prof. Dr. Ahmet Ekmekçi' : (/^Sahip/i.test(ref) ? 'Sahip listesi' : (ref ? ref.split(' · ')[0].split('#')[0].trim() : 'Kaynak kaydı yok'));
-      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: wowInsightText(q), wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow, tags: q.tags || [], relationTag: q.relationTag || null };
+      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: wowInsightText(q), wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow, tags: q.tags || [], relationTags: q.relationTags || [] };
     });
     var seen = {};
     var research = [];
@@ -1931,9 +1931,9 @@
     var tags = (it.tags || []).map(function (t) {
       return '<span class="ntag' + (t.narrowed ? ' on' : '') + '">' + escapeHtml(t.name) + '<button type="button" class="ntag-add" data-narrow="topic" data-item="' + escapeHtml(it.id) + '" data-topic="' + escapeHtml(t.key) + '" title="' + (t.narrowed ? 'Daraltmada · çıkar' : 'Daraltmaya ekle') + '" aria-pressed="' + !!t.narrowed + '">' + (t.narrowed ? '✓' : '+') + '</button></span>';
     });
-    if (it.relationTag) {
-      tags.push('<span class="ntag rel' + (it.relationTag.open ? ' on' : '') + '">' + escapeHtml(it.relationTag.name) + '<button type="button" class="ntag-add" data-narrow="relation" data-item="' + escapeHtml(it.id) + '" title="' + (it.relationTag.open ? 'Bu ilişki daraltmada' : 'İlişkiyi daraltmaya ekle') + '" aria-pressed="' + !!it.relationTag.open + '"' + (it.relationTag.open ? ' disabled' : '') + '>' + (it.relationTag.open ? '✓' : '+') + '</button></span>');
-    }
+    (it.relationTags || []).forEach(function (r, i) {
+      tags.push('<span class="ntag rel' + (r.open ? ' on' : '') + '">' + escapeHtml(r.name) + '<button type="button" class="ntag-add" data-narrow="relation" data-item="' + escapeHtml(it.id) + '" data-rel="' + i + '" title="' + (r.open ? 'Bu ilişki daraltmada' : (r.canOpen ? 'İlişkiyi daraltmaya ekle' : 'Bu ilişki için arama terimi henüz yok')) + '" aria-pressed="' + !!r.open + '"' + (r.open || !r.canOpen ? ' disabled' : '') + '>' + (r.open ? '✓' : '+') + '</button></span>');
+    });
     return '<div class="ntags">' + (tags.length ? tags.join('') : '<span class="ntag wait">Konu etiketi bekliyor</span>') + '</div>';
   }
   async function narrowFromTag(btn) {
@@ -1941,8 +1941,9 @@
     if (!it) return;
     if (btn.getAttribute('data-narrow') === 'relation') {
       await api('/api/wow/extraction', { method: 'POST', body: JSON.stringify({ itemId: it.id, decision: 'confirm' }) });
-      it.relationTag.open = true;
-      showToast('✓ İlişki daraltma sistemine girdi: ' + it.relationTag.name);
+      var rel = (it.relationTags || [])[Number(btn.getAttribute('data-rel')) || 0];
+      if (rel) rel.open = true;
+      showToast('✓ İlişki daraltma sistemine girdi' + (rel ? ': ' + rel.name : ''));
     } else {
       var key = btn.getAttribute('data-topic');
       var tag = (it.tags || []).filter(function (t) { return t.key === key; })[0];
