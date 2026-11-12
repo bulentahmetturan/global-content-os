@@ -23,6 +23,7 @@ function extractFunction(name) {
 const ctx = {
   state: { route: 'kaduse', temporal: 'TIME_SENSITIVE', selected: {}, ratings: {}, drafts: {}, ratingsReady: null, scores: {} },
   DECISION_LABELS: { OPPORTUNITY: 'Fırsat' },
+  PROD_LABEL: { tt: 'Tıp Topluluğu', ik: 'İyileşme Kanalı', km: 'Kaduse Medikal' },
   sourceLabel: () => 'Health Canada',
   formatNewsAge: () => 'bugün',
   evergreenMeta: () => null,
@@ -30,7 +31,7 @@ const ctx = {
 vm.createContext(ctx);
 vm.runInContext(
   ['var TR_MONTHS = ' + html.match(/var TR_MONTHS = (\[[^\]]*\]);/)[1] + ';', 'var CHANNELS = ' + html.match(/var CHANNELS = (\[\[[^;]*\]\]);/)[1] + ';', 'var GATE_TR = ' + html.match(/var GATE_TR = (\{[^;]*\});/)[1] + ';', 'var REASON_TR = ' + html.match(/var REASON_TR = (\{[^;]*\});/)[1] + ';', 'var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = (\{[^;]*\});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = (\{[^;]*\});/)[1] + ';']
-    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'laneButtonsHtml', 'laneChipHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'predChipHtml', 'predLineHtml', 'readPaneHtml'].map(extractFunction))
+    .concat(['escapeHtml', 'stripHtml', 'isUntranslated', 'translatedFirst', 'itemTexts', 'statusPillHtml', 'laneButtonsHtml', 'laneChipHtml', 'prodBadgesHtml', 'actionsHtml', 'safeHttpUrl', 'formatAbsDate', 'longDate', 'draftFor', 'sameAsSaved', 'ratingLabel', 'rateHtml', 'predChipHtml', 'predLineHtml', 'readPaneHtml'].map(extractFunction))
     .join('\n'),
   ctx,
 );
@@ -69,8 +70,18 @@ test('actions per status: inbox has promote/hold/delete, hold has promote/delete
   const names = (s) => [...ctx.actionsHtml(item({ triageStatus: s })).matchAll(/data-action="(\w+)"/g)].map((m) => m[1]);
   assert.deepEqual(names('inbox'), ['promote', 'hold', 'delete']);
   assert.deepEqual(names('hold'), ['promote', 'delete']);
+  // DEC-R-20261112-038: in the top-bar areas an approved item shows the channel reminder; "Üretim bitti" lives only in a channel's production line.
+  assert.deepEqual(names('production'), []);
+  ctx.state.prodMap = { i1: { tt: 'production', ik: 'done' } };
+  const badges = ctx.actionsHtml(item({ id: 'i1', triageStatus: 'production' }));
+  assert.match(badges, /Tıp Topluluğu: üretim bekliyor/);
+  assert.match(badges, /İyileşme Kanalı: üretildi/);
+  ctx.state.route = 'prodline';
   assert.deepEqual(names('production'), ['complete']);
+  ctx.state.route = 'kaduse';
   assert.deepEqual(names('trash'), ['undo']);
+  // Sorular: an incoming item is decided by its score; the card offers only "Şimdilik geç" and the lane correction.
+  assert.deepEqual([...ctx.actionsHtml(item({ sq: 'haber', route: 'kaduse-news', triageStatus: 'inbox' })).matchAll(/data-action="(\w+)"/g)].map((m) => m[1]), ['sqskip']);
 });
 
 test('guards: undo is offered only for hold/delete, promote needs a second key press, light (cream) is the default theme', () => {

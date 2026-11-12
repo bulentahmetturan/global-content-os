@@ -939,6 +939,7 @@ export function rowToView(row: SourceItemRow) {
     enrichmentStatus: row.enrichment_status ?? null,
     dedupeKey: row.dedupe_key,
     fetchedAt: row.fetched_at,
+    family: row.content_family ?? null,
     ...temporalView(row),
     evidence:
       row.doi || row.pmid || row.finding

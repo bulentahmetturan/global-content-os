@@ -47,7 +47,7 @@ import { runHealthWatch } from './health-watch';
 import { collectHubModules } from './hub-modules';
 import { latestRatings, recordRating } from './ratings';
 import { laneSuggestions, moveItemToLane } from './lane-feedback';
-import { PRODUCTION_CHANNELS, isProductionChannel, listProduction, markChannelDone, parseProductionChannels, recordProduction } from './production-lines';
+import { PRODUCTION_CHANNELS, isProductionChannel, listProduction, markChannelDone, productionMap, parseProductionChannels, recordProduction } from './production-lines';
 import { promoteToRediscovery } from './triage/rediscovery';
 import { latestScores, runScoring, scoringStatus } from './scoring';
 import { handleDoctorActivationOp, handleDoctorAuditGet } from './doctor-activation';
@@ -850,6 +850,10 @@ export default {
       }
 
       // Production lines (DEC-R-20261112-031): one list per channel; an item marked for two channels is in both. Read-only, like /api/items.
+      if (path === '/api/production/map' && request.method === 'GET') {
+        try { return json({ ok: true, map: await productionMap(env) }); }
+        catch (err) { if (/no such table/i.test(String(err))) return json({ ok: true, map: {} }); throw err; }
+      }
       if (path === '/api/production' && request.method === 'GET') {
         const channel = url.searchParams.get('channel') || '';
         if (!isProductionChannel(channel)) return json({ error: 'INVALID_CHANNEL', validChannels: PRODUCTION_CHANNELS }, 400);
