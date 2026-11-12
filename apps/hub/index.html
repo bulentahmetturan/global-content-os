@@ -783,7 +783,6 @@
     { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z\"/><path d=\"M4 19V5M8 7h7\"/></svg>" },
     { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 19c0-9 5-14 15-14 0 10-5 15-14 15\"/><path d=\"M5 19l8-8\"/></svg>" },
     { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 11a8 8 0 0 0-14-4M4 13a8 8 0 0 0 14 4\"/><path d=\"M6 3v4h4M18 21v-4h-4\"/></svg>" },
-    { navId: 'm_topics', path: 'MODULES', route: 'modules', module: 'topics', lane: null, label: 'Research Konuları', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 6h16M4 12h10M4 18h6\"/><circle cx=\"18\" cy=\"16\" r=\"3\"/></svg>", doc: true },
     { navId: 'm_dossier', path: 'MODULES', route: 'modules', module: 'dossier', lane: null, label: 'Dossier', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 20V4M4 20h16\"/><path d=\"M8 16v-4M12 16V8M16 16v-6\"/></svg>", doc: true },
     { navId: 'm_doctors', path: 'MODULES', route: 'modules', module: 'doctors', lane: null, label: 'Doktorlar', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3v6a4 4 0 0 0 8 0V3\"/><path d=\"M10 13v2a4 4 0 0 0 8 0v-1\"/><circle cx=\"18\" cy=\"12\" r=\"2\"/></svg>", doc: true },
     { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12\"/><path d=\"M8 7h8M8 17h8\"/></svg>", doc: true },
@@ -1884,7 +1883,7 @@
         t.type = 'button';
         t.className = 'top-tab' + (navActive(n) ? ' active' : '');
         t.setAttribute('data-nav', n.navId);
-        t.innerHTML = escapeHtml(n.label) + (n.doc ? '' : ' <span class="p-count">' + (c == null ? '–' : fmtN(c)) + '</span>');
+        t.innerHTML = escapeHtml(n.label) + (n.doc ? '' : ' <span class="p-count">' + (c == null ? '' : fmtN(c)) + '</span>');
         topTabsEl.appendChild(t);
       });
       // System area: not Time Sensitive; it feeds the whole system, so it sits apart at the far right (owner decision 2026-11-12).
@@ -1913,7 +1912,7 @@
         lastGroup = n.path;
       }
       var count = navTemporalCount(n, state.temporalCounts);
-      var shown = count == null ? '–' : fmtN(count);
+      var shown = count == null ? '' : fmtN(count);
       var btn = document.createElement('button');
       btn.className = 'project-item' + (n.child ? ' nav-child' : '') + (n.doc ? ' nav-doc' : '') + (navActive(n) ? ' active' : '');
       btn.setAttribute('data-nav', n.navId);
