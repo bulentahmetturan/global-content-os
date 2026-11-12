@@ -15,7 +15,7 @@ import { RESEARCH_CURRENT_MAX_AGE_DAYS } from '../triage/lane-purity';
 import { recordRating } from '../ratings';
 import { runScoring } from '../scoring';
 import { tagIngestedItem } from '../topics/store';
-import { extractArticle } from './memory';
+import { extractArticle, WOW_CONFIG } from './memory';
 
 export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
@@ -202,18 +202,23 @@ export async function introducedWow(env: Env): Promise<WowResult> {
 }
 
 /**
- * Owner question queue (DEC-R-20261111-026): introduced articles that have no score yet, oldest first, one question each:
- * "wow kaç ve neden". The owner answers through the rating route; every answer re-runs the learner. Read-only.
+ * Owner question queue (DEC-R-20261112-030): every introduced article is asked ONCE in Hub > Sorular, with or without an earlier score
+ * (an earlier score pre-fills the card; it does not count as the Sorular answer). An article leaves the queue when the owner answers it
+ * (any wow_feedback row that is not a skip); a skip returns after WOW_CONFIG.skipSnoozeDays. Oldest first. Read-only.
  * Route (Hub operator token, ROUTE_GATES): GET /api/wow/questions.
  */
 export async function wowQuestions(env: Env): Promise<WowResult> {
   try {
+    const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
     const rows = (await env.DB.prepare(
-      `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt
+      `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
+              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm
          FROM source_items s
-        WHERE s.discovery_reason = ? AND NOT EXISTS (SELECT 1 FROM item_ratings r WHERE r.item_id = s.id)
-        ORDER BY s.fetched_at ASC LIMIT 100`,
-    ).bind(WOW_DISCOVERY_REASON).all()).results;
+         LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
+        WHERE s.discovery_reason = ?
+          AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = s.id AND (f.kind <> 'skip' OR f.created_at >= ?))
+        ORDER BY s.fetched_at ASC, s.id ASC LIMIT 400`,
+    ).bind(WOW_DISCOVERY_REASON, since).all()).results;
     return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {
     if (/no such table/i.test(String(e))) return { status: 503, body: { error: 'RATINGS_NOT_READY' } };
