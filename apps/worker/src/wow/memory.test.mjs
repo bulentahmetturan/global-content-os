@@ -339,3 +339,14 @@ test('auto (DEC-029): an article the owner introduced, in an accepted topic, ope
   const closed = await M.decideQuery(env, { queryId: q, action: 'close' });
   assert.equal(closed.status, 200, JSON.stringify(closed.body));
 });
+
+const X = await bundle('apps/worker/src/wow/explain.ts', 'wow-explain');
+test('explanation validation: short, over-long, title copies, bracket noise and non-Turkish text are refused', () => {
+  const title = 'Sugar rationing protected against chronic disease';
+  assert.equal(X.validExplanation('Kısa.', title), null);
+  assert.equal(X.validExplanation('x'.repeat(500), title), null);
+  assert.equal(X.validExplanation(title, title), null);
+  assert.equal(X.validExplanation('Bu çalışma {şeker} için bir sonuç buldu ve bunu açıkladı bugün.', title), null);
+  assert.equal(X.validExplanation('This sentence is entirely written in English and has no Turkish words at all.', title), null);
+  assert.ok(X.validExplanation('Bebeklikte şekeri sınırlanan çocuklarda yetişkinlikte diyabet ve yüksek tansiyon riski daha düşük çıktı.', title));
+});

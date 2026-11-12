@@ -51,6 +51,8 @@ export const ROUTE_GATES: Readonly<Record<string, GateSpec>> = {
   'POST /api/wow/extraction': HUB,
   'POST /api/wow/narrow-topic': HUB,
   'POST /api/wow/tag': HUB,
+  'GET /api/wow/explain': HUB,
+  'POST /api/wow/explain': HUB_OR_AGENT,
   'POST /api/wow/extract': HUB_OR_AGENT,
   'POST /api/wow/feedback': HUB,
   'POST /api/wow/query': HUB,
