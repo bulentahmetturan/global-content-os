@@ -9,6 +9,8 @@
 import { newId, urlLedgerKey, type Env } from './db/queries';
 import { extractFeatures, hashFeature } from './scoring/features';
 import { laneTarget, type TipLane } from './ingress/lane-map';
+import { promoteToRediscovery } from './triage/rediscovery';
+import { RESEARCH_CURRENT_MAX_AGE_DAYS } from './triage/lane-purity';
 import { TIP_TOPLULUGU_CHANNEL_ID, TIP_TOPLULUGU_CONTENT_FAMILY, TIP_TOPLULUGU_EDITORIAL_BRAND } from './ingress/tip-radar';
 
 export const LANES: readonly TipLane[] = ['haber', 'research', 'duyuru'];
@@ -25,9 +27,9 @@ export async function moveItemToLane(env: Env, rawItemId: unknown, rawLane: unkn
   if (typeof rawLane !== 'string' || !(LANES as readonly string[]).includes(rawLane)) return { status: 400, body: { error: 'INVALID_LANE' } };
   const lane = rawLane as TipLane;
   const item = await env.DB.prepare(
-    `SELECT id, feed_id, route, channel_id, source_id, title, title_orig, substr(summary, 1, 400) AS summary, canonical_url, dedupe_key, triage_status, evergreen_view
+    `SELECT id, feed_id, route, channel_id, source_id, title, title_orig, substr(summary, 1, 400) AS summary, canonical_url, dedupe_key, triage_status, evergreen_view, published_at
        FROM source_items WHERE id = ?`
-  ).bind(itemId).first<{ id: string; feed_id: string | null; route: string; channel_id: string | null; source_id: string | null; title: string | null; title_orig: string | null; summary: string | null; canonical_url: string; dedupe_key: string; triage_status: string; evergreen_view: string | null }>();
+  ).bind(itemId).first<{ id: string; feed_id: string | null; route: string; channel_id: string | null; source_id: string | null; title: string | null; title_orig: string | null; summary: string | null; canonical_url: string; dedupe_key: string; triage_status: string; evergreen_view: string | null; published_at: string | null }>();
   if (!item) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
   if (item.triage_status !== 'inbox' && item.triage_status !== 'hold') return { status: 409, body: { error: 'ITEM_NOT_OPEN' } };
   if (item.evergreen_view) return { status: 409, body: { error: 'EVERGREEN_HAS_NO_LANE' } };
@@ -64,6 +66,16 @@ export async function moveItemToLane(env: Env, rawItemId: unknown, rawLane: unkn
   } catch (e) {
     if (notReady(e)) return { status: 503, body: { error: 'LANE_FEEDBACK_NOT_READY' } };
     throw e;
+  }
+  // "Research olmalı" does not choose Time Sensitive or Evergreen: the system does, by the 500-day line (DEC-R-20261112-028/-031).
+  if (lane === 'research') {
+    const t = Date.parse(String(item.published_at ?? '').slice(0, 10));
+    if (!isNaN(t) && (Date.now() - t) / 86_400_000 > RESEARCH_CURRENT_MAX_AGE_DAYS) {
+      const r = await promoteToRediscovery(env, item.id, by).catch(() => null);
+      const ok = !!r && r.status === 200;
+      return { status: 200, body: { ok: true, from, lane, path: ok ? 'EVERGREEN' : 'TIME_SENSITIVE', ...(ok ? {} : { evergreenBlocked: (r?.body as { error?: string } | undefined)?.error ?? 'UNKNOWN' }) } };
+    }
+    return { status: 200, body: { ok: true, from, lane, path: 'TIME_SENSITIVE' } };
   }
   return { status: 200, body: { ok: true, from, lane } };
 }

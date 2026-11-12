@@ -686,6 +686,43 @@
   .wowx .wx-auth[hidden] { display: none; }
   .wowx select, .wowx .wx-note { font: inherit; font-size: .82rem; padding: 4px 8px; border: 1px solid var(--border, #E0D9C8); border-radius: 8px; background: var(--surface, #FFFEFA); }
   .wowx .wx-note { flex: 1; min-width: 200px; }
+
+  /* ===== Compact horizontal rating panel; provenance badge; production-line chooser ===== */
+  .decision .rate { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0 0 8px; }
+  .decision .rate-h { flex: 1 1 100%; margin: 0; font-size: .66rem; }
+  .decision .rate-l { margin: 0; font-size: .74rem; font-weight: 600; white-space: nowrap; flex: 0 0 auto; }
+  .decision .rate-scores, .decision .rate-ch { display: inline-flex; flex-wrap: nowrap; gap: 3px; flex: 0 1 auto; }
+  .decision .rate .chip { min-width: 24px; height: 24px; padding: 0 5px; font-size: .74rem; border-radius: 6px; }
+  .decision .rate .chip.ch { padding: 0 9px; }
+  .decision .rate-scores, .decision .rate-ch { overflow-x: auto; max-width: 100%; }
+  .decision .rate-send, .decision .rate-saved { flex: 1 1 100%; margin: 2px 0 0; }
+  .decision .rate-send .btn { padding: 4px 12px; font-size: .76rem; }
+  .decision .wowx { flex: 1 1 100%; gap: 5px; margin-top: 4px; }
+  .decision .wowx .rate-l { display: inline-block; margin-right: 6px; }
+  .prov-badge { display: inline-block; margin: 0 0 8px; padding: 3px 11px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 700 .74rem var(--font-mono); letter-spacing: .03em; }
+  .prodpick-back { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; background: rgba(15,22,18,.5); }
+  .prodpick { min-width: 280px; max-width: 92vw; padding: 20px 22px; border-radius: 14px; background: var(--surface, #FFFEFA); color: var(--text, #1E1A12); box-shadow: 0 12px 40px rgba(0,0,0,.3); display: grid; gap: 10px; }
+  .prodpick h3 { margin: 0; font-size: 1.05rem; }
+  .prodpick .wx-chip { display: flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid var(--border, #E0D9C8); border-radius: 10px; cursor: pointer; }
+  .prodpick .wx-chip:has(input:checked) { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); }
+  .prodpick-note { margin: 0; font-size: .78rem; color: var(--text-faint, #8a8272); }
+  .prodpick-act { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* ===== Production rail (owner 2026-11-12): green column on the right, under Sorular; three Instagram channel lines ===== */
+  .app { grid-template-columns: var(--sidebar-w) minmax(0, 1fr) 210px; }
+  .prodrail { grid-column: 3; grid-row: 2; background: #0B4A32; color: #E8F1EA; padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 56px; align-self: start; height: calc(100vh - 56px); overflow-y: auto; }
+  .prodrail .nav-label { color: #8FE3B5; font: 600 .66rem var(--font-mono); letter-spacing: .14em; text-transform: uppercase; padding: 0 8px 8px; }
+  .prodrail .rail-item { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px; color: #E8F1EA; font: 500 .88rem var(--font-ui); }
+  .prodrail .rail-item:hover, .prodrail .rail-item.active { background: rgba(255,255,255,.14); color: #fff; }
+  .prodrail .rail-item.active { box-shadow: inset -3px 0 0 #8FE3B5; }
+  .prodrail .p-icon { width: 18px; height: 18px; display: inline-grid; place-items: center; }
+  .prodrail .p-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .prodrail .p-label { flex: 1; }
+  .prodrail .p-count { color: #A9C7B6; font: 500 .78rem var(--font-mono); }
+  .prodrail .rail-item.active .p-count { color: #fff; }
+  .prodrail .rail-note { margin: 14px 8px 0; font-size: .72rem; line-height: 1.4; color: #A9C7B6; }
+  @media (max-width: 1100px) { .app { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); } .prodrail { grid-column: 1 / -1; grid-row: auto; position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 10px 14px; } .prodrail .rail-note { display: none; } }
+  @media (max-width: 720px) { .app { grid-template-columns: 1fr; } }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -744,6 +781,7 @@
     <div id="moduleView" hidden></div>
     <div class="footnote" id="footnote"></div>
   </main>
+  <aside class="prodrail" id="prodRail" aria-label="Üretim hattı"></aside>
 </div>
 <div class="toast" id="toast"></div>
 <dialog id="rejectDialog">
@@ -765,6 +803,7 @@
     { id: 'kaduse', label: 'Kaduse', icon: '🌐', note: 'Kaduse Haber ve Research ayrı primary category. Haberler en fazla 10 günlük ve tarihli olmalıdır.' },
     { id: 'tip_toplulugu', label: 'Tıp Topluluğu', icon: '🩺', note: 'Duyuru akışı. Burs ve Eğitim ayrı primary category; gelen kutu kaynak listesi değildir.' },
     { id: 'wowq', label: 'Sorular', icon: '❓', note: 'Sorular: tanıttığın her makale bir kez sorulur; bütün sistemi besler.' },
+    { id: 'prodline', label: 'Üretim Hattı', icon: '🏭', note: 'Üretim hattı: Üretime gönderdiğin içerik, seçtiğin kanalın hattında durur.' },
     { id: 'modules', label: 'Sistem Modülleri', icon: '🧩', note: 'Dossier, Doktorlar, Protokoller, Keşif ve İstatistik: salt okunur durum özetleri. Burada hiçbir şey değiştirilmez.' },
     { id: 'bible', label: 'Global Content OS Bible v5', icon: '📜', note: 'Normatif anayasa v5.0: tek otorite, değişmez kapılar, konu/kapsam kararları, kaynak ve daraltma sırası. Kaynak keşfi, çekim, triyaj ve yayın bu belgeye uymak zorundadır. Kategori değildir.' }
   ];
@@ -772,6 +811,7 @@
   var NAV_GROUPS = [
     { path: 'TIME_SENSITIVE', label: 'Time Sensitive' },
     { path: 'EVERGREEN', label: 'Evergreen' },
+    { path: 'PRODUCTION', label: 'Üretim Hattı' },
     { path: 'MODULES', label: 'Sistem Modülleri' }
   ];
   var NAV = [
@@ -783,6 +823,9 @@
     { navId: 'egitim', path: 'TIME_SENSITIVE', key: 'egitim', route: 'tip_toplulugu', lane: 'egitim', label: 'Eğitim', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z\"/><path d=\"M4 19V5M8 7h7\"/></svg>" },
     { navId: 'ev_health', path: 'EVERGREEN', key: 'health_reference', evView: 'health_reference', route: 'kaduse', kind: 'news', lane: null, label: 'Sağlık & Referans', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 19c0-9 5-14 15-14 0 10-5 15-14 15\"/><path d=\"M5 19l8-8\"/></svg>" },
     { navId: 'ev_research', path: 'EVERGREEN', key: 'research_rediscovery', evView: 'research_rediscovery', route: 'kaduse', kind: 'research', lane: null, label: 'Research Rediscovery', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 11a8 8 0 0 0-14-4M4 13a8 8 0 0 0 14 4\"/><path d=\"M6 3v4h4M18 21v-4h-4\"/></svg>" },
+    { navId: 'prod_tt', path: 'PRODUCTION', route: 'prodline', ch: 'tt', lane: null, label: 'Tıp Topluluğu', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v18M3 12h18\"/></svg>" },
+    { navId: 'prod_ik', path: 'PRODUCTION', route: 'prodline', ch: 'ik', lane: null, label: 'İyileşme Kanalı', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z\"/></svg>" },
+    { navId: 'prod_km', path: 'PRODUCTION', route: 'prodline', ch: 'km', lane: null, label: 'Kaduse Medikal', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 6h16M4 12h16M4 18h10\"/></svg>" },
     { navId: 'm_dossier', path: 'MODULES', route: 'modules', module: 'dossier', lane: null, label: 'Dossier', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 20V4M4 20h16\"/><path d=\"M8 16v-4M12 16V8M16 16v-6\"/></svg>", doc: true },
     { navId: 'm_doctors', path: 'MODULES', route: 'modules', module: 'doctors', lane: null, label: 'Doktorlar', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3v6a4 4 0 0 0 8 0V3\"/><path d=\"M10 13v2a4 4 0 0 0 8 0v-1\"/><circle cx=\"18\" cy=\"12\" r=\"2\"/></svg>", doc: true },
     { navId: 'm_protocols', path: 'MODULES', route: 'modules', module: 'protocols', lane: null, label: 'Protokoller', icon: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12\"/><path d=\"M8 7h8M8 17h8\"/></svg>", doc: true },
@@ -806,7 +849,6 @@
   var VIEWS = [
     { id: 'inbox', label: 'Gelen Kutusu', icon: '📥' },
     { id: 'hold', label: 'Beklemede', icon: '⏳' },
-    { id: 'production', label: 'Üretime Aktarılanlar', icon: '✅' },
     { id: 'done', label: 'Üretimi Bitenler', icon: '🏁' },
     { id: 'trash', label: 'Silinenler', icon: '🗑️' }
   ];
@@ -1572,6 +1614,7 @@
         (formatAbsDate(it.publishedAt) ? '<div class="idx-date">' + escapeHtml(longDate(it.publishedAt).replace(/\s+\d{2}:\d{2}$/, '')) + '</div>' : '') +
         statusPillHtml(it.triageStatus) + '</aside>' +
       '<div class="read-main">' +
+      (it.prov ? '<div class="prov-badge">' + escapeHtml(it.prov) + '</div>' : '') +
       '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
@@ -1702,7 +1745,7 @@
     var idx = items.findIndex(function (x) { return x.id === id; });
     var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
     var res = await api('/api/lane/move', { method: 'POST', body: JSON.stringify({ itemId: id, to: lane }) });
-    showToast(res && res.unchanged ? 'Zaten ' + LANE_LABEL[lane] + ' hattında' : '✓ ' + LANE_LABEL[lane] + ' hattına taşındı — düzeltme sisteme öğretildi');
+    showToast(res && res.unchanged ? 'Zaten ' + LANE_LABEL[lane] + ' hattında' : '✓ ' + LANE_LABEL[lane] + ' hattına taşındı — düzeltme sisteme öğretildi' + (res && res.path === 'EVERGREEN' ? ' · 500 günden eski: Evergreen Research (Rediscovery)' : (res && res.path === 'TIME_SENSITIVE' ? ' · 500 gün içinde: Time Sensitive Research' : '')) + (res && res.evergreenBlocked ? ' (Evergreen için DOI/PMID gerekli: Time Sensitive’de kaldı)' : ''));
     state.cursor = nextId;
     await load();
   }
@@ -1768,6 +1811,7 @@
       var q = (intro.items || [])[i];
       if (q && q.priorWow && !state.drafts[m.id]) state.drafts[m.id] = { wow: Number(q.priorWow), tt: !!q.priorTt, ik: !!q.priorIk, km: !!q.priorKm };
     });
+    (intro.items || []).forEach(function (q, i) { if (mapped[i]) mapped[i].prov = [q.wowId, q.sourceReference].filter(Boolean).join(' · '); });
     var seen = {};
     state.items = mapped.filter(function (m) { if (seen[m.id]) return false; seen[m.id] = true; return true; });
     state.counts = state.counts || {};
@@ -1804,6 +1848,60 @@
     state.cursor = nextId;
     renderList();
     showToast('Şimdilik geçildi (olumsuz örnek sayılmaz, 30 gün sonra döner)');
+  }
+  // ---- Production lines (DEC-R-20261112-031): three lines only; promote names the channel(s) ----
+  var PROD_LABEL = { tt: 'Tıp Topluluğu', ik: 'İyileşme Kanalı', km: 'Kaduse Medikal' };
+  /** Right-hand green rail under Sorular: the three production lines (tt / ik / km) with their counts. */
+  function renderProdRail() {
+    var el = document.getElementById('prodRail');
+    if (!el) return;
+    var counts = state.prodCounts || null;
+    el.innerHTML = '<div class="nav-label nav-group">Üretim hattı</div>' +
+      NAV.filter(function (n) { return n.route === 'prodline'; }).map(function (n) {
+        var c = counts ? counts[n.ch] : null;
+        var active = state.route === 'prodline' && state.prodCh === n.ch;
+        return '<button type="button" class="project-item rail-item' + (active ? ' active' : '') + '" data-nav="' + n.navId + '"><span class="p-icon">' + n.icon + '</span><span class="p-label">' + escapeHtml(n.label) + '</span><span class="p-count">' + (typeof c === 'number' ? c.toLocaleString('tr-TR') : '') + '</span></button>';
+      }).join('') + '<p class="rail-note">Üretime gönderdiğin içerik, işaretlediğin kanalın hattında durur.</p>';
+  }
+  function refreshProdCounts() {
+    fetch('/api/production?channel=tt').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (d && d.counts) { state.prodCounts = d.counts; renderChrome(); }
+    }).catch(function () { /* counts are optional */ });
+  }
+  async function loadProduction() {
+    state.prodCh = state.prodCh || 'tt';
+    var d = await api('/api/production?channel=' + encodeURIComponent(state.prodCh));
+    state.prodCounts = d.counts || state.prodCounts;
+    state.items = (d.items || []).map(function (x) { x.prodCh = state.prodCh; return x; });
+    state.ratingsReady = state.ratingsReady === false ? false : true;
+    renderChrome();
+    renderList();
+    if (state.items.length) loadRatings(state.items).then(function () { renderList(); }).catch(function () { /* optional */ });
+  }
+  /** "Üretime aktar": which channel(s)? Pre-ticked from the channels the owner already rated the item for. Resolves to ['tt','ik','km'] subset or null (cancel). */
+  function askProductionChannels(id) {
+    return new Promise(function (resolve) {
+      var d = draftFor(id);
+      var pre = { tt: !!d.tt, ik: !!d.ik, km: !!d.km };
+      var wrap = document.createElement('div');
+      wrap.className = 'prodpick-back';
+      wrap.innerHTML = '<div class="prodpick" role="dialog" aria-label="Üretim hattı seç"><h3>Hangi kanalda üretilecek?</h3>' +
+        ['tt', 'ik', 'km'].map(function (c) { return '<label class="wx-chip"><input type="checkbox" value="' + c + '"' + (pre[c] ? ' checked' : '') + '> ' + escapeHtml(PROD_LABEL[c]) + '</label>'; }).join('') +
+        '<p class="prodpick-note">İki kanal işaretlersen içerik iki hatta da görünür.</p><div class="prodpick-act"><button type="button" class="btn btn-promote" data-pp="ok">Üretime aktar</button><button type="button" class="btn btn-hold" data-pp="cancel">Vazgeç</button></div></div>';
+      document.body.appendChild(wrap);
+      var done = function (v) { document.removeEventListener('keydown', onKey, true); wrap.remove(); resolve(v); };
+      var onKey = function (e) { if (e.key === 'Escape') { e.stopPropagation(); done(null); } };
+      document.addEventListener('keydown', onKey, true);
+      wrap.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('[data-pp]');
+        if (!b) { if (e.target === wrap) done(null); return; }
+        if (b.getAttribute('data-pp') === 'cancel') return done(null);
+        var chosen = Array.prototype.map.call(wrap.querySelectorAll('input:checked'), function (i) { return i.value; });
+        if (!chosen.length) { showToast('En az bir kanal seç: Tıp Topluluğu, İyileşme Kanalı veya Kaduse Medikal'); return; }
+        done(chosen);
+      });
+      var first = wrap.querySelector('input'); if (first) first.focus();
+    });
   }
   async function sendRating(id) {
     var d = draftFor(id);
@@ -1885,6 +1983,7 @@
   function renderChrome() {
     var meta = ROUTES.find(function (r) { return r.id === state.route; }) || ROUTES[0];
     function navActive(n) {
+      if (n.route === 'prodline') return state.route === 'prodline' && state.prodCh === n.ch;
       if (n.route === 'modules') return state.route === 'modules' && state.module === n.module;
       if (n.route === 'bible') return state.route === 'bible';
       if (n.path !== state.temporal) return false;
@@ -1894,6 +1993,7 @@
       return n.route === state.route;
     }
     projectNavEl.innerHTML = '';
+    renderProdRail();
     var lastGroup;
     var fmtN = function (v) { return typeof v === 'number' ? v.toLocaleString('tr-TR') : v; };
     var topTabsEl = document.getElementById('topTabs');
@@ -1922,7 +2022,7 @@
       });
     }
     NAV.forEach(function (n) {
-      if (n.path === 'TIME_SENSITIVE') return;
+      if (n.path === 'TIME_SENSITIVE' || n.path === 'PRODUCTION') return;
       if (n.path !== lastGroup) {
         var g = NAV_GROUPS.filter(function (x) { return x.path === n.path; })[0];
         // Every system module sits under the Evergreen area: no separate heading (owner decision 2026-11-12).
@@ -1934,7 +2034,7 @@
         }
         lastGroup = n.path;
       }
-      var count = navTemporalCount(n, state.temporalCounts);
+      var count = n.route === 'prodline' ? (state.prodCounts ? state.prodCounts[n.ch] : null) : navTemporalCount(n, state.temporalCounts);
       var shown = count == null ? '' : fmtN(count);
       var btn = document.createElement('button');
       btn.className = 'project-item' + (n.child ? ' nav-child' : '') + (n.doc ? ' nav-doc' : '') + (navActive(n) ? ' active' : '');
@@ -1962,6 +2062,7 @@
     var isBible = state.route === 'bible';
     var isModules = state.route === 'modules';
     var isWowq = state.route === 'wowq';
+    var isProd = state.route === 'prodline';
     var moduleViewEl = document.getElementById('moduleView');
     var mainEl = document.querySelector('.main');
     mainEl.classList.toggle('bible-mode', isBible);
@@ -1970,8 +2071,8 @@
     Array.prototype.forEach.call(document.querySelectorAll('#density button'), function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-density') === state.density ? 'true' : 'false');
     });
-    document.getElementById('density').hidden = isBible || isModules || isWowq;
-    if (toolbarEl) toolbarEl.hidden = isBible || isModules || isWowq;
+    document.getElementById('density').hidden = isBible || isModules || isWowq || isProd;
+    if (toolbarEl) toolbarEl.hidden = isBible || isModules || isWowq || isProd;
     if (listViewEl) listViewEl.hidden = isBible || isModules;
     if (moduleViewEl) moduleViewEl.hidden = !isModules;
     if (bibleViewEl) bibleViewEl.hidden = !isBible;
@@ -1979,7 +2080,7 @@
       kindbar.hidden = true;
       kindbar.innerHTML = '';
       pillbarEl.hidden = true;
-    } else if (isWowq) {
+    } else if (isWowq || isProd) {
       pillbarEl.hidden = true;
       pillbarEl.innerHTML = '';
       kindbar.hidden = true;
@@ -2001,8 +2102,14 @@
     if (state.temporal === 'EVERGREEN') title = state.evView === 'research_rediscovery' ? 'Research Rediscovery' : 'Sağlık & Referans';
     if (isModules) title = (MODULE_META[state.module] || MODULE_META.dossier).title;
     if (isWowq) title = 'Sorular';
-    var titleCount = !isBible && !isModules && !isWowq && state.counts ? state.counts[state.view] : (isWowq ? (state.items || []).length : null);
+    if (isProd) title = 'Üretim hattı · ' + (PROD_LABEL[state.prodCh] || '');
+    var titleCount = !isBible && !isModules && !isWowq && !isProd && state.counts ? state.counts[state.view] : (isWowq || isProd ? (state.items || []).length : null);
     mainTitleEl.innerHTML = escapeHtml(title) + (titleCount != null ? '<span class="title-count">' + escapeHtml(titleCount) + '</span>' : '');
+    if (isProd) {
+      mainSubEl.textContent = 'Üretime gönderdiğin ve bu kanalı işaretlediğin içerikler · iki kanal işaretlenen içerik iki hatta da görünür · “Üretim bitti” yalnız bu hattaki kaydı kapatır';
+      footnoteEl.innerHTML = 'Üretim hattı yalnız üç kanaldan oluşur: Tıp Topluluğu, İyileşme Kanalı, Kaduse Medikal.';
+      return;
+    }
     if (isWowq) {
       mainSubEl.textContent = 'Tanıttığın her wow makale bir kez sorulur · neden wow olduğunu, hangi Research olduğunu ve otoriteyi bu kartta birlikte söylersin';
       footnoteEl.innerHTML = 'Cevapların sistemi besler: ilişkiler, taramalar ve sıralama. Cevaplanan makale bir daha önüne düşmez; “Şimdilik geç” 30 gün sonra döner.';
@@ -2314,7 +2421,7 @@
   }
   function renderToolbar() {
     var el = document.getElementById('hekToolbar');
-    if (state.route === 'wowq') { el.hidden = true; return; }
+    if (state.route === 'wowq' || state.route === 'prodline') { el.hidden = true; return; }
     if (state.route !== 'tip_toplulugu') {
       var nb = Object.keys(state.selected).length;
       if (!(state.view === 'inbox' || state.view === 'hold') || !state.items.length) { el.hidden = true; return; }
@@ -2862,6 +2969,11 @@
       await loadWowQuestions();
       return;
     }
+    if (state.route === 'prodline') {
+      await loadProduction();
+      return;
+    }
+    refreshProdCounts();
     var loadedKey = [state.route, state.kind, state.hekLane, state.view, state.temporal, state.evView].join('|');
     if (loadedKey !== state.loadedKey) { showSkeleton(); state.loadedKey = loadedKey; }
     // Tıp Topluluğu items are deadline/announcement records kept up to 185 days (issue-check S15b); a 14-day window hid two thirds of the badge count.
@@ -2952,6 +3064,11 @@
   }
 
   async function handleAction(action, id) {
+    var prodChannels = null;
+    if (action === 'promote') {
+      prodChannels = await askProductionChannels(id);
+      if (!prodChannels) return; // cancelled: nothing changes
+    }
     var wqIt = state.items.find(function (x) { return x.id === id; });
     if (wqIt && wqIt.wowq) { if (action === 'wowskip') { await skipWowQuestion(wqIt); } else { showToast('Bu ekranda yalnız puan, sorular ve “Şimdilik geç” var.'); } return; }
     var feedback = null;
@@ -2963,6 +3080,8 @@
     var idx = items.findIndex(function (x) { return x.id === id; });
     var nextId = idx >= 0 ? ((items[idx + 1] || items[idx - 1] || {}).id || null) : null;
     var body = { itemId: id, action: action };
+    if (prodChannels) body.channels = prodChannels;
+    if (action === 'complete' && state.route === 'prodline') body.channel = state.prodCh;
     if (feedback) { body.reasonCode = feedback.reasonCode; body.reasonNote = feedback.reasonNote; }
     // Optimistic: the card leaves the list at once (no wait for the server round trip + full reload).
     var snapshot = state.items;
@@ -2974,8 +3093,9 @@
     try { result = await api('/api/triage', { method: 'POST', body: JSON.stringify(body) }); }
     catch (err) { state.items = snapshot; state.cursor = id; renderList(); throw err; }
     if (action === 'promote' || action === 'hold' || action === 'delete') bumpProcessed();
+    if (action === 'promote' || action === 'complete') refreshProdCounts();
     var msg =
-      action === 'promote' ? '✓ Üretime aktarıldı — approved_brief üretildi' :
+      action === 'promote' ? '✓ Üretime aktarıldı: ' + prodChannels.map(function (c) { return PROD_LABEL[c]; }).join(' + ') + ' hattı — approved_brief üretildi' :
       action === 'hold' ? 'Beklemeye alındı' :
       action === 'complete' ? '✓ Üretim bitti — Üretimi Bitenler’e taşındı (2 gün sonra kalıcı silinir)' :
       action === 'delete' ? 'Reddedildi — bu red kararı geri besleme olarak kaydedildi (2 gün sonra kalıcı silinir)' :
@@ -3151,6 +3271,14 @@
         state.route = 'modules';
         state.module = n.module;
         history.replaceState(null, '', '/?route=modules&module=' + encodeURIComponent(n.module));
+        load().catch(function (err) { showToast(err.message); });
+        return;
+      }
+      if (n.route === 'prodline') {
+        state.route = 'prodline';
+        state.prodCh = n.ch;
+        state.sourceFilter = '';
+        history.replaceState(null, '', '/?route=prodline&ch=' + encodeURIComponent(n.ch));
         load().catch(function (err) { showToast(err.message); });
         return;
       }
