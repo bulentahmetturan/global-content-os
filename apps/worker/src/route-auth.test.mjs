@@ -213,3 +213,20 @@ test('GET on a gated path is not gated (gate is method-specific; unknown method 
   assert.equal(gates.authorizeRoute({}, new Request('https://gcos.test/api/cron/run'), '/api/cron/run'), null);
   assert.equal(gates.authorizeRoute({}, new Request('https://gcos.test/api/items'), '/api/items'), null);
 });
+
+test('agent key (DEC-029): accepted only on wow introduce/memory/extract; any other route still needs the Hub token; a wrong key is 401', async () => {
+  await withStubbedFetch(async () => {
+    const env = { ...SECRETS, AGENT_WOW_TOKEN: 'agent-secret' };
+    const call = async (method, path, token) => (await worker.fetch(req(method, path, token ? { authorization: `Bearer ${token}` } : {}), { DB: fakeDb(), ...env }, { waitUntil() {} })).status;
+    for (const [m, p] of [['POST', '/api/wow/introduce'], ['GET', '/api/wow/memory'], ['POST', '/api/wow/extract']]) {
+      assert.notEqual(await call(m, p, 'agent-secret'), 401, `${p} accepts the agent key`);
+      assert.notEqual(await call(m, p, 'hub-op-secret'), 401, `${p} still accepts the Hub token`);
+      assert.equal(await call(m, p, 'wrong'), 401, `${p} rejects a wrong key`);
+    }
+    for (const [m, p] of [['POST', '/api/wow/feedback'], ['POST', '/api/wow/query'], ['POST', '/api/wow/authority'], ['GET', '/api/wow/questions'], ['POST', '/api/ratings'], ['POST', '/api/ingress/research']]) {
+      assert.equal(await call(m, p, 'agent-secret'), 401, `${p} must not accept the agent key`);
+    }
+  });
+  assert.deepEqual(hubAuthHeaders('/api/wow/introduce', { AGENT_WOW_TOKEN: 'a', HUB_OPERATOR_TOKEN: 'h' }), { Authorization: 'Bearer a' });
+  assert.deepEqual(hubAuthHeaders('/api/wow/feedback', { AGENT_WOW_TOKEN: 'a', HUB_OPERATOR_TOKEN: 'h' }), { Authorization: 'Bearer h' });
+});

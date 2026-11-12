@@ -87,7 +87,7 @@ Use only words that appear in the text. "reason" is why a general medical audien
  * Extraction for one introduced article. Cached per (item, extractor version): a second call returns the stored row and calls
  * nothing. Never throws: the memory must not break the introduction.
  */
-export async function extractArticle(env: Env, input: { itemId: string; title: string; abstract: string | null }, plan: TopicPlan = TOPIC_PLAN): Promise<{ created: boolean; basis: 'rules' | 'llm'; deferred?: true } | null> {
+export async function extractArticle(env: Env, input: { itemId: string; title: string; abstract: string | null; ownerArticle?: boolean }, plan: TopicPlan = TOPIC_PLAN): Promise<{ created: boolean; basis: 'rules' | 'llm'; deferred?: true; autoRelation?: string } | null> {
   try {
     const have = await env.DB.prepare(`SELECT basis FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(input.itemId, EXTRACTOR_VERSION).first<{ basis: 'rules' | 'llm' }>();
     if (have) return { created: false, basis: have.basis };
@@ -105,6 +105,14 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
     await env.DB.prepare(
       `INSERT OR IGNORE INTO wow_extractions (item_id, extractor_version, basis, topic_ids, plan_units, side_a, side_b, probable_reason, study_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(input.itemId, EXTRACTOR_VERSION, guess ? 'llm' : 'rules', JSON.stringify(topicIds), JSON.stringify(units), JSON.stringify(guess?.sideA ?? []), JSON.stringify(guess?.sideB ?? []), guess?.reason ?? null, guess?.studyType ?? null).run();
+    // DEC-R-20261112-029: an article the owner introduced himself is the owner's own PASS. When it falls in an accepted topic and the system
+    // read both sides of the relation out of the text, the relation and its search open at once; the owner corrects or closes it later in the Hub.
+    // Articles that only came out of a search never open a relation by themselves (they stay a proposal).
+    if (input.ownerArticle && guess && topicIds.length && guess.sideA.length && guess.sideB.length) {
+      const d = await decideExtraction(env, { itemId: input.itemId, decision: 'confirm' });
+      const rel = d.status === 200 ? (d.body as { relationId?: string }).relationId : undefined;
+      return { created: true, basis: 'llm', ...(rel ? { autoRelation: rel } : {}) };
+    }
     return { created: true, basis: guess ? 'llm' : 'rules' };
   } catch {
     return null;
@@ -115,9 +123,9 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
 export async function extractStored(env: Env, raw: unknown): Promise<MemoryResult> {
   const itemId = raw && typeof raw === 'object' && typeof (raw as { itemId?: unknown }).itemId === 'string' ? ((raw as { itemId: string }).itemId).trim() : '';
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
-  const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary FROM source_items WHERE id = ? AND (discovery_reason = ? OR EXISTS (SELECT 1 FROM wow_hits h WHERE h.item_id = source_items.id))`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null }>();
+  const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary, discovery_reason FROM source_items WHERE id = ? AND (discovery_reason = ? OR EXISTS (SELECT 1 FROM wow_hits h WHERE h.item_id = source_items.id))`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null; discovery_reason: string | null }>();
   if (!it) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
-  const r = await extractArticle(env, { itemId: it.id, title: it.title, abstract: it.summary && it.summary !== it.title ? it.summary : null });
+  const r = await extractArticle(env, { itemId: it.id, title: it.title, abstract: it.summary && it.summary !== it.title ? it.summary : null, ownerArticle: it.discovery_reason === OWNER_WOW });
   if (r?.deferred) return { status: 429, body: { ok: false, error: 'LLM_DAILY_CAP', deferred: true, itemId, limit: WOW_CONFIG.llmCallsPerDay } };
   return r ? { status: r.created ? 201 : 200, body: { ok: true, itemId, ...r } } : NOT_READY;
 }

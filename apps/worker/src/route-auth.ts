@@ -5,11 +5,13 @@ import { authorizeToken, bearerToken, type AuthResult } from './handoff-security
 // Inline-gated routes (/api/triage, /api/handoff/*, /api/ingress/tip, /api/ingress/tip_toplulugu-*, /api/ops/summary)
 // keep their own checks; this table must not list them twice.
 
-export type GateSecret = 'HUB_OPERATOR_TOKEN' | 'OPS_TOKEN' | 'TIP_RADAR_INGEST_TOKEN';
+export type GateSecret = 'HUB_OPERATOR_TOKEN' | 'OPS_TOKEN' | 'TIP_RADAR_INGEST_TOKEN' | 'AGENT_WOW_TOKEN';
 
-type GateSpec = { secret: GateSecret; header: 'authorization' | 'x-ingest-token'; notConfigured: string };
+type GateSpec = { secret: GateSecret; header: 'authorization' | 'x-ingest-token'; notConfigured: string; /** A second secret that is also accepted on this route (DEC-R-20261112-029 agent key). */ alt?: GateSecret };
 
 const HUB: GateSpec = { secret: 'HUB_OPERATOR_TOKEN', header: 'authorization', notConfigured: 'HUB_OPERATOR_TOKEN_NOT_CONFIGURED' };
+/** Article introduction and reading may also be done by the agent with its own narrow key; the Hub operator token still works. */
+const HUB_OR_AGENT: GateSpec = { ...HUB, alt: 'AGENT_WOW_TOKEN' };
 const OPS: GateSpec = { secret: 'OPS_TOKEN', header: 'authorization', notConfigured: 'OPS_TOKEN_NOT_CONFIGURED' };
 const INGEST: GateSpec = { secret: 'TIP_RADAR_INGEST_TOKEN', header: 'x-ingest-token', notConfigured: 'INGEST_TOKEN_NOT_CONFIGURED' };
 
@@ -41,12 +43,12 @@ export const ROUTE_GATES: Readonly<Record<string, GateSpec>> = {
   'GET /api/health/watch': HUB,
   'GET /api/hub/modules': HUB,
   'POST /api/ratings': HUB,
-  'POST /api/wow/introduce': HUB,
+  'POST /api/wow/introduce': HUB_OR_AGENT,
   'GET /api/wow/introduced': HUB,
-  'GET /api/wow/memory': HUB,
+  'GET /api/wow/memory': HUB_OR_AGENT,
   'GET /api/wow/candidates': HUB,
   'POST /api/wow/extraction': HUB,
-  'POST /api/wow/extract': HUB,
+  'POST /api/wow/extract': HUB_OR_AGENT,
   'POST /api/wow/feedback': HUB,
   'POST /api/wow/query': HUB,
   'POST /api/wow/authority': HUB,
@@ -77,5 +79,7 @@ export function authorizeRoute(
   if (!spec) return null;
   const raw = request.headers.get(spec.header);
   const presented = spec.header === 'authorization' ? bearerToken(raw) : raw;
-  return authorizeToken(env[spec.secret], presented, spec.notConfigured);
+  const primary = authorizeToken(env[spec.secret], presented, spec.notConfigured);
+  if (primary.ok || !spec.alt || !(env[spec.alt] || '').trim()) return primary;
+  return authorizeToken(env[spec.alt], presented, spec.notConfigured);
 }

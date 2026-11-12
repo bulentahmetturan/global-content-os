@@ -323,3 +323,24 @@ test('one card, every answer: feedback carries the lane (Time Sensitive / Evergr
   await M.recordFeedback(env, { itemId: items[2].itemId, kind: 'ordinary', wow: 5, lane: 'EVERGREEN' });
   assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM wow_lane_answers`).get().n, 2);
 });
+
+test('auto (DEC-029): an article the owner introduced, in an accepted topic, opens its relation and search by itself; no sides or no topic leaves a proposal; the owner can still close it', async () => {
+  const { sqlite, env } = openDb();
+  const calls = { n: 0 };
+  env.AI = ai({ exposure: ['sleep regularity'], outcome: ['obesity'], study_type: 'COHORT', reason: 'LARGE_EFFECT' }, calls);
+  const r = await W.introduceWow(env, article(), noNet, NOW);
+  assert.ok(r.status === 201 || r.status === 200, JSON.stringify(r.body));
+  assert.ok(r.body.extraction.autoRelation, JSON.stringify(r.body.extraction));
+  const rel = sqlite.prepare(`SELECT state FROM wow_relations WHERE relation_id = ?`).get(r.body.extraction.autoRelation);
+  assert.equal(rel.state, 'ACTIVE');
+  assert.equal(sqlite.prepare(`SELECT state FROM wow_queries WHERE relation_id = ?`).get(r.body.extraction.autoRelation).state, 'ACTIVE');
+  assert.equal(sqlite.prepare(`SELECT state FROM wow_extractions WHERE item_id = ?`).get(r.body.itemId).state, 'CONFIRMED');
+  // Without an AI read there are no sides: it stays a proposal.
+  const other = openDb();
+  const b = await introduce(other.env);
+  assert.equal(other.sqlite.prepare(`SELECT state FROM wow_extractions WHERE item_id = ?`).get(b.itemId).state, 'PROPOSED');
+  // The owner can close the automatically opened search.
+  const q = sqlite.prepare(`SELECT query_id FROM wow_queries LIMIT 1`).get().query_id;
+  const closed = await M.decideQuery(env, { queryId: q, action: 'close' });
+  assert.equal(closed.status, 200, JSON.stringify(closed.body));
+});
