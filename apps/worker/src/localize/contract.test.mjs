@@ -114,6 +114,6 @@ test('batch selection: fresh items before re-queued ones before failure retries;
   const env = { DB: { prepare(sql) { if (/FROM source_items\s+WHERE triage_status IN/.test(sql)) selectSql = sql; return { bind: () => ({ all: async () => ({ results: [] }), run: async () => ({}), first: async () => null }) }; } } };
   await e.runEnrichmentBatch(env, { limit: 3 });
   assert.match(selectSql, /triage_status IN \('inbox', 'hold', 'production'\)/);
-  assert.match(selectSql, /ORDER BY \(enrichment_status = 'failed'\) ASC, \(enrichment_json IS NOT NULL\) ASC, fetched_at ASC/);
-  assert.match(selectSql, /\$\.attempts'\), 0\) < 3/);
+  assert.match(selectSql, /ORDER BY \(discovery_reason = 'owner_wow_example'\) DESC, \(enrichment_status = 'failed'\) ASC, \(enrichment_json IS NOT NULL\) ASC, fetched_at ASC/, 'the owner wow articles are translated first');
+  assert.match(selectSql, /\$\.attempts'\), 0\) < CASE WHEN discovery_reason = 'owner_wow_example' THEN 10 ELSE 3 END/);
 });
