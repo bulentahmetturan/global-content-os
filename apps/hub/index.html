@@ -1744,7 +1744,11 @@
     try { intro = await api('/api/wow/questions'); } catch (e) { /* addon not ready: empty list */ }
     // Only the owner's introduced articles are asked, once each (owner decision 2026-11-12): no random source or candidate questions.
     var mapped = (intro.items || []).map(function (q) {
-      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.title, titleOrig: q.title, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: 'Senin tanıttığın makale. Neden wow? Aşağıda cevapla; cevabın sistemi besler.' };
+      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.title, titleOrig: q.title, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: 'Senin tanıttığın makale. Neden wow? Aşağıda cevapla; cevabın sistemi besler.' + (q.priorWow ? ' Daha önce verdiğin puan: ' + q.priorWow + ' (kartta hazır, onayla ya da değiştir).' : '') };
+    });
+    mapped.forEach(function (m, i) {
+      var q = (intro.items || [])[i];
+      if (q && q.priorWow && !state.drafts[m.id]) state.drafts[m.id] = { wow: Number(q.priorWow), tt: !!q.priorTt, ik: !!q.priorIk, km: !!q.priorKm };
     });
     var seen = {};
     state.items = mapped.filter(function (m) { if (seen[m.id]) return false; seen[m.id] = true; return true; });

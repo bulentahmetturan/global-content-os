@@ -10,7 +10,7 @@ const W = await bundle('apps/worker/src/wow/introduce.ts', 'wow-introduce');
 function openDb() {
   const sqlite = new DatabaseSync(':memory:');
   for (const file of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) sqlite.exec(readFileSync(`migrations/${file}`, 'utf8'));
-  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
+  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', 'a005_wow_memory.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
   const feed = (id, label, url, enabled) => sqlite.prepare(`INSERT OR REPLACE INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled) VALUES (?, ?, 'kaduse-research', 'kaduse-medikal', 'RESEARCH_REGISTRY', ?, 1440, ?)`).run(id, label, url, enabled);
   feed('research-jama-network', 'JAMA Network', 'https://jamanetwork.com/', 0);
   feed('research-nature', 'Nature', 'https://www.nature.com/', 0);
@@ -174,7 +174,11 @@ test('DEC-026: an article is introduced without a score, waits in the question q
   assert.equal(listed.body.count, 1, 'unscored introductions are listed too');
   assert.equal(listed.body.items[0].wow, null);
   sqlite.prepare(`INSERT INTO item_ratings (rating_id, item_id, wow, ch_tt, ch_ik, ch_km, note) VALUES ('r1', ?, 9, 1, 0, 0, '[WOW] neden')`).run(r.body.itemId);
-  assert.equal((await W.wowQuestions(env)).body.count, 0);
+  const q2 = await W.wowQuestions(env);
+  assert.equal(q2.body.count, 1, 'an earlier score does not answer the Sorular question');
+  assert.equal(q2.body.items[0].priorWow, 9, 'the earlier score pre-fills the card');
+  sqlite.prepare(`INSERT INTO wow_feedback (feedback_id, item_id, wow, kind, reason_codes, scope, title_orig) VALUES ('f1', ?, 9, 'wow', '[]', 'item', 't')`).run(r.body.itemId);
+  assert.equal((await W.wowQuestions(env)).body.count, 0, 'answered once, never asked again');
   assert.equal((await W.introducedWow(env)).body.items[0].wow, 9);
 });
 
