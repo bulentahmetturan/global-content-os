@@ -17,6 +17,7 @@ import { runScoring } from '../scoring';
 import { tagIngestedItem } from '../topics/store';
 import { EXTRACTOR_VERSION, extractArticle, WOW_CONFIG } from './memory';
 import { TOPIC_PLAN } from '../topics/plan.generated';
+import { classify } from '../topics/classify';
 
 export interface WowResult { status: number; body: unknown }
 export const WOW_DISCOVERY_REASON = 'owner_wow_example';
@@ -222,7 +223,7 @@ export async function introducedWow(env: Env): Promise<WowResult> {
 export async function wowQuestions(env: Env): Promise<WowResult> {
   const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
   const sql = (prov: boolean) => `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
-              s.enrichment_status AS translation, CASE WHEN s.enrichment_status = 'done' THEN s.title END AS titleTr,
+              s.enrichment_status AS translation, CASE WHEN s.enrichment_status = 'done' THEN s.title END AS titleTr, CASE WHEN s.enrichment_status = 'done' THEN s.gists_json END AS gists,
               r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm, r.note AS priorNote${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference, p.source_note AS sourceNote' : ''}
          FROM source_items s
          LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)${prov ? '\n         LEFT JOIN wow_provenance p ON p.item_id = s.id' : ''}
@@ -235,15 +236,35 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
     catch (e) { if (!/no such (table: wow_provenance|column)/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
     // Topics and topic relations (insight, DEC-R-20261112-032): what the system extracted for each article; optional, never blocks the list.
     try {
-      const ex = (await env.DB.prepare(`SELECT e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, e.relation_id AS relationId, r.name AS relationName
+      const exSql = (labels: boolean) => `SELECT ${labels ? 'e.label_a AS labelA, e.label_b AS labelB, ' : ''}e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, e.relation_id AS relationId, r.name AS relationName
           FROM wow_extractions e JOIN source_items s ON s.id = e.item_id LEFT JOIN wow_relations r ON r.relation_id = e.relation_id
-         WHERE s.discovery_reason = ? AND e.extractor_version = ?`).bind(WOW_DISCOVERY_REASON, EXTRACTOR_VERSION).all<Record<string, unknown>>()).results;
+         WHERE s.discovery_reason = ? AND e.extractor_version = ?`;
+      let ex: Record<string, unknown>[];
+      try { ex = (await env.DB.prepare(exSql(true)).bind(WOW_DISCOVERY_REASON, EXTRACTOR_VERSION).all<Record<string, unknown>>()).results; }
+      catch { ex = (await env.DB.prepare(exSql(false)).bind(WOW_DISCOVERY_REASON, EXTRACTOR_VERSION).all<Record<string, unknown>>()).results; }
       const parse = (v: unknown): string[] => { try { const a = JSON.parse(String(v ?? '[]')); return Array.isArray(a) ? a.map(String) : []; } catch { return []; } };
       const byId = new Map(ex.map((e) => [String(e.itemId), e]));
       const topicName = new Map(TOPIC_PLAN.topics.map((t) => [t.topicId, t.name]));
       let marked = new Set<string>();
       try { marked = new Set((await env.DB.prepare(`SELECT topic_id FROM wow_narrow_topics`).all<{ topic_id: string }>()).results.map((x) => x.topic_id)); } catch { /* a010 absent */ }
-      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, topicTags: parse(e.topic_ids).map((id) => ({ id, name: topicName.get(id) || id, narrowed: marked.has(id) })), relationOpen: !!e.relationId, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
+      // Hard gate (DEC-R-20261112-036): every article shows its single topics and, when both sides are known, the relation between them.
+      // A side that falls in a plan topic takes that topic's name and key; otherwise its Turkish label (or the English term) with a term key.
+      const sideTag = (terms: string[], label: unknown) => {
+        if (!terms.length) return null;
+        const hit = classify(terms.join(' . '), null, TOPIC_PLAN).topics[0];
+        if (hit) return { key: hit.topicId, name: topicName.get(hit.topicId) || hit.topicId };
+        return { key: 'term:' + terms[0], name: typeof label === 'string' && label ? label : terms[0] };
+      };
+      const tagsOf = (e: Record<string, unknown>) => {
+        const a = sideTag(parse(e.side_a), e.labelA), b = sideTag(parse(e.side_b), e.labelB);
+        const singles: Array<{ key: string; name: string }> = [];
+        for (const t of [a, b, ...parse(e.topic_ids).map((id) => ({ key: id, name: topicName.get(id) || id }))]) if (t && !singles.some((x) => x.key === t.key || x.name.toLocaleLowerCase('tr-TR') === t.name.toLocaleLowerCase('tr-TR'))) singles.push(t);
+        return {
+          tags: singles.map((t) => ({ ...t, narrowed: marked.has(t.key) })),
+          relationTag: a && b && a.key !== b.key ? { name: a.name + ' ile ' + b.name.charAt(0).toLocaleLowerCase('tr-TR') + b.name.slice(1) + ' ilişkisi', open: !!e.relationId } : null,
+        };
+      };
+      rows = rows.map((r) => { const e = byId.get(String(r.itemId)); return e ? { ...r, ...tagsOf(e), topicTags: parse(e.topic_ids).map((id) => ({ id, name: topicName.get(id) || id, narrowed: marked.has(id) })), relationOpen: !!e.relationId, topics: parse(e.topic_ids), sideA: parse(e.side_a), sideB: parse(e.side_b), probableReason: e.probableReason ?? null, studyType: e.studyType ?? null, relationName: e.relationName ?? null } : r; });
     } catch { /* extraction tables not ready: the list still works */ }
     return { status: 200, body: { ok: true, count: rows.length, question: 'Bu makalenin wow değeri kaç ve neden?', items: rows } };
   } catch (e) {
