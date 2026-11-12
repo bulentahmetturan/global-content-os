@@ -490,7 +490,7 @@ async function insertNewItem(
   // A "most read / trending" scrape re-lists the same popular article for days or weeks; once a
   // link has been decided (promoted, completed, or deleted) it must never come back for review
   // again, even after its source_items row is long gone from the (hard-purged) trash.
-  if (input.route === 'kaduse-news' || input.route === 'kaduse-research') {
+  if (input.route === 'kaduse-news' || input.route === 'kaduse-research' || input.route === 'tip-ogrencileri') {
     if (await isPreviouslyDecided(db, input.canonicalUrl)) {
       return { id: '', created: false, rejected: 'previously_decided' };
     }

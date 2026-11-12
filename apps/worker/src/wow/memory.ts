@@ -603,23 +603,20 @@ export async function decidedSets(env: Env, now: Date = new Date()): Promise<{ k
 }
 
 /**
- * Topics and topic relations of ONE article, for any card (DEC-R-20261112-034): the plan topics it was tagged with (topic_item_tags),
+ * Topics and topic relations of ONE article, for any card (DEC-R-20261112-034, -043): the article's own specific tags (tags_json, owner tags included),
  * and the relations whose query brought it (wow_hits) or that it opened (wow_extractions). Read-only; empty arrays when nothing is known.
  */
 export async function wowInsight(env: Env, params: URLSearchParams, plan: TopicPlan = TOPIC_PLAN): Promise<MemoryResult> {
   const itemId = (params.get('itemId') || '').trim();
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
-  const topicName = new Map(plan.topics.map((t) => [t.topicId, t.name]));
-  const unitName = new Map(plan.topics.flatMap((t) => t.units.map((u) => [u.id, u.name] as const)));
   const topics: string[] = [];
   const relations: string[] = [];
   try {
-    const tags = (await env.DB.prepare(`SELECT DISTINCT topic_id, unit_id FROM topic_item_tags WHERE item_id = ? LIMIT 12`).bind(itemId).all<{ topic_id: string; unit_id: string }>()).results;
-    for (const t of tags) {
-      const n = unitName.get(t.unit_id) || topicName.get(t.topic_id);
-      if (n && !topics.includes(n)) topics.push(n);
-    }
-  } catch { /* topic tags addon absent */ }
+    // The article's own specific tags and the owner's tags (DEC-R-20261112-043); the broad plan-topic names are not shown.
+    const row = await env.DB.prepare(`SELECT tags_json FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(itemId, EXTRACTOR_VERSION).first<{ tags_json: string | null }>();
+    const tj = JSON.parse(row?.tags_json ?? 'null') as { topics?: string[]; owner?: string[] } | null;
+    for (const n of [...(tj?.topics ?? []), ...(tj?.owner ?? [])]) if (typeof n === 'string' && n && !topics.includes(n)) topics.push(n);
+  } catch { /* extraction tags absent */ }
   try {
     const rel = (await env.DB.prepare(
       `SELECT DISTINCT r.name FROM wow_relations r

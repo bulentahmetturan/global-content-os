@@ -175,7 +175,7 @@ export async function applyTriage(
   // permanently so a "most read / trending" re-scrape never brings it back for review again.
   if (
     (action === 'promote' || action === 'complete' || action === 'delete') &&
-    (row.route === 'kaduse-news' || row.route === 'kaduse-research')
+    (row.route === 'kaduse-news' || row.route === 'kaduse-research' || row.route === 'tip-ogrencileri')
   ) {
     await recordDecidedLink(env.DB, row.canonical_url);
   }
