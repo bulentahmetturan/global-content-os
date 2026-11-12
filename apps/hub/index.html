@@ -2109,7 +2109,8 @@
       });
     }
     NAV.forEach(function (n) {
-      if (n.path === 'TIME_SENSITIVE' || n.path === 'PRODUCTION') return;
+      // Evergreen has no Research entry in the left column (DEC-R-20261112-037): Research is decided in the Research area and in Sorular.
+      if (n.path === 'TIME_SENSITIVE' || n.path === 'PRODUCTION' || n.navId === 'ev_research') return;
       if (n.path !== lastGroup) {
         var g = NAV_GROUPS.filter(function (x) { return x.path === n.path; })[0];
         // Every system module sits under the Evergreen area: no separate heading (owner decision 2026-11-12).
