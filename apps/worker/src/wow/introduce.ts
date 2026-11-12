@@ -258,11 +258,12 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
       const tagsOf = (e: Record<string, unknown>) => {
         // DEC-R-20261112-039: the article's own tags (as many as it has) come first; the older side labels are the fallback.
         try {
-          const tj = JSON.parse(String(e.tagsJson ?? 'null')) as { topics?: string[]; relations?: string[][] } | null;
-          if (tj && Array.isArray(tj.topics) && tj.topics.length) {
+          const tj = JSON.parse(String(e.tagsJson ?? 'null')) as { topics?: string[]; owner?: string[]; relations?: string[][] } | null;
+          if (tj && Array.isArray(tj.topics) && (tj.topics.length || (tj.owner ?? []).length)) {
+            const names = [...tj.topics, ...(tj.owner ?? []).filter((o) => !tj.topics!.some((t) => t.toLocaleLowerCase('tr-TR') === o.toLocaleLowerCase('tr-TR')))];
             const rel = (tj.relations ?? []).filter((p) => p.length === 2);
             return {
-              tags: tj.topics.map((n) => ({ key: 'tag:' + n.toLocaleLowerCase('tr-TR'), name: n, narrowed: marked.has('tag:' + n.toLocaleLowerCase('tr-TR')) })),
+              tags: names.map((n) => ({ owner: (tj.owner ?? []).includes(n), key: 'tag:' + n.toLocaleLowerCase('tr-TR'), name: n, narrowed: marked.has('tag:' + n.toLocaleLowerCase('tr-TR')) })),
               relationTags: rel.map((p, i) => ({ name: p[0] + ' ile ' + p[1].charAt(0).toLocaleLowerCase('tr-TR') + p[1].slice(1) + ' ilişkisi', open: i === 0 && !!e.relationId, canOpen: i === 0 && parse(e.side_a).length > 0 && parse(e.side_b).length > 0 })),
             };
           }
