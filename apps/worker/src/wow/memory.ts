@@ -687,18 +687,24 @@ export async function labelBatch(env: Env): Promise<MemoryResult> {
  * single topic the article has (2 to 5 short Turkish names, as many as the article needs) and the relations between them; for the first relation it
  * also gives English search terms, kept only when they appear in the article text. Run again until "remaining" is 0.
  */
+/** Tags are re-made whenever this version is higher than the stored one (DEC-R-20261112-043: specific tags, not categories). */
+export const TAGS_VERSION = 2;
+/** Category words that say nothing about the article: never kept as a tag. */
+const BROAD_TAGS = new Set(['gıda', 'hastalık', 'yaş', 'sağlık', 'beslenme', 'tedavi', 'araştırma', 'çalışma', 'tıp', 'ilaç', 'hasta', 'insan', 'risk', 'kanser', 'diyabet', 'yaşam', 'bilim', 'sonuç', 'etki', 'genel sağlık', 'halk sağlığı']);
+const isBroadTag = (t: string) => BROAD_TAGS.has(t.toLocaleLowerCase('tr-TR'));
+
 export async function tagBatch(env: Env): Promise<MemoryResult> {
   if (!env.AI) return { status: 503, body: { error: 'AI_NOT_BOUND' } };
   try {
     const rows = (await env.DB.prepare(
       `SELECT e.item_id, e.side_a, e.side_b, COALESCE(s.title_orig, s.title) AS title, substr(COALESCE(s.summary, ''), 1, 700) AS abstract
          FROM wow_extractions e JOIN source_items s ON s.id = e.item_id
-        WHERE e.extractor_version = ? AND e.tags_json IS NULL AND s.discovery_reason = ? ORDER BY e.created_at ASC LIMIT 8`,
-    ).bind(EXTRACTOR_VERSION, OWNER_WOW).all<{ item_id: string; side_a: string; side_b: string; title: string; abstract: string }>()).results;
+        WHERE e.extractor_version = ? AND (e.tags_json IS NULL OR COALESCE(json_extract(e.tags_json, '$.v'), 0) < ?) AND s.discovery_reason = ? ORDER BY e.created_at ASC LIMIT 8`,
+    ).bind(EXTRACTOR_VERSION, TAGS_VERSION, OWNER_WOW).all<{ item_id: string; side_a: string; side_b: string; title: string; abstract: string }>()).results;
     if (!rows.length) return { status: 200, body: { ok: true, tagged: 0, remaining: 0 } };
     const list = rows.map((r, i) => ({ i, title: r.title, abstract: r.abstract }));
     const system = `You tag medical research articles. For each input item answer with JSON only: [{"i":0,"topics":["..."],"relations":[["...","..."]],"a_en":["..."],"b_en":["..."]}].
-"topics": every distinct single subject the article is about, 2 to 5 short Turkish names (1-4 words each, plain Turkish, e.g. "Sigara ve tütün kullanımı", "Kalp hastalığı"); as many as the article really has, not padded.
+"topics": the SPECIFIC subjects this article is about, taken from its own title and abstract: 2 to 5 short Turkish names (1-4 words each, plain Turkish). Be specific, name the exposure, the condition, the intervention or the population itself (a good set for an article on childhood sugar rationing and later diabetes: "Şeker kısıtlaması", "Erken çocukluk beslenmesi", "Tip 2 diyabet riski", "Hipertansiyon"). NEVER use broad category words as a tag: Gıda, Hastalık, Yaş, Sağlık, Beslenme, Tedavi, Araştırma, Risk, Kanser, Diyabet alone. Use only subjects the article is really about; do not pad and do not reuse a subject from another item.
 "relations": pairs of names taken from "topics" that the article shows a link between (empty list when it is about one subject only).
 "a_en"/"b_en": 1-2 short English search terms for the FIRST relation's two sides, using only words from the title or abstract (empty lists when there is no relation).`;
     const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1400 }));
@@ -709,11 +715,15 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
     for (const o of Array.isArray(out) ? out : []) {
       const r = typeof o.i === 'number' ? rows[o.i] : undefined;
       if (!r) continue;
-      const topics = [...new Set((Array.isArray(o.topics) ? o.topics : []).map(trLabel).filter((x): x is string => !!x))].slice(0, 6);
+      const topics = [...new Set((Array.isArray(o.topics) ? o.topics : []).map(trLabel).filter((x): x is string => !!x && !isBroadTag(x)))].slice(0, 6);
       if (!topics.length) continue;
       const lower = new Map(topics.map((t) => [t.toLocaleLowerCase('tr-TR'), t]));
       const relations = (Array.isArray(o.relations) ? o.relations : []).map((p) => (Array.isArray(p) ? p.map(trLabel) : [])).map((p) => [p[0] && lower.get(p[0].toLocaleLowerCase('tr-TR')), p[1] && lower.get(p[1].toLocaleLowerCase('tr-TR'))]).filter((p): p is [string, string] => !!p[0] && !!p[1] && p[0] !== p[1]).slice(0, 4);
-      await env.DB.prepare(`UPDATE wow_extractions SET tags_json = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify({ topics, relations }), r.item_id, EXTRACTOR_VERSION).run();
+      // The owner's own tags survive a re-tag.
+      const prev = await env.DB.prepare(`SELECT tags_json FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(r.item_id, EXTRACTOR_VERSION).first<{ tags_json: string | null }>();
+      let owner: string[] = [];
+      try { owner = ((JSON.parse(prev?.tags_json ?? 'null') as { owner?: string[] } | null)?.owner ?? []).filter((x) => typeof x === 'string'); } catch { owner = []; }
+      await env.DB.prepare(`UPDATE wow_extractions SET tags_json = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify({ v: TAGS_VERSION, topics, owner, relations }), r.item_id, EXTRACTOR_VERSION).run();
       // Search terms for the relation, only where the extraction had none and only words that are in the article text.
       if (relations.length && arr(r.side_a).length === 0 && arr(r.side_b).length === 0) {
         const have = new Set(tokens(`${r.title} ${r.abstract}`));
@@ -723,8 +733,41 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
       }
       tagged += 1;
     }
-    const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions e JOIN source_items s ON s.id = e.item_id WHERE e.extractor_version = ? AND e.tags_json IS NULL AND s.discovery_reason = ?`).bind(EXTRACTOR_VERSION, OWNER_WOW).first<{ n: number }>();
+    const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions e JOIN source_items s ON s.id = e.item_id WHERE e.extractor_version = ? AND (e.tags_json IS NULL OR COALESCE(json_extract(e.tags_json, '$.v'), 0) < ?) AND s.discovery_reason = ?`).bind(EXTRACTOR_VERSION, TAGS_VERSION, OWNER_WOW).first<{ n: number }>();
     return { status: 200, body: { ok: true, tagged, remaining: Number(left?.n ?? 0) } };
+  } catch (e) {
+    if (notReady(e) || /no such column/i.test(String(e))) return { status: 503, body: { error: 'TAGS_NOT_READY' } };
+    throw e;
+  }
+}
+
+/**
+ * The owner writes a tag on an article card (DEC-R-20261112-043): it is kept with the article (`owner` list of tags_json, never replaced by a re-tag)
+ * and enters the narrowing system at once, like a "+" press. With on:false the tag leaves the article and the narrowing system.
+ */
+export async function addOwnerTag(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['itemId', 'name', 'on'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const itemId = typeof b.itemId === 'string' ? b.itemId.trim() : '';
+  const name = trLabel(b.name);
+  if (!itemId || !name) return { status: 400, body: { error: 'INVALID_TAG', detail: '3-48 karakter, en çok 5 kelime' } };
+  const key = 'tag:' + name.toLocaleLowerCase('tr-TR');
+  if (!/^tag:[^{}<>"]{3,60}$/u.test(key)) return { status: 400, body: { error: 'INVALID_TAG' } };
+  try {
+    const row = await env.DB.prepare(`SELECT tags_json FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(itemId, EXTRACTOR_VERSION).first<{ tags_json: string | null }>();
+    if (!row) return { status: 404, body: { error: 'ARTICLE_NOT_FOUND' } };
+    let tj: { v?: number; topics?: string[]; owner?: string[]; relations?: string[][] } = {};
+    try { tj = JSON.parse(row.tags_json ?? 'null') ?? {}; } catch { tj = {}; }
+    const lower = name.toLocaleLowerCase('tr-TR');
+    const owner = (tj.owner ?? []).filter((x) => x.toLocaleLowerCase('tr-TR') !== lower);
+    const on = b.on !== false;
+    if (on) owner.push(name);
+    const topics = on ? tj.topics ?? [] : (tj.topics ?? []).filter((x) => x.toLocaleLowerCase('tr-TR') !== lower);
+    await env.DB.prepare(`UPDATE wow_extractions SET tags_json = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify({ v: tj.v ?? 0, topics, owner, relations: tj.relations ?? [] }), itemId, EXTRACTOR_VERSION).run();
+    if (on) await env.DB.prepare(`INSERT OR IGNORE INTO wow_narrow_topics (topic_id, origin_item_id) VALUES (?, ?)`).bind(key, itemId).run();
+    else await env.DB.prepare(`DELETE FROM wow_narrow_topics WHERE topic_id = ?`).bind(key).run();
+    return { status: 200, body: { ok: true, tag: { key, name, narrowed: on } } };
   } catch (e) {
     if (notReady(e) || /no such column/i.test(String(e))) return { status: 503, body: { error: 'TAGS_NOT_READY' } };
     throw e;

@@ -723,6 +723,8 @@
   .ntag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 11px; border-radius: 999px; border: 1px solid var(--border, #E0D9C8); background: var(--surface, #FFFEFA); font: 600 .78rem var(--font-ui); }
   .ntag.on { border-color: var(--accent, #0E5C3E); background: var(--ok-bg, #E1EEE6); }
   .ntag-add { all: unset; cursor: pointer; width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--accent, #0E5C3E); color: #fff; font: 700 .8rem var(--font-ui); }
+  .ntag-input { all: unset; box-sizing: border-box; min-width: 120px; padding: 3px 10px; border: 1px dashed var(--border); border-radius: 999px; font: 500 .78rem var(--font-ui); color: var(--text); }
+  .ntag-input:focus { border-style: solid; border-color: var(--accent); }
   .ntag-add[disabled] { cursor: default; opacity: .75; }
 
   /* a selected chip stays readable inside the compact panel (the panel's own background rule used to win over .chip.on) */
@@ -1856,8 +1858,27 @@
     (it.relationTags || []).forEach(function (r, i) {
       tags.push('<span class="ntag rel' + (r.open ? ' on' : '') + '">' + escapeHtml(r.name) + '<button type="button" class="ntag-add" data-narrow="relation" data-item="' + escapeHtml(it.id) + '" data-rel="' + i + '" title="' + (r.open ? 'Bu ilişki daraltmada' : (r.canOpen ? 'İlişkiyi daraltmaya ekle' : 'Bu ilişki için arama terimi henüz yok')) + '" aria-pressed="' + !!r.open + '"' + (r.open || !r.canOpen ? ' disabled' : '') + '>' + (r.open ? '✓' : '+') + '</button></span>');
     });
-    return '<div class="ntags">' + (tags.length ? tags.join('') : '<span class="ntag wait">Konu etiketi bekliyor</span>') + '</div>';
+    var add = '<input type="text" class="ntag-input" data-tag-item="' + escapeHtml(it.id) + '" maxlength="48" placeholder="+ etiket ekle" aria-label="Kendi etiketini yaz, Enter ile ekle">';
+    return '<div class="ntags">' + (tags.length ? tags.join('') : '<span class="ntag wait">Konu etiketi bekliyor</span>') + add + '</div>';
   }
+  /** The owner writes a tag: it is stored with the article and enters the narrowing system at once (DEC-R-20261112-043). */
+  async function addOwnTag(input) {
+    var name = String(input.value || '').replace(/\s+/g, ' ').trim();
+    if (name.length < 3) { showToast('Etiket en az 3 harf olmalı'); return; }
+    var it = (state.items || []).filter(function (x) { return x.id === input.getAttribute('data-tag-item'); })[0];
+    if (!it) return;
+    var res = await api('/api/wow/tag', { method: 'POST', body: JSON.stringify({ itemId: it.id, name: name }) });
+    it.tags = (it.tags || []).filter(function (t) { return t.key !== res.tag.key; });
+    it.tags.push({ key: res.tag.key, name: res.tag.name, narrowed: true, owner: true });
+    showToast('✓ Etiket eklendi ve daraltma sistemine girdi: ' + res.tag.name);
+    renderRead();
+  }
+  document.addEventListener('keydown', function (e) {
+    var inp = e.target && e.target.classList && e.target.classList.contains('ntag-input') ? e.target : null;
+    if (!inp || e.key !== 'Enter') return;
+    e.preventDefault();
+    addOwnTag(inp).catch(function (err) { showToast(err.message); });
+  });
   async function narrowFromTag(btn) {
     var it = (state.items || []).filter(function (x) { return x.id === btn.getAttribute('data-item'); })[0];
     if (!it) return;
