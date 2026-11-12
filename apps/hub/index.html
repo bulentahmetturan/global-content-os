@@ -1622,7 +1622,7 @@
       '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
-      (it.wowq ? '' : lead) +
+      (it.wowq ? (it.summary ? '<div class="read-label">Konular ve ilişkiler</div><p class="read-lead" style="white-space:pre-line">' + escapeHtml(it.summary) + '</p>' : '') : lead) +
       '<details class="read-more"><summary>Ayrıntılar</summary><dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl></details>' +
       '<section class="decision"><h3 class="decision-h">Editoryal karar</h3>' +
       predLineHtml(it.id) +
@@ -1811,7 +1811,7 @@
     var mapped = (intro.items || []).map(function (q) {
       var ref = String(q.sourceReference || '');
       var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Dr. Ahmet Ekmekçi' : ref.replace(/\s*#\d+.*$/, '');
-      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: '', wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow };
+      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: wowInsightText(q), wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow };
     });
     mapped.forEach(function (m, i) {
       var q = (intro.items || [])[i];
@@ -1861,6 +1861,16 @@
     showToast('Şimdilik geçildi (olumsuz örnek sayılmaz, 30 gün sonra döner)');
   }
   // ---- Production lines (DEC-R-20261112-031): three lines only; promote names the channel(s) ----
+  /** Description area of a question card: topics and topic relations the system found (insight), never the doctor's wording. */
+  function wowInsightText(q) {
+    var parts = [];
+    if (q.topics && q.topics.length) parts.push('Konular: ' + q.topics.join(', '));
+    if (q.sideA && q.sideA.length && q.sideB && q.sideB.length) parts.push('Konu ilişkisi: ' + q.sideA.join(', ') + ' ↔ ' + q.sideB.join(', ') + (q.relationName ? ' (' + q.relationName + ')' : ''));
+    if (q.studyType) parts.push('Çalışma türü: ' + q.studyType);
+    if (q.probableReason) parts.push('Sistemin tahmini wow nedeni: ' + q.probableReason);
+    return parts.join('
+');
+  }
   var PROD_LABEL = { tt: 'Tıp Topluluğu', ik: 'İyileşme Kanalı', km: 'Kaduse Medikal' };
   /** Right-hand green rail under Sorular: the three production lines (tt / ik / km) with their counts. */
   function renderProdRail() {
