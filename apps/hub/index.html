@@ -1855,6 +1855,7 @@
   /** Description area of a question card: topics and topic relations the system found (insight), never the doctor's wording. */
   function wowInsightText(q) {
     var parts = [];
+    if (q.sourceNote) parts.push('Makale hakkında: ' + q.sourceNote);
     var why = String(q.priorNote || '').replace(/^[[A-Z]+]s*/, '').trim();
     if (q.priorWow) parts.push('Wow puanı: ' + q.priorWow + (why ? ' · Neden wow: ' + why : ''));
     if (q.topics && q.topics.length) parts.push('Konular: ' + q.topics.join(', '));

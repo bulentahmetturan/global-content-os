@@ -220,7 +220,7 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
   const since = new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
   const sql = (prov: boolean) => `SELECT s.id AS itemId, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at AS publishedAt,
               s.enrichment_status AS translation, CASE WHEN s.enrichment_status = 'done' THEN s.title END AS titleTr,
-              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm, r.note AS priorNote${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference' : ''}
+              r.wow AS priorWow, r.ch_tt AS priorTt, r.ch_ik AS priorIk, r.ch_km AS priorKm, r.note AS priorNote${prov ? ', p.wow_id AS wowId, p.source_reference AS sourceReference, p.source_note AS sourceNote' : ''}
          FROM source_items s
          LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)${prov ? '\n         LEFT JOIN wow_provenance p ON p.item_id = s.id' : ''}
         WHERE s.discovery_reason = ?
@@ -229,7 +229,7 @@ export async function wowQuestions(env: Env): Promise<WowResult> {
   try {
     let rows;
     try { rows = (await env.DB.prepare(sql(true)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
-    catch (e) { if (!/no such table: wow_provenance/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
+    catch (e) { if (!/no such (table: wow_provenance|column)/i.test(String(e))) throw e; rows = (await env.DB.prepare(sql(false)).bind(WOW_DISCOVERY_REASON, since).all()).results; }
     // Topics and topic relations (insight, DEC-R-20261112-032): what the system extracted for each article; optional, never blocks the list.
     try {
       const ex = (await env.DB.prepare(`SELECT e.item_id AS itemId, e.topic_ids, e.side_a, e.side_b, e.probable_reason AS probableReason, e.study_type AS studyType, r.name AS relationName
