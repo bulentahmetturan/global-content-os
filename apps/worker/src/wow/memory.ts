@@ -131,6 +131,7 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
 /** Extraction for an article that is already stored (backfill of articles introduced before the memory existed). */
 export async function extractStored(env: Env, raw: unknown): Promise<MemoryResult> {
   if (raw && typeof raw === 'object' && (raw as { labels?: unknown }).labels === true) return labelBatch(env);
+  if (raw && typeof raw === 'object' && (raw as { tags?: unknown }).tags === true) return tagBatch(env);
   const itemId = raw && typeof raw === 'object' && typeof (raw as { itemId?: unknown }).itemId === 'string' ? ((raw as { itemId: string }).itemId).trim() : '';
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
   const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary, discovery_reason FROM source_items WHERE id = ? AND (discovery_reason = ? OR EXISTS (SELECT 1 FROM wow_hits h WHERE h.item_id = source_items.id))`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null; discovery_reason: string | null }>();
@@ -385,6 +386,13 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
       const marked = new Set((await env.DB.prepare(`SELECT DISTINCT t.item_id FROM topic_item_tags t JOIN wow_narrow_topics n ON n.topic_id = t.topic_id`).all<{ item_id: string }>()).results.map((r) => r.item_id));
       for (const c of list) c.narrowed = marked.has(c.itemId);
       // A marked single term (key "term:<english term>") marks every candidate brought by a relation that searches that term.
+      const markedTags = new Set((await env.DB.prepare(`SELECT topic_id FROM wow_narrow_topics WHERE topic_id LIKE 'tag:%'`).all<{ topic_id: string }>()).results.map((r) => r.topic_id.slice(4)));
+      if (markedTags.size) {
+        // A marked article tag puts the relations that article opened first (the relation's origin article carries the tag).
+        const origin = (await env.DB.prepare(`SELECT r.relation_id AS relation_id, e.tags_json AS tags FROM wow_relations r JOIN wow_extractions e ON e.item_id = r.origin_item_id AND e.extractor_version = ? WHERE e.tags_json IS NOT NULL`).bind(EXTRACTOR_VERSION).all<{ relation_id: string; tags: string }>()).results;
+        const hitRel = new Set(origin.filter((o) => { try { return (JSON.parse(o.tags).topics as string[]).some((t) => markedTags.has(t.toLocaleLowerCase('tr-TR'))); } catch { return false; } }).map((o) => o.relation_id));
+        for (const c of list) if (c.why.some((x) => hitRel.has(x.relationId))) c.narrowed = true;
+      }
       const terms = new Set((await env.DB.prepare(`SELECT topic_id FROM wow_narrow_topics WHERE topic_id LIKE 'term:%'`).all<{ topic_id: string }>()).results.map((r) => r.topic_id.slice(5)));
       if (terms.size) {
         const rels = (await env.DB.prepare(`SELECT relation_id, a_terms, b_terms FROM wow_relations`).all<{ relation_id: string; a_terms: string; b_terms: string }>()).results;
@@ -635,7 +643,7 @@ export async function narrowTopic(env: Env, raw: unknown, plan: TopicPlan = TOPI
   const b = raw as Record<string, unknown>;
   for (const k of Object.keys(b)) if (!['topicId', 'itemId', 'on'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
   const topicId = typeof b.topicId === 'string' ? b.topicId.trim() : '';
-  const isTerm = /^term:[a-z0-9][a-z0-9 '\-]{2,59}$/.test(topicId);
+  const isTerm = /^term:[a-z0-9][a-z0-9 '\-]{2,59}$/.test(topicId) || /^tag:[^{}<>"]{3,60}$/u.test(topicId);
   if (!topicId || (!isTerm && !plan.topics.some((t) => t.topicId === topicId))) return { status: 400, body: { error: 'UNKNOWN_TOPIC' } };
   const itemId = typeof b.itemId === 'string' && b.itemId.trim() ? b.itemId.trim() : null;
   try {
@@ -677,6 +685,55 @@ export async function labelBatch(env: Env): Promise<MemoryResult> {
     return { status: 200, body: { ok: true, labeled, remaining: Number(left?.n ?? 0) } };
   } catch (e) {
     if (notReady(e) || /no such column/i.test(String(e))) return { status: 503, body: { error: 'SIDE_LABELS_NOT_READY' } };
+    throw e;
+  }
+}
+
+/**
+ * Tags of the owner's articles, decided from each article (DEC-R-20261112-039): up to 8 articles per call, one LLM call. The model names every
+ * single topic the article has (2 to 5 short Turkish names, as many as the article needs) and the relations between them; for the first relation it
+ * also gives English search terms, kept only when they appear in the article text. Run again until "remaining" is 0.
+ */
+export async function tagBatch(env: Env): Promise<MemoryResult> {
+  if (!env.AI) return { status: 503, body: { error: 'AI_NOT_BOUND' } };
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT e.item_id, e.side_a, e.side_b, COALESCE(s.title_orig, s.title) AS title, substr(COALESCE(s.summary, ''), 1, 700) AS abstract
+         FROM wow_extractions e JOIN source_items s ON s.id = e.item_id
+        WHERE e.extractor_version = ? AND e.tags_json IS NULL AND s.discovery_reason = ? ORDER BY e.created_at ASC LIMIT 8`,
+    ).bind(EXTRACTOR_VERSION, OWNER_WOW).all<{ item_id: string; side_a: string; side_b: string; title: string; abstract: string }>()).results;
+    if (!rows.length) return { status: 200, body: { ok: true, tagged: 0, remaining: 0 } };
+    const list = rows.map((r, i) => ({ i, title: r.title, abstract: r.abstract }));
+    const system = `You tag medical research articles. For each input item answer with JSON only: [{"i":0,"topics":["..."],"relations":[["...","..."]],"a_en":["..."],"b_en":["..."]}].
+"topics": every distinct single subject the article is about, 2 to 5 short Turkish names (1-4 words each, plain Turkish, e.g. "Sigara ve tütün kullanımı", "Kalp hastalığı"); as many as the article really has, not padded.
+"relations": pairs of names taken from "topics" that the article shows a link between (empty list when it is about one subject only).
+"a_en"/"b_en": 1-2 short English search terms for the FIRST relation's two sides, using only words from the title or abstract (empty lists when there is no relation).`;
+    const raw = textFromAi(await env.AI.run(MODEL, { messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(list) }], max_tokens: 1400 }));
+    const m = /\[[\s\S]*\]/.exec(raw);
+    let out: Array<Record<string, unknown>> = [];
+    try { out = m ? JSON.parse(m[0]) : []; } catch { out = []; }
+    let tagged = 0;
+    for (const o of Array.isArray(out) ? out : []) {
+      const r = typeof o.i === 'number' ? rows[o.i] : undefined;
+      if (!r) continue;
+      const topics = [...new Set((Array.isArray(o.topics) ? o.topics : []).map(trLabel).filter((x): x is string => !!x))].slice(0, 6);
+      if (!topics.length) continue;
+      const lower = new Map(topics.map((t) => [t.toLocaleLowerCase('tr-TR'), t]));
+      const relations = (Array.isArray(o.relations) ? o.relations : []).map((p) => (Array.isArray(p) ? p.map(trLabel) : [])).map((p) => [p[0] && lower.get(p[0].toLocaleLowerCase('tr-TR')), p[1] && lower.get(p[1].toLocaleLowerCase('tr-TR'))]).filter((p): p is [string, string] => !!p[0] && !!p[1] && p[0] !== p[1]).slice(0, 4);
+      await env.DB.prepare(`UPDATE wow_extractions SET tags_json = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify({ topics, relations }), r.item_id, EXTRACTOR_VERSION).run();
+      // Search terms for the relation, only where the extraction had none and only words that are in the article text.
+      if (relations.length && arr(r.side_a).length === 0 && arr(r.side_b).length === 0) {
+        const have = new Set(tokens(`${r.title} ${r.abstract}`));
+        const keep = (v: unknown) => cleanTerms(v).filter((t) => { const st = tokens(t); return st.length > 0 && st.every((x) => have.has(x)); });
+        const a = keep(o.a_en), b = keep(o.b_en).filter((t) => !a.includes(t));
+        if (a.length && b.length) await env.DB.prepare(`UPDATE wow_extractions SET side_a = ?, side_b = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify(a), JSON.stringify(b), r.item_id, EXTRACTOR_VERSION).run();
+      }
+      tagged += 1;
+    }
+    const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions e JOIN source_items s ON s.id = e.item_id WHERE e.extractor_version = ? AND e.tags_json IS NULL AND s.discovery_reason = ?`).bind(EXTRACTOR_VERSION, OWNER_WOW).first<{ n: number }>();
+    return { status: 200, body: { ok: true, tagged, remaining: Number(left?.n ?? 0) } };
+  } catch (e) {
+    if (notReady(e) || /no such column/i.test(String(e))) return { status: 503, body: { error: 'TAGS_NOT_READY' } };
     throw e;
   }
 }
