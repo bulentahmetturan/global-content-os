@@ -1735,12 +1735,31 @@
       '<input class="wx-note" data-wx="sentence" maxlength="400" placeholder="Kendi cümlenle: neden? (isteğe bağlı)" value="' + escapeHtml(x.sentence || '') + '"></div>' +
     '</div>';
   }
+  // Sorular reads are gated on the operator token (ROUTE_GATES), and the generic api() only sends it on writes: send it here, ask once if missing or rejected.
+  async function wowGet(path) {
+    for (var attempt = 0; attempt < 2; attempt++) {
+      var token = null;
+      try { token = localStorage.getItem(OPERATOR_TOKEN_KEY); } catch (e) { token = null; }
+      if (!token) { token = await askOperatorToken(); if (!token) throw new Error('UNAUTHORIZED'); }
+      var res = await fetch(path, { headers: { Authorization: 'Bearer ' + token } });
+      var data = await res.json().catch(function () { return {}; });
+      if (res.status === 401 || res.status === 403) {
+        try { if (localStorage.getItem(OPERATOR_TOKEN_KEY) === token) localStorage.removeItem(OPERATOR_TOKEN_KEY); } catch (e) { /* private mode */ }
+        if (attempt === 0) continue;
+        throw new Error('UNAUTHORIZED');
+      }
+      if (!res.ok) throw new Error('HTTP_' + res.status + (data && data.error ? ' ' + data.error : ''));
+      return data;
+    }
+    throw new Error('UNAUTHORIZED');
+  }
   async function loadWowQuestions() {
     state.wowx = state.wowx || {};
+    state.wowqError = '';
     wowMem = null;
-    try { wowMem = await api('/api/wow/memory'); } catch (e) { wowMem = null; }
+    try { wowMem = await wowGet('/api/wow/memory'); } catch (e) { wowMem = null; state.wowqError = String(e.message || e); }
     var intro = { items: [] };
-    try { intro = await api('/api/wow/questions'); } catch (e) { /* addon not ready: empty list */ }
+    try { intro = await wowGet('/api/wow/questions'); } catch (e) { state.wowqError = String(e.message || e); }
     // Only the owner's introduced articles are asked, once each (owner decision 2026-11-12): no random source or candidate questions.
     var mapped = (intro.items || []).map(function (q) {
       return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.title, titleOrig: q.title, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: 'Senin tanıttığın makale. Neden wow? Aşağıda cevapla; cevabın sistemi besler.' + (q.priorWow ? ' Daha önce verdiğin puan: ' + q.priorWow + ' (kartta hazır, onayla ya da değiştir).' : '') };
@@ -2351,7 +2370,7 @@
       return sep + cardHtml(it);
     }).join('');
     emptyStateEl.hidden = items.length > 0;
-    if (!items.length) emptyStateEl.innerHTML = emptyHtml();
+    if (!items.length) emptyStateEl.innerHTML = state.route === 'wowq' && state.wowqError ? '<h3>Sorular okunamadı</h3><p>' + (/UNAUTHORIZED/.test(state.wowqError) ? 'Operatör anahtarı kabul edilmedi. Yeni anahtarı girmek için sayfayı yenile.' : 'Hata: ' + escapeHtml(state.wowqError)) + '</p>' : emptyHtml();
     renderToolbar();
     renderSourcePanel();
     renderRead();
