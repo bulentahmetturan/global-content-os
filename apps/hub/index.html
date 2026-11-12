@@ -1800,7 +1800,7 @@
     // Only the owner's introduced articles are asked, once each (owner decision 2026-11-12): no random source or candidate questions.
     var mapped = (intro.items || []).map(function (q) {
       var ref = String(q.sourceReference || '');
-      var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Dr. Ahmet Ekmekçi' : ref.replace(/\s*#\d+.*$/, '');
+      var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Prof. Dr. Ahmet Ekmekçi' : ref.replace(/\s*#\d+.*$/, '');
       return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: wowInsightText(q), wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow };
     });
     mapped.forEach(function (m, i) {
