@@ -214,19 +214,14 @@ test('high score on a brought item proposes a NEW relation from that item; nothi
   assert.equal(rel.selectionRate, 75);
 });
 
-test('most informative first: order=uncertain puts the item the learner is least sure about before the highest estimate', async () => {
+test('no system prediction orders the queue (DEC-R-20261112-040): stored scores are ignored', async () => {
   const { sqlite, env } = await withCandidates();
-  const items = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
-  const put = (id, wow, u) => sqlite.prepare(`INSERT OR REPLACE INTO item_scores (item_id, model_id, wow, p_tt, p_ik, p_km, uncertainty, gates_json, reasons_json) VALUES (?, 'm', ?, 0, 0, 0, ?, '[]', '[]')`).run(id, wow, u);
-  put(items[0], 9, 0.1);
-  put(items[1], 5, 0.9);
-  put(items[2], 6, 0.3);
-  put(items[3], 7, 0.2);
-  const byScore = (await M.wowCandidates(env, new URLSearchParams())).body.items;
-  assert.equal(byScore[0].itemId, items[0], 'default: highest estimate first');
-  const byInfo = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
-  assert.equal(byInfo[0].itemId, items[1], 'uncertain first: the doubtful item teaches most');
-  assert.equal(byInfo[0].uncertainty, 0.9);
+  const before = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
+  const put = (id, wow, u) => sqlite.prepare(`INSERT OR REPLACE INTO item_scores (item_id, model_id, wow, p_tt, p_ik, p_km, uncertainty, gates_json, reasons_json) VALUES (?, 'm', ?, 0, 0, 0, ?, '[]', '{}')`).run(id, wow, u);
+  put(before[before.length - 1], 9.9, 0.9);
+  const after = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
+  assert.deepEqual(after.map((i) => i.itemId), before, 'scores and order=uncertain change nothing');
+  assert.equal(after[0].score, undefined);
 });
 
 // ---- DEC-R-20261112-028: journals are scan scope, Evergreen from the same relations, authority from owner answers, seen ledger ----

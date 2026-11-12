@@ -32,7 +32,20 @@ export async function markChannelDone(env: Env, itemId: string, channel: Product
   return Number(left?.n ?? 0);
 }
 
-export async function listProduction(env: Env, channel: ProductionChannel): Promise<{ items: ReturnType<typeof rowToView>[]; counts: Record<ProductionChannel, number> }> {
+/** "Üretim" top-bar tab (DEC-R-20261112-041): every item sent to production, once, whichever channel(s) it was marked for. */
+export async function listAllProduction(env: Env): Promise<ReturnType<typeof rowToView>[]> {
+  const { results } = await env.DB.prepare(
+    `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
+       FROM source_items i
+       LEFT JOIN evidence_cards e ON e.source_item_id = i.id
+      WHERE i.triage_status = 'production'
+        AND EXISTS (SELECT 1 FROM item_production p WHERE p.item_id = i.id AND p.status = 'production')
+      ORDER BY (SELECT MAX(p.promoted_at) FROM item_production p WHERE p.item_id = i.id) DESC LIMIT 400`,
+  ).all<SourceItemRow>();
+  return (results ?? []).map(rowToView);
+}
+
+export async function listProduction(env: Env, channel: ProductionChannel): Promise<{ items: ReturnType<typeof rowToView>[]; counts: Record<ProductionChannel, number> & { all: number } }> {
   const { results } = await env.DB.prepare(
     `SELECT i.*, e.doi, e.pmid, e.pmcid, e.finding, e.limitation, e.study_type
        FROM item_production p
@@ -41,12 +54,16 @@ export async function listProduction(env: Env, channel: ProductionChannel): Prom
       WHERE p.channel = ? AND p.status = 'production' AND i.triage_status = 'production'
       ORDER BY p.promoted_at DESC LIMIT 300`,
   ).bind(channel).all<SourceItemRow>();
-  const counts = { tt: 0, ik: 0, km: 0 } as Record<ProductionChannel, number>;
+  const counts = { tt: 0, ik: 0, km: 0, all: 0 } as Record<ProductionChannel, number> & { all: number };
   const c = await env.DB.prepare(
     `SELECT p.channel AS channel, COUNT(*) AS n FROM item_production p JOIN source_items i ON i.id = p.item_id
       WHERE p.status = 'production' AND i.triage_status = 'production' GROUP BY p.channel`,
   ).all<{ channel: ProductionChannel; n: number }>();
   for (const r of c.results ?? []) if (isProductionChannel(r.channel)) counts[r.channel] = Number(r.n);
+  const all = await env.DB.prepare(
+    `SELECT COUNT(DISTINCT p.item_id) AS n FROM item_production p JOIN source_items i ON i.id = p.item_id WHERE p.status = 'production' AND i.triage_status = 'production'`,
+  ).first<{ n: number }>();
+  counts.all = Number(all?.n ?? 0);
   return { items: (results ?? []).map(rowToView), counts };
 }
 

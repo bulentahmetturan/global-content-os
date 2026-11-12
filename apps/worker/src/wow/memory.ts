@@ -332,7 +332,7 @@ export async function decideQuery(env: Env, raw: unknown): Promise<MemoryResult>
 
 /**
  * Candidates the relation queries brought, not yet answered, each with why it came (query -> relation -> the owner's article).
- * Order: learner score when there is one, then how many relations it hit, then newest. Skipped items wait outside the queue.
+ * Order: narrowed, the owner's reasons, authority, how many relations it hit, then newest (no system prediction). Skipped items wait outside the queue.
  */
 export async function wowCandidates(env: Env, params: URLSearchParams, plan: TopicPlan = TOPIC_PLAN): Promise<MemoryResult> {
   const n = Number(params.get('limit') ?? '');
@@ -354,11 +354,11 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     const laneAns = new Map<string, string>();
     try { for (const r of (await env.DB.prepare(`SELECT item_id, lane FROM wow_lane_answers`).all<{ item_id: string; lane: string }>()).results) laneAns.set(r.item_id, r.lane); } catch { /* a006 absent */ }
     const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
-    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; narrowed: boolean; reasonWeight: number | null; matchedReasons: string[]; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; narrowed: boolean; reasonWeight: number | null; matchedReasons: string[]; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
     for (const r of rows) {
       const tk = normTitleKey(r.title);
       if (tk && decided.titles.has(tk)) continue; // the same finding was already decided under another id
-      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, narrowed: false, reasonWeight: null, matchedReasons: [], authorityRate: null, why: [] };
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, narrowed: false, reasonWeight: null, matchedReasons: [], authorityRate: null, why: [] };
       cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
       by.set(r.item_id, cur);
     }
@@ -416,15 +416,8 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
         c.authorityRate = rates.length ? Math.round(rates.reduce((a, x) => a + x, 0) / rates.length) : null;
       }
     }
-    if (list.length) {
-      try {
-        const sc = (await env.DB.prepare(`SELECT item_id, wow, uncertainty FROM item_scores WHERE item_id IN (SELECT item_id FROM wow_hits)`).all<{ item_id: string; wow: number; uncertainty: number }>()).results;
-        for (const s of sc) { const c = by.get(s.item_id); if (c) { c.score = Math.round(s.wow * 10) / 10; c.uncertainty = Math.round(s.uncertainty * 100) / 100; } }
-      } catch { /* scoring addon absent: order by relation hits and date */ }
-    }
-    const byUncertain = params.get('order') === 'uncertain';
-    // Most informative first (Bible §1.4: every round must reduce a doubt): the item the learner is least sure about teaches most.
-    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || Number(b.narrowed) - Number(a.narrowed) || (b.score ?? -1) - (a.score ?? -1) || (b.reasonWeight ?? 0) - (a.reasonWeight ?? 0) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    // No prediction orders the queue (DEC-R-20261112-040): narrowed first, then the owner's reasons, authority, relation hits, newest.
+    list.sort((a, b) => Number(b.narrowed) - Number(a.narrowed) || (b.reasonWeight ?? 0) - (a.reasonWeight ?? 0) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;

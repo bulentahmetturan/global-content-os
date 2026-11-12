@@ -28,7 +28,7 @@ const ctx = {
   formatNewsAge: () => '',
 };
 vm.createContext(ctx);
-vm.runInContext(['var GATE_TR = {};', 'var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = ({[^;]*});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = ({[^;]*});/)[1] + ';', extractFunction('laneButtonsHtml'), extractFunction('laneChipHtml'), extractFunction('predChipHtml'), extractFunction('cardScoreHtml'), extractFunction('ratingLabel'), extractFunction('draftFor'), 'var CHANNELS = [["tt","TT","Tıp Topluluğu"],["ik","İK","İyileşme Kanalı"],["km","KM","Kaduse Medikal"]];', extractFunction('escapeHtml'), extractFunction('stripHtml'), extractFunction('isUntranslated'), extractFunction('itemTexts'), extractFunction('statusPillHtml'), extractFunction('actionsHtml'), extractFunction('cardHtml')].join('\n'), ctx);
+vm.runInContext(['var LANE_OF_ROUTE = ' + html.match(/var LANE_OF_ROUTE = ({[^;]*});/)[1] + ';', 'var LANE_LABEL = ' + html.match(/var LANE_LABEL = ({[^;]*});/)[1] + ';', extractFunction('laneButtonsHtml'), extractFunction('laneChipHtml'), extractFunction('cardScoreHtml'), extractFunction('ratingLabel'), extractFunction('draftFor'), 'var CHANNELS = [["tt","TT","Tıp Topluluğu"],["ik","İK","İyileşme Kanalı"],["km","KM","Kaduse Medikal"]];', extractFunction('escapeHtml'), extractFunction('stripHtml'), extractFunction('isUntranslated'), extractFunction('itemTexts'), extractFunction('statusPillHtml'), extractFunction('actionsHtml'), extractFunction('cardHtml')].join('\n'), ctx);
 
 const item = (o) => ({ id: 'i1', triageStatus: 'inbox', canonicalUrl: 'https://x.test/a', title: 'Başlık', titleOrig: 'Title', gists: ['Source English excerpt that must not leak.'], summary: 'Source English excerpt that must not leak.', ...o });
 
