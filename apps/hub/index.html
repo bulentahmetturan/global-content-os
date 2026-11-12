@@ -1622,7 +1622,7 @@
       '<h2 class="read-title"' + (isUntranslated(it) ? ' lang="en"' : '') + '>' + escapeHtml(d.title) + '</h2>' +
       (d.titleOrig && d.titleOrig !== d.title ? '<p class="read-orig">' + escapeHtml(d.titleOrig) + '</p>' : '') +
       (url ? '<a class="read-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Orijinal kaynağı aç ↗</a>' : '') +
-      (it.wowq ? '' : lead) +
+      (it.wowq ? (it.summary ? '<div class="read-label">Konular ve ilişkiler</div><p class="read-lead" style="white-space:pre-line">' + escapeHtml(it.summary) + '</p>' : '') : lead) +
       '<details class="read-more"><summary>Ayrıntılar</summary><dl class="read-facts">' + facts.map(function (f) { return '<dt>' + escapeHtml(f[0]) + '</dt><dd class="' + f[2] + '">' + f[1] + '</dd>'; }).join('') + '</dl></details>' +
       '<section class="decision"><h3 class="decision-h">Editoryal karar</h3>' +
       predLineHtml(it.id) +
@@ -1761,25 +1761,15 @@
     var t = Date.parse(it.publishedAt || '');
     return !isNaN(t) && (Date.now() - t) / 864e5 > wowqWindowDays() ? 'EVERGREEN' : 'TIME_SENSITIVE';
   }
+  /** Sorular card: the owner's reasons only. Research kind (500 days) and authority are decided by the system; no fixed reason list: the tags are the ones the owner wrote before. */
   function wowExtraHtml(it) {
     var x = (state.wowx && state.wowx[it.id]) || {};
-    var lane = x.lane || wowqLaneGuess(it);
-    var reasons = (wowMem && wowMem.reasons || []).map(function (r) {
+    var reasons = (wowMem && wowMem.reasons || []).filter(function (r) { return r.state === 'ACTIVE'; }).map(function (r) {
       return '<label class="wx-chip"><input type="checkbox" data-wx="reason" value="' + escapeHtml(r.code) + '"' + ((x.reasons || []).indexOf(r.code) >= 0 ? ' checked' : '') + '> ' + escapeHtml(r.name) + '</label>';
     }).join('');
-    var auth = x.auth || '';
-    var nm = 'wx-' + it.id;
     return '<div class="wowx" data-wowx="' + escapeHtml(it.id) + '">' +
-      '<div class="rate-l">Bu makale hangi Research?</div><div class="wx-row">' +
-        '<label class="wx-chip"><input type="radio" name="' + escapeHtml(nm) + '" data-wx="lane" value="TIME_SENSITIVE"' + (lane === 'TIME_SENSITIVE' ? ' checked' : '') + '> Time Sensitive (son ' + wowqWindowDays() + ' gün)</label>' +
-        '<label class="wx-chip"><input type="radio" name="' + escapeHtml(nm) + '" data-wx="lane" value="EVERGREEN"' + (lane === 'EVERGREEN' ? ' checked' : '') + '> Evergreen</label></div>' +
-      '<div class="wx-auth"' + (lane === 'EVERGREEN' ? '' : ' hidden') + '><div class="rate-l">Kabul görmüş otorite makale mi?</div><div class="wx-row">' +
-        '<label class="wx-chip"><input type="radio" name="' + escapeHtml(nm) + 'a" data-wx="auth" value="AUTHORITY"' + (auth === 'AUTHORITY' ? ' checked' : '') + '> Evet</label>' +
-        '<label class="wx-chip"><input type="radio" name="' + escapeHtml(nm) + 'a" data-wx="auth" value="NOT_AUTHORITY"' + (auth === 'NOT_AUTHORITY' ? ' checked' : '') + '> Hayır</label>' +
-        '<label class="wx-chip"><input type="radio" name="' + escapeHtml(nm) + 'a" data-wx="auth" value=""' + (!auth ? ' checked' : '') + '> Bilmiyorum</label></div></div>' +
-      (reasons ? '<div class="rate-l">Neden wow?</div><div class="wx-row">' + reasons + '</div>' : '') +
-      '<div class="wx-row"><select data-wx="issue" aria-label="Sorun var mı?">' + WOWQ_ISSUES.map(function (o) { return '<option value="' + o[0] + '"' + (x.issue === o[0] ? ' selected' : '') + '>' + escapeHtml(o[1]) + '</option>'; }).join('') + '</select>' +
-      '<input class="wx-note" data-wx="sentence" maxlength="400" placeholder="Kendi cümlenle: neden? (isteğe bağlı)" value="' + escapeHtml(x.sentence || '') + '"></div>' +
+      (reasons ? '<div class="rate-l">Yazdığın nedenler</div><div class="wx-row">' + reasons + '</div>' : '') +
+      '<div class="wx-row"><input class="wx-note" data-wx="sentence" maxlength="400" placeholder="Neden wow? Kendi cümlenle yaz; sonraki kartlarda seçenek olur" value="' + escapeHtml(x.sentence || '') + '"></div>' +
     '</div>';
   }
   // Sorular reads are gated on the operator token (ROUTE_GATES), and the generic api() only sends it on writes: send it here, ask once if missing or rejected.
@@ -1810,8 +1800,8 @@
     // Only the owner's introduced articles are asked, once each (owner decision 2026-11-12): no random source or candidate questions.
     var mapped = (intro.items || []).map(function (q) {
       var ref = String(q.sourceReference || '');
-      var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Dr. Ahmet Ekmekçi' : ref.replace(/\s*#\d+.*$/, '');
-      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: '', wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow };
+      var doctor = /^Ahmet Ekmek[cç]i/i.test(ref) ? 'Prof. Dr. Ahmet Ekmekçi' : ref.replace(/\s*#\d+.*$/, '');
+      return { id: q.itemId, wowq: 'intro', triageStatus: 'wowq', title: q.titleTr || q.title, titleOrig: q.title, enrichmentStatus: q.translation, canonicalUrl: q.url, publisher: q.journal || '', publishedAt: q.publishedAt, summary: wowInsightText(q), wowId: q.wowId || '', doctor: doctor, hasPrior: !!q.priorWow };
     });
     mapped.forEach(function (m, i) {
       var q = (intro.items || [])[i];
@@ -1828,10 +1818,11 @@
   async function sendWowAnswer(it, d, opts) {
     if (!d.wow) { showToast('Önce 1-10 arası bir wow puanı verin'); return; }
     var x = (state.wowx && state.wowx[it.id]) || {};
-    var lane = x.lane || wowqLaneGuess(it);
-    var body = { itemId: it.id, kind: x.issue || (d.wow >= 6 ? 'wow' : 'ordinary'), wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km }, reasons: x.reasons || [], sentence: x.sentence || '', lane: lane };
-    if (lane === 'EVERGREEN' && x.auth) body.authority = x.auth;
+    var sent = String(x.sentence || '').replace(/s+/g, ' ').trim();
+    var body = { itemId: it.id, kind: d.wow >= 6 ? 'wow' : 'ordinary', wow: d.wow, channels: { tt: !!d.tt, ik: !!d.ik, km: !!d.km }, reasons: x.reasons || [], sentence: sent };
+    if (sent && sent.length <= 80) body.newReason = sent;
     var res = await api('/api/wow/feedback', { method: 'POST', body: JSON.stringify(body) });
+    wowGet('/api/wow/memory').then(function (m) { wowMem = m; }).catch(function () { /* the next load retries */ });
     var promoted = null;
     if (opts && opts.promote) {
       await api('/api/triage', { method: 'POST', body: JSON.stringify({ itemId: it.id, action: 'promote', channels: opts.promote }) });
@@ -1847,7 +1838,7 @@
     state.cursor = nextId;
     bumpRated();
     renderList();
-    showToast((promoted ? '✓ Üretim hattına aktarıldı: ' + promoted + ' · ' : '') + 'Kaydedildi: wow ' + d.wow + ' · ' + (lane === 'EVERGREEN' ? 'Evergreen' : 'Time Sensitive') + (body.authority ? (body.authority === 'AUTHORITY' ? ' · otorite' : ' · otorite değil') : '') +
+    showToast((promoted ? '✓ Üretim hattına aktarıldı: ' + promoted + ' · ' : '') + 'Kaydedildi: wow ' + d.wow + (body.authority ? (body.authority === 'AUTHORITY' ? ' · otorite' : ' · otorite değil') : '') +
       (res && res.relationProposal === 'proposed' ? ' · yeni ilişki önerisi çıktı' : ''));
   }
   async function skipWowQuestion(it) {
@@ -1861,6 +1852,17 @@
     showToast('Şimdilik geçildi (olumsuz örnek sayılmaz, 30 gün sonra döner)');
   }
   // ---- Production lines (DEC-R-20261112-031): three lines only; promote names the channel(s) ----
+  /** Description area of a question card: topics and topic relations the system found (insight), never the doctor's wording. */
+  function wowInsightText(q) {
+    var parts = [];
+    if (q.sourceNote) parts.push('Makale hakkında: ' + q.sourceNote);
+    var why = String(q.priorNote || '').replace(/^[[A-Z]+]s*/, '').trim();
+    if (q.priorWow) parts.push('Wow puanı: ' + q.priorWow + (why ? ' · Neden wow: ' + why : ''));
+    if (q.topics && q.topics.length) parts.push('Konular: ' + q.topics.join(', '));
+    if (q.sideA && q.sideA.length && q.sideB && q.sideB.length) parts.push('Konu ilişkisi: ' + q.sideA.join(', ') + ' ↔ ' + q.sideB.join(', ') + (q.relationName ? ' (' + q.relationName + ')' : ''));
+    return parts.join('
+');
+  }
   var PROD_LABEL = { tt: 'Tıp Topluluğu', ik: 'İyileşme Kanalı', km: 'Kaduse Medikal' };
   /** Right-hand green rail under Sorular: the three production lines (tt / ik / km) with their counts. */
   function renderProdRail() {

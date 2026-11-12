@@ -10,7 +10,7 @@ const W = await bundle('apps/worker/src/wow/introduce.ts', 'wow-introduce');
 function openDb() {
   const sqlite = new DatabaseSync(':memory:');
   for (const file of readdirSync('migrations').filter((n) => /^\d{4}_.*\.sql$/.test(n)).sort()) sqlite.exec(readFileSync(`migrations/${file}`, 'utf8'));
-  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', 'a005_wow_memory.sql', 'a007_wow_provenance.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
+  for (const a of ['a001_item_ratings.sql', 'a002_scoring.sql', 'a004_topic_tags.sql', 'a005_wow_memory.sql', 'a007_wow_provenance.sql', 'a009_wow_source_note.sql']) sqlite.exec(readFileSync(`migrations/addons/${a}`, 'utf8'));
   const feed = (id, label, url, enabled) => sqlite.prepare(`INSERT OR REPLACE INTO source_feeds (id, label, route, channel_id, transport, endpoint_url, poll_minutes, enabled) VALUES (?, ?, 'kaduse-research', 'kaduse-medikal', 'RESEARCH_REGISTRY', ?, 1440, ?)`).run(id, label, url, enabled);
   feed('research-jama-network', 'JAMA Network', 'https://jamanetwork.com/', 0);
   feed('research-nature', 'Nature', 'https://www.nature.com/', 0);
