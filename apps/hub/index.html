@@ -2402,7 +2402,10 @@
   }
   function wowRelationRow(r) {
     var st = r.queryState === 'REVIEW' ? 'Düşük puan geliyor: karar bekliyor' : r.queryState === 'ACTIVE' ? 'Arıyor' : (r.queryState || 'Sorgu yok');
-    var act = r.queryId && r.queryState === 'REVIEW' ? ' <span data-wow-q="' + escapeHtml(r.queryId) + '"><button type="button" data-wow-qact="keep">Sürsün</button> <button type="button" data-wow-qact="close">Kapat</button></span>' : '';
+    // Narrow is offered for every open search, not only in REVIEW: the owner writes the narrower English terms, a new version opens and the old one closes.
+    var act = r.queryId ? ' <span data-wow-q="' + escapeHtml(r.queryId) + '">' + (r.queryState === 'REVIEW' ? '<button type="button" data-wow-qact="keep">Sürsün</button> ' : '') + '<button type="button" data-wow-qact="close">Kapat</button><br>' +
+      '<input class="wow-qa tq-note" value="' + escapeHtml((r.a_terms || []).join(', ')) + '" title="etken (İngilizce, virgülle)"> × <input class="wow-qb tq-note" value="' + escapeHtml((r.b_terms || []).join(', ')) + '" title="sonuç (İngilizce, virgülle)"> ' +
+      '<button type="button" data-wow-qact="narrow">Daralt</button></span>' : '';
     return [escapeHtml(r.name), escapeHtml((r.a_terms || []).join(', ') + ' × ' + (r.b_terms || []).join(', ')), escapeHtml(st) + act, r.lastRunAt ? mTime(r.lastRunAt) : 'henüz çalışmadı', escapeHtml(r.hits || 0), escapeHtml(r.rated || 0), escapeHtml(r.avgWow == null ? '-' : r.avgWow), escapeHtml(r.selectionRate == null ? 'veri toplanıyor' : '%' + r.selectionRate), escapeHtml(r.lastError || '')];
   }
   function wowCandidateRow(x) {
@@ -2495,8 +2498,15 @@
     var qb = e.target.closest('[data-wow-qact]');
     if (qb) {
       var qbox = qb.closest('[data-wow-q]');
+      var qact = qb.getAttribute('data-wow-qact');
+      var qbody = { queryId: qbox.getAttribute('data-wow-q'), action: qact };
+      if (qact === 'narrow') {
+        var terms = function (sel) { var el = qbox.querySelector(sel); return el ? el.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean) : []; };
+        qbody.sideA = terms('.wow-qa'); qbody.sideB = terms('.wow-qb');
+        if (!qbody.sideA.length || !qbody.sideB.length) { showToast('İki tarafa da en az bir İngilizce terim yaz.'); return; }
+      }
       qb.disabled = true;
-      api('/api/wow/query', { method: 'POST', body: JSON.stringify({ queryId: qbox.getAttribute('data-wow-q'), action: qb.getAttribute('data-wow-qact') }) }).then(function (r) { qbox.innerHTML = r.state === 'CLOSED' ? 'Kapatıldı' : 'Sürüyor'; }, function (err) { qb.disabled = false; showToast(err.message); });
+      api('/api/wow/query', { method: 'POST', body: JSON.stringify(qbody) }).then(function (r) { qbox.innerHTML = r.state === 'CLOSED' ? 'Kapatıldı' : r.version ? 'Daraltıldı: arama v' + escapeHtml(r.version) + ' açıldı, eskisi kapandı. Sonraki çekimde çalışır.' : 'Sürüyor'; }, function (err) { qb.disabled = false; showToast(/SIDES_REQUIRED/.test(err.message) ? 'İki tarafa da en az bir İngilizce terim yaz.' : err.message); });
       return;
     }
     var rb = e.target.closest('[data-wow-save],[data-wow-no],[data-wow-skip]');
