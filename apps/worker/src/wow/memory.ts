@@ -712,6 +712,7 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
     let out: Array<Record<string, unknown>> = [];
     try { out = m ? JSON.parse(m[0]) : []; } catch { out = []; }
     let tagged = 0;
+    const done = new Set<string>();
     for (const o of Array.isArray(out) ? out : []) {
       const r = typeof o.i === 'number' ? rows[o.i] : undefined;
       if (!r) continue;
@@ -732,6 +733,20 @@ export async function tagBatch(env: Env): Promise<MemoryResult> {
         if (a.length && b.length) await env.DB.prepare(`UPDATE wow_extractions SET side_a = ?, side_b = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify(a), JSON.stringify(b), r.item_id, EXTRACTOR_VERSION).run();
       }
       tagged += 1;
+      done.add(r.item_id);
+    }
+    // An article the model gave no usable specific tag for is tried again; after 3 tries it keeps its earlier tags without the broad words and is closed,
+    // so one stubborn article never blocks the rest of the batch (DEC-R-20261112-043).
+    for (const r of rows) {
+      if (done.has(r.item_id)) continue;
+      const prev = await env.DB.prepare(`SELECT tags_json FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(r.item_id, EXTRACTOR_VERSION).first<{ tags_json: string | null }>();
+      let tj: { topics?: string[]; owner?: string[]; relations?: string[][]; tries?: number } = {};
+      try { tj = JSON.parse(prev?.tags_json ?? 'null') ?? {}; } catch { tj = {}; }
+      const tries = (tj.tries ?? 0) + 1;
+      const next = tries >= 3
+        ? { v: TAGS_VERSION, topics: (tj.topics ?? []).filter((x) => !isBroadTag(x)), owner: tj.owner ?? [], relations: tj.relations ?? [] }
+        : { v: 0, topics: tj.topics ?? [], owner: tj.owner ?? [], relations: tj.relations ?? [], tries };
+      await env.DB.prepare(`UPDATE wow_extractions SET tags_json = ? WHERE item_id = ? AND extractor_version = ?`).bind(JSON.stringify(next), r.item_id, EXTRACTOR_VERSION).run();
     }
     const left = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions e JOIN source_items s ON s.id = e.item_id WHERE e.extractor_version = ? AND (e.tags_json IS NULL OR COALESCE(json_extract(e.tags_json, '$.v'), 0) < ?) AND s.discovery_reason = ?`).bind(EXTRACTOR_VERSION, TAGS_VERSION, OWNER_WOW).first<{ n: number }>();
     return { status: 200, body: { ok: true, tagged, remaining: Number(left?.n ?? 0) } };
