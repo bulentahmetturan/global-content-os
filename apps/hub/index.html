@@ -2403,7 +2403,7 @@
   function wowRelationRow(r) {
     var st = r.queryState === 'REVIEW' ? 'Düşük puan geliyor: karar bekliyor' : r.queryState === 'ACTIVE' ? 'Arıyor' : (r.queryState || 'Sorgu yok');
     var act = r.queryId && r.queryState === 'REVIEW' ? ' <span data-wow-q="' + escapeHtml(r.queryId) + '"><button type="button" data-wow-qact="keep">Sürsün</button> <button type="button" data-wow-qact="close">Kapat</button></span>' : '';
-    return [escapeHtml(r.name), escapeHtml((r.a_terms || []).join(', ') + ' × ' + (r.b_terms || []).join(', ')), escapeHtml(st) + act, r.lastRunAt ? mTime(r.lastRunAt) : 'henüz çalışmadı', escapeHtml(r.hits || 0), escapeHtml(r.rated || 0), escapeHtml(r.avgWow == null ? '-' : r.avgWow), escapeHtml(r.lastError || '')];
+    return [escapeHtml(r.name), escapeHtml((r.a_terms || []).join(', ') + ' × ' + (r.b_terms || []).join(', ')), escapeHtml(st) + act, r.lastRunAt ? mTime(r.lastRunAt) : 'henüz çalışmadı', escapeHtml(r.hits || 0), escapeHtml(r.rated || 0), escapeHtml(r.avgWow == null ? '-' : r.avgWow), escapeHtml(r.selectionRate == null ? 'veri toplanıyor' : '%' + r.selectionRate), escapeHtml(r.lastError || '')];
   }
   function wowCandidateRow(x) {
     var why = (x.why || []).map(function (w) { return '<span class="spf-chip">' + escapeHtml(w.relation) + (w.fromArticle ? ' ← ' + escapeHtml(String(w.fromArticle).slice(0, 70)) : '') + '</span>'; }).join('');
@@ -2424,7 +2424,7 @@
     var sim = null, intro = null, sc = null, src = null, qs = null, cand = null;
     wowMem = null;
     try { wowMem = await topicGet('/api/wow/memory', token); } catch (e) { /* memory addon not applied: plain rating flow */ }
-    try { if (wowMem) cand = await topicGet('/api/wow/candidates?limit=10', token); } catch (e) { /* optional */ }
+    try { if (wowMem) cand = await topicGet('/api/wow/candidates?limit=10&order=uncertain', token); } catch (e) { /* optional */ }
     try { qs = await topicGet('/api/wow/questions', token); } catch (e) { /* optional */ }
     try { src = await topicGet('/api/wow/sources', token); } catch (e) { /* optional */ }
     try { sim = await topicGet('/api/wow/similar?limit=30', token); } catch (e) { /* queue is optional */ }
@@ -2448,7 +2448,7 @@
       memHtml = '<h3>Editoryal hafıza: makalelerinden ne öğrendim? (' + waiting.length + ' karar bekliyor)</h3>' +
         '<p class="mod-note">Makale makale gidilir: aşağıda sıradaki ' + Math.min(3, waiting.length) + ' makale var. Cevap vermediğin öneri onaylanmış sayılmaz, bekler (Bible §4.1). Bugün LLM kullanımı: ' + escapeHtml(wowMem.usage.llmCallsToday) + ' / ' + escapeHtml(wowMem.usage.llmCallsPerDay) + '.</p>' +
         (waiting.length ? waiting.slice(0, 3).map(wowProposalRow).join('') : '<p class="mod-note">Karar bekleyen öneri yok.</p>') +
-        '<h3>Onayladığın ilişkiler ve aramaları (' + relRows.length + ')</h3>' + (relRows.length ? mTable(['İlişki', 'Arama terimleri', 'Durum', 'Son çekim', 'Getirdiği', 'Puanladığın', 'Ortalama wow', 'Hata'], relRows) : '<p class="mod-note">Henüz onaylı ilişki yok. Yukarıdaki bir öneriyi onayladığında arama açılır.</p>') +
+        '<h3>Onayladığın ilişkiler ve aramaları (' + relRows.length + ')</h3>' + (relRows.length ? mTable(['İlişki', 'Arama terimleri', 'Durum', 'Son çekim', 'Getirdiği', 'Puanladığın', 'Ortalama wow', 'Seçtiğin (6+) oranı', 'Hata'], relRows) : '<p class="mod-note">Henüz onaylı ilişki yok. Yukarıdaki bir öneriyi onayladığında arama açılır.</p>') +
         '<h3>İlişkilerinin getirdiği çalışmalar (' + escapeHtml(cand && cand.total != null ? cand.total : 0) + ')</h3><p class="mod-note">Her kayıtta neden geldiği yazar: hangi ilişki, hangi makalenden. ' + escapeHtml(wowMem.measured.note) + '</p>' +
         (cand && cand.items && cand.items.length ? cand.items.map(wowCandidateRow).join('') : '<p class="mod-note">Henüz getirilen kayıt yok.</p>') +
         ((wowMem.waitingBibleDecision || []).length ? '<h3>Genel kural dediğin cevaplar (' + wowMem.waitingBibleDecision.length + '): Bible kararı olarak yazılmayı bekliyor</h3>' + wowMem.waitingBibleDecision.map(function (g) { return '<div class="tq-item"><div class="tq-title">' + escapeHtml(g.title || '') + '</div><div class="tq-meta">' + escapeHtml(g.kind) + ' · ' + escapeHtml(g.sentence || '') + '</div></div>'; }).join('') : '');
@@ -2489,7 +2489,7 @@
       xb.disabled = true;
       call.then(function (r) {
         xbox.closest('.tq-item').innerHTML = '<p class="mod-note">' + (r.relationId ? 'Arama açıldı: ' + escapeHtml(r.name) + '. Sonuçlar bir sonraki çekimde gelir.' : r.state === 'REJECTED' ? 'Öneri reddedildi, arama açılmadı.' : 'Okundu. Sayfayı yenile, öneriyi gör.') + '</p>';
-      }, function (err) { xb.disabled = false; showToast(/SIDES_REQUIRED/.test(err.message) ? 'İlişkinin iki tarafına da en az bir İngilizce terim gerekir.' : err.message); });
+      }, function (err) { xb.disabled = false; showToast(/SIDES_REQUIRED/.test(err.message) ? 'İlişkinin iki tarafına da en az bir İngilizce terim gerekir.' : /LLM_DAILY_CAP/.test(err.message) ? 'Bugünkü okuma sınırı doldu; yarın tekrar dene.' : err.message); });
       return;
     }
     var qb = e.target.closest('[data-wow-qact]');
@@ -2511,8 +2511,9 @@
       if (!skip) { fb.wow = Number(box.querySelector('.wow-score').value); fb.channels = { tt: box.querySelector('.wow-tt').checked, ik: box.querySelector('.wow-ik').checked, km: box.querySelector('.wow-km').checked }; }
       rb.disabled = true;
       api('/api/wow/feedback', { method: 'POST', body: JSON.stringify(fb) }).then(function (r) {
+        var rp = r.relationProposal === 'proposed' ? ' · Bu kayıttan yeni ilişki önerisi çıktı: Editoryal hafıza bölümünde karar bekliyor' : r.relationProposal === 'deferred' ? ' · Yeni ilişki önerisi bugünkü okuma sınırı yüzünden yarına kaldı' : '';
         var q = (r.queries || []).map(function (x) { return x.relationId + ': ' + x.rated + ' puan, ortalama ' + (x.avg == null ? '-' : x.avg) + (x.state === 'REVIEW' ? ' → düşük, sana sorulacak' : ''); }).join(' · ');
-        box.closest('.tq-item').innerHTML = '<p class="mod-note">Kaydedildi: ' + (skip ? 'şimdilik geçildi (olumsuz örnek sayılmaz)' : 'wow ' + fb.wow) + (q ? ' · Etkilenen arama: ' + escapeHtml(q) : '') + (r.needsBibleDecision ? ' · Genel kural: Bible kararı olarak yazılacak' : '') + '</p>';
+        box.closest('.tq-item').innerHTML = '<p class="mod-note">Kaydedildi: ' + (skip ? 'şimdilik geçildi (olumsuz örnek sayılmaz)' : 'wow ' + fb.wow) + (q ? ' · Etkilenen arama: ' + escapeHtml(q) : '') + rp + (r.needsBibleDecision ? ' · Genel kural: Bible kararı olarak yazılacak' : '') + '</p>';
       }, function (err) { rb.disabled = false; showToast(err.message); });
       return;
     }

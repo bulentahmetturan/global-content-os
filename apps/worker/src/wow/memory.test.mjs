@@ -58,14 +58,20 @@ test('LLM guess: one call per article and version, terms not in the article text
   assert.equal(calls.n, 1, 'the cached extraction is reused (Bible §1.3)');
 });
 
-test('daily LLM cap: past the cap the extraction falls back to rules and calls nothing', async () => {
+test('daily LLM cap: past the cap nothing is stored and nothing is called, so the article is read with the LLM on a later day', async () => {
   const { sqlite, env } = openDb();
   const calls = { n: 0 };
   env.AI = ai({ exposure: ['sleep timing'], outcome: ['obesity'] }, calls);
   for (let i = 0; i < M.WOW_CONFIG.llmCallsPerDay; i++) sqlite.prepare(`INSERT INTO wow_extractions (item_id, extractor_version, basis) VALUES (?, 'x1', 'llm')`).run(`old-${i}`);
   const r = await M.extractArticle(env, { itemId: 'it-cap', title: 'Sleep timing and obesity', abstract: ABSTRACT });
-  assert.deepEqual(r, { created: true, basis: 'rules' });
+  assert.deepEqual(r, { created: false, basis: 'rules', deferred: true });
   assert.equal(calls.n, 0);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE item_id = 'it-cap'`).get().n, 0, 'no rules-only row is fixed for the article');
+  const sidecar = await W.introduceWow(env, { title: 'Sleep and mood in teenagers', journal: 'Pediatrics' }, noNet, NOW);
+  assert.equal(sidecar.body.extraction.deferred, true, 'introduction itself never fails because of the cap');
+  const route = await M.extractStored(env, { itemId: sidecar.body.itemId });
+  assert.equal(route.status, 429);
+  assert.equal(route.body.error, 'LLM_DAILY_CAP');
 });
 
 test('owner decision: empty sides are refused, reject opens nothing, a corrected relation opens one journal-free query', async () => {
@@ -174,4 +180,51 @@ test('memory addon absent: introduction still works and the memory routes answer
   assert.equal((await M.wowCandidates(env, new URLSearchParams())).status, 503);
   assert.equal((await M.recordFeedback(env, { itemId: b.itemId, kind: 'skip' })).status, 503);
   assert.deepEqual(await M.queriesForRun(env), []);
+});
+
+test('high score on a brought item proposes a NEW relation from that item; nothing opens until the owner answers; selection rate needs enough answers', async () => {
+  const { sqlite, env, relationId } = await withCandidates();
+  const calls = { n: 0 };
+  env.AI = ai({ exposure: ['sleep regularity'], outcome: ['blood pressure'], reason: 'LARGE_EFFECT' }, calls);
+  const items = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items.map((i) => i.itemId);
+  // A mediocre score proposes nothing; a high one reads the item once.
+  const low = await M.recordFeedback(env, { itemId: items[0], kind: 'ordinary', wow: 5 });
+  assert.equal(low.body.relationProposal, null);
+  assert.equal(calls.n, 0);
+  const hi = await M.recordFeedback(env, { itemId: items[1], kind: 'wow', wow: 9, reasons: ['LARGE_EFFECT'] });
+  assert.equal(hi.body.relationProposal, 'proposed');
+  assert.equal(calls.n, 1);
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM wow_relations`).get().n, 1, 'a proposal alone opens no relation');
+  const again = await M.recordFeedback(env, { itemId: items[1], kind: 'wow', wow: 10 });
+  assert.equal(again.body.relationProposal, 'exists', 'the same item is read once, not again');
+  assert.equal(calls.n, 1);
+  // The brought item now shows up among the proposals the owner decides on, and can be extracted through the route too.
+  const mem = (await M.wowMemory(env)).body;
+  const prop = mem.articles.find((a) => a.itemId === items[1]);
+  assert.equal(prop.proposalState, 'PROPOSED');
+  const opened = await M.decideExtraction(env, { itemId: items[1], decision: 'correct', sideA: ['sleep timing'], sideB: ['blood pressure'] });
+  assert.equal(opened.status, 200, JSON.stringify(opened.body));
+  assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM wow_relations WHERE state = 'ACTIVE'`).get().n, 2, 'only the owner decision opens the new relation');
+  // Selection rate: below the minimum number of answers it is not computed (Bible §10.4).
+  assert.equal(mem.relations.find((r) => r.relationId === relationId).selectionRate, null);
+  for (const id of items.slice(2)) await M.recordFeedback(env, { itemId: id, kind: 'wow', wow: 7 });
+  const rel = (await M.wowMemory(env)).body.relations.find((r) => r.relationId === relationId);
+  assert.equal(rel.rated, 4);
+  assert.equal(rel.selected, 3, 'scores 9/10, 7, 7 are 6+; the 5 is not');
+  assert.equal(rel.selectionRate, 75);
+});
+
+test('most informative first: order=uncertain puts the item the learner is least sure about before the highest estimate', async () => {
+  const { sqlite, env } = await withCandidates();
+  const items = (await M.wowCandidates(env, new URLSearchParams())).body.items.map((i) => i.itemId);
+  const put = (id, wow, u) => sqlite.prepare(`INSERT OR REPLACE INTO item_scores (item_id, model_id, wow, p_tt, p_ik, p_km, uncertainty, gates_json, reasons_json) VALUES (?, 'm', ?, 0, 0, 0, ?, '[]', '[]')`).run(id, wow, u);
+  put(items[0], 9, 0.1);
+  put(items[1], 5, 0.9);
+  put(items[2], 6, 0.3);
+  put(items[3], 7, 0.2);
+  const byScore = (await M.wowCandidates(env, new URLSearchParams())).body.items;
+  assert.equal(byScore[0].itemId, items[0], 'default: highest estimate first');
+  const byInfo = (await M.wowCandidates(env, new URLSearchParams('order=uncertain'))).body.items;
+  assert.equal(byInfo[0].itemId, items[1], 'uncertain first: the doubtful item teaches most');
+  assert.equal(byInfo[0].uncertainty, 0.9);
 });

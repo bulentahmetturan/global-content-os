@@ -22,7 +22,7 @@ export interface MemoryResult { status: number; body: unknown }
 export const EXTRACTOR_VERSION = 'x1';
 const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 /** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
-export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4 } as const;
+export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6 } as const;
 export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
 const STUDY_TYPES = ['RCT', 'COHORT', 'CASE_CONTROL', 'CROSS_SECTIONAL', 'META_ANALYSIS', 'REVIEW', 'ANIMAL', 'IN_VITRO', 'CASE_REPORT', 'OTHER'];
 const OWNER_WOW = 'owner_wow_example';
@@ -86,7 +86,7 @@ Use only words that appear in the text. "reason" is why a general medical audien
  * Extraction for one introduced article. Cached per (item, extractor version): a second call returns the stored row and calls
  * nothing. Never throws: the memory must not break the introduction.
  */
-export async function extractArticle(env: Env, input: { itemId: string; title: string; abstract: string | null }, plan: TopicPlan = TOPIC_PLAN): Promise<{ created: boolean; basis: 'rules' | 'llm' } | null> {
+export async function extractArticle(env: Env, input: { itemId: string; title: string; abstract: string | null }, plan: TopicPlan = TOPIC_PLAN): Promise<{ created: boolean; basis: 'rules' | 'llm'; deferred?: true } | null> {
   try {
     const have = await env.DB.prepare(`SELECT basis FROM wow_extractions WHERE item_id = ? AND extractor_version = ?`).bind(input.itemId, EXTRACTOR_VERSION).first<{ basis: 'rules' | 'llm' }>();
     if (have) return { created: false, basis: have.basis };
@@ -95,7 +95,9 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
     const units = c.topics.flatMap((t) => t.units.map((u) => u.unitId));
     let guess: LlmGuess | null = null;
     const used = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
-    if (env.AI && Number(used?.n ?? 0) < WOW_CONFIG.llmCallsPerDay) {
+    // Cap reached: store nothing, so the article is read with the LLM on a later day instead of being fixed as rules-only forever.
+    if (env.AI && Number(used?.n ?? 0) >= WOW_CONFIG.llmCallsPerDay) return { created: false, basis: 'rules', deferred: true };
+    if (env.AI) {
       const codes = (await env.DB.prepare(`SELECT code FROM wow_reasons WHERE state <> 'REJECTED' ORDER BY code`).all<{ code: string }>()).results.map((r) => r.code);
       guess = await llmGuess(env, input.title, input.abstract || '', codes).catch(() => null);
     }
@@ -112,9 +114,10 @@ export async function extractArticle(env: Env, input: { itemId: string; title: s
 export async function extractStored(env: Env, raw: unknown): Promise<MemoryResult> {
   const itemId = raw && typeof raw === 'object' && typeof (raw as { itemId?: unknown }).itemId === 'string' ? ((raw as { itemId: string }).itemId).trim() : '';
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
-  const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary FROM source_items WHERE id = ? AND discovery_reason = ?`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null }>();
+  const it = await env.DB.prepare(`SELECT id, COALESCE(title_orig, title) AS title, summary FROM source_items WHERE id = ? AND (discovery_reason = ? OR EXISTS (SELECT 1 FROM wow_hits h WHERE h.item_id = source_items.id))`).bind(itemId, OWNER_WOW).first<{ id: string; title: string; summary: string | null }>();
   if (!it) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
   const r = await extractArticle(env, { itemId: it.id, title: it.title, abstract: it.summary && it.summary !== it.title ? it.summary : null });
+  if (r?.deferred) return { status: 429, body: { ok: false, error: 'LLM_DAILY_CAP', deferred: true, itemId, limit: WOW_CONFIG.llmCallsPerDay } };
   return r ? { status: r.created ? 201 : 200, body: { ok: true, itemId, ...r } } : NOT_READY;
 }
 
@@ -248,7 +251,15 @@ export async function recordFeedback(env: Env, raw: unknown): Promise<MemoryResu
       learner = (await runScoring(env).catch(() => null) as { body?: unknown } | null)?.body ?? null;
       queries = await refreshQueries(env, itemId);
     }
-    return { status: 201, body: { ok: true, feedbackId, itemId, kind, scope, reasons, queries, learner, needsBibleDecision: scope === 'general' } };
+    // A high score on an item a relation query brought is a candidate for a NEW relation (Bible §4.7): the system reads the item and
+    // proposes; nothing opens until the owner answers. Capped by the same daily LLM limit; a deferral is simply tried again later.
+    let relationProposal: string | null = null;
+    if (!skip && (b.wow as number) >= WOW_CONFIG.suggestFromWow && queries.length) {
+      const src = await env.DB.prepare(`SELECT summary FROM source_items WHERE id = ?`).bind(itemId).first<{ summary: string | null }>();
+      const ex = await extractArticle(env, { itemId, title: it.title, abstract: src?.summary && src.summary !== it.title ? src.summary : null });
+      relationProposal = !ex ? null : ex.deferred ? 'deferred' : ex.created ? 'proposed' : 'exists';
+    }
+    return { status: 201, body: { ok: true, feedbackId, itemId, kind, scope, reasons, queries, learner, relationProposal, needsBibleDecision: scope === 'general' } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
     throw e;
@@ -306,20 +317,22 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
           AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = h.item_id)`,
     ).bind(OWNER_WOW).all<{ item_id: string; query_id: string; relation_id: string; title: string; url: string; journal: string | null; published_at: string | null; relation_name: string | null; origin_title: string | null; origin_title_tr: string | null }>()).results;
     const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
-    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
     for (const r of rows) {
-      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, why: [] };
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, why: [] };
       cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
       by.set(r.item_id, cur);
     }
     const list = [...by.values()];
     if (list.length) {
       try {
-        const sc = (await env.DB.prepare(`SELECT item_id, wow FROM item_scores WHERE item_id IN (SELECT item_id FROM wow_hits)`).all<{ item_id: string; wow: number }>()).results;
-        for (const s of sc) { const c = by.get(s.item_id); if (c) c.score = Math.round(s.wow * 10) / 10; }
+        const sc = (await env.DB.prepare(`SELECT item_id, wow, uncertainty FROM item_scores WHERE item_id IN (SELECT item_id FROM wow_hits)`).all<{ item_id: string; wow: number; uncertainty: number }>()).results;
+        for (const s of sc) { const c = by.get(s.item_id); if (c) { c.score = Math.round(s.wow * 10) / 10; c.uncertainty = Math.round(s.uncertainty * 100) / 100; } }
       } catch { /* scoring addon absent: order by relation hits and date */ }
     }
-    list.sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    const byUncertain = params.get('order') === 'uncertain';
+    // Most informative first (Bible §1.4: every round must reduce a doubt): the item the learner is least sure about teaches most.
+    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
@@ -339,7 +352,7 @@ export async function wowMemory(env: Env): Promise<MemoryResult> {
          LEFT JOIN wow_extractions e ON e.item_id = s.id AND e.extractor_version = ?
          LEFT JOIN item_ratings r ON r.item_id = s.id AND r.rated_at = (SELECT MAX(x.rated_at) FROM item_ratings x WHERE x.item_id = s.id)
          LEFT JOIN wow_feedback f ON f.item_id = s.id AND f.created_at = (SELECT MAX(y.created_at) FROM wow_feedback y WHERE y.item_id = s.id)
-        WHERE s.discovery_reason = ? ORDER BY s.fetched_at ASC LIMIT 300`,
+        WHERE s.discovery_reason = ? OR (e.item_id IS NOT NULL AND e.state = 'PROPOSED') ORDER BY s.fetched_at ASC LIMIT 300`,
     ).bind(EXTRACTOR_VERSION, OWNER_WOW).all<Record<string, unknown>>()).results.map((a) => ({
       ...a, topic_ids: arr(a.topic_ids as string), plan_units: arr(a.plan_units as string), side_a: arr(a.side_a as string), side_b: arr(a.side_b as string), ownerReasons: arr(a.ownerReasons as string),
     }));
@@ -348,10 +361,11 @@ export async function wowMemory(env: Env): Promise<MemoryResult> {
               q.query_id AS queryId, q.version, q.state AS queryState, q.last_run_at AS lastRunAt, q.last_total AS lastTotal, q.last_created AS lastCreated, q.last_error AS lastError,
               (SELECT COUNT(*) FROM wow_hits h WHERE h.query_id = q.query_id) AS hits,
               (SELECT COUNT(*) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS rated,
-              (SELECT ROUND(AVG(x.wow), 1) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS avgWow
+              (SELECT ROUND(AVG(x.wow), 1) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS avgWow,
+              (SELECT COUNT(*) FROM wow_hits h JOIN item_ratings x ON x.item_id = h.item_id WHERE h.query_id = q.query_id AND x.wow >= ? AND x.rated_at = (SELECT MAX(y.rated_at) FROM item_ratings y WHERE y.item_id = h.item_id)) AS selected
          FROM wow_relations r LEFT JOIN wow_queries q ON q.relation_id = r.relation_id AND q.state <> 'CLOSED'
         ORDER BY r.created_at ASC`,
-    ).all<Record<string, unknown>>()).results.map((r) => ({ ...r, a_terms: arr(r.a_terms as string), b_terms: arr(r.b_terms as string) }));
+    ).bind(WOW_CONFIG.selectionWow).all<Record<string, unknown>>()).results.map((r) => ({ ...r, a_terms: arr(r.a_terms as string), b_terms: arr(r.b_terms as string), selectionRate: Number(r.rated) >= WOW_CONFIG.reviewMinRated ? Math.round((Number(r.selected) / Number(r.rated)) * 100) : null }));
     const reasons = (await env.DB.prepare(`SELECT code, name_tr AS name, state FROM wow_reasons WHERE state <> 'REJECTED' ORDER BY state, code`).all()).results;
     const general = (await env.DB.prepare(`SELECT feedback_id AS feedbackId, item_id AS itemId, title_orig AS title, kind, sentence, created_at AS createdAt FROM wow_feedback WHERE scope = 'general' ORDER BY created_at DESC LIMIT 50`).all()).results;
     const llm = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
