@@ -136,12 +136,12 @@ test('item-level rules from the 2026-10-29 audit: result announcements, aggregat
   assert.equal(r({ canonical_url: 'https://news.google.com/rss/articles/abc' }).kind, 'hold');
   assert.equal(r({ feed_id: 'research-nature-news', canonical_url: 'https://news.google.com/rss/articles/abc' }).reason, 'misleading_or_untrusted');
   assert.equal(r({ canonical_url: 'https://www.nature.com/articles/x' }), null);
-  const old = r({ canonical_url: 'https://www.nature.com/articles/x', published_at: '2026-06-01' });
-  assert.equal(old.kind, 'hold', 'older than 90 days is not New Research');
+  const old = r({ canonical_url: 'https://www.nature.com/articles/x', published_at: '2024-01-15' });
+  assert.equal(old.kind, 'hold', 'older than 500 days is not New Research');
   assert.equal(!!old.candidate, false, 'no DOI/PMID: held but not a Rediscovery candidate');
-  assert.equal(r({ canonical_url: 'https://doi.org/10.1/x', published_at: '2026-06-01' }).candidate, true);
-  assert.equal(r({ canonical_url: 'https://www.nature.com/articles/x', canonical_work_id: '10.1/x', published_at: '2026-06-01' }).candidate, true);
-  assert.equal(r({ canonical_url: 'https://www.nature.com/articles/x', published_at: '2026-08-15' }), null, 'newer than 90 days stays New Research');
+  assert.equal(r({ canonical_url: 'https://doi.org/10.1/x', published_at: '2024-01-15' }).candidate, true);
+  assert.equal(r({ canonical_url: 'https://www.nature.com/articles/x', canonical_work_id: '10.1/x', published_at: '2024-01-15' }).candidate, true);
+  assert.equal(r({ canonical_url: 'https://www.nature.com/articles/x', published_at: '2026-08-15' }), null, 'newer than 500 days stays New Research');
   assert.equal(r({ evergreen_view: 'research_rediscovery', canonical_url: 'https://www.nhlbi.nih.gov/files/docs/new_dash.pdf', published_at: '2006-04-01' }).reason, 'wrong_category');
   assert.equal(r({ evergreen_view: 'research_rediscovery', canonical_url: 'https://doi.org/10.1002/14651858.cd000259.pub3', published_at: '2012-06-13' }), null);
   assert.equal(r({ evergreen_view: 'research_rediscovery', canonical_url: 'https://pubmed.ncbi.nlm.nih.gov/9099655/', published_at: null }), null);

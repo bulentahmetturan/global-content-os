@@ -16,11 +16,11 @@ export const NEWS_MAX_AGE_DAYS = 10;
  */
 export const RESEARCH_MEDIA_MAX_AGE_DAYS = 14;
 /**
- * Research journal / publication sources on the time-sensitive path (owner delegation 2026-11-05, Bible 26.4/4 + 25):
- * 180 days covers online-first lag and month-precision issue dates; older work is Evergreen/Rediscovery material, which
- * is a separate (closed) path, so it is not admitted as current research.
+ * Research journal / publication sources on the time-sensitive path: the "son dönem" window. Owner decision 2026-11-12
+ * (DEC-R-20261112-028): 500 days (was 180). Newer work is time-sensitive Research; older work is Evergreen/Rediscovery material,
+ * which is a separate path. The same number drives the lane purity sweep and owner introductions (RESEARCH_CURRENT_MAX_AGE_DAYS).
  */
-export const RESEARCH_JOURNAL_MAX_AGE_DAYS = 180;
+export const RESEARCH_JOURNAL_MAX_AGE_DAYS = 500;
 export const RESEARCH_MEDIA_FEEDS = new Set([
   'research-stat-news',
   'research-eurekalert',

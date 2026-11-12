@@ -17,12 +17,13 @@ import { classify, tokens } from '../topics/classify';
 import { TOPIC_PLAN, type TopicPlan } from '../topics/plan.generated';
 import { recordRating } from '../ratings';
 import { runScoring } from '../scoring';
+import { RESEARCH_CURRENT_MAX_AGE_DAYS } from '../triage/lane-purity';
 
 export interface MemoryResult { status: number; body: unknown }
 export const EXTRACTOR_VERSION = 'x1';
 const MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8';
 /** Budgets and thresholds of the loop (Bible §1.4). One place; change here, not at the call sites. */
-export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6 } as const;
+export const WOW_CONFIG = { llmCallsPerDay: 40, termsPerSide: 4, queriesPerRun: 12, reviewMinRated: 4, reviewMaxAvg: 4, suggestFromWow: 8, selectionWow: 6, journalsPerBatch: 20, scopedPerRun: 6, evergreenPerRun: 4, authorityMinAnswers: 5, skipSnoozeDays: 30 } as const;
 export const FEEDBACK_KINDS = ['wow', 'ordinary', 'topic_wrong', 'weak_evidence', 'channel', 'repeat', 'study_type', 'skip'] as const;
 const STUDY_TYPES = ['RCT', 'COHORT', 'CASE_CONTROL', 'CROSS_SECTIONAL', 'META_ANALYSIS', 'REVIEW', 'ANIMAL', 'IN_VITRO', 'CASE_REPORT', 'OTHER'];
 const OWNER_WOW = 'owner_wow_example';
@@ -205,9 +206,12 @@ async function refreshQueries(env: Env, itemId: string): Promise<QueryStat[]> {
 export async function recordFeedback(env: Env, raw: unknown): Promise<MemoryResult> {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
   const b = raw as Record<string, unknown>;
-  for (const k of Object.keys(b)) if (!['itemId', 'wow', 'channels', 'kind', 'reasons', 'newReason', 'sentence', 'scope'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  for (const k of Object.keys(b)) if (!['itemId', 'wow', 'channels', 'kind', 'reasons', 'newReason', 'sentence', 'scope', 'lane', 'authority'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
   const itemId = typeof b.itemId === 'string' ? b.itemId.trim() : '';
   if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  // One card, every question at once: the owner's lane answer (Time Sensitive / Evergreen Research) and, for Evergreen, the authority answer.
+  if (b.lane !== undefined && b.lane !== null && b.lane !== 'TIME_SENSITIVE' && b.lane !== 'EVERGREEN') return { status: 400, body: { error: 'INVALID_LANE' } };
+  if (b.authority !== undefined && b.authority !== null && b.authority !== 'AUTHORITY' && b.authority !== 'NOT_AUTHORITY') return { status: 400, body: { error: 'INVALID_VERDICT' } };
   const kind = b.kind as (typeof FEEDBACK_KINDS)[number];
   if (typeof kind !== 'string' || !FEEDBACK_KINDS.includes(kind)) return { status: 400, body: { error: 'INVALID_KIND' } };
   const skip = kind === 'skip';
@@ -259,7 +263,16 @@ export async function recordFeedback(env: Env, raw: unknown): Promise<MemoryResu
       const ex = await extractArticle(env, { itemId, title: it.title, abstract: src?.summary && src.summary !== it.title ? src.summary : null });
       relationProposal = !ex ? null : ex.deferred ? 'deferred' : ex.created ? 'proposed' : 'exists';
     }
-    return { status: 201, body: { ok: true, feedbackId, itemId, kind, scope, reasons, queries, learner, relationProposal, needsBibleDecision: scope === 'general' } };
+    let lane: string | null = null;
+    let authority: string | null = null;
+    if (typeof b.lane === 'string') {
+      try { await env.DB.prepare(`INSERT INTO wow_lane_answers (item_id, lane) VALUES (?, ?) ON CONFLICT(item_id) DO UPDATE SET lane = excluded.lane, answered_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')`).bind(itemId, b.lane).run(); lane = b.lane; } catch { /* a006 not applied: the lane answer is not stored */ }
+    }
+    if (typeof b.authority === 'string') {
+      const a = await recordAuthority(env, { itemId, verdict: b.authority, ...(sentence ? { note: sentence.slice(0, 400) } : {}) });
+      authority = a.status < 400 ? b.authority : null;
+    }
+    return { status: 201, body: { ok: true, feedbackId, itemId, kind, scope, reasons, queries, learner, relationProposal, lane, authority, needsBibleDecision: scope === 'general' } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
     throw e;
@@ -308,22 +321,40 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
   try {
     const rows = (await env.DB.prepare(
       `SELECT h.item_id, h.query_id, h.relation_id, COALESCE(s.title_orig, s.title) AS title, s.canonical_url AS url, s.publisher AS journal, s.published_at,
+              (SELECT e.study_type FROM evidence_cards e WHERE e.source_item_id = h.item_id LIMIT 1) AS study_type,
               r.name AS relation_name, o.title_orig AS origin_title, o.title AS origin_title_tr
          FROM wow_hits h JOIN source_items s ON s.id = h.item_id
          LEFT JOIN wow_relations r ON r.relation_id = h.relation_id
          LEFT JOIN source_items o ON o.id = r.origin_item_id
         WHERE COALESCE(s.discovery_reason, '') <> ?
           AND NOT EXISTS (SELECT 1 FROM item_ratings x WHERE x.item_id = h.item_id)
-          AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = h.item_id)`,
-    ).bind(OWNER_WOW).all<{ item_id: string; query_id: string; relation_id: string; title: string; url: string; journal: string | null; published_at: string | null; relation_name: string | null; origin_title: string | null; origin_title_tr: string | null }>()).results;
+          AND NOT EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = h.item_id AND (f.kind <> 'skip' OR f.created_at >= ?))
+          AND NOT EXISTS (SELECT 1 FROM wow_authority a WHERE a.item_id = h.item_id)`,
+    ).bind(OWNER_WOW, new Date(Date.now() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString()).all<{ item_id: string; query_id: string; relation_id: string; title: string; url: string; journal: string | null; published_at: string | null; study_type: string | null; relation_name: string | null; origin_title: string | null; origin_title_tr: string | null }>()).results;
+    const decided = await decidedSets(env);
+    const laneAns = new Map<string, string>();
+    try { for (const r of (await env.DB.prepare(`SELECT item_id, lane FROM wow_lane_answers`).all<{ item_id: string; lane: string }>()).results) laneAns.set(r.item_id, r.lane); } catch { /* a006 absent */ }
     const planNames = new Map(plan.discovery.map((d) => [d.id, d.name]));
-    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
+    const by = new Map<string, { itemId: string; title: string; url: string; journal: string | null; publishedAt: string | null; score: number | null; uncertainty: number | null; lane: 'TIME_SENSITIVE' | 'EVERGREEN' | null; studyType: string | null; authorityRate: number | null; why: Array<{ queryId: string; relationId: string; relation: string; fromArticle: string | null }> }>();
     for (const r of rows) {
-      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, why: [] };
+      const tk = normTitleKey(r.title);
+      if (tk && decided.titles.has(tk)) continue; // the same finding was already decided under another id
+      const cur = by.get(r.item_id) ?? { itemId: r.item_id, title: r.title, url: r.url, journal: r.journal, publishedAt: r.published_at, score: null, uncertainty: null, lane: (laneAns.get(r.item_id) as 'TIME_SENSITIVE' | 'EVERGREEN' | undefined) ?? laneOf(r.published_at), studyType: r.study_type, authorityRate: null, why: [] };
       cur.why.push({ queryId: r.query_id, relationId: r.relation_id, relation: r.relation_name || planNames.get(r.relation_id) || r.relation_id, fromArticle: r.origin_title || r.origin_title_tr || null });
       by.set(r.item_id, cur);
     }
     const list = [...by.values()];
+    // Learned authority rate (owner answers per study type and per journal) orders Evergreen candidates; below the minimum answers there is no rate.
+    let learned: Awaited<ReturnType<typeof authorityLearned>> | null = null;
+    try { learned = await authorityLearned(env); } catch { learned = null; }
+    if (learned) {
+      const rateBy = (rows: AuthorityTally[]) => new Map(rows.filter((r) => r.rate !== null).map((r) => [r.key, r.rate as number]));
+      const byType = rateBy(learned.byStudyType), byJ = rateBy(learned.byJournal);
+      for (const c of list) {
+        const rates = [c.studyType ? byType.get(c.studyType) : undefined, c.journal ? byJ.get(c.journal) : undefined].filter((x): x is number => typeof x === 'number');
+        c.authorityRate = rates.length ? Math.round(rates.reduce((a, x) => a + x, 0) / rates.length) : null;
+      }
+    }
     if (list.length) {
       try {
         const sc = (await env.DB.prepare(`SELECT item_id, wow, uncertainty FROM item_scores WHERE item_id IN (SELECT item_id FROM wow_hits)`).all<{ item_id: string; wow: number; uncertainty: number }>()).results;
@@ -332,7 +363,7 @@ export async function wowCandidates(env: Env, params: URLSearchParams, plan: Top
     }
     const byUncertain = params.get('order') === 'uncertain';
     // Most informative first (Bible §1.4: every round must reduce a doubt): the item the learner is least sure about teaches most.
-    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
+    list.sort((a, b) => (byUncertain ? (b.uncertainty ?? 1) - (a.uncertainty ?? 1) : 0) || (b.score ?? -1) - (a.score ?? -1) || (b.authorityRate ?? 50) - (a.authorityRate ?? 50) || b.why.length - a.why.length || String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')));
     return { status: 200, body: { ok: true, total: list.length, items: list.slice(0, limit) } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
@@ -371,9 +402,148 @@ export async function wowMemory(env: Env): Promise<MemoryResult> {
     const llm = await env.DB.prepare(`SELECT COUNT(*) AS n FROM wow_extractions WHERE basis = 'llm' AND created_at >= strftime('%Y-%m-%dT00:00:00.000Z', 'now')`).first<{ n: number }>();
     return { status: 200, body: { ok: true, extractorVersion: EXTRACTOR_VERSION, articles, relations, reasons, waitingBibleDecision: general,
       usage: { llmCallsToday: Number(llm?.n ?? 0), llmCallsPerDay: WOW_CONFIG.llmCallsPerDay, queriesPerRun: WOW_CONFIG.queriesPerRun },
+      window: { days: RESEARCH_CURRENT_MAX_AGE_DAYS }, authority: await authorityLearned(env).catch(() => null),
       measured: { note: 'Seçim oranı ve netlik yüzdesi yeterli puan olmadan hesaplanmaz (Bible §10.4): veri toplanıyor.' } } };
   } catch (e) {
     if (notReady(e)) return NOT_READY;
     throw e;
   }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Article-source scope and Evergreen candidates (DEC-R-20261112-028)
+// ---------------------------------------------------------------------------------------------------------------------
+export interface ScopeQuery { q: string; queryId: string; relationId: string; scopeKey: string; kind: 'scoped' | 'evergreen' }
+
+const isoDay = (d: Date) => d.toISOString().slice(0, 10);
+/** Europe PMC journal filter value: the title as stored, without a leading "The", quotes removed. */
+export function journalTerm(label: string): string {
+  return label.replace(/^the\s+/i, '').replace(/["\\]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+/** Every journal a stored article came from: record-only rows made by registerArticleSource (DEC-026), now also the search scope. */
+export async function articleSourceJournals(env: Env): Promise<string[]> {
+  try {
+    const rows = (await env.DB.prepare(`SELECT label FROM source_feeds WHERE route = 'kaduse-research' AND external_ref = 'article-source' ORDER BY lower(label)`).all<{ label: string }>()).results;
+    return [...new Set(rows.map((r) => journalTerm(r.label)).filter((t) => t.length >= 3))];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Searches for one run, beyond the plain topic search:
+ *  - scoped: every relation query again, limited to a batch of article-source journals, so a Lancet or Nature paper is not pushed out of the
+ *    top results of the all-journals search. The relation terms are the same; nothing about a journal changes the narrowing.
+ *  - evergreen: the same relation, older than the "son dönem" window, ordered by citations. Citations only bring candidates; what is authority is
+ *    decided by the owner's answers (wow_authority), never by this number.
+ * Both take the least recently run first (wow_scope_runs) and stay inside WOW_CONFIG budgets (Bible §1.4).
+ */
+export async function scopeQueriesForRun(env: Env, base: Array<{ queryId: string; relationId: string; query: string }>, now: Date = new Date()): Promise<ScopeQuery[]> {
+  if (!base.length) return [];
+  try {
+    const journals = await articleSourceJournals(env);
+    const runs = new Map((await env.DB.prepare(`SELECT scope_key, last_run_at FROM wow_scope_runs`).all<{ scope_key: string; last_run_at: string | null }>()).results.map((r) => [r.scope_key, r.last_run_at || '']));
+    const cutoff = isoDay(new Date(now.getTime() - RESEARCH_CURRENT_MAX_AGE_DAYS * 86_400_000));
+    const all: ScopeQuery[] = [];
+    const batches = Math.ceil(journals.length / WOW_CONFIG.journalsPerBatch);
+    for (const b of base) {
+      for (let i = 0; i < batches; i++) {
+        const part = journals.slice(i * WOW_CONFIG.journalsPerBatch, (i + 1) * WOW_CONFIG.journalsPerBatch);
+        all.push({ q: `(${b.query}) AND (${part.map((j) => `JOURNAL:"${j}"`).join(' OR ')})`, queryId: b.queryId, relationId: b.relationId, scopeKey: `${b.queryId}|j${i}`, kind: 'scoped' });
+      }
+      all.push({ q: `(${b.query}) AND FIRST_PDATE:[1900-01-01 TO ${cutoff}]`, queryId: b.queryId, relationId: b.relationId, scopeKey: `${b.queryId}|evergreen`, kind: 'evergreen' });
+    }
+    const take = (kind: 'scoped' | 'evergreen', n: number) => all.filter((x) => x.kind === kind).sort((a, b) => (runs.get(a.scopeKey) ?? '').localeCompare(runs.get(b.scopeKey) ?? '') || a.scopeKey.localeCompare(b.scopeKey)).slice(0, n);
+    return [...take('scoped', WOW_CONFIG.scopedPerRun), ...take('evergreen', WOW_CONFIG.evergreenPerRun)];
+  } catch {
+    return [];
+  }
+}
+
+export async function markScopeRun(env: Env, s: { scopeKey: string; kind: 'scoped' | 'evergreen' }, r: { total: number; created: number; error: string | null }): Promise<void> {
+  try {
+    await env.DB.prepare(
+      `INSERT INTO wow_scope_runs (scope_key, kind, last_run_at, last_total, last_created, last_error) VALUES (?, ?, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), ?, ?, ?)
+       ON CONFLICT(scope_key) DO UPDATE SET last_run_at = excluded.last_run_at, last_total = excluded.last_total, last_created = excluded.last_created, last_error = excluded.last_error`,
+    ).bind(s.scopeKey, s.kind, r.total, r.created, r.error).run();
+  } catch { /* memory absent */ }
+}
+
+/** Time-sensitive ("son dönem") or Evergreen candidate, by the one Research window. No date: no guess. */
+export function laneOf(publishedAt: string | null | undefined, now: Date = new Date()): 'TIME_SENSITIVE' | 'EVERGREEN' | null {
+  const d = (publishedAt || '').slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return null;
+  const age = (Date.parse(isoDay(now)) - Date.parse(d)) / 86_400_000;
+  return age > RESEARCH_CURRENT_MAX_AGE_DAYS ? 'EVERGREEN' : 'TIME_SENSITIVE';
+}
+
+interface AuthorityTally { key: string; yes: number; no: number; rate: number | null }
+const tally = (rows: Array<{ key: string | null; verdict: string }>): AuthorityTally[] => {
+  const m = new Map<string, { yes: number; no: number }>();
+  for (const r of rows) { const k = r.key || 'bilinmiyor'; const c = m.get(k) ?? { yes: 0, no: 0 }; if (r.verdict === 'AUTHORITY') c.yes += 1; else c.no += 1; m.set(k, c); }
+  return [...m.entries()].map(([key, c]) => ({ key, ...c, rate: c.yes + c.no >= WOW_CONFIG.authorityMinAnswers ? Math.round((c.yes / (c.yes + c.no)) * 100) : null })).sort((a, b) => (b.yes + b.no) - (a.yes + a.no));
+};
+/** What the owner's answers say about authority, per study type and per journal. A rate shows only from 5 answers (Bible §10.4). */
+export async function authorityLearned(env: Env): Promise<{ answers: number; byStudyType: AuthorityTally[]; byJournal: AuthorityTally[] }> {
+  const rows = (await env.DB.prepare(`SELECT a.verdict, a.study_type, a.journal FROM wow_authority a WHERE a.created_at = (SELECT MAX(x.created_at) FROM wow_authority x WHERE x.item_id = a.item_id)`).all<{ verdict: string; study_type: string | null; journal: string | null }>()).results;
+  return { answers: rows.length, byStudyType: tally(rows.map((r) => ({ key: r.study_type, verdict: r.verdict }))), byJournal: tally(rows.map((r) => ({ key: r.journal, verdict: r.verdict }))).slice(0, 12) };
+}
+
+/** Owner answer on an Evergreen candidate: is this an accepted authority work for its topic? Stored with the facts the system can learn from. */
+export async function recordAuthority(env: Env, raw: unknown): Promise<MemoryResult> {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const b = raw as Record<string, unknown>;
+  for (const k of Object.keys(b)) if (!['itemId', 'verdict', 'note'].includes(k)) return { status: 400, body: { error: 'INVALID_BODY' } };
+  const itemId = typeof b.itemId === 'string' ? b.itemId.trim() : '';
+  if (!itemId) return { status: 400, body: { error: 'INVALID_ITEM_ID' } };
+  if (b.verdict !== 'AUTHORITY' && b.verdict !== 'NOT_AUTHORITY') return { status: 400, body: { error: 'INVALID_VERDICT' } };
+  const note = typeof b.note === 'string' ? b.note.trim() : '';
+  if (note.length > 400) return { status: 400, body: { error: 'INVALID_NOTE' } };
+  try {
+    const it = await env.DB.prepare(
+      `SELECT COALESCE(s.title_orig, s.title) AS title, s.publisher AS journal, s.published_at,
+              (SELECT e.study_type FROM evidence_cards e WHERE e.source_item_id = s.id LIMIT 1) AS study_type
+         FROM source_items s WHERE s.id = ?`,
+    ).bind(itemId).first<{ title: string; journal: string | null; published_at: string | null; study_type: string | null }>();
+    if (!it) return { status: 404, body: { error: 'ITEM_NOT_FOUND' } };
+    const id = newId('wowau');
+    await env.DB.prepare(`INSERT INTO wow_authority (label_id, item_id, verdict, note, journal, study_type, published_at, title_orig) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`).bind(id, itemId, b.verdict, note || null, it.journal, it.study_type, it.published_at, it.title).run();
+    return { status: 201, body: { ok: true, labelId: id, itemId, verdict: b.verdict, learned: await authorityLearned(env) } };
+  } catch (e) {
+    if (notReady(e)) return NOT_READY;
+    throw e;
+  }
+}
+
+/** Same finding under another id (preprint and published version, DOI and PMID records): lower-case letters and digits of the title. */
+export function normTitleKey(title: string | null | undefined): string {
+  const k = (title || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  return k.length >= 25 ? k.slice(0, 160) : '';
+}
+
+/**
+ * The seen ledger: DOIs/ids and normalized titles of every work the owner has decided. Decided = scored, any feedback except a still-snoozed
+ * "skip" (skip waits skipSnoozeDays and then returns), or an authority verdict. Read before an item is processed and before a candidate is shown,
+ * so an accepted or rejected work, or its other version, does not come in front of the owner again (Bible §7.5, §1.5 no repeated review).
+ */
+export async function decidedSets(env: Env, now: Date = new Date()): Promise<{ keys: Set<string>; titles: Set<string> }> {
+  const keys = new Set<string>();
+  const titles = new Set<string>();
+  const since = new Date(now.getTime() - WOW_CONFIG.skipSnoozeDays * 86_400_000).toISOString();
+  try {
+    const rows = (await env.DB.prepare(
+      `SELECT COALESCE(s.title_orig, s.title) AS title, s.dedupe_key AS key, s.canonical_work_id AS work
+         FROM source_items s
+        WHERE EXISTS (SELECT 1 FROM item_ratings r WHERE r.item_id = s.id)
+           OR EXISTS (SELECT 1 FROM wow_feedback f WHERE f.item_id = s.id AND (f.kind <> 'skip' OR f.created_at >= ?))
+           OR EXISTS (SELECT 1 FROM wow_authority a WHERE a.item_id = s.id)`,
+    ).bind(since).all<{ title: string | null; key: string | null; work: string | null }>()).results;
+    for (const r of rows) {
+      if (r.key) keys.add(r.key.toLowerCase());
+      if (r.work) keys.add(r.work.toLowerCase());
+      const tk = normTitleKey(r.title);
+      if (tk) titles.add(tk);
+    }
+  } catch { /* memory or ratings absent: nothing is decided yet */ }
+  return { keys, titles };
 }

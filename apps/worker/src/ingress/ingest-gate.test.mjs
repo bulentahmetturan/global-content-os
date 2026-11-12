@@ -26,7 +26,7 @@ describe('ingest gate: news', () => {
 });
 describe('ingest gate: research and dates', () => {
   const res = (o) => g.ingestGate({ route: 'kaduse-research', feedId: 'r', title: 'Deep learning for arrhythmia detection', ...o }, NOW);
-  it('research: undated passes; very old is stale unless on the evergreen path (180-day journal limit)', () => {
+  it('research: undated passes; very old is stale unless on the evergreen path (500-day journal limit)', () => {
     assert.equal(res({ publishedAt: '2019-01-01' }).reason, 'stale');
     assert.equal(res({ publishedAt: null }).ok, true);
   });
@@ -69,10 +69,10 @@ describe('ingest gate: Temporal V2 Group 0 research dates and media age', () => 
     assert.equal(research({ publishedAt: '2027-03-01' }).reason, 'future_date');
     assert.equal(research({ publishedAt: '2026 Oct' }).ok, true);
   });
-  it('journal/research sources: undated passes, older than 180 days is stale (boundary), evergreen path exempt', () => {
+  it('journal/research sources: undated passes, older than 500 days is stale (boundary), evergreen path exempt', () => {
     assert.equal(research({ publishedAt: null }).ok, true);
-    assert.equal(research({ publishedAt: '2026-03-26' }).ok, true); // 180 days before NOW
-    assert.equal(research({ publishedAt: '2026-03-25' }).reason, 'stale');
+    assert.equal(research({ publishedAt: '2025-05-10' }).ok, true); // 500 days before NOW
+    assert.equal(research({ publishedAt: '2025-05-09' }).reason, 'stale');
     assert.equal(research({ publishedAt: '2024-01-15' }).reason, 'stale');
     assert.equal(research({ publishedAt: '2024-01-15', acquisitionPath: 'EVERGREEN' }).ok, true);
   });
